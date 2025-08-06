@@ -7,7 +7,6 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\UserBundle\Api\Dto\UserValidationTokenInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -22,17 +21,17 @@ final readonly class UserValidationTokenProcessor implements ProcessorInterface
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
-        private Roles $rolesBag,
         private Security $security,
         private EventDispatcherInterface $eventDispatcher,
         private string $emailValidatedRoleName,
     ) {
     }
 
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof UserValidationTokenInput) {
-            throw new \RuntimeException(sprintf('Cannot process %s', get_class($data)));
+            throw new \RuntimeException(sprintf('Cannot process %s', $data::class));
         }
 
         if (!$this->security->isGranted('ROLE_USER')) {
@@ -68,7 +67,10 @@ final readonly class UserValidationTokenProcessor implements ProcessorInterface
             throw new UnprocessableEntityHttpException('User is disabled, locked or expired.');
         }
 
-        $user->addRoleEntity($this->rolesBag->get($this->emailValidatedRoleName));
+        $user->setUserRoles([
+            ...$user->getUserRoles(),
+            $this->emailValidatedRoleName,
+        ]);
         $this->managerRegistry->getManager()->remove($userValidationToken);
         $this->managerRegistry->getManager()->flush();
 

@@ -28,6 +28,7 @@ final readonly class NodeSourceWalkerContextFactory implements WalkerContextFact
     ) {
     }
 
+    #[\Override]
     public function createWalkerContext(): WalkerContextInterface
     {
         return new NodeSourceWalkerContext(

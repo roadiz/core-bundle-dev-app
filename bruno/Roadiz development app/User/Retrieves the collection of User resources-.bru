@@ -1,16 +1,18 @@
 meta {
   name: Retrieves the collection of User resources-
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
-  url: {{baseUrl}}/api/users
+  url: {{baseUrl}}/api/users?order[lastLogin]=asc&properties[]=email
   body: none
   auth: bearer
 }
 
 params:query {
+  order[lastLogin]: asc
+  properties[]: email
   ~page: 
   ~itemsPerPage: 
   ~_preview: 

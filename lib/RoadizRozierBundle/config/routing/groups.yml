@@ -1,47 +1,49 @@
 groupsEditPage:
     path:     /edit/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::editAction
     requirements: { id : "[0-9]+" }
 groupsEditRolesPage:
     path:     /edit/{id}/roles
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::editRolesAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::editRolesAction
     requirements: { id : "[0-9]+" }
 groupsRemoveRolesPage:
-    path:     /edit/{id}/roles/{roleId}/remove
+    path:     /edit/{id}/roles/{role}/remove
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::removeRolesAction
-    requirements: { id : "[0-9]+", roleId : "[0-9]+" }
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::removeRolesAction
+    requirements: { id : "[0-9]+", role : "[A-Z_]+" }
 groupsAddPage:
     path:     /add
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::addAction
 groupsDeletePage:
     path:     /delete/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::deleteAction
     requirements: { id : "[0-9]+" }
-groupsImportPage:
-    path:     /import
-    defaults:
-        _controller: Themes\Rozier\Controllers\GroupsUtilsController::importJsonFileAction
 groupsEditUsersPage:
     path:     /edit/{id}/users
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::editUsersAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::editUsersAction
     requirements: { id : "[0-9]+" }
 groupsRemoveUsersPage:
     path:     /edit/{id}/users/{userId}/remove
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsController::removeUsersAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::removeUsersAction
     requirements: { id : "[0-9]+", userId : "[0-9]+" }
+
+
+groupsImportPage:
+    path:     /import
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupUtilsController::importJsonFileAction
 groupsExportAllPage:
     path:     /export
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsUtilsController::exportAllAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupUtilsController::exportAllAction
 groupsExportPage:
     path:     /export/{id}
     requirements: { id : "[0-9]+" }
     defaults:
-        _controller: Themes\Rozier\Controllers\GroupsUtilsController::exportAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\GroupUtilsController::exportAction

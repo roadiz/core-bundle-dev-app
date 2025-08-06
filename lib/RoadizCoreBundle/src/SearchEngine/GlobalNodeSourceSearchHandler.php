@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 use Doctrine\ORM\NoResultException;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
@@ -14,6 +15,7 @@ final readonly class GlobalNodeSourceSearchHandler
 {
     public function __construct(
         private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler = null,
     ) {
     }
 
@@ -23,7 +25,7 @@ final readonly class GlobalNodeSourceSearchHandler
     }
 
     /**
-     * @return NodesSources[]
+     * @return array<NodesSources|object>
      */
     public function getNodeSourcesBySearchTerm(
         string $searchTerm,
@@ -33,19 +35,25 @@ final readonly class GlobalNodeSourceSearchHandler
         $safeSearchTerms = strip_tags($searchTerm);
 
         /**
-         * First try with Solr.
-         *
-         * @var array<SolrSearchResultItem<NodesSources>> $nodesSources
+         * First try with Search engine.
          */
-        $nodesSources = $this->getRepository()->findBySearchQuery(
-            $safeSearchTerms,
-            $resultCount
-        );
+        $nodesSources = [];
+        $resultCount = $resultCount > 0 ? $resultCount : 999999;
+
+        if (null !== $this->nodeSourceSearchHandler) {
+            try {
+                $this->nodeSourceSearchHandler->boostByUpdateDate();
+                $arguments = [
+                    'status' => ['<=', NodeStatus::PUBLISHED],
+                ];
+
+                $nodesSources = $this->nodeSourceSearchHandler->search($safeSearchTerms, $arguments, $resultCount)->getResultItems();
+            } catch (SearchEngineServerException) {
+            }
+        }
 
         if (count($nodesSources) > 0) {
-            return array_map(function (SolrSearchResultItem $item) {
-                return $item->getItem();
-            }, $nodesSources);
+            return array_map(fn (SearchResultItemInterface $item) => $item->getItem(), $nodesSources);
         }
 
         /*
@@ -79,7 +87,7 @@ final readonly class GlobalNodeSourceSearchHandler
             }
             try {
                 return $qb->getQuery()->getResult();
-            } catch (NoResultException $e) {
+            } catch (NoResultException) {
                 return [];
             }
         }

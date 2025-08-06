@@ -10,7 +10,7 @@
 /* -------- VARS -------- */
 
 .uk-table {
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
 
     td, th {
         @media (min-width: @screen-sm-min) {
@@ -126,24 +126,35 @@
     }
 }
 
-.table-actions-row-2{
-    width:95px;
+.table-actions-row-2 {
+    width: 95px;
 }
 
-.table-actions-row-3{
-    width:130px;
+.table-actions-row-3 {
+    width: 130px;
 }
 
-.table-actions-row-4{
-    width:160px;
+.table-actions-row-4 {
+    width: 160px;
 }
 
-.table-actions-row-5{
-    width:190px;
+.table-actions-row-5 {
+    width: 190px;
 }
 
-.table-actions-row-6{
-    width:220px;
+.table-actions-row-6 {
+    width: 220px;
+}
+
+.table-actions-row-xs-2 {
+    @media screen and (max-width: @screen-xs-max) {
+        width: 95px;
+    }
+}
+.table-actions-row-xs-4 {
+    @media screen and (max-width: @screen-xs-max) {
+        width: 160px;
+    }
 }
 
 .metadata-list {

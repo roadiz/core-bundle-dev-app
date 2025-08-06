@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.5.32'
+    roadiz_core.cms_version: '2.6.0'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -16,8 +16,6 @@ parameters:
     env(OPEN_ID_CLIENT_SECRET): ~
     env(OPEN_ID_HOSTED_DOMAIN): ~
     env(OPEN_ID_DISCOVERY_URL): ~
-    env(SOLR_CORE_NAME): "roadiz"
-    env(SOLR_PORT): "8983"
 
 services:
     # default configuration for services in *this* file
@@ -31,16 +29,14 @@ services:
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'
             $maxPixelSize: '%rz_intervention_request.max_pixel_size%'
-            $appNamespace: '%roadiz_core.app_namespace%'
             $projectDir: '%kernel.project_dir%'
-            $exportDir: '%kernel.project_dir%/var/export'
             $generatedEntitiesDir: '%roadiz_core.generated_entities_dir%'
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
             $nodeTypesDir: '%kernel.project_dir%/config/node_types'
             $debug: '%kernel.debug%'
             $kernelEnvironment: '%kernel.environment%'
             $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
-            $defaultLocale: '%kernel.default_locale%'
+            $defaultControllerNamespace: '%roadiz_core.default_node_source_controller_namespace%'
             $webhookMessageTypes: '%roadiz_core.webhook.message_types%'
             $useAcceptLanguageHeader: '%roadiz_core.use_accept_language_header%'
             $healthCheckToken: '%roadiz_core.health_check_token%'
@@ -51,20 +47,27 @@ services:
             $useGravatar: '%roadiz_core.use_gravatar%'
             $useReplyTo: '%roadiz_core.use_email_reply_to%'
             $helpExternalUrl: '%roadiz_core.help_external_url%'
+            $forceLocale: '%roadiz_core.force_locale%'
+            $forceLocaleWithUrlAlias: '%roadiz_core.force_locale_with_url_aliases%'
+            $customPublicScheme: '%roadiz_core.custom_public_scheme%'
+            $customPreviewScheme: '%roadiz_core.custom_preview_scheme%'
+            $leafletMapTileUrl: '%roadiz_core.leaflet_map_tile_url%'
+            $mapsDefaultLocation: '%roadiz_core.maps_default_location%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/Traits/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
             - '../src/Event/'
-            - '../src/Model/'
-            - '../src/ListManager/'
-            - '../src/Serializer/Normalizer/'
             - '../src/Importer/'
+            - '../src/Kernel.php'
+            - '../src/ListManager/'
+            - '../src/Mailer/'
+            - '../src/Model/'
+            - '../src/Serializer/Normalizer/'
+            - '../src/Tests/'
+            - '../src/Traits/'
             - '../src/Captcha/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:
@@ -193,6 +196,10 @@ services:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 20
+    # DocumentDto
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentDtoNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 20 }
 
     # Serialize document sources (must be decorate AFTER DocumentNormalizer)
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer:
@@ -257,10 +264,6 @@ services:
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\GroupNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
-    # Role
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\RoleNormalizer:
-        tags:
-            - { name: 'serializer.normalizer', priority: 5 }
     # Attribute
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeNormalizer:
         tags:
@@ -300,9 +303,20 @@ services:
         autowire: true
         autoconfigure: false
 
+    RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory:
+        autowire: true
+        autoconfigure: true
+        deprecated:
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.7. Use symfony/notifier instead.'
+            package: roadiz/core-bundle
+            version: '2.6.0'
+
+    RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory:
+        autowire: true
+        autoconfigure: true
+
     # Do not register roadiz/document packages event-subscribers
     # They've been replaced with MessageHandlers
-
     RZ\Roadiz\CoreBundle\Document\MessageHandler\AbstractDocumentMessageHandler:
         autoconfigure: false
         abstract: true
@@ -369,28 +383,6 @@ services:
                 handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage
             - { name: monolog.logger, channel: messenger }
 
-    RZ\Roadiz\CoreBundle\SearchEngine\Indexer\:
-        resource: '../src/SearchEngine/Indexer/'
-        # Recreate handlers for each usage
-        shared: false
-        public: true
-
-    RZ\Roadiz\CoreBundle\Mailer\EmailManager:
-        # Recreate manager for each usage
-        shared: false
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory instead.'
-            package: roadiz/core-bundle
-            version: '2.3.18'
-
-    RZ\Roadiz\CoreBundle\Mailer\ContactFormManager:
-        # Recreate manager for each usage
-        shared: false
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory instead.'
-            package: roadiz/core-bundle
-            version: '2.3.18'
-
     RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber\:
         resource: '../src/Doctrine/EventSubscriber'
         tags:
@@ -432,12 +424,6 @@ services:
             - '@Symfony\Component\HttpFoundation\RequestStack'
             - '%roadiz_core.preview_required_role_name%'
 
-    RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
-        arguments: ['@service_container']
-
-    RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
-        arguments: ['@service_container']
-
     RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory:
         arguments: ['@service_container']
 
@@ -457,11 +443,16 @@ services:
             - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
             - '%roadiz_core.entity_generator_factory.options%'
 
+    gedmo.mapping.driver.attribute:
+        class: Gedmo\Mapping\Driver\AttributeReader
+
     Gedmo\Loggable\LoggableListener:
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_listener, event: 'onFlush' }
+            - { name: doctrine.event_listener, event: 'loadClassMetadata' }
+            - { name: doctrine.event_listener, event: 'postPersist' }
         calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setAnnotationReader, [ '@gedmo.mapping.driver.attribute' ] ]
 
     Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface:
         alias: 'assets.empty_version_strategy'
@@ -480,34 +471,6 @@ services:
     RZ\Roadiz\Random\TokenGeneratorInterface:
         class: RZ\Roadiz\Random\TokenGenerator
 
-    JMS\Serializer\Construction\ObjectConstructorInterface:
-        deprecated:
-            package: roadiz/core-bundle
-            version: 2.5.0
-            message: 'The "%alias_id%" service is deprecated and will be removed in Roadiz 2.6.'
-        alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
-
-    RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ChainDoctrineObjectConstructor:
-        decorates: jms_serializer.doctrine_object_constructor
-        deprecated:
-            package: roadiz/core-bundle
-            version: 2.5.0
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.6.'
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
-            - [
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
-            ]
-
-    Solarium\Core\Client\Client:
-        factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
-
     RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver:
         alias: RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootChainResolver
 
@@ -522,8 +485,6 @@ services:
     RZ\Roadiz\CoreBundle\Importer\AttributeImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\GroupsImporter:
-        tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\RolesImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\SettingsImporter:
         tags: ['roadiz_core.importer']

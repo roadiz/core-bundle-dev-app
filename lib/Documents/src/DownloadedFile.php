@@ -9,7 +9,7 @@ use Symfony\Component\String\UnicodeString;
 
 class DownloadedFile extends File
 {
-    protected ?string $originalFilename;
+    protected ?string $originalFilename = null;
 
     public function getOriginalFilename(): ?string
     {
@@ -87,7 +87,7 @@ class DownloadedFile extends File
             if ($file->isReadable() && filesize($file->getPathname()) > 0) {
                 return $file;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return null;
         }
 

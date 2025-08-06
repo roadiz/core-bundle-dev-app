@@ -16,6 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RoadizRozierExtension extends Extension
 {
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
@@ -30,7 +31,11 @@ class RoadizRozierExtension extends Extension
         $container->setParameter('roadiz_rozier.add_node_form.class', $config['add_node_form']);
         $container->setParameter(
             'roadiz_rozier.theme_dir',
-            $projectDir.DIRECTORY_SEPARATOR.trim($config['theme_dir'], "/ \t\n\r\0\x0B")
+            $projectDir.DIRECTORY_SEPARATOR.trim((string) $config['theme_dir'], "/ \t\n\r\0\x0B")
+        );
+        $container->setParameter(
+            'roadiz_rozier.manifest_path',
+            $projectDir.DIRECTORY_SEPARATOR.trim((string) $config['manifest_path'], "/ \t\n\r\0\x0B")
         );
 
         $container->setParameter(

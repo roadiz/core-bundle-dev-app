@@ -18,8 +18,8 @@ namespace App\EventSubscriber;
 
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolariumFactoryInterface;
+use RZ\Roadiz\SolrBundle\Event\NodesSources\NodesSourcesIndexingEvent;
 use RZ\TreeWalker\WalkerContextInterface;
 use RZ\TreeWalker\WalkerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

@@ -21,4 +21,12 @@ interface SizeableInterface
     public function setImageHeight(int $imageHeight): static;
 
     public function getImageRatio(): ?float;
+
+    public function getHotspot(): ?array;
+
+    public function setHotspot(?array $hotspot): static;
+
+    public function getHotspotAsString(): ?string;
+
+    public function getImageCropAlignment(): ?string;
 }

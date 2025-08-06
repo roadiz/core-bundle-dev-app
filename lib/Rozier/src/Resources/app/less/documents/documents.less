@@ -82,9 +82,20 @@ table.documents {
         padding: 0 50px;
     }
 
-    .document-checkbox {
+    .bulk-selection {
+        position: absolute;
         top: 8px;
         right: 5px;
+        margin: 0;
+    }
+
+    .document-checkbox {
+        display: none;
+        cursor: pointer;
+
+        &:checked {
+            display: block;
+        }
     }
 
     .document-mime-type {
@@ -193,8 +204,9 @@ table.documents {
         font-weight: bold;
     }
 
-    .document-platform-icon{
-        width: 35px; height: 35px;
+    .document-platform-icon {
+        width: 35px;
+        height: 35px;
         background-color: #FDFDFD;
         margin: -23px;
         position: absolute;
@@ -234,7 +246,7 @@ table.documents {
 
     .document-source{
         margin-top:20px;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
 
         code{
             padding:5px;
@@ -249,7 +261,7 @@ table.documents {
     .document-paths {
 
         dt, dd {
-            font-size: @default-font-size;
+            font-size: var(--default-font-size);
             color: #555555;
         }
 

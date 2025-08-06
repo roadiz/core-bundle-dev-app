@@ -12,14 +12,8 @@ hidingNonReachableNodes: false
 fields:
     -
         name: number
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
         indexed: true
-        visible: true
         label: Number
-        expanded: false
         type: integer
 defaultTtl: 0
 searchable: true

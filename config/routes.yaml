@@ -1,6 +1,8 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
 
 roadiz_core:
     resource: "@RoadizCoreBundle/config/routing.yaml"
@@ -18,11 +20,6 @@ rz_intervention_request:
     resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
     prefix:   /
 
-
-graphql_playground:
-    path: /api/docs/graphql_playground
-    stateless: false
-    controller: api_platform.graphql.action.graphql_playground
 
 api_contact_form_definition:
     methods: [GET]

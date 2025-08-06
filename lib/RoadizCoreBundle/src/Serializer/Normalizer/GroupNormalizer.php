@@ -6,17 +6,17 @@ namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Group;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final readonly class GroupNormalizer implements DenormalizerInterface
 {
-    public const PERSIST_NEW_ENTITIES = 'persist_new_entities';
+    public const string PERSIST_NEW_ENTITIES = 'persist_new_entities';
 
     public function __construct(private ManagerRegistry $managerRegistry)
     {
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
@@ -24,6 +24,7 @@ final readonly class GroupNormalizer implements DenormalizerInterface
         ];
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): Group
     {
         $name = $data['name'];
@@ -47,16 +48,18 @@ final readonly class GroupNormalizer implements DenormalizerInterface
                 if (!is_string($roleName)) {
                     continue;
                 }
-
-                $role = $this->managerRegistry->getRepository(Role::class)->findOneByName($roleName);
-                $group->addRoleEntity($role);
+                $group->setRoles([
+                    ...$group->getRoles(),
+                    $roleName,
+                ]);
             }
         }
 
         return $group;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
+    #[\Override]
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return is_array($data) && array_key_exists('roles', $data) && array_key_exists('name', $data);
     }

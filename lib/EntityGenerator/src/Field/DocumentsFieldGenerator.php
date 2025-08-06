@@ -6,29 +6,26 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
-use Nette\PhpGenerator\Method;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
-use Symfony\Component\String\UnicodeString;
 
 final class DocumentsFieldGenerator extends AbstractFieldGenerator
 {
-    protected function addSerializationAttributes(Property|Method $property): self
+    #[\Override]
+    protected function addFieldAutodoc(Property $property): AbstractFieldGenerator
     {
-        parent::addSerializationAttributes($property);
-        $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
-        $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName(),
-        ]);
-        $property->addAttribute('JMS\Serializer\Annotation\Type', [
-            'array<'.
-            (new UnicodeString($this->options['document_class']))->trimStart('\\')->toString().
-            '>',
-        ]);
+        parent::addFieldAutodoc($property);
+
+        if (true === $this->options['use_document_dto']) {
+            $property->addComment('@var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null');
+        } else {
+            $property->addComment('@var '.$this->options['document_class'].'[]|null');
+        }
 
         return $this;
     }
 
+    #[\Override]
     protected function getDefaultSerializationGroups(): array
     {
         $groups = parent::getDefaultSerializationGroups();
@@ -37,28 +34,37 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
         return $groups;
     }
 
+    #[\Override]
     protected function getFieldTypeDeclaration(): string
     {
         return '?array';
     }
 
+    #[\Override]
     protected function getFieldDefaultValueDeclaration(): Literal|string|null
     {
         return new Literal('null');
     }
 
+    #[\Override]
     public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $getter = $classType->addMethod($this->field->getGetterName())
-            ->setReturnType('array')
-            ->addComment('@return '.$this->options['document_class'].'[]');
+            ->setReturnType('array');
+        if (true === $this->options['use_document_dto']) {
+            $getter->addComment('@return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]');
+            $method = 'findDocumentDtoByNodeSourceAndFieldName';
+        } else {
+            $getter->addComment('@return '.$this->options['document_class'].'[]');
+            $method = 'findByNodeSourceAndFieldName';
+        }
         $this->addSerializationAttributes($getter);
         $getter->setBody(<<<EOF
 if (null === \$this->{$this->field->getVarName()}) {
     if (null !== \$this->objectManager) {
         \$this->{$this->field->getVarName()} = \$this->objectManager
             ->getRepository({$namespace->simplifyName($this->options['document_class'])}::class)
-            ->findByNodeSourceAndFieldName(
+            ->{$method}(
                 \$this,
                 '{$this->field->getName()}'
             );
@@ -73,6 +79,7 @@ EOF
         return $this;
     }
 
+    #[\Override]
     protected function addFieldSetter(ClassType $classType): self
     {
         $setter = $classType->addMethod('add'.ucfirst($this->field->getVarName()))
@@ -101,5 +108,13 @@ PHP
         );
 
         return $this;
+    }
+
+    #[\Override]
+    protected function getApiPropertyOptions(): array
+    {
+        return [
+            'genId' => (true === $this->options['use_document_dto'] ? true : null),
+        ];
     }
 }

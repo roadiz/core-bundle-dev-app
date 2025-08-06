@@ -1,0 +1,47 @@
+<nodes-search-container inline-template>
+    {{isActive}}
+    <div id="nodes-sources-search" v-bind:class="{ 'focus-on': isFocus }">
+        <form id="nodes-sources-search-form"
+              v-on:submit.prevent action="{{ path('searchAjax') }}"
+              method="GET"
+              class="uk-form">
+            <div class="uk-form-icon">
+                <i class="uk-icon-search"></i>
+                <input id="nodes-sources-search-input"
+                       type="search"
+                       name="searchTerms"
+                       value=""
+                       ref="searchTermsInput"
+                       autocomplete="off"
+                       v-model="searchTerms"
+                       @keyup="keyUp"
+                       @focus.prevent="enableFocus"
+                       placeholder="{% trans %}search.node{% endtrans %}"/>
+
+            </div>
+        </form>
+
+        <transition name="fade">
+            <ul id="nodes-sources-search-results" v-if="isFocus" v-cloak>
+                <li v-for="item in items">
+                    <ajax-link class="nodes-sources-search-results-item" :href="item.editItem" :title="item.displayable" :type-color="item.color">
+                        <span class="image-container">
+                            <picture v-if="item.thumbnail && item.thumbnail.url && item.thumbnail.processable">
+                                <source v-if="!item.thumbnail.url.endsWith('svg') && !item.thumbnail.url.endsWith('webp')"
+                                        :srcset="item.thumbnail.url + '.webp'"
+                                        type="image/webp">
+                                <img width="60" height="60" loading="lazy" :src="item.thumbnail.url">
+                            </picture>
+                        </span>
+                        <span class="texts">
+                            <span class="texts-header" v-if="item.classname">
+                                <span class="parent">${item.classname}</span>
+                            </span>
+                            <span class="title">${item.displayable}</span>
+                        </span>
+                    </ajax-link>
+                </li>
+            </ul>
+        </transition>
+    </div>
+</nodes-search-container>

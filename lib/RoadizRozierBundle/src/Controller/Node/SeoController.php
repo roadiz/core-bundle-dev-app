@@ -22,6 +22,8 @@ use RZ\Roadiz\CoreBundle\Form\UrlAliasType;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceSeoType;
+use RZ\Roadiz\RozierBundle\Form\RedirectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\FormError;
@@ -32,8 +34,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Themes\Rozier\Forms\NodeSource\NodeSourceSeoType;
-use Themes\Rozier\Forms\RedirectionType;
 
 final class SeoController extends AbstractController
 {
@@ -161,9 +161,7 @@ final class SeoController extends AbstractController
                     'nodesEditSEOPage',
                     ['nodeId' => $node->getId(), 'translationId' => $translationId]
                 ).'#manage-aliases');
-            } catch (EntityAlreadyExistsException $e) {
-                $addAliasForm->addError(new FormError($e->getMessage()));
-            } catch (NoTranslationAvailableException $e) {
+            } catch (EntityAlreadyExistsException|NoTranslationAvailableException $e) {
                 $addAliasForm->addError(new FormError($e->getMessage()));
             }
         }

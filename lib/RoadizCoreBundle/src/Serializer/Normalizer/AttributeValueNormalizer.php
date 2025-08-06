@@ -14,51 +14,45 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
  */
 final class AttributeValueNormalizer extends AbstractPathNormalizer
 {
-    /**
-     * @return array|\ArrayObject|bool|float|int|mixed|string|null
-     *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+    #[\Override]
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = $this->decorated->normalize($object, $format, $context);
-        if ($object instanceof AttributeValue && is_array($data)) {
+        $normalized = $this->decorated->normalize($data, $format, $context);
+        if ($data instanceof AttributeValue && is_array($normalized)) {
             $this->stopwatch->start('normalizeAttributeValue', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
 
-            $data['type'] = $object->getType();
-            $data['code'] = $object->getAttribute()->getCode();
-            $data['color'] = $object->getAttribute()->getColor();
-            $data['weight'] = $object->getAttribute()->getWeight();
+            $normalized['type'] = $data->getType();
+            $normalized['code'] = $data->getAttribute()->getCode();
+            $normalized['color'] = $data->getAttribute()->getColor();
+            $normalized['weight'] = $data->getAttribute()->getWeight();
 
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
-                $translatedData = $object->getAttributeValueTranslation($context['translation']);
-                $data['label'] = $object->getAttribute()->getLabelOrCode($context['translation']);
+                $translatedData = $data->getAttributeValueTranslation($context['translation']);
+                $normalized['label'] = $data->getAttribute()->getLabelOrCode($context['translation']);
                 if (
                     $translatedData instanceof AttributeValueTranslationInterface
                     && null !== $translatedData->getValue()
                 ) {
-                    $data['value'] = $translatedData->getValue();
+                    $normalized['value'] = $translatedData->getValue();
                 } else {
-                    $data['value'] = $object->getAttributeValueDefaultTranslation()?->getValue();
+                    $normalized['value'] = $data->getAttributeValueDefaultTranslation()?->getValue();
                 }
             }
 
-            if ($data['value'] instanceof \DateTimeInterface) {
-                $data['value'] = $data['value']->format(\DateTimeInterface::ATOM);
+            if ($normalized['value'] instanceof \DateTimeInterface) {
+                $normalized['value'] = $normalized['value']->format(\DateTimeInterface::ATOM);
             }
 
             if (\in_array('attribute_documents', $serializationGroups, true)) {
                 $documentsContext = $context;
                 $documentsContext['groups'] = ['document_display'];
-                $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
-                    return $this->decorated->normalize($document, $format, $documentsContext);
-                }, $object->getAttribute()->getDocuments()->toArray());
+                $normalized['documents'] = array_map(fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext), $data->getAttribute()->getDocuments()->toArray());
             }
             $this->stopwatch->stop('normalizeAttributeValue');
         }
 
-        return $data;
+        return $normalized;
     }
 }

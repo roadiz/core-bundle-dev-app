@@ -28,9 +28,9 @@
         <target state="final">Ако имате додатна питања, пишите нам на email:</target>
       </trans-unit>
       <!-- Contact forms -->
-      <trans-unit id="contact.form">
+      <trans-unit id="contact.form" approved="yes">
         <source>contact.form</source>
-        <target state="translated">Контакт форма</target>
+        <target state="final">Контакт форма</target>
       </trans-unit>
       <trans-unit id="new.contact.form.%site%" approved="yes">
         <source>new.contact.form.%site%</source>
@@ -88,9 +88,9 @@
                 <source>customForm.answer.sent</source>
                 <target state="final">Ваш одговор је успешно послат</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="none">
+      <trans-unit xml:space="preserve" id="none" approved="yes">
                 <source>none</source>
-                <target state="translated">Ништа</target>
+                <target state="final">Ништа</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="reset.password.request" approved="yes">
               <source>reset.password.request</source>
@@ -112,9 +112,9 @@
                 <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
                 <target state="final">Ако нисте планирали да мењате нешто у вези овог email-а, игноришите ову поруку и лозинка неће бити промењена.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset_your_password">
+      <trans-unit xml:space="preserve" id="reset_your_password" approved="yes">
                 <source>reset_your_password</source>
-                <target state="translated">Ресетујте своју лозинку</target>
+                <target state="final">Ресетујте своју лозинку</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
                 <source>you.need.to.fill.this.required.field</source>
@@ -141,18 +141,19 @@
                 <target state="final">Ова вредност је већ употребљена.</target>
                 <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit">
+      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit" approved="yes">
                 <source>password_should_contains_at_least_one_capital_one_digit</source>
-                <target state="translated">Лозинка мора садржати најмање једно велико слово, и барем један број</target>
+                <target state="final">Лозинка мора садржати најмање једно велико слово, и барем један број</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_blacklisted">
+      <trans-unit xml:space="preserve" id="password_blacklisted" approved="yes">
                 <source>password_blacklisted</source>
-                <target state="translated">Лозинка коју сте предложили се често употребљава и недовољно је сигурна</target>
+                <target state="final">Лозинка коју сте предложили се често употребљава и недовољно је сигурна</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long">
+      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long" approved="yes">
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
-                <target state="translated">Лозинка мора бити дугачка најмање {{length}} карактера</target>
+                <target state="final">Лозинка мора бити дугачка најмање {{length}} карактера</target>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>

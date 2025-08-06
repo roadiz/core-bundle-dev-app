@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
@@ -23,12 +24,14 @@ class GroupVoter extends RoleVoter
         return $subject instanceof Group;
     }
 
+    #[\Override]
     protected function extractRoles(TokenInterface $token): array
     {
         return $this->roleHierarchy->getReachableRoleNames($token->getRoleNames());
     }
 
-    public function vote(TokenInterface $token, $subject, array $attributes): int
+    #[\Override]
+    public function vote(TokenInterface $token, $subject, array $attributes, ?Vote $vote = null): int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         $roles = $this->extractRoles($token);
@@ -44,7 +47,7 @@ class GroupVoter extends RoleVoter
             /*
              * If super-admin, group is always granted
              */
-            if (\in_array('ROLE_SUPER_ADMIN', $roles) || \in_array('ROLE_SUPERADMIN', $roles)) {
+            if (\in_array('ROLE_SUPERADMIN', $roles)) {
                 return $result;
             }
             /*
@@ -52,9 +55,7 @@ class GroupVoter extends RoleVoter
              */
             if (
                 $user instanceof User
-                && $user->getGroups()->exists(function ($key, Group $group) use ($attribute) {
-                    return $attribute->getId() === $group->getId();
-                })
+                && $user->getGroups()->exists(fn ($key, Group $group) => $attribute->getId() === $group->getId())
             ) {
                 return $result;
             }
@@ -64,6 +65,11 @@ class GroupVoter extends RoleVoter
              */
             foreach ($this->extractGroupRoles($attribute) as $role) {
                 if (!$this->isRoleContained($role, $roles)) {
+                    $vote?->addReason(sprintf(
+                        'User does not have the role "%s" required by group "%s".',
+                        $role,
+                        $attribute->getName()
+                    ));
                     $result = VoterInterface::ACCESS_DENIED;
                 }
             }

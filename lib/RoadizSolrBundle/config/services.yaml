@@ -1,0 +1,56 @@
+---
+parameters:
+    env(SOLR_SECURE): 'false'
+    env(SOLR_PORT): '8983'
+    env(SOLR_HOST): 'solr'
+    env(SOLR_COLLECTION_NAME): 'roadiz'
+    env(SOLR_CORE_NAME): 'roadiz'
+    env(SOLR_COLLECTION_NUM_SHARDS): '1'
+    env(SOLR_COLLECTION_REPLICATION_FACTOR): '1'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $defaultLocale: '%kernel.default_locale%'
+            $solrCollectionName: '%env(string:SOLR_COLLECTION_NAME)%'
+            $solrCollectionNumShards: '%env(int:SOLR_COLLECTION_NUM_SHARDS)%'
+            $solrCollectionReplicationFactor: '%env(int:SOLR_COLLECTION_REPLICATION_FACTOR)%'
+            $solrHostname: '%env(string:SOLR_HOST)%'
+            $solrPort: '%env(int:SOLR_PORT)%'
+            $solrSecure: '%env(bool:SOLR_SECURE)%'
+
+    RZ\Roadiz\SolrBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Traits/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Event/'
+
+    RZ\Roadiz\SolrBundle\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    RZ\Roadiz\SolrBundle\Indexer\:
+        resource: '../src/Indexer/'
+        # Recreate handlers for each usage
+        shared: false
+        public: true
+
+    RZ\Roadiz\SolrBundle\Indexer\IndexerFactory:
+        arguments: ['@service_container']
+
+    RZ\Roadiz\SolrBundle\ClientRegistryInterface:
+        class: RZ\Roadiz\SolrBundle\ClientRegistry
+        arguments:
+            - '@solarium.client_registry'
+
+    RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface:
+        class: RZ\Roadiz\SolrBundle\NodeSourceSearchHandler
+        autowire: true
+        autoconfigure: true

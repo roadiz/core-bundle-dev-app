@@ -33,7 +33,7 @@
     height:32px;
     top: 24px;
     right: 20px;
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
     margin: 0 0 0;
     opacity: 0.6;
 
@@ -122,7 +122,7 @@
     display: flex;
     flex-wrap: wrap; // warning when lots of tags
     align-items: center;
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
     position: relative;
 }
 
@@ -204,7 +204,7 @@
             content: "";
             font-family: FontAwesome;
             color: @item-color;
-            font-size: @default-font-size;
+            font-size: var(--default-font-size);
             border-radius: 100%;
             background-color: var(--contrasted-bg);
             border: 1px solid var(--rz-accent-color);
@@ -227,7 +227,7 @@
                     content: "";
                     font-family: FontAwesome;
                     color: @item-color;
-                    font-size: @default-font-size;
+                    font-size: var(--default-font-size);
                     border-radius: 100%;
                     background-color: var(--rz-accent-color);
                     width: 4px;
@@ -439,7 +439,7 @@
         transition: color ease 0.35s;
 
         & > i {
-            font-size: @default-font-size;
+            font-size: var(--default-font-size);
             opacity: 0.5;
         }
 
@@ -470,7 +470,7 @@
         content: "";
         font-family: FontAwesome;
         color: @item-color;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         border-radius: 100%;
         background-color: var(--contrasted-bg);
         border: 1px solid var(--rz-accent-color);

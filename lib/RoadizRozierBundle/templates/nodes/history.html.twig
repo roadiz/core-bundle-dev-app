@@ -1,0 +1,28 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+<section class="content-global content-nav-and-filters">
+    <header class="content-header content-header-filters manage-history-header">
+        <h1 class="content-title manage-history-title">{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }}</h1>
+        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
+
+        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
+        {% include '@RoadizRozier/nodes/navBar.html.twig' with {current:'history'} %}
+    </header>
+    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+
+    <article class="content content-no-action-menu content-manage-history">
+        <div class="history-logs">
+            {% for log in entries %}
+                {% include '@RoadizRozier/modules/history-item.html.twig' with {
+                    'levels': levels,
+                    'log': log
+                } only %}
+            {% endfor %}
+        </div>
+    </article>
+    {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
+</section>
+{% endblock %}

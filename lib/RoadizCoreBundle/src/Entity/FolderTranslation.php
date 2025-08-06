@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\FolderTranslationRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,31 +24,26 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\UniqueConstraint(columns: ['folder_id', 'translation_id']),
     UniqueEntity(fields: ['folder', 'translation'])
 ]
-class FolderTranslation extends AbstractEntity
+class FolderTranslation implements PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(type: 'string', length: 250)]
     #[SymfonySerializer\Groups(['folder', 'document'])]
-    #[Serializer\Groups(['folder', 'document'])]
     #[Assert\Length(max: 250)]
     protected string $name = '';
 
-    #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'translatedFolders')]
-    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
-    protected Folder $folder;
-
-    #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'folderTranslations')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['folder', 'document'])]
-    #[Serializer\Groups(['folder', 'document'])]
-    protected TranslationInterface $translation;
-
-    public function __construct(Folder $original, TranslationInterface $translation)
-    {
-        $this->setFolder($original);
-        $this->setTranslation($translation);
-        $this->name = '' != $original->getDirtyFolderName() ? $original->getDirtyFolderName() : $original->getFolderName();
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'translatedFolders')]
+        #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Ignore]
+        protected Folder $folder,
+        #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'folderTranslations')]
+        #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Groups(['folder', 'document'])]
+        protected TranslationInterface $translation,
+    ) {
+        $this->name = '' != $this->folder->getDirtyFolderName() ? $this->folder->getDirtyFolderName() : $this->folder->getFolderName();
     }
 
     public function getName(): string

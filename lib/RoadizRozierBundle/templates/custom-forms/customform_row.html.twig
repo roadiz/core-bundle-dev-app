@@ -1,0 +1,54 @@
+<td style="--rz-accent-color: {{ item.color }};" class="name">
+    <a href="{{ path('customFormsEditPage', { id: item.getId }) }}"><span class="color" style="background-color:{{ item.color|raw }};"></span>{{ item.displayName }}</a>
+</td>
+<td class="mobile-hidden">{{ item.createdAt|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
+<td class="mobile-hidden">{{ item.closeDate|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
+<td class="mobile-hidden"><div class="uk-badge uk-badge-table">{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers{% endtranschoice %}</div></td>
+<td class="table-actions-row table-actions-row-6 table-actions-row-xs-4">
+    {% if hasBulkActions %}
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+        </div>
+    {% endif %}
+
+    <div class="uk-button-group">
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ path('customFormsEditPage', { id: item.getId }) }}"
+           title="{% trans %}edit{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small mobile-hidden"
+           href="{{ path('customFormFieldsListPage', { customFormId: item.getId }) }}"
+           title="{% trans %}manage.customFormFields{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-custom-form-fields"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ path('customFormAnswersHomePage', { customFormId: item.getId }) }}"
+           title="{% trans %}customForm.answers{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-custom-form-answers"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ path('customFormSendAction', { customFormId: item.getId }) }}"
+           title="{% trans %}customForm.show{% endtrans %}"
+           data-uk-tooltip="{animation:true}" target="_blank"><i class="uk-icon-rz-visibility"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link mobile-hidden"
+           href="{{ path('customFormsDuplicatePage', { id: item.getId }) }}"
+           title="{% trans %}customForm.duplicate{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-duplicate"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small uk-button-success rz-no-ajax-link mobile-hidden"
+           href="{{ path('customFormsExportPage', { id: item.getId }) }}"
+           title="{% trans %}export{% endtrans %}"
+           data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-rz-download"></i>
+        </a>
+
+        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+           href="{{ path('customFormsDeletePage', { id: item.getId }) }}"
+           title="{% trans %}delete{% endtrans %}"
+           data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-rz-trash-o"></i>
+        </a>
+    </div>
+</td>

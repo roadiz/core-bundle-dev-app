@@ -9,6 +9,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class JoinNodeTypeFieldConfiguration implements ConfigurationInterface
 {
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('join');
@@ -29,6 +30,12 @@ class JoinNodeTypeFieldConfiguration implements ConfigurationInterface
             ->end()
             ->scalarNode('thumbnail')
                 ->info('Method name to display a thumbnail document.')
+            ->end()
+            ->scalarNode('inversedBy')
+                ->info('Optional: you can specify an inversedBy relation if you want your App\Entity\City object to be able to access its nodes-sources')
+            ->end()
+            ->scalarNode('inversed_by')
+                ->info('Alias for inversedBy.')
             ->end()
             ->arrayNode('searchable')
                 ->requiresAtLeastOneElement()

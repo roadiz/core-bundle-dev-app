@@ -6,63 +6,17 @@ namespace RZ\Roadiz\Documents\Models;
 
 use Doctrine\Common\Collections\Collection;
 
-interface DocumentInterface
+interface DocumentInterface extends BaseDocumentInterface
 {
-    public function getFilename(): string;
-
     /**
      * @return $this
      */
     public function setFilename(string $filename): static;
 
-    public function getMimeType(): ?string;
-
     /**
      * @return $this
      */
     public function setMimeType(?string $mimeType): static;
-
-    /**
-     * Get short type name for current document Mime type.
-     */
-    public function getShortType(): string;
-
-    /**
-     * Get short Mime type.
-     */
-    public function getShortMimeType(): string;
-
-    /**
-     * Is current document an image.
-     */
-    public function isImage(): bool;
-
-    /**
-     * Is current document a vector SVG file.
-     */
-    public function isSvg(): bool;
-
-    /**
-     * Is current document a Webp image.
-     */
-    public function isWebp(): bool;
-
-    /**
-     * Is current document a video.
-     */
-    public function isVideo(): bool;
-
-    /**
-     * Is current document an audio file.
-     */
-    public function isAudio(): bool;
-
-    /**
-     * Is current document a PDF file.
-     */
-    public function isPdf(): bool;
-
-    public function getFolder(): string;
 
     /**
      * @return $this
@@ -72,40 +26,19 @@ interface DocumentInterface
     public function setFolder(string $folder): static;
 
     /**
-     * @return string|null Get document relative path : {folder}/{filename}
-     */
-    public function getRelativePath(): ?string;
-
-    /**
-     * @return string|null Get document relative path prefixed with mount information public:// or private://
-     */
-    public function getMountPath(): ?string;
-
-    /**
      * @return string|null Get document's folder relative path prefixed with mount information public:// or private://
      */
     public function getMountFolderPath(): ?string;
-
-    public function getEmbedId(): ?string;
 
     /**
      * @return $this
      */
     public function setEmbedId(?string $embedId): static;
 
-    public function getEmbedPlatform(): ?string;
-
     /**
      * @return $this
      */
     public function setEmbedPlatform(?string $embedPlatform): static;
-
-    /**
-     * Tells if current document has embed media information.
-     */
-    public function isEmbed(): bool;
-
-    public function isPrivate(): bool;
 
     /**
      * @return $this
@@ -122,11 +55,6 @@ interface DocumentInterface
     public function setRawDocument(?DocumentInterface $rawDocument = null): static;
 
     /**
-     * Is document a raw one.
-     */
-    public function isRaw(): bool;
-
-    /**
      * @param bool $raw the raw
      *
      * @return $this
@@ -139,11 +67,6 @@ interface DocumentInterface
     public function getDownscaledDocument(): ?DocumentInterface;
 
     /**
-     * @return Collection<int, FolderInterface>
-     */
-    public function getFolders(): Collection;
-
-    /**
      * @return $this
      */
     public function addFolder(FolderInterface $folder): static;
@@ -154,21 +77,7 @@ interface DocumentInterface
     public function removeFolder(FolderInterface $folder): static;
 
     /**
-     * Return false if no local file is linked to document. i.e no filename, no folder.
+     * @return Collection<int, FolderInterface>
      */
-    public function isLocal(): bool;
-
-    /**
-     * Return true if current document can be processed by intervention-image (GD, Imagick…).
-     */
-    public function isProcessable(): bool;
-
-    /**
-     * Gets alternative text for current document.
-     *
-     * @return string|null Returns null if image is decorative or if no alternative text is set
-     */
-    public function getAlternativeText(): ?string;
-
-    public function __toString(): string;
+    public function getFolders(): Collection;
 }

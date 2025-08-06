@@ -14,11 +14,12 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
     /**
      * Generate PHP annotation block for Doctrine table indexes.
      */
+    #[\Override]
     public function addFieldIndex(ClassType $classType): self
     {
         if ($this->field->isIndexed()) {
             $classType->addAttribute(
-                'Doctrine\ORM\Mapping\Index',
+                \Doctrine\ORM\Mapping\Index::class,
                 [
                     'columns' => [
                         $this->field->getName(),
@@ -56,11 +57,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         };
     }
 
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
-    }
-
+    #[\Override]
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
         parent::addFieldAttributes($property, $namespace, $exclude);
@@ -101,8 +98,8 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
             ];
         }
 
-        $property->addAttribute('Gedmo\Mapping\Annotation\Versioned');
-        $property->addAttribute('Doctrine\ORM\Mapping\Column', $ormParams);
+        $property->addAttribute(\Gedmo\Mapping\Annotation\Versioned::class);
+        $property->addAttribute(\Doctrine\ORM\Mapping\Column::class, $ormParams);
 
         if (!$this->hasFieldAlternativeGetter() && $this->hasSerializationAttributes()) {
             $this->addSerializationAttributes($property);
@@ -111,6 +108,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
+    #[\Override]
     public function addFieldAnnotation(Property $property): self
     {
         $this->addFieldAutodoc($property);
@@ -118,6 +116,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
+    #[\Override]
     protected function getFieldTypeDeclaration(): string
     {
         return match (true) {
@@ -139,6 +138,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         };
     }
 
+    #[\Override]
     protected function getFieldDefaultValueDeclaration(): Literal|string|null
     {
         return match (true) {
@@ -147,6 +147,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         };
     }
 
+    #[\Override]
     public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $type = $this->getFieldTypeDeclaration();
@@ -167,6 +168,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
+    #[\Override]
     public function addFieldSetter(ClassType $classType): self
     {
         $assignation = '$'.$this->field->getVarName();

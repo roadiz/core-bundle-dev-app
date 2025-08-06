@@ -11,6 +11,7 @@ final class OpenIdAuthenticationException extends AuthenticationException
     /**
      * Message key to be used by the translation component.
      */
+    #[\Override]
     public function getMessageKey(): string
     {
         return 'An OpenID authentication exception occurred.';

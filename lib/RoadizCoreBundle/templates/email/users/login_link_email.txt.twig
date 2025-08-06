@@ -1,7 +1,7 @@
 {% extends '@RoadizCore/email/base_email.txt.twig' %}
 
 {% block title %}{% trans %}login_link.request{% endtrans %}{% endblock %}
-{% block content_subtitle %}{{ 'you.asked.for.a.login_link.on.site'|trans({'%site%':site})|escape }}{% endblock %}
+{% block content_subtitle %}{{ 'you.asked.for.a.login_link.on.site'|trans({'%site%':meta.siteName})|escape }}{% endblock %}
 
 {% block content_table %}
 {% trans %}click_on_following_link_to_login{% endtrans %}

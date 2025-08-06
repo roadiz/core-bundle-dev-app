@@ -3,18 +3,17 @@
 Roadiz is a _Symfony_ application running on PHP. 
 You can follow regular [Symfony requirements](https://symfony.com/doc/6.4/setup.html#technical-requirements) to optimize your local or production setup, which includes:
 
-
 - **Web Server:** Nginx or Apache with a dedicated virtual host (as described below).
-- **PHP Version:** PHP 8.2+
-- **PHP Extensions:** JSON, Intl, cURL, MBString, Ctype, iconv, PCRE, Session, Zip, SimpleXML, and Tokenizer (usually installed by default).
+- **PHP Version:** PHP 8.3+
+- **PHP Extensions:** JSON, Intl, cURL, MBString, PCRE, Session, Zip, SimpleXML, and Tokenizer (usually installed by default).
 - **PHP Configuration:** Ensure `php.ini` has the following settings:
     - `short_open_tag = Off`
     - `magic_quotes_gpc = Off`
     - `register_globals = Off`
     - `session.auto_start = Off`
 - **Database:** MariaDB 10.11+ or MySQL 8.0+ with `JSON_*` functions support.
-- **Other Tools:** [Composer](https://getcomposer.org/download/) for dependencies management, _Git_ for versionning.
-- If your local environnement has *ffmpeg* installed, Roadiz can use it to generate video thumbnails.
+- **Other Tools:** [Composer](https://getcomposer.org/download/) for dependencies management, _Git_ for versioning.
+- If your local environment has *ffmpeg* installed, Roadiz can use it to generate video thumbnails.
 
 ## Development workflow
 
@@ -39,5 +38,5 @@ Since Roadiz v2.1, we recommend separating processes into different Docker conta
 - A single **Nginx** container can serve static assets.
 - A single **Redis** container can handle caching.
 
-This setup enables more efficient resource allocation and scalability.
+This setup enables more efficient resource allocation and scalability. See [Infrastructure section](../infrastructure/infrastructure.md) for more details on how to set up your Docker environment.
 

@@ -70,7 +70,7 @@ because it can't be done from a CLI interface. As a last resort, restart your `p
 
 ## Versions upgrades
 
-For detailled version upgrades and changes, please refer to the following documents in the Roadiz Core Bundle Dev App repository:
+For detailed version upgrades and changes, please refer to the following documents in the Roadiz Core Bundle Dev App repository:
 
 - [Project changelog](https://github.com/roadiz/core-bundle-dev-app/blob/develop/CHANGELOG.md)
 - [Upgrade notes](https://github.com/roadiz/core-bundle-dev-app/blob/develop/UPGRADE.md)

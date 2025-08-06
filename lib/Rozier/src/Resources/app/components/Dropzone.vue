@@ -3,66 +3,68 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import { fadeOut } from '../utils/animation'
+import { sleep } from '../utils/sleep'
+import Dropzone from 'dropzone'
 
 export default {
     props: {
         id: {
             type: String,
-            required: true
+            required: true,
         },
         url: {
             type: String,
-            required: true
+            required: true,
         },
         clickable: {
             type: Boolean,
-            default: true
+            default: true,
         },
         acceptedFileTypes: {
-            type: String
+            type: String,
         },
         thumbnailHeight: {
             type: Number,
-            default: 80
+            default: 80,
         },
         thumbnailWidth: {
             type: Number,
-            default: 80
+            default: 80,
         },
         showRemoveLink: {
             type: Boolean,
-            default: true
+            default: true,
         },
         maxFileSizeInMB: {
             type: Number,
-            default: 64
+            default: 64,
         },
         maxNumberOfFiles: {
             type: Number,
-            default: 5
+            default: 5,
         },
         autoProcessQueue: {
             type: Boolean,
-            default: true
+            default: true,
         },
         useFontAwesome: {
             type: Boolean,
-            default: false
+            default: false,
         },
         headers: {
-            type: Object
+            type: Object,
         },
         language: {
-            type: Object
+            type: Object,
         },
         useCustomDropzoneOptions: {
             type: Boolean,
-            default: false
+            default: false,
         },
         dropzoneOptions: {
-            type: Object
-        }
+            type: Object,
+        },
     },
     methods: {
         setOption: function (option, value) {
@@ -76,30 +78,29 @@ export default {
         },
         removeFile: function (file) {
             this.dropzone.removeFile(file)
-        }
+        },
     },
     computed: {
         doneIcon: function () {
             if (this.useFontAwesome) {
                 return '<i class="fa fa-check"></i>'
             } else {
-                return  ' <i class="material-icons">done</i>' // eslint-disable-line
+                return ' <i class="material-icons">done</i>' // eslint-disable-line
             }
         },
         errorIcon: function () {
             if (this.useFontAwesome) {
                 return '<i class="fa fa-close"></i>'
             } else {
-                return  ' <i class="material-icons">error</i>' // eslint-disable-line
+                return ' <i class="material-icons">error</i>' // eslint-disable-line
             }
-        }
+        },
     },
-    mounted () {
+    mounted() {
         if (this.$isServer) {
             return
         }
 
-        let Dropzone = require('dropzone')
         let element = document.getElementById(this.id)
 
         Dropzone.autoDiscover = false
@@ -117,7 +118,7 @@ export default {
                 timeout: 0, // no timeout
                 autoProcessQueue: this.autoProcessQueue,
                 paramName: 'form[attachment]',
-                headers: { _token: window.Rozier.ajaxToken, ...this.headers },
+                headers: { _token: window.RozierConfig.ajaxToken, ...this.headers },
                 dictDefaultMessage: this.language.dictDefaultMessage,
                 dictCancelUpload: this.language.dictCancelUpload,
                 dictCancelUploadConfirmation: this.language.dictCancelUploadConfirmation,
@@ -144,17 +145,32 @@ export default {
 
                     for (let i = 0, len = ref.length; i < len; i++) {
                         let node = ref[i]
-                        results.push(node.textContent = errorMessage)
+                        results.push((node.textContent = errorMessage))
                     }
 
                     return results
-                }
+                },
             })
 
-            let $dropzone = $(element)
-            $dropzone.append(`<div class="dz-default dz-message"><span>${this.language.dictDefaultMessage}</span></div>`)
-            let $dzMessage = $dropzone.find('.dz-message')
-            $dzMessage.append(`<div class="circles-icons"><div class="circle circle-1"></div><div class="circle circle-2"></div><div class="circle circle-3"></div><div class="circle circle-4"></div><div class="circle circle-5"></div><i class="uk-icon-rz-file"></i></div>`)
+            const dropzone = element
+            dropzone.insertAdjacentHTML(
+                'beforeend',
+                `<div class="dz-default dz-message"><span>${this.language.dictDefaultMessage}</span></div>`
+            )
+
+            const dzMessageDiv = dropzone.querySelector('.dz-message')
+            const circlesIconsHTML = `
+                <div class="circles-icons">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                    <div class="circle circle-3"></div>
+                    <div class="circle circle-4"></div>
+                    <div class="circle circle-5"></div>
+                    <i class="uk-icon-rz-file"></i>
+                </div>
+            `
+
+            dzMessageDiv.insertAdjacentHTML('beforeend', circlesIconsHTML)
         } else {
             this.dropzone = new Dropzone(element, this.dropzoneOptions)
         }
@@ -173,7 +189,7 @@ export default {
             vm.$emit('vdropzone-removed-file', file)
         })
 
-        this.dropzone.on('success', function (file, response) {
+        this.dropzone.on('success', async function (file, response) {
             vm.$emit('vdropzone-success', file, response)
 
             /*
@@ -182,10 +198,9 @@ export default {
              * 20 files…
              */
             if (file.previewElement) {
-                let $preview = $(file.previewElement)
-                window.setTimeout(function () {
-                    $preview.fadeOut(500)
-                }, 3000)
+                let preview = file.previewElement
+                await sleep(3000)
+                await fadeOut(preview, 500)
             }
         })
 
@@ -214,8 +229,8 @@ export default {
         })
     },
 
-    beforeDestroy () {
+    beforeDestroy() {
         this.dropzone.destroy()
-    }
+    },
 }
 </script>

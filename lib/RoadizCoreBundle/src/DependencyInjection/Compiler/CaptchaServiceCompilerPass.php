@@ -13,7 +13,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CaptchaServiceCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    #[\Override]
+    public function process(ContainerBuilder $container): void
     {
         $verifyUrl = $container->resolveEnvPlaceholders(
             $container->getParameter('roadiz_core.captcha.verify_url'),

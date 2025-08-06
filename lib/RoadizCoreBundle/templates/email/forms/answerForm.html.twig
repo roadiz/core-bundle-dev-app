@@ -3,9 +3,6 @@
 {% block title %}<title>{{ title }}</title>{% endblock %}
 
 {% block content_table %}
-{% if requestLocale is not defined %}
-    {% set requestLocale = app.request.locale %}
-{% endif %}
 <table width="100%" cellpadding="0" cellspacing="0">
     <tbody>
         <tr>
@@ -26,10 +23,10 @@
                             <table class="invoice-items" cellpadding="0" cellspacing="0">
                                 {% for field in fields %}
                                     <tr>
-                                        <td width="25%" class="paddingright"><strong>{{ field.label|default(field.name|trans(locale=requestLocale)) }}</strong></td>
-                                        <td width="75%" class="alignleft">
+                                        <td style="width:25%;" class="paddingright"><strong>{{ field.label|default(field.name|trans) }}</strong></td>
+                                        <td style="width:75%;" class="alignleft">
                                             {% if field.name == "submittedAt" %}
-                                                {{ field.value|format_datetime("medium", "short", locale=requestLocale) }}
+                                                {{ field.value|format_datetime("medium", "short") }}
                                             {% else %}
                                                 {{ field.value }}
                                             {% endif %}

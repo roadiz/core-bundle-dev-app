@@ -11,18 +11,24 @@ namespace App\GeneratedEntity\Repository;
 
 use App\GeneratedEntity\NSGroupBlock;
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
-use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSGroupBlock>
- * @method NSGroupBlock|null find($id, $lockMode = null, $lockVersion = null)
- * @method NSGroupBlock|null findOneBy(array $criteria, array $orderBy = null)
- * @method NSGroupBlock[]    findAll()
- * @method NSGroupBlock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method NSGroupBlock|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method NSGroupBlock|null   findOneBy(array $criteria, array $orderBy = null)
+ * @method NSGroupBlock[]      findAll()
+ * @method NSGroupBlock[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method NSGroupBlock|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
+ * @method NSGroupBlock|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
+ * @method NSGroupBlock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method int countBy(mixed $criteria)
  */
 class NSGroupBlockRepository extends NodesSourcesRepository
 {
@@ -31,8 +37,7 @@ class NSGroupBlockRepository extends NodesSourcesRepository
         PreviewResolverInterface $previewResolver,
         EventDispatcherInterface $dispatcher,
         Security $security,
-        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, NSGroupBlock::class);
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, NSGroupBlock::class);
     }
 }

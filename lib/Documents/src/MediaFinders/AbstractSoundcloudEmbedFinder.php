@@ -17,8 +17,9 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
     protected static string $platform = 'soundcloud';
     protected static string $idPattern = '#^https\:\/\/soundcloud\.com\/(?<user>[a-z0-9\-]+)\/?#';
     protected static string $realIdPattern = '#^https\:\/\/api\.soundcloud\.com\/(?<type>tracks|playlists|users)\/(?<id>[0-9]+)\/?#';
-    protected ?string $embedUrl;
+    protected ?string $embedUrl = null;
 
+    #[\Override]
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return str_starts_with($embedUrl, 'https://api.soundcloud.com')
@@ -26,11 +27,13 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
             || str_starts_with($embedUrl, 'https://soundcloud.com');
     }
 
+    #[\Override]
     public static function getPlatform(): string
     {
         return static::$platform;
     }
 
+    #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
         if (1 === preg_match(static::$idPattern, $embedId, $matches)) {
@@ -42,6 +45,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
+    #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
         $endpoint = 'https://soundcloud.com/oembed';
@@ -53,6 +57,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         return $this->downloadFeedFromAPI($endpoint.'?'.http_build_query($query));
     }
 
+    #[\Override]
     public function getFeed(): array|\SimpleXMLElement|null
     {
         $feed = parent::getFeed();
@@ -60,33 +65,38 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
          * We need to extract REAL embedId from oEmbed response, from the HTML field.
          */
         $this->embedUrl = $this->embedId;
-        if (!empty($feed['html']) && preg_match('#url\=(?<realId>[a-zA-Z0-9\%\.]+)\&#', $feed['html'], $matches)) {
+        if (!empty($feed['html']) && preg_match('#url\=(?<realId>[a-zA-Z0-9\%\.]+)\&#', (string) $feed['html'], $matches)) {
             $this->embedId = urldecode($matches['realId']);
         }
 
         return $feed;
     }
 
+    #[\Override]
     public function getMediaTitle(): string
     {
         return $this->getFeed()['title'] ?? '';
     }
 
+    #[\Override]
     public function getMediaDescription(): string
     {
         return $this->getFeed()['description'] ?? '';
     }
 
+    #[\Override]
     public function getMediaCopyright(): string
     {
         return ($this->getFeed()['author_name'] ?? '').' ('.($this->getFeed()['author_url'] ?? '').')';
     }
 
+    #[\Override]
     public function getThumbnailURL(): string
     {
         return $this->getFeed()['thumbnail_url'] ?? '';
     }
 
+    #[\Override]
     public function getThumbnailName(string $pathinfo): string
     {
         if (null === $this->embedUrl) {
@@ -116,6 +126,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
      * * show_reposts
      * * visual
      */
+    #[\Override]
     public function getSource(array &$options = []): string
     {
         parent::getSource($options);
@@ -138,6 +149,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         return 'https://w.soundcloud.com/player/?'.http_build_query($queryString);
     }
 
+    #[\Override]
     protected function areDuplicatesAllowed(): bool
     {
         return true;

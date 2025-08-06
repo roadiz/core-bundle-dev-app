@@ -13,18 +13,12 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
     App\Controller\ContactFormController:
         tags: [ 'controller.service_arguments' ]
-
 
     App\Serializer\Normalizer\MenuLinkPathNormalizer:
         decorates: 'api_platform.jsonld.normalizer.item'
@@ -39,3 +33,9 @@ services:
         autowire: false
         autoconfigure: false
         public: false
+
+    App\Serializer\Normalizer\AliasBlockWalkerNormalizer:
+        decorates: 'api_platform.jsonld.normalizer.object'
+        arguments:
+            $decorated: '@App\Serializer\Normalizer\AliasBlockWalkerNormalizer.inner'
+            $itemNormalizer: '@api_platform.serializer.normalizer.item'

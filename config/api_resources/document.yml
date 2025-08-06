@@ -1,4 +1,22 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Document:
-        operations: []
+        operations:
+            ApiPlatform\Metadata\GetCollection:
+                method: "GET"
+                normalizationContext:
+                    enable_max_depth: true
+                    skip_null_values: true
+                    groups:
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources
+            ApiPlatform\Metadata\Get:
+                method: "GET"
+                normalizationContext:
+                    enable_max_depth: true
+                    skip_null_values: true
+                    groups:
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources
 

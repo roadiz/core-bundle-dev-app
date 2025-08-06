@@ -11,11 +11,13 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 final class DocumentFilesizeMessageHandler extends AbstractLockingDocumentMessageHandler
 {
+    #[\Override]
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && null !== $document->getRelativePath();
     }
 
+    #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
         if (!$document instanceof AdvancedDocumentInterface) {

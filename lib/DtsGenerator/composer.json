@@ -3,8 +3,8 @@
     "description": "Roadiz sub-package which generates Typescript interfaces skeleton based on your schema",
     "type": "library",
     "require": {
-        "roadiz/nodetype-contracts": "^2.0.0",
-        "symfony/http-foundation": "6.4.*"
+        "roadiz/nodetype-contracts": "^3.0.0",
+        "symfony/http-foundation": "7.3.*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.5.3",
@@ -26,8 +26,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-master": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
     }
 }

@@ -61,12 +61,10 @@ to populate all data during the `asyncData()` routine in `_.vue` page
     },
     "breadcrumbs": {
         "@type": "Breadcrumbs",
-        "@id": "_:14750",
         "items": []
     },
     "head": {
         "@type": "NodesSourcesHead",
-        "@id": "_:14679",
         "googleAnalytics": null,
         "googleTagManager": null,
         "matomoUrl": null,
@@ -130,7 +128,7 @@ resources:
                         - web_response
                         - walker
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a resource by its path wrapped in a WebResponse object'
@@ -161,7 +159,7 @@ resources:
                         - web_response
                         - walker
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a resource by its path wrapped in a WebResponse object'
@@ -302,11 +300,11 @@ We could extend our _WebResponse_ to inject theses common data to each request, 
 For these common content, you can create a `/api/common_content` API endpoint in your project which will fetched only once in your frontend application.
 
 ```yaml
+# config/api_resources/common_content.yml
 resources:
-    ## config/api_resources/common_content.yml
     App\Api\Model\CommonContent:
         operations:
-            getCommonContent:
+            get_common_content:
                 class: ApiPlatform\Metadata\Get
                 method: 'GET'
                 uriTemplate: '/common_content'
@@ -352,73 +350,112 @@ namespace App\Controller;
 use App\Api\Model\CommonContent;
 use App\TreeWalker\MenuNodeSourceWalker;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
+use RZ\TreeWalker\WalkerContextInterface;
+use RZ\TreeWalker\WalkerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
+use function Symfony\Component\String\u;
+
 final class GetCommonContentController extends AbstractController
 {
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
-    private NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory;
-    private PreviewResolverInterface $previewResolver;
-    private TreeWalkerGenerator $treeWalkerGenerator;
-
     public function __construct(
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
-        PreviewResolverInterface $previewResolver,
-        TreeWalkerGenerator $treeWalkerGenerator,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly TreeWalkerGenerator $treeWalkerGenerator,
+        private readonly WalkerContextInterface $walkerContext,
+        private readonly CacheItemPoolInterface $cacheItemPool,
+        private readonly Settings $settingsBag,
     ) {
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
-        $this->nodesSourcesHeadFactory = $nodesSourcesHeadFactory;
-        $this->previewResolver = $previewResolver;
-        $this->treeWalkerGenerator = $treeWalkerGenerator;
     }
 
-    public function __invoke(): ?CommonContent
+    public function __invoke(Request $request): ?CommonContent
     {
         try {
-            $request = $this->requestStack->getMainRequest();
             $translation = $this->getTranslationFromRequest($request);
 
             $resource = new CommonContent();
 
-            $request?->attributes->set('data', $resource);
-            $resource->home = $this->getHomePage($translation);
+            $request->attributes->set('data', $resource);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
+            $resource->home = $resource->head->getHomePage();
+            $resource->errorPage = $this->getErrorPage($translation);
             $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
                 'Menu',
                 MenuNodeSourceWalker::class,
                 $translation,
                 3
             );
+            $resource->footers = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
+                'Footer',
+                AutoChildrenNodeSourceWalker::class,
+                $translation,
+                4
+            );
+
+            /*
+             * Provide all *_url and *_color settings. Make sure to not create private settings using these keys.
+             */
+            $urlKeys = array_filter(
+                $this->settingsBag->keys(),
+                fn (string $key) => str_ends_with($key, '_url') && !empty($this->settingsBag->get($key)),
+            );
+            $resource->urls = [];
+            foreach ($urlKeys as $urlKey) {
+                $resource->urls[u($urlKey)->camel()->toString()] = $this->settingsBag->get($urlKey);
+            }
+
+            $colorKeys = array_filter(
+                $this->settingsBag->keys(),
+                fn (string $key) => str_ends_with($key, '_color') && !empty($this->settingsBag->get($key)),
+            );
+            $resource->colors = [];
+            foreach ($colorKeys as $colorKey) {
+                $resource->colors[$colorKey] = $this->settingsBag->get($colorKey);
+            }
 
             return $resource;
         } catch (ResourceNotFoundException $exception) {
-            throw new NotFoundHttpException($exception->getMessage(), $exception);
+            throw $this->createNotFoundException($exception->getMessage(), $exception);
         }
     }
 
-    protected function getHomePage(TranslationInterface $translation): ?NodesSources
+    private function getErrorPage(TranslationInterface $translation): ?WalkerInterface
     {
-        return $this->managerRegistry->getRepository(NodesSources::class)->findOneBy([
-            'node.home' => true,
+        if (!class_exists('\App\GeneratedEntity\NSErrorPage')) {
+            return null;
+        }
+
+        /* @phpstan-ignore-next-line */
+        $errorPage = $this->managerRegistry->getRepository('\App\GeneratedEntity\NSErrorPage')->findOneBy([
             'translation' => $translation,
         ]);
+
+        if (null === $errorPage) {
+            return null;
+        }
+
+        return $this->treeWalkerGenerator->buildForRoot(
+            $errorPage,
+            AutoChildrenNodeSourceWalker::class,
+            $this->walkerContext,
+            3,
+            $this->cacheItemPool
+        );
     }
 
-    protected function getTranslationFromRequest(?Request $request): TranslationInterface
+    private function getTranslationFromRequest(?Request $request): TranslationInterface
     {
         $locale = null;
 
@@ -451,7 +488,7 @@ final class GetCommonContentController extends AbstractController
         return $translation;
     }
 
-    protected function getTranslationRepository(): TranslationRepository
+    private function getTranslationRepository(): TranslationRepository
     {
         $repository = $this->managerRegistry->getRepository(TranslationInterface::class);
         if (!$repository instanceof TranslationRepository) {
@@ -563,15 +600,15 @@ Then, the following resource will be exposed:
         "siteName": "Roadiz dev website",
         "metaTitle": "Contact – Roadiz dev website",
         "metaDescription": "Contact, Roadiz dev website",
-        "policyUrl": null,
-        "mainColor": null,
-        "facebookUrl": null,
-        "instagramUrl": null,
-        "twitterUrl": null,
-        "youtubeUrl": null,
-        "linkedinUrl": null,
         "homePageUrl": "/",
         "shareImage": null
+    },
+    "urls": {
+        "leaflet_map_tile_url": "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        "facebook_url": "#"
+    },
+    "colors": {
+        "main_color": "#9141ac"
     }
 }
 ```

@@ -11,13 +11,13 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: TranslationRepository::class),
     ORM\Table(name: 'translations'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['available']),
     ORM\Index(columns: ['default_translation']),
     ORM\Index(columns: ['created_at']),
@@ -54,13 +55,15 @@ use Symfony\Component\Validator\Constraints as Assert;
         'name' => 'exact',
     ])
 ]
-class Translation extends AbstractDateTimed implements TranslationInterface
+class Translation implements TranslationInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
+
     /**
      * Associates locales to pretty languages names.
      */
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $availableLocales = [
         'af_NA' => 'Afrikaans (Namibia)',
         'af_ZA' => 'Afrikaans (South Africa)',
@@ -499,7 +502,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     ];
 
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $rtlLanguages = [
         'ar_DZ' => 'Arabic (Algeria)',
         'ar_BH' => 'Arabic (Bahrain)',
@@ -532,7 +534,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\OneToMany(mappedBy: 'translation', targetEntity: DocumentTranslation::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Collection $documentTranslations;
 
     /**
@@ -540,7 +541,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\OneToMany(mappedBy: 'translation', targetEntity: FolderTranslation::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Collection $folderTranslations;
 
     /**
@@ -552,7 +552,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\Column(type: 'string', length: 10, unique: true, nullable: false)]
     #[SymfonySerializer\Groups(['attribute:export'])]
-    #[Serializer\Exclude]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 10)]
@@ -564,7 +563,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(name: 'override_locale', type: 'string', length: 10, unique: true, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[Assert\Length(max: 10)]
     #[ApiProperty(
         description: 'Override standard locale with an other one (for example, `uk` instead of `en`)',
@@ -574,8 +572,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Type('string')]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
@@ -587,8 +583,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(name: 'default_translation', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Type('bool')]
     #[ApiProperty(
         description: 'Is translation default one?',
         example: 'true',
@@ -597,8 +591,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Type('bool')]
     #[ApiProperty(
         description: 'Is translation available publicly?',
         example: 'true',
@@ -615,7 +607,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $nodeSources;
 
     /**
@@ -628,7 +619,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $tagTranslations;
 
     public function __construct()
@@ -637,7 +627,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         $this->tagTranslations = new ArrayCollection();
         $this->folderTranslations = new ArrayCollection();
         $this->documentTranslations = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**
@@ -657,11 +647,13 @@ class Translation extends AbstractDateTimed implements TranslationInterface
             ($this->isDefaultTranslation() ? ' - Default' : '').PHP_EOL;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -670,6 +662,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setName(?string $name): Translation
     {
         $this->name = $name ?? '';
@@ -677,6 +670,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         return $this;
     }
 
+    #[\Override]
     public function getLocale(): string
     {
         return $this->locale;
@@ -685,6 +679,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setLocale(string $locale): Translation
     {
         $this->locale = $locale;
@@ -692,6 +687,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         return $this;
     }
 
+    #[\Override]
     public function isAvailable(): bool
     {
         return $this->available;
@@ -700,6 +696,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setAvailable(bool $available): Translation
     {
         $this->available = $available;
@@ -707,6 +704,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         return $this;
     }
 
+    #[\Override]
     public function isDefaultTranslation(): bool
     {
         return $this->defaultTranslation;
@@ -715,6 +713,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setDefaultTranslation(bool $defaultTranslation): Translation
     {
         $this->defaultTranslation = $defaultTranslation;
@@ -740,6 +739,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * Gets the value of overrideLocale.
      */
+    #[\Override]
     public function getOverrideLocale(): ?string
     {
         return $this->overrideLocale;
@@ -750,6 +750,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      *
      * @param string|null $overrideLocale the override locale
      */
+    #[\Override]
     public function setOverrideLocale(?string $overrideLocale): Translation
     {
         $this->overrideLocale = StringHandler::slugify($overrideLocale);
@@ -762,17 +763,17 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[SymfonySerializer\SerializedName('locale')]
     #[SymfonySerializer\Groups(['translation_base'])]
-    #[Serializer\SerializedName('locale')]
-    #[Serializer\Groups(['translation_base'])]
     #[ApiProperty(
         description: 'Translation ISO 639-1 locale. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes',
         example: 'fr',
     )]
+    #[\Override]
     public function getPreferredLocale(): string
     {
         return !empty($this->overrideLocale) ? $this->overrideLocale : $this->locale;
     }
 
+    #[\Override]
     public function isRtl(): bool
     {
         return in_array($this->getLocale(), static::getRightToLeftLocales());

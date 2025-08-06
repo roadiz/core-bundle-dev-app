@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Logger\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use Monolog\Logger;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -31,43 +31,30 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['channel']),
     ORM\HasLifecycleCallbacks
 ]
-class Log extends AbstractEntity
+class Log implements PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(name: 'user_id', type: 'string', length: 36, unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['log_user'])]
     #[Serializer\Groups(['log_user'])]
     // @phpstan-ignore-next-line
     protected int|string|null $userId = null;
 
     #[ORM\Column(name: 'username', type: 'string', length: 255, nullable: true)]
-    #[SymfonySerializer\Groups(['log_user'])]
     #[Serializer\Groups(['log_user'])]
     #[Assert\Length(max: 255)]
     protected ?string $username = null;
 
-    #[ORM\Column(name: 'message', type: 'text')]
-    #[SymfonySerializer\Groups(['log'])]
-    #[Serializer\Groups(['log'])]
-    protected string $message = '';
-
-    #[ORM\Column(name: 'level', type: 'integer', nullable: false)]
-    #[SymfonySerializer\Groups(['log'])]
-    #[Serializer\Groups(['log'])]
-    protected int $level = Logger::DEBUG;
-
     #[ORM\Column(name: 'datetime', type: 'datetime', nullable: false)]
-    #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
     protected \DateTime $datetime;
 
     #[ORM\Column(name: 'client_ip', type: 'string', length: 46, unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
     #[Assert\Length(max: 46)]
     protected ?string $clientIp = null;
 
     #[ORM\Column(name: 'channel', type: 'string', length: 64, unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
     #[Assert\Length(max: 64)]
     protected ?string $channel = null;
@@ -76,31 +63,28 @@ class Log extends AbstractEntity
      * @var class-string|null
      */
     #[ORM\Column(name: 'entity_class', type: 'string', length: 255, unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
     #[Assert\Length(max: 255)]
     // @phpstan-ignore-next-line
     protected ?string $entityClass = null;
 
     #[ORM\Column(name: 'entity_id', type: 'string', length: 36, unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
     #[Assert\Length(max: 36)]
-    // @phpstan-ignore-next-line
-    protected string|int|null $entityId = null;
+    protected ?string $entityId = null;
 
     #[ORM\Column(name: 'additional_data', type: 'json', unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
     protected ?array $additionalData = null;
 
-    /**
-     * @throws \Exception
-     */
-    public function __construct(int $level, string $message)
-    {
-        $this->level = $level;
-        $this->message = $message;
+    public function __construct(
+        #[ORM\Column(name: 'level', type: 'integer', nullable: false)]
+        #[Serializer\Groups(['log'])]
+        protected int $level,
+        #[ORM\Column(name: 'message', type: 'text')]
+        #[Serializer\Groups(['log'])]
+        protected string $message,
+    ) {
         $this->datetime = new \DateTime('now');
     }
 
@@ -163,7 +147,7 @@ class Log extends AbstractEntity
     {
         if (null !== $nodeSource) {
             $this->entityClass = NodesSources::class;
-            $this->entityId = $nodeSource->getId();
+            $this->entityId = (string) $nodeSource->getId();
         }
 
         return $this;
@@ -228,9 +212,15 @@ class Log extends AbstractEntity
         return $this->entityId;
     }
 
-    public function setEntityId(int|string|null $entityId): Log
+    public function setEntityId(int|string|Uuid|null $entityId): Log
     {
-        $this->entityId = $entityId;
+        if (null === $entityId) {
+            $this->entityId = null;
+
+            return $this;
+        }
+
+        $this->entityId = (string) $entityId;
 
         return $this;
     }

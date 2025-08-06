@@ -1,17 +1,17 @@
 customFormAnswersHomePage:
     path:     /{customFormId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormAnswersController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormAnswerController::listAction
     requirements: { customFormId : "[0-9]+" }
 
 customFormAnswersDeletePage:
     path:     /delete/{customFormAnswerId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormAnswersController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormAnswerController::deleteAction
     requirements: { customFormAnswerId : "[0-9]+" }
 
 customFormFieldAttributesHomePage:
     path:     /fields/{customFormAnswerId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormFieldAttributesController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormFieldAttributeController::listAction
     requirements: { customFormAnswerId : "[0-9]+" }

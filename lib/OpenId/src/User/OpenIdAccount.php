@@ -15,17 +15,8 @@ use Symfony\Component\Serializer\Attribute\Ignore;
  */
 class OpenIdAccount implements UserInterface, EquatableInterface
 {
-    /**
-     * @var array<string>
-     */
-    #[Groups(['user'])]
-    protected array $roles;
-
     #[Groups(['user'])]
     protected ?string $issuer = null;
-
-    #[Groups(['user'])]
-    protected string $email;
 
     #[Groups(['user'])]
     protected ?string $name = null;
@@ -60,24 +51,24 @@ class OpenIdAccount implements UserInterface, EquatableInterface
     #[Groups(['user'])]
     protected ?string $profile = null;
 
-    #[Ignore]
-    protected Token $jwtToken;
-
     public function __construct(
-        string $email,
-        array $roles,
-        Token $jwtToken,
+        #[Groups(['user'])]
+        protected string $email,
+        /**
+         * @var array<string>
+         */
+        #[Groups(['user'])]
+        protected array $roles,
+        #[Ignore]
+        protected Token $jwtToken,
     ) {
-        $this->roles = $roles;
-        $this->email = $email;
-        $this->jwtToken = $jwtToken;
-        if (!($jwtToken instanceof Token\Plain)) {
+        if (!($this->jwtToken instanceof Token\Plain)) {
             throw new \InvalidArgumentException('Token must be an instance of '.Token\Plain::class);
         }
         /*
          * https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
          */
-        $claims = $jwtToken->claims();
+        $claims = $this->jwtToken->claims();
         $this->name = $this->getStringClaim($claims, 'name');
         $this->issuer = $this->getStringClaim($claims, 'iss');
         $this->givenName = $this->getStringClaim($claims, 'given_name');
@@ -111,6 +102,7 @@ class OpenIdAccount implements UserInterface, EquatableInterface
         return null;
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -131,6 +123,7 @@ class OpenIdAccount implements UserInterface, EquatableInterface
         return $this->email ?? '';
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
         return;
@@ -206,11 +199,13 @@ class OpenIdAccount implements UserInterface, EquatableInterface
         return $this->issuer;
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
-        return $this->getEmail() ?? '';
+        return !empty($this->getEmail()) ? $this->getEmail() : throw new \LogicException('User identifier cannot be null');
     }
 
+    #[\Override]
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof OpenIdAccount) {

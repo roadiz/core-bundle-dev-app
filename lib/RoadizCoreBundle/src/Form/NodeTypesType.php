@@ -17,13 +17,14 @@ final class NodeTypesType extends AbstractType
     {
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'showInvisible' => false,
             'currentType' => null,
             // Hard-code the most used node-type here
-            'preferred_choices' => ['Page'],
+            'preferred_choices' => array_map(fn (NodeType $nodeType) => $nodeType->getName(), $this->nodeTypesBag->allHighlighted()),
         ]);
         $resolver->setAllowedTypes('showInvisible', ['boolean']);
         $resolver->setAllowedTypes('currentType', ['null', NodeType::class]);
@@ -40,23 +41,21 @@ final class NodeTypesType extends AbstractType
 
             return $choices;
         });
-        $resolver->setNormalizer('group_by', function (Options $options) {
-            return function ($choice, $key, $value) use ($options) {
-                $nodeTypes = $this->getNodeTypes($options);
+        $resolver->setNormalizer('group_by', fn (Options $options) => function ($choice, $key, $value) use ($options) {
+            $nodeTypes = $this->getNodeTypes($options);
 
-                foreach ($nodeTypes as $nodeType) {
-                    if ($value !== $nodeType->getName()) {
-                        continue;
-                    }
-                    if ($nodeType->isReachable()) {
-                        return 'reachable';
-                    } else {
-                        return 'not_reachable';
-                    }
+            foreach ($nodeTypes as $nodeType) {
+                if ($value !== $nodeType->getName()) {
+                    continue;
                 }
+                if ($nodeType->isReachable()) {
+                    return 'reachable';
+                } else {
+                    return 'not_reachable';
+                }
+            }
 
-                return null;
-            };
+            return null;
         });
     }
 
@@ -72,11 +71,13 @@ final class NodeTypesType extends AbstractType
         return $this->nodeTypesBag->allVisible();
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'node_types';

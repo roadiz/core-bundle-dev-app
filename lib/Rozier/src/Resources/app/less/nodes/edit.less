@@ -42,7 +42,6 @@
         margin-top: 20px;
     }
 
-
     &:before {
         position: absolute;
         content: "";
@@ -53,7 +52,12 @@
     }
 }
 
+.content-tag-edit {
+    display: block;
+}
+
 .content-node-edit-source {
+    display: block;
     opacity: 0;
     transition: opacity linear 0.3s;
 
@@ -75,48 +79,51 @@
     .switcher-nav-item {
         margin: 0px;
         padding-left: 0px;
+        border-radius: 0px;
+        background-color: #e5e5e5;
+        border: 1px solid var(--global-border-color);
+        border-left: 0 none;
+        font-size: var(--default-font-size);
+        line-height: 25px;
+        padding: 1px 13px 0px;
 
-        a {
-            border-radius: 0px;
-            background-color: #e5e5e5;
-            border: 1px solid var(--global-border-color);
-            border-left: 0 none;
-            font-size: @default-font-size;
-            line-height: 25px;
-            padding: 1px 13px 0px;
+        &:hover {
+            outline: 0;
+            box-shadow: none;
 
-            &:hover {
-                outline: 0;
-                box-shadow: none;
-
-                background-color: #999999;
-                border-color: #999999;
-                color: white;
-            }
-            &:focus {
-                outline: 0;
-                box-shadow: none;
-            }
+            background-color: #999999;
+            border-color: #999999;
+            color: white;
         }
 
         &:first-child {
-            margin-left: 50px;
-            a {
-                border-radius: 5px 0 0 5px;
-                border-left: 1px solid #bfbfbf;
+            border-radius: 5px 0 0 5px;
+            border-left: 1px solid #bfbfbf;
+
+            @media (min-width: @screen-sm-min) {
+                margin-left: 50px;
             }
         }
         &:last-child {
-            a {
-                border-radius: 0 5px 5px 0;
-            }
+            border-radius: 0 5px 5px 0;
         }
-        &.uk-active {
-            & > a {
-                background-color: var(--rz-accent-color-darker);
-                border-color: var(--rz-accent-color-darker);
-                box-shadow: none;
-            }
+        &.active {
+            background-color: var(--rz-accent-color-darker);
+            border-color: var(--rz-accent-color-darker);
+            box-shadow: none;
+            color: white;
+        }
+    }
+}
+
+#node-source-form-switcher {
+    padding: 0;
+
+    .field-group {
+        display: none;
+
+        &.active {
+            display: block;
         }
     }
 }

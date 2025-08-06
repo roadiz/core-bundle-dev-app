@@ -7,10 +7,10 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -20,11 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['submitted_at']),
     ORM\Index(columns: ['custom_form_id', 'submitted_at'], name: 'answer_customform_submitted_at')
 ]
-class CustomFormAnswer extends AbstractEntity
+class CustomFormAnswer implements \Stringable, PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[
         ORM\Column(name: 'ip', type: 'string', length: 46, nullable: false),
-        Serializer\Groups(['custom_form_answer']),
         SymfonySerializer\Groups(['custom_form_answer']),
         Assert\Length(max: 46)
     ]
@@ -32,7 +33,6 @@ class CustomFormAnswer extends AbstractEntity
 
     #[
         ORM\Column(name: 'submitted_at', type: 'datetime', nullable: false),
-        Serializer\Groups(['custom_form_answer']),
         SymfonySerializer\Groups(['custom_form_answer'])
     ]
     private \DateTime $submittedAt;
@@ -47,7 +47,6 @@ class CustomFormAnswer extends AbstractEntity
             cascade: ['ALL'],
             orphanRemoval: true
         ),
-        Serializer\Groups(['custom_form_answer']),
         SymfonySerializer\Groups(['custom_form_answer'])
     ]
     private Collection $answerFields;
@@ -58,7 +57,6 @@ class CustomFormAnswer extends AbstractEntity
             inversedBy: 'customFormAnswers'
         ),
         ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     private CustomForm $customForm;
@@ -116,6 +114,7 @@ class CustomFormAnswer extends AbstractEntity
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
@@ -153,11 +152,21 @@ class CustomFormAnswer extends AbstractEntity
 
     public function getEmail(): ?string
     {
-        $attribute = $this->getAnswerFields()->filter(function (CustomFormFieldAttribute $attribute) {
-            return $attribute->getCustomFormField()->isEmail();
-        })->first();
+        $attribute = $this->getAnswerFields()
+            ->filter(fn (CustomFormFieldAttribute $attribute) => $attribute->getCustomFormField()->isEmail())
+            ->first();
 
-        return $attribute ? (string) $attribute->getValue() : null;
+        if (!$attribute instanceof CustomFormFieldAttribute) {
+            return null;
+        }
+
+        $email = $attribute->getValue();
+
+        if (null === $email || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return null;
+        }
+
+        return $email;
     }
 
     /**

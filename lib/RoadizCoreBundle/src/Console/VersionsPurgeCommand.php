@@ -9,13 +9,27 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use RZ\Roadiz\CoreBundle\Repository\UserLogEntryRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
+#[AsCronTask(expression: '0 3 * * *', jitter: 120, arguments: '-n -q --count=20')]
+#[AsCommand(
+    name: 'versions:purge',
+    description: 'Purge entities versions.',
+    help: <<<EOT
+Purge entities versions <info>before</info> a given date-time
+OR by keeping at least <info>count</info> versions.
+
+This command does not alter active node-sources, document translations
+or tag translations, it only deletes versioned log entries.
+EOT
+)]
 final class VersionsPurgeCommand extends Command
 {
     public function __construct(
@@ -25,18 +39,10 @@ final class VersionsPurgeCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
-        $this->setName('versions:purge')
-            ->setDescription('Purge entities versions')
-            ->setHelp(<<<EOT
-Purge entities versions <info>before</info> a given date-time
-OR by keeping at least <info>count</info> versions.
-
-This command does not alter active node-sources, document translations
-or tag translations, it only deletes versioned log entries.
-EOT
-            )
+        $this
             ->addOption(
                 'before',
                 'b',
@@ -52,6 +58,7 @@ EOT
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->hasOption('before') && '' != $input->getOption('before')) {

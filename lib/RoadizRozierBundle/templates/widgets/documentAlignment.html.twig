@@ -1,0 +1,24 @@
+{% set imagePath = widget_attributes|split('image-path="')[1]|split('"')[0] %}
+
+<document-alignment-widget class="document-alignment-widget" input-base-name="{{ form.vars.full_name }}">
+    <div class="document-alignment-widget__image-wrapper">
+        <div class="document-alignment-widget__image-overlay"></div>
+        <div class="document-alignment-widget__area">
+            <div class="document-alignment-widget__handles-wrapper">
+                {% for i in 1..8 %}
+                    <div class="document-alignment-widget__handle"></div>
+                {% endfor %}
+            </div>
+            <div class="document-alignment-widget__hotspot"></div>
+        </div>
+        <img class="document-alignment-widget__image" src="{{ imagePath }}" alt=""/>
+    </div>
+    <label class="document-alignment-widget__override">
+        <input type="checkbox" class="rz-boolean-checkbox" data-on-text="I" data-off-text="O" />
+        <span>{{ 'document.imageAlignment.override'|trans }}</span>
+    </label>
+    <button type="button" class="uk-button uk-button-small document-alignment-widget__reset">
+        <i class="uk-icon-rz-reset"></i>
+        {{ 'document.imageAlignment.reset'|trans }}
+    </button>
+</document-alignment-widget>

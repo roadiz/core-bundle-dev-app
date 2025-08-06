@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final readonly class FieldTypeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
@@ -18,11 +19,13 @@ final readonly class FieldTypeNormalizer implements NormalizerInterface, Denorma
         ];
     }
 
-    public function normalize(mixed $object, ?string $format = null, array $context = []): int
+    #[\Override]
+    public function normalize(mixed $data, ?string $format = null, array $context = []): int
     {
-        return $object->value;
+        return $data->value;
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): ?FieldType
     {
         if (is_numeric($data)) {
@@ -32,12 +35,14 @@ final readonly class FieldTypeNormalizer implements NormalizerInterface, Denorma
         return null;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
+    #[\Override]
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return null === $data || is_numeric($data);
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null): bool
+    #[\Override]
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof FieldType;
     }

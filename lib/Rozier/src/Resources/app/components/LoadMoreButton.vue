@@ -14,23 +14,23 @@
     </transition>
 </template>
 <script>
-    export default {
-        props: {
-            isLoadingMore: {
-                required: true,
-                type: Boolean
-            },
-            nextPage: {
-                type: Number
-            },
-            loadMoreItems: {
-                required: true,
-                type: Function
-            },
-            moreItemsText: {
-                required: true,
-                type: String
-            }
-        }
-    }
+export default {
+    props: {
+        isLoadingMore: {
+            required: true,
+            type: Boolean,
+        },
+        nextPage: {
+            type: Number,
+        },
+        loadMoreItems: {
+            required: true,
+            type: Function,
+        },
+        moreItemsText: {
+            required: true,
+            type: String,
+        },
+    },
+}
 </script>

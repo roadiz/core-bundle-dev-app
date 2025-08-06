@@ -82,8 +82,8 @@ abstract class AbstractRendererTestCase extends TestCase
     public function assertHtmlTidyEquals(string $expected, string $actual, string $message = ''): void
     {
         $this->assertEquals(
-            $this->htmlTidy($expected),
-            $this->htmlTidy($actual),
+            trim($this->htmlTidy($expected)),
+            trim($this->htmlTidy($actual)),
             $message
         );
     }

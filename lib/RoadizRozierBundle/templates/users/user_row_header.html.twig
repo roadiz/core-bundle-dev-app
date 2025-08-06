@@ -1,0 +1,35 @@
+<th class="table-actions-userpicture-row mobile-hidden uk-visible-xlarge"></th>
+<th class="mobile-hidden">{% trans %}user.username{% endtrans %}
+    {% if not no_sort %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'username',
+        'filters': filters,
+    } only %}
+    {% endif %}
+</th>
+<th>{% trans %}user.email{% endtrans %}
+    {% if not no_sort %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'email',
+        'filters': filters,
+    } only %}
+    {% endif %}
+</th>
+<th class="mobile-hidden">{% trans %}user.lastLogin{% endtrans %}
+    {% if not no_sort %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'lastLogin',
+        'filters': filters,
+    } only %}
+    {% endif %}
+</th>
+<th class="mobile-hidden uk-visible-xlarge">{% trans %}user.roles{% endtrans %}</th>
+<th class="mobile-hidden uk-visible-large">{% trans %}user.status{% endtrans %}</th>
+<th class="table-actions-row table-actions-row-3">
+{% if hasBulkActions %}
+    <div class="bulk-selection">
+        <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+    </div>
+{% endif %}
+{% trans %}actions{% endtrans %}
+</th>

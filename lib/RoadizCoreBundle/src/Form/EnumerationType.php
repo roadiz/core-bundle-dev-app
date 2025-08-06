@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class EnumerationType extends AbstractType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -45,16 +46,16 @@ final class EnumerationType extends AbstractType
             return $placeholder;
         });
 
-        $resolver->setNormalizer('expanded', function (Options $options, $expanded) {
-            return $options['nodeTypeField']->isExpanded();
-        });
+        $resolver->setNormalizer('expanded', fn (Options $options, $expanded) => $options['nodeTypeField']->isExpanded());
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'enumeration';

@@ -1,38 +1,13 @@
 ARG UID=1000
 ARG GID=${UID}
 
-ARG PHP_VERSION=8.4.6
+ARG PHP_VERSION=8.4.10
 ARG VARNISH_VERSION=7.6.1
-ARG NGINX_VERSION=1.27.2
-ARG MYSQL_VERSION=8.0.40
+ARG NGINX_VERSION=1.27.5
+ARG MYSQL_VERSION=8.0.42
 ARG MARIADB_VERSION=10.11.9
-ARG SOLR_VERSION=9
-
-
-##########
-# Solr   #
-##########
-
-FROM solr:${SOLR_VERSION}-slim AS solr
-
-LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
-
-ARG UID
-ARG GID
-
-USER root
-
-RUN <<EOF
-set -ex
-usermod -u ${UID} "$SOLR_USER"
-groupmod -g ${GID} "$SOLR_GROUP"
-chown -R ${UID}:${GID} /var/solr
-EOF
-
-COPY docker/solr/managed-schema.xml /opt/solr/server/solr/configsets/_default/conf/managed-schema
-
-USER $SOLR_USER
-
+ARG COMPOSER_VERSION=2.8.1
+ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
 
 ###########
 # MySQL   #
@@ -45,7 +20,7 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 ARG UID
 ARG GID
 
-COPY --link docker/mysql/performances.cnf /etc/mysql/conf.d/performances.cnf
+COPY --link --chmod=644 docker/mysql/performances.cnf /etc/mysql/conf.d/performances.cnf
 
 RUN <<EOF
 usermod -u ${UID} mysql
@@ -67,7 +42,7 @@ ARG GID
 # https://hub.docker.com/_/mariadb
 # Using a custom MariaDB configuration file
 # Custom configuration files should end in .cnf and be mounted read only at the directory /etc/mysql/conf.d
-COPY --link docker/mariadb/performances.cnf /etc/mysql/conf.d/performances.cnf
+COPY --link --chmod=644 docker/mariadb/performances.cnf /etc/mysql/conf.d/performances.cnf
 
 RUN <<EOF
 usermod -u ${UID} mysql
@@ -82,7 +57,7 @@ FROM varnish:${VARNISH_VERSION} AS varnish
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
-COPY --link docker/varnish/default.vcl /etc/varnish/
+COPY --link --chmod=644 docker/varnish/default.vcl /etc/varnish/
 
 #######
 # PHP #
@@ -94,10 +69,8 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
 ARG UID
 ARG GID
-
-ARG COMPOSER_VERSION=2.8.2
-ARG PHP_EXTENSION_INSTALLER_VERSION=2.6.0
-ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
+ARG COMPOSER_VERSION
+ARG PHP_EXTENSION_REDIS_VERSION
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
@@ -156,16 +129,14 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com, eliot@rezo-zero.
 
 ARG UID
 ARG GID
-
-ARG COMPOSER_VERSION=2.8.1
-ARG PHP_EXTENSION_INSTALLER_VERSION=2.6.0
-ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
+ARG COMPOSER_VERSION
+ARG PHP_EXTENSION_REDIS_VERSION
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
+ENV SERVER_NAME=":80"
 ENV APP_FFMPEG_PATH=/usr/bin/ffmpeg
-ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
-ENV FRANKENPHP_CONFIG="worker ./public/index.php"
+ENV SERVER_ROOT="/app/public"
 
 RUN <<EOF
 apt-get --quiet update
@@ -175,6 +146,7 @@ apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     acl \
     less \
     sudo \
+    git \
     ffmpeg
 rm -rf /var/lib/apt/lists/*
 
@@ -211,11 +183,7 @@ chown --recursive ${UID}:${GID} /data/caddy /config/caddy
 
 EOF
 
-COPY --link docker/frankenphp/conf.d/app.ini ${PHP_INI_DIR}/conf.d/
-COPY --link --chmod=755 docker/frankenphp/docker-entrypoint.dev /usr/local/bin/docker-entrypoint
-COPY --link docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
-
-ENTRYPOINT ["docker-entrypoint"]
+ENTRYPOINT ["docker-php-entrypoint"]
 
 WORKDIR /app
 
@@ -229,27 +197,15 @@ ENV XDEBUG_MODE=off
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/
+COPY --link --chmod=755 docker/frankenphp/docker-php-entrypoint-dev /usr/local/bin/docker-php-entrypoint
+COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/zz-app.ini
+COPY --link docker/frankenphp/Caddyfile.dev /etc/frankenphp/Caddyfile
 
-CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
-
-USER php
-
-########################
-# Php - franken - Prod #
-########################
-
-FROM php-franken AS php-prod-franken
-
-ENV XDEBUG_MODE=off
-
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-COPY --link docker/frankenphp/conf.d/app.prod.ini ${PHP_INI_DIR}/conf.d/
-
-CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
+CMD ["--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]
 
 USER php
+
+VOLUME /app
 
 #############
 # Php - Dev #
@@ -268,31 +224,6 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 USER php
-
-##############
-# Cron - Dev #
-##############
-
-FROM php-dev AS cron-dev
-
-# Need to go back with root user
-USER root
-
-COPY --link docker/cron/crontab.txt /crontab.txt
-
-RUN <<EOF
-# Packages
-apt-get --quiet update
-apt-get --quiet --yes --no-install-recommends --verbose-versions install cron
-rm -rf /var/lib/apt/lists/*
-/usr/bin/crontab -u php /crontab.txt
-EOF
-
-# Entrypoint
-COPY --link --chmod=755 docker/cron/docker-cron-entrypoint.dev /usr/local/bin/docker-entrypoint
-ENTRYPOINT ["docker-entrypoint"]
-
-USER root
 
 #########
 # Nginx #

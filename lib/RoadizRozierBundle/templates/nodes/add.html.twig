@@ -1,0 +1,33 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{% trans %}add.a.node{% endtrans %} | {{ parent() }}{% endblock %}
+
+{% block content %}
+<section class="content-global">
+
+    <header class="content-header header-node header-node-add">
+        <h1 class="content-title">{% trans %}add.a.node{% endtrans %}</h1>
+        {% if parentNode %}<h2><em>{% trans %}In{% endtrans %}</em> {{ parentNode.getNodeName }}</h2>{% endif %}
+        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
+    </header>
+
+    <article class="content">
+        {% form_theme form '@RoadizRozier/forms.html.twig' %}
+        {{ form_start(form, {
+            'attr': {
+                'id': 'add-node-form',
+                'class': 'uk-form uk-form-stacked'
+            }
+        }) }}{{ form_widget(form) }}
+        <fieldset data-uk-margin>
+            <button data-action-save="#add-node-form"
+                    class="uk-button uk-button-success rz-action-save" type="submit">
+                <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
+                <span class="label"><span class="label-text">{% trans %}add.a.node{% endtrans %}</span></span>
+            </button>
+        </fieldset>
+        {{ form_end(form) }}
+    </article>
+    {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
+</section>
+{% endblock %}

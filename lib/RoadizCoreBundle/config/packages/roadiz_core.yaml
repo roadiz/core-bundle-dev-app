@@ -3,10 +3,11 @@ roadiz_core:
     appVersion: '%env(string:APP_VERSION)%'
     healthCheckToken: '%env(string:APP_HEALTH_CHECK_TOKEN)%'
     staticDomainName: ~
-    defaultNodeSourceController: App\Controller\NullController
     useNativeJsonColumnType: true
     hideRoadizVersion: false
-    # When no information to find locale is found and "force_locale" setting is ON,
+    forceLocale: false
+    forceLocaleWithUrlAliases: false
+    # When no information to find locale is found and "forceLocale" parameter is enabled,
     # Roadiz can find root path translation based on Accept-Language header.
     # Be careful if you are using a reverse-proxy cache, YOU MUST vary on Accept-Language header and normalize it.
     # @see https://varnish-cache.org/docs/6.3/users-guide/increasing-your-hitrate.html#http-vary
@@ -27,14 +28,6 @@ roadiz_core:
             default:
                 host: '%env(string:VARNISH_HOST)%'
                 domainName: '%env(string:VARNISH_DOMAIN)%'
-    solr:
-        timeout: 3
-        endpoints:
-            docker:
-                host: '%env(string:SOLR_HOST)%'
-                core: '%env(string:SOLR_CORE_NAME)%'
-                port: '%env(string:SOLR_PORT)%'
-                path: /
 
 
 

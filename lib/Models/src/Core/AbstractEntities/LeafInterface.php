@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Comparable;
 
-interface LeafInterface extends PositionedInterface, Comparable
+interface LeafInterface extends PositionedInterface
 {
     public function getChildren(): Collection;
 

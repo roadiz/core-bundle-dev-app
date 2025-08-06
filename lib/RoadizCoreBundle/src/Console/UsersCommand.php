@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Console;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -23,6 +22,7 @@ class UsersCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('users:list')
@@ -47,6 +47,7 @@ class UsersCommand extends Command
         ];
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -110,23 +111,5 @@ class UsersCommand extends Command
         }
 
         return $user;
-    }
-
-    /**
-     * Get role by name, and create it if it does not exist.
-     */
-    public function getRole(string $roleName = Role::ROLE_SUPERADMIN): Role
-    {
-        $role = $this->managerRegistry
-            ->getRepository(Role::class)
-            ->findOneBy(['name' => $roleName]);
-
-        if (null === $role) {
-            $role = new Role($roleName);
-            $this->managerRegistry->getManagerForClass(Role::class)->persist($role);
-            $this->managerRegistry->getManagerForClass(Role::class)->flush();
-        }
-
-        return $role;
     }
 }

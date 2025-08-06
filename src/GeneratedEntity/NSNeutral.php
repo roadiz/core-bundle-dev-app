@@ -16,12 +16,12 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Neutral node-source entity.
@@ -44,9 +44,6 @@ class NSNeutral extends NodesSources
     #[ApiFilter(Filter\RangeFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'number', type: 'integer', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('int')]
     private int|float|null $number = null;
 
     /**
@@ -68,21 +65,17 @@ class NSNeutral extends NodesSources
         return $this;
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\SerializedName('@type')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Neutral';
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['node_type'])]
-    #[JMS\SerializedName('nodeTypeColor')]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '#a8a8a8';
@@ -92,7 +85,7 @@ class NSNeutral extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
-    #[JMS\VirtualProperty]
+    #[\Override]
     public function isReachable(): bool
     {
         return false;
@@ -102,12 +95,13 @@ class NSNeutral extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
-    #[JMS\VirtualProperty]
+    #[\Override]
     public function isPublishable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSNeutral] ' . parent::__toString();

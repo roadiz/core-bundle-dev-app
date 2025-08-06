@@ -19,22 +19,23 @@ final class WebhooksChoiceType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'webhooks';
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
-        $builder->addModelTransformer(new CallbackTransformer(function (?Webhook $webhook) {
-            return $webhook?->getId();
-        }, function (int|string|null $id) {
+        $builder->addModelTransformer(new CallbackTransformer(fn (?Webhook $webhook) => $webhook?->getId(), function (int|string|null $id) {
             if (null === $id) {
                 return null;
             }
@@ -43,6 +44,7 @@ final class WebhooksChoiceType extends AbstractType
         }));
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         /*

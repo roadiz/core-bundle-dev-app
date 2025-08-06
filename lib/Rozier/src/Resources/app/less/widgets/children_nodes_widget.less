@@ -6,7 +6,6 @@
 @children-nodes-border: #cbcbcb;
 @children-nodes-btn-bg: #ededed;
 @children-nodes-btn-color: #2d2d2d;
-@children-node-height: 42px;
 
 /* -------- STYLES -------- */
 .uk-nestable-handle {
@@ -21,10 +20,14 @@
         background: var(--contrasted-bg);
     }
 
+    .nodetree-langs {
+        display: none;
+    }
+
     .uk-form-label {
         position: absolute;
         left: 70px;
-        height: @children-node-height;
+        height: var(--children-node-height);
         line-height: 59px;
 
         &:before {
@@ -116,7 +119,7 @@
     [data-uk-dropdown] {
         & > .uk-button {
             margin: 0px;
-            z-index: 1030;
+            z-index: 4;
             position: relative;
 
             i {
@@ -141,18 +144,17 @@
 
         .non-nestable-handle,
         .uk-nestable-handle {
-            width: @children-node-height - (15px - 2); //dash + borders
-            height: @children-node-height;
+            width: ~'calc(var(--children-node-height) - (15px - 2px))'; //dash + borders
+            height: var(--children-node-height);
             border-color: @children-nodes-border;
         }
     }
     .nodetree-contextualmenu {
-        top: 0;
-
         .tree-contextualmenu-button {
             display: inline-block;
-
+            cursor: pointer;
         }
+
         .uk-button-mini {
             background: #ddd;
         }
@@ -173,8 +175,8 @@
         position: absolute;
         top: 7px;
         left: 1px;
-        width: @children-node-height - 15;
-        height: @children-node-height - 15;
+        width: ~'calc(var(--children-node-height) - 15px)';
+        height: ~'calc(var(--children-node-height) - 15px)';
         border-radius: 100px;
         overflow: hidden;
         z-index: 5;
@@ -190,8 +192,8 @@
         .transform(rotate(45deg));
         top: 9px;
         left: 4px;
-        width: @children-node-height / 2;
-        height: @children-node-height / 2;
+        width: ~'calc(var(--children-node-height) / 2)';
+        height: ~'calc(var(--children-node-height) / 2)';
 
         img {
             transform-origin: center center;
@@ -220,8 +222,7 @@
         }
 
         .nodetree-contextualmenu {
-            right: @children-node-height / 2;
-            top: 0px;
+            right: ~'calc(var(--children-node-height) / 2)';
         }
 
         &:nth-child(2n) {
@@ -252,9 +253,9 @@
         }
 
         .uk-nestable-panel {
-            height: @children-node-height;
-            line-height: @children-node-height;
-            padding: 0 5px 0 @children-node-height / 3;
+            height: var(--children-node-height);
+            line-height: var(--children-node-height);
+            padding: 0 5px 0 ~'calc(var(--children-node-height) / 3)';
             .box-sizing();
 
             &.stack-node {
@@ -267,7 +268,7 @@
                 vertical-align: top;
                 a {
                     padding: 0;
-                    line-height: @children-node-height + 1;
+                    line-height: ~'calc(var(--children-node-height) + 1px)';
 
                     &:before {
                         content: "—";
@@ -293,8 +294,8 @@
             }
             & > .non-nestable-handle:before,
             & > .uk-nestable-handle:before {
-                width: @children-node-height - 15px;
-                height: @children-node-height - 15px;
+                width:  ~'calc(var(--children-node-height) - 15px)';
+                height: ~'calc(var(--children-node-height) - 15px)';
                 top: 6px;
                 background-color: #CCCCCC;
                 border: 1px solid var(--rz-accent-color);
@@ -306,8 +307,8 @@
                 & > .uk-nestable-handle:before {
                     top: 6px;
                     left: 3px;
-                    width: @children-node-height / 2;
-                    height: @children-node-height / 2;
+                    width: ~'calc(var(--children-node-height) / 2)';
+                    height: ~'calc(var(--children-node-height) / 2)';
                     border-radius: 3px;
                     z-index: 1;
                 }
@@ -335,12 +336,12 @@
                     content: "";
                     font-family: FontAwesome;
                     color: @item-color;
-                    font-size: @default-font-size;
+                    font-size: var(--default-font-size);
                     border-radius: 100%;
                     background-color: var(--contrasted-bg);
                     border: 1px solid var(--rz-accent-color);
-                    width: @children-node-height / 2;
-                    height: @children-node-height / 2;
+                    width: ~'calc(var(--children-node-height) / 2)';
+                    height: ~'calc(var(--children-node-height) / 2)';
                     display: inline-block;
                     top: 9px;
                     left: 9px;
@@ -354,8 +355,8 @@
                     .uk-icon-folder {
                         border-radius: 15%;
                         top: 10px;
-                        width: (@children-node-height / 2) - 3;
-                        height: (@children-node-height / 2) - 3;
+                        width: ~'calc((var(--children-node-height) / 2) - 3px)';
+                        height: ~'calc((var(--children-node-height) / 2) - 3px)';
                     }
                 }
 
@@ -369,7 +370,7 @@
                             content: "";
                             font-family: FontAwesome;
                             color: @item-color;
-                            font-size: @default-font-size;
+                            font-size: var(--default-font-size);
                             border-radius: 100%;
                             background-color: var(--rz-accent-color);
                             width: 8px;
@@ -410,7 +411,7 @@
 
         // 2nd level
         & > .uk-nestable-list {
-            margin-left: @children-node-height - (15px - 2);
+            margin-left: ~'calc(var(--children-node-height) - (15px - 2px))';
             padding: 0;
 
             & > .non-nestable-list-item,
@@ -450,17 +451,17 @@
 
                 &.has-children {
                     .nodetree-list-item-color {
-                        height: @children-node-height;
+                        height: var(--children-node-height);
                     }
                 }
 
                 .nodetree-list-item-color {
-                    left: @children-node-height - (15px - 2);
+                    left:  ~'calc(var(--children-node-height) - (15px - 2px))';
                     z-index: 5;
                 }
 
                 &:before {
-                    width: @children-node-height - (15px - 2) !important;
+                    width:  ~'calc(var(--children-node-height) - (15px - 2px))' !important;
                     z-index: 0;
                 }
 
@@ -478,16 +479,16 @@
 
                 &:last-child:before {
                     top: 0;
-                    height: @children-node-height/2;
+                    height:  ~'calc(var(--children-node-height) / 2)';
                 }
 
                 .nodetree-list-item-color {
                     top: 1px;
-                    left: @children-node-height - (15px - 2);
+                    left: ~'calc(var(--children-node-height) - (15px - 2px))';
                 }
 
                 .uk-nestable-panel {
-                    margin-left: @children-node-height - (15px - 2);
+                    margin-left: ~'calc(var(--children-node-height) - (15px - 2px))';
                     background: #F4F4F4;
                     border-top: 1px solid var(--global-border-lighter-color);
 
@@ -504,7 +505,7 @@
 
                 // 3rd level
                 .uk-nestable-list {
-                    padding-left: @children-node-height - (15px - 2);
+                    padding-left: ~'calc(var(--children-node-height) - (15px - 2px))';
 
                     .non-nestable-list-item,
                     .uk-nestable-item {

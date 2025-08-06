@@ -11,16 +11,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\FolderRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FolderInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -47,8 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'updatedAt',
     ])
 ]
-class Folder extends AbstractDateTimedPositioned implements FolderInterface, LeafInterface
+class Folder implements DateTimedInterface, FolderInterface, LeafInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
@@ -57,7 +62,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     ])]
     #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[Serializer\Groups(['folder_parent'])]
     #[SymfonySerializer\Groups(['folder_parent'])]
     #[SymfonySerializer\MaxDepth(1)]
     protected ?Folder $parent = null;
@@ -68,7 +72,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Folder::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Groups(['folder_children'])]
-    #[Serializer\Groups(['folder_children'])]
     #[SymfonySerializer\MaxDepth(1)]
     protected Collection $children;
 
@@ -80,7 +83,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[ORM\InverseJoinColumn(name: 'document_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: DocumentInterface::class, inversedBy: 'folders')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     /** @phpstan-ignore-next-line */
     protected Collection $documents;
 
@@ -94,13 +96,10 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     )]
     #[Assert\Length(max: 7)]
     #[SymfonySerializer\Groups(['folder', 'folder_color'])]
-    #[Serializer\Groups(['folder', 'folder_color'])]
-    #[Serializer\Type('string')]
     protected string $color = '#000000';
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'folder_name', type: 'string', length: 250, unique: true, nullable: false)]
-    #[Serializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\SerializedName('slug')]
     #[Assert\NotBlank]
@@ -109,20 +108,16 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     private string $folderName = '';
 
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private string $dirtyFolderName = '';
 
     #[ApiFilter(BaseFilter\BooleanFilter::class)]
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
-    #[Serializer\Groups(['folder', 'document_folders'])]
     private bool $visible = true;
 
     #[ApiFilter(BaseFilter\BooleanFilter::class)]
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['folder'])]
-    #[Serializer\Groups(['folder'])]
-    #[Serializer\Type('bool')]
     private bool $locked = false;
 
     /**
@@ -130,23 +125,20 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
      */
     #[ORM\OneToMany(mappedBy: 'folder', targetEntity: FolderTranslation::class, orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $translatedFolders;
 
-    /**
-     * Create a new Folder.
-     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->translatedFolders = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**
      * @return $this
      */
+    #[\Override]
     public function addDocument(DocumentInterface $document): static
     {
         if (!$this->getDocuments()->contains($document)) {
@@ -159,6 +151,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return Collection<int, DocumentInterface>
      */
+    #[\Override]
     public function getDocuments(): Collection
     {
         return $this->documents;
@@ -167,6 +160,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function removeDocument(DocumentInterface $document): static
     {
         if ($this->getDocuments()->contains($document)) {
@@ -176,11 +170,13 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getVisible(): bool
     {
         return $this->isVisible();
     }
 
+    #[\Override]
     public function isVisible(): bool
     {
         return $this->visible;
@@ -189,6 +185,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
@@ -211,14 +208,11 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[SymfonySerializer\Ignore]
     public function getTranslatedFoldersByDefaultTranslation(): ?FolderTranslation
     {
-        return $this->translatedFolders->findFirst(function (int $key, FolderTranslation $translatedFolder) {
-            return $translatedFolder->getTranslation()->isDefaultTranslation();
-        });
+        return $this->translatedFolders->findFirst(fn (int $key, FolderTranslation $translatedFolder) => $translatedFolder->getTranslation()->isDefaultTranslation());
     }
 
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
-    #[Serializer\Groups(['folder', 'document_folders'])]
-    #[Serializer\VirtualProperty]
+    #[\Override]
     public function getName(): ?string
     {
         return $this->getTranslatedFolders()->first() ?
@@ -246,6 +240,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getFolderName(): string
     {
         return $this->folderName ?? '';
@@ -254,6 +249,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setFolderName(string $folderName): static
     {
         $this->dirtyFolderName = $folderName;
@@ -262,6 +258,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getDirtyFolderName(): string
     {
         return $this->dirtyFolderName;
@@ -270,6 +267,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setDirtyFolderName(string $dirtyFolderName): static
     {
         $this->dirtyFolderName = $dirtyFolderName;
@@ -321,6 +319,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return implode('/', $path);
     }
 
+    #[\Override]
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {

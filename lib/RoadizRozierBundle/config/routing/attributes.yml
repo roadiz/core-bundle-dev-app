@@ -1,48 +1,48 @@
 attributesEditPage:
     path:     /edit/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::editAction
     requirements: { id : "[0-9]+" }
 attributesAddPage:
     path:     /add
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::addAction
 attributesExportPage:
     path:     /export-all
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::exportAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::exportAction
 attributesImportPage:
     path:     /import
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::importAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::importAction
 
 attributesDeletePage:
     path:     /delete/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::deleteAction
     requirements: { id : "[0-9]+" }
 
 attributesBulkDeletePage:
     methods: [GET, POST]
     path:     /bulk-delete
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::bulkDeleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::bulkDeleteAction
 
 attributeGroupsHomePage:
     path:     /groups
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeGroupController::defaultAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeGroupController::defaultAction
 attributeGroupsAddPage:
     path:     /groups/add
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeGroupController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeGroupController::addAction
 attributeGroupsEditPage:
     path:     /groups/edit/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeGroupController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeGroupController::editAction
     requirements: { id : "[0-9]+" }
 attributeGroupsDeletePage:
     path:     /groups/delete/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\Attributes\AttributeGroupController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeGroupController::deleteAction
     requirements: { id : "[0-9]+" }

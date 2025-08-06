@@ -3,7 +3,7 @@
 {% block title %}{% trans %}validate_email.subject{% endtrans %}{% endblock %}
 
 {% block content_table %}
-{% block content_subtitle %}{{ 'validate_email.subtitle'|trans({'%site%':site}) }}{% endblock %}
+{% block content_subtitle %}{{ 'validate_email.subtitle'|trans({'%site%':meta.siteName}) }}{% endblock %}
 
 {% trans %}validate_email.content{% endtrans %}
 

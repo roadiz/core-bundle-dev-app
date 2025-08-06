@@ -9,27 +9,16 @@ sortingAttributesByWeight: false
 reachable: true
 hidingNodes: false
 hidingNonReachableNodes: true
+highlighted: true
 fields:
     -
         name: sub_title
         description: Sub-title description
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Sub-title
-        expanded: false
         type: string
+        required: true
     -
         name: content
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Content
         description: Content
         defaultValues:
@@ -41,86 +30,49 @@ fields:
             allow_h6: false
             allow_list: false
             allow_blockquote: false
-        expanded: false
         type: markdown
     -
         name: color
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Page color'
-        expanded: false
         type: colour
     -
         name: children
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Nœuds enfants'
-        expanded: false
         defaultValues:
             - BasicBlock
             - GroupBlock
             - ArticleFeedBlock
+            - AliasBlock
+        required: true
         type: children-nodes
     -
         name: images
         universal: true
-        excludeFromSearch: false
         serializationGroups:
             - realm_a
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Images
-        expanded: false
+        required: true
         type: documents
     -
         name: header_image
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         groupName: Images
         label: 'Header image'
-        expanded: false
         type: documents
     -
         name: over_title
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Overtitle
-        expanded: false
         type: string
     -
         name: pictures
         universal: true
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         groupName: Images
         label: Pictures
         description: 'Picture for website'
-        expanded: false
         type: documents
     -
         name: node_references
-        universal: false
-        excludeFromSearch: false
         serializationGroups:
             - page_get_by_path
         normalizationContext:
@@ -129,58 +81,35 @@ fields:
                 - urls
                 - nodes_sources_base
         serializationMaxDepth: 1
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: References
-        expanded: false
+        required: true
         type: nodes
     -
         name: sticky
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
         indexed: true
-        visible: true
         groupName: Boolean
         label: Sticky
-        expanded: false
         type: boolean
     -
         name: stickytest
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
         indexed: true
-        visible: true
         groupName: Boolean
         label: 'Sticky test'
-        expanded: false
         type: boolean
     -
         name: custom_form
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
         maxLength: 1
-        indexed: false
-        visible: true
         label: 'Custom form'
-        expanded: false
         type: custom-forms
     -
         name: users
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Reference to users'
-        expanded: false
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername
@@ -201,17 +130,12 @@ fields:
                     -
                         field: position
                         direction: ASC
+        required: true
         type: many-to-many
     -
         name: folder_references
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Reference to folders'
-        expanded: false
+        required: true
         defaultValues:
             classname: RZ\Roadiz\CoreBundle\Entity\Folder
             displayable: getName
@@ -226,110 +150,62 @@ fields:
     -
         name: amount
         universal: true
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Amount
-        expanded: false
         type: decimal
     -
         name: email_test
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Test email'
-        expanded: false
         type: email
     -
         name: settings
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Settings
-        expanded: false
         defaultValues:
-            classname: Themes\Rozier\Explorer\SettingsProvider
+            classname: RZ\Roadiz\RozierBundle\Explorer\Provider\SettingsProvider
         type: multiple-provider
     -
-        name: folder
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
-        label: 'Folder simple'
-        expanded: false
+        name: contacts
+        label: Contacts
         defaultValues:
-            classname: Themes\Rozier\Explorer\FoldersProvider
+            entry_type: App\Form\ContactFormType
+        type: collection
+    -
+        name: folder
+        label: 'Folder simple'
+        defaultValues:
+            classname: RZ\Roadiz\RozierBundle\Explorer\Provider\FoldersProvider
         type: single-provider
     -
         name: country
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Country
-        expanded: false
         type: country
     -
         name: geolocation
         universal: true
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Geolocation
-        expanded: false
         type: geographic.coordinates
     -
         name: multi_geolocation
         universal: true
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         groupName: Geo
         label: 'Multi geolocations'
-        expanded: false
         type: multiple.geographic.coordinates
     -
         name: layout
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
         indexed: true
-        visible: true
         label: Layout
         placeholder: light
-        expanded: false
         defaultValues:
             - dark
             - transparent
         type: single-choice
     -
         name: main_user
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Main user'
-        expanded: false
+        required: true
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername

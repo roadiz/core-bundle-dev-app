@@ -3,11 +3,11 @@
     "description": "Markdown services and Twig extension for Roadiz",
     "type": "library",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "doctrine/collections": ">=1.6",
         "league/commonmark": "^2.2.0",
-        "symfony/stopwatch": "6.4.*",
-        "twig/twig": "^3.16"
+        "symfony/stopwatch": "7.3.*",
+        "twig/twig": "^3.21"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.5.3",
@@ -29,8 +29,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-master": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
     }
 }

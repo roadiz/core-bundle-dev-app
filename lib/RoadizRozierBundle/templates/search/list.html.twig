@@ -1,0 +1,69 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{%- block title -%}
+    {% if nodeType %}
+        {% trans %}search{% endtrans %} - {{ nodeType.displayName }}
+    {% else %}
+        {% trans %}search{% endtrans %}
+    {% endif %}
+    |
+    {{ parent() -}}
+{%- endblock -%}
+
+{% block content %}
+    <section class="content-global content-nav-and-filters bulk-layout">
+        <header class="content-header header-node header-nodes-list">
+            {% if nodeType %}
+                <h1 class="content-title">{% trans %}search{% endtrans %} - {{ nodeType.displayName }}</h1>
+            {% else %}
+                <h1 class="content-title">{% trans %}search{% endtrans %}</h1>
+            {% endif %}
+            {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
+        </header>
+
+        <article class="content content-no-action-menu">
+            {% if nodeTypeForm %}
+                {% form_theme nodeTypeForm '@RoadizRozier/forms.html.twig' %}
+                <form class="uk-form uk-form-stacked"
+                      id="search-node-type-form"
+                      action="#"
+                      method="get">
+                    {{ form_widget(nodeTypeForm) }}
+                    <div class="data-uk-margin">
+                        <button class="uk-button uk-button-primary" type="submit"><i class="uk-icon-filter"></i> {% trans %}select.nodetype{% endtrans %}</button>
+                    </div>
+                </form>
+            {% endif %}
+
+            {% if form %}
+                {% form_theme form '@RoadizRozier/forms.html.twig' %}
+                <form class="uk-form uk-form-stacked"
+                      id="search-node-form"
+                      action="#"
+                      method="get">
+                    {{ form_widget(form) }}
+                </form>
+            {% endif %}
+
+            {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+
+            <div class="data-uk-margin content-table-cont">
+                <table class="nodes content-table uk-table">
+                    <thead>
+                        {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' %}
+                    </thead>
+                    <tbody>
+                    {% for node in nodes %}
+                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
+                            'node': node
+                        } only %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if filters.itemCount > filters.itemPerPage %}
+                {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}

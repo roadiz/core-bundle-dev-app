@@ -49,9 +49,7 @@ final class LogRepository extends EntityRepository
         $qb2 = $this->createQueryBuilder('log');
         $qb2->andWhere($qb2->expr()->in('log.id', ':id'))
             ->orderBy('log.datetime', 'DESC')
-            ->setParameter(':id', array_map(function (array $item) {
-                return $item['id'];
-            }, $ids));
+            ->setParameter(':id', array_map(fn (array $item) => $item['id'], $ids));
 
         return new Paginator($qb2->getQuery(), true);
     }
@@ -80,9 +78,7 @@ final class LogRepository extends EntityRepository
         $qb->setParameter('nodeClass', Node::class);
         $qb->setParameter('nodeSourceClass', NodesSources::class);
         $qb->setParameter('nodeId', [$node->getId()]);
-        $qb->setParameter('nodeSourceId', $node->getNodeSources()->map(function (NodesSources $ns) {
-            return $ns->getId();
-        })->toArray());
+        $qb->setParameter('nodeSourceId', $node->getNodeSources()->map(fn (NodesSources $ns) => $ns->getId())->toArray());
 
         return $qb;
     }

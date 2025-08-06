@@ -108,30 +108,6 @@ one of the following keys in `required` property, Roadiz will automatically veri
 - `g-recaptcha-response`
 - `cf-turnstile-response`
 
-## Apache Solr endpoint
-
-Roadiz uses *Apache Solr* as Search engine and for indexing nodes-sources. Configure Solr in `config/packages/roadiz_core.yaml`:
-
-```yaml
-roadiz_core:
-    solr:
-        endpoint:
-            localhost:
-                host: "localhost"
-                port: "8983"
-                path: "/"
-                core: "mycore"
-                timeout: 3
-                username: ""
-                password: ""
-```
-
-Run the following command to check your Solr index:
-
-```sh
-./bin/console solr:check
-```
-
 ## Reverse Proxy Cache Invalidation
 
 Roadiz supports cache invalidation for both external (e.g., *Varnish*) and internal (*Symfony* AppCache) reverse proxies. 
@@ -214,8 +190,8 @@ doctrine:
                         alias: App
 ```
 
-::: tip
-Use `type: attribute` whenever possible. Doctrine annotations are deprecated.
+::: info
+Always use `type: attribute` as Doctrine annotations support has been dropped on Symfony 7.3+.
 :::
 
 ## Configure Mailer
@@ -223,8 +199,18 @@ Use `type: attribute` whenever possible. Doctrine annotations are deprecated.
 Roadiz uses *Symfony Mailer* for email handling.
 [Symfony Mailer Setup](https://symfony.com/doc/6.4/mailer.html#transport-setup)
 
-::: warning
-Ensure your email sender is from a validated domain to avoid being blacklisted.
+```yaml
+# config/packages/mailer.yaml
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        # Mailer Envelope configuration
+        envelope:
+            sender: '%env(string:MAILER_ENVELOP_SENDER)%'
+```
+
+::: tip
+Check that your envelope sender address is from a validated domain (i.e. SPF, DKIM) to avoid being blacklisted.
 :::
 
 ## Image Processing
@@ -288,6 +274,77 @@ roadiz_rozier:
             - ROLE_USER
             - ROLE_BACKEND_USER
 ```
+
+### Authentik SSO
+
+[Authentik documentation](https://docs.goauthentik.io/docs/)
+
+#### Declare Variables in Your `.env`
+
+Set the following environment variables in your `.env.local` file:
+
+- `PG_PASS` (Auth0 recommends generating this with OpenSSL)
+- `AUTHENTIK_SECRET_KEY` (Auth0 recommends generating this with OpenSSL)
+- `PG_USER` (PostgreSQL user)
+- `PG_DB` (PostgreSQL database)
+
+#### Running Authentik
+
+Start your authentik application with :
+
+```shell
+ docker compose -f compose.authentik.yml --env-file .env.local up -d --force-recreate
+```
+
+And navigate to:
+
+```
+http://<your-server-IP-or-hostname>:9000/if/flow/initial-setup/
+```
+
+to create your admin user in Authentik.
+
+#### Creating an Application
+
+Follow these steps to create an application in Authentik:
+
+![Step 1](./img/img_create_application_1.webp)
+![Step 2](./img/img_create_application_2.webp)
+![Step 3](./img/img_create_application_3.webp)
+![Step 4](./img/img_create_application_4.webp)
+
+#### Configuring the Provider
+
+Go to the provider you created:
+
+![Provider](./img/img_application_provider.webp)
+
+Add a URL in the redirect URL field (`.../rz-admin/login`).
+
+![Provider](./img/img_redirect_url.webp)
+
+#### Updating Environment Variables
+
+Add the following variables to your `.env` file, using the data obtained from the provider in Authentik:
+
+- `OPEN_ID_DISCOVERY_URL=<OpenID Configuration URL>`
+- `OPEN_ID_CLIENT_ID=<Client ID>`
+- `OPEN_ID_CLIENT_SECRET=<Client Secret>`
+
+#### Creating a User in Authentik
+
+From the Authentik admin panel, create a user with a scope similar to Roadiz:
+
+![Provider](./img/img_application_user.webp)
+
+#### Logging into Roadiz with OpenID
+
+Now, when you go to the Roadiz login page:
+
+![Provider](./img/img_openid.webp)
+
+You can log in using OpenID. The login button has been updated to indicate connection via Authentik.
+Clicking it will redirect you to the Authentik login page, and after authentication, you will be automatically redirected to the Roadiz back office.
 
 ## Console Commands
 

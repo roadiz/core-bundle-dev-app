@@ -11,14 +11,7 @@ hidingNonReachableNodes: false
 fields:
     -
         name: menu_items
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Éléments du menu'
-        expanded: false
         defaultValues:
             - Menu
             - MenuLink

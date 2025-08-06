@@ -21,10 +21,11 @@ final class BlockRenderExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('render_block', [$this, 'blockRender'], ['is_safe' => ['html']]),
+            new TwigFilter('render_block', $this->blockRender(...), ['is_safe' => ['html']]),
         ];
     }
 

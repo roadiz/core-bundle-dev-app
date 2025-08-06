@@ -11,6 +11,10 @@
                 <target></target>
                 <note>Documents limitations backoffice section label</note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="document_translation.name.help">
+                <source>document_translation.name.help</source>
+                <target></target>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="document.copyrightHolder">
                 <source>document.copyrightHolder</source>
                 <target></target>
@@ -53,6 +57,30 @@
             </trans-unit>
             <trans-unit xml:space="preserve" id="private_documents">
                 <source>private_documents</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.imageAlignment">
+                <source>document.imageAlignment</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.imageAlignment.override">
+                <source>document.imageAlignment.override</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.imageAlignment.reset">
+                <source>document.imageAlignment.reset</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="documentEditDialog.submit">
+                <source>documentEditDialog.submit</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="documentEditDialog.cancel">
+                <source>documentEditDialog.cancel</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="documentEditDialog.edit">
+                <source>documentEditDialog.edit</source>
                 <target></target>
             </trans-unit>
         </body>

@@ -29,6 +29,7 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
     private bool $virtual = false;
     private bool $indexed = true;
     private bool $expanded = false;
+    private bool $required = false;
     private string $typeName = 'string';
     private string $nodeTypeName = 'NodeType';
     private string $doctrineType = 'string';
@@ -439,6 +440,18 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
     public function setExcludedFromSerialization(bool $excludedFromSerialization): SimpleNodeTypeField
     {
         $this->excludedFromSerialization = $excludedFromSerialization;
+
+        return $this;
+    }
+
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    public function setRequired(bool $required): SimpleNodeTypeField
+    {
+        $this->required = $required;
 
         return $this;
     }

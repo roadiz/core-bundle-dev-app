@@ -8,14 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTrait
 {
     #[
         ORM\Column(type: 'string', length: 255, unique: true, nullable: false),
-        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 255)
@@ -24,19 +24,19 @@ trait AttributeTrait
 
     #[
         ORM\Column(type: 'boolean', unique: false, nullable: false, options: ['default' => false]),
-        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
     ]
     protected bool $searchable = false;
 
     #[
         ORM\Column(type: 'integer', unique: false, nullable: false),
-        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
     ]
     protected int $type = AttributeInterface::STRING_T;
 
     #[
         ORM\Column(type: 'string', length: 7, unique: false, nullable: true),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
         Assert\Length(max: 7)
     ]
     protected ?string $color = null;
@@ -49,7 +49,7 @@ trait AttributeTrait
             inversedBy: 'attributes'
         ),
         ORM\JoinColumn(name: 'group_id', onDelete: 'SET NULL'),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
     ]
     protected ?AttributeGroupInterface $group = null;
 
@@ -64,7 +64,7 @@ trait AttributeTrait
             fetch: 'EAGER',
             orphanRemoval: true
         ),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export']),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export']),
     ]
     protected Collection $attributeTranslations;
 
@@ -79,7 +79,7 @@ trait AttributeTrait
             fetch: 'EXTRA_LAZY',
             orphanRemoval: true
         ),
-        SymfonySerializer\Ignore
+        Serializer\Ignore
     ]
     protected Collection $attributeValues;
 
@@ -162,9 +162,7 @@ trait AttributeTrait
     {
         if (null !== $translation) {
             $attributeTranslation = $this->getAttributeTranslations()->filter(
-                function (AttributeTranslationInterface $attributeTranslation) use ($translation) {
-                    return $attributeTranslation->getTranslation() === $translation;
-                }
+                fn (AttributeTranslationInterface $attributeTranslation) => $attributeTranslation->getTranslation() === $translation
             );
 
             if (
@@ -181,9 +179,7 @@ trait AttributeTrait
     public function getOptions(TranslationInterface $translation): ?array
     {
         $attributeTranslation = $this->getAttributeTranslations()->filter(
-            function (AttributeTranslationInterface $attributeTranslation) use ($translation) {
-                return $attributeTranslation->getTranslation() === $translation;
-            }
+            fn (AttributeTranslationInterface $attributeTranslation) => $attributeTranslation->getTranslation() === $translation
         )->first();
         if (false !== $attributeTranslation) {
             return $attributeTranslation->getOptions();

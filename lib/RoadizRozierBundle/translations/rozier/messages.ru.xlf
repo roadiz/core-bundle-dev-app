@@ -1,0 +1,2078 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en" datatype="plaintext" target-language="ru">
+    <body>
+      <trans-unit xml:space="preserve" id="2" approved="yes">
+        <source>node.%name%.updated</source>
+        <target state="final">Узел "%name%" был обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="3" approved="yes">
+        <source>node.%nodeId%.not_exists</source>
+        <target state="final">Узел "%nodeId%" не существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="4" approved="yes">
+        <source>node.%name%.status.%field%.updated</source>
+        <target state="final">Статус поля "%field%" узла "%name%" был обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="5" approved="yes">
+        <source>node.has_no.field.%field%</source>
+        <target state="final">У узла нет поля с именем "%field%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="6" approved="yes">
+        <source>node.id.not_specified</source>
+        <target state="final">Не указан идентификатор узла.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="7" approved="yes">
+        <source>document.%name%.updated</source>
+        <target state="final">Документ "%name%" был обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="8" approved="yes">
+        <source>document.%name%.deleted</source>
+        <target state="final">Документ "%name%" был удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="9" approved="yes">
+        <source>document.%name%.cannot_delete</source>
+        <target state="final">Документ "%name%" не может быть удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="10" approved="yes">
+        <source>document.%name%.uploaded</source>
+        <target state="final">Документ "%name%" был загружен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="11" approved="yes">
+        <source>document.cannot_persist</source>
+        <target state="final">Документ не может быть сохранен в базу данных.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="12" approved="yes">
+        <source>name</source>
+        <target state="final">Имя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="13" approved="yes">
+        <source>description</source>
+        <target state="final">Описание</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="15" approved="yes">
+        <source>private</source>
+        <target state="final">Скрытый</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="16" approved="yes">
+        <source>choose.documents.to_upload</source>
+        <target state="final">Выберите документы для загрузки на ваш сервер.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="17" approved="yes">
+        <source>cache.deleted</source>
+        <target state="final">Кеш был очищен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="18" approved="yes">
+        <source>group.%name%.created</source>
+        <target state="final">Группа "%name%" была создана.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="19" approved="yes">
+        <source>group.%name%.deleted</source>
+        <target state="final">Группа "%name%" была удалена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="20" approved="yes">
+        <source>group.%name%.updated</source>
+        <target state="final">Группа "%name%" была обновлена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="21" approved="yes">
+        <source>role.%role%.linked_group.%group%</source>
+        <target state="final">Роль "%role%" была добавлена для группы "%group%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="22" approved="yes">
+        <source>role.%role%.removed_from_group.%group%</source>
+        <target state="final">Роль "%role%" была отозвана у группы "%group%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="23" approved="yes">
+        <source>user.%user%.linked.group.%group%</source>
+        <target state="final">Пользователь "%user%" был добавлен в группу "%gorup%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="24" approved="yes">
+        <source>user.%user%.removed_from_group.%group%</source>
+        <target state="final">Пользователь "%user%" был удален из группы "%group%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="25" approved="yes">
+        <source>group.name</source>
+        <target state="final">Имя группы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="26" approved="yes">
+        <source>choose.role</source>
+        <target state="final">Выберите роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="27" approved="yes">
+        <source>choose.user</source>
+        <target state="final">Выберите пользователя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="28" approved="yes">
+        <source>group.name.already.exists</source>
+        <target state="final">Группа с таким именем уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="29" approved="yes">
+        <source>theme.%name%.created</source>
+        <target state="final">Тема "%name%" была создана.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="30" approved="yes">
+        <source>theme.%name%.updated</source>
+        <target state="final">Тема "%name%" обновлена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="31" approved="yes">
+        <source>theme.%name%.deleted</source>
+        <target state="final">Тема "%name%" удалена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="32" approved="yes">
+        <source>themeClass</source>
+        <target state="final">Класс темы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="33" approved="yes">
+        <source>available</source>
+        <target state="final">Доступно</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="34" approved="yes">
+        <source>hostname</source>
+        <target state="final">Имя хоста</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="35" approved="yes">
+        <source>backendTheme</source>
+        <target state="final">Тема бэкенда</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="36" approved="yes">
+        <source>theme.%name%.no_creation.already_exists</source>
+        <target state="final">Тема "%name%" уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="37" approved="yes">
+        <source>user.%name%.updated</source>
+        <target state="final">Профиль пользователя "%name%" обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="38" approved="yes">
+        <source>user.%user%.role.%role%.linked</source>
+        <target state="final">Пользователю "%user%" предоставлена роль "%role%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="39" approved="yes">
+        <source>user.%name%.role_removed</source>
+        <target state="final">Роль отозвана для пользователя "%name%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="40" approved="yes">
+        <source>user.%user%.group.%group%.linked</source>
+        <target state="final">Пользователь "%user%" добавлен в группу "%group%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="41" approved="yes">
+        <source>user.%user%.group.%group%.removed</source>
+        <target state="final">Пользователь "%user%" был удален из группы "%group%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="42" approved="yes">
+        <source>user.%name%.created</source>
+        <target state="final">Пользователь "%name%" был создан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="43" approved="yes">
+        <source>user.%name%.deleted</source>
+        <target state="final">Пользователь "%name%" был удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="47" approved="yes">
+        <source>user.facebook_name.%name%._does_not_exist</source>
+        <target state="final">Facebook профиль с именем "%name%" не существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="48" approved="yes">
+        <source>email</source>
+        <target state="final">Адрес электронной почты</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="49" approved="yes">
+        <source>username</source>
+        <target state="final">Имя пользователя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="50" approved="yes">
+        <source>password</source>
+        <target state="final">Пароль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="51" approved="yes">
+        <source>passwordVerify</source>
+        <target state="final">Подтвердите ваш пароль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="52" approved="yes">
+        <source>firstName</source>
+        <target state="final">Имя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="53" approved="yes">
+        <source>lastName</source>
+        <target state="final">Фамилия</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="phone" approved="yes">
+        <source>phone</source>
+        <target state="final">телефон</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="54" approved="yes">
+        <source>company</source>
+        <target state="final">Организация</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="55" approved="yes">
+        <source>job</source>
+        <target state="final">Должность</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="56" approved="yes">
+        <source>birthday</source>
+        <target state="final">День рождения</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="57" approved="yes">
+        <source>facebookName</source>
+        <target state="final">Имя профиля facebook</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="58" approved="yes">
+        <source>role.%name%.created</source>
+        <target state="final">Роль "%name%" создана.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="59" approved="yes">
+        <source>role.%name%.deleted</source>
+        <target state="final">Роль "%name%" удалена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="60" approved="yes">
+        <source>role.%name%.updated</source>
+        <target state="final">Роль "%name%" обновлена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="61" approved="yes">
+        <source>role.name.must_comply_with_standard</source>
+        <target state="final">Имя роли должно начинаться с "ROLE_" и содержать только большие буквы и знаки подчеркивания.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="62" approved="yes">
+        <source>role.name.already.exists</source>
+        <target state="final">Роль с таким именем уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="63" approved="yes">
+        <source>role.required.cannot_be_updated</source>
+        <target state="final">Роль необходима для работы системы и не может быть изменена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="64" approved="yes">
+        <source>role.is.required</source>
+        <target state="final">Роль необходима</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="65" approved="yes">
+        <source>nodeType.imported.created</source>
+        <target state="final">Тип узла успешно импортирован и сохранен в базе данных.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="66" approved="yes">
+        <source>nodeType.imported.updated</source>
+        <target state="final">Тип узла импортирован и успешно обновлен в базе данных.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="67" approved="yes">
+        <source>file.format.not_valid</source>
+        <target state="final">Формат файла не корректен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="68" approved="yes">
+        <source>file.not_uploaded</source>
+        <target state="final">Файл не может быть загружен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="69" approved="yes">
+        <source>nodeType.file</source>
+        <target state="final">Файл типа узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="70" approved="yes">
+        <source>tag.%name%.updated</source>
+        <target state="final">Тег "%name%" обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="71" approved="yes">
+        <source>tag.%name%.created</source>
+        <target state="final">Тег "%name%" создан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="72" approved="yes">
+        <source>tag.%name%.deleted</source>
+        <target state="final">Тег "%name%" удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="73" approved="yes">
+        <source>child.tag.%name%.created</source>
+        <target state="final">Дочерний тег с именем "%name%" был создан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="77" approved="yes">
+        <source>locked</source>
+        <target state="final">Заблокирован</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="78" approved="yes">
+        <source>visible</source>
+        <target state="final">Видимый</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="invisible" approved="yes">
+        <source>invisible</source>
+        <target state="final">невидимый</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="79" approved="yes">
+        <source>parent_tagId</source>
+        <target state="final">Идентификатор родительского тега.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="80" approved="yes">
+        <source>tagName</source>
+        <target state="final">Имя тега</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="81" approved="yes">
+        <source>node.seo.updated</source>
+        <target state="final">SEO данные узла обновлены</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="82" approved="yes">
+        <source>node.seo.not.updated</source>
+        <target state="final">SEO данные узла не могут быть обновлены.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="83" approved="yes">
+        <source>url_alias.%alias%.updated</source>
+        <target state="final">Синоним url "%alias%" был обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="84" approved="yes">
+        <source>url_alias.%alias%.no_update.already_exists</source>
+        <target state="final">Синоним URL "%alias%" не может быть обновлен. Такой синоним уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="85" approved="yes">
+        <source>url_alias.%alias%.deleted</source>
+        <target state="final">Синоним URL "%alias%" был удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="86" approved="yes">
+        <source>url_alias.%alias%.created.%translation%</source>
+        <target state="final">Синоним URL "%alias%" был создан для "%translation%" перевода.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="87" approved="yes">
+        <source>url_alias.%alias%.no_creation.already_exists</source>
+        <target state="final">Синоним URL "%alias%" уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="88" approved="yes">
+        <source>url_alias.no_translation.%translation%</source>
+        <target state="final">Перевод "%translation%" не существует, невозможно создать URL синоним.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="89" approved="yes">
+        <source>urlAlias</source>
+        <target state="final">URL синоним</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="90" approved="yes">
+        <source>translation</source>
+        <target state="final">Перевод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="91" approved="yes">
+        <source>metaTitle</source>
+        <target state="final">Мета-заголовок</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="93" approved="yes">
+        <source>metaDescription</source>
+        <target state="final">Мета-описание</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="94" approved="yes">
+        <source>nodeTypeField.%name%.updated</source>
+        <target state="final">Поле типа узла "%name%" было обновлено.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="95" approved="yes">
+        <source>nodeTypeField.%name%.created</source>
+        <target state="final">Поле типа узла "%name%" было создано.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="96" approved="yes">
+        <source>nodeTypeField.%name%.deleted</source>
+        <target state="final">Поле типа узла "%name%" удалено.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="97" approved="yes">
+        <source>label</source>
+        <target state="final">Метка</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="98" approved="yes">
+        <source>type</source>
+        <target state="final">Тип</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="99" approved="yes">
+        <source>indexed</source>
+        <target state="final">Индексирован</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="100" approved="yes">
+        <source>defaultValues</source>
+        <target state="final">Значения по умолчанию</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="101" approved="yes">
+        <source>enter_values_comma_separated</source>
+        <target state="final">Введите значения через запятую.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="102" approved="yes">
+        <source>node.%name%.translated</source>
+        <target state="final">Узел "%name%" был переведен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="104" approved="yes">
+        <source>node.%node%.linked.tag.%tag%</source>
+        <target state="final">Узел "%node%" был отмечен тегом "%tag%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="105" approved="yes">
+        <source>tag.%name%.removed</source>
+        <target state="final">Тег "%name%" удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="106" approved="yes">
+        <source>node.%name%.created</source>
+        <target state="final">Узел "%name%" был создан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="107" approved="yes">
+        <source>node.%name%.deleted</source>
+        <target state="final">Узел "%name%" удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="112" approved="yes">
+        <source>nodeName</source>
+        <target state="final">Имя узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="113" approved="yes">
+        <source>nodeType</source>
+        <target state="final">Тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="114" approved="yes">
+        <source>priority</source>
+        <target state="final">Приоритет</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="115" approved="yes">
+        <source>node.isHome</source>
+        <target state="final">Отметить этот узел как главный</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="116" approved="yes">
+        <source>choose.tag</source>
+        <target state="final">Выберите тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="117" approved="yes">
+        <source>nodeType.%name%.updated</source>
+        <target state="final">Тип узла "%name%" был обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="118" approved="yes">
+        <source>nodeType.%name%.created</source>
+        <target state="final">Тип узла "%name%" был создан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="119" approved="yes">
+        <source>nodeType.%name%.deleted</source>
+        <target state="final">Тип узла "%name%" удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="122" approved="yes">
+        <source>nodeType.displayName</source>
+        <target state="final">Имя для отображения</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="123" approved="yes">
+        <source>nodeType.newsletterType</source>
+        <target state="final">Тип узла "новостной"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="125" approved="yes">
+        <source>role.imported</source>
+        <target state="final">Роль был импортирована.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="126" approved="yes">
+        <source>role.file</source>
+        <target state="final">Файл с ролью</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="127" approved="yes">
+        <source>setting.%name%.updated</source>
+        <target state="final">Настройка "%name%" была обновлена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="128" approved="yes">
+        <source>setting.%name%.created</source>
+        <target state="final">Настройка "%name%" была создана.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="129" approved="yes">
+        <source>setting.%name%.deleted</source>
+        <target state="final">Настройка "%name%" была удалена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="130" approved="yes">
+        <source>setting.%name%.no_update.already_exists</source>
+        <target state="final">Настройка "%name%" не может быть обновлена, такая настройка уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="131" approved="yes">
+        <source>setting.%name%.no_creation.already_exists</source>
+        <target state="final">Настройка "%name%" не может быть создана, такая настройка уже существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="132" approved="yes">
+        <source>value</source>
+        <target state="final">Значение</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="133" approved="yes">
+        <source>setting.group</source>
+        <target state="final">Группа настроек</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="134" approved="yes">
+        <source>database.schema.updated</source>
+        <target state="final">Схема базы данных была обновлена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="135" approved="yes">
+        <source>database.schema.cannot_updated</source>
+        <target state="final">Схема база данных не может быть обновлена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="136" approved="yes">
+        <source>group.imported.updated</source>
+        <target state="final">Группа была импортирована и успешно сохранена в базе данных.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="137" approved="yes">
+        <source>group.file</source>
+        <target state="final">Файл группы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="138" approved="yes">
+        <source>font.%name%.created</source>
+        <target state="final">Шрифт "%name%" был создан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="139" approved="yes">
+        <source>font.%name%.deleted</source>
+        <target state="final">Шрифт "%name%" был удален.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="140" approved="yes">
+        <source>font.%name%.updated</source>
+        <target state="final">Шрифт "%name%" обновлен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="141" approved="yes">
+        <source>font.name</source>
+        <target state="final">Имя шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="142" approved="yes">
+        <source>font.variant</source>
+        <target state="final">Стиль шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="143" approved="yes">
+        <source>font.eotFile</source>
+        <target state="final">EOT файл шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="144" approved="yes">
+        <source>font.woffFile</source>
+        <target state="final">WOFF файл шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font.woff2File" approved="yes">
+        <source>font.woff2File</source>
+        <target state="final">WOFF2 файл шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="145" approved="yes">
+        <source>font.otfFile</source>
+        <target state="final">OTF/TTF файл шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="146" approved="yes">
+        <source>font.svgFile</source>
+        <target state="final">SVG файл шрифта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="149" approved="yes">
+        <source>setting.imported</source>
+        <target state="final">Настройки успешно импортированы.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="150" approved="yes">
+        <source>settingFile</source>
+        <target state="final">Файл с настройками</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="158" approved="yes">
+        <source>locale</source>
+        <target state="final">Язык</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="159" approved="yes">
+        <source>add.tag</source>
+        <target state="final">Добавить тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="160" approved="yes">
+        <source>add.child.tag</source>
+        <target state="final">Добавить дочерний тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="161" approved="yes">
+        <source>tags</source>
+        <target state="final">Теги</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="162" approved="yes">
+        <source>id</source>
+        <target state="final">Идентификатор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="163" approved="yes">
+        <source>actions</source>
+        <target state="final">Действия</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="164" approved="yes">
+        <source>delete</source>
+        <target state="final">Удалить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="165" approved="yes">
+        <source>notranslation_available.tag</source>
+        <target state="final">Перевод этого тега не найден</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="166" approved="yes">
+        <source>edit.node.%name%.seo</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="167" approved="yes">
+        <source>edit.node.seo</source>
+        <target state="final">Редакторивать SEO данные</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="168" approved="yes">
+        <source>save</source>
+        <target state="final">Сохранить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="169" approved="yes">
+        <source>add.urlAlias</source>
+        <target state="final">добавить URL синоним</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="172" approved="yes">
+        <source>cancel</source>
+        <target state="final">Отмена</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="173" approved="yes">
+        <source>edit.nodeType.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="174" approved="yes">
+        <source>edit.tag.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="175" approved="yes">
+        <source>edit.tag</source>
+        <target state="final">Редактировать тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="176" approved="yes">
+        <source>add.tag.%name%.child</source>
+        <target state="final">Добавить дочерний тег для "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="177" approved="yes">
+        <source>delete.tag.%name%</source>
+        <target state="final">Удалить тег "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="178" approved="yes">
+        <source>delete.tag</source>
+        <target state="final">Удалить тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="179" approved="yes">
+        <source>edit.user.%name%.groups</source>
+        <target state="final">Группы %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="180" approved="yes">
+        <source>group</source>
+        <target state="final">Группа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="182" approved="yes">
+        <source>add.group</source>
+        <target state="final">Добавить группу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="183" approved="yes">
+        <source>add.user</source>
+        <target state="final">Добавить пользователя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="184" approved="yes">
+        <source>back_to.users</source>
+        <target state="final">Назад к пользователям</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="185" approved="yes">
+        <source>edit.group.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="186" approved="yes">
+        <source>Welcome</source>
+        <target state="final">Добро пожаловать</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="187" approved="yes">
+        <source>edit.user.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="188" approved="yes">
+        <source>import.setting</source>
+        <target state="final">Импортировать настройки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="189" approved="yes">
+        <source>import</source>
+        <target state="final">Импорт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="190" approved="yes">
+        <source>hello.%name%</source>
+        <target state="final">Привет, %name%!</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="191" approved="yes">
+        <source>back_to.tags</source>
+        <target state="final">Назад к тегам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="192" approved="yes">
+        <source>edit</source>
+        <target state="final">Редактировать</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="193" approved="yes">
+        <source>edit.setting.%name%</source>
+        <target state="final">Изменить настройку %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="194" approved="yes">
+        <source>back_to.settings</source>
+        <target state="final">Назад к настройкам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="195" approved="yes">
+        <source>are_you_sure.delete.tag</source>
+        <target state="final">Вы уверены что хотите удалить этот тег?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="196" approved="yes">
+        <source>search</source>
+        <target state="final">Поиск</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="197" approved="yes">
+        <source>goto.page</source>
+        <target state="final">Перейти на страницу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="198" approved="yes">
+        <source>prev</source>
+        <target state="final">Назад</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="199" approved="yes">
+        <source>next</source>
+        <target state="final">Вперед</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="200" approved="yes">
+        <source>delete.user.%name%</source>
+        <target state="final">Удалить пользователя "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="201" approved="yes">
+        <source>are_you_sure.delete.user</source>
+        <target state="final">Вы уверены что хотите удалить этого пользователя?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="202" approved="yes">
+        <source>edit.group.%name%.roles</source>
+        <target state="final">Редактировать роли группы "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="203" approved="yes">
+        <source>role</source>
+        <target state="final">Роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="204" approved="yes">
+        <source>unlink.role</source>
+        <target state="final">Отозвать роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="205" approved="yes">
+        <source>add.role</source>
+        <target state="final">Назначить роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="206" approved="yes">
+        <source>delete.user</source>
+        <target state="final">Удалить пользователя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="207" approved="yes">
+        <source>translations</source>
+        <target state="final">Переводы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="208" approved="yes">
+        <source>add.translation</source>
+        <target state="final">Добавить перевод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="209" approved="yes">
+        <source>translation.locale</source>
+        <target state="final">Язык перевода</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="210" approved="yes">
+        <source>status</source>
+        <target state="final">Статус</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="211" approved="yes">
+        <source>not_available</source>
+        <target state="final">Не доступен</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="212" approved="yes">
+        <source>set.default</source>
+        <target state="final">Установить значением по умолчанию</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="213" approved="yes">
+        <source>edit.nodeSource.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="214" approved="yes">
+        <source>back_to.documents</source>
+        <target state="final">Назад к документам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="215" approved="yes">
+        <source>delete.document</source>
+        <target state="final">Удалить документ</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="216" approved="yes">
+        <source>edit.nodeTypeFields.for.nodeType.%name%</source>
+        <target state="final">%name% поля</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="217" approved="yes">
+        <source>back_to.nodeTypes</source>
+        <target state="final">Назад к типам узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="218" approved="yes">
+        <source>add.nodeTypeField</source>
+        <target state="final">Добавить поле типа узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="219" approved="yes">
+        <source>remove.user.%name%.from.group.%group%</source>
+        <target state="final">Удалить пользователя "%name%" из группы "%group%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="220" approved="yes">
+        <source>are_you_sure.remove.user.from.group</source>
+        <target state="final">Действительно удалить пользователя из группы?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="221" approved="yes">
+        <source>edi.user.%name%.roles</source>
+        <target state="final">Роли пользователя "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="222" approved="yes">
+        <source>specific.roles</source>
+        <target state="final">Определенные роли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="223" approved="yes">
+        <source>inherited.roles</source>
+        <target state="final">Унаследованные роли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="224" approved="yes">
+        <source>add.specific.role</source>
+        <target state="final">Добавить определенную роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="225" approved="yes">
+        <source>import.role</source>
+        <target state="final">Импортировать роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="226" approved="yes">
+        <source>edit.node.%name%.tags</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="227" approved="yes">
+        <source>back_to.groups</source>
+        <target state="final">Назад к группам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="228" approved="yes">
+        <source>delete.group</source>
+        <target state="final">Удалить группу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="230" approved="yes">
+        <source>user.roles</source>
+        <target state="final">Роли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="231" approved="yes">
+        <source>user.groups</source>
+        <target state="final">Группы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="232" approved="yes">
+        <source>user.history</source>
+        <target state="final">История</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="233" approved="yes">
+        <source>delete.document.%name%</source>
+        <target state="final">Удалить документ %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="234" approved="yes">
+        <source>are_you_sure.delete.document</source>
+        <target state="final">Действительно удалить документ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="235" approved="yes">
+        <source>group.edit</source>
+        <target state="final">Редактировать группу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="236" approved="yes">
+        <source>group.roles</source>
+        <target state="final">Роли группы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="237" approved="yes">
+        <source>group.users</source>
+        <target state="final">Пользователи в группе</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="238" approved="yes">
+        <source>remove.user.%name%.role.%role%</source>
+        <target state="final">Отозвать роль "%role%" у пользователя "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="239" approved="yes">
+        <source>are_you_sure.remove.user.role</source>
+        <target state="final">Действительно отозвать роль у пользователя?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="240" approved="yes">
+        <source>add.theme</source>
+        <target state="final">Добавить тему</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="241" approved="yes">
+        <source>back_to.themes</source>
+        <target state="final">Назад к темам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="243" approved="yes">
+        <source>add.node</source>
+        <target state="final">Добавить узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="245" approved="yes">
+        <source>back_to.nodes</source>
+        <target state="final">Назад к узлам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="246" approved="yes">
+        <source>nodeTree</source>
+        <target state="final">Дерево узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="247" approved="yes">
+        <source>nodes</source>
+        <target state="final">Узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="248" approved="yes">
+        <source>dashboard</source>
+        <target state="final">Панель</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="249" approved="yes">
+        <source>history</source>
+        <target state="final">История</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="250" approved="yes">
+        <source>comments</source>
+        <target state="final">Комментарии</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="251" approved="yes">
+        <source>themes</source>
+        <target state="final">Темы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="252" approved="yes">
+        <source>theme</source>
+        <target state="final">Тема</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="258" approved="yes">
+        <source>roles</source>
+        <target state="final">Роли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="259" approved="yes">
+        <source>export.all.roles</source>
+        <target state="final">Экспортировать все роли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="260" approved="yes">
+        <source>export</source>
+        <target state="final">Экспорт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="261" approved="yes">
+        <source>role.required</source>
+        <target state="final">Требуется роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="262" approved="yes">
+        <source>welcome</source>
+        <target state="final">Добро пожаловать</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="263" approved="yes">
+        <source>back_to.roles</source>
+        <target state="final">Назад к ролям</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="264" approved="yes">
+        <source>delete.role</source>
+        <target state="final">Удалить роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="265" approved="yes">
+        <source>add</source>
+        <target state="final">Добавить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="266" approved="yes">
+        <source>tag.%name%.tree</source>
+        <target state="final">Дерево тега "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="267" approved="yes">
+        <source>edit.role.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="268" approved="yes">
+        <source>settings</source>
+        <target state="final">Настройки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="269" approved="yes">
+        <source>add.setting</source>
+        <target state="final">Добавить настройку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="270" approved="yes">
+        <source>Delete</source>
+        <target state="final">Удалить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="271" approved="yes">
+        <source>create.node</source>
+        <target state="final">Создать узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="272" approved="yes">
+        <source>node.type</source>
+        <target state="final">Тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="273" approved="yes">
+        <source>node.status</source>
+        <target state="final">Статус узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="274" approved="yes">
+        <source>last.modification</source>
+        <target state="final">Последнее изменение</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="275" approved="yes">
+        <source>node.not.published</source>
+        <target state="final">Узел не опубликован</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="276" approved="yes">
+        <source>see.nodetree</source>
+        <target state="final">Смотреть дерево узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="277" approved="yes">
+        <source>import.group</source>
+        <target state="final">Импортировать группу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="278" approved="yes">
+        <source>purge.cache</source>
+        <target state="final">Очистить кеш</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="279" approved="yes">
+        <source>are_you_sure.purge.cache</source>
+        <target state="final">Действительно хотите очистить кеш?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="280" approved="yes">
+        <source>clear</source>
+        <target state="final">Очистить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="281" approved="yes">
+        <source>fonts</source>
+        <target state="final">Шрифты</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="282" approved="yes">
+        <source>add.font</source>
+        <target state="final">Добавить шрифт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="283" approved="yes">
+        <source>font.files</source>
+        <target state="final">Файлы шрифтов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="285" approved="yes">
+        <source>download</source>
+        <target state="final">Скачать</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="287" approved="yes">
+        <source>are_you_sure.remove.role.from.group</source>
+        <target state="final">Вы уверены что хотите отозвать эту роль у этой группы?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="288" approved="yes">
+        <source>users</source>
+        <target state="final">Пользователи</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="289" approved="yes">
+        <source>user.username</source>
+        <target state="final">Имя пользователя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="290" approved="yes">
+        <source>user.email</source>
+        <target state="final">Адрес электронной почты</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="291" approved="yes">
+        <source>edit.theme</source>
+        <target state="final">Редактировать тему</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="293" approved="yes">
+        <source>delete.font.%name%</source>
+        <target state="final">Удалить шрифт "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="294" approved="yes">
+        <source>are_you_sure.delete.font</source>
+        <target state="final">Действительно удалить этот шрифт?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="295" approved="yes">
+        <source>search.node</source>
+        <target state="final">Найти узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="297" approved="yes">
+        <source>delete.caches</source>
+        <target state="final">Очистить кеш</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="298" approved="yes">
+        <source>logout</source>
+        <target state="final">Выйти</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="299" approved="yes">
+        <source>dev_mode.activated</source>
+        <target state="final">Режим разработчика включен</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="300" approved="yes">
+        <source>help</source>
+        <target state="final">Помощь</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="301" approved="yes">
+        <source>datetime</source>
+        <target state="final">Дата и время</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="302" approved="yes">
+        <source>level</source>
+        <target state="final">Уровень</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="303" approved="yes">
+        <source>user</source>
+        <target state="final">Пользователь</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="304" approved="yes">
+        <source>message</source>
+        <target state="final">Сообщение</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="305" approved="yes">
+        <source>back_to.nodeTypeFields</source>
+        <target state="final">Назад к полям типов узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="306" approved="yes">
+        <source>delete.nodeTypeField</source>
+        <target state="final">Удалить поле типа узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="307" approved="yes">
+        <source>edit.node.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="308" approved="yes">
+        <source>edit.node</source>
+        <target state="final">Редактировать узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="309" approved="yes">
+        <source>add.node.%name%.child</source>
+        <target state="final">Добавить дочерний узел для "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="310" approved="yes">
+        <source>add.child.node</source>
+        <target state="final">Добавить дочерний узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="311" approved="yes">
+        <source>delete.node.%name%</source>
+        <target state="final">Удалить узел "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="312" approved="yes">
+        <source>delete.node</source>
+        <target state="final">Удалить узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="313" approved="yes">
+        <source>see.page</source>
+        <target state="final">Смотреть страницу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="314" approved="yes">
+        <source>duplicate</source>
+        <target state="final">Клонировать</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="316" approved="yes">
+        <source>statuses</source>
+        <target state="final">Статусы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="317" approved="yes">
+        <source>visibility</source>
+        <target state="final">Видимость</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="318" approved="yes">
+        <source>published</source>
+        <target state="final">Опубликован</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="331" approved="yes">
+        <source>are_you_sure.delete.group</source>
+        <target state="final">
+Действительно удалить эту группу?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="332" approved="yes">
+        <source>see.website</source>
+        <target state="final">Перейти к сайту</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="333" approved="yes">
+        <source>minify.tree.panel</source>
+        <target state="final">Минимизировать панель дерева</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="334" approved="yes">
+        <source>interactions</source>
+        <target state="final">Взаимодействия</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="339" approved="yes">
+        <source>manage.tags</source>
+        <target state="final">Управлять тегами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="340" approved="yes">
+        <source>manage.documents</source>
+        <target state="final">Управлять документами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="342" approved="yes">
+        <source>manage.nodes</source>
+        <target state="final">Управлять узлами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="343" approved="yes">
+        <source>manage.nodeTypes</source>
+        <target state="final">Управлять типом узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="344" approved="yes">
+        <source>manage.translations</source>
+        <target state="final">Управлять переводами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="345" approved="yes">
+        <source>manage.themes</source>
+        <target state="final">Управление темами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="346" approved="yes">
+        <source>manage.fonts</source>
+        <target state="final">Управление шрифтами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="347" approved="yes">
+        <source>user.system</source>
+        <target state="final">Система пользователей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="348" approved="yes">
+        <source>manage.users</source>
+        <target state="final">Управление пользователями</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="349" approved="yes">
+        <source>manage.roles</source>
+        <target state="final">Управление ролями</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="350" approved="yes">
+        <source>manage.groups</source>
+        <target state="final">Управление группами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="351" approved="yes">
+        <source>site.settings</source>
+        <target state="final">Настройки сайта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="352" approved="yes">
+        <source>Translate</source>
+        <target state="final">Перевод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="353" approved="yes">
+        <source>are_you_sure.delete.node.and.data</source>
+        <target state="final">Действительно удалить узел и данные?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="354" approved="yes">
+        <source>node.content</source>
+        <target state="final">Содержимое узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="355" approved="yes">
+        <source>node.parameters</source>
+        <target state="final">Параметры узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="356" approved="yes">
+        <source>seo</source>
+        <target state="final">SEO</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="357" approved="yes">
+        <source>tree</source>
+        <target state="final">Дерево</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="358" approved="yes">
+        <source>back_to.fonts</source>
+        <target state="final">Назад к шрифтам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="359" approved="yes">
+        <source>import.nodeType</source>
+        <target state="final">Импортировать тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="360" approved="yes">
+        <source>back_office</source>
+        <target state="final">Закулиса</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="361" approved="yes">
+        <source>login</source>
+        <target state="final">Войти</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="362" approved="yes">
+        <source>view.site</source>
+        <target state="final">Посмотреть сайт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="363" approved="yes">
+        <source>forgot.password</source>
+        <target state="final">Забыли пароль?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="364" approved="yes">
+        <source>nodeTypes</source>
+        <target state="final">Типы узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="365" approved="yes">
+        <source>add.nodeType</source>
+        <target state="final">Добавить тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="366" approved="yes">
+        <source>nodeType.entityName</source>
+        <target state="final">Имя типа узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="367" approved="yes">
+        <source>fields</source>
+        <target state="final">Поля</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="368" approved="yes">
+        <source>manage.nodeTypeFields</source>
+        <target state="final">Управление полями типов узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="369" approved="yes">
+        <source>delete.nodeType</source>
+        <target state="final">Удалить тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="370" approved="yes">
+        <source>edit.translation.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="371" approved="yes">
+        <source>back_to.translations</source>
+        <target state="final">Назад к переводам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="372" approved="yes">
+        <source>delete.translation</source>
+        <target state="final">Удалить перевод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="373" approved="yes">
+        <source>edit.node.%name%.tree</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="374" approved="yes">
+        <source>tag.tree</source>
+        <target state="final">Дерево тегов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="375" approved="yes">
+        <source>tag.content</source>
+        <target state="final">Содержимое тега</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="376" approved="yes">
+        <source>tag.settings</source>
+        <target state="final">Настройки тега</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="377" approved="yes">
+        <source>tag.nodes</source>
+        <target state="final">Узлы тега</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="378" approved="yes">
+        <source>tagged.nodes</source>
+        <target state="final">Узлы тега</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="379" approved="yes">
+        <source>groups</source>
+        <target state="final">Группы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="380" approved="yes">
+        <source>export.all.groups</source>
+        <target state="final">Экспортировать все группы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="381" approved="yes">
+        <source>group.required</source>
+        <target state="final">Требуется группа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="382" approved="yes">
+        <source>delete.nodeType.%name%</source>
+        <target state="final">Удалить тип узла "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="384" approved="yes">
+        <source>upload.document</source>
+        <target state="final">Загрузить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="385" approved="yes">
+        <source>upload</source>
+        <target state="final">Загрузить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="386" approved="yes">
+        <source>edit.font.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="387" approved="yes">
+        <source>edit.font</source>
+        <target state="final">Редактировать шрифт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="388" approved="yes">
+        <source>edit.document</source>
+        <target state="final">Редактировать документ</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="389" approved="yes">
+        <source>unlink.document</source>
+        <target state="final">Отвязать документ</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="390" approved="yes">
+        <source>delete.role.%name%</source>
+        <target state="final">Удалить роль "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="391" approved="yes">
+        <source>are_you_sure.delete.role</source>
+        <target state="final">Действительно удалить эту роль?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="392" approved="yes">
+        <source>wait_for.authentification</source>
+        <target state="final">Ожидание аутентификации</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="393" approved="yes">
+        <source>documents</source>
+        <target state="final">Документы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="394" approved="yes">
+        <source>document.thumbnail</source>
+        <target state="final">Миниатюра</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="395" approved="yes">
+        <source>document.filename</source>
+        <target state="final">Имя файла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="396" approved="yes">
+        <source>document.createdAt</source>
+        <target state="final">Дата создания</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="403" approved="yes">
+        <source>are_you_sure.delete.setting</source>
+        <target state="final">Действительно удалить настройку?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="404" approved="yes">
+        <source>translate</source>
+        <target state="final">Перевести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="405" approved="yes">
+        <source>translate.node</source>
+        <target state="final">Перевести узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="406" approved="yes">
+        <source>title</source>
+        <target state="final">Заголовок</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="407" approved="yes">
+        <source>page</source>
+        <target state="final">Страница</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="408" approved="yes">
+        <source>choose.value</source>
+        <target state="final">-- Выберите значение --</target>
+      </trans-unit>
+      <!-- Count translations -->
+      <trans-unit xml:space="preserve" id="410" approved="yes">
+        <source>1.item</source>
+        <target state="final">1 объект</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="411" approved="yes">
+        <source>%count%.items</source>
+        <target state="final">Объектов: %count%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="412" approved="yes">
+        <source>{0} no.role|{1} 1.role|]1,Inf] %count%.roles</source>
+        <target state="final">{0} нет ролей | {1} 1 роль | [2,4] %count% роли | [5,Inf] %count% ролей </target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="413" approved="yes">
+        <source>1.role</source>
+        <target state="final">1 роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="416" approved="yes">
+        <source>1.group</source>
+        <target state="final">1 группа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="417" approved="yes">
+        <source>%count%.groups</source>
+        <target state="final">Группы: %count%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="419" approved="yes">
+        <source>1.user</source>
+        <target state="final">1 пользователь</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="420" approved="yes">
+        <source>%count%.users</source>
+        <target state="final">Пользователи: %count%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="422" approved="yes">
+        <source>1.tag</source>
+        <target state="final">1 тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="423" approved="yes">
+        <source>%count%.tags</source>
+        <target state="final">Теги: %count%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="425" approved="yes">
+        <source>1.document</source>
+        <target state="final">1 документ</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="426" approved="yes">
+        <source>%count%.documents</source>
+        <target state="final">Документов: %count%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="428" approved="yes">
+        <source>1.node</source>
+        <target state="final">1 узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="429" approved="yes">
+        <source>%count%.nodes</source>
+        <target state="final">Узлов: %count%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="431" approved="yes">
+        <source>1.nodeTypeField</source>
+        <target state="final">1 поле</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="432" approved="yes">
+        <source>%count%.nodeTypeFields</source>
+        <target state="final">Полей: %count%</target>
+      </trans-unit>
+      <!-- Node type fields datatypes -->
+      <trans-unit xml:space="preserve" id="433" approved="yes">
+        <source>string.type</source>
+        <target state="final">Текст в одну строку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="434" approved="yes">
+        <source>date-time.type</source>
+        <target state="final">Дата и время</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="435" approved="yes">
+        <source>text.type</source>
+        <target state="final">Простой текст</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="436" approved="yes">
+        <source>markdown.type</source>
+        <target state="final">Markdown разметка</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="437" approved="yes">
+        <source>boolean.type</source>
+        <target state="final">Да или нет</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="438" approved="yes">
+        <source>integer.type</source>
+        <target state="final">Целое число</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="439" approved="yes">
+        <source>decimal.type</source>
+        <target state="final">Дробное число</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="440" approved="yes">
+        <source>email.type</source>
+        <target state="final">Адрес электронной почты</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="441" approved="yes">
+        <source>single-choice.type</source>
+        <target state="final">Выбор из списка значения</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="442" approved="yes">
+        <source>multiple-choice.type</source>
+        <target state="final">Выбор нескольких значений из списка</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="443" approved="yes">
+        <source>documents.type</source>
+        <target state="final">Документы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="444" approved="yes">
+        <source>children-nodes.type</source>
+        <target state="final">Дочерние узлы</target>
+      </trans-unit>
+      <!-- Dynamic button in nodeTree add.a.%nodeType% -->
+      <trans-unit xml:space="preserve" id="445" approved="yes">
+        <source>add.a.%nodeType%</source>
+        <target state="final">Добавить тип узла "%nodeType%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="446" approved="yes">
+        <source>bad.request</source>
+        <target state="final">Неправильный запрос</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="447" approved="yes">
+        <source>filename</source>
+        <target state="final">Имя файла</target>
+      </trans-unit>
+      <!-- Setting groups -->
+      <trans-unit xml:space="preserve" id="add.settingGroup" approved="yes">
+        <source>add.settingGroup</source>
+        <target state="final">Добавить группу настроек</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.settingGroup.%name%" approved="yes">
+        <source>edit.settingGroup.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="save.settingGroup" approved="yes">
+        <source>save.settingGroup</source>
+        <target state="final">Сохранить группу настроек</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.settingGroup" approved="yes">
+        <source>are_you_sure.delete.settingGroup</source>
+        <target state="final">Действительно стереть эту группу настроек?</target>
+      </trans-unit>
+      <!-- Default settings names -->
+      <trans-unit xml:space="preserve" id="seo_description" approved="yes">
+        <source>seo_description</source>
+        <target state="final">SEO мета-описание</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="site_name" approved="yes">
+        <source>site_name</source>
+        <target state="final">Имя сайта</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="site_copyright" approved="yes">
+        <source>site_copyright</source>
+        <target state="final">Имя автора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
+        <source>universal_analytics_id</source>
+        <target state="final">Идентификатор Universal Analytics</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="facebook_url" approved="yes">
+        <source>facebook_url</source>
+        <target state="final">Facebook URL</target>
+        <note>Setting name for social page url.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="instagram_url" approved="yes">
+        <source>instagram_url</source>
+        <target state="final">Instagram URL</target>
+        <note>Setting name for social page url.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="twitter_url" approved="yes">
+        <source>twitter_url</source>
+        <target state="final">Twitter URL</target>
+        <note>Setting name for social page url.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="twitter_account" approved="yes">
+        <source>twitter_account</source>
+        <target state="final">Имя учетной записи Twitter</target>
+        <note>Setting name for social page url.</note>
+      </trans-unit>
+      <!-- document usage -->
+      <trans-unit xml:space="preserve" id="document.%name%.usage" approved="yes">
+        <source>document.%name%.usage</source>
+        <target state="final">Использование документа "%name%"</target>
+      </trans-unit>
+      <!-- node statuses -->
+      <trans-unit xml:space="preserve" id="all.nodes" approved="yes">
+        <source>all.nodes</source>
+        <target state="final">Все узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="draft.nodes" approved="yes">
+        <source>draft.nodes</source>
+        <target state="final">Узлы-черновики</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="pending.nodes" approved="yes">
+        <source>pending.nodes</source>
+        <target state="final">Узлы ожидающие проверки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="archived.nodes" approved="yes">
+        <source>archived.nodes</source>
+        <target state="final">Архивированные узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="deleted.nodes" approved="yes">
+        <source>deleted.nodes</source>
+        <target state="final">Удаленные узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.draft" approved="yes">
+        <source>node.draft</source>
+        <target state="final">Черновик</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.pending.validation" approved="yes">
+        <source>node.pending.validation</source>
+        <target state="final">Узел ожидает проверки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.archived" approved="yes">
+        <source>node.archived</source>
+        <target state="final">Архивирован</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.deleted" approved="yes">
+        <source>node.deleted</source>
+        <target state="final">Удален</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="draft" approved="yes">
+        <source>draft</source>
+        <target state="final">Черновик</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="pending" approved="yes">
+        <source>pending</source>
+        <target state="final">Ожидает</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="archived" approved="yes">
+        <source>archived</source>
+        <target state="final">Архивирован</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="deleted" approved="yes">
+        <source>deleted</source>
+        <target state="final">Удален</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="undelete" approved="yes">
+        <source>undelete</source>
+        <target state="final">Восстановлен</target>
+      </trans-unit>
+      <!-- are_you_sure.undelete.node.and.data -->
+      <trans-unit xml:space="preserve" id="are_you_sure.undelete.node.and.data" approved="yes">
+        <source>are_you_sure.undelete.node.and.data</source>
+        <target state="final">Действительно восстановить узел и его данные?</target>
+      </trans-unit>
+      <!-- undelete.node.%name% -->
+      <trans-unit xml:space="preserve" id="undelete.node.%name%" approved="yes">
+        <source>undelete.node.%name%</source>
+        <target state="final">Восстановить узел "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="parameters" approved="yes">
+        <source>parameters</source>
+        <target state="final">Параметры</target>
+      </trans-unit>
+      <!-- embed documents -->
+      <trans-unit xml:space="preserve" id="embed" approved="yes">
+        <source>embed</source>
+        <target state="final">Встроить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document" approved="yes">
+        <source>embed.document</source>
+        <target state="final">Встроить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="tagTree" approved="yes">
+        <source>tagTree</source>
+        <target state="final">Дерево тега</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.node" approved="yes">
+        <source>add.a.child.node</source>
+        <target state="final">Добавить дочерний узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.tag" approved="yes">
+        <source>add.a.child.tag</source>
+        <target state="final">Добавить дочерний тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.folder" approved="yes">
+        <source>add.a.folder</source>
+        <target state="final">Добавить папку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.font" approved="yes">
+        <source>add.a.font</source>
+        <target state="final">Добавить шрифт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.group" approved="yes">
+        <source>add.a.group</source>
+        <target state="final">Добавить группу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.node" approved="yes">
+        <source>add.a.node</source>
+        <target state="final">Добавить узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeType" approved="yes">
+        <source>add.a.nodeType</source>
+        <target state="final">Добавить тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeField" approved="yes">
+        <source>add.a.nodeTypeField</source>
+        <target state="final">Добавить поле типа узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.role" approved="yes">
+        <source>add.a.role</source>
+        <target state="final">Добавить роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.setting" approved="yes">
+        <source>add.a.setting</source>
+        <target state="final">Добавить настройку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.settingGroup" approved="yes">
+        <source>add.a.settingGroup</source>
+        <target state="final">Добавить группу настроек</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.specific.role" approved="yes">
+        <source>add.a.specific.role</source>
+        <target state="final">Добавить специальную роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.tag" approved="yes">
+        <source>add.a.tag</source>
+        <target state="final">Добавить тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.theme" approved="yes">
+        <source>add.a.theme</source>
+        <target state="final">Добавить тему</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.translation" approved="yes">
+        <source>add.a.translation</source>
+        <target state="final">Добавить перевод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.urlAlias" approved="yes">
+        <source>add.a.urlAlias</source>
+        <target state="final">Добавить синоним URL</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.user" approved="yes">
+        <source>add.a.user</source>
+        <target state="final">Добавить пользователя</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.child.folder" approved="yes">
+        <source>add.child.folder</source>
+        <target state="final">Добавить дочернюю папку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder" approved="yes">
+        <source>add.folder</source>
+        <target state="final">Добавить папку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="answer.form" approved="yes">
+        <source>answer.form</source>
+        <target state="final">Форма ответа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation" approved="yes">
+        <source>are_you_sure.delete.document.translation</source>
+        <target state="final">Действительно удалить перевод документа?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder" approved="yes">
+        <source>are_you_sure.delete.folder</source>
+        <target state="final">Действительно удалить эту папку?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes" approved="yes">
+        <source>are_you_sure.delete.these.nodes</source>
+        <target state="final">Действительно удалить эти узлы?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash" approved="yes">
+        <source>are_you_sure.empty.node.and.data.trash</source>
+        <target state="final">Действительно очистить корзину от удаленных узлов и их данных?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back" approved="yes">
+        <source>back</source>
+        <target state="final">Назад</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.folders" approved="yes">
+        <source>back_to.folders</source>
+        <target state="final">Назад к папкам</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.top" approved="yes">
+        <source>back_to.top</source>
+        <target state="final">Наверх</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="blockquote" approved="yes">
+        <source>blockquote</source>
+        <target state="final">Цитата</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bold" approved="yes">
+        <source>bold</source>
+        <target state="final">Жирный</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.actions" approved="yes">
+        <source>bulk.actions</source>
+        <target state="final">Пакетные действия</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.nodes" approved="yes">
+        <source>bulk.delete.nodes</source>
+        <target state="final">Удалить выбранные узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="colour.type" approved="yes">
+        <source>colour.type</source>
+        <target state="final">Цвет</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="created.at" approved="yes">
+        <source>created.at</source>
+        <target state="final">Дата создания</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default.translation" approved="yes">
+        <source>default.translation</source>
+        <target state="final">Перевод по умолчанию</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all" approved="yes">
+        <source>delete.all</source>
+        <target state="final">Удалить все</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.document.translation.%name%" approved="yes">
+        <source>delete.document.translation.%name%</source>
+        <target state="final">Удалить перевод документа "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder" approved="yes">
+        <source>delete.folder</source>
+        <target state="final">Удалить папку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder.%name%" approved="yes">
+        <source>delete.folder.%name%</source>
+        <target state="final">Удалить папку "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.font" approved="yes">
+        <source>delete.font</source>
+        <target state="final">Удалить шрифт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodes" approved="yes">
+        <source>delete.nodes</source>
+        <target state="final">Удалить выбранные узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.format.unknown" approved="yes">
+        <source>document.format.unknown</source>
+        <target state="final">Формат документа неизвестен</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.metas" approved="yes">
+        <source>document.metas</source>
+        <target state="final">Меты</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete" approved="yes">
+        <source>document.translation.%name%.cannot_delete</source>
+        <target state="final">Перевод документа "%name%" не может быть удален</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted" approved="yes">
+        <source>document.translation.%name%.deleted</source>
+        <target state="final">Перевод документа "%name%" удален</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.updated" approved="yes">
+        <source>document.translation.%name%.updated</source>
+        <target state="final">Перевод документа "%name%" обновлен</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
+        <source>edit.folder</source>
+        <target state="final">Редактировать папку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder.%name%" approved="yes">
+        <source>edit.folder.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document.already_exists" approved="yes">
+        <source>embed.document.already_exists</source>
+        <target state="final">Встраиваемый документ уже существует</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.preview" approved="yes">
+        <source>embed.preview</source>
+        <target state="final">Предпросмотр внешней медии</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.node.trash" approved="yes">
+        <source>empty.node.trash</source>
+        <target state="final">Очистить корзину узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.trash" approved="yes">
+        <source>empty.trash</source>
+        <target state="final">Очистить корзину</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="folder.name" approved="yes">
+        <source>folder.name</source>
+        <target state="final">Имя папки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="folderTree" approved="yes">
+        <source>folderTree</source>
+        <target state="final">Папки документов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="folders" approved="yes">
+        <source>folders</source>
+        <target state="final">Папки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image" approved="yes">
+        <source>image</source>
+        <target state="final">Изображение</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="italic" approved="yes">
+        <source>italic</source>
+        <target state="final">Наклонный</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link" approved="yes">
+        <source>link</source>
+        <target state="final">Ссылка</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link.tags" approved="yes">
+        <source>link.tags</source>
+        <target state="final">Тег выбран</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="main_color" approved="yes">
+        <source>main_color</source>
+        <target state="final">Основной цвет закулисы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.embed.document.found" approved="yes">
+        <source>no.embed.document.found</source>
+        <target state="final">Не найден документ для встраивания</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.hidden" approved="yes">
+        <source>node.hidden</source>
+        <target state="final">Скрыт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.trash.emptied" approved="yes">
+        <source>node.trash.emptied</source>
+        <target state="final">Корзина узлов очищена</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.color" approved="yes">
+        <source>nodeType.color</source>
+        <target state="final">Цвет</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.numberFields" approved="yes">
+        <source>nodeType.numberFields</source>
+        <target state="final">Число полей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.type" approved="yes">
+        <source>nodes.type</source>
+        <target state="final">Связи узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="non_breaking.space" approved="yes">
+        <source>non_breaking.space</source>
+        <target state="final">Неразрываемый пробел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ordered.list" approved="yes">
+        <source>ordered.list</source>
+        <target state="final">Пронумерованый список</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="position" approved="yes">
+        <source>position</source>
+        <target state="final">Позиция</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="random.document" approved="yes">
+        <source>random.document</source>
+        <target state="final">Случайно</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="remove" approved="yes">
+        <source>remove</source>
+        <target state="final">Удалить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.documents" approved="yes">
+        <source>search.documents</source>
+        <target state="final">Искать документы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.nodes" approved="yes">
+        <source>search.nodes</source>
+        <target state="final">Искать узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="separator" approved="yes">
+        <source>separator</source>
+        <target state="final">Разделитель</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="strikethrough" approved="yes">
+        <source>strikethrough</source>
+        <target state="final">Перечеркнутый</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="submitted.date" approved="yes">
+        <source>submitted.date</source>
+        <target state="final">Дата отправки</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="updated.at" approved="yes">
+        <source>updated.at</source>
+        <target state="final">Дата изменения</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="wrong.request" approved="yes">
+        <source>wrong.request</source>
+        <target state="final">Ошибочный запрос</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeType" approved="yes">
+        <source>NodeType</source>
+        <target state="final">Тип узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account has expired." approved="yes">
+        <source>User account has expired.</source>
+        <target state="final">Срок действия учетной записи истек.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled." approved="yes">
+        <source>User account is disabled.</source>
+        <target state="final">Учетная запись деактивирована.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is locked." approved="yes">
+        <source>User account is locked.</source>
+        <target state="final">Учетная запись заблокирована.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User credentials have expired." approved="yes">
+        <source>User credentials have expired.</source>
+        <target state="final">Срок действия реквизитов для доступа истек.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes" approved="yes">
+        <source>are_you_sure.change-status.these.nodes</source>
+        <target state="final">Действительно изменить статус высех выбранных узлов?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="change.nodes.status" approved="yes">
+        <source>change.nodes.status</source>
+        <target state="final">Изменить статус выбранных узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="change.nodes.status.all" approved="yes">
+        <source>change.nodes.status.all</source>
+        <target state="final">Изменить статус всех выбранных узлов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="deselect.all" approved="yes">
+        <source>deselect.all</source>
+        <target state="final">Снять выделение</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="download.documents" approved="yes">
+        <source>download.documents</source>
+        <target state="final">Скачать документы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.account" approved="yes">
+        <source>edit.account</source>
+        <target state="final">Редактировать учетную запись</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="email.invalid" approved="yes">
+        <source>email.invalid</source>
+        <target state="final">Адрес электронной почты указан не верно или не существует.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="false" approved="yes">
+        <source>false</source>
+        <target state="final">Нет</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="homeNode.limited.one" approved="yes">
+        <source>homeNode.limited.one</source>
+        <target state="final">Можно выбрать только один главный узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
+        <source>metadataCache</source>
+        <target state="final">Кеш метаданных</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.documents" approved="yes">
+        <source>more.documents</source>
+        <target state="final">Еще документы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.nodes" approved="yes">
+        <source>more.nodes</source>
+        <target state="final">Еще узлы</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.cache.available" approved="yes">
+        <source>no.cache.available</source>
+        <target state="final">Доступный кеш не найден</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.name" approved="yes">
+        <source>node.name</source>
+        <target state="final">Имя узла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="queryCache" approved="yes">
+        <source>queryCache</source>
+        <target state="final">Кеш запросов</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.a.node" approved="yes">
+        <source>search.a.node</source>
+        <target state="final">Искать узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.all" approved="yes">
+        <source>select.all</source>
+        <target state="final">Выбрать все</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.nodetype" approved="yes">
+        <source>select.nodetype</source>
+        <target state="final">Фильтр</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="themeRoot" approved="yes">
+        <source>themeRoot</source>
+        <target state="final">Корневой узел</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="true" approved="yes">
+        <source>true</source>
+        <target state="final">Да</target>
+      </trans-unit>
+      <!-- Node tree contextual menu commands -->
+      <!-- Some constraints messages -->
+      <!-- Font variantes -->
+      <!-- Tag multiple children creation -->
+      <!-- Raw documents -->
+      <!-- Bulk tags -->
+      <!-- Custom form nav bar -->
+      <!-- Node form help messages -->
+      <!-- Font form help messages -->
+      <!-- Node type field form help messages -->
+      <!-- Explorer and Widget translation -->
+      <!-- New Join node-type-field type -->
+    </body>
+  </file>
+</xliff>

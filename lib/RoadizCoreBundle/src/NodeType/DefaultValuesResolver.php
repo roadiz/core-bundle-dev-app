@@ -17,6 +17,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
     ) {
     }
 
+    #[\Override]
     public function getDefaultValuesAmongAllFields(NodeTypeFieldInterface $field): array
     {
         /*
@@ -36,9 +37,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
             foreach ($nodeTypes as $nodeType) {
                 $nodeTypeFields = [
                     ...$nodeTypeFields,
-                    ...$nodeType->getFields()->filter(function (NodeTypeFieldInterface $nodeTypeField) use ($field) {
-                        return $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType();
-                    })->toArray(),
+                    ...$nodeType->getFields()->filter(fn (NodeTypeFieldInterface $nodeTypeField) => $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType())->toArray(),
                 ];
             }
             foreach ($nodeTypeFields as $nodeTypeField) {
@@ -50,12 +49,13 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
         }
     }
 
+    #[\Override]
     public function getMaxDefaultValuesLengthAmongAllFields(NodeTypeFieldInterface $field): int
     {
         // get max length of exploded default values
         $max = 0;
         foreach ($this->getDefaultValuesAmongAllFields($field) as $value) {
-            $max = max($max, \mb_strlen($value));
+            $max = max($max, \mb_strlen((string) $value));
         }
 
         return $max > 0 ? $max : 250;

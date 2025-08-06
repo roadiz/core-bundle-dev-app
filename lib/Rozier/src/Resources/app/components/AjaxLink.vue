@@ -5,17 +5,15 @@
 </template>
 
 <script>
-    import {
-        KEYBOARD_EVENT_ESCAPE
-    } from '../types/mutationTypes'
+import { KEYBOARD_EVENT_ESCAPE } from '../types/mutationTypes'
 
-    export default {
-        props: ['title', 'href', 'typeColor'],
-        methods: {
-            onItemClick: function (e) {
-                window.Rozier.lazyload.onClick(e)
-                this.$store.commit(KEYBOARD_EVENT_ESCAPE)
-            }
-        }
-    }
+export default {
+    props: ['title', 'href', 'typeColor'],
+    methods: {
+        onItemClick: function (e) {
+            window.Rozier.lazyload.onClick(e)
+            this.$store.commit(KEYBOARD_EVENT_ESCAPE)
+        },
+    },
+}
 </script>

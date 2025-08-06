@@ -1,0 +1,55 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{%- block title -%}
+    {{ "edit.user.%name%"|trans({'%name%': item.username })|u.truncate(25, '[…]', true) }}
+    |
+    {{ parent() -}}
+{%- endblock -%}
+
+{% block content %}
+<section class="content-global edit-user">
+
+    <header class="content-header header-user header-user-edit">
+        <h1 class="content-title user-add-title">{{ "edit.user.%name%"|trans({'%name%': item.username })|u.truncate(25, '[…]', true) }}</h1>
+        <a class="content-header-nav-back uk-navbar-content"
+           href="{{ path('usersHomePage') }}"
+           title="{% trans %}back_to.users{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
+        {% include '@RoadizRozier/users/navBar.html.twig' with {'user':item, current:'edit'} %}
+    </header>
+
+    <article class="content content-edit">
+        {% form_theme form '@RoadizRozier/forms.html.twig' %}
+        {{ form_start(form, { attr: {id: 'edit-user-form'}}) }}
+        {{ form_widget(form) }}
+        <fieldset data-uk-margin>
+            <button data-action-save="#edit-user-form" class="uk-button uk-button-success rz-action-save" type="submit">
+                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
+                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
+            </button>
+        </fieldset>
+        {{ form_end(form) }}
+
+        <div class="content-table-cont metadata-list">
+            <table class="uk-table content-table">
+                <tr>
+                    <th>{% trans %}created.at{% endtrans %}</th>
+                    <td>{{ item.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}updated.at{% endtrans %}</th>
+                    <td>{{ item.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
+                </tr>
+                {% if item.id == app.user.id %}
+                    <tr>
+                        <th>{% trans %}ip_address{% endtrans %}</th>
+                        <td>{{ app.request.clientIp }}</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </article>
+
+    {% include '@RoadizRozier/users/actionsMenu.html.twig' with { user: item } %}
+</section>
+{% endblock %}

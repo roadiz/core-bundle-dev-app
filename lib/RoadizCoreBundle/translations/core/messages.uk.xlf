@@ -40,9 +40,9 @@
         <source>form.successfully.sent</source>
         <target state="final">Ваш запит був успішно надісланий</target>
       </trans-unit>
-      <trans-unit id="form.has.errors">
+      <trans-unit id="form.has.errors" approved="yes">
         <source>form.has.errors</source>
-        <target state="translated">В формі допущено помилки</target>
+        <target state="final">В формі допущено помилки</target>
       </trans-unit>
       <trans-unit id="%field%.is.mandatory" approved="yes">
         <source>%field%.is.mandatory</source>
@@ -112,9 +112,9 @@
                 <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
                 <target state="final">Якщо ви не запитували зміну пароля, просто ігноруйте цей лист</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset_your_password">
+      <trans-unit xml:space="preserve" id="reset_your_password" approved="yes">
                 <source>reset_your_password</source>
-                <target state="translated">Скинути пароль</target>
+                <target state="final">Скинути пароль</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
                 <source>you.need.to.fill.this.required.field</source>
@@ -132,27 +132,28 @@
                 <source>website.is.under.maintenance.we.will.be.back.soon</source>
                 <target state="final">Сайт знаходиться на обслуговуванні та скоро повернеться!</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="yaml.is.not.valid">
+      <trans-unit xml:space="preserve" id="yaml.is.not.valid" approved="yes">
                 <source>yaml.is.not.valid.{{ error }}</source>
-                <target state="translated">YAML-код містить помилки ({{ error }}).</target>
+                <target state="final">YAML-код містить помилки ({{ error }}).</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="value.is.already.used">
+      <trans-unit xml:space="preserve" id="value.is.already.used" approved="yes">
                 <source>value.is.already.used</source>
-                <target state="translated">Це значення вже використовується.</target>
+                <target state="final">Це значення вже використовується.</target>
                 <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit">
+      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit" approved="yes">
                 <source>password_should_contains_at_least_one_capital_one_digit</source>
-                <target state="translated">пароль повинен містити принаймні одну велику цифру</target>
+                <target state="final">пароль повинен містити принаймні одну велику цифру</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_blacklisted">
+      <trans-unit xml:space="preserve" id="password_blacklisted" approved="yes">
                 <source>password_blacklisted</source>
-                <target state="translated">пароль внесено в чорний список</target>
+                <target state="final">пароль внесено в чорний список</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long">
+      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long" approved="yes">
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
-                <target state="translated">пароль повинен мати щонайменше {{length}} символів</target>
+                <target state="final">пароль повинен мати щонайменше {{length}} символів</target>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>

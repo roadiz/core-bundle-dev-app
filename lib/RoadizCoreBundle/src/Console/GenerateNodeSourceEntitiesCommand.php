@@ -8,11 +8,16 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'generate:nsentities',
+    description: 'Generate node-sources entities PHP classes in <info>src/GeneratedEntity</info>.',
+)]
 final class GenerateNodeSourceEntitiesCommand extends Command
 {
     public function __construct(
@@ -23,16 +28,11 @@ final class GenerateNodeSourceEntitiesCommand extends Command
         parent::__construct($name);
     }
 
-    protected function configure(): void
-    {
-        $this->setName('generate:nsentities')
-            ->setDescription('Generate node-sources entities PHP classes.');
-    }
-
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

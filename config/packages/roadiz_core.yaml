@@ -6,8 +6,11 @@ roadiz_core:
     documentsLibDir: 'lib/Documents/src'
     useNativeJsonColumnType: true
     useGravatar: false
-    useEmailReplyTo: false
+    useEmailReplyTo: true
+    useDocumentDto: true
     helpExternalUrl: 'https://docs.roadiz.io'
+    customPublicScheme: '%env(string:APP_CUSTOM_PUBLIC_SCHEME)%'
+    customPreviewScheme: '%env(string:APP_CUSTOM_PREVIEW_SCHEME)%'
     medias:
         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
         soundcloud_client_id: '%env(string:APP_SOUNDCLOUD_CLIENT_ID)%'
@@ -19,22 +22,12 @@ roadiz_core:
         verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
     inheritance:
         type: single_table
-
-    solr:
-        timeout: 3
-        endpoints:
-            docker:
-                host: '%env(string:SOLR_HOST)%'
-                core: '%env(string:SOLR_CORE_NAME)%'
-                port: '%env(string:SOLR_PORT)%'
-                path: /
-
-    reverseProxyCache:
-        # Test Varnish invalidation on dev too
-        frontend:
-            default:
-                host: '%env(VARNISH_URL)%'
-                domainName: '%env(VARNISH_DOMAIN)%'
+#    reverseProxyCache:
+#        # Test Varnish invalidation on dev too
+#        frontend:
+#            default:
+#                host: '%env(VARNISH_URL)%'
+#                domainName: '%env(VARNISH_DOMAIN)%'
 #        cloudflare:
 #            zone: '%env(string:APP_CLOUDFLARE_ZONE)%'
 #            bearer: '%env(string:APP_CLOUDFLARE_BEARER)%'

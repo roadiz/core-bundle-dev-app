@@ -10,22 +10,19 @@ use Nette\PhpGenerator\Property;
 
 final class YamlFieldGenerator extends NonVirtualFieldGenerator
 {
+    #[\Override]
     protected function addSerializationAttributes(Property|Method $property): self
     {
         parent::addSerializationAttributes($property);
         if (!$this->excludeFromSerialization()) {
-            $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
-            $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-                $this->field->getVarName(),
-            ]);
-            $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
+            $property->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
                 'serializedName' => $this->field->getVarName(),
             ]);
-            $property->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [
+            $property->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [
                 $this->getSerializationGroups(),
             ]);
             if ($this->getSerializationMaxDepth() > 0) {
-                $property->addAttribute('Symfony\Component\Serializer\Attribute\MaxDepth', [
+                $property->addAttribute(\Symfony\Component\Serializer\Attribute\MaxDepth::class, [
                     $this->getSerializationMaxDepth(),
                 ]);
             }
@@ -34,6 +31,7 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
         return $this;
     }
 
+    #[\Override]
     protected function getDefaultSerializationGroups(): array
     {
         $groups = parent::getDefaultSerializationGroups();
@@ -42,16 +40,13 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
         return $groups;
     }
 
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
-    }
-
+    #[\Override]
     protected function hasFieldAlternativeGetter(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function addFieldAlternativeGetter(ClassType $classType): self
     {
         $assignation = '$this->'.$this->field->getVarName();

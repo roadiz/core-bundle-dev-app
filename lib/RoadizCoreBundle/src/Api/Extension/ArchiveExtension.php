@@ -49,6 +49,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
     ) {
     }
 
+    #[\Override]
     public function applyToCollection(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
@@ -59,7 +60,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
         if (!$this->supportsResult($resourceClass, $operation)) {
             return;
         }
-        if (null === $request = $this->requestStack->getCurrentRequest()) {
+        if (null === $this->requestStack->getCurrentRequest()) {
             return;
         }
         $aliases = $queryBuilder->getRootAliases();
@@ -72,15 +73,20 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
             ->orderBy($publicationField, 'DESC');
     }
 
+    #[\Override]
     public function supportsResult(string $resourceClass, ?Operation $operation = null, array $context = []): bool
     {
-        if (null === $request = $this->requestStack->getCurrentRequest()) {
+        if (null === $this->requestStack->getCurrentRequest()) {
             return false;
         }
 
         return $this->isArchiveEnabled($operation);
     }
 
+    /**
+     * @return iterable<Archive>
+     */
+    #[\Override]
     public function getResult(
         QueryBuilder $queryBuilder,
         ?string $resourceClass = null,
@@ -113,10 +119,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
         }
 
         foreach ($dates as $year => $months) {
-            $entity = new Archive();
-            $entity->year = (int) $year;
-            $entity->months = $months;
-            $entities[] = $entity;
+            $entities[] = new Archive($year, $months);
         }
 
         return $entities;

@@ -135,13 +135,11 @@ fabric.properties
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+/.data
 /*.sql
+/*.tar
+/*.tar.gz
 /generated/*
-/.data/db/*
-/.data/db_test/*
-/.data/mariadb/*
-/.data/pgsql_test/*
-/.data/solr/*
 /themes/BaseTheme
 /public/themes/BaseTheme
 /public/assets/*
@@ -168,4 +166,6 @@ fabric.properties
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 /compose.override.yml
+/compose.override.yaml
 /siege.txt
+/auth.json

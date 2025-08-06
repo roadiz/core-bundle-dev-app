@@ -2,52 +2,13 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" source-language="en-US" datatype="plaintext">
         <body>
-            <trans-unit xml:space="preserve" id="force_locale.description">
-                <source>Force displaying translation locale in every node’ paths. This should be ON if you redirect users based on their language on homepage.</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="email_sender.description">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
-                <source>Default maps tiles layout when using *Leaflet*.</source>
-                <target></target>
-            </trans-unit>
             <trans-unit xml:space="preserve" id="login_image.description">
                 <source>Replace random *Splashbase* login images with your own.</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="maintenance_mode.description">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="maps_default_location.description">
-                <source>Default maps marker location.</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="maps_style.description">
-                <source>Default maps tiles layout when using *Google Maps*.</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="max_versions_showed.description">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="hide_roadiz_version.help">
-                <source>hide_roadiz_version.help</source>
-                <target></target>
-                <note>Setting</note>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="force_locale_with_urlaliases">
-                <source>force_locale_with_urlaliases</source>
-                <target></target>
-                <note>Setting name</note>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="force_locale_with_urlaliases.help">
-                <source>force_locale_with_urlaliases.help</source>
-                <target></target>
-                <note>Setting description</note>
             </trans-unit>
             <trans-unit xml:space="preserve" id="use_native_json">
                 <source>use_native_json</source>
@@ -234,6 +195,27 @@
                 <source>unsplash_client_id.help</source>
                 <target></target>
                 <note>Setting help name</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="Store last cronjob execution date and time.">
+                <source>Store last cronjob execution date and time.</source>
+                <target></target>
+                <note>Setting help name</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="support_email_address">
+                <source>support_email_address</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="support_email_address.description">
+                <source>Support email address, used in every system emails footer</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="email_disclaimer">
+                <source>email_disclaimer</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="email_disclaimer.description">
+                <source>Disclaimer text used in every system emails footer</source>
+                <target></target>
             </trans-unit>
         </body>
     </file>

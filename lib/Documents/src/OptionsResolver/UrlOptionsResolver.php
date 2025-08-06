@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\OptionsResolver;
 
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UrlOptionsResolver extends OptionsResolver
@@ -12,32 +11,27 @@ class UrlOptionsResolver extends OptionsResolver
     public function __construct()
     {
         $this->setDefaults([
-            'crop' => null,
-            'fit' => null,
+            'absolute' => false,
             'align' => null,
             'background' => null,
-            'absolute' => false,
-            'grayscale' => false,
-            'progressive' => false,
-            'noProcess' => false,
-            'interlace' => false,
-            'width' => 0,
-            'flip' => null,
-            'height' => 0,
-            'quality' => 90,
             'blur' => 0,
-            'sharpen' => 0,
             'contrast' => 0,
-            'rotate' => 0,
+            'crop' => null,
+            'fit' => null,
+            'flip' => null,
+            'grayscale' => false,
+            'height' => 0,
+            'hotspot' => null,
+            'interlace' => false,
+            'noProcess' => false,
+            'progressive' => false,
+            'quality' => 90,
             'ratio' => null,
+            'rotate' => 0,
+            'sharpen' => 0,
+            'width' => 0,
         ]);
-        $this->setAllowedTypes('width', ['int']);
-        $this->setAllowedTypes('height', ['int']);
-        $this->setAllowedTypes('crop', ['null', 'string']);
-        $this->setAllowedTypes('fit', ['null', 'string']);
-        $this->setAllowedTypes('flip', ['null', 'string']);
-        $this->setAllowedTypes('align', ['null', 'string']);
-        $this->setAllowedTypes('ratio', ['null', 'float']);
+        $this->setAllowedTypes('absolute', ['boolean']);
         $this->setAllowedValues(
             'align',
             [
@@ -53,60 +47,23 @@ class UrlOptionsResolver extends OptionsResolver
                 'bottom-right',
             ]
         );
+        $this->setAllowedTypes('align', ['null', 'string']);
         $this->setAllowedTypes('background', ['null', 'string']);
-        $this->setAllowedTypes('quality', ['int']);
         $this->setAllowedTypes('blur', ['int']);
-        $this->setAllowedTypes('sharpen', ['int']);
         $this->setAllowedTypes('contrast', ['int']);
-        $this->setAllowedTypes('rotate', ['int']);
-        $this->setAllowedTypes('absolute', ['boolean']);
+        $this->setAllowedTypes('crop', ['null', 'string']);
+        $this->setAllowedTypes('fit', ['null', 'string']);
+        $this->setAllowedTypes('flip', ['null', 'string']);
         $this->setAllowedTypes('grayscale', ['boolean']);
-        $this->setAllowedTypes('progressive', ['boolean']);
-        $this->setAllowedTypes('noProcess', ['boolean']);
+        $this->setAllowedTypes('height', ['int']);
+        $this->setAllowedTypes('hotspot', ['null', 'string']);
         $this->setAllowedTypes('interlace', ['boolean']);
-
-        $this->setDefault(
-            'ratio',
-            function (Options $options) {
-                /** @var \ArrayAccess<string, string|null> $options */
-                $compositing = $options['crop'] ?? $options['fit'] ?? '';
-                if (1 === preg_match('#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#', $compositing, $matches)) {
-                    return ((float) $matches['width']) / ((float) $matches['height']);
-                }
-
-                return null;
-            }
-        );
-        /*
-         * Guess width and height options from fit
-         */
-        $this->setDefault(
-            'width',
-            function (Options $options) {
-                /** @var \ArrayAccess<string, string|null> $options */
-                $compositing = $options['fit'] ?? '';
-                if (1 === preg_match('#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#', $compositing, $matches)) {
-                    return (int) $matches['width'];
-                } elseif (null !== $options['ratio'] && 0 !== $options['height'] && 0 !== $options['ratio']) {
-                    return (int) (intval($options['height']) * floatval($options['ratio']));
-                }
-
-                return 0;
-            }
-        );
-        $this->setDefault(
-            'height',
-            function (Options $options) {
-                /** @var \ArrayAccess<string, string|null> $options */
-                $compositing = $options['fit'] ?? '';
-                if (1 === preg_match('#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#', $compositing, $matches)) {
-                    return (int) $matches['height'];
-                } elseif (null !== $options['ratio'] && 0 !== $options['width'] && 0 !== $options['ratio']) {
-                    return (int) (intval($options['width']) / floatval($options['ratio']));
-                }
-
-                return 0;
-            }
-        );
+        $this->setAllowedTypes('noProcess', ['boolean']);
+        $this->setAllowedTypes('progressive', ['boolean']);
+        $this->setAllowedTypes('quality', ['int']);
+        $this->setAllowedTypes('ratio', ['null', 'float']);
+        $this->setAllowedTypes('rotate', ['int']);
+        $this->setAllowedTypes('sharpen', ['int']);
+        $this->setAllowedTypes('width', ['int']);
     }
 }

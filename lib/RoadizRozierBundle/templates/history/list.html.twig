@@ -1,0 +1,44 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{%- block title -%}
+    {% if user %}
+        {{- "history.for.%name%"|trans({"%name%":user.identifier}) }}
+    {% else %}
+        {%- trans -%}history{% endtrans %}
+    {% endif %}
+    |
+    {{ parent() -}}
+{%- endblock -%}
+
+{% block content %}
+<section class="content-global content-nav-and-filters">
+
+    <header class="content-header content-header-filters manage-history-header">
+        {% if user %}
+        <h1 class="content-title manage-history-title">{{ "history.for.%name%"|trans({"%name%":user.identifier}) }}</h1>
+        {% else %}
+        <h1 class="content-title manage-history-title">{% trans %}history{% endtrans %}</h1>
+        {% endif %}
+        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
+
+        {% if user %}
+        {% include '@RoadizRozier/users/navBar.html.twig' with {'user':user, current:'history'} %}
+        {% else %}
+        {% include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'history'} %}
+        {% endif %}
+    </header>
+
+    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+
+    <article class="content content-no-action-menu content-manage-history">
+        <div class="history-logs">
+            {% for log in logs %}
+                {% include '@RoadizRozier/modules/history-item.html.twig' with {
+                    'levels': levels,
+                    'log': log
+                } only %}
+            {% endfor %}
+        </div>
+    </article>
+</section>
+{% endblock %}

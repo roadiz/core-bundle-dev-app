@@ -195,7 +195,7 @@ abstract class EntityRepository extends ServiceEntityRepository
 
             try {
                 return (int) $qb->getQuery()->getSingleScalarResult();
-            } catch (NoResultException|NonUniqueResultException $e) {
+            } catch (NoResultException|NonUniqueResultException) {
                 return 0;
             }
         }
@@ -350,7 +350,7 @@ abstract class EntityRepository extends ServiceEntityRepository
 
         try {
             return (int) $qb->getQuery()->getSingleScalarResult();
-        } catch (NoResultException|NonUniqueResultException $e) {
+        } catch (NoResultException|NonUniqueResultException) {
             return 0;
         }
     }

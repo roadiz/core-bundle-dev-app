@@ -9,7 +9,6 @@ use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use RZ\Roadiz\CoreBundle\Importer\EntityImporterInterface;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
-use RZ\Roadiz\CoreBundle\Importer\RolesImporter;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,6 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
 
@@ -30,7 +30,6 @@ final class AppInstallCommand extends Command
         private readonly string $projectDir,
         private readonly ManagerRegistry $managerRegistry,
         private readonly SettingsImporter $settingsImporter,
-        private readonly RolesImporter $rolesImporter,
         private readonly GroupsImporter $groupsImporter,
         private readonly AttributeImporter $attributeImporter,
         ?string $name = null,
@@ -38,10 +37,11 @@ final class AppInstallCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('app:install')
-            ->setDescription('Install application fixtures (settings, roles, tags, attributes) from config.yml')
+            ->setDescription('Install application fixtures (settings, groups, attributes) from config.yml')
             ->addOption(
                 'dry-run',
                 'd',
@@ -50,6 +50,7 @@ final class AppInstallCommand extends Command
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('dry-run')) {
@@ -57,31 +58,27 @@ final class AppInstallCommand extends Command
         }
         $this->io = new SymfonyStyle($input, $output);
 
-        /*
-         * Test if Classname is not a valid yaml file before using Theme
-         */
         $configPath = $this->projectDir.'/src/Resources/config.yml';
         $realConfigPath = realpath($configPath);
-        if (false !== $realConfigPath && file_exists($realConfigPath)) {
-            $this->io->note('Install assets directly from file: '.$realConfigPath);
-            $themeConfigPath = $realConfigPath;
-        } else {
-            $this->io->error($configPath.' configuration file is not readable.');
+        if (false === $realConfigPath || !(new Filesystem())->exists($realConfigPath)) {
+            $this->io->note('No configuration file found in: '.$configPath);
 
-            return 1;
+            return 0;
         }
 
-        $this->importAppData($themeConfigPath);
+        $this->io->note('Install project fixtures from configuration file: '.$realConfigPath);
+        $configurationPath = $realConfigPath;
+        $this->importAppData($configurationPath);
 
         return 0;
     }
 
-    protected function importAppData(string $themeConfigPath): void
+    protected function importAppData(string $configurationPath): void
     {
-        $data = $this->getAppConfig($themeConfigPath);
+        $data = $this->getAppConfig($configurationPath);
 
         if (!isset($data['importFiles']) || !is_array($data['importFiles'])) {
-            $this->io->warning('Config file "'.$themeConfigPath.'" has no data to import.');
+            $this->io->warning('Config file "'.$configurationPath.'" has no data to import.');
 
             return;
         }
@@ -89,11 +86,6 @@ final class AppInstallCommand extends Command
         if (isset($data['importFiles']['groups'])) {
             foreach ($data['importFiles']['groups'] as $filename) {
                 $this->importFile($filename, $this->groupsImporter);
-            }
-        }
-        if (isset($data['importFiles']['roles'])) {
-            foreach ($data['importFiles']['roles'] as $filename) {
-                $this->importFile($filename, $this->rolesImporter);
             }
         }
         if (isset($data['importFiles']['settings'])) {
@@ -110,6 +102,7 @@ final class AppInstallCommand extends Command
 
     protected function importFile(string $filename, EntityImporterInterface $importer): void
     {
+        $filesystem = new Filesystem();
         if (false !== $realFilename = realpath($filename)) {
             $file = new File($realFilename);
         } else {
@@ -124,9 +117,7 @@ final class AppInstallCommand extends Command
         }
 
         try {
-            if (false === $fileContent = file_get_contents($file->getPathname())) {
-                throw new \RuntimeException($file->getPathname().' file is not readable');
-            }
+            $fileContent = $filesystem->readFile($file->getPathname());
             $importer->import($fileContent);
             $this->managerRegistry->getManager()->flush();
             $this->io->writeln(
@@ -148,9 +139,7 @@ final class AppInstallCommand extends Command
 
     protected function getAppConfig(string $appConfigPath): array
     {
-        if (false === $fileContent = file_get_contents($appConfigPath)) {
-            throw new \RuntimeException($appConfigPath.' file is not readable');
-        }
+        $fileContent = (new Filesystem())->readFile($appConfigPath);
         $data = Yaml::parse($fileContent);
         if (!\is_array($data)) {
             throw new \RuntimeException($appConfigPath.' file is not a valid YAML file');

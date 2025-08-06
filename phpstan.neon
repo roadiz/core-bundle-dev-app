@@ -10,13 +10,12 @@ parameters:
         - lib/Models/src
         - lib/OpenId/src
         - lib/Random/src
-        - lib/RoadizCompatBundle/src
         - lib/RoadizCoreBundle/src
         - lib/RoadizFontBundle/src
         - lib/RoadizRozierBundle/src
         - lib/RoadizUserBundle/src
         - lib/RoadizTwoFactorBundle/src
-        - lib/Rozier/src
+        - lib/RoadizSolrBundle/src
         - src
     excludePaths:
         - */node_modules/*
@@ -50,6 +49,7 @@ parameters:
         - '#should return Doctrine\\Common\\Collections\\Collection<int, [^\>]+Interface> but returns Doctrine\\Common\\Collections\\Collection<int, [^\>]+>#'
         - '#but returns Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
         - '#does not accept Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
+        - '#RZ\\Roadiz\\CoreBundle\\Entity\\NodesSources does not have a field named \$node\.nodeName#'
 
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: false

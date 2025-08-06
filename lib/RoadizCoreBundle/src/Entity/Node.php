@@ -15,11 +15,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
@@ -31,7 +33,7 @@ use RZ\Roadiz\CoreBundle\Model\AttributableTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -76,24 +78,25 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(PropertyFilter::class),
     ApiFilter(TagGroupFilter::class)
 ]
-class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable, NodeInterface
+class Node implements DateTimedInterface, LeafInterface, AttributableInterface, Loggable, NodeInterface, \Stringable
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
     use AttributableTrait;
 
     /** @deprecated Use NodeStatus enum */
-    public const DRAFT = 10;
+    public const int DRAFT = 10;
     /** @deprecated Use NodeStatus enum */
-    public const PENDING = 20;
+    public const int PENDING = 20;
     /** @deprecated Use NodeStatus enum */
-    public const PUBLISHED = 30;
+    public const int PUBLISHED = 30;
     /** @deprecated Use NodeStatus enum */
-    public const ARCHIVED = 40;
+    public const int ARCHIVED = 40;
     /** @deprecated Use NodeStatus enum */
-    public const DELETED = 50;
+    public const int DELETED = 50;
 
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $orderingFields = [
         'position' => 'position',
         'nodeName' => 'nodeName',
@@ -104,8 +107,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'node_name', type: 'string', length: 255, unique: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
-    #[Serializer\Accessor(getter: 'getNodeName', setter: 'setNodeName')]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
@@ -126,7 +127,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
-    #[Serializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Is this node visible in website navigation?',
@@ -143,7 +143,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         enumType: NodeStatus::class,
         options: ['default' => NodeStatus::DRAFT]
     )]
-    #[Serializer\Exclude]
     #[SymfonySerializer\Ignore]
     private NodeStatus $status = NodeStatus::DRAFT;
 
@@ -155,14 +154,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[Assert\NotNull]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[Gedmo\Versioned]
     // @phpstan-ignore-next-line
     private ?int $ttl = 0;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Is this node locked to prevent deletion and renaming?',
@@ -172,7 +169,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'hide_children', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Does this node act as a container for other nodes?',
@@ -182,7 +178,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Can this node hold other nodes inside?',
@@ -192,7 +187,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
     #[SymfonySerializer\Groups(['node', 'node_listing'])]
-    #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     #[ApiProperty(
@@ -208,7 +202,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
     #[SymfonySerializer\Groups(['node', 'node_listing'])]
-    #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 4)]
     #[Assert\Choice(choices: ['ASC', 'DESC'])]
     #[Gedmo\Versioned]
@@ -224,7 +217,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private string $childrenOrderDirection = 'ASC';
 
     #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30)]
-    #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private string $nodeTypeName;
 
@@ -234,7 +226,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[ORM\ManyToOne(targetEntity: Node::class, fetch: 'EAGER', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private ?LeafInterface $parent = null;
 
     /**
@@ -243,7 +234,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Node::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Groups(['node_children'])]
-    #[Serializer\Groups(['node_children'])]
     private Collection $children;
 
     /**
@@ -257,7 +247,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
         'nodesTags.tag' => 'exact',
         'nodesTags.tag.tagName' => 'exact',
@@ -277,14 +266,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $customForms;
 
     /**
      * @var Collection<int, StackType>
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: StackType::class, cascade: ['persist'], orphanRemoval: true)]
-    #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private Collection $stackTypes;
@@ -298,7 +285,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         fetch: 'EXTRA_LAZY',
         orphanRemoval: true
     )]
-    #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private Collection $nodeSources;
@@ -315,7 +301,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $bNodes;
 
     /**
@@ -323,7 +308,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     #[ORM\OneToMany(mappedBy: 'nodeB', targetEntity: NodesToNodes::class)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $aNodes;
 
     /**
@@ -331,7 +315,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: AttributeValue::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
-    #[Serializer\Groups(['node_attributes'])]
     #[SymfonySerializer\Groups(['node_attributes'])]
     #[SymfonySerializer\MaxDepth(1)]
     private Collection $attributeValues;
@@ -349,7 +332,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         $this->aNodes = new ArrayCollection();
         $this->bNodes = new ArrayCollection();
         $this->attributeValues = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**
@@ -446,16 +429,19 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
+    #[\Override]
     public function isPublished(): bool
     {
         return $this->status->isPublished();
     }
 
+    #[\Override]
     public function isPending(): bool
     {
         return $this->status->isPending();
     }
 
+    #[\Override]
     public function isDraft(): bool
     {
         return $this->status->isDraft();
@@ -531,6 +517,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
+    #[\Override]
     public function getChildrenOrder(): string
     {
         return $this->childrenOrder;
@@ -546,6 +533,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
+    #[\Override]
     public function getChildrenOrderDirection(): string
     {
         return $this->childrenOrderDirection;
@@ -588,13 +576,9 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      * @return Collection<int, Tag>
      */
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node'])]
-    #[Serializer\VirtualProperty]
     public function getTags(): Collection
     {
-        return $this->nodesTags->map(function (NodesTags $nodesTags) {
-            return $nodesTags->getTag();
-        });
+        return $this->nodesTags->map(fn (NodesTags $nodesTags) => $nodesTags->getTag());
     }
 
     /**
@@ -621,9 +605,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     public function addTag(Tag $tag): static
     {
         if (
-            !$this->getTags()->exists(function ($key, Tag $existingTag) use ($tag) {
-                return $tag->getId() === $existingTag->getId();
-            })
+            !$this->getTags()->exists(fn ($key, Tag $existingTag) => $tag->getId() === $existingTag->getId())
         ) {
             $last = $this->nodesTags->last();
             if (false !== $last) {
@@ -641,9 +623,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     public function removeTag(Tag $tag): static
     {
-        $nodeTags = $this->nodesTags->filter(function (NodesTags $existingNodesTags) use ($tag) {
-            return $existingNodesTags->getTag()->getId() === $tag->getId();
-        });
+        $nodeTags = $this->nodesTags->filter(fn (NodesTags $existingNodesTags) => $existingNodesTags->getTag()->getId() === $tag->getId());
         foreach ($nodeTags as $singleNodeTags) {
             $this->nodesTags->removeElement($singleNodeTags);
         }
@@ -691,9 +671,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     public function removeStackType(NodeType $nodeType): static
     {
         $stackType = $this->stackTypes->findFirst(
-            function (int $key, StackType $stackType) use ($nodeType) {
-                return $stackType->getNodeTypeName() === $nodeType->getName();
-            }
+            fn (int $key, StackType $stackType) => $stackType->getNodeTypeName() === $nodeType->getName()
         );
 
         $this->stackTypes->removeElement($stackType);
@@ -714,9 +692,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     public function addStackType(NodeType $nodeType): static
     {
-        if (!$this->getStackTypes()->exists(function (int $key, StackType $stackType) use ($nodeType) {
-            return $stackType->getNodeTypeName() === $nodeType->getName();
-        })) {
+        if (!$this->getStackTypes()->exists(fn (int $key, StackType $stackType) => $stackType->getNodeTypeName() === $nodeType->getName())) {
             $this->getStackTypes()->add(
                 new StackType(
                     $this,
@@ -736,9 +712,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Ignore]
     public function getNodeSourcesByTranslation(TranslationInterface $translation): Collection
     {
-        return $this->nodeSources->filter(function (NodesSources $nodeSource) use ($translation) {
-            return $nodeSource->getTranslation()->getLocale() === $translation->getLocale();
-        });
+        return $this->nodeSources->filter(fn (NodesSources $nodeSource) => $nodeSource->getTranslation()->getLocale() === $translation->getLocale());
     }
 
     /**
@@ -817,11 +791,9 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     public function hasBNode(NodesToNodes $bNode): bool
     {
-        return $this->getBNodes()->exists(function ($key, NodesToNodes $element) use ($bNode) {
-            return null !== $bNode->getNodeB()->getId()
-                && $element->getNodeB()->getId() === $bNode->getNodeB()->getId()
-                && $element->getFieldName() === $bNode->getFieldName();
-        });
+        return $this->getBNodes()->exists(fn ($key, NodesToNodes $element) => null !== $bNode->getNodeB()->getId()
+            && $element->getNodeB()->getId() === $bNode->getNodeB()->getId()
+            && $element->getFieldName() === $bNode->getFieldName());
     }
 
     /**
@@ -839,9 +811,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     public function clearBNodesForField(NodeTypeFieldInterface $field): Node
     {
-        $toRemoveCollection = $this->getBNodes()->filter(function (NodesToNodes $element) use ($field) {
-            return $element->getFieldName() === $field->getName();
-        });
+        $toRemoveCollection = $this->getBNodes()->filter(fn (NodesToNodes $element) => $element->getFieldName() === $field->getName());
         /** @var NodesToNodes $toRemove */
         foreach ($toRemoveCollection as $toRemove) {
             $this->getBNodes()->removeElement($toRemove);
@@ -875,6 +845,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return $this->nodeTypeName;
@@ -962,6 +933,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         }
     }
 
+    #[\Override]
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {
@@ -976,6 +948,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();

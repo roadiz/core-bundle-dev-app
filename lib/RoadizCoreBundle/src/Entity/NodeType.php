@@ -7,30 +7,25 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * NodeType describes each node structure family,
  * They are mandatory before creating any Node.
  */
-final class NodeType implements NodeTypeInterface
+final class NodeType implements NodeTypeInterface, \Stringable
 {
     #[
-        Serializer\Groups(['node_type', 'color']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
-        Serializer\Type('string'),
         Assert\Length(max: 7),
     ]
     protected ?string $color = '#000000';
     #[
-        Serializer\Groups(['node_type', 'node']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
-        Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
         RoadizAssert\SimpleLatinString(),
@@ -39,30 +34,22 @@ final class NodeType implements NodeTypeInterface
     ]
     private string $name = '';
     #[
-        Serializer\Groups(['node_type', 'node']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
-        Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250)
     ]
     private string $displayName = '';
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('string')
     ]
     private ?string $description = null;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $visible = true;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $publishable = false;
 
@@ -70,15 +57,11 @@ final class NodeType implements NodeTypeInterface
      * @var bool define if this node-type produces nodes that will have attributes
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $attributable = false;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $sortingAttributesByWeight = false;
     /**
@@ -88,37 +71,26 @@ final class NodeType implements NodeTypeInterface
      * Typically, if a node has a URL.
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $reachable = true;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $hidingNodes = false;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $hidingNonReachableNodes = false;
     /**
      * @var Collection<int, NodeTypeField>
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\NodeTypeField>"),
-        Serializer\Accessor(getter: 'getFields', setter: 'setFields')
     ]
     private Collection $fields;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('int'),
         Assert\GreaterThanOrEqual(value: 0),
         Assert\NotNull
     ]
@@ -128,15 +100,17 @@ final class NodeType implements NodeTypeInterface
      * Define if this node-type title will be indexed during its parent indexation.
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $searchable = true;
-
     /**
-     * Create a new NodeType.
+     * Define if this node type is allowed in the first position in node-type selector on node creation.
      */
+    #[
+        SymfonySerializer\Groups(['node_type', 'node_type:import']),
+    ]
+    private bool $highlighted = false;
+
     public function __construct()
     {
         $this->fields = new ArrayCollection();
@@ -144,6 +118,7 @@ final class NodeType implements NodeTypeInterface
         $this->displayName = 'Untitled node-type';
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return $this->getDisplayName();
@@ -164,6 +139,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function getDescription(): ?string
     {
         return $this->description;
@@ -179,6 +155,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function isVisible(): bool
     {
         return $this->visible;
@@ -194,6 +171,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function isPublishable(): bool
     {
         return $this->publishable;
@@ -211,6 +189,7 @@ final class NodeType implements NodeTypeInterface
         return $this->reachable;
     }
 
+    #[\Override]
     public function isReachable(): bool
     {
         return $this->getReachable();
@@ -253,6 +232,7 @@ final class NodeType implements NodeTypeInterface
     /**
      * Gets the value of color.
      */
+    #[\Override]
     public function getColor(): ?string
     {
         return $this->color;
@@ -282,6 +262,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function getFieldByName(string $name): ?NodeTypeField
     {
         $fieldCriteria = Criteria::create();
@@ -295,6 +276,7 @@ final class NodeType implements NodeTypeInterface
     /**
      * @return Collection<int, NodeTypeField>
      */
+    #[\Override]
     public function getFields(): Collection
     {
         return $this->fields;
@@ -318,13 +300,13 @@ final class NodeType implements NodeTypeInterface
      * a simple array.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getFieldsNames(): array
     {
-        return array_map(function (NodeTypeField $field) {
-            return $field->getName();
-        }, $this->getFields()->toArray());
+        return array_map(fn (NodeTypeField $field) => $field->getName(), $this->getFields()->toArray());
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -363,6 +345,7 @@ final class NodeType implements NodeTypeInterface
      * @return class-string<NodesSources>
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSourceEntityFullQualifiedClassName(): string
     {
         // @phpstan-ignore-next-line
@@ -379,6 +362,7 @@ final class NodeType implements NodeTypeInterface
      * Get node-source entity class name without its namespace.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSourceEntityClassName(): string
     {
         return 'NS'.ucwords($this->getName());
@@ -388,11 +372,13 @@ final class NodeType implements NodeTypeInterface
      * Get node-source entity database table name.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSourceEntityTableName(): string
     {
         return 'ns_'.\mb_strtolower($this->getName());
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName();
@@ -402,13 +388,13 @@ final class NodeType implements NodeTypeInterface
      * Get every searchable node-type fields as a Doctrine ArrayCollection.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSearchableFields(): Collection
     {
-        return $this->getFields()->filter(function (NodeTypeField $field) {
-            return $field->isSearchable();
-        });
+        return $this->getFields()->filter(fn (NodeTypeField $field) => $field->isSearchable());
     }
 
+    #[\Override]
     public function isSearchable(): bool
     {
         return $this->searchable;
@@ -441,6 +427,18 @@ final class NodeType implements NodeTypeInterface
     public function setSortingAttributesByWeight(bool $sortingAttributesByWeight): NodeType
     {
         $this->sortingAttributesByWeight = $sortingAttributesByWeight;
+
+        return $this;
+    }
+
+    public function isHighlighted(): bool
+    {
+        return $this->highlighted;
+    }
+
+    public function setHighlighted(bool $highlighted): NodeType
+    {
+        $this->highlighted = $highlighted;
 
         return $this;
     }

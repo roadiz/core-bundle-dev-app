@@ -45,7 +45,7 @@ final class NSBlogPostPathSubscriber implements EventSubscriberInterface
 
 ## Create a new back-office entry
 
-At first, create a controller into your theme folder, for example `src/Controller/Admin/AdminController`.
+At first, create a controller into your sources folder, for example `src/Controller/Admin/AdminController`.
 
 ```php
 <?php
@@ -114,7 +114,7 @@ For simple features, you wouldn't have to extend JS nor CSS if you follow the sa
 
 ### Linking things together
 
-Add the route in the theme `config/routes.yaml` file.
+Add the route in the `config/routes.yaml` file.
 
 In this case the route will be:
 ```yaml

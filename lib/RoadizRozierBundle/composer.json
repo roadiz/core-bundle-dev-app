@@ -16,15 +16,12 @@
         }
     ],
     "type": "symfony-bundle",
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
-        "roadiz/compat-bundle": "2.5.*",
-        "roadiz/core-bundle": "2.5.*",
-        "roadiz/openid": "2.5.*",
-        "roadiz/rozier": "2.5.*",
-        "symfony/framework-bundle": "6.4.*"
+        "php": ">=8.3",
+        "roadiz/core-bundle": "2.6.*",
+        "roadiz/openid": "2.6.*",
+        "symfony/framework-bundle": "7.3.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
@@ -52,8 +49,21 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-main": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "requirements-checker": "script"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
     }
 }

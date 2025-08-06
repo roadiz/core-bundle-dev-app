@@ -13,11 +13,11 @@ use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
-final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverInterface
+final readonly class CachedNodeOffspringResolver implements CachedNodeOffspringResolverInterface
 {
     public function __construct(
-        private readonly CacheItemPoolInterface $cache,
-        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private CacheItemPoolInterface $cache,
+        private AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
@@ -25,6 +25,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
      * @throws InvalidArgumentException
      * @throws CacheException
      */
+    #[\Override]
     public function getAllOffspringIds(NodeInterface $ancestor): array
     {
         $cacheItem = $this->cache->getItem(self::CACHE_PREFIX.$ancestor->getId());
@@ -46,6 +47,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
     /**
      * @throws InvalidArgumentException
      */
+    #[\Override]
     public function purgeOffspringCache(NodeInterface $node): void
     {
         $this->cache->deleteItem(self::CACHE_PREFIX.$node->getId());

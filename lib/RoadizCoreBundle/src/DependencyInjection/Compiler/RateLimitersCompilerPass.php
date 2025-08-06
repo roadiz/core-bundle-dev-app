@@ -9,11 +9,12 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 
 class RateLimitersCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('limiter')) {
@@ -41,6 +42,6 @@ class RateLimitersCompilerPass implements CompilerPassInterface
         unset($limiterConfig['cache_pool']);
         $limiterConfig['id'] = $name;
         $limiter->replaceArgument(0, $limiterConfig);
-        $container->registerAliasForArgument($limiterId, RateLimiterFactory::class, $name.'.limiter');
+        $container->registerAliasForArgument($limiterId, RateLimiterFactoryInterface::class, $name.'.limiter');
     }
 }

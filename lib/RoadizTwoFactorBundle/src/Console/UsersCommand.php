@@ -23,6 +23,7 @@ class UsersCommand extends \RZ\Roadiz\CoreBundle\Console\UsersCommand
         parent::__construct($managerRegistry, $name);
     }
 
+    #[\Override]
     protected function getUserTableRow(User $user): array
     {
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);

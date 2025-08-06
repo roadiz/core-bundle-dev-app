@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\UuidTrait;
 use RZ\Roadiz\CoreBundle\Repository\WebhookRepository;
 use RZ\Roadiz\CoreBundle\Webhook\WebhookInterface;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -23,37 +23,26 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['last_triggered_at'], name: 'webhook_last_triggered_at'),
     ORM\HasLifecycleCallbacks
 ]
-class Webhook extends AbstractDateTimed implements WebhookInterface
+class Webhook implements WebhookInterface
 {
-    #[
-        ORM\Id,
-        ORM\Column(type: 'string', length: 36),
-        Serializer\Groups(['id']),
-        SymfonySerializer\Groups(['id']),
-        Serializer\Type('string')
-    ]
-    /** @phpstan-ignore-next-line */
-    protected int|string|null $id = null;
+    use UuidTrait;
+    use DateTimedTrait;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 250)]
-    #[Serializer\Type('string')]
     protected ?string $description = null;
 
     #[ORM\Column(name: 'message_type', type: 'string', length: 255, nullable: true)]
-    #[Serializer\Type('string')]
     #[Assert\Length(max: 255)]
     protected ?string $messageType = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Url]
-    #[Serializer\Type('string')]
     protected ?string $uri = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    #[Serializer\Type('array')]
     protected ?array $payload = null;
 
     /**
@@ -62,15 +51,12 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
     #[ORM\Column(name: 'throttleseconds', type: 'integer', nullable: false)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(value: 0)]
-    #[Serializer\Type('int')]
     protected int $throttleSeconds = 60;
 
     #[ORM\Column(name: 'last_triggered_at', type: 'datetime', nullable: true)]
-    #[Serializer\Type('\DateTime')]
     protected ?\DateTime $lastTriggeredAt = null;
 
     #[ORM\Column(name: 'automatic', type: 'boolean', nullable: false, options: ['default' => false])]
-    #[Serializer\Type('boolean')]
     protected bool $automatic = false;
 
     #[ORM\ManyToOne(targetEntity: Node::class)]
@@ -78,9 +64,9 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
     #[SymfonySerializer\Ignore]
     protected ?Node $rootNode = null;
 
-    public function __construct(?string $uuid = null)
+    public function __construct()
     {
-        $this->id = $uuid ?? \Ramsey\Uuid\Uuid::uuid4()->toString();
+        $this->initDateTimedTrait();
     }
 
     public function getDescription(): ?string
@@ -95,6 +81,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getMessageType(): ?string
     {
         return $this->messageType;
@@ -107,6 +94,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getUri(): ?string
     {
         return $this->uri;
@@ -119,6 +107,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getPayload(): ?array
     {
         return $this->payload;
@@ -131,6 +120,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getThrottleSeconds(): int
     {
         return $this->throttleSeconds;
@@ -147,6 +137,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function doNotTriggerBefore(): ?\DateTime
     {
         if (null === $this->getLastTriggeredAt()) {
@@ -164,11 +155,13 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getLastTriggeredAt(): ?\DateTime
     {
         return $this->lastTriggeredAt;
     }
 
+    #[\Override]
     public function setLastTriggeredAt(?\DateTime $lastTriggeredAt): Webhook
     {
         $this->lastTriggeredAt = $lastTriggeredAt;
@@ -176,6 +169,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function isAutomatic(): bool
     {
         return $this->automatic;
@@ -200,6 +194,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();

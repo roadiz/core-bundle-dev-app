@@ -16,12 +16,12 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Page node-source entity.
@@ -44,11 +44,9 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Sub-title: Sub-title description')]
     #[Serializer\MaxDepth(2)]
+    #[Assert\NotBlank]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'sub_title', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $subTitle = null;
 
     /**
@@ -70,9 +68,6 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'content', type: 'text', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $content = null;
 
     /** Page color. */
@@ -82,31 +77,28 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'color', type: 'string', nullable: true, length: 10)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $color = null;
 
     /**
      * Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'images')]
     #[Serializer\Groups(['realm_a'])]
-    #[ApiProperty(description: 'Images')]
+    #[ApiProperty(description: 'Images', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $images = null;
 
     /**
      * Header image.
      * Group: Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'headerImage')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
-    #[ApiProperty(description: 'Header image')]
+    #[ApiProperty(description: 'Header image', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $headerImage = null;
 
@@ -117,21 +109,18 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'over_title', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $overTitle = null;
 
     /**
      * Pictures.
      * Picture for website.
      * Group: Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'pictures')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
-    #[ApiProperty(description: 'Pictures: Picture for website')]
+    #[ApiProperty(description: 'Pictures: Picture for website', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $pictures = null;
 
@@ -140,7 +129,6 @@ class NSPage extends NodesSources
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      * References.
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'nodeReferences')]
     #[Serializer\Groups(['page_get_by_path'])]
     #[ApiProperty(description: 'References')]
@@ -168,9 +156,6 @@ class NSPage extends NodesSources
     #[ApiFilter(Filter\BooleanFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'sticky', type: 'boolean', nullable: false, options: ['default' => false])]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_boolean'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('bool')]
     private bool $sticky = false;
 
     /**
@@ -185,9 +170,6 @@ class NSPage extends NodesSources
     #[ApiFilter(Filter\BooleanFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'stickytest', type: 'boolean', nullable: false, options: ['default' => false])]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_boolean'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('bool')]
     private bool $stickytest = false;
 
     /**
@@ -196,7 +178,6 @@ class NSPage extends NodesSources
      *
      * @var \RZ\Roadiz\CoreBundle\Entity\CustomForm[]|null
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'customForm')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_custom_forms'])]
     #[ApiProperty(description: 'Custom form')]
@@ -212,7 +193,6 @@ class NSPage extends NodesSources
      * Reference to users.
      * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedPageUser>
      */
-    #[JMS\Exclude]
     #[Serializer\Ignore]
     #[ORM\OneToMany(
         targetEntity: \App\Entity\PositionedPageUser::class,
@@ -220,6 +200,8 @@ class NSPage extends NodesSources
         orphanRemoval: true,
         cascade: ['persist', 'remove'],
     )]
+    #[Assert\Count(min: 1)]
+    #[Assert\NotNull]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $usersProxy;
 
@@ -240,14 +222,14 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Reference to folders')]
     #[Serializer\MaxDepth(2)]
+    #[Assert\Count(min: 1)]
+    #[Assert\NotNull]
     #[ORM\ManyToMany(targetEntity: \RZ\Roadiz\CoreBundle\Entity\Folder::class)]
     #[ORM\JoinTable(name: 'page_folder_references')]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'folder_references_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
     private Collection $folderReferences;
 
     /** Amount. */
@@ -257,9 +239,6 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'amount', type: 'decimal', nullable: true, precision: 18, scale: 3)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('double')]
     private int|float|null $amount = null;
 
     /** Test email. */
@@ -269,15 +248,12 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'email_test', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $emailTest = null;
 
     /**
      * Settings.
      * Default values:
-     * classname: Themes\Rozier\Explorer\SettingsProvider
+     * classname: RZ\Roadiz\RozierBundle\Explorer\Provider\SettingsProvider
      */
     #[Serializer\SerializedName(serializedName: 'settings')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -285,14 +261,25 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'settings', type: 'json', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
     private mixed $settings = null;
+
+    /**
+     * Contacts.
+     * Default values:
+     * entry_type: App\Form\ContactFormType
+     */
+    #[Serializer\SerializedName(serializedName: 'contacts')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Contacts')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'contacts', type: 'json', nullable: true)]
+    private mixed $contacts = null;
 
     /**
      * Folder simple.
      * Default values:
-     * classname: Themes\Rozier\Explorer\FoldersProvider
+     * classname: RZ\Roadiz\RozierBundle\Explorer\Provider\FoldersProvider
      */
     #[Serializer\SerializedName(serializedName: 'folder')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -300,8 +287,6 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'folder', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
     private mixed $folder = null;
 
     /** Country. */
@@ -311,9 +296,6 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'country', type: 'string', nullable: true, length: 5)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $country = null;
 
     /** Geolocation. */
@@ -323,8 +305,6 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'geolocation', type: 'json', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
     private mixed $geolocation = null;
 
     /**
@@ -337,8 +317,6 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'multi_geolocation', type: 'json', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_geo'])]
-    #[JMS\MaxDepth(2)]
     private mixed $multiGeolocation = null;
 
     /**
@@ -359,9 +337,6 @@ class NSPage extends NodesSources
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $layout = null;
 
     /**
@@ -381,11 +356,10 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Main user')]
     #[Serializer\MaxDepth(2)]
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class)]
     #[ORM\JoinColumn(name: 'main_user_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
     private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
 
     /**
@@ -446,20 +420,15 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
-    #[JMS\Groups(['realm_a'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('images')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getImages(): array
     {
         if (null === $this->images) {
             if (null !== $this->objectManager) {
                 $this->images = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'images'
                     );
@@ -492,20 +461,15 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('headerImage')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getHeaderImage(): array
     {
         if (null === $this->headerImage) {
             if (null !== $this->objectManager) {
                 $this->headerImage = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'header_image'
                     );
@@ -557,20 +521,15 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('pictures')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getPictures(): array
     {
         if (null === $this->pictures) {
             if (null !== $this->objectManager) {
                 $this->pictures = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'pictures'
                     );
@@ -605,11 +564,6 @@ class NSPage extends NodesSources
     /**
      * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
-    #[JMS\Groups(['page_get_by_path'])]
-    #[JMS\MaxDepth(1)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('nodeReferences')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]
     public function getNodeReferencesSources(): array
     {
         if (null === $this->nodeReferencesSources) {
@@ -675,10 +629,6 @@ class NSPage extends NodesSources
     /**
      * @return \RZ\Roadiz\CoreBundle\Entity\CustomForm[] CustomForm array
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_custom_forms'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('customForm')]
     public function getCustomForm(): array
     {
         if (null === $this->customForm) {
@@ -722,18 +672,12 @@ class NSPage extends NodesSources
         return $this->usersProxy;
     }
 
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('users')]
     #[Serializer\SerializedName(serializedName: 'users')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\MaxDepth(2)]
     public function getUsers(): array
     {
-        return $this->usersProxy->map(function (\App\Entity\PositionedPageUser $proxyEntity) {
-            return $proxyEntity->getUser();
-        })->getValues();
+        return $this->usersProxy->map(fn(\App\Entity\PositionedPageUser $proxyEntity) => $proxyEntity->getUser())->getValues();
     }
 
     /**
@@ -765,7 +709,6 @@ class NSPage extends NodesSources
                 }
                 $proxyEntity->setUser($singleUsers);
                 $this->usersProxy->add($proxyEntity);
-                $this->objectManager->persist($proxyEntity);
             }
         }
 
@@ -844,6 +787,23 @@ class NSPage extends NodesSources
     public function setSettings(mixed $settings): static
     {
         $this->settings = $settings;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContacts(): mixed
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setContacts(mixed $contacts): static
+    {
+        $this->contacts = $contacts;
         return $this;
     }
 
@@ -957,6 +917,7 @@ class NSPage extends NodesSources
         $this->folderReferences = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    #[\Override]
     public function __clone(): void
     {
         parent::__clone();
@@ -966,26 +927,21 @@ class NSPage extends NodesSources
             $itemClone = clone $item;
             $itemClone->setNodeSource($this);
             $usersProxyClone->add($itemClone);
-            $this->objectManager->persist($itemClone);
         }
         $this->usersProxy = $usersProxyClone;
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\SerializedName('@type')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Page';
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['node_type'])]
-    #[JMS\SerializedName('nodeTypeColor')]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '#000000';
@@ -995,7 +951,7 @@ class NSPage extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
-    #[JMS\VirtualProperty]
+    #[\Override]
     public function isReachable(): bool
     {
         return true;
@@ -1005,12 +961,13 @@ class NSPage extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
-    #[JMS\VirtualProperty]
+    #[\Override]
     public function isPublishable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSPage] ' . parent::__toString();

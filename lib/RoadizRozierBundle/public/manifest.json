@@ -1,0 +1,98 @@
+{
+  "Resources/app/fonts/fa-brands-400.woff": {
+    "file": "fa-brands-400-llyXKB-1.woff",
+    "src": "Resources/app/fonts/fa-brands-400.woff"
+  },
+  "Resources/app/fonts/fa-brands-400.woff2": {
+    "file": "fa-brands-400-CfPCoubI.woff2",
+    "src": "Resources/app/fonts/fa-brands-400.woff2"
+  },
+  "Resources/app/fonts/fontawesome-webfont.woff": {
+    "file": "fontawesome-webfont-7YG-f3YT.woff",
+    "src": "Resources/app/fonts/fontawesome-webfont.woff"
+  },
+  "Resources/app/fonts/fontawesome-webfont.woff2": {
+    "file": "fontawesome-webfont-Bsy9_7N6.woff2",
+    "src": "Resources/app/fonts/fontawesome-webfont.woff2"
+  },
+  "Resources/app/fonts/rz-icons.woff": {
+    "file": "rz-icons-BOx9IpnW.woff",
+    "src": "Resources/app/fonts/rz-icons.woff"
+  },
+  "Resources/app/fonts/rz-icons.woff2": {
+    "file": "rz-icons-BSa7Mah2.woff2",
+    "src": "Resources/app/fonts/rz-icons.woff2"
+  },
+  "Resources/app/img/spritemap.png": {
+    "file": "spritemap-CP-4snSC.png",
+    "src": "Resources/app/img/spritemap.png"
+  },
+  "Resources/app/img/spritemap@2x.png": {
+    "file": "spritemap@2x-Bd7qNsVN.png",
+    "src": "Resources/app/img/spritemap@2x.png"
+  },
+  "Resources/app/main.js": {
+    "file": "main-G8ItPhoW.js",
+    "name": "main",
+    "src": "Resources/app/main.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-5sAwpjfl.js",
+      "_vue-YhlLoeNc.js"
+    ],
+    "css": [
+      "main-DQKDGynu.css"
+    ]
+  },
+  "Resources/app/shared.js": {
+    "file": "shared-DURwnNVI.js",
+    "name": "shared",
+    "src": "Resources/app/shared.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-5sAwpjfl.js"
+    ],
+    "css": [
+      "shared-Bb2GMCsX.css"
+    ],
+    "assets": [
+      "fontawesome-webfont-B-jkhYfk.woff2",
+      "fontawesome-webfont-CDK5bt4p.woff",
+      "fontawesome-webfont-CQDK8MU3.ttf",
+      "spritemap-CP-4snSC.png",
+      "spritemap@2x-Bd7qNsVN.png",
+      "fontawesome-webfont-Bsy9_7N6.woff2",
+      "fontawesome-webfont-7YG-f3YT.woff",
+      "fa-brands-400-CfPCoubI.woff2",
+      "fa-brands-400-llyXKB-1.woff",
+      "rz-icons-BSa7Mah2.woff2",
+      "rz-icons-BOx9IpnW.woff"
+    ]
+  },
+  "Resources/app/simple.js": {
+    "file": "simple-gJ7J7gE2.js",
+    "name": "simple",
+    "src": "Resources/app/simple.js",
+    "isEntry": true
+  },
+  "_jquery-5sAwpjfl.js": {
+    "file": "jquery-5sAwpjfl.js",
+    "name": "jquery"
+  },
+  "_vue-YhlLoeNc.js": {
+    "file": "vue-YhlLoeNc.js",
+    "name": "vue"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
+    "file": "fontawesome-webfont-CQDK8MU3.ttf",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff": {
+    "file": "fontawesome-webfont-CDK5bt4p.woff",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2": {
+    "file": "fontawesome-webfont-B-jkhYfk.woff2",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2"
+  }
+}

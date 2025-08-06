@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class FontEvent extends Event
 {
-    protected ?Font $font = null;
-
-    public function __construct(?Font $font)
+    public function __construct(protected ?Font $font)
     {
-        $this->font = $font;
     }
 
     public function getFont(): ?Font

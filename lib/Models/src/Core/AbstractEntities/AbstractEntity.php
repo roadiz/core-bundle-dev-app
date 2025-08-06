@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
 /**
  * Base entity implementing PersistableInterface to offer a unique ID.
+ *
+ * @deprecated since 2.6, use composition with PersistableInterface and SequentialIdTrait or UuidTrait instead.
  */
 #[
     ORM\MappedSuperclass,
@@ -17,25 +17,5 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 ]
 abstract class AbstractEntity implements PersistableInterface
 {
-    #[
-        ORM\Id,
-        ORM\Column(type: 'integer'),
-        ORM\GeneratedValue,
-        Serializer\Groups(['id']),
-        Serializer\Type('integer'),
-        SymfonySerializer\Groups(['id'])
-    ]
-    protected int|string|null $id = null;
-
-    public function getId(): int|string|null
-    {
-        return $this->id;
-    }
-
-    public function setId(int|string|null $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    use SequentialIdTrait;
 }

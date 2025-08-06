@@ -1,0 +1,233 @@
+{% set formattedLocale = app.request.locale|replace({'_': '-'})|lower %}
+<!DOCTYPE html>
+<html class="no-js" lang="{{ formattedLocale }}"{% if app.request.locale is rtl %} dir="rtl"{% endif %}>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ meta.siteName }}{% endblock %}</title>
+        <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
+        {# CSS scripts inclusions / Using webpack #}
+        {{ manifest_preload_tags('shared') }}
+        {{ manifest_preload_tags('main') }}
+
+        {{ manifest_style_tags('shared') }}
+        {{ manifest_style_tags('main') }}
+
+        {% if main_color %}
+            <style>
+                :root {
+                    --rz-accent-color: {{ main_color|raw }};
+                    --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+                    --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+                    --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+                }
+            </style>
+        {% endif %}
+        {% block customStyles %}{% endblock %}
+        {% if additionalStylesheets %}
+            {% for additionalStylesheet in additionalStylesheets %}
+                <link rel="stylesheet" href="{{ additionalStylesheet.path }}">
+            {% endfor %}
+        {% endif %}
+    </head>
+    <body>
+        <div id="app"></div>
+        <div id="main-container">
+            {% set treePanelEnabled = (is_granted('ROLE_ACCESS_NODES') or
+                is_granted('ROLE_ACCESS_DOCUMENTS') or
+                is_granted('ROLE_ACCESS_TAGS')) %}
+            <div id="main-container-inner"{% if not treePanelEnabled %} class="trees-panel--hidden"{% endif %}>
+                <section class="main-container-section navigation-container-section" id="user-panel">
+                    {% include '@RoadizRozier/panels/user_panel.html.twig' with {
+                        'session' : session,
+                        'head' : head,
+                    } only %}
+                </section>
+                <section class="main-container-section navigation-container-section" id="admin-menu">
+                    {% include '@RoadizRozier/panels/admin_menu.html.twig' with {
+                        'backofficeEntries':backofficeEntries,
+                    } only %}
+                </section>
+                {% if treePanelEnabled %}
+                <section class="main-container-section navigation-container-section" id="main-trees">
+                    <div id="main-trees-container">
+                        {% include '@RoadizRozier/panels/tree_panel.html.twig' %}
+                    </div>
+                </section>
+                {% endif %}
+                <!-- Add your site or application content here -->
+                <section id="main-content" class="main-container-section" data-uk-observe>
+                    <div id="main-content-overlay"></div>
+                    <div id="main-content-scrollable" data-ajax-root>
+                        {% block permanentComponents %}
+                            <overlay data-vuejs></overlay>
+                        {% endblock %}
+                        {% block content %}{% endblock %}
+                    </div>
+                    <div id="canvasloader-container"></div>
+                    <div id="back-top-button"
+                         title="{% trans %}back_to.top{% endtrans %}"
+                         data-uk-tooltip="{animation:true,pos:'top'}"><i class="uk-icon-rz-backtop"></i></div>
+                    {# This is a debug panel placeholder… do not remove it. #}
+                </section>
+            </div>
+        </div>
+
+        <div id="vue-containers">
+            <filter-explorer-container></filter-explorer-container>
+            <explorer-container></explorer-container>
+            <document-preview-container></document-preview-container>
+            <modal-container></modal-container>
+        </div>
+        <div id="codemirror-preview-containers"></div>
+        <script>
+            window.RozierConfig = {
+                'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
+                'resourcesUrl':      '{{ asset('/bundles/roadizrozier/') }}',
+                'ajaxToken':         '{{ csrf_token(constant('RZ\\Roadiz\\RozierBundle\\Controller\\Ajax\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
+                'mainColor':         '{{ main_color }}',
+                'mapsStyle':         {% if head.mapsStyle %}{{ head.mapsStyle|raw }}{% else %}[]{% endif %},
+                'leafletMapTileUrl': '{{ leaflet_map_tile_url }}',
+                'defaultMapLocation': {{ maps_default_location|raw }},
+                'messages': {
+                    'login':                  '{{ 'login'|trans|trim|escape }}',
+                    'sessionExpireTitle':     '{{ 'session.expire.title'|trans|trim|escape }}',
+                    'sessionExpireContent':   '{{ 'session.expire.content'|trans|trim|escape }}',
+                    'healthCheckedFailedTitle':     '{{ 'health_check.failed.title'|trans|trim|escape }}',
+                    'healthCheckedFailedContent':   '{{ 'health_check.failed.content'|trans|trim|escape }}',
+                    'createTag':              '{{ 'explorer.create_tag'|trans|trim|escape }}',
+                    'explorer':               '{{ 'documents.toggle-explorer'|trans|trim|escape }}',
+                    'forbiddenPage':          '{{ 'forbidden.page'|trans|trim|escape }}',
+                    'document':               '{{ 'document'|trans|trim|escape }}',
+                    'documents':              '{{ 'documents'|trans|trim|escape }}',
+                    'item':                   '{{ 'item'|trans|trim|escape }}',
+                    'items':                  '{{ 'items'|trans|trim|escape }}',
+                    'folder':                 '{{ 'folder'|trans|trim|escape }}',
+                    'folders':                '{{ 'folders'|trans|trim|escape }}',
+                    'see_all':                '{{ 'see_all'|trans|trim|escape }}',
+                    'searchDocuments':        '{{ 'search.documents'|trans|trim|escape }}',
+                    'searchNodes':            '{{ 'search.nodes'|trans|trim|escape }}',
+                    'searchCustomForms':      '{{ 'search.custom_forms'|trans|trim|escape }}',
+                    'moreDocuments':          '{{ 'more.documents'|trans|trim|escape }}',
+                    'moreNodes':              '{{ 'more.nodes'|trans|trim|escape }}',
+                    'moreNodeTypes':          '{{ 'more.node_types'|trans|trim|escape }}',
+                    'moreTags':               '{{ 'more.tags'|trans|trim|escape }}',
+                    'moreEntities':           '{{ 'more.entities'|trans|trim|escape }}',
+                    'moreCustomForms':        '{{ 'more.custom_forms'|trans|trim|escape }}',
+                    'documentEditDialogSubmit':        '{{ 'documentEditDialog.submit'|trans|trim|escape }}',
+                    'documentEditDialogCancel':        '{{ 'documentEditDialog.cancel'|trans|trim|escape }}',
+                    'documentEditDialogEdit':        '{{ 'documentEditDialog.edit'|trans|trim|escape }}',
+                    'blanchetteEditor': {
+                        'blanchetteEditor': '{{ 'blanchetteEditor'|trans|trim|escape }}',
+                        'free': '{{ 'blanchetteEditor.free'|trans|trim|escape }}',
+                        'move': '{{ 'blanchetteEditor.move'|trans|trim|escape }}',
+                        'crop': '{{ 'blanchetteEditor.crop'|trans|trim|escape }}',
+                        'zoomIn': '{{ 'blanchetteEditor.zoomIn'|trans|trim|escape }}',
+                        'zoomOut': '{{ 'blanchetteEditor.zoomOut'|trans|trim|escape }}',
+                        'rotateLeft': '{{ 'blanchetteEditor.rotateLeft'|trans|trim|escape }}',
+                        'rotateRight': '{{ 'blanchetteEditor.rotateRight'|trans|trim|escape }}',
+                        'flipHorizontal': '{{ 'blanchetteEditor.flipHorizontal'|trans|trim|escape }}',
+                        'flipVertical': '{{ 'blanchetteEditor.flipVertical'|trans|trim|escape }}',
+                        'applyChange': '{{ 'blanchetteEditor.applyChange'|trans|trim|escape }}',
+                        'undo': '{{ 'blanchetteEditor.undo'|trans|trim|escape }}',
+                        'aspectRatio': '{{ 'blanchetteEditor.aspectRatio'|trans|trim|escape }}',
+                        'saveAndOverwrite': '{{ 'blanchetteEditor.saveAndOverwrite'|trans|trim|escape }}',
+                        'other': '{{ 'blanchetteEditor.other'|trans|trim|escape }}',
+                        'landscape': '{{ 'blanchetteEditor.landscape'|trans|trim|escape }}',
+                        'portrait': '{{ 'blanchetteEditor.portrait'|trans|trim|escape }}',
+                    },
+                    'dropzone' : {
+                        'maxFilesize':                  {{ rozier.maxFilesize ?? '0' }},
+                        'dictDefaultMessage':           "{{ 'drop.files.here.to.upload.or.click.to.open.your.explorer'|trans|trim|escape }}",
+                        'dictFallbackMessage':          "{{ 'your.browser.does.not.support.dragndrop.file.uploads'|trans|trim|escape }}",
+                        'dictFallbackText':             "{{ 'please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days'|trans|trim|escape }}",
+                        'dictFileTooBig':               "{{ 'file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib'|trans|trim|escape }}",
+                        'dictInvalidFileType':          "{{ 'you.cant.upload.files.of.this.type'|trans|trim|escape }}",
+                        'dictResponseError':            "{{ 'server.responded.with.{{statusCode}}.code'|trans|trim|escape }}",
+                        'dictCancelUpload':             "{{ 'cancel.upload'|trans|trim|escape }}",
+                        'dictCancelUploadConfirmation': "{{ 'are.you.sure.you.want.to.cancel.this.upload'|trans|trim|escape }}",
+                        'dictRemoveFile':               "{{ 'remove.file'|trans|trim|escape }}",
+                        'dictRemoveFileConfirmation':   null,
+                        'dictMaxFilesExceeded':         "{{ 'you.can.not.upload.any.more.files'|trans|trim|escape }}"
+                    },
+                    'htmleditor': {
+                        'h2':          '{{'headline.2'|trans|trim|escape }}',
+                        'h3':          '{{'headline.3'|trans|trim|escape }}',
+                        'h4':          '{{'headline.4'|trans|trim|escape }}',
+                        'h5':          '{{'headline.5'|trans|trim|escape }}',
+                        'h6':          '{{'headline.6'|trans|trim|escape }}',
+                        'fullscreen':  '{{'fullscreen'|trans|trim|escape }}',
+                        'bold' :       '{{'bold'|trans|trim|escape }}',
+                        'italic' :     '{{'italic'|trans|trim|escape }}',
+                        'strike' :     '{{'strikethrough'|trans|trim|escape }}',
+                        'blockquote' : '{{'blockquote'|trans|trim|escape }}',
+                        'link' :       '{{'link'|trans|trim|escape }}',
+                        'image' :      '{{'image'|trans|trim|escape }}',
+                        'listUl' :     '{{'unordered.list'|trans|trim|escape }}',
+                        'listOl' :     '{{'ordered.list'|trans|trim|escape }}',
+                        'back' :       '{{'back'|trans|trim|escape }}',
+                        'hr' :         '{{'separator'|trans|trim|escape }}',
+                        'nbsp' :       '{{'non_breaking.space'|trans|trim|escape }}'
+                    },
+                    'geotag': {
+                        'resetMarker':   '{{'reset.marker'|trans|trim|escape }}',
+                        'typeAnAddress': '{{'geotag.type_an_address.then_type_enter'|trans|trim|escape }}'
+                    }
+                },
+                'routes': {
+                    'ping' :                      '{{ path('ping') }}',
+                    'splashRequest':              '{{ path('loginImagePage') }}',
+                    'loginPage':                  '{{ path('loginPage') }}',
+                    'nodeAjaxEdit' :              '{{ path('adminHomePage') }}/ajax/node/edit/%nodeId%',
+                    'tagAjaxEdit' :               '{{ path('adminHomePage') }}/ajax/tag/edit/%tagId%',
+                    'folderAjaxEdit' :            '{{ path('adminHomePage') }}/ajax/folder/edit/%folderId%',
+                    'nodeTypesFieldAjaxList':     '{{ path('adminHomePage') }}/ajax/node-types/fields/list',
+                    'customFormsFieldAjaxEdit':   '{{ path('adminHomePage') }}/ajax/custom-forms/fields/edit/%customFormFieldId%',
+                    'documentsUploadPage' :       '{{ path('documentsUploadPage', {_format: 'json'}) }}',
+                    'documentsBulkDeletePage' :   '{{ path('documentsBulkDeletePage') }}',
+                    'documentsBulkDownloadPage' : '{{ path('documentsBulkDownloadPage') }}',
+                    'documentsAjaxExplorer' :     '{{ path('documentsAjaxExplorerPage') }}',
+                    'documentsAjaxByArray' :      '{{ path('documentsAjaxByArray') }}',
+                    'customFormsAjaxByArray' :    '{{ path('customFormsAjaxByArray') }}',
+                    'nodeTypesAjaxByArray' :      '{{ path('nodeTypesAjaxByArray') }}',
+                    'nodeTypesAjaxExplorer' :     '{{ path('nodeTypesAjaxExplorer') }}',
+                    'joinsAjaxByArray' :          '{{ path('entitiesAjaxByArray') }}',
+                    'nodesAjaxByArray' :          '{{ path('nodesAjaxByArray') }}',
+                    'tagsAjaxExplorer' :          '{{ path('tagsAjaxExplorer') }}',
+                    'tagsAjaxByArray' :           '{{ path('tagsAjaxByArray') }}',
+                    'tagsAjaxExplorerList' :      '{{ path('tagsAjaxExplorerList') }}',
+                    'tagsAjaxCreate' :            '{{ path('tagsAjaxCreate') }}',
+                    'foldersAjaxExplorer' :       '{{ path('foldersAjaxExplorerPage') }}',
+                    'nodesAjaxExplorer' :         '{{ path('nodesAjaxExplorerPage') }}',
+                    'joinsAjaxExplorer' :         '{{ path('entitiesAjaxExplorerPage') }}',
+                    'providerAjaxExplorer' :      '{{ path('providerAjaxExplorerPage') }}',
+                    'providerAjaxByArray' :       '{{ path('providerAjaxByArray') }}',
+                    'customFormsAjaxExplorer' :   '{{ path('customFormsAjaxExplorerPage') }}',
+                    'searchAjax':                 '{{ path('searchAjax') }}',
+                    'nodesStatusesAjax' :         '{{ path('nodesStatusesAjax') }}',
+                    'nodesTreeAjax' :             '{{ path('nodesTreeAjax') }}',
+                    'tagsTreeAjax' :              '{{ path('tagsTreeAjax') }}',
+                    'foldersTreeAjax' :           '{{ path('foldersTreeAjax') }}',
+                    'nodesQuickAddAjax' :         '{{ path('nodesQuickAddAjax')}}',
+                    'tagAjaxSearch':              '{{ path('tagAjaxSearch') }}',
+                    'foldersAjaxSearch':          '{{ path('foldersAjaxSearch') }}',
+                    'ajaxSessionMessages':        '{{ path('ajaxSessionMessages') }}',
+                    'attributeValueAjaxEdit':     '{{ path('adminHomePage') }}/ajax/attribute-values/edit/%attributeValueId%',
+                }
+            };
+        </script>
+
+        {{ manifest_script_tags('@vite/client') }}
+        {{ manifest_script_tags('shared') }}
+        {{ manifest_script_tags('main') }}
+
+        {% block customScripts %}{% endblock %}
+        {% if additionalScripts %}
+            {% for additionalScript in additionalScripts %}
+                <script src="{{ additionalScript.path }}"></script>
+            {% endfor %}
+        {% endif %}
+    </body>
+</html>

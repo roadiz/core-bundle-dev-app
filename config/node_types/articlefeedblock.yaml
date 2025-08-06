@@ -13,12 +13,7 @@ fields:
         name: listing_count
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Article count'
-        expanded: false
         type: integer
 defaultTtl: 0
 searchable: true

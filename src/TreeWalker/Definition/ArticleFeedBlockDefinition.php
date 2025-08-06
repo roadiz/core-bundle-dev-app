@@ -16,6 +16,7 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
 {
     use ContextualDefinitionTrait;
 
+    #[\Override]
     public function isStoppingCollectionOnceInvoked(): bool
     {
         return true;

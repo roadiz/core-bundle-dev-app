@@ -1,0 +1,37 @@
+{% extends "@RoadizRozier/admin/base.html.twig" %}
+
+{% block title %}{% trans %}customForm{% endtrans %} | {{ parent() }}{% endblock %}
+
+{%- block content_title -%}{% trans %}customForm{% endtrans %}{%- endblock -%}
+
+{%- block content_header_actions -%}
+    <a class="uk-button" href="{{ path('customFormsAddPage') }}">
+        <i class="uk-icon-rz-plus"></i> {% trans %}add.a.customForm{% endtrans %}
+    </a>
+{%- endblock -%}
+
+{%- block content_filters -%}
+    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+{%- endblock -%}
+
+{%- block content_body -%}
+    <article class="content content-no-action-menu content-custom-forms-list">
+        <div class="content-table-cont">
+            <table class="custom-forms content-table uk-table">
+                <thead>
+                <tr>
+                    {%- include '@RoadizRozier/custom-forms/customform_row_header.html.twig' -%}
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        {%- include '@RoadizRozier/custom-forms/customform_row.html.twig' -%}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+{%- endblock -%}

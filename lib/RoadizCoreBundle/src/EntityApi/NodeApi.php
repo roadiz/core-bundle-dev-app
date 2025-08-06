@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
  */
 class NodeApi extends AbstractApi
 {
+    #[\Override]
     public function getRepository(): NodeRepository
     {
         /** @var NodeRepository $repository */
@@ -33,6 +34,7 @@ class NodeApi extends AbstractApi
     /**
      * @return array<Node>|Paginator<Node>
      */
+    #[\Override]
     public function getBy(
         array $criteria,
         ?array $order = null,
@@ -53,6 +55,7 @@ class NodeApi extends AbstractApi
                     );
     }
 
+    #[\Override]
     public function countBy(array $criteria): int
     {
         if (!in_array('translation.available', $criteria, true)) {
@@ -66,6 +69,7 @@ class NodeApi extends AbstractApi
                     );
     }
 
+    #[\Override]
     public function getOneBy(array $criteria, ?array $order = null): ?Node
     {
         if (!in_array('translation.available', $criteria, true)) {

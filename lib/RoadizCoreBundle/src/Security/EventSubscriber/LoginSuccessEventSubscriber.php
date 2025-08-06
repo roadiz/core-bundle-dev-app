@@ -15,6 +15,7 @@ final readonly class LoginSuccessEventSubscriber implements EventSubscriberInter
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -24,6 +25,10 @@ final readonly class LoginSuccessEventSubscriber implements EventSubscriberInter
 
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
+        if ('api' === $event->getFirewallName()) {
+            // Do not log every time a JWT is validated (each request)
+            return;
+        }
         $this->logger->info($this->translator->trans('User logged in successfully.'), [
             'username' => $event->getRequest()->get('_username'),
             'ip' => $event->getRequest()->getClientIp(),

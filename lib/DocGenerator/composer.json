@@ -3,10 +3,10 @@
     "description": "Roadiz sub-package which generates Markdown documentation skeleton based on your schema",
     "type": "library",
     "require": {
-        "php": ">=8.2",
-        "roadiz/nodetype-contracts": "^2.0.0",
-        "symfony/translation": "6.4.*",
-        "symfony/http-foundation": "6.4.*"
+        "php": ">=8.3",
+        "roadiz/nodetype-contracts": "^3.0.0",
+        "symfony/translation": "7.3.*",
+        "symfony/http-foundation": "7.3.*"
     },
     "license": "MIT",
     "authors": [
@@ -28,8 +28,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-main": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
     }
 }

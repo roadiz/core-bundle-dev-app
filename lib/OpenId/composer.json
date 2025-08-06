@@ -13,22 +13,22 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-json": "*",
         "codercat/jwk-to-pem": "^1.0",
         "lcobucci/jwt": "^5.3",
         "lcobucci/clock": "^3.0",
         "psr/cache": ">=1.0.1",
-        "roadiz/jwt": "2.5.*",
-        "roadiz/models": "2.5.*",
-        "roadiz/random": "2.5.*",
+        "roadiz/jwt": "2.6.*",
+        "roadiz/models": "2.6.*",
+        "roadiz/random": "2.6.*",
         "symfony/event-dispatcher-contracts": "^3.5.1",
-        "symfony/http-client": "6.4.*",
-        "symfony/http-foundation": "6.4.*",
-        "symfony/routing": "6.4.*",
-        "symfony/security-core": "6.4.*",
-        "symfony/security-csrf": "6.4.*",
-        "symfony/security-http": "6.4.*"
+        "symfony/http-client": "7.3.*",
+        "symfony/http-foundation": "7.3.*",
+        "symfony/routing": "7.3.*",
+        "symfony/security-core": "7.3.*",
+        "symfony/security-csrf": "7.3.*",
+        "symfony/security-http": "7.3.*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.5.3",
@@ -46,8 +46,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-main": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
     }
 }

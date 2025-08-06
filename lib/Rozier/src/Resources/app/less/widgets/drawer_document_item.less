@@ -3,26 +3,26 @@
     position: relative;
     display: inline-block;
     vertical-align: top;
-    width:80px;
-    height:80px;
+    width: 96px;
+    height: 96px;
     margin: 6px;
     cursor: move;
     background: #eee;
     overflow: hidden;
 
-    .uk-sortable-handle{
+    .uk-sortable-handle {
         position: absolute;
-        width:80px;
-        height:80px;
+        width: 96px;
+        height: 96px;
 
-        &:after{
+        &:after {
             display: none;
         }
     }
 
     .svg {
-        width: 80px;
-        height: 80px;
+        width: 96px;
+        height: 96px;
     }
 
     .svg object {
@@ -55,60 +55,84 @@
 
     .document-border {
         position: absolute;
-        top:0; right:0; left:0;
+        top: 0;
+        right: 0;
+        left: 0;
         z-index: 15;
-        height:4px;
+        height: 4px;
         background: var(--rz-accent-color);
     }
 
-    .document-image{
-        min-width: 80px;
-        min-height: 80px;
+    .document-image {
+        min-width: 96px;
+        min-height: 96px;
     }
 
-    .document-name{
+    .document-name {
         display: none;
         transition: ~"0.4s opacity ease, 0.4s top ease";
     }
 
-    .document-mime-type{
+    .document-mime-type {
         display: none;
     }
 
     .document-links {
         position: absolute;
-        width: 80px;
-        height: 30px;
+        display: flex;
+        width: 100%;
+        padding: 6px 4px 4px 4px;
+        box-sizing: border-box;
+        justify-content: flex-end;
         transform: translateY(100%);
         bottom: 0;
-        overflow: hidden;
+        gap: 6px;
         transition: 0.4s transform @easeOutExpo;
-        background: rgba(255,255,255,0.8);
 
         .document-link {
+            position: relative;
             display: inline-block;
-            width:40px;
-            height:30px;
+            width: 24px;
+            height: 24px;
             border-radius: 0;
-            opacity: 0.95;
 
             i {
-                margin:0;
-                line-height:30px;
+                margin: 0;
+                line-height: 24px;
             }
 
-            .label{
+            .label {
                 display: none;
             }
         }
     }
 
-    .link-button{
+    // Styling edit button whose target a document with custom data attached
+    input[name*="hotspot"][value]:not([value="null"]) ~ .document-links .document-link--edit,
+    input[name*="imageCropAlignment"][value]:not([value=""]) ~ .document-links .document-link--edit {
+        &::after {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+            background-color: var(--rz-accent-color);
+            filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.25));
+        }
+    }
+
+    .link-button {
         display: none;
     }
 
-    .document-platform-icon{
-        width: 35px; height: 35px;
+    .document-platform-icon {
+        width: 35px;
+        height: 35px;
         background-color: #EEE;
         margin: -18px;
         position: absolute;
@@ -121,7 +145,7 @@
         opacity: 0.95;
         transition: 0.9s opacity @easeOutExpo;
 
-        i{
+        i {
             font-size: 28px;
             line-height: 35px;
             color: #3C3C3C;
@@ -129,28 +153,30 @@
     }
 
     &.not-image {
-
         .document-platform-icon {
             top: 45%;
         }
+
         .document-name {
             display: block;
             opacity: 0.7;
             font-size: 9px;
             position: absolute;
             top: 63px;
-            width: 80px;
+            width: 96px;
             text-align: center;
         }
     }
 
-    &:hover{
-        .document-links{
+    &:hover {
+        .document-links {
             transform: translateY(0);
         }
+
         .document-platform-icon {
             opacity: 0;
         }
+
         &.not-image {
             .document-name {
                 top: 10px;

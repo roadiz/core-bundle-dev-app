@@ -2,21 +2,15 @@
    HISTORY
 \*------------------------------------*/
 
-
-/*
- * History page
- */
-
-
-/* -------- STYLES -------- */
-
-.history-log-item{
+.history-log-item {
+    height: auto;
+    overflow: hidden;
     position: relative;
     vertical-align: top;
     display: block;
     align-items: stretch;
     width:100%;
-    border-top:1px solid #cccccc;
+    border-top: 1px solid #cccccc;
     background: var(--contrasted-bg);
 
     @media (min-width: @screen-sm-min) {
@@ -28,51 +22,80 @@
     }
 
     .table {
-        display: table;
+        display: inline-block;
+        height: auto;
+
+        @media (min-width: @screen-sm-min) {
+            display: table;
+        }
     }
 
-    .table-cell{
-        display: table-cell;
-        vertical-align:middle;
+    .table-cell {
+        display: inline-block;
+        height:auto;
+
+        @media (min-width: @screen-sm-min) {
+            display: table-cell;
+            vertical-align:middle;
+        }
     }
 
     .history-log-date {
-        display: flex;
-        align-items: center;
-        width:20%;
-        padding:10px 20px;
+        width: 100%;
+        padding: 0 10px;
+        font-size: var(--default-font-size);
+        line-height: 30px;
         background: #eee;
         color:#232323;
-        font-size: @default-font-size;
         .box-sizing();
+
+        @media (min-width: @screen-sm-min) {
+            display: flex;
+            align-items: center;
+            width: 20%;
+            padding: 10px 20px;
+        }
     }
 
-    .history-log-user{
-        position: relative;
-        vertical-align: top;
-        display: inline-block;
-        margin-left: -20px;
-        width: 40px;
-
+    .history-log-user {
+        position: absolute;
+        display: block;
+        top: 2px;
+        right: 5px;
+        width: 24px;
+        height: 24px;
         .box-sizing();
 
-        &:before{
-            position: absolute;
-            content:'';
-            top: 30px;
-            left: -13px;
-            width:15px;
-            height:1px;
-            background:#909090;
+        @media (min-width: @screen-sm-min) {
+            position: relative;
+            vertical-align: top;
+            margin-left: -20px;
+            top: auto;
+            right: auto;
+            width: 40px;
+            height: 40px;
+        }
+
+        a {
+            display: block;
+            text-decoration: none;
         }
 
         .user-image {
+            top:0;
+            margin-top:0;
+            width: 24px;
+            height: 24px;
+
             position: relative;
             vertical-align: middle;
-            top:10px;
-            width:40px;
-            height:40px;
             box-shadow: none;
+
+            @media (min-width: @screen-sm-min) {
+                top: 10px;
+                width: 40px;
+                height: 40px;
+            }
         }
 
         .user-image-default{
@@ -81,9 +104,14 @@
             border-radius: 100%;
 
             .uk-icon-rz-users{
-                font-size:24px;
-                line-height:40px;
+                font-size: var(--default-font-size);
+                line-height:24px;
                 color:#969696;
+
+                @media (min-width: @screen-sm-min) {
+                    font-size: 24px;
+                    line-height: 40px;
+                }
             }
         }
     }
@@ -111,14 +139,20 @@
 
 
     .history-log-message {
+        height: auto;
+        padding: 5px 10px;
+        word-break: break-word;
         display: flex;
         align-items: center;
-        padding: 10px 20px;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         line-height: 18px;
-        color:#4c4c4c;
-        width: 80%;
+        color: #4c4c4c;
         .box-sizing();
+
+        @media (min-width: @screen-sm-min) {
+            padding: 10px 20px;
+            width: 80%;
+        }
 
         .table-cell {
             &:active,

@@ -1,16 +1,5 @@
 [
     {
-        "name": "force_locale",
-        "visible": true,
-        "description": "Force displaying translation locale in every node’ paths. This should be *ON* if you redirect users based on their language on homepage.",
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 5,
-        "defaultValues": ""
-    },
-    {
         "name": "cron_last_exec_date",
         "visible": true,
         "description": "Store last cronjob execution date and time.",
@@ -19,40 +8,6 @@
             "inMenu": true
         },
         "type": 1,
-        "defaultValues": ""
-    },
-    {
-        "name": "force_locale_with_urlaliases",
-        "description": "force_locale_with_urlaliases.help",
-        "visible": true,
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 5
-    },
-    {
-        "name": "leaflet_map_tile_url",
-        "value": "https:\/\/{s}.tile.osm.org\/{z}\/{x}\/{y}.png",
-        "description": "Default maps tiles layout when using *Leaflet*.",
-        "visible": true,
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 0,
-        "defaultValues": ""
-    },
-    {
-        "name": "maps_default_location",
-        "value": "{\"lat\":45.769785, \"lng\":4.833967, \"zoom\":14}",
-        "description": "Default maps marker location.",
-        "visible": true,
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 23,
         "defaultValues": ""
     },
     {
@@ -77,25 +32,15 @@
         "defaultValues": ""
     },
     {
-        "name": "email_sender",
-        "visible": true,
-        "description": "Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**",
-        "settingGroup": {
-            "name": "Emailings",
-            "inMenu": true
-        },
-        "type": 8,
-        "defaultValues": ""
-    },
-    {
-        "name": "email_sender_name",
+        "name": "email_disclaimer",
+        "description": "Disclaimer text used in every system emails footer",
         "visible": true,
         "settingGroup": {
-            "name": "Emailings",
-            "inMenu": true
+            "inMenu": true,
+            "name": "Emailings"
         },
-        "type": 0,
-        "defaultValues": ""
+        "type": 2,
+        "defaultValues": null
     },
     {
         "name": "universal_analytics_id",
@@ -135,17 +80,6 @@
             "inMenu": true
         },
         "type": 0,
-        "defaultValues": ""
-    },
-    {
-        "name": "maintenance_mode",
-        "visible": true,
-        "description": "Switch maintenance mode. Only login page will be available for public requests.",
-        "settingGroup": {
-            "name": "Site information",
-            "inMenu": true
-        },
-        "type": 5,
         "defaultValues": ""
     },
     {
@@ -250,24 +184,14 @@
         "defaultValues": ""
     },
     {
-        "name": "custom_preview_scheme",
-        "description": "custom_preview_scheme.help",
+        "name": "tiktok_url",
         "visible": true,
         "settingGroup": {
-            "name": "Site information",
+            "name": "Social networks",
             "inMenu": true
         },
-        "type": 0
-    },
-    {
-        "name": "custom_public_scheme",
-        "description": "custom_public_scheme.help",
-        "visible": true,
-        "settingGroup": {
-            "name": "Site information",
-            "inMenu": true
-        },
-        "type": 0
+        "type": 0,
+        "defaultValues": ""
     },
     {
         "name": "dashboard_iframe",

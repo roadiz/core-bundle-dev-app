@@ -54,8 +54,8 @@
         min-height: 120px;
     }
 
-    input[type=text],
-    input[type=email],
+    input[type='text'],
+    input[type='email'],
     textarea {
         width: 100%;
         font-weight: normal;
@@ -75,18 +75,18 @@
             content: '';
             display: block;
             height: 1px;
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(0, 0, 0, 0.1);
             margin-bottom: 10px;
         }
     }
 
     .uk-form-description {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         line-height: 16px;
         margin-bottom: 5px;
 
         p {
-            margin:5px 0;
+            margin: 5px 0;
             color: #555555;
         }
     }
@@ -103,7 +103,7 @@
     .form-col-choice {
         div {
             .uk-form-label {
-                font-size: @default-font-size;
+                font-size: var(--default-font-size);
 
                 &:before {
                     content: '';

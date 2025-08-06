@@ -10,7 +10,7 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsInterface;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\TreeWalker\WalkerInterface;
-use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 trait WebResponseTrait
 {

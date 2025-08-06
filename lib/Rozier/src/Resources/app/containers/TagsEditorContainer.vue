@@ -14,46 +14,44 @@
             group-values="children"
             group-label="name"
             @tag="addTag"
-            @input="tagsUpdateValue">
+            @input="tagsUpdateValue"
+        >
         </multiselect>
         <pre class="language-json"><code>{{ value  }}</code></pre>
     </div>
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script>
-    import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
-    // Components
-    import Multiselect from 'vue-multiselect'
+// Components
+import Multiselect from 'vue-multiselect'
 
-    export default {
-        mounted () {
-            this.tagsInitData()
-        },
-        computed: {
-            ...mapState({
-                value: state => state.tags.value,
-                options: state => state.tags.options
-            })
-        },
-        methods: {
-            ...mapActions([
-                'tagsUpdateValue',
-                'tagsInitData'
-            ]),
-            addTag (newTag) {
-                const tag = {
-                    name: newTag
-                }
-
-                this.options.push(tag)
-                this.value.push(tag)
-
-                this.tagsUpdateValue(this.value)
+export default {
+    mounted() {
+        this.tagsInitData()
+    },
+    computed: {
+        ...mapState({
+            value: (state) => state.tags.value,
+            options: (state) => state.tags.options,
+        }),
+    },
+    methods: {
+        ...mapActions(['tagsUpdateValue', 'tagsInitData']),
+        addTag(newTag) {
+            const tag = {
+                name: newTag,
             }
+
+            this.options.push(tag)
+            this.value.push(tag)
+
+            this.tagsUpdateValue(this.value)
         },
-        components: {
-            Multiselect
-        }
-    }
+    },
+    components: {
+        Multiselect,
+    },
+}
 </script>

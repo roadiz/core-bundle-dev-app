@@ -15,6 +15,7 @@ final readonly class HostedDomain implements Constraint
     {
     }
 
+    #[\Override]
     public function assert(Token $token): void
     {
         if (!$token instanceof Plain || empty($this->hostedDomain)) {

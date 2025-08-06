@@ -1,0 +1,8 @@
+resources:
+    RZ\Roadiz\CoreBundle\Entity\Node:
+        operations:
+            ApiPlatform\Metadata\Get:
+                method: 'GET'
+                normalizationContext:
+                    groups: ["node", "document_display"]
+                    enable_max_depth: true

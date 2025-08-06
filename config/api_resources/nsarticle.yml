@@ -23,10 +23,11 @@ resources:
                 method: GET
                 class: ApiPlatform\Metadata\GetCollection
                 shortName: Article
+                output: RZ\Roadiz\CoreBundle\Api\Dto\Archive
                 uriTemplate: /articles/archives
                 extraProperties:
                     archive_enabled: true
-                openapiContext:
+                openapi:
                     summary: 'Retrieve all Article ressources archives months and years'
             article_get:
                 method: GET

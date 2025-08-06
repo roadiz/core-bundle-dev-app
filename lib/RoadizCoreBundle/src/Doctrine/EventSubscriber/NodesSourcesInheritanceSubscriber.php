@@ -18,13 +18,13 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 #[AsDoctrineListener(event: Events::postLoad)]
 #[AsDoctrineListener(event: Events::loadClassMetadata)]
-final class NodesSourcesInheritanceSubscriber
+final readonly class NodesSourcesInheritanceSubscriber
 {
     public function __construct(
-        private readonly NodeTypes $nodeTypes,
-        private readonly string $inheritanceType,
-        private readonly LoggerInterface $logger,
-        private readonly Stopwatch $stopwatch,
+        private NodeTypes $nodeTypes,
+        private string $inheritanceType,
+        private LoggerInterface $logger,
+        private Stopwatch $stopwatch,
     ) {
     }
 
@@ -94,9 +94,7 @@ final class NodesSourcesInheritanceSubscriber
                  * If inheritance type is single table, we need to set indexes on parent class: NodesSources
                  */
                 foreach ($nodeTypes as $type) {
-                    $indexedFields = $type->getFields()->filter(function (NodeTypeFieldInterface $field) {
-                        return $field->isIndexed();
-                    });
+                    $indexedFields = $type->getFields()->filter(fn (NodeTypeFieldInterface $field) => $field->isIndexed());
                     /** @var NodeTypeFieldInterface $indexedField */
                     foreach ($indexedFields as $indexedField) {
                         $nodeSourceTableAnnotation['indexes']['nsapp_'.$indexedField->getName()] = [

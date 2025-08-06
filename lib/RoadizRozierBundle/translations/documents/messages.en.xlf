@@ -11,6 +11,10 @@
                 <target state="final">Limitations</target>
                 <note>Documents limitations backoffice section label</note>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="document_translation.name.help">
+                <source>document_translation.name.help</source>
+                <target state="translated">Document name will be used as alternative text for accessibility.</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="document.copyrightHolder" approved="yes">
                 <source>document.copyrightHolder</source>
                 <target state="final">Copyright holder</target>
@@ -55,9 +59,33 @@ Document are listed as “unused” when they are not linked to any node, tag, s
                 <source>document.picture_sources</source>
                 <target state="final">All picture sources</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="private_documents">
+      <trans-unit xml:space="preserve" id="private_documents" approved="yes">
                 <source>private_documents</source>
-                <target state="translated">Private documents</target>
+                <target state="final">Private documents</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment" approved="yes">
+                <source>document.imageAlignment</source>
+                <target state="final">Image alignment</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.override" approved="yes">
+                <source>document.imageAlignment.override</source>
+                <target state="final">Set a crop and alignment for this context</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.reset" approved="yes">
+                <source>document.imageAlignment.reset</source>
+                <target state="final">Reset</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="documentEditDialog.submit" approved="yes">
+                <source>documentEditDialog.submit</source>
+                <target state="final">Apply</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="documentEditDialog.cancel" approved="yes">
+                <source>documentEditDialog.cancel</source>
+                <target state="final">Cancel</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="documentEditDialog.edit" approved="yes">
+                <source>documentEditDialog.edit</source>
+                <target state="final">Edit document</target>
             </trans-unit>
     </body>
   </file>

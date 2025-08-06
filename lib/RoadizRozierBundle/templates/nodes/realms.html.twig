@@ -53,28 +53,27 @@
                             <td>{{ nodeRealm.realm.behaviour ? ('realm.behaviour_' ~ nodeRealm.realm.behaviour)|trans : '' }}</td>
                             <td>{{ ('realm_node.' ~ nodeRealm.inheritanceType)|trans }}</td>
                             <td class="table-actions-row">
-                                {% apply spaceless %}
-                                {% if nodeRealm.realm and accessRealms %}
-                                    <a class="uk-button uk-button-content uk-button-small"
-                                       href="{{ path('realmsEditPage', {
-                                           id: nodeRealm.realm.id,
+                                <div class="uk-button-group">
+                                    {% if nodeRealm.realm and accessRealms %}
+                                        <a class="uk-button uk-button-content uk-button-small"
+                                           href="{{ path('realmsEditPage', {
+                                               id: nodeRealm.realm.id,
+                                           }) }}"
+                                           title="{% trans %}edit.realm{% endtrans %}"
+                                           data-uk-tooltip="{animation:true}">
+                                            <i class="uk-icon-user-secret"></i>
+                                        </a>
+                                    {% endif %}
+                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                       href="{{ path('nodesRealmsDeletePage', {
+                                           id: node.id,
+                                           realmNodeId: nodeRealm.id,
                                        }) }}"
-                                       title="{% trans %}edit.realm{% endtrans %}"
+                                       title="{% trans %}leave.realm{% endtrans %}"
                                        data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-user-secret"></i>
+                                        <i class="uk-icon-rz-trash-mini-o"></i>
                                     </a>
-                                {% endif %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('nodesRealmsDeletePage', {
-                                       id: node.id,
-                                       realmNodeId: nodeRealm.id,
-                                   }) }}"
-                                   title="{% trans %}leave.realm{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}">
-                                    <i class="uk-icon-rz-trash-mini-o"></i>
-                                </a>
-
-                                {% endapply %}
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

@@ -1,0 +1,107 @@
+<div id="user-panel-container">
+    <div id="menu-mobile">
+        <div class="menu-mobile-bar" id="menu-mobile-bar-1"></div>
+        <div class="menu-mobile-bar" id="menu-mobile-bar-2"></div>
+        <div class="menu-mobile-bar" id="menu-mobile-bar-3"></div>
+    </div>
+
+    {# Make this block overidable from themes. #}
+    {% include '@RoadizRozier/admin/blocks/adminImage.html.twig' %}
+    <div class="user-actions-menu">
+        {% if app.user and app.user.id %}
+            <a id="user-picture"
+               data-uk-tooltip="{animation:true}"
+               class="user-image"
+               title="{{ app.user.identifier }}"
+               href="{{ path('usersEditPage', {'id':app.user.id }) }}"
+            >
+                {% if app.user.pictureUrl and app.user.pictureUrl != '#' %}
+                    <img width="200"
+                         height="200"
+                         class="uk-thumbnail"
+                         src="{{ app.user.pictureUrl }}"
+                         alt="{{ app.user.identifier }}" />
+                {% else %}
+                    <i class="uk-icon uk-icon-rz-user"></i>
+                {% endif %}
+            </a>
+        {% elseif app.user %}
+            {% set displayName = app.user.nickname|default(app.user.givenName|default(app.user.name)) %}
+            {% if app.user.picture %}
+                <span
+                    id="user-picture"
+                    class="user-image"
+                    title="{{ displayName }}"
+                    data-uk-tooltip="{animation:true}"
+                >
+                    <img width="200"
+                         height="200"
+                         class="uk-thumbnail"
+                         src="{{ app.user.picture }}"
+                         alt="{{ displayName }}" />
+                </span>
+            {% else %}
+                <span
+                    id="user-picture"
+                    title="{{ displayName }}"
+                    class="user-image uk-thumbnail"
+                    data-uk-tooltip="{animation:true}">
+                    <i class="uk-icon uk-icon-rz-user"></i>
+                </span>
+            {% endif %}
+        {% endif %}
+        <nav class="user-actions">
+            <a class="uk-icon-button uk-icon-rz-earth"
+               href="{% if app.request.basePath %}{{ app.request.basePath }}{% else %}/{% endif %}"
+               target="_blank"><span class="user-action-label">{% trans %}see.website{% endtrans %}</span></a>
+            {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
+                <a title="{% trans %}delete.caches{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"
+                   class="uk-icon-button uk-icon-rz-flash rz-no-ajax-link"
+                   href="{{ path('deleteDoctrineCache') }}"><span class="user-action-label">{% trans %}delete.caches{% endtrans %}</span></a>
+            {% endif %}
+            {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
+                <a title="{% trans %}delete.generated_images.cache{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"
+                   class="uk-icon-button uk-icon-rz-flash-images rz-no-ajax-link"
+                   href="{{ path('deleteAssetsCache') }}"><span class="user-action-label">{% trans %}delete.generated_images.cache{% endtrans %}</span></a>
+            {% endif %}
+            {% if app.user and app.user.id %}
+            <a class="uk-icon-button uk-icon-rz-user"
+               href="{{ path('usersEditPage', {'id':app.user.id }) }}"><span class="user-action-label">{% trans %}edit.account{% endtrans %}</span></a>
+            {% endif %}
+            {% for action in rozier.userActions %}
+                <a class="uk-icon-button {{ action.icon }}"
+                   title="{{ action.label|trans }}"
+                   data-uk-tooltip="{animation:true}"
+                   href="{{ action.path }}"><span class="user-action-label">{{ action.label|trans }}</span></a>
+            {% endfor %}
+            {% if is_granted('IS_IMPERSONATOR') %}
+                <a title="{% trans %}stop.test.user.right{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"
+                   class="uk-icon-button uk-icon-rz-turn-off rz-no-ajax-link"
+                   href="?_su=_exit"><span class="user-action-label">{% trans %}stop.test.user.right{% endtrans %}</span></a>
+            {% else %}
+                <a title="{% trans %}logout{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"
+                   class="uk-icon-button uk-icon-rz-turn-off rz-no-ajax-link"
+                   href="{{ path('logoutPage') }}"><span class="user-action-label">{% trans %}logout{% endtrans %}</span></a>
+            {% endif %}
+        </nav>
+
+        {% if app.debug %}
+            <p class="dev-mode"><i class="uk-icon-rz-devmode"></i> {% trans %}dev_mode.activated{% endtrans %}</p>
+        {% endif %}
+    </div>
+    <footer id="cms-version">
+        {% if help_external_url is defined and help_external_url %}
+            <a target="_blank" rel="noopener"
+               title="{% trans %}help{% endtrans %}"
+               data-uk-tooltip="{animation:true}"
+               class="uk-icon-button uk-icon-rz-help"
+               href="{{ help_external_url }}"></a>
+        {% endif %}
+        <p class="cms-version"><i class="uk-icon-rz-roadiz-icon"></i></p>
+        <p>{{ cms_prefix }} {{ cms_version }}</p>
+    </footer>
+</div>

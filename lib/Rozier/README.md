@@ -1,19 +1,15 @@
-# Rozier: Roadiz back-office theme
-
-![Run test status](https://github.com/roadiz/rozier/actions/workflows/run-test.yml/badge.svg?branch=develop)
+# Rozier
+**Roadiz back-office theme (JS/CSS)**
 
 ## Contribute
 
-To enhance Rozier backend theme you must install Grunt and Bower:
+To enhance Rozier backend theme you must install Node v22 and Yarn:
 
 ```shell
 cd src
-yarn install
-# Launch Grunt to generate prod files
-yarn build
-# Or… launch watch grunt when you’re
-# working on LESS and JS files.
-yarn dev
+pnpm install --frozen-lockfile
+# Launch Vite to generate prod files
+pnpm build
 ```
 
 ## Contributing

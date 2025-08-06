@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Translation;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -28,9 +27,9 @@ final class TranslationViewer
 
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly Settings $settingsBag,
         private readonly RouterInterface $router,
         private readonly PreviewResolverInterface $previewResolver,
+        private readonly bool $forceLocale,
     ) {
     }
 
@@ -43,7 +42,7 @@ final class TranslationViewer
      * Return available page translation information.
      *
      * Be careful, for static routes Roadiz will generate a localized
-     * route identifier suffixed with "Locale" text. In case of "force_locale"
+     * route identifier suffixed with "Locale" text. In case of "forceLocale"
      * setting to true, Roadiz will always use suffixed route.
      *
      * ## example return value
@@ -82,7 +81,6 @@ final class TranslationViewer
         $attr = $request->attributes->all();
         $query = $request->query->all();
         $name = '';
-        $forceLocale = (bool) $this->settingsBag->get('force_locale');
         $useStaticRouting = !empty($attr['_route'])
             && is_string($attr['_route'])
             && RouteObjectInterface::OBJECT_BASED_ROUTE_NAME !== $attr['_route'];
@@ -150,7 +148,7 @@ final class TranslationViewer
                  * Use suffixed route if locales are forced or
                  * if it’s not default translation.
                  */
-                if (true === $forceLocale || !$translation->isDefaultTranslation()) {
+                if (true === $this->forceLocale || !$translation->isDefaultTranslation()) {
                     /*
                      * Search for a Locale suffixed route
                      */

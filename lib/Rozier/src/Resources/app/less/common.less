@@ -7,11 +7,26 @@
 
 html,
 body,
-h1, h2, h3, h4, h5, h6,
-p, li, a, input, button, textarea {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+a,
+input,
+button,
+textarea {
     font-family: @main-font;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--global-title-color);
     -webkit-font-smoothing: antialiased;
 }
@@ -24,16 +39,16 @@ audio {
     display: none;
 }
 
-em{
-    color:inherit;
+em {
+    color: inherit;
 }
 
 ::-webkit-scrollbar {
-background: #EEE;
-width: 8px;
+    background: #eee;
+    width: 8px;
 }
 ::-webkit-scrollbar-thumb {
-background: #CCC;
+    background: #ccc;
 }
 
 .xdebug-error {
@@ -77,7 +92,7 @@ background: #CCC;
     margin: 0;
     padding: 1px;
     border: none;
-    background: #C2C2C2;
+    background: #c2c2c2;
     border-radius: 100%;
     .drop-shadow(0 0 0 rgba(0,0,0,0));
     height: auto;
@@ -97,12 +112,21 @@ background: #CCC;
 
 .uk-text-danger {
     padding: 0 20px;
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
 }
 
-@media screen and (max-width: @screen-md-max) {
+@media (max-width: @screen-xs-max) {
+    .mobile-hidden {
+        display: none !important;
+    }
+    .uk-tooltip {
+        display: none !important;
+    }
+}
+
+@media (max-width: @screen-md-max) {
     .uk-visible-xlarge {
-        display: none;
+        display: none !important;
     }
 }
 

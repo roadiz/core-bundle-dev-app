@@ -34,7 +34,7 @@ The following fields store simple data in your custom node-source database table
 | **Multiple relationship using a provider** | `multiple-provider`               |
 | **Custom collection**                      | `collection`                      |
 
-![Field types](./img/field-types.png){width=300}
+![Field types](./img/field-types.webp){width=300}
 
 ## Single and multiple geographic coordinates
 
@@ -107,11 +107,14 @@ You must fill the **default values** field for these two types.
 
 ```yaml
 # Entity class name
-classname: Themes\MyTheme\Entities\City
+classname: App\Entity\City
 # Displayable is the method used to display entity name
 displayable: getName
 # Same as Displayable but for a secondary information
 alt_displayable: getZipCode
+# Optional: you can specify an inversedBy relation if you want your App\Entity\City object to be able to access its nodes-sources
+# You will have to add attribute: #[ORM\OneToMany(mappedBy: 'yourFieldName', targetEntity: NSYourType::class)]
+inversed_by: nodesSources
 # Searchable entity fields
 searchable:
     - name
@@ -121,17 +124,19 @@ orderBy:
       direction: ASC
 ```
 
+### Proxied many-to-many relation
+
 You can use a custom proxy entity to support persisting `position` on your relation.
 
 Roadiz will generate a one-to-many relationship with the proxy entity instead of a many-to-many.
 
-In this scenario, you are responsible for creating and migrating `Themes\MyTheme\Entities\PositionedCity` entity.
+In this scenario, you are responsible for creating and migrating `App\Entity\PositionedCity` entity.
 
 If you are migrating from a non-proxied many-to-many relation, you should keep the same table and field names to keep data intact.
 
 ```yaml
 # Entity class name
-classname: Themes\MyTheme\Entities\City
+classname: App\Entity\City
 # Displayable is the method used to display entity name
 displayable: getName
 # Same as Displayable but for a secondary information
@@ -146,7 +151,7 @@ orderBy:
       direction: ASC
 # Use a proxy entity
 proxy:
-    classname: Themes\MyTheme\Entities\PositionedCity
+    classname: App\Entity\PositionedCity
     self: nodeSource
     relation: city
     # This order will preserve position
@@ -159,20 +164,20 @@ proxy:
 
 The generic provider type allows you to fetch every data you want through a `Provider` class in your theme. This can be really useful if you need to fetch items from an external API and reference them in your nodes-sources.
 
-Imagine that you want to link your page with an *Instagram* post. You’ll have to create a class that extends `Themes\Rozier\Explorer\AbstractExplorerProvider` and configure it in your field:
+Imagine that you want to link your page with an *Instagram* post. You’ll have to create a class that extends `RZ\Roadiz\RozierBundle\Explorer\AbstractExplorerProvider` (with `#[AutoconfigureTag('roadiz.explorer_provider')]`) and configure it in your field:
 
 ```yaml
-classname: Themes\MyTheme\Provider\ExternalApiProvider
+classname: App\Provider\ExternalApiProvider
 ```
 
-This provider will implement `getItems`, `getItemsById`, and other methods from `ExplorerProviderInterface` to display your *Instagram* posts in the Roadiz explorer widget and find your selected items back. Each *Instagram* post will be wrapped in a `Themes\Rozier\Explorer\AbstractExplorerItem` that maps your custom data to the right fields to be shown in the Roadiz back-office.
+This provider will implement `getItems`, `getItemsById`, and other methods from `ExplorerProviderInterface` to display your *Instagram* posts in the Roadiz explorer widget and find your selected items back. Each *Instagram* post will be wrapped in a `RZ\Roadiz\RozierBundle\Explorer\AbstractExplorerItem` that maps your custom data to the right fields to be shown in the Roadiz back-office.
 
-You’ll find an implementation example in Roadiz with `Themes\Rozier\Explorer\SettingsProvider` and `Themes\Rozier\Explorer\SettingExplorerItem`. These classes do not fetch data from an API but from your database using `EntityListManager`.
+You’ll find an implementation example in Roadiz with `RZ\Roadiz\RozierBundle\Explorer\SettingsProvider` and `RZ\Roadiz\RozierBundle\Explorer\SettingExplorerItem`. These classes do not fetch data from an API but from your database using `EntityListManager`.
 
 Single and multiple provider types can accept additional options too. If you want to make your provider configurable at runtime, you can pass `options` in your field configuration.
 
 ```yaml
-classname: Themes\MyTheme\Provider\ExternalApiProvider
+classname: App\Provider\ExternalApiProvider
 options:
     - name: user
       value: me
@@ -210,7 +215,7 @@ You must fill the **default values** field for this type:
 
 ```yaml
 # AbstractType class name
-entry_type: Themes\MyTheme\Form\FooBarType
+entry_type: App\Form\FooBarType
 ```
 
 You must understand that *custom collection* data will be stored as a JSON array in your database. So you won’t be able to query your node-source using this data.

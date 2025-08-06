@@ -20,10 +20,11 @@ final class ValidFacebookNameValidator extends ConstraintValidator
     /**
      * @param ValidFacebookName $constraint
      */
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if ('' != $value) {
-            if (0 === preg_match('#^[0-9]*$#', $value)) {
+            if (0 === preg_match('#^[0-9]*$#', (string) $value)) {
                 $this->context->addViolation($constraint->message);
             } else {
                 /*
@@ -31,7 +32,7 @@ final class ValidFacebookNameValidator extends ConstraintValidator
                  */
                 try {
                     $this->facebookPictureFinder->getPictureUrl($value);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     $this->context->addViolation($constraint->message);
                 }
             }

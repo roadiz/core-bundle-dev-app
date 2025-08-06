@@ -18,6 +18,7 @@ final class PurgeUserValidationTokenCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -25,6 +26,7 @@ final class PurgeUserValidationTokenCommand extends Command
             ->setDescription('Purge expired user validation tokens.');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -26,6 +26,7 @@ final class NodeClearTagCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('nodes:clear-tag')
@@ -43,6 +44,7 @@ final class NodeClearTagCommand extends Command
             ->setParameter(':tagId', $tag);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $em = $this->managerRegistry->getManagerForClass(Node::class);

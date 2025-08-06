@@ -37,7 +37,7 @@ resources:
                 uriTemplate: /pages/archives
                 extraProperties:
                     archive_enabled: true
-                openapiContext:
+                openapi:
                     summary: 'Retrieve all Page ressources archives months and years'
             ApiPlatform\Metadata\Get:
                 method: GET

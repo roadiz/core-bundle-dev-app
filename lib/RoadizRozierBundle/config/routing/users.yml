@@ -1,60 +1,60 @@
 usersEditPage:
     path:     /edit/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::editAction
     requirements: { id : "[0-9]+" }
 usersBulkDeletePage:
     methods: [GET, POST]
     path:     /bulk-delete
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersController::bulkDeleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::bulkDeleteAction
 usersBulkEnablePage:
     methods: [GET, POST]
     path:     /bulk-enable
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersController::bulkEnableAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::bulkEnableAction
 usersBulkDisablePage:
     methods: [GET, POST]
     path:     /bulk-disable
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersController::bulkDisableAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::bulkDisableAction
 usersEditDetailsPage:
     path:     /edit/{id}/details
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersController::editDetailsAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::editDetailsAction
     requirements: { id : "[0-9]+" }
 usersEditRolesPage:
     path:     /edit/{userId}/roles
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersRolesController::editRolesAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserRoleController::editRolesAction
     requirements: { userId : "[0-9]+" }
 usersRemoveRolesPage:
-    path:     /edit/{userId}/roles/{roleId}/remove
+    path:     /edit/{userId}/roles/{role}/remove
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersRolesController::removeRoleAction
-    requirements: { userId : "[0-9]+", roleId : "[0-9]+" }
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserRoleController::removeRoleAction
+    requirements: { userId : "[0-9]+", role : "[A-Z_]+" }
 usersEditGroupsPage:
     path:     /edit/{userId}/groups
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersGroupsController::editGroupsAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserGroupController::editGroupsAction
     requirements: { userId : "[0-9]+" }
 usersRemoveGroupsPage:
     path:     /edit/{userId}/groups/{groupId}/remove
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersGroupsController::removeGroupAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserGroupController::removeGroupAction
     requirements: { userId : "[0-9]+", groupId : "[0-9]+" }
 usersAddPage:
     path:     /add
     defaults:
-        _type: Themes\Rozier\Forms\AddUserType
-        _controller: Themes\Rozier\Controllers\Users\UsersController::addAction
+        _type: RZ\Roadiz\RozierBundle\Form\AddUserType
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::addAction
 usersDeletePage:
     path:     /delete/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::deleteAction
     requirements: { id : "[0-9]+" }
 usersSecurityPage:
     path:     /edit/{userId}/security
     defaults:
-        _controller: Themes\Rozier\Controllers\Users\UsersSecurityController::securityAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\User\UserSecurityController::securityAction
     requirements: { userId : "[0-9]+" }

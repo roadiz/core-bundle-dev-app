@@ -10,14 +10,13 @@
         input[type="password"],
         input[type="search"],
         input[type="email"],
-        input[type="number"],
-        select {
+        input[type="number"] {
             min-width: 230px;
             height: 32px;
             padding: 9px 8px 5px 8px;
         }
 
-        .uk-button-bulk-primary{
+        .uk-button-bulk-primary {
             [class*=uk-icon-rz-] {
                 color:#fff;
             }
@@ -31,7 +30,7 @@
     }
 }
 
-.bulk-actions-title-cont{
+.bulk-actions-title-cont {
     position: relative;
     height:9px;
     margin:0 100px 30px;
@@ -59,20 +58,15 @@
     display: inline-block;
     margin:-2px 0 0 0;
     padding:0 10px;
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
     color: #333;
     background: var(--maincontent-bar-bg);
 }
-.tags-bulk-folder-cont,
-.documents-bulk-folder-cont,
-.nodes-bulk-status-cont,
-.nodes-bulk-folder-cont {
-    display: none;
-    margin:10px 100px 0;
-    padding:10px 0 0 0;
-    border-top:1px dashed #c3c3c3;
 
-    .uk-form .data-uk-margin>div{
+.tags-bulk-folder-cont,
+.documents-bulk-folder-cont {
+
+    .uk-form .data-uk-margin > div{
         display: inline-block;
         vertical-align: middle;
         margin-bottom:0;
@@ -114,13 +108,12 @@
 }
 
 #tagForm_submitTag,
-#folderForm_submitFolder{
+#folderForm_submitFolder {
     margin-left:4px;
 }
 
 #tagForm_submitUntag,
 #folderForm_submitUnfolder{
-
     &:before{
         content:@minus;
     }
@@ -134,12 +127,16 @@
     }
 }
 
+/*
+ * Dedicated bulk actions pages
+ */
+#nodes-bulk-delete-form,
 #tags-bulk-delete-form,
 #documents-bulk-delete-form,
-#documents-bulk-download-form,
-#nodes-bulk-delete-form{
+#documents-bulk-download-form {
     position: relative;
-    margin-bottom:30px; padding-bottom:30px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
 
     &:after{
         position: absolute;
@@ -194,5 +191,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .data-uk-margin {
+            margin: 0;
+        }
+    }
+
+    // Sub-forms inside the bulk actions
+    .bulk-group {
+        display: none;
+        margin:10px 100px 0;
+        padding:10px 0 0 0;
+        border-top:1px dashed #c3c3c3;
+
+        &.bulk-group--open {
+            display: block;
+        }
     }
 }

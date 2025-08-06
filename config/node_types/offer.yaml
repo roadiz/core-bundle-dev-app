@@ -12,59 +12,30 @@ hidingNonReachableNodes: false
 fields:
     -
         name: vat
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: VAT
-        expanded: false
         type: decimal
     -
         name: price
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
         indexed: true
-        visible: true
         label: Price
-        expanded: false
         type: integer
     -
         name: geolocation
         universal: true
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Geolocation
-        expanded: false
         type: geographic.coordinates
     -
         name: multi_geolocation
         universal: true
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Multi geolocations'
-        expanded: false
         type: multiple.geographic.coordinates
     -
         name: layout
         universal: true
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
         indexed: true
-        visible: true
         label: Layout
         placeholder: light
-        expanded: false
         defaultValues:
             - dark
         type: single-choice

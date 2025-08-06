@@ -2,17 +2,17 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="en">
     <body>
-      <trans-unit xml:space="preserve" id="user.lastLogin">
+      <trans-unit xml:space="preserve" id="user.lastLogin" approved="yes">
                 <source>user.lastLogin</source>
-                <target state="translated">Last login</target>
+                <target state="final">Last login</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="user.neverLoggedIn">
+      <trans-unit xml:space="preserve" id="user.neverLoggedIn" approved="yes">
                 <source>user.neverLoggedIn</source>
-                <target state="translated">Never</target>
+                <target state="final">Never</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="publicName">
+      <trans-unit xml:space="preserve" id="publicName" approved="yes">
                 <source>publicName</source>
-                <target state="translated">Public name</target>
+                <target state="final">Public name</target>
             </trans-unit>
     </body>
   </file>

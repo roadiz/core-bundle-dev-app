@@ -22,11 +22,13 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class RoadizCoreBundle extends Bundle
 {
+    #[\Override]
     public function getPath(): string
     {
         return \dirname(__DIR__);
     }
 
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

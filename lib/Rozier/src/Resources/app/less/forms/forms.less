@@ -38,14 +38,6 @@
         appearance:none;
     }
 
-    input:focus,
-    textarea:focus,
-    isindex:focus,
-    keygen:focus,
-    select:focus {
-        outline: 0px;
-    }
-
     .tag-editor,
     input[type="text"],
     input[type="password"],
@@ -55,7 +47,7 @@
     input[type="date"],
     input[type="datetime-local"],
     textarea {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         line-height: 16px;
         //font-weight: bold;
         //width: 100%; // You cannot place this for a wide selector! it will break ui-kit
@@ -72,16 +64,13 @@
             padding:0px 10px 0 35px;
         }
 
+        &:focus,
         &:hover {
             background-color: var(--contrasted-bg);
             border-color: @grey-form-submit-border-hover;
             color: #333;
         }
-        &:focus {
-            background-color: @grey-verylight;
-            border-color: @grey-form-submit-border-hover;
-            color: #333;
-        }
+
         &:not(:placeholder-shown):invalid {
             color: darken(@alert-color, 15%);
             border-color: fade(@alert-color, 50%);
@@ -100,7 +89,7 @@
 
     // File
     input[type=file]{
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
     }
 
     // Checkbox
@@ -131,7 +120,7 @@
         height:36px;
         margin: 0;
         padding: 0;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         color: @grey-form-text;
         //border: 1px solid @grey-form-border;
         .border-radius(0px);
@@ -164,7 +153,8 @@
             -moz-appearance: none;
             appearance: none;
 
-            &:focus, &:active{
+            &:focus,
+            &:active {
                 outline:none;
                 border: 1px solid darken(@grey-form-border, 20%);
             }
@@ -182,7 +172,7 @@
     select[multiple]{
         min-width: 100px; min-height: 120px;
         padding:0 6px;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         -webkit-appearance:none;
         border-radius: 0px;
 
@@ -209,7 +199,7 @@
                 display: none;
             }
 
-            .bootstrap-switch {
+            .rz-boolean-checkbox {
                 margin-bottom: 2px;
             }
         }
@@ -226,7 +216,7 @@
 
     // Labels
     .uk-form-label {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         color: var(--global-title-color);
         font-weight: normal;
 
@@ -247,7 +237,7 @@
     }
 
     .form-check-label {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         color: var(--global-title-color);
         font-weight: normal;
     }
@@ -308,7 +298,8 @@
                 select {
                     border-right: 1px solid @grey-form-border;
 
-                    &:focus, &:active {
+                    &:focus,
+                    &:active {
                         border-right: 1px solid darken(@grey-form-border, 20%);
                     }
                 }
@@ -371,11 +362,6 @@
     }
     &.uk-form-stacked .uk-form-label {
         margin-bottom: 5px;
-    }
-
-    // Colorpicker
-    .minicolors-theme-default .minicolors-swatch{
-        top:8px; left:8px;
     }
 
     // Table
@@ -457,6 +443,26 @@
             &:first-of-type{
                 margin-left:0;
             }
+        }
+    }
+
+    &.form-errored {
+        .uk-form-label-description,
+        .uk-form-label {
+            color: @alert-color;
+
+            &:before {
+                color: @alert-color;
+            }
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="search"],
+        input[type="email"],
+        input[type="number"],
+        &.markdown-editor .CodeMirror,
+        textarea {
+            border-color: @alert-color;
         }
     }
 }

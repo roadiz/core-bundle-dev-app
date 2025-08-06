@@ -15,14 +15,14 @@ interface WebResponseDataTransformerInterface
      * @param T                         $object
      * @param WebResponseInterface|null $output pass an existing WebResponseInterface instance to avoid creating a new one
      *
-     * @return WebResponseInterface<T>|null
+     * @return WebResponseInterface<T>
      */
     public function transform(
         PersistableInterface $object,
         string $to,
         array $context = [],
         ?WebResponseInterface $output = null,
-    ): ?WebResponseInterface;
+    ): WebResponseInterface;
 
     public function createWebResponse(): WebResponseInterface;
 }

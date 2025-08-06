@@ -13,6 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class UsersLockCommand extends UsersCommand
 {
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('users:lock')
@@ -24,6 +25,7 @@ final class UsersLockCommand extends UsersCommand
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

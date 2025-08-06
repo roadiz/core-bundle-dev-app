@@ -4,6 +4,44 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f4f4f4;
+            }
+            h1 {
+                color: #333;
+            }
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+            }
+            .nav-horizontal > ul {
+                list-style: none;
+                padding: 0;
+                margin: 1rem 0;
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+            }
+            li > ul {
+                list-style: none;
+                padding: 0;
+                margin: 0.5rem 0 1rem;
+            }
+        </style>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -14,6 +52,26 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    {% macro walk_menu(children) %}
+        {% for walker in children %}
+            <li>
+                {% if walker.item.isReachable %}
+                    <a href="{{ path(walker.item) }}">{{ walker.item.title }}</a>
+                {% else %}
+                    <span>{{ walker.item.title }}</span>
+                {% endif %}
+                <ul>
+                    {{ _self.walk_menu(walker.children) }}
+                </ul>
+            </li>
+        {% endfor %}
+    {% endmacro %}
+        <nav class="nav-horizontal">
+            <ul>
+                {{ _self.walk_menu(menus.mainMenuWalker.children) }}
+            </ul>
+        </nav>
+
+        <div class="container">{% block body %}{% endblock %}</div>
     </body>
 </html>

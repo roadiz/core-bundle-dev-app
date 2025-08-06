@@ -12,21 +12,21 @@
         <li class="{% if current == 'metas' %}uk-active{% endif %}" >
             <a href="{{ path('documentsMetaPage', editRouteParams) }}">{% trans %}document.metas{% endtrans %}</a>
         </li>
-        {% if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') %}
+        {%- if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') -%}
             <li class="{% if current == 'limitations' %}uk-active{% endif %}" >
                 <a href="{{ path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }) }}">{% trans %}document.limitations{% endtrans %}</a>
             </li>
-        {% endif %}
+        {%- endif -%}
         <li class="{% if current == 'preview' %}uk-active{% endif %}">
             <a href="{{ path('documentsPreviewPage', editRouteParams) }}">{% trans %}document.preview{% endtrans %}</a>
         </li>
         <li class="{% if current == 'usage' %}uk-active{% endif %}">
             <a href="{{ path('documentsUsagePage', editRouteParams) }}">{% trans %}document.usage{% endtrans %}</a>
         </li>
-        {% if document and document.image %}
+        {%- if document and document.image -%}
             <li class="{% if current == 'adjust' %}uk-active{% endif %}">
                 <a href="{{ path('documentsAdjustPage', editRouteParams) }}">{% trans %}document.adjust{% endtrans %}</a>
             </li>
-        {% endif %}
+        {%- endif -%}
     </ul>
 </nav>

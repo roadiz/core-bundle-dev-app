@@ -32,10 +32,9 @@ Each `RZ\Roadiz\CoreBundle\Event\NodesSourcesEvents` object contains the current
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent`: This event is dispatched BEFORE entity manager FLUSHED.
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent`: This event is dispatched AFTER entity manager FLUSHED.
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent`
-- `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent`: This event type is dispatched during Solr indexation. 
-Your event will be `\RZ\Roadiz\CoreBundle\Event\FilterSolariumNodeSourceEvent` and it will allow you to alter or improve your Solr index according to your node-source type.
+- `RZ\Roadiz\SolrBundle\Event\NodesSources\NodesSourcesIndexingEvent`: This event type is dispatched during Solr indexation, it will allow you to alter or improve your search-engine index according to your node-source type.
     ::: tip
-    You will find a simple subscriber example in Roadiz back-office theme which is called `Themes\Rozier\Events\SolariumSubscriber`.
+    Default search-engine Roadiz subscriber is located in SolrBundle: `RZ\Roadiz\SolrBundle\EventListener\SolariumSubscriber`.
     This subscriber is useful to update or delete your *Solr* index documents against your node-source database.
     :::
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPathGeneratingEvent`: This event type is dispatched when the node-router 
@@ -74,13 +73,30 @@ Each folder event object contains the current `Translation` entity. You will get
 
 Each folder event object contains the current `UrlAlias` entity. You will get it using `$event->getUrlAlias()`.
 
+## Redirections events
+
+- `RZ\Roadiz\CoreBundle\Event\Redirection\PostCreatedRedirectionEvent`
+- `RZ\Roadiz\CoreBundle\Event\Redirection\PostDeletedRedirectionEvent`
+- `RZ\Roadiz\CoreBundle\Event\Redirection\PostUpdatedRedirectionEvent`
+
+Each redirection event object contains the current `Redirection` entity. You will get it using `$event->getRedirection()`.
+
+## Realms events
+
+- `RZ\Roadiz\CoreBundle\Event\Realm\NodeJoinedRealmEvent`
+- `RZ\Roadiz\CoreBundle\Event\Realm\NodeLeftRealmEvent`
+
+Each realm event object contains the current `RealmNode` data transfer object. You will get it using `$event->getRealmNode()`.
+
 ## User events
 
 - `RZ\Roadiz\CoreBundle\Event\User\UserCreatedEvent`
-- `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserDeletedEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserDisabledEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserEnabledEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserJoinedGroupEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserLeavedGroupEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserPasswordChangedEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`
 
 Each folder event object contains the current `User` entity. You will get it using `$event->getUser()`.

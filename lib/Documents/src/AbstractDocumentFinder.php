@@ -6,6 +6,7 @@ namespace RZ\Roadiz\Documents;
 
 abstract class AbstractDocumentFinder implements DocumentFinderInterface
 {
+    #[\Override]
     public function findVideosWithFilename(string $fileName): iterable
     {
         $basename = pathinfo($fileName);
@@ -24,6 +25,7 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
         return $this->findAllByFilenames($sourcesDocsName);
     }
 
+    #[\Override]
     public function findAudiosWithFilename(string $fileName): iterable
     {
         $basename = pathinfo($fileName);
@@ -40,6 +42,7 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
         return $this->findAllByFilenames($sourcesDocsName);
     }
 
+    #[\Override]
     public function findPicturesWithFilename(string $fileName): iterable
     {
         $pathInfo = pathinfo($fileName);
@@ -60,9 +63,7 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
         // remove current extension from list
         $extensionsList = array_diff($extensionsList, [$currentExtension]);
         // list sources paths for extensions
-        $sourcesDocsName = array_values(array_map(function ($extension) use ($basename) {
-            return $basename.'.'.$extension;
-        }, $extensionsList));
+        $sourcesDocsName = array_values(array_map(fn ($extension) => $basename.'.'.$extension, $extensionsList));
 
         return $this->findAllByFilenames($sourcesDocsName);
     }

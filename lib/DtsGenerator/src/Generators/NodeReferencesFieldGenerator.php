@@ -8,11 +8,13 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 
 final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
 {
+    #[\Override]
     protected function getNullableAssertion(): string
     {
         return ''; // always available even if empty
     }
 
+    #[\Override]
     protected function getType(): string
     {
         return 'Array<'.$this->getUnionType().'>';
@@ -44,11 +46,10 @@ final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
             return 'RoadizNodesSources';
         }
 
-        return implode(' | ', array_map(function (NodeTypeInterface $nodeType) {
-            return $nodeType->getSourceEntityClassName();
-        }, $nodeTypes));
+        return implode(' | ', array_map(fn (NodeTypeInterface $nodeType) => $nodeType->getSourceEntityClassName(), $nodeTypes));
     }
 
+    #[\Override]
     protected function getIntroductionLines(): array
     {
         $lines = parent::getIntroductionLines();

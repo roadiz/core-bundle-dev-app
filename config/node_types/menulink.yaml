@@ -11,19 +11,12 @@ hidingNonReachableNodes: false
 fields:
     -
         name: link_external_url
-        universal: false
         excludeFromSearch: true
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'URL externe'
-        expanded: false
         type: string
     -
         name: link_internal_reference
         universal: true
-        excludeFromSearch: false
         serializationGroups:
             - urls
         normalizationContext:
@@ -31,25 +24,14 @@ fields:
                 - urls
                 - nodes_sources_base
         serializationMaxDepth: 1
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: 'Référence au nœud (Page ou Bloc de page)'
-        expanded: false
         defaultValues:
             - Page
             - Article
         type: nodes
     -
         name: image
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
         label: Image
-        expanded: false
         type: documents
 defaultTtl: 0
 searchable: true

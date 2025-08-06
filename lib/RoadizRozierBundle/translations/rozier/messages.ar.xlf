@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en" datatype="plaintext" target-language="ar">
+    <body>
+      <trans-unit xml:space="preserve" id="3" approved="yes">
+        <source>node.%nodeId%.not_exists</source>
+        <target state="final">عقدة.%nodeId%.غير.موجودة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="4" approved="yes">
+        <source>node.%name%.status.%field%.updated</source>
+        <target state="final">عقده.%إسم%.الحالة.%مجال%.تحديث</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="5" approved="yes">
+        <source>node.has_no.field.%field%</source>
+        <target state="final">العقدة لا يوجد لديه مجال.%مجال%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="6" approved="yes">
+        <source>node.id.not_specified</source>
+        <target state="final">هوية.العقدة.غير.محدد</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="7" approved="yes">
+        <source>document.%name%.updated</source>
+        <target state="final">وثيقة.%إسم%.تحديث</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="8" approved="yes">
+        <source>document.%name%.deleted</source>
+        <target state="final">وثيقة.%إسم%.تم الحذف</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="9" approved="yes">
+        <source>document.%name%.cannot_delete</source>
+        <target state="final">وثيقة.%اسم%.لا يمكن حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="10" approved="yes">
+        <source>document.%name%.uploaded</source>
+        <target state="final">وثيقة.%إسم%.تم تحميلها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="11" approved="yes">
+        <source>document.cannot_persist</source>
+        <target state="final">الوثيقة.لا_يمكن_أن_تستمر</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="12" approved="yes">
+        <source>name</source>
+        <target state="final">اسم</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="13" approved="yes">
+        <source>description</source>
+        <target state="final">وصف</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="14" approved="yes">
+        <source>copyright</source>
+        <target state="final">حقوق النشر</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="15" approved="yes">
+        <source>private</source>
+        <target state="final">خاص</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="16" approved="yes">
+        <source>choose.documents.to_upload</source>
+        <target state="final">اختيار الوثائق لتحميل</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="17" approved="yes">
+        <source>cache.deleted</source>
+        <target state="final">تم حذف ذاكرة التخزين المؤقت</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="18" approved="yes">
+        <source>group.%name%.created</source>
+        <target state="final">مجموعة. %إسم%.تم إنشاءها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="19" approved="yes">
+        <source>group.%name%.deleted</source>
+        <target state="final">مجموعة.%إسم%.تم حذفها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="20" approved="yes">
+        <source>group.%name%.updated</source>
+        <target state="final">مجموعة.%إسم%.تم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="22" approved="yes">
+        <source>role.%role%.removed_from_group.%group%</source>
+        <target state="final">دور.%role%.إزالتها_من_المجموعة.%group%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="23" approved="yes">
+        <source>user.%user%.linked.group.%group%</source>
+        <target state="final">مستخدم.%user%.مرتبط.مجموعة.%group%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="24" approved="yes">
+        <source>user.%user%.removed_from_group.%group%</source>
+        <target state="final">مستخدم.%user%.إزالته_من_المجموعة.%group%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="25" approved="yes">
+        <source>group.name</source>
+        <target state="final">أسم المجموعة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="26" approved="yes">
+        <source>choose.role</source>
+        <target state="final">اختيار الدور</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="27" approved="yes">
+        <source>choose.user</source>
+        <target state="final">اختر المستخدم</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="28" approved="yes">
+        <source>group.name.already.exists</source>
+        <target state="final">اسم المجموعة موجود من قبل</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="29" approved="yes">
+        <source>theme.%name%.created</source>
+        <target state="final">موضوع.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="30" approved="yes">
+        <source>theme.%name%.updated</source>
+        <target state="final">موضوع.%name%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="31" approved="yes">
+        <source>theme.%name%.deleted</source>
+        <target state="final">موضوع.%name%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="32" approved="yes">
+        <source>themeClass</source>
+        <target state="final">موضوع الفئة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="33" approved="yes">
+        <source>available</source>
+        <target state="final">متاح</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="34" approved="yes">
+        <source>hostname</source>
+        <target state="final">اسم المضيف</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="35" approved="yes">
+        <source>backendTheme</source>
+        <target state="final">الخلفية الموضوع</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="36" approved="yes">
+        <source>theme.%name%.no_creation.already_exists</source>
+        <target state="final">موضوع.%name%.لم_يتم إنشاءه.موجود_مسبقا</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="37" approved="yes">
+        <source>user.%name%.updated</source>
+        <target state="final">مستخدم.%name%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="38" approved="yes">
+        <source>user.%user%.role.%role%.linked</source>
+        <target state="final">مستخدم.%user%.دور.%role%.مرتبط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="39" approved="yes">
+        <source>user.%name%.role_removed</source>
+        <target state="final">مستخدم.%name%.دور_تم إزالته</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="40" approved="yes">
+        <source>user.%user%.group.%group%.linked</source>
+        <target state="final">مستخدم.%user%.مجموعة.%group%.مرتبط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="41" approved="yes">
+        <source>user.%user%.group.%group%.removed</source>
+        <target state="final">مستخدم.%user%.مجموعة.%group%.تم إزالته</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="42" approved="yes">
+        <source>user.%name%.created</source>
+        <target state="final">مستخدم.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="43" approved="yes">
+        <source>user.%name%.deleted</source>
+        <target state="final">مستخدم.%name%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="47" approved="yes">
+        <source>user.facebook_name.%name%._does_not_exist</source>
+        <target state="final">إسم_فايسبوك.المستخدم.%name%._غير_موجود</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="48" approved="yes">
+        <source>email</source>
+        <target state="final">البريد الإلكتروني</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="49" approved="yes">
+        <source>username</source>
+        <target state="final">اسم المستخدم</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="50" approved="yes">
+        <source>password</source>
+        <target state="final">كلمة المرور</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="51" approved="yes">
+        <source>passwordVerify</source>
+        <target state="final">كلمة المرور تحقق</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="52" approved="yes">
+        <source>firstName</source>
+        <target state="final">الاسم الاول</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="53" approved="yes">
+        <source>lastName</source>
+        <target state="final">الكنية</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="phone" approved="yes">
+        <source>phone</source>
+        <target state="final">هاتف</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="54" approved="yes">
+        <source>company</source>
+        <target state="final">شركة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="55" approved="yes">
+        <source>job</source>
+        <target state="final">وظيفة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="56" approved="yes">
+        <source>birthday</source>
+        <target state="final">عيد ميلاد</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="57" approved="yes">
+        <source>facebookName</source>
+        <target state="final">إسم الفايسبوك</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="58" approved="yes">
+        <source>role.%name%.created</source>
+        <target state="final">دور.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="59" approved="yes">
+        <source>role.%name%.deleted</source>
+        <target state="final">دور.%name%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="60" approved="yes">
+        <source>role.%name%.updated</source>
+        <target state="final">دور.%name%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="61" approved="yes">
+        <source>role.name.must_comply_with_standard</source>
+        <target state="final">اسم.الدور.يجب_أن_يتوافق_مع_المعيار</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="62" approved="yes">
+        <source>role.name.already.exists</source>
+        <target state="final">اسم.الدور.موجود.بالفعل</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="63" approved="yes">
+        <source>role.required.cannot_be_updated</source>
+        <target state="final">لا_يمكن_تحديث.الدور.المطلوب</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="64" approved="yes">
+        <source>role.is.required</source>
+        <target state="final">الدور.مطلوب</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="65" approved="yes">
+        <source>nodeType.imported.created</source>
+        <target state="final">نوع العقدة.المستوردة.تم إنشاءها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="66" approved="yes">
+        <source>nodeType.imported.updated</source>
+        <target state="final">نوع العقدة.المستوردة.تم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="67" approved="yes">
+        <source>file.format.not_valid</source>
+        <target state="final">تنسيق.الملف.غير_صالح</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="68" approved="yes">
+        <source>file.not_uploaded</source>
+        <target state="final">الملف.لم_يتم تحميله</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="69" approved="yes">
+        <source>nodeType.file</source>
+        <target state="final">ملف.نوع العقدة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="70" approved="yes">
+        <source>tag.%name%.updated</source>
+        <target state="final">العلامة.%name%.تم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="71" approved="yes">
+        <source>tag.%name%.created</source>
+        <target state="final">العلامة.%name%.تم إنشاءها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="72" approved="yes">
+        <source>tag.%name%.deleted</source>
+        <target state="final">العلامة.%name%.تم حذفها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="73" approved="yes">
+        <source>child.tag.%name%.created</source>
+        <target state="final">علامة.الطفل.%name%.تم إنشاءها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="77" approved="yes">
+        <source>locked</source>
+        <target state="final">مقفل</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="78" approved="yes">
+        <source>visible</source>
+        <target state="final">ظاهر</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="invisible" approved="yes">
+        <source>invisible</source>
+        <target state="final">مخفي</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="80" approved="yes">
+        <source>tagName</source>
+        <target state="final">إسم العلامة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="81" approved="yes">
+        <source>node.seo.updated</source>
+        <target state="final">عقدة.seo.تم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="82" approved="yes">
+        <source>node.seo.not.updated</source>
+        <target state="final">عقدة.seo.لم.يتم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="83" approved="yes">
+        <source>url_alias.%alias%.updated</source>
+        <target state="final">عنوان url_المستعار.%alias%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="84" approved="yes">
+        <source>url_alias.%alias%.no_update.already_exists</source>
+        <target state="final">عنوان url_المستعار.%alias%.لم_يتم تحديثه.موجود_مسبقاً</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="85" approved="yes">
+        <source>url_alias.%alias%.deleted</source>
+        <target state="final">عنوان url_المستعار.%alias%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="86" approved="yes">
+        <source>url_alias.%alias%.created.%translation%</source>
+        <target state="final">عنوان url_المستعار.%alias%.تم إنشاءه.%translation%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="87" approved="yes">
+        <source>url_alias.%alias%.no_creation.already_exists</source>
+        <target state="final">عنوان url_المستعار.%alias%.لم_يتم إنشاءه.موجود_مسبقاً</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="88" approved="yes">
+        <source>url_alias.no_translation.%translation%</source>
+        <target state="final">عنوان url_المستعار.غير_مترجم.%translation%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="89" approved="yes">
+        <source>urlAlias</source>
+        <target state="final">رابط الإسم المستعار</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="90" approved="yes">
+        <source>translation</source>
+        <target state="final">ترجمة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="91" approved="yes">
+        <source>metaTitle</source>
+        <target state="final">عنوان وصفي</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="94" approved="yes">
+        <source>nodeTypeField.%name%.updated</source>
+        <target state="final">حقل نوع العقدة.%name%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="95" approved="yes">
+        <source>nodeTypeField.%name%.created</source>
+        <target state="final">حقل نوع العقدة.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="96" approved="yes">
+        <source>nodeTypeField.%name%.deleted</source>
+        <target state="final">حقل نوع العقدة.%name%.تم حدفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="97" approved="yes">
+        <source>label</source>
+        <target state="final">تصنيف</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="98" approved="yes">
+        <source>type</source>
+        <target state="final">نوع</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="99" approved="yes">
+        <source>indexed</source>
+        <target state="final">مفهرس</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="100" approved="yes">
+        <source>defaultValues</source>
+        <target state="final">قِيَم إفتراضية</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="101" approved="yes">
+        <source>enter_values_comma_separated</source>
+        <target state="final">أدخل_القيم_بفاصلة_مفصولة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="102" approved="yes">
+        <source>node.%name%.translated</source>
+        <target state="final">العقدة.%name%.مترجمة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="103" approved="yes">
+        <source>node_source.%node_source%.updated.%translation%</source>
+        <target state="final">مصدر_العقدة.%node_source%.تم تحديثه.%translation%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="104" approved="yes">
+        <source>node.%node%.linked.tag.%tag%</source>
+        <target state="final">العقدة.%node%.مرتبطة.بعلامة.%tag%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="105" approved="yes">
+        <source>tag.%name%.removed</source>
+        <target state="final">العلامة.%name%.تم حذفها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="106" approved="yes">
+        <source>node.%name%.created</source>
+        <target state="final">العقدة.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="child_node.%name%.created" approved="yes">
+        <source>child_node.%name%.created</source>
+        <target state="final">عقدة_الطفل.%name%.تم إنشاءها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="107" approved="yes">
+        <source>node.%name%.deleted</source>
+        <target state="final">العقدة.%name%.تم حذفها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="112" approved="yes">
+        <source>nodeName</source>
+        <target state="final">إسم العقدة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="113" approved="yes">
+        <source>nodeType</source>
+        <target state="final">نوع العقدة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="114" approved="yes">
+        <source>priority</source>
+        <target state="final">الأولوية</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="115" approved="yes">
+        <source>node.isHome</source>
+        <target state="final">العقدة.هي الصفحة الرئيسية</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="116" approved="yes">
+        <source>choose.tag</source>
+        <target state="final">قم بإختيار.العلامة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="117" approved="yes">
+        <source>nodeType.%name%.updated</source>
+        <target state="final">نوع العقدة.%name%.تم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="118" approved="yes">
+        <source>nodeType.%name%.created</source>
+        <target state="final">نوع العقدة.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="119" approved="yes">
+        <source>nodeType.%name%.deleted</source>
+        <target state="final">نوع العقدة.%name%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="122" approved="yes">
+        <source>nodeType.displayName</source>
+        <target state="final">نوع العقدة.إسم العرض</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="123" approved="yes">
+        <source>nodeType.newsletterType</source>
+        <target state="final">نوع العقدة.نوع الخطاب الإخباري</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="124" approved="yes">
+        <source>nodeType.hidingNodes</source>
+        <target state="final">نوع العقدة.العقد المخفية</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="125" approved="yes">
+        <source>role.imported</source>
+        <target state="final">دور.مستورد</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="126" approved="yes">
+        <source>role.file</source>
+        <target state="final">ملف.الدور</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="127" approved="yes">
+        <source>setting.%name%.updated</source>
+        <target state="final">الإعداد.%name%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="128" approved="yes">
+        <source>setting.%name%.created</source>
+        <target state="final">الإعداد.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="129" approved="yes">
+        <source>setting.%name%.deleted</source>
+        <target state="final">الإعداد.%name%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="130" approved="yes">
+        <source>setting.%name%.no_update.already_exists</source>
+        <target state="final">الإعداد.%name%.لم_يتم تحديثة.موجود_مسبقاً</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="131" approved="yes">
+        <source>setting.%name%.no_creation.already_exists</source>
+        <target state="final">الإعداد.%name%.لم_يتم إنشاءه.موجود_مسبقاً</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="132" approved="yes">
+        <source>value</source>
+        <target state="final">القيمة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="133" approved="yes">
+        <source>setting.group</source>
+        <target state="final">إعداد.المجموعة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="134" approved="yes">
+        <source>database.schema.updated</source>
+        <target state="final">تم تحديث.مخطّط.قاعدة البيانات</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="135" approved="yes">
+        <source>database.schema.cannot_updated</source>
+        <target state="final">لا يمكن_تحديث.مخطّط.قاعدة البيانات</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="136" approved="yes">
+        <source>group.imported.updated</source>
+        <target state="final">تم تحديث.المجموعة.المستوردة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="137" approved="yes">
+        <source>group.file</source>
+        <target state="final">ملف.المجموعة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="138" approved="yes">
+        <source>font.%name%.created</source>
+        <target state="final">الخط.%name%.تم إنشاءه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="139" approved="yes">
+        <source>font.%name%.deleted</source>
+        <target state="final">الخط.%name%.تم حذفه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="140" approved="yes">
+        <source>font.%name%.updated</source>
+        <target state="final">الخط.%name%.تم تحديثه</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="141" approved="yes">
+        <source>font.name</source>
+        <target state="final">إسم.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="142" approved="yes">
+        <source>font.variant</source>
+        <target state="final">نوع.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font.hash" approved="yes">
+        <source>font.hash</source>
+        <target state="final">مزيج.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="143" approved="yes">
+        <source>font.eotFile</source>
+        <target state="final">ملف eot.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="144" approved="yes">
+        <source>font.woffFile</source>
+        <target state="final">ملف wolff.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font.woff2File" approved="yes">
+        <source>font.woff2File</source>
+        <target state="final">ملف wolff2.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="145" approved="yes">
+        <source>font.otfFile</source>
+        <target state="final">ملف otf.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="146" approved="yes">
+        <source>font.svgFile</source>
+        <target state="final">ملف svg.الخط</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="149" approved="yes">
+        <source>setting.imported</source>
+        <target state="final">الإعداد.المستورد</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="150" approved="yes">
+        <source>settingFile</source>
+        <target state="final">إعداد الملف</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="151" approved="yes">
+        <source>translation.%name%.made_default</source>
+        <target state="final">جعل_الترجمة.%name%.إفتراضي</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="152" approved="yes">
+        <source>translation.%name%.updated</source>
+        <target state="final">الترجمة.%name%.تم تحديثها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="153" approved="yes">
+        <source>translation.%name%.created</source>
+        <target state="final">الترجمة.%name%.تم إنشاءها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="154" approved="yes">
+        <source>translation.%name%.deleted</source>
+        <target state="final">الترجمة.%name%.تم حدفها</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="157" approved="yes">
+        <source>translation.%name%.cannot_delete_default_translation</source>
+        <target state="final">الترجمة.%name%.لا يمكن_حذفها_الترجمة_إفتراضية</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="158" approved="yes">
+        <source>locale</source>
+        <target state="final">محلي</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="159" approved="yes">
+        <source>add.tag</source>
+        <target state="final">إضافة.علامة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="160" approved="yes">
+        <source>add.child.tag</source>
+        <target state="final">إضافة.علامة.الطفل</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="161" approved="yes">
+        <source>tags</source>
+        <target state="final">علامات</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="210" approved="yes">
+        <source>status</source>
+        <target state="final">الحالة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="211" approved="yes">
+        <source>not_available</source>
+        <target state="final">غير_متوفر</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="212" approved="yes">
+        <source>set.default</source>
+        <target state="final">ضع االوضع الإفتراضي</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="213" approved="yes">
+        <source>edit.nodeSource.%name%</source>
+        <target state="final">تحرير.مصدر العقدة.%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="214" approved="yes">
+        <source>back_to.documents</source>
+        <target state="final">الرجوع_إلى.المستندات</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="215" approved="yes">
+        <source>delete.document</source>
+        <target state="final">أحذف.المستندات</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="216" approved="yes">
+        <source>edit.nodeTypeFields.for.nodeType.%name%</source>
+        <target state="final">تحرير.ملف نوع العقدة.ل.نوع العقدة.%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="217" approved="yes">
+        <source>back_to.nodeTypes</source>
+        <target state="final">الرجوع_إلى.نوع العقدة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="218" approved="yes">
+        <source>add.nodeTypeField</source>
+        <target state="final">إضافة.حقل نوع العقدة</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="219" approved="yes">
+        <source>remove.user.%name%.from.group.%group%</source>
+        <target state="final">إزالة.المستخدم.%name%.من.المجموعة.%group%</target>
+      </trans-unit>
+      <!-- Count translations -->
+      <!-- Node type fields datatypes -->
+      <!-- Dynamic button in nodeTree add.a.%nodeType% -->
+      <!-- Setting groups -->
+      <!-- Default settings names -->
+      <!-- document usage -->
+      <!-- node statuses -->
+      <!-- are_you_sure.undelete.node.and.data -->
+      <!-- undelete.node.%name% -->
+      <!-- embed documents -->
+      <!-- Node tree contextual menu commands -->
+      <!-- Some constraints messages -->
+      <!-- Font variantes -->
+      <!-- Tag multiple children creation -->
+      <!-- Raw documents -->
+      <!-- Bulk tags -->
+      <!-- Custom form nav bar -->
+      <!-- Node form help messages -->
+      <!-- Font form help messages -->
+      <!-- Node type field form help messages -->
+      <!-- Explorer and Widget translation -->
+      <!-- New Join node-type-field type -->
+    </body>
+  </file>
+</xliff>

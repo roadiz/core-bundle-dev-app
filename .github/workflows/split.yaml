@@ -58,10 +58,6 @@ jobs:
                         split_repository: 'random'
                         default_branch: 'main'
                     -
-                        local_path: 'RoadizCompatBundle'
-                        split_repository: 'compat-bundle'
-                        default_branch: 'main'
-                    -
                         local_path: 'RoadizCoreBundle'
                         split_repository: 'core-bundle'
                         default_branch: 'main'
@@ -84,6 +80,10 @@ jobs:
                     -
                         local_path: 'RoadizTwoFactorBundle'
                         split_repository: 'two-factor-bundle'
+                        default_branch: 'main'
+                    -
+                        local_path: 'RoadizSolrBundle'
+                        split_repository: 'solr-bundle'
                         default_branch: 'main'
 
 

@@ -7,7 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\GroupRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute as Serializer;
@@ -21,8 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Table(name: 'usergroups'),
     UniqueEntity(fields: ['name'])
 ]
-class Group extends AbstractEntity
+class Group implements PersistableInterface, \Stringable
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[Serializer\Groups(['user', 'role', 'role:export', 'role:import', 'group', 'group:export', 'group:import'])]
     #[Assert\NotBlank]
@@ -37,21 +40,14 @@ class Group extends AbstractEntity
     private Collection $users;
 
     /**
-     * @var Collection<int, Role>
+     * @var array<string> roles assigned to this Group
      */
-    #[ORM\JoinTable(name: 'groups_roles')]
-    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id')]
-    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'groups', cascade: ['persist', 'merge'])]
-    #[Serializer\Groups(['group'])]
-    private Collection $roleEntities;
-
+    #[ORM\Column(name: 'group_roles', type: 'json', nullable: true)]
     #[Serializer\Groups(['group', 'user', 'group:export'])]
-    private ?array $roles = null;
+    private ?array $roles = [];
 
     public function __construct()
     {
-        $this->roleEntities = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -75,85 +71,21 @@ class Group extends AbstractEntity
         return $this->users;
     }
 
-    /**
-     * Get roles names as a simple array.
-     *
-     * @return string[]
-     */
     public function getRoles(): array
     {
-        if (null === $this->roles) {
-            $this->roles = array_map(function (Role $role) {
-                return $role->getRole();
-            }, $this->getRolesEntities()->toArray());
-        }
-
-        return $this->roles;
+        return $this->roles ?? [];
     }
 
-    /**
-     * Get roles entities.
-     */
-    public function getRolesEntities(): ?Collection
+    public function setRoles(array $roles): Group
     {
-        return $this->roleEntities;
-    }
-
-    /**
-     * Get roles entities.
-     */
-    public function setRolesEntities(Collection $roles): self
-    {
-        $this->roleEntities = $roles;
-        /** @var Role $role */
-        foreach ($this->roleEntities as $role) {
-            $role->addGroup($this);
-        }
+        $this->roles = array_values(array_unique(array_filter($roles)));
 
         return $this;
     }
 
-    /**
-     * @return $this
-     *
-     * @deprecated Use addRoleEntity
-     */
-    public function addRole(Role $role): Group
+    #[\Override]
+    public function __toString(): string
     {
-        return $this->addRoleEntity($role);
-    }
-
-    /**
-     * @return $this
-     */
-    public function addRoleEntity(Role $role): Group
-    {
-        if (!$this->roleEntities->contains($role)) {
-            $this->roleEntities->add($role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     *
-     * @deprecated Use removeRoleEntity
-     */
-    public function removeRole(Role $role): Group
-    {
-        return $this->removeRoleEntity($role);
-    }
-
-    /**
-     * @return $this
-     */
-    public function removeRoleEntity(Role $role): Group
-    {
-        if ($this->roleEntities->contains($role)) {
-            $this->roleEntities->removeElement($role);
-        }
-
-        return $this;
+        return $this->getName();
     }
 }

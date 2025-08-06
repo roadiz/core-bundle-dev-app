@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Doctrine\ORM\NonUniqueResultException;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -21,11 +20,11 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
     public function __construct(
         private PreviewResolverInterface $previewResolver,
         private Stopwatch $stopwatch,
-        private Settings $settingsBag,
         private RequestStack $requestStack,
         private TranslationRepository $translationRepository,
         private NodesSourcesRepository $nodesSourcesRepository,
         private bool $useAcceptLanguageHeader,
+        private bool $forceLocale,
     ) {
     }
 
@@ -45,6 +44,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
         return $resourceInfo;
     }
 
+    #[\Override]
     public function resolvePath(
         string $path,
         array $supportedFormatExtensions = ['html'],
@@ -67,7 +67,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
 
         $identifier = '';
         if (count($tokens) > 0) {
-            $identifier = strip_tags($tokens[(int) (count($tokens) - 1)]);
+            $identifier = strip_tags((string) $tokens[(int) (count($tokens) - 1)]);
         }
 
         if ('' === $identifier) {
@@ -125,7 +125,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
         ]);
 
         if (null === $nodeSource) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException('Home node source not found for translation: '.$translation->getLocale());
         }
 
         return $nodeSource;
@@ -160,10 +160,10 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
 
         if (
             $this->useAcceptLanguageHeader
-            && true === $this->settingsBag->get('force_locale', false)
+            && true === $this->forceLocale
         ) {
             /*
-             * When no information to find locale is found and "force_locale" is ON,
+             * When no information to find locale is found and "forceLocale" is ON,
              * we must find translation based on Accept-Language header.
              * Be careful if you are using a reverse-proxy cache, YOU MUST VARY ON Accept-Language header.
              * @see https://varnish-cache.org/docs/6.3/users-guide/increasing-your-hitrate.html#http-vary

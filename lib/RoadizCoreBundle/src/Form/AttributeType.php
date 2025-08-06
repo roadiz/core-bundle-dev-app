@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType as SymfonyColorType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AttributeType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('code', TextType::class, [
@@ -30,10 +32,11 @@ final class AttributeType extends AbstractType
                 'help' => 'attributes.form_help.group',
                 'placeholder' => 'attributes.form.group.placeholder',
             ])
-            ->add('color', ColorType::class, [
+            ->add('color', SymfonyColorType::class, [
                 'label' => 'attributes.form.color',
                 'help' => 'attributes.form_help.color',
                 'required' => false,
+                'html5' => true,
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'attributes.form.type',
@@ -95,12 +98,14 @@ final class AttributeType extends AbstractType
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
         $resolver->setDefault('data_class', Attribute::class);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'attribute';

@@ -13,12 +13,12 @@ This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and 
 - Models
 - OpenId
 - Random
-- RoadizCompatBundle
 - RoadizCoreBundle
 - RoadizFontBundle
 - RoadizRozierBundle
 - RoadizTwoFactorBundle
 - RoadizUserBundle
+- RoadizSolrBundle
 - Rozier
 - and documentation website (./docs)
 
@@ -30,8 +30,8 @@ If you want to start a new headless project with Roadiz, check https://github.co
 - Checkout `develop` branch
 - Initialize `git flow init` to use GitFlow branching model
 - Create a `.env.local` file with mandatory `APP_SECRET` and `JWT_PASSPHRASE` vars minimum
-- Create a `compose.override.yaml` file to expose containers ports
-- Run `composer install` to install all dependencies and run scripts. Symfony packages may add some config files and alter your `compose.yml` file, you can safely rollback to the original one
+- Create a `compose.override.yml` file to expose containers ports
+- Run `docker compose run --rm --no-deps --entrypoint= app composer install` to install all dependencies and run scripts inside your Docker container. Symfony packages may add some config files and alter your `compose.yml` file, you can safely rollback to the original one
 
 ## Run development server
 
@@ -43,7 +43,7 @@ If you want to start a new headless project with Roadiz, check https://github.co
 ## Manual configuration
 
 These require a manual configuration in `config/packages/*.yaml` files and cannot be injected in Container, 
-you'll find configuration example in `RoadizCoreBundle/config/packages` and `RoadizCompatBundle/config/packages` folders:
+you'll find configuration example in `RoadizCoreBundle/config/packages` folder:
 
 - Doctrine ORM mapping
 - Doctrine migrations path
@@ -78,6 +78,23 @@ We use [`dunglas/frankenphp`](https://hub.docker.com/r/dunglas/frankenphp) image
 
 Using frankenphp allows you to remove `docker/varnish` and `docker/nginx` folders in your project.
 
+## Use Authentik SSO
+
+Roadiz can be integrated with [*Authentik*](https://goauthentik.io/), allowing users to authenticate via OpenID Connect. This enables seamless and secure login management across your applications.
+
+To set up Authentik with Roadiz, you can use the following command to deploy the necessary services:
+
+```shell
+docker compose -f compose.authentik.yml --env-file .env.local up -d
+```
+
+This command will start the Authentik services using the configuration defined in compose.authentik.yml while loading environment variables from .env.local.
+Once running, you can create an application in Authentik, configure OpenID settings, and enable SSO authentication for Roadiz.
+
+After setup, users will be redirected to Authentik for authentication and automatically logged into Roadiz upon successful verification.
+
+See how to configure it in [Documention](https://docs.roadiz.io/developer/first-steps/manual_config.html#openid-sso-authentication)
+
 ## Run documentation website
 
 ```shell
@@ -85,3 +102,8 @@ cd docs
 pnpm install
 pnpm docs:dev
 ```
+
+## Admin frontend development
+
+The admin UI assets are located in the lib/Rozier folder.
+To launch the frontend dev server or build the assets, go to that folder and follow the local README instructions.

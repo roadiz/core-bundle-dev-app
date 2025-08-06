@@ -1,0 +1,12 @@
+framework:
+    asset_mapper:
+        # The paths to make available to the asset mapper.
+        paths:
+            vendor/roadiz/rozier-bundle/static/: 'bundles/roadizrozier'
+        missing_import_mode: strict
+        public_prefix: '/static/'
+
+when@prod:
+    framework:
+        asset_mapper:
+            missing_import_mode: warn

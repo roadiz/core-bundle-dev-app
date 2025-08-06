@@ -18,6 +18,7 @@ final readonly class GitlabPipelineTriggerMessageInterface implements AsyncMessa
     ) {
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         $postBody = [
@@ -41,6 +42,7 @@ final readonly class GitlabPipelineTriggerMessageInterface implements AsyncMessa
     /**
      * @return static
      */
+    #[\Override]
     public static function fromWebhook(WebhookInterface $webhook): self
     {
         $payload = $webhook->getPayload();
@@ -53,11 +55,13 @@ final readonly class GitlabPipelineTriggerMessageInterface implements AsyncMessa
         );
     }
 
+    #[\Override]
     public function getMethod(): string
     {
         return 'POST';
     }
 
+    #[\Override]
     public function getUri(): string
     {
         return $this->uri;

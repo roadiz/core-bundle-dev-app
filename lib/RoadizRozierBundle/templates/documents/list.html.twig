@@ -13,7 +13,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
+<section class="content-global content-nav-and-filters bulk-layout">
 	<header class="content-header header-document header-document-list">
         {% block content_title %}
             {% if folder %}
@@ -44,17 +44,15 @@
     <article class="content">
         {% block pre_content_body %}{% endblock %}
 
-        {% apply spaceless %}
-            <div class="documents-list">
-                {% for document in documents %}
-                    {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
-                        document: document,
-                        thumbnailFormat: thumbnailFormat,
-                        controls: true
-                    } only %}
-                {% endfor %}
-            </div>
-        {% endapply %}
+        <div class="documents-list">
+            {% for document in documents %}
+                {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
+                    document: document,
+                    thumbnailFormat: thumbnailFormat,
+                    controls: true
+                } only %}
+            {% endfor %}
+        </div>
 	</article>
     {% endblock %}
 </section>

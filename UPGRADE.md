@@ -1,3 +1,415 @@
+# Upgrade to 2.6
+
+- [⚠ Breaking changes](#-breaking-changes)
+- [Upgrade your composer.json](#upgrade-your-composerjson)
+- [Remove Roadiz CompatBundle](#remove-roadiz-compatbundle)
+- [Upgrade you project code base for Symfony 7.3](#upgrade-you-project-code-base-for-symfony-73)
+- [Upgrade your Messenger configuration with Scheduler](#upgrade-your-messenger-configuration-with-scheduler)
+- [Upgrade your API Platform configuration](#upgrade-your-api-platform-configuration)
+- [Enable new DocumentDto](#enable-new-documentdto)
+- [Upgrade your Roadiz roles hierarchy](#upgrade-your-roadiz-roles-hierarchy)
+- [Upgrade your Roadiz Core bundle configuration](#upgrade-your-roadiz-core-bundle-configuration)
+- [Upgrade your captcha protected Form types](#upgrade-your-captcha-protected-form-types)
+- [Upgrade your Mailer configuration](#upgrade-your-mailer-configuration)
+- [Upgrade your email templates](#upgrade-your-email-templates)
+- [Upgrade your Solr configuration](#upgrade-your-solr-configuration)
+- [Upgrade rezozero/intervention-request-bundle](#upgrade-rezozerointervention-request-bundle)
+- [Use composition instead of inheritance for Abstract entities](#use-composition-instead-of-inheritance-for-abstract-entities)
+- [Interface changes](#interface-changes)
+- [Removed Themes from routing and events](#removed-themes-from-routing-and-events)
+
+## ⚠ Breaking changes
+
+- **Roadiz requires php 8.3 minimum**
+- Upgraded to **ApiPlatform 4.x**
+- Upgraded to **Symfony 7.3**
+  - New Scheduler component to replace cron jobs with a scheduler worker service
+- **Dropped RoadizCompatBundle** and all its classes
+- **Dropped Themes\Rozier\RozierApp** and all `Themes\Rozier` namespace. Controllers, templates and services have been moved to `RZ\Roadiz\RozierBundle` namespace.
+- **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
+- **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
+- New `CaptchaServiceInterface` to make captcha support any provider service.
+- All Solr and SearchEngine related logic has been moved to the new `roadiz/solr-bundle` bundle.
+- `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
+- All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
+- `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine
+- `NodesSourcesHeadInterface` has been simplified: `getPolicyUrl`, `getHomePageUrl` and `getHomePage` methods have been removed
+- Roadiz Core `solr` configuration has been deprecated, use `nelmio/solarium-bundle` configuration instead.
+  - All Solr services now depends on `ClientRegistryInterface`
+  - All Solr commands must provide a `clientName` argument to `validateSolrState`.
+  - `SolrPaginator` renamed to `SearchEnginePaginator`
+  - `SolrSearchListManager` renamed to `SearchEngineListManager`
+- Removed too technical Roadiz settings in favor of Symfony configuration parameters:
+
+| Old setting name               | Configuration Parameter |
+|:-------------------------------|:-------------------------|
+| `custom_public_scheme`         | `roadiz_core.customPublicScheme` |
+| `custom_preview_scheme`        | `roadiz_core.customPreviewScheme` |
+| `force_locale`                 | `roadiz_core.forceLocale` |
+| `force_locale_with_urlaliases` | `roadiz_core.forceLocaleWithUrlAliases` |
+| `leaflet_map_tile_url`         | `roadiz_core.leafletMapTileUrl` |
+| `maps_default_location`        | `roadiz_core.mapsDefaultLocation` |
+
+- `EmailManager` has been deprecated, use symfony/notifier instead.
+- `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
+- `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
+- Added `DocumentDto` to expose NodesSources documents in API Platform with contextualized `hotspot` and `imageCropAlignment` properties.
+- Added new `ROLE_ACCESS_USERS_DETAIL` role to allow user details edition (GDPR) and moved user language into default UserType form.
+
+## Upgrade your composer.json
+
+- Set _roadiz_ packages to `2.6.*`
+- Set _symfony_ packages to `7.3.*`
+- Allow symfony 7.3 on `extra.symfony.require` key
+```diff
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+-           "require": "6.4.*",
++           "require": "7.3.*",
+        }
+    }
+```
+- Remove `symfony/proxy-manager-bridge` and `doctrine/annotations` packages, they are no longer required.
+- Remove `roadiz/compat-bundle` and `roadiz/rozier` packages
+
+## Remove Roadiz CompatBundle
+
+- Remove `RZ\Roadiz\CompatBundle\RoadizCompatBundle::class` from your `config/bundles.php` file
+- Remove `config/packages/roadiz_compat.yaml` file
+- Remove `roadiz/compat-bundle` from your `composer.json`
+- Replace all Rozier theme classes with equivalent from `RZ\Roadiz\RozierBundle\` namespace, if your project adds admin controllers and templates
+- Run `composer update -o`
+
+## Upgrade you project code base for Symfony 7.3
+
+- Replace `Symfony\Component\Security\Core\Security` with `Symfony\Bundle\SecurityBundle\Security`
+- Remove `security.enable_authenticator_manager` option from your `config/packages/security.yaml`
+- Doctrine annotation have been removed:
+  - Switch all Doctrine entity mappings from `type: annotation` to `type: attribute`
+  - Remove any routes using `type: annotation`
+- All `Normalizer` classes must comply to the new method signatures for `normalize`, `supportsNormalization`, `supportsDenormalization` methods: `public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null`
+```diff
+-public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
++public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+```
+```diff
+-public function supportsNormalization(mixed $data, ?string $format = null): bool
++public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+```
+```diff
+-public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
++public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+```
+- Replace `Symfony\Component\Messenger\Handler\MessageHandlerInterface` interface with `Symfony\Component\Messenger\Attribute\AsMessageHandler` attribute on your message handlers.
+```diff
++use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+
++#[AsMessageHandler]
+-final readonly class RenderErroredMessageHandler implements MessageHandlerInterface
++final readonly class RenderErroredMessageHandler
+```
+
+## Upgrade your Messenger configuration with Scheduler
+
+- Added `scheduler_default` transport to your `messenger.yaml` configuration file.
+```diff
+# config/packages/messenger.yaml
+framework:
+    messenger:
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
++            scheduler_default:
++                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+```
+- Add `#[AsCronTask(expression: '0 3 * * *', jitter: 60, arguments: '--no-debug -n -q')]` to your project cron tasks to run them with the new Scheduler worker.
+- Remove `cron` from your Dockerfile, and compose.yaml
+
+## Upgrade your API Platform configuration
+
+Add `formats` configuration if not already present in your `api_platform.yaml` file.
+
+```yaml
+# config/packages/api_platform.yaml
+api_platform:
+    # ...
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+        x-www-form-urlencoded: ['application/x-www-form-urlencoded']
+```
+
+And rename `openapiContext` to `openapi` on your api-resources configuration files for each operation.
+
+## Enable new DocumentDto
+
+To expose `hotspot` and `imageCropAlignment` properties in your API Platform, you need to enable the new `DocumentDto`.
+
+```yaml
+# config/packages/roadiz_core.yaml
+roadiz_core:
+    useDocumentDto: true
+```
+
+```json
+[
+  {
+    "id": 1222,
+    "filename": "associes_groupe_01.jpg",
+    "mimeType": "image/jpeg",
+    "imageWidth": 2500,
+    "imageHeight": 1667,
+    "mediaDuration": 0,
+    "imageAverageColor": "#8d8a89",
+    "relativePath": "501fad4a/associes_groupe_01.jpg",
+    "imageCropAlignment": "center",
+    "hotspot": {
+      "x": 0.55,
+      "y": 0.38
+    },
+    "type": "image",
+    "processable": true
+  }
+]
+```
+
+## Upgrade your Roadiz roles hierarchy
+
+Migrations will automatically convert database roles to JSON roles in users and usergroups tables.
+But you need to update your `security.yaml` file to define your roles hierarchy.
+
+```yaml
+# config/packages/security.yaml
+security:
+    role_hierarchy:
+        ROLE_PASSWORDLESS_USER:
+            - ROLE_PUBLIC_USER
+        ROLE_EMAIL_VALIDATED:
+            - ROLE_PUBLIC_USER
+        ROLE_PUBLIC_USER:
+            - ROLE_USER
+        ROLE_BACKEND_USER:
+            - ROLE_USER
+        ROLE_SUPERADMIN:
+            - ROLE_PUBLIC_USER
+            - ROLE_ACCESS_VERSIONS
+            - ROLE_ACCESS_ATTRIBUTES
+            - ROLE_ACCESS_ATTRIBUTES_DELETE
+            - ROLE_ACCESS_CUSTOMFORMS
+            - ROLE_ACCESS_CUSTOMFORMS_RETENTION
+            - ROLE_ACCESS_CUSTOMFORMS_DELETE
+            - ROLE_ACCESS_DOCTRINE_CACHE_DELETE
+            - ROLE_ACCESS_DOCUMENTS
+            - ROLE_ACCESS_DOCUMENTS_LIMITATIONS
+            - ROLE_ACCESS_DOCUMENTS_DELETE
+            - ROLE_ACCESS_DOCUMENTS_CREATION_DATE
+            - ROLE_ACCESS_GROUPS
+            - ROLE_ACCESS_NODE_ATTRIBUTES
+            - ROLE_ACCESS_NODES
+            - ROLE_ACCESS_NODES_DELETE
+            - ROLE_ACCESS_NODES_SETTING
+            - ROLE_ACCESS_NODES_STATUS
+            - ROLE_ACCESS_NODETYPES
+            - ROLE_ACCESS_NODETYPES_DELETE
+            - ROLE_ACCESS_REDIRECTIONS
+            - ROLE_ACCESS_SETTINGS
+            - ROLE_ACCESS_TAGS
+            - ROLE_ACCESS_TAGS_DELETE
+            - ROLE_ACCESS_TRANSLATIONS
+            - ROLE_ACCESS_USERS
+            - ROLE_ACCESS_USERS_DELETE
+            - ROLE_ACCESS_WEBHOOKS
+            - ROLE_BACKEND_USER
+            - ROLE_ACCESS_LOGS
+            - ROLE_ACCESS_REALMS
+            - ROLE_ACCESS_REALM_NODES
+            - ROLE_ACCESS_FONTS
+            - ROLE_ALLOWED_TO_SWITCH
+```
+
+And remove roles routes from your Roadiz Rozier menu entries:
+
+```diff
+ # config/packages/roadiz_rozier.yaml
+ roadiz_rozier:
+     user_system:
+         name: 'user.system'
+         route: ~
+         icon: uk-icon-rz-users
+-        roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_ROLES', 'ROLE_ACCESS_GROUPS']
++        roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_GROUPS']
+         subentries:
+             manage_users:
+                 name: 'manage.users'
+                 route: usersHomePage
+                 icon: uk-icon-rz-user
+                 roles: ['ROLE_ACCESS_USERS']
+-            manage_roles:
+-                name: 'manage.roles'
+-                route: rolesHomePage
+-                icon: uk-icon-rz-roles
+-                roles: ['ROLE_ACCESS_ROLES']
+             manage_groups:
+                 name: 'manage.groups'
+                 route: groupsHomePage
+                 icon: uk-icon-rz-groups
+                 roles: ['ROLE_ACCESS_GROUPS']
+```
+
+## Upgrade your Roadiz Core bundle configuration
+
+- Add `forceLocale` and `forceLocaleWithUrlAliases` parameters
+- Move your Recaptcha configuration to `roadiz_core.recaptcha` parameters
+- Replace `$recaptchaPrivateKey` and `$recaptchaPublicKey` constructor arguments with `CaptchaServiceInterface` in your custom services.
+
+```diff
+ # config/packages/roadiz_core.yaml
+ roadiz_core:
+     # ...
++    # Replace your public website URL with a dedicated domain name. It can be useful when using *headless* Roadiz version.
++    customPublicScheme:   null
++    # Replace "?_preview=1" query string to preview website content with a dedicated domain name. It can be useful when using *headless* Roadiz version.
++    customPreviewScheme:  null
++    # Force displaying translation locale in every generated node-source paths.
++    # This should be enabled if you redirect users based on their language on homepage.
++    forceLocale: false
++    # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
++    forceLocaleWithUrlAliases: false
+     # ...
+     medias:
+         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
+         soundcloud_client_id: '%env(string:APP_SOUNDCLOUD_CLIENT_ID)%'
+         google_server_id: '%env(string:APP_GOOGLE_SERVER_ID)%'
+-        recaptcha_private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
+-        recaptcha_public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
+         ffmpeg_path: '%env(string:APP_FFMPEG_PATH)%'
++    captcha:
++        private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
++        public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
++        verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
+```
+
+## Upgrade your captcha protected Form types
+
+`CaptchaServiceInterface` will simplify your captcha form types and remove the need for `recaptcha_private_key`, `recaptcha_public_key` and `verify_url` parameters.
+
+```diff
+     public function __construct(
+-        private readonly ?string $recaptchaPrivateKey,
+-        private readonly ?string $recaptchaPublicKey,
+-        private readonly string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify',
++        private readonly \RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface $captchaService,
+     ) {
+     }
+ 
+     public function buildForm(FormBuilderInterface $builder, array $options): void
+     {
+         $builder->add('email', EmailType::class, [
+             'label' => 'newsletter.email',
+             'required' => true,
+             'attr' => [
+                 'autocomplete' => 'email',
+             ],
+             'constraints' => [
+                 new NotBlank(),
+                 new Email(),
+             ],
+         ]);
+ 
+-        if (
+-            !empty($this->recaptchaPublicKey)
+-            && !empty($this->recaptchaPrivateKey)
+-        ) {
+-            $builder->add('g-recaptcha-response', RecaptchaType::class, [
+-                'mapped' => false,
+-                'label' => false,
+-                'required' => true,
+-                'configs' => [
+-                    'publicKey' => $this->recaptchaPublicKey,
+-                ],
+-                'constraints' => [
+-                    new Recaptcha([
+-                        'fieldName' => 'g-recaptcha-response',
+-                        'privateKey' => $this->recaptchaPrivateKey,
+-                        'verifyUrl' => $this->verifyUrl,
+-                    ]),
+-                ],
+-            ]);
+-        }
++        if ($this->captchaService->isEnabled()) {
++           $builder->add($this->captchaService->getFieldName(), \RZ\Roadiz\CoreBundle\Form\CaptchaType::class, [
++                'mapped' => false,
++           ]);
++        }
+     }
+```
+
+## Upgrade your Mailer configuration
+
+```yaml
+# config/packages/mailer.yaml
+framework:
+    # ...
+    mailer:
+        # Use the default sender address for all emails
+        envelope:
+            sender: '%env(MAILER_ENVELOP_SENDER)%'
+```
+
+```dotenv
+###> symfony/mailer ###
+MAILER_DSN=smtp://mailer:1025
+MAILER_ENVELOP_SENDER="Roadiz Dev Website<roadiz-core-app@roadiz.io>"
+###< symfony/mailer ###
+```
+
+## Upgrade your email templates
+
+`disclaimer` and `mailContact` variables have been renamed to `email_disclaimer` and `support_email_address` in email templates.
+These variables are now automatically provided by RoadizExtension.
+
+## Upgrade your Solr configuration
+
+Roadiz removed *Apache Solr* from its Core bundle. To re-enable it, you need to install the Solr bundle.
+
+```sh
+composer require roadiz/solr-bundle
+```
+
+- Move your Solr endpoint configuration from `config/packages/roadiz_core.yml` to `config/packages/nelmio_solarium.yaml`
+- Use `RZ\Roadiz\SolrBundle\ClientRegistryInterface` to get your Solr client.
+- Regenerate your NodesSources entities with `bin/console generate:nsentities` to update repositories `__construct` methods.
+- `NodesSourcesRepository::__construct` signature has changed
+- `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine.
+- All Solr commands have been moved to `RZ\Roadiz\CoreBundle\SearchEngine\Console` namespace.
+- `RZ\Roadiz\CoreBundle\Api\ListManager\SolrPaginator` has been renamed to `RZ\Roadiz\CoreBundle\Api\ListManager\SearchEnginePaginator`
+- `RZ\Roadiz\CoreBundle\Api\ListManager\SolrSearchListManager` has been renamed to `RZ\Roadiz\CoreBundle\Api\ListManager\SearchEngineListManager`
+
+## Upgrade rezozero/intervention-request-bundle
+
+- Roadiz requires `rezozero/intervention-request-bundle` to `~5.0.1`
+
+## Use composition instead of inheritance for Abstract entities
+
+- All Abstract entities now use composition instead of inheritance.
+- Replace extending `AbstractEntity` with `PersistableInterface` and `SequentialIdTrait` in your entities.
+- Replace extending `AbstractDateTimed` with `DateTimedInterface` and `DateTimedTrait` in your entities.
+- Replace extending `AbstractPositioned` with `PositionedInterface` and `PositionedTrait` in your entities.
+- Use `SequentialIdTrait` to provide integer `id` property in your entities.
+- Use `UuidTrait` to provide Uuid `id` property in your entities.
+- Replace `$this->initAbstractDateTimed();` calls with `$this->initDateTimedTrait();` in your entities.
+
+## Interface changes
+
+- `ExplorerItemInterface::getId()` now returns `string|int|Uuid`
+
+## Removed Themes from routing and events
+
+- `NodesSourcesPathGeneratingEvent` does not have `theme` property anymore.
+
 # Upgrade to 2.5
 
 ## Removed node_types and node_type_fields tables

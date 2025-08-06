@@ -40,16 +40,19 @@ final class NodeTreeDto implements NodeInterface
         );
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getChildrenOrder(): string
     {
         return $this->childrenOrder;
     }
 
+    #[\Override]
     public function getChildrenOrderDirection(): string
     {
         return $this->childrenOrderDirection;
@@ -95,16 +98,19 @@ final class NodeTreeDto implements NodeInterface
         return $this->locked;
     }
 
+    #[\Override]
     public function isPublished(): bool
     {
         return $this->status->isPublished();
     }
 
+    #[\Override]
     public function isPending(): bool
     {
         return $this->status->isPending();
     }
 
+    #[\Override]
     public function isDraft(): bool
     {
         return $this->status->isDraft();
@@ -120,6 +126,7 @@ final class NodeTreeDto implements NodeInterface
         return $this->nodeSource;
     }
 
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return $this->nodeTypeName;

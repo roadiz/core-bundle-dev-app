@@ -1,14 +1,10 @@
-{% apply spaceless %}
-
 {%- include 'documents/picture-inner.html.twig' -%}
 {%- if lazyload -%}
 {% block noscript %}
-    <noscript{% block noscript_attributes %}{% endblock %}>
+    <noscript{% block noscript_attributes %}{%- endblock -%}>
         {%- include 'documents/picture-inner.html.twig' with {
             'lazyload': false
         } -%}
     </noscript>
 {% endblock %}
 {%- endif -%}
-
-{% endapply %}

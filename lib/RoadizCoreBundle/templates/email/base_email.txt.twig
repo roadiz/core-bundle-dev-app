@@ -8,11 +8,11 @@
 {% endif %}
 {% endblock %}
 
-{% if mailContact is defined %}
+{% if support_email_address is defined %}
 --------
-{% trans %}for.questions.email{% endtrans %} {{ mailContact|escape }}.
+{% trans %}for.questions.email{% endtrans %} {{ support_email_address|escape }}.
 {% endif %}
-{% if disclaimer is defined %}
+{% if email_disclaimer is defined %}
 --------
-{{ disclaimer }}
+{{ email_disclaimer }}
 {% endif %}

@@ -25,36 +25,39 @@ final class AttributesExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_attributes', [$this, 'getAttributeValues']),
-            new TwigFunction('node_source_attributes', [$this, 'getNodeSourceAttributeValues']),
-            new TwigFunction('node_source_grouped_attributes', [$this, 'getNodeSourceGroupedAttributeValues']),
+            new TwigFunction('get_attributes', $this->getAttributeValues(...)),
+            new TwigFunction('node_source_attributes', $this->getNodeSourceAttributeValues(...)),
+            new TwigFunction('node_source_grouped_attributes', $this->getNodeSourceGroupedAttributeValues(...)),
         ];
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('attributes', [$this, 'getNodeSourceAttributeValues']),
-            new TwigFilter('grouped_attributes', [$this, 'getNodeSourceGroupedAttributeValues']),
-            new TwigFilter('attribute_label', [$this, 'getAttributeLabelOrCode']),
-            new TwigFilter('attribute_group_label', [$this, 'getAttributeGroupLabelOrCode']),
+            new TwigFilter('attributes', $this->getNodeSourceAttributeValues(...)),
+            new TwigFilter('grouped_attributes', $this->getNodeSourceGroupedAttributeValues(...)),
+            new TwigFilter('attribute_label', $this->getAttributeLabelOrCode(...)),
+            new TwigFilter('attribute_group_label', $this->getAttributeGroupLabelOrCode(...)),
         ];
     }
 
+    #[\Override]
     public function getTests(): array
     {
         return [
-            new TwigTest('datetime', [$this, 'isDateTime']),
-            new TwigTest('date', [$this, 'isDate']),
-            new TwigTest('country', [$this, 'isCountry']),
-            new TwigTest('boolean', [$this, 'isBoolean']),
-            new TwigTest('choice', [$this, 'isEnum']),
-            new TwigTest('enum', [$this, 'isEnum']),
-            new TwigTest('number', [$this, 'isNumber']),
-            new TwigTest('percent', [$this, 'isPercent']),
+            new TwigTest('datetime', $this->isDateTime(...)),
+            new TwigTest('date', $this->isDate(...)),
+            new TwigTest('country', $this->isCountry(...)),
+            new TwigTest('boolean', $this->isBoolean(...)),
+            new TwigTest('choice', $this->isEnum(...)),
+            new TwigTest('enum', $this->isEnum(...)),
+            new TwigTest('number', $this->isNumber(...)),
+            new TwigTest('percent', $this->isPercent(...)),
         ];
     }
 
@@ -183,9 +186,7 @@ final class AttributesExtension extends AbstractExtension
             }
         }
 
-        return array_filter($groups, function (array $group) {
-            return count($group['attributeValues']) > 0;
-        });
+        return array_filter($groups, fn (array $group) => count($group['attributeValues']) > 0);
     }
 
     public function getAttributeLabelOrCode(mixed $mixed, ?TranslationInterface $translation = null): ?string

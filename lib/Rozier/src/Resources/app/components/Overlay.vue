@@ -4,13 +4,13 @@
     </transition>
 </template>
 <script>
-    import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 
-    export default {
-        computed: {
-            ...mapState({
-                isExplorerOpen: state => state.explorer.isOpen
-            })
-        }
-    }
+export default {
+    computed: {
+        ...mapState({
+            isExplorerOpen: (state) => state.explorer.isOpen,
+        }),
+    },
+}
 </script>

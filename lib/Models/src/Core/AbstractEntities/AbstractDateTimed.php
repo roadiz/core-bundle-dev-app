@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
 /**
  * An AbstractEntity with datetime fields to keep track of time with your items.
+ *
+ * @deprecated since 2.6, use composition with DateTimedTrait instead.
  */
 #[
     ORM\MappedSuperclass,
@@ -18,81 +18,7 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
     ORM\Index(columns: ['created_at']),
     ORM\Index(columns: ['updated_at']),
 ]
-abstract class AbstractDateTimed extends AbstractEntity
+abstract class AbstractDateTimed extends AbstractEntity implements DateTimedInterface
 {
-    #[
-        ORM\Column(name: 'created_at', type: 'datetime', nullable: true),
-        Serializer\Groups(['timestamps']),
-        SymfonySerializer\Groups(['timestamps']),
-    ]
-    protected ?\DateTime $createdAt = null;
-
-    #[
-        ORM\Column(name: 'updated_at', type: 'datetime', nullable: true),
-        Serializer\Groups(['timestamps']),
-        SymfonySerializer\Groups(['timestamps']),
-    ]
-    protected ?\DateTime $updatedAt = null;
-
-    public function getCreatedAt(): ?\DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setCreatedAt(?\DateTime $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    protected function initAbstractDateTimed(): void
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
-        $this->setCreatedAt(new \DateTime('now'));
-    }
-
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
-    }
-
-    #[ORM\PrePersist]
-    public function prePersist(): void
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
-        $this->setCreatedAt(new \DateTime('now'));
-    }
-
-    /**
-     * Set creation and update date to *now*.
-     *
-     * @return $this
-     */
-    public function resetDates(): self
-    {
-        $this->setCreatedAt(new \DateTime('now'));
-        $this->setUpdatedAt(new \DateTime('now'));
-
-        return $this;
-    }
+    use DateTimedTrait;
 }

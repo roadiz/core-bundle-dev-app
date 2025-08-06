@@ -1,8 +1,38 @@
 {% extends "@RoadizCore/base.html.twig" %}
 
-{% block content %}
-    <h1><a href="{{ path(nodeSource) }}">{{ nodeSource.title }}</a></h1>
-    {% if nodeSource.content is defined %}
-        {{ nodeSource.content|markdown }}
+{% block title %}{{ webResponse.item.title }}{% endblock %}
+
+{% macro walk_block(block) %}
+    <li>{{ block.item.title }}</li>
+    {% if block.children|length %}
+        <ul>
+            {% for child in block.children %}
+                {{ _self.walk_block(child) }}
+            {% endfor %}
+        </ul>
     {% endif %}
+{% endmacro %}
+
+{% block body %}
+    {% if webResponse.item %}
+        <h1><a href="{{ path(webResponse.item) }}">Page: {{ webResponse.item.title }}</a></h1>
+        {% if webResponse.item.content is defined %}
+            {{ webResponse.item.content|markdown }}
+        {% endif %}
+        {% for image in webResponse.item.images %}
+            {{ image|display({
+                'width': 300,
+                'picture': true,
+            }) }}
+        {% endfor %}
+    {% endif %}
+
+    {%- if not webResponse.HidingBlocks and webResponse.blocks|length -%}
+        <h2>Blocks</h2>
+        <ul>
+            {% for block in webResponse.blocks %}
+                {{ _self.walk_block(block) }}
+            {% endfor %}
+        </ul>
+    {%- endif -%}
 {% endblock %}

@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RealmType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
@@ -51,9 +52,10 @@ final class RealmType extends AbstractType
             'empty_data' => null,
             'by_reference' => true,
             'required' => false,
-        ])->add('roleEntity', RoleEntityType::class, [
+        ])->add('role', RolesType::class, [
             'label' => 'realm.role',
             'help' => 'realm.role.help',
+            'multiple' => false,
             'required' => false,
             'placeholder' => 'realm.role.placeholder',
         ])->add('users', UserCollectionType::class, [
@@ -63,6 +65,7 @@ final class RealmType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', Realm::class);

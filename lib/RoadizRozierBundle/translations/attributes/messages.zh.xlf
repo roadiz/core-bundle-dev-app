@@ -2,314 +2,314 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="zh-CN">
     <body>
-      <trans-unit xml:space="preserve" id="manage.attributes">
+      <trans-unit xml:space="preserve" id="manage.attributes" approved="yes">
                 <source>manage.attributes</source>
-                <target state="translated">管理属性</target>
+                <target state="final">管理属性</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes">
+      <trans-unit xml:space="preserve" id="attributes" approved="yes">
                 <source>attributes</source>
-                <target state="translated">属性</target>
+                <target state="final">属性</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.code">
+      <trans-unit xml:space="preserve" id="attributes.code" approved="yes">
                 <source>attributes.code</source>
-                <target state="translated">代码</target>
+                <target state="final">代码</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.attribute">
+      <trans-unit xml:space="preserve" id="add.a.attribute" approved="yes">
                 <source>add.a.attribute</source>
-                <target state="translated">创建一个属性</target>
+                <target state="final">创建一个属性</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.code">
+      <trans-unit xml:space="preserve" id="attributes.form.code" approved="yes">
                 <source>attributes.form.code</source>
-                <target state="translated">代码</target>
+                <target state="final">代码</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type">
+      <trans-unit xml:space="preserve" id="attributes.form.type" approved="yes">
                 <source>attributes.form.type</source>
-                <target state="translated">属性类型</target>
+                <target state="final">属性类型</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.attributeTranslations">
+      <trans-unit xml:space="preserve" id="attributes.form.attributeTranslations" approved="yes">
                 <source>attributes.form.attributeTranslations</source>
-                <target state="translated">翻译</target>
+                <target state="final">翻译</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.options">
+      <trans-unit xml:space="preserve" id="attributes.form.options" approved="yes">
                 <source>attributes.form.options</source>
-                <target state="translated">可用的选项（选择类型）</target>
+                <target state="final">可用的选项（选择类型）</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.attribute.%name%">
+      <trans-unit xml:space="preserve" id="edit.attribute.%name%" approved="yes">
                 <source>edit.attribute.%name%</source>
-                <target state="translated">%name%</target>
+                <target state="final">%name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.attributes">
+      <trans-unit xml:space="preserve" id="back_to.attributes" approved="yes">
                 <source>back_to.attributes</source>
-                <target state="translated">回到属性</target>
+                <target state="final">回到属性</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.string">
+      <trans-unit xml:space="preserve" id="attributes.form.type.string" approved="yes">
                 <source>attributes.form.type.string</source>
-                <target state="translated">基本文字字符串</target>
+                <target state="final">基本文字字符串</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.datetime">
+      <trans-unit xml:space="preserve" id="attributes.form.type.datetime" approved="yes">
                 <source>attributes.form.type.datetime</source>
-                <target state="translated">日期与时间</target>
+                <target state="final">日期与时间</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.boolean">
+      <trans-unit xml:space="preserve" id="attributes.form.type.boolean" approved="yes">
                 <source>attributes.form.type.boolean</source>
-                <target state="translated">布尔值（是 或 否）</target>
+                <target state="final">布尔值（是 或 否）</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.integer">
+      <trans-unit xml:space="preserve" id="attributes.form.type.integer" approved="yes">
                 <source>attributes.form.type.integer</source>
-                <target state="translated">整数</target>
+                <target state="final">整数</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.decimal">
+      <trans-unit xml:space="preserve" id="attributes.form.type.decimal" approved="yes">
                 <source>attributes.form.type.decimal</source>
-                <target state="translated">小数</target>
+                <target state="final">小数</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.percent">
+      <trans-unit xml:space="preserve" id="attributes.form.type.percent" approved="yes">
                 <source>attributes.form.type.percent</source>
-                <target state="translated">百分比</target>
+                <target state="final">百分比</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.email">
+      <trans-unit xml:space="preserve" id="attributes.form.type.email" approved="yes">
                 <source>attributes.form.type.email</source>
-                <target state="translated">单个电子邮件地址</target>
+                <target state="final">单个电子邮件地址</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.colour">
+      <trans-unit xml:space="preserve" id="attributes.form.type.colour" approved="yes">
                 <source>attributes.form.type.colour</source>
-                <target state="translated">十六进制颜色</target>
+                <target state="final">十六进制颜色</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.enum">
+      <trans-unit xml:space="preserve" id="attributes.form.type.enum" approved="yes">
                 <source>attributes.form.type.enum</source>
-                <target state="translated">单个选择</target>
+                <target state="final">单个选择</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.date">
+      <trans-unit xml:space="preserve" id="attributes.form.type.date" approved="yes">
                 <source>attributes.form.type.date</source>
-                <target state="translated">日期</target>
+                <target state="final">日期</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.country">
+      <trans-unit xml:space="preserve" id="attributes.form.type.country" approved="yes">
                 <source>attributes.form.type.country</source>
-                <target state="translated">国家及地区代码</target>
+                <target state="final">国家及地区代码</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="node.attributes">
+      <trans-unit xml:space="preserve" id="node.attributes" approved="yes">
                 <source>node.attributes</source>
-                <target state="translated">属性</target>
+                <target state="final">属性</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_values.form.attribute">
+      <trans-unit xml:space="preserve" id="attribute_values.form.attribute" approved="yes">
                 <source>attribute_values.form.attribute</source>
-                <target state="translated">添加一个新属性</target>
+                <target state="final">添加一个新属性</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="new_attribute">
+      <trans-unit xml:space="preserve" id="new_attribute" approved="yes">
                 <source>new_attribute</source>
-                <target state="translated">-- 选择一个属性 --</target>
+                <target state="final">-- 选择一个属性 --</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node.attribute">
+      <trans-unit xml:space="preserve" id="add.a.node.attribute" approved="yes">
                 <source>add.a.node.attribute</source>
-                <target state="translated">添加属性到现有代码</target>
+                <target state="final">添加属性到现有代码</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.no_value">
+      <trans-unit xml:space="preserve" id="attributes.no_value" approved="yes">
                 <source>attributes.no_value</source>
-                <target state="translated">-- 没有值 --</target>
+                <target state="final">-- 没有值 --</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.created">
+      <trans-unit xml:space="preserve" id="attribute.%name%.created" approved="yes">
                 <source>attribute.%name%.created</source>
-                <target state="translated">属性 %name% 已创建</target>
+                <target state="final">属性 %name% 已创建</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.updated">
+      <trans-unit xml:space="preserve" id="attribute.%name%.updated" approved="yes">
                 <source>attribute.%name%.updated</source>
-                <target state="translated">属性 %name% 已更新</target>
+                <target state="final">属性 %name% 已更新</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.deleted">
+      <trans-unit xml:space="preserve" id="attribute.%name%.deleted" approved="yes">
                 <source>attribute.%name%.deleted</source>
-                <target state="translated">属性 %name% 已删除</target>
+                <target state="final">属性 %name% 已删除</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.value">
+      <trans-unit xml:space="preserve" id="attributes.value" approved="yes">
                 <source>attributes.value</source>
-                <target state="translated">值</target>
+                <target state="final">值</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.group">
+      <trans-unit xml:space="preserve" id="attributes.group" approved="yes">
                 <source>attributes.group</source>
-                <target state="translated">群组</target>
+                <target state="final">群组</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute" approved="yes">
                 <source>are_you_sure.delete.attribute</source>
-                <target state="translated">您确定要删除此属性吗？</target>
+                <target state="final">您确定要删除此属性吗？</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.deleted_from_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="attribute.%name%.deleted_from_node.%nodeName%" approved="yes">
                 <source>attribute.%name%.deleted_from_node.%nodeName%</source>
-                <target state="translated">属性 %name% 已从节点 %nodeName% 中删除</target>
+                <target state="final">属性 %name% 已从节点 %nodeName% 中删除</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.attribute.%name%">
+      <trans-unit xml:space="preserve" id="delete.attribute.%name%" approved="yes">
                 <source>delete.attribute.%name%</source>
-                <target state="translated">删除属性 %name%</target>
+                <target state="final">删除属性 %name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_value_translation.%name%.updated_from_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="attribute_value_translation.%name%.updated_from_node.%nodeName%" approved="yes">
                 <source>attribute_value_translation.%name%.updated_from_node.%nodeName%</source>
-                <target state="translated">节点源 %nodeName% 的属性 %name% 的值已更新。</target>
+                <target state="final">节点源 %nodeName% 的属性 %name% 的值已更新。</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_code.must_contain_alpha_underscore">
+      <trans-unit xml:space="preserve" id="attribute_code.must_contain_alpha_underscore" approved="yes">
                 <source>attribute_code.must_contain_alpha_underscore</source>
-                <target state="translated">属性代码应只包含字母及下划线。</target>
+                <target state="final">属性代码应只包含字母及下划线。</target>
                 <note>Validation failed message on Attribute code that must only contain alpha and underscore characters.</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.searchable">
+      <trans-unit xml:space="preserve" id="attributes.form.searchable" approved="yes">
                 <source>attributes.form.searchable</source>
-                <target state="translated">在搜索引擎中索引？</target>
+                <target state="final">在搜索引擎中索引？</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.searchable">
+      <trans-unit xml:space="preserve" id="attributes.form_help.searchable" approved="yes">
                 <source>attributes.form_help.searchable</source>
-                <target state="translated">在全文搜索引擎中，为每个翻译索引目前的属性值。</target>
+                <target state="final">在全文搜索引擎中，为每个翻译索引目前的属性值。</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.code">
+      <trans-unit xml:space="preserve" id="attributes.form_help.code" approved="yes">
                 <source>attributes.form_help.code</source>
-                <target state="translated">代码能让属性名在您的网站翻译中是唯一的。</target>
+                <target state="final">代码能让属性名在您的网站翻译中是唯一的。</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.import_form.file.label">
+      <trans-unit xml:space="preserve" id="attributes.import_form.file.label" approved="yes">
                 <source>attributes.import_form.file.label</source>
-                <target state="translated">导入属性文件</target>
+                <target state="final">导入属性文件</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.import_form.file.help">
+      <trans-unit xml:space="preserve" id="attributes.import_form.file.help" approved="yes">
                 <source>attributes.import_form.file.help</source>
-                <target state="translated">属性文件必须是包含 Roadiz 属性结构的有效 JSON 文件。</target>
+                <target state="final">属性文件必须是包含 Roadiz 属性结构的有效 JSON 文件。</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.group">
+      <trans-unit xml:space="preserve" id="attributes.form.group" approved="yes">
                 <source>attributes.form.group</source>
-                <target state="translated">群组</target>
+                <target state="final">群组</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.group">
+      <trans-unit xml:space="preserve" id="attributes.form_help.group" approved="yes">
                 <source>attributes.form_help.group</source>
-                <target state="translated">群组能让开发者在同一个位置收集属性以公开展示。</target>
+                <target state="final">群组能让开发者在同一个位置收集属性以公开展示。</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.color">
+      <trans-unit xml:space="preserve" id="attributes.form.color" approved="yes">
                 <source>attributes.form.color</source>
-                <target state="translated">颜色</target>
+                <target state="final">颜色</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.color">
+      <trans-unit xml:space="preserve" id="attributes.form_help.color" approved="yes">
                 <source>attributes.form_help.color</source>
-                <target state="translated">可能公开展示的属性颜色</target>
+                <target state="final">可能公开展示的属性颜色</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.documents">
+      <trans-unit xml:space="preserve" id="attributes.form.documents" approved="yes">
                 <source>attributes.form.documents</source>
-                <target state="translated">文档</target>
+                <target state="final">文档</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.documents">
+      <trans-unit xml:space="preserve" id="attributes.form_help.documents" approved="yes">
                 <source>attributes.form_help.documents</source>
-                <target state="translated">可能会公开展示的说明现有属性的文档</target>
+                <target state="final">可能会公开展示的说明现有属性的文档</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.group.placeholder">
+      <trans-unit xml:space="preserve" id="attributes.form.group.placeholder" approved="yes">
                 <source>attributes.form.group.placeholder</source>
-                <target state="translated">-- 没有群组 --</target>
+                <target state="final">-- 没有群组 --</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.attribute_groups">
+      <trans-unit xml:space="preserve" id="back_to.attribute_groups" approved="yes">
                 <source>back_to.attribute_groups</source>
-                <target state="translated">回到属性组</target>
+                <target state="final">回到属性组</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.attribute_group">
+      <trans-unit xml:space="preserve" id="add.a.attribute_group" approved="yes">
                 <source>add.a.attribute_group</source>
-                <target state="translated">创建一个属性组</target>
+                <target state="final">创建一个属性组</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_groups">
+      <trans-unit xml:space="preserve" id="attribute_groups" approved="yes">
                 <source>attribute_groups</source>
-                <target state="translated"> 属性组</target>
+                <target state="final"> 属性组</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_groups.name">
+      <trans-unit xml:space="preserve" id="attribute_groups.name" approved="yes">
                 <source>attribute_groups.name</source>
-                <target state="translated">群组名</target>
+                <target state="final">群组名</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.form.name">
+      <trans-unit xml:space="preserve" id="attribute_group.form.name" approved="yes">
                 <source>attribute_group.form.name</source>
-                <target state="translated">群组名</target>
+                <target state="final">群组名</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.%name%.created">
+      <trans-unit xml:space="preserve" id="attribute_group.%name%.created" approved="yes">
                 <source>attribute_group.%name%.created</source>
-                <target state="translated">%name% 属性组已创建</target>
+                <target state="final">%name% 属性组已创建</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.%name%.updated">
+      <trans-unit xml:space="preserve" id="attribute_group.%name%.updated" approved="yes">
                 <source>attribute_group.%name%.updated</source>
-                <target state="translated">%name% 属性组已更新</target>
+                <target state="final">%name% 属性组已更新</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.%name%.deleted">
+      <trans-unit xml:space="preserve" id="attribute_group.%name%.deleted" approved="yes">
                 <source>attribute_group.%name%.deleted</source>
-                <target state="translated">%name% 属性组已删除</target>
+                <target state="final">%name% 属性组已删除</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.attribute_group.%name%">
+      <trans-unit xml:space="preserve" id="delete.attribute_group.%name%" approved="yes">
                 <source>delete.attribute_group.%name%</source>
-                <target state="translated">删除 %name% 属性组</target>
+                <target state="final">删除 %name% 属性组</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute_group">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute_group" approved="yes">
                 <source>are_you_sure.delete.attribute_group</source>
-                <target state="translated">您确定要删除此属性组吗？</target>
+                <target state="final">您确定要删除此属性组吗？</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.form.canonicalName">
+      <trans-unit xml:space="preserve" id="attribute_group.form.canonicalName" approved="yes">
                 <source>attribute_group.form.canonicalName</source>
-                <target state="translated">规范名称</target>
+                <target state="final">规范名称</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.form.attributeGroupTranslations">
+      <trans-unit xml:space="preserve" id="attribute_group.form.attributeGroupTranslations" approved="yes">
                 <source>attribute_group.form.attributeGroupTranslations</source>
-                <target state="translated">群组翻译</target>
+                <target state="final">群组翻译</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.reset_value">
+      <trans-unit xml:space="preserve" id="attributes.reset_value" approved="yes">
                 <source>attributes.reset_value</source>
-                <target state="translated">重置属性值为默认语言</target>
+                <target state="final">重置属性值为默认语言</target>
                 <note>Action label to reset value to the default language one. This does not delete attribute, only its translation.</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.reset_for_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="attribute.%name%.reset_for_node.%nodeName%" approved="yes">
                 <source>attribute.%name%.reset_for_node.%nodeName%</source>
-                <target state="translated">节点 %nodeName% 的属性 %name% 已被重置。</target>
+                <target state="final">节点 %nodeName% 的属性 %name% 已被重置。</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.delete_value">
+      <trans-unit xml:space="preserve" id="attributes.delete_value" approved="yes">
                 <source>attributes.delete_value</source>
-                <target state="translated">删除此节点的属性值</target>
+                <target state="final">删除此节点的属性值</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete_value.attribute">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete_value.attribute" approved="yes">
                 <source>are_you_sure.delete_value.attribute</source>
-                <target state="translated">您确定要删除此节点的属性值吗？</target>
+                <target state="final">您确定要删除此节点的属性值吗？</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.attribute.%name%.for_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="delete.attribute.%name%.for_node.%nodeName%" approved="yes">
                 <source>delete.attribute.%name%.for_node.%nodeName%</source>
-                <target state="translated">删除节点 %nodeName% 的 %name% 属性。</target>
+                <target state="final">删除节点 %nodeName% 的 %name% 属性。</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.attribute.%name%">
+      <trans-unit xml:space="preserve" id="reset.attribute.%name%" approved="yes">
                 <source>reset.attribute.%name%</source>
-                <target state="translated">重置 %name% 属性值</target>
+                <target state="final">重置 %name% 属性值</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.attribute.%name%.for_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="reset.attribute.%name%.for_node.%nodeName%" approved="yes">
                 <source>reset.attribute.%name%.for_node.%nodeName%</source>
-                <target state="translated">重置 %nodeName% 节点的 %name% 属性值</target>
+                <target state="final">重置 %nodeName% 节点的 %name% 属性值</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.reset.attribute_value">
+      <trans-unit xml:space="preserve" id="are_you_sure.reset.attribute_value" approved="yes">
                 <source>are_you_sure.reset.attribute_value</source>
-                <target state="translated">您确定要重置此语言的属性值吗？</target>
+                <target state="final">您确定要重置此语言的属性值吗？</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_value.%attributeValueId%.not_exists">
+      <trans-unit xml:space="preserve" id="attribute_value.%attributeValueId%.not_exists" approved="yes">
                 <source>attribute_value.%attributeValueId%.not_exists</source>
-                <target state="translated">属性 %attributeValueId% 的值不存在</target>
+                <target state="final">属性 %attributeValueId% 的值不存在</target>
                 <note/>
             </trans-unit>
     </body>

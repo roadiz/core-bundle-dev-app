@@ -9,7 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
-    {% include '@RoadizRozier/partials/css-inject.html.twig' %}
+    {{ manifest_preload_tags('shared') }}
+    {{ manifest_preload_tags('simple') }}
+
+    {{ manifest_style_tags('shared') }}
+    {{ manifest_style_tags('simple') }}
     {% if main_color %}
         <style>
             :root {
@@ -20,7 +24,6 @@
             }
         </style>
     {% endif %}
-    <script src="{{ asset('vendor/modernizr.custom.50380.js', 'Rozier') }}"></script>
 </head>
 <body id="simple-body">
 {% include '@RoadizRozier/includes/messages.html.twig' %}
@@ -33,20 +36,16 @@
     </div>
 </div>
 <script>
-    var temp = {
+    window.RozierConfig = {
         "routes": {
             "splashRequest": "{{ path('loginImagePage') }}"
         }
     };
-    var RozierRoot = temp;
 </script>
-{% if app.debug %}
-    <script src="{{ asset('vendor/jquery.js', 'Rozier') }}"></script>
-{% else %}
-    <script src="{{ asset('vendor/jquery.min.js', 'Rozier') }}"></script>
-{% endif %}
-{# JS scripts inclusions / Using webpack #}
-{% include '@RoadizRozier/partials/simple-js-inject.html.twig' %}
+{# JS scripts inclusions / Using Vite manifest #}
+{{ manifest_script_tags('@vite/client') }}
+{{ manifest_script_tags('shared') }}
+{{ manifest_script_tags('simple') }}
 {% block customScripts %}{% endblock %}
 </body>
 </html>

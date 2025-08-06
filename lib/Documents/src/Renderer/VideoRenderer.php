@@ -6,7 +6,7 @@ namespace RZ\Roadiz\Documents\Renderer;
 
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\DocumentFinderInterface;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Twig\Environment;
@@ -23,7 +23,8 @@ class VideoRenderer extends AbstractRenderer
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
     }
 
-    public function supports(DocumentInterface $document, array $options): bool
+    #[\Override]
+    public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isVideo();
     }
@@ -33,7 +34,8 @@ class VideoRenderer extends AbstractRenderer
      * @throws \Twig\Error\SyntaxError
      * @throws \Twig\Error\LoaderError
      */
-    public function render(DocumentInterface $document, array $options): string
+    #[\Override]
+    public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);
 
@@ -44,7 +46,7 @@ class VideoRenderer extends AbstractRenderer
          * Use a user defined poster url
          */
         if (!empty($options['custom_poster'])) {
-            $assignation['poster'] = trim(strip_tags($options['custom_poster']));
+            $assignation['poster'] = trim(strip_tags((string) $options['custom_poster']));
         } else {
             /*
              * Look for poster with the same args as the video.
@@ -56,7 +58,7 @@ class VideoRenderer extends AbstractRenderer
     }
 
     protected function getPosterUrl(
-        DocumentInterface $document,
+        BaseDocumentInterface $document,
         array $options = [],
         bool $absolute = false,
     ): ?string {
@@ -101,7 +103,7 @@ class VideoRenderer extends AbstractRenderer
      * This method will search for document which filename is the same
      * except the extension. If you choose an MP4 file, it will look for a OGV and WEBM file.
      */
-    protected function getSourcesFiles(DocumentInterface $document): array
+    protected function getSourcesFiles(BaseDocumentInterface $document): array
     {
         if (!$document->isLocal()) {
             return [];

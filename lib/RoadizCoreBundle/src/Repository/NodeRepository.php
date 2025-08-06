@@ -44,6 +44,7 @@ class NodeRepository extends StatusAwareRepository
     /**
      * @return Event
      */
+    #[\Override]
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
         // @phpstan-ignore-next-line
@@ -55,6 +56,7 @@ class NodeRepository extends StatusAwareRepository
     /**
      * @return Event
      */
+    #[\Override]
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
         // @phpstan-ignore-next-line
@@ -71,6 +73,7 @@ class NodeRepository extends StatusAwareRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
+    #[\Override]
     public function countBy(
         mixed $criteria,
         ?TranslationInterface $translation = null,
@@ -198,6 +201,7 @@ class NodeRepository extends StatusAwareRepository
     /**
      * Bind parameters to generated query.
      */
+    #[\Override]
     protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
     {
         /*
@@ -258,6 +262,7 @@ class NodeRepository extends StatusAwareRepository
      *
      * @return array<Node>
      */
+    #[\Override]
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -500,6 +505,7 @@ EOT,
      *
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function findOneBy(
         array $criteria,
         ?array $orderBy = null,
@@ -881,6 +887,7 @@ EOT,
      * @param array        $criteria Additional criteria
      * @param string       $alias    SQL query table alias
      */
+    #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
@@ -911,7 +918,7 @@ EOT,
                     $alias.'.nodesTags',
                     'ntg',
                     Expr\Join::WITH,
-                    $qb->expr()->eq('ntg.tag', (int) $criteria['tags']->getId())
+                    $qb->expr()->eq('ntg.tag', $criteria['tags']->getId())
                 );
             } elseif (is_array($criteria['tags'])) {
                 $qb->innerJoin(
@@ -925,7 +932,7 @@ EOT,
                     $alias.'.nodesTags',
                     'ntg',
                     Expr\Join::WITH,
-                    $qb->expr()->eq('ntg.tag', (int) $criteria['tags'])
+                    $qb->expr()->eq('ntg.tag', $criteria['tags'])
                 );
             }
             unset($criteria['tags']);
@@ -940,6 +947,7 @@ EOT,
         return $qb;
     }
 
+    #[\Override]
     protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
@@ -1030,6 +1038,7 @@ EOT,
         return $this->findOneBy($criteria);
     }
 
+    #[\Override]
     protected function classicLikeComparison(
         string $pattern,
         QueryBuilder $qb,

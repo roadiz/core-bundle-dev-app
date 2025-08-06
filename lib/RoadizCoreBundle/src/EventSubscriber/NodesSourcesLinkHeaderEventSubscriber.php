@@ -24,6 +24,7 @@ final readonly class NodesSourcesLinkHeaderEventSubscriber implements EventSubsc
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -49,7 +50,7 @@ final readonly class NodesSourcesLinkHeaderEventSubscriber implements EventSubsc
         /*
          * Preview and authentication is handled at repository level.
          */
-        $repository = $this->managerRegistry->getRepository(get_class($resources));
+        $repository = $this->managerRegistry->getRepository($resources::class);
         if (!$repository instanceof NodesSourcesRepository) {
             return;
         }

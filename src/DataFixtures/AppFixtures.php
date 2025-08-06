@@ -12,6 +12,7 @@ class AppFixtures extends Fixture
 {
     public const DEFAULT_TRANSLATION_REFERENCE = 'default-translation';
 
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $defaultTranslation = new Translation();

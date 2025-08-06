@@ -9,13 +9,13 @@ use RZ\Roadiz\CoreBundle\Cache\Clearer\OPCacheClearer;
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 use Symfony\Component\Process\Process;
 
-final class SchemaUpdater
+final readonly class SchemaUpdater
 {
     public function __construct(
-        private readonly CacheClearerInterface $cacheClearer,
-        private readonly OPCacheClearer $opCacheClearer,
-        private readonly LoggerInterface $logger,
-        private readonly string $projectDir,
+        private CacheClearerInterface $cacheClearer,
+        private OPCacheClearer $opCacheClearer,
+        private LoggerInterface $logger,
+        private string $projectDir,
     ) {
     }
 

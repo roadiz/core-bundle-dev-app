@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en" datatype="plaintext" target-language="de">
+    <body>
+      <trans-unit xml:space="preserve" id="2" approved="yes">
+        <source>node.%name%.updated</source>
+        <target state="final">Knoten "%name%" wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="3" approved="yes">
+        <source>node.%nodeId%.not_exists</source>
+        <target state="final">Knoten %nodeId% existiert nicht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="4" approved="yes">
+        <source>node.%name%.status.%field%.updated</source>
+        <target state="final">Der Status "%field%" vom Knoten %name%  wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="5" approved="yes">
+        <source>node.has_no.field.%field%</source>
+        <target state="final">Knoten hat kein Feld mit dem Namen "%field%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="6" approved="yes">
+        <source>node.id.not_specified</source>
+        <target state="final">Es wurde keine Knoten ID definiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="7" approved="yes">
+        <source>document.%name%.updated</source>
+        <target state="final">Das Dokument "%name%" wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="8" approved="yes">
+        <source>document.%name%.deleted</source>
+        <target state="final">Das Dokument "%name%" wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="9" approved="yes">
+        <source>document.%name%.cannot_delete</source>
+        <target state="final">Das Dokument "%name%" konnte nicht gelöscht werden.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="10" approved="yes">
+        <source>document.%name%.uploaded</source>
+        <target state="final">Das Dokument "%name%" wurde hochgeladen.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="11" approved="yes">
+        <source>document.cannot_persist</source>
+        <target state="final">Das Dokument konnte nicht in der Datenbank gespeichert werden.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="12" approved="yes">
+        <source>name</source>
+        <target state="final">Name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="13" approved="yes">
+        <source>description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="14" approved="yes">
+        <source>copyright</source>
+        <target state="final">Copyright</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="15" approved="yes">
+        <source>private</source>
+        <target state="final">Privat</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="16" approved="yes">
+        <source>choose.documents.to_upload</source>
+        <target state="final">Wähle die hochzuladenden Dokumente aus.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="17" approved="yes">
+        <source>cache.deleted</source>
+        <target state="final">Der Cache wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="18" approved="yes">
+        <source>group.%name%.created</source>
+        <target state="final">Die Gruppe %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="19" approved="yes">
+        <source>group.%name%.deleted</source>
+        <target state="final">Die Gruppe %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="20" approved="yes">
+        <source>group.%name%.updated</source>
+        <target state="final">Die Gruppe %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="21" approved="yes">
+        <source>role.%role%.linked_group.%group%</source>
+        <target state="final">Die Rolle %role% wurde zur Gruppe %group% hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="22" approved="yes">
+        <source>role.%role%.removed_from_group.%group%</source>
+        <target state="final">Die Rolle %role% wurde aus der Gruppe %group% entefernt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="23" approved="yes">
+        <source>user.%user%.linked.group.%group%</source>
+        <target state="final">Der Benutzer %user% wurde mit der Gruppe %group% verlinkt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="24" approved="yes">
+        <source>user.%user%.removed_from_group.%group%</source>
+        <target state="final">Der benutzer %user% wurde aus der Gruppe %group% entfernt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="25" approved="yes">
+        <source>group.name</source>
+        <target state="final">Gruppenname</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="26" approved="yes">
+        <source>choose.role</source>
+        <target state="final">Bitte wähle eine Rolle.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="27" approved="yes">
+        <source>choose.user</source>
+        <target state="final">Bitte wähle einen Benutzer.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="28" approved="yes">
+        <source>group.name.already.exists</source>
+        <target state="final">Dieser Gruppenname existiert bereits.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="29" approved="yes">
+        <source>theme.%name%.created</source>
+        <target state="final">Das Theme (%name%) wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="30" approved="yes">
+        <source>theme.%name%.updated</source>
+        <target state="final">Das Theme (%name%) wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="31" approved="yes">
+        <source>theme.%name%.deleted</source>
+        <target state="final">Das Theme (%name%) wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="32" approved="yes">
+        <source>themeClass</source>
+        <target state="final">Theme-Klasse</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="33" approved="yes">
+        <source>available</source>
+        <target state="final">verfügbar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="34" approved="yes">
+        <source>hostname</source>
+        <target state="final">Host-Name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="35" approved="yes">
+        <source>backendTheme</source>
+        <target state="final">Backend-Theme</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="36" approved="yes">
+        <source>theme.%name%.no_creation.already_exists</source>
+        <target state="final">Das Theme (%name%) konnte nicht erstellt werden, da es bereits existiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="37" approved="yes">
+        <source>user.%name%.updated</source>
+        <target state="final">Der Benutzer %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="38" approved="yes">
+        <source>user.%user%.role.%role%.linked</source>
+        <target state="final">Der Benutzer %user% wurde der Rolle "%role%" hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="39" approved="yes">
+        <source>user.%name%.role_removed</source>
+        <target state="final">Der Benutzer %name% wurde von der Rolle entfernt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="40" approved="yes">
+        <source>user.%user%.group.%group%.linked</source>
+        <target state="final">Der Benutzer %user% wurde der Gruppe %group% hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="41" approved="yes">
+        <source>user.%user%.group.%group%.removed</source>
+        <target state="final">Der Benutzer %user% wurde aus der Gruppe %group% entfernt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="42" approved="yes">
+        <source>user.%name%.created</source>
+        <target state="final">Der Benutzer %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="43" approved="yes">
+        <source>user.%name%.deleted</source>
+        <target state="final">Der Benutzer %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="47" approved="yes">
+        <source>user.facebook_name.%name%._does_not_exist</source>
+        <target state="final">Der Facebook Profilname (%name%) existiert nicht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="48" approved="yes">
+        <source>email</source>
+        <target state="final">E-Mail</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="49" approved="yes">
+        <source>username</source>
+        <target state="final">Benutzername</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="50" approved="yes">
+        <source>password</source>
+        <target state="final">Passwort</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="51" approved="yes">
+        <source>passwordVerify</source>
+        <target state="final">Passwortbestätigung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="52" approved="yes">
+        <source>firstName</source>
+        <target state="final">Vorname</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="53" approved="yes">
+        <source>lastName</source>
+        <target state="final">Nachname</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="phone" approved="yes">
+        <source>phone</source>
+        <target state="final">Telefonnummer</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="54" approved="yes">
+        <source>company</source>
+        <target state="final">Firma</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="55" approved="yes">
+        <source>job</source>
+        <target state="final">Funktion</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="56" approved="yes">
+        <source>birthday</source>
+        <target state="final">Geburtstag</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="57" approved="yes">
+        <source>facebookName</source>
+        <target state="final">Facebook Profilname</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="58" approved="yes">
+        <source>role.%name%.created</source>
+        <target state="final">Die Rolle "%name%" wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="59" approved="yes">
+        <source>role.%name%.deleted</source>
+        <target state="final">Die Rolle "%name%" wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="60" approved="yes">
+        <source>role.%name%.updated</source>
+        <target state="final">Die Rolle "%name%" wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="61" approved="yes">
+        <source>role.name.must_comply_with_standard</source>
+        <target state="final">Der Rollenname muss starten mit "ROLE_" darf nur Grossbuchstaben und Unterlinien beinhalten.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="62" approved="yes">
+        <source>role.name.already.exists</source>
+        <target state="final">Der Rollennamen existiert bereits.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="63" approved="yes">
+        <source>role.required.cannot_be_updated</source>
+        <target state="final">Diese Rolle wird vom System benötigt und kann nicht geändert werden.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="64" approved="yes">
+        <source>role.is.required</source>
+        <target state="final">Eine Rolle wird benötigt</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="65" approved="yes">
+        <source>nodeType.imported.created</source>
+        <target state="final">Der Knotentyp wurde erfolgreich importiert und in der Datenbank gespeichert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="66" approved="yes">
+        <source>nodeType.imported.updated</source>
+        <target state="final">Der Knotentyp wurde erfolgreich in die Datenbank importiert und gespeichert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="67" approved="yes">
+        <source>file.format.not_valid</source>
+        <target state="final">Das Fileformat ist nicht gültig.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="68" approved="yes">
+        <source>file.not_uploaded</source>
+        <target state="final">Die Datei konnte nicht hochgeladen werden.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="69" approved="yes">
+        <source>nodeType.file</source>
+        <target state="final">Knotentyp Datei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="70" approved="yes">
+        <source>tag.%name%.updated</source>
+        <target state="final">Der Tag %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="71" approved="yes">
+        <source>tag.%name%.created</source>
+        <target state="final">Der Tag %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="72" approved="yes">
+        <source>tag.%name%.deleted</source>
+        <target state="final">Der Tag %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="73" approved="yes">
+        <source>child.tag.%name%.created</source>
+        <target state="final">Der "Kinder-Tag" %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="77" approved="yes">
+        <source>locked</source>
+        <target state="final">Gesperrt</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="78" approved="yes">
+        <source>visible</source>
+        <target state="final">Sichtbar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="invisible" approved="yes">
+        <source>invisible</source>
+        <target state="final">unsichtbar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="79" approved="yes">
+        <source>parent_tagId</source>
+        <target state="final">"Eltern-Tag" ID</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="80" approved="yes">
+        <source>tagName</source>
+        <target state="final">Tag name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="81" approved="yes">
+        <source>node.seo.updated</source>
+        <target state="final">Die Knotentyp SEO Daten wurden aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="82" approved="yes">
+        <source>node.seo.not.updated</source>
+        <target state="final">Die Knotentyp SEO Daten konnten nicht aktuallisiert werden.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="83" approved="yes">
+        <source>url_alias.%alias%.updated</source>
+        <target state="final">Der Url Alias "%alias%" wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="84" approved="yes">
+        <source>url_alias.%alias%.no_update.already_exists</source>
+        <target state="final">Der Url Alias "%alias%" konnte nicht aktuallisiert werden, weil er schon existiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="85" approved="yes">
+        <source>url_alias.%alias%.deleted</source>
+        <target state="final">Der Url Alias "%alias%" wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="86" approved="yes">
+        <source>url_alias.%alias%.created.%translation%</source>
+        <target state="final">Der Url Alias "%alias%" wurde für die Übersetzung "%translation%" angelegt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="87" approved="yes">
+        <source>url_alias.%alias%.no_creation.already_exists</source>
+        <target state="final">Der Url Alias "%alias%" wurde nicht erstellt, weil er schon existiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="88" approved="yes">
+        <source>url_alias.no_translation.%translation%</source>
+        <target state="final">Der Url Alias für die Übersetzung %translation% konnte nicht angelegt werden, weil diese nicht existiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="89" approved="yes">
+        <source>urlAlias</source>
+        <target state="final">Url Alias </target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="90" approved="yes">
+        <source>translation</source>
+        <target state="final">Übersetzung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="91" approved="yes">
+        <source>metaTitle</source>
+        <target state="final">Meta-Titel</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="93" approved="yes">
+        <source>metaDescription</source>
+        <target state="final">Meta Beschreibung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="94" approved="yes">
+        <source>nodeTypeField.%name%.updated</source>
+        <target state="final">Das Knotentyp Feld %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="95" approved="yes">
+        <source>nodeTypeField.%name%.created</source>
+        <target state="final">Das Knotentyp Feld %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="96" approved="yes">
+        <source>nodeTypeField.%name%.deleted</source>
+        <target state="final">Das Knotentyp Feld %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="97" approved="yes">
+        <source>label</source>
+        <target state="final">Beschriftung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="98" approved="yes">
+        <source>type</source>
+        <target state="final">Typ</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="99" approved="yes">
+        <source>indexed</source>
+        <target state="final">Index</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="100" approved="yes">
+        <source>defaultValues</source>
+        <target state="final">Standardwerte</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="101" approved="yes">
+        <source>enter_values_comma_separated</source>
+        <target state="final">Gib die Werte mit Komma getrennt ein.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="102" approved="yes">
+        <source>node.%name%.translated</source>
+        <target state="final">Der Knoten %name% wurde übersetzt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="103" approved="yes">
+        <source>node_source.%node_source%.updated.%translation%</source>
+        <target state="final">Der Knotenursprung %node_source% wurde für die Übersetzung %translation% aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="104" approved="yes">
+        <source>node.%node%.linked.tag.%tag%</source>
+        <target state="final">Der knoten %node% wurde getagged mit "%tag%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="105" approved="yes">
+        <source>tag.%name%.removed</source>
+        <target state="final">Der Tag %name% wurde entfernt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="106" approved="yes">
+        <source>node.%name%.created</source>
+        <target state="final">Der Knoten %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="107" approved="yes">
+        <source>node.%name%.deleted</source>
+        <target state="final">Der Knoten %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="112" approved="yes">
+        <source>nodeName</source>
+        <target state="final">Knotenname</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="113" approved="yes">
+        <source>nodeType</source>
+        <target state="final">Knotentyp</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="114" approved="yes">
+        <source>priority</source>
+        <target state="final">Priorität</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="115" approved="yes">
+        <source>node.isHome</source>
+        <target state="final">Benütze diesen Knoten als Homepage</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="116" approved="yes">
+        <source>choose.tag</source>
+        <target state="final">Wähle eine Tag aus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="117" approved="yes">
+        <source>nodeType.%name%.updated</source>
+        <target state="final">Der Knotentyp %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="118" approved="yes">
+        <source>nodeType.%name%.created</source>
+        <target state="final">Der Knotentyp %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="119" approved="yes">
+        <source>nodeType.%name%.deleted</source>
+        <target state="final">Der Knotentyp %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="122" approved="yes">
+        <source>nodeType.displayName</source>
+        <target state="final">Anzeigename</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="123" approved="yes">
+        <source>nodeType.newsletterType</source>
+        <target state="final">Newsletter Knotentyp</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="124" approved="yes">
+        <source>nodeType.hidingNodes</source>
+        <target state="final">Knotentyp soll Knoten verstecken ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="125" approved="yes">
+        <source>role.imported</source>
+        <target state="final">Die Rolle wurde importiert</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="126" approved="yes">
+        <source>role.file</source>
+        <target state="final">Datei-Rollen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="127" approved="yes">
+        <source>setting.%name%.updated</source>
+        <target state="final">Die Einstellung %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="128" approved="yes">
+        <source>setting.%name%.created</source>
+        <target state="final">Die Eigenschaft %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="129" approved="yes">
+        <source>setting.%name%.deleted</source>
+        <target state="final">Die Eigenschaft %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="130" approved="yes">
+        <source>setting.%name%.no_update.already_exists</source>
+        <target state="final">Die Eigenschaft %name% kann nicht aktuallisiert werden, weil sie bereits existiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="131" approved="yes">
+        <source>setting.%name%.no_creation.already_exists</source>
+        <target state="final">Die Eigenschaft %name% kann nicht erstellt werden, weil sie bereits existiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="132" approved="yes">
+        <source>value</source>
+        <target state="final">Wert</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="133" approved="yes">
+        <source>setting.group</source>
+        <target state="final">Eigenschaftsgruppe</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="134" approved="yes">
+        <source>database.schema.updated</source>
+        <target state="final">Das Datenbankschema wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="135" approved="yes">
+        <source>database.schema.cannot_updated</source>
+        <target state="final">Datenbankschema kann nicht aktualisiert werden</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="136" approved="yes">
+        <source>group.imported.updated</source>
+        <target state="final">Die Gruppe wurde erfolgreich importiert und in der Datebank gespeichert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="137" approved="yes">
+        <source>group.file</source>
+        <target state="final">Gruppendatei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="138" approved="yes">
+        <source>font.%name%.created</source>
+        <target state="final">Die Schrift %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="139" approved="yes">
+        <source>font.%name%.deleted</source>
+        <target state="final">Die Schrift %name% wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="140" approved="yes">
+        <source>font.%name%.updated</source>
+        <target state="final">Die Schrift %name% wurde aktuallisiert.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="141" approved="yes">
+        <source>font.name</source>
+        <target state="final">Schriftname</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="142" approved="yes">
+        <source>font.variant</source>
+        <target state="final">Schriftvariante</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="143" approved="yes">
+        <source>font.eotFile</source>
+        <target state="final">EOT Schriftdatei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="144" approved="yes">
+        <source>font.woffFile</source>
+        <target state="final">WOFF Schriftdatei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="145" approved="yes">
+        <source>font.otfFile</source>
+        <target state="final">OTF Schriftdatei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="146" approved="yes">
+        <source>font.svgFile</source>
+        <target state="final">SVG Schriftdatei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="150" approved="yes">
+        <source>settingFile</source>
+        <target state="final">Einstellungsdatei</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="151" approved="yes">
+        <source>translation.%name%.made_default</source>
+        <target state="final">Die Übersetzung %name% wurde als Hauptsprache eingestellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="152" approved="yes">
+        <source>translation.%name%.updated</source>
+        <target state="final">Die Übersetzung %name% wurde aktuallisiert</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="153" approved="yes">
+        <source>translation.%name%.created</source>
+        <target state="final">Die Übersetzung %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="154" approved="yes">
+        <source>translation.%name%.deleted</source>
+        <target state="final">Die Übersetzung %name% wurde erstellt.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="158" approved="yes">
+        <source>locale</source>
+        <target state="final">Region</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="159" approved="yes">
+        <source>add.tag</source>
+        <target state="final">Schlagwort hinzufügen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="161" approved="yes">
+        <source>tags</source>
+        <target state="final">Schlagwörter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="162" approved="yes">
+        <source>id</source>
+        <target state="final">ID</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="163" approved="yes">
+        <source>actions</source>
+        <target state="final">Aktionen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="164" approved="yes">
+        <source>delete</source>
+        <target state="final">löschen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="168" approved="yes">
+        <source>save</source>
+        <target state="final">speichern</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="172" approved="yes">
+        <source>cancel</source>
+        <target state="final">abbrechen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="178" approved="yes">
+        <source>delete.tag</source>
+        <target state="final">Löschen diese Etikett</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="179" approved="yes">
+        <source>edit.user.%name%.groups</source>
+        <target state="final">Gruppen von %name% bearbeiten</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="180" approved="yes">
+        <source>group</source>
+        <target state="final">Gruppe</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="181" approved="yes">
+        <source>unlink</source>
+        <target state="final">Verknüpfung entfernen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="182" approved="yes">
+        <source>add.group</source>
+        <target state="final">Gruppe hinzufügen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="183" approved="yes">
+        <source>add.user</source>
+        <target state="final">Nutzer hinzufügen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="184" approved="yes">
+        <source>back_to.users</source>
+        <target state="final">Zurück zu den Nutzern</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="185" approved="yes">
+        <source>edit.group.%name%</source>
+        <target state="final">Gruppe %name% bearbeiten</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="186" approved="yes">
+        <source>Welcome</source>
+        <target state="final">Willkommen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="187" approved="yes">
+        <source>edit.user.%name%</source>
+        <target state="final">Nutzer %name% bearbeiten</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="189" approved="yes">
+        <source>import</source>
+        <target state="final">importieren</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="190" approved="yes">
+        <source>hello.%name%</source>
+        <target state="final">Hallo %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="192" approved="yes">
+        <source>edit</source>
+        <target state="final">bearbeiten</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="195" approved="yes">
+        <source>are_you_sure.delete.tag</source>
+        <target state="final">Sind Sie einverstanden, diese Etikett zu löschen ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="196" approved="yes">
+        <source>search</source>
+        <target state="final">Suche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="197" approved="yes">
+        <source>goto.page</source>
+        <target state="final">Gehe zu Seite</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="198" approved="yes">
+        <source>prev</source>
+        <target state="final">Zurück</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="199" approved="yes">
+        <source>next</source>
+        <target state="final">Vor</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="200" approved="yes">
+        <source>delete.user.%name%</source>
+        <target state="final">lösche %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="201" approved="yes">
+        <source>are_you_sure.delete.user</source>
+        <target state="final">Möchten Sie diesen Nutzer wirklich löschen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="202" approved="yes">
+        <source>edit.group.%name%.roles</source>
+        <target state="final">bearbeiten der %name% Gruppenberechtigungen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="203" approved="yes">
+        <source>role</source>
+        <target state="final">Rolle</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="205" approved="yes">
+        <source>add.role</source>
+        <target state="final">Hinzufügen eine Rolle</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="206" approved="yes">
+        <source>delete.user</source>
+        <target state="final">Löschen der Benutzer ,,%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="207" approved="yes">
+        <source>translations</source>
+        <target state="final">Übersetzung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="208" approved="yes">
+        <source>add.translation</source>
+        <target state="final">Hinzufügen eine Übersetzung</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="210" approved="yes">
+        <source>status</source>
+        <target state="final">Status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="248" approved="yes">
+        <source>dashboard</source>
+        <target state="final">Dashboard</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="249" approved="yes">
+        <source>history</source>
+        <target state="final">Verlauf</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="250" approved="yes">
+        <source>comments</source>
+        <target state="final">Kommentare</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="251" approved="yes">
+        <source>themes</source>
+        <target state="final">Themes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="252" approved="yes">
+        <source>theme</source>
+        <target state="final">Theme</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="260" approved="yes">
+        <source>export</source>
+        <target state="final">exportieren</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="262" approved="yes">
+        <source>welcome</source>
+        <target state="final">Wilkommen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="265" approved="yes">
+        <source>add</source>
+        <target state="final">hinzufügen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="290" approved="yes">
+        <source>user.email</source>
+        <target state="final">E-Mail</target>
+      </trans-unit>
+      <!-- Count translations -->
+      <!-- Node type fields datatypes -->
+      <trans-unit xml:space="preserve" id="440" approved="yes">
+        <source>email.type</source>
+        <target state="final">E-Mail</target>
+      </trans-unit>
+      <!-- Dynamic button in nodeTree add.a.%nodeType% -->
+      <!-- Setting groups -->
+      <!-- Default settings names -->
+      <!-- document usage -->
+      <!-- node statuses -->
+      <!-- are_you_sure.undelete.node.and.data -->
+      <!-- undelete.node.%name% -->
+      <!-- embed documents -->
+      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database" approved="yes">
+        <source>%email%.email.does.not.exist.in.user.account.database</source>
+        <target state="final">Die E-Mail %email% existiert nicht in der Benutzerdatenbank.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent" approved="yes">
+        <source>a.confirmation.email.has.already.be.sent</source>
+        <target state="final">Eine Bestätigungs-E-Mail wurde bereits an Sie gesendet. Überprüfen Sie Ihre E-Mails oder Ihren Spam-Ordner.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email" approved="yes">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="final">Ein persönlicher Link zum Zurücksetzen des Passworts wurde Ihnen per E-Mail zugesandt. Warten Sie nicht zu lange, denn der Link läuft automatisch ab.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="email.invalid" approved="yes">
+        <source>email.invalid</source>
+        <target state="final">E-Mail ist ungültig oder existiert nicht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email" approved="yes">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="final">Um ein neues Passwort anzufordern, geben Sie einfach die mit Ihrem Konto verknüpfte E-Mail ein.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email" approved="yes">
+        <source>your.account.email</source>
+        <target state="final">Ihr Konto E-Mail</target>
+      </trans-unit>
+      <!-- Node tree contextual menu commands -->
+      <!-- Some constraints messages -->
+      <!-- Font variantes -->
+      <trans-unit xml:space="preserve" id="email.alreadyExists" approved="yes">
+        <source>email.alreadyExists</source>
+        <target state="final">E-Mail-Adresse wird bereits verwendet</target>
+      </trans-unit>
+      <!-- Tag multiple children creation -->
+      <!-- Raw documents -->
+      <!-- Bulk tags -->
+      <!-- Custom form nav bar -->
+      <!-- Node form help messages -->
+      <!-- Font form help messages -->
+      <!-- Node type field form help messages -->
+      <!-- Explorer and Widget translation -->
+      <!-- New Join node-type-field type -->
+    </body>
+  </file>
+</xliff>

@@ -21,6 +21,7 @@ final readonly class GoogleRecaptchaService implements CaptchaServiceInterface
     ) {
     }
 
+    #[\Override]
     public function isEnabled(): bool
     {
         return !empty($this->publicKey) && !empty($this->privateKey) && !empty($this->verifyUrl);
@@ -32,6 +33,7 @@ final readonly class GoogleRecaptchaService implements CaptchaServiceInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function check(
         string $responseValue,
     ): true|string|array {
@@ -56,11 +58,13 @@ final readonly class GoogleRecaptchaService implements CaptchaServiceInterface
             ($jsonResponse['error-codes']);
     }
 
+    #[\Override]
     public function getFieldName(): string
     {
         return 'g-recaptcha-response';
     }
 
+    #[\Override]
     public function getPublicKey(): ?string
     {
         return $this->publicKey;
@@ -71,6 +75,7 @@ final readonly class GoogleRecaptchaService implements CaptchaServiceInterface
      *     <div class="g-recaptcha" data-sitekey="{{ configs.publicKey }}"></div>
      * {%- endblock recaptcha_widget %}.
      */
+    #[\Override]
     public function getFormWidgetName(): string
     {
         return 'recaptcha';

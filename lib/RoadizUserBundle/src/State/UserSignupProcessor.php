@@ -7,7 +7,6 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\UserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -16,7 +15,7 @@ use RZ\Roadiz\UserBundle\Manager\UserMetadataManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class UserSignupProcessor implements ProcessorInterface
@@ -29,34 +28,37 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         private Security $security,
         private RequestStack $requestStack,
         private EventDispatcherInterface $eventDispatcher,
-        private RateLimiterFactory $userSignupLimiter,
+        private RateLimiterFactoryInterface $userSignupLimiter,
         private CaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
-        private Roles $rolesBag,
         private string $publicUserRoleName,
     ) {
     }
 
+    #[\Override]
     protected function getCaptchaService(): CaptchaServiceInterface
     {
         return $this->recaptchaService;
     }
 
+    #[\Override]
     protected function getSecurity(): Security
     {
         return $this->security;
     }
 
-    protected function getUserSignupLimiter(): RateLimiterFactory
+    #[\Override]
+    protected function getUserSignupLimiter(): RateLimiterFactoryInterface
     {
         return $this->userSignupLimiter;
     }
 
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof UserInput) {
-            throw new BadRequestHttpException(sprintf('Cannot process %s', get_class($data)));
+            throw new BadRequestHttpException(sprintf('Cannot process %s', $data::class));
         }
 
         $request = $this->requestStack->getCurrentRequest();
@@ -65,7 +67,10 @@ final readonly class UserSignupProcessor implements ProcessorInterface
 
         $user = $this->createUser($data);
         $user->setPlainPassword($data->plainPassword);
-        $user->addRoleEntity($this->rolesBag->get($this->publicUserRoleName));
+        $user->setUserRoles([
+            ...$user->getUserRoles(),
+            $this->publicUserRoleName,
+        ]);
         $user->sendCreationConfirmationEmail(true);
         $user->setLocale($request->getLocale());
 

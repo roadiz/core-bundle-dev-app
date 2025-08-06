@@ -20,6 +20,7 @@ final class CaptchaValidator extends ConstraintValidator
     /**
      * @see \Symfony\Component\Validator\ConstraintValidator::validate()
      */
+    #[\Override]
     public function validate(mixed $data, Constraint $constraint): void
     {
         if (!$constraint instanceof Captcha) {

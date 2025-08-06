@@ -16,12 +16,12 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * BasicBlock node-source entity.
@@ -39,10 +39,43 @@ class NSBasicBlock extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'content', type: 'text', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $content = null;
+
+    /** Contenttest. */
+    #[Serializer\SerializedName(serializedName: 'contenttest')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Contenttest')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'contenttest', type: 'text', nullable: true)]
+    private ?string $contenttest = null;
+
+    /** Css. */
+    #[Serializer\SerializedName(serializedName: 'css')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Css')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'css', type: 'text', nullable: true)]
+    private mixed $css = null;
+
+    /** Yaml. */
+    #[Serializer\SerializedName(serializedName: 'yaml')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_yaml'])]
+    #[ApiProperty(description: 'Yaml')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'yaml', type: 'text', nullable: true)]
+    private mixed $yaml = null;
+
+    /** Json. */
+    #[Serializer\SerializedName(serializedName: 'json')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Json')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'json', type: 'text', nullable: true)]
+    private mixed $json = null;
 
     /** Boolean field. */
     #[Serializer\SerializedName(serializedName: 'booleanField')]
@@ -51,19 +84,16 @@ class NSBasicBlock extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'boolean_field', type: 'boolean', nullable: false, options: ['default' => false])]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('bool')]
     private bool $booleanField = false;
 
     /**
      * Image.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'image')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
-    #[ApiProperty(description: 'Image')]
+    #[ApiProperty(description: 'Image', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $image = null;
 
@@ -87,6 +117,87 @@ class NSBasicBlock extends NodesSources
     }
 
     /**
+     * @return string|null
+     */
+    public function getContenttest(): ?string
+    {
+        return $this->contenttest;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setContenttest(?string $contenttest): static
+    {
+        $this->contenttest = null !== $contenttest ?
+                    (string) $contenttest :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCss(): mixed
+    {
+        return $this->css;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setCss(mixed $css): static
+    {
+        $this->css = $css;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getYaml(): mixed
+    {
+        return $this->yaml;
+    }
+
+    #[Serializer\SerializedName(serializedName: 'yaml')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_yaml'])]
+    #[Serializer\MaxDepth(2)]
+    public function getYamlAsObject(): object|array|null
+    {
+        if (null !== $this->yaml) {
+            return \Symfony\Component\Yaml\Yaml::parse($this->yaml);
+        }
+        return null;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setYaml(mixed $yaml): static
+    {
+        $this->yaml = $yaml;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJson(): mixed
+    {
+        return $this->json;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setJson(mixed $json): static
+    {
+        $this->json = $json;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getBooleanField(): bool
@@ -104,20 +215,15 @@ class NSBasicBlock extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('image')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getImage(): array
     {
         if (null === $this->image) {
             if (null !== $this->objectManager) {
                 $this->image = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'image'
                     );
@@ -149,21 +255,17 @@ class NSBasicBlock extends NodesSources
         return $this;
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\SerializedName('@type')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'BasicBlock';
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['node_type'])]
-    #[JMS\SerializedName('nodeTypeColor')]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '#69a5ff';
@@ -173,7 +275,7 @@ class NSBasicBlock extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
-    #[JMS\VirtualProperty]
+    #[\Override]
     public function isReachable(): bool
     {
         return false;
@@ -183,12 +285,13 @@ class NSBasicBlock extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
-    #[JMS\VirtualProperty]
+    #[\Override]
     public function isPublishable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSBasicBlock] ' . parent::__toString();
