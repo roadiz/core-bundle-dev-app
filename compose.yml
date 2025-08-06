@@ -23,12 +23,27 @@ services:
         networks:
             - default
         volumes:
-            - "./.data/db_test:/var/lib/mysql"
+            - "db-test:/var/lib/mysql"
         environment:
             MYSQL_RANDOM_ROOT_PASSWORD: 1
             MYSQL_DATABASE: ${MYSQL_TEST_DATABASE:-db_name_test}
             MYSQL_USER: ${MYSQL_USER:-db_user}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:-db_password}
+
+    mariadb-test:
+        build:
+            target: mariadb
+            args:
+                UID: ${UID:-1000}
+        networks:
+            - default
+        volumes:
+            - "mariadb-test:/var/lib/mysql"
+        environment:
+            MARIADB_RANDOM_ROOT_PASSWORD: 1
+            MARIADB_DATABASE: ${MARIADB_TEST_DATABASE:-db_name_test}
+            MARIADB_USER: ${MARIADB_USER:-db_user}
+            MARIADB_PASSWORD: ${MARIADB_PASSWORD:-db_password}
 
 #    pma:
 #        image: phpmyadmin:5.2.1
@@ -142,6 +157,8 @@ networks:
                 -   subnet: ${DEFAULT_GATEWAY}/24
 
 volumes:
+    db-test:
+    mariadb-test:
     redis:
 #    solr-standalone:
 #    solr-cloud:
