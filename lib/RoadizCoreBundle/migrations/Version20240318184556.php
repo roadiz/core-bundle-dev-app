@@ -19,15 +19,6 @@ final class Version20240318184556 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        /*
-         * Need to populate new field_name with node-type field names
-         */
-        $this->connection->beginTransaction();
-        $this->connection->executeStatement('UPDATE nodes_custom_forms SET field_name = (SELECT name FROM node_type_fields WHERE id = node_type_field_id)');
-        $this->connection->executeStatement('UPDATE nodes_sources_documents SET field_name = (SELECT name FROM node_type_fields WHERE id = node_type_field_id)');
-        $this->connection->executeStatement('UPDATE nodes_to_nodes SET field_name = (SELECT name FROM node_type_fields WHERE id = node_type_field_id)');
-        $this->connection->commit();
-
         $this->addSql('ALTER TABLE nodes_custom_forms DROP FOREIGN KEY FK_4D401A0C47705282');
         $this->addSql('DROP INDEX IDX_4D401A0C47705282 ON nodes_custom_forms');
         $this->addSql('DROP INDEX customform_node_field_position ON nodes_custom_forms');
