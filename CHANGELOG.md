@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.0...v2.6.1) - 2025-08-06
+
+### Bug Fixes
+
+- Fix migrations using MySQL function not available on MariaDB - ([9c56b34](https://github.com/roadiz/core-bundle-dev-app/commit/9c56b343332c437b9c71c4522c99822348d4db04))
+
+### Testing
+
+- Improved phpunit to test on MySQL and MariaDB - ([f757341](https://github.com/roadiz/core-bundle-dev-app/commit/f7573415e9e0bd07e8f63b0a35f87a1972b09f61))
+
 ## [2.6.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.27...v2.6.0) - 2025-08-05
 
 ### ⚠ Breaking changes
