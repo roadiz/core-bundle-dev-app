@@ -20,8 +20,6 @@ final class CaptchaType extends AbstractType
     }
 
     /**
-     * (non-PHPdoc).
-     *
      * @see \Symfony\Component\Form\AbstractType::buildView()
      */
     #[\Override]
