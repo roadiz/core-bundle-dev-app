@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.2...v2.6.3) - 2025-08-07
+
+### Bug Fixes
+
+- **(ContactFormManager)** Add missing `setRecipients` method to replace old `setReceiver` one - ([4902991](https://github.com/roadiz/core-bundle-dev-app/commit/4902991d8e16867b8cc3e3bf8c4e3218e48548bd))
+
 ## [2.6.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.1...v2.6.2) - 2025-08-07
 
 ### Bug Fixes
