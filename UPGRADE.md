@@ -114,20 +114,25 @@
 
 ## Upgrade your Messenger configuration with Scheduler
 
-- Added `scheduler_default` transport to your `messenger.yaml` configuration file.
-```diff
-# config/packages/messenger.yaml
-framework:
-    messenger:
-        transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-+            scheduler_default:
-+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-            async:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-```
 - Add `#[AsCronTask(expression: '0 3 * * *', jitter: 60, arguments: '--no-debug -n -q')]` to your project cron tasks to run them with the new Scheduler worker.
 - Remove `cron` from your Dockerfile, and compose.yaml
+- For Docker users: replace your cron service with a new `scheduler` worker to consume messages
+```diff
+# compose.yaml
+services:
+    # ...
+-    cron:
+-        <<: *app_template
+-        entrypoint: 'docker-cron-entrypoint'
+-        restart: unless-stopped
+-        user: root
++    scheduler:
++        <<: *app_template
++        hostname: scheduler
++        stop_signal: SIGTERM
++        entrypoint: [ "php", "-d", "memory_limit=-1", "/app/bin/console", "messenger:consume", "scheduler_default", "--time-limit=1800" ]
++        restart: unless-stopped
+```
 
 ## Upgrade your API Platform configuration
 
