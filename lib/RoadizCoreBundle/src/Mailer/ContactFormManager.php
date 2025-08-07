@@ -47,6 +47,10 @@ final class ContactFormManager
     private ?string $emailTitle = null;
     private ?string $subject = null;
     private string $emailType = 'contact.form';
+    /**
+     * @var array<RecipientInterface>|null
+     */
+    private ?array $recipients = null;
     private ?string $redirectUrl = null;
     private ?FormBuilderInterface $formBuilder = null;
     private ?FormInterface $form = null;
@@ -316,12 +320,31 @@ final class ContactFormManager
      */
     protected function getRecipients(): array
     {
-        if ($this->notifier instanceof Notifier) {
+        if (!empty($this->recipients)) {
+            return $this->recipients;
+        } elseif ($this->notifier instanceof Notifier) {
             return $this->notifier->getAdminRecipients();
         } else {
             // Fallback to the parent method if Notifier is not used
             return [];
         }
+    }
+
+    /**
+     * @param array<RecipientInterface>|null $recipients
+     */
+    public function setRecipients(?array $recipients): ContactFormManager
+    {
+        if (null !== $recipients) {
+            foreach ($recipients as $recipient) {
+                if (!$recipient instanceof RecipientInterface) {
+                    throw new \InvalidArgumentException('All recipients must implement RecipientInterface.');
+                }
+            }
+        }
+        $this->recipients = $recipients;
+
+        return $this;
     }
 
     /**

@@ -55,6 +55,7 @@
 - `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
 - Added `DocumentDto` to expose NodesSources documents in API Platform with contextualized `hotspot` and `imageCropAlignment` properties.
 - Added new `ROLE_ACCESS_USERS_DETAIL` role to allow user details edition (GDPR) and moved user language into default UserType form.
+- `ContactFormManager::setReceiver` has been renamed to `setRecipients` and accepts an array of `RecipientInterface`.
 
 ## Upgrade your composer.json
 
