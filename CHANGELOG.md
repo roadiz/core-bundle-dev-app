@@ -2,6 +2,17 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.1...v2.6.2) - 2025-08-07
+
+### Bug Fixes
+
+- **(ContactFormManager)** Add missing customizable email title and subject to ContactFormManager - ([6d4effe](https://github.com/roadiz/core-bundle-dev-app/commit/6d4effed5a1b85c521866bfbce598f7b428f6b18))
+- **(migration)** Fixed Version20250603212716: Dynamically drop indexes in migration for custom_forms, redirections, and webhooks - ([8bb17f5](https://github.com/roadiz/core-bundle-dev-app/commit/8bb17f5a8da63da8653e71c5c3332bb748005aaf))
+
+### Documentation
+
+- Update UPGRADE.md to include serializer.hydra_prefix in API Platform configuration - ([d08a58d](https://github.com/roadiz/core-bundle-dev-app/commit/d08a58d59e792b194f4144e8b8c2e5568764b285))
+
 ## [2.6.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.0...v2.6.1) - 2025-08-06
 
 ### Bug Fixes
