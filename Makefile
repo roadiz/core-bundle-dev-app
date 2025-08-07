@@ -6,14 +6,14 @@ test:
 	docker compose run --no-deps --rm --entrypoint= app vendor/bin/monorepo-builder validate
 	make phpstan
 	make rector_test
-	make phpunit
-	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+	make check
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
+	make phpunit
 
 rector_test:
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process --dry-run
@@ -21,6 +21,13 @@ rector_test:
 rector:
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+
+fix:
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+
+check:
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
 phpunit:
 	docker compose up -d --force-recreate app mariadb-test db-test
@@ -33,12 +40,6 @@ phpunit:
 	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.0.42&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
 	docker compose stop mariadb-test db-test
 	docker compose rm -f -v mariadb-test db-test
-
-fix:
-	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
-
-check:
-	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
 requirements:
 	docker compose run --no-deps --rm --entrypoint= app vendor/bin/requirements-checker

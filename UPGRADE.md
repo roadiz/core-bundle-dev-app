@@ -130,7 +130,7 @@ framework:
 
 ## Upgrade your API Platform configuration
 
-Add `formats` configuration if not already present in your `api_platform.yaml` file.
+Add `formats` and `serializer.hydra_prefix` configuration if not already present in your `api_platform.yaml` file.
 
 ```yaml
 # config/packages/api_platform.yaml
@@ -140,6 +140,8 @@ api_platform:
         jsonld: ['application/ld+json']
         json: ['application/json']
         x-www-form-urlencoded: ['application/x-www-form-urlencoded']
+    serializer:
+        hydra_prefix: true
 ```
 
 And rename `openapiContext` to `openapi` on your api-resources configuration files for each operation.
