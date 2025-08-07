@@ -44,6 +44,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class ContactFormManager
 {
     private string $formName = 'contact_form';
+    private ?string $emailTitle = null;
+    private ?string $subject = null;
+    private string $emailType = 'contact.form';
     private ?string $redirectUrl = null;
     private ?FormBuilderInterface $formBuilder = null;
     private ?FormInterface $form = null;
@@ -448,23 +451,58 @@ final class ContactFormManager
             'name' => $this->translator->trans('ip.address'),
             'value' => $this->requestStack->getMainRequest()->getClientIp(),
         ];
-        $subject = $this->translator->trans(
-            'new.contact.form.%site%',
-            ['%site%' => $this->settingsBag->get('site_name')]
-        );
 
         return new ContactFormNotification(
             [
-                'emailType' => 'contact.form',
-                'title' => $subject,
+                'emailType' => $this->getEmailType(),
+                'title' => $this->getEmailTitle(),
                 'fields' => $fields,
             ],
             $this->requestStack->getMainRequest()->getLocale(),
             $uploadedFiles,
             $emailData ? new Address($emailData) : null,
-            $subject,
+            $this->getSubject(),
             ['email']
         );
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject ?? $this->translator->trans(
+            'new.contact.form.%site%',
+            ['%site%' => $this->settingsBag->get('site_name')]
+        );
+    }
+
+    public function getEmailTitle(): ?string
+    {
+        return $this->emailTitle ?? $this->getSubject();
+    }
+
+    public function getEmailType(): string
+    {
+        return $this->emailType;
+    }
+
+    public function setEmailTitle(?string $emailTitle): ContactFormManager
+    {
+        $this->emailTitle = $emailTitle;
+
+        return $this;
+    }
+
+    public function setSubject(?string $subject): ContactFormManager
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    public function setEmailType(string $emailType): ContactFormManager
+    {
+        $this->emailType = $emailType;
+
+        return $this;
     }
 
     protected function isFieldPrivate(FormInterface $form): bool
