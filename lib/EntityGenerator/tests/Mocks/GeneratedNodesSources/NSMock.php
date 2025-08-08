@@ -31,6 +31,7 @@ use mock\Entity\NodesSources;
 #[ORM\Table(name: 'ns_mock')]
 #[ORM\Index(columns: ['foo_datetime'])]
 #[ORM\Index(columns: ['fooIndexed'])]
+#[ORM\Index(columns: ['countryIndexed'])]
 #[ORM\Index(columns: ['boolIndexed'])]
 #[ORM\Index(columns: ['foo_decimal_excluded'])]
 #[ORM\Index(columns: ['layout'])]
@@ -91,6 +92,20 @@ class NSMock extends NodesSources
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'fooIndexed', type: 'string', nullable: true, length: 250)]
     private ?string $fooIndexed = null;
+
+    /**
+     * Country indexed field.
+     * Country field with indexed values.
+     */
+    #[Serializer\SerializedName(serializedName: 'countryIndexed')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Country indexed field: Country field with indexed values')]
+    #[Serializer\MaxDepth(1)]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'countryIndexed', type: 'string', nullable: true, length: 5)]
+    private ?string $countryIndexed = null;
 
     /**
      * Foo required field.
@@ -536,6 +551,25 @@ class NSMock extends NodesSources
     {
         $this->fooIndexed = null !== $fooIndexed ?
                     (string) $fooIndexed :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountryIndexed(): ?string
+    {
+        return $this->countryIndexed;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setCountryIndexed(?string $countryIndexed): static
+    {
+        $this->countryIndexed = null !== $countryIndexed ?
+                    (string) $countryIndexed :
                     null;
         return $this;
     }

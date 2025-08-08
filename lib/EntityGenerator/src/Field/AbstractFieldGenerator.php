@@ -188,6 +188,7 @@ abstract class AbstractFieldGenerator
                     break;
                 case $this->field->isMultiple():
                 case $this->field->isEnum():
+                case $this->field->isCountry():
                     $property->addAttribute(\ApiPlatform\Metadata\ApiFilter::class, [
                         0 => new Literal($namespace->simplifyName(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class).'::class'),
                         'strategy' => 'exact',
