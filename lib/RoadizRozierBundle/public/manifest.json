@@ -32,7 +32,7 @@
     "src": "Resources/app/img/spritemap@2x.png"
   },
   "Resources/app/main.js": {
-    "file": "main-CI8skzn8.js",
+    "file": "main-CqeATFdf.js",
     "name": "main",
     "src": "Resources/app/main.js",
     "isEntry": true,
@@ -45,7 +45,7 @@
     ]
   },
   "Resources/app/shared.js": {
-    "file": "shared-DURwnNVI.js",
+    "file": "shared-CoLbaQ8A.js",
     "name": "shared",
     "src": "Resources/app/shared.js",
     "isEntry": true,
@@ -53,7 +53,7 @@
       "_jquery-5sAwpjfl.js"
     ],
     "css": [
-      "shared-Bb2GMCsX.css"
+      "shared-DcelSTFS.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",

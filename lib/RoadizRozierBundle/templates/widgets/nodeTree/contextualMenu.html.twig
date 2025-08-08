@@ -4,36 +4,31 @@
         {% if not node.Visible %} <i class="uk-icon-eye-slash"></i>{% endif %}
     </div>
     <div class="uk-nav uk-nav-dropdown">
-        <p class="add-child">
-            <a title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
+        <div class="wrapper">
+            <header class="uk-nav-header">Actions</header>
+            <a
+               title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
                href="{{ path('nodesAddChildPage', { nodeId:node.id }) }}">
                 <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.node{% endtrans %}
             </a>
-        </p>
-        <div class="wrapper">
-            <header class="uk-nav-header">Actions</header>
-            <p>
-                <a title="{{ "edit.node.%name%"|trans({'%name%': node.nodeName}) }}"
-                   href="{{ path('nodesEditPage', { nodeId:node.id }) }}">
-                    <i class="uk-icon-rz-pencil"></i> {% trans %}edit.node{% endtrans %}
-                </a>
-            </p>
-            {% if not node.Locked %}
-                <p>
-                    <a class="move-node-first-position smaller-text"
-                       title="{% trans %}move.node.to.first.position{% endtrans %}"
-                       href="#">
-                        <i class="uk-icon-arrow-up"></i> {% trans %}move.node.to.first.position{% endtrans %}
-                    </a>
-                </p>
-                <p>
-                    <a class="move-node-last-position smaller-text"
-                       title="{% trans %}move.node.to.last.position{% endtrans %}"
-                       href="#">
-                        <i class="uk-icon-arrow-down"></i> {% trans %}move.node.to.last.position{% endtrans %}
-                    </a>
-                </p>
-            {% endif %}
+            <a title="{{ "edit.node.%name%"|trans({'%name%': node.nodeName}) }}"
+               href="{{ path('nodesEditPage', { nodeId:node.id }) }}">
+                <i class="uk-icon-rz-pencil"></i> {% trans %}edit.node{% endtrans %}
+            </a>
+            {%- if not node.Locked -%}
+                <button
+                    type="button"
+                    class="move-node-first-position smaller-text"
+                    title="{% trans %}move.node.to.first.position{% endtrans %}">
+                    <i class="uk-icon-arrow-up"></i> {% trans %}move.node.to.first.position{% endtrans %}
+                </button>
+                <button
+                    type="button"
+                    class="move-node-last-position smaller-text"
+                    title="{% trans %}move.node.to.last.position{% endtrans %}">
+                    <i class="uk-icon-arrow-down"></i> {% trans %}move.node.to.last.position{% endtrans %}
+                </button>
+            {%- endif -%}
 
             {% if workflow_can(node, 'delete') %}
                 {% set refererUrl = null %}
@@ -43,59 +38,59 @@
                         translationId: translation.id
                     }) %}
                 {% endif %}
-                <p>
-                    <a title="{{ "delete.node.%name%"|trans({'%name%': node.nodeName}) }}"
-                       href="{{ path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }) }}">
-                        <i class="uk-icon-rz-trash-o"></i> {% trans %}delete.node{% endtrans %}
-                    </a>
-                </p>
+                <a title="{{ "delete.node.%name%"|trans({'%name%': node.nodeName}) }}"
+                   href="{{ path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }) }}">
+                    <i class="uk-icon-rz-trash-o"></i> {% trans %}delete.node{% endtrans %}
+                </a>
             {% endif %}
         </div>
         {% if not node.locked %}
             <div class="wrapper node-actions">
                 <header class="uk-nav-header">{% trans %}statuses{% endtrans %}</header>
-                <p>
-                    {% if node.visible %}
-                        <a data-action="hide"
-                           data-status="visible"
-                           data-value="0"
-                           class="hide-node"
-                           title="{% trans %}node.hide{% endtrans %}"
-                           href="#"><i class="uk-icon-eye-slash"></i> {% trans %}node.hide{% endtrans %}</a>
-                    {% else %}
-                        <a data-action="show"
-                           data-status="visible"
-                           data-value="1"
-                           class="show-node"
-                           title="{% trans %}node.show{% endtrans %}"
-                           href="#"><i class="uk-icon-rz-visibility-mini"></i> {% trans %}node.show{% endtrans %}</a>
-                    {% endif %}
-                </p>
-                {% if not node.published and workflow_can(node, 'publish') %}
-                    <p>
-                        <a data-action="publish"
-                           data-status="status"
-                           data-value="publish"
-                           class="publish-node"
-                           title="{% trans %}node.publish{% endtrans %}"
-                           href="#"><i class="uk-icon-rz-published-mini"></i> {% trans %}node.publish{% endtrans %}</a>
-                    </p>
-                {% elseif node.published and workflow_can(node, 'reject') %}
-                    <p>
-                        <a data-action="reject"
-                           data-status="status"
-                           data-value="reject"
-                           class="unpublish-node"
-                           title="{% trans %}node.unpublish{% endtrans %}"
-                           href="#"><i class="uk-icon-rz-draft-nodes"></i> {% trans %}node.unpublish{% endtrans %}</a>
-                    </p>
+                {% if node.visible %}
+                    <button
+                        data-action="hide"
+                        data-status="visible"
+                        data-value="0"
+                        type="button"
+                        class="hide-node"
+                        title="{% trans %}node.hide{% endtrans %}"
+                    ><i class="uk-icon-eye-slash"></i> {% trans %}node.hide{% endtrans %}</button>
+                {% else %}
+                    <button
+                        data-action="show"
+                        data-status="visible"
+                        data-value="1"
+                        type="button"
+                        class="show-node"
+                        title="{% trans %}node.show{% endtrans %}"
+                    ><i class="uk-icon-rz-visibility-mini"></i> {% trans %}node.show{% endtrans %}</button>
                 {% endif %}
-                <p>
-                    <a data-action="duplicate"
-                       class="duplicate-node"
-                       title="{% trans %}node.duplicate{% endtrans %}"
-                       href="#"><i class="uk-icon-rz-duplicate"></i> {% trans %}node.duplicate{% endtrans %}</a>
-                </p>
+                {% if not node.published and workflow_can(node, 'publish') %}
+                    <button
+                        data-action="publish"
+                        data-status="status"
+                        data-value="publish"
+                        type="button"
+                        class="publish-node"
+                        title="{% trans %}node.publish{% endtrans %}"
+                    ><i class="uk-icon-rz-published-mini"></i> {% trans %}node.publish{% endtrans %}</button>
+                {% elseif node.published and workflow_can(node, 'reject') %}
+                    <button
+                        data-action="reject"
+                        data-status="status"
+                        data-value="reject"
+                        type="button"
+                        class="unpublish-node"
+                        title="{% trans %}node.unpublish{% endtrans %}"
+                    ><i class="uk-icon-rz-draft-nodes"></i> {% trans %}node.unpublish{% endtrans %}</button>
+                {% endif %}
+                <button
+                    data-action="duplicate"
+                    class="duplicate-node"
+                    type="button"
+                    title="{% trans %}node.duplicate{% endtrans %}"
+                ><i class="uk-icon-rz-duplicate"></i> {% trans %}node.duplicate{% endtrans %}</button>
             </div>
         {% endif %}
     </div>

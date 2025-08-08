@@ -62,10 +62,10 @@ class EntityGeneratorFactoryTest extends TestCase
         /*
          * Uncomment for generating a mock file from tests
          */
-        //        (new Filesystem())->dumpFile(
-        //            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSourcesWithRepository/NSMock.php',
-        //            $generator->createWithCustomRepository($this->getMockNodeType())->getClassContent()
-        //        );
+        //(new Filesystem())->dumpFile(
+        //    dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSourcesWithRepository/NSMock.php',
+        //    $generator->createWithCustomRepository($this->getMockNodeType())->getClassContent()
+        //);
 
         $this->assertEquals(
             (new Filesystem())->readFile(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSourcesWithRepository/NSMock.php'),
@@ -92,10 +92,10 @@ class EntityGeneratorFactoryTest extends TestCase
         /*
          * Uncomment for generating a mock file from tests
          */
-        //        (new Filesystem())->dumpFile(
-        //            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSourcesWithRepository/Repository/NSMockRepository.php',
-        //            $generator->createCustomRepository($this->getMockNodeType())->getClassContent()
-        //        );
+        //(new Filesystem())->dumpFile(
+        //    dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSourcesWithRepository/Repository/NSMockRepository.php',
+        //    $generator->createCustomRepository($this->getMockNodeType())->getClassContent()
+        //);
 
         $this->assertEquals(
             (new Filesystem())->readFile(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSourcesWithRepository/Repository/NSMockRepository.php'),
