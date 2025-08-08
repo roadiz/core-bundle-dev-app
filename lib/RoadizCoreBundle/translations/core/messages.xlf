@@ -122,6 +122,10 @@
                 <source>reset_your_password</source>
                 <target></target>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="user.changed_password">
+                <source>user.changed_password</source>
+                <target></target>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field">
                 <source>you.need.to.fill.this.required.field</source>
                 <target></target>

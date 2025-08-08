@@ -96,6 +96,10 @@
               <source>reset.password.request</source>
               <target state="final">Demande de réinitialisation du mot de passe</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="user.changed_password" approved="yes">
+              <source>user.changed_password</source>
+              <target state="final">Le mot de passe de l'utilisateur a été changé</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%" approved="yes">
                 <source>you.asked.for.a.password.reset.on.%site%</source>
                 <target state="final">Vous avez demandé à changer le mot de passe de votre compte sur « %site% »</target>
@@ -167,12 +171,12 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder" approved="yes">
                 <source>attributes.defaultRealm.placeholder</source>
-                
+
                 <target state="final">-- Aucun domaine sécurisé par défaut --</target>
             <note>Default text when no realm is attached to an attribute</note></trans-unit>
       <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder" approved="yes">
                 <source>attributeValue.realm.placeholder</source>
-                
+
                 <target state="final">-- Aucun domaine sécurisé --</target>
             <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link" approved="yes">
@@ -189,7 +193,7 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="request_login_link" approved="yes">
                 <source>request_login_link</source>
-                
+
                 <target state="final">Demander un lien de connexion</target>
             <note>Button label to request a login link</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link.request" approved="yes">
