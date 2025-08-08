@@ -32,7 +32,7 @@
     "src": "Resources/app/img/spritemap@2x.png"
   },
   "Resources/app/main.js": {
-    "file": "main-G8ItPhoW.js",
+    "file": "main-CI8skzn8.js",
     "name": "main",
     "src": "Resources/app/main.js",
     "isEntry": true,
@@ -70,7 +70,7 @@
     ]
   },
   "Resources/app/simple.js": {
-    "file": "simple-gJ7J7gE2.js",
+    "file": "simple-utnrOcuB.js",
     "name": "simple",
     "src": "Resources/app/simple.js",
     "isEntry": true
