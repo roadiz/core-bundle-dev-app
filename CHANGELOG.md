@@ -2,6 +2,19 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.3...v2.6.4) - 2025-08-08
+
+### Bug Fixes
+
+- **(Rozier)** fixed Security _target_path using ajax fetch routes by adding X-Requested-With: 'XMLHttpRequest' headers - ([39f946d](https://github.com/roadiz/core-bundle-dev-app/commit/39f946d66895bcda45d59549edc6016421ca1fff))
+- **(User)** fixed JS when no main-trees available - ([78aed8f](https://github.com/roadiz/core-bundle-dev-app/commit/78aed8f5e55e609bdd0bf25f32a588cc008bf7c8))
+- **(User)** remove user credential expiration when changing password - ([9a08413](https://github.com/roadiz/core-bundle-dev-app/commit/9a08413575d16a9b900822fd80048afc53a75ff9))
+- **(User)** remove redundant password validation constraints - ([176ff73](https://github.com/roadiz/core-bundle-dev-app/commit/176ff73e0a214523eac22672b60c8422f5cbd6c5))
+
+### Refactor
+
+- **(LogTrail)** allow nullable Request parameter in publishConfirmMessage and publishErrorMessage methods - ([f2a8b03](https://github.com/roadiz/core-bundle-dev-app/commit/f2a8b03cb9cca55bc232c58cb88ba4f98ced1f4c))
+
 ## [2.6.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.2...v2.6.3) - 2025-08-07
 
 ### Bug Fixes
