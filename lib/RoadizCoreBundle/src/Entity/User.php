@@ -94,8 +94,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Serializer\Groups(['user:write'])]
     #[Assert\Length(min: 12, max: 120)]
     #[Assert\NotBlank(groups: ['no_empty_password'])]
-    #[Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_MEDIUM, groups: ['no_empty_password'])]
-    #[Assert\NotCompromisedPassword(groups: ['no_empty_password'])]
+    #[Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_MEDIUM)]
+    #[Assert\NotCompromisedPassword]
     private ?string $plainPassword = null;
 
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
@@ -245,6 +245,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     /**
      * @return $this
+     *
+     * @internal do not use directly, use UserLifeCycleSubscriber
      */
     public function setPassword(string $password): User
     {
@@ -518,7 +520,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[\Override]
     public function __toString(): string
     {
-        return (string) $this->getId();
+        return (string) $this->getUserIdentifier();
     }
 
     /**
