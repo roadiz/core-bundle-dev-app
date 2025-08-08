@@ -2,22 +2,6 @@
    DROPDOWN
 \*------------------------------------*/
 
-/*
- * Override ui kit dropdown
- */
-
-/* -------- VARS -------- */
-@contextualdropdown-p-height: 30px;
-@contextualdropdown-bg: #F4F4F4;
-@contextualdropdown-border-color: #CCCCCC;
-@contextualdropdown-p-color: #666666;
-@contextualdropdown-p-color-hover: #333333;
-@contextualdropdown-p-bg-color: #EBEBEB;
-@contextualdropdown-p-bg-color-hover: #DADADA;
-
-
-/* -------- STYLES -------- */
-
 .uk-dropdown {
     //width: 220px;
     margin-top: 5px;
@@ -42,12 +26,13 @@
 
 .uk-nav-dropdown{
     border-color:#adadad;
-    li{
+
+    li {
         border-top: 1px solid #CCC;
         &:first-child{
             border-top: 0 none;
         }
-        a{
+        a {
             background: #e5e5e5;
             font-size: var(--default-font-size);
             min-width: 150px;
@@ -73,88 +58,67 @@
 
     //Fix size contextual menu for tree panel
     .uk-dropdown-small{
-        width: 220px;
+        width: 210px;
     }
 
     .uk-dropdown,
     .uk-dropdown-small {
+        overflow: hidden;
         margin-top: 3px;
-        padding: 0 0 0 26px;
-        background-color: @contextualdropdown-bg;
+        padding: 0 0 0 var(--contextualdropdown-vertical-width);
+        background-color: var(--contextualdropdown-bg);
+        box-shadow: 0 0 15px rgba(0,0,0,.2);
+        border: 0 none;
         z-index: 1040; // quick add button is 1030
+
+        button {
+            border: none;
+        }
 
         .uk-nav {
             margin: 0;
 
-            p {
+            .uk-nav-header {
+                font-size: 11px;
+                line-height: 14px;
+                margin: 0px;
+                padding: 7px 15px 5px;
+                text-transform: capitalize;
+                color: var(--contextualdropdown-p-color-hover);
+            }
+
+            a, button {
+                display: flex;
+                gap: 10px;
                 margin: 0;
-                padding: 0 15px 0 20px;
-                font-size: var(--default-font-size);
-                height: @contextualdropdown-p-height;
+                width: 100%;
+                text-align: left;
+                padding: 0 10px;
+                font-size: 12px;
+                height: var(--contextualdropdown-p-height);
+                line-height: var(--contextualdropdown-p-height);
 
                 i {
-                    float: right;
-                    line-height: @contextualdropdown-p-height;
+                    line-height: var(--contextualdropdown-p-height);
                     font-size: 16px;
                 }
             }
-            .add-child {
-                height: 40px;
-                line-height: 40px;
-                background-color: var(--contrasted-bg);
-                border-bottom: 1px dashed @contextualdropdown-border-color;
-                padding-left: 16px;
-                padding-right: 11px;
-                font-weight: bold;
-                transition: ~'background ease 0.2s, color ease 0.2s';
 
-                i {
-                    line-height: 40px;
-                }
-                &:hover {
-                    background-color: @contextualdropdown-p-bg-color;
-                }
-            }
-            .uk-nav-header {
-                font-size: 11px;
-            }
             .wrapper {
-                padding: 0 0 0 15px;
+                padding: 0;
 
-                p {
-                    background-color: @contextualdropdown-p-bg-color;
-                    line-height: @contextualdropdown-p-height + 2;
-                    border-bottom: 1px solid @contextualdropdown-border-color;
-                    padding: 0 13px;
-                    color: @contextualdropdown-p-color;
+                a, button {
+                    background-color: var(--contextualdropdown-p-bg-color);
+                    border-bottom: 1px solid var(--contextualdropdown-border-color);
+                    color: var(--contextualdropdown-p-color);
                     transition: ~'background ease 0.2s, color ease 0.2s';
 
-                    &+p {
-                        border-top: 1px solid rgba(255, 255, 255, 0.8);
-                    }
                     &:last-child {
                         border-bottom: none;
                     }
-                    a {
-                        color: @contextualdropdown-p-color;
-                    }
                     &:hover {
-                        background-color: @contextualdropdown-p-bg-color-hover;
-                        a {
-                            color: @contextualdropdown-p-color-hover;
-                        }
+                        background-color: var(--contextualdropdown-p-bg-color-hover);
                     }
-                }
-                .uk-nav-header {
-                    font-size: 11px;
-                    line-height: 14px;
-                    margin: 0px;
-                    padding: 7px 0 3px;
-                    text-transform: capitalize;
-                    color: @contextualdropdown-p-color-hover;
-                }
-                &+.wrapper{
-                    border-top: 1px dashed @contextualdropdown-border-color;
                 }
             }
          }
@@ -162,31 +126,18 @@
     .vertical-nodetype {
         position: absolute;
         background-color: var(--rz-accent-color);
-        width: 26px;
+        width: var(--contextualdropdown-vertical-width);
         top: 0;
         bottom: 0;
         left: 0;
         text-align: center;
 
-        .text {
-            .transform-origin(left, bottom);
-            .rotation(-90deg);
-            position: absolute;
-            bottom: 0;
-            left: 22px;
-            text-transform: uppercase;
-            font-size: 11px;
-            font-weight: bold;
-            color: white;
-            letter-spacing: 1px;
-        }
-
         i {
             color: rgba(255,255,255,0.75);
-            margin: 10px 5px;
+            margin: 5px auto;
             display: block;
-            width: 16px;
-            font-size: 16px;
+            width: 12px;
+            font-size: 12px;
         }
     }
 }

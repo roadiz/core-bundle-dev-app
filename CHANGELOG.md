@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.4...v2.6.5) - 2025-08-08
+
+### Bug Fixes
+
+- **(EntityGenerator)** Fixex missing ApiFilter attributes on `country` node-type fields - ([d09f9cb](https://github.com/roadiz/core-bundle-dev-app/commit/d09f9cb2deb3e28cfa9664b7dde5017bbd957a93))
+
+### Styling
+
+- **(contextualMenu)** Fixed node duplicated action and switched from links to buttons - ([4ca6f8f](https://github.com/roadiz/core-bundle-dev-app/commit/4ca6f8f9058569b93fb9d645dcb6880a22ea8675))
+
 ## [2.6.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.3...v2.6.4) - 2025-08-08
 
 ### Bug Fixes
