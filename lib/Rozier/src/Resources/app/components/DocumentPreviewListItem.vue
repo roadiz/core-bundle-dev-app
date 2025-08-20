@@ -130,6 +130,9 @@ export default {
     filters: filters,
     props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
     computed: {
+        ...mapState({
+            previewIsVisible: (state) => state.documentPreview.isVisible,
+        }),
         shortMimeType: function () {
             return centralTruncate(this.document.shortMimeType, 13)
         },
@@ -153,9 +156,6 @@ export default {
         },
     },
     methods: {
-        ...mapState({
-            previewIsVisible: (state) => state.documentPreview.isVisible,
-        }),
         ...mapActions(['documentPreviewInit', 'documentPreviewOpen', 'documentPreviewDestroy']),
         onAddItemButtonClick() {
             // If document is in the explorer panel
