@@ -8,9 +8,17 @@
 .document-alignment-widget__image-wrapper {
     position: relative;
     width: fit-content;
-    margin: 36px auto;
-    grid-column: 2 / span 1;
+    margin: 18px auto;
+    grid-column: 1 / span 3;
     grid-row: 1 / span 1;
+
+    @media (min-width: @screen-sm-min) {
+        grid-column: 2 / span 1;
+    }
+
+    @media (min-height: 700px) {
+        margin-block: 36px;
+    }
 }
 
 .document-alignment-widget__image-overlay {
@@ -133,15 +141,17 @@
 }
 
 .document-alignment-widget__image {
+    max-height: 60vh;
     user-select: none;
     pointer-events: none;
 }
 
 .document-alignment-widget__override {
     display: none;
+    max-width: 100%;
     margin-bottom: 24px;
     align-items: center;
-    grid-column: 2 / span 1;
+    grid-column: 1 / span 3;
     grid-row: 2 / span 1;
     justify-self: center;
     gap: 12px;
@@ -149,6 +159,10 @@
     &--visible {
         display: flex;
     }
+}
+
+.document-alignment-widget__override input {
+    flex-shrink: 0;
 }
 
 .document-alignment-widget__override span {
