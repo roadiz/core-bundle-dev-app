@@ -139,6 +139,8 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             $thumbnail80Url = $this->documentUrlGenerator->getUrl();
             $this->documentUrlGenerator->setOptions($previewOptions);
             $editImageUrl = $this->documentUrlGenerator->getUrl();
+            $editImageWidth = $this->document->getImageWidth();
+            $editImageHeight = $this->document->getImageHeight();
         }
 
         $embedFinder = $this->embedFinderFactory?->createForPlatform(
@@ -169,6 +171,8 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail80' => $thumbnail80Url,
             'editImageUrl' => $editImageUrl,
+            'editImageWidth' => $editImageWidth,
+            'editImageHeight' => $editImageHeight,
             'originalHotspot' => $originalHotspot ?? null,
         ];
     }
