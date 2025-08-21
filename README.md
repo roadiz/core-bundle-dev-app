@@ -99,6 +99,9 @@ See how to configure it in [Documention](https://docs.roadiz.io/developer/first-
 
 ```shell
 cd docs
+# Enable Corepack if not already done
+corepack enable
+# Install dependencies (Corepack will automatically use the correct pnpm version)
 pnpm install
 pnpm docs:dev
 ```
