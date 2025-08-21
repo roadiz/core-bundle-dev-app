@@ -3,10 +3,13 @@
 
 ## Contribute
 
-To enhance Rozier backend theme you must install Node v22 and Yarn:
+To enhance Rozier backend theme you must install Node v22 and enable Corepack:
 
 ```shell
 cd src
+# Enable Corepack if not already done
+corepack enable
+# Install dependencies (Corepack will automatically use the correct pnpm version)
 pnpm install --frozen-lockfile
 # Launch Vite to generate prod files
 pnpm build
