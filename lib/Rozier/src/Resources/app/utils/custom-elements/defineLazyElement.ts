@@ -19,8 +19,6 @@ export function defineLazyElement(tagName: string, loader: () => Promise<Element
                 observer?.disconnect()
                 observer = null
 
-                console.log(`Custom element <${tagName}> has been defined.`)
-
                 if (!elementConstructor) {
                     throw new Error(`No element class found for <${tagName}>`)
                 }
