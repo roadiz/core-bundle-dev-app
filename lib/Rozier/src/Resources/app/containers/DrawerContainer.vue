@@ -172,14 +172,13 @@ export default {
             dialog.setAttribute('edit-url', event.document.editItem + '?referer=' + window.location.pathname)
             dialog.setAttribute('image-path', event.document.editImageUrl)
             dialog.setAttribute('input-base-name', `${this.drawerName}[${event.index}]`)
+            dialog.setAttribute('open', '')
 
             if (event.document.originalHotspot) {
                 dialog.setAttribute('original-hotspot', JSON.stringify(event.document.originalHotspot))
             }
 
             document.body.appendChild(dialog)
-
-            dialog.showModal()
         },
     },
     components: {
