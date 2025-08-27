@@ -7,7 +7,10 @@ export type ElementModule = { default: CustomElementConstructor } | Record<strin
  * @param loader - A function returning a dynamic import() Promise.
  */
 export function defineLazyElement(tagName: string, loader: () => Promise<ElementModule>): void {
+    const existing = document.querySelector(tagName) // Check if element already exists in DOM
+
     let loadingPromise: Promise<void> | null = null
+    let observer: MutationObserver | null = null
 
     async function load() {
         if (!loadingPromise) {
@@ -30,27 +33,24 @@ export function defineLazyElement(tagName: string, loader: () => Promise<Element
         await loadingPromise
     }
 
-    let observer: MutationObserver | null = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-            for (const node of mutation.addedNodes) {
-                if (node instanceof Element) {
-                    if (node.tagName.toLowerCase() === tagName) {
-                        load()
-                    } else {
-                        const found = node.querySelector(tagName)
-                        if (found) load()
-                    }
-                }
-            }
-        }
-    })
-
-    // Check if element already exists in DOM
-    const existing = document.querySelector(tagName)
-
     if (existing) {
         load()
     } else {
+        observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node instanceof Element) {
+                        if (node.tagName.toLowerCase() === tagName) {
+                            load()
+                        } else {
+                            const found = node.querySelector(tagName)
+                            if (found) load()
+                        }
+                    }
+                }
+            }
+        })
+
         observer.observe(document, { childList: true, subtree: true })
     }
 }
