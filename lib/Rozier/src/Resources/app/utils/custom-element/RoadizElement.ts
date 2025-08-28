@@ -88,7 +88,8 @@ export default class RoadizElement extends HTMLElement {
     unlisten(target: Element | ArrayLike<Element>, eventType?: string, callback?: EventListener) {
         if (!target) return
 
-        const targetList = 'length' in target ? target : [target]
+        // Normalize target to an array
+        const targetList = 'length' in target ? Array.from(target) : [target]
 
         for (let i = 0; i < targetList.length; i++) {
             const targetItem = targetList[i]
