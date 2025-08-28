@@ -1,92 +1,141 @@
-interface BoundListener {
-    type: string
-    target: Element | ArrayLike<Element> | null
+interface Listener {
     callback: EventListener
     options: AddEventListenerOptions | boolean
+    boundCallback: EventListener
 }
 
 export default class RoadizElement extends HTMLElement {
-    _boundListeners: Map<string, BoundListener>
+    _listeners: Map<Element, Map<string, Listener[]>>
 
     constructor() {
         super()
 
-        this._boundListeners = new Map()
+        this._listeners = new Map()
     }
 
     disconnectedCallback() {
-        this.removeAllListeners()
+        // Clean up all event listeners
+        this.unlistenAll()
     }
 
-    _getBoundListenerKey(event: string, listener: EventListener): string {
-        return `${event}_${listener.name}`
-    }
-
-    removeAllListeners() {
-        this._boundListeners.forEach(({ target, type, callback, options }) => {
-            this.off(target, type, callback, options)
-        })
-
-        this._boundListeners.clear()
-    }
-
-    on(
-        target: Element | ArrayLike<Element> | string | null,
-        type: string,
+    /**
+     * Add event listener(s) to target element(s) with automatic cleanup
+     * @param target - Element or collection of elements to listen to
+     * @param eventType - Event type to listen for
+     * @param callback - Event handler function
+     * @param options - Event listener options
+     * @param args - Additional arguments to bind to the callback
+     */
+    listen(
+        target: Element | ArrayLike<Element>,
+        eventType: string,
         callback: EventListener,
         options: AddEventListenerOptions | boolean = false,
         ...args: unknown[]
     ) {
-        const targetElement = typeof target === 'string' ? document.querySelectorAll(target) : target
-
-        if (!targetElement) {
-            console.warn(`Target ${target} is not valid for ${type} listener`)
+        if (!target) {
+            console.warn(`Target ${target} is not valid for ${eventType} listener`)
             return
         }
 
-        const key = this._getBoundListenerKey(type, callback)
-
-        if (this._boundListeners.has(key)) {
-            console.warn(`Listener for type ${type} with callback ${callback.name} already exists`)
+        if (!eventType) {
+            console.warn(`Event type ${eventType} is not valid for listener on target ${target}`)
             return
         }
 
-        const boundListener = callback.bind(this, ...args)
+        if (typeof callback !== 'function') {
+            console.warn(`Callback for ${eventType} listener on target ${target} is not a function`)
+            return
+        }
 
-        this._boundListeners.set(key, { target: targetElement, type, callback: boundListener, options })
+        // Normalize target to an array
+        const targetList = 'length' in target ? Array.from(target) : [target]
 
-        if ('length' in targetElement) {
-            for (let i = 0; i < targetElement.length; i++) {
-                targetElement[i].addEventListener(type, boundListener, options)
+        for (let i = 0; i < targetList.length; i++) {
+            const targetItem = targetList[i]
+
+            if (!this._listeners.has(targetItem)) {
+                this._listeners.set(targetItem, new Map())
             }
-        } else {
-            targetElement.addEventListener(type, boundListener, options)
+
+            const targetListeners = this._listeners.get(targetItem)!
+
+            if (!targetListeners.has(eventType)) {
+                targetListeners.set(eventType, [])
+            }
+
+            const eventTypeListeners = targetListeners.get(eventType)!
+
+            if (eventTypeListeners.some((listener) => listener.callback === callback)) {
+                console.warn(`Listener for type ${eventType} with callback ${callback.name} already exists`)
+                return
+            }
+
+            const boundCallback = callback.bind(this, ...args)
+
+            eventTypeListeners.push({ callback, options, boundCallback })
+
+            targetItem.addEventListener(eventType, boundCallback, options)
         }
     }
 
-    off(
-        target: Element | ArrayLike<Element> | string | null,
-        event: string,
-        callback: EventListener,
-        options: AddEventListenerOptions | boolean = false
-    ) {
-        const key = this._getBoundListenerKey(event, callback)
-        const boundListener = this._boundListeners.get(key)
+    /**
+     * Remove event listener(s) from target element(s)
+     * @param target - Element or collection of elements to unlisten from
+     * @param eventType - Optional event type to stop listening for. If not provided, all event types will be unlistened
+     * @param callback - Optional event handler function to remove. If not provided, all callbacks for the event type will be removed
+     */
+    unlisten(target: Element | ArrayLike<Element>, eventType?: string, callback?: EventListener) {
+        if (!target) return
 
-        if (!boundListener) return
+        const targetList = 'length' in target ? target : [target]
 
-        this._boundListeners.delete(key)
+        for (let i = 0; i < targetList.length; i++) {
+            const targetItem = targetList[i]
 
-        const targetElement = typeof target === 'string' ? document.querySelectorAll(target) : target
-
-        if (!targetElement) return
-
-        if ('length' in targetElement) {
-            for (let i = 0; i < targetElement.length; i++) {
-                targetElement[i].removeEventListener(boundListener.type, boundListener.callback, options)
+            if (!this._listeners.has(targetItem)) {
+                return
             }
-        } else {
-            targetElement.removeEventListener(boundListener.type, boundListener.callback, options)
+
+            const targetListeners = this._listeners.get(targetItem)!
+
+            targetListeners.forEach((listeners, listenerEventType) => {
+                if (!eventType || listenerEventType === eventType) {
+                    listeners.forEach((listener) => {
+                        if (!callback || listener.callback === callback) {
+                            targetItem.removeEventListener(listenerEventType, listener.boundCallback, listener.options)
+                        }
+                    })
+
+                    if (callback) {
+                        const filteredListeners = listeners.filter((listener) => listener.callback !== callback)
+
+                        if (filteredListeners.length > 0) {
+                            targetListeners.set(listenerEventType, filteredListeners)
+                        } else {
+                            targetListeners.delete(listenerEventType) // Clean up empty event type entries
+                        }
+                    } else {
+                        targetListeners.delete(listenerEventType)
+                    }
+                }
+            })
+
+            // Clean up empty target entries
+            if (targetListeners.size === 0) {
+                this._listeners.delete(targetItem)
+            }
         }
+    }
+
+    /**
+     * Remove all event listeners from all targets
+     */
+    unlistenAll() {
+        this._listeners.forEach((_listeners, target) => {
+            this.unlisten(target)
+        })
+
+        this._listeners.clear()
     }
 }
