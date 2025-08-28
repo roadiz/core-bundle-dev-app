@@ -67,7 +67,9 @@ export default class RoadizElement extends HTMLElement {
             const eventTypeListeners = targetListeners.get(eventType)!
 
             if (eventTypeListeners.some((listener) => listener.callback === callback)) {
-                console.warn(`Listener for type ${eventType} with callback ${callback.name} already exists`)
+                const callbackName = callback.name && callback.name.length > 0 ? callback.name : 'anonymous function'
+
+                console.warn(`Listener for type ${eventType} with callback ${callbackName} already exists`)
                 return
             }
 
