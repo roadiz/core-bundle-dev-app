@@ -97,7 +97,7 @@ export default class RoadizElement extends HTMLElement {
             const targetItem = targetList[i]
 
             if (!this._listeners.has(targetItem)) {
-                return
+                continue
             }
 
             const targetListeners = this._listeners.get(targetItem)!
