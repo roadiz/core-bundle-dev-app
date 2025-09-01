@@ -174,14 +174,13 @@ export default {
             dialog.setAttribute('image-width', event.document.editImageWidth)
             dialog.setAttribute('image-height', event.document.editImageHeight)
             dialog.setAttribute('input-base-name', `${this.drawerName}[${event.index}]`)
+            dialog.setAttribute('open', '')
 
             if (event.document.originalHotspot) {
                 dialog.setAttribute('original-hotspot', JSON.stringify(event.document.originalHotspot))
             }
 
             document.body.appendChild(dialog)
-
-            dialog.showModal()
         },
     },
     components: {
