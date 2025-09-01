@@ -1,4 +1,13 @@
-{% set imagePath = widget_attributes|split('image-path="')[1]|split('"')[0] %}
+{% macro getWidgetAttribute(widget_attributes, attribute_name) %}
+    {%- set pattern = attribute_name ~ '="' -%}
+    {%- if pattern in widget_attributes -%}
+        {{- widget_attributes|split(pattern)[1]|split('"')[0] -}}
+    {%- endif -%}
+{% endmacro %}
+
+{% set imagePath = _self.getWidgetAttribute(widget_attributes, 'image-path') %}
+{% set imageWidth = _self.getWidgetAttribute(widget_attributes, 'image-width') %}
+{% set imageHeight = _self.getWidgetAttribute(widget_attributes, 'image-height') %}
 
 <document-alignment-widget class="document-alignment-widget" input-base-name="{{ form.vars.full_name }}">
     <div class="document-alignment-widget__image-wrapper">
@@ -11,7 +20,13 @@
             </div>
             <div class="document-alignment-widget__hotspot"></div>
         </div>
-        <img class="document-alignment-widget__image" src="{{ imagePath }}" alt=""/>
+        <img 
+            class="document-alignment-widget__image" 
+            src="{{ imagePath }}" 
+            width="{{ imageWidth }}" 
+            height="{{ imageHeight }}" 
+            alt=""
+        />
     </div>
     <label class="document-alignment-widget__override">
         <input type="checkbox" class="rz-boolean-checkbox" data-on-text="I" data-off-text="O" />
