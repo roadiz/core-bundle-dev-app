@@ -131,8 +131,7 @@ class PictureRendererTest extends AbstractRendererTestCase
     <source type="image/jpeg" srcset="/files/folder/file.jpg">
     <img alt="Image alternative text" src="/files/folder/file.jpg" />
 </picture>
-EOT
-            ,
+EOT,
             $renderer->render($mockDocument, [
                 'noProcess' => true,
                 'picture' => true,
@@ -146,8 +145,7 @@ EOT
     <source type="image/jpeg" srcset="/files/folder/file.jpg">
     <img alt="Image alternative text" src="/files/folder/file.jpg" loading="lazy" />
 </picture>
-EOT
-            ,
+EOT,
             $renderer->render($mockDocument, [
                 'noProcess' => true,
                 'picture' => true,
@@ -161,8 +159,7 @@ EOT
     <source type="image/webp" srcset="/files/folder/file.webp">
     <img alt="Image alternative text" src="/files/folder/file.webp" />
 </picture>
-EOT
-            ,
+EOT,
             $renderer->render($mockWebpDocument, [
                 'noProcess' => true,
                 'picture' => true,
@@ -176,8 +173,7 @@ EOT
     <source type="image/jpeg" srcset="http://dummy.test/files/folder/file.jpg">
     <img alt="Image alternative text" src="http://dummy.test/files/folder/file.jpg" />
 </picture>
-EOT
-            ,
+EOT,
             $renderer->render($mockDocument, [
                 'absolute' => true,
                 'noProcess' => true,
