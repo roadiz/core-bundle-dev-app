@@ -75,8 +75,7 @@ class ChainRendererTest extends AbstractRendererTestCase
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100" height="100">
     <rect width="50" height="50" x="25" y="25" fill="green"></rect>
 </svg>
-EOT
-            ,
+EOT,
             $renderer->render($mockSvgDocument, ['inline' => true])
         );
 
@@ -88,8 +87,7 @@ EOT
 <iframe src="https://www.youtube-nocookie.com/embed/xxxxxxx?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowFullScreen></iframe>
-EOT
-            ,
+EOT,
             $renderer->render($mockDocumentYoutube, ['embed' => true])
         );
 
@@ -100,8 +98,7 @@ EOT
 <source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
 <img alt="Image alternative text" src="/assets/w300-q90/folder/file.jpg" width="300" />
 </picture>
-EOT
-            ,
+EOT,
             $renderer->render($mockPictureDocument, [
                 'width' => 300,
                 'picture' => true,
@@ -115,8 +112,7 @@ EOT
 <source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
 <img alt="" aria-hidden="true" src="/assets/w300-q90/folder/file.jpg" width="300" />
 </picture>
-EOT
-            ,
+EOT,
             $renderer->render($mockDecorativeDocument, [
                 'width' => 300,
                 'picture' => true,
