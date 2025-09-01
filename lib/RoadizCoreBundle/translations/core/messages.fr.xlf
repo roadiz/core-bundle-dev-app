@@ -116,6 +116,10 @@
                 <source>reset_your_password</source>
                 <target state="final">Réinitialiser votre mot de passe</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="user.changed_password">
+                <source>user.changed_password</source>
+                <target state="translated">Le mot de passe de l'utilisateur a été changé</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
                 <source>you.need.to.fill.this.required.field</source>
                 <target state="final">Vous devez remplir ce champ requis</target>
