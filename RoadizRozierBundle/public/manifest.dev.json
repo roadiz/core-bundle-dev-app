@@ -1,0 +1,34 @@
+{
+	"@vite/client": {
+		"file": "http://localhost:5173/@vite/client",
+		"name": "@vite/client",
+		"src": "@vite/client",
+		"isEntry": true,
+		"imports": [],
+		"assets": []
+	},
+	"app/main.js": {
+		"file": "http://localhost:5173/app/main.js",
+		"name": "main",
+		"src": "app/main.js",
+		"isEntry": true,
+		"imports": [],
+		"assets": []
+	},
+	"app/simple.js": {
+		"file": "http://localhost:5173/app/simple.js",
+		"name": "simple",
+		"src": "app/simple.js",
+		"isEntry": true,
+		"imports": [],
+		"assets": []
+	},
+	"app/shared.js": {
+		"file": "http://localhost:5173/app/shared.js",
+		"name": "shared",
+		"src": "app/shared.js",
+		"isEntry": true,
+		"imports": [],
+		"assets": []
+	}
+}
