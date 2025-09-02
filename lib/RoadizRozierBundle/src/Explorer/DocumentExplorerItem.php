@@ -11,6 +11,7 @@ use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
+use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -139,8 +140,11 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             $thumbnail80Url = $this->documentUrlGenerator->getUrl();
             $this->documentUrlGenerator->setOptions($previewOptions);
             $editImageUrl = $this->documentUrlGenerator->getUrl();
-            $editImageWidth = $this->document->getImageWidth();
-            $editImageHeight = $this->document->getImageHeight();
+
+            if ($this->document instanceof SizeableInterface) {
+                $editImageWidth = $this->document->getImageWidth();
+                $editImageHeight = $this->document->getImageHeight();
+            }
         }
 
         $embedFinder = $this->embedFinderFactory?->createForPlatform(
@@ -171,8 +175,8 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail80' => $thumbnail80Url,
             'editImageUrl' => $editImageUrl,
-            'editImageWidth' => $editImageWidth,
-            'editImageHeight' => $editImageHeight,
+            'editImageWidth' => $editImageWidth ?? null,
+            'editImageHeight' => $editImageHeight ?? null,
             'originalHotspot' => $originalHotspot ?? null,
         ];
     }
