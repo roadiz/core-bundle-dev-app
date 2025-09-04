@@ -29,6 +29,8 @@ jobs:
                   node-version-file: 'lib/Rozier/package.json'
             - uses: pnpm/action-setup@v4
               name: Install pnpm
+              with:
+                  package_json_file: 'lib/Rozier/package.json'
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
             - name: Lint
