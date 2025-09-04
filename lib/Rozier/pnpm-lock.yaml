@@ -85,7 +85,7 @@ importers:
         specifier: ^9.0.0
         version: 9.8.8
       cropperjs:
-        specifier: 2.0.1
+        specifier: ^2.0.1
         version: 2.0.1
       eslint:
         specifier: ^8
