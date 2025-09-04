@@ -9,8 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf node_modules && rm -rf static",
     "start": "npm run dev",
-    "prettier": "prettier --config .prettierrc.js -w --check Resources/app/**/*.js Resources/app/**/*.vue Resources/app/**/*.less",
-    "lint": "eslint && prettier --config .prettierrc.js -w --check Resources/app/**/*.js Resources/app/**/*.vue Resources/app/**/*.less"
+    "lint": "eslint"
   },
   "dependencies": {
     "codemirror": "^5.25.0",
