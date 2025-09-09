@@ -20,6 +20,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
     protected int $highlightingFragmentSize = 150;
+    protected string $highlightingBsType = 'WORD';
 
     public function __construct(
         protected readonly ClientRegistryInterface $clientRegistry,
@@ -89,6 +90,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $tmp['hl.fragsize'] = $this->getHighlightingFragmentSize();
         $tmp['hl.simple.pre'] = '<span class="solr-highlight">';
         $tmp['hl.simple.post'] = '</span>';
+        $tmp['hl.bs.type'] = $this->getHighlightingBsType();
 
         return $tmp;
     }
@@ -118,6 +120,18 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     public function setHighlightingFragmentSize(int $highlightingFragmentSize): AbstractSearchHandler
     {
         $this->highlightingFragmentSize = $highlightingFragmentSize;
+
+        return $this;
+    }
+
+    public function getHighlightingBsType(): string
+    {
+        return $this->highlightingBsType;
+    }
+
+    public function setHighlightingBsType(string $highlightingBsType): AbstractSearchHandler
+    {
+        $this->highlightingBsType = $highlightingBsType;
 
         return $this;
     }
