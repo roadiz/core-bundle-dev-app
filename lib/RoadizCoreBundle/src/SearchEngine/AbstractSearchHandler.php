@@ -20,6 +20,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     protected LoggerInterface $logger;
     protected EventDispatcherInterface $eventDispatcher;
     protected int $highlightingFragmentSize = 150;
+    protected string $highlightingBsType = 'WORD';
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -101,6 +102,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $tmp["hl.fragsize"] = $this->getHighlightingFragmentSize();
         $tmp["hl.simple.pre"] = '<span class="solr-highlight">';
         $tmp["hl.simple.post"] = '</span>';
+        $tmp["hl.bs.type"] = $this->getHighlightingBsType();
 
         return $tmp;
     }
@@ -141,6 +143,26 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     public function setHighlightingFragmentSize(int $highlightingFragmentSize): AbstractSearchHandler
     {
         $this->highlightingFragmentSize = $highlightingFragmentSize;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHighlightingBsType(): string
+    {
+        return $this->highlightingBsType;
+    }
+
+    /**
+     * @param string $highlightingBsType
+     *
+     * @return $this
+     */
+    public function setHighlightingBsType(string $highlightingBsType): AbstractSearchHandler
+    {
+        $this->highlightingBsType = $highlightingBsType;
 
         return $this;
     }
