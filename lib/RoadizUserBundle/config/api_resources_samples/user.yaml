@@ -76,9 +76,6 @@ resources:
                 processor: RZ\Roadiz\UserBundle\State\UserPasswordResetProcessor
                 input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordTokenInput
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-                # Password reset must not call ReadListener to let DataTransformer provide User.
-                read: false
-                validate: false
                 validation_groups:
                     - no_empty_password
                 openapi:
@@ -94,8 +91,6 @@ resources:
                 processor: RZ\Roadiz\UserBundle\State\UserValidationTokenProcessor
                 input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationTokenInput
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-                read: false
-                validate: false
                 openapi:
                     summary: Validate a public user email
                     description: |

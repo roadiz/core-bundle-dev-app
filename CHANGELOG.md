@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.5...v2.6.6) - 2025-09-09
+
+### Bug Fixes
+
+- **(UserBundle)** Remove unnecessary read and validate flags from password reset and validation token processors - ([21ea092](https://github.com/roadiz/core-bundle-dev-app/commit/21ea092f20b34e13566c6f9ca23b809ca03fdb6b))
+- **(documents)** Fixed document thumbnail layout to use flexbox for links - ([d6046b1](https://github.com/roadiz/core-bundle-dev-app/commit/d6046b1d9cfa360c4632901a7925db7a461e4005))
+
 ## [2.6.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.4...v2.6.5) - 2025-08-08
 
 ### Bug Fixes
