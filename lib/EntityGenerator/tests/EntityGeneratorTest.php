@@ -43,10 +43,10 @@ class EntityGeneratorTest extends TestCase
         /*
          * Uncomment for generating a mock file from tests
          */
-        //(new Filesystem())->dumpFile(
+        // (new Filesystem())->dumpFile(
         //    dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSources/NSMock.php',
         //    $generator->getClassContent()
-        //);
+        // );
 
         $this->assertEquals(
             (new Filesystem())->readFile(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
@@ -96,10 +96,10 @@ class EntityGeneratorTest extends TestCase
         /*
          * Uncomment for generating a mock file from tests
          */
-        //(new Filesystem())->dumpFile(
+        // (new Filesystem())->dumpFile(
         //    dirname(__DIR__).'/tests/Mocks/GeneratedNodesSourcesWithDocumentDto/NSMock.php',
         //    $generator->getClassContent()
-        //);
+        // );
 
         $this->assertEquals(
             (new Filesystem())->readFile(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSourcesWithDocumentDto/NSMock.php'),
