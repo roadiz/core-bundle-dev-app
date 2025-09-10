@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.24...v2.4.25) - 2025-09-10
+
+### Bug Fixes
+
+- Add `hl.bs.type` highlighting configuration ([#180](https://github.com/roadiz/core-bundle-dev-app/issues/180)) - ([0e2fb23](https://github.com/roadiz/core-bundle-dev-app/commit/0e2fb2386a369ab6266a3e23a1961214c528bff7))
+
 ## [2.4.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.23...v2.4.24) - 2025-06-30
 
 ### Bug Fixes
