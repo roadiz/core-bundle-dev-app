@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\SvgSizeResolver;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 final class DocumentSvgMessageHandler extends AbstractLockingDocumentMessageHandler
 {
@@ -35,7 +36,13 @@ final class DocumentSvgMessageHandler extends AbstractLockingDocumentMessageHand
 
         // Load the dirty svg
         $dirtySVG = $this->documentsStorage->read($document->getMountPath());
-        $this->documentsStorage->write($document->getMountPath(), $sanitizer->sanitize($dirtySVG));
+        $cleanSVG = $sanitizer->sanitize($dirtySVG);
+
+        if (false === $cleanSVG) {
+            throw new UnrecoverableMessageHandlingException('SVG document could not be sanitized.');
+        }
+
+        $this->documentsStorage->write($document->getMountPath(), $cleanSVG);
         $this->messengerLogger->info('Svg document sanitized.');
 
         /*
