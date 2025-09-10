@@ -20,6 +20,12 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     protected LoggerInterface $logger;
     protected EventDispatcherInterface $eventDispatcher;
     protected int $highlightingFragmentSize = 150;
+    /**
+     * Specifies the breakiterator type for dividing the document into passages.
+     * Can be SEPARATOR, SENTENCE, WORD, CHARACTER, LINE, or WHOLE.
+     *
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/highlighting.html
+     */
     protected string $highlightingBsType = 'WORD';
 
     public function __construct(
@@ -147,19 +153,11 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getHighlightingBsType(): string
     {
         return $this->highlightingBsType;
     }
 
-    /**
-     * @param string $highlightingBsType
-     *
-     * @return $this
-     */
     public function setHighlightingBsType(string $highlightingBsType): AbstractSearchHandler
     {
         $this->highlightingBsType = $highlightingBsType;
