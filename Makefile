@@ -22,10 +22,6 @@ rector:
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 
-fix:
-	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process
-	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
-
 check:
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
