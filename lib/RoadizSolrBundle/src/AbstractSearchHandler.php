@@ -160,6 +160,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     public function setHighlightingMethod(SolrHighlightingMethodEnum $highlightingMethod): AbstractSearchHandler
     {
         $this->highlightingMethod = $highlightingMethod;
+
         return $this;
     }
 

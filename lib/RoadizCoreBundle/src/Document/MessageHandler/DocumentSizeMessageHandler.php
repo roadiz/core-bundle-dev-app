@@ -28,7 +28,7 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
     #[\Override]
     protected function supports(DocumentInterface $document): bool
     {
-        return $document->isLocal() && $document->isImage();
+        return $document->isLocal() && $document->isImage() && !$document->isSvg();
     }
 
     #[\Override]

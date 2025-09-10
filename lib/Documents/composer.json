@@ -26,7 +26,7 @@
         "ext-simplexml": "*",
         "ext-fileinfo": "*",
         "doctrine/orm": "~2.20.0",
-        "enshrined/svg-sanitize": "^0.15",
+        "enshrined/svg-sanitize": "^0.22",
         "intervention/image": "^3.11",
         "league/flysystem": "^3.0",
         "monolog/monolog": "^3.9",

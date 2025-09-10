@@ -58,7 +58,7 @@
         "doctrine/orm": "~2.20.0",
         "dragonmantank/cron-expression": "^3.4",
         "endroid/qr-code": "^4.0",
-        "enshrined/svg-sanitize": "^0.15",
+        "enshrined/svg-sanitize": "^0.22",
         "gedmo/doctrine-extensions": "^3.19.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "intervention/image": "^3.11",

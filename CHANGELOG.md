@@ -2,6 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.7...v2.6.8) - 2025-09-10
+
+### Bug Fixes
+
+- Handle sanitization failure in DocumentSvgMessageHandler - ([69292e3](https://github.com/roadiz/core-bundle-dev-app/commit/69292e35de96906ffd1cedf471cad83d2b7ed7ff))
+- Update enshrined/svg-sanitize dependency to version ^0.22 - ([01bc6e9](https://github.com/roadiz/core-bundle-dev-app/commit/01bc6e9c4a6654777a9fcd2e3a83df6d1aaadb54))
+- Exclude SVG documents from DocumentSizeMessageHandler - ([708755c](https://github.com/roadiz/core-bundle-dev-app/commit/708755ccd0b7fa8cc14d38eba7f8555bf1363540))
+
 ## [2.6.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.6...v2.6.7) - 2025-09-10
 
 ### Bug Fixes
