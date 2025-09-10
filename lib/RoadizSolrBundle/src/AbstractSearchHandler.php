@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotConfiguredException;
+use RZ\Roadiz\SolrBundle\Solarium\SolariumHilightingTypesEnum;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Helper;
 use Solarium\Exception\ExceptionInterface;
@@ -20,7 +21,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
     protected int $highlightingFragmentSize = 150;
-    protected string $highlightingBsType = 'WORD';
+    /**
+     * Specifies the breakiterator type for dividing the document into passages.
+     * Can be SEPARATOR, SENTENCE, WORD, CHARACTER, LINE, or WHOLE.
+     *
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/highlighting.html
+     */
+    protected SolariumHilightingTypesEnum $highlightingBsType = SolariumHilightingTypesEnum::WORD;
 
     public function __construct(
         protected readonly ClientRegistryInterface $clientRegistry,
@@ -90,7 +97,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $tmp['hl.fragsize'] = $this->getHighlightingFragmentSize();
         $tmp['hl.simple.pre'] = '<span class="solr-highlight">';
         $tmp['hl.simple.post'] = '</span>';
-        $tmp['hl.bs.type'] = $this->getHighlightingBsType();
+        $tmp['hl.bs.type'] = $this->getHighlightingBsType()->value;
 
         return $tmp;
     }
@@ -124,12 +131,12 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return $this;
     }
 
-    public function getHighlightingBsType(): string
+    public function getHighlightingBsType(): SolariumHilightingTypesEnum
     {
         return $this->highlightingBsType;
     }
 
-    public function setHighlightingBsType(string $highlightingBsType): AbstractSearchHandler
+    public function setHighlightingBsType(SolariumHilightingTypesEnum $highlightingBsType): AbstractSearchHandler
     {
         $this->highlightingBsType = $highlightingBsType;
 
