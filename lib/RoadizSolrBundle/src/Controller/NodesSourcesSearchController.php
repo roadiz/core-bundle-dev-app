@@ -11,8 +11,11 @@ use RZ\Roadiz\CoreBundle\Api\ListManager\SearchEnginePaginator;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
+use RZ\Roadiz\SolrBundle\AbstractSearchHandler;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotConfiguredException;
+use RZ\Roadiz\SolrBundle\SolrHighlightingBsTypeEnum;
+use RZ\Roadiz\SolrBundle\SolrHighlightingMethodEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -29,6 +32,8 @@ class NodesSourcesSearchController extends AbstractController
         private readonly PreviewResolverInterface $previewResolver,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly int $highlightingFragmentSize = 200,
+        private readonly SolrHighlightingBsTypeEnum $highlightingBsType = SolrHighlightingBsTypeEnum::WORD,
+        private readonly SolrHighlightingMethodEnum $highlightingMethod = SolrHighlightingMethodEnum::UNIFIED,
     ) {
     }
 
@@ -49,6 +54,11 @@ class NodesSourcesSearchController extends AbstractController
         $this->nodeSourceSearchHandler->boostByPublicationDate();
         if ($this->highlightingFragmentSize > 0) {
             $this->nodeSourceSearchHandler->setHighlightingFragmentSize($this->highlightingFragmentSize);
+        }
+
+        if ($this->nodeSourceSearchHandler instanceof AbstractSearchHandler) {
+            $this->nodeSourceSearchHandler->setHighlightingBsType($this->highlightingBsType);
+            $this->nodeSourceSearchHandler->setHighlightingMethod($this->highlightingMethod);
         }
 
         return $this->nodeSourceSearchHandler;

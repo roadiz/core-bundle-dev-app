@@ -2,6 +2,18 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.6...v2.6.7) - 2025-09-10
+
+### Bug Fixes
+
+- Add `hl.bs.type` highlighting configuration with the default value `WORD`. - ([40b1843](https://github.com/roadiz/core-bundle-dev-app/commit/40b1843280ed0712f1ab6be9cfd2339bd395b0d7))
+
+### Features
+
+- Set default highlighting configuration using enums in NodesSourcesSearchController - ([286ae47](https://github.com/roadiz/core-bundle-dev-app/commit/286ae47740cd743227b3a3bf2955d5612dc6159b))
+- Refactor highlighting types and methods for improved clarity and extensibilty - ([1e1c945](https://github.com/roadiz/core-bundle-dev-app/commit/1e1c94554afecb2d884901014e7d0d15f6ec11d6))
+- Use enum for `hl.bs.type` highlighting configuration - ([6d6ef4c](https://github.com/roadiz/core-bundle-dev-app/commit/6d6ef4c293309f03142ce77f6b3648c08dd9f119))
+
 ## [2.6.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.5...v2.6.6) - 2025-09-09
 
 ### Bug Fixes
