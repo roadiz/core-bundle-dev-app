@@ -11,7 +11,6 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotConfiguredException;
-use RZ\Roadiz\SolrBundle\Solarium\SolariumHilightingTypesEnum;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Helper;
 use Solarium\Exception\ExceptionInterface;
@@ -27,7 +26,8 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      *
      * @see https://solr.apache.org/guide/solr/latest/query-guide/highlighting.html
      */
-    protected SolariumHilightingTypesEnum $highlightingBsType = SolariumHilightingTypesEnum::WORD;
+    protected SolrHighlightingBsTypeEnum $highlightingBsType = SolrHighlightingBsTypeEnum::WORD;
+    protected SolrHighlightingMethodEnum $highlightingMethod = SolrHighlightingMethodEnum::UNIFIED;
 
     public function __construct(
         protected readonly ClientRegistryInterface $clientRegistry,
@@ -97,7 +97,16 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $tmp['hl.fragsize'] = $this->getHighlightingFragmentSize();
         $tmp['hl.simple.pre'] = '<span class="solr-highlight">';
         $tmp['hl.simple.post'] = '</span>';
+        $tmp['hl.method'] = $this->getHighlightingMethod()->value;
         $tmp['hl.bs.type'] = $this->getHighlightingBsType()->value;
+
+        if (
+            SolrHighlightingMethodEnum::ORIGINAL !== $this->getHighlightingMethod()
+            && isset($args['locale'])
+            && is_string($args['locale'])
+        ) {
+            $tmp['hl.bs.language'] = \Locale::getPrimaryLanguage($args['locale']);
+        }
 
         return $tmp;
     }
@@ -131,15 +140,26 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return $this;
     }
 
-    public function getHighlightingBsType(): SolariumHilightingTypesEnum
+    public function getHighlightingBsType(): SolrHighlightingBsTypeEnum
     {
         return $this->highlightingBsType;
     }
 
-    public function setHighlightingBsType(SolariumHilightingTypesEnum $highlightingBsType): AbstractSearchHandler
+    public function setHighlightingBsType(SolrHighlightingBsTypeEnum $highlightingBsType): AbstractSearchHandler
     {
         $this->highlightingBsType = $highlightingBsType;
 
+        return $this;
+    }
+
+    public function getHighlightingMethod(): SolrHighlightingMethodEnum
+    {
+        return $this->highlightingMethod;
+    }
+
+    public function setHighlightingMethod(SolrHighlightingMethodEnum $highlightingMethod): AbstractSearchHandler
+    {
+        $this->highlightingMethod = $highlightingMethod;
         return $this;
     }
 

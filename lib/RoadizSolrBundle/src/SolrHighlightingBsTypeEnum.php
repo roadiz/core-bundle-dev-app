@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\SolrBundle\Solarium;
+namespace RZ\Roadiz\SolrBundle;
 
-enum SolariumHilightingTypesEnum: string
+enum SolrHighlightingBsTypeEnum: string
 {
     case SEPARATOR = 'SEPARATOR';
     case SENTENCE = 'SENTENCE';
