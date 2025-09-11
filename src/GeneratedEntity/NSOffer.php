@@ -42,7 +42,7 @@ class NSOffer extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'vat', type: 'decimal', nullable: true, precision: 18, scale: 3)]
-    private int|float|null $vat = null;
+    private ?string $vat = null;
 
     /** Price. */
     #[Serializer\SerializedName(serializedName: 'price')]
@@ -54,7 +54,7 @@ class NSOffer extends NodesSources
     #[ApiFilter(Filter\RangeFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'price', type: 'integer', nullable: true)]
-    private int|float|null $price = null;
+    private ?int $price = null;
 
     /** Geolocation. */
     #[Serializer\SerializedName(serializedName: 'geolocation')]
@@ -90,9 +90,9 @@ class NSOffer extends NodesSources
     private ?string $layout = null;
 
     /**
-     * @return int|float|null
+     * @return string|null
      */
-    public function getVat(): int|float|null
+    public function getVat(): ?string
     {
         return $this->vat;
     }
@@ -100,16 +100,18 @@ class NSOffer extends NodesSources
     /**
      * @return $this
      */
-    public function setVat(int|float|null $vat): static
+    public function setVat(string|int|float|null $vat): static
     {
-        $this->vat = $vat;
+        $this->vat = null !== $vat ?
+                    (string) $vat :
+                    null;
         return $this;
     }
 
     /**
-     * @return int|float|null
+     * @return int|null
      */
-    public function getPrice(): int|float|null
+    public function getPrice(): ?int
     {
         return $this->price;
     }
@@ -117,7 +119,7 @@ class NSOffer extends NodesSources
     /**
      * @return $this
      */
-    public function setPrice(int|float|null $price): static
+    public function setPrice(?int $price): static
     {
         $this->price = null !== $price ?
                     (int) $price :

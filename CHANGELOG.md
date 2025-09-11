@@ -2,6 +2,17 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.8...v2.6.9) - 2025-09-11
+
+### Bug Fixes
+
+- **(EntityGenerator)** Update NodesSourcesRepository type hints and fix properties typing for `decimal` and `integer` node-type fields - ([7eec5b8](https://github.com/roadiz/core-bundle-dev-app/commit/7eec5b8e1cbaf33d603e8705b1acdc55da0de531))
+- **(RozierBundle)** Refactor access control and update action visibility based on permissions in node contextualMenu.html.twig - ([a1faa40](https://github.com/roadiz/core-bundle-dev-app/commit/a1faa405ac0adcbb54ba00fba93eb40355bb0a0f))
+
+### Refactor
+
+- **(Security)** Refactor Voter classes to use AccessDecisionManager, made NodeVoter.php inheritable from project scope - ([46249a4](https://github.com/roadiz/core-bundle-dev-app/commit/46249a4420529dbc9a29416bb7a0caf7209f6b9a))
+
 ## [2.6.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.7...v2.6.8) - 2025-09-10
 
 ### Bug Fixes

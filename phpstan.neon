@@ -21,7 +21,6 @@ parameters:
         - */node_modules/*
         - */bower_components/*
         - */static/*
-        - src/GeneratedEntity/*
     doctrine:
         repositoryClass: RZ\Roadiz\CoreBundle\Repository\EntityRepository
         objectManagerLoader: ./tests/object-manager.php

@@ -44,12 +44,12 @@ class NSNeutral extends NodesSources
     #[ApiFilter(Filter\RangeFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'number', type: 'integer', nullable: true)]
-    private int|float|null $number = null;
+    private ?int $number = null;
 
     /**
-     * @return int|float|null
+     * @return int|null
      */
-    public function getNumber(): int|float|null
+    public function getNumber(): ?int
     {
         return $this->number;
     }
@@ -57,7 +57,7 @@ class NSNeutral extends NodesSources
     /**
      * @return $this
      */
-    public function setNumber(int|float|null $number): static
+    public function setNumber(?int $number): static
     {
         $this->number = null !== $number ?
                     (int) $number :

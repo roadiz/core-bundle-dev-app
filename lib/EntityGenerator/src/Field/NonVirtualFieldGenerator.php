@@ -122,8 +122,8 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         return match (true) {
             $this->field->isBool() => 'bool',
             $this->field->isMultiple() => '?array',
-            $this->field->isInteger(),
-            $this->field->isDecimal() => 'int|float|null',
+            $this->field->isInteger() => '?int', // https://www.doctrine-project.org/projects/doctrine-dbal/en/4.3/reference/types.html#integer
+            $this->field->isDecimal() => '?string', // https://www.doctrine-project.org/projects/doctrine-dbal/en/4.3/reference/types.html#decimal
             $this->field->isColor(),
             $this->field->isEmail(),
             $this->field->isString(),
@@ -183,6 +183,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
             case $this->field->isInteger():
                 $casting = '(int) ';
                 break;
+            case $this->field->isDecimal():
             case $this->field->isColor():
             case $this->field->isEmail():
             case $this->field->isString():
@@ -195,7 +196,10 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
                 break;
         }
 
-        $type = $this->getFieldTypeDeclaration();
+        $type = match (true) {
+            $this->field->isDecimal() => 'string|int|float|null',
+            default => $this->getFieldTypeDeclaration(),
+        };
 
         if ($nullable && !empty($casting)) {
             $assignation = '$this->'.$this->field->getVarName().' = null !== $'.$this->field->getVarName().' ?

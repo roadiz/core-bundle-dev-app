@@ -6,7 +6,6 @@ namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +13,9 @@ final class AjaxNodeContextualMenuController extends AbstractController
 {
     public function __invoke(Node $node, Translation $translation): Response
     {
-        $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
+        // Only grant generic ROLE_ACCESS_NODES
+        // Further access controls are done in the twig template
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
         return $this->render(
             '@RoadizRozier/widgets/nodeTree/contextualMenu.html.twig',
