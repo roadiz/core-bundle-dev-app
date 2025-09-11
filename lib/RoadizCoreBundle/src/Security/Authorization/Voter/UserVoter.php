@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Security\Authorization\Voter;
 
-use RZ\Roadiz\CoreBundle\Entity\User;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +16,7 @@ final class UserVoter extends Voter
     public const string EDIT_DETAIL = 'USER_EDIT_DETAIL';
 
     public function __construct(
-        private readonly Security $security,
+        private readonly AccessDecisionManagerInterface $accessDecisionManager,
     ) {
     }
 
@@ -31,17 +30,34 @@ final class UserVoter extends Voter
     }
 
     #[\Override]
+    public function supportsAttribute(string $attribute): bool
+    {
+        return in_array($attribute, [
+            self::EDIT,
+            self::EDIT_DETAIL,
+        ], true);
+    }
+
+    #[\Override]
+    public function supportsType(string $subjectType): bool
+    {
+        return is_a($subjectType, UserInterface::class, true);
+    }
+
+    #[\Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
+        if ($this->accessDecisionManager->decide($token, ['ROLE_SUPERADMIN'])) {
+            $vote?->addReason('Token is granted with ROLE_SUPERADMIN.');
+
+            return true;
+        }
+
         // if the subject is not a User instance, do not grant access
         if (!$subject instanceof UserInterface) {
             $vote?->addReason('Subject is not a User instance.');
 
             return false;
-        }
-
-        if ($this->security->isGranted('ROLE_SUPERADMIN')) {
-            return true;
         }
 
         // If subject User is a super admin, deny access to all actions unless the user is also a super admin.
@@ -51,10 +67,15 @@ final class UserVoter extends Voter
             return false;
         }
 
+        $isOwnUser = $this->isOwnUser($subject, $token);
+        if ($isOwnUser) {
+            $vote?->addReason('User is acting on own user account.');
+        }
+
         return match ($attribute) {
-            self::EDIT => $this->security->isGranted('ROLE_ACCESS_USERS') || $this->isOwnUser($subject),
-            self::EDIT_DETAIL => ($this->security->isGranted('ROLE_ACCESS_USERS') || $this->isOwnUser($subject))
-                && $this->security->isGranted('ROLE_ACCESS_USERS_DETAIL'),
+            self::EDIT => $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS']) || $isOwnUser,
+            self::EDIT_DETAIL => ($this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS']) || $isOwnUser)
+                && $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS_DETAIL']),
             default => false,
         };
     }
@@ -64,8 +85,8 @@ final class UserVoter extends Voter
         return \in_array('ROLE_SUPERADMIN', $subject->getRoles(), true);
     }
 
-    protected function isOwnUser(UserInterface $subject): bool
+    protected function isOwnUser(UserInterface $subject, TokenInterface $token): bool
     {
-        return $subject->getUserIdentifier() === $this->security->getUser()?->getUserIdentifier();
+        return $subject->getUserIdentifier() === $token->getUser()?->getUserIdentifier();
     }
 }

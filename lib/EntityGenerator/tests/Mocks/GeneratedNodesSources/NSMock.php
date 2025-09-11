@@ -144,6 +144,24 @@ class NSMock extends NodesSources
     #[ORM\Column(name: 'boolRequired', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $boolRequired = false;
 
+    /** Decimal optional field. */
+    #[Serializer\SerializedName(serializedName: 'decimalOptional')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Decimal optional field')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'decimalOptional', type: 'decimal', nullable: true, precision: 18, scale: 3)]
+    private ?string $decimalOptional = null;
+
+    /** Integer optional field. */
+    #[Serializer\SerializedName(serializedName: 'integerOptional')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Integer optional field')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'integerOptional', type: 'integer', nullable: true)]
+    private ?int $integerOptional = null;
+
     /**
      * Foo markdown field.
      * Maecenas sed diam eget risus varius blandit sit amet non magna.
@@ -212,7 +230,7 @@ class NSMock extends NodesSources
     #[ApiFilter(Filter\RangeFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'foo_decimal_excluded', type: 'decimal', nullable: true, precision: 18, scale: 3)]
-    private int|float|null $fooDecimalExcluded = null;
+    private ?string $fooDecimalExcluded = null;
 
     /**
      * Référence à l'événement.
@@ -630,6 +648,44 @@ class NSMock extends NodesSources
     /**
      * @return string|null
      */
+    public function getDecimalOptional(): ?string
+    {
+        return $this->decimalOptional;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setDecimalOptional(string|int|float|null $decimalOptional): static
+    {
+        $this->decimalOptional = null !== $decimalOptional ?
+                    (string) $decimalOptional :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getIntegerOptional(): ?int
+    {
+        return $this->integerOptional;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setIntegerOptional(?int $integerOptional): static
+    {
+        $this->integerOptional = null !== $integerOptional ?
+                    (int) $integerOptional :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getFooMarkdown(): ?string
     {
         return $this->fooMarkdown;
@@ -666,9 +722,9 @@ class NSMock extends NodesSources
     }
 
     /**
-     * @return int|float|null
+     * @return string|null
      */
-    public function getFooDecimalExcluded(): int|float|null
+    public function getFooDecimalExcluded(): ?string
     {
         return $this->fooDecimalExcluded;
     }
@@ -676,9 +732,11 @@ class NSMock extends NodesSources
     /**
      * @return $this
      */
-    public function setFooDecimalExcluded(int|float|null $fooDecimalExcluded): static
+    public function setFooDecimalExcluded(string|int|float|null $fooDecimalExcluded): static
     {
-        $this->fooDecimalExcluded = $fooDecimalExcluded;
+        $this->fooDecimalExcluded = null !== $fooDecimalExcluded ?
+                    (string) $fooDecimalExcluded :
+                    null;
         return $this;
     }
 

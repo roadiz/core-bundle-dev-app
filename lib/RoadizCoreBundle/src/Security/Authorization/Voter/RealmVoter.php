@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Security\Authorization\Voter;
 
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -21,7 +21,7 @@ final class RealmVoter extends Voter
     public const string PASSWORD_QUERY_PARAMETER = 'password';
 
     public function __construct(
-        private readonly Security $security,
+        private readonly AccessDecisionManagerInterface $accessDecisionManager,
         private readonly RequestStack $requestStack,
     ) {
     }
@@ -30,6 +30,12 @@ final class RealmVoter extends Voter
     public function supportsAttribute(string $attribute): bool
     {
         return self::READ === $attribute;
+    }
+
+    #[\Override]
+    public function supportsType(string $subjectType): bool
+    {
+        return is_a($subjectType, RealmInterface::class, true);
     }
 
     #[\Override]
@@ -60,7 +66,7 @@ final class RealmVoter extends Voter
             return false;
         }
 
-        if (!$this->security->isGranted($role)) {
+        if (!$this->accessDecisionManager->decide($token, [$role])) {
             $vote?->addReason(sprintf('User does not have the role "%s".', $role));
 
             return false;

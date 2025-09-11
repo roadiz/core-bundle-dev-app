@@ -5,29 +5,41 @@
     </div>
     <div class="uk-nav uk-nav-dropdown">
         <div class="wrapper">
-            <header class="uk-nav-header">Actions</header>
-            <a
-               title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
-               href="{{ path('nodesAddChildPage', { nodeId:node.id }) }}">
-                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.node{% endtrans %}
-            </a>
-            <a title="{{ "edit.node.%name%"|trans({'%name%': node.nodeName}) }}"
-               href="{{ path('nodesEditPage', { nodeId:node.id }) }}">
-                <i class="uk-icon-rz-pencil"></i> {% trans %}edit.node{% endtrans %}
-            </a>
-            {%- if not node.Locked -%}
+            <header class="uk-nav-header">{% trans %}actions{% endtrans %}</header>
+            {% if- is_granted('CREATE', node) -%}
+                <a
+                   title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
+                   href="{{ path('nodesAddChildPage', { nodeId:node.id }) }}">
+                    <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.node{% endtrans %}
+                </a>
+            {%- endif -%}
+            {% if is_granted('EDIT_SETTING', node) %}
+                <a title="{{ "edit.node.%name%"|trans({'%name%': node.nodeName}) }}"
+                   href="{{ path('nodesEditPage', { nodeId:node.id }) }}">
+                    <i class="uk-icon-rz-pencil"></i> {% trans %}edit.node{% endtrans %}
+                </a>
+                {%- if not node.Locked -%}
+                    <button
+                        type="button"
+                        class="move-node-first-position smaller-text"
+                        title="{% trans %}move.node.to.first.position{% endtrans %}">
+                        <i class="uk-icon-arrow-up"></i> {% trans %}move.node.to.first.position{% endtrans %}
+                    </button>
+                    <button
+                        type="button"
+                        class="move-node-last-position smaller-text"
+                        title="{% trans %}move.node.to.last.position{% endtrans %}">
+                        <i class="uk-icon-arrow-down"></i> {% trans %}move.node.to.last.position{% endtrans %}
+                    </button>
+                {%- endif -%}
+            {%- endif -%}
+            {% if is_granted('DUPLICATE', node) %}
                 <button
+                    data-action="duplicate"
+                    class="duplicate-node"
                     type="button"
-                    class="move-node-first-position smaller-text"
-                    title="{% trans %}move.node.to.first.position{% endtrans %}">
-                    <i class="uk-icon-arrow-up"></i> {% trans %}move.node.to.first.position{% endtrans %}
-                </button>
-                <button
-                    type="button"
-                    class="move-node-last-position smaller-text"
-                    title="{% trans %}move.node.to.last.position{% endtrans %}">
-                    <i class="uk-icon-arrow-down"></i> {% trans %}move.node.to.last.position{% endtrans %}
-                </button>
+                    title="{% trans %}node.duplicate{% endtrans %}"
+                ><i class="uk-icon-rz-duplicate"></i> {% trans %}node.duplicate{% endtrans %}</button>
             {%- endif -%}
 
             {% if workflow_can(node, 'delete') %}
@@ -44,7 +56,7 @@
                 </a>
             {% endif %}
         </div>
-        {% if not node.locked %}
+        {% if not node.locked and is_granted('EDIT_STATUS', node)%}
             <div class="wrapper node-actions">
                 <header class="uk-nav-header">{% trans %}statuses{% endtrans %}</header>
                 {% if node.visible %}
@@ -85,12 +97,6 @@
                         title="{% trans %}node.unpublish{% endtrans %}"
                     ><i class="uk-icon-rz-draft-nodes"></i> {% trans %}node.unpublish{% endtrans %}</button>
                 {% endif %}
-                <button
-                    data-action="duplicate"
-                    class="duplicate-node"
-                    type="button"
-                    title="{% trans %}node.duplicate{% endtrans %}"
-                ><i class="uk-icon-rz-duplicate"></i> {% trans %}node.duplicate{% endtrans %}</button>
             </div>
         {% endif %}
     </div>

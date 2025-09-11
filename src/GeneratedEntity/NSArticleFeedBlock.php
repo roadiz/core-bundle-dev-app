@@ -39,12 +39,12 @@ class NSArticleFeedBlock extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'listing_count', type: 'integer', nullable: true)]
-    private int|float|null $listingCount = null;
+    private ?int $listingCount = null;
 
     /**
-     * @return int|float|null
+     * @return int|null
      */
-    public function getListingCount(): int|float|null
+    public function getListingCount(): ?int
     {
         return $this->listingCount;
     }
@@ -52,7 +52,7 @@ class NSArticleFeedBlock extends NodesSources
     /**
      * @return $this
      */
-    public function setListingCount(int|float|null $listingCount): static
+    public function setListingCount(?int $listingCount): static
     {
         $this->listingCount = null !== $listingCount ?
                     (int) $listingCount :
