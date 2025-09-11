@@ -239,7 +239,7 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'amount', type: 'decimal', nullable: true, precision: 18, scale: 3)]
-    private int|float|null $amount = null;
+    private ?string $amount = null;
 
     /** Test email. */
     #[Serializer\SerializedName(serializedName: 'emailTest')]
@@ -738,9 +738,9 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return int|float|null
+     * @return string|null
      */
-    public function getAmount(): int|float|null
+    public function getAmount(): ?string
     {
         return $this->amount;
     }
@@ -748,9 +748,11 @@ class NSPage extends NodesSources
     /**
      * @return $this
      */
-    public function setAmount(int|float|null $amount): static
+    public function setAmount(string|int|float|null $amount): static
     {
-        $this->amount = $amount;
+        $this->amount = null !== $amount ?
+                    (string) $amount :
+                    null;
         return $this;
     }
 

@@ -351,7 +351,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param int|null $limit
      * @param int|null $offset
      *
-     * @return array<NodesSources>
+     * @return array<T>
      */
     #[\Override]
     public function findBy(
@@ -397,6 +397,8 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * A secure findOneBy with which user must be a backend user
      * to see unpublished nodes.
+     *
+     * @return T|null
      *
      * @throws NonUniqueResultException
      */
@@ -510,12 +512,14 @@ class NodesSourcesRepository extends StatusAwareRepository
 
     /**
      * @param array<class-string<NodesSources>> $nodeSourceClasses
+     *
+     * @return array<T>
      */
     public function findByNodesSourcesAndFieldNameAndTranslation(
         NodesSources $nodesSources,
         string $fieldName,
         array $nodeSourceClasses = [],
-    ): ?array {
+    ): array {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->joinNodeOnce($qb);
         $qb->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
@@ -545,6 +549,7 @@ class NodesSourcesRepository extends StatusAwareRepository
 
     /**
      * @return array<NodesSources>
+     * @return array<T>
      */
     public function findByNode(Node $node): array
     {
