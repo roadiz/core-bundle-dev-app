@@ -877,7 +877,7 @@ EOT,
     /**
      * @return array{"node": int|string, "ancestor": int|string, "level": int}[]
      */
-    public function findAllAncestors(NodeInterface|int|string $node): array
+    public function findAllAncestors(NodeInterface|int|string $node, int $maxDepth = 20, int $cacheTtl = 60): array
     {
         if ($node instanceof NodeInterface) {
             $node = $node->getId();
@@ -900,13 +900,13 @@ WITH RECURSIVE
                 FROM ancestors
                 INNER JOIN nodes ON  nodes.parent_node_id = ancestors.node
                 WHERE nodes.parent_node_id IS NOT NULL
-                    AND ancestors.level < 20
+                    AND ancestors.level < {$maxDepth}
         )
 SELECT node, ancestor, level
 FROM ancestors
 WHERE node = ?
 ORDER BY level ASC
-LIMIT 0, 20;
+LIMIT 0, {$maxDepth};
 SQL
         );
 
@@ -916,7 +916,7 @@ SQL
             ->executeQuery()
             ->fetchAllAssociative();
         $cacheItem?->set($result);
-        $cacheItem?->expiresAfter(60);
+        $cacheItem?->expiresAfter($cacheTtl);
         $this->_em->getConfiguration()->getResultCache()?->save($cacheItem);
 
         return $result;
