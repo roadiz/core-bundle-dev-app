@@ -21,7 +21,7 @@ class OfferTest extends ApiTestCase
             $this->assertNotNull($offer);
             $this->assertInstanceOf(NSOffer::class, $offer);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ class OfferTest extends ApiTestCase
             ]);
             $this->assertResponseHasHeader('Content-Type');
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 }

@@ -23,7 +23,7 @@ class ArticleTest extends ApiTestCase
             $this->assertNotNull($article);
             $this->assertInstanceOf(NSArticle::class, $article);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ class ArticleTest extends ApiTestCase
             ]);
             $this->assertResponseHasHeader('Content-Type');
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ class ArticleTest extends ApiTestCase
                 ]),
             ]);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ class ArticleTest extends ApiTestCase
                 '@type' => 'WebResponse',
             ]);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 }

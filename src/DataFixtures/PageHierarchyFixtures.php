@@ -44,8 +44,13 @@ class PageHierarchyFixtures extends Fixture implements DependentFixtureInterface
             $parent = $page;
 
             $page->setTitle('Page level '.$i);
+            $page->getNode()->setNodeName('Page level '.$i);
             $page->getNode()->setStatus(NodeStatus::PUBLISHED);
             $page->setPublishedAt(new \DateTime());
+
+            if (1 === $i) {
+                $page->getNode()->setHome(true);
+            }
         }
         $manager->flush();
     }
