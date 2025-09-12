@@ -910,11 +910,13 @@ LIMIT 0, 20;
 SQL
         );
 
+        $statement->bindValue(1, $node);
         /** @var array{"node": int|string, "ancestor": int|string, "level": int}[] $result */
-        $result = $statement->executeQuery([
-            $node,
-        ])->fetchAllAssociative();
+        $result = $statement
+            ->executeQuery()
+            ->fetchAllAssociative();
         $cacheItem?->set($result);
+        $cacheItem?->expiresAfter(60);
         $this->_em->getConfiguration()->getResultCache()?->save($cacheItem);
 
         return $result;

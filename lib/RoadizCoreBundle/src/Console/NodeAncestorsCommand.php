@@ -29,6 +29,7 @@ final class NodeAncestorsCommand extends Command
         $this->addArgument('nodeId', InputArgument::REQUIRED, 'Leaf node ID.');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
