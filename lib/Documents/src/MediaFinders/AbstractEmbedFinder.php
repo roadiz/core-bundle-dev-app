@@ -137,8 +137,6 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
      * * title
      * * id
      * * class
-     *
-     * @final
      */
     #[\Override]
     public function getIFrame(array &$options = []): string

@@ -164,6 +164,9 @@ class NodesSourcesRepository extends StatusAwareRepository
         }
     }
 
+    /**
+     * @return T|null
+     */
     public function findOneByIdentifierAndTranslation(
         string $identifier,
         ?TranslationInterface $translation,
@@ -287,10 +290,8 @@ class NodesSourcesRepository extends StatusAwareRepository
      * not a Backend user and if authorizationChecker is defined.
      *
      * This method allows to pre-filter Nodes with a given translation.
-     *
-     * @return QueryBuilder
      */
-    protected function getCountContextualQuery(array &$criteria)
+    protected function getCountContextualQuery(array &$criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
@@ -431,9 +432,9 @@ class NodesSourcesRepository extends StatusAwareRepository
     }
 
     /**
-     * @return mixed|null
+     * @return T|null
      */
-    public function findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
+    public function findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation): ?NodesSources
     {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
 
@@ -548,7 +549,6 @@ class NodesSourcesRepository extends StatusAwareRepository
     }
 
     /**
-     * @return array<NodesSources>
      * @return array<T>
      */
     public function findByNode(Node $node): array

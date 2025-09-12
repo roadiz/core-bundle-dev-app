@@ -10,7 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 
 class AppFixtures extends Fixture
 {
-    public const DEFAULT_TRANSLATION_REFERENCE = 'default-translation';
+    public const string DEFAULT_TRANSLATION_REFERENCE = 'default-translation';
 
     #[\Override]
     public function load(ObjectManager $manager): void

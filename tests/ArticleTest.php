@@ -6,8 +6,8 @@ namespace App\Tests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\GeneratedEntity\NSArticle;
+use App\GeneratedEntity\Repository\NSArticleRepository;
 use Doctrine\DBAL\Exception;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -16,26 +16,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class ArticleTest extends ApiTestCase
 {
-    public function getManagerRegistry(): ManagerRegistry
-    {
-        return $this->getContainer()->get(ManagerRegistry::class);
-    }
-
     public function testRepository(): void
     {
         try {
-            $article = $this->getManagerRegistry()->getRepository(NSArticle::class)->findOneBy([]);
+            $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
             $this->assertNotNull($article);
             $this->assertInstanceOf(NSArticle::class, $article);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
     public function testCollection(): void
     {
         try {
-            $articleCount = $this->getManagerRegistry()->getRepository(NSArticle::class)->countBy([]);
+            $articleCount = static::getContainer()->get(NSArticleRepository::class)->countBy([]);
 
             static::createClient()->request('GET', '/api/articles');
 
@@ -48,15 +43,15 @@ class ArticleTest extends ApiTestCase
             ]);
             $this->assertResponseHasHeader('Content-Type');
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
     public function testSingleArticle(): void
     {
         try {
-            $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
-            $article = $this->getManagerRegistry()->getRepository(NSArticle::class)->findOneBy([]);
+            $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+            $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
             if (null === $article) {
                 $this->fail('No article found in database.');
             }
@@ -76,15 +71,15 @@ class ArticleTest extends ApiTestCase
                 ]),
             ]);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 
     public function testArticleWebResponse(): void
     {
         try {
-            $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
-            $article = $this->getManagerRegistry()->getRepository(NSArticle::class)->findOneBy([]);
+            $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+            $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
             if (null === $article) {
                 $this->fail('No article found in database.');
             }
@@ -107,7 +102,7 @@ class ArticleTest extends ApiTestCase
                 '@type' => 'WebResponse',
             ]);
         } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error.');
+            $this->markTestSkipped('Database connection error: '.$e->getMessage());
         }
     }
 }
