@@ -10,3 +10,12 @@ resources:
                     enable_max_depth: true
                     groups:
                         - translation_base
+
+            ApiPlatform\Metadata\Post:
+                method: "POST"
+                uriTemplate: '/translations/translate'
+                input: RZ\Roadiz\RozierBundle\Translator\TranslatorDto
+                output: RZ\Roadiz\RozierBundle\Translator\TranslatorOutput
+                controller: RZ\Roadiz\RozierBundle\Translator\DeeplTranslatorController::translate
+                openapiContext:
+                    summary: Deepl translator

@@ -39,3 +39,7 @@ services:
         arguments:
             $decorated: '@App\Serializer\Normalizer\AliasBlockWalkerNormalizer.inner'
             $itemNormalizer: '@api_platform.serializer.normalizer.item'
+
+    RZ\Roadiz\RozierBundle\Translator\DeeplTranslatorController:
+        arguments:
+            $apiKey: '%env(string:DEEPL_API_KEY)%'

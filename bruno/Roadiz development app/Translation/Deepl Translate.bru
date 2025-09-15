@@ -1,0 +1,26 @@
+meta {
+  name: Deepl Translate
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/translations/translate
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "text": "Hello world",
+    "targetLang": "fr"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
