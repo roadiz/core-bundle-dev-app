@@ -1,0 +1,26 @@
+meta {
+  name: Deepl Rephrase
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/translations/rephrase
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "text": "il existe plusieurs type de component qui sont chacun représenté par une class",
+    "targetLang": "fr"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

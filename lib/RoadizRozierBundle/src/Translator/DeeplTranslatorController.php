@@ -37,10 +37,32 @@ final readonly class DeeplTranslatorController implements TranslatorInterface
         $result = $deeplClient->translateText($translatorDto->text, $translatorDto->sourceLang, $translatorDto->targetLang, $translatorDto->options);
 
         return new TranslatorOutput(
-            $translatorDto->text,
-            $result->text,
-            $result->detectedSourceLang,
-            $translatorDto->targetLang,
+            originalText: $translatorDto->text,
+            translatedText: is_array($result) ? $result[0]->text : $result->text,
+            sourceLang: $result->detectedSourceLang,
+            targetLang: $translatorDto->targetLang,
+        );
+    }
+
+    /**
+     * @throws DeepLException
+     */
+    public function rephrase(
+        #[MapRequestPayload] TranslatorDto $translatorDto,
+    ): TranslatorOutput {
+        if (null === $this->apiKey) {
+            throw new DeepLException('DeepL api key is required.');
+        }
+
+        $deeplClient = new DeepLClient($this->apiKey);
+
+        $result = $deeplClient->rephraseText($translatorDto->text, $translatorDto->targetLang, $translatorDto->options);
+
+        return new TranslatorOutput(
+            originalText: $translatorDto->text,
+            translatedText: is_array($result) ? $result[0]->text : $result->text,
+            sourceLang: $translatorDto->sourceLang,
+            targetLang: $translatorDto->targetLang,
         );
     }
 }

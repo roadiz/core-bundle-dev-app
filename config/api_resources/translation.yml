@@ -11,11 +11,22 @@ resources:
                     groups:
                         - translation_base
 
-            ApiPlatform\Metadata\Post:
+            translate:
+                class: ApiPlatform\Metadata\Post
                 method: "POST"
                 uriTemplate: '/translations/translate'
                 input: RZ\Roadiz\RozierBundle\Translator\TranslatorDto
                 output: RZ\Roadiz\RozierBundle\Translator\TranslatorOutput
                 controller: RZ\Roadiz\RozierBundle\Translator\DeeplTranslatorController::translate
                 openapiContext:
-                    summary: Deepl translator
+                    summary: Translate text using DeepL API
+
+            rephrase:
+                class: ApiPlatform\Metadata\Post
+                method: "POST"
+                uriTemplate: '/translations/rephrase'
+                input: RZ\Roadiz\RozierBundle\Translator\TranslatorDto
+                output: RZ\Roadiz\RozierBundle\Translator\TranslatorOutput
+                controller: RZ\Roadiz\RozierBundle\Translator\DeeplTranslatorController::rephrase
+                openapiContext:
+                    summary: Rephrase text using DeepL API
