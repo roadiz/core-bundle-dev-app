@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Translator;
 
-final readonly class TranslatorDto
+final readonly class TranslateAssistantDto
 {
     public function __construct(
         public string $text,

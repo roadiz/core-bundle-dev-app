@@ -1,0 +1,8 @@
+translate:
+    path: /translate
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Translator\TranslateAssistantController::translateAction
+rephrase:
+    path: /rephrase
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Translator\TranslateAssistantController::rephraseAction

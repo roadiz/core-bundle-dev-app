@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Translator;
 
-final readonly class TranslatorOutput
+final readonly class TranslateAssistantOutput
 {
     public function __construct(
         public string $originalText,

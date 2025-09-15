@@ -7,11 +7,8 @@ namespace RZ\Roadiz\RozierBundle\Translator;
 use DeepL\DeepLClient;
 use DeepL\DeepLException;
 use DeepL\Language;
-use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
-#[AsController]
-final readonly class DeeplTranslatorController implements TranslatorInterface
+final readonly class DeeplTranslateAssistant implements TranslateAssistantInterface
 {
     public function __construct(
         private ?string $apiKey = null,
@@ -21,9 +18,8 @@ final readonly class DeeplTranslatorController implements TranslatorInterface
     /**
      * @throws DeepLException
      */
-    public function translate(
-        #[MapRequestPayload] TranslatorDto $translatorDto,
-    ): TranslatorOutput {
+    public function translate(TranslateAssistantDto $translatorDto): TranslateAssistantOutput
+    {
         if (null === $this->apiKey) {
             throw new DeepLException('DeepL api key is required.');
         }
@@ -36,7 +32,7 @@ final readonly class DeeplTranslatorController implements TranslatorInterface
 
         $result = $deeplClient->translateText($translatorDto->text, $translatorDto->sourceLang, $translatorDto->targetLang, $translatorDto->options);
 
-        return new TranslatorOutput(
+        return new TranslateAssistantOutput(
             originalText: $translatorDto->text,
             translatedText: is_array($result) ? $result[0]->text : $result->text,
             sourceLang: $result->detectedSourceLang,
@@ -47,9 +43,8 @@ final readonly class DeeplTranslatorController implements TranslatorInterface
     /**
      * @throws DeepLException
      */
-    public function rephrase(
-        #[MapRequestPayload] TranslatorDto $translatorDto,
-    ): TranslatorOutput {
+    public function rephrase(TranslateAssistantDto $translatorDto): TranslateAssistantOutput
+    {
         if (null === $this->apiKey) {
             throw new DeepLException('DeepL api key is required.');
         }
@@ -58,7 +53,7 @@ final readonly class DeeplTranslatorController implements TranslatorInterface
 
         $result = $deeplClient->rephraseText($translatorDto->text, $translatorDto->targetLang, $translatorDto->options);
 
-        return new TranslatorOutput(
+        return new TranslateAssistantOutput(
             originalText: $translatorDto->text,
             translatedText: is_array($result) ? $result[0]->text : $result->text,
             sourceLang: $translatorDto->sourceLang,
