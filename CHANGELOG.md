@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.10...v2.6.11) - 2025-09-15
+
+### Bug Fixes
+
+- **(NodeTreeContextualMenu)** Include duplicate-node in actions query selector - ([8382655](https://github.com/roadiz/core-bundle-dev-app/commit/8382655cc3388dd11d7218b14d960d011c384882))
+
 ## [2.6.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.9...v2.6.10) - 2025-09-15
 
 ### Bug Fixes
