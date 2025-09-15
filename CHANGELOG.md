@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.34...v2.5.35) - 2025-09-15
+
+### Features
+
+- **(CustomFormAnswer)** Add event for submitted custom form answers and test email notification - ([0dab109](https://github.com/roadiz/core-bundle-dev-app/commit/0dab109ab270a5c0f0801da4f700d09c03955ac6))
+
 ## [2.5.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.33...v2.5.34) - 2025-09-10
 
 ### Bug Fixes
