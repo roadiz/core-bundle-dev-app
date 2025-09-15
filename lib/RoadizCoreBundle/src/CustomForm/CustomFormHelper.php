@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
+use RZ\Roadiz\CoreBundle\Event\CustomFormAnswer\CustomFormAnswerSubmittedEvent;
 use RZ\Roadiz\CoreBundle\Form\CustomFormsType;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
@@ -143,6 +144,8 @@ final class CustomFormHelper
         }
 
         $this->em->refresh($answer);
+
+        $this->eventDispatcher->dispatch(new CustomFormAnswerSubmittedEvent($answer));
 
         return $answer;
     }
