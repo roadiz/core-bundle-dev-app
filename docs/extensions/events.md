@@ -100,3 +100,7 @@ Each realm event object contains the current `RealmNode` data transfer object. Y
 - `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`
 
 Each folder event object contains the current `User` entity. You will get it using `$event->getUser()`.
+
+## Custom Form Answers events
+
+- `RZ\Roadiz\CoreBundle\Event\CustomFormAnswer\CustomFormAnswerSubmittedEvent`: After a custom form answer has been submitted and saved.
