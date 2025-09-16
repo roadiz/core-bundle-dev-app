@@ -18,6 +18,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
     /**
      * @throws DeepLException
      */
+    #[\Override]
     public function translate(TranslateAssistantDto $translatorDto): TranslateAssistantOutput
     {
         if (null === $this->apiKey) {
@@ -43,6 +44,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
     /**
      * @throws DeepLException
      */
+    #[\Override]
     public function rephrase(TranslateAssistantDto $translatorDto): TranslateAssistantOutput
     {
         if (null === $this->apiKey) {
