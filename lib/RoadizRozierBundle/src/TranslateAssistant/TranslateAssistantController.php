@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\Translator;
+namespace RZ\Roadiz\RozierBundle\TranslateAssistant;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -17,7 +17,7 @@ final readonly class TranslateAssistantController
     }
 
     public function translateAction(
-        #[MapRequestPayload] TranslateAssistantDto $dto,
+        #[MapRequestPayload] TranslateAssistantInput $dto,
     ): JsonResponse {
         return new JsonResponse(
             $this->translateAssistant->translate($dto)
@@ -25,7 +25,7 @@ final readonly class TranslateAssistantController
     }
 
     public function rephraseAction(
-        #[MapRequestPayload] TranslateAssistantDto $dto,
+        #[MapRequestPayload] TranslateAssistantInput $dto,
     ): JsonResponse {
         return new JsonResponse(
             $this->translateAssistant->rephrase($dto)

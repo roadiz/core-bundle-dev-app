@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\Translator;
+namespace RZ\Roadiz\RozierBundle\TranslateAssistant;
 
 final readonly class TranslateAssistantOutput
 {

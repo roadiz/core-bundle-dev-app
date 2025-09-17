@@ -206,8 +206,8 @@ webhooksRoutes:
     resource: "routing/webhooks.yml"
     prefix: /rz-admin/webhooks
 
-# Translate assistante
-translateRoutes:
+# Translate assistant
+translateAssistantRoutes:
     resource: "routing/translate-assistant.yml"
     prefix: /rz-admin/translate-assistant
 

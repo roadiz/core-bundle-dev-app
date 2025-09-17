@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\Translator;
+namespace RZ\Roadiz\RozierBundle\TranslateAssistant;
 
 use DeepL\DeepLClient;
 use DeepL\DeepLException;
@@ -19,7 +19,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
      * @throws DeepLException
      */
     #[\Override]
-    public function translate(TranslateAssistantDto $translatorDto): TranslateAssistantOutput
+    public function translate(TranslateAssistantInput $translatorDto): TranslateAssistantOutput
     {
         if (null === $this->apiKey) {
             throw new DeepLException('DeepL api key is required.');
@@ -45,7 +45,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
      * @throws DeepLException
      */
     #[\Override]
-    public function rephrase(TranslateAssistantDto $translatorDto): TranslateAssistantOutput
+    public function rephrase(TranslateAssistantInput $translatorDto): TranslateAssistantOutput
     {
         if (null === $this->apiKey) {
             throw new DeepLException('DeepL api key is required.');

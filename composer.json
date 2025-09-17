@@ -51,7 +51,6 @@
         "api-platform/symfony": "^4.1.18",
         "codercat/jwk-to-pem": "^1.0",
         "composer/package-versions-deprecated": "1.11.99.3",
-        "deeplcom/deepl-php": "^1.12",
         "doctrine/collections": ">=1.6",
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
