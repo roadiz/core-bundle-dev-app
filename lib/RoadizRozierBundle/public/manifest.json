@@ -11,6 +11,30 @@
     "file": "vue-YhlLoeNc.js",
     "name": "vue"
   },
+  "app/assets/fonts/fa-brands-400.woff": {
+    "file": "fa-brands-400-llyXKB-1.woff",
+    "src": "app/assets/fonts/fa-brands-400.woff"
+  },
+  "app/assets/fonts/fa-brands-400.woff2": {
+    "file": "fa-brands-400-CfPCoubI.woff2",
+    "src": "app/assets/fonts/fa-brands-400.woff2"
+  },
+  "app/assets/fonts/fontawesome-webfont.woff": {
+    "file": "fontawesome-webfont-7YG-f3YT.woff",
+    "src": "app/assets/fonts/fontawesome-webfont.woff"
+  },
+  "app/assets/fonts/fontawesome-webfont.woff2": {
+    "file": "fontawesome-webfont-Bsy9_7N6.woff2",
+    "src": "app/assets/fonts/fontawesome-webfont.woff2"
+  },
+  "app/assets/fonts/rz-icons.woff": {
+    "file": "rz-icons-BOx9IpnW.woff",
+    "src": "app/assets/fonts/rz-icons.woff"
+  },
+  "app/assets/fonts/rz-icons.woff2": {
+    "file": "rz-icons-BSa7Mah2.woff2",
+    "src": "app/assets/fonts/rz-icons.woff2"
+  },
   "app/custom-elements/AdminMenuNav.js": {
     "file": "AdminMenuNav-C8jVdOt8.js",
     "name": "AdminMenuNav",
@@ -106,12 +130,26 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-0RKzXDvt.js",
+    "file": "shared-DXc3lkcj.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
     "imports": [
       "_jquery-5sAwpjfl.js"
+    ],
+    "css": [
+      "shared-GadeKv0X.css"
+    ],
+    "assets": [
+      "fontawesome-webfont-B-jkhYfk.woff2",
+      "fontawesome-webfont-CDK5bt4p.woff",
+      "fontawesome-webfont-CQDK8MU3.ttf",
+      "fontawesome-webfont-Bsy9_7N6.woff2",
+      "fontawesome-webfont-7YG-f3YT.woff",
+      "fa-brands-400-CfPCoubI.woff2",
+      "fa-brands-400-llyXKB-1.woff",
+      "rz-icons-BSa7Mah2.woff2",
+      "rz-icons-BOx9IpnW.woff"
     ]
   },
   "app/simple.js": {
@@ -119,5 +157,17 @@
     "name": "simple",
     "src": "app/simple.js",
     "isEntry": true
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
+    "file": "fontawesome-webfont-CQDK8MU3.ttf",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff": {
+    "file": "fontawesome-webfont-CDK5bt4p.woff",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2": {
+    "file": "fontawesome-webfont-B-jkhYfk.woff2",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2"
   }
 }
