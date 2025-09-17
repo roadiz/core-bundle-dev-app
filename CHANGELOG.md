@@ -2,6 +2,34 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.11...v2.6.12) - 2025-09-15
+
+### Features
+
+- **(CustomFormAnswer)** Add event for submitted custom form answers and test email notification - ([9baee77](https://github.com/roadiz/core-bundle-dev-app/commit/9baee77aae8b71be770bb832eccbb838d9e9fa86))
+
+## [2.6.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.10...v2.6.11) - 2025-09-15
+
+### Bug Fixes
+
+- **(NodeTreeContextualMenu)** Include duplicate-node in actions query selector - ([8382655](https://github.com/roadiz/core-bundle-dev-app/commit/8382655cc3388dd11d7218b14d960d011c384882))
+
+## [2.6.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.9...v2.6.10) - 2025-09-15
+
+### Bug Fixes
+
+- **(AbstractEmbedFinder)** Remove final annotation from getIFrame method - ([fc9781c](https://github.com/roadiz/core-bundle-dev-app/commit/fc9781c38a68987529659ec7b51214ec9f181704))
+- **(NodesSourcesRepository)** Update return types for methods and optimize parent ID retrieval - ([709d03b](https://github.com/roadiz/core-bundle-dev-app/commit/709d03bd5857ffb9d07d629c15bca3846a921fb4))
+
+### Refactor
+
+- **(NodeRepository)** Add method to retrieve all ancestors for a node using Recursive CTE - ([29a4cb7](https://github.com/roadiz/core-bundle-dev-app/commit/29a4cb7ceb052427a0ffce084710bbacfc355222))
+
+### Testing
+
+- Enhance error messages for database connection issues in ArticleTest and OfferTest - ([c5d4030](https://github.com/roadiz/core-bundle-dev-app/commit/c5d40308adb095bf86d7097ff3e9003d6b9bacaf))
+- Added PageHierarchyTest to compare node graph walking and findAllAncestors recursive CTE outputs - ([a1dbe2f](https://github.com/roadiz/core-bundle-dev-app/commit/a1dbe2fb0945bbc7b30c38439582482dde1ae26a))
+
 ## [2.6.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.8...v2.6.9) - 2025-09-11
 
 ### Bug Fixes
