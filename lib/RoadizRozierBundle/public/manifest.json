@@ -1,79 +1,7 @@
 {
-  "Resources/app/fonts/fa-brands-400.woff": {
-    "file": "fa-brands-400-llyXKB-1.woff",
-    "src": "Resources/app/fonts/fa-brands-400.woff"
-  },
-  "Resources/app/fonts/fa-brands-400.woff2": {
-    "file": "fa-brands-400-CfPCoubI.woff2",
-    "src": "Resources/app/fonts/fa-brands-400.woff2"
-  },
-  "Resources/app/fonts/fontawesome-webfont.woff": {
-    "file": "fontawesome-webfont-7YG-f3YT.woff",
-    "src": "Resources/app/fonts/fontawesome-webfont.woff"
-  },
-  "Resources/app/fonts/fontawesome-webfont.woff2": {
-    "file": "fontawesome-webfont-Bsy9_7N6.woff2",
-    "src": "Resources/app/fonts/fontawesome-webfont.woff2"
-  },
-  "Resources/app/fonts/rz-icons.woff": {
-    "file": "rz-icons-BOx9IpnW.woff",
-    "src": "Resources/app/fonts/rz-icons.woff"
-  },
-  "Resources/app/fonts/rz-icons.woff2": {
-    "file": "rz-icons-BSa7Mah2.woff2",
-    "src": "Resources/app/fonts/rz-icons.woff2"
-  },
-  "Resources/app/img/spritemap.png": {
-    "file": "spritemap-CP-4snSC.png",
-    "src": "Resources/app/img/spritemap.png"
-  },
-  "Resources/app/img/spritemap@2x.png": {
-    "file": "spritemap@2x-Bd7qNsVN.png",
-    "src": "Resources/app/img/spritemap@2x.png"
-  },
-  "Resources/app/main.js": {
-    "file": "main-DxMANcEB.js",
-    "name": "main",
-    "src": "Resources/app/main.js",
-    "isEntry": true,
-    "imports": [
-      "_jquery-5sAwpjfl.js",
-      "_vue-YhlLoeNc.js"
-    ],
-    "css": [
-      "main-DQKDGynu.css"
-    ]
-  },
-  "Resources/app/shared.js": {
-    "file": "shared-DSN1_fba.js",
-    "name": "shared",
-    "src": "Resources/app/shared.js",
-    "isEntry": true,
-    "imports": [
-      "_jquery-5sAwpjfl.js"
-    ],
-    "css": [
-      "shared-CiZ8DA_L.css"
-    ],
-    "assets": [
-      "fontawesome-webfont-B-jkhYfk.woff2",
-      "fontawesome-webfont-CDK5bt4p.woff",
-      "fontawesome-webfont-CQDK8MU3.ttf",
-      "spritemap-CP-4snSC.png",
-      "spritemap@2x-Bd7qNsVN.png",
-      "fontawesome-webfont-Bsy9_7N6.woff2",
-      "fontawesome-webfont-7YG-f3YT.woff",
-      "fa-brands-400-CfPCoubI.woff2",
-      "fa-brands-400-llyXKB-1.woff",
-      "rz-icons-BSa7Mah2.woff2",
-      "rz-icons-BOx9IpnW.woff"
-    ]
-  },
-  "Resources/app/simple.js": {
-    "file": "simple-utnrOcuB.js",
-    "name": "simple",
-    "src": "Resources/app/simple.js",
-    "isEntry": true
+  "_RoadizElement-XU473doh.js": {
+    "file": "RoadizElement-XU473doh.js",
+    "name": "RoadizElement"
   },
   "_jquery-5sAwpjfl.js": {
     "file": "jquery-5sAwpjfl.js",
@@ -83,16 +11,113 @@
     "file": "vue-YhlLoeNc.js",
     "name": "vue"
   },
-  "node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
-    "file": "fontawesome-webfont-CQDK8MU3.ttf",
-    "src": "node_modules/uikit/dist/fonts/fontawesome-webfont.ttf"
+  "app/custom-elements/AdminMenuNav.js": {
+    "file": "AdminMenuNav-C8jVdOt8.js",
+    "name": "AdminMenuNav",
+    "src": "app/custom-elements/AdminMenuNav.js",
+    "isDynamicEntry": true
   },
-  "node_modules/uikit/dist/fonts/fontawesome-webfont.woff": {
-    "file": "fontawesome-webfont-CDK5bt4p.woff",
-    "src": "node_modules/uikit/dist/fonts/fontawesome-webfont.woff"
+  "app/custom-elements/DocumentAlignmentWidget.js": {
+    "file": "DocumentAlignmentWidget-joEUTrYv.js",
+    "name": "DocumentAlignmentWidget",
+    "src": "app/custom-elements/DocumentAlignmentWidget.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js"
+    ]
   },
-  "node_modules/uikit/dist/fonts/fontawesome-webfont.woff2": {
-    "file": "fontawesome-webfont-B-jkhYfk.woff2",
-    "src": "node_modules/uikit/dist/fonts/fontawesome-webfont.woff2"
+  "app/custom-elements/DocumentEditDialog.js": {
+    "file": "DocumentEditDialog-DL3FZm5A.js",
+    "name": "DocumentEditDialog",
+    "src": "app/custom-elements/DocumentEditDialog.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js"
+    ]
+  },
+  "app/custom-elements/FolderAutocomplete.js": {
+    "file": "FolderAutocomplete-DoN70UxJ.js",
+    "name": "FolderAutocomplete",
+    "src": "app/custom-elements/FolderAutocomplete.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/MainTrees.js": {
+    "file": "MainTrees-_o537dMO.js",
+    "name": "MainTrees",
+    "src": "app/custom-elements/MainTrees.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/NodeSourceEditPage.js": {
+    "file": "NodeSourceEditPage-Cs1o7Qd4.js",
+    "name": "NodeSourceEditPage",
+    "src": "app/custom-elements/NodeSourceEditPage.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_jquery-5sAwpjfl.js",
+      "_vue-YhlLoeNc.js"
+    ]
+  },
+  "app/custom-elements/NodeTreeContextualMenu.js": {
+    "file": "NodeTreeContextualMenu-DLY1eyez.js",
+    "name": "NodeTreeContextualMenu",
+    "src": "app/custom-elements/NodeTreeContextualMenu.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/TagAutocomplete.js": {
+    "file": "TagAutocomplete-Bn-jytxi.js",
+    "name": "TagAutocomplete",
+    "src": "app/custom-elements/TagAutocomplete.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/TagEditPage.js": {
+    "file": "TagEditPage-Cu6cXEY0.js",
+    "name": "TagEditPage",
+    "src": "app/custom-elements/TagEditPage.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_jquery-5sAwpjfl.js",
+      "_vue-YhlLoeNc.js"
+    ]
+  },
+  "app/main.js": {
+    "file": "main-BbLlNws5.js",
+    "name": "main",
+    "src": "app/main.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-5sAwpjfl.js",
+      "_vue-YhlLoeNc.js"
+    ],
+    "dynamicImports": [
+      "app/custom-elements/AdminMenuNav.js",
+      "app/custom-elements/DocumentAlignmentWidget.js",
+      "app/custom-elements/DocumentEditDialog.js",
+      "app/custom-elements/FolderAutocomplete.js",
+      "app/custom-elements/MainTrees.js",
+      "app/custom-elements/NodeSourceEditPage.js",
+      "app/custom-elements/NodeTreeContextualMenu.js",
+      "app/custom-elements/TagAutocomplete.js",
+      "app/custom-elements/TagEditPage.js"
+    ],
+    "css": [
+      "main-Vdk0dRlL.css"
+    ]
+  },
+  "app/shared.js": {
+    "file": "shared-0RKzXDvt.js",
+    "name": "shared",
+    "src": "app/shared.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-5sAwpjfl.js"
+    ]
+  },
+  "app/simple.js": {
+    "file": "simple-utnrOcuB.js",
+    "name": "simple",
+    "src": "app/simple.js",
+    "isEntry": true
   }
 }
