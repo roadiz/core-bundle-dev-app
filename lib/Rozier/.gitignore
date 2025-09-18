@@ -112,3 +112,5 @@ testDir/
 ## XDebug profile folder
 /.xdebug
 /phpunit.xml
+
+/.pnpm-store

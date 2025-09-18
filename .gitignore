@@ -169,3 +169,4 @@ fabric.properties
 /compose.override.yaml
 /siege.txt
 /auth.json
+/lib/Rozier/.pnpm-store/
