@@ -2,7 +2,7 @@
   "name": "@roadiz/rozier",
   "description": "Roadiz admin theme",
   "private": true,
-  "packageManager": "pnpm@9.14.4",
+  "packageManager": "pnpm@10.17.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -55,5 +55,18 @@
   },
   "engines": {
     "node": "~22.19.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "gsap@<3.6.0": ">=3.6.0",
+      "postcss@<8.4.31": ">=8.4.31",
+      "hawk@<9.0.1": ">=9.0.1",
+      "tough-cookie@<4.1.3": ">=4.1.3",
+      "ajv@<6.12.3": ">=6.12.3",
+      "vue@>=2.0.0-alpha.1 <3.0.0-alpha.0": ">=3.0.0-alpha.0",
+      "hoek@<4.2.1": ">=4.2.1",
+      "form-data@<2.5.4": ">=2.5.4",
+      "vite@>=6.0.0 <=6.3.5": ">=6.3.6"
+    }
   }
 }

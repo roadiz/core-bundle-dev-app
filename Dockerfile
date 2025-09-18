@@ -335,7 +335,12 @@ USER node
 EXPOSE 5173
 
 COPY --link --chown=${UID}:${GID} lib/Rozier/package.json lib/Rozier/pnpm-lock.yaml ./
-RUN pnpm install --config.platform=linux --config.architecture=x64 --frozen-lockfile
+RUN <<EOF
+# Pnpm
+corepack enable pnpm
+
+pnpm install --config.platform=linux --config.architecture=x64
+EOF
 
 CMD ["pnpm", "dev", "--host", "0.0.0.0"]
 
@@ -353,7 +358,13 @@ USER node
 
 EXPOSE 5174
 
-COPY --link --chown=${UID}:${GID} docs/package.json docs/pnpm-lock.yaml ./
-RUN pnpm install --config.platform=linux --config.architecture=x64 --frozen-lockfile
+COPY --link --chown=${UID}:${GID} docs/package.json docs/pnpm-lock.yaml docs/pnpm-workspace.yaml ./
+
+RUN <<EOF
+# Pnpm
+corepack enable pnpm
+
+pnpm install --config.platform=linux --config.architecture=x64
+EOF
 
 CMD ["pnpm", "docs:dev", "--port", "5174", "--strictPort 1", "--host", "0.0.0.0"]
