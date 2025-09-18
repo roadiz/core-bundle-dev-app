@@ -1,8 +1,8 @@
 <template>
-    <a href="#" @click.prevent="onClick" class="widget-explorer-logo rz-no-ajax-link">
+    <button type="button" @click.prevent="onClick" class="widget-explorer-logo">
         <i :class="icon"></i>
         <span class="uk-badge uk-badge-notification" v-if="filterExplorerSelectedItems">1</span>
-    </a>
+    </button>
 </template>
 <script>
 export default {

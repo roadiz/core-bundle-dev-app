@@ -13,14 +13,14 @@
                     </div>
                 </li>
                 <li class="item">
-                    <a
-                        href="#"
+                    <button
+                        type="button"
                         class="filter-item-link"
                         :class="[selectedItem ? '' : 'active']"
                         @click.prevent="onResetClick"
                     >
                         <i class="uk-icon-rz-unordered-list"></i> {{ translations.see_all }}
-                    </a>
+                    </button>
                 </li>
 
                 <filter-explorer-item

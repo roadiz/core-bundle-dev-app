@@ -33,11 +33,10 @@
                 <ul class="nodetree-langs{% if nodeTree.availableTranslations|length <= 5 %} few-langs{% endif %}">
                     {%- for lang in nodeTree.availableTranslations -%}
                     <li class="{% if lang.id == nodeTree.translation.id %}active{% endif %}">
-                        <a href="#"
-                           class="rz-no-ajax-link"
+                        <button type="button"
                            {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}
                            data-children-parent-node="{{ nodeTree.rootNode.id }}"
-                           data-translation-id="{{ lang.id }}">{{ lang.preferredLocale|capitalize }}</a>
+                           data-translation-id="{{ lang.id }}">{{ lang.preferredLocale|capitalize }}</button>
                     </li>
                     {%- endfor -%}
                 </ul>

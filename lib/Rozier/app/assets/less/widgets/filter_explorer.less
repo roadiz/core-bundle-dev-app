@@ -12,7 +12,7 @@
         list-style: none;
     }
 
-    a {
+    a, button {
         outline: none;
     }
 
@@ -20,14 +20,22 @@
         padding: 0;
 
         & > .item {
-            margin: 0 20px;
+            margin: 0 0 5px 20px;
         }
     }
 
     .filter-item-link {
+        border: 0 none;
+        padding: 3px 0;
+        background: transparent none;
+        text-align: left;
+        display: flex;
         font-size: 10px;
-        color: darken(#D5D5D5, 10);
+        color: darken(#D5D5D5, 15);
         transition: color 0.3s linear;
+        align-items: center;
+        gap: 5px;
+        line-height: 1.33em;
 
         .icon {
             font-size: 14px;
@@ -36,10 +44,6 @@
         &:hover {
             text-decoration: none;
             color: white;
-        }
-
-        .text {
-            padding-left: 4px;
         }
 
         &.active {
@@ -90,7 +94,7 @@
     }
 
     .sub-filters {
-        padding: 0 0 0 20px;
+        padding: 0 0 0 15px;
     }
 }
 

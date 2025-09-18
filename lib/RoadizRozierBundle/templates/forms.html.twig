@@ -427,13 +427,12 @@
                         <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
                         <div class="uk-dropdown uk-dropdown-navbar">
                             {% for linkedType in linkedTypes %}
-                                <a class="uk-button uk-button-small"
-                                   href="#"
+                                <button type="button" class="uk-button uk-button-small"
                                    data-children-node-type="{{ linkedType.name }}"
                                    data-children-parent-node="{{ nodeTree.rootNode.id }}"
                                    data-translation-id="{{ nodeTree.translation.id }}">
                                     <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.displayName }}
-                                </a>
+                                </button>
                             {% endfor %}
                         </div>
                     </li>

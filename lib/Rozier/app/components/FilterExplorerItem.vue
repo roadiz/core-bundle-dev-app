@@ -1,15 +1,15 @@
 <template>
     <transition name="fade-in">
         <li class="item" v-if="item">
-            <a
-                href="#"
+            <button
+                type="button"
                 class="filter-item-link"
                 :class="[isCurrentItem ? 'active' : '']"
                 @click.prevent="onItemClick(item)"
             >
                 <i class="icon" :class="isCurrentItem ? icons.active : icons.normal"></i>
                 <span class="text">{{ item.name }}</span>
-            </a>
+            </button>
             <ul class="sub-filters">
                 <filter-explorer-item
                     v-for="(children, index) in item.children"

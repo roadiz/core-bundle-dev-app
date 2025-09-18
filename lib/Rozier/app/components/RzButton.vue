@@ -1,7 +1,7 @@
 <template>
-    <a class="uk-button uk-button-small" :class="{ 'uk-active': isActive }" href="#" @click.prevent="callback">
+    <button type="button" class="uk-button uk-button-small" :class="{ 'uk-active': isActive }" @click.prevent="callback">
         <slot></slot>
-    </a>
+    </button>
 </template>
 
 <script>
