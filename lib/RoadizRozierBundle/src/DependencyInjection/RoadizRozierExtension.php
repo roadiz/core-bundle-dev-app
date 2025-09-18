@@ -79,7 +79,7 @@ class RoadizRozierExtension extends Extension
                     ->setPublic(true)
                     ->setArguments([
                         $config['open_id']['discovery_url'],
-                        new Reference(\Psr\Cache\CacheItemPoolInterface::class),
+                        new Reference(CacheItemPoolInterface::class),
                         new Reference(HttpClientInterface::class),
                         new Reference(\Psr\Log\LoggerInterface::class),
                     ])

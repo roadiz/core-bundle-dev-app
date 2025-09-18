@@ -9,4 +9,6 @@ interface TranslateAssistantInterface
     public function translate(TranslateAssistantInput $translatorDto): TranslateAssistantOutput;
 
     public function rephrase(TranslateAssistantInput $translatorDto): TranslateAssistantOutput;
+
+    public function supportRephrase(): bool;
 }

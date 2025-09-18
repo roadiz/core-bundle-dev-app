@@ -24,7 +24,7 @@ final class TranslateAssistantRephraseCommand extends Command
     #[\Override]
     protected function configure(): void
     {
-        $this->setName('translate:assistant:rephrase')
+        $this->setName('translate-assistant:rephrase')
             ->setDescription('Use translator assistant to rephrase a string.')
             ->addArgument(
                 'text',

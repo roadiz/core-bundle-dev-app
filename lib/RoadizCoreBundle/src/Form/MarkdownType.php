@@ -93,7 +93,7 @@ final class MarkdownType extends AbstractType
             'allow_link' => true,
             'allow_hr' => true,
             'allow_preview' => true,
-            'allow_translate_assistant_translate' => false,
+            'allow_translate_assistant_translate' => true,
             'allow_translate_assistant_rephrase' => false,
             'locale' => null,
         ]);

@@ -45,6 +45,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
                 'loading' => 'lazy',
             ],
             'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
+            'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
         ];
     }
 

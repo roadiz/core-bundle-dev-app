@@ -24,7 +24,7 @@ final class TranslateAssistantTranslateCommand extends Command
     #[\Override]
     protected function configure(): void
     {
-        $this->setName('translate:assistant:translate')
+        $this->setName('translate-assistant:translate')
             ->setDescription('Use translator assistant to translate a string.')
             ->addArgument(
                 'text',

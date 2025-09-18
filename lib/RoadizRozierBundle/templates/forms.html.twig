@@ -236,7 +236,8 @@
                             data-markdowneditor-button="translate_assistant-translate"
                             title="{% trans %}markdown.translate_assistant_translate{% endtrans %}"
                             data-uk-tooltip="{animation:true}"
-                            data-translate-locale="{{ attr.locale }}">
+                            data-translate-locale="{{ attr.locale }}"
+                            data-translate-path="{{ path('translateAssistantTranslate') }}" >
                         <i class="uk-icon-rz-translate"></i>
                     </button>
                 </li>
@@ -249,7 +250,8 @@
                             title="{% trans %}markdown.translate_assistant_rephrase{% endtrans %}"
                             data-uk-tooltip="{animation:true}"
                             data-translate-locale="{{ attr.locale }}"
-                            disabled>
+                            data-translate-path="{{ path('translateAssistantRephrase') }}"
+                            {{ (translateAssistantSupportRephrase) ? '' : 'disabled' }} >
                         <i class="uk-icon-rz-fontes"></i>
                     </button>
                 </li>

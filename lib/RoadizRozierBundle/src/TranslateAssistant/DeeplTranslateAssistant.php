@@ -31,7 +31,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
 
         $deeplClient = new DeepLClient($this->apiKey);
 
-        $this->cacheAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'translate');
+        $this->denyNotAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'translate');
 
         $result = $deeplClient->translateText($translatorDto->text, $translatorDto->sourceLang, $this->transformTargetLang($translatorDto->targetLang), $translatorDto->options);
 
@@ -44,6 +44,9 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
     }
 
     /**
+     * This feature requires a PRO Deepl Api-token.
+     * https://developers.deepl.com/api-reference/improve-text/deepl-write-api-service-specification-updates.
+     *
      * @throws DeepLException|InvalidArgumentException
      */
     #[\Override]
@@ -55,7 +58,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
 
         $deeplClient = new DeepLClient($this->apiKey);
 
-        $this->cacheAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'rephrase');
+        $this->denyNotAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'rephrase');
 
         $result = $deeplClient->rephraseText($translatorDto->text, $this->transformTargetLang($translatorDto->targetLang), $translatorDto->options);
 
@@ -80,7 +83,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
      * @throws DeepLException
      * @throws InvalidArgumentException
      */
-    private function cacheAvailableLanguages(string $targetLanguage, DeepLClient $deeplClient, string $method): void
+    private function denyNotAvailableLanguages(string $targetLanguage, DeepLClient $deeplClient, string $method): void
     {
         $languageAvailableCacheItem = $this->cache->getItem('DeeplTranslateAssistant_targetLanguages_'.$method.'_'.$targetLanguage);
 
@@ -98,5 +101,11 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
         if (!$languageAvailableCacheItem->get()) {
             throw new DeepLException('Invalid target language.');
         }
+    }
+
+    #[\Override]
+    public function supportRephrase(): bool
+    {
+        return !str_ends_with($this->apiKey, ':fx');
     }
 }
