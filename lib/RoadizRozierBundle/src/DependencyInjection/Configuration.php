@@ -67,6 +67,7 @@ final class Configuration implements ConfigurationInterface
             ->end()
             ->append($this->addOpenIdNode())
             ->append($this->addCsvNode())
+            ->append($this->addTranslateAssistantNode())
         ;
 
         return $builder;
@@ -181,6 +182,20 @@ EOD
                 ->end()
                 ->booleanNode('output_utf8_bom')
                     ->defaultFalse()
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    protected function addTranslateAssistantNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('translate_assistant');
+        $node = $builder->getRootNode();
+        $builder->getRootNode()
+            ->children()
+                ->scalarNode('deepl_api_key')
+                    ->cannotBeEmpty()
                 ->end()
             ->end();
 

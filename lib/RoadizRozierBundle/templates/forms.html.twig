@@ -190,6 +190,27 @@
                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-visibility"></i></a>
                 </li>
             {% endif %}
+            {% if attr.allow_translate_assistant_translate and translateAssistantEnabled and attr.locale %}
+                <li class="markdown-editor-button-cont-translate-assistant-translate">
+                    <a class="markdown-editor-button-translate-assistant-translate"
+                       data-markdowneditor-button="translate_assistant-translate"
+                       title="{% trans %}markdown.translate_assistant_translate{% endtrans %}"
+                       data-uk-tooltip="{animation:true}"
+                       data-translate-locale="{{ attr.locale }}"
+                    ><i class="uk-icon-rz-translate"></i></a>
+                </li>
+            {% endif %}
+            {% if attr.allow_translate_assistant_rephrase and translateAssistantEnabled and attr.locale %}
+                <li class="markdown-editor-button-cont-translate-assistant-rephrase">
+                    <button class="uk-button uk-button-small markdown-editor-button-translate-assistant-rephrase"
+                       type="button"
+                       data-markdowneditor-button="translate_assistant-rephrase"
+                       title="{% trans %}markdown.translate_assistant_rephrase{% endtrans %}"
+                       data-uk-tooltip="{animation:true}"
+                       data-translate-locale="{{ attr.locale }}"
+                    ><i class="uk-icon-rz-fontes"></i></button>
+                </li>
+            {% endif %}
         </ul>
     </nav>
     <div class="markdown-editor-count"><span class="count-current"></span>/<span class="count-limit"></span></div>

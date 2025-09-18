@@ -7,31 +7,33 @@ namespace RZ\Roadiz\RozierBundle\TranslateAssistant;
 use DeepL\DeepLClient;
 use DeepL\DeepLException;
 use DeepL\Language;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 
 final readonly class DeeplTranslateAssistant implements TranslateAssistantInterface
 {
     public function __construct(
-        private ?string $apiKey = null,
+        private CacheItemPoolInterface $cache,
+        private string $apiKey,
     ) {
     }
 
     /**
      * @throws DeepLException
+     * @throws InvalidArgumentException
      */
     #[\Override]
     public function translate(TranslateAssistantInput $translatorDto): TranslateAssistantOutput
     {
-        if (null === $this->apiKey) {
+        if (empty($this->apiKey)) {
             throw new DeepLException('DeepL api key is required.');
         }
 
         $deeplClient = new DeepLClient($this->apiKey);
 
-        if (!in_array($translatorDto->targetLang, array_map(fn (Language $language) => $language->code, $deeplClient->getTargetLanguages()))) {
-            throw new DeepLException('Invalid target language.');
-        }
+        $this->cacheAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'translate');
 
-        $result = $deeplClient->translateText($translatorDto->text, $translatorDto->sourceLang, $translatorDto->targetLang, $translatorDto->options);
+        $result = $deeplClient->translateText($translatorDto->text, $translatorDto->sourceLang, $this->transformTargetLang($translatorDto->targetLang), $translatorDto->options);
 
         return new TranslateAssistantOutput(
             originalText: $translatorDto->text,
@@ -42,18 +44,20 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
     }
 
     /**
-     * @throws DeepLException
+     * @throws DeepLException|InvalidArgumentException
      */
     #[\Override]
     public function rephrase(TranslateAssistantInput $translatorDto): TranslateAssistantOutput
     {
-        if (null === $this->apiKey) {
+        if (empty($this->apiKey)) {
             throw new DeepLException('DeepL api key is required.');
         }
 
         $deeplClient = new DeepLClient($this->apiKey);
 
-        $result = $deeplClient->rephraseText($translatorDto->text, $translatorDto->targetLang, $translatorDto->options);
+        $this->cacheAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'rephrase');
+
+        $result = $deeplClient->rephraseText($translatorDto->text, $this->transformTargetLang($translatorDto->targetLang), $translatorDto->options);
 
         return new TranslateAssistantOutput(
             originalText: $translatorDto->text,
@@ -61,5 +65,38 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
             sourceLang: $translatorDto->sourceLang,
             targetLang: $translatorDto->targetLang,
         );
+    }
+
+    private function transformTargetLang(string $targetLang): string
+    {
+        return match ($targetLang) {
+            'en' => 'en-GB',
+            'pt' => 'pt-PT',
+            default => $targetLang,
+        };
+    }
+
+    /**
+     * @throws DeepLException
+     * @throws InvalidArgumentException
+     */
+    private function cacheAvailableLanguages(string $targetLanguage, DeepLClient $deeplClient, string $method): void
+    {
+        $languageAvailableCacheItem = $this->cache->getItem('DeeplTranslateAssistant_targetLanguages_'.$method.'_'.$targetLanguage);
+
+        if (!$languageAvailableCacheItem->isHit()) {
+            $languageAvailableCacheItem->set(
+                in_array(
+                    mb_strtoupper($this->transformTargetLang($targetLanguage)),
+                    array_map(fn (Language $language) => $language->code, $deeplClient->getTargetLanguages())
+                )
+            );
+            $languageAvailableCacheItem->expiresAfter(3600);
+            $this->cache->save($languageAvailableCacheItem);
+        }
+
+        if (!$languageAvailableCacheItem->get()) {
+            throw new DeepLException('Invalid target language.');
+        }
     }
 }
