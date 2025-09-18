@@ -130,7 +130,7 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-Cf7Hptte.js",
+    "file": "shared-DXc3lkcj.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -138,9 +138,12 @@
       "_jquery-5sAwpjfl.js"
     ],
     "css": [
-      "shared-DU5E6YPu.css"
+      "shared-GadeKv0X.css"
     ],
     "assets": [
+      "fontawesome-webfont-B-jkhYfk.woff2",
+      "fontawesome-webfont-CDK5bt4p.woff",
+      "fontawesome-webfont-CQDK8MU3.ttf",
       "fontawesome-webfont-Bsy9_7N6.woff2",
       "fontawesome-webfont-7YG-f3YT.woff",
       "fa-brands-400-CfPCoubI.woff2",
@@ -154,5 +157,17 @@
     "name": "simple",
     "src": "app/simple.js",
     "isEntry": true
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
+    "file": "fontawesome-webfont-CQDK8MU3.ttf",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff": {
+    "file": "fontawesome-webfont-CDK5bt4p.woff",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff"
+  },
+  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2": {
+    "file": "fontawesome-webfont-B-jkhYfk.woff2",
+    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2"
   }
 }
