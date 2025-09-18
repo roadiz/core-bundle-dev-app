@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.12...v2.6.13) - 2025-09-18
+
+### Bug Fixes
+
+- **(SettingsSaveButtons)** Fix SettingsSaveButtons form selection - ([935e884](https://github.com/roadiz/core-bundle-dev-app/commit/935e884bb710a0337787e27f13db6223e3ad5975))
+
 ## [2.6.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.11...v2.6.12) - 2025-09-15
 
 ### Features

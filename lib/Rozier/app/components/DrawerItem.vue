@@ -33,19 +33,19 @@
                 <div class="links" :class="editItemUrl ? '' : 'no-edit'">
                     <ajax-link :href="editItemUrl" class="uk-button link uk-button-mini" v-if="editItemUrl">
                         <i class="uk-icon-rz-pencil"></i> </ajax-link
-                    ><a
-                        href="#"
-                        class="uk-button uk-button-mini link uk-button-danger rz-no-ajax-link"
+                    ><button
+                        type="button"
+                        class="uk-button uk-button-mini link uk-button-danger"
                         @click.prevent="onRemoveItemButtonClick()"
                     >
                         <i class="uk-icon-rz-trash-o"></i>
-                    </a>
+                    </button>
                 </div>
-                <a href="#" class="uk-button uk-button-mini link-button">
+                <button type="button" class="uk-button uk-button-mini link-button">
                     <div class="link-button-inner">
                         <i class="uk-icon-rz-plus"></i>
                     </div>
-                </a>
+                </button>
             </div>
         </li>
     </transition>

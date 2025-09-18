@@ -104,11 +104,15 @@
                         <div class="document-mime-type">{{ shortMimeType }}</div>
                     </template>
 
-                    <a data-document-widget-link-document href="#" class="uk-button uk-button-mini link-button">
+                    <button
+                        type="button"
+                        data-document-widget-link-document
+                        class="uk-button uk-button-mini link-button"
+                    >
                         <div class="link-button-inner">
                             <i class="uk-icon-rz-plus"></i>
                         </div>
-                    </a>
+                    </button>
                 </div>
                 <div class="document-name">{{ filename }}</div>
             </div>

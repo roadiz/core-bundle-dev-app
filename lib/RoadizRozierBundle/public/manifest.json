@@ -72,7 +72,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-Cs1o7Qd4.js",
+    "file": "NodeSourceEditPage--B4Gh9xJ.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -95,7 +95,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-Cu6cXEY0.js",
+    "file": "TagEditPage-DoYLnP7N.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -106,7 +106,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-BbLlNws5.js",
+    "file": "main-CW5IeQG5.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -130,7 +130,7 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-DXc3lkcj.js",
+    "file": "shared-BM4aATnQ.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -138,7 +138,7 @@
       "_jquery-5sAwpjfl.js"
     ],
     "css": [
-      "shared-GadeKv0X.css"
+      "shared-CVA4BtHJ.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
