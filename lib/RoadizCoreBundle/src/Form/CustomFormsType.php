@@ -125,9 +125,7 @@ final class CustomFormsType extends AbstractType
         if ($field->isRequired()) {
             $option['required'] = true;
             $option['constraints'] = [
-                new NotBlank([
-                    'message' => 'you.need.to.fill.this.required.field',
-                ]),
+                new NotBlank(),
             ];
         } else {
             $option['required'] = false;

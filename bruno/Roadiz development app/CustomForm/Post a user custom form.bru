@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/api/custom_forms/:id/post
+  url: {{baseUrl}}/api/custom_forms/:id/post?_locale=fr
   body: multipartForm
   auth: none
+}
+
+params:query {
+  _locale: fr
 }
 
 params:path {
@@ -15,7 +19,8 @@ params:path {
 }
 
 body:multipart-form {
-  email: ambroise@roadiz.io
-  untitled_field23423kase_flkasdfa_sdfasdf: Test
-  choice_field: choice1
+  email: ambroiseroadiz.io
+  nom_complet: Test
+  questions[question1]: choice1
+  ~questions[question2]: choice 2
 }

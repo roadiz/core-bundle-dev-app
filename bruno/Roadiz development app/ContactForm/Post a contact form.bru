@@ -14,12 +14,16 @@ params:query {
   _locale: fr
 }
 
+headers {
+  Accept: application/ld+json
+}
+
 body:multipart-form {
   form[email]: ambroise+test@roadiz.io
   form[first_name]: Ambroise
   form[last_name]: M
   form[message]: This a test contact form.
   consent: 1
-  form[file]: @file(/home/ambroise/Pictures/Dall-E/DALL·E 2022-12-07 23.51.05 - Mickey mouse reading the bible, digital art.png)
-  ~g-recaptcha-response: 
+  h-captcha-response: sdfsdf
+  ~form[file]: @file()
 }
