@@ -35,6 +35,8 @@ jobs:
                       ${{ runner.os }}-php-${{ matrix.php-version }}-
             - name: Install Dependencies
               run: composer install --no-scripts --no-ansi --no-interaction --no-progress
+            - name: Audit Dependencies
+              run: composer audit --abandoned=report --format=plain
             - name: Validate monorepo
               run: |
                   vendor/bin/monorepo-builder validate

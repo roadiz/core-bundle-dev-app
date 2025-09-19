@@ -101,6 +101,7 @@ services:
             APP_DEBUG: 1
             PHP_CS_FIXER_IGNORE_ENV: 1
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+            DATABASE_URL: ${DATABASE_URL} # Required for make test command to change DB connection in tests
             UID: ${UID}
             DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
 

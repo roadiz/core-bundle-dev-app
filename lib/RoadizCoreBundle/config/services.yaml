@@ -53,6 +53,8 @@ services:
             $customPreviewScheme: '%roadiz_core.custom_preview_scheme%'
             $leafletMapTileUrl: '%roadiz_core.leaflet_map_tile_url%'
             $mapsDefaultLocation: '%roadiz_core.maps_default_location%'
+            $useConstraintViolationList: '%roadiz_core.use_constraint_violation_list%'
+            $customFormPostOperationName: '%roadiz_core.custom_form_post_operation_name%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'

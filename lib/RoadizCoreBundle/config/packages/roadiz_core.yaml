@@ -5,13 +5,26 @@ roadiz_core:
     staticDomainName: ~
     useNativeJsonColumnType: true
     hideRoadizVersion: false
+    # Force displaying translation locale in every generated node-source paths.
+    # This should be enabled if you redirect users based on their language on homepage.
     forceLocale: false
+
+    # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
     forceLocaleWithUrlAliases: false
+
     # When no information to find locale is found and "forceLocale" parameter is enabled,
     # Roadiz can find root path translation based on Accept-Language header.
     # Be careful if you are using a reverse-proxy cache, YOU MUST vary on Accept-Language header and normalize it.
     # @see https://varnish-cache.org/docs/6.3/users-guide/increasing-your-hitrate.html#http-vary
     useAcceptLanguageHeader: '%env(bool:APP_USE_ACCEPT_LANGUAGE_HEADER)%'
+
+    # Use 422 constraint violation list response for contact-forms and custom-forms errors.
+    # Make sure your exposed "api_custom_forms_item_post" API operation for custom-forms and "api_contact_form_post" API operation for contact-forms.
+    useConstraintViolationList: true
+
+    # Exposed API operation name for custom-forms POST
+    customFormPostOperationName: api_custom_forms_item_post
+
     medias:
         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
         soundcloud_client_id: '%env(string:APP_SOUNDCLOUD_CLIENT_ID)%'

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Mailer;
 
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializerInterface;
@@ -22,6 +24,9 @@ final readonly class ContactFormManagerFactory
         private FormErrorSerializerInterface $formErrorSerializer,
         private NotifierInterface $notifier,
         private CaptchaServiceInterface $captchaService,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+        private LoggerInterface $logger,
+        private bool $useConstraintViolationList,
     ) {
     }
 
@@ -35,6 +40,9 @@ final readonly class ContactFormManagerFactory
             $this->formFactory,
             $this->formErrorSerializer,
             $this->captchaService,
+            $this->resourceMetadataCollectionFactory,
+            $this->logger,
+            $this->useConstraintViolationList,
         );
     }
 }

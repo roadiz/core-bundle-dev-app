@@ -84,6 +84,19 @@ class Configuration implements ConfigurationInterface
             ->booleanNode('useGravatar')
                 ->defaultTrue()
             ->end()
+            ->booleanNode('useConstraintViolationList')
+                ->defaultTrue()
+                ->info(<<<EOT
+Use 422 constraint violation list response for contact-forms and custom-forms errors.
+Make sure you have exposed "api_custom_forms_item_post" API operation for custom-forms and "api_contact_form_post" API operation for contact-forms.
+EOT)
+            ->end()
+            ->scalarNode('customFormPostOperationName')
+                ->defaultValue('api_custom_forms_item_post')
+                ->info(<<<EOT
+Exposed API operation name for custom-forms POST
+EOT)
+            ->end()
             ->booleanNode('useEmailReplyTo')
                 ->defaultTrue()
                 ->info('Use custom-form answers email as reply-to email address when possible.')

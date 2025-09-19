@@ -116,10 +116,6 @@
                 <source>reset_your_password</source>
                 <target state="final">Сбросить пароль</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
-                <source>you.need.to.fill.this.required.field</source>
-                <target state="final">Это поле необходимо заполнить</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
                 <target state="final">* Обязательное поле</target>
