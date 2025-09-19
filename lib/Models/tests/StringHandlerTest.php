@@ -40,6 +40,50 @@ class StringHandlerTest extends TestCase
                 'image/with/slashes.jpg',
                 'image_with_slashes.jpg',
             ],
+            [
+                'image.jpg.webp',
+                'image_jpg.webp',
+            ],
+            [
+                'image.png.avif',
+                'image_png.avif',
+            ],
+            [
+                'image.png.heif',
+                'image_png.heif',
+            ],
+            [
+                'folder/folder.image.jpg.webp',
+                'folder_folder_image_jpg.webp',
+            ],
+            [
+                'folder/archive.tar.gz',
+                'folder_archive.tar.gz',
+            ],
+            [
+                'folder/archive.tar.xz',
+                'folder_archive.tar.xz',
+            ],
+            [
+                'folder/archive.tar.zip',
+                'folder_archive.tar.zip',
+            ],
+            [
+                'folder/archive.tar.bz',
+                'folder_archive.tar.bz',
+            ],
+            [
+                'folder/archive.tar.bz2',
+                'folder_archive.tar.bz2',
+            ],
+            [
+                'folder/archive.tar.tgz',
+                'folder_archive.tar.tgz',
+            ],
+            [
+                'folder/archive.tar.7z',
+                'folder_archive.tar.7z',
+            ],
         ];
     }
 
