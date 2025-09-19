@@ -13,7 +13,7 @@
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
                 <legend class="uk-alert uk-alert-info"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.activate.two_factor{% endtrans %}</legend>
-                {% apply spaceless %}
+                <div class="uk-button-group">
                     <a href="{{ path('usersHomePage') }}"
                        class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
                     <button class="uk-button uk-button-primary" type="submit">
@@ -22,7 +22,7 @@
                                 {%- trans -%}begin_activation{%- endtrans -%}
                         </span></span>
                     </button>
-                {% endapply %}
+                </div>
             </fieldset>
             {{ form_end(form) }}
         {% elseif displayQrCodeTotp %}
@@ -37,14 +37,12 @@
                     {{ form_start(totpForm) }}
                     {{ form_widget(totpForm) }}
                     <fieldset data-uk-margin>
-                        {% apply spaceless %}
-                            <button class="uk-button uk-button-primary" type="submit">
-                                <span class="icon-container"><i class="uk-icon-lock"></i></span>
-                                <span class="label"><span class="label-text">
-                                {%- trans -%}submit_totp_code{%- endtrans -%}
-                        </span></span>
-                            </button>
-                        {% endapply %}
+                        <button class="uk-button uk-button-primary" type="submit">
+                            <span class="icon-container"><i class="uk-icon-lock"></i></span>
+                            <span class="label">
+                                <span class="label-text">{%- trans -%}submit_totp_code{%- endtrans -%}</span>
+                            </span>
+                        </button>
                     </fieldset>
                     {{ form_end(totpForm) }}
                 </div>
