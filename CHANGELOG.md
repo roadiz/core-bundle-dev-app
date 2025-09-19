@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.13...v2.6.14) - 2025-09-19
+
+### Bug Fixes
+
+- **(DownloadedFile, StringHandler)** Remove double extensions from image filenames for compatibility - ([842b9c2](https://github.com/roadiz/core-bundle-dev-app/commit/842b9c2598aba2dc4a17808bf1f7f95b25c80e03))
+
+### Testing
+
+- Add tests for filename sanitization with various double extensions - ([992d083](https://github.com/roadiz/core-bundle-dev-app/commit/992d0830e3ea4aad2cdf5deed30cd2979e058978))
+
 ## [2.6.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.12...v2.6.13) - 2025-09-18
 
 ### Bug Fixes
