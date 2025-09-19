@@ -21,6 +21,6 @@ final readonly class NullTranslateAssistant implements TranslateAssistantInterfa
     #[\Override]
     public function supportRephrase(): bool
     {
-        throw new \LogicException('NullTranslateAssistant cannot be used to check if it supports rephrase.');
+        return false;
     }
 }
