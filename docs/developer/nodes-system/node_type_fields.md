@@ -66,7 +66,11 @@ allow_return: false
 allow_link: false
 allow_hr: false
 allow_preview: false
+allow_translate_assistant_translate: false
+allow_translate_assistant_rephrase: false
 ```
+
+`allow_translate_assistant_translate` and `allow_translate_assistant_rephrase` add control to the Translate Assistant. [Translate Assistant](../first-steps/manual_config.md#translate-assistant)
 
 ## Virtual data
 

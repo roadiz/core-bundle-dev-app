@@ -127,7 +127,7 @@
                 margin-left: 0;
             }
 
-            & > a {
+            & > button {
                 position: relative;
                 display: block;
                 text-decoration: none;
@@ -148,6 +148,7 @@
                 &.markdown-editor-button-back,
                 &.markdown-editor-button-blockquote,
                 &.markdown-editor-button-preview,
+                &.markdown-editor-button-translate-assistant-translate,
                 &.markdown-editor-button-link-fullscreen{
                     border-left: 1px solid @grey-form-border;
                 }
@@ -180,12 +181,12 @@
             }
 
             &:first-child {
-                a {
+                button {
                     border-left: 1px solid @grey-form-border;
                 }
             }
 
-            &.uk-active a {
+            &.uk-active button {
                 background-color: @grey-form-submit;
             }
         }
@@ -247,7 +248,7 @@
         }
 
         .markdown-editor-navbar {
-            li > a {
+            li > button {
                 opacity: 0.5;
                 cursor: not-allowed;
             }
@@ -259,7 +260,8 @@
 .markdown-editor-button-cont-bold,
 .markdown-editor-button-cont-back,
 .markdown-editor-button-cont-preview,
-.markdown-editor-button-cont-blockquote
+.markdown-editor-button-cont-blockquote,
+.markdown-editor-button-cont-translate-assistant-translate
 {
     margin-left:10px;
 }

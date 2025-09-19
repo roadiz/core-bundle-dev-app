@@ -11,6 +11,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\Vite\JsonManifestResolver;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -22,6 +24,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly RozierServiceRegistry $rozierServiceRegistry,
         private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly JsonManifestResolver $manifestResolver,
+        private readonly TranslateAssistantInterface $translateAssistant,
     ) {
     }
 
@@ -41,6 +44,8 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
                 'controls' => false,
                 'loading' => 'lazy',
             ],
+            'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
+            'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
         ];
     }
 
