@@ -88,7 +88,7 @@ class Configuration implements ConfigurationInterface
                 ->defaultTrue()
                 ->info(<<<EOT
 Use 422 constraint violation list response for contact-forms and custom-forms errors.
-Make sure your exposed "api_custom_forms_item_post" API operation for custom-forms and "api_contact_form_post" API operation for contact-forms.
+Make sure you have exposed "api_custom_forms_item_post" API operation for custom-forms and "api_contact_form_post" API operation for contact-forms.
 EOT)
             ->end()
             ->scalarNode('customFormPostOperationName')
