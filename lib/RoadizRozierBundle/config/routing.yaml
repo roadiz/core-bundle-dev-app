@@ -206,6 +206,10 @@ webhooksRoutes:
     resource: "routing/webhooks.yml"
     prefix: /rz-admin/webhooks
 
+# Translate assistant
+translateAssistantRoutes:
+    resource: "routing/translate-assistant.yml"
+    prefix: /rz-admin/translate-assistant
 
 #
 # CSS to style with main color

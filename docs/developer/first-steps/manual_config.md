@@ -376,3 +376,21 @@ bin/console doctrine:migrations:migrate
 Always backup your database before running Doctrine operations.
 :::
 
+## Translate Assistant
+
+Roadiz can integrate with external translation services to automatically translate your markdown fields.
+
+To enable it, add the following configuration to `config/packages/roadiz_rozier.yaml`:
+
+```yaml
+roadiz_rozier:
+    translate_assistant:
+        # Here we use the good service in function of the key of your parameter
+        deepl_api_key: '%env(string:DEEPL_API_KEY)%' # For DeepL Translate (https://developers.deepl.com/api-reference/translate)
+```
+
+::: info
+- Replace DEEPL_API_KEY with your own API key stored in your environment variables.
+- Currently, DeepL is supported, but other services may be added in the future.
+- Once configured, Roadiz will automatically use the translation service when you request translations for your markdown fields.
+:::

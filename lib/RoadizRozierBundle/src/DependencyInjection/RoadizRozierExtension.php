@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\DependencyInjection;
 
+use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\OpenId\Discovery;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\DeeplTranslateAssistant;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,6 +51,7 @@ class RoadizRozierExtension extends Extension
         $loader->load('services.yaml');
 
         $this->registerOpenId($config, $container);
+        $this->registerTranslateAssistant($config, $container);
     }
 
     private function registerOpenId(array $config, ContainerBuilder $container): void
@@ -74,7 +79,7 @@ class RoadizRozierExtension extends Extension
                     ->setPublic(true)
                     ->setArguments([
                         $config['open_id']['discovery_url'],
-                        new Reference(\Psr\Cache\CacheItemPoolInterface::class),
+                        new Reference(CacheItemPoolInterface::class),
                         new Reference(HttpClientInterface::class),
                         new Reference(\Psr\Log\LoggerInterface::class),
                     ])
@@ -120,6 +125,30 @@ class RoadizRozierExtension extends Extension
                     '_target_path',
                     $config['open_id']['granted_roles'],
                 ])
+        );
+    }
+
+    private function registerTranslateAssistant(array $config, ContainerBuilder $container): void
+    {
+        if (!empty($config['translate_assistant']['deepl_api_key'])) {
+            $container->setParameter('roadiz_rozier.translate_assistant.deepl_api_key', $config['translate_assistant']['deepl_api_key']);
+            $container->setDefinition(
+                TranslateAssistantInterface::class,
+                (new Definition())
+                    ->setClass(DeeplTranslateAssistant::class)
+                    ->setArguments([
+                        new Reference(CacheItemPoolInterface::class),
+                        '%roadiz_rozier.translate_assistant.deepl_api_key%',
+                    ])
+            );
+
+            return;
+        }
+
+        $container->setDefinition(
+            TranslateAssistantInterface::class,
+            (new Definition())
+                ->setClass(NullTranslateAssistant::class)
         );
     }
 }

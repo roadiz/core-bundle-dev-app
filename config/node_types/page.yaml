@@ -22,14 +22,16 @@ fields:
         label: Content
         description: Content
         defaultValues:
-            allow_h1: false
-            allow_h2: false
-            allow_h3: false
-            allow_h4: false
-            allow_h5: false
-            allow_h6: false
-            allow_list: false
-            allow_blockquote: false
+            allow_h1: true
+            allow_h2: true
+            allow_h3: true
+            allow_h4: true
+            allow_h5: true
+            allow_h6: true
+            allow_list: true
+            allow_blockquote: true
+            allow_translate_assistant_translate: true
+            allow_translate_assistant_rephrase: true
         type: markdown
     -
         name: color

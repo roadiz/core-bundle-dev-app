@@ -4,7 +4,10 @@ parameters:
     env(OPEN_ID_HOSTED_DOMAIN): ''
     env(OPEN_ID_CLIENT_ID): ''
     env(OPEN_ID_CLIENT_SECRET): ''
+    env(DEEPL_API_KEY): ''
 roadiz_rozier:
+    translate_assistant:
+        deepl_api_key: '%env(string:DEEPL_API_KEY)%'
     csv_encoder_options:
         csv_delimiter: ';'
     open_id:
