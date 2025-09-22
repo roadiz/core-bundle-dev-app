@@ -35,9 +35,13 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
 
         $result = $deeplClient->translateText($translatorDto->text, $translatorDto->sourceLang, $this->transformTargetLang($translatorDto->targetLang), $translatorDto->options);
 
+        if (is_array($result)) {
+            $result = $result[0];
+        }
+
         return new TranslateAssistantOutput(
             originalText: $translatorDto->text,
-            translatedText: is_array($result) ? $result[0]->text : $result->text,
+            translatedText: $result->text,
             sourceLang: $result->detectedSourceLang,
             targetLang: $translatorDto->targetLang,
         );
@@ -58,7 +62,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
 
         $deeplClient = new DeepLClient($this->apiKey);
 
-        $this->denyNotAvailableLanguages($this->transformTargetLang($translatorDto->targetLang), $deeplClient, 'rephrase');
+        $this->denyNotAvailableLanguages($translatorDto->targetLang, $deeplClient, 'rephrase');
 
         $result = $deeplClient->rephraseText($translatorDto->text, $this->transformTargetLang($translatorDto->targetLang), $translatorDto->options);
 
