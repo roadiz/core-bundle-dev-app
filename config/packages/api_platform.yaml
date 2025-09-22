@@ -34,6 +34,7 @@ api_platform:
         stateless: true
         extra_properties:
             standard_put: true
+            rfc_7807_compliant_errors: true
         enable_max_depth: true
         normalization_context:
             skip_null_values: true
