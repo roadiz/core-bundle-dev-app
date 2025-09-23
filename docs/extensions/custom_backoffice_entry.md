@@ -341,3 +341,60 @@ admin_article_bulk_unpublish:
 :::
 
 And create Twig templates for bulk actions in `templates/admin/article/`. You can copy and adapt them from https://github.com/roadiz/core-bundle-dev-app/tree/develop/templates/admin/article.
+
+## Override breadcrumbs generation for your shadow container (optional)
+
+If you want to allow users to go back to your custom listing page from the edit node-source page, 
+you can create a new `BreadcrumbsItemFactoryInterface` implementation.
+
+Your service must be tagged with `roadiz_rozier.breadcrumbs_item_factory` and a higher priority than the default `NodesSourcesBreadcrumbsItemFactory` (priority 0).
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Breadcrumbs;
+
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+/**
+ * Example of overriding node breadcrumbs item for a shadow container.
+ *
+ * @implements BreadcrumbsItemFactoryInterface<NodesSources>
+ */
+#[AutoconfigureTag('roadiz_rozier.breadcrumbs_item_factory', ['priority' => 10])]
+final readonly class ArticlesContainerBreadcrumbsItemFactory implements BreadcrumbsItemFactoryInterface
+{
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+    ) {
+    }
+
+    #[\Override]
+    public function createBreadcrumbsItem(?object $item): ?BreadcrumbsItem
+    {
+        if (null === $item) {
+            return null;
+        }
+
+        return new BreadcrumbsItem(
+            $item->getTitle() ?? $item->getNode()->getNodeName(),
+            $this->urlGenerator->generate(
+                'appArticlesListPage'
+            ),
+            $item->getNode()->isHome(),
+        );
+    }
+
+    #[\Override]
+    public function support(?object $item): bool
+    {
+        return $item instanceof NodesSources && 'articles' === $item->getNode()->getNodeName();
+    }
+}
+```

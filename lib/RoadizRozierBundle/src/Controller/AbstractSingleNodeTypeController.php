@@ -167,10 +167,18 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         throw new \LogicException('Use default node CRUD routes');
     }
 
+    protected function getShadowContainer(): Node
+    {
+        return $this->nodeRepository->findOneByNodeName($this->getShadowRootNodeName()) ?? throw new \RuntimeException(sprintf('No shadow root node "%s" found.', $this->getShadowRootNodeName()));
+    }
+
     #[\Override]
     protected function getDefaultCriteria(Request $request): array
     {
-        $criteria = [];
+        $criteria = [
+            'node.parent' => $this->getShadowContainer(),
+            'translation' => $this->translationRepository->findDefault() ?? throw new \RuntimeException('No default translation found.'),
+        ];
         if (null !== $this->tag) {
             $criteria['tags'] = [$this->tag];
         }
