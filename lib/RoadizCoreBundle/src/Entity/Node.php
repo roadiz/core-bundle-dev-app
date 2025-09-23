@@ -85,17 +85,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     use LeafTrait;
     use AttributableTrait;
 
-    /** @deprecated Use NodeStatus enum */
-    public const int DRAFT = 10;
-    /** @deprecated Use NodeStatus enum */
-    public const int PENDING = 20;
-    /** @deprecated Use NodeStatus enum */
-    public const int PUBLISHED = 30;
-    /** @deprecated Use NodeStatus enum */
-    public const int ARCHIVED = 40;
-    /** @deprecated Use NodeStatus enum */
-    public const int DELETED = 50;
-
     #[SymfonySerializer\Ignore]
     public static array $orderingFields = [
         'position' => 'position',
