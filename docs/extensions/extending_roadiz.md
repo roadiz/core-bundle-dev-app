@@ -1,7 +1,3 @@
----
-title: Extending Roadiz
----
-
 # Extending Roadiz examples
 
 ## Override node-source paths

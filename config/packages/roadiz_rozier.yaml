@@ -40,6 +40,11 @@ roadiz_rozier:
             route: adminHomePage
             icon: uk-icon-rz-dashboard
 
+        articles:
+            name: articles
+            route: appArticlesListPage
+            icon: uk-icon-paper-plane
+
         nodes:
             name: nodes
             route: ~
