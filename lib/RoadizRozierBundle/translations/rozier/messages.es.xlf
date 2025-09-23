@@ -1234,10 +1234,6 @@
         <source>lock-status</source>
         <target state="final">Bloqueado</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">Sin sub-nodos</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
         <target state="final">Archivador</target>

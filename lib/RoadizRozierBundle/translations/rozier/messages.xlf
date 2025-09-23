@@ -117,6 +117,7 @@
             <trans-unit xml:space="preserve" id="113"><source>nodeType</source></trans-unit>
             <trans-unit xml:space="preserve" id="114"><source>priority</source></trans-unit>
             <trans-unit xml:space="preserve" id="115"><source>node.isHome</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.shadow"><source>node.shadow</source></trans-unit>
             <trans-unit xml:space="preserve" id="116"><source>choose.tag</source></trans-unit>
             <trans-unit xml:space="preserve" id="117"><source>nodeType.%name%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="118"><source>nodeType.%name%.created</source></trans-unit>
@@ -320,7 +321,6 @@
             <trans-unit xml:space="preserve" id="318"><source>published</source></trans-unit>
             <trans-unit xml:space="preserve" id="319"><source>hiding-children</source></trans-unit>
             <trans-unit xml:space="preserve" id="320"><source>lock-status</source></trans-unit>
-            <trans-unit xml:space="preserve" id="321"><source>sterile-status</source></trans-unit>
             <trans-unit xml:space="preserve" id="322"><source>archive-status</source></trans-unit>
             <trans-unit xml:space="preserve" id="323"><source>edit.document.%name%</source></trans-unit>
             <trans-unit xml:space="preserve" id="324"><source>delete.nodeTypeField.%name%</source></trans-unit>
@@ -544,12 +544,10 @@
             <trans-unit xml:space="preserve" id="node.visible"><source>node.visible</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.hideChildren"><source>node.hideChildren</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.locked"><source>node.locked</source></trans-unit>
-            <trans-unit xml:space="preserve" id="node.sterile"><source>node.sterile</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.isHome.help"><source>node.isHome.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.visible.help"><source>node.visible.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.hideChildren.help"><source>node.hideChildren.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.locked.help"><source>node.locked.help</source></trans-unit>
-            <trans-unit xml:space="preserve" id="node.sterile.help"><source>node.sterile.help</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="draft"><source>draft</source></trans-unit>
             <trans-unit xml:space="preserve" id="pending"><source>pending</source></trans-unit>

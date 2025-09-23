@@ -66,9 +66,9 @@ class NodeType extends AbstractType
                 'help' => 'node.locked.help',
                 'required' => false,
             ]);
-            $builder->add('sterile', CheckboxType::class, [
-                'label' => 'node.sterile',
-                'help' => 'node.sterile.help',
+            $builder->add('shadow', CheckboxType::class, [
+                'label' => 'node.shadow',
+                'help' => 'node.shadow.help',
                 'required' => false,
             ]);
         }
