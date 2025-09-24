@@ -64,6 +64,16 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                     ->end()
                 ->end() // entries
+                ->arrayNode('bookmarks')
+                    ->defaultValue([])
+                    ->info('Rozier backoffice bookmark items.')
+                    ->prototype('array')
+                    ->children()
+                        ->scalarNode('label')->isRequired()->end()
+                        ->scalarNode('url')->isRequired()->end()
+                    ->end()
+                    ->end()
+                ->end() // bookmarks
             ->end()
             ->append($this->addOpenIdNode())
             ->append($this->addCsvNode())

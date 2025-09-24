@@ -31,6 +31,7 @@ class RoadizRozierExtension extends Extension
             throw new \RuntimeException('kernel.project_dir parameter is not a string.');
         }
         $container->setParameter('roadiz_rozier.backoffice_menu_configuration', $config['entries']);
+        $container->setParameter('roadiz_rozier.bookmarks_configuration', $config['bookmarks']);
         $container->setParameter('roadiz_rozier.node_form.class', $config['node_form']);
         $container->setParameter('roadiz_rozier.add_node_form.class', $config['add_node_form']);
         $container->setParameter(

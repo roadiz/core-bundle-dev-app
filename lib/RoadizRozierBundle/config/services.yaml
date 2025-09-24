@@ -6,6 +6,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $backofficeMenuEntries: '%roadiz_rozier.backoffice_menu_configuration%'
+            $bookmarksConfiguration: '%roadiz_rozier.bookmarks_configuration%'
             $documentPlatforms: '%roadiz_core.medias.supported_platforms%'
             $customPublicScheme: '%roadiz_core.custom_public_scheme%'
             $customPreviewScheme: '%roadiz_core.custom_preview_scheme%'
@@ -43,6 +44,11 @@ services:
     RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory: ~
     RZ\Roadiz\RozierBundle\RozierServiceRegistry:
         public: true
+
+    RZ\Roadiz\RozierBundle\Model\BookmarkCollection:
+        factory: [RZ\Roadiz\RozierBundle\Model\BookmarkCollection, 'fromConfiguration']
+        arguments:
+            - '%roadiz_rozier.bookmarks_configuration%'
 
     roadiz_rozier.twig_loader:
         class: Twig\Loader\FilesystemLoader
