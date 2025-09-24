@@ -140,6 +140,12 @@ final class NodeController extends AbstractController
                     'status' => NodeStatus::DELETED,
                 ];
                 break;
+            case 'shadow':
+                $assignation['mainFilter'] = $filter;
+                $arrayFilter = [
+                    'shadow' => true,
+                ];
+                break;
             default:
                 $assignation['mainFilter'] = 'all';
                 $arrayFilter = [];

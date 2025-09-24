@@ -537,6 +537,7 @@
             <trans-unit xml:space="preserve" id="pending.nodes"><source>pending.nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="archived.nodes"><source>archived.nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="deleted.nodes"><source>deleted.nodes</source></trans-unit>
+            <trans-unit xml:space="preserve" id="shadow.nodes"><source>shadow.nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.draft"><source>node.draft</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.pending.validation"><source>node.pending.validation</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.archived"><source>node.archived</source></trans-unit>

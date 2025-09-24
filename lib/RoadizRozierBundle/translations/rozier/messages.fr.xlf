@@ -2042,6 +2042,10 @@
         <source>deleted.nodes</source>
         <target state="final">Supprimés</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="shadow.nodes" approved="yes">
+        <source>shadow.nodes</source>
+        <target state="final">Racines cachées</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="node.draft" approved="yes">
         <source>node.draft</source>
         <target state="final">Brouillon</target>

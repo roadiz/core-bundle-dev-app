@@ -44,6 +44,7 @@ roadiz_rozier:
             name: articles
             route: appArticlesListPage
             icon: uk-icon-paper-plane
+            roles: ~
 
         nodes:
             name: nodes
@@ -75,6 +76,11 @@ roadiz_rozier:
                     name: 'deleted.nodes'
                     route: nodesHomeDeletedPage
                     icon: uk-icon-rz-deleted-nodes
+                    roles: ~
+                shadow_nodes:
+                    name: 'shadow.nodes'
+                    route: nodesHomeShadowPage
+                    icon: uk-icon-flag-o
                     roles: ~
                 search_nodes:
                     name: 'search.nodes'
