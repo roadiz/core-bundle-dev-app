@@ -4,8 +4,11 @@ import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  { files: [
-    "**/*.{js,mjs,cjs,ts,mts,cts}"], 
+  {
+    ignores: ["**/vendor/**", "**/*.min.js"],
+  },
+  { 
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], 
     plugins: { js }, 
     extends: ["js/recommended"], 
     languageOptions: { 
@@ -13,7 +16,8 @@ export default defineConfig([
         ...globals.browser, 
         ...globals.node,
         $: true, // TODO: remove when jQuery is removed from the project
-        jQuery: true // TODO: remove when jQuery is removed from the project
+        jQuery: true, // TODO: remove when jQuery is removed from the project
+        UIkit: true // UIkit global
       },
     } 
   },
