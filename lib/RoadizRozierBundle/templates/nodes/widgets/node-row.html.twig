@@ -30,6 +30,16 @@
                 <i class="uk-icon-lock"></i>
             </div><!-- uk-badge-notification -->
         {% endif %}
+        {% if node.isHidingChildren %}
+            <div class="uk-button-status uk-button-hiding-children" title="{% trans %}hiding-children{% endtrans %}" data-uk-tooltip="{animation:true}">
+                <i class="uk-icon-sitemap"></i>
+            </div><!-- uk-badge-notification -->
+        {% endif %}
+        {% if node.isShadow %}
+            <div class="uk-button-status uk-button-shadow" title="{% trans %}node.shadow{% endtrans %}" data-uk-tooltip="{animation:true}">
+                <i class="uk-icon-flag-o"></i>
+            </div><!-- uk-badge-notification -->
+        {% endif %}
         {% if node.isArchived %}
             <div class="uk-button-status uk-button-archived" title="{% trans %}node.archived{% endtrans %}" data-uk-tooltip="{animation:true}">
                 <i class="uk-icon-rz-archive-mini"></i>

@@ -11,6 +11,9 @@
       <trans-unit xml:space="preserve" id="node.nodeName.help" approved="yes">
                 <source>node.nodeName.help</source>
             <target state="final">Le nom du nœud doit être unique et permet de générer les URL de vos pages et de repérer le nœud depuis vos thèmes. Il ne doit contenir aucun caractère spécial.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="node.shadow.help" approved="yes">
+                <source>node.shadow.help</source>
+            <target state="final">Un nœud marqué comme racine cachée disparaît de l'arborescence de votre site, et permet de personnaliser la gestion de ses nœuds enfants.</target></trans-unit>
       <trans-unit xml:space="preserve" id="tag.tagName.help" approved="yes">
                 <source>tag.tagName.help</source>
             <target state="final">Le nom de l’étiquette doit être unique et permet de générer les URL de vos pages et de repérer l’étiquette depuis vos thèmes. Il ne doit contenir aucun caractère spécial.</target></trans-unit>

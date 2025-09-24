@@ -1230,10 +1230,6 @@
         <source>lock-status</source>
         <target state="final">Заблокувати статус</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">Заборонити дочірній</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
         <target state="final">Архівувати статус</target>
