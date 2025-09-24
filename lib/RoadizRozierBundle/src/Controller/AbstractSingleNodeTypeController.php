@@ -189,8 +189,17 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
     #[\Override]
     protected function getDefaultOrder(Request $request): array
     {
+        $shadowContainer = $this->getShadowContainer();
+        $childOrderField = match ($shadowContainer->getChildrenOrder()) {
+            'position' => 'node.position',
+            'nodeName' => 'node.nodeName',
+            'updatedAt' => 'node.updatedAt',
+            'ns.publishedAt' => 'publishedAt',
+            default => 'node.createdAt',
+        };
+
         return [
-            'node.createdAt' => 'DESC',
+            $childOrderField => $shadowContainer->getChildrenOrderDirection(),
         ];
     }
 
