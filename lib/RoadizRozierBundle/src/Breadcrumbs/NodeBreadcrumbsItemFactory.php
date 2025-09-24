@@ -38,7 +38,7 @@ final readonly class NodeBreadcrumbsItemFactory implements BreadcrumbsItemFactor
                     ]
                 ) :
                 $this->urlGenerator->generate(
-                    'nodeEditPage',
+                    'nodesEditPage',
                     [
                         'nodeId' => $item->getId(),
                     ]
