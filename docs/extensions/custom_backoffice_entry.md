@@ -190,6 +190,24 @@ final class ArticleController extends AbstractSingleNodeTypeController
     }
 
     #[\Override]
+    protected function getBulkPublishRouteName(): ?string
+    {
+        return 'appArticlesBulkPublishPage';
+    }
+
+    #[\Override]
+    protected function getBulkUnpublishRouteName(): ?string
+    {
+        return 'appArticlesBulkUnpublishPage';
+    }
+
+    #[\Override]
+    protected function getBulkDeleteRouteName(): ?string
+    {
+        return 'appArticlesBulkDeletePage';
+    }
+
+    #[\Override]
     protected function getShadowRootNodeName(): string
     {
         return 'articles'; // Must match you existing shadow container node name

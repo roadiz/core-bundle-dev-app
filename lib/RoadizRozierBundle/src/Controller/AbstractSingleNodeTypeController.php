@@ -360,24 +360,6 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         throw new \LogicException('Use default node CRUD routes');
     }
 
-    #[\Override]
-    protected function getBulkPublishRouteName(): ?string
-    {
-        return 'appArticlesBulkPublishPage';
-    }
-
-    #[\Override]
-    protected function getBulkUnpublishRouteName(): ?string
-    {
-        return 'appArticlesBulkUnpublishPage';
-    }
-
-    #[\Override]
-    protected function getBulkDeleteRouteName(): ?string
-    {
-        return 'appArticlesBulkDeletePage';
-    }
-
     abstract protected function getShadowRootNodeName(): string;
 
     abstract protected function getNodeTypeName(): string;
