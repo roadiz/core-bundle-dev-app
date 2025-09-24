@@ -1,5 +1,4 @@
 :root {
-  /* color */
   --color-basic-blue: #6383ef;
   --color-basic-dark-green: #35976b;
   --color-basic-dark-orange: #e6591d;
@@ -21,6 +20,10 @@
   --color-black-60: #18191b99;
   --color-black-70: #18191bb2;
   --color-black-80: #18191bcc;
+  /*
+    Used in the theme variables --nodetype-<name>.
+    See with DA if these will be used.
+  */
   --color-brand-brand-blue: #2050f5;
   --color-brand-brand-blue2: #4498d9;
   --color-brand-brand-bluelight: #dbecfa;

@@ -1,11 +1,11 @@
 :root {
-	--radius-3xs: var(--number-2);
-	--radius-2xs: var(--number-4);
-	--radius-xs: var(--number-6);
-	--radius-sm: var(--number-8);
-	--radius-md: var(--number-12);
-	--radius-lg: var(--number-16);
-	--radius-xl: var(--number-24);
-	--radius-2xl: var(--number-32);
-	--radius-3xl: var(--number-48);
+	--radius-3xs: 2px;
+	--radius-2xs: 4px;
+	--radius-xs: 6px;
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
+	--radius-xl: 24px;
+	--radius-2xl: 32px;
+	--radius-3xl: 48px;
 }
