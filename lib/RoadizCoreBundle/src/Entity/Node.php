@@ -378,6 +378,12 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     {
         $this->shadow = $shadow;
 
+        if (true === $shadow) {
+            // A shadow node requires a static name and must be locked
+            $this->setDynamicNodeName(false);
+            $this->setLocked(true);
+        }
+
         return $this;
     }
 
