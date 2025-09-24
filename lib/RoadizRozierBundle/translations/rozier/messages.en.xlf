@@ -1279,10 +1279,6 @@
         <source>lock-status</source>
         <target state="final">Lock status</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">Forbid children</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
         <target state="final">Archive status</target>
@@ -2070,10 +2066,6 @@
         <source>node.locked</source>
         <target state="final">Locked</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile" approved="yes">
-        <source>node.sterile</source>
-        <target state="final">Sterile (no children allowed)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="node.isHome.help" approved="yes">
         <source>node.isHome.help</source>
         <target state="final">Indicates if this node is the homepage of your website. This will change its path to `/`.</target>
@@ -2089,10 +2081,6 @@
       <trans-unit xml:space="preserve" id="node.locked.help" approved="yes">
         <source>node.locked.help</source>
         <target state="final">A locked node cannot be moved, renamed, or deleted.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile.help" approved="yes">
-        <source>node.sterile.help</source>
-        <target state="final">A sterile node cannot have any child nodes.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
