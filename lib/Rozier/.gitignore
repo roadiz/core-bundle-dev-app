@@ -114,3 +114,7 @@ testDir/
 /phpunit.xml
 
 /.pnpm-store
+
+# Storybook
+*storybook.log
+storybook-static
