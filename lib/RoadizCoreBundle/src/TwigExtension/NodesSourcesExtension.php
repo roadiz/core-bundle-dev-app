@@ -10,12 +10,15 @@ use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Model\DocumentDto;
+use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use Twig\Error\RuntimeError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Twig\TwigTest;
 
 /**
@@ -28,6 +31,7 @@ final class NodesSourcesExtension extends AbstractExtension
         private readonly NodesSourcesRepository $nodesSourcesRepository,
         private readonly NotPublishedNodesSourcesRepository $notPublishedNodesSourcesRepository,
         private readonly TagRepository $tagRepository,
+        private readonly DocumentRepository $documentRepository,
         private readonly bool $throwExceptions = false,
     ) {
     }
@@ -45,6 +49,22 @@ final class NodesSourcesExtension extends AbstractExtension
             new TwigFilter('parents', $this->getParents(...)),
             new TwigFilter('tags', $this->getTags(...)),
         ];
+    }
+
+    #[\Override]
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('first_displayable_image', $this->getFirstDisplayableImage(...)),
+        ];
+    }
+
+    public function getFirstDisplayableImage(?NodesSources $nodesSources): ?DocumentDto
+    {
+        return null !== $nodesSources ? $this->documentRepository
+            ->findOneDisplayableDtoByNodeSource(
+                $nodesSources,
+            ) : null;
     }
 
     #[\Override]

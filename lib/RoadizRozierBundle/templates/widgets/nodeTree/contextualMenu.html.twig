@@ -43,13 +43,7 @@
             {%- endif -%}
 
             {% if workflow_can(node, 'delete') %}
-                {% set refererUrl = null %}
-                {% if node.parentId %}
-                    {% set refererUrl = path('nodesEditSourcePage', {
-                        nodeId: node.parentId,
-                        translationId: translation.id
-                    }) %}
-                {% endif %}
+                {% set refererUrl = node.parent ? getBreadcrumbsItem(node.parent).url : null %}
                 <a title="{{ "delete.node.%name%"|trans({'%name%': node.nodeName}) }}"
                    href="{{ path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }) }}">
                     <i class="uk-icon-rz-trash-o"></i> {% trans %}delete.node{% endtrans %}

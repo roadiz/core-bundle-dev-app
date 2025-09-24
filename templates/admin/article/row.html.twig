@@ -1,0 +1,74 @@
+{% set itemEditUrl = path('nodesEditSourcePage', {
+    nodeId: item.node.id,
+    translationId: item.translation.id,
+}) %}
+{% set mainDocument = first_displayable_image(item) %}
+{% if mainDocument %}
+    <td class="thumbnail mobile-hidden uk-visible-xlarge">
+        <a href="{{ itemEditUrl }}">
+            {% if mainDocument.shortType == 'video' %}
+                {{ mainDocument|display({
+                    'class': 'uk-thumbnail user-image',
+                    'fit': '45x45',
+                    'autoplay': true,
+                    'muted': true,
+                    'playsinline': true,
+                    'loop': true,
+                    'picture': true,
+                }) }}
+            {% else %}
+                {{ mainDocument|display({
+                    'class': 'uk-thumbnail user-image',
+                    'fit': '45x45',
+                    'picture': true,
+                }) }}
+            {% endif %}
+        </a>
+    </td>
+    <td><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
+{% else %}
+    <td colspan="2"><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
+{% endif %}
+<td class="uk-visible-xlarge">{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
+<td class="uk-visible-xlarge">{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
+<td class="uk-visible-xlarge">
+    {% if item.node.published %}
+        <div class="uk-button-status uk-button-success"
+             title="{% trans %}item.published{% endtrans %}"
+             data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-check"></i>
+        </div>
+    {% else %}
+        <div class="uk-button-status uk-button-warning"
+             title="{% trans %}item.not_published{% endtrans %}"
+             data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-close"></i>
+        </div>
+    {% endif %}
+</td>
+<td class="uk-visible-xlarge">
+    {%- for tag in item.node.tags -%}
+        <span class="uk-badge-mini uk-badge">{{- tag.name -}}</span>
+    {%- endfor -%}
+</td>
+<td class="table-actions-row">
+    {% if hasBulkActions %}
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+        </div>
+    {% endif %}
+    <div class="uk-button-group">
+        {% if is_granted('EDIT_CONTENT', item) %}
+            <a href="{{ itemEditUrl }}"
+               data-uk-tooltip="{animation:true}"
+               title="{% trans %}edit{% endtrans %}"
+               class="uk-button uk-button-content uk-button-small"><i class="uk-icon-rz-pencil"></i></a>
+        {% endif %}
+        {% if is_granted('DELETE', item) %}
+            <a href="{{ path('nodesDeletePage', {nodeId: item.node.id}) }}"
+               data-uk-tooltip="{animation:true}"
+               title="{% trans %}delete{% endtrans %}"
+               class="uk-button uk-button-content uk-button-danger uk-button-small uk-button-table-delete"><i class="uk-icon-rz-trash-mini-o"></i></a>
+        {% endif %}
+    </div>
+</td>

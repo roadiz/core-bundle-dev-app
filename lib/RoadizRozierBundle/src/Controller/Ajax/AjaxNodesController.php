@@ -245,7 +245,6 @@ final class AjaxNodesController extends AbstractAjaxController
             'visible' => 'setVisible',
             'locked' => 'setLocked',
             'hideChildren' => 'setHidingChildren',
-            'sterile' => 'setSterile',
         ];
 
         if ('nodeChangeStatus' !== $request->get('_action') || empty($request->get('statusName'))) {

@@ -44,6 +44,11 @@ services:
     RZ\Roadiz\RozierBundle\RozierServiceRegistry:
         public: true
 
+    RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface:
+        class: RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactory
+        autowire: true
+        autoconfigure: true
+
     roadiz_rozier.twig_loader:
         class: Twig\Loader\FilesystemLoader
         calls:
