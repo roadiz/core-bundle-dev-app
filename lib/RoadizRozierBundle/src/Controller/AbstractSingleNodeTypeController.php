@@ -41,6 +41,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkController
 {
     protected ?Tag $tag = null;
+    protected ?Node $shadowContainer = null;
 
     public function __construct(
         protected readonly UniqueNodeGenerator $uniqueNodeGenerator,
@@ -85,6 +86,9 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         }
 
         $this->assignation['tags'] = $this->getUsedTags();
+        $this->assignation['shadowTitle'] = false !== $this->getShadowContainer()->getNodeSources()->first()
+            ? $this->getShadowContainer()->getNodeSources()->first()->getTitle()
+            : $this->getShadowContainer()->getNodeName();
     }
 
     /**
@@ -169,7 +173,11 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
 
     protected function getShadowContainer(): Node
     {
-        return $this->nodeRepository->findOneByNodeName($this->getShadowRootNodeName()) ?? throw new \RuntimeException(sprintf('No shadow root node "%s" found.', $this->getShadowRootNodeName()));
+        if (null === $this->shadowContainer) {
+            $this->shadowContainer = $this->nodeRepository->findOneByNodeName($this->getShadowRootNodeName()) ?? throw new \RuntimeException(sprintf('No shadow root node "%s" found.', $this->getShadowRootNodeName()));
+        }
+
+        return $this->shadowContainer;
     }
 
     #[\Override]

@@ -1,10 +1,10 @@
 {% extends "@RoadizRozier/admin/base.html.twig" %}
 
-{%- block content_title -%}{% trans %}app.articles{% endtrans %}{%- endblock -%}
+{%- block content_title -%}{{ shadowTitle }}{%- endblock -%}
 
 {%- block content_header_actions -%}
     <a class="uk-button" href="{{ path('appArticlesAddPage') }}">
-        <i class="uk-icon-rz-plus"></i> {% trans %}article.add{% endtrans %}
+        <i class="uk-icon-rz-plus"></i> {% trans %}articles.add{% endtrans %}
     </a>
 {%- endblock -%}
 
