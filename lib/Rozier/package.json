@@ -36,6 +36,8 @@
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.2.5",
+    "@iconify/json": "^2.2.387",
+    "@iconify/tools": "^4.1.3",
     "@iconify/utils": "^3.0.2",
     "@types/node": "^24.0.8",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
