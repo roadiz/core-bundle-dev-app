@@ -52,6 +52,7 @@ class RoadizRozierExtension extends Extension
 
         $this->registerOpenId($config, $container);
         $this->registerTranslateAssistant($config, $container);
+        $this->registerBookmarkCollection($config, $container);
     }
 
     private function registerOpenId(array $config, ContainerBuilder $container): void
@@ -149,6 +150,20 @@ class RoadizRozierExtension extends Extension
             TranslateAssistantInterface::class,
             (new Definition())
                 ->setClass(NullTranslateAssistant::class)
+        );
+    }
+
+    private function registerBookmarkCollection(array $config, ContainerBuilder $container): void
+    {
+        $container->setDefinition(
+            \RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class,
+            (new Definition())
+                ->setClass(\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class)
+                ->setPublic(true)
+                ->setFactory('\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::fromConfiguration')
+                ->setArguments([
+                    $config['bookmarks'],
+                ])
         );
     }
 }
