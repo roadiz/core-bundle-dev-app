@@ -12,9 +12,9 @@ type IconifyCollectionConfig = {
 	outputDir?: string
 }
 
-export default function iconifyCollectionPlugin(collections: IconifyCollectionConfig[]) {
+export default function iconifyCollectionsPlugin(collections: IconifyCollectionConfig[]) {
   return {
-    name: 'vite-plugin-iconify-collection',
+    name: 'vite-plugin-iconify-collections',
     async buildStart() {
 
 		// Arrays to store the paths of the generated files
@@ -63,8 +63,8 @@ export default function iconifyCollectionPlugin(collections: IconifyCollectionCo
 			// Export CSS
 			const css = getIconsCSS(json, iconSet.list(), {
 				format: 'compressed',
-				iconSelector: '.icon--{prefix}--{name}',
-				commonSelector: '.icon--{prefix}',
+				iconSelector: '.{prefix}-icon--{name}',
+				commonSelector: '.{prefix}-icon',
 			});
 
 			const cssFileName = `${fileName}.css`
@@ -102,9 +102,13 @@ export default function iconifyCollectionPlugin(collections: IconifyCollectionCo
 			.join(',\n  ');
 
 		const jsContent = `
-// Fichier généré automatiquement par vite-plugin-iconify-collection
+// Automatically generated file by vite-plugin-iconify-collection
 ${jsonImports}
 
+/**
+ * Exports an array of all generated Iconify JSON collections.
+ * * Ex: import iconCollections from './index.js';
+ */
 export default [
 ${jsonExports}
 ];
