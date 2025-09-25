@@ -1,4 +1,2 @@
-@import './variables/colors.css';
-@import './variables/spacings.css';
-@import './variables/radius.css';
-@import './variables/typography.css';
+@import './themes.css';
+@import './variables.css';
