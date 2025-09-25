@@ -160,7 +160,7 @@ class RoadizRozierExtension extends Extension
             (new Definition())
                 ->setClass(\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class)
                 ->setPublic(true)
-                ->setFactory([\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class, 'fromConfiguration'])
+                ->setFactory('\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::fromConfiguration')
                 ->setArguments([
                     $config['bookmarks'],
                 ])
