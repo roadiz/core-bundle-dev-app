@@ -35,6 +35,22 @@
     <body>
         <div id="app"></div>
         <div id="main-container">
+            <h1>Remix iconify collection icons</h1>
+            <rz-icon mode="svg" prefix="ri" icon="24-hours-fill" style="font-size: 100px;" color="red"></rz-icon>
+            <rz-icon mode="svg" prefix="ri" icon="24-hours-fill" style="font-size: 40px;" color="blue"></rz-icon>
+            <rz-icon mode="svg" prefix="ri" icon="24-hours-fill"></rz-icon>
+            <rz-icon mode="css" prefix="ri" icon="24-hours-fill" style="font-size: 100px;" color="red"></rz-icon>
+            <rz-icon mode="css" prefix="ri" icon="24-hours-fill" style="font-size: 40px;" color="blue"></rz-icon>
+            <rz-icon mode="css" prefix="ri" icon="24-hours-fill"></rz-icon>
+            <hr>
+            <h1>RZ custom collection icons</h1>
+            <rz-icon mode="svg" prefix="rz" icon="sketching" style="font-size: 100px;" color="red"></rz-icon>
+            <rz-icon mode="svg" prefix="rz" icon="sketching" style="font-size: 40px;" color="blue"></rz-icon>
+            <rz-icon mode="svg" prefix="rz" icon="sketching"></rz-icon>
+            <rz-icon mode="css" prefix="rz" icon="sketching" style="font-size: 100px;" color="red"></rz-icon>
+            <rz-icon mode="css" prefix="rz" icon="sketching" style="font-size: 40px;" color="blue"></rz-icon>
+            <rz-icon mode="css" prefix="rz" icon="sketching"></rz-icon>
+
             {% set treePanelEnabled = (is_granted('ROLE_ACCESS_NODES') or
                 is_granted('ROLE_ACCESS_DOCUMENTS') or
                 is_granted('ROLE_ACCESS_TAGS')) %}

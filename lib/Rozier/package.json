@@ -12,6 +12,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@iconify/iconify": "^3.1.1",
     "codemirror": "^5.25.0",
     "dropzone": "~5.5.1",
     "gsap": "^1.20.3",
@@ -34,6 +35,8 @@
     "vuex": "3.0.1"
   },
   "devDependencies": {
+    "@iconify-json/ri": "^1.2.5",
+    "@iconify/utils": "^3.0.2",
     "@types/node": "^24.0.8",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
