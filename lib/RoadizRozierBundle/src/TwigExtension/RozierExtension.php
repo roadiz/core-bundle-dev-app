@@ -10,9 +10,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
-use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
+use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
 use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
@@ -39,7 +39,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         return [
             'rozier' => $this->rozierServiceRegistry,
             'nodeStatuses' => NodeStatus::allLabelsAndValues(),
-            'bookmarks' => $this->bookmarkCollection,
+            'bookmarks' => $this->bookmarkCollection->getBookmarkItems(),
             'thumbnailFormat' => [
                 'quality' => 50,
                 'crop' => '1:1',

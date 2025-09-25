@@ -34,6 +34,14 @@ roadiz_rozier:
             - ROLE_BACKEND_USER
             - ROLE_SUPERADMIN
 
+    bookmarks:
+        - label: 'Documentation'
+          url: 'https://docs.roadiz.io/'
+        - label: 'Github'
+          url: 'https://github.com/roadiz'
+        - label: '%env(string:APP_EXAMPLE_BOOKMARK_LABEL)%'
+          url: '%env(string:APP_EXAMPLE_BOOKMARK_URL)%'
+
     entries:
         dashboard:
             name: dashboard

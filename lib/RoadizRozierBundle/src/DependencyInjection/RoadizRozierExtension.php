@@ -31,7 +31,6 @@ class RoadizRozierExtension extends Extension
             throw new \RuntimeException('kernel.project_dir parameter is not a string.');
         }
         $container->setParameter('roadiz_rozier.backoffice_menu_configuration', $config['entries']);
-        $container->setParameter('roadiz_rozier.bookmarks_configuration', $config['bookmarks']);
         $container->setParameter('roadiz_rozier.node_form.class', $config['node_form']);
         $container->setParameter('roadiz_rozier.add_node_form.class', $config['add_node_form']);
         $container->setParameter(
@@ -53,6 +52,7 @@ class RoadizRozierExtension extends Extension
 
         $this->registerOpenId($config, $container);
         $this->registerTranslateAssistant($config, $container);
+        $this->registerBookmarkCollection($config, $container);
     }
 
     private function registerOpenId(array $config, ContainerBuilder $container): void
@@ -150,6 +150,20 @@ class RoadizRozierExtension extends Extension
             TranslateAssistantInterface::class,
             (new Definition())
                 ->setClass(NullTranslateAssistant::class)
+        );
+    }
+
+    private function registerBookmarkCollection(array $config, ContainerBuilder $container): void
+    {
+        $container->setDefinition(
+            \RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class,
+            (new Definition())
+                ->setClass(\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class)
+                ->setPublic(true)
+                ->setFactory([\RZ\Roadiz\RozierBundle\Model\BookmarkCollection::class, 'fromConfiguration'])
+                ->setArguments([
+                    $config['bookmarks'],
+                ])
         );
     }
 }

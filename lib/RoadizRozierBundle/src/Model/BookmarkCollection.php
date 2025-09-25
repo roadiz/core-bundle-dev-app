@@ -4,25 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Model;
 
-final class BookmarkCollection
+final readonly class BookmarkCollection
 {
-    /** @var BookmarkItem[] */
-    private array $bookmarkItems = [];
-
     /**
      * @param BookmarkItem[] $bookmarkItems
      */
-    public function __construct(array $bookmarkItems = [])
+    public function __construct(private array $bookmarkItems = [])
     {
-        foreach ($bookmarkItems as $bookmarkItem) {
-            $this->addBookmarkItem($bookmarkItem);
-        }
-    }
-
-    public function addBookmarkItem(BookmarkItem $bookmarkItem): self
-    {
-        $this->bookmarkItems[] = $bookmarkItem;
-        return $this;
     }
 
     /**
@@ -34,21 +22,21 @@ final class BookmarkCollection
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param array<array<string, string>> $config
      */
     public static function fromConfiguration(array $config): self
     {
-        $collection = new self();
-        
+        $collection = [];
+
         foreach ($config as $bookmarkConfig) {
             if (is_array($bookmarkConfig) && isset($bookmarkConfig['label'], $bookmarkConfig['url'])) {
-                $collection->addBookmarkItem(new BookmarkItem(
+                $collection[] = new BookmarkItem(
                     (string) $bookmarkConfig['label'],
                     (string) $bookmarkConfig['url']
-                ));
+                );
             }
         }
-        
-        return $collection;
+
+        return new self($collection);
     }
 }
