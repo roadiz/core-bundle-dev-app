@@ -1,6 +1,6 @@
 
 /**
- * Generated file by vite-plugins/iconify-collections-plugin.ts
+ * Generated file by vite-plugins/iconify/iconify-collections.ts
  * Exports all available icon names from the 'rz' iconify collection.
  * Names are typically bound from SVG file names when using the 'srcDir' option.
  */

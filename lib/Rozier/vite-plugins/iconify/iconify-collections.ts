@@ -47,7 +47,7 @@ async function generateIconNameFile(prefix: string, names: string[]) {
 	const jsContent =
 `
 /**
- * Generated file by vite-plugins/iconify-collections-plugin.ts
+ * Generated file by vite-plugins/iconify/iconify-collections.ts
  * Exports all available icon names from the '${prefix}' iconify collection.
  * Names are typically bound from SVG file names when using the 'srcDir' option.
  */
@@ -135,7 +135,8 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 				.join('\n')
 
 		const cssFileContent =
-`/* File autogenerate by plugin iconify-collections.ts */
+`
+ /* Generated file by vite-plugins/iconify/iconify-collections.ts */
 ${cssContentImports}
 `
 
