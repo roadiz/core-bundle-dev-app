@@ -14,12 +14,12 @@ type IconifyCollectionOptions =  {
 type IconifyCollectionConfig = {
 	prefix: string // Iconify prefix key or custom if srcDir is provided
 	srcDir?: string // Folder with SVG files
-	icons?: string[] // Available icon names from iconify collection
+	icons?: string[] // icon names filtered from collection
 	outputName?: string
 }
 
 
-async function getIconSet(path: string, prefix: string) {
+async function getIconSetFromDirectory(path: string, prefix: string) {
 	  const iconSet = await importDirectory(path, { prefix});
 
 		// clean & optimisation
@@ -76,7 +76,6 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 			} = collection
 			const outputName = collection.outputName || `iconify-${prefix}-collection`
 
-			 // --- Icon Set Loading ---
 			let iconSet: IconSet | null = null
 
 			// Try to load the official Iconify JSON package
@@ -89,7 +88,7 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 				// If official package fails, try loading from the custom SVG source directory
 				if (srcDir) {
 					const srcPath = path.resolve(process.cwd(), srcDir);
-					iconSet = await getIconSet(srcPath, prefix);
+					iconSet = await getIconSetFromDirectory(srcPath, prefix);
 
                     // Generate a list of available icon names (useful for local collections)
 					await generateIconNameFile(prefix, iconSet.list())
