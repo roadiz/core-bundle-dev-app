@@ -60,6 +60,16 @@
             {%- endfor -%}
         </div>
         {% endif %}
+        {% if bookmarks|length %}
+        <div id="bookmarks">
+            <h3>{% trans %}bookmarks.links{% endtrans %}</h3>
+            <ul>
+                {% for bookmark in bookmarks %}
+                    <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
     </article>
 </section>
 {% endblock %}

@@ -1210,10 +1210,6 @@
         <source>lock-status</source>
         <target state="final">stato bloccato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">nega figlio</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
         <target state="final">archivio stato</target>

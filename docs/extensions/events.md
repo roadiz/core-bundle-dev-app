@@ -1,8 +1,3 @@
----
-title: Roadiz events
-prev: false
----
-
 # Roadiz events
 
 Roadiz node system implements several events. So you will be able to create and inject your own event subscribers inside *Roadiz* dispatcher.
