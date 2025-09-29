@@ -1,0 +1,13 @@
+.rz-button {
+	background-color: var(--rz-button-background-color, initial);
+	font-size: var(--rz-button-font-size);
+	border: var(--rz-button-border);
+}
+
+.rz-button__label {
+	margin-inline: var(--rz-button-label-margin-inline);
+}
+
+.rz-button__icon {
+	margin-inline: var(--rz-button-icon-margin-inline);
+}
