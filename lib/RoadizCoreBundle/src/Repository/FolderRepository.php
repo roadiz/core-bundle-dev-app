@@ -57,9 +57,10 @@ final class FolderRepository extends EntityRepository
             $parentFolder = null;
 
             if (count($folders) > 1) {
-                $parentName = $folders[count($folders) - 2];
-                $parentFolder = $this->findOneByFolderName($parentName);
+                // Call recursively to create parent folder if not exists with $folders array without last element
+                $parentFolder = $this->findOrCreateByPath(implode('/', array_slice($folders, 0, -1)), $translation);
             }
+
             $folder = new Folder();
             $folder->setFolderName($folderName);
 
