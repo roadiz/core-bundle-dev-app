@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import '../app/assets/css/main.css';
 
 type ColorArg = {};
 
