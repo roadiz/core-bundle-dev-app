@@ -10,6 +10,7 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToDeleteFile;
 use League\Flysystem\Visibility;
 use RZ\Roadiz\Documents\Exceptions\DocumentWithoutFileException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -132,8 +133,9 @@ final readonly class DocumentLifeCycleSubscriber
                 $this->documentsStorage->delete($documentPath);
             }
             $this->cleanFileDirectory($this->getDocumentFolderPath($document));
-        } catch (DocumentWithoutFileException) {
-            // Do nothing when document does not have any file on system.
+        } catch (UnableToDeleteFile|DocumentWithoutFileException) {
+            // Do not prevent entity deletion when document does not have any file on system.
+            // Do not prevent entity deletion when file cannot be deleted (permissions issue).
         }
     }
 

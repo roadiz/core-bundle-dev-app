@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.15...v2.6.16) - 2025-09-29
+
+### Bug Fixes
+
+- **(DocumentLifeCycleSubscriber)** Ignore UnableToDeleteFile exception during document deletion - ([d73b0d1](https://github.com/roadiz/core-bundle-dev-app/commit/d73b0d19a59071de88daf0c3248090cc183ef68e))
+
+### Features
+
+- **(Folder, Tag)** Create recursively parent folder and tag when using findOrCreateByPath method - ([ebe7689](https://github.com/roadiz/core-bundle-dev-app/commit/ebe76896e5a7240c82c4651b0f892c7fbf60f877))
+
 ## [2.6.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.14...v2.6.15) - 2025-09-29
 
 ### Features
