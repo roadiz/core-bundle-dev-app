@@ -784,9 +784,9 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this->filename ?? '';
     }
 
-    public function setFilename(string $filename): static
+    public function setFilename(string $filename, bool $sanitize = true): static
     {
-        $this->filename = StringHandler::cleanForFilename($filename);
+        $this->filename = $sanitize ? StringHandler::cleanForFilename($filename) : $filename;
 
         return $this;
     }
