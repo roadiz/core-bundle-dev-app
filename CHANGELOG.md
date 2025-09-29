@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.36](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.35...v2.5.36) - 2025-09-29
+
+### Features
+
+- **(Document)** Make sanitization optional for Document::setFilename method (default: true) - ([00c37bb](https://github.com/roadiz/core-bundle-dev-app/commit/00c37bb12d11cf15849928b53b2a2c467ff83662))
+
 ## [2.5.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.34...v2.5.35) - 2025-09-15
 
 ### Features
