@@ -1,13 +1,168 @@
 .rz-button {
-	background-color: var(--rz-button-background-color, initial);
-	font-size: var(--rz-button-font-size);
-	border: var(--rz-button-border);
+
+	&.rz-button--emphasis-high {
+		color: var(--button-basic-high-content-on-light-selected, #FFF);
+		border-radius: var(--radius-xs, 6px);
+		border: initial;
+		background-color: var(--button-basic-high-bg-on-light-selected, #18191B);
+		transition: background-color 0.3s, color 0.3s;
+
+		&.rz-button--size-xs {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 13px;
+			min-height: 24px;
+			padding: var(--spacing-7xs, 2px) var(--spacing-6xs, 4px);
+		}
+
+		&.rz-button--size-sm {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 13px;
+			min-height: 28px;
+			padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
+		}
+
+		&.rz-button--size-md {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 14px;
+			min-height: 36px;
+			padding: var(--spacing-5xs, 6px);
+		}
+
+		&.rz-button--size-lg {
+			--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
+
+			font-size: 14px;
+			min-height: 40px;
+			padding: var(--spacing-4xs, 8px);
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				color: var(--button-basic-high-content-on-light-hover, #FFF);
+				background-color: var(--button-basic-high-bg-on-light-hover, #4E4E4E);
+			}
+		}
+
+		/* Keep disabled selector after hover style to override properties */
+		&[disabled],
+		&.rz-button--disabled {
+			color: var(--button-basic-high-content-on-light-disabled, #9A9A9A);
+			background-color: var(--button-basic-high-bg-on-light-disabled, #EAEAEA);
+		}
+	}
+
+	&.rz-button--emphasis-medium {
+		background-color: initial;
+		border: 1px solid var(--button-basic-medium-border-on-light, #DADADA);
+		border-radius: var(--radius-xs, 6px);
+		transition: border-color 0.3s, color 0.3s;
+
+
+
+		&.rz-button--size-xs {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 13px;
+			min-height: 24px;
+			padding: var(--spacing-7xs, 2px) var(--spacing-6xs, 4px);
+		}
+
+		&.rz-button--size-sm {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 13px;
+			min-height: 28px;
+			padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
+		}
+
+		&.rz-button--size-md {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 14px;
+			min-height: 36px;
+			padding: var(--spacing-5xs, 6px);
+		}
+
+		&.rz-button--size-lg {
+			--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
+
+			font-size: 14px;
+			min-height: 40px;
+			padding: var(--spacing-4xs, 8px);
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				border: 1px solid var(--button-basic-medium-border-on-light-hover, #4E4E4E);
+			}
+		}
+
+		&[disabled],
+		&.rz-button--disabled {
+			border: 1px solid var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
+			color: var(--button-basic-medium-content-on-light-disabled, #9A9A9A);
+		}
+	}
+
+	&.rz-button--emphasis-low {
+		background-color: initial;
+		border-radius: var(--radius-xs, 6px);
+		transition: background-color 0.3s, color 0.3s;
+		border: initial;
+
+		&.rz-button--size-xs {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 13px;
+			min-height: 24px;
+			padding: var(--spacing-7xs, 2px) var(--spacing-6xs, 4px);
+		}
+
+		&.rz-button--size-sm {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 13px;
+			min-height: 28px;
+			padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
+		}
+
+		&.rz-button--size-md {
+			--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+
+			font-size: 14px;
+			min-height: 36px;
+			padding: var(--spacing-5xs, 6px);
+		}
+
+		&.rz-button--size-lg {
+			--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
+
+			font-size: 14px;
+			min-height: 40px;
+			padding: var(--spacing-4xs, 8px);
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
+			}
+		}
+
+		&[disabled],
+		&.rz-button--disabled {
+			color: var(--button-basic-low-content-on-light-disabled, #9A9A9A);
+			background-color: initial;
+		}
+	}
 }
 
 .rz-button__label {
-	margin-inline: var(--rz-button-label-margin-inline);
+	padding: var(--rz-button-label-padding);
 }
 
 .rz-button__icon {
-	margin-inline: var(--rz-button-icon-margin-inline);
+	margin: var(--rz-button-icon-margin);
 }

@@ -1,56 +1,154 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '../app/assets/css/RZButton/rz-button.css';
 
+const EMPHASIS = ['low', 'medium', 'high'] as const;
+const SIZES = ['xs', 'sm', 'md', 'lg'] as const;
+
 type ButtonArgs = {
-	primary: boolean;
 	label: string;
-	argTypes: {
-		emphasis: {
-			control: 'radio'
-			options: ['high', 'medium', 'low']
-		},
-		size: {
-			control: 'radio'
-			options: ['lg', 'md', 'sm']
-		},
-	},
+	emphasis: typeof EMPHASIS[number];
+	size: typeof SIZES[number];
+	disabled: boolean
 };
 
 const meta: Meta<ButtonArgs> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/configure/#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Components/RZButton',
-  tags: ['autodocs'],
+  	title: 'Components/RZButton',
+  	tags: ['autodocs'],
+	args: {
+		label: 'button label',
+		emphasis: 'high',
+		size: 'md',
+		disabled: false,
+	},
+	argTypes: {
+		emphasis: {
+			control: { type: 'select' },
+			options: ['high', 'medium', 'low']
+		},
+		size: {
+			control: { type: 'select' },
+			options: SIZES
+		},
+	}
 };
 
 export default meta;
 type Story = StoryObj<ButtonArgs>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/api/csf
- * to learn how to use render functions.
- */
-export const Primary: Story = {
-  render: (args) => {
-    const btn = document.createElement('button');
-    btn.className = ['rz-button'].join(' ');
 
-	const span = document.createElement('span');
-	span.className = ['rz-button__label'].join(' ');
-    span.innerText = args.label;
+function createButton(args: ButtonArgs) {
+	const buttonNode = document.createElement('button');
+	const emphasisClass = args.emphasis && `rz-button--emphasis-${args.emphasis}`;
+	const sizeClass = args.size && `rz-button--size-${args.size}`;
+	const disabledClass = args.disabled && `rz-button--disabled`;
+    buttonNode.className = ['rz-button', emphasisClass, sizeClass, disabledClass].join(' ');
 
-	const icon = document.createElement('span');
-	icon.className = ['rz-button__icon'].join(' ');
+	const labelNode = document.createElement('span');
+	labelNode.className = ['rz-button__label'].join(' ');
+    labelNode.innerText = args.label;
+	buttonNode.appendChild(labelNode);
 
-	btn.appendChild(span);
-	btn.appendChild(icon);
+	const iconNode = document.createElement('span');
+	iconNode.className = ['rz-button__icon'].join(' ');
+	buttonNode.appendChild(iconNode);
 
-    return btn;
+    return buttonNode;
+}
+
+export const HighEmphasis: Story = {
+  render: (args, ctx) => {
+	return createButton(args)
   },
-  args: {
-    label: 'Button',
+	args: {
+		emphasis: 'high',
+	},
+	parameters: {
+		controls: { exclude: ['emphasis'] },
+	},
+};
+
+export const HighEmphasisList: Story = {
+	render: (args, ctx) => {
+		const wrapper = document.createElement('div');
+		wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;';
+
+		SIZES.forEach(size => {
+			const btn = createButton({...args, size, label: `High emphasis ${size}`})
+			wrapper.appendChild(btn)
+		})
+
+		return wrapper;
+	},
+	args: {
+		emphasis: 'high',
+	},
+	parameters: {
+		controls: { exclude: ['emphasis', 'size', 'label'] },
+	},
+};
+
+
+export const mediumEmphasis: Story = {
+  render: (args, ctx) => {
+	return createButton(args)
   },
+	args: {
+		emphasis: 'medium',
+	},
+	parameters: {
+		controls: { exclude: ['emphasis'] },
+	},
+};
+
+export const mediumEmphasisList: Story = {
+	render: (args, ctx) => {
+		const wrapper = document.createElement('div');
+		wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;';
+
+		SIZES.forEach(size => {
+			const btn = createButton({...args, size, label: `Medium emphasis ${size}`})
+			wrapper.appendChild(btn)
+		})
+
+		return wrapper;
+	},
+	args: {
+		emphasis: 'medium',
+	},
+	parameters: {
+		controls: { exclude: ['emphasis', 'size', 'label'] },
+	},
+};
+
+
+export const lowEmphasis: Story = {
+  render: (args, ctx) => {
+	return createButton(args)
+  },
+	args: {
+		emphasis: 'low',
+	},
+	parameters: {
+		controls: { exclude: ['emphasis'] },
+	},
+};
+
+export const lowEmphasisList: Story = {
+	render: (args, ctx) => {
+		const wrapper = document.createElement('div');
+		wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;';
+
+		SIZES.forEach(size => {
+			const btn = createButton({...args, size, label: `Low emphasis ${size}`})
+			wrapper.appendChild(btn)
+		})
+
+		return wrapper;
+	},
+	args: {
+		emphasis: 'low',
+	},
+	parameters: {
+		controls: { exclude: ['emphasis', 'size', 'label'] },
+	},
 };
