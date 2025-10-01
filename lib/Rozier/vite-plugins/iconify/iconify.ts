@@ -8,7 +8,7 @@ import { cleanupSVG, parseColors, runSVGO } from '@iconify/tools';
 
 
 type IconifyCollectionOptions =  {
-	outputDir?: string
+	outputDir: string
 }
 
 type IconifyCollectionConfig = {
@@ -43,11 +43,11 @@ async function getIconSetFromDirectory(path: string, prefix: string) {
 
 
 async function generateIconNameFile(prefix: string, names: string[]) {
-	const iconsListPath = path.resolve(process.cwd(), `vite-plugins/iconify/${prefix}-icons.ts`)
+	const iconsListPath = path.resolve(process.cwd(), `vite-plugins/iconify/collections/${prefix}.ts`)
 	const jsContent =
 `
 /**
- * Generated file by vite-plugins/iconify/iconify-collections.ts
+ * Generated file by Iconify plugin
  * Exports all available icon names from the '${prefix}' iconify collection.
  * Names are typically bound from SVG file names when using the 'srcDir' option.
  */
@@ -59,12 +59,12 @@ export default [
 	await fs.writeFile( iconsListPath, jsContent, 'utf-8');
 }
 
-export default function iconifyCollectionsPlugin(collections: IconifyCollectionConfig[], options?: IconifyCollectionOptions) {
+export default function initCollections(collections: IconifyCollectionConfig[], options: IconifyCollectionOptions = {
+	outputDir: 'app/assets/css/icons',
+}) {
   return {
-    name: 'vite-plugin-iconify-collections',
+    name: 'init-iconify-collections',
     async buildStart() {
-		const outputDir = options?.outputDir || 'app/assets/vendors'
-
 		// Array to store paths for the index file generation
 		const cssFilePaths: string[] = []
 
@@ -74,7 +74,6 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 				srcDir = 'app/assets/img/icons',
 				icons = [],
 			} = collection
-			const outputName = collection.outputName || `iconify-${prefix}-collection`
 
 			let iconSet: IconSet | null = null
 
@@ -108,8 +107,8 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 			}
 
 			const json = iconSet.export(true); // true = optimization for Iconify
-			await fs.mkdir(outputDir, { recursive: true });
-			const outputPath = path.resolve(process.cwd(), outputDir);
+			await fs.mkdir(options.outputDir, { recursive: true });
+			const outputPath = path.resolve(process.cwd(), options.outputDir);
 
 			// Generate the optimized CSS code
 			const css = getIconsCSS(json, iconSet.list(), {
@@ -118,7 +117,7 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 				commonSelector: '.{prefix}-icon',
 			});
 
-			const cssFileName = `${outputName}.css`
+			const cssFileName = `${collection.outputName || prefix}.css`
 			const cssFilePath = path.join(outputPath, cssFileName);
 			await fs.writeFile(cssFilePath, css, 'utf-8');
 			cssFilePaths.push(`./${cssFileName}`)
@@ -129,14 +128,14 @@ export default function iconifyCollectionsPlugin(collections: IconifyCollectionC
 		await Promise.all(promises);
 
         // Generate the main CSS index file that imports all collection files
-		const indexCssPath = path.join(outputDir, 'index.css')
+		const indexCssPath = path.join(options.outputDir, 'index.css')
 		const cssContentImports = cssFilePaths
 				.map(file => `@import '${file}';`)
 				.join('\n')
 
 		const cssFileContent =
 `
- /* Generated file by vite-plugins/iconify/iconify-collections.ts */
+ /* Generated file by Iconify plugin */
 ${cssContentImports}
 `
 

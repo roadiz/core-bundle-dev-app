@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
-import riIconNames from '../vite-plugins/iconify/ri-icons'
-import rzIconNames from '../vite-plugins/iconify/rz-icons'
+import riIconNames from '../vite-plugins/iconify/collections/ri'
+import rzIconNames from '../vite-plugins/iconify/collections/rz'
 
 type IconArgs = {
   prefix: string | null;
