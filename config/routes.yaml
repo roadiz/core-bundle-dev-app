@@ -20,6 +20,9 @@ rz_intervention_request:
     resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
     prefix:   /
 
+appArticlesRoutes:
+    resource: "routes/articles.yml"
+    prefix: /rz-admin/articles
 
 api_contact_form_definition:
     methods: [GET]

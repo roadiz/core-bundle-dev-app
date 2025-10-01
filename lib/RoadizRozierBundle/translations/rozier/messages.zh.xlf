@@ -1238,10 +1238,6 @@
         <source>lock-status</source>
         <target state="final">锁定状态</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">禁止下级</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
         <target state="final">存档状态</target>

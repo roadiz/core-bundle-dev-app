@@ -467,6 +467,10 @@
         <source>node.isHome</source>
         <target state="final">Utiliser ce nœud comme page d'accueil</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.shadow" approved="yes">
+        <source>node.shadow</source>
+        <target state="final">Racine cachée</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="116" approved="yes">
         <source>choose.tag</source>
         <target state="final">Choisir les étiquettes</target>
@@ -1279,10 +1283,6 @@
         <source>lock-status</source>
         <target state="final">Verrouillé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">Stérile</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
         <target state="final">Archivage</target>
@@ -2042,6 +2042,10 @@
         <source>deleted.nodes</source>
         <target state="final">Supprimés</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="shadow.nodes" approved="yes">
+        <source>shadow.nodes</source>
+        <target state="final">Racines cachées</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="node.draft" approved="yes">
         <source>node.draft</source>
         <target state="final">Brouillon</target>
@@ -2070,10 +2074,6 @@
         <source>node.locked</source>
         <target state="final">Verrouillé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile" approved="yes">
-        <source>node.sterile</source>
-        <target state="final">Stérile (aucun enfant autorisé)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="node.isHome.help" approved="yes">
         <source>node.isHome.help</source>
         <target state="final">Indique si ce nœud est la page d’accueil de votre site. Cela changera son chemin en « / ».</target>
@@ -2089,10 +2089,6 @@
       <trans-unit xml:space="preserve" id="node.locked.help" approved="yes">
         <source>node.locked.help</source>
         <target state="final">Un nœud verrouillé ne peut pas être déplacé, renommé ou supprimé.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile.help" approved="yes">
-        <source>node.sterile.help</source>
-        <target state="final">Un nœud stérile ne peut pas avoir d’enfants.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
@@ -4801,6 +4797,33 @@
         <target state="final">Filtrer</target>
         <note>Button label for a generic filtering action.</note>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="filter.by_tag">
+        <source>filter.by_tag</source>
+        <target state="final">Filtrer par étiquette</target>
+        <note>Select label for a filtering by tag.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="filter.by_tag.all">
+        <source>filter.by_tag.all</source>
+        <target state="final">-- Toutes les étiquettes --</target>
+        <note>Placeholder label for resetting filter by tag.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="filter.reset">
+        <source>filter.reset</source>
+        <target state="final">Réinitialiser</target>
+        <note>Button label for resetting filters.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item.not_published">
+        <source>item.not_published</source>
+        <target state="final">Non-publié</target>
+        <note>Icon label for unpublished items.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item.published">
+        <source>item.published</source>
+        <target state="final">Publié</target>
+        <note>Icon label for published items.</note>
+      </trans-unit>
+
       <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created" approved="yes">
         <source>%namespace%.%item%.was_created</source>
         <target state="final">%namespace% "%item%" a été créé.</target>

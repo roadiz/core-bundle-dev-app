@@ -1,6 +1,7 @@
 {# Override vendor/roadiz/rozier/src/Resources/views/nodes/actionsMenu.html.twig #}
 <nav data-roadiz-rozier-bundle data-action-menu class="actions-menu uk-navbar">
     {% if node and not readOnly and is_granted('DELETE', node) %}
+        {% set canDelete = workflow_can(node, 'delete') %}
         {# Delete current node #}
         {% if workflow_can(node, 'undelete') %}
             <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesUndeletePage', { nodeId: node.getId}) }}">
@@ -8,19 +9,16 @@
                 <span class="label"><span class="label-text">{% trans %}undelete{% endtrans %}</span></span>
             </a>
         {% endif %}
-        {% if workflow_can(node, 'delete') and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
+        {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
             <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeletePage', {
                 nodeId: node.getId,
-                referer: node.parent and translation ? path('nodesEditSourcePage', {
-                    nodeId: node.parent.id,
-                    translationId: translation.id
-                }) : null
+                referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
             }) }}">
                 <span class="icon-container"><i class="uk-icon-rz-trash"></i></span>
                 <span class="label"><span class="label-text">{% trans %}delete.node{% endtrans %}</span></span>
             </a>
         {% endif %}
-        {% if workflow_can(node, 'delete') and node.nodeSources|length > 1 and source %}
+        {% if canDelete and node.nodeSources|length > 1 and source %}
             <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeleteSourcePage', { nodeSourceId: source.id}) }}">
                 <span class="icon-container"><i class="uk-icon-flag"></i></span>
                 <span class="label"><span class="label-text">{% trans %}delete.translation{% endtrans %}</span></span>

@@ -132,6 +132,7 @@ final class NodeTreeWidget extends AbstractWidget
         $criteria = array_merge($additionalCriteria, [
             'parent' => $parent?->getId() ?? null,
             'translation' => $this->translation,
+            'shadow' => false,
         ]);
 
         if (null !== $this->tag) {

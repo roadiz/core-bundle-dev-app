@@ -135,11 +135,11 @@ Each Node state is handled by a *Workflow* to switch between the following five 
 
 ### States
 
-- `Node::DRAFT`
-- `Node::PENDING`
-- `Node::PUBLISHED`
-- `Node::ARCHIVED`
-- `Node::DELETED`
+- `NodeStatus::DRAFT`
+- `NodeStatus::PENDING`
+- `NodeStatus::PUBLISHED`
+- `NodeStatus::ARCHIVED`
+- `NodeStatus::DELETED`
 
 ### Transitions
 
