@@ -10,7 +10,7 @@
     "clean": "rm -rf node_modules && rm -rf static",
     "start": "npm run dev",
     "lint": "eslint",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build"
   },
   "dependencies": {
