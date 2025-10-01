@@ -11,7 +11,7 @@ type IconArgs = {
 };
 
 const meta: Meta<IconArgs> = {
-  title: 'Intregration/Icon',
+  title: 'Integration/Icon',
   tags: ['autodocs'],
   argTypes: {
     prefix: {
