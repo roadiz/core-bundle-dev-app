@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { getIconsCSS} from '@iconify/utils';
+import { getIconsCSS } from '@iconify/utils';
 import { locate } from '@iconify/json';
 import { IconSet } from '@iconify/tools';
 import { importDirectory } from '@iconify/tools';
@@ -56,6 +56,7 @@ export default [
 	await fs.writeFile( iconsListPath, jsContent, 'utf-8');
 }
 
+// TODO: add HMR on svg srcDir and icon collection file
 export default function initCollections(
 	collections: IconifyCollectionConfig[],
 	options?: IconifyCollectionOptions
@@ -122,8 +123,8 @@ export default function initCollections(
 			// Generate the optimized CSS code
 			const css = getIconsCSS(json, iconSet.list(), {
 				format: 'compressed',
-				iconSelector: '.{prefix}-icon--{name}',
-				commonSelector: '.{prefix}-icon',
+				iconSelector: '.rz-icon-{prefix}--{name}',
+				commonSelector: '[class^="rz-icon-{prefix}"]',
 			});
 
 			const cssFileName = `${collection.outputName || prefix}.css`

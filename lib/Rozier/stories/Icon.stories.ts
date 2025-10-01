@@ -41,16 +41,16 @@ type Story = StoryObj<IconArgs>;
 export const Primary: Story = {
   render: (args) => {
     const span = document.createElement('span');
-
     span.style.color = args.color
     span.style.fontSize = args.fontSize
 
-    const collectionName = args.prefix === 'rz' ? args.RzName : args.prefix === 'ri' ? args.RiName : ''
+    const iconName = args.prefix === 'rz'
+      ? args.RzName
+      : args.prefix === 'ri'
+        ? args.RiName
+        : ''
 
-    span.className = [
-      `${args.prefix}-icon`,
-      `${args.prefix}-icon--${collectionName}`,
-    ].join(' ');
+    span.className = [`rz-icon-${args.prefix}--${iconName}`].join(' ');
 
     return span;
   },
@@ -81,8 +81,7 @@ function getCollectionStory(prefix: string, names: string[]) {
           icon.style.color = args.color
           icon.style.fontSize = args.fontSize
           icon.className = [
-            `${prefix}-icon`,
-            `${prefix}-icon--${name}`,
+            `rz-icon-${prefix}--${name}`,
           ].join(' ');
 
           iconWrapper.appendChild(icon)
