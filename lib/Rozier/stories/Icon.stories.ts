@@ -4,26 +4,26 @@ import rzIconNames from '../vite-plugins/iconify/rz-icons'
 
 type IconArgs = {
   prefix: string | null;
-  RZName: string | null;
-  RIName: string | null;
+  RzName: string | null;
+  RiName: string | null;
   color: string;
   fontSize: string;
 };
 
 const meta: Meta<IconArgs> = {
-  title: 'Components/Icon',
+  title: 'Intregration/Icon',
   tags: ['autodocs'],
   argTypes: {
     prefix: {
       options: ['rz', 'ri'],
       control: { type: 'radio' },
     },
-    RZName: {
+    RzName: {
       options: rzIconNames,
       control: { type: 'select' },
       if: { arg: 'prefix', eq: 'rz' },
     },
-    RIName: {
+    RiName: {
       options: riIconNames,
       control: { type: 'select' },
       if: { arg: 'prefix', eq: 'ri' },
@@ -45,7 +45,7 @@ export const Primary: Story = {
     span.style.color = args.color
     span.style.fontSize = args.fontSize
 
-    const collectionName = args.prefix === 'rz' ? args.RZName : args.prefix === 'ri' ? args.RIName : ''
+    const collectionName = args.prefix === 'rz' ? args.RzName : args.prefix === 'ri' ? args.RiName : ''
 
     span.className = [
       `${args.prefix}-icon`,
@@ -57,8 +57,8 @@ export const Primary: Story = {
 
   args: {
     prefix: 'rz',
-    RZName: rzIconNames[0],
-    RIName: riIconNames[0],
+    RzName: rzIconNames[0],
+    RiName: riIconNames[0],
     color: 'black',
     fontSize: '24px',
   },
@@ -97,10 +97,10 @@ function getCollectionStory(prefix: string, names: string[]) {
       fontSize: '24px',
     },
     parameters: {
-      controls: { exclude: ['prefix', 'RZName', 'RIName'] },
+      controls: { exclude: ['prefix', 'RzName', 'RiName'] },
     },
   } as Story
 }
 
-export const RZCollection: Story = getCollectionStory('rz', rzIconNames)
-export const RICollection: Story = getCollectionStory('ri', riIconNames)
+export const RzCollection: Story = getCollectionStory('rz', rzIconNames)
+export const RiCollection: Story = getCollectionStory('ri', riIconNames)
