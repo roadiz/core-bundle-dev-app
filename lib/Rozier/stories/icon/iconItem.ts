@@ -42,7 +42,6 @@ export function iconItemRenderer(args: IconArgs) {
     iconWrapper.style = `
       display: flex;
       border-radius: 4px;
-      background: rgb(255, 255, 255);
       box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px;
       border: 1px solid rgba(38, 85, 115, 0.15);
       overflow: hidden;

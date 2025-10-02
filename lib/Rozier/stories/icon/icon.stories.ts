@@ -42,8 +42,8 @@ export const Primary: Story = {
     prefix: 'rz',
     RzName: rzIconNames[0],
     RiName: riIconNames[0],
-    color: 'black',
-    fontSize: '24px',
+    color: '',
+    fontSize: '',
   },
 };
 
@@ -58,7 +58,6 @@ function getCollectionStory(prefix: string, names: string[]) {
         gap: 42px;
         margin-inline: auto;
         max-width: 1000px;
-        color: ${args.color};
         `
 
         names.forEach(name => {
@@ -69,8 +68,8 @@ function getCollectionStory(prefix: string, names: string[]) {
         return container
       },
     args: {
-      color: '#000',
-      fontSize: '24px',
+      color: '',
+      fontSize: '',
     },
     parameters: {
       controls: { exclude: ['prefix', 'RzName', 'RiName'] },
