@@ -1,18 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
-import riIconNames from '../vite-plugins/iconify/collections/ri'
-import rzIconNames from '../vite-plugins/iconify/collections/rz'
-
-type IconArgs = {
-  prefix: string | null;
-  RzName: string | null;
-  RiName: string | null;
-  color: string;
-  fontSize: string;
-};
+import riIconNames from '../../vite-plugins/iconify/collections/ri'
+import rzIconNames from '../../vite-plugins/iconify/collections/rz'
+import { iconItemRenderer, iconRenderer, type IconArgs } from './iconItem'
 
 const meta: Meta<IconArgs> = {
   title: 'Integration/Icon',
-  tags: ['autodocs'],
   argTypes: {
     prefix: {
       options: ['rz', 'ri'],
@@ -33,6 +25,7 @@ const meta: Meta<IconArgs> = {
       description: 'A CSS unit font-size',
     }
   },
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -40,21 +33,11 @@ type Story = StoryObj<IconArgs>;
 
 export const Primary: Story = {
   render: (args) => {
-    const span = document.createElement('span');
-    span.style.color = args.color
-    span.style.fontSize = args.fontSize
-
-    const iconName = args.prefix === 'rz'
-      ? args.RzName
-      : args.prefix === 'ri'
-        ? args.RiName
-        : ''
-
-    span.className = [`rz-icon-${args.prefix}--${iconName}`].join(' ');
-
-    return span;
+    return iconRenderer(args);
   },
-
+  parameters: {
+    layout: 'centered',
+  },
   args: {
     prefix: 'rz',
     RzName: rzIconNames[0],
@@ -69,24 +52,18 @@ function getCollectionStory(prefix: string, names: string[]) {
   return {
     render: (args) => {
         const container = document.createElement('div');
-        container.style = `display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 42px; color: ${args.color}`
+        container.style = `
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 42px;
+        margin-inline: auto;
+        max-width: 1000px;
+        color: ${args.color};
+        `
 
         names.forEach(name => {
-          const iconWrapper = document.createElement('div');
-          iconWrapper.style = `display: flex; flex-direction: column; align-items: center;`
-
-          const label = document.createTextNode(name);
-
-          const icon = document.createElement('span');
-          icon.style.color = args.color
-          icon.style.fontSize = args.fontSize
-          icon.className = [
-            `rz-icon-${prefix}--${name}`,
-          ].join(' ');
-
-          iconWrapper.appendChild(icon)
-          iconWrapper.appendChild(label)
-          container.appendChild(iconWrapper)
+          const item = iconItemRenderer({...args, prefix, RzName: name, RiName: name})
+          container.appendChild(item)
         })
 
         return container
