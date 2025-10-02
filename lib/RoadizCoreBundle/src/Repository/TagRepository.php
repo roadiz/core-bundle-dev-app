@@ -695,15 +695,8 @@ EOT,
             $parentTag = null;
 
             if (count($tags) > 1) {
-                $parentName = $tags[count($tags) - 2];
-                $parentTag = $this->findOneByTagName(StringHandler::slugify($parentName));
-
-                if (null === $parentTag) {
-                    $ttagParent = $this->_em->getRepository(TagTranslation::class)->findOneByName($parentName);
-                    if (null !== $ttagParent) {
-                        $parentTag = $ttagParent->getTag();
-                    }
-                }
+                // Call recursively to create parent tag if not exists with $tags array without last element
+                $parentTag = $this->findOrCreateByPath(implode('/', array_slice($tags, 0, -1)), $translation);
             }
             if (null === $translation) {
                 $translation = $this->_em->getRepository(Translation::class)->findDefault();
