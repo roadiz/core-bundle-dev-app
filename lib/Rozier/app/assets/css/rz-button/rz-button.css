@@ -2,18 +2,19 @@
 	/* Keep default user-agent style */
 	display: var(--rz-button-display, inline-flex);
 	align-items: var(--rz-button-align-items, center);
+	justify-content: var(--rz-button-justify-content, center);
 	font-size: var(--rz-button-font-size, revert);
 	min-height: var(--rz-button-min-height, revert);
 	min-width: var(--rz-button-min-width, revert);
-	padding: var(--rz-button-padding, revert);
+	padding: var(--rz-button-padding, 6px);
 	color: var(--rz-button-color, revert);
-	border: var(--rz-button-border, revert);
-	border-radius: var(--rz-button-border-radius, revert);
+	border: var(--rz-button-border, none);
+	border-radius: var(--rz-button-border-radius,  var(--radius-xs, 6px));
 	background-color: var(--rz-button-background-color, revert);
-	cursor: var(--rz-button-cursor, revert);
+	cursor: var(--rz-button-cursor, pointer);
 
-	&:not(.rz-button--disabled) {
-		--rz-button-cursor: pointer;
+	&:where(.rz-button--disabled, [disbaled="true"], [disabled=""])  {
+		--rz-button-cursor: revert;
 	}
 }
 
@@ -23,7 +24,7 @@
 	background-color: var(--rz-button-disabled-background-color, unset);
 }
 
-
+/* SIZES */
 .rz-button--size-xs {
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 24px;
@@ -34,37 +35,65 @@
 }
 
 .rz-button--size-sm {
+	/* XS SIZE */
+	--rz-button-font-size: 13px;
+	--rz-button-min-height: 24px;
+	--rz-button-min-width: 24px;
+	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-6xs, 4px);
+	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+	--rz-button-icon-font-size: 16px;
+
+	@media (width >= 1024px) {
+		--rz-button-font-size: 13px;
+		--rz-button-min-height: 28px;
+		--rz-button-min-width: 28px;
+		--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
+		--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+		--rz-button-icon-font-size: 16px;
+	}
+}
+
+.rz-button--size-md {
+	/* SM SIZE */
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 28px;
 	--rz-button-min-width: 28px;
 	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
 	--rz-button-icon-font-size: 16px;
+
+	@media (width >= 1024px) {
+		--rz-button-font-size: 14px;
+		--rz-button-min-height: 36px;
+		--rz-button-min-width: 36px;
+		--rz-button-padding: var(--spacing-5xs, 6px);
+		--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+		--rz-button-icon-font-size: 16px;
+	}
 }
 
-.rz-button--size-md {
+.rz-button--size-lg {
+	/* MD SIZE */
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 36px;
 	--rz-button-min-width: 36px;
 	--rz-button-padding: var(--spacing-5xs, 6px);
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
 	--rz-button-icon-font-size: 16px;
-}
 
-.rz-button--size-lg {
-	--rz-button-font-size: 14px;
-	--rz-button-min-height: 40px;
-	--rz-button-min-width: 40px;
-	--rz-button-padding: var(--spacing-4xs, 8px);
-	--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
-	--rz-button-icon-font-size: 18px;
+	@media (width >= 1024px) {
+		--rz-button-font-size: 14px;
+		--rz-button-min-height: 40px;
+		--rz-button-min-width: 40px;
+		--rz-button-padding: var(--spacing-4xs, 8px);
+		--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
+		--rz-button-icon-font-size: 18px;
+	}
 }
 
 /* EMPHASIS */
 .rz-button--emphasis-high {
 	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
-	--rz-button-border-radius: var(--radius-xs, 6px);
-	--rz-button-border: none;
 	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
 	transition: background-color 0.3s, color 0.3s;
 
@@ -84,7 +113,6 @@
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-medium-content-on-light, #18191B);
 	--rz-button-border: 1px solid var(--button-basic-medium-border-on-light, #DADADA);
-	--rz-button-border-radius: var(--radius-xs, 6px);
 	transition: border-color 0.3s, color 0.3s;
 
 	/* Disabled */
@@ -101,9 +129,7 @@
 
 .rz-button--emphasis-low {
 	--rz-button-background-color: none;
-	--rz-button-border: none;
 	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
-	--rz-button-border-radius: var(--radius-xs, 6px);
 	transition: background-color 0.3s;
 
 	/* Disabled */

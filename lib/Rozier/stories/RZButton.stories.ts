@@ -50,14 +50,24 @@ function createButton(args: ButtonArgs) {
 	const labelNode = document.createElement('span');
 	labelNode.className = ['rz-button__label'].join(' ');
     labelNode.innerText = args.label;
-	buttonNode.appendChild(labelNode);
+	if (args.label) buttonNode.appendChild(labelNode);
 
 	const iconNode = document.createElement('span');
 	iconNode.className = ['rz-button__icon', args.iconClass].join(' ');
-	buttonNode.appendChild(iconNode);
+	if (args.iconClass) buttonNode.appendChild(iconNode);
 
     return buttonNode;
 }
+
+
+export const Default: Story = {
+  render: (args) => {
+	return createButton(args)
+  },
+parameters: {
+    layout: 'centered',
+  },
+};
 
 export const HighEmphasis: Story = {
   render: (args) => {
@@ -79,6 +89,8 @@ export const HighEmphasisList: Story = {
 		SIZES.forEach(size => {
 			const btn = createButton({...args, size, label: `High emphasis ${size}`})
 			wrapper.appendChild(btn)
+			const btnIconOnly = createButton({...args, size, label: ``})
+			wrapper.appendChild(btnIconOnly)
 		})
 
 		return wrapper;
@@ -112,6 +124,9 @@ export const mediumEmphasisList: Story = {
 		SIZES.forEach(size => {
 			const btn = createButton({...args, size, label: `Medium emphasis ${size}`})
 			wrapper.appendChild(btn)
+
+			const btnIconOnly = createButton({...args, size, label: ``})
+			wrapper.appendChild(btnIconOnly)
 		})
 
 		return wrapper;
@@ -145,6 +160,9 @@ export const lowEmphasisList: Story = {
 		SIZES.forEach(size => {
 			const btn = createButton({...args, size, label: `Low emphasis ${size}`})
 			wrapper.appendChild(btn)
+
+			const btnIconOnly = createButton({...args, size, label: ``})
+			wrapper.appendChild(btnIconOnly)
 		})
 
 		return wrapper;
@@ -166,20 +184,6 @@ export const liveClassesEditing: Story = {
 		emphasis: undefined,
 		size: undefined,
 		class: 'rz-button rz-button--emphasis-high rz-button--size-lg rz-button--disabled',
-	},
-	parameters: {
-		controls: { exclude: ['emphasis', 'size', 'disabled'] },
-	},
-};
-
-export const Responsive: Story = {
-	render: (args) => {
-		return createButton(args);
-	},
-	args: {
-		emphasis: undefined,
-		size: undefined,
-		class: 'rz-button rz-button--emphasis-high rz-button--size-lg',
 	},
 	parameters: {
 		controls: { exclude: ['emphasis', 'size', 'disabled'] },
