@@ -1,16 +1,16 @@
 .rz-button {
-	/* Keep default user-agent style */
+	/* Default style is the same as emphasis-medium + size-md */
 	display: var(--rz-button-display, inline-flex);
 	align-items: var(--rz-button-align-items, center);
 	justify-content: var(--rz-button-justify-content, center);
-	font-size: var(--rz-button-font-size, revert);
-	min-height: var(--rz-button-min-height, revert);
-	min-width: var(--rz-button-min-width, revert);
+	font-size: var(--rz-button-font-size, 14px);
+	min-height: var(--rz-button-min-height, 36px);
+	min-width: var(--rz-button-min-width, 36px);
 	padding: var(--rz-button-padding, 6px);
-	color: var(--rz-button-color, revert);
-	border: var(--rz-button-border, none);
+	color: var(--rz-button-color, #18191B);
+	border: var(--rz-button-border, 1px solid #DADADA);
 	border-radius: var(--rz-button-border-radius,  var(--radius-xs, 6px));
-	background-color: var(--rz-button-background-color, revert);
+	background-color: var(--rz-button-background-color, none);
 	cursor: var(--rz-button-cursor, pointer);
 
 	&:where(.rz-button--disabled, [disbaled="true"], [disabled=""])  {
@@ -95,6 +95,7 @@
 .rz-button--emphasis-high {
 	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
 	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
+	--rz-button-border: none;
 	transition: background-color 0.3s, color 0.3s;
 
 	/* Disabled */
@@ -130,6 +131,7 @@
 .rz-button--emphasis-low {
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
+	--rz-button-border: none;
 	transition: background-color 0.3s;
 
 	/* Disabled */
@@ -145,10 +147,10 @@
 
 /* INNER ELEMENTS */
 .rz-button__label {
-	padding: var(--rz-button-label-padding);
+	padding: var(--rz-button-label-padding, 0 4px);
 }
 
 .rz-button__icon {
 	margin: var(--rz-button-icon-margin);
-	font-size: var(--rz-button-icon-font-size);
+	font-size: var(--rz-button-icon-font-size, 16px);
 }
