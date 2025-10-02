@@ -10,6 +10,7 @@ type ButtonArgs = {
 	size: typeof SIZES[number];
 	disabled: boolean
 	class: string;
+	iconClass: string;
 };
 
 const meta: Meta<ButtonArgs> = {
@@ -21,6 +22,7 @@ const meta: Meta<ButtonArgs> = {
 		size: 'md',
 		disabled: false,
 		class: 'rz-button',
+		iconClass: 'rz-icon-ri--arrow-drop-right-line',
 	},
 	argTypes: {
 		emphasis: {
@@ -51,7 +53,7 @@ function createButton(args: ButtonArgs) {
 	buttonNode.appendChild(labelNode);
 
 	const iconNode = document.createElement('span');
-	iconNode.className = ['rz-button__icon'].join(' ');
+	iconNode.className = ['rz-button__icon', args.iconClass].join(' ');
 	buttonNode.appendChild(iconNode);
 
     return buttonNode;

@@ -1,5 +1,7 @@
 .rz-button {
 	/* Keep default user-agent style */
+	display: var(--rz-button-display, inline-flex);
+	align-items: var(--rz-button-align-items, center);
 	font-size: var(--rz-button-font-size, revert);
 	min-height: var(--rz-button-min-height, revert);
 	min-width: var(--rz-button-min-width, revert);
@@ -28,6 +30,7 @@
 	--rz-button-min-width: 24px;
 	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-6xs, 4px);
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+	--rz-button-icon-font-size: 16px;
 }
 
 .rz-button--size-sm {
@@ -35,8 +38,8 @@
 	--rz-button-min-height: 28px;
 	--rz-button-min-width: 28px;
 	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
-
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+	--rz-button-icon-font-size: 16px;
 }
 
 .rz-button--size-md {
@@ -44,8 +47,8 @@
 	--rz-button-min-height: 36px;
 	--rz-button-min-width: 36px;
 	--rz-button-padding: var(--spacing-5xs, 6px);
-
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+	--rz-button-icon-font-size: 16px;
 }
 
 .rz-button--size-lg {
@@ -53,8 +56,8 @@
 	--rz-button-min-height: 40px;
 	--rz-button-min-width: 40px;
 	--rz-button-padding: var(--spacing-4xs, 8px);
-
 	--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
+	--rz-button-icon-font-size: 18px;
 }
 
 /* EMPHASIS */
@@ -121,4 +124,5 @@
 
 .rz-button__icon {
 	margin: var(--rz-button-icon-margin);
+	font-size: var(--rz-button-icon-font-size);
 }
