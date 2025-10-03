@@ -7,8 +7,8 @@
 	min-height: var(--rz-button-min-height, 28px);
 	min-width: var(--rz-button-min-width, 28px);
 	padding: var(--rz-button-padding, 2px 6px);
-	color: var(--rz-button-color, #18191B);
-	border: var(--rz-button-border, 1px solid #DADADA);
+	color: var(--rz-button-color, var(--button-basic-medium-content-on-light, #18191B));
+	border: var(--rz-button-border, 1px solid var(--button-basic-medium-border-on-light, #DADADA));
 	border-radius: var(--rz-button-border-radius,  var(--radius-xs, 6px));
 	background-color: var(--rz-button-background-color, none);
 	cursor: var(--rz-button-cursor, pointer);
@@ -16,13 +16,14 @@
 
 	&:where(.rz-button--disabled, [disabled]:not([disabled="false"])) {
 		--rz-button-cursor: default;
-		--rz-button-disabled-color:  #9A9A9A;
-		--rz-button-disabled-border: 1px solid #9A9A9A;
+		--rz-button-disabled-border: 1px solid var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
+		--rz-button-disabled-color: var(--button-basic-medium-content-on-light-disabled, #9A9A9A);
 	}
 
 	@media (hover: hover) {
+		/* Avoid higher specify to let default emphasis style override value */
 		&:where(:hover) {
-			border: var(--rz-button-border, 1px solid #4E4E4E);
+			--rz-button-border: 1px solid var(--button-basic-medium-border-on-light-hover, #4E4E4E);
 		}
 	}
 
