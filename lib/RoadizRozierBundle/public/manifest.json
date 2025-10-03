@@ -3,12 +3,12 @@
     "file": "RoadizElement-XU473doh.js",
     "name": "RoadizElement"
   },
-  "_jquery-Day_If3N.js": {
-    "file": "jquery-Day_If3N.js",
+  "_jquery-Cs7-jZ1a.js": {
+    "file": "jquery-Cs7-jZ1a.js",
     "name": "jquery"
   },
-  "_vue-YhlLoeNc.js": {
-    "file": "vue-YhlLoeNc.js",
+  "_vue-BqDQd3Vv.js": {
+    "file": "vue-BqDQd3Vv.js",
     "name": "vue"
   },
   "app/assets/fonts/fa-brands-400.woff": {
@@ -60,7 +60,7 @@
     ]
   },
   "app/custom-elements/FolderAutocomplete.js": {
-    "file": "FolderAutocomplete-4zM1qGkv.js",
+    "file": "FolderAutocomplete-CMgHW6Ha.js",
     "name": "FolderAutocomplete",
     "src": "app/custom-elements/FolderAutocomplete.js",
     "isDynamicEntry": true
@@ -72,47 +72,53 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-BqwX0tsI.js",
+    "file": "NodeSourceEditPage-BrnFAApd.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
     "imports": [
       "app/main.js",
-      "_jquery-Day_If3N.js",
-      "_vue-YhlLoeNc.js"
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
     ]
   },
   "app/custom-elements/NodeTreeContextualMenu.js": {
-    "file": "NodeTreeContextualMenu-DLY1eyez.js",
+    "file": "NodeTreeContextualMenu-ByIxLf_N.js",
     "name": "NodeTreeContextualMenu",
     "src": "app/custom-elements/NodeTreeContextualMenu.js",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzInputColor.js": {
+    "file": "RzInputColor-BLFeRgMq.js",
+    "name": "RzInputColor",
+    "src": "app/custom-elements/RzInputColor.js",
+    "isDynamicEntry": true
+  },
   "app/custom-elements/TagAutocomplete.js": {
-    "file": "TagAutocomplete-DtxPyKLN.js",
+    "file": "TagAutocomplete-DDko2VyZ.js",
     "name": "TagAutocomplete",
     "src": "app/custom-elements/TagAutocomplete.js",
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-LdYuiXql.js",
+    "file": "TagEditPage-Cuwi3BaS.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
     "imports": [
       "app/main.js",
-      "_jquery-Day_If3N.js",
-      "_vue-YhlLoeNc.js"
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
     ]
   },
   "app/main.js": {
-    "file": "main-By1YoWKO.js",
+    "file": "main-DaRj3j6Q.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
     "imports": [
-      "_jquery-Day_If3N.js",
-      "_vue-YhlLoeNc.js"
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
     ],
     "dynamicImports": [
       "app/custom-elements/AdminMenuNav.js",
@@ -122,6 +128,7 @@
       "app/custom-elements/MainTrees.js",
       "app/custom-elements/NodeSourceEditPage.js",
       "app/custom-elements/NodeTreeContextualMenu.js",
+      "app/custom-elements/RzInputColor.js",
       "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
     ],
@@ -130,15 +137,15 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-BOBQzSx-.js",
+    "file": "shared-C-7Tcqf9.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
     "imports": [
-      "_jquery-Day_If3N.js"
+      "_jquery-Cs7-jZ1a.js"
     ],
     "css": [
-      "shared-CtXNRnep.css"
+      "shared-BzoFOb0F.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
+import type { Meta, StoryObj } from '@storybook/html-vite'
 import riIconNames from '../../vite-plugins/iconify/collections/ri'
 import rzIconNames from '../../vite-plugins/iconify/collections/rz'
 import { iconItemRenderer, iconRenderer, type IconArgs } from './iconItem'
@@ -23,17 +23,17 @@ const meta: Meta<IconArgs> = {
     fontSize: {
       control: 'text',
       description: 'A CSS unit font-size',
-    }
+    },
   },
   tags: ['autodocs'],
-};
+}
 
-export default meta;
-type Story = StoryObj<IconArgs>;
+export default meta
+type Story = StoryObj<IconArgs>
 
 export const Primary: Story = {
   render: (args) => {
-    return iconRenderer(args);
+    return iconRenderer(args)
   },
   parameters: {
     layout: 'centered',
@@ -45,14 +45,13 @@ export const Primary: Story = {
     color: '',
     fontSize: '',
   },
-};
-
+}
 
 function getCollectionStory(prefix: string, names: string[]) {
   return {
     render: (args) => {
-        const container = document.createElement('div');
-        container.style = `
+      const container = document.createElement('div')
+      container.style = `
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 42px;
@@ -60,13 +59,13 @@ function getCollectionStory(prefix: string, names: string[]) {
         max-width: 1000px;
         `
 
-        names.forEach(name => {
-          const item = iconItemRenderer({...args, prefix, RzName: name, RiName: name})
-          container.appendChild(item)
-        })
+      names.forEach((name) => {
+        const item = iconItemRenderer({ ...args, prefix, RzName: name, RiName: name })
+        container.appendChild(item)
+      })
 
-        return container
-      },
+      return container
+    },
     args: {
       color: '',
       fontSize: '',
