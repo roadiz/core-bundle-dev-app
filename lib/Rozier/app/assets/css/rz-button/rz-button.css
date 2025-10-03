@@ -52,7 +52,6 @@
 }
 
 .rz-button--size-sm {
-	/* XS SIZE */
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 24px;
 	--rz-button-min-width: 24px;
@@ -71,7 +70,6 @@
 }
 
 .rz-button--size-md {
-	/* SM SIZE */
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 28px;
 	--rz-button-min-width: 28px;
@@ -90,7 +88,6 @@
 }
 
 .rz-button--size-lg {
-	/* MD SIZE */
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 36px;
 	--rz-button-min-width: 36px;
