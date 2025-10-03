@@ -3,18 +3,34 @@
 	display: var(--rz-button-display, inline-flex);
 	align-items: var(--rz-button-align-items, center);
 	justify-content: var(--rz-button-justify-content, center);
-	font-size: var(--rz-button-font-size, 14px);
-	min-height: var(--rz-button-min-height, 36px);
-	min-width: var(--rz-button-min-width, 36px);
-	padding: var(--rz-button-padding, 6px);
+	font-size: var(--rz-button-font-size, 13px);
+	min-height: var(--rz-button-min-height, 28px);
+	min-width: var(--rz-button-min-width, 28px);
+	padding: var(--rz-button-padding, 2px 6px);
 	color: var(--rz-button-color, #18191B);
 	border: var(--rz-button-border, 1px solid #DADADA);
 	border-radius: var(--rz-button-border-radius,  var(--radius-xs, 6px));
 	background-color: var(--rz-button-background-color, none);
 	cursor: var(--rz-button-cursor, pointer);
+	transition: var(--rz-button-transition, border-color 0.3s);
 
 	&:where(.rz-button--disabled, [disbaled="true"], [disabled=""])  {
-		--rz-button-cursor: revert;
+		--rz-button-cursor: default;
+		--rz-button-disabled-color:  #9A9A9A;
+		--rz-button-disabled-border: 1px solid #9A9A9A;
+	}
+
+	@media (hover: hover) {
+		&:where(:hover) {
+			border: var(--rz-button-border, 1px solid #4E4E4E);
+		}
+	}
+
+	@media (width >= 1024px) {
+		font-size: var(--rz-button-font-size, 14px);
+		min-height: var(--rz-button-min-height, 36px);
+		min-width: var(--rz-button-min-width, 36px);
+		padding: var(--rz-button-padding, 6px);
 	}
 }
 
@@ -96,11 +112,12 @@
 	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
 	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
 	--rz-button-border: none;
-	transition: background-color 0.3s, color 0.3s;
+	--rz-button-transition: background-color 0.3s, color 0.3s;
 
 	/* Disabled */
 	--rz-button-disabled-color: var(--button-basic-high-content-on-light-disabled, #9A9A9A);
 	--rz-button-disabled-background-color: var(--button-basic-high-bg-on-light-disabled, #EAEAEA);
+	--rz-button-disabled-border: none;
 
 	@media (hover: hover) {
 		&:hover {
@@ -114,12 +131,11 @@
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-medium-content-on-light, #18191B);
 	--rz-button-border: 1px solid var(--button-basic-medium-border-on-light, #DADADA);
-	transition: border-color 0.3s, color 0.3s;
+	--rz-button-transition: border-color 0.3s, color 0.3s;
 
 	/* Disabled */
 	--rz-button-disabled-border: 1px solid var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
 	--rz-button-disabled-color: var(--button-basic-medium-content-on-light-disabled, #9A9A9A);
-
 
 	@media (hover: hover) {
 		&:hover {
@@ -132,11 +148,12 @@
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
 	--rz-button-border: none;
-	transition: background-color 0.3s;
+	--rz-button-transition: background-color 0.3s;
 
 	/* Disabled */
 	--rz-button-disabled-color: var(--button-basic-low-content-on-light-disabled, #9A9A9A);
 	--rz-button-disabled-background-color: initial;
+	--rz-button-disabled-border: none;
 
 	@media (hover: hover) {
 		&:hover {

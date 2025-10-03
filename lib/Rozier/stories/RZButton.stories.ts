@@ -19,7 +19,6 @@ const meta: Meta<ButtonArgs> = {
 	args: {
 		label: 'button label',
 		disabled: false,
-		class: 'rz-button',
 		iconClass: 'rz-icon-ri--arrow-drop-right-line',
 	},
 	argTypes: {
