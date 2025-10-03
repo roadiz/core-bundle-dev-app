@@ -18,8 +18,6 @@ const meta: Meta<ButtonArgs> = {
   	tags: ['autodocs'],
 	args: {
 		label: 'button label',
-		emphasis: 'high',
-		size: 'md',
 		disabled: false,
 		class: 'rz-button',
 		iconClass: 'rz-icon-ri--arrow-drop-right-line',
@@ -61,12 +59,12 @@ function createButton(args: ButtonArgs) {
 
 
 export const Default: Story = {
-  render: (args) => {
-	return createButton(args)
-  },
-parameters: {
-    layout: 'centered',
-  },
+  	render: (args) => {
+		return createButton(args)
+  	},
+	parameters: {
+    	layout: 'centered',
+  	},
 };
 
 export const HighEmphasis: Story = {
@@ -78,6 +76,7 @@ export const HighEmphasis: Story = {
 	},
 	parameters: {
 		controls: { exclude: ['emphasis', 'class'] },
+		layout: 'centered',
 	},
 };
 
@@ -113,6 +112,7 @@ export const mediumEmphasis: Story = {
 	},
 	parameters: {
 		controls: { exclude: ['emphasis', 'class'] },
+		layout: 'centered',
 	},
 };
 
@@ -149,6 +149,7 @@ export const lowEmphasis: Story = {
 	},
 	parameters: {
 		controls: { exclude: ['emphasis'] },
+		layout: 'centered',
 	},
 };
 
@@ -187,5 +188,6 @@ export const liveClassesEditing: Story = {
 	},
 	parameters: {
 		controls: { exclude: ['emphasis', 'size', 'disabled'] },
+		layout: 'centered',
 	},
 };
