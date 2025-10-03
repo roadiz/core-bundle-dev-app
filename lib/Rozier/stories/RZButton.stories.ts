@@ -13,7 +13,7 @@ type ButtonArgs = {
 	iconClass: string;
 };
 
-/** Use `.rz-button` class on a button element to create a button. Optionally add emphasis and size modifier classes.
+/** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
 * In most case you will use a label and /or an icon inside the button. add `.rz-button__label` and/or `.rz-button__icon` classes to the inner elements.
 *
 * ### Emphasis modifier classes
@@ -221,7 +221,7 @@ export const disabledList: Story = {
 		[true, false].forEach(withDisabledAttr => {
 			const wrapper = document.createElement('div');
 			wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center; max-width: 800px; margin-inline: auto;';
-			const title = document.createElement('h2');
+			const title = document.createElement('h4');
 			title.style = 'color: black;'
 			title.innerText = withDisabledAttr ? 'With disabled attribute' : 'With disabled class'
 			rootNode.appendChild(title)
