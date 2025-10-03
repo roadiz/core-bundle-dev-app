@@ -38,7 +38,7 @@ export default meta;
 type Story = StoryObj<ButtonArgs>;
 
 
-function createButton(args: ButtonArgs) {
+function buttonRenderer(args: ButtonArgs) {
 	const buttonNode = document.createElement('button');
 	const emphasisClass = args.emphasis ? `rz-button--emphasis-${args.emphasis}` : '';
 	const sizeClass = args.size ? `rz-button--size-${args.size}` : '';
@@ -60,7 +60,7 @@ function createButton(args: ButtonArgs) {
 
 export const Default: Story = {
   	render: (args) => {
-		return createButton(args)
+		return buttonRenderer(args)
   	},
 	parameters: {
     	layout: 'centered',
@@ -69,7 +69,7 @@ export const Default: Story = {
 
 export const HighEmphasis: Story = {
   render: (args) => {
-	return createButton(args)
+	return buttonRenderer(args)
   },
 	args: {
 		emphasis: 'high',
@@ -86,9 +86,9 @@ export const HighEmphasisList: Story = {
 		wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;';
 
 		SIZES.forEach(size => {
-			const btn = createButton({...args, size, label: `High emphasis ${size}`})
+			const btn = buttonRenderer({...args, size, label: `High emphasis ${size}`})
 			wrapper.appendChild(btn)
-			const btnIconOnly = createButton({...args, size, label: ``})
+			const btnIconOnly = buttonRenderer({...args, size, label: ``})
 			wrapper.appendChild(btnIconOnly)
 		})
 
@@ -105,7 +105,7 @@ export const HighEmphasisList: Story = {
 
 export const mediumEmphasis: Story = {
   render: (args) => {
-	return createButton(args)
+	return buttonRenderer(args)
   },
 	args: {
 		emphasis: 'medium',
@@ -122,10 +122,10 @@ export const mediumEmphasisList: Story = {
 		wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;';
 
 		SIZES.forEach(size => {
-			const btn = createButton({...args, size, label: `Medium emphasis ${size}`})
+			const btn = buttonRenderer({...args, size, label: `Medium emphasis ${size}`})
 			wrapper.appendChild(btn)
 
-			const btnIconOnly = createButton({...args, size, label: ``})
+			const btnIconOnly = buttonRenderer({...args, size, label: ``})
 			wrapper.appendChild(btnIconOnly)
 		})
 
@@ -142,7 +142,7 @@ export const mediumEmphasisList: Story = {
 
 export const lowEmphasis: Story = {
   render: (args) => {
-	return createButton(args)
+	return buttonRenderer(args)
   },
 	args: {
 		emphasis: 'low',
@@ -159,10 +159,10 @@ export const lowEmphasisList: Story = {
 		wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;';
 
 		SIZES.forEach(size => {
-			const btn = createButton({...args, size, label: `Low emphasis ${size}`})
+			const btn = buttonRenderer({...args, size, label: `Low emphasis ${size}`})
 			wrapper.appendChild(btn)
 
-			const btnIconOnly = createButton({...args, size, label: ``})
+			const btnIconOnly = buttonRenderer({...args, size, label: ``})
 			wrapper.appendChild(btnIconOnly)
 		})
 
@@ -179,7 +179,7 @@ export const lowEmphasisList: Story = {
 
 export const liveClassesEditing: Story = {
 	render: (args) => {
-		return createButton(args);
+		return buttonRenderer(args);
 	},
 	args: {
 		emphasis: undefined,
