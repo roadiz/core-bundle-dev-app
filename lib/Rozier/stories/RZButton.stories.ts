@@ -13,8 +13,25 @@ type ButtonArgs = {
 	iconClass: string;
 };
 
+/** Use `.rz-button` class on a button element to create a button. Optionally add emphasis and size modifier classes.
+* In most case you will use a label and /or an icon inside the button. add `.rz-button__label` and/or `.rz-button__icon` classes to the inner elements.
+*
+* ### Emphasis modifier classes
+* - `.rz-button--emphasis-low`
+* - `.rz-button--emphasis-medium` (default)
+* - `.rz-button--emphasis-high`
+*
+* ### Size modifier classes
+* - `.rz-button--size-xs`
+* - `.rz-button--size-sm`
+* - `.rz-button--size-md` (default)
+* - `.rz-button--size-lg`
+*
+* ### Disabled state
+* Add the `disabled` attribute on the button element or add the modifier class `.rz-button--disabled` to apply the disabled state style.
+*/
 const meta: Meta<ButtonArgs> = {
-  	title: 'Components/RZButton',
+  	title: 'Components/RzButton',
   	tags: ['autodocs'],
 	args: {
 		label: 'button label',
@@ -30,15 +47,21 @@ const meta: Meta<ButtonArgs> = {
 			control: { type: 'select' },
 			options: [...SIZES, ''],
 		},
-	}
+	},
 };
 
 export default meta;
 type Story = StoryObj<ButtonArgs>;
 
 
-function buttonRenderer(args: ButtonArgs) {
+function buttonRenderer(args: ButtonArgs, attrs: Record<string, string> = {}) {
 	const buttonNode = document.createElement('button');
+	const attributesEntries = Object.entries(attrs)
+	if(attributesEntries.length) {
+		attributesEntries.forEach(([key, value]) => {
+			buttonNode.setAttribute(key, value)
+		})
+	}
 	const emphasisClass = args.emphasis ? `rz-button--emphasis-${args.emphasis}` : '';
 	const sizeClass = args.size ? `rz-button--size-${args.size}` : '';
 	const disabledClass = args.disabled ? `rz-button--disabled` : '';
@@ -55,7 +78,6 @@ function buttonRenderer(args: ButtonArgs) {
 
     return buttonNode;
 }
-
 
 export const Default: Story = {
   	render: (args) => {
@@ -188,5 +210,45 @@ export const liveClassesEditing: Story = {
 	parameters: {
 		controls: { exclude: ['emphasis', 'size', 'disabled'] },
 		layout: 'centered',
+	},
+};
+
+
+export const disabledList: Story = {
+	render: (args) => {
+		let rootNode = document.createElement('div');
+
+		[true, false].forEach(withDisabledAttr => {
+			const wrapper = document.createElement('div');
+			wrapper.style = 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center; max-width: 800px; margin-inline: auto;';
+			const title = document.createElement('h2');
+			title.style = 'color: black;'
+			title.innerText = withDisabledAttr ? 'With disabled attribute' : 'With disabled class'
+			rootNode.appendChild(title)
+			rootNode.appendChild(wrapper)
+
+			EMPHASIS.forEach(emphasis => {
+				SIZES.forEach(size => {
+					const btn = buttonRenderer(
+						{...args, size, emphasis, label: `${emphasis} ${size}`, disabled: !withDisabledAttr},
+						withDisabledAttr ? { disabled: ''} : {}
+					)
+					wrapper.appendChild(btn)
+
+					const btnIconOnly = buttonRenderer(
+						{...args, emphasis, size, label: ``, disabled: !withDisabledAttr},
+						withDisabledAttr ? { disabled: ''} : {}
+					)
+					wrapper.appendChild(btnIconOnly)
+				})
+			})
+		})
+
+		return rootNode;
+	},
+	parameters: {
+		controls: {
+			include: [],
+		}
 	},
 };
