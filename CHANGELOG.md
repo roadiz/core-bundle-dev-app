@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.37...v2.5.38) - 2025-10-06
+
+### Bug Fixes
+
+- **(DocumentPruneOrphansCommand)** Enhance dry-run output and track paths to prune - ([242f8fe](https://github.com/roadiz/core-bundle-dev-app/commit/242f8febd90af9a8b9a9cce61b4dea030d549959))
+
 ## [2.5.37](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.36...v2.5.37) - 2025-09-29
 
 ### Bug Fixes
