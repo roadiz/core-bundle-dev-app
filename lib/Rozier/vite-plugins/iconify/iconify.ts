@@ -118,12 +118,12 @@ export default function initCollections(
         await fs.mkdir(finalOptions.outputDir, { recursive: true })
         const outputPath = path.resolve(process.cwd(), finalOptions.outputDir)
 
-			// Generate the optimized CSS code
-			const css = getIconsCSS(json, iconSet.list(), {
-				format: 'compressed',
-				iconSelector: '.rz-icon-{prefix}--{name}',
-				commonSelector: '[class*="rz-icon-{prefix}--"]',
-			});
+        // Generate the optimized CSS code
+        const css = getIconsCSS(json, iconSet.list(), {
+          format: 'compressed',
+          iconSelector: '.rz-icon-{prefix}--{name}',
+          commonSelector: '[class*="rz-icon-{prefix}--"]',
+        })
 
         const cssFileName = `${collection.outputName || prefix}.css`
         const cssFilePath = path.join(outputPath, cssFileName)
