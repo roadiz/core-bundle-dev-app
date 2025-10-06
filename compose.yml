@@ -149,7 +149,7 @@ services:
         image: axllent/mailpit
 
     # Development frontend assets HMR server
-    node:
+    node: &node_template
         build:
             target: node-dev
             args:
@@ -159,6 +159,12 @@ services:
         volumes:
             - ./lib/Rozier:/app
             - ./lib/RoadizRozierBundle/public:/RoadizRozierBundle/public
+
+    storybook:
+        <<: *node_template
+        ports:
+            - 6006:6006
+        command: ["pnpm", "storybook"]
 
     # Development frontend assets HMR server
     vitepress:

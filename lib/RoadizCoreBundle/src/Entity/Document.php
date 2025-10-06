@@ -774,9 +774,9 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     }
 
     #[\Override]
-    public function setFilename(string $filename): static
+    public function setFilename(string $filename, bool $sanitize = true): static
     {
-        $this->filename = StringHandler::cleanForFilename($filename);
+        $this->filename = $sanitize ? StringHandler::cleanForFilename($filename) : $filename;
 
         return $this;
     }
