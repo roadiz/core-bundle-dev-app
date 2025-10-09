@@ -130,7 +130,7 @@ export default function initCollections(
                 const css = getIconsCSS(json, iconSet.list(), {
                     format: 'compressed',
                     iconSelector: '.rz-icon-{prefix}--{name}',
-                    commonSelector: '[class^="rz-icon-{prefix}"]',
+                    commonSelector: '[class*="rz-icon-{prefix}--"]',
                 })
 
                 const cssFileName = `${collection.outputName || prefix}.css`
