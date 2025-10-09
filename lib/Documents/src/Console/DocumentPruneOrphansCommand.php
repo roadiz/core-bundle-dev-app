@@ -7,6 +7,7 @@ namespace RZ\Roadiz\Documents\Console;
 use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FilesystemException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,7 +22,7 @@ final class DocumentPruneOrphansCommand extends AbstractDocumentCommand
     {
         $this->setName('documents:prune:orphans')
             ->setDescription('Remove any document without existing file on filesystem, except embeds. <info>Danger zone</info>')
-            ->addOption('dry-run', 'd', InputOption::VALUE_NONE)
+            ->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Just list documents with invalid file and their problem, do not delete them')
         ;
     }
 
@@ -35,14 +36,26 @@ final class DocumentPruneOrphansCommand extends AbstractDocumentCommand
             $this->io->note('Dry run');
         }
         $deleteCount = 0;
+        $pathsToPrune = [];
 
-        $this->onEachDocument(function (DocumentInterface $document) use ($em, $deleteCount, $dryRun) {
-            $this->checkDocumentFilesystem($document, $em, $deleteCount, (bool) $dryRun);
+        $this->onEachDocument(function (DocumentInterface $document) use ($em, &$deleteCount, $dryRun, &$pathsToPrune) {
+            $this->checkDocumentFilesystem($document, $em, $deleteCount, (bool) $dryRun, $pathsToPrune);
         }, new SymfonyStyle($input, $output));
 
-        $this->io->success(sprintf('%d documents were deleted.', $deleteCount));
+        if (!$output->isQuiet()) {
+            $this->io->table(
+                ['Path to prune', 'Reason'],
+                $pathsToPrune,
+            );
+        }
 
-        return 0;
+        if (!$dryRun) {
+            $this->io->success(sprintf('%d documents were deleted.', $deleteCount));
+        } else {
+            $this->io->warning(sprintf('%d documents would be deleted without --dry-run.', $deleteCount));
+        }
+
+        return Command::SUCCESS;
     }
 
     /**
@@ -53,6 +66,7 @@ final class DocumentPruneOrphansCommand extends AbstractDocumentCommand
         ObjectManager $entityManager,
         int &$deleteCount,
         bool $dryRun = false,
+        array &$pathsToPrune = [],
     ): void {
         /*
          * Do not prune embed documents which may not have any file
@@ -61,20 +75,21 @@ final class DocumentPruneOrphansCommand extends AbstractDocumentCommand
         if (null === $mountPath || $document->isEmbed()) {
             return;
         }
-        if ($this->documentsStorage->fileExists($mountPath)) {
+
+        $fileExists = $this->documentsStorage->fileExists($mountPath);
+
+        if ($fileExists && $this->documentsStorage->fileSize($mountPath) > 0) {
             return;
         }
 
-        if ($this->io->isDebug() && !$this->io->isQuiet()) {
-            $this->io->writeln(sprintf(
-                '%s file does not exist, pruning document %s',
-                $document->getMountPath(),
-                (string) $document
-            ));
-        }
+        $pathsToPrune[] = [
+            'path' => $mountPath,
+            'reason' => !$fileExists ? 'File does not exist' : 'File size is 0 bytes',
+        ];
+        ++$deleteCount;
+
         if (!$dryRun) {
             $entityManager->remove($document);
-            ++$deleteCount;
         }
     }
 }

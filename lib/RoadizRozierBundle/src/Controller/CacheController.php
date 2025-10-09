@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class CacheController extends AbstractController
 {
     public function __construct(
-        #[Autowire('cache.global_clearer')]
+        #[Autowire(service: 'cache.global_clearer')]
         private readonly CacheClearerInterface $cacheClearer,
         private readonly LoggerInterface $logger,
         private readonly LogTrail $logTrail,

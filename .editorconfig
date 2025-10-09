@@ -15,8 +15,3 @@ trim_trailing_whitespace = false
 
 [Makefile]
 indent_style = tab
-
-# Rozier files
-[{*.js, *.ts, *.vue, *.css, *.scss, *.less}]
-indent_style = space
-indent_size = 2
