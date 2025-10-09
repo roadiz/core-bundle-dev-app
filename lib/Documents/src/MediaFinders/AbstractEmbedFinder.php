@@ -9,7 +9,6 @@ use League\Flysystem\FilesystemException;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\DownloadedFile;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
-use RZ\Roadiz\Documents\Exceptions\EmbedDocumentAlreadyExistsException;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
@@ -215,8 +214,8 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
         ObjectManager $objectManager,
         AbstractDocumentFactory $documentFactory,
     ): DocumentInterface|array {
-        if ($this->documentExists($objectManager, $this->getEmbedId(), $this->getPlatform())) {
-            throw new EmbedDocumentAlreadyExistsException();
+        if (null !== $document = $this->getExistingDocument($objectManager, $this->getEmbedId(), $this->getPlatform())) {
+            return $document;
         }
 
         try {
@@ -267,6 +266,12 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
         string $embedId,
         ?string $embedPlatform,
     ): bool;
+
+    abstract protected function getExistingDocument(
+        ObjectManager $objectManager,
+        string $embedId,
+        ?string $embedPlatform,
+    ): ?DocumentInterface;
 
     /**
      * Store additional information into Document.
