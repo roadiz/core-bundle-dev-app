@@ -2,6 +2,18 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.17...v2.6.18) - 2025-10-09
+
+### Bug Fixes
+
+- Refactor the 'documentExists' method to return '?DocumentInterface' instead of 'bool' to ensure an idempotent response when creating an embed. - ([56a2f77](https://github.com/roadiz/core-bundle-dev-app/commit/56a2f774fc794872db713c48cf3eef3879c9a628))
+
+## [2.6.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.16...v2.6.17) - 2025-10-06
+
+### Bug Fixes
+
+- **(DocumentPruneOrphansCommand)** Enhance dry-run output and track paths to prune - ([77c555e](https://github.com/roadiz/core-bundle-dev-app/commit/77c555e593f4e89a205b12d30ea59b4e374d512b))
+
 ## [2.6.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.15...v2.6.16) - 2025-09-29
 
 ### Bug Fixes
