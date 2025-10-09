@@ -136,7 +136,7 @@ export const HighEmphasisList: Story = {
     },
 }
 
-export const mediumEmphasis: Story = {
+export const MediumEmphasis: Story = {
     render: (args) => {
         return buttonRenderer(args)
     },
@@ -149,7 +149,7 @@ export const mediumEmphasis: Story = {
     },
 }
 
-export const mediumEmphasisList: Story = {
+export const MediumEmphasisList: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
         wrapper.style =
@@ -177,7 +177,7 @@ export const mediumEmphasisList: Story = {
     },
 }
 
-export const lowEmphasis: Story = {
+export const LowEmphasis: Story = {
     render: (args) => {
         return buttonRenderer(args)
     },
@@ -190,7 +190,7 @@ export const lowEmphasis: Story = {
     },
 }
 
-export const lowEmphasisList: Story = {
+export const LowEmphasisList: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
         wrapper.style =
@@ -218,7 +218,7 @@ export const lowEmphasisList: Story = {
     },
 }
 
-export const liveClassesEditing: Story = {
+export const LiveClassesEditing: Story = {
     render: (args) => {
         return buttonRenderer(args)
     },
@@ -233,7 +233,7 @@ export const liveClassesEditing: Story = {
     },
 }
 
-export const disabledList: Story = {
+export const DisabledList: Story = {
     render: (args) => {
         const rootNode = document.createElement('div')
 
