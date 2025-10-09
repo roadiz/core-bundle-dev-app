@@ -214,7 +214,7 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
         ObjectManager $objectManager,
         AbstractDocumentFactory $documentFactory,
     ): DocumentInterface|array {
-        if ($document = $this->documentExists($objectManager, $this->getEmbedId(), $this->getPlatform())) {
+        if ($document = $this->getExistingDocument($objectManager, $this->getEmbedId(), $this->getPlatform())) {
             return $document;
         }
 
@@ -262,6 +262,12 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     }
 
     abstract protected function documentExists(
+        ObjectManager $objectManager,
+        string $embedId,
+        ?string $embedPlatform,
+    ): bool;
+
+    abstract protected function getExistingDocument(
         ObjectManager $objectManager,
         string $embedId,
         ?string $embedPlatform,

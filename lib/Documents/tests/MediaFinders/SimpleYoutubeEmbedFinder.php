@@ -10,12 +10,17 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 final class SimpleYoutubeEmbedFinder extends AbstractYoutubeEmbedFinder
 {
-    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): ?DocumentInterface
+    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): bool
     {
         throw new \RuntimeException('Not implemented');
     }
 
     protected function injectMetaInDocument(ObjectManager $objectManager, DocumentInterface $document): DocumentInterface
+    {
+        throw new \RuntimeException('Not implemented');
+    }
+
+    protected function getExistingDocument(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): ?DocumentInterface
     {
         throw new \RuntimeException('Not implemented');
     }

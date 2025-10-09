@@ -14,7 +14,19 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 
 trait EmbedFinderTrait
 {
-    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): ?DocumentInterface
+    /** @deprecated use getExistingDocument() instead */
+    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): bool
+    {
+        $existingDocument = $objectManager->getRepository(Document::class)
+            ->findOneBy([
+                'embedId' => $embedId,
+                'embedPlatform' => $embedPlatform,
+            ]);
+
+        return null !== $existingDocument;
+    }
+
+    protected function getExistingDocument(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): ?DocumentInterface
     {
         return $objectManager->getRepository(Document::class)
             ->findOneBy([
