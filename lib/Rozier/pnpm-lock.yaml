@@ -24,9 +24,6 @@ importers:
       dropzone:
         specifier: ~5.5.1
         version: 5.5.1
-      gsap:
-        specifier: '>=3.6.0'
-        version: 3.13.0
       jquery:
         specifier: ^3.5.0
         version: 3.7.1
@@ -1331,9 +1328,6 @@ packages:
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
-
-  gsap@3.13.0:
-    resolution: {integrity: sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw==}
 
   har-schema@1.0.5:
     resolution: {integrity: sha512-f8xf2GOR6Rgwc9FPTLNzgwB+JQ2/zMauYXSWmX5YV5acex6VomT0ocSuwR7BfXo5MpHi+jL+saaux2fwsGJDKQ==}
@@ -3390,8 +3384,6 @@ snapshots:
     optional: true
 
   graphemer@1.4.0: {}
-
-  gsap@3.13.0: {}
 
   har-schema@1.0.5:
     optional: true
