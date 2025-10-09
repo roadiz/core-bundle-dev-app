@@ -2,14 +2,12 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import '../../app/assets/css/main.css'
 import { getRootCssVarsByGroups } from './getCssVars'
 
-type ColorArg = {}
-
-const meta: Meta<ColorArg> = {
+const meta: Meta = {
     title: 'Colors',
 }
 
 export default meta
-type Story = StoryObj<ColorArg>
+type Story = StoryObj
 
 function colorItemRenderer([name, value]: [string, string]) {
     return `
