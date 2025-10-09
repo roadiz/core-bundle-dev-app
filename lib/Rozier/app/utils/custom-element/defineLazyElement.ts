@@ -5,19 +5,20 @@ export type ElementModule =
 /**
  * Define a custom element that will be lazy-loaded when first used.
  *
- * @param tagName - The custom element tag name.
+ * @param name - The custom element name (tag name or is attribute).
  * @param loader - A function returning a dynamic import() Promise.
  */
 export function defineLazyElement(
-    tagName: string,
+    name: string,
     loader: () => Promise<ElementModule>,
 ): void {
-    const existing = document.querySelector(tagName) // Check if element already exists in DOM
+    const selector = `${name}, [is="${name}"]` // Selector for both autonomous and customized built-in elements
+    const element = document.querySelector(selector) // Check if element already exists in DOM
 
     let loadingPromise: Promise<void> | null = null
     let observer: MutationObserver | null = null
 
-    async function load() {
+    async function load(tagName: string) {
         if (!loadingPromise) {
             loadingPromise = loader().then((module) => {
                 const elementConstructor = (module.default ||
@@ -29,28 +30,38 @@ export function defineLazyElement(
                 observer = null
 
                 if (!elementConstructor) {
-                    throw new Error(`No element class found for <${tagName}>`)
+                    throw new Error(`No element class found for <${name}>`)
                 }
 
-                customElements.define(tagName, elementConstructor)
+                const options =
+                    tagName === name ? undefined : { extends: tagName }
+
+                customElements.define(name, elementConstructor, options)
             })
         }
 
         await loadingPromise
     }
 
-    if (existing) {
-        load()
+    if (element) {
+        load(element.tagName.toLowerCase())
     } else {
         observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 for (const node of mutation.addedNodes) {
                     if (node instanceof Element) {
-                        if (node.tagName.toLowerCase() === tagName) {
-                            load()
+                        const tagName = node.tagName.toLowerCase()
+
+                        if (
+                            tagName === name ||
+                            node.getAttribute('is') === name
+                        ) {
+                            load(tagName)
                         } else {
-                            const found = node.querySelector(tagName)
-                            if (found) load()
+                            const childElement = node.querySelector(selector)
+
+                            if (childElement)
+                                load(childElement.tagName.toLowerCase())
                         }
                     }
                 }
