@@ -47,9 +47,9 @@
 
 .rz-button--size-sm {
 	--rz-button-font-size: 13px;
-		--rz-button-min-height: 28px;
-		--rz-button-min-width: 28px;
-		--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
+	--rz-button-min-height: 28px;
+	--rz-button-min-width: 28px;
+	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
 	--rz-button-icon-font-size: 16px;
 }
