@@ -214,7 +214,7 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
         ObjectManager $objectManager,
         AbstractDocumentFactory $documentFactory,
     ): DocumentInterface|array {
-        if ($document = $this->getExistingDocument($objectManager, $this->getEmbedId(), $this->getPlatform())) {
+        if (null !== $document = $this->getExistingDocument($objectManager, $this->getEmbedId(), $this->getPlatform())) {
             return $document;
         }
 
