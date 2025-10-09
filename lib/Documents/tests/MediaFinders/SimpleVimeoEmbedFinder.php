@@ -10,7 +10,7 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 final class SimpleVimeoEmbedFinder extends AbstractVimeoEmbedFinder
 {
-    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): bool
+    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): ?DocumentInterface
     {
         throw new \RuntimeException('Not implemented');
     }
