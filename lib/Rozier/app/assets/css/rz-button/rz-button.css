@@ -54,50 +54,29 @@
 
 .rz-button--size-sm {
 	--rz-button-font-size: 13px;
-	--rz-button-min-height: 24px;
-	--rz-button-min-width: 24px;
-	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-6xs, 4px);
-	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
-	--rz-button-icon-font-size: 16px;
-
-	@media (width >= 1024px) {
 		--rz-button-min-height: 28px;
 		--rz-button-min-width: 28px;
 		--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
-	}
+	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
+	--rz-button-icon-font-size: 16px;
 }
 
 .rz-button--size-md {
-	--rz-button-font-size: 13px;
-	--rz-button-min-height: 28px;
-	--rz-button-min-width: 28px;
-	--rz-button-padding: var(--spacing-7xs, 2px) var(--spacing-5xs, 6px);
-	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
-	--rz-button-icon-font-size: 16px;
-
-	@media (width >= 1024px) {
-		--rz-button-font-size: 14px;
-		--rz-button-min-height: 36px;
-		--rz-button-min-width: 36px;
-		--rz-button-padding: var(--spacing-5xs, 6px);
-	}
-}
-
-.rz-button--size-lg {
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 36px;
 	--rz-button-min-width: 36px;
 	--rz-button-padding: var(--spacing-5xs, 6px);
 	--rz-button-label-padding: 0 var(--spacing-6xs, 4px);
 	--rz-button-icon-font-size: 16px;
+}
 
-	@media (width >= 1024px) {
-		--rz-button-min-height: 40px;
-		--rz-button-min-width: 40px;
-		--rz-button-padding: var(--spacing-4xs, 8px);
-		--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
-		--rz-button-icon-font-size: 18px;
-	}
+.rz-button--size-lg {
+	--rz-button-font-size: 14px;
+	--rz-button-min-height: 40px;
+	--rz-button-min-width: 40px;
+	--rz-button-padding: var(--spacing-4xs, 8px);
+	--rz-button-label-padding: 0 var(--spacing-5xs, 6px);
+	--rz-button-icon-font-size: 18px;
 }
 
 /* EMPHASIS */
