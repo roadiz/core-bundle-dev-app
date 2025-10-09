@@ -14,7 +14,7 @@
 	cursor: var(--rz-button-cursor, pointer);
 	transition: var(--rz-button-transition, border-color 0.3s);
 
-	&:where(.rz-button--disabled, [disabled]:not([disabled="false"])) {
+	&:where(.rz-button--disabled, [disabled]) {
 		--rz-button-cursor: default;
 		--rz-button-disabled-border: 1px solid var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
 		--rz-button-disabled-color: var(--button-basic-medium-content-on-light-disabled, #9A9A9A);
@@ -35,7 +35,7 @@
 	}
 }
 
-.rz-button[disabled]:not([disabled="false"]),
+.rz-button[disabled],
 .rz-button--disabled {
 	color: var(--rz-button-disabled-color);
 	border: var(--rz-button-disabled-border);
