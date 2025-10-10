@@ -4,3 +4,6 @@
 @import './variables/typography.css';
 
 @import './icons/index.css';
+
+@import './common.css';
+@import './font.css';
