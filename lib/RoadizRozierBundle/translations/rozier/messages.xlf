@@ -117,6 +117,7 @@
             <trans-unit xml:space="preserve" id="113"><source>nodeType</source></trans-unit>
             <trans-unit xml:space="preserve" id="114"><source>priority</source></trans-unit>
             <trans-unit xml:space="preserve" id="115"><source>node.isHome</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.shadow"><source>node.shadow</source></trans-unit>
             <trans-unit xml:space="preserve" id="116"><source>choose.tag</source></trans-unit>
             <trans-unit xml:space="preserve" id="117"><source>nodeType.%name%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="118"><source>nodeType.%name%.created</source></trans-unit>
@@ -320,7 +321,6 @@
             <trans-unit xml:space="preserve" id="318"><source>published</source></trans-unit>
             <trans-unit xml:space="preserve" id="319"><source>hiding-children</source></trans-unit>
             <trans-unit xml:space="preserve" id="320"><source>lock-status</source></trans-unit>
-            <trans-unit xml:space="preserve" id="321"><source>sterile-status</source></trans-unit>
             <trans-unit xml:space="preserve" id="322"><source>archive-status</source></trans-unit>
             <trans-unit xml:space="preserve" id="323"><source>edit.document.%name%</source></trans-unit>
             <trans-unit xml:space="preserve" id="324"><source>delete.nodeTypeField.%name%</source></trans-unit>
@@ -537,6 +537,7 @@
             <trans-unit xml:space="preserve" id="pending.nodes"><source>pending.nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="archived.nodes"><source>archived.nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="deleted.nodes"><source>deleted.nodes</source></trans-unit>
+            <trans-unit xml:space="preserve" id="shadow.nodes"><source>shadow.nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.draft"><source>node.draft</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.pending.validation"><source>node.pending.validation</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.archived"><source>node.archived</source></trans-unit>
@@ -544,12 +545,10 @@
             <trans-unit xml:space="preserve" id="node.visible"><source>node.visible</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.hideChildren"><source>node.hideChildren</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.locked"><source>node.locked</source></trans-unit>
-            <trans-unit xml:space="preserve" id="node.sterile"><source>node.sterile</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.isHome.help"><source>node.isHome.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.visible.help"><source>node.visible.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.hideChildren.help"><source>node.hideChildren.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.locked.help"><source>node.locked.help</source></trans-unit>
-            <trans-unit xml:space="preserve" id="node.sterile.help"><source>node.sterile.help</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="draft"><source>draft</source></trans-unit>
             <trans-unit xml:space="preserve" id="pending"><source>pending</source></trans-unit>
@@ -1269,6 +1268,11 @@
             <trans-unit xml:space="preserve" id="login_with_openid"><source>login_with_openid</source><note>Default login button label for OpenID</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="filter"><source>filter</source><note>Button label for a generic filtering action.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="filter.by_tag"><source>filter.by_tag</source><note>Select label for a filtering by tag.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="filter.by_tag.all"><source>filter.by_tag.all</source><note>Placeholder label for resetting filter by tag.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="filter.reset"><source>filter.reset</source><note>Button label for resetting filters.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="item.not_published"><source>item.not_published</source><note>Icon label for unpublished items.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="item.published"><source>item.published</source><note>Icon label for published items.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created"><source>%namespace%.%item%.was_created</source><note>Default controller addAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_updated"><source>%namespace%.%item%.was_updated</source><note>Default controller editAction result message.</note></trans-unit>

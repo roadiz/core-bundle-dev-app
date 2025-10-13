@@ -14,13 +14,11 @@
         {% if backupCodes %}
             <h2>{% trans %}store_your_backup_codes{% endtrans %}</h2>
             <div>
-                {% apply spaceless %}
                 <pre>
-                    {% for code in backupCodes %}
+                    {%- for code in backupCodes -%}
                         <code>{{ code }}</code><br>
-                    {% endfor %}
+                    {%- endfor -%}
                 </pre>
-                {% endapply %}
 
                 <p><a href="{{ path('2fa_admin_two_factor') }}"
                       class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}back_to.two_factor{% endtrans %}</a></p>
@@ -32,7 +30,7 @@
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
                 <legend class="uk-alert uk-alert-warning"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.generate.two_factor_backup_codes.erasing_any_existing{% endtrans %}</legend>
-                {% apply spaceless %}
+                <div class="uk-button-group">
                     <a href="{{ path('2fa_admin_two_factor') }}"
                        class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
                     <button class="uk-button uk-button-warning" type="submit">
@@ -41,7 +39,7 @@
                                 {%- trans -%}generate_backup_codes{%- endtrans -%}
                         </span></span>
                     </button>
-                {% endapply %}
+                </div>
             </fieldset>
             {{ form_end(form) }}
         {% endif %}

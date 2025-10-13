@@ -64,9 +64,24 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                     ->end()
                 ->end() // entries
+                ->arrayNode('bookmarks')
+                    ->defaultValue([])
+                    ->info('Rozier backoffice bookmark items.')
+                    ->prototype('array')
+                    ->children()
+                        ->scalarNode('label')
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('url')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                    ->end()
+                ->end() // bookmarks
             ->end()
             ->append($this->addOpenIdNode())
             ->append($this->addCsvNode())
+            ->append($this->addTranslateAssistantNode())
         ;
 
         return $builder;
@@ -181,6 +196,20 @@ EOD
                 ->end()
                 ->booleanNode('output_utf8_bom')
                     ->defaultFalse()
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    protected function addTranslateAssistantNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('translate_assistant');
+        $node = $builder->getRootNode();
+        $builder->getRootNode()
+            ->children()
+                ->scalarNode('deepl_api_key')
+                    ->cannotBeEmpty()
                 ->end()
             ->end();
 

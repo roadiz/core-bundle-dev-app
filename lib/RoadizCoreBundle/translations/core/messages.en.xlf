@@ -96,10 +96,6 @@
               <source>reset.password.request</source>
               <target state="final">Reset password request</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="user.changed_password" approved="yes">
-              <source>user.changed_password</source>
-              <target state="final">User password was changed</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%" approved="yes">
                 <source>you.asked.for.a.password.reset.on.%site%</source>
                 <target state="final">You asked for a password reset on “%site%”</target>
@@ -120,9 +116,9 @@
                 <source>reset_your_password</source>
                 <target state="final">Reset your password</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
-                <source>you.need.to.fill.this.required.field</source>
-                <target state="final">You need to fill this required field.</target>
+      <trans-unit xml:space="preserve" id="user.changed_password">
+                <source>user.changed_password</source>
+                <target state="translated">User password was changed</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>

@@ -11,7 +11,10 @@
                 </div>
             </form>
 
-            <a class="uk-button uk-button-select-all uk-button-bulk-select-nodes" href="#" title="{% trans %}select.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-check-square-o"></i> {% trans %}select.all{% endtrans %}</a>
+            <button type="button"
+                    class="uk-button uk-button-select-all uk-button-bulk-select-nodes"
+                    title="{% trans %}select.all{% endtrans %}"
+                    data-uk-tooltip="{animation:true}"><i class="uk-icon-check-square-o"></i> {% trans %}select.all{% endtrans %}</button>
         </div>
 
         {% if filters.itemCount > filters.itemPerPage %}
@@ -36,21 +39,25 @@
                 <h3 class="bulk-actions-title nodes-bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
             </div>
             <div class="bulk-actions__actions">
-                <a class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-nodes" href="#" title="{% trans %}deselect.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></a>
+                <button
+                    type="button"
+                    class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-nodes"
+                    title="{% trans %}deselect.all{% endtrans %}"
+                    data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></button>
                 {# Links #}
                 {% if tagNodesForm %}
-                    <a class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-folder uk-button-bulk-folder-nodes"
-                        href="#"
+                    <button type="button"
+                        class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-folder uk-button-bulk-folder-nodes"
                         data-bulk-group="nodes-bulk-folder-form-cont"
                         title="{% trans %}link.tags{% endtrans %}"
-                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-tags"></i></a>
+                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-tags"></i></button>
                 {% endif %}
                 {% if statusNodesForm %}
-                    <a class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-status uk-button-bulk-status-nodes"
-                        href="#"
+                    <button type="button"
+                        class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-status uk-button-bulk-status-nodes"
                         data-bulk-group="nodes-bulk-status-form-cont"
                         title="{% trans %}nodes.status{% endtrans %}"
-                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-published"></i></a>
+                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-published"></i></button>
                 {% endif %}
 
                 {% if deleteNodesForm %}

@@ -284,6 +284,7 @@ final class NodeSourceType extends AbstractType
                     'attr' => [
                         'class' => 'markdown_textarea',
                     ],
+                    'locale' => $nodeSource->getTranslation()->getLocale(),
                 ], $additionalOptions);
                 break;
             case FieldType::CHILDREN_T:

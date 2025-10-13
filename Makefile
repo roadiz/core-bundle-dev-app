@@ -1,9 +1,13 @@
 phpstan:
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 
+audit:
+	docker compose run --no-deps --rm --entrypoint= app composer audit --abandoned=report --format=plain
+
 test:
 	docker compose run --no-deps --rm --entrypoint= app vendor/bin/requirements-checker
 	docker compose run --no-deps --rm --entrypoint= app vendor/bin/monorepo-builder validate
+	docker compose run --no-deps --rm --entrypoint= app composer audit --abandoned=report --format=plain --locked
 	make phpstan
 	make rector_test
 	make check

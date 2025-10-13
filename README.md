@@ -99,11 +99,39 @@ See how to configure it in [Documention](https://docs.roadiz.io/developer/first-
 
 ```shell
 cd docs
+# Enable Corepack if not already done
+corepack enable
+# Install dependencies (Corepack will automatically use the correct pnpm version)
 pnpm install
 pnpm docs:dev
 ```
 
-## Admin frontend development
+## Backoffice frontend development
 
-The admin UI assets are located in the lib/Rozier folder.
-To launch the frontend dev server or build the assets, go to that folder and follow the local README instructions.
+The backoffice UI assets are located in the `lib/Rozier` folder.
+To launch the frontend development server or build the assets, use **docker compose**:
+
+```shell
+docker compose up node
+```
+
+Default command will launch `pnpm dev --host 0.0.0.0` to start a development server on host port 5173 with hot reload.
+
+Do not forget to build final assets for production before shipping a new Roadiz version:
+
+```shell
+docker compose run --rm node pnpm build
+```
+
+## Documentation development
+
+The documentation is built with Vitepress and files are located in the `docs` folder.
+To launch the documentation development server, use **docker compose**:
+
+```shell
+docker compose up vitepress
+```
+
+Default command will launch `pnpm docs:dev --port 5174 --strictPort 1 --host 0.0.0.0` to start a development server on host port 5174 with hot reload.
+
+Documentation will be available at: http://localhost:5174

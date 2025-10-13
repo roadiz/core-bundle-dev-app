@@ -116,10 +116,6 @@
                 <source>reset_your_password</source>
                 <target state="final">قم بإعادة تعيين كلمة المرور الخاصة بك</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
-                <source>you.need.to.fill.this.required.field</source>
-                <target state="final">عليك بكتابة هذا الحقل المطلوب.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
                 <target state="final">* حقول مطلوبة</target>

@@ -1,12 +1,13 @@
 ARG UID=1000
 ARG GID=${UID}
 
-ARG PHP_VERSION=8.4.10
+ARG PHP_VERSION=8.4.12
 ARG VARNISH_VERSION=7.6.1
 ARG NGINX_VERSION=1.27.5
 ARG MYSQL_VERSION=8.0.42
 ARG MARIADB_VERSION=10.11.9
 ARG COMPOSER_VERSION=2.8.1
+ARG NODE_VERSION=22.19.0
 ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
 
 ###########
@@ -269,3 +270,101 @@ COPY --link docker/nginx/nginx.conf              /etc/nginx/nginx.conf
 COPY --link docker/nginx/conf.d/_gzip.conf       /etc/nginx/conf.d/_gzip.conf
 COPY --link docker/nginx/conf.d/_security.conf   /etc/nginx/conf.d/_security.conf
 COPY --link docker/nginx/conf.d/default.dev.conf /etc/nginx/conf.d/default.conf
+
+#############
+# Node      #
+#############
+
+FROM node:${NODE_VERSION}-bookworm-slim AS node
+
+LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com eliot@rezo-zero.com"
+
+ARG UID
+ARG GID
+
+# Fix: "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory"
+ENV NODE_OPTIONS="--max_old_space_size=4096"
+
+# Prevent Corepack pnpm download confirm prompt
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
+
+RUN <<EOF
+apt-get --quiet update
+apt-get --quiet --yes --purge --autoremove upgrade
+
+# Packages - System
+# GIT is required for Vitepress
+apt-get --quiet --yes --no-install-recommends --verbose-versions install \
+    curl \
+    less \
+    git \
+    sudo
+rm -rf /var/lib/apt/lists/*
+
+# User
+groupmod --gid ${GID} node
+usermod --uid ${UID} node
+chown --verbose --recursive node:node /home/node
+echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
+
+# App
+install --verbose --owner node --group node --mode 0755 --directory /app
+
+# https://github.com/pnpm/pnpm/issues/9029
+npm i -g corepack@latest
+
+# Pnpm
+corepack enable pnpm
+EOF
+
+WORKDIR /app
+
+###############
+# Node - Dev  #
+###############
+
+FROM node AS node-dev
+
+ARG UID
+ARG GID
+
+USER node
+
+EXPOSE 5173
+
+COPY --link --chown=${UID}:${GID} lib/Rozier/package.json lib/Rozier/pnpm-lock.yaml ./
+RUN <<EOF
+# Pnpm
+corepack enable pnpm
+
+pnpm install --config.platform=linux --config.architecture=x64
+EOF
+
+CMD ["pnpm", "dev", "--host", "0.0.0.0"]
+
+
+####################
+# Vitepress - Dev  #
+####################
+
+FROM node AS vitepress-dev
+
+ARG UID
+ARG GID
+
+USER node
+
+EXPOSE 5174
+
+COPY --link --chown=${UID}:${GID} docs/package.json docs/pnpm-lock.yaml docs/pnpm-workspace.yaml ./
+
+RUN <<EOF
+# Pnpm
+corepack enable pnpm
+
+pnpm install --config.platform=linux --config.architecture=x64
+EOF
+
+CMD ["pnpm", "docs:dev", "--port", "5174", "--strictPort 1", "--host", "0.0.0.0"]

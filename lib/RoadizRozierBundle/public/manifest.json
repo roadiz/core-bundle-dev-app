@@ -1,66 +1,156 @@
 {
-  "Resources/app/fonts/fa-brands-400.woff": {
+  "_RoadizElement-XU473doh.js": {
+    "file": "RoadizElement-XU473doh.js",
+    "name": "RoadizElement"
+  },
+  "_jquery-Cs7-jZ1a.js": {
+    "file": "jquery-Cs7-jZ1a.js",
+    "name": "jquery"
+  },
+  "_vue-BqDQd3Vv.js": {
+    "file": "vue-BqDQd3Vv.js",
+    "name": "vue"
+  },
+  "app/assets/fonts/fa-brands-400.woff": {
     "file": "fa-brands-400-llyXKB-1.woff",
-    "src": "Resources/app/fonts/fa-brands-400.woff"
+    "src": "app/assets/fonts/fa-brands-400.woff"
   },
-  "Resources/app/fonts/fa-brands-400.woff2": {
+  "app/assets/fonts/fa-brands-400.woff2": {
     "file": "fa-brands-400-CfPCoubI.woff2",
-    "src": "Resources/app/fonts/fa-brands-400.woff2"
+    "src": "app/assets/fonts/fa-brands-400.woff2"
   },
-  "Resources/app/fonts/fontawesome-webfont.woff": {
+  "app/assets/fonts/fontawesome-webfont.woff": {
     "file": "fontawesome-webfont-7YG-f3YT.woff",
-    "src": "Resources/app/fonts/fontawesome-webfont.woff"
+    "src": "app/assets/fonts/fontawesome-webfont.woff"
   },
-  "Resources/app/fonts/fontawesome-webfont.woff2": {
+  "app/assets/fonts/fontawesome-webfont.woff2": {
     "file": "fontawesome-webfont-Bsy9_7N6.woff2",
-    "src": "Resources/app/fonts/fontawesome-webfont.woff2"
+    "src": "app/assets/fonts/fontawesome-webfont.woff2"
   },
-  "Resources/app/fonts/rz-icons.woff": {
+  "app/assets/fonts/rz-icons.woff": {
     "file": "rz-icons-BOx9IpnW.woff",
-    "src": "Resources/app/fonts/rz-icons.woff"
+    "src": "app/assets/fonts/rz-icons.woff"
   },
-  "Resources/app/fonts/rz-icons.woff2": {
+  "app/assets/fonts/rz-icons.woff2": {
     "file": "rz-icons-BSa7Mah2.woff2",
-    "src": "Resources/app/fonts/rz-icons.woff2"
+    "src": "app/assets/fonts/rz-icons.woff2"
   },
-  "Resources/app/img/spritemap.png": {
-    "file": "spritemap-CP-4snSC.png",
-    "src": "Resources/app/img/spritemap.png"
+  "app/custom-elements/AdminMenuNav.js": {
+    "file": "AdminMenuNav-D6p84238.js",
+    "name": "AdminMenuNav",
+    "src": "app/custom-elements/AdminMenuNav.js",
+    "isDynamicEntry": true
   },
-  "Resources/app/img/spritemap@2x.png": {
-    "file": "spritemap@2x-Bd7qNsVN.png",
-    "src": "Resources/app/img/spritemap@2x.png"
-  },
-  "Resources/app/main.js": {
-    "file": "main-CjN5kZ3B.js",
-    "name": "main",
-    "src": "Resources/app/main.js",
-    "isEntry": true,
+  "app/custom-elements/DocumentAlignmentWidget.js": {
+    "file": "DocumentAlignmentWidget-CUmZZQpA.js",
+    "name": "DocumentAlignmentWidget",
+    "src": "app/custom-elements/DocumentAlignmentWidget.js",
+    "isDynamicEntry": true,
     "imports": [
-      "_jquery-5sAwpjfl.js",
-      "_vue-YhlLoeNc.js"
-    ],
-    "css": [
-      "main-DQKDGynu.css"
+      "_RoadizElement-XU473doh.js"
     ]
   },
-  "Resources/app/shared.js": {
-    "file": "shared-DSN1_fba.js",
-    "name": "shared",
-    "src": "Resources/app/shared.js",
+  "app/custom-elements/DocumentEditDialog.js": {
+    "file": "DocumentEditDialog-ct28IygL.js",
+    "name": "DocumentEditDialog",
+    "src": "app/custom-elements/DocumentEditDialog.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js"
+    ]
+  },
+  "app/custom-elements/FolderAutocomplete.js": {
+    "file": "FolderAutocomplete-CMgHW6Ha.js",
+    "name": "FolderAutocomplete",
+    "src": "app/custom-elements/FolderAutocomplete.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/MainTrees.js": {
+    "file": "MainTrees-D5VLcSe6.js",
+    "name": "MainTrees",
+    "src": "app/custom-elements/MainTrees.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/NodeSourceEditPage.js": {
+    "file": "NodeSourceEditPage-D-K7eGKh.js",
+    "name": "NodeSourceEditPage",
+    "src": "app/custom-elements/NodeSourceEditPage.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
+    ]
+  },
+  "app/custom-elements/NodeTreeContextualMenu.js": {
+    "file": "NodeTreeContextualMenu-ByIxLf_N.js",
+    "name": "NodeTreeContextualMenu",
+    "src": "app/custom-elements/NodeTreeContextualMenu.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzInputColor.js": {
+    "file": "RzInputColor-DfOgbOC9.js",
+    "name": "RzInputColor",
+    "src": "app/custom-elements/RzInputColor.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/TagAutocomplete.js": {
+    "file": "TagAutocomplete-DDko2VyZ.js",
+    "name": "TagAutocomplete",
+    "src": "app/custom-elements/TagAutocomplete.js",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/TagEditPage.js": {
+    "file": "TagEditPage-DCr1b_k3.js",
+    "name": "TagEditPage",
+    "src": "app/custom-elements/TagEditPage.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
+    ]
+  },
+  "app/main.js": {
+    "file": "main-ClTqMQ_C.js",
+    "name": "main",
+    "src": "app/main.js",
     "isEntry": true,
     "imports": [
-      "_jquery-5sAwpjfl.js"
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
+    ],
+    "dynamicImports": [
+      "app/custom-elements/AdminMenuNav.js",
+      "app/custom-elements/DocumentAlignmentWidget.js",
+      "app/custom-elements/DocumentEditDialog.js",
+      "app/custom-elements/FolderAutocomplete.js",
+      "app/custom-elements/MainTrees.js",
+      "app/custom-elements/NodeSourceEditPage.js",
+      "app/custom-elements/NodeTreeContextualMenu.js",
+      "app/custom-elements/RzInputColor.js",
+      "app/custom-elements/TagAutocomplete.js",
+      "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "shared-CiZ8DA_L.css"
+      "main-DPxOIHvY.css"
+    ]
+  },
+  "app/shared.js": {
+    "file": "shared-C-7Tcqf9.js",
+    "name": "shared",
+    "src": "app/shared.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-Cs7-jZ1a.js"
+    ],
+    "css": [
+      "shared-BzoFOb0F.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
       "fontawesome-webfont-CDK5bt4p.woff",
       "fontawesome-webfont-CQDK8MU3.ttf",
-      "spritemap-CP-4snSC.png",
-      "spritemap@2x-Bd7qNsVN.png",
       "fontawesome-webfont-Bsy9_7N6.woff2",
       "fontawesome-webfont-7YG-f3YT.woff",
       "fa-brands-400-CfPCoubI.woff2",
@@ -69,19 +159,11 @@
       "rz-icons-BOx9IpnW.woff"
     ]
   },
-  "Resources/app/simple.js": {
+  "app/simple.js": {
     "file": "simple-utnrOcuB.js",
     "name": "simple",
-    "src": "Resources/app/simple.js",
+    "src": "app/simple.js",
     "isEntry": true
-  },
-  "_jquery-5sAwpjfl.js": {
-    "file": "jquery-5sAwpjfl.js",
-    "name": "jquery"
-  },
-  "_vue-YhlLoeNc.js": {
-    "file": "vue-YhlLoeNc.js",
-    "name": "vue"
   },
   "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
     "file": "fontawesome-webfont-CQDK8MU3.ttf",

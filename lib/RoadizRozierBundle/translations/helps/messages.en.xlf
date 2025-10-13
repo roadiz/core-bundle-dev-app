@@ -11,6 +11,9 @@
       <trans-unit xml:space="preserve" id="node.nodeName.help" approved="yes">
                 <source>node.nodeName.help</source>
             <target state="final">Node name must be unique and is used to generate your page URL and fetch current node in Themes. It must not contain any special characters.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="node.shadow.help" approved="yes">
+                <source>node.shadow.help</source>
+            <target state="final">A node marked as a shadow root disappears from your node tree structure and allows you to customize the management of its child nodes.</target></trans-unit>
       <trans-unit xml:space="preserve" id="tag.tagName.help" approved="yes">
                 <source>tag.tagName.help</source>
             <target state="final">Tag name must be unique and is used to generate your page URL and fetch current tag in Themes. It must not contain any special characters.</target></trans-unit>

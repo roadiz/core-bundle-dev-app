@@ -20,6 +20,9 @@ rz_intervention_request:
     resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
     prefix:   /
 
+appArticlesRoutes:
+    resource: "routes/articles.yml"
+    prefix: /rz-admin/articles
 
 api_contact_form_definition:
     methods: [GET]
@@ -28,7 +31,7 @@ api_contact_form_definition:
     defaults:
         _controller: App\Controller\ContactFormController::definitionAction
         _locale: fr
-        _format: json
+        _format: jsonld
 
 api_contact_form_post:
     methods: [POST]
@@ -37,7 +40,7 @@ api_contact_form_post:
     defaults:
         _controller: App\Controller\ContactFormController::formAction
         _locale: fr
-        _format: json
+        _format: jsonld
 
 public_login_link_check:
     path: /api/users/login_link_check

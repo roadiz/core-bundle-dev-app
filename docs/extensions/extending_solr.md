@@ -1,9 +1,4 @@
----
-subtitle: How to index page blocks contents
-title: Extending Solr indexation
----
-
-# Extending Solr
+# Extending Solr indexation
 
 If all your text content is written in *block nodes* instead of reachable *pages*, you should index them into your page Solr documents to improve your search engine relevancy.
 

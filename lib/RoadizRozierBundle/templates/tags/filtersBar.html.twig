@@ -33,7 +33,12 @@
                 <h3 class="bulk-actions-title tags-bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
             </div>
             <div class="bulk-actions__actions">
-                <a class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags" href="#" title="{% trans %}deselect.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></a>
+                <button
+                    type="button"
+                    class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags"
+                    title="{% trans %}deselect.all{% endtrans %}"
+                    data-uk-tooltip="{animation:true}"
+                ><i class="uk-icon-square-o"></i></button>
                 {# Links #}
                 {% if deleteTagsForm %}
                     {% form_theme deleteTagsForm '@RoadizRozier/horizontalForms.html.twig' %}

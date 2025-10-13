@@ -32,6 +32,7 @@ use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Controller\NodeControllerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
@@ -77,6 +78,7 @@ final class NodeController extends AbstractController
         private readonly FormFactoryInterface $formFactory,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
+        private readonly BreadcrumbsItemFactoryInterface $breadcrumbsItemFactory,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {
@@ -136,6 +138,12 @@ final class NodeController extends AbstractController
                 $assignation['mainFilter'] = $filter;
                 $arrayFilter = [
                     'status' => NodeStatus::DELETED,
+                ];
+                break;
+            case 'shadow':
+                $assignation['mainFilter'] = $filter;
+                $arrayFilter = [
+                    'shadow' => true,
                 ];
                 break;
             default:
@@ -502,6 +510,13 @@ final class NodeController extends AbstractController
                 return $this->redirect($referrer);
             }
             if (null !== $parent) {
+                $breadcrumbsItem = $this->breadcrumbsItemFactory->createBreadcrumbsItem($parent);
+                if (null !== $breadcrumbsItem) {
+                    return $this->redirect(
+                        $breadcrumbsItem->url
+                    );
+                }
+
                 return $this->redirectToRoute(
                     'nodesEditSourcePage',
                     [

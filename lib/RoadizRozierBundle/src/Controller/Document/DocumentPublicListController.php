@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Repository\FolderRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\Events\DocumentInFolderEvent;
 use RZ\Roadiz\Documents\Events\DocumentOutFolderEvent;
@@ -36,6 +37,7 @@ class DocumentPublicListController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
+        private readonly FolderRepository $folderRepository,
         private readonly array $documentPlatforms,
     ) {
     }
@@ -46,7 +48,7 @@ class DocumentPublicListController extends AbstractController
             return null;
         }
 
-        return $this->managerRegistry->getRepository(Folder::class)->find($folderId);
+        return $this->folderRepository->find($folderId);
     }
 
     protected function getPreFilters(Request $request): array
@@ -80,7 +82,11 @@ class DocumentPublicListController extends AbstractController
 
         $folder = $this->getFolder($folderId);
         if (null !== $folder) {
-            $prefilters['folders'] = [$folder];
+            $prefilters['folders'] = [
+                $folder,
+                // also show documents in child folders
+                ...$this->folderRepository->findAllChildrenFromFolder($folder),
+            ];
             $assignation['folder'] = $folder;
         }
 

@@ -494,11 +494,11 @@ final class SearchController extends AbstractController
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
             ])
-            ->add($prefix.'sterile', ExtendedBooleanType::class, [
-                'label' => 'sterile-status',
-            ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
+            ])
+            ->add($prefix.'shadow', ExtendedBooleanType::class, [
+                'label' => 'node.shadow',
             ])
         );
         $builder->add(

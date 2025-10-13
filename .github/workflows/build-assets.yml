@@ -1,0 +1,39 @@
+name: Build Rozier static assets (JS/CSS)
+
+on:
+    push:
+        branches:
+            - develop
+            - 'release/**'
+            - 'hotfix/**'
+        tags: ['**']
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
+            - ready_for_review
+
+defaults:
+    run:
+        working-directory: ./lib/Rozier
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: 'lib/Rozier/package.json'
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+              with:
+                  package_json_file: 'lib/Rozier/package.json'
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+            - name: Lint
+              run: pnpm lint
+            - name: Build assets
+              run: pnpm build

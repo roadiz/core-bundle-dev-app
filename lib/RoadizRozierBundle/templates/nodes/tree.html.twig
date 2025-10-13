@@ -38,11 +38,13 @@
         <div class="content-header-action-menu stack-tree-quick-creation">
             {% for stackType in node.stackTypes %}
                 {% set nodeType = getNodeType(stackType) %}
-                <a data-children-node-type="{{ nodeType.name }}"
-                   data-children-parent-node="{{ node.id }}"
-                   {% if specificNodeTree.tag %}data-filter-tag="{{ specificNodeTree.tag.id }}"{% endif %}
-                   class="uk-button rz-no-ajax-link rz-add-child-node"
-                   href="#"><i class="uk-icon-rz-plus-simple"></i> {{ nodeType.displayName }}</a>
+                <button
+                    type="button"
+                    data-children-node-type="{{ nodeType.name }}"
+                    data-children-parent-node="{{ node.id }}"
+                    {% if specificNodeTree.tag %}data-filter-tag="{{ specificNodeTree.tag.id }}"{% endif %}
+                    class="uk-button rz-add-child-node"
+                ><i class="uk-icon-rz-plus-simple"></i> {{ nodeType.displayName }}</button>
             {% endfor %}
         </div>
         {% endif %}

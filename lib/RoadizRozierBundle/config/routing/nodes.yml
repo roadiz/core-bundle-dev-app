@@ -22,6 +22,11 @@ nodesHomeDeletedPage:
     defaults:
         _controller: RZ\Roadiz\RozierBundle\Controller\Node\NodeController::indexAction
         filter: 'deleted'
+nodesHomeShadowPage:
+    path:     /shadow
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Controller\Node\NodeController::indexAction
+        filter: 'shadow'
 nodesEditPage:
     path:     /edit/{nodeId}
     defaults:

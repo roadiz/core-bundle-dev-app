@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Mailer;
 
+use ApiPlatform\Metadata\Exception\OperationNotFoundException;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Validator\Exception\ValidationException;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Exception\BadFormRequestException;
 use RZ\Roadiz\CoreBundle\Form\CaptchaType;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializerInterface;
@@ -79,6 +84,9 @@ final class ContactFormManager
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializerInterface $formErrorSerializer,
         private readonly CaptchaServiceInterface $captchaService,
+        private readonly ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+        private readonly LoggerInterface $logger,
+        private readonly bool $useConstraintViolationList,
     ) {
         $this->options = [
             'attr' => [
@@ -249,7 +257,7 @@ final class ContactFormManager
         $this->form = $this->getFormBuilder()->getForm();
         $this->form->handleRequest($request);
         $returnJson = $request->isXmlHttpRequest()
-            || 'json' === $request->getRequestFormat()
+            || in_array($request->getRequestFormat(), ['json', 'jsonld'], true)
             || (1 === count($request->getAcceptableContentTypes()) && 'application/json' === $request->getAcceptableContentTypes()[0])
             || ($request->attributes->has('_format') && 'json' === $request->attributes->get('_format'));
 
@@ -266,7 +274,7 @@ final class ContactFormManager
                         ...$this->getRecipients(),
                     );
                     if ($returnJson) {
-                        return new JsonResponse([], Response::HTTP_ACCEPTED);
+                        return new JsonResponse(null, Response::HTTP_ACCEPTED);
                     } else {
                         if ($request->hasPreviousSession()) {
                             /** @var Session $session */
@@ -290,6 +298,20 @@ final class ContactFormManager
                 }
             }
             if ($returnJson) {
+                if ($this->useConstraintViolationList) {
+                    try {
+                        $this->resourceMetadataCollectionFactory->create(
+                            CustomForm::class
+                        )->getOperation('api_contact_form_post');
+                        $request->attributes->set('_api_operation_name', 'api_contact_form_post');
+                        $request->attributes->set('_api_resource_class', CustomForm::class);
+                        throw new ValidationException($this->formErrorSerializer->getErrorsAsConstraintViolationList($this->form));
+                    } catch (OperationNotFoundException) {
+                        // Do not use 422 response if api_contact_form_post operation does not exist
+                        $this->logger->warning('Operation "api_contact_form_post" not found, falling back to legacy errors-as-array response.');
+                    }
+                }
+
                 /*
                  * If form has errors during AJAX
                  * request we sent them.
