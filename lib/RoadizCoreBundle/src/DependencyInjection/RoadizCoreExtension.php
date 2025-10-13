@@ -72,6 +72,7 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
         $container->setParameter('roadiz_core.force_locale', $config['forceLocale']);
         $container->setParameter('roadiz_core.force_locale_with_url_aliases', $config['forceLocaleWithUrlAliases']);
+        $container->setParameter('roadiz_core.project_logo_url', $config['projectLogoUrl']);
 
         /*
          * Assets config

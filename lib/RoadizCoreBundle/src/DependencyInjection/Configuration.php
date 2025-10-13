@@ -120,6 +120,9 @@ When enabled, this option will suffix each name for unreachable nodes (blocks) w
 their node-type to avoid name conflicts with reachable nodes (pages).
 EOT)
             ->end()
+            ->scalarNode('projectLogoUrl')
+                ->defaultNull()
+            ->end()
             ->append($this->addSolrNode())
             ->append($this->addInheritanceNode())
             ->append($this->addReverseProxyCacheNode())
