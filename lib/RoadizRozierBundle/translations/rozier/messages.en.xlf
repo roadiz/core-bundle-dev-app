@@ -3411,17 +3411,17 @@
         <source>node.tags</source>
         <target state="final">Tags</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node-types-decorators">
+      <trans-unit xml:space="preserve" id="node-types-decorators" approved="yes">
         <source>node-types-decorators</source>
-        <target state="translated">Node-type decorators</target>
+        <target state="final">Node-type decorators</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
         <source>nodeType.hiding_nodes</source>
         <target state="final">This type hides its node-tree</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.highlighted">
+      <trans-unit xml:space="preserve" id="nodeType.highlighted" approved="yes">
         <source>nodeType.highlighted</source>
-        <target state="translated">Highlighted</target>
+        <target state="final">Highlighted</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
         <source>nodeType.not_visible</source>
@@ -4797,33 +4797,31 @@
         <target state="final">Filter</target>
         <note>Button label for a generic filtering action.</note>
       </trans-unit>
-
-      <trans-unit xml:space="preserve" id="filter.by_tag">
+      <trans-unit xml:space="preserve" id="filter.by_tag" approved="yes">
         <source>filter.by_tag</source>
         <target state="final">Filter by tag</target>
         <note>Select label for a filtering by tag.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="filter.by_tag.all">
+      <trans-unit xml:space="preserve" id="filter.by_tag.all" approved="yes">
         <source>filter.by_tag.all</source>
         <target state="final">-- All tags --</target>
         <note>Placeholder label for resetting filter by tag.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="filter.reset">
+      <trans-unit xml:space="preserve" id="filter.reset" approved="yes">
         <source>filter.reset</source>
         <target state="final">Reset</target>
         <note>Button label for resetting filters.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item.not_published">
+      <trans-unit xml:space="preserve" id="item.not_published" approved="yes">
         <source>item.not_published</source>
         <target state="final">Unpublished</target>
         <note>Icon label for unpublished items.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item.published">
+      <trans-unit xml:space="preserve" id="item.published" approved="yes">
         <source>item.published</source>
         <target state="final">Published</target>
         <note>Icon label for published items.</note>
       </trans-unit>
-
       <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created" approved="yes">
         <source>%namespace%.%item%.was_created</source>
         <target state="final">%namespace% "%item%" was created.</target>
@@ -5009,11 +5007,6 @@
       <trans-unit xml:space="preserve" id="color_input.placeholder" approved="yes">
         <source>color_input.placeholder</source>
         <target state="final">No color</target>
-      </trans-unit>
-
-      <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
-        <source>bookmarks.links</source>
-        <target state="final">Bookmarks</target>
       </trans-unit>
     </body>
   </file>
