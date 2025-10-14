@@ -167,12 +167,12 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder" approved="yes">
                 <source>attributes.defaultRealm.placeholder</source>
-
+                
                 <target state="final">-- Aucun domaine sécurisé par défaut --</target>
             <note>Default text when no realm is attached to an attribute</note></trans-unit>
       <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder" approved="yes">
                 <source>attributeValue.realm.placeholder</source>
-
+                
                 <target state="final">-- Aucun domaine sécurisé --</target>
             <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link" approved="yes">
@@ -189,7 +189,7 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="request_login_link" approved="yes">
                 <source>request_login_link</source>
-
+                
                 <target state="final">Demander un lien de connexion</target>
             <note>Button label to request a login link</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link.request" approved="yes">
