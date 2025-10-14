@@ -33,7 +33,6 @@ export default class RzFileUpload extends HTMLElement {
         })
 
         this.dropzone.on('success', async (file, response) => {
-            console.log('Dropzone success event')
             this.dispatchEvent(
                 new CustomEvent('success', { detail: { file, response } }),
             )
