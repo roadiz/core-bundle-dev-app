@@ -1,7 +1,6 @@
 import type { Preview } from '@storybook/html-vite'
 
-import '../app/assets/css/main.css'
-import './common.css'
+import './css/story-layout.css'
 
 const preview: Preview = {
     parameters: {
