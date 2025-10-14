@@ -14,7 +14,7 @@
         <td class="container" width="600">
             <div class="content">
                 <table class="main" width="100%" cellpadding="0" cellspacing="0">
-                    {% if project_logo_url is defined and project_logo_url is not empty %}
+                    {% if project_logo_url is not empty %}
                         <tr>
                             <td class="header-image-wrap aligncenter"{% if main_color is defined %}style="background-color: {{ main_color }};"{% endif %}>
                                 <img class="header-image" src="{{ project_logo_url }}" alt="{{ title }}" />
@@ -22,7 +22,7 @@
                         </tr>
                     {% endif %}
                     <tr>
-                        <td class="content-wrap aligncenter{% if project_logo_url is defined and project_logo_url is not empty %} with-header-image{% endif %}">
+                        <td class="content-wrap aligncenter{% if project_logo_url is not empty %} with-header-image{% endif %}">
                             {% block content_table %}
                                 <table cellpadding="0" cellspacing="0" border="0" align="center">
                                     <tr>
