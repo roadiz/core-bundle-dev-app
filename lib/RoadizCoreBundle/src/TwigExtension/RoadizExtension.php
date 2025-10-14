@@ -37,8 +37,10 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
     #[\Override]
     public function getGlobals(): array
     {
-        $projectLogoUrl = $this->projectLogoUrl;
-        if (empty($projectLogoUrl)) {
+        $projectLogoUrl = null;
+        if (null !== $this->projectLogoUrl) {
+            $projectLogoUrl = $this->projectLogoUrl;
+        } else {
             $adminImage = $this->settingsBag->getDocument('admin_image');
             if ($adminImage instanceof DocumentInterface && null !== $this->documentUrlGenerator) {
                 $this->documentUrlGenerator->setDocument($adminImage);
