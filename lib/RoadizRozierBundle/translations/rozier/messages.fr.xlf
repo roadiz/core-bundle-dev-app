@@ -1992,9 +1992,9 @@
         <source>you_must_show_youre_not_robot</source>
         <target state="final">Vous devez valider le Captcha pour vérifier que vous n’êtes pas un robot.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again">
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again" approved="yes">
         <source>captcha_is_invalid.try_again</source>
-        <target state="translated">Le Captcha est invalide, veuillez réessayer.</target>
+        <target state="final">Le Captcha est invalide, veuillez réessayer.</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage" approved="yes">
@@ -3411,17 +3411,17 @@
         <source>node.tags</source>
         <target state="final">Étiquettes</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node-types-decorators">
+      <trans-unit xml:space="preserve" id="node-types-decorators" approved="yes">
         <source>node-types-decorators</source>
-        <target state="translated">Décorations de type de nœud</target>
+        <target state="final">Décorations de type de nœud</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
         <source>nodeType.hiding_nodes</source>
         <target state="final">Type cachant son arborescence</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.highlighted">
+      <trans-unit xml:space="preserve" id="nodeType.highlighted" approved="yes">
         <source>nodeType.highlighted</source>
-        <target state="translated">En avant</target>
+        <target state="final">En avant</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
         <source>nodeType.not_visible</source>
@@ -4797,33 +4797,31 @@
         <target state="final">Filtrer</target>
         <note>Button label for a generic filtering action.</note>
       </trans-unit>
-
-      <trans-unit xml:space="preserve" id="filter.by_tag">
+      <trans-unit xml:space="preserve" id="filter.by_tag" approved="yes">
         <source>filter.by_tag</source>
         <target state="final">Filtrer par étiquette</target>
         <note>Select label for a filtering by tag.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="filter.by_tag.all">
+      <trans-unit xml:space="preserve" id="filter.by_tag.all" approved="yes">
         <source>filter.by_tag.all</source>
         <target state="final">-- Toutes les étiquettes --</target>
         <note>Placeholder label for resetting filter by tag.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="filter.reset">
+      <trans-unit xml:space="preserve" id="filter.reset" approved="yes">
         <source>filter.reset</source>
         <target state="final">Réinitialiser</target>
         <note>Button label for resetting filters.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item.not_published">
+      <trans-unit xml:space="preserve" id="item.not_published" approved="yes">
         <source>item.not_published</source>
         <target state="final">Non-publié</target>
         <note>Icon label for unpublished items.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item.published">
+      <trans-unit xml:space="preserve" id="item.published" approved="yes">
         <source>item.published</source>
         <target state="final">Publié</target>
         <note>Icon label for published items.</note>
       </trans-unit>
-
       <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created" approved="yes">
         <source>%namespace%.%item%.was_created</source>
         <target state="final">%namespace% "%item%" a été créé.</target>
@@ -5009,11 +5007,6 @@
       <trans-unit xml:space="preserve" id="color_input.placeholder" approved="yes">
         <source>color_input.placeholder</source>
         <target state="final">Aucune couleur</target>
-      </trans-unit>
-
-      <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
-        <source>bookmarks.links</source>
-        <target state="final">Liens utiles</target>
       </trans-unit>
     </body>
   </file>
