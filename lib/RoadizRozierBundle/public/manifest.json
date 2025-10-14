@@ -72,7 +72,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-D-K7eGKh.js",
+    "file": "NodeSourceEditPage-C4uyyeo1.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -94,6 +94,12 @@
     "src": "app/custom-elements/RzInputColor.js",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzSaveButton.js": {
+    "file": "RzSaveButton-CxnLRuxS.js",
+    "name": "RzSaveButton",
+    "src": "app/custom-elements/RzSaveButton.js",
+    "isDynamicEntry": true
+  },
   "app/custom-elements/TagAutocomplete.js": {
     "file": "TagAutocomplete-DDko2VyZ.js",
     "name": "TagAutocomplete",
@@ -101,7 +107,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-DCr1b_k3.js",
+    "file": "TagEditPage-CDlD7hB6.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -112,7 +118,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-ClTqMQ_C.js",
+    "file": "main-Ba5IjTSf.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -129,6 +135,7 @@
       "app/custom-elements/NodeSourceEditPage.js",
       "app/custom-elements/NodeTreeContextualMenu.js",
       "app/custom-elements/RzInputColor.js",
+      "app/custom-elements/RzSaveButton.js",
       "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
     ],
@@ -137,7 +144,7 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-C-7Tcqf9.js",
+    "file": "shared-CmrG6XNF.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -145,7 +152,7 @@
       "_jquery-Cs7-jZ1a.js"
     ],
     "css": [
-      "shared-BzoFOb0F.css"
+      "shared-D_WCxLXa.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
