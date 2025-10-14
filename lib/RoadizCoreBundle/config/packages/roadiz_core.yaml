@@ -36,6 +36,7 @@ roadiz_core:
         verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
     inheritance:
         type: single_table
+    projectLogoUrl: '%env(string:PROJECT_LOGO_URL)%'
     reverseProxyCache:
         frontend:
             default:
