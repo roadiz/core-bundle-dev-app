@@ -100,21 +100,16 @@ rz-file-upload .dz-preview {
         display: block;
         position: absolute;
         top: 0;
-        bottom: 0;
-        left: 0;
-        width: 0%;
-        background-color: #8cc657;
-        transition: width 0.3s ease-in-out;
-        position: absolute;
-        top: 0;
         left: 0;
         width: 0%;
         height: 100%;
-        animation: rz-file-upload-progress 0.4s linear infinite;
+        background-color: #8cc657;
         background-image: url("assets/img/spritemap@2x.png");
         background-size: 428px 406px;
         background-repeat: repeat-x;
         background-position: 0px -400px;
+        animation: rz-file-upload-progress 0.4s linear infinite;
+        transition: width 0.3s ease-in-out;
     }
 
     &.dz-success .dz-progress {
