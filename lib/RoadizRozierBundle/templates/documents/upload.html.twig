@@ -27,10 +27,10 @@
                         style="--rz-accent-color: {{ folder.color }};"
                     {% endif %}
                   >
-                    <div class="fallback">
-                    {{ form_widget(form) }}
+                    <noscript>
+                        {{ form_widget(form) }}
                         <input class="uk-button uk-button-primary" type="submit" value="{% trans %}upload{% endtrans %}" />
-                    </div>
+                    </noscript>
                     {{ form_rest(form) }}
                   </rz-file-upload>
             </form>
