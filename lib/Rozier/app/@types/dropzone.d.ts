@@ -1,5 +1,5 @@
 declare module 'dropzone' {
-    interface DropzoneFile extends File {
+    export interface DropzoneFile extends File {
         previewElement?: HTMLElement
         status?: string
         upload?: {
@@ -9,7 +9,7 @@ declare module 'dropzone' {
         }
     }
 
-    interface DropzoneOptions {
+    export interface DropzoneOptions {
         url?: string
         method?: string
         paramName?: string
@@ -170,5 +170,5 @@ declare module 'dropzone' {
         defaultOptions: DropzoneOptions
     }
 
-    export = Dropzone
+    export default Dropzone
 }
