@@ -45,12 +45,16 @@ function getRootCssVarsByGroups() {
         })
         .reduce(
             (groups, [name, value]) => {
-                const groupName = name.split('-')[3] || 'ungrouped'
+                // CSS variable naming convention: --color-group-variant-number
+                // partsType: ['prefix', 'groupName', 'identifier', 'alphaNumber']
+                const parts = name.replace('--', '').split('-')
+                const groupName = parts?.[1] || 'ungrouped'
+
                 if (groupName in groups) {
                     groups[groupName][name] = value
                 } else {
                     Object.assign(groups, {
-                        [groupName]: { ...groups[groupName], [name]: value },
+                        [groupName]: { [name]: value },
                     })
                 }
                 return groups
