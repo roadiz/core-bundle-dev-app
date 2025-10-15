@@ -113,6 +113,9 @@ To launch the frontend development server or build the assets, use **docker comp
 
 ```shell
 docker compose up node
+
+# If you have issues with up command, try:
+docker compose run --no-deps --rm --service-ports node pnpm dev --host 0.0.0.0
 ```
 
 Default command will launch `pnpm dev --host 0.0.0.0` to start a development server on host port 5173 with hot reload.

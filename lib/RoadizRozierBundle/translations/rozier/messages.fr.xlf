@@ -5010,6 +5010,11 @@
         <source>color_input.placeholder</source>
         <target state="final">Aucune couleur</target>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
+        <source>bookmarks.links</source>
+        <target state="final">Liens utiles</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

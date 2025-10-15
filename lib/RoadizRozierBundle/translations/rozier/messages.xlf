@@ -1319,6 +1319,8 @@
             <trans-unit xml:space="preserve" id="color_input.picker.button"><source>color_input.picker.button</source></trans-unit>
             <trans-unit xml:space="preserve" id="color_input.hex.button"><source>color_input.hex.button</source></trans-unit>
             <trans-unit xml:space="preserve" id="color_input.placeholder"><source>color_input.placeholder</source></trans-unit>
+
+            <trans-unit xml:space="preserve" id="bookmarks.links"><source>bookmarks.links</source></trans-unit>
         </body>
     </file>
 </xliff>

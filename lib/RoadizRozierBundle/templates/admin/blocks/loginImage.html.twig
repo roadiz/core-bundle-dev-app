@@ -1,6 +1,6 @@
 <div id="login-logo">
-    {% if rozier.adminImage %}
-        {{- rozier.adminImage|display({ picture: true, width: 200, quality: 70 }) -}}
+    {%  if project_logo_url is not empty %}
+        <img loading="lazy" src="{{ project_logo_url }}" alt=""/>
     {% else %}
         <i class="uk-icon-rz-roadiz-icon"></i>
     {% endif %}

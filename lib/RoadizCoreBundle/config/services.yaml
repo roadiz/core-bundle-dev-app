@@ -55,6 +55,7 @@ services:
             $mapsDefaultLocation: '%roadiz_core.maps_default_location%'
             $useConstraintViolationList: '%roadiz_core.use_constraint_violation_list%'
             $customFormPostOperationName: '%roadiz_core.custom_form_post_operation_name%'
+            $projectLogoUrl: '%roadiz_core.project_logo_url%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'

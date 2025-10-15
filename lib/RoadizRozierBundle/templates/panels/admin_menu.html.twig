@@ -30,6 +30,22 @@
     </header>
     <nav>
         <ul role="menubar" class="uk-nav uk-nav-parent-icon">
+            {%- if bookmarks|length -%}
+                <li id="bookmarks-menu" role="none"tabindex="0" class="uk-parent">
+                    <p tabindex="-1" role="menuitem" aria-expanded="false" aria-haspopup="true">
+                        <i class="uk-icon-link"></i><span class="info">{% trans %}bookmarks.links{% endtrans %}</span>
+                    </p>
+                    <ul role="menu" aria-label="{{ 'bookmarks.links'|trans }}" class="uk-nav-sub" tabindex="-1">
+                        {%- for bookmark in bookmarks -%}
+                            <li role="none" class="uk-nav-sub-item">
+                                <a tabindex="0" role="menuitem" target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">
+                                    <i class="uk-icon-link"></i><span class="info">{{- bookmark.label -}}</span>
+                                </a>
+                            </li>
+                        {%- endfor -%}
+                    </ul>
+                </li>
+            {%- endif -%}
             {% for mainEntry in rozier.backofficeMenuEntries %}
                 {% set granted = false %}
                 {% for role in mainEntry.roles %}
