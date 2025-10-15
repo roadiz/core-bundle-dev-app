@@ -207,8 +207,6 @@ const nodeList = {
 
 const meta: Meta = {
     title: 'Integration/Typography',
-    argTypes: {},
-    tags: ['autodocs'],
 }
 
 export default meta
