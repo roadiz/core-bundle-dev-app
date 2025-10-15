@@ -3,9 +3,9 @@
    doesn’t map to anything (or isn’t supported), use the
    browser’s default sans-serif, which may be user configured */
 :root {
-	--typography-os-title: ui-sans-serif, system-ui;
-	--typography-os-label: ui-sans-serif, system-ui;
-	--typography-os-text: ui-sans-serif, system-ui;
+	--typography-os-title: ui-sans-serif, system-ui, sans-serif;
+	--typography-os-label: ui-sans-serif, system-ui, sans-serif;
+	--typography-os-text: ui-sans-serif, system-ui, sans-serif;
 	--typography-os-code: ui-monospace;
 	--typography-os-markdown: ui-monospace;
 }
