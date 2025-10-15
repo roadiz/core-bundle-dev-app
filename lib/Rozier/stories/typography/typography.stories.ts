@@ -11,12 +11,12 @@ const nodeList = {
     h1Medium: {
         tag: 'div',
         class: 'text-h1-md',
-        content: 'Title MD',
+        content: 'Title H1 MD',
     },
     h1Small: {
         tag: 'div',
         class: 'text-h1-sm',
-        content: 'Title SM',
+        content: 'Title H1 SM',
     },
     overtitleSmall: {
         tag: 'div',
@@ -206,7 +206,7 @@ const nodeList = {
 } as Record<string, nodeAttribute>
 
 const meta: Meta = {
-    title: 'Integration/Typography',
+    title: 'Integration/Text',
 }
 
 export default meta
