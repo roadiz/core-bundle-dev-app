@@ -224,7 +224,8 @@ export const Primary: Story = {
         const container = document.createElement('div')
         container.classList.add('story-container')
 
-        Object.entries(nodeList).forEach(([name, nodeData]) => {
+        Object.entries(nodeList).forEach((entry) => {
+            const nodeData = entry[1]
             const item = document.createElement('div')
             item.style.marginBlock = '60px'
             container.appendChild(item)
