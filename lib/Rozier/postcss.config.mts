@@ -1,4 +1,4 @@
-import media from './app/assets/constants/media.ts'
+import media from './app/constants/media.ts'
 
 const config = {
     plugins: {

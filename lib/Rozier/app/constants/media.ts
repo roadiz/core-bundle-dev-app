@@ -7,7 +7,7 @@ const xs = 480
 
 // For now keep same naming as app/assets/less/vars.less variables
 // TODO: rename less variables (@screen-xxl-min) to postcss-simple-vars $screen-xxl-min
-const medias = {
+const media = {
     'screen-xxl-min': xxl + 'px',
     'screen-xl-max': xxl - 1 + 'px',
     'screen-xl-min': xl + 'px',
@@ -21,4 +21,4 @@ const medias = {
     'screen-xs-min': xs + 'px',
 }
 
-export default medias
+export default media
