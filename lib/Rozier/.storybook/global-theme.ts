@@ -22,14 +22,14 @@ export default {
                     },
                     {
                         value: 'light',
-                        title: 'Light',
+                        title: 'light',
                     },
                 ],
             },
         },
     },
     initialGlobals: {
-        theme: 'ligth',
+        theme: 'light',
     },
     decorators: [
         (story, context) => {
