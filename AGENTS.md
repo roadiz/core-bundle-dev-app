@@ -51,11 +51,19 @@ This project is the monorepository containing all source code for Roadiz CMS, a 
 
 ## Coding Standards
 
-- Use conventional commit messages
 - Follow PSR-12 coding standards for PHP
 - Write clear and concise comments
 - Use *git-cliff* to generate `./CHANGELOG.md` file for each released tag
 - Document any breaking change or any migration procedure in `./UPGRADE.md` file
+
+### Commit Instruction
+
+- Use conventional commit format: type(scope): Description
+- Use imperative mood: 'Add feature' not 'Added feature'
+- Keep subject line under 50 characters
+- Use types: feat, fix, docs, style, refactor, perf, test, chore, ci
+- Include scope when relevant (e.g., api, ui, auth, front)
+- Reference issue numbers with # prefix
 
 ### For Rozier package
 
