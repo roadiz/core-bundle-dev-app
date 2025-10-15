@@ -1,10 +1,13 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { getIconsCSS } from '@iconify/utils'
-import { locate } from '@iconify/json'
-import { IconSet } from '@iconify/tools'
-import { importDirectory } from '@iconify/tools'
-import { cleanupSVG, parseColors, runSVGO } from '@iconify/tools'
+import {
+    IconSet,
+    importDirectory,
+    cleanupSVG,
+    parseColors,
+    runSVGO,
+} from '@iconify/tools'
 
 type IconifyCollectionConfig = {
     prefix: string // Iconify prefix key or custom if srcDir is provided
@@ -91,17 +94,19 @@ export default function initCollections(
                         }
                     } else {
                         // Try to load the official Iconify JSON package
-                        const iconifyFilePath = locate(prefix)
-                        const file = await fs.readFile(iconifyFilePath, 'utf8')
+                        const jsonPath = path.resolve(
+                            process.cwd(),
+                            `node_modules/@iconify-json/${prefix}/icons.json`,
+                        )
+                        const file = await fs.readFile(jsonPath, 'utf8')
                         iconSet = new IconSet(JSON.parse(file))
                     }
-                } catch {
-                    if (!iconSet) {
-                        console.warn(
-                            `Can't find json collection for: ${prefix}`,
-                        )
-                        return
-                    }
+                } catch (error) {
+                    console.warn(
+                        `Can't find json collection for: ${prefix}`,
+                        error,
+                    )
+                    return
                 }
 
                 // Filter the icon set to include only the requested names, if any were provided.
