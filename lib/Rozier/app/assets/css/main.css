@@ -2,8 +2,11 @@
 @import './variables/spacings.css';
 @import './variables/radius.css';
 @import './variables/typography.css';
+@import './variables/text.css';
 
 @import './icons/index.css';
 
+@import './font-family.css';
+@import './text.css';
+
 @import './common.css';
-@import './font.css';
