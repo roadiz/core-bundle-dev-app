@@ -9,7 +9,7 @@
 :root {
     --explorer-width: 100vw;
 
-    @media (min-width: @screen-sm-min) {
+    @media (--screen-sm-min) {
         --explorer-width: ~'calc(var(--user-panel-width) + var(--entries-panel-width) + var(--trees-panel-width))';
     }
 }
@@ -51,7 +51,7 @@
         padding: 15px 15px 0;
         margin: 0;
 
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             width: calc(~'100% - 84px');
             padding: 32px @sortable-margin 0;
         }
@@ -82,7 +82,7 @@
         margin-top: 25px;
         border-bottom: 1px solid #494949;
 
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             margin-top: 35px;
         }
     }
@@ -101,7 +101,7 @@
         .box-sizing();
         transition: background 0.3s linear;
 
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             margin: 0 20px;
         }
 
@@ -138,7 +138,7 @@
         border-left: 1px solid #494949;
         transition: opacity 0.5s @easeOutExpo;
 
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             padding-left: 20px;
         }
 
@@ -188,7 +188,7 @@
         opacity: 0.8;
         transition: 0.4s opacity @easeOutExpo;
 
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             top: 45px;
             right: 45px;
         }
@@ -335,7 +335,7 @@
         font-size: var(--default-font-size);
         width: ~"calc(100vw - 30px)";
 
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             width: calc(~'100% - 84px');
         }
     }

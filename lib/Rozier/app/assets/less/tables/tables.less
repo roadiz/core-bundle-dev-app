@@ -13,7 +13,7 @@
     font-size: var(--default-font-size);
 
     td, th {
-        @media (min-width: @screen-sm-min) {
+        @media (--screen-sm-min) {
             padding: 10px 8px;
         }
     }
@@ -147,12 +147,12 @@
 }
 
 .table-actions-row-xs-2 {
-    @media screen and (max-width: @screen-xs-max) {
+    @media screen and (--screen-xs-max) {
         width: 95px;
     }
 }
 .table-actions-row-xs-4 {
-    @media screen and (max-width: @screen-xs-max) {
+    @media screen and (--screen-xs-max) {
         width: 160px;
     }
 }
@@ -164,12 +164,12 @@
         &:first-child {
             td {
                 &:not(:first-child) {
-                    @media (max-width: @screen-sm-max) {
+                    @media (--screen-sm-max) {
                         border-top: 0 none;
                     }
                 }
 
-                @media (max-width: @screen-sm-max) {
+                @media (--screen-sm-max) {
                     border-top: 1px solid var(--global-border-lighter-color);
                 }
             }
@@ -179,13 +179,13 @@
             &:first-child {
                 font-weight: bold;
 
-                @media (max-width: @screen-sm-max) {
+                @media (--screen-sm-max) {
                     border-bottom: 0 none;
                     padding-bottom: 0;
                 }
             }
 
-            @media (max-width: @screen-sm-max) {
+            @media (--screen-sm-max) {
                 display: block;
                 border-top: 0 none;
             }
