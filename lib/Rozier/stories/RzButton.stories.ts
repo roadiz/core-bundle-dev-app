@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../app/assets/css/rz-button/rz-button.css'
+import '../app/assets/css/components/rz-button.css'
 
 const EMPHASIS = ['low', 'medium', 'high'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
@@ -25,7 +25,7 @@ type ButtonArgs = {
  * - `.rz-button--size-xs`
  * - `.rz-button--size-sm`
  * - `.rz-button--size-md` (default)
- * - `.rz-button--size-lg`
+ * - `.rz-button--size-lg–`
  *
  * ### Disabled state
  * Add the `disabled` attribute on the button element or add the modifier class `.rz-button--disabled` to apply the disabled state style.
