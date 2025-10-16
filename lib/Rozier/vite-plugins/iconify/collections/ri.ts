@@ -7,4 +7,5 @@ export default [
     'arrow-drop-up-line',
     'close-large-line',
     'close-line',
+    'computer-line',
 ]
