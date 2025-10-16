@@ -3,7 +3,7 @@ import '../../app/assets/css/main.css'
 
 const COMPONENT_CLASS = 'rz-workspace-item'
 
-type ButtonArgs = {
+type ItemArgs = {
     label: string
     selected: boolean
     iconClass: string
@@ -11,9 +11,8 @@ type ButtonArgs = {
     tag: string
 }
 
-const meta: Meta<ButtonArgs> = {
+const meta: Meta<ItemArgs> = {
     title: 'Components/Workspace/Item',
-    // tags: ['autodocs'],
     args: {
         label: 'Workspace item label',
         selected: false,
@@ -33,7 +32,7 @@ const meta: Meta<ButtonArgs> = {
 }
 
 export default meta
-type Story = StoryObj<ButtonArgs>
+type Story = StoryObj<ItemArgs>
 
 function iconRenderer(iconClass: string) {
     if (!iconClass) return undefined
@@ -43,7 +42,7 @@ function iconRenderer(iconClass: string) {
     return icon
 }
 
-function itemRenderer(args: ButtonArgs) {
+function itemRenderer(args: ItemArgs) {
     const node = document.createElement(args.tag)
     const variantClass = args.variants
         ? `${COMPONENT_CLASS}--${args.variants}`
