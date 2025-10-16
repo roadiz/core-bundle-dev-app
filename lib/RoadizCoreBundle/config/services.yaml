@@ -79,13 +79,6 @@ services:
         shared: false
         public: true
 
-    RZ\Roadiz\CoreBundle\Xlsx\:
-        resource: '../src/Xlsx/'
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use CSV serialization instead.'
-            package: roadiz/core-bundle
-            version: '2.3.19'
-
     RZ\Roadiz\CoreBundle\Document\MediaFinder\YoutubeEmbedFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'youtube' } ]
     RZ\Roadiz\CoreBundle\Document\MediaFinder\VimeoEmbedFinder:

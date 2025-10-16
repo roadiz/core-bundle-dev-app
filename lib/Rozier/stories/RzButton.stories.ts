@@ -242,7 +242,6 @@ export const DisabledList: Story = {
             wrapper.style =
                 'display: flex; gap: 16px; flex-wrap: wrap; align-items: center; max-width: 800px; margin-inline: auto;'
             const title = document.createElement('h4')
-            title.style = 'color: black;'
             title.innerText = withDisabledAttr
                 ? 'With disabled attribute'
                 : 'With disabled class'

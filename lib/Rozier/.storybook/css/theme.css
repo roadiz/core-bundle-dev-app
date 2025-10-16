@@ -1,0 +1,8 @@
+/*
+Some user-agent styles are updated when the color scheme is changed from the themeing logic.
+The background color needs to be updated according to the current theme because text color can be affected by the color scheme.
+*/
+.docs-story,
+body.sb-show-main {
+	background-color: var(--surface-light-tertiary);
+}
