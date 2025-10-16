@@ -103,9 +103,8 @@ export const Dropdown: Story = {
 }
 
 export const Link: Story = {
-    render: (args, context) => {
+    render: (args) => {
         const item = itemRenderer(args)
-        console.log(context)
         item.setAttribute('href', window.location.href)
         const dropdownIcon = document.createElement('span')
         dropdownIcon.classList.add(
