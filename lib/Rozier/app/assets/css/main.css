@@ -3,8 +3,12 @@
 @import './variables/spacings.css';
 @import './variables/radius.css';
 @import './variables/typography.css';
+
+@import './theme.css';
+
 /* Icons */
 @import './icons/index.css';
+
 /* Components */
 @import './components/rz-button.css';
 @import './components/rz-file-upload.css';

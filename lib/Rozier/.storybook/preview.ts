@@ -1,9 +1,11 @@
 import type { Preview } from '@storybook/html-vite'
+import customTheme from './global-theme'
 
 import './css/story-layout.css'
 
 const preview: Preview = {
     parameters: {
+        ...customTheme.parameters,
         controls: {
             matchers: {
                 color: /(background|color)$/i,
@@ -17,6 +19,13 @@ const preview: Preview = {
             test: 'todo',
         },
     },
+    globalTypes: {
+        ...customTheme.globalTypes,
+    },
+    initialGlobals: {
+        ...customTheme.initialGlobals,
+    },
+    decorators: [...customTheme.decorators],
 }
 
 export default preview
