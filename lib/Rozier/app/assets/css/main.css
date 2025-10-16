@@ -1,9 +1,5 @@
 /* Variables */
-@import './variables/colors.css';
-@import './variables/spacings.css';
-@import './variables/radius.css';
-@import './variables/font-family.css';
-@import './variables/text.css';
+@import './variables.css';
 
 /* Custom media */
 @import './custom-media.css';
