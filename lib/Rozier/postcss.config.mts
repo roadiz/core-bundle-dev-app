@@ -3,6 +3,7 @@ const config = {
         'postcss-pxtorem': {
             propList: ['*'],
         },
+        'postcss-custom-media': {},
     },
 }
 
