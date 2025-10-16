@@ -16,20 +16,23 @@
     <article class="content content-upload">
         <div class="content-upload-inner">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
-            <form id="upload-dropzone-document"
-                  {% if folder.id %}
-                      data-folder-id="{{ folder.id }}"
-                      style="--rz-accent-color: {{ folder.color }};"
-                  {% endif %}
-                  class="uk-form uk-form-stacked dropzone-container"
+            <form
+                  class="uk-form uk-form-stacked"
                   action="#"
                   method="post"
                   enctype="multipart/form-data">
-                <div class="fallback">
-                    {{ form_widget(form) }}
-                    <input class="uk-button uk-button-primary" type="submit" value="{% trans %}upload{% endtrans %}" />
-                </div>
-                {{ form_rest(form) }}
+                  <rz-file-upload 
+                    {% if folder.id %}
+                        url="{{ path('documentsUploadPage', {_format: 'json'}) ~ '/' ~ folder.id }}"
+                        style="--rz-accent-color: {{ folder.color }};"
+                    {% endif %}
+                  >
+                    <noscript>
+                        {{ form_widget(form) }}
+                        <input class="uk-button uk-button-primary" type="submit" value="{% trans %}upload{% endtrans %}" />
+                    </noscript>
+                    {{ form_rest(form) }}
+                  </rz-file-upload>
             </form>
         </div>
     </article>
