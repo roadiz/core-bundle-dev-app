@@ -1,0 +1,215 @@
+rz-file-upload {
+    --circle-border-color: #c4c4c4;
+
+    position: relative;
+    display: block;    
+    min-height: 360px;
+    padding: 23px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 0;
+    overflow: hidden;
+
+    &.dz-clickable {
+        cursor: pointer;
+    }
+}
+
+
+rz-file-upload .circle {
+    position: absolute;
+    top:50%;
+    left:50%;
+    border-radius: 200px;
+    background:none;
+    border:1px solid var(--circle-border-color);
+    pointer-events: none;
+
+    &.circle-1{
+        width:100px; height:100px;
+        margin: -50px 0 0 -50px;
+    }
+
+    &.circle-2{
+        width:148px; height:148px;
+        border-color: color-mix(in srgb, var(--circle-border-color) 90%, white 10%);
+        margin: -74px 0 0 -74px;
+    }
+
+    &.circle-3{
+        width:192px; height:192px;
+        border-color: color-mix(in srgb, var(--circle-border-color) 70%, white 30%);
+        margin: -96px 0 0 -96px;
+    }
+
+    &.circle-4{
+        width:268px; height:268px;
+        border-color: color-mix(in srgb, var(--circle-border-color) 50%, white 50%);
+        margin: -134px 0 0 -134px;
+    }
+
+    &.circle-5{
+        width:386px; height:386px;
+        border-color: color-mix(in srgb, var(--circle-border-color) 40%, white 60%);
+        margin: -193px 0 0 -193px;
+    }
+}
+
+rz-file-upload.dz-started .circles-icons {
+    display: none;
+}
+
+rz-file-upload .uk-icon-rz-file{
+    position: absolute;
+    top:50%; left:50%;
+    width:28px; height:28px;
+    margin:-14px 0 0 -14px;
+    text-align: center;
+    font-size:28px; line-height:28px;
+}
+
+
+rz-file-upload .dz-preview {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin:0 12px 12px 0;
+    border: 1px solid #acacac;
+    background: rgba(255,255,255,0.8);
+    box-shadow: none;
+    font-size:13px;
+    min-width: 120px;
+    min-height: 120px;
+    background-color: rgba(0,0,0,0.1);
+
+    /* Progress */
+    .dz-progress {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: #d7d7d7;
+    }
+
+    &.dz-processing .dz-progress {
+        display: block;
+    }
+
+    .dz-progress .dz-upload {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: #8cc657;
+        background-image: url("assets/img/spritemap@2x.png");
+        background-size: 428px 406px;
+        background-repeat: repeat-x;
+        background-position: 0px -400px;
+        animation: rz-file-upload-progress 0.4s linear infinite;
+        transition: width 0.3s ease-in-out;
+    }
+
+    &.dz-success .dz-progress {
+        display: block;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+    }
+
+    /* Error message */
+    .dz-error-message {
+        /* display: none; */
+        position: absolute;
+        inset: 0;
+        padding: 8px 10px;
+        color: #800;
+        z-index: 500;
+    }
+    
+    &.dz-error .dz-error-message {
+        display: block;
+    }
+
+    /* Success / error icons */
+    .dz-error-mark,
+    .dz-success-mark {
+        display: none;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
+        text-align: center;
+        right: -10px;
+        top: -10px;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+        background-image: url("assets/img/spritemap@2x.png");
+        background-repeat: no-repeat;
+        background-size: 428px 406px;
+        z-index: 510;
+
+        svg {
+            display: none;
+        }
+    }
+
+    .dz-success-mark {
+        background-position: -268px -163px;
+    }
+
+    .dz-error-mark {
+        background-position: -268px -123px;
+    }
+
+    &.dz-success .dz-success-mark {
+        display: block;
+        opacity: 1;
+    }
+
+    &.dz-error .dz-error-mark {
+        display: block;
+        opacity: 1;
+    }
+
+    /* Extra infos */
+    .dz-details,
+    .dz-filename,
+    .dz-size{
+        display: none;
+    }
+}
+
+rz-file-upload .dz-default.dz-message {
+    position: absolute;
+    inset: 0;
+    width:100%; height:100%;
+    margin:0;
+    background: none;
+
+    span {
+        position: absolute;
+        display: block;
+        right: 0; bottom: 0; left: 0;
+        height:50px;
+        border-top:1px dashed #D2D2D2;
+        text-align: center;
+        font-size: var(--default-font-size);
+        line-height:50px;
+        background:#ECECEC;
+        color: var(--global-text-lighter-color);
+        letter-spacing: 0.05em;
+        text-shadow: 0 0 4px #fff;
+        z-index: 2;
+    }
+}
+
+@keyframes rz-file-upload-progress {
+  from {
+    background-position: 0 -400px;
+  }
+  to {
+    background-position: -7px -400px;
+  }
+}

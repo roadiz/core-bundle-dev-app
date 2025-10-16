@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./app/*"],
+      "assets/*": ["./app/assets/*"]
+    }
+  },
+  "include": ["vite.config.ts", "app/**/*"]
+}

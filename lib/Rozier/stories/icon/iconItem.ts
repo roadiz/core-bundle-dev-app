@@ -53,16 +53,12 @@ export function iconItemRenderer(args: IconArgs) {
 
     const label = document.createElement('span')
     label.innerText = iconName || ''
-    label.style = `
-    color: black;
-    `
 
     const nameNode = document.createElement('code')
     nameNode.innerText = `rz-icon-${args.prefix}--${iconName}`
     nameNode.style = `
-    color: black;
-    grid-column: 1 / -1;
-    user-select: all;
+      grid-column: 1 / -1;
+      user-select: all;
     `
 
     iconWrapper.appendChild(iconNode)
