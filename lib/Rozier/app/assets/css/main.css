@@ -5,6 +5,9 @@
 @import './variables/font-family.css';
 @import './variables/text.css';
 
+/* Custom media */
+@import './custom-media.css';
+
 @import './theme.css';
 
 @import './font-family.css';

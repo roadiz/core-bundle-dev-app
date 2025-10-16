@@ -1,0 +1,17 @@
+
+@custom-media --screen-xxl-min (min-width: 1920px);
+
+@custom-media --screen-xl-max (max-width: 1919px); /* width < 1920px */
+@custom-media --screen-xl-min (min-width: 1450px); /* width >= 1450px */
+
+@custom-media --screen-lg-max (max-width: 1449px);
+@custom-media --screen-lg-min (min-width: 1280px);
+
+@custom-media --screen-md-max (max-width: 1279px);
+@custom-media --screen-md-min (min-width: 960px);
+
+@custom-media --screen-sm-max (max-width: 959px);
+@custom-media --screen-sm-min (min-width: 768px);
+
+@custom-media --screen-xs-max (max-width: 767px);
+@custom-media --screen-xs-min (min-width: 480px);
