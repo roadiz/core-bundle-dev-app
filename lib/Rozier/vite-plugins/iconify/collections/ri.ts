@@ -8,4 +8,6 @@ export default [
     'close-large-line',
     'close-line',
     'computer-line',
+    'arrow-down-s-line',
+    'arrow-right-s-line',
 ]
