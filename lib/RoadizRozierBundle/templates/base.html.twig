@@ -83,6 +83,10 @@
         </div>
         <div id="codemirror-preview-containers"></div>
         <script>
+            /**
+             * Global Rozier configuration object
+             * @type {RozierConfig}
+             */
             window.RozierConfig = {
                 'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
                 'resourcesUrl':      '{{ asset('/bundles/roadizrozier/') }}',

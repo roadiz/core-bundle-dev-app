@@ -8,7 +8,6 @@ import { DRAWERS_UPDATE_LIST } from '../types/mutationTypes'
 // Components
 import RzButton from '../components/RzButton.vue'
 import draggable from 'vuedraggable'
-import Dropzone from '../components/Dropzone.vue'
 import { NODE_SOURCE_DOCUMENT_ENTITY } from '../types/entityTypes'
 
 export default {
@@ -148,7 +147,9 @@ export default {
                 newIndex,
             })
         },
-        showSuccess: function (file, response) {
+        showSuccess: function (event) {
+            const { response } = event.detail
+
             if (this.entityName === NODE_SOURCE_DOCUMENT_ENTITY) {
                 this.addItem({
                     document: response.document,
@@ -186,7 +187,6 @@ export default {
     components: {
         RzButton,
         draggable,
-        Dropzone,
     },
 }
 </script>
