@@ -6,7 +6,7 @@
 @import './variables/text.css';
 
 /* Custom media */
-@import './custom-media.pcss';
+@import './custom-media.css';
 
 @import './theme.css';
 
