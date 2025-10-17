@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { defineLazyElement } from '../../app/utils/custom-element/defineLazyElement'
 import customElementList from '../../app/custom-elements'
-import { COMPONENT_CLASS, itemRenderer, arrowIconRenderer } from './renderer'
+import { itemRenderer, arrowIconRenderer } from './renderer'
 import type { ItemArgs } from './types'
 
 import '../../app/assets/css/main.css'

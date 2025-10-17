@@ -1,5 +1,5 @@
 export default class RzWorkspaceItemButton extends HTMLButtonElement {
-    COMPONENT_CLASS = 'rz-workspace-item'
+    COMPONENT_CLASS_NAME = 'rz-workspace-item'
 
     constructor() {
         super()
@@ -11,7 +11,7 @@ export default class RzWorkspaceItemButton extends HTMLButtonElement {
 
         const expanded = el.getAttribute('aria-expanded') === 'true'
         el.setAttribute('aria-expanded', expanded ? 'false' : 'true')
-        el.classList.toggle(`${this.COMPONENT_CLASS}--active`, !expanded)
+        el.classList.toggle(`${this.COMPONENT_CLASS_NAME}--active`, !expanded)
     }
 
     connectedCallback() {
