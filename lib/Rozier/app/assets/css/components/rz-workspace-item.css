@@ -13,6 +13,7 @@
 	letter-spacing: var(--text-label-sm-letter-spacing);
 	font-weight: var(--text-label-sm-font-weight);
 	color: var(--workspace-content, #18191B);
+	cursor: pointer;
 
 	/* TODO: add active/current state styles */
 	a& {
@@ -34,10 +35,6 @@
 			background-color: var(--workspace-bg-selected-hover, #DADADA);
 		}
 	}
-}
-
-.rz-workspace-item--button {
-	cursor: pointer;
 }
 
 .rz-workspace-item--level-1 {

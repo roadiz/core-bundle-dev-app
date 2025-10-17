@@ -63,7 +63,6 @@ export const ButtonCustomElement: Story = {
         registerCustomElement(customComponentName)
 
         const button = itemRenderer(args, { is: customComponentName })
-        button.classList.add(`${COMPONENT_CLASS}--button`)
 
         const dropdownIcon = arrowIconRenderer()
         button.appendChild(dropdownIcon)
