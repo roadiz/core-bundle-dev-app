@@ -2,16 +2,9 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { defineLazyElement } from '../../app/utils/custom-element/defineLazyElement'
 import customElementList from '../../app/custom-elements'
 import { COMPONENT_CLASS, itemRenderer, arrowIconRenderer } from './renderer'
+import type { ItemArgs } from './types'
 
 import '../../app/assets/css/main.css'
-
-type ItemArgs = {
-    label: string
-    active: boolean
-    iconClass: string
-    variants: 'level-1' | 'level-2'
-    tag: string
-}
 
 const meta: Meta<ItemArgs> = {
     title: 'Components/Workspace/Item',
@@ -59,6 +52,7 @@ export const Link: Story = {
 
 function registerCustomElement(name: string) {
     if (!window.customElements.get(name)) {
+        // @ts-expect-error Ignore dynamic module type
         defineLazyElement(name, customElementList[name])
     }
 }

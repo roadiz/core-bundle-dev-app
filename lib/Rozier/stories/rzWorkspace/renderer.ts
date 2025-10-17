@@ -1,3 +1,5 @@
+import type { ItemArgs } from './types'
+
 export const COMPONENT_CLASS = 'rz-workspace-item'
 
 export function iconRenderer(iconClass: string) {
