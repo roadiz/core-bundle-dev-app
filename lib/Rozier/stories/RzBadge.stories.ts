@@ -2,17 +2,34 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import '../app/assets/css/main.css'
 
 const COMPONENT_CLASS = 'rz-badge'
+const SIZES = ['xs', 'sm', 'md'] as const
+const STATUS = ['information', 'success', 'warning', 'error'] as const
 
 type BadgeArgs = {
     label: string
     iconClass: string
+    size: (typeof SIZES)[number]
+    status: (typeof STATUS)[number]
 }
 
 const meta: Meta<BadgeArgs> = {
     title: 'Components/Badge',
     args: {
         label: 'My badge',
-        iconClass: 'rz-icon-ri--computer-line',
+        iconClass: 'rz-icon-ri--add-line',
+    },
+    argTypes: {
+        size: {
+            options: ['', ...SIZES],
+            control: { type: 'radio' },
+        },
+        status: {
+            options: ['', ...STATUS],
+            control: { type: 'radio' },
+        },
+    },
+    globals: {
+        backgrounds: { value: 'light' },
     },
 }
 
@@ -27,9 +44,21 @@ function iconRenderer(iconClass: string) {
     return icon
 }
 
+function labelRenderer(text: string) {
+    const label = document.createElement('span')
+    label.classList.add(`${COMPONENT_CLASS}__label`)
+    label.textContent = text
+
+    return label
+}
+
 function itemRenderer(args: BadgeArgs) {
     const node = document.createElement('div')
-    const classes = [COMPONENT_CLASS].filter((c) => c)
+    const sizeClass = args.size ? `${COMPONENT_CLASS}--size-${args.size}` : ''
+    const statusClass = args.status
+        ? `${COMPONENT_CLASS}--status-${args.status}`
+        : ''
+    const classes = [COMPONENT_CLASS, sizeClass, statusClass].filter((c) => c)
     node.classList.add(...classes)
 
     const icon = iconRenderer(args.iconClass)
@@ -37,7 +66,7 @@ function itemRenderer(args: BadgeArgs) {
         node.appendChild(icon)
     }
 
-    const label = document.createTextNode(args.label)
+    const label = labelRenderer(args.label)
     node.appendChild(label)
 
     return node
@@ -46,5 +75,38 @@ function itemRenderer(args: BadgeArgs) {
 export const Default: Story = {
     render: (args) => {
         return itemRenderer(args)
+    },
+}
+
+export const Published: Story = {
+    render: (args) => {
+        return itemRenderer({
+            ...args,
+            label: 'Published',
+            status: 'success',
+            iconClass: 'rz-icon-rz--status-published-colored',
+        })
+    },
+}
+
+export const Draft: Story = {
+    render: (args) => {
+        return itemRenderer({
+            ...args,
+            label: 'Draft',
+            status: 'warning',
+            iconClass: 'rz-icon-rz--status-draft-colored',
+        })
+    },
+}
+
+export const Unpublished: Story = {
+    render: (args) => {
+        return itemRenderer({
+            ...args,
+            label: 'Unpublished',
+            status: 'error',
+            iconClass: 'rz-icon-rz--status-draft-colored',
+        })
     },
 }

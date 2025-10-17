@@ -3,7 +3,7 @@
  */
 export default [
     'status-container',
-    'status-draf-colored',
+    'status-draft-colored',
     'status-draft-outlined',
     'status-draft',
     'status-lock',
