@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../../app/assets/css/main.css'
+import { defineLazyElement } from '../../app/utils/custom-element/defineLazyElement'
+import customElementList from '../../app/custom-elements'
+import { COMPONENT_CLASS, itemRenderer, arrowIconRenderer } from './renderer'
 
-const COMPONENT_CLASS = 'rz-workspace-item'
+import '../../app/assets/css/main.css'
 
 type ItemArgs = {
     label: string
-    selected: boolean
+    active: boolean
     iconClass: string
     variants: 'level-1' | 'level-2'
     tag: string
@@ -15,7 +17,7 @@ const meta: Meta<ItemArgs> = {
     title: 'Components/Workspace/Item',
     args: {
         label: 'Workspace item label',
-        selected: false,
+        active: false,
         iconClass: 'rz-icon-ri--computer-line',
         variants: 'level-1',
         tag: 'div',
@@ -34,70 +36,9 @@ const meta: Meta<ItemArgs> = {
 export default meta
 type Story = StoryObj<ItemArgs>
 
-function iconRenderer(iconClass: string) {
-    if (!iconClass) return undefined
-    const icon = document.createElement('span')
-    icon.classList.add(`${COMPONENT_CLASS}__icon`, iconClass)
-
-    return icon
-}
-
-function itemRenderer(args: ItemArgs) {
-    const node = document.createElement(args.tag)
-    const variantClass = args.variants
-        ? `${COMPONENT_CLASS}--${args.variants}`
-        : ''
-    const selectedClass = args.selected ? `${COMPONENT_CLASS}--selected` : ''
-    const classes = [COMPONENT_CLASS, variantClass, selectedClass].filter(
-        (c) => c,
-    )
-    node.classList.add(...classes)
-
-    const icon = iconRenderer(args.iconClass)
-    if (icon) {
-        node.appendChild(icon)
-    }
-
-    const label = document.createTextNode(args.label)
-    node.appendChild(label)
-
-    return node
-}
-
 export const Default: Story = {
     render: (args) => {
         return itemRenderer(args)
-    },
-}
-
-export const Dropdown: Story = {
-    render: (args) => {
-        const item = itemRenderer(args)
-        item.setAttribute('aria-expanded', 'false')
-
-        item.addEventListener('click', (e) => {
-            const el = e.currentTarget as HTMLElement
-            if (!el) return
-            const expanded = el.getAttribute('aria-expanded') === 'true'
-            el.setAttribute('aria-expanded', expanded ? 'false' : 'true')
-        })
-
-        const dropdownIcon = document.createElement('span')
-        dropdownIcon.classList.add(
-            `${COMPONENT_CLASS}__arrow`,
-            'rz-icon-ri--arrow-down-s-line',
-        )
-
-        item.appendChild(dropdownIcon)
-
-        return item
-    },
-    args: {
-        tag: 'button',
-        iconClass: 'rz-icon-ri--computer-line',
-    },
-    parameters: {
-        controls: { exclude: ['tag'] },
     },
 }
 
@@ -105,17 +46,41 @@ export const Link: Story = {
     render: (args) => {
         const item = itemRenderer(args)
         item.setAttribute('href', window.location.href)
-        const dropdownIcon = document.createElement('span')
-        dropdownIcon.classList.add(
-            `${COMPONENT_CLASS}__arrow`,
-            'rz-icon-ri--arrow-right-s-line',
-        )
 
-        item.appendChild(dropdownIcon)
+        const arrowIcon = arrowIconRenderer('right')
+        item.appendChild(arrowIcon)
 
         return item
     },
     args: {
         tag: 'a',
+    },
+}
+
+function registerCustomElement(name: string) {
+    if (!window.customElements.get(name)) {
+        defineLazyElement(name, customElementList[name])
+    }
+}
+
+export const ButtonCustomElement: Story = {
+    render: (args) => {
+        const customComponentName = 'rz-workspace-item-button'
+        registerCustomElement(customComponentName)
+
+        const button = itemRenderer(args, { is: customComponentName })
+        button.classList.add(`${COMPONENT_CLASS}--button`)
+
+        const dropdownIcon = arrowIconRenderer()
+        button.appendChild(dropdownIcon)
+
+        return button
+    },
+    args: {
+        tag: 'button',
+        iconClass: 'rz-icon-ri--computer-line',
+    },
+    parameters: {
+        controls: { exclude: ['tag'] },
     },
 }

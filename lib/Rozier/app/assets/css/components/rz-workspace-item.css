@@ -14,12 +14,9 @@
 	font-weight: var(--text-label-sm-font-weight);
 	color: var(--workspace-content, #18191B);
 
-	&[href] {
+	/* TODO: add active/current state styles */
+	a& {
 		text-decoration: none;
-	}
-
-	&[aria-expanded] {
-		cursor: pointer;
 	}
 
 	@media (hover: hover) {
@@ -27,10 +24,20 @@
 			background-color: var(--workspace-bg-hover, #EAEAEA);
 		}
 	}
+}
 
-	&[aria-expanded="true"] {
-		background-color: var(--workspace-bg-selected, #DADADA);
+.rz-workspace-item--active {
+	background-color: var(--workspace-bg-selected, #DADADA);
+
+	@media (hover: hover) {
+		&:hover {
+			background-color: var(--workspace-bg-selected-hover, #DADADA);
+		}
 	}
+}
+
+.rz-workspace-item--button {
+	cursor: pointer;
 }
 
 .rz-workspace-item--level-1 {
@@ -43,11 +50,6 @@
 	--rz-workspace-item-padding: var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) 46px;
 }
 
-
-.rz-workspace-item--selected {
-	background-color: var(--workspace-bg-selected, #DADADA);
-}
-
 .rz-workspace-item__icon {
 	font-size: 20px;
 }
@@ -58,7 +60,7 @@
 	margin-left: auto;
 	transition: rotate 0.3s, color 0.3s;
 
-	[aria-expanded="true"] > & {
+	.rz-workspace-item--active & {
 		rotate: 180deg;
 		color: var(--workspace-icon-hover, #18191B);
 	}
