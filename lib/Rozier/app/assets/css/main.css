@@ -5,8 +5,8 @@
 @import './variables/font-family.css';
 @import './variables/text.css';
 
+@import './custom-media.css';
 @import './theme.css';
-
 @import './font-family.css';
 @import './text.css';
 
