@@ -12,7 +12,7 @@
     grid-column: 1 / span 3;
     grid-row: 1 / span 1;
 
-    @media (--screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         grid-column: 2 / span 1;
     }
 
@@ -58,7 +58,7 @@
     position: absolute;
     inset: 0;
     border: 1px solid #fff;
-
+    
     [inert] & {
         opacity: 0.5;
     }
@@ -175,7 +175,7 @@
     grid-column: 2 / span 1;
     visibility: hidden;
 
-    @media (--screen-lg-min) {
+    @media (min-width: @screen-lg-min) {
         grid-column: 3 / span 1;
         justify-self: end;
     }
