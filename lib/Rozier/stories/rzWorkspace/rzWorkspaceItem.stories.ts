@@ -7,7 +7,7 @@ import type { ItemArgs } from './types'
 import '../../app/assets/css/main.css'
 
 const meta: Meta<ItemArgs> = {
-    title: 'Components/Workspace/Item',
+    title: 'Components/RzWorkspace/Item',
     args: {
         label: 'Workspace item label',
         active: false,
