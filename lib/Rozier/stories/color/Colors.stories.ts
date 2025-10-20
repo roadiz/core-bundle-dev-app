@@ -43,7 +43,7 @@ export const Colors: Story = {
             .join('')
 
         return `
-            <div style="color: black;" class="story-container">
+            <div style="color: black; max-width: 1000px; margin-inline: auto;">
                 ${colorGroupNodes}
             </div>
         `
