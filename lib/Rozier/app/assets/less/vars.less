@@ -2,6 +2,26 @@
    VARS
 \*------------------------------------*/
 
+/*
+ * Global vars
+ */
+@screen-xxl-min: 1920px;
+
+@screen-xl-min: 1450px;
+@screen-xl-max: (@screen-xxl-min - 1);
+
+@screen-lg-min: 1280px;
+@screen-lg-max: (@screen-xl-min - 1);
+
+@screen-md-min: 960px;
+@screen-md-max: (@screen-lg-min - 1);
+
+@screen-sm-min: 768px;
+@screen-sm-max: (@screen-md-min - 1);
+
+@screen-xs-min: 480px;
+@screen-xs-max: (@screen-sm-min - 1);
+
 /* -------- COLORS -------- */
 @global-background: #eeeeee;
 @grey-interface: #4c4c4c;
@@ -131,14 +151,14 @@
     --default-font-size: 13px;
     --markdown-navbar-item-size: 30px;
 
-    @media (--screen-lg-min) {
+    @media (min-width: @screen-lg-min) {
         --trees-panel-width: 270px;
         --entries-panel-width: 70px;
     }
-    @media (--screen-xl-min) {
+    @media (min-width: @screen-xl-min) {
         --trees-panel-width: 350px;
     }
-    @media (--screen-xxl-min) {
+    @media (min-width: @screen-xxl-min) {
         --trees-panel-width: 450px;
     }
 
