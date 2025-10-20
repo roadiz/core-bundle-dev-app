@@ -91,7 +91,7 @@
 		}
 	}
 
-	.rz-button--on-dark& {
+	&.rz-button--on-dark {
 		--rz-button-background-color: var(--button-basic-high-bg-on-dark, #FFF);
 		--rz-button-color: var(--button-basic-high-content-on-dark, #222);
 
@@ -158,13 +158,13 @@
 		}
 	}
 
-	.rz-button--on-dark& {
+	&.rz-button--on-dark {
 		--rz-button-color: var(--button-basic-low-content-on-dark, #FFF);
 		--rz-button-disabled-color: var(--button-basic-low-content-on-dark-disabled, #7A7A7A);
 
 		@media (hover: hover) {
 			&:hover {
-				--rz-button-background-color:  var(--button-basic-low-bg-on-dark-hover, #383838);
+				--rz-button-background-color: var(--button-basic-low-bg-on-dark-hover, #383838);
 
 
 			}
