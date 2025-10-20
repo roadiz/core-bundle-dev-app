@@ -1,18 +1,18 @@
-<nav class="tag-translation-bar translation-bar uk-navbar">
+<nav class="translation-bar uk-navbar">
     <ul class="uk-navbar-nav">
         {%- for translation in available_translations -%}
-            {% set liClasses = [] %}
-            {% if current == translation.id %}
+            {%- set liClasses = ['uk-navbar-item'] -%}
+            {%- if current == translation.id -%}
                 {% set liClasses = liClasses|merge(['uk-active']) %}
-            {% endif %}
-            {% if translation not in translations %}
+            {%- elseif translation not in translations -%}
                 {% set liClasses = liClasses|merge(['unavailable']) %}
-            {% endif %}
+            {%- endif -%}
             <li {% if liClasses|length %}class="{{ liClasses|join(' ') }}"{% endif %}>
-                <a href="{{ path('tagsEditTranslatedPage', {
+                <a class="uk-navbar-link"
+                   href="{{ path('tagsEditTranslatedPage', {
                     tagId: tag.getId,
                     translationId:translation.getId
-                }) }}">{{ translation.getLocale }}</a>
+                }) }}">{{- translation.locale -}}</a>
             </li>
         {%- endfor -%}
     </ul>
