@@ -1,8 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../../app/assets/css/components/rz-button.css'
-import { EMPHASIS, SIZES } from './constants'
-import type { ButtonArgs } from './types'
-import { buttonRenderer, buttonSizeListRenderer } from './renderer'
+import '../app/assets/css/components/rz-button.css'
+
+const COMPONENT_CLASS_NAME = 'rz-button'
+const EMPHASIS = ['low', 'medium', 'high'] as const
+const SIZES = ['xs', 'sm', 'md', 'lg'] as const
+
+export type ButtonArgs = {
+    label: string
+    emphasis: (typeof EMPHASIS)[number]
+    size: (typeof SIZES)[number]
+    disabled: boolean
+    iconClass: string
+    onDark: boolean
+    additionalClasses: string
+}
 
 /** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
  * In most case you will use a label and /or an icon inside the button. add `.rz-button__label` and/or `.rz-button__icon` classes to the inner elements.
@@ -170,4 +181,71 @@ export const DisabledList: Story = {
             include: [],
         },
     },
+}
+
+/* RENDERER */
+
+function buttonRenderer(args: ButtonArgs, attrs: Record<string, string> = {}) {
+    const buttonNode = document.createElement('button')
+    const attributesEntries = Object.entries(attrs)
+    if (attributesEntries.length) {
+        attributesEntries.forEach(([key, value]) => {
+            buttonNode.setAttribute(key, value)
+        })
+    }
+    const emphasisClass = args.emphasis
+        ? `${COMPONENT_CLASS_NAME}--emphasis-${args.emphasis}`
+        : ''
+    const sizeClass = args.size
+        ? `${COMPONENT_CLASS_NAME}--size-${args.size}`
+        : ''
+    const disabledClass = args.disabled
+        ? `${COMPONENT_CLASS_NAME}--disabled`
+        : ''
+    const onDarkClass = args.onDark ? `${COMPONENT_CLASS_NAME}--on-dark` : ''
+
+    buttonNode.className = [
+        COMPONENT_CLASS_NAME,
+        emphasisClass,
+        sizeClass,
+        disabledClass,
+        onDarkClass,
+        args.additionalClasses,
+    ]
+        .filter((c) => !!c)
+        .join(' ')
+        .trim()
+
+    const labelNode = document.createElement('span')
+    labelNode.className = [`${COMPONENT_CLASS_NAME}__label`].join(' ')
+    labelNode.innerText = args.label
+    if (args.label) buttonNode.appendChild(labelNode)
+
+    const iconNode = document.createElement('span')
+    iconNode.className = [`${COMPONENT_CLASS_NAME}__icon`, args.iconClass].join(
+        ' ',
+    )
+    if (args.iconClass) buttonNode.appendChild(iconNode)
+
+    return buttonNode
+}
+
+function buttonSizeListRenderer(args: ButtonArgs) {
+    const wrapper = document.createElement('div')
+    wrapper.style =
+        'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;'
+
+    SIZES.forEach((size) => {
+        const btn = buttonRenderer({
+            ...args,
+            size,
+            label: `${args.emphasis || 'unknown'} emphasis ${size}`,
+        })
+        wrapper.appendChild(btn)
+
+        const btnIconOnly = buttonRenderer({ ...args, size, label: `` })
+        wrapper.appendChild(btnIconOnly)
+    })
+
+    return wrapper
 }
