@@ -6,8 +6,8 @@ export default class RzWorkspaceItemButton extends HTMLButtonElement {
     }
 
     onClick(event: Event) {
-        const el = event.currentTarget as HTMLButtonElement
-        if (!el) return
+        const el = event.currentTarget
+        if (!el || !(el instanceof HTMLButtonElement)) return
 
         const expanded = el.getAttribute('aria-expanded') === 'true'
         el.setAttribute('aria-expanded', expanded ? 'false' : 'true')
