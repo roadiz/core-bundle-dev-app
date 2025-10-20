@@ -34,7 +34,7 @@
     border: 1px solid @geotag-widget-border;
     border-bottom:1px dashed @geotag-widget-border;
 
-    @media (--screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         flex-wrap: nowrap;
         padding: 0;
     }
@@ -66,7 +66,7 @@
     &__content {
         padding: 0 8px;
 
-        @media (--screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             margin-left: auto;
         }
     }
@@ -91,11 +91,11 @@
     height: 400px;
     grid-template-columns: 40% 60%;
 
-    @media (--screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         grid-template-columns: 30% 70%;
     }
 
-    @media (--screen-xl-min) {
+    @media (min-width: @screen-xl-min) {
         grid-template-columns: 20% 80%;
     }
 
@@ -135,3 +135,4 @@
         }
     }
 }
+
