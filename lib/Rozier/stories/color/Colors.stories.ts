@@ -3,7 +3,7 @@ import '../../app/assets/css/main.css'
 import { getRootCssVarsByGroups } from './getCssVars'
 
 const meta: Meta = {
-    title: 'Colors',
+    title: 'Integration/Colors',
 }
 
 export default meta
