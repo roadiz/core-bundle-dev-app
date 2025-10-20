@@ -4,6 +4,7 @@ import { defineLazyElement } from '~/utils/custom-element/defineLazyElement'
 import customElementList from '~/custom-elements'
 
 import './css/story-layout.css'
+import 'assets/css/main.css'
 
 // Initialize preview environment
 ;(function () {

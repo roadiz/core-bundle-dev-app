@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { itemRenderer, arrowIconRenderer } from './renderer'
 import type { ItemArgs } from './types'
 
-import '../../app/assets/css/main.css'
-
 const meta: Meta<ItemArgs> = {
     title: 'Components/RzWorkspace/Item',
     args: {
