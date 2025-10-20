@@ -13,7 +13,7 @@ type BadgeArgs = {
 }
 
 const meta: Meta<BadgeArgs> = {
-    title: 'Components/Badge',
+    title: 'Components/RzBadge',
     args: {
         label: 'My badge',
         iconClass: 'rz-icon-ri--add-line',
