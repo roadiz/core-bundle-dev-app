@@ -5,11 +5,8 @@
 @import './variables/font-family.css';
 @import './variables/text.css';
 
-/* Custom media */
 @import './custom-media.css';
-
 @import './theme.css';
-
 @import './font-family.css';
 @import './text.css';
 
@@ -20,3 +17,4 @@
 @import './components/rz-button.css';
 @import './components/rz-file-upload.css';
 @import './components/rz-workspace-item.css';
+@import './components/rz-badge.css';
