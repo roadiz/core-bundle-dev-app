@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../../app/assets/css/main.css'
 import { getRootCssVarsByGroups } from './getCssVars'
 
 const meta: Meta = {
