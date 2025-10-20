@@ -4,5 +4,6 @@ The background color needs to be updated according to the current theme because 
 */
 .docs-story,
 body.sb-show-main {
-	background-color: var(--surface-light-tertiary);
+	/* Storybook .sb-show-main selector could have !important */
+	background-color: var(--surface-light-tertiary) !important;
 }
