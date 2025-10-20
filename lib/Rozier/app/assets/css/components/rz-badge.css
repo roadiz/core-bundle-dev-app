@@ -1,0 +1,63 @@
+.rz-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--rz-badge-padding, 5px 4px);
+	background-color: var(--rz-badge-background-color, var(--badge-bg-on-light, #F2F2F2));
+	border: var(--rz-badge-border, 1px solid var(--rz-badge-border-color, var(--badge-border-on-light, #DADADA)));
+	border-radius: var(--rz-badge-border-radius, var(--radius-xs, 6px));
+	color: var(--rz-badge-color, var(--badge-content-on-light, #18191B));
+	font-family: var(--font-family-os-label);
+}
+
+.rz-badge--size-xs {
+	--rz-badge-padding: 4px;
+	--rz-badge-icon-font-size: 12px;
+	--rz-badge-label-font-size: 12px;
+	--rz-badge-label-padding-inline: 2px;
+}
+.rz-badge--size-sm {
+	--rz-badge-padding: 5px 4px;
+	--rz-badge-icon-font-size: 14px;
+	--rz-badge-label-font-size: 12px;
+	--rz-badge-label-padding-inline: 4px;
+}
+.rz-badge--size-md {
+	--rz-badge-padding: 9px 6px;
+	--rz-badge-icon-font-size: 16px;
+	--rz-badge-label-font-size: 13px;
+	--rz-badge-label-padding-inline: 4px;
+}
+
+.rz-badge--status-information {
+	--rz-badge-background-color: var(--status-information-container, #EAE6FF);
+	--rz-badge-border-color: var(--status-information, #755CE3);
+	--rz-badge-color: var(--status-information-on-container, #3219A0);
+}
+.rz-badge--status-success {
+	--rz-badge-background-color: var(--status-success-container, #D5FFEC);
+	--rz-badge-border-color: var(--status-success, #16A867);
+	--rz-badge-color: var(--status-success-on-container, #298059);
+}
+.rz-badge--status-warning {
+	--rz-badge-background-color: var(--status-warning-container, #FFDACB);
+	--rz-badge-border-color: var(--status-warning, #F4956C);
+	--rz-badge-color: var(--status-warning-on-container, #D35824);
+}
+.rz-badge--status-error {
+	--rz-badge-background-color: var(--status-error-container, #FFD3DA);
+	--rz-badge-border-color: var(--status-error, #E54457);
+	--rz-badge-color: var(--status-error-on-container, #A92A3E);
+}
+
+.rz-badge__icon {
+	font-size: var(--rz-badge-icon-font-size, 14px);
+}
+
+.rz-badge__label {
+	font-size: var(--rz-badge-label-font-size, 12px);
+	line-height: var(--rz-badge-label-line-height, 110%);
+	font-weight: var(--rz-badge-label-font-weight, 400);
+	letter-spacing: var(--rz-badge-label-letter-spacing, 0%);
+	padding-inline: var(--rz-badge-label-padding-inline, 4px);
+}
