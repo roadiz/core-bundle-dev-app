@@ -76,7 +76,7 @@ export const ButtonCustomElement: Story = {
     },
 }
 
-export function iconRenderer(iconClass: string) {
+function iconRenderer(iconClass: string) {
     if (!iconClass) return undefined
     const icon = document.createElement('span')
     icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`, iconClass)
