@@ -37,7 +37,7 @@
 }
 
 .actions-menu {
-    @media (--screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         position: fixed;
         top: 220px;
         right: 0;
@@ -48,12 +48,12 @@
         box-shadow: 3px 5px 30px rgba(0,0,0,0.1);
     }
 
-    @media (--screen-sm-min) and (min-height: 700px) {
+    @media (min-width: @screen-sm-min) and (min-height: 700px) {
         top: 50%;
         transform: translateY(-50%);
     }
 
-    @media (--screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         .label {
             position: absolute;
             display: block;
@@ -211,7 +211,7 @@
             background-color: @alert-color;
         }
         &:hover {
-            @media (--screen-sm-min) {
+            @media (min-width: @screen-sm-min) {
                 .label-text {
                     transform: translateX(-100%);
                 }
@@ -228,7 +228,7 @@
         margin: 30px -15px;
         .box-sizing();
 
-        @media screen and (--screen-sm-min) {
+        @media screen and (min-width: @screen-sm-min) {
             position: relative;
             margin: 0;
             height: @action-menu-H;
@@ -274,7 +274,7 @@
                 }
             }
 
-            @media screen and (--screen-xs-max) {
+            @media screen and (max-width: @screen-xs-max) {
                 background: none;
                 border: none;
                 padding-left: 8px;
@@ -298,7 +298,7 @@
             }
         }
 
-        @media screen and (--screen-sm-min) {
+        @media screen and (min-width: @screen-sm-min) {
             &:nth-child(even) {
                 header {
                     &:before, .label {
@@ -321,7 +321,7 @@
             padding: 0px;
             .box-sizing();
 
-            @media screen and (--screen-sm-min) {
+            @media screen and (min-width: @screen-sm-min) {
                 display: none;
                 position: absolute;
                 width: @subnav-W;
@@ -426,7 +426,7 @@
         &:focus,
         &:hover {
             nav, ul, header .label  {
-                @media screen and (--screen-sm-min) {
+                @media screen and (min-width: @screen-sm-min) {
                     display: block;
                 }
             }
@@ -447,7 +447,7 @@
         }
     }
 
-    @media (--screen-xs-max) {
+    @media (max-width: @screen-xs-max) {
         position: relative;
         width: auto;
         height: auto;
