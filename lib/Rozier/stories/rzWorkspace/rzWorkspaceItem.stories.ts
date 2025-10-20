@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { defineLazyElement } from '../../app/utils/custom-element/defineLazyElement'
-import customElementList from '../../app/custom-elements'
 import { itemRenderer, arrowIconRenderer } from './renderer'
 import type { ItemArgs } from './types'
-
-import '../../app/assets/css/main.css'
 
 const meta: Meta<ItemArgs> = {
     title: 'Components/RzWorkspace/Item',
@@ -50,18 +46,9 @@ export const Link: Story = {
     },
 }
 
-function registerCustomElement(name: string) {
-    if (!window.customElements.get(name)) {
-        // @ts-expect-error Ignore dynamic module type
-        defineLazyElement(name, customElementList[name])
-    }
-}
-
 export const ButtonCustomElement: Story = {
     render: (args) => {
         const customComponentName = 'rz-workspace-item-button'
-        registerCustomElement(customComponentName)
-
         const button = itemRenderer(args, { is: customComponentName })
 
         const dropdownIcon = arrowIconRenderer()

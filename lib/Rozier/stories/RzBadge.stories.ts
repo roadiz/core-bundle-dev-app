@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../app/assets/css/main.css'
 
 const COMPONENT_CLASS = 'rz-badge'
 const SIZES = ['xs', 'sm', 'md'] as const
