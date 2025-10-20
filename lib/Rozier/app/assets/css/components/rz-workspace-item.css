@@ -32,7 +32,7 @@
 
 	@media (hover: hover) {
 		&:hover {
-			background-color: var(--workspace-bg-selected-hover, #DADADA);
+			background-color: var(--workspace-bg-selected, #DADADA);
 		}
 	}
 }
