@@ -30,6 +30,9 @@ const meta: Meta<BadgeArgs> = {
     globals: {
         backgrounds: { value: 'light' },
     },
+    parameters: {
+        layout: 'centered',
+    },
 }
 
 export default meta

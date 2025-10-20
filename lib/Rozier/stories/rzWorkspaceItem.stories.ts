@@ -28,6 +28,9 @@ const meta: Meta<ItemArgs> = {
     globals: {
         backgrounds: { value: 'light' },
     },
+    parameters: {
+        layout: 'centered',
+    },
 }
 
 export default meta
