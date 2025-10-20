@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../app/assets/css/components/rz-button.css'
 
 const COMPONENT_CLASS_NAME = 'rz-button'
 const EMPHASIS = ['low', 'medium', 'high'] as const

@@ -1,7 +1,18 @@
 import type { Preview } from '@storybook/html-vite'
 import customTheme from './global-theme'
+import { defineLazyElement } from '~/utils/custom-element/defineLazyElement'
+import customElementList from '~/custom-elements'
 
 import './css/story-layout.css'
+import 'assets/css/main.css'
+
+// Initialize preview environment
+;(function () {
+    // Auto-register custom elements
+    for (const name in customElementList) {
+        defineLazyElement(name, customElementList[name])
+    }
+})()
 
 const preview: Preview = {
     parameters: {

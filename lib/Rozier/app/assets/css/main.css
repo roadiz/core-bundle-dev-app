@@ -16,4 +16,5 @@
 /* Components */
 @import './components/rz-button.css';
 @import './components/rz-file-upload.css';
+@import './components/rz-workspace-item.css';
 @import './components/rz-badge.css';
