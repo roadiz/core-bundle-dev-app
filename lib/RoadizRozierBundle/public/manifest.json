@@ -35,6 +35,10 @@
     "file": "rz-icons-BSa7Mah2.woff2",
     "src": "app/assets/fonts/rz-icons.woff2"
   },
+  "app/assets/img/spritemap@2x.png": {
+    "file": "spritemap@2x-Bd7qNsVN.png",
+    "src": "app/assets/img/spritemap@2x.png"
+  },
   "app/custom-elements/AdminMenuNav.js": {
     "file": "AdminMenuNav-D6p84238.js",
     "name": "AdminMenuNav",
@@ -72,7 +76,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-C4uyyeo1.js",
+    "file": "NodeSourceEditPage-BBfVhLSu.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -87,6 +91,17 @@
     "name": "NodeTreeContextualMenu",
     "src": "app/custom-elements/NodeTreeContextualMenu.js",
     "isDynamicEntry": true
+  },
+  "app/custom-elements/RzFileUpload.ts": {
+    "file": "RzFileUpload-DBRHuJHf.js",
+    "name": "RzFileUpload",
+    "src": "app/custom-elements/RzFileUpload.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_jquery-Cs7-jZ1a.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js"
+    ]
   },
   "app/custom-elements/RzInputColor.js": {
     "file": "RzInputColor-DfOgbOC9.js",
@@ -107,7 +122,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-CDlD7hB6.js",
+    "file": "TagEditPage-CLet85pq.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -118,7 +133,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-Ba5IjTSf.js",
+    "file": "main-1j0VXzuG.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -134,17 +149,18 @@
       "app/custom-elements/MainTrees.js",
       "app/custom-elements/NodeSourceEditPage.js",
       "app/custom-elements/NodeTreeContextualMenu.js",
+      "app/custom-elements/RzFileUpload.ts",
       "app/custom-elements/RzInputColor.js",
       "app/custom-elements/RzSaveButton.js",
       "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "main-DPxOIHvY.css"
+      "main-tVJEtgqt.css"
     ]
   },
   "app/shared.js": {
-    "file": "shared-CmrG6XNF.js",
+    "file": "shared-SagsygOs.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -152,7 +168,7 @@
       "_jquery-Cs7-jZ1a.js"
     ],
     "css": [
-      "shared-D_WCxLXa.css"
+      "shared-OVSkAK7f.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
@@ -163,7 +179,8 @@
       "fa-brands-400-CfPCoubI.woff2",
       "fa-brands-400-llyXKB-1.woff",
       "rz-icons-BSa7Mah2.woff2",
-      "rz-icons-BOx9IpnW.woff"
+      "rz-icons-BOx9IpnW.woff",
+      "spritemap@2x-Bd7qNsVN.png"
     ]
   },
   "app/simple.js": {
