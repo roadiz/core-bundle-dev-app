@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.19...v2.6.20) - 2025-10-21
+
+### Documentation
+
+- **(deploy)** update branch for deployment trigger - ([4e47172](https://github.com/roadiz/core-bundle-dev-app/commit/4e471721bbe5a640f41b3d0987f2c79f0628be46))
+
 ## [2.6.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.18...v2.6.19) - 2025-10-21
 
 ### Bug Fixes
