@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.18...v2.6.19) - 2025-10-21
+
+### Bug Fixes
+
+- Use order by `nodeTypeName` instead of `nt.name`. The relation doesn't exist anymore. - ([6f2cdbb](https://github.com/roadiz/core-bundle-dev-app/commit/6f2cdbb616afdacddb7fc85940a2c7bd703f1e6f))
+
+### Documentation
+
+- Update index.md with new features grid - ([b57ca98](https://github.com/roadiz/core-bundle-dev-app/commit/b57ca98a2a49e59fc0e5a804625eebb12f06c524))
+
 ## [2.6.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.17...v2.6.18) - 2025-10-09
 
 ### Bug Fixes
