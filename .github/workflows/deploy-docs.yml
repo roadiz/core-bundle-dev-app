@@ -2,7 +2,8 @@ name: Deploy VitePress develop documentation to Pages
 
 on:
     push:
-        branches: [develop]
+        # Only deploy when changes are pushed to the latest stable branch
+        branches: [main]
     workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
