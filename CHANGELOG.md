@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.39](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.38...v2.5.39) - 2025-10-21
+
+### Bug Fixes
+
+- Use order by `nodeTypeName` instead of `nt.name`. The relation doesn't exist anymore. - ([495a2da](https://github.com/roadiz/core-bundle-dev-app/commit/495a2dad80c85b509791e565c6368aaf66f49c6e))
+
 ## [2.5.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.37...v2.5.38) - 2025-10-06
 
 ### Bug Fixes
