@@ -1,4 +1,12 @@
-.rz-form-input {
+.rz-form-input:not([type="checkbox"]):not([type="radio"]):not([type="reset"]):not([type="range"]):not([type="submit"]) {
+	display: flex;
+	border: none;
+	border-radius: var(--radius-xs, 6px);
+	outline: 1PX solid var(--form-basic-border, #DADADA);
+	padding: var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
+	background-color: var(--form-basic-bg, #F8F8F8);
+	transition: outline-color 0.2s;
+
 	font-family: var(--font-family-os-text);
 	font-size: var(--text-form-input-text-font-size);
 	line-height: var(--text-form-input-text-line-height);
@@ -14,38 +22,18 @@
 		font-weight: var(--text-form-placeholder-font-weight);
 		color: var(--form-basic-placeholder, #9A9A9A);
 	}
-}
 
-.rz-form-input[type="week"],
-.rz-form-input[type="month"],
-.rz-form-input[type="datetime-local"],
-.rz-form-input[type="date"],
-.rz-form-input[type="time"],
-.rz-form-input[type="url"],
-.rz-form-input[type="search"],
-.rz-form-input[type="password"],
-.rz-form-input[type="image"],
-.rz-form-input[type="file"],
-.rz-form-input[type="tel"],
-.rz-form-input[type="email"],
-.rz-form-input[type="number"],
-.rz-form-input[type="color"],
-.rz-form-input[type="text"] {
-	display: flex;
-	border: none;
-	border-radius: var(--radius-xs, 6px);
-	outline: 1PX solid var(--form-basic-border, #DADADA);
-	padding: var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
-	background-color: var(--form-basic-bg, #F8F8F8);
-	transition: outline-color 0.2s;
-	cursor: pointer;
+	/* Only when focus is lost and placeholder is not shown and input is invalid */
+	&:not(:placeholder-shown):not(:focus-visible):invalid {
+		outline-color: var(--status-error, #E54457);
+	}
 
-	&:focus-visible {
+	&[value]:not(:placeholder-shown):valid {
 		outline-color: var(--form-basic-border-focus, #9A9A9A);
 	}
 
-	&:not(:placeholder-shown):not(:focus-visible):invalid {
-		outline-color: var(--status-error, #E54457);
+	&:focus-visible {
+		outline-color: var(--form-basic-border-hover, #383838);
 	}
 
 	@media (hover: hover) {
@@ -55,36 +43,35 @@
 	}
 }
 
-/* Input number default width depends on attribute max value */
-/* .rz-form-input[type="number"] {
-	&:not([max]) {
-		max-width: 7ch;
-	}
-} */
-
-
 /* checkbox and radio */
 .rz-form-input[type="radio"],
-.rz-form-input[type="checkbox"]:not(.rz-form-input--toggle) {
+.rz-form-input[type="checkbox"] {
 	appearance: none;
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 	width: 24px;
 	height: 24px;
-	aspect-ratio: 1;
 	cursor: pointer;
 	background-color: var(--form-checkbox-radio-bg, #FFF);
 	margin: 0;
 	border-radius: var(--radius-xs, 6px);
+	color: var(--form-checkbox-radio-content, #18191B);
+	transition: background-color 0.2s;
 
+	/* https://icon-sets.iconify.design/ri/?icon-filter=checkbox&keyword=remix */
 	&::before {
 		content: '';
-		width: var(--rz-input-checkbox-inner-width, 13px);
-		height: var(--rz-input-checkbox-inner-height, 13px);
-		outline: 2PX solid var(--form-checkbox-radio-content, #18191B);
-		border-radius: var(--rz-input-checkbox-inner-border-radius, 1PX);
-		aspect-ratio: 1;
+		display: inline-block;
+		width: 18px;
+		height: 18px;
+		background-color: currentColor;
+		-webkit-mask-image: var(--svg);
+		mask-image: var(--svg);
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-size: 100% 100%;
+		mask-size: 100% 100%;
 	}
 
 	@media (hover: hover) {
@@ -95,69 +82,20 @@
 }
 
 .rz-form-input[type="checkbox"] {
-	--rz-input-checkbox-padding: 6px;
+	--svg: var(--rz-icon-ri--checkbox-blank-line);
 
-	&:checked::before {
-		background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%229%22%20viewBox%3D%220%200%2012%209%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M4.24261%208.48528L0%204.24268L1.41422%202.82838L4.24261%205.65688L9.89951%200L11.3137%201.41421L4.24261%208.48528Z%22%20fill%3D%22%2318191B%22%2F%3E%3C%2Fsvg%3E");
-		background-size: 12px 9px;
-		background-repeat: no-repeat;
-		background-position: center;
+	&:checked{
+		--svg: var(--rz-icon-ri--checkbox-line);
 	}
 }
 
 .rz-form-input[type="radio"] {
-	--rz-input-checkbox-inner-border-radius: 50vmax;
-	--rz-input-checkbox-inner-width: 14px;
-	--rz-input-checkbox-inner-height: 14px;
+	--svg: var(--rz-icon-ri--checkbox-blank-circle-line);
 
-	&:checked::after {
-		content: '';
-		position: absolute;
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background-color: currentcolor;
+	&:checked{
+		--svg: var(--rz-icon-ri--radio-button-line);
 	}
 }
-
-.rz-form-input--toggle {
-	--rz-input-checkbox-width: 44px;
-	--rz-input-checkbox-inner-width: 18px;
-	--rz-input-checkbox-padding-inline: 3px;
-
-    appearance: none;
-	display: flex;
-	width: var(--rz-input-checkbox-width);
-	height: 24px;
-	padding: var(--rz-input-checkbox-padding-inline) 3px;
-	align-items: center;
-	border-radius: 14px;
-	background-color: var(--toggle-bg, #BCBCBC);
-	cursor: pointer;
-	transition: background-color 0.2s;
-
-	&:checked {
-		background-color: var(--status-success, #16A867);
-	}
-
-	&:checked::before {
-		translate: calc(var(--rz-input-checkbox-width) - var(--rz-input-checkbox-padding-inline) * 2 - 18px);
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M5.8334 8.84977L11.1956 3.48755L12.0206 4.3125L5.8334 10.4997L2.12109 6.7874L2.94606 5.96245L5.8334 8.84977Z' fill='%2316A867'/%3E%3C/svg%3E");
-		background-size: contain 14px 14px;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-
-	&::before {
-		content: '';
-		width: var(--rz-input-checkbox-inner-width);
-		aspect-ratio: 1;
-		border-radius: 50vmax;
-		background-color: var(--toggle-bg-cursor-inactive, #F8F8F8);
-		transition: translate 0.2s;
-	}
-}
-
 
 /* Color input */
 .rz-form-input[type="color"] {
@@ -178,6 +116,11 @@
 		line-height: var(--text-form-placeholder-line-height);
 		letter-spacing: var(--text-form-placeholder-letter-spacing);
 		font-weight: var(--text-form-placeholder-font-weight);
+		margin-right: var(--spacing-4xs, 8px);
+	}
+
+	&[value]::after {
+		color: var(--form-basic-input-text, #383838);
 	}
 
 	&::-webkit-color-swatch-wrapper {

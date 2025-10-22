@@ -1,21 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { INPUT_TYPES } from '../../app/custom-elements/RzFormInput'
 
-const COMPONENT_CLASS_NAME = 'rz-input-field'
-const INPUT_TYPES = [
-    'text',
-    'password',
-    'email',
-    'number',
-    'date',
-    'textarea',
-    'select',
-    'checkbox',
-    'radio',
-] as const
+const COMPONENT_CLASS_NAME = 'rz-form-field'
+
+const getId = () => 'input-' + Math.random().toString(36).substr(2, 9)
 
 type fieldArgs = {
-    placeholder: string
     label: string
+    name: string
     required: boolean
     description: string // under label
     supportingText: string // under input
@@ -24,13 +16,13 @@ type fieldArgs = {
 }
 
 const meta: Meta<fieldArgs> = {
-    title: 'Components/RzForm/inputField',
+    title: 'Components/RzForm/Field',
     globals: {
         backgrounds: { value: 'light' },
     },
     args: {
-        placeholder: 'Enter your text here',
         label: 'Input Field Label',
+        name: getId(),
         required: false,
         description: 'This is a description for the input field.',
         supportingText: 'This is a hint for the input field.',
@@ -48,8 +40,6 @@ const meta: Meta<fieldArgs> = {
 export default meta
 type Story = StoryObj<fieldArgs>
 
-const getId = () => 'input-' + Math.random().toString(36).substr(2, 9)
-
 function itemRenderer(args: fieldArgs) {
     const wrapper = document.createElement('div')
     const wrapperClasses = [
@@ -57,15 +47,12 @@ function itemRenderer(args: fieldArgs) {
         `${COMPONENT_CLASS_NAME}--type-${args.type}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
     ].filter((c) => c) as string[]
-
     wrapper.classList.add(...wrapperClasses)
-
-    const id = getId()
 
     const label = document.createElement('label')
     label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
     label.textContent = args.label
-    label.setAttribute('for', id)
+    label.setAttribute('for', args.name)
     wrapper.appendChild(label)
 
     const description = document.createElement('p')
@@ -74,13 +61,10 @@ function itemRenderer(args: fieldArgs) {
     wrapper.appendChild(description)
 
     const input = document.createElement('input')
-    input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-input')
+    input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
     input.setAttribute('type', args.type)
-    input.setAttribute('placeholder', args.placeholder)
-    input.setAttribute('id', id)
-    if (args.required) {
-        input.setAttribute('required', 'true')
-    }
+    input.setAttribute('id', args.name)
+    if (args.required) input.setAttribute('required', 'true')
     wrapper.appendChild(input)
 
     const supportingText = document.createElement('p')

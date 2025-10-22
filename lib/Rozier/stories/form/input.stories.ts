@@ -1,37 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { INPUT_TYPES } from '../../app/custom-elements/RzFormInput'
 
 const COMPONENT_CLASS = 'rz-form-input'
-const TYPES = [
-    'text',
-    'number',
-    'checkbox',
-    'radio',
-    'color',
-    'email',
-    'tel',
-    'range',
-
-    'url',
-    'file',
-    'password',
-    'image',
-    'hidden',
-
-    'time',
-    'date',
-    'datetime-local',
-    'month',
-    'week',
-
-    'button',
-    'reset',
-    'search',
-    'submit',
-] as const
 
 type fieldArgs = {
     placeholder: string
-    type: (typeof TYPES)[number]
+    type: (typeof INPUT_TYPES)[number]
     value: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
     name: string
     required: boolean
@@ -45,7 +19,7 @@ const meta: Meta<fieldArgs> = {
     argTypes: {
         type: {
             control: { type: 'select' },
-            options: TYPES,
+            options: INPUT_TYPES,
         },
     },
     globals: {
@@ -61,12 +35,12 @@ function itemRenderer(args: fieldArgs, attrs: Record<string, unknown> = {}) {
 
     const input = document.createElement('input', { is: customComponentName })
     input.setAttribute('is', customComponentName)
-
     input.classList.add(COMPONENT_CLASS)
 
     Object.entries(attrs).forEach(([key, value]) => {
         if (value) input.setAttribute(key, String(value))
     })
+
     if (args.name) input.id = args.name
     if (args.name) input.name = args.name
     if (args.type) input.type = args.type
@@ -99,12 +73,21 @@ export const Number: Story = {
     render: (args) => {
         return itemRenderer(args, {
             min: '1',
-            max: '990000',
+            max: '990000', // Initial input width depends on attribute max value
         })
     },
     args: {
         type: 'number',
         placeholder: '42',
+    },
+}
+
+export const Radio: Story = {
+    render: (args) => {
+        return itemRenderer(args)
+    },
+    args: {
+        type: 'radio',
     },
 }
 
@@ -118,33 +101,9 @@ export const Checkbox: Story = {
     },
 }
 
-export const CheckboxToggle: Story = {
-    render: (args) => {
-        const input = itemRenderer(args, { checked: args.value })
-        input.classList.add('rz-form-input--toggle')
-
-        return input
-    },
-    args: {
-        type: 'checkbox',
-        value: true,
-    },
-}
-
-export const Radio: Story = {
-    render: (args) => {
-        return itemRenderer(args)
-    },
-    args: {
-        type: 'radio',
-    },
-}
-
 export const Color: Story = {
     render: (args) => {
-        return itemRenderer(args, {
-            'data-value': args.value, // to display the initial color label
-        })
+        return itemRenderer(args)
     },
     argTypes: {
         value: {
@@ -158,12 +117,29 @@ export const Color: Story = {
     },
 }
 
+export const ColorWithDefault: Story = {
+    render: (args) => {
+        return itemRenderer(args)
+    },
+    argTypes: {
+        value: {
+            control: { type: 'color' },
+        },
+    },
+    args: {
+        type: 'color',
+        placeholder: 'Select a color',
+        value: '#ff0000',
+    },
+}
+
 export const Email: Story = {
     render: (args) => {
         return itemRenderer(args)
     },
     args: {
         type: 'email',
+        placeholder: 'john-doe@gmail.com',
     },
 }
 

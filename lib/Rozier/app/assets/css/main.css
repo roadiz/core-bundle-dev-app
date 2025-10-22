@@ -4,6 +4,7 @@
 @import './variables/radius.css';
 @import './variables/font-family.css';
 @import './variables/text.css';
+@import './variables/svg.css';
 
 @import './custom-media.css';
 @import './theme.css';
@@ -18,7 +19,8 @@
 @import './components/rz-file-upload.css';
 @import './components/rz-workspace-item.css';
 @import './components/rz-badge.css';
+@import './components/rz-switch.css';
 
 /* Components: Form */
-@import './components/rz-form-input-field.css';
+@import './components/rz-form-field.css';
 @import './components/rz-form-input.css';

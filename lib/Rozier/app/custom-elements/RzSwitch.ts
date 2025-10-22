@@ -1,0 +1,22 @@
+export default class RzSwitch extends HTMLButtonElement {
+    constructor() {
+        super()
+    }
+
+    onClick() {
+        const isChecked = this.getAttribute('aria-checked') === 'true'
+        this.setAttribute('aria-checked', (!isChecked).toString())
+    }
+
+    connectedCallback() {
+        if (!this.hasAttribute('aria-checked')) {
+            this.setAttribute('aria-checked', 'false')
+        }
+
+        this.addEventListener('click', this.onClick.bind(this))
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('click', this.onClick.bind(this))
+    }
+}
