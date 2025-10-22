@@ -39,7 +39,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getGlobals(): array
     {
         $request = $this->requestStack->getCurrentRequest();
-        $isIframe = $request->query->get('iframe') === '1';
+        $isIframe = '1' === $request->query->get('iframe');
 
         return [
             'rozier' => $this->rozierServiceRegistry,
