@@ -1,6 +1,7 @@
 
 .rz-form-field {
-
+	display: grid;
+	gap: var(--spacing-6xs, 4px);
 }
 
 .rz-form-field__label {
@@ -32,9 +33,5 @@
 }
 
 .rz-form-field__supporting-text {
-	font-family: var(--font-family-os-text);
-	font-size: var(--text-form-supporting-text-font-size);
-	line-height: var(--text-form-supporting-text-line-height);
-	letter-spacing: var(--text-form-supporting-text-letter-spacing);
-	font-weight: var(--text-form-supporting-text-font-weight);
+	margin: initial;
 }

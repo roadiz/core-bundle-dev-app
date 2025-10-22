@@ -22,5 +22,7 @@
 @import './components/rz-switch.css';
 
 /* Components: Form */
+@import './components/rz-form-message.css';
 @import './components/rz-form-field.css';
 @import './components/rz-form-input.css';
+@import './components/rz-form-select.css';

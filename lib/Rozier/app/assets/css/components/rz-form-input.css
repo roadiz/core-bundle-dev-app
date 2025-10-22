@@ -2,17 +2,17 @@
 	display: flex;
 	border: none;
 	border-radius: var(--radius-xs, 6px);
-	outline: 1PX solid var(--form-basic-border, #DADADA);
-	padding: var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
+	outline: 1PX solid var(--rz-form-input-border-color, var(--form-basic-border, #DADADA));
+	padding: var(--rz-form-input-padding, var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px));
 	background-color: var(--form-basic-bg, #F8F8F8);
-	transition: outline-color 0.2s;
+	transition: outline-color 0.2s, color 0.2s;
 
 	font-family: var(--font-family-os-text);
 	font-size: var(--text-form-input-text-font-size);
 	line-height: var(--text-form-input-text-line-height);
 	letter-spacing: var(--text-form-input-text-letter-spacing);
 	font-weight: var(--text-form-input-text-font-weight);
-	color: var(--form-basic-input-text, #383838);
+	color: var(--rz-form-input-color, var(--form-basic-input-text, #383838));
 
 	&::placeholder {
 		font-family: var(--font-family-os-text);
@@ -23,24 +23,28 @@
 		color: var(--form-basic-placeholder, #9A9A9A);
 	}
 
-	/* Only when focus is lost and placeholder is not shown and input is invalid */
-	&:not(:placeholder-shown):not(:focus-visible):invalid {
-		outline-color: var(--status-error, #E54457);
-	}
-
-	&[value]:not(:placeholder-shown):valid {
-		outline-color: var(--form-basic-border-focus, #9A9A9A);
-	}
-
-	&:focus-visible {
-		outline-color: var(--form-basic-border-hover, #383838);
-	}
-
 	@media (hover: hover) {
 		&:hover {
-			outline-color: var(--form-basic-border-hover, #383838);
+			--rz-form-input-border-color: var(--form-basic-border-hover, #383838);
 		}
 	}
+}
+
+.rz-form-input:focus-visible,
+.rz-form-input--focus {
+	--rz-form-input-border-color: var(--form-basic-border-hover, #383838) !important;
+}
+
+.rz-form-input:not(:placeholder-shown):valid,
+.rz-form-input--filled {
+	--rz-form-input-border-color: var(--form-basic-border-focus, #9A9A9A);
+}
+
+/* When focus is lost and placeholder is not shown and input is invalid */
+.rz-form-input:not(:placeholder-shown):not(:focus-visible):invalid,
+.rz-form-input--error {
+	--rz-form-input-color: var(--status-error, #E54457);
+	--rz-form-input-border-color: var(--status-error, #E54457);
 }
 
 /* checkbox and radio */
@@ -134,20 +138,11 @@
 	width: 24px;
 	height: 24px;
 	border-radius: 3px;
-
 }
-
 
 /* File input */
 .rz-form-input[type="file"] {
     &::file-selector-button {
 		display: none;
-    }
-}
-
-/* password input */
-.rz-form-input[type="password"] {
-    &::after{
-		content: '?';
     }
 }
