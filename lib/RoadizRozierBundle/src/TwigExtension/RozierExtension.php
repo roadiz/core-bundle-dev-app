@@ -17,6 +17,7 @@ use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\Vite\JsonManifestResolver;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFunction;
@@ -30,12 +31,16 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
     #[\Override]
     public function getGlobals(): array
     {
+        $request = $this->requestStack->getCurrentRequest();
+        $isIframe = $request->query->get('iframe') === '1';
+
         return [
             'rozier' => $this->rozierServiceRegistry,
             'nodeStatuses' => NodeStatus::allLabelsAndValues(),
@@ -52,6 +57,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             ],
             'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
             'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
+            'isIframe' => $isIframe,
         ];
     }
 

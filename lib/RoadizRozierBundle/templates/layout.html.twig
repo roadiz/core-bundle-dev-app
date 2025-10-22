@@ -1,1 +1,7 @@
-{% extends '@RoadizRozier/base.html.twig' %}
+{% if (isIframe) %}
+    {% set parentTemplate = '@RoadizRozier/iframe.html.twig' %}
+{% else %}
+    {% set parentTemplate = '@RoadizRozier/base.html.twig' %}
+{% endif %}
+
+{% extends parentTemplate %}
