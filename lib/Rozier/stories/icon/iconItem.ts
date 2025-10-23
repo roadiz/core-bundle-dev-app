@@ -1,24 +1,22 @@
 export type IconArgs = {
-    prefix: string | null
-    RzName: string | null
-    RiName: string | null
-    color: string
-    fontSize: string
+    className: string
+    prefix?: string
+    name?: string
+    color?: string
+    fontSize?: string
+}
+
+function getClassName(args: IconArgs) {
+    if (args.className) return args.className
+    if (args.prefix && args.name) return `rz-icon-${args.prefix}--${args.name}`
+    return ''
 }
 
 export function iconRenderer(args: IconArgs) {
-    const iconName =
-        args.prefix === 'rz'
-            ? args.RzName
-            : args.prefix === 'ri'
-              ? args.RiName
-              : ''
-
     const iconNode = document.createElement('span')
-    iconNode.style.color = args.color
-    iconNode.style.fontSize = args.fontSize
-    const iconClassName = `rz-icon-${args.prefix}--${iconName}`
-    iconNode.className = [iconClassName].join(' ')
+    if (args.color) iconNode.style.color = args.color
+    if (args.fontSize) iconNode.style.fontSize = args.fontSize
+    iconNode.className = getClassName(args)
 
     return iconNode
 }
@@ -31,13 +29,6 @@ export function iconItemRenderer(args: IconArgs) {
       gap: 12px;
       grid-template-columns: min-content 1fr;
     `
-
-    const iconName =
-        args.prefix === 'rz'
-            ? args.RzName
-            : args.prefix === 'ri'
-              ? args.RiName
-              : ''
 
     const iconWrapper = document.createElement('div')
     iconWrapper.style = `
@@ -52,10 +43,10 @@ export function iconItemRenderer(args: IconArgs) {
     const iconNode = iconRenderer(args)
 
     const label = document.createElement('span')
-    label.innerText = iconName || ''
+    label.innerText = args.name || ''
 
     const nameNode = document.createElement('code')
-    nameNode.innerText = `rz-icon-${args.prefix}--${iconName}`
+    nameNode.innerText = args.className
     nameNode.style = `
       grid-column: 1 / -1;
       user-select: all;

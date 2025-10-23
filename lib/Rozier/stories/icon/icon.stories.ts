@@ -1,85 +1,138 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import riIconNames from '../../vite-plugins/iconify/collections/ri'
-import rzIconNames from '../../vite-plugins/iconify/collections/rz'
 import { iconItemRenderer, iconRenderer, type IconArgs } from './iconItem'
+
+type IconData = {
+    folder: string
+    className: string
+    fileName: string
+    path: string
+    loader: () => Promise<string>
+}
+
+const allIconNames: string[] = []
+const svgModules = import.meta.glob('../../app/assets/img/icons/*/*.svg', {
+    import: 'default',
+    eager: false,
+})
+const svgList = Object.keys(svgModules).reduce(
+    (acc: Record<string, IconData[]>, path) => {
+        const parts = path.split('/')
+        const folder = parts[parts.length - 2]
+        const fileName = parts[parts.length - 1].replace('.svg', '')
+
+        if (!acc[folder]) {
+            acc[folder] = []
+        }
+
+        const className = `rz-icon-${folder}--${fileName}`
+        allIconNames.push(className)
+
+        acc[folder].push({
+            folder,
+            className,
+            fileName,
+            path,
+            loader: svgModules[path],
+        })
+        return acc
+    },
+    {},
+)
 
 const meta: Meta<IconArgs> = {
     title: 'Integration/Icon',
     argTypes: {
-        prefix: {
-            options: ['rz', 'ri'],
-            control: { type: 'radio' },
-        },
-        RzName: {
-            options: rzIconNames,
-            control: { type: 'select' },
-            if: { arg: 'prefix', eq: 'rz' },
-        },
-        RiName: {
-            options: riIconNames,
-            control: { type: 'select' },
-            if: { arg: 'prefix', eq: 'ri' },
-        },
         fontSize: {
             control: 'text',
             description: 'A CSS unit font-size',
         },
     },
-    tags: ['autodocs'],
 }
 
 export default meta
 type Story = StoryObj<IconArgs>
 
-export const Primary: Story = {
+export const All: Story = {
+    render: (args) => {
+        const wrapper = document.createElement('div')
+
+        Object.values(svgList).forEach((icons) => {
+            const collectionNode = document.createElement('div')
+            collectionNode.style = `
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 42px;
+                margin-inline: auto;
+                max-width: 1000px;
+                margin-block: 100px;
+            `
+            wrapper.appendChild(collectionNode)
+
+            const collectionTitle = document.createElement('h3')
+            collectionTitle.innerText = 'Collection: ' + icons[0].folder || ''
+            collectionNode.appendChild(collectionTitle)
+
+            icons.forEach((icon) => {
+                const iconNode = iconItemRenderer({
+                    className: icon.className,
+                    prefix: icon.folder,
+                    name: icon.fileName,
+                    fontSize: args.fontSize,
+                })
+                collectionNode.appendChild(iconNode)
+            })
+        })
+
+        return wrapper
+    },
+}
+
+export const ClassName: Story = {
     render: (args) => {
         return iconRenderer(args)
+    },
+    args: {
+        color: '#1E40AF',
+        fontSize: '92px',
+        className: allIconNames[0],
+    },
+    argTypes: {
+        className: {
+            options: allIconNames,
+            control: { type: 'select' },
+        },
     },
     parameters: {
         layout: 'centered',
     },
+}
+
+export const FromSvg: Story = {
+    render: (args) => {
+        const node = document.createElement('div')
+        node.style = `
+            width: 100px;
+            height: 100px;
+        `
+        const svgPath = args.svgPath || `ri/close-large-line`
+
+        try {
+            import(`../../app/assets/img/icons/${svgPath}`).then((module) => {
+                console.log('module', module)
+                node.style.background = `url("${module.default}")`
+                node.style.backgroundSize = 'contain'
+                node.style.backgroundRepeat = 'no-repeat'
+            })
+        } catch (error) {
+            console.error('Error loading SVG:', error)
+        }
+
+        return node
+    },
     args: {
-        prefix: 'rz',
-        RzName: rzIconNames[0],
-        RiName: riIconNames[0],
-        color: '',
-        fontSize: '',
+        svgPath: 'ri/close-large-line.svg',
+    },
+    parameters: {
+        layout: 'centered',
     },
 }
-
-function getCollectionStory(prefix: string, names: string[]) {
-    return {
-        render: (args) => {
-            const container = document.createElement('div')
-            container.style = `
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 42px;
-        margin-inline: auto;
-        max-width: 1000px;
-        `
-
-            names.forEach((name) => {
-                const item = iconItemRenderer({
-                    ...args,
-                    prefix,
-                    RzName: name,
-                    RiName: name,
-                })
-                container.appendChild(item)
-            })
-
-            return container
-        },
-        args: {
-            color: '',
-            fontSize: '',
-        },
-        parameters: {
-            controls: { exclude: ['prefix', 'RzName', 'RiName'] },
-        },
-    } as Story
-}
-
-export const RzCollection: Story = getCollectionStory('rz', rzIconNames)
-export const RiCollection: Story = getCollectionStory('ri', riIconNames)
