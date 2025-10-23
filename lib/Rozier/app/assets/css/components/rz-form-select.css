@@ -16,6 +16,6 @@
 	cursor: pointer;
 
 	&:not([value]) {
-		--rz-form-input-color: var(--form-basic-placeholder, #9A9A9A) !important;
+		--rz-form-input-color: var(--form-basic-placeholder, #9A9A9A);
 	}
 }
