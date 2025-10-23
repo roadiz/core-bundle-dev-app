@@ -14,4 +14,8 @@
 	background-position: center right calc(var(--rz-form-select-padding-right));
 	background-size: var(--rz-form-select-arrow-size);
 	cursor: pointer;
+
+	&:not([value]) {
+		--rz-form-input-color: var(--form-basic-placeholder, #9A9A9A) !important;
+	}
 }

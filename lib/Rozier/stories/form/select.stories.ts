@@ -42,7 +42,10 @@ export default meta
 type Story = StoryObj<Args>
 
 function itemRenderer(args: Args) {
-    const select = document.createElement('select')
+    const customComponentName = 'rz-form-select'
+    const select = document.createElement('select', { is: customComponentName })
+    select.setAttribute('is', customComponentName)
+
     select.required = args.required ?? false
     const selectClasses = [COMPONENT_CLASS_NAME].filter((c) => c) as string[]
     select.classList.add(...selectClasses, 'rz-form-input')
@@ -50,9 +53,10 @@ function itemRenderer(args: Args) {
     args.options.forEach((optionData) => {
         const option = document.createElement('option')
 
-        Object.keys(optionData).forEach((key) => {
-            const value = (optionData as any)[key]
-            if (value) option.setAttribute(key, value)
+        const opttionKeys = Object.keys(optionData) as (keyof Option)[]
+        opttionKeys.forEach((key) => {
+            const value = optionData[key]
+            if (value) option.setAttribute(key, value.toString())
         })
 
         select.appendChild(option)
@@ -74,7 +78,7 @@ function getNumberedOptions(length: number): Option[] {
     })
 }
 
-export const Hours: Story = {
+export const Times: Story = {
     render: () => {
         const wrapper = document.createElement('div')
         wrapper.style.display = 'flex'

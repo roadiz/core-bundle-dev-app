@@ -23,34 +23,25 @@ export const INPUT_TYPES = [
     'submit',
 ] as const
 
-// Find a way to reset value on color input
-// if no value is set, the default is black
 export default class RzFormInput extends HTMLInputElement {
-    COMPONENT_CLASS_NAME = 'rz-form-input'
-
     constructor() {
         super()
     }
 
+    // set the value attribute in DOM to reflect the current value, CSS could use it via attr()
     syncValueAttribute() {
-        // set the value attribute in DOM to reflect the current value, CSS could use it via attr()
-        this.setAttribute('value', this.value)
-        this.updateColorValue()
-    }
+        const isUnsetColorValue =
+            this.getAttribute('type') === 'color' && this.value === '#000000'
 
-    updateColorValue() {
-        if (this.getAttribute('type') !== 'color') return false
-
-        // Input color element always provide #000000 if no value is set
-        // We consider a black value as unset data input
-        if (this.value === '#000000') {
+        if (this.value === '' || isUnsetColorValue) {
             this.removeAttribute('value')
+        } else {
+            this.setAttribute('value', this.value)
         }
     }
 
     connectedCallback() {
-        this.updateColorValue()
-
+        this.syncValueAttribute()
         this.addEventListener('input', this.syncValueAttribute)
     }
 

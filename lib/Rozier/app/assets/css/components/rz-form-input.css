@@ -1,9 +1,8 @@
 .rz-form-input:not([type="checkbox"]):not([type="radio"]):not([type="reset"]):not([type="range"]):not([type="submit"]) {
-	display: flex;
 	border: none;
 	border-radius: var(--radius-xs, 6px);
 	outline: 1PX solid var(--rz-form-input-border-color, var(--form-basic-border, #DADADA));
-	padding: var(--rz-form-input-padding, var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px));
+	padding: var(--rz-form-input-padding, 11px 12px 10px 12px);
 	background-color: var(--form-basic-bg, #F8F8F8);
 	transition: outline-color 0.2s, color 0.2s;
 
@@ -35,7 +34,10 @@
 	--rz-form-input-border-color: var(--form-basic-border-hover, #383838) !important;
 }
 
-.rz-form-input:not(:placeholder-shown):valid,
+/*
+We want to distinguish between input valid and input filled
+*/
+.rz-form-input:not(:placeholder-shown)[value],
 .rz-form-input--filled {
 	--rz-form-input-border-color: var(--form-basic-border-focus, #9A9A9A);
 }
@@ -103,17 +105,22 @@
 
 /* Color input */
 .rz-form-input[type="color"] {
-	--rz-input-color-label: attr(value, attr(placeholder, 'Null'));
+	--rz-form-input-padding: var(--radius-xs, 6px);
+	--rz-input-color-label: attr(value, attr(placeholder, 'Null'));  /* Use attr() for fallback not working on safari */
 
-	padding: var(--radius-xs, 6px);
-	column-gap: var(--radius-xs, 6px);
+	display: flex;
 	align-items: center;
+	justify-content: flex-start;
+	column-gap: var(--radius-xs, 6px);
 	min-width: fit-content;
 	box-sizing: content-box;
+	height: 24px;
 
 	&::after {
-		content: var(--rz-input-color-label);
+		content:  var(--rz-input-color-label);
 		white-space: pre;
+		min-width: 7ch;
+		display: inline;
 		color: var(--form-basic-placeholder, #9A9A9A);
 		font-family: var(--font-family-os-text);
 		font-size: var(--text-form-placeholder-font-size);
@@ -127,22 +134,14 @@
 		color: var(--form-basic-input-text, #383838);
 	}
 
+	&::-webkit-color-swatch,
 	&::-webkit-color-swatch-wrapper {
+		height: 24px;
+		width: 24px;
 		padding: 0;
+		border: none;
+		border-radius: 3px;
+		display: inline-block;
+		line-height: 0;
 	}
-}
-
-.rz-form-input::-webkit-color-swatch,
-.rz-form-input[type="color" i] {
-	border: none;
-	width: 24px;
-	height: 24px;
-	border-radius: 3px;
-}
-
-/* File input */
-.rz-form-input[type="file"] {
-    &::file-selector-button {
-		display: none;
-    }
 }

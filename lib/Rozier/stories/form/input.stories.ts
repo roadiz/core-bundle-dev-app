@@ -72,6 +72,17 @@ export const Text: Story = {
     },
 }
 
+export const TextWithDefault: Story = {
+    render: (args) => {
+        return itemRenderer(args)
+    },
+    args: {
+        type: 'text',
+        placeholder: 'placeholder text',
+        value: 'A default value',
+    },
+}
+
 export const Number: Story = {
     render: (args) => {
         return itemRenderer(args, {
@@ -115,7 +126,7 @@ export const Color: Story = {
     },
     args: {
         type: 'color',
-        placeholder: 'Select a color',
+        placeholder: '#000000',
         value: '',
     },
 }
