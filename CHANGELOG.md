@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.40...v2.3.41) - 2025-10-23
+
+### Bug Fixes
+
+- **(tags)** add default translation to tag retrieval ([#256](https://github.com/roadiz/core-bundle-dev-app/issues/256)) - ([5d901c8](https://github.com/roadiz/core-bundle-dev-app/commit/5d901c8b68fbd9d562b9958fd3b4a0553756f697))
+
 ## [2.3.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.39...v2.3.40) - 2025-09-10
 
 ### Bug Fixes
