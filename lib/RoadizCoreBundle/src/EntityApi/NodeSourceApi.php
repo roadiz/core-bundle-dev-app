@@ -20,7 +20,7 @@ class NodeSourceApi extends AbstractApi
     public function __construct(
         ManagerRegistry $managerRegistry,
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
-    ){
+    ) {
         parent::__construct($managerRegistry);
     }
 

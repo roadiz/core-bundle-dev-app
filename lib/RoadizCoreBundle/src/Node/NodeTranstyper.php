@@ -27,8 +27,8 @@ final readonly class NodeTranstyper
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private NodeTypes $nodeTypesBag,
-        private LoggerInterface $logger = new NullLogger(),
         private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+        private LoggerInterface $logger = new NullLogger(),
     ) {
     }
 

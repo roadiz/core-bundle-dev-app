@@ -19,7 +19,7 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
         private readonly NodeTypeDecoratorRepository $repository,
-        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
         parent::__construct();
     }

@@ -16,8 +16,9 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
     private array $options;
 
     public function __construct(
-        private readonly NodeTypeInterface $nodeType, array $options = [],
+        private readonly NodeTypeInterface $nodeType,
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+        array $options = [],
     ) {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
