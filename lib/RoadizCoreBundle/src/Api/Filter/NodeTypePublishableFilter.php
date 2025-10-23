@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -28,6 +29,7 @@ final class NodeTypePublishableFilter extends AbstractFilter
 
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         ManagerRegistry $managerRegistry,
         ?LoggerInterface $logger = null,
         ?array $properties = null,
@@ -71,7 +73,7 @@ final class NodeTypePublishableFilter extends AbstractFilter
          * For all nodeSources, we need to join node to get nodeTypeName.
          */
         $nodeTypeClasses = array_map(
-            fn (NodeTypeInterface $type) => $type->getSourceEntityFullQualifiedClassName(),
+            fn (NodeTypeInterface $type) => $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($type),
             $this->nodeTypesBag->allPublishable($publishable)
         );
 

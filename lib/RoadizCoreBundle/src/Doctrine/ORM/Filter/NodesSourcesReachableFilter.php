@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\ORM\Filter;
 
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\FilterNodesSourcesQueryBuilderCriteriaEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApplyEvent;
@@ -20,8 +21,10 @@ final readonly class NodesSourcesReachableFilter implements EventSubscriberInter
         'reachable',
     ];
 
-    public function __construct(private NodeTypes $nodeTypesBag)
-    {
+    public function __construct(
+        private NodeTypes $nodeTypesBag,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+    ) {
     }
 
     #[\Override]
@@ -58,7 +61,7 @@ final readonly class NodesSourcesReachableFilter implements EventSubscriberInter
                 foreach ($nodeTypes as $nodeType) {
                     $orX->add($qb->expr()->isInstanceOf(
                         $simpleQB->getRootAlias(),
-                        $nodeType->getSourceEntityFullQualifiedClassName()
+                        $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
                     ));
                 }
                 $qb->andWhere($orX);

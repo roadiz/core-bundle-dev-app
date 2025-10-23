@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -63,6 +65,7 @@ final class SearchController extends AbstractController
         private readonly Registry $workflowRegistry,
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private readonly array $csvEncoderOptions,
     ) {
     }
@@ -415,9 +418,11 @@ final class SearchController extends AbstractController
         }
         $data = $this->processCriteria($data, $pagination, $itemPerPage, 'node.');
         $data = $this->processCriteriaNodeType($data, $nodeType);
+        /** @var class-string<NodesSources> $entityClassName */
+        $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
 
         $listManager = $this->entityListManagerFactory->createEntityListManager(
-            $nodeType->getSourceEntityFullQualifiedClassName(),
+            $entityClassName,
             $data
         );
         $listManager->setDisplayingNotPublishedNodes(true);

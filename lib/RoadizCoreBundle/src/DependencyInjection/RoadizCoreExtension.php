@@ -15,7 +15,6 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
@@ -208,7 +207,6 @@ class RoadizCoreExtension extends Extension
             'custom_form_class' => CustomForm::class,
             'custom_form_proxy_class' => NodesCustomForms::class,
             'translation_class' => Translation::class,
-            'namespace' => NodeType::getGeneratedEntitiesNamespace(),
             'use_native_json' => $config['useNativeJsonColumnType'],
             'use_document_dto' => $config['useDocumentDto'],
             'use_api_platform_filters' => true,

@@ -25,7 +25,7 @@ final class MenuNodeSourceWalker extends AbstractCycleAwareWalker
                 $nodeType = $context->getNodeTypesBag()->get('Menu');
                 if ($nodeType instanceof NodeTypeInterface) {
                     $this->addDefinition(
-                        $nodeType->getSourceEntityFullQualifiedClassName(),
+                        $context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType),
                         $this->createDefinitionForNodeType($nodeType)
                     );
                 }
@@ -44,7 +44,7 @@ final class MenuNodeSourceWalker extends AbstractCycleAwareWalker
         }
         $childrenNodeTypes = $context->getNodeTypeResolver()->getChildrenNodeTypeList($nodeType);
         if (count($childrenNodeTypes) > 0) {
-            return new MultiTypeChildrenDefinition($this->getContext(), $childrenNodeTypes);
+            return new MultiTypeChildrenDefinition($this->getContext(), $context->getNodeTypeClassLocator(), $childrenNodeTypes);
         }
 
         return new ZeroChildrenDefinition($this->getContext());

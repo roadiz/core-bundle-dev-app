@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\ORM\Filter;
 
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\FilterNodesSourcesQueryBuilderCriteriaEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApplyEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
@@ -11,8 +12,13 @@ use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
+final readonly class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
 {
+    public function __construct(
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+    ) {
+    }
+
     #[\Override]
     public static function getSubscribedEvents(): array
     {
@@ -46,7 +52,7 @@ final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
             if ($value instanceof NodeType) {
                 $qb->andWhere($qb->expr()->isInstanceOf(
                     $simpleQB->getRootAlias(),
-                    $value->getSourceEntityFullQualifiedClassName()
+                    $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($value)
                 ));
             } elseif (is_array($value)) {
                 $nodeTypes = [];
@@ -63,7 +69,7 @@ final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
                     foreach ($nodeTypes as $nodeType) {
                         $orX->add($qb->expr()->isInstanceOf(
                             $simpleQB->getRootAlias(),
-                            $nodeType->getSourceEntityFullQualifiedClassName()
+                            $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
                         ));
                     }
                     $qb->andWhere($orX);

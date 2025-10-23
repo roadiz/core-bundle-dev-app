@@ -27,7 +27,7 @@ class AutoChildrenNodeSourceWalker extends AbstractCycleAwareWalker
                 /** @var NodeTypeInterface $nodeType */
                 foreach ($context->getNodeTypesBag()->all() as $nodeType) {
                     $this->addDefinition(
-                        $nodeType->getSourceEntityFullQualifiedClassName(),
+                        $context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType),
                         $this->createDefinitionForNodeType($nodeType)
                     );
                 }
@@ -53,7 +53,7 @@ class AutoChildrenNodeSourceWalker extends AbstractCycleAwareWalker
         }
         $childrenNodeTypes = $context->getNodeTypeResolver()->getChildrenNodeTypeList($nodeType);
         if (count($childrenNodeTypes) > 0) {
-            return new MultiTypeChildrenDefinition($this->getContext(), $childrenNodeTypes);
+            return new MultiTypeChildrenDefinition($this->getContext(), $context->getNodeTypeClassLocator(), $childrenNodeTypes);
         }
 
         return new ZeroChildrenDefinition($this->getContext());

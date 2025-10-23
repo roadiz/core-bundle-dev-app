@@ -10,6 +10,7 @@ use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Printer;
 use Nette\PhpGenerator\PsrPrinter;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
@@ -40,6 +41,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         private readonly NodeTypeInterface $nodeType,
         private readonly NodeTypeResolverInterface $nodeTypeResolver,
         private readonly DefaultValuesResolverInterface $defaultValuesResolver,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         array $options = [],
     ) {
         $resolver = new OptionsResolver();
@@ -138,7 +140,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             return new ManyToManyFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isNodes()) {
-            return new NodesFieldGenerator($this->nodeTypeResolver, $field, $this->defaultValuesResolver, $this->options);
+            return new NodesFieldGenerator($this->nodeTypeResolver, $this->nodeTypeClassLocator, $field, $this->defaultValuesResolver, $this->options);
         }
         if (!$field->isVirtual()) {
             return new NonVirtualFieldGenerator($field, $this->defaultValuesResolver, $this->options);
@@ -172,7 +174,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addUse('Symfony\Component\Validator\Constraints', 'Assert')
         ;
 
-        $classType = $namespace->addClass($this->nodeType->getSourceEntityClassName())
+        $classType = $namespace->addClass($this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType))
             ->setExtends($this->options['parent_class'])
             ->addComment($this->nodeType->getName().' node-source entity.')
             ->addComment($this->nodeType->getDescription() ?? '');
@@ -321,7 +323,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $classType->addMethod('__toString')
             ->setReturnType('string')
             ->addAttribute(\Override::class)
-            ->setBody('return \'['.$this->nodeType->getSourceEntityClassName().'] \' . parent::__toString();')
+            ->setBody('return \'['.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType).'] \' . parent::__toString();')
         ;
 
         return $this;
