@@ -1,4 +1,4 @@
-export default class RzSwitch extends HTMLButtonElement {
+export default class RzFormSwitch extends HTMLButtonElement {
     constructor() {
         super()
     }

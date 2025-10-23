@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const COMPONENT_CLASS = 'rz-switch'
+const COMPONENT_CLASS_NAME = 'rz-form-switch'
 
 type Args = {
     checked: boolean
@@ -20,11 +20,11 @@ export default meta
 type Story = StoryObj<Args>
 
 function itemRenderer(args: Args) {
-    const componentClass = 'rz-switch'
+    const componentClass = 'rz-form-switch'
     const input = document.createElement('button', { is: componentClass })
     input.setAttribute('is', componentClass)
 
-    input.classList.add(COMPONENT_CLASS)
+    input.classList.add(COMPONENT_CLASS_NAME)
     input.setAttribute('type', 'button')
     input.setAttribute('role', 'switch')
     input.setAttribute('aria-checked', (args.checked ?? false).toString())
