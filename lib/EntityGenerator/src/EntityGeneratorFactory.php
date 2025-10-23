@@ -21,7 +21,7 @@ final readonly class EntityGeneratorFactory
 
     public function create(NodeTypeInterface $nodeType): EntityGeneratorInterface
     {
-        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $this->options);
+        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $this->nodeTypeClassLocator, $this->options);
     }
 
     public function createWithCustomRepository(NodeTypeInterface $nodeType): EntityGeneratorInterface
@@ -29,7 +29,7 @@ final readonly class EntityGeneratorFactory
         $options = $this->options;
         $options['repository_class'] = $this->nodeTypeClassLocator->getRepositoryFullQualifiedClassName($nodeType);
 
-        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $options);
+        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $this->nodeTypeClassLocator, $options);
     }
 
     public function createCustomRepository(NodeTypeInterface $nodeType): RepositoryGeneratorInterface
@@ -41,6 +41,6 @@ final readonly class EntityGeneratorFactory
         $options['namespace'] = $this->nodeTypeClassLocator->getRepositoryNamespace();
         $options['class_name'] = $this->nodeTypeClassLocator->getRepositoryClassName($nodeType);
 
-        return new RepositoryGenerator($nodeType, $options);
+        return new RepositoryGenerator($nodeType, $this->nodeTypeClassLocator, $options);
     }
 }

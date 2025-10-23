@@ -35,7 +35,9 @@ class NodeSourceApi extends AbstractApi
     protected function getNodeSourceClassName(?array $criteria = null): string
     {
         if (isset($criteria['node.nodeType']) && $criteria['node.nodeType'] instanceof NodeType) {
-            $this->nodeSourceClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($criteria['node.nodeType']);
+            /** @var class-string<NodesSources> $entityClassName */
+            $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($criteria['node.nodeType']);
+            $this->nodeSourceClassName = $entityClassName;
             unset($criteria['node.nodeType']);
         } elseif (
             isset($criteria['node.nodeType'])
@@ -43,7 +45,9 @@ class NodeSourceApi extends AbstractApi
             && 1 === count($criteria['node.nodeType'])
             && $criteria['node.nodeType'][0] instanceof NodeType
         ) {
-            $this->nodeSourceClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($criteria['node.nodeType'][0]);
+            /** @var class-string<NodesSources> $entityClassName */
+            $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($criteria['node.nodeType'][0]);
+            $this->nodeSourceClassName = $entityClassName;
             unset($criteria['node.nodeType']);
         } else {
             $this->nodeSourceClassName = NodesSources::class;

@@ -9,6 +9,7 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -417,9 +418,11 @@ final class SearchController extends AbstractController
         }
         $data = $this->processCriteria($data, $pagination, $itemPerPage, 'node.');
         $data = $this->processCriteriaNodeType($data, $nodeType);
+        /** @var class-string<NodesSources> $entityClassName */
+        $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
 
         $listManager = $this->entityListManagerFactory->createEntityListManager(
-            $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType),
+            $entityClassName,
             $data
         );
         $listManager->setDisplayingNotPublishedNodes(true);

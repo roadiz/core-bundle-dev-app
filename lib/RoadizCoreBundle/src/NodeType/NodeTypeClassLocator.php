@@ -6,6 +6,8 @@ namespace RZ\Roadiz\CoreBundle\NodeType;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
 {
@@ -21,15 +23,25 @@ class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
         return 'NS'.ucwords($nodeType->getName()).'Repository';
     }
 
+    /**
+     * @param NodeTypeInterface $nodeType
+     * @return class-string<NodesSources>
+     */
     #[\Override]
     public function getSourceEntityFullQualifiedClassName(NodeTypeInterface $nodeType): string
     {
+        /* @phpstan-ignore-next-line */
         return $this->getClassNamespace().'\\'.$this->getSourceEntityClassName($nodeType);
     }
 
+    /**
+     * @param NodeTypeInterface $nodeType
+     * @return class-string<NodesSourcesRepository>
+     */
     #[\Override]
     public function getRepositoryFullQualifiedClassName(NodeTypeInterface $nodeType): string
     {
+        /* @phpstan-ignore-next-line */
         return $this->getRepositoryNamespace().'\\'.self::getRepositoryClassName($nodeType);
     }
 

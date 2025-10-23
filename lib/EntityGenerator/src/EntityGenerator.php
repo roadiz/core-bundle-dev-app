@@ -140,7 +140,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             return new ManyToManyFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isNodes()) {
-            return new NodesFieldGenerator($this->nodeTypeResolver, $field, $this->defaultValuesResolver, $this->options);
+            return new NodesFieldGenerator($this->nodeTypeResolver, $this->nodeTypeClassLocator, $field, $this->defaultValuesResolver, $this->options);
         }
         if (!$field->isVirtual()) {
             return new NonVirtualFieldGenerator($field, $this->defaultValuesResolver, $this->options);
