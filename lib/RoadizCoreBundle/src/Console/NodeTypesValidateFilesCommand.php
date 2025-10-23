@@ -50,11 +50,13 @@ final class NodeTypesValidateFilesCommand extends Command
                 if (!class_exists('App\GeneratedEntity\Repository\\'.$repositoryName)) {
                     $io = new SymfonyStyle($input, $output);
                     $io->error('Missing repository class: App\GeneratedEntity\Repository\\'.$repositoryName);
+
                     return Command::FAILURE;
                 }
                 if (!class_exists('App\GeneratedEntity\\'.$entityName)) {
                     $io = new SymfonyStyle($input, $output);
-                    $io->error('Missing entity class: App\GeneratedEntity\\' . $entityName);
+                    $io->error('Missing entity class: App\GeneratedEntity\\'.$entityName);
+
                     return Command::FAILURE;
                 }
             }
