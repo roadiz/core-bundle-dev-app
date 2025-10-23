@@ -34,22 +34,17 @@
 	--rz-form-input-border-color: var(--form-basic-border-hover, #383838) !important;
 }
 
-/*
-We want to distinguish between input valid and input filled
-*/
 .rz-form-input:not(:placeholder-shown)[value],
 .rz-form-input--filled {
 	--rz-form-input-border-color: var(--form-basic-border-focus, #9A9A9A);
 }
 
-/* When focus is lost and placeholder is not shown and input is invalid */
 .rz-form-input:not(:placeholder-shown):not(:focus-visible):invalid,
 .rz-form-input--error {
 	--rz-form-input-color: var(--status-error, #E54457);
 	--rz-form-input-border-color: var(--status-error, #E54457);
 }
 
-/* checkbox and radio */
 .rz-form-input[type="radio"],
 .rz-form-input[type="checkbox"] {
 	appearance: none;
@@ -65,7 +60,6 @@ We want to distinguish between input valid and input filled
 	color: var(--form-checkbox-radio-content, #18191B);
 	transition: background-color 0.2s;
 
-	/* https://icon-sets.iconify.design/ri/?icon-filter=checkbox&keyword=remix */
 	&::before {
 		content: '';
 		display: inline-block;
@@ -103,10 +97,8 @@ We want to distinguish between input valid and input filled
 	}
 }
 
-/* Color input */
 .rz-form-input[type="color"] {
 	--rz-form-input-padding: var(--radius-xs, 6px);
-	--rz-input-color-label: attr(value, attr(placeholder, 'Null'));  /* Use attr() for fallback not working on safari */
 
 	display: flex;
 	align-items: center;
@@ -117,7 +109,7 @@ We want to distinguish between input valid and input filled
 	height: 24px;
 
 	&::after {
-		content:  var(--rz-input-color-label);
+		content: attr(value, attr(placeholder, 'Null'));  /* Use attr() as fallback not working on safari */
 		white-space: pre;
 		min-width: 7ch;
 		display: inline;
