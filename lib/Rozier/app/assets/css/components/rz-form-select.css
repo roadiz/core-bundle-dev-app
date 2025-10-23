@@ -1,7 +1,11 @@
 .rz-form-select {
 	--rz-form-select-arrow-size: 16px;
 	--rz-form-select-padding-right: (var(--rz-form-select-arrow-size) * 0.5);
-	--rz-form-input-padding: 8px calc(var(--rz-form-select-arrow-size) + var(--rz-form-select-padding-right) + 8px) 8px 8px;
+	--rz-form-input-padding:
+		8px
+		calc(var(--rz-form-select-arrow-size) + var(--rz-form-select-padding-right) + 8px)
+		8px
+		12px;
 
 	appearance: none;
 	background-image: var(--rz-icon-ri--arrow-down-s-line);
