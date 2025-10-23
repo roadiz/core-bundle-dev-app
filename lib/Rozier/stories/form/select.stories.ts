@@ -47,8 +47,7 @@ function itemRenderer(args: Args) {
     select.setAttribute('is', customComponentName)
 
     select.required = args.required ?? false
-    const selectClasses = [COMPONENT_CLASS_NAME].filter((c) => c) as string[]
-    select.classList.add(...selectClasses, 'rz-form-input')
+    select.classList.add(COMPONENT_CLASS_NAME, 'rz-form-input')
 
     args.options.forEach((optionData) => {
         const option = document.createElement('option')
