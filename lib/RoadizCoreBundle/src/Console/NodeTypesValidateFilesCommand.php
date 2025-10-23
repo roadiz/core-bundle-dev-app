@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,6 +22,7 @@ final class NodeTypesValidateFilesCommand extends Command
 {
     public function __construct(
         private readonly NodeTypeRepositoryInterface $repository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -45,17 +47,17 @@ final class NodeTypesValidateFilesCommand extends Command
 
         if (!$input->getOption('ignore-missing')) {
             foreach ($nodeTypes as $nodeType) {
-                $repositoryName = 'NS'.$nodeType->getName().'Repository';
-                $entityName = 'NS'.$nodeType->getName();
-                if (!class_exists('App\GeneratedEntity\Repository\\'.$repositoryName)) {
+                $repositoryClassName = $this->nodeTypeClassLocator->getRepositoryFullQualifiedClassName($nodeType);
+                if (!class_exists($repositoryClassName)) {
                     $io = new SymfonyStyle($input, $output);
-                    $io->error('Missing repository class: App\GeneratedEntity\Repository\\'.$repositoryName);
+                    $io->error('Missing repository class: '.$repositoryClassName);
 
                     return Command::FAILURE;
                 }
-                if (!class_exists('App\GeneratedEntity\\'.$entityName)) {
+                $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
+                if (!class_exists($entityClassName)) {
                     $io = new SymfonyStyle($input, $output);
-                    $io->error('Missing entity class: App\GeneratedEntity\\'.$entityName);
+                    $io->error('Missing entity class: '.$entityClassName);
 
                     return Command::FAILURE;
                 }

@@ -6,6 +6,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpNamespace;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use Symfony\Component\String\UnicodeString;
@@ -14,6 +15,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
 {
     public function __construct(
         private readonly NodeTypeResolverInterface $nodeTypeResolver,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         NodeTypeFieldInterface $field,
         DefaultValuesResolverInterface $defaultValuesResolver,
         array $options = [],
@@ -61,7 +63,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
 
             $nodeType = $this->nodeTypeResolver->get($nodeTypeName);
             if (null !== $nodeType) {
-                $className = $nodeType->getSourceEntityFullQualifiedClassName();
+                $className = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
 
                 return (new UnicodeString($className))->startsWith('\\') ?
                     $className :

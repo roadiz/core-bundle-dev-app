@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
@@ -24,6 +25,7 @@ final readonly class NodeFactory
         private AllStatusesNodeRepository $allStatusesNodeRepository,
         private UrlAliasRepository $urlAliasRepository,
         private NodeTypes $nodeTypesBag,
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
     }
 
@@ -57,7 +59,7 @@ final readonly class NodeFactory
             $node->setParent($parent);
         }
 
-        $sourceClass = $nodeType->getSourceEntityFullQualifiedClassName();
+        $sourceClass = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
         /** @var NodesSources $source */
         $source = new $sourceClass($node, $translation);
         $manager = $this->managerRegistry->getManagerForClass(NodesSources::class);

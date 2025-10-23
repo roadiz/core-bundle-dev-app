@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Console;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -23,6 +24,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
         private readonly NodeTypeHandler $nodeTypeHandler,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -48,7 +50,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
             $handler = $this->nodeTypeHandler->setNodeType($nt);
             $handler->removeSourceEntityClass();
             $handler->generateSourceEntityClass();
-            $io->writeln('* Source class <info>'.$nt->getSourceEntityClassName().'</info> has been generated.');
+            $io->writeln('* Source class <info>'.$this->nodeTypeClassLocator->getSourceEntityClassName($nt).'</info> has been generated.');
 
             if ($output->isVeryVerbose()) {
                 $io->writeln("\t<info>".$handler->getSourceClassPath().'</info>');

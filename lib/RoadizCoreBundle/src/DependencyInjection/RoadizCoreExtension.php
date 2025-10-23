@@ -208,7 +208,6 @@ class RoadizCoreExtension extends Extension
             'custom_form_class' => CustomForm::class,
             'custom_form_proxy_class' => NodesCustomForms::class,
             'translation_class' => Translation::class,
-            'namespace' => NodeType::getGeneratedEntitiesNamespace(),
             'use_native_json' => $config['useNativeJsonColumnType'],
             'use_document_dto' => $config['useDocumentDto'],
             'use_api_platform_filters' => true,

@@ -6,6 +6,7 @@ namespace RZ\Roadiz\EntityGenerator;
 
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\UnicodeString;
@@ -14,8 +15,10 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
 {
     private array $options;
 
-    public function __construct(private readonly NodeTypeInterface $nodeType, array $options = [])
-    {
+    public function __construct(
+        private readonly NodeTypeInterface $nodeType, array $options = [],
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+    ) {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
 
@@ -30,7 +33,7 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
         $file->addComment('THIS IS A GENERATED FILE, DO NOT EDIT IT.');
         $file->addComment('IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.');
 
-        $fqcn = $this->options['entity_namespace'].'\\'.$this->nodeType->getSourceEntityClassName();
+        $fqcn = $this->options['entity_namespace'].'\\'.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType);
         $namespace = $file
             ->addNamespace(trim((string) $this->options['namespace'], '\\'))
             ->addUse(\Doctrine\Persistence\ManagerRegistry::class)

@@ -430,6 +430,9 @@ services:
         alias: RZ\Roadiz\CoreBundle\Bag\NodeTypes
         public: true
 
+    RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface:
+        class: RZ\Roadiz\CoreBundle\NodeType\NodeTypeClassLocator
+
     RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface:
         class: RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver
 
@@ -437,6 +440,7 @@ services:
         arguments:
             - '@RZ\Roadiz\CoreBundle\Bag\NodeTypes'
             - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
+            - '@RZ\Roadiz\CoreBundle\NodeType\NodeTypeClassLocator'
             - '%roadiz_core.entity_generator_factory.options%'
 
     gedmo.mapping.driver.attribute:
