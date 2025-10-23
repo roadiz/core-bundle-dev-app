@@ -91,6 +91,7 @@ class AjaxTagsController extends AbstractAjaxController
         if (count($cleanTagIds)) {
             $tags = $this->getRepository()->findBy([
                 'id' => $cleanTagIds,
+                'translation' => $this->em()->getRepository(Translation::class)->findDefault(),
             ]);
 
             // Sort array by ids given in request

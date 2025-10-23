@@ -17,11 +17,11 @@ final class TagModel implements ModelInterface
 
     public function toArray(): array
     {
-        $firstTrans = $this->tag->getTranslatedTags()->first();
+        $defaultTrans = $this->tag->getTranslatedTagsByDefaultTranslation();
         $name = $this->tag->getTagName();
 
-        if ($firstTrans) {
-            $name = $firstTrans->getName();
+        if ($defaultTrans) {
+            $name = $defaultTrans->getName();
         }
 
         $result = [
