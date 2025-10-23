@@ -87,7 +87,7 @@ export const Number: Story = {
     render: (args) => {
         return itemRenderer(args, {
             min: '1',
-            max: '990000', // Initial input width depends on attribute max value
+            max: '990000', // Initial input width depends on attribute character length
         })
     },
     args: {

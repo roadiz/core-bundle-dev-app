@@ -28,7 +28,9 @@ export default class RzFormInput extends HTMLInputElement {
         super()
     }
 
-    // set the value attribute in DOM to reflect the current value, CSS could use it via attr()
+    // Make the value attribute reflect the actual value of the input
+    // Like this we can access the value through CSS with attr()
+    // and know if the input is filled or not
     syncValueAttribute() {
         const isUnsetColorValue =
             this.getAttribute('type') === 'color' && this.value === '#000000'
