@@ -128,7 +128,7 @@
 	}
 
 	&:not([value]):not([placeholder])::after {
-		content: 'Null';
+		content: '#000000';
 	}
 
 	&[value]::after {
