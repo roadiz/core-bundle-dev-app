@@ -1,8 +1,8 @@
-.rz-form-input:not([type="checkbox"]):not([type="radio"]):not([type="reset"]):not([type="range"]):not([type="submit"]) {
+.rz-input:not([type="checkbox"]):not([type="radio"]):not([type="reset"]):not([type="range"]):not([type="submit"]) {
 	border: none;
 	border-radius: var(--radius-xs, 6px);
-	outline: 1PX solid var(--rz-form-input-border-color, var(--form-basic-border, #DADADA));
-	padding: var(--rz-form-input-padding, 11px 12px 10px 12px);
+	outline: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));
+	padding: var(--rz-input-padding, 11px 12px 10px 12px);
 	background-color: var(--form-basic-bg, #F8F8F8);
 	transition: outline-color 0.2s, color 0.2s;
 
@@ -11,7 +11,7 @@
 	line-height: var(--text-form-input-text-line-height);
 	letter-spacing: var(--text-form-input-text-letter-spacing);
 	font-weight: var(--text-form-input-text-font-weight);
-	color: var(--rz-form-input-color, var(--form-basic-input-text, #383838));
+	color: var(--rz-input-color, var(--form-basic-input-text, #383838));
 
 	&::placeholder {
 		font-family: var(--font-family-os-text);
@@ -24,29 +24,29 @@
 
 	@media (hover: hover) {
 		&:hover {
-			--rz-form-input-border-color: var(--form-basic-border-hover, #383838);
+			--rz-input-border-color: var(--form-basic-border-hover, #383838);
 		}
 	}
 }
 
-.rz-form-input:focus-visible,
-.rz-form-input--focus {
-	--rz-form-input-border-color: var(--form-basic-border-hover, #383838) !important;
+.rz-input:focus-visible,
+.rz-input--focus {
+	--rz-input-border-color: var(--form-basic-border-hover, #383838) !important;
 }
 
-.rz-form-input:not(:placeholder-shown)[value],
-.rz-form-input--filled {
-	--rz-form-input-border-color: var(--form-basic-border-focus, #9A9A9A);
+.rz-input:not(:placeholder-shown)[value],
+.rz-input--filled {
+	--rz-input-border-color: var(--form-basic-border-focus, #9A9A9A);
 }
 
-.rz-form-input:not(:placeholder-shown):not(:focus-visible):invalid,
-.rz-form-input--error {
-	--rz-form-input-color: var(--status-error, #E54457);
-	--rz-form-input-border-color: var(--status-error, #E54457);
+.rz-input:not(:placeholder-shown):not(:focus-visible):invalid,
+.rz-input--error {
+	--rz-input-color: var(--status-error, #E54457);
+	--rz-input-border-color: var(--status-error, #E54457);
 }
 
-.rz-form-input[type="radio"],
-.rz-form-input[type="checkbox"] {
+.rz-input[type="radio"],
+.rz-input[type="checkbox"] {
 	appearance: none;
 	display: inline-flex;
 	justify-content: center;
@@ -81,7 +81,7 @@
 	}
 }
 
-.rz-form-input[type="checkbox"] {
+.rz-input[type="checkbox"] {
 	--svg: var(--rz-icon-ri--checkbox-blank-line);
 
 	&:checked{
@@ -89,7 +89,7 @@
 	}
 }
 
-.rz-form-input[type="radio"] {
+.rz-input[type="radio"] {
 	--svg: var(--rz-icon-ri--checkbox-blank-circle-line);
 
 	&:checked{
@@ -97,8 +97,8 @@
 	}
 }
 
-.rz-form-input[type="color"] {
-	--rz-form-input-padding: var(--radius-xs, 6px);
+.rz-input[type="color"] {
+	--rz-input-padding: var(--radius-xs, 6px);
 
 	display: flex;
 	align-items: center;

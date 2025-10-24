@@ -23,7 +23,7 @@ export const INPUT_TYPES = [
     'submit',
 ] as const
 
-export default class RzFormInput extends HTMLInputElement {
+export default class RzInput extends HTMLInputElement {
     constructor() {
         super()
     }

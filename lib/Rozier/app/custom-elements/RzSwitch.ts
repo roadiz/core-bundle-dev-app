@@ -1,4 +1,4 @@
-export default class RzFormSwitch extends HTMLButtonElement {
+export default class RzSwitch extends HTMLButtonElement {
     constructor() {
         super()
     }
@@ -9,6 +9,12 @@ export default class RzFormSwitch extends HTMLButtonElement {
     }
 
     connectedCallback() {
+        if (!this.hasAttribute('type')) {
+            this.setAttribute('type', 'button')
+        }
+        if (!this.hasAttribute('role')) {
+            this.setAttribute('role', 'switch')
+        }
         if (!this.hasAttribute('aria-checked')) {
             this.setAttribute('aria-checked', 'false')
         }

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const COMPONENT_CLASS_NAME = 'rz-form-select'
+const COMPONENT_CLASS = 'rz-select'
+const COMPONENT_CLASS_NAME = 'rz-select'
 type Option = {
     value: string
     label: string
@@ -42,12 +43,11 @@ export default meta
 type Story = StoryObj<Args>
 
 function itemRenderer(args: Args) {
-    const customComponentName = 'rz-form-select'
-    const select = document.createElement('select', { is: customComponentName })
-    select.setAttribute('is', customComponentName)
+    const select = document.createElement('select', { is: COMPONENT_CLASS })
+    select.setAttribute('is', COMPONENT_CLASS)
 
     select.required = args.required ?? false
-    select.classList.add(COMPONENT_CLASS_NAME, 'rz-form-input')
+    select.classList.add(COMPONENT_CLASS_NAME, 'rz-input')
 
     args.options.forEach((optionData) => {
         const option = document.createElement('option')

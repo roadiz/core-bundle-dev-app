@@ -1,0 +1,21 @@
+.rz-select {
+	--rz-select-arrow-size: 16px;
+	--rz-select-padding-right: (var(--rz-select-arrow-size) * 0.5);
+	--rz-input-padding:
+		8px
+		calc(var(--rz-select-arrow-size) + var(--rz-select-padding-right) + 8px)
+		8px
+		12px;
+
+	appearance: none;
+	background-image: var(--rz-icon-ri--arrow-down-s-line);
+	background-color: black;
+	background-repeat: no-repeat;
+	background-position: center right calc(var(--rz-select-padding-right));
+	background-size: var(--rz-select-arrow-size);
+	cursor: pointer;
+
+	&:not([value]) {
+		--rz-input-color: var(--form-basic-placeholder, #9A9A9A);
+	}
+}

@@ -21,6 +21,6 @@
 @import './components/rz-badge.css';
 
 /* Components: Form */
-@import './components/rz-form-switch.css';
-@import './components/rz-form-input.css';
-@import './components/rz-form-select.css';
+@import './components/rz-switch.css';
+@import './components/rz-input.css';
+@import './components/rz-select.css';

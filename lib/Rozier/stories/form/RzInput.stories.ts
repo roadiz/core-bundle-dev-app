@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { INPUT_TYPES } from '../../app/custom-elements/RzFormInput'
+import { INPUT_TYPES } from '../../app/custom-elements/RzInput'
 
-const COMPONENT_CLASS = 'rz-form-input'
+const COMPONENT_CLASS = 'rz-input'
+const COMPONENT_CLASS_NAME = 'rz-input'
 
 type fieldArgs = {
     placeholder: string
@@ -34,11 +35,9 @@ export default meta
 type Story = StoryObj<fieldArgs>
 
 function itemRenderer(args: fieldArgs, attrs: Record<string, unknown> = {}) {
-    const customComponentName = 'rz-form-input'
-
-    const input = document.createElement('input', { is: customComponentName })
-    input.setAttribute('is', customComponentName)
-    input.classList.add(COMPONENT_CLASS)
+    const input = document.createElement('input', { is: COMPONENT_CLASS })
+    input.setAttribute('is', COMPONENT_CLASS)
+    input.classList.add(COMPONENT_CLASS_NAME)
 
     Object.entries(attrs).forEach(([key, value]) => {
         if (value) input.setAttribute(key, String(value))

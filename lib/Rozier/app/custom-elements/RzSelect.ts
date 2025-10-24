@@ -1,4 +1,4 @@
-export default class RzFormInput extends HTMLSelectElement {
+export default class RzSelect extends HTMLSelectElement {
     constructor() {
         super()
     }
