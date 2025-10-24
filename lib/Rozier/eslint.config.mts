@@ -10,7 +10,7 @@ export default defineConfig([
         ignores: [
             '**/vendor/**',
             '**/*.min.js',
-            '**/vite-plugins/iconify/collections/**',
+            './vite-plugins/iconify/collections/*.ts',
         ],
     },
     {
