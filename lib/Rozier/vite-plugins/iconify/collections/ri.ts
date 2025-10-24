@@ -11,7 +11,7 @@ export default [
     'checkbox-blank-line',
     'checkbox-line',
     'checkbox-blank-circle-line',
-    'checkbox-circle-line',
+    'radio-button-line',
     'close-large-line',
     'close-line',
     'computer-line',

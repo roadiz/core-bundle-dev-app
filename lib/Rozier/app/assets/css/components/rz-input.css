@@ -83,18 +83,18 @@
 }
 
 .rz-input[type="checkbox"] {
-	--svg: var(--rz-icon-ri--checkbox-blank-line);
+	--svg: url('assets/img/icons/ri/checkbox-blank-line.svg');
 
 	&:checked{
-		--svg: var(--rz-icon-ri--checkbox-line);
+		--svg: url('assets/img/icons/ri/checkbox-line.svg');
 	}
 }
 
 .rz-input[type="radio"] {
-	--svg: var(--rz-icon-ri--checkbox-blank-circle-line);
+	--svg: url('assets/img/icons/ri/checkbox-blank-circle-line.svg');
 
 	&:checked{
-		--svg: var(--rz-icon-ri--radio-button-line);
+		--svg: url('assets/img/icons/ri/radio-button-line.svg');
 	}
 }
 
