@@ -131,7 +131,7 @@ export const All: Story = {
             wrapper.appendChild(collectionNode)
 
             const collectionTitle = document.createElement('h3')
-            collectionTitle.innerText = 'Collection: ' + icons[0].folder || ''
+            collectionTitle.innerText = `Collection: ${icons[0].folder || 'unknown'}`
             collectionNode.appendChild(collectionTitle)
 
             icons.forEach((icon) => {
