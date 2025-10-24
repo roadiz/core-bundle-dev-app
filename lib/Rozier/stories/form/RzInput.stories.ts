@@ -216,6 +216,7 @@ export const Search: Story = {
     },
     args: {
         type: 'search',
+        placeholder: 'Search...',
     },
 }
 

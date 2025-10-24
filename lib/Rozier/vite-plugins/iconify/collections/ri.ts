@@ -15,4 +15,5 @@ export default [
     'close-large-line',
     'close-line',
     'computer-line',
+    'search-line',
 ]
