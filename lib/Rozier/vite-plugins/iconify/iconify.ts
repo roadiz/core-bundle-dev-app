@@ -183,7 +183,7 @@ export default function initCollections(
                 await fs.writeFile(cssFilePath, css, 'utf-8')
                 cssFilePaths.push(`./${cssFileName}`)
 
-                console.info(`✅ CSS collection generate : ${cssFilePath}`)
+                console.info(`✅ CSS collection generated: ${cssFilePath}`)
             })
 
             await Promise.all(promises)
