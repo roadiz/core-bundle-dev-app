@@ -1,13 +1,13 @@
 
 .rz-switch {
-	--rz-input-checkbox-width: 44px;
-	--rz-input-checkbox-inner-width: 18px;
-	--rz-input-checkbox-padding-inline: 3px;
+	--rz-switch-width: 44px;
+	--rz-switch-inner-width: 18px;
+	--rz-switch-padding-inline: 3px;
 
 	display: flex;
-	width: var(--rz-input-checkbox-width);
+	width: var(--rz-switch-width);
 	height: 24px;
-	padding: var(--rz-input-checkbox-padding-inline) 3px;
+	padding: var(--rz-switch-padding-inline) 3px;
 	align-items: center;
 	border-radius: 14px;
 	background-color: var(--toggle-bg, #BCBCBC);
@@ -19,7 +19,7 @@
 	&::before {
 		position: absolute;
 		content: '';
-		width: var(--rz-input-checkbox-inner-width);
+		width: var(--rz-switch-inner-width);
 		aspect-ratio: 1;
 		transition: translate 0.2s, opacity 0.2s;
 	}
@@ -33,8 +33,8 @@
 	&::after {
 		display: inline-block;
 		background-color: currentColor;
-		-webkit-mask-image: var(--rz-icon-ri--check-line);
-		mask-image: var(--rz-icon-ri--check-line);
+		-webkit-mask-image: url('assets/img/icons/ri/check-line.svg');
+		mask-image: url('assets/img/icons/ri/check-line.svg');
 		-webkit-mask-repeat: no-repeat;
 		mask-repeat: no-repeat;
 		-webkit-mask-size: 14px 14px;
@@ -50,7 +50,7 @@
 
 	&[aria-checked="true"]::before,
 	&[aria-checked="true"]::after {
-		translate: calc(var(--rz-input-checkbox-width) - var(--rz-input-checkbox-padding-inline) * 2 - var(--rz-input-checkbox-inner-width));
+		translate: calc(var(--rz-switch-width) - var(--rz-switch-padding-inline) * 2 - var(--rz-switch-inner-width));
 	}
 
 	&[aria-checked="true"]::after {
