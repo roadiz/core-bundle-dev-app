@@ -1,0 +1,23 @@
+.rz-fieldset {
+	--rz-fieldset-legend-margin-top: 16px;
+	padding: var(--spacing-md, 24px) 32px var(--spacing-lg, 32px) 32px;
+	margin: 0;
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	overflow: auto;
+	margin-top: calc(var(--rz-fieldset-legend-margin-top) + var(--rz-fieldset-legend-height, 15px) + var(--rz-fieldset-legend-margin-bottom, 8px));
+}
+
+
+.rz-fieldset__legend {
+	/* appearance: none; */
+	position: absolute;
+	top: 0;
+	left: 1rem;
+	translate: 0 calc(100% + var(--rz-fieldset-legend-margin-top));
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-form-label-font-size);
+	line-height: var(--text-form-label-line-height);
+	letter-spacing: var(--text-form-label-letter-spacing);
+	font-weight: var(--text-form-label-font-weight);
+}
