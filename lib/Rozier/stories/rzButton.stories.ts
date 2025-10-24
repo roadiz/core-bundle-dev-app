@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 const COMPONENT_CLASS_NAME = 'rz-button'
 const EMPHASIS = ['low', 'medium', 'high'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
+const BORDER_RADIUS_DIRECTION = ['left', 'right', 'auto'] as const
 
 export type ButtonArgs = {
     label: string
@@ -12,6 +13,7 @@ export type ButtonArgs = {
     iconClass: string
     onDark: boolean
     additionalClasses: string
+    radiusEnabled: (typeof BORDER_RADIUS_DIRECTION)[number]
 }
 
 /** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
@@ -41,6 +43,10 @@ const meta: Meta<ButtonArgs> = {
         onDark: false,
     },
     argTypes: {
+        radiusEnabled: {
+            control: { type: 'radio' },
+            options: ['', ...BORDER_RADIUS_DIRECTION],
+        },
         emphasis: {
             control: { type: 'select' },
             options: [...EMPHASIS, ''],
@@ -182,6 +188,33 @@ export const DisabledList: Story = {
     },
 }
 
+export const BorderRadius: Story = {
+    render: (args) => {
+        const wrapper = document.createElement('div')
+
+        const firstButton = buttonRenderer(args)
+        wrapper.appendChild(firstButton)
+
+        const secondButton = buttonRenderer(args)
+        wrapper.appendChild(secondButton)
+
+        const thirdButton = buttonRenderer(args)
+        wrapper.appendChild(thirdButton)
+
+        const fourthButton = buttonRenderer(args)
+        wrapper.appendChild(fourthButton)
+
+        return wrapper
+    },
+    args: {
+        label: '',
+        emphasis: 'medium',
+        size: 'lg',
+        iconClass: 'rz-icon-ri--add-large-line',
+        radiusEnabled: 'auto',
+    },
+}
+
 /* RENDERER */
 
 function buttonRenderer(args: ButtonArgs, attrs: Record<string, string> = {}) {
@@ -192,16 +225,14 @@ function buttonRenderer(args: ButtonArgs, attrs: Record<string, string> = {}) {
             buttonNode.setAttribute(key, value)
         })
     }
-    const emphasisClass = args.emphasis
-        ? `${COMPONENT_CLASS_NAME}--emphasis-${args.emphasis}`
-        : ''
-    const sizeClass = args.size
-        ? `${COMPONENT_CLASS_NAME}--size-${args.size}`
-        : ''
-    const disabledClass = args.disabled
-        ? `${COMPONENT_CLASS_NAME}--disabled`
-        : ''
-    const onDarkClass = args.onDark ? `${COMPONENT_CLASS_NAME}--on-dark` : ''
+    const emphasisClass =
+        args.emphasis && `${COMPONENT_CLASS_NAME}--emphasis-${args.emphasis}`
+    const sizeClass = args.size && `${COMPONENT_CLASS_NAME}--size-${args.size}`
+    const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
+    const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
+    const radiusClass =
+        args.radiusEnabled &&
+        `${COMPONENT_CLASS_NAME}--border-radius-${args.radiusEnabled}`
 
     buttonNode.className = [
         COMPONENT_CLASS_NAME,
@@ -209,6 +240,7 @@ function buttonRenderer(args: ButtonArgs, attrs: Record<string, string> = {}) {
         sizeClass,
         disabledClass,
         onDarkClass,
+        radiusClass,
         args.additionalClasses,
     ]
         .filter((c) => !!c)
