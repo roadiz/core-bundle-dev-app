@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/html-vite'
 import customTheme from './global-theme'
 import { defineLazyElement } from '~/utils/custom-element/defineLazyElement'
 import customElementList from '~/custom-elements'
-
+import '@ungap/custom-elements' // Polyfill for Safari (not implementing the customized built-in elements)
 import 'assets/css/main.css'
 
 // Initialize preview environment
