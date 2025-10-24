@@ -13,4 +13,8 @@
 	background-repeat: no-repeat;
 	background-position: center right var(--rz-select-padding-right);
 	background-size: var(--rz-select-arrow-size);
+
+	&:not([value]) {
+		--rz-input-color: var(--form-basic-placeholder, #9A9A9A);
+	}
 }
