@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.20...v2.6.21) - 2025-10-23
+
+### Bug Fixes
+
+- **(AbstractAdminController)** ensure proper access control in edit and delete actions passing subject - ([f35ca6b](https://github.com/roadiz/core-bundle-dev-app/commit/f35ca6b9367acde4583bbdd62130a53868cdbdbd))
+- **(tags)** add default translation to tag retrieval ([#259](https://github.com/roadiz/core-bundle-dev-app/issues/259)) - ([2fdc8fd](https://github.com/roadiz/core-bundle-dev-app/commit/2fdc8fd13f9d17b9d5e1b8ac909f70cb5af75621))
+
 ## [2.6.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.19...v2.6.20) - 2025-10-21
 
 ### Documentation
