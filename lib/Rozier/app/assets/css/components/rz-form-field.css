@@ -1,0 +1,36 @@
+.rz-form-field {
+    display: grid;
+    gap: var(--spacing-6xs, 4px);
+}
+
+.rz-form-field__label {
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-form-label-font-size);
+    line-height: var(--text-form-label-line-height);
+    letter-spacing: var(--text-form-label-letter-spacing);
+    font-weight: var(--text-form-label-font-weight);
+
+    .rz-form-field--required &::after {
+        content: '*';
+        color: var(--color-danger-600);
+    }
+}
+
+.rz-form-field__description {
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-description-md-font-size);
+    line-height: var(--text-form-description-md-line-height);
+    letter-spacing: var(--text-form-description-md-letter-spacing);
+    font-weight: var(--text-form-description-md-font-weight);
+
+    margin-block: var(--spacing-6xs, 4px) 0;
+}
+
+.rz-form-field__input {
+    margin-top: var(--spacing-4xs, 8px);
+    width: stretch;
+}
+
+.rz-form-field__supporting-text {
+    margin: initial;
+}
