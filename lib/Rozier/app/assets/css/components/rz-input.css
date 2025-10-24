@@ -110,7 +110,7 @@
 	height: 24px;
 
 	&::after {
-		content: attr(value, attr(placeholder, 'Null'));  /* Use attr() as fallback not working on safari */
+		content: attr(value);  /* Use attr() as fallback not working on safari */
 		white-space: pre;
 		min-width: 7ch;
 		display: inline;
@@ -121,6 +121,14 @@
 		letter-spacing: var(--text-form-placeholder-letter-spacing);
 		font-weight: var(--text-form-placeholder-font-weight);
 		margin-right: var(--spacing-4xs, 8px);
+	}
+
+	&:not([value])[placeholder]::after {
+		content: attr(placeholder)
+	}
+
+	&:not([value]):not([placeholder])::after {
+		content: 'Null';
 	}
 
 	&[value]::after {
