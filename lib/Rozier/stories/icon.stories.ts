@@ -183,7 +183,6 @@ export const FromSvgAssetPath: Story = {
         if (args.svgUrl) {
             try {
                 import(args.svgUrl).then((module) => {
-                    console.log('module', module)
                     node.style.background = `url("${module.default}")`
                     node.style.backgroundSize = 'contain'
                     node.style.backgroundRepeat = 'no-repeat'
