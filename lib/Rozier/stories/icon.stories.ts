@@ -1,5 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { iconItemRenderer, iconRenderer, type IconArgs } from './iconItem'
+
+export type IconArgs = {
+    className: string
+    prefix?: string
+    name?: string
+    color?: string
+    fontSize?: string
+    svgUrl?: string
+}
 
 type IconData = {
     folder: string
@@ -9,8 +17,64 @@ type IconData = {
     loader: () => Promise<string>
 }
 
+// HELPERS
+function getClassName(args: IconArgs) {
+    if (args.className) return args.className
+    if (args.prefix && args.name) return `rz-icon-${args.prefix}--${args.name}`
+    return ''
+}
+
+function iconRenderer(args: IconArgs) {
+    const iconNode = document.createElement('span')
+    if (args.color) iconNode.style.color = args.color
+    if (args.fontSize) iconNode.style.fontSize = args.fontSize
+    iconNode.className = getClassName(args)
+
+    return iconNode
+}
+
+function iconItemRenderer(args: IconArgs) {
+    const item = document.createElement('div')
+    item.style = `
+      display: grid;
+      align-items: center;
+      gap: 12px;
+      grid-template-columns: min-content 1fr;
+    `
+
+    const iconWrapper = document.createElement('div')
+    iconWrapper.style = `
+      display: flex;
+      border-radius: 4px;
+      box-shadow: var(--surface-overlay) 0px 1px 3px 0px;
+      border: 1px solid rgba(38, 85, 115, 0.15);
+      overflow: hidden;
+      padding: 0.6rem;
+      align-items: center;
+    `
+    const iconNode = iconRenderer(args)
+
+    const label = document.createElement('span')
+    label.innerText = args.name || getClassName(args)?.split('--').pop() || ''
+
+    const nameNode = document.createElement('code')
+    nameNode.innerText = getClassName(args)
+    nameNode.style = `
+      grid-column: 1 / -1;
+      user-select: all;
+    `
+
+    iconWrapper.appendChild(iconNode)
+    item.appendChild(iconWrapper)
+    item.appendChild(label)
+    item.appendChild(nameNode)
+
+    return item
+}
+
+// Get all icon dynamically
 const allIconNames: string[] = []
-const svgModules = import.meta.glob('../../app/assets/img/icons/*/*.svg')
+const svgModules = import.meta.glob('../app/assets/img/icons/*/*.svg')
 
 const svgList = Object.keys(svgModules).reduce(
     (acc: Record<string, IconData[]>, path) => {
@@ -85,7 +149,7 @@ export const All: Story = {
     },
 }
 
-export const ClassName: Story = {
+export const FromClassName: Story = {
     render: (args) => {
         return iconRenderer(args)
     },
@@ -105,30 +169,40 @@ export const ClassName: Story = {
     },
 }
 
-export const FromSvg: Story = {
+const allPath = Object.values(svgList).flatMap((icons) =>
+    icons.map((icon) => icon.path),
+)
+export const FromSvgAssetPath: Story = {
     render: (args) => {
         const node = document.createElement('div')
         node.style = `
             width: 100px;
             height: 100px;
         `
-        const svgPath = args.svgPath || `ri/close-large-line`
 
-        try {
-            import(`../../app/assets/img/icons/${svgPath}`).then((module) => {
-                console.log('module', module)
-                node.style.background = `url("${module.default}")`
-                node.style.backgroundSize = 'contain'
-                node.style.backgroundRepeat = 'no-repeat'
-            })
-        } catch (error) {
-            console.error('Error loading SVG:', error)
+        if (args.svgUrl) {
+            try {
+                import(args.svgUrl).then((module) => {
+                    console.log('module', module)
+                    node.style.background = `url("${module.default}")`
+                    node.style.backgroundSize = 'contain'
+                    node.style.backgroundRepeat = 'no-repeat'
+                })
+            } catch (error) {
+                console.error('Error loading SVG:', error)
+            }
         }
 
         return node
     },
+    argTypes: {
+        svgUrl: {
+            options: allPath,
+            control: { type: 'select' },
+        },
+    },
     args: {
-        svgPath: 'ri/close-large-line.svg',
+        svgUrl: allPath[0],
     },
     parameters: {
         layout: 'centered',
