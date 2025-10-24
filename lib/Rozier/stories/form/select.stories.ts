@@ -52,8 +52,8 @@ function itemRenderer(args: Args) {
     args.options.forEach((optionData) => {
         const option = document.createElement('option')
 
-        const opttionKeys = Object.keys(optionData) as (keyof Option)[]
-        opttionKeys.forEach((key) => {
+        const optionKeys = Object.keys(optionData) as (keyof Option)[]
+        optionKeys.forEach((key) => {
             const value = optionData[key]
             if (value) option.setAttribute(key, value.toString())
         })
