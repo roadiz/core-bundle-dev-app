@@ -10,10 +10,8 @@ type IconData = {
 }
 
 const allIconNames: string[] = []
-const svgModules = import.meta.glob('../../app/assets/img/icons/*/*.svg', {
-    import: 'default',
-    eager: false,
-})
+const svgModules = import.meta.glob('../../app/assets/img/icons/*/*.svg')
+
 const svgList = Object.keys(svgModules).reduce(
     (acc: Record<string, IconData[]>, path) => {
         const parts = path.split('/')
