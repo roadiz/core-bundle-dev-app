@@ -19,10 +19,10 @@ export default class RzSwitch extends HTMLButtonElement {
             this.setAttribute('aria-checked', 'false')
         }
 
-        this.addEventListener('click', this.onClick.bind(this))
+        this.addEventListener('click', this.onClick)
     }
 
     disconnectedCallback() {
-        this.removeEventListener('click', this.onClick.bind(this))
+        this.removeEventListener('click', this.onClick)
     }
 }
