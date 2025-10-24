@@ -157,14 +157,14 @@ abstract class AbstractAdminController extends AbstractController
 
     public function editAction(Request $request, int|string $id): ?Response
     {
-        $this->denyAccessUnlessGranted($this->getRequiredEditionRole());
-        $this->additionalAssignation($request);
-
         /** @var mixed|object|null $item */
         $item = $this->getRepository()->find($id);
         if (!($item instanceof PersistableInterface)) {
             throw $this->createNotFoundException();
         }
+
+        $this->denyAccessUnlessGranted($this->getRequiredEditionRole(), $item);
+        $this->additionalAssignation($request);
 
         $this->prepareWorkingItem($item);
         $this->denyAccessUnlessItemGranted($item);
@@ -211,15 +211,15 @@ abstract class AbstractAdminController extends AbstractController
 
     public function deleteAction(Request $request, int|string $id): ?Response
     {
-        $this->denyAccessUnlessGranted($this->getRequiredDeletionRole());
-        $this->additionalAssignation($request);
-
         /** @var mixed|object|null $item */
         $item = $this->getRepository()->find($id);
 
         if (!($item instanceof PersistableInterface)) {
             throw $this->createNotFoundException();
         }
+
+        $this->denyAccessUnlessGranted($this->getRequiredDeletionRole(), $item);
+        $this->additionalAssignation($request);
 
         $this->prepareWorkingItem($item);
         $this->denyAccessUnlessItemGranted($item);
