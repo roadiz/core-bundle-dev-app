@@ -12,7 +12,7 @@
 	padding: var(--rz-button-padding, 6px);
 	color: var(--rz-button-color, var(--button-basic-medium-content-on-light, #18191B));
 	border: var(--rz-button-border, var(--rz-button-border-width) solid var(--rz-button-border-color, var(--button-basic-medium-border-on-light, #DADADA)));
-	border-radius: var(--rz-button-border-radius,  var(--rz-button-border-radius-default));
+	border-radius: var(--rz-button-border-radius, var(--rz-button-border-radius-default));
 	background-color: var(--rz-button-background-color, none);
 	cursor: var(--rz-button-cursor, pointer);
 	transition: var(--rz-button-transition, border-color 0.3s, background-color 0.3s, color 0.3s);
@@ -44,7 +44,7 @@
 }
 
 .rz-button--border-radius-right {
-	--rz-button-border-radius: 0 var(--rz-button-border-radius-default)  var(--rz-button-border-radius-default) 0;
+	--rz-button-border-radius: 0 var(--rz-button-border-radius-default) var(--rz-button-border-radius-default) 0;
 }
 
 .rz-button--border-radius-auto {
@@ -53,7 +53,7 @@
 	}
 
 	&:last-child:not(:only-child) {
-		--rz-button-border-radius: 0 var(--rz-button-border-radius-default)  var(--rz-button-border-radius-default) 0;
+		--rz-button-border-radius: 0 var(--rz-button-border-radius-default) var(--rz-button-border-radius-default) 0;
 	}
 
 	& + & {
