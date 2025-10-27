@@ -37,6 +37,8 @@ roadiz_core:
     inheritance:
         type: single_table
     projectLogoUrl: '%env(string:PROJECT_LOGO_URL)%'
+    generatedClassNamespace: '%env(string:APP_GENERATED_CLASS_NAMESPACE)%'
+    generatedRepositoryNamespace: '%env(string:APP_GENERATED_REPOSITORY_NAMESPACE)%'
     reverseProxyCache:
         frontend:
             default:

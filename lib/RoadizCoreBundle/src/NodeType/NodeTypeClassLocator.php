@@ -9,8 +9,14 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
-class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
+final readonly class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
 {
+    public function __construct(
+        private string $generatedClassNamespace,
+        private string $generatedRepositoryNamespace
+    ) {
+    }
+
     #[\Override]
     public function getSourceEntityClassName(NodeTypeInterface $nodeType): string
     {
@@ -46,12 +52,12 @@ class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
     #[\Override]
     public function getClassNamespace(): string
     {
-        return 'App\\GeneratedEntity';
+        return $this->generatedClassNamespace;
     }
 
     #[\Override]
     public function getRepositoryNamespace(): string
     {
-        return 'App\\GeneratedEntity\\Repository';
+        return $this->generatedRepositoryNamespace;
     }
 }

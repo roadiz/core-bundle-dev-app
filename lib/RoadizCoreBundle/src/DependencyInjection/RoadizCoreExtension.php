@@ -74,6 +74,8 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.use_constraint_violation_list', $config['useConstraintViolationList']);
         $container->setParameter('roadiz_core.custom_form_post_operation_name', $config['customFormPostOperationName']);
         $container->setParameter('roadiz_core.project_logo_url', $config['projectLogoUrl']);
+        $container->setParameter('roadiz_core.generated_class_namespace', $config['generatedClassNamespace']);
+        $container->setParameter('roadiz_core.generated_repository_namespace', $config['generatedRepositoryNamespace']);
 
         /*
          * Assets config
