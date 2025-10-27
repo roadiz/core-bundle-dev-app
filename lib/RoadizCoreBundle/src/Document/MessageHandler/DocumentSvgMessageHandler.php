@@ -6,11 +6,14 @@ namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
 
 use enshrined\svgSanitize\Sanitizer;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
+use RZ\Roadiz\CoreBundle\Document\Message\DocumentSvgMessage;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\SvgSizeResolver;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
+#[AsMessageHandler(handles: DocumentSvgMessage::class, priority: -100)]
 final class DocumentSvgMessageHandler extends AbstractLockingDocumentMessageHandler
 {
     #[\Override]
