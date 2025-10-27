@@ -21,7 +21,6 @@
 			/* Make button border appear above others */
 			position: relative;
 			z-index: 2;
-
 		}
 	}
 }
