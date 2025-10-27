@@ -76,7 +76,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-BBfVhLSu.js",
+    "file": "NodeSourceEditPage-Dk3Wq0SM.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -93,7 +93,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-DBRHuJHf.js",
+    "file": "RzFileUpload-CZYVxxxg.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -115,6 +115,12 @@
     "src": "app/custom-elements/RzSaveButton.js",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzWorkspaceItemButton.ts": {
+    "file": "RzWorkspaceItemButton-D7WOOsdI.js",
+    "name": "RzWorkspaceItemButton",
+    "src": "app/custom-elements/RzWorkspaceItemButton.ts",
+    "isDynamicEntry": true
+  },
   "app/custom-elements/TagAutocomplete.js": {
     "file": "TagAutocomplete-DDko2VyZ.js",
     "name": "TagAutocomplete",
@@ -122,7 +128,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-CLet85pq.js",
+    "file": "TagEditPage-C_R39uG5.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -133,7 +139,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-1j0VXzuG.js",
+    "file": "main-lEcbi4Oq.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -152,15 +158,16 @@
       "app/custom-elements/RzFileUpload.ts",
       "app/custom-elements/RzInputColor.js",
       "app/custom-elements/RzSaveButton.js",
+      "app/custom-elements/RzWorkspaceItemButton.ts",
       "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "main-tVJEtgqt.css"
+      "main-CXP0G_nu.css"
     ]
   },
   "app/shared.js": {
-    "file": "shared-SagsygOs.js",
+    "file": "shared-CCMNpraK.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -168,7 +175,7 @@
       "_jquery-Cs7-jZ1a.js"
     ],
     "css": [
-      "shared-OVSkAK7f.css"
+      "shared-BpQo9Lb-.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
