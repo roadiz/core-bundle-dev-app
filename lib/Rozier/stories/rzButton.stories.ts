@@ -32,7 +32,7 @@ export type ButtonArgs = {
  * Add the `disabled` attribute on the button element or add the modifier class `.rz-button--disabled` to apply the disabled state style.
  */
 const meta: Meta<ButtonArgs> = {
-    title: 'Components/RzButton',
+    title: 'Components/Button',
     tags: ['autodocs'],
     args: {
         label: 'button label',
@@ -182,26 +182,7 @@ export const DisabledList: Story = {
     },
 }
 
-export const BorderRadius: Story = {
-    render: (args) => {
-        const wrapper = document.createElement('div')
-
-        Array.from({ length: 5 }, () => buttonRenderer(args)).forEach((btn) => {
-            wrapper.appendChild(btn)
-        })
-
-        return wrapper
-    },
-    args: {
-        label: '',
-        emphasis: 'medium',
-        size: 'lg',
-        iconClass: 'rz-icon-ri--add-large-line',
-    },
-}
-
 /* RENDERER */
-
 function buttonSizeListRenderer(args: ButtonArgs) {
     const wrapper = document.createElement('div')
     wrapper.style =
