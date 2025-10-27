@@ -30,14 +30,18 @@ export function buttonRenderer(
         .join(' ')
         .trim()
 
-    const labelNode = document.createElement('span')
-    labelNode.className = [`${className}__label`].join(' ')
-    labelNode.innerText = args.label
-    if (args.label) buttonNode.appendChild(labelNode)
+    if (args.label) {
+        const labelNode = document.createElement('span')
+        labelNode.className = [`${className}__label`].join(' ')
+        labelNode.innerText = args.label
+        buttonNode.appendChild(labelNode)
+    }
 
-    const iconNode = document.createElement('span')
-    iconNode.className = [`${className}__icon`, args.iconClass].join(' ')
-    if (args.iconClass) buttonNode.appendChild(iconNode)
+    if (args.iconClass) {
+        const iconNode = document.createElement('span')
+        iconNode.className = [`${className}__icon`, args.iconClass].join(' ')
+        buttonNode.appendChild(iconNode)
+    }
 
     return buttonNode
 }
