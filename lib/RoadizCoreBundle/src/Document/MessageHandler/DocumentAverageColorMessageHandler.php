@@ -11,19 +11,24 @@ use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
+use RZ\Roadiz\CoreBundle\Document\Message\DocumentAverageColorMessage;
 use RZ\Roadiz\Documents\AverageColorResolver;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler(handles: DocumentAverageColorMessage::class)]
 final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMessageHandler
 {
     public function __construct(
         private readonly ImageManager $imageManager,
+        LockFactory $lockFactory,
         ManagerRegistry $managerRegistry,
         LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage,
     ) {
-        parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
+        parent::__construct($lockFactory, $managerRegistry, $messengerLogger, $documentsStorage);
     }
 
     #[\Override]
