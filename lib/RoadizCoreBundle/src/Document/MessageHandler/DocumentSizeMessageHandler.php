@@ -11,18 +11,23 @@ use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
+use RZ\Roadiz\CoreBundle\Document\Message\DocumentSizeMessage;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler(handles: DocumentSizeMessage::class)]
 final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHandler
 {
     public function __construct(
         private readonly ImageManager $imageManager,
+        LockFactory $lockFactory,
         ManagerRegistry $managerRegistry,
         LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage,
     ) {
-        parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
+        parent::__construct($lockFactory, $managerRegistry, $messengerLogger, $documentsStorage);
     }
 
     #[\Override]
@@ -37,6 +42,12 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
         if (!$document instanceof SizeableInterface) {
             return;
         }
+
+        // If media size is already set, do nothing.
+        if ($document->getImageWidth() > 0 && $document->getImageHeight() > 0) {
+            return;
+        }
+
         try {
             $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($document->getMountPath()));
             $document->setImageWidth($imageProcess->width());
