@@ -192,17 +192,9 @@ export const BorderRadius: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
 
-        const firstButton = buttonRenderer(args)
-        wrapper.appendChild(firstButton)
-
-        const secondButton = buttonRenderer(args)
-        wrapper.appendChild(secondButton)
-
-        const thirdButton = buttonRenderer(args)
-        wrapper.appendChild(thirdButton)
-
-        const fourthButton = buttonRenderer(args)
-        wrapper.appendChild(fourthButton)
+        Array.from({ length: 5 }, () => buttonRenderer(args)).forEach((btn) => {
+            wrapper.appendChild(btn)
+        })
 
         return wrapper
     },
