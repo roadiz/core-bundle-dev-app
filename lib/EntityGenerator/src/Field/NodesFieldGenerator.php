@@ -92,7 +92,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
                 $defaultValuesParsed
             );
             $nodeSourceClasses = array_map(
-                fn ($nodeType) => '\\'.$nodeType->getSourceEntityFullQualifiedClassName().'::class',
+                fn ($nodeType) => '\\'.$this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType).'::class',
                 array_filter($nodeTypes)
             );
         }

@@ -21,7 +21,7 @@ final readonly class DeclarationGeneratorFactory
     public function __construct(
         private ParameterBag $nodeTypesBag,
         private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
-    ){
+    ) {
     }
 
     public function getNodeTypesBag(): ParameterBag
@@ -47,7 +47,7 @@ final readonly class DeclarationGeneratorFactory
     {
         return match (true) {
             $field->isDocuments() => new DocumentsFieldGenerator($field, $this->nodeTypesBag),
-            $field->isNodes() => new NodeReferencesFieldGenerator($this->nodeTypeClassLocator ,$field, $this->nodeTypesBag),
+            $field->isNodes() => new NodeReferencesFieldGenerator($this->nodeTypeClassLocator, $field, $this->nodeTypesBag),
             $field->isChildrenNodes() => new ChildrenNodeFieldGenerator($field, $this->nodeTypesBag),
             $field->isMultiple(), $field->isEnum() => new EnumFieldGenerator($field, $this->nodeTypesBag),
             default => new ScalarFieldGenerator($field, $this->nodeTypesBag),

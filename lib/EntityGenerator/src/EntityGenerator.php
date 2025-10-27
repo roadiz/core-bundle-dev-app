@@ -74,7 +74,6 @@ final class EntityGenerator implements EntityGeneratorInterface
             'custom_form_class',
             'custom_form_proxy_class',
             'repository_class',
-            'namespace',
             'use_native_json',
             'use_api_platform_filters',
             'use_document_dto',
@@ -87,7 +86,6 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setAllowedTypes('custom_form_class', 'string');
         $resolver->setAllowedTypes('custom_form_proxy_class', 'string');
         $resolver->setAllowedTypes('repository_class', 'string');
-        $resolver->setAllowedTypes('namespace', 'string');
         $resolver->setAllowedTypes('use_native_json', 'bool');
         $resolver->setAllowedTypes('use_api_platform_filters', 'bool');
         $resolver->setAllowedTypes('use_document_dto', 'bool');
@@ -104,7 +102,6 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setNormalizer('custom_form_class', $normalizeClassName);
         $resolver->setNormalizer('custom_form_proxy_class', $normalizeClassName);
         $resolver->setNormalizer('repository_class', $normalizeClassName);
-        $resolver->setNormalizer('namespace', $normalizeClassName);
     }
 
     private function getFieldGenerator(NodeTypeFieldInterface $field): ?AbstractFieldGenerator
@@ -158,7 +155,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $file->addComment('IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.');
 
         $namespace = $file
-            ->addNamespace(trim((string) $this->options['namespace'], '\\'))
+            ->addNamespace(trim($this->nodeTypeClassLocator->getClassNamespace(), '\\'))
             ->addUse(\ApiPlatform\Metadata\ApiFilter::class)
             ->addUse(\ApiPlatform\Metadata\ApiProperty::class)
             ->addUse(\ApiPlatform\Serializer\Filter\PropertyFilter::class)

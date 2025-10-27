@@ -2,15 +2,21 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\CoreBundle\NodeType;
+namespace RZ\Roadiz\EntityGenerator\Tests;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
-class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
+class SimpleNodeTypeClassLocator implements NodeTypeClassLocatorInterface
 {
+    public function __construct(
+        public string $classNamespace,
+        public string $repositoryNamespace,
+    ) {
+    }
+
     #[\Override]
     public function getSourceEntityClassName(NodeTypeInterface $nodeType): string
     {
@@ -40,18 +46,18 @@ class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
     public function getRepositoryFullQualifiedClassName(NodeTypeInterface $nodeType): string
     {
         /* @phpstan-ignore-next-line */
-        return $this->getRepositoryNamespace().'\\'.self::getRepositoryClassName($nodeType);
+        return $this->getRepositoryNamespace().'\\'.$this->getRepositoryClassName($nodeType);
     }
 
     #[\Override]
     public function getClassNamespace(): string
     {
-        return 'App\\GeneratedEntity';
+        return $this->classNamespace;
     }
 
     #[\Override]
     public function getRepositoryNamespace(): string
     {
-        return 'App\\GeneratedEntity\\Repository';
+        return $this->repositoryNamespace;
     }
 }
