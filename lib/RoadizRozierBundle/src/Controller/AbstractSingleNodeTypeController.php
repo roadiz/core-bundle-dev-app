@@ -8,10 +8,12 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDeletedEvent;
@@ -57,6 +59,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         protected readonly AllStatusesNodeRepository $nodeRepository,
         protected readonly NodeNamePolicyInterface $nodeNamePolicy,
         protected readonly NodeWorkflow $workflow,
+        protected readonly HandlerFactoryInterface $handlerFactory,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
@@ -296,20 +299,6 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
 
     /**
      * @param TEntity $item
-     *
-     * @return Event[]
-     */
-    #[\Override]
-    protected function createDeleteEvent(PersistableInterface $item): array
-    {
-        return [
-            new NodeDeletedEvent($item->getNode()),
-            new NodesSourcesDeletedEvent($item),
-        ];
-    }
-
-    /**
-     * @param TEntity $item
      */
     protected function redirectToEditPage(PersistableInterface $item): RedirectResponse
     {
@@ -410,13 +399,32 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
             /**
              * @param TEntity $item
              */
-            function (PersistableInterface $item) {
-                $this->removeItem($item);
-                $this->removeItem($item->getNode());
+            function (NodesSources $item) {
+                $this->deleteNodesSources($item);
             },
             'bulkDeleteForm',
-            fn (PersistableInterface $item) => $this->createDeleteEvent($item),
+            // Do not trigger events, they are triggered in deleteNodesSources method
+            fn (PersistableInterface $item) => [],
         );
+    }
+
+    /**
+     * Delete node sources and possibly its node if it was the last source.
+     */
+    private function deleteNodesSources(NodesSources $data): void
+    {
+        $node = $data->getNode();
+
+        if (1 === $node->getNodeSources()->count()) {
+            $this->eventDispatcher->dispatch(new NodeDeletedEvent($node));
+
+            /** @var NodeHandler $nodeHandler */
+            $nodeHandler = $this->handlerFactory->getHandler($node);
+            $nodeHandler->softRemoveWithChildren();
+        } else {
+            $this->eventDispatcher->dispatch(new NodesSourcesDeletedEvent($data));
+            $this->removeItem($data);
+        }
     }
 
     #[\Override]
