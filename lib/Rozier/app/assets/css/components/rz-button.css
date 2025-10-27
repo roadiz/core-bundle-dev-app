@@ -117,7 +117,6 @@
 	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
 	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
 	--rz-button-border: none;
-	/* --rz-button-transition: background-color 0.3s, color 0.3s; */
 
 	/* Disabled */
 	--rz-button-disabled-color: var(--button-basic-high-content-on-light-disabled, #9A9A9A);
@@ -151,7 +150,6 @@
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-medium-content-on-light, #18191B);
 	--rz-button-border-color: var(--button-basic-medium-border-on-light, #DADADA);
-	/* --rz-button-transition: background-color 0.3s, border-color 0.3s, color 0.3s; */
 
 	/* Disabled */
 	--rz-button-disabled-border: 1px solid var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
@@ -185,7 +183,6 @@
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
 	--rz-button-border: none;
-	/* --rz-button-transition: background-color 0.3s; */
 
 	/* Disabled */
 	--rz-button-disabled-color: var(--button-basic-low-content-on-light-disabled, #9A9A9A);
