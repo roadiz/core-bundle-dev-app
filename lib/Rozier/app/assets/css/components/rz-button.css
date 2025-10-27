@@ -38,43 +38,6 @@
 	background-color: var(--rz-button-disabled-background-color, unset);
 }
 
-/* RADIUS */
-.rz-button--border-radius-left {
-	--rz-button-border-radius: var(--rz-button-border-radius-default) 0 0 var(--rz-button-border-radius-default);
-}
-
-.rz-button--border-radius-right {
-	--rz-button-border-radius: 0 var(--rz-button-border-radius-default) var(--rz-button-border-radius-default) 0;
-}
-
-.rz-button--border-radius-auto {
-	&:first-child:not(:only-child) {
-		--rz-button-border-radius: var(--rz-button-border-radius-default) 0 0 var(--rz-button-border-radius-default);
-	}
-
-	&:last-child:not(:only-child) {
-		--rz-button-border-radius: 0 var(--rz-button-border-radius-default) var(--rz-button-border-radius-default) 0;
-	}
-
-	& + & {
-		/* To avoid double border when buttons are side by side */
-		margin-left: calc(var(--rz-button-border-width) * -1);
-	}
-
-	&:not(:first-child):not(:last-child) {
-		--rz-button-border-radius: 0;
-	}
-
-	@media (hover: hover) {
-		&:hover {
-			/* Make button border appear above others */
-			position: relative;
-			z-index: 2;
-
-		}
-	}
-}
-
 /* SIZES */
 .rz-button--size-xs {
 	--rz-button-font-size: 13px;

@@ -1,19 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { buttonRenderer } from '../app/utils/storybook/renderer/button'
 
-const COMPONENT_CLASS_NAME = 'rz-button'
 const EMPHASIS = ['low', 'medium', 'high'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
-const BORDER_RADIUS_DIRECTION = ['left', 'right', 'auto'] as const
 
 export type ButtonArgs = {
-    label: string
-    emphasis: (typeof EMPHASIS)[number]
-    size: (typeof SIZES)[number]
-    disabled: boolean
-    iconClass: string
-    onDark: boolean
-    additionalClasses: string
-    radiusEnabled: (typeof BORDER_RADIUS_DIRECTION)[number]
+    label?: string
+    emphasis?: (typeof EMPHASIS)[number]
+    size?: (typeof SIZES)[number]
+    disabled?: boolean
+    iconClass?: string
+    onDark?: boolean
+    additionalClasses?: string
 }
 
 /** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
@@ -43,10 +41,6 @@ const meta: Meta<ButtonArgs> = {
         onDark: false,
     },
     argTypes: {
-        radiusEnabled: {
-            control: { type: 'radio' },
-            options: ['', ...BORDER_RADIUS_DIRECTION],
-        },
         emphasis: {
             control: { type: 'select' },
             options: [...EMPHASIS, ''],
@@ -203,55 +197,10 @@ export const BorderRadius: Story = {
         emphasis: 'medium',
         size: 'lg',
         iconClass: 'rz-icon-ri--add-large-line',
-        radiusEnabled: 'auto',
     },
 }
 
 /* RENDERER */
-
-function buttonRenderer(args: ButtonArgs, attrs: Record<string, string> = {}) {
-    const buttonNode = document.createElement('button')
-    const attributesEntries = Object.entries(attrs)
-    if (attributesEntries.length) {
-        attributesEntries.forEach(([key, value]) => {
-            buttonNode.setAttribute(key, value)
-        })
-    }
-    const emphasisClass =
-        args.emphasis && `${COMPONENT_CLASS_NAME}--emphasis-${args.emphasis}`
-    const sizeClass = args.size && `${COMPONENT_CLASS_NAME}--size-${args.size}`
-    const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
-    const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
-    const radiusClass =
-        args.radiusEnabled &&
-        `${COMPONENT_CLASS_NAME}--border-radius-${args.radiusEnabled}`
-
-    buttonNode.className = [
-        COMPONENT_CLASS_NAME,
-        emphasisClass,
-        sizeClass,
-        disabledClass,
-        onDarkClass,
-        radiusClass,
-        args.additionalClasses,
-    ]
-        .filter((c) => !!c)
-        .join(' ')
-        .trim()
-
-    const labelNode = document.createElement('span')
-    labelNode.className = [`${COMPONENT_CLASS_NAME}__label`].join(' ')
-    labelNode.innerText = args.label
-    if (args.label) buttonNode.appendChild(labelNode)
-
-    const iconNode = document.createElement('span')
-    iconNode.className = [`${COMPONENT_CLASS_NAME}__icon`, args.iconClass].join(
-        ' ',
-    )
-    if (args.iconClass) buttonNode.appendChild(iconNode)
-
-    return buttonNode
-}
 
 function buttonSizeListRenderer(args: ButtonArgs) {
     const wrapper = document.createElement('div')
