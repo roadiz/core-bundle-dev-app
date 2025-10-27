@@ -9,23 +9,28 @@ use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\DocumentFactory;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
+use RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+#[AsMessageHandler(handles: DocumentPdfMessage::class)]
 final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHandler
 {
     public function __construct(
         private readonly DocumentFactory $documentFactory,
         private readonly EventDispatcherInterface $eventDispatcher,
+        LockFactory $lockFactory,
         ManagerRegistry $managerRegistry,
         LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage,
     ) {
-        parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
+        parent::__construct($lockFactory, $managerRegistry, $messengerLogger, $documentsStorage);
     }
 
     #[\Override]

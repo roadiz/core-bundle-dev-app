@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.21...v2.6.22) - 2025-10-27
+
+### Bug Fixes
+
+- **(document-handlers)** implement shared locking mechanism for async operations with Symfony Lock - ([86a884c](https://github.com/roadiz/core-bundle-dev-app/commit/86a884c030b2ef101304823023111be94ddd45b8))
+
 ## [2.6.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.20...v2.6.21) - 2025-10-23
 
 ### Bug Fixes
