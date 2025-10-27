@@ -8,7 +8,7 @@ type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/RzForm/Switch',
+    title: 'Components/Form/Switch',
     args: {
         checked: false,
     },

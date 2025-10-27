@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { INPUT_TYPES } from '../../app/custom-elements/RzInput'
+import { INPUT_TYPES } from '../app/custom-elements/RzInput'
 
 const COMPONENT_CLASS = 'rz-input'
 const COMPONENT_CLASS_NAME = 'rz-input'
@@ -13,7 +13,7 @@ type fieldArgs = {
 }
 
 const meta: Meta<fieldArgs> = {
-    title: 'Components/RzForm/Input',
+    title: 'Components/Form/Input',
     args: {
         name: 'input-name',
     },

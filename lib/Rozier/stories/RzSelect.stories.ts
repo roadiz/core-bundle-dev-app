@@ -17,7 +17,7 @@ type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/RzForm/Select',
+    title: 'Components/Form/Select',
     args: {
         required: false,
         options: [
