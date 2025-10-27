@@ -110,7 +110,7 @@
 	height: 24px;
 
 	&::after {
-		content: attr(value);  /* Use attr() as fallback not working on safari */
+		content: attr(value);
 		white-space: pre;
 		min-width: 7ch;
 		display: inline;
@@ -123,6 +123,10 @@
 		margin-right: var(--spacing-4xs, 8px);
 	}
 
+	/*
+	Show placeholder attribute or static fallback if no value is set
+	Use attr(value, attr(placeholder, '#000000')) not working on safari
+	*/
 	&:not([value])[placeholder]::after {
 		content: attr(placeholder)
 	}
