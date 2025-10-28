@@ -6,8 +6,6 @@ namespace RZ\Roadiz\EntityGenerator\Tests;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 class SimpleNodeTypeClassLocator implements NodeTypeClassLocatorInterface
 {
@@ -30,7 +28,7 @@ class SimpleNodeTypeClassLocator implements NodeTypeClassLocatorInterface
     }
 
     /**
-     * @return class-string<NodesSources>
+     * @return class-string
      */
     #[\Override]
     public function getSourceEntityFullQualifiedClassName(NodeTypeInterface $nodeType): string
@@ -40,7 +38,7 @@ class SimpleNodeTypeClassLocator implements NodeTypeClassLocatorInterface
     }
 
     /**
-     * @return class-string<NodesSourcesRepository>
+     * @return class-string
      */
     #[\Override]
     public function getRepositoryFullQualifiedClassName(NodeTypeInterface $nodeType): string

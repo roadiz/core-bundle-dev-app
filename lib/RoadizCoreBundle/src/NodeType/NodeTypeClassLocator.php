@@ -11,6 +11,10 @@ use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 final readonly class NodeTypeClassLocator implements NodeTypeClassLocatorInterface
 {
+    /**
+     * @param non-empty-string $generatedClassNamespace
+     * @param non-empty-string $generatedRepositoryNamespace
+     */
     public function __construct(
         private string $generatedClassNamespace,
         private string $generatedRepositoryNamespace,

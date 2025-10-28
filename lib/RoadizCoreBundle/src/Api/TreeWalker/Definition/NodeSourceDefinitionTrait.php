@@ -30,7 +30,7 @@ trait NodeSourceDefinitionTrait
         $nodeTypes = $this->getNodeTypes($this->context->getNodeTypesBag());
         if (1 === count($nodeTypes)) {
             $nodeType = array_shift($nodeTypes);
-            $entityName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
+            $entityName = $this->context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType);
         } else {
             $entityName = NodesSources::class;
         }
@@ -58,7 +58,7 @@ trait NodeSourceDefinitionTrait
         if (NodesSources::class === $entityName) {
             $qb->andWhere($qb->expr()->orX(
                 ...array_map(
-                    fn (NodeType $nodeType) => $qb->expr()->isInstanceOf($alias, $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)),
+                    fn (NodeType $nodeType) => $qb->expr()->isInstanceOf($alias, $this->context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType)),
                     $nodeTypes
                 )
             ));

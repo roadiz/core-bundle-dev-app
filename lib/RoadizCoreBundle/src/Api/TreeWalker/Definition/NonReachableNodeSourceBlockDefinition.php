@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition;
 
-use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -19,7 +18,6 @@ final readonly class NonReachableNodeSourceBlockDefinition
 
     public function __construct(
         private WalkerContextInterface $context,
-        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private bool $onlyVisible = true,
     ) {
     }

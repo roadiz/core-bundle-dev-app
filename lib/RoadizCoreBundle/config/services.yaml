@@ -374,7 +374,7 @@ services:
         arguments:
             - '@RZ\Roadiz\CoreBundle\Bag\NodeTypes'
             - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
-            - '@RZ\Roadiz\CoreBundle\NodeType\NodeTypeClassLocator'
+            - '@RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface'
             - '%roadiz_core.entity_generator_factory.options%'
 
     gedmo.mapping.driver.attribute:

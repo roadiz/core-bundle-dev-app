@@ -52,13 +52,14 @@ final readonly class NodesSourcesInheritanceSubscriber
             $nodeTypes = $this->nodeTypes->all();
             $map = [];
             foreach ($nodeTypes as $type) {
-                if (\class_exists($this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($type))) {
-                    $map[\mb_strtolower($type->getName())] = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($type);
+                $nodeTypeClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($type);
+                if (\class_exists($nodeTypeClassName)) {
+                    $map[\mb_strtolower($type->getName())] = $nodeTypeClassName;
                 } else {
                     $this->logger->critical(sprintf(
                         '"%s" node-type is registered in database but source entity class "%s" does not exist.',
                         $type->getName(),
-                        $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($type)
+                        $nodeTypeClassName
                     ));
                 }
             }

@@ -75,8 +75,9 @@ final class NodesSourcesExtension extends AbstractExtension
         $tests = [];
 
         foreach ($this->nodeTypesBag->all() as $nodeType) {
-            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType));
-            $tests[] = new TwigTest($this->nodeTypeClassLocator->getSourceEntityClassName($nodeType), fn ($mixed) => null !== $mixed && $mixed::class === $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType));
+            $nodeTypeClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
+            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeTypeClassName);
+            $tests[] = new TwigTest($this->nodeTypeClassLocator->getSourceEntityClassName($nodeType), fn ($mixed) => null !== $mixed && $mixed::class === $nodeTypeClassName);
         }
 
         return $tests;

@@ -38,6 +38,8 @@ final class NodeTypesValidateFilesCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         $nodeTypes = [];
         if ($onlyFile = $input->getArgument('file')) {
             $nodeTypes[] = $this->repository->findOneByName($onlyFile);
@@ -49,14 +51,12 @@ final class NodeTypesValidateFilesCommand extends Command
             foreach ($nodeTypes as $nodeType) {
                 $repositoryClassName = $this->nodeTypeClassLocator->getRepositoryFullQualifiedClassName($nodeType);
                 if (!class_exists($repositoryClassName)) {
-                    $io = new SymfonyStyle($input, $output);
                     $io->error('Missing repository class: '.$repositoryClassName);
 
                     return Command::FAILURE;
                 }
                 $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
                 if (!class_exists($entityClassName)) {
-                    $io = new SymfonyStyle($input, $output);
                     $io->error('Missing entity class: '.$entityClassName);
 
                     return Command::FAILURE;
@@ -64,7 +64,6 @@ final class NodeTypesValidateFilesCommand extends Command
             }
         }
 
-        $io = new SymfonyStyle($input, $output);
         $io->success('All node-type files are valid.');
 
         return Command::SUCCESS;
