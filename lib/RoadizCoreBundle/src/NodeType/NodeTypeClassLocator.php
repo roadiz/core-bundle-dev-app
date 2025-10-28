@@ -13,7 +13,7 @@ final readonly class NodeTypeClassLocator implements NodeTypeClassLocatorInterfa
 {
     public function __construct(
         private string $generatedClassNamespace,
-        private string $generatedRepositoryNamespace
+        private string $generatedRepositoryNamespace,
     ) {
     }
 
