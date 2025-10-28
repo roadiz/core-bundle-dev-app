@@ -28,14 +28,6 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function legendRenderer(legendText: string) {
-    const legend = document.createElement('legend')
-    legend.classList.add(`${COMPONENT_CLASS_NAME}__legend`)
-    legend.textContent = legendText
-
-    return legend
-}
-
 const commonsInputList = [
     {
         type: 'text',
@@ -60,7 +52,9 @@ function fieldsetRenderer(args: Args) {
     ].filter((c) => c) as string[]
     fieldset.classList.add(...fieldsetClasses)
 
-    const legend = legendRenderer(args.legend)
+    const legend = document.createElement('legend')
+    legend.classList.add(`${COMPONENT_CLASS_NAME}__legend`)
+    legend.textContent = args.legend
     fieldset.appendChild(legend)
 
     if (args.description) {
