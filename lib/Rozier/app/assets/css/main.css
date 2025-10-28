@@ -18,3 +18,8 @@
 @import './components/rz-file-upload.css';
 @import './components/rz-workspace-item.css';
 @import './components/rz-badge.css';
+
+/* Components: Form */
+@import './components/rz-switch.css';
+@import './components/rz-input.css';
+@import './components/rz-select.css';
