@@ -1,22 +1,22 @@
 .rz-fieldset {
-	all: unset;
-	display: block;
+    all: unset;
+    display: block;
 
-	.rz-message {
-		margin-top: var(--spacing-4xs, 8px);
-	}
+    .rz-message {
+        margin-top: var(--spacing-4xs, 8px);
+    }
 }
 
 .rz-fieldset__legend {
-	all: unset;
-	padding-top: var(--spacing-xs, 16px);
-	font-family: var(--font-family-os-label);
-	font-size: var(--text-form-label-font-size);
-	line-height: var(--text-form-label-line-height);
-	letter-spacing: var(--text-form-label-letter-spacing);
-	font-weight: var(--text-form-label-font-weight);
+    all: unset;
+    padding-top: var(--spacing-xs, 16px);
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-form-label-font-size);
+    line-height: var(--text-form-label-line-height);
+    letter-spacing: var(--text-form-label-letter-spacing);
+    font-weight: var(--text-form-label-font-weight);
 
-	.rz-fieldset--required &::after {
+    .rz-fieldset--required &::after {
         content: '*';
     }
 }
@@ -33,11 +33,11 @@
 
 
 .rz-fieldset__body {
-	display: flex;
-	padding: var(--spacing-md, 24px) 32px var(--spacing-lg, 32px) 32px;
-	flex-direction: column;
-	margin-top: var(--spacing-4xs, 8px);
-	gap: 16px;
-	border-radius: var(--radius-xs, 6px);
-	border: 1px solid var(--line-on-light-secondary, #DADADA);
+    display: flex;
+    padding: var(--spacing-md, 24px) 32px var(--spacing-lg, 32px) 32px;
+    flex-direction: column;
+    margin-top: var(--spacing-4xs, 8px);
+    gap: 16px;
+    border-radius: var(--radius-xs, 6px);
+    border: 1px solid var(--line-on-light-secondary, #DADADA);
 }
