@@ -1,0 +1,26 @@
+.rz-button-group {
+	.rz-button:first-child:not(:only-child) {
+		--rz-button-border-radius: var(--rz-button-border-radius-default) 0 0 var(--rz-button-border-radius-default);
+	}
+
+	.rz-button:last-child:not(:only-child) {
+		--rz-button-border-radius: 0 var(--rz-button-border-radius-default) var(--rz-button-border-radius-default) 0;
+	}
+
+	.rz-button:not(:first-child):not(:last-child) {
+		--rz-button-border-radius: 0;
+	}
+
+	.rz-button + .rz-button {
+		/* To avoid double border when buttons are side by side */
+		margin-left: calc(var(--rz-button-border-width) * -1);
+	}
+
+	@media (hover: hover) {
+		& .rz-button:hover {
+			/* Make button border appear above others */
+			position: relative;
+			z-index: 2;
+		}
+	}
+}
