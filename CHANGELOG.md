@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.40...2.5.41) - 2025-10-28
+
+### Bug Fixes
+
+- Remove length assertion from folder property - ([1fb5063](https://github.com/roadiz/core-bundle-dev-app/commit/1fb506304efb208d5f2d392308c4c1431ec1f1b8))
+
 ## [2.5.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.39...v2.5.40) - 2025-10-23
 
 ### Bug Fixes
