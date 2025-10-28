@@ -8,13 +8,19 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
+use RZ\Roadiz\CoreBundle\Event\Node\NodeDeletedEvent;
+use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesCreatedEvent;
+use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent;
+use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
@@ -29,6 +35,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -37,6 +44,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @template TEntity of NodesSources
  * @template TInputDto of object
+ *
+ * @extends AbstractAdminWithBulkController<TEntity>
  */
 abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkController
 {
@@ -50,6 +59,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         protected readonly AllStatusesNodeRepository $nodeRepository,
         protected readonly NodeNamePolicyInterface $nodeNamePolicy,
         protected readonly NodeWorkflow $workflow,
+        protected readonly HandlerFactoryInterface $handlerFactory,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
@@ -61,6 +71,9 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
+    /**
+     * @return NodesSourcesRepository<TEntity>
+     */
     #[\Override]
     protected function getRepository(): ObjectRepository
     {
@@ -259,7 +272,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
     /**
      * @param TEntity $item
      *
-     * @return \Symfony\Contracts\EventDispatcher\Event[]
+     * @return Event[]
      */
     #[\Override]
     protected function createCreateEvent(PersistableInterface $item): array
@@ -267,6 +280,20 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         return [
             new NodeCreatedEvent($item->getNode()),
             new NodesSourcesCreatedEvent($item),
+        ];
+    }
+
+    /**
+     * @param TEntity $item
+     *
+     * @return Event[]
+     */
+    #[\Override]
+    protected function createUpdateEvent(PersistableInterface $item): array
+    {
+        return [
+            new NodeUpdatedEvent($item->getNode()),
+            new NodesSourcesUpdatedEvent($item),
         ];
     }
 
@@ -352,6 +379,52 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         }
 
         return $this->redirectToEditPage($item);
+    }
+
+    #[\Override]
+    public function bulkDeleteAction(Request $request): Response
+    {
+        $this->additionalAssignation($request);
+
+        return $this->bulkAction(
+            $request,
+            $this->getRequiredDeletionRole(),
+            $this->createDeleteBulkForm(true),
+            $this->createDeleteBulkForm(),
+            fn (string $ids) => $this->createDeleteBulkForm(false, [
+                'id' => $ids,
+            ]),
+            $this->getTemplateFolder().'/bulk_delete.html.twig',
+            '%namespace%.%item%.was_deleted',
+            /**
+             * @param TEntity $item
+             */
+            function (NodesSources $item) {
+                $this->deleteNodesSources($item);
+            },
+            'bulkDeleteForm',
+            // Do not trigger events, they are triggered in deleteNodesSources method
+            fn (PersistableInterface $item) => [],
+        );
+    }
+
+    /**
+     * Delete node sources and possibly its node if it was the last source.
+     */
+    private function deleteNodesSources(NodesSources $data): void
+    {
+        $node = $data->getNode();
+
+        if (1 === $node->getNodeSources()->count()) {
+            $this->eventDispatcher->dispatch(new NodeDeletedEvent($node));
+
+            /** @var NodeHandler $nodeHandler */
+            $nodeHandler = $this->handlerFactory->getHandler($node);
+            $nodeHandler->softRemoveWithChildren();
+        } else {
+            $this->eventDispatcher->dispatch(new NodesSourcesDeletedEvent($data));
+            $this->removeItem($data);
+        }
     }
 
     #[\Override]

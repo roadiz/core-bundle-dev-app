@@ -22,6 +22,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @template TEntity of PersistableInterface
+ */
 abstract class AbstractAdminController extends AbstractController
 {
     protected array $assignation = [];
@@ -46,11 +49,17 @@ abstract class AbstractAdminController extends AbstractController
         ];
     }
 
+    /**
+     * @param TEntity $item
+     */
     protected function prepareWorkingItem(PersistableInterface $item): void
     {
         // Add or modify current working item.
     }
 
+    /**
+     * @return ObjectRepository<TEntity>
+     */
     protected function getRepository(): ObjectRepository
     {
         return $this->managerRegistry->getRepository($this->getEntityClass());
@@ -157,7 +166,7 @@ abstract class AbstractAdminController extends AbstractController
 
     public function editAction(Request $request, int|string $id): ?Response
     {
-        /** @var mixed|object|null $item */
+        /** @var TEntity|null $item */
         $item = $this->getRepository()->find($id);
         if (!($item instanceof PersistableInterface)) {
             throw $this->createNotFoundException();
@@ -211,7 +220,7 @@ abstract class AbstractAdminController extends AbstractController
 
     public function deleteAction(Request $request, int|string $id): ?Response
     {
-        /** @var mixed|object|null $item */
+        /** @var TEntity|null $item */
         $item = $this->getRepository()->find($id);
 
         if (!($item instanceof PersistableInterface)) {
@@ -269,6 +278,9 @@ abstract class AbstractAdminController extends AbstractController
      */
     abstract protected function getNamespace(): string;
 
+    /**
+     * @return TEntity
+     */
     abstract protected function createEmptyItem(Request $request): PersistableInterface;
 
     abstract protected function getTemplateFolder(): string;
@@ -276,7 +288,7 @@ abstract class AbstractAdminController extends AbstractController
     abstract protected function getRequiredRole(): string;
 
     /**
-     * @return class-string<PersistableInterface>
+     * @return class-string<TEntity>
      */
     abstract protected function getEntityClass(): string;
 
@@ -327,6 +339,9 @@ abstract class AbstractAdminController extends AbstractController
 
     abstract protected function getEditRouteName(): string;
 
+    /**
+     * @param TEntity $item
+     */
     protected function getPostSubmitResponse(
         PersistableInterface $item,
         bool $forceDefaultEditRoute = false,
@@ -374,6 +389,9 @@ abstract class AbstractAdminController extends AbstractController
         ));
     }
 
+    /**
+     * @param TEntity $item
+     */
     protected function getEditRouteParameters(PersistableInterface $item): array
     {
         return [
@@ -381,6 +399,9 @@ abstract class AbstractAdminController extends AbstractController
         ];
     }
 
+    /**
+     * @param TEntity $item
+     */
     protected function getPostDeleteResponse(PersistableInterface $item): Response
     {
         return $this->redirect($this->urlGenerator->generate(
@@ -390,11 +411,11 @@ abstract class AbstractAdminController extends AbstractController
     }
 
     /**
-     * @template T of object|Event
+     * @template TEvent of object|Event
      *
-     * @param T|iterable<T>|array<int, T>|null $event
+     * @param TEvent|iterable<TEvent>|list<TEvent>|null $event
      *
-     * @return T|iterable<T>|array<int, T>|null
+     * @return TEvent|iterable<TEvent>|list<TEvent>|null
      */
     protected function dispatchSingleOrMultipleEvent(mixed $event): object|array|null
     {
@@ -406,7 +427,7 @@ abstract class AbstractAdminController extends AbstractController
         }
         if (\is_iterable($event)) {
             $events = [];
-            /** @var T|null $singleEvent */
+            /** @var TEvent|null $singleEvent */
             foreach ($event as $singleEvent) {
                 $returningEvent = $this->dispatchSingleOrMultipleEvent($singleEvent);
                 if ($returningEvent instanceof Event) {
@@ -460,6 +481,8 @@ abstract class AbstractAdminController extends AbstractController
     }
 
     /**
+     * @param TEntity $item
+     *
      * @return Event|Event[]|null
      */
     protected function createPostDeleteEvent(PersistableInterface $item)
@@ -467,8 +490,14 @@ abstract class AbstractAdminController extends AbstractController
         return null;
     }
 
+    /**
+     * @param TEntity $item
+     */
     abstract protected function getEntityName(PersistableInterface $item): string;
 
+    /**
+     * @param TEntity $item
+     */
     protected function denyAccessUnlessItemGranted(PersistableInterface $item): void
     {
         // Do nothing
