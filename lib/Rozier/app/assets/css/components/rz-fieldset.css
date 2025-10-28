@@ -1,23 +1,43 @@
 .rz-fieldset {
-	--rz-fieldset-legend-margin-top: 16px;
-	padding: var(--spacing-md, 24px) 32px var(--spacing-lg, 32px) 32px;
-	margin: 0;
-	border-radius: var(--radius-xs, 6px);
-	border: 1px solid var(--line-on-light-secondary, #DADADA);
-	overflow: auto;
-	margin-top: calc(var(--rz-fieldset-legend-margin-top) + var(--rz-fieldset-legend-height, 15px) + var(--rz-fieldset-legend-margin-bottom, 8px));
+	all: unset;
+	display: block;
+
+	.rz-message {
+		margin-top: var(--spacing-4xs, 8px);
+	}
 }
 
-
 .rz-fieldset__legend {
-	/* appearance: none; */
-	position: absolute;
-	top: 0;
-	left: 1rem;
-	translate: 0 calc(100% + var(--rz-fieldset-legend-margin-top));
+	all: unset;
+	padding-top: var(--spacing-xs, 16px);
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-form-label-font-size);
 	line-height: var(--text-form-label-line-height);
 	letter-spacing: var(--text-form-label-letter-spacing);
 	font-weight: var(--text-form-label-font-weight);
+
+	.rz-fieldset--required &::after {
+        content: '*';
+    }
+}
+
+.rz-fieldset__description {
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-description-md-font-size);
+    line-height: var(--text-form-description-md-line-height);
+    letter-spacing: var(--text-form-description-md-letter-spacing);
+    font-weight: var(--text-form-description-md-font-weight);
+
+    margin-block: var(--spacing-6xs, 4px) 0;
+}
+
+
+.rz-fieldset__body {
+	display: flex;
+	padding: var(--spacing-md, 24px) 32px var(--spacing-lg, 32px) 32px;
+	flex-direction: column;
+	margin-top: var(--spacing-4xs, 8px);
+	gap: 16px;
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
 }

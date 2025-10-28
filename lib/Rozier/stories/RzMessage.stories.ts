@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzMessageRenderer } from '../app/utils/storybook/renderer/rzMessage'
 
-const COMPONENT_CLASS_NAME = 'rz-form-message'
 const TYPES = ['error'] as const
 
-type Args = {
+export type Args = {
     text: string
-    type: (typeof TYPES)[number]
+    type?: (typeof TYPES)[number]
 }
 
 const meta: Meta<Args> = {
@@ -24,32 +24,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function itemRenderer(args: Args) {
-    const wrapper = document.createElement('div')
-    const classList = [
-        COMPONENT_CLASS_NAME,
-        args.type ? `${COMPONENT_CLASS_NAME}--type-${args.type}` : '',
-    ].filter((c) => c)
-    wrapper.classList.add(...classList)
-
-    if (args.type === 'error') {
-        /* If needed, think about accessibility during integration */
-        wrapper.setAttribute('role', 'alert')
-    }
-
-    const text = document.createElement('p')
-    text.style.display = 'inline'
-    text.classList.add('text-form-supporting-text')
-    text.style.margin = '0'
-    text.textContent = args.text
-    wrapper.appendChild(text)
-
-    return wrapper
-}
-
 export const Default: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzMessageRenderer(args)
     },
 }
 
@@ -77,11 +54,11 @@ export const WithMoreContent: Story = {
         title.textContent = 'Error title'
         head.appendChild(title)
 
-        const message1 = itemRenderer(args)
+        const message1 = rzMessageRenderer(args)
         message1.insertBefore(head, message1.firstChild)
         container.appendChild(message1)
 
-        const message2 = itemRenderer(args)
+        const message2 = rzMessageRenderer(args)
         const icon2 = icon.cloneNode(true) as HTMLElement
         icon2.style.translate = '0 0.2lh'
         icon2.style.marginRight = '0.3rem'

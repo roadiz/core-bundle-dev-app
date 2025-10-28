@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzMessageRenderer } from '../app/utils/storybook/renderer/rzMessage'
+import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
 
 const INPUT_TYPES = [
     'text',
@@ -11,7 +13,7 @@ const INPUT_TYPES = [
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
-const getId = () => 'input-' + Math.random().toString(36).substr(2, 9)
+const getId = () => 'input-' + Math.random().toString(36).slice(2, 11)
 
 type fieldArgs = {
     label: string
@@ -24,7 +26,7 @@ type fieldArgs = {
 }
 
 const meta: Meta<fieldArgs> = {
-    title: 'Components/RzForm/Field',
+    title: 'Components/Form/Field',
     args: {
         label: 'Input Field Label',
         name: getId(),
@@ -44,20 +46,6 @@ const meta: Meta<fieldArgs> = {
 
 export default meta
 type Story = StoryObj<fieldArgs>
-
-function messageRenderer(content: string) {
-    const supportingText = document.createElement('label')
-    const supportingTextClasses = [
-        `${COMPONENT_CLASS_NAME}__supporting-text`,
-        'rz-form-message',
-        'text-form-supporting-text',
-    ].filter((c) => c)
-
-    supportingText.classList.add(...supportingTextClasses)
-    supportingText.textContent = content
-
-    return supportingText
-}
 
 function itemRenderer(args: fieldArgs) {
     const wrapper = document.createElement('div')
@@ -82,22 +70,24 @@ function itemRenderer(args: fieldArgs) {
         wrapper.appendChild(description)
     }
 
-    const input = document.createElement('input')
+    const input = rzInputRenderer({
+        ...args,
+        id: args.name,
+        placeholder: 'Placeholder',
+    })
     input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
-    input.setAttribute('type', args.type)
-    input.setAttribute('id', args.name)
-    input.setAttribute('placeholder', 'Placeholder')
+    if (args.error) input.classList.add('rz-input--error')
     if (args.required) input.setAttribute('required', 'true')
     wrapper.appendChild(input)
 
     if (args.supportingText) {
-        const node = messageRenderer(args.supportingText)
+        const node = rzMessageRenderer({ text: args.supportingText, type: '' })
         node.setAttribute('for', args.name)
         wrapper.appendChild(node)
     }
 
     if (args.error) {
-        const node = messageRenderer(args.error)
+        const node = rzMessageRenderer({ text: args.error, type: 'error' })
         node.setAttribute('for', args.name)
         node.classList.add('rz-form-message--type-error')
         wrapper.appendChild(node)
