@@ -3,11 +3,11 @@ import { INPUT_TYPES } from '../app/custom-elements/RzInput'
 import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
 
 export type Args = {
-    placeholder: string
     type: (typeof INPUT_TYPES)[number]
-    value: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
     name: string
-    required: boolean
+    placeholder?: string
+    value?: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
+    required?: boolean
 }
 
 const meta: Meta<Args> = {

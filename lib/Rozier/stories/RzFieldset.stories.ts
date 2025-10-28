@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzMessageRenderer } from '../app/utils/storybook/renderer/rzMessage'
-import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
+import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+import { rzMessageRenderer } from '~/utils/storybook/renderer/rzMessage'
 
 const COMPONENT_CLASS_NAME = 'rz-fieldset'
 
@@ -37,8 +37,19 @@ function legendRenderer(legendText: string) {
 }
 
 const commonsInputList = [
-    { type: 'text', label: 'Text Input', placeholder: 'Enter text' },
-    { type: 'email', label: 'Email Input', placeholder: 'Enter email' },
+    {
+        type: 'text',
+        name: 'text-input',
+        label: 'Text Input',
+        placeholder: 'Enter text',
+        description: 'A simple text input',
+    },
+    {
+        type: 'email',
+        name: 'email-input',
+        label: 'Email Input',
+        placeholder: 'Enter email',
+    },
 ]
 
 function fieldsetRenderer(args: Args) {
@@ -65,7 +76,7 @@ function fieldsetRenderer(args: Args) {
     fieldsetBody.classList.add(`${COMPONENT_CLASS_NAME}__body`)
     fieldset.appendChild(fieldsetBody)
     commonsInputList.forEach((inputDef) => {
-        const input = rzInputRenderer(inputDef)
+        const input = rzFormFieldRenderer(inputDef)
         fieldsetBody.appendChild(input)
     })
 
