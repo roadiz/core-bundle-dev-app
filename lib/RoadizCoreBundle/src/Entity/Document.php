@@ -247,7 +247,6 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     private Collection $downscaledDocuments;
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Assert\Length(max: 12)]
     private ?string $folder = null;
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Ignore]
