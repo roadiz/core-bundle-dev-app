@@ -113,6 +113,7 @@ abstract class AbstractDocumentFactory
         if (null === $file) {
             $document = $this->createDocument();
             $this->persistDocument($document);
+
             return $document;
         }
 

@@ -34,7 +34,6 @@ final class DocumentEmbedController extends AbstractController
 {
     public function __construct(
         private readonly EmbedFinderFactory $embedFinderFactory,
-        private readonly array $documentPlatforms,
         private readonly LoggerInterface $logger,
         private readonly RandomImageFinder $randomImageFinder,
         private readonly DocumentFactory $documentFactory,

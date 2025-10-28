@@ -1,5 +1,5 @@
 phpstan:
-	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 
 audit:
 	docker compose run --no-deps --rm --entrypoint= app composer audit --abandoned=report --format=plain
