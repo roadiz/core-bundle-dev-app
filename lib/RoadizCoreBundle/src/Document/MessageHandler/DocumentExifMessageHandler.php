@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
 
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
+use RZ\Roadiz\CoreBundle\Document\Message\DocumentExifMessage;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHandler
+#[AsMessageHandler(handles: DocumentExifMessage::class)]
+final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
 {
     #[\Override]
     protected function supports(DocumentInterface $document): bool
@@ -23,7 +26,7 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
             return false;
         }
 
-        if ('image/jpeg' == $document->getMimeType() || 'image/tiff' == $document->getMimeType()) {
+        if ('image/jpeg' === $document->getMimeType() || 'image/tiff' === $document->getMimeType()) {
             return true;
         }
 
@@ -37,38 +40,44 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
             return;
         }
         if (
-            function_exists('exif_read_data')
-            && 0 === $document->getDocumentTranslations()->count()
+            !function_exists('exif_read_data')
+            || $document->getDocumentTranslations()->count() > 0
         ) {
-            $fileStream = $this->documentsStorage->readStream($document->getMountPath());
-            $exif = @\exif_read_data($fileStream, 'FILE,COMPUTED,ANY_TAG,EXIF,COMMENT');
-
-            if (false !== $exif) {
-                $copyright = $this->getCopyright($exif);
-                $description = $this->getDescription($exif);
-
-                if (null !== $copyright || null !== $description) {
-                    $this->messengerLogger->debug(
-                        'EXIF information available for document.',
-                        [
-                            'document' => (string) $document,
-                        ]
-                    );
-                    $manager = $this->managerRegistry->getManagerForClass(DocumentTranslation::class);
-                    $defaultTranslation = $this->managerRegistry
-                        ->getRepository(Translation::class)
-                        ->findDefault();
-
-                    $documentTranslation = new DocumentTranslation();
-                    $documentTranslation->setCopyright($copyright)
-                        ->setDocument($document)
-                        ->setDescription($description)
-                        ->setTranslation($defaultTranslation);
-
-                    $manager->persist($documentTranslation);
-                }
-            }
+            return;
         }
+
+        $fileStream = $this->documentsStorage->readStream($document->getMountPath());
+        $exif = @\exif_read_data($fileStream, 'FILE,COMPUTED,ANY_TAG,EXIF,COMMENT');
+
+        if (false === $exif) {
+            return;
+        }
+
+        $copyright = $this->getCopyright($exif);
+        $description = $this->getDescription($exif);
+
+        if (null === $copyright && null === $description) {
+            return;
+        }
+
+        $this->messengerLogger->debug(
+            'EXIF information available for document.',
+            [
+                'document' => (string) $document,
+            ]
+        );
+        $manager = $this->managerRegistry->getManagerForClass(DocumentTranslation::class);
+        $defaultTranslation = $this->managerRegistry
+            ->getRepository(Translation::class)
+            ->findDefault();
+
+        $documentTranslation = new DocumentTranslation();
+        $documentTranslation->setCopyright($copyright)
+            ->setDocument($document)
+            ->setDescription($description)
+            ->setTranslation($defaultTranslation);
+
+        $manager->persist($documentTranslation);
     }
 
     private function getCopyright(array $exif): ?string

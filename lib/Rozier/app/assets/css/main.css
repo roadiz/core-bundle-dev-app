@@ -20,5 +20,9 @@
 @import './components/rz-badge.css';
 @import './components/rz-message.css';
 
+/* Components: Form */
+@import './components/rz-switch.css';
+@import './components/rz-input.css';
+@import './components/rz-select.css';
 @import './components/rz-form-field.css';
 @import './components/rz-fieldset.css';
