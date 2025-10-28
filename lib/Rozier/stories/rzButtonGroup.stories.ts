@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { buttonRenderer } from '../app/utils/storybook/renderer/button'
+import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
 export type Args = {
     label?: string
@@ -28,7 +28,7 @@ export const Default: Story = {
         ]
 
         iconNames.forEach((iconClass, index) => {
-            const button = buttonRenderer(
+            const button = rzButtonRenderer(
                 {
                     iconClass,
                     size: 'lg',

@@ -1,6 +1,6 @@
 import type { ButtonArgs } from '../../../../stories/rzButton.stories'
 
-export function buttonRenderer(
+export function rzButtonRenderer(
     args: ButtonArgs,
     attrs?: Record<string, string>,
 ) {

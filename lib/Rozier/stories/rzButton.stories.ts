@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { buttonRenderer } from '../app/utils/storybook/renderer/button'
+import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
 const EMPHASIS = ['low', 'medium', 'high'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
@@ -60,13 +60,13 @@ type Story = StoryObj<ButtonArgs>
 
 export const Default: Story = {
     render: (args) => {
-        return buttonRenderer(args)
+        return rzButtonRenderer(args)
     },
 }
 
 export const HighEmphasis: Story = {
     render: (args) => {
-        return buttonRenderer(args)
+        return rzButtonRenderer(args)
     },
     args: {
         emphasis: 'high',
@@ -93,7 +93,7 @@ export const HighEmphasisList: Story = {
 
 export const MediumEmphasis: Story = {
     render: (args) => {
-        return buttonRenderer(args)
+        return rzButtonRenderer(args)
     },
     args: {
         emphasis: 'medium',
@@ -119,7 +119,7 @@ export const MediumEmphasisList: Story = {
 
 export const LowEmphasis: Story = {
     render: (args) => {
-        return buttonRenderer(args)
+        return rzButtonRenderer(args)
     },
     args: {
         emphasis: 'low',
@@ -145,7 +145,7 @@ export const LowEmphasisList: Story = {
 
 export const LiveClassesEditing: Story = {
     render: (args) => {
-        return buttonRenderer(args)
+        return rzButtonRenderer(args)
     },
     args: {
         emphasis: undefined,
@@ -189,14 +189,14 @@ function buttonSizeListRenderer(args: ButtonArgs) {
         'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;'
 
     SIZES.forEach((size) => {
-        const btn = buttonRenderer({
+        const btn = rzButtonRenderer({
             ...args,
             size,
             label: `${args.emphasis || 'unknown'} emphasis ${size}`,
         })
         wrapper.appendChild(btn)
 
-        const btnIconOnly = buttonRenderer({ ...args, size, label: `` })
+        const btnIconOnly = rzButtonRenderer({ ...args, size, label: `` })
         wrapper.appendChild(btnIconOnly)
     })
 
