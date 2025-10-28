@@ -1769,6 +1769,14 @@
         <source>document.embedId</source>
         <target state="final">Identificación de plataforma multimedia</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl" approved="yes">
+        <source>document.embedUrl</source>
+        <target state="final">URL del multimedia</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl.help" approved="yes">
+        <source>document.embedUrl.help</source>
+        <target state="final">Introduzca la URL del multimedia para incrustar (YouTube, Vimeo, etc.)</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="%field%.is.reserved.word" approved="yes">
         <source>%field%.is.reserved.word</source>
         <target state="final">La palabra %field% está reservada, por favor escoger otra.</target>

@@ -230,6 +230,7 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
             }
 
             $document = $documentFactory->getDocument($this->isEmptyThumbnailAllowed(), $this->areDuplicatesAllowed());
+            dump($document);
             if (null !== $document) {
                 /*
                  * Create document metas
