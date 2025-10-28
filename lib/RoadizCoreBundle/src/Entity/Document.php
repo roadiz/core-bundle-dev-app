@@ -259,7 +259,6 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     private Collection $downscaledDocuments;
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Assert\Length(max: 12)]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     private ?string $folder = null;
