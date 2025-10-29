@@ -56,6 +56,8 @@ services:
             $useConstraintViolationList: '%roadiz_core.use_constraint_violation_list%'
             $customFormPostOperationName: '%roadiz_core.custom_form_post_operation_name%'
             $projectLogoUrl: '%roadiz_core.project_logo_url%'
+            $generatedClassNamespace: '%roadiz_core.generated_class_namespace%'
+            $generatedRepositoryNamespace: '%roadiz_core.generated_repository_namespace%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
@@ -362,6 +364,9 @@ services:
         alias: RZ\Roadiz\CoreBundle\Bag\NodeTypes
         public: true
 
+    RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface:
+        class: RZ\Roadiz\CoreBundle\NodeType\NodeTypeClassLocator
+
     RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface:
         class: RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver
 
@@ -369,6 +374,7 @@ services:
         arguments:
             - '@RZ\Roadiz\CoreBundle\Bag\NodeTypes'
             - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
+            - '@RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface'
             - '%roadiz_core.entity_generator_factory.options%'
 
     gedmo.mapping.driver.attribute:

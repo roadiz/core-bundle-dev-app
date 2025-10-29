@@ -137,6 +137,12 @@ EOT)
                 ->defaultNull()
                 ->info('URL to display static project logo in back-office and email templates.')
             ->end()
+            ->scalarNode('generatedClassNamespace')->defaultValue(
+                'App\\GeneratedEntity'
+            )->info('Relative path to Roadiz folder for generated entity')->end()
+            ->scalarNode('generatedRepositoryNamespace')->defaultValue(
+                'App\\GeneratedEntity\\Repository'
+            )->info('Relative path to Roadiz folder for generated entity repositories')->end()
             ->append($this->addSolrNode())
             ->append($this->addInheritanceNode())
             ->append($this->addReverseProxyCacheNode())

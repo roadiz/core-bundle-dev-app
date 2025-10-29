@@ -412,7 +412,7 @@ class NSMock extends NodesSources
 
     /**
      * fooBarTypedSources NodesSources direct field buffer.
-     * @var \tests\mocks\GeneratedNodesSources\NSMockTwo[]|null
+     * @var \RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMockTwo[]|null
      * ForBar nodes typed field.
      * Default values:
      * - MockTwo
@@ -1023,7 +1023,7 @@ class NSMock extends NodesSources
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
                         'foo_bar_hidden',
-                        [\tests\mocks\GeneratedNodesSources\NSMock::class, \tests\mocks\GeneratedNodesSources\NSMockTwo::class]
+                        [\RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMock::class, \RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMockTwo::class]
                     );
             } else {
                 $this->fooBarHiddenSources = [];
@@ -1043,14 +1043,14 @@ class NSMock extends NodesSources
     }
 
     /**
-     * @return \tests\mocks\GeneratedNodesSources\NSMockTwo[]
+     * @return \RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMockTwo[]
      */
     public function getFooBarTypedSources(): array
     {
         if (null === $this->fooBarTypedSources) {
             if (null !== $this->objectManager) {
                 $this->fooBarTypedSources = $this->objectManager
-                    ->getRepository(\tests\mocks\GeneratedNodesSources\NSMockTwo::class)
+                    ->getRepository(\RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMockTwo::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
                         'foo_bar_typed',
@@ -1064,7 +1064,7 @@ class NSMock extends NodesSources
     }
 
     /**
-     * @param \tests\mocks\GeneratedNodesSources\NSMockTwo[]|null $fooBarTypedSources
+     * @param \RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMockTwo[]|null $fooBarTypedSources
      * @return $this
      */
     public function setFooBarTypedSources(?array $fooBarTypedSources): static

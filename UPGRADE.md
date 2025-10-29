@@ -2,6 +2,7 @@
 
 ## ⚠ Breaking changes
 
+- NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
 - Removed `Node::sterile` property and `Node::isSterile()` method.
 - Removed deprecated `Node` status constants in favor of `NodeStatus` enum
 - Custom forms and contact form now return a constraint violation list in JSON format: `roadiz_core.useConstraintViolationList: true`. This requires to configure `roadiz_core.customFormPostOperationName` with your custom form operation name if you want to use this feature.
