@@ -19,6 +19,7 @@
 @import './components/rz-workspace-item.css';
 @import './components/rz-badge.css';
 @import './components/rz-button-group.css';
+@import './components/rz-entity-thumbnail.css';
 
 /* Components: Form */
 @import './components/rz-switch.css';

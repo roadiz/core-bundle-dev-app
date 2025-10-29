@@ -1,0 +1,90 @@
+/* Entity Thumbnail Component */
+rz-entity-thumbnail {
+    display: inline-block;
+    position: relative;
+}
+
+.rz-entity-thumbnail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--global-radius);
+    overflow: hidden;
+    background-color: var(--global-background-color);
+    border: 1px solid var(--global-border-color);
+}
+
+/* Size variants */
+.rz-entity-thumbnail--small {
+    width: 32px;
+    height: 32px;
+}
+
+.rz-entity-thumbnail--medium {
+    width: 64px;
+    height: 64px;
+}
+
+.rz-entity-thumbnail--large {
+    width: 128px;
+    height: 128px;
+}
+
+/* Image */
+.rz-entity-thumbnail__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Placeholder for empty state */
+.rz-entity-thumbnail__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    color: var(--global-text-lighter-color);
+    font-size: 1.5em;
+}
+
+/* Loading state */
+.rz-entity-thumbnail--loading .rz-entity-thumbnail__placeholder {
+    background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+}
+
+/* Spinner animation */
+.rz-entity-thumbnail__spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--global-primary-color);
+    border-radius: 50%;
+    animation: rz-entity-thumbnail-spin 0.8s linear infinite;
+}
+
+@keyframes rz-entity-thumbnail-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error state */
+.rz-entity-thumbnail--error .rz-entity-thumbnail__placeholder {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    color: #c62828;
+}
+
+/* Empty state (no image available) */
+.rz-entity-thumbnail--empty .rz-entity-thumbnail__placeholder {
+    background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
+}
+
+.rz-entity-thumbnail--empty .rz-entity-thumbnail__placeholder::before {
+    content: '?';
+    font-size: 1.5em;
+    color: var(--global-text-lighter-color);
+    opacity: 0.5;
+}

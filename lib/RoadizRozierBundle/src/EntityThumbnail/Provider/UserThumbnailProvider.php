@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
 
