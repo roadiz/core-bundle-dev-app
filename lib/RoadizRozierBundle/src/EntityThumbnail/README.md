@@ -85,7 +85,7 @@ GET /rz-admin/ajax/entity-thumbnail?class={entityClass}&id={entityId}
 
 ## Extending with Custom Providers
 
-To add support for new entity types, create a provider implementing `EntityThumbnailProviderInterface`:
+To add support for new entity types, create a provider extending `AbstractEntityThumbnailProvider`:
 
 ```php
 <?php
@@ -152,4 +152,4 @@ The component renders different states:
 
 ## Browser Support
 
-Works in all modern browsers. Uses standard Web Components with a polyfill for Safari.
+Works in all modern browsers with native Web Components support.
