@@ -3,6 +3,7 @@ import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
 const EMPHASIS = ['low', 'medium', 'high'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
+const COLORS = ['success', 'success-light', 'error', 'error-light'] as const
 
 export type ButtonArgs = {
     label?: string
@@ -12,6 +13,7 @@ export type ButtonArgs = {
     iconClass?: string
     onDark?: boolean
     additionalClasses?: string
+    color?: (typeof COLORS)[number]
 }
 
 /** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
@@ -48,6 +50,10 @@ const meta: Meta<ButtonArgs> = {
         size: {
             control: { type: 'select' },
             options: [...SIZES, ''],
+        },
+        color: {
+            control: { type: 'select' },
+            options: [...COLORS, ''],
         },
     },
     parameters: {
