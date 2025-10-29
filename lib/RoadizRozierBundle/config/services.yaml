@@ -77,3 +77,16 @@ services:
     RZ\Roadiz\RozierBundle\Controller\PingController:
         arguments: ['@?profiler']
 
+    #
+    # Entity Thumbnail Providers
+    #
+    RZ\Roadiz\RozierBundle\EntityThumbnail\Provider\:
+        resource: '../src/EntityThumbnail/Provider/'
+        autowire: true
+        autoconfigure: true
+        tags: ['roadiz.entity_thumbnail_provider']
+
+    RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailService:
+        arguments:
+            $providers: !tagged_iterator roadiz.entity_thumbnail_provider
+
