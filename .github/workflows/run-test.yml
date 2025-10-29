@@ -54,6 +54,9 @@ jobs:
             - name: Run PHP Stan
               run: |
                   php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
+            - name: Run Deptrac
+              run: |
+                  php -d "memory_limit=-1" vendor/bin/deptrac analyse --config-file=deptrac.yaml --ansi --no-progress
             - name: Run Twig lint
               run: |
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
