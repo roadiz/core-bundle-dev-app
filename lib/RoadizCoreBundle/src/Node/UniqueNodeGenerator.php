@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Node;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -32,6 +33,7 @@ final readonly class UniqueNodeGenerator
         private TagRepository $tagRepository,
         private Security $security,
         private NodeTypes $nodeTypesBag,
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
     }
 
@@ -66,7 +68,7 @@ final readonly class UniqueNodeGenerator
         }
 
         /** @var class-string<NodesSources> $sourceClass */ // phpstan hint
-        $sourceClass = NodeType::getGeneratedEntitiesNamespace().'\\'.$nodeType->getSourceEntityClassName();
+        $sourceClass = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
 
         $source = new $sourceClass($node, $translation);
         $source->setTitle($name);

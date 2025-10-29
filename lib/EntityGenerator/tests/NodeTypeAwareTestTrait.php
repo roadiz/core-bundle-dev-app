@@ -339,8 +339,8 @@ EOT)
             function (string $nodeTypeName): NodeTypeInterface {
                 $mockNodeType = $this->createStub(NodeTypeInterface::class);
                 $mockNodeType
-                    ->method('getSourceEntityFullQualifiedClassName')
-                    ->willReturn('tests\mocks\GeneratedNodesSources\NS'.$nodeTypeName)
+                    ->method('getName')
+                    ->willReturn($nodeTypeName)
                 ;
 
                 return $mockNodeType;

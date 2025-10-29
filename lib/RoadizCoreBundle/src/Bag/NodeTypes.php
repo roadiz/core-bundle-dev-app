@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Bag;
 
 use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Bag\LazyParameterBag;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface;
@@ -19,6 +20,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
     public function __construct(
         private readonly NodeTypeRepositoryInterface $repository,
         private readonly CacheItemPoolInterface $cacheItemPool,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         #[Autowire(param: 'kernel.debug')]
         private readonly bool $debug,
     ) {
@@ -43,7 +45,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
         $this->parameters = [];
         foreach ($nodeTypes as $nodeType) {
             $this->parameters[$nodeType->getName()] = $nodeType;
-            $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
+            $this->parameters[$this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)] = $nodeType;
         }
 
         if (!$this->debug && isset($cacheItem)) {

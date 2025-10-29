@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -60,6 +61,7 @@ final class NodesSourcesController extends AbstractController
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private readonly ?string $customPublicScheme,
         private readonly ?string $customPreviewScheme,
     ) {
@@ -129,7 +131,7 @@ final class NodesSourcesController extends AbstractController
             NodeSourceType::class,
             $source,
             [
-                'class' => $nodeType->getSourceEntityFullQualifiedClassName(),
+                'class' => $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType),
                 'nodeType' => $nodeType,
                 'withVirtual' => true,
                 'withTitle' => true,

@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\TwigExtension;
 use Doctrine\ORM\NonUniqueResultException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -32,6 +33,7 @@ final class NodesSourcesExtension extends AbstractExtension
         private readonly NotPublishedNodesSourcesRepository $notPublishedNodesSourcesRepository,
         private readonly TagRepository $tagRepository,
         private readonly DocumentRepository $documentRepository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private readonly bool $throwExceptions = false,
     ) {
     }
@@ -73,8 +75,9 @@ final class NodesSourcesExtension extends AbstractExtension
         $tests = [];
 
         foreach ($this->nodeTypesBag->all() as $nodeType) {
-            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeType->getSourceEntityFullQualifiedClassName());
-            $tests[] = new TwigTest($nodeType->getSourceEntityClassName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeType->getSourceEntityFullQualifiedClassName());
+            $nodeTypeClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
+            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeTypeClassName);
+            $tests[] = new TwigTest($this->nodeTypeClassLocator->getSourceEntityClassName($nodeType), fn ($mixed) => null !== $mixed && $mixed::class === $nodeTypeClassName);
         }
 
         return $tests;

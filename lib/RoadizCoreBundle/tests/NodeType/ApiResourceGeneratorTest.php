@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Tests\NodeType;
 
 use Psr\Log\NullLogger;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponse;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\NodeType\ApiResourceGenerator;
@@ -25,9 +26,12 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $this->assertTrue($this->getContainer()->has(ApiResourceOperationNameGenerator::class));
         /** @var ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator */
         $apiResourceOperationNameGenerator = $this->getContainer()->get(ApiResourceOperationNameGenerator::class);
+        /** @var NodeTypeClassLocatorInterface $nodeTypeClassLocator */
+        $nodeTypeClassLocator = $this->getContainer()->get(NodeTypeClassLocatorInterface::class);
 
         return new ApiResourceGenerator(
             $apiResourceOperationNameGenerator,
+            $nodeTypeClassLocator,
             static::getGeneratedPath(),
             new NullLogger(),
             WebResponse::class
