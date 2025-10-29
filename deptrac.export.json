@@ -1,0 +1,11 @@
+{
+    "Report": {
+        "Violations": 0,
+        "Skipped violations": 31,
+        "Uncovered": 13986,
+        "Allowed": 3744,
+        "Warnings": 0,
+        "Errors": 0
+    },
+    "files": []
+}

@@ -1,0 +1,173 @@
+deptrac:
+    paths:
+        - ./lib
+
+    exclude_files:
+        - '#.*tests.*#'
+
+    skip_violations:
+        RZ\Roadiz\EntityGenerator\Field\AbstractFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\AbstractConfigurableFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\CollectionFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\CustomFormsFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\DocumentsFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\ManyToManyFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\ManyToOneFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\NodesFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\NonVirtualFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\ProxiedManyToManyFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\Field\YamlFieldGenerator:
+            - RZ\Roadiz\CoreBundle\Api\Filter\NotFilter
+        RZ\Roadiz\EntityGenerator\EntityGenerator:
+            - RZ\Roadiz\CoreBundle\Entity\Node
+            - RZ\Roadiz\CoreBundle\Entity\Translation
+            - RZ\Roadiz\CoreBundle\Entity\UserLogEntry
+        RZ\Roadiz\EntityGenerator\EntityGeneratorFactory:
+            - RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository
+        RZ\Roadiz\EntityGenerator\RepositoryGenerator:
+            - RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface
+            - RZ\Roadiz\CoreBundle\Entity\Node
+            - RZ\Roadiz\CoreBundle\Entity\NodesSources
+            - RZ\Roadiz\Core\AbstractEntities\TranslationInterface
+
+    layers:
+        - name: 'DocGenerator'
+          collectors:
+              - type: 'directory'
+                value: 'lib/DocGenerator/*'
+
+        - name: 'Documents'
+          collectors:
+              - type: 'directory'
+                value: 'lib/Documents/*'
+
+        - name: 'DtsGenerator'
+          collectors:
+              - type: 'directory'
+                value: 'lib/DtsGenerator/*'
+
+        - name: 'EntityGenerator'
+          collectors:
+              - type: 'directory'
+                value: 'lib/EntityGenerator/*'
+
+        - name: 'Jwt'
+          collectors:
+              - type: 'directory'
+                value: 'lib/Jwt/*'
+
+        - name: 'Markdown'
+          collectors:
+              - type: 'directory'
+                value: 'lib/Markdown/*'
+
+        - name: 'Models'
+          collectors:
+              - type: 'directory'
+                value: 'lib/Models/*'
+
+        - name: 'OpenId'
+          collectors:
+              - type: 'directory'
+                value: 'lib/OpenId/*'
+
+        - name: 'Random'
+          collectors:
+              - type: 'directory'
+                value: 'lib/Random/*'
+
+        - name: 'RoadizCoreBundle'
+          collectors:
+              - type: 'directory'
+                value: 'lib/RoadizCoreBundle/*'
+
+        - name: 'RoadizFontBundle'
+          collectors:
+              - type: 'directory'
+                value: 'lib/RoadizFontBundle/*'
+
+        - name: 'RoadizRozierBundle'
+          collectors:
+              - type: 'directory'
+                value: 'lib/RoadizRozierBundle/*'
+
+        - name: 'RoadizSolrBundle'
+          collectors:
+              - type: 'directory'
+                value: 'lib/RoadizSolrBundle/*'
+
+        - name: 'RoadizTwoFactorBundle'
+          collectors:
+              - type: 'directory'
+                value: 'lib/RoadizTwoFactorBundle/*'
+
+        - name: 'RoadizUserBundle'
+          collectors:
+              - type: 'directory'
+                value: 'lib/RoadizUserBundle/*'
+
+    ruleset:
+        DocGenerator: ~
+        Documents: ~
+        DtsGenerator: ~
+        EntityGenerator: ~
+        Jwt: ~
+        Markdown: ~
+        Models: ~
+        Random: ~
+        OpenId:
+            - 'Jwt'
+            - 'Models'
+            - 'Random'
+        RoadizCoreBundle:
+            - 'DocGenerator'
+            - 'Documents'
+            - 'DtsGenerator'
+            - 'EntityGenerator'
+            - 'Jwt'
+            - 'Markdown'
+            - 'Models'
+            - 'Random'
+        RoadizRozierBundle:
+            - 'Documents'
+            - 'RoadizCoreBundle'
+            - 'Models'
+            - 'OpenId'
+            - 'DocGenerator'
+            - 'DtsGenerator'
+            - 'Random'
+        RoadizFontBundle:
+            - 'Documents'
+            - 'Models'
+            - 'RoadizCoreBundle'
+            - 'EntityGenerator'
+            - 'RoadizRozierBundle'
+        RoadizSolrBundle:
+            - 'Documents'
+            - 'RoadizCoreBundle'
+            - 'Models'
+            - 'Markdown'
+        RoadizTwoFactorBundle:
+            - 'DocGenerator'
+            - 'Jwt'
+            - 'Random'
+            - 'Models'
+            - 'RoadizCoreBundle'
+            - 'RoadizRozierBundle'
+        RoadizUserBundle:
+            - 'DocGenerator'
+            - 'EntityGenerator'
+            - 'Jwt'
+            - 'Random'
+            - 'Models'
+            - 'RoadizCoreBundle'
