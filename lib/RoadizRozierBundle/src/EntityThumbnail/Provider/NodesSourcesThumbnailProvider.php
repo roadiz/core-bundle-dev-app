@@ -47,11 +47,7 @@ final class NodesSourcesThumbnailProvider extends AbstractEntityThumbnailProvide
             ->getRepository(Document::class)
             ->findOneDisplayableDtoByNodeSource($nodeSource);
 
-        if (null === $documentDto) {
-            return $this->createResponse(null, $title, $title);
-        }
-
-        if ($documentDto->isPrivate()) {
+        if (null === $documentDto || $documentDto->isPrivate()) {
             return $this->createResponse(null, $title, $title);
         }
 

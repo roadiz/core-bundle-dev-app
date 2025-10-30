@@ -46,8 +46,9 @@ final class EntityThumbnailController extends AbstractController
             $thumbnail = new EntityThumbnail();
         }
 
+        $content = $this->serializer->serialize($thumbnail, 'json');
         // Generate ETag based on thumbnail data
-        $etag = md5($this->serializer->serialize($thumbnail, 'json'));
+        $etag = md5($content);
         
         // Check If-None-Match header
         if ($request->headers->get('If-None-Match') === $etag) {
@@ -55,7 +56,7 @@ final class EntityThumbnailController extends AbstractController
         }
 
         $response = new JsonResponse(
-            $this->serializer->serialize($thumbnail, 'json'),
+            $content,
             Response::HTTP_OK,
             [],
             true
