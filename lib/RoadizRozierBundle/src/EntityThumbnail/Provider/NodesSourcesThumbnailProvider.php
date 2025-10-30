@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 
-use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
@@ -18,7 +18,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class NodesSourcesThumbnailProvider extends AbstractEntityThumbnailProvider
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private NotPublishedNodesSourcesRepository $nodesSourcesRepository,
+        private DocumentRepository $documentRepository,
         private DocumentThumbnailProvider $documentThumbnailProvider,
         private Security $security,
     ) {
@@ -37,8 +38,7 @@ final readonly class NodesSourcesThumbnailProvider extends AbstractEntityThumbna
             return null;
         }
 
-        $repository = $this->managerRegistry->getRepository($entityClass);
-        $nodeSource = $repository->find($identifier);
+        $nodeSource = $this->nodesSourcesRepository->find($identifier);
 
         if (!$nodeSource instanceof NodesSources) {
             return null;
@@ -51,23 +51,18 @@ final readonly class NodesSourcesThumbnailProvider extends AbstractEntityThumbna
         $title = $nodeSource->getTitle() ?? 'Node';
 
         // Get the first displayable document associated with this NodesSources
-        $documentDto = $this->managerRegistry
-            ->getRepository(Document::class)
-            ->findOneDisplayableDtoByNodeSource($nodeSource);
+        $documentDto = $this->documentRepository->findOneDisplayableDtoByNodeSource($nodeSource);
 
-        if (null === $documentDto || $documentDto->isPrivate()) {
-            return new EntityThumbnail(
-                title: $title,
-            );
-        }
-
-        $url = null;
-        if ($documentDto->isImage() || $documentDto->isSvg()) {
-            $url = $this->documentThumbnailProvider->getDocumentUrl($documentDto);
+        if (
+            null === $documentDto
+            || $documentDto->isPrivate()
+            || !($documentDto->isImage() || $documentDto->isSvg())
+        ) {
+            return null;
         }
 
         return new EntityThumbnail(
-            url: $url,
+            url: $this->documentThumbnailProvider->getDocumentUrl($documentDto),
             alt: $title,
             title: $title,
             width: 64,

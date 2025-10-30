@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 
@@ -17,7 +17,7 @@ use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 final readonly class NodeThumbnailProvider extends AbstractEntityThumbnailProvider
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private NotPublishedNodeRepository $nodeRepository,
         private NodesSourcesThumbnailProvider $nodesSourcesThumbnailProvider,
     ) {
     }
@@ -35,8 +35,7 @@ final readonly class NodeThumbnailProvider extends AbstractEntityThumbnailProvid
             return null;
         }
 
-        $repository = $this->managerRegistry->getRepository($entityClass);
-        $node = $repository->find($identifier);
+        $node = $this->nodeRepository->find($identifier);
 
         if (!$node instanceof Node) {
             return null;

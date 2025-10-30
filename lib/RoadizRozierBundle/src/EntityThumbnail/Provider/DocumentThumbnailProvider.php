@@ -28,13 +28,13 @@ final readonly class DocumentThumbnailProvider extends AbstractEntityThumbnailPr
         return $this->isClassSupported($entityClass, Document::class);
     }
 
-    public function getDocumentUrl(BaseDocumentInterface $document): ?string
+    public function getDocumentUrl(BaseDocumentInterface $document, int $size = 64): ?string
     {
         $url = $this->documentUrlGenerator
             ->setDocument($document)
             ->setOptions([
-                'width' => 64,
-                'height' => 64,
+                'width' => $size,
+                'height' => $size,
                 'crop' => '1:1',
                 'quality' => 80,
                 'sharpen' => 3,
@@ -70,12 +70,14 @@ final readonly class DocumentThumbnailProvider extends AbstractEntityThumbnailPr
             );
         }
 
+        $size = 64;
+
         return new EntityThumbnail(
-            url: $this->getDocumentUrl($document),
+            url: $this->getDocumentUrl($document, $size),
             alt: $document->getAlternativeText() ?? '',
             title: $document->getFilename(),
-            width: 64,
-            height: 64,
+            width: $size,
+            height: $size,
         );
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\CoreBundle\Repository\UserRepository;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 
@@ -16,7 +16,7 @@ use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 final readonly class UserThumbnailProvider extends AbstractEntityThumbnailProvider
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private UserRepository $userRepository,
     ) {
     }
 
@@ -33,15 +33,12 @@ final readonly class UserThumbnailProvider extends AbstractEntityThumbnailProvid
             return null;
         }
 
-        // Try to fetch user by ID or email
-        $repository = $this->managerRegistry->getRepository($entityClass);
-
         // If identifier is numeric, try by ID first
         if (is_numeric($identifier)) {
-            $user = $repository->find((int) $identifier);
+            $user = $this->userRepository->find((int) $identifier);
         } else {
             // Otherwise try by email
-            $user = $repository->findOneBy(['email' => $identifier]);
+            $user = $this->userRepository->findOneBy(['email' => $identifier]);
         }
 
         if (!$user instanceof User) {
