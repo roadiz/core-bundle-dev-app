@@ -7,7 +7,7 @@ namespace RZ\Roadiz\RozierBundle\EntityThumbnail;
 /**
  * Service to manage entity thumbnail providers using Chain of Responsibility pattern.
  */
-final class EntityThumbnailService
+final class EntityThumbnailService implements EntityThumbnailProviderInterface
 {
     /**
      * @param iterable<EntityThumbnailProviderInterface> $providers
@@ -17,14 +17,19 @@ final class EntityThumbnailService
     ) {
     }
 
+    public function supports(string $entityClass, int|string $identifier): bool
+    {
+        return true;
+    }
+
     /**
      * Get thumbnail information for any entity by class name and identifier.
      *
      * @param class-string $entityClass The entity class name
      * @param int|string $identifier The entity identifier
-     * @return array{url: string|null, alt: string|null, title: string|null}|null
+     * @return EntityThumbnail|null
      */
-    public function getThumbnail(string $entityClass, int|string $identifier): ?array
+    public function getThumbnail(string $entityClass, int|string $identifier): ?EntityThumbnail
     {
         foreach ($this->providers as $provider) {
             if ($provider->supports($entityClass, $identifier)) {

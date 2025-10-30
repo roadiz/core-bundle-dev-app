@@ -19,28 +19,30 @@ The `rz-entity-thumbnail` custom element provides an asynchronous way to display
 
 ### Basic HTML Usage
 
+**Note**: Always use fully qualified class names (FQCN) for the `entity-class` attribute.
+
 ```html
 <!-- User thumbnail -->
-<rz-entity-thumbnail entity-class="User" entity-id="1"></rz-entity-thumbnail>
+<rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\User" entity-id="1"></rz-entity-thumbnail>
 
 <!-- Document thumbnail -->
-<rz-entity-thumbnail entity-class="Document" entity-id="42"></rz-entity-thumbnail>
+<rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\Document" entity-id="42"></rz-entity-thumbnail>
 
 <!-- NodesSources thumbnail -->
-<rz-entity-thumbnail entity-class="NodesSources" entity-id="123"></rz-entity-thumbnail>
+<rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\NodesSources" entity-id="123"></rz-entity-thumbnail>
 ```
 
 ### Size Variants
 
 ```html
 <!-- Small (32x32) -->
-<rz-entity-thumbnail entity-class="User" entity-id="1" size="small"></rz-entity-thumbnail>
+<rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\User" entity-id="1" size="small"></rz-entity-thumbnail>
 
 <!-- Medium (64x64) - default -->
-<rz-entity-thumbnail entity-class="User" entity-id="1" size="medium"></rz-entity-thumbnail>
+<rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\User" entity-id="1" size="medium"></rz-entity-thumbnail>
 
 <!-- Large (128x128) -->
-<rz-entity-thumbnail entity-class="User" entity-id="1" size="large"></rz-entity-thumbnail>
+<rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\User" entity-id="1" size="large"></rz-entity-thumbnail>
 ```
 
 ### Twig Template Usage
@@ -48,20 +50,20 @@ The `rz-entity-thumbnail` custom element provides an asynchronous way to display
 ```twig
 {# User thumbnail #}
 <rz-entity-thumbnail 
-    entity-class="User" 
+    entity-class="{{ user|class }}" 
     entity-id="{{ user.id }}"
 ></rz-entity-thumbnail>
 
 {# Document thumbnail with size #}
 <rz-entity-thumbnail 
-    entity-class="Document" 
+    entity-class="{{ document|class }}" 
     entity-id="{{ document.id }}"
     size="large"
 ></rz-entity-thumbnail>
 
 {# NodesSources thumbnail #}
 <rz-entity-thumbnail 
-    entity-class="NodesSources" 
+    entity-class="{{ nodeSource|class }}" 
     entity-id="{{ nodeSource.id }}"
 ></rz-entity-thumbnail>
 ```
@@ -70,8 +72,10 @@ The `rz-entity-thumbnail` custom element provides an asynchronous way to display
 
 The custom element fetches data from:
 ```
-GET /rz-admin/ajax/entity-thumbnail?class={entityClass}&id={entityId}
+GET /rz-admin/ajax/entity-thumbnail?class={FQCN}&id={entityId}
 ```
+
+**Note**: The `class` parameter must be a fully qualified class name (FQCN).
 
 ### Response Format
 

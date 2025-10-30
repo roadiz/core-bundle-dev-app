@@ -10,20 +10,20 @@ namespace RZ\Roadiz\RozierBundle\EntityThumbnail;
 abstract class AbstractEntityThumbnailProvider implements EntityThumbnailProviderInterface
 {
     /**
-     * Create a standardized response array.
+     * Create a standardized response.
      *
      * @param string|null $url The thumbnail URL
      * @param string|null $alt The alt text
      * @param string|null $title The title/tooltip text
-     * @return array{url: string|null, alt: string|null, title: string|null}
+     * @return EntityThumbnail
      */
-    protected function createResponse(?string $url, ?string $alt = null, ?string $title = null): array
+    protected function createResponse(?string $url, ?string $alt = null, ?string $title = null): EntityThumbnail
     {
-        return [
-            'url' => $url,
-            'alt' => $alt,
-            'title' => $title,
-        ];
+        return new EntityThumbnail(
+            url: $url,
+            alt: $alt,
+            title: $title,
+        );
     }
 
     /**

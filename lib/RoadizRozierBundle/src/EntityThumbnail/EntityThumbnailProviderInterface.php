@@ -24,7 +24,7 @@ interface EntityThumbnailProviderInterface
      *
      * @param class-string $entityClass The entity class name
      * @param int|string $identifier The entity identifier
-     * @return array{url: string|null, alt: string|null, title: string|null}|null Thumbnail data or null if entity not found
+     * @return EntityThumbnail|null Thumbnail data or null if entity not found
      */
-    public function getThumbnail(string $entityClass, int|string $identifier): ?array;
+    public function getThumbnail(string $entityClass, int|string $identifier): ?EntityThumbnail;
 }

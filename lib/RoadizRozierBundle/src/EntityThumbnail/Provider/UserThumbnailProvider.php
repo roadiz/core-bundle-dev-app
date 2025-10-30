@@ -24,7 +24,7 @@ final class UserThumbnailProvider extends AbstractEntityThumbnailProvider
         return $this->isClassSupported($entityClass, User::class);
     }
 
-    public function getThumbnail(string $entityClass, int|string $identifier): ?array
+    public function getThumbnail(string $entityClass, int|string $identifier): ?EntityThumbnail
     {
         if (!$this->isClassSupported($entityClass, User::class)) {
             return null;

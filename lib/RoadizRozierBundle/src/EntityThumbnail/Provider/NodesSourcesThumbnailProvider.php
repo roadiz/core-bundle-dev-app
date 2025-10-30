@@ -26,7 +26,7 @@ final class NodesSourcesThumbnailProvider extends AbstractEntityThumbnailProvide
         return $this->isClassSupported($entityClass, NodesSources::class);
     }
 
-    public function getThumbnail(string $entityClass, int|string $identifier): ?array
+    public function getThumbnail(string $entityClass, int|string $identifier): ?EntityThumbnail
     {
         if (!$this->isClassSupported($entityClass, NodesSources::class)) {
             return null;

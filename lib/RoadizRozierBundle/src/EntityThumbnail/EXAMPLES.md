@@ -32,7 +32,7 @@
         <tr>
             <td>
                 <rz-entity-thumbnail 
-                    entity-class="User" 
+                    entity-class="{{ user|class }}" 
                     entity-id="{{ user.id }}"
                     size="medium"
                 ></rz-entity-thumbnail>
@@ -63,7 +63,7 @@
 ```twig
 {# Simple, declarative approach #}
 <rz-entity-thumbnail 
-    entity-class="NodesSources" 
+    entity-class="{{ nodeSource|class }}" 
     entity-id="{{ nodeSource.id }}"
     size="medium"
 ></rz-entity-thumbnail>
@@ -95,7 +95,7 @@
     {% for document in documents %}
         <div class="gallery-item">
             <rz-entity-thumbnail 
-                entity-class="Document" 
+                entity-class="{{ document|class }}" 
                 entity-id="{{ document.id }}"
                 size="large"
             ></rz-entity-thumbnail>

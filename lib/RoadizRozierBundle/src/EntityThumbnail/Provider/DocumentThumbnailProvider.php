@@ -25,7 +25,7 @@ final class DocumentThumbnailProvider extends AbstractEntityThumbnailProvider
         return $this->isClassSupported($entityClass, Document::class);
     }
 
-    public function getThumbnail(string $entityClass, int|string $identifier): ?array
+    public function getThumbnail(string $entityClass, int|string $identifier): ?EntityThumbnail
     {
         if (!$this->isClassSupported($entityClass, Document::class)) {
             return null;

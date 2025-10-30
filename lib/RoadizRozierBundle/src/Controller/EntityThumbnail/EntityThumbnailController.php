@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller\EntityThumbnail;
 
+use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Controller to fetch entity thumbnail information via API.
@@ -19,6 +21,7 @@ final class EntityThumbnailController extends AbstractController
 {
     public function __construct(
         private readonly EntityThumbnailService $entityThumbnailService,
+        private readonly SerializerInterface $serializer,
     ) {
     }
 
@@ -32,52 +35,22 @@ final class EntityThumbnailController extends AbstractController
             throw new BadRequestHttpException('Both "class" and "id" parameters are required');
         }
 
-        // Validate and normalize entity class name
-        $entityClass = $this->normalizeEntityClass((string) $entityClass);
-
-        if (!class_exists($entityClass)) {
+        if (!class_exists((string) $entityClass)) {
             throw new BadRequestHttpException('Invalid entity class');
         }
 
         // Get thumbnail data - provider is responsible for fetching entity
-        $thumbnailData = $this->entityThumbnailService->getThumbnail($entityClass, $entityId);
+        $thumbnail = $this->entityThumbnailService->getThumbnail((string) $entityClass, $entityId);
 
-        if (null === $thumbnailData) {
-            return new JsonResponse([
-                'url' => null,
-                'alt' => null,
-                'title' => null,
-            ], Response::HTTP_OK);
+        if (null === $thumbnail) {
+            $thumbnail = new EntityThumbnail();
         }
 
-        return new JsonResponse($thumbnailData, Response::HTTP_OK);
-    }
-
-    /**
-     * Normalize entity class name to prevent directory traversal and ensure valid class names.
-     */
-    private function normalizeEntityClass(string $entityClass): string
-    {
-        // Allow short names like 'User', 'Document', 'NodesSources'
-        // and convert them to fully qualified class names
-        $classMap = [
-            'User' => \RZ\Roadiz\CoreBundle\Entity\User::class,
-            'Document' => \RZ\Roadiz\CoreBundle\Entity\Document::class,
-            'NodesSources' => \RZ\Roadiz\CoreBundle\Entity\NodesSources::class,
-            'Node' => \RZ\Roadiz\CoreBundle\Entity\Node::class,
-            'Tag' => \RZ\Roadiz\CoreBundle\Entity\Tag::class,
-        ];
-
-        // If it's a short name, convert it
-        if (isset($classMap[$entityClass])) {
-            return $classMap[$entityClass];
-        }
-
-        // If it's already a fully qualified class name, validate it
-        if (str_starts_with($entityClass, 'RZ\\Roadiz\\')) {
-            return $entityClass;
-        }
-
-        throw new BadRequestHttpException('Invalid entity class name');
+        return new JsonResponse(
+            $this->serializer->serialize($thumbnail, 'json'),
+            Response::HTTP_OK,
+            [],
+            true
+        );
     }
 }
