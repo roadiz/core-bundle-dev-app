@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
+use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 
 /**
  * Provides thumbnail for NodesSources entities.
@@ -41,28 +42,23 @@ final class NodesSourcesThumbnailProvider extends AbstractEntityThumbnailProvide
 
         $title = $nodeSource->getTitle() ?? 'Node';
 
-        // Get the first image document associated with this NodesSources
-        $nodesSourcesDocument = $this->managerRegistry
-            ->getRepository(NodesSourcesDocuments::class)
-            ->findOneBy([
-                'nodeSource' => $nodeSource,
-            ], [
-                'position' => 'ASC',
-            ]);
+        // Get the first displayable document associated with this NodesSources
+        $documentDto = $this->managerRegistry
+            ->getRepository(Document::class)
+            ->findOneDisplayableDtoByNodeSource($nodeSource);
 
-        if (null === $nodesSourcesDocument) {
+        if (null === $documentDto) {
             return $this->createResponse(null, $title, $title);
         }
 
-        $document = $nodesSourcesDocument->getDocument();
-        if (null === $document || $document->isPrivate()) {
+        if ($documentDto->isPrivate()) {
             return $this->createResponse(null, $title, $title);
         }
 
         $url = null;
-        if ($document->isImage() || $document->isSvg() || $document->isPdf()) {
+        if ($documentDto->isImage() || $documentDto->isSvg()) {
             $url = $this->documentUrlGenerator
-                ->setDocument($document)
+                ->setDocument($documentDto)
                 ->setOptions([
                     'width' => 64,
                     'height' => 64,

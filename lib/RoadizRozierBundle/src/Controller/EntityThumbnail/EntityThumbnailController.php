@@ -46,11 +46,26 @@ final class EntityThumbnailController extends AbstractController
             $thumbnail = new EntityThumbnail();
         }
 
-        return new JsonResponse(
+        // Generate ETag based on thumbnail data
+        $etag = md5($this->serializer->serialize($thumbnail, 'json'));
+        
+        // Check If-None-Match header
+        if ($request->headers->get('If-None-Match') === $etag) {
+            return new JsonResponse(null, Response::HTTP_NOT_MODIFIED);
+        }
+
+        $response = new JsonResponse(
             $this->serializer->serialize($thumbnail, 'json'),
             Response::HTTP_OK,
             [],
             true
         );
+
+        // Set cache headers for private caching
+        $response->setEtag($etag);
+        $response->setPrivate();
+        $response->setMaxAge(3600); // 1 hour cache
+        
+        return $response;
     }
 }

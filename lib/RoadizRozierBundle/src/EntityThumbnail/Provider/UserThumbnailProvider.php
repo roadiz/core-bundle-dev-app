@@ -45,21 +45,10 @@ final class UserThumbnailProvider extends AbstractEntityThumbnailProvider
             return null;
         }
 
-        $email = $user->getEmail();
         $username = $user->getUsername();
         $title = $username;
+        $pictureUrl = $user->getPictureUrl();
 
-        if (null === $email) {
-            return $this->createResponse(null, $username, $title);
-        }
-
-        // Generate Gravatar URL
-        $hash = md5(strtolower(trim($email)));
-        $gravatarUrl = sprintf(
-            'https://www.gravatar.com/avatar/%s?s=64&d=mp&r=g',
-            $hash
-        );
-
-        return $this->createResponse($gravatarUrl, $username, $title);
+        return $this->createResponse($pictureUrl, $username, $title);
     }
 }
