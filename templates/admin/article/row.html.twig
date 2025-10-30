@@ -2,33 +2,13 @@
     nodeId: item.node.id,
     translationId: item.translation.id,
 }) %}
-{% set mainDocument = first_displayable_image(item) %}
-{% if mainDocument %}
-    <td class="thumbnail mobile-hidden uk-visible-xlarge">
-        <a href="{{ itemEditUrl }}">
-            {% if mainDocument.shortType == 'video' %}
-                {{ mainDocument|display({
-                    'class': 'uk-thumbnail user-image',
-                    'fit': '45x45',
-                    'autoplay': true,
-                    'muted': true,
-                    'playsinline': true,
-                    'loop': true,
-                    'picture': true,
-                }) }}
-            {% else %}
-                {{ mainDocument|display({
-                    'class': 'uk-thumbnail user-image',
-                    'fit': '45x45',
-                    'picture': true,
-                }) }}
-            {% endif %}
-        </a>
-    </td>
-    <td><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
-{% else %}
-    <td colspan="2"><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
-{% endif %}
+<td class="thumbnail mobile-hidden uk-visible-xlarge">
+    <rz-entity-thumbnail
+        entity-class="App\GeneratedEntity\NSArticle"
+        entity-id="{{ item.id }}"
+    ></rz-entity-thumbnail>
+</td>
+<td><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
 <td class="uk-visible-xlarge">{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
 <td class="uk-visible-xlarge">{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
 <td class="uk-visible-xlarge">

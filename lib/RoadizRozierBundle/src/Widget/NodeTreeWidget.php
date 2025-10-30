@@ -273,6 +273,9 @@ final class NodeTreeWidget extends AbstractWidget
         ], null, null, $this->getTranslation());
     }
 
+    /**
+     * @deprecated Use <rz-entity-thumbnail> HTML custom element instead
+     */
     public function getOneDisplayableDocument(NodeTreeDto $node): ?DocumentDto
     {
         return $this->managerRegistry

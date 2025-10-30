@@ -1,0 +1,31 @@
+meta {
+  name: Get Entity thumbnail
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/rz-admin/ajax/entity-thumbnail?class=RZ\Roadiz\CoreBundle\Entity\User&id=ambroise@roadiz.io
+  body: none
+  auth: inherit
+}
+
+params:query {
+  class: RZ\Roadiz\CoreBundle\Entity\User
+  id: ambroise@roadiz.io
+  ~class: RZ\Roadiz\CoreBundle\Entity\Node
+  ~id: 1
+  ~class: RZ\Roadiz\CoreBundle\Entity\NodesSources
+  ~id: 535
+}
+
+headers {
+  Accept: application/json
+  Cookie: {{admin_cookie}}
+  ~If-None-Match: "a96181cbf91acd018d54cc58098618f8"
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
