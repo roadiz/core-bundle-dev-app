@@ -92,22 +92,42 @@ To add support for new entity types, create a provider extending `AbstractEntity
 
 namespace App\EntityThumbnail\Provider;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
 
 final class CustomEntityThumbnailProvider extends AbstractEntityThumbnailProvider
 {
-    public function supports(object $entity): bool
-    {
-        return $entity instanceof CustomEntity;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+    ) {
     }
 
-    public function getThumbnail(object $entity): array
+    public function supports(string $entityClass, int|string $identifier): bool
     {
+        return $this->isClassSupported($entityClass, CustomEntity::class);
+    }
+
+    public function getThumbnail(string $entityClass, int|string $identifier): ?array
+    {
+        // Provider is responsible for fetching the entity
+        $repository = $this->managerRegistry->getRepository($entityClass);
+        $entity = $repository->find($identifier);
+        
+        if (!$entity instanceof CustomEntity) {
+            return null;
+        }
+        
         // Your logic here
+        $url = // ... generate thumbnail URL
+        $alt = $entity->getName();
+        $title = $entity->getTitle();
+        
         return $this->createResponse($url, $alt, $title);
     }
 }
 ```
+
+**Note:** Providers are responsible for fetching entities from the database. This allows you to support different identifier types (e.g., ID, email, slug) for the same entity class.
 
 Tag the provider in your services configuration:
 

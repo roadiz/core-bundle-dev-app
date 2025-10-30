@@ -25,4 +25,15 @@ abstract class AbstractEntityThumbnailProvider implements EntityThumbnailProvide
             'title' => $title,
         ];
     }
+
+    /**
+     * Check if the given class is assignable to the expected class.
+     *
+     * @param class-string $entityClass
+     * @param class-string $expectedClass
+     */
+    protected function isClassSupported(string $entityClass, string $expectedClass): bool
+    {
+        return is_a($entityClass, $expectedClass, true);
+    }
 }

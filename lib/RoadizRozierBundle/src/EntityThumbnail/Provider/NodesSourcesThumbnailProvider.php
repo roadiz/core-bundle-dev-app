@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
@@ -17,28 +17,35 @@ final class NodesSourcesThumbnailProvider extends AbstractEntityThumbnailProvide
 {
     public function __construct(
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 
-    public function supports(object $entity): bool
+    public function supports(string $entityClass, int|string $identifier): bool
     {
-        return $entity instanceof NodesSources;
+        return $this->isClassSupported($entityClass, NodesSources::class);
     }
 
-    public function getThumbnail(object $entity): array
+    public function getThumbnail(string $entityClass, int|string $identifier): ?array
     {
-        if (!$entity instanceof NodesSources) {
-            return $this->createResponse(null);
+        if (!$this->isClassSupported($entityClass, NodesSources::class)) {
+            return null;
         }
 
-        $title = $entity->getTitle() ?? 'Node';
+        $repository = $this->managerRegistry->getRepository($entityClass);
+        $nodeSource = $repository->find($identifier);
+
+        if (!$nodeSource instanceof NodesSources) {
+            return null;
+        }
+
+        $title = $nodeSource->getTitle() ?? 'Node';
 
         // Get the first image document associated with this NodesSources
-        $nodesSourcesDocument = $this->entityManager
+        $nodesSourcesDocument = $this->managerRegistry
             ->getRepository(NodesSourcesDocuments::class)
             ->findOneBy([
-                'nodeSource' => $entity,
+                'nodeSource' => $nodeSource,
             ], [
                 'position' => 'ASC',
             ]);

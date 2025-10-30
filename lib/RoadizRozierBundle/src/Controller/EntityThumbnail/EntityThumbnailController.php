@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller\EntityThumbnail;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -21,7 +19,6 @@ final class EntityThumbnailController extends AbstractController
 {
     public function __construct(
         private readonly EntityThumbnailService $entityThumbnailService,
-        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 
@@ -42,17 +39,8 @@ final class EntityThumbnailController extends AbstractController
             throw new BadRequestHttpException('Invalid entity class');
         }
 
-        // Fetch the entity
-        $entity = $this->managerRegistry
-            ->getRepository($entityClass)
-            ->find($entityId);
-
-        if (null === $entity) {
-            throw new NotFoundHttpException(sprintf('Entity of class %s with id %s not found', $entityClass, $entityId));
-        }
-
-        // Get thumbnail data
-        $thumbnailData = $this->entityThumbnailService->getThumbnail($entity);
+        // Get thumbnail data - provider is responsible for fetching entity
+        $thumbnailData = $this->entityThumbnailService->getThumbnail($entityClass, $entityId);
 
         if (null === $thumbnailData) {
             return new JsonResponse([

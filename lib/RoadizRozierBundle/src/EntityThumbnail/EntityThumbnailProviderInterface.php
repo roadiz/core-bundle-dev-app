@@ -10,18 +10,21 @@ namespace RZ\Roadiz\RozierBundle\EntityThumbnail;
 interface EntityThumbnailProviderInterface
 {
     /**
-     * Check if this provider can handle the given entity.
+     * Check if this provider can handle the given entity class and identifier.
      *
-     * @param object $entity The entity to check
+     * @param class-string $entityClass The entity class name
+     * @param int|string $identifier The entity identifier
      * @return bool True if this provider can handle the entity
      */
-    public function supports(object $entity): bool;
+    public function supports(string $entityClass, int|string $identifier): bool;
 
     /**
-     * Get thumbnail information for the given entity.
+     * Get thumbnail information for the given entity class and identifier.
+     * Provider is responsible for fetching the entity.
      *
-     * @param object $entity The entity to get thumbnail for
-     * @return array{url: string|null, alt: string|null, title: string|null} Thumbnail data
+     * @param class-string $entityClass The entity class name
+     * @param int|string $identifier The entity identifier
+     * @return array{url: string|null, alt: string|null, title: string|null}|null Thumbnail data or null if entity not found
      */
-    public function getThumbnail(object $entity): array;
+    public function getThumbnail(string $entityClass, int|string $identifier): ?array;
 }

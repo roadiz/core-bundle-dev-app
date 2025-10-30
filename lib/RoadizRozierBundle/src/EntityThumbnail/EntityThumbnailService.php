@@ -18,16 +18,17 @@ final class EntityThumbnailService
     }
 
     /**
-     * Get thumbnail information for any entity.
+     * Get thumbnail information for any entity by class name and identifier.
      *
-     * @param object $entity The entity to get thumbnail for
+     * @param class-string $entityClass The entity class name
+     * @param int|string $identifier The entity identifier
      * @return array{url: string|null, alt: string|null, title: string|null}|null
      */
-    public function getThumbnail(object $entity): ?array
+    public function getThumbnail(string $entityClass, int|string $identifier): ?array
     {
         foreach ($this->providers as $provider) {
-            if ($provider->supports($entity)) {
-                return $provider->getThumbnail($entity);
+            if ($provider->supports($entityClass, $identifier)) {
+                return $provider->getThumbnail($entityClass, $identifier);
             }
         }
 
