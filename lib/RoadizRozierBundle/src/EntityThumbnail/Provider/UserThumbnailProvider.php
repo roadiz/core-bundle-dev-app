@@ -7,23 +7,26 @@ namespace RZ\Roadiz\RozierBundle\EntityThumbnail\Provider;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\RozierBundle\EntityThumbnail\AbstractEntityThumbnailProvider;
+use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
 
 /**
  * Provides thumbnail for User entities using Gravatar.
  * Supports both integer IDs and email addresses as identifiers.
  */
-final class UserThumbnailProvider extends AbstractEntityThumbnailProvider
+final readonly class UserThumbnailProvider extends AbstractEntityThumbnailProvider
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 
+    #[\Override]
     public function supports(string $entityClass, int|string $identifier): bool
     {
         return $this->isClassSupported($entityClass, User::class);
     }
 
+    #[\Override]
     public function getThumbnail(string $entityClass, int|string $identifier): ?EntityThumbnail
     {
         if (!$this->isClassSupported($entityClass, User::class)) {
@@ -32,7 +35,7 @@ final class UserThumbnailProvider extends AbstractEntityThumbnailProvider
 
         // Try to fetch user by ID or email
         $repository = $this->managerRegistry->getRepository($entityClass);
-        
+
         // If identifier is numeric, try by ID first
         if (is_numeric($identifier)) {
             $user = $repository->find((int) $identifier);
@@ -45,10 +48,12 @@ final class UserThumbnailProvider extends AbstractEntityThumbnailProvider
             return null;
         }
 
-        $username = $user->getUsername();
-        $title = $username;
-        $pictureUrl = $user->getPictureUrl();
+        $username = $user->getUserIdentifier();
 
-        return $this->createResponse($pictureUrl, $username, $title);
+        return new EntityThumbnail(
+            url: $user->getPictureUrl(),
+            alt: $username,
+            title: $user->getPublicName() ?? $username,
+        );
     }
 }

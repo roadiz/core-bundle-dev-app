@@ -18,6 +18,11 @@ ping:
     methods: [GET]
     controller: RZ\Roadiz\RozierBundle\Controller\PingController::pingAction
 
+ajaxEntityThumbnail:
+    path:     /rz-admin/ajax/entity-thumbnail
+    methods: [GET]
+    controller: RZ\Roadiz\RozierBundle\Controller\EntityThumbnail\EntityThumbnailController
+
 # CACHES
 deleteDoctrineCache:
     path:     /rz-admin/cache/delete-doctrine-cache

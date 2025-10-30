@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller\EntityThumbnail;
 
 use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnail;
-use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailService;
+use RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -20,53 +19,62 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class EntityThumbnailController extends AbstractController
 {
     public function __construct(
-        private readonly EntityThumbnailService $entityThumbnailService,
+        private readonly EntityThumbnailProviderInterface $entityThumbnailProvider,
         private readonly SerializerInterface $serializer,
     ) {
     }
 
-    #[Route('/rz-admin/ajax/entity-thumbnail', name: 'entityThumbnailAction', methods: ['GET'])]
     public function __invoke(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
+
         $entityClass = $request->query->get('class');
         $entityId = $request->query->get('id');
+
+        if (!is_string($entityClass)) {
+            throw new BadRequestHttpException('"class" parameters must be a valid class name');
+        }
 
         if (empty($entityClass) || empty($entityId)) {
             throw new BadRequestHttpException('Both "class" and "id" parameters are required');
         }
 
-        if (!class_exists((string) $entityClass)) {
+        if (!is_string($entityId) && !(is_int($entityId) && $entityId > 0)) {
+            throw new BadRequestHttpException('"id" parameters must be a valid identifier');
+        }
+
+        if (!class_exists($entityClass)) {
             throw new BadRequestHttpException('Invalid entity class');
         }
 
         // Get thumbnail data - provider is responsible for fetching entity
-        $thumbnail = $this->entityThumbnailService->getThumbnail((string) $entityClass, $entityId);
+        $thumbnail = $this->entityThumbnailProvider->getThumbnail($entityClass, $entityId);
 
         if (null === $thumbnail) {
             $thumbnail = new EntityThumbnail();
         }
 
-        $content = $this->serializer->serialize($thumbnail, 'json');
-        // Generate ETag based on thumbnail data
-        $etag = md5($content);
-        
-        // Check If-None-Match header
-        if ($request->headers->get('If-None-Match') === $etag) {
-            return new JsonResponse(null, Response::HTTP_NOT_MODIFIED);
-        }
-
         $response = new JsonResponse(
-            $content,
+            $this->serializer->serialize($thumbnail, 'json'),
             Response::HTTP_OK,
             [],
             true
         );
 
-        // Set cache headers for private caching
-        $response->setEtag($etag);
+        /*
+         * Only set ETag if we have a URL to avoid caching empty responses
+         */
+        if (null !== $thumbnail->url) {
+            $response->setEtag(md5($response->getContent() ?: ''));
+            $response->isNotModified($request);
+        }
+
+        /*
+         * Private cache for 10 minutes
+         */
         $response->setPrivate();
-        $response->setMaxAge(3600); // 1 hour cache
-        
+        $response->setMaxAge(600);
+
         return $response;
     }
 }
