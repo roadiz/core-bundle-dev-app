@@ -2,10 +2,10 @@ import RoadizElement from '~/utils/custom-element/RoadizElement'
 
 /**
  * Custom element that fetches and displays entity thumbnails.
- * 
+ *
  * Usage:
- * <rz-entity-thumbnail entity-class="User" entity-id="1"></rz-entity-thumbnail>
- * <rz-entity-thumbnail entity-class="Document" entity-id="42" size="large"></rz-entity-thumbnail>
+ * <rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\User" entity-id="test@test.test"></rz-entity-thumbnail>
+ * <rz-entity-thumbnail entity-class="RZ\Roadiz\CoreBundle\Entity\Document" entity-id="42" size="large"></rz-entity-thumbnail>
  */
 export default class RzEntityThumbnail extends RoadizElement {
     private entityClass: string | null = null
@@ -17,7 +17,12 @@ export default class RzEntityThumbnail extends RoadizElement {
         url: string | null
         alt: string | null
         title: string | null
+        width: number | null
+        height: number | null
     } | null = null
+    // Added properties for lazy loading via IntersectionObserver
+    private intersectionObserver: IntersectionObserver | null = null
+    private hasRequested = false
 
     constructor() {
         super()
@@ -27,13 +32,51 @@ export default class RzEntityThumbnail extends RoadizElement {
         this.entityClass = this.getAttribute('entity-class')
         this.entityId = this.getAttribute('entity-id')
         const sizeAttr = this.getAttribute('size')
-        
-        if (sizeAttr === 'small' || sizeAttr === 'medium' || sizeAttr === 'large') {
+
+        if (
+            sizeAttr === 'small' ||
+            sizeAttr === 'medium' ||
+            sizeAttr === 'large'
+        ) {
             this.size = sizeAttr
         }
 
+        // Defer fetching until element is visible; show placeholder (not loading spinner yet)
+        this.loading = false
         this.render()
-        this.fetchThumbnail()
+
+        // Initialize IntersectionObserver to trigger fetch when visible
+        this.intersectionObserver = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting && !this.hasRequested) {
+                        this.hasRequested = true
+                        this.loading = true
+                        this.render() // show spinner while fetching
+                        this.fetchThumbnail()
+                        // We only need to fetch once
+                        if (this.intersectionObserver) {
+                            this.intersectionObserver.disconnect()
+                            this.intersectionObserver = null
+                        }
+                    }
+                }
+            },
+            {
+                root: null,
+                threshold: 0.1, // trigger when at least 10% visible
+            },
+        )
+
+        this.intersectionObserver.observe(this)
+    }
+
+    disconnectedCallback() {
+        // Clean up observer if element is removed
+        if (this.intersectionObserver) {
+            this.intersectionObserver.disconnect()
+            this.intersectionObserver = null
+        }
     }
 
     private async fetchThumbnail() {
@@ -49,16 +92,16 @@ export default class RzEntityThumbnail extends RoadizElement {
                 class: this.entityClass,
                 id: this.entityId,
             })
-            
+
             const response = await fetch(
                 `/rz-admin/ajax/entity-thumbnail?${params.toString()}`,
                 {
                     method: 'GET',
                     headers: {
-                        'Accept': 'application/json',
+                        Accept: 'application/json',
                     },
                     credentials: 'same-origin',
-                }
+                },
             )
 
             if (!response.ok) {
@@ -88,7 +131,7 @@ export default class RzEntityThumbnail extends RoadizElement {
 
     private render() {
         const sizeClass = this.getSizeClass()
-        
+
         if (this.loading) {
             this.innerHTML = `
                 <div class="rz-entity-thumbnail ${sizeClass} rz-entity-thumbnail--loading">
@@ -122,18 +165,21 @@ export default class RzEntityThumbnail extends RoadizElement {
 
         const alt = this.thumbnailData.alt || ''
         const title = this.thumbnailData.title || ''
-        
+
         this.innerHTML = `
-            <div class="rz-entity-thumbnail ${sizeClass}">
-                <img 
-                    class="rz-entity-thumbnail__image" 
-                    src="${this.thumbnailData.url}" 
+            <figure class="rz-entity-thumbnail ${sizeClass}">
+                <img
+                    data-uk-tooltip="{animation:true}"
+                    class="uk-thumbnail rz-entity-thumbnail__image"
+                    src="${this.thumbnailData.url}"
                     alt="${alt}"
+                    width="${this.thumbnailData.width || ''}"
+                    height="${this.thumbnailData.height || ''}"
                     loading="lazy"
                 />
-            </div>
+            </figure>
         `
-        
+
         if (title) {
             this.setAttribute('title', title)
         }
