@@ -170,3 +170,7 @@ fabric.properties
 /siege.txt
 /auth.json
 /lib/Rozier/.pnpm-store/
+
+###> deptrac/deptrac ###
+/.deptrac.cache
+###< deptrac/deptrac ###
