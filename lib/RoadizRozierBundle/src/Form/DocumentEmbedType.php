@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class DocumentEmbedType extends AbstractType
 {
@@ -44,11 +46,13 @@ class DocumentEmbedType extends AbstractType
                     'label' => 'document.embedUrl',
                     'help' => 'document.embedUrl.help',
                     'required' => true,
+                    'constraints' => [
+                        new NotNull(),
+                        new NotBlank(),
+                    ],
                 ])
             ;
-            if (false === $options['required']) {
-                $builder->get('embedUrl')->setRequired(false);
-            }
+            $builder->get('embedUrl')->setRequired(false);
         }
     }
 

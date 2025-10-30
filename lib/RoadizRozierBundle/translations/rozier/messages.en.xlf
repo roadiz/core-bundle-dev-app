@@ -1828,7 +1828,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.embedUrl" approved="yes">
       <source>document.embedUrl</source>
-          <target state="final">Media url on platform</target>
+          <target state="final">Media URL on platform</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.embedUrl.help" approved="yes">
         <source>document.embedUrl.help</source>
