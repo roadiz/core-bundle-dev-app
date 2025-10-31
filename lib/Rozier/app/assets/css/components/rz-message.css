@@ -1,11 +1,11 @@
 .rz-message {
     padding: var(--spacing-2xs, 12px);
     border-radius: var(--radius-2xs, 4px);
-    background-color: var(--rz-form-message-background-color, var(--surface-light-tertiary, #F2F2F2));
-    color: var(--rz-form-message-color, var(--content-on-light-primary, #18191B));
+    background-color: var(--rz-message-background-color, var(--surface-light-tertiary, #F2F2F2));
+    color: var(--rz-message-color, var(--content-on-light-primary, #18191B));
 }
 
 .rz-message--type-error {
-    --rz-form-message-color: var(--status-error-on-container, #A92A3E);
-    --rz-form-message-background-color: var(--status-error-container, #FFD3DA);
+    --rz-message-color: var(--status-error-on-container, #A92A3E);
+    --rz-message-background-color: var(--status-error-container, #FFD3DA);
 }
