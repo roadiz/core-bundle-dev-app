@@ -46,10 +46,7 @@ const commonsInputList = [
 
 function fieldsetRenderer(args: Args) {
     const fieldset = document.createElement('fieldset')
-    const fieldsetClasses = [
-        COMPONENT_CLASS_NAME,
-        args.required && `${COMPONENT_CLASS_NAME}--required`,
-    ].filter((c) => c) as string[]
+    const fieldsetClasses = [COMPONENT_CLASS_NAME].filter((c) => c)
     fieldset.classList.add(...fieldsetClasses)
 
     const legend = document.createElement('legend')
@@ -66,12 +63,12 @@ function fieldsetRenderer(args: Args) {
     }
 
     // Inputs
-    const fieldsetBody = document.createElement('div')
-    fieldsetBody.classList.add(`${COMPONENT_CLASS_NAME}__body`)
-    fieldset.appendChild(fieldsetBody)
     commonsInputList.forEach((inputDef) => {
-        const input = rzFormFieldRenderer(inputDef)
-        fieldsetBody.appendChild(input)
+        const input = rzFormFieldRenderer({
+            ...inputDef,
+            required: args.required,
+        })
+        fieldset.appendChild(input)
     })
 
     if (args.supportingText) {

@@ -1,6 +1,19 @@
 .rz-fieldset {
-    all: unset;
-    display: block;
+    --rz-fieldset-padding-inline: var(--spacing-lg);
+
+    position: relative;
+    padding: var(--spacing-md) var(--rz-fieldset-padding-inline) var(--spacing-lg);
+    margin: 0;
+    border: none;
+
+    &::after {
+        position: absolute;
+        content: '';
+        inset: 0;
+        pointer-events: none;
+        border-radius: var(--radius-xs, 6px);
+        border: 1px solid var(--line-on-light-secondary, #DADADA);
+    }
 
     .rz-message {
         margin-top: var(--spacing-4xs, 8px);
@@ -8,27 +21,24 @@
 }
 
 .rz-fieldset__legend {
-    all: unset;
-    padding-top: var(--spacing-xs, 16px);
+    margin-bottom: var(--spacing-4xs, 8px);
+    margin-left: calc(var(--rz-fieldset-padding-inline) * -1);
+
     font-family: var(--font-family-os-label);
     font-size: var(--text-form-label-font-size);
     line-height: var(--text-form-label-line-height);
     letter-spacing: var(--text-form-label-letter-spacing);
     font-weight: var(--text-form-label-font-weight);
-
-    .rz-fieldset--required &::after {
-        content: '*';
-    }
 }
 
 .rz-fieldset__description {
+    margin-block: var(--spacing-6xs, 4px) 0;
+
     font-family: var(--font-family-os-text);
     font-size: var(--text-form-description-md-font-size);
     line-height: var(--text-form-description-md-line-height);
     letter-spacing: var(--text-form-description-md-letter-spacing);
     font-weight: var(--text-form-description-md-font-weight);
-
-    margin-block: var(--spacing-6xs, 4px) 0;
 }
 
 
