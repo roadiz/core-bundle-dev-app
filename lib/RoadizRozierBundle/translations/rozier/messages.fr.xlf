@@ -1826,6 +1826,14 @@
         <source>document.embedId</source>
         <target state="final">Identifiant du média</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl" approved="yes">
+        <source>document.embedUrl</source>
+        <target state="final">URL du média</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl.help" approved="yes">
+        <source>document.embedUrl.help</source>
+        <target state="final">Entrez l’URL d’une vidéo à intégrer (YouTube, Vimeo, etc.)</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="%field%.is.reserved.word" approved="yes">
         <source>%field%.is.reserved.word</source>
         <target state="final">Le nom «%field%» est un mot réservé.</target>
