@@ -1,0 +1,50 @@
+.rz-form-field--inline {
+    --rz-form-field-gap: 0 var(--spacing-4xs);
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-auto-flow: dense;
+    align-items: center;
+
+    .rz-form-field__label,
+    .rz-form-field__description {
+        grid-column: 2 / -1;
+    }
+}
+
+.rz-form-field__label {
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-form-label-font-size);
+    line-height: var(--text-form-label-line-height);
+    letter-spacing: var(--text-form-label-letter-spacing);
+    font-weight: var(--text-form-label-font-weight);
+
+    .rz-form-field--required &::after {
+        content: '*';
+        color: var(--color-danger-600);
+    }
+}
+
+.rz-form-field__description {
+    display: block;
+    margin-block: var(--spacing-6xs) 0;
+
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-description-md-font-size);
+    line-height: var(--text-form-description-md-line-height);
+    letter-spacing: var(--text-form-description-md-letter-spacing);
+    font-weight: var(--text-form-description-md-font-weight);
+}
+
+.rz-form-field__input {
+    margin-top: var(--spacing-4xs);
+    width: stretch;
+}
+
+.rz-form-field__message {
+    margin-block: var(--spacing-4xs) 0;
+
+    & > p {
+        margin: initial;
+    }
+}
