@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzMessageRenderer } from '../app/utils/storybook/renderer/rzMessage'
 
-const TYPES = ['error'] as const
+/* Think about accessibility during integration, e.g., role="alert" when creating error messages */
+const COLORS = ['error'] as const
 
 export type Args = {
     text: string
-    type?: (typeof TYPES)[number]
+    color?: (typeof COLORS)[number]
 }
 
 const meta: Meta<Args> = {
@@ -14,8 +15,8 @@ const meta: Meta<Args> = {
         text: 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur',
     },
     argTypes: {
-        type: {
-            options: ['', ...TYPES],
+        color: {
+            options: ['', ...COLORS],
             control: { type: 'radio' },
         },
     },
@@ -59,6 +60,9 @@ export const WithMoreContent: Story = {
         container.appendChild(message1)
 
         const message2 = rzMessageRenderer(args)
+        if (message2.lastChild instanceof HTMLElement) {
+            message2.lastChild.style.display = 'inline'
+        }
         const icon2 = icon.cloneNode(true) as HTMLElement
         icon2.style.translate = '0 0.2lh'
         icon2.style.marginRight = '0.3rem'
@@ -68,6 +72,6 @@ export const WithMoreContent: Story = {
         return container
     },
     args: {
-        type: 'error',
+        color: 'error',
     },
 }
