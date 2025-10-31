@@ -9,7 +9,7 @@ export type Args = {
     name: string
     required?: boolean
     description?: string // under label
-    supportingText?: string // under input
+    help?: string // under input
     error?: string
     type: (typeof INPUT_TYPES)[number]
     inline?: boolean
@@ -24,7 +24,7 @@ const meta: Meta<Args> = {
         description: 'This is a description for the input field.',
         type: 'text',
         error: '',
-        supportingText: '',
+        help: '',
     },
     argTypes: {
         type: {
@@ -59,7 +59,7 @@ export const WithSupportingText: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        supportingText: 'This is a supporting text for the input field.',
+        help: 'This is a supporting text for the input field.',
     },
 }
 

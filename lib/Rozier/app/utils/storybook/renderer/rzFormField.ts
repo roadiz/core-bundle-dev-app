@@ -38,16 +38,17 @@ export function rzFormFieldRenderer(args: Args) {
     if (args.required) input.setAttribute('required', 'true')
     wrapper.appendChild(input)
 
-    if (args.supportingText) {
-        const node = rzMessageRenderer({ text: args.supportingText })
+    if (args.help) {
+        const node = rzMessageRenderer({ text: args.help })
+        node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         node.setAttribute('for', args.name)
         wrapper.appendChild(node)
     }
 
     if (args.error) {
         const node = rzMessageRenderer({ text: args.error, type: 'error' })
+        node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         node.setAttribute('for', args.name)
-        node.classList.add('rz-form-message--type-error')
         wrapper.appendChild(node)
     }
 

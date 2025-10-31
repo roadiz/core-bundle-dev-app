@@ -41,6 +41,10 @@
     width: stretch;
 }
 
-.rz-form-field__supporting-text {
-    margin: initial;
+.rz-form-field__message {
+    margin-block: var(--spacing-4xs) 0;
+
+    & > p {
+        margin: initial;
+    }
 }

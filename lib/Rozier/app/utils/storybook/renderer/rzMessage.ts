@@ -16,9 +16,7 @@ export function rzMessageRenderer(args: Args) {
     }
 
     const text = document.createElement('p')
-    text.style.display = 'inline'
     text.classList.add('text-form-supporting-text')
-    text.style.margin = '0'
     text.textContent = args.text
     wrapper.appendChild(text)
 
