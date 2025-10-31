@@ -12,7 +12,7 @@ groupsRemoveRolesPage:
     path:     /edit/{id}/roles/{role}/remove
     defaults:
         _controller: RZ\Roadiz\RozierBundle\Controller\GroupController::removeRolesAction
-    requirements: { id : "[0-9]+", role : "[A-Z_]+" }
+    requirements: { id : "[0-9]+", role : "[A-Z0-9_]+" }
 groupsAddPage:
     path:     /add
     defaults:
