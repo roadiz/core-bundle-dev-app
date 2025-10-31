@@ -32,7 +32,7 @@ usersRemoveRolesPage:
     path:     /edit/{userId}/roles/{role}/remove
     defaults:
         _controller: RZ\Roadiz\RozierBundle\Controller\User\UserRoleController::removeRoleAction
-    requirements: { userId : "[0-9]+", role : "[A-Z_]+" }
+    requirements: { userId : "[0-9]+", role : "[A-Z0-9_]+" }
 usersEditGroupsPage:
     path:     /edit/{userId}/groups
     defaults:
