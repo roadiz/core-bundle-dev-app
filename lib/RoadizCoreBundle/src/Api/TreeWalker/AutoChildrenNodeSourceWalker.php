@@ -27,7 +27,7 @@ class AutoChildrenNodeSourceWalker extends AbstractCycleAwareWalker
                 /** @var NodeTypeInterface $nodeType */
                 foreach ($context->getNodeTypesBag()->all() as $nodeType) {
                     $this->addDefinition(
-                        $nodeType->getSourceEntityFullQualifiedClassName(),
+                        $context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType),
                         $this->createDefinitionForNodeType($nodeType)
                     );
                 }

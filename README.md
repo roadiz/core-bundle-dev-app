@@ -95,6 +95,18 @@ After setup, users will be redirected to Authentik for authentication and automa
 
 See how to configure it in [Documention](https://docs.roadiz.io/developer/first-steps/manual_config.html#openid-sso-authentication)
 
+## Create new bundle
+
+If you want to create a new bundle in the monorepo, you need to update deptrac configuration to include your new bundle in the analysis.
+Edit `deptrac.yaml` file and create a new layer for your bundle, then add it to the appropriate rules.
+
+More info about deptrac configuration can be found in [Deptrac documentation](https://deptrac.github.io/deptrac/concepts/).
+
+Then, run deptrac analysis to make sure your new bundle respects the architecture rules.
+```shell
+make check-architecture
+```
+
 ## Run documentation website
 
 ```shell

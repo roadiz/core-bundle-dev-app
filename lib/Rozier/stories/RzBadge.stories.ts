@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 
 const COMPONENT_CLASS = 'rz-badge'
 const SIZES = ['xs', 'sm', 'md'] as const
-const STATUS = ['information', 'success', 'warning', 'error'] as const
+const COLORS = ['information', 'success', 'warning', 'error'] as const
 
 type BadgeArgs = {
     label: string
     iconClass: string
     size: (typeof SIZES)[number]
-    status: (typeof STATUS)[number]
+    color: (typeof COLORS)[number]
 }
 
 const meta: Meta<BadgeArgs> = {
@@ -22,8 +22,8 @@ const meta: Meta<BadgeArgs> = {
             options: ['', ...SIZES],
             control: { type: 'radio' },
         },
-        status: {
-            options: ['', ...STATUS],
+        color: {
+            options: ['', ...COLORS],
             control: { type: 'radio' },
         },
     },
@@ -57,9 +57,7 @@ function labelRenderer(text: string) {
 function itemRenderer(args: BadgeArgs) {
     const node = document.createElement('div')
     const sizeClass = args.size ? `${COMPONENT_CLASS}--size-${args.size}` : ''
-    const statusClass = args.status
-        ? `${COMPONENT_CLASS}--status-${args.status}`
-        : ''
+    const statusClass = args.color && `${COMPONENT_CLASS}--${args.color}`
     const classes = [COMPONENT_CLASS, sizeClass, statusClass].filter((c) => c)
     node.classList.add(...classes)
 
@@ -80,12 +78,23 @@ export const Default: Story = {
     },
 }
 
+export const Information: Story = {
+    render: (args) => {
+        return itemRenderer({
+            ...args,
+            label: 'Information',
+            color: 'information',
+            iconClass: 'rz-icon-rz--status-published-colored',
+        })
+    },
+}
+
 export const Published: Story = {
     render: (args) => {
         return itemRenderer({
             ...args,
             label: 'Published',
-            status: 'success',
+            color: 'success',
             iconClass: 'rz-icon-rz--status-published-colored',
         })
     },
@@ -96,7 +105,7 @@ export const Draft: Story = {
         return itemRenderer({
             ...args,
             label: 'Draft',
-            status: 'warning',
+            color: 'warning',
             iconClass: 'rz-icon-rz--status-draft-colored',
         })
     },
@@ -107,7 +116,7 @@ export const Unpublished: Story = {
         return itemRenderer({
             ...args,
             label: 'Unpublished',
-            status: 'error',
+            color: 'error',
             iconClass: 'rz-icon-rz--status-draft-colored',
         })
     },

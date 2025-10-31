@@ -1,7 +1,14 @@
 <tr style="--rz-accent-color: {{ getNodeType(node).color }};">
     <td class="nodes-list-item-link">
         <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
-        <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">{{ node.nodeSources.first.title|default(node.nodeName) }}</a>
+        <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">
+            <rz-entity-thumbnail
+                class="mobile-hidden uk-visible-large"
+                entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
+                entity-id="{{ node.id }}"
+            ></rz-entity-thumbnail>
+            {{ node.nodeSources.first.title|default(node.nodeName) }}
+        </a>
     </td>
     <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
     <td class="mobile-hidden uk-visible-large">

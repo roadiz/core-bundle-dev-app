@@ -20,6 +20,7 @@
 @import './components/rz-badge.css';
 @import './components/rz-message.css';
 @import './components/rz-button-group.css';
+@import './components/rz-entity-thumbnail.css';
 
 /* Components: Form */
 @import './components/rz-switch.css';

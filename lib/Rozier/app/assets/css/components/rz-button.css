@@ -172,6 +172,57 @@
 	}
 }
 
+
+/* COLORS */
+.rz-button--success-light {
+	--rz-button-background-color: var(--status-success-container, #D5FFEC);
+	--rz-button-color: var(--status-success, #16A867);
+
+	@media (hover: hover) {
+		&:hover {
+			--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-background-color: var(--status-success, #16A867);
+		}
+	}
+}
+
+.rz-button--success {
+	--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
+	--rz-button-background-color: var(--status-success, #16A867);
+	--rz-button-border: none;
+
+	@media (hover: hover) {
+		&:hover {
+			--rz-button-background-color: var(--status-success-on-container, #298059);
+		}
+	}
+}
+
+.rz-button--error {
+	--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
+	--rz-button-background-color: var(--status-error, #E54457);
+	--rz-button-border: none;
+
+	@media (hover: hover) {
+		&:hover {
+			--rz-button-background-color: var(--status-error-on-container, #A92A3E);
+		}
+	}
+}
+
+.rz-button--error-light {
+	--rz-button-color: var(--status-error, #E54457);
+	--rz-button-background-color: var(--status-error-container, #FFD3DA);
+	--rz-button-border: none;
+
+	@media (hover: hover) {
+		&:hover {
+			--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-background-color: var(--status-error, #E54457);
+		}
+	}
+}
+
 /* INNER ELEMENTS */
 .rz-button__label {
 	padding: var(--rz-button-label-padding, 0 4px);

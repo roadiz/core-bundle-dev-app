@@ -48,7 +48,7 @@
         "roadiz/jwt": "2.7.x-dev",
         "roadiz/markdown": "2.7.x-dev",
         "roadiz/models": "2.7.x-dev",
-        "roadiz/nodetype-contracts": "^3.0.0",
+        "roadiz/nodetype-contracts": "^3.1.1",
         "roadiz/random": "2.7.x-dev",
         "scienta/doctrine-json-functions": "^4.2",
         "symfony-cmf/routing-bundle": "^3.1.0",

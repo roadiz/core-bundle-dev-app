@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -48,6 +49,7 @@ final class NodeTypeHandler extends AbstractHandler
         private readonly LoggerInterface $logger,
         private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         private readonly string $generatedEntitiesDir,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
         parent::__construct($objectManager);
     }
@@ -147,14 +149,14 @@ final class NodeTypeHandler extends AbstractHandler
     {
         $folder = $this->getGeneratedEntitiesFolder();
 
-        return $folder.DIRECTORY_SEPARATOR.$this->nodeType->getSourceEntityClassName().'.php';
+        return $folder.DIRECTORY_SEPARATOR.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType).'.php';
     }
 
     public function getRepositoryClassPath(): string
     {
         $folder = $this->getGeneratedRepositoriesFolder();
 
-        return $folder.DIRECTORY_SEPARATOR.$this->nodeType->getSourceEntityClassName().'Repository.php';
+        return $folder.DIRECTORY_SEPARATOR.$this->nodeTypeClassLocator->getRepositoryClassName($this->nodeType).'.php';
     }
 
     /**

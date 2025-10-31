@@ -46,6 +46,17 @@ class NSArticle extends NodesSources
     #[ORM\Column(name: 'content', type: 'text', nullable: true)]
     private ?string $content = null;
 
+    /**
+     * Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
+     * (Virtual field, this var is a buffer)
+     */
+    #[Serializer\SerializedName(serializedName: 'images')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
+    #[ApiProperty(description: 'Images', genId: true)]
+    #[Serializer\MaxDepth(2)]
+    private ?array $images = null;
+
     /** Secret realm_b. */
     #[Serializer\SerializedName(serializedName: 'realmBSecret')]
     #[Serializer\Groups(['realm_b'])]
@@ -122,6 +133,47 @@ class NSArticle extends NodesSources
         $this->content = null !== $content ?
                     (string) $content :
                     null;
+        return $this;
+    }
+
+    /**
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
+     */
+    public function getImages(): array
+    {
+        if (null === $this->images) {
+            if (null !== $this->objectManager) {
+                $this->images = $this->objectManager
+                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
+                    ->findDocumentDtoByNodeSourceAndFieldName(
+                        $this,
+                        'images'
+                    );
+            } else {
+                $this->images = [];
+            }
+        }
+        return $this->images;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addImages(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
+    {
+        if (null === $this->objectManager) {
+            return $this;
+        }
+        $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+            $this,
+            $document
+        );
+        $nodeSourceDocument->setFieldName('images');
+        if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+            $this->objectManager->persist($nodeSourceDocument);
+            $this->addDocumentsByFields($nodeSourceDocument);
+            $this->images = null;
+        }
         return $this;
     }
 

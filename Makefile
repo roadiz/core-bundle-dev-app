@@ -1,6 +1,9 @@
 phpstan:
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 
+check-architecture:
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/deptrac analyse --config-file=deptrac.yaml --ansi --no-progress
+
 audit:
 	docker compose run --no-deps --rm --entrypoint= app composer audit --abandoned=report --format=plain
 
@@ -10,6 +13,7 @@ test:
 	docker compose run --no-deps --rm --entrypoint= app composer audit --abandoned=report --format=plain --locked
 	make phpstan
 	make rector_test
+	make check-architecture
 	make check
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates

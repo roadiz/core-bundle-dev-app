@@ -29,6 +29,8 @@
         "nelmio/solarium-bundle": "^5.1",
         "roadiz/core-bundle": "2.7.x-dev",
         "roadiz/documents": "2.7.x-dev",
+        "roadiz/models": "2.7.x-dev",
+        "roadiz/markdown": "2.7.x-dev",
         "solarium/solarium": "^6.3.6",
         "symfony/cache": "7.3.*",
         "symfony/console": "7.3.*",

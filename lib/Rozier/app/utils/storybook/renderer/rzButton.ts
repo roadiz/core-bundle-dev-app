@@ -17,6 +17,7 @@ export function rzButtonRenderer(
     const sizeClass = args.size && `${className}--size-${args.size}`
     const disabledClass = args.disabled && `${className}--disabled`
     const onDarkClass = args.onDark && `${className}--on-dark`
+    const colorClass = args.color && `${className}--${args.color}`
 
     buttonNode.className = [
         className,
@@ -24,6 +25,7 @@ export function rzButtonRenderer(
         sizeClass,
         disabledClass,
         onDarkClass,
+        colorClass,
         args.additionalClasses,
     ]
         .filter((c) => !!c)

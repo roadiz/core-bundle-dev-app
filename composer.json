@@ -81,7 +81,7 @@
         "rezozero/intervention-request-bundle": "^5.1",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/nodetype-contracts": "^3.0.0",
+        "roadiz/nodetype-contracts": "^3.1.1",
         "scheb/2fa-backup-code": "^7.5",
         "scheb/2fa-bundle": "^7.5",
         "scheb/2fa-google-authenticator": "^7.5",
@@ -149,6 +149,7 @@
     },
     "require-dev": {
         "async-aws/simple-s3": "^1.1",
+        "deptrac/deptrac": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "friendsofphp/php-cs-fixer": "^3.64",
         "league/flysystem-async-aws-s3": "^3.10",
