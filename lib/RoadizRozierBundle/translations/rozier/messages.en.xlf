@@ -1826,6 +1826,14 @@
         <source>document.embedId</source>
         <target state="final">Media identifier on platform</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl" approved="yes">
+      <source>document.embedUrl</source>
+          <target state="final">Media URL on platform</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl.help" approved="yes">
+        <source>document.embedUrl.help</source>
+        <target state="final">Enter the URL of a media to embed (YouTube, Vimeo, etc.)</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="%field%.is.reserved.word" approved="yes">
         <source>%field%.is.reserved.word</source>
         <target state="final">“%field%” name is a reserved word, please choose another one.</target>

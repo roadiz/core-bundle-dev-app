@@ -34,7 +34,6 @@ final class DocumentEmbedController extends AbstractController
 {
     public function __construct(
         private readonly EmbedFinderFactory $embedFinderFactory,
-        private readonly array $documentPlatforms,
         private readonly LoggerInterface $logger,
         private readonly RandomImageFinder $randomImageFinder,
         private readonly DocumentFactory $documentFactory,
@@ -59,9 +58,7 @@ final class DocumentEmbedController extends AbstractController
             $folder = $this->managerRegistry->getRepository(Folder::class)->find($folderId);
         }
 
-        $form = $this->createForm(DocumentEmbedType::class, null, [
-            'document_platforms' => $this->documentPlatforms,
-        ]);
+        $form = $this->createForm(DocumentEmbedType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -170,14 +167,10 @@ final class DocumentEmbedController extends AbstractController
      */
     private function embedDocument(array $data, ?int $folderId = null): DocumentInterface|array
     {
-        $handlers = $this->documentPlatforms;
-
         if (
-            isset($data['embedId'])
-            && isset($data['embedPlatform'])
-            && in_array($data['embedPlatform'], array_keys($handlers))
+            isset($data['embedUrl'])
         ) {
-            $finder = $this->embedFinderFactory->createForPlatform($data['embedPlatform'], $data['embedId']);
+            $finder = $this->embedFinderFactory->createForUrl($data['embedUrl']);
             if (null === $finder) {
                 throw new \RuntimeException('No embed finder found for platform '.$data['embedPlatform']);
             }

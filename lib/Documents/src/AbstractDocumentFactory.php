@@ -111,7 +111,10 @@ abstract class AbstractDocumentFactory
         }
 
         if (null === $file) {
-            return null;
+            $document = $this->createDocument();
+            $this->persistDocument($document);
+
+            return $document;
         }
 
         if ($file instanceof UploadedFile && !$file->isValid()) {
