@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.23...v2.6.24) - 2025-10-31
+
+### Bug Fixes
+
+- **(routes)** update role requirements to include digits - ([e26ba12](https://github.com/roadiz/core-bundle-dev-app/commit/e26ba12314180eeac2eb768eca31168047fa0ba2))
+
 ## [2.6.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.22...v2.6.23) - 2025-10-28
 
 ### Bug Fixes
