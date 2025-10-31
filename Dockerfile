@@ -208,6 +208,26 @@ USER php
 
 VOLUME /app
 
+#######################
+# Php - franken - Prod #
+#######################
+
+FROM php-franken AS php-prod-franken
+
+ENV XDEBUG_MODE=off
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY --link --chmod=755 docker/frankenphp/docker-php-entrypoint-dev /usr/local/bin/docker-php-entrypoint
+COPY --link docker/frankenphp/conf.d/app.prod.ini ${PHP_INI_DIR}/conf.d/zz-app.ini
+COPY --link docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
+
+CMD ["--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]
+
+USER php
+
+VOLUME /app
+
 #############
 # Php - Dev #
 #############
