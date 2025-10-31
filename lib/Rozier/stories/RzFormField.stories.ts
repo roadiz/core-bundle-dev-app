@@ -1,25 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
-
-const INPUT_TYPES = [
-    'text',
-    'email',
-    'password',
-    'number',
-    'date',
-    'file',
-] as const
+import { INPUT_TYPES } from '~/custom-elements/RzInput'
 
 const getId = () => 'input-' + Math.random().toString(36).slice(2, 11)
 
 export type Args = {
     label: string
     name: string
-    required: boolean
-    description: string // under label
-    supportingText: string // under input
-    error: string
+    required?: boolean
+    description?: string // under label
+    supportingText?: string // under input
+    error?: string
     type: (typeof INPUT_TYPES)[number]
+    inline?: boolean
 }
 
 const meta: Meta<Args> = {
@@ -47,6 +40,17 @@ type Story = StoryObj<Args>
 export const Default: Story = {
     render: (args) => {
         return rzFormFieldRenderer(args)
+    },
+}
+
+export const Inline: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        type: 'checkbox',
+        label: 'Inline Checkbox',
+        inline: true,
     },
 }
 

@@ -10,6 +10,7 @@ export function rzFormFieldRenderer(args: Args) {
         COMPONENT_CLASS_NAME,
         `${COMPONENT_CLASS_NAME}--type-${args.type}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
+        args.inline && `${COMPONENT_CLASS_NAME}--inline`,
     ].filter((c) => c) as string[]
     wrapper.classList.add(...wrapperClasses)
 
