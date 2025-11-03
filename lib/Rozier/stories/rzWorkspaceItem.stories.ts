@@ -11,7 +11,7 @@ export type ItemArgs = {
 const COMPONENT_CLASS_NAME = 'rz-workspace-item'
 
 const meta: Meta<ItemArgs> = {
-    title: 'Components/RzWorkspace/Item',
+    title: 'Components/Workspace/Item',
     tags: ['autodocs'],
     args: {
         label: 'Workspace item label',
