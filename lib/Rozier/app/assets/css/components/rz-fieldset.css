@@ -1,0 +1,39 @@
+.rz-fieldset {
+    --rz-fieldset-padding-inline: var(--spacing-lg);
+
+    position: relative;
+    display: flex;
+    flex-direction: var(--rz-fieldset-flex-direction, column);
+    gap: var(--rz-fieldset-gap, var(--spacing-xs));
+    padding: var(--spacing-md) var(--rz-fieldset-padding-inline) var(--spacing-lg);
+    margin: 0;
+    border: none;
+
+    &::after {
+        position: absolute;
+        content: '';
+        inset: 0;
+        pointer-events: none;
+        border-radius: var(--radius-xs, 6px);
+        border: 1px solid var(--line-on-light-secondary, #DADADA);
+    }
+}
+
+.rz-fieldset--horizontal {
+    --rz-fieldset-flex-direction: row;
+    --rz-fieldset-gap: var(--spacing-md);
+
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.rz-fieldset__legend {
+    margin-bottom: var(--spacing-4xs, 8px);
+    margin-left: calc(var(--rz-fieldset-padding-inline) * -1);
+
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-form-label-font-size);
+    line-height: var(--text-form-label-line-height);
+    letter-spacing: var(--text-form-label-letter-spacing);
+    font-weight: var(--text-form-label-font-weight);
+}

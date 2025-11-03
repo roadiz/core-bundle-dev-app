@@ -1,18 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { INPUT_TYPES } from '../app/custom-elements/RzInput'
+import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
 
-const COMPONENT_CLASS = 'rz-input'
-const COMPONENT_CLASS_NAME = 'rz-input'
-
-type fieldArgs = {
-    placeholder: string
+export type Args = {
     type: (typeof INPUT_TYPES)[number]
-    value: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
     name: string
-    required: boolean
+    placeholder?: string
+    value?: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
+    required?: boolean
 }
 
-const meta: Meta<fieldArgs> = {
+const meta: Meta<Args> = {
     title: 'Components/Form/Input',
     args: {
         name: 'input-name',
@@ -32,37 +30,17 @@ const meta: Meta<fieldArgs> = {
 }
 
 export default meta
-type Story = StoryObj<fieldArgs>
-
-function itemRenderer(args: fieldArgs, attrs: Record<string, unknown> = {}) {
-    const input = document.createElement('input', { is: COMPONENT_CLASS })
-    input.setAttribute('is', COMPONENT_CLASS)
-    input.classList.add(COMPONENT_CLASS_NAME)
-
-    Object.entries(attrs).forEach(([key, value]) => {
-        if (value) input.setAttribute(key, String(value))
-    })
-
-    if (args.name) input.id = args.name
-    if (args.name) input.name = args.name
-    if (args.type) input.type = args.type
-    if (args.placeholder) input.placeholder = args.placeholder
-    if (args.required) input.required = args.required
-
-    if (args.value) input.setAttribute('value', String(args.value))
-
-    return input
-}
+type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
 }
 
 export const Text: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'text',
@@ -73,7 +51,7 @@ export const Text: Story = {
 
 export const TextWithDefault: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'text',
@@ -84,7 +62,7 @@ export const TextWithDefault: Story = {
 
 export const Number: Story = {
     render: (args) => {
-        return itemRenderer(args, {
+        return rzInputRenderer(args, {
             min: '1',
             max: '990000', // Initial input width depends on attribute character length
         })
@@ -97,7 +75,7 @@ export const Number: Story = {
 
 export const Radio: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'radio',
@@ -106,7 +84,7 @@ export const Radio: Story = {
 
 export const Checkbox: Story = {
     render: (args) => {
-        return itemRenderer(args, { checked: args.value })
+        return rzInputRenderer(args, { checked: args.value })
     },
     args: {
         type: 'checkbox',
@@ -116,7 +94,7 @@ export const Checkbox: Story = {
 
 export const Color: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     argTypes: {
         value: {
@@ -132,7 +110,7 @@ export const Color: Story = {
 
 export const ColorWithDefault: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     argTypes: {
         value: {
@@ -148,7 +126,7 @@ export const ColorWithDefault: Story = {
 
 export const Email: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'email',
@@ -158,7 +136,7 @@ export const Email: Story = {
 
 export const Tel: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'tel',
@@ -167,7 +145,7 @@ export const Tel: Story = {
 
 export const Range: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'range',
@@ -176,7 +154,7 @@ export const Range: Story = {
 
 export const File: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'file',
@@ -185,7 +163,7 @@ export const File: Story = {
 
 export const Hidden: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'hidden',
@@ -194,7 +172,7 @@ export const Hidden: Story = {
 
 export const Image: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'image',
@@ -203,7 +181,7 @@ export const Image: Story = {
 
 export const Password: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'password',
@@ -212,7 +190,7 @@ export const Password: Story = {
 
 export const Search: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'search',
@@ -222,7 +200,7 @@ export const Search: Story = {
 
 export const Url: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'url',
@@ -231,7 +209,7 @@ export const Url: Story = {
 
 export const Reset: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'reset',
@@ -240,7 +218,7 @@ export const Reset: Story = {
 
 export const Submit: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'submit',
@@ -249,7 +227,7 @@ export const Submit: Story = {
 
 export const Time: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'time',
@@ -258,7 +236,7 @@ export const Time: Story = {
 
 export const Date: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'date',
@@ -267,7 +245,7 @@ export const Date: Story = {
 
 export const DatetimeLocal: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'datetime-local',
@@ -276,7 +254,7 @@ export const DatetimeLocal: Story = {
 
 export const Month: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'month',
@@ -285,7 +263,7 @@ export const Month: Story = {
 
 export const Week: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzInputRenderer(args)
     },
     args: {
         type: 'week',
