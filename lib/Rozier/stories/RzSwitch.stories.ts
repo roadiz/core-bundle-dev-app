@@ -22,8 +22,7 @@ function itemRenderer(args: Args) {
     input.setAttribute('type', 'checkbox')
     input.classList.add(COMPONENT_CLASS_NAME)
 
-    if (args.checked) input.setAttribute('checked', '')
-    else input.removeAttribute('checked')
+    input.checked = args.checked ?? false
 
     return input
 }
