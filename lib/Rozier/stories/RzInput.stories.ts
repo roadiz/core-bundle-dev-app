@@ -12,17 +12,18 @@ export type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Input',
+    tags: ['autodocs'],
     args: {
         name: 'input-name',
+        placeholder: 'A default placeholder',
+        value: '',
+        type: 'text',
     },
     argTypes: {
         type: {
             control: { type: 'select' },
             options: INPUT_TYPES,
         },
-    },
-    globals: {
-        backgrounds: { value: 'light' },
     },
     parameters: {
         layout: 'centered',

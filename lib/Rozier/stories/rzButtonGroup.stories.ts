@@ -7,7 +7,7 @@ export type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/ButtonGroup',
-    args: {},
+    tags: ['autodocs'],
     parameters: {
         layout: 'centered',
     },
