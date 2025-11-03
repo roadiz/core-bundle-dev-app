@@ -12,7 +12,8 @@ type BadgeArgs = {
 }
 
 const meta: Meta<BadgeArgs> = {
-    title: 'Components/RzBadge',
+    title: 'Components/Badge',
+    tags: ['autodocs'],
     args: {
         label: 'My badge',
         iconClass: 'rz-icon-ri--add-line',
@@ -21,10 +22,13 @@ const meta: Meta<BadgeArgs> = {
         size: {
             options: ['', ...SIZES],
             control: { type: 'radio' },
+            description:
+                'String. If no size class is provided, size sm is applied by default.',
         },
         color: {
             options: ['', ...COLORS],
             control: { type: 'radio' },
+            table: { type: { summary: 'string' } },
         },
     },
     globals: {
