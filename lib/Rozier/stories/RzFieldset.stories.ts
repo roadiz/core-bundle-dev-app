@@ -13,6 +13,7 @@ type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Fieldset',
+    tags: ['autodocs'],
     args: {
         legend: 'Fieldset Legend',
         name: 'fieldset-1',
