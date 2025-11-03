@@ -15,7 +15,7 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         name: 'input-name',
-        placeholder: '',
+        placeholder: 'A default placeholder',
         value: '',
         type: 'text',
     },
