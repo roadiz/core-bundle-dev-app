@@ -46,7 +46,7 @@ export function rzFormFieldRenderer(args: Args) {
     }
 
     if (args.error) {
-        const node = rzMessageRenderer({ text: args.error, type: 'error' })
+        const node = rzMessageRenderer({ text: args.error, color: 'error' })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         node.setAttribute('for', args.name)
         wrapper.appendChild(node)
