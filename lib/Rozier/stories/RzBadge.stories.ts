@@ -22,8 +22,9 @@ const meta: Meta<BadgeArgs> = {
         size: {
             options: ['', ...SIZES],
             control: { type: 'radio' },
+            type: 'string',
             description:
-                'String. If no size class is provided, size sm is applied by default.',
+                'If no size class is provided, size sm is applied by default.',
         },
         color: {
             options: ['', ...COLORS],
