@@ -7,7 +7,7 @@ export default class RzSwitch extends HTMLButtonElement {
 
     attributeChangedCallback(name: string) {
         if (name === 'aria-checked') {
-            this.toggleCheckClass()
+            this.toggleCheckedClass()
         }
     }
 
@@ -16,7 +16,7 @@ export default class RzSwitch extends HTMLButtonElement {
         this.setAttribute('aria-checked', (!isChecked).toString())
     }
 
-    toggleCheckClass() {
+    toggleCheckedClass() {
         const isChecked = this.getAttribute('aria-checked') === 'true'
         this.classList.toggle('rz-switch--checked', isChecked)
     }
