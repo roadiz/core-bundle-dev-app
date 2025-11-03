@@ -9,6 +9,7 @@ type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Switch',
+    tags: ['autodocs'],
     args: {
         checked: false,
     },

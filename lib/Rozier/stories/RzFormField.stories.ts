@@ -17,6 +17,7 @@ export type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Field',
+    tags: ['autodocs'],
     args: {
         label: 'Input Field Label',
         name: getId(),

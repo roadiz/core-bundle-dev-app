@@ -18,6 +18,7 @@ type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Select',
+    tags: ['autodocs'],
     args: {
         required: false,
         options: [

@@ -11,6 +11,7 @@ export type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Message',
+    tags: ['autodocs'],
     args: {
         text: 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur',
     },

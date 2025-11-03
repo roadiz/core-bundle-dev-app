@@ -12,6 +12,7 @@ const COMPONENT_CLASS_NAME = 'rz-workspace-item'
 
 const meta: Meta<ItemArgs> = {
     title: 'Components/RzWorkspace/Item',
+    tags: ['autodocs'],
     args: {
         label: 'Workspace item label',
         active: false,
@@ -24,9 +25,6 @@ const meta: Meta<ItemArgs> = {
             options: ['level-1', 'level-2'],
             control: { type: 'radio' },
         },
-    },
-    globals: {
-        backgrounds: { value: 'light' },
     },
     parameters: {
         layout: 'centered',
