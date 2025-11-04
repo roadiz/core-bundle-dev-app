@@ -10,7 +10,7 @@
 	}
 }
 
-.rz-form-field--error &,
+.rz-form-field--error .rz-markdown,
 .rz-markdown--error,
 .rz-markdown:has(.rz-markdown__textarea:invalid) {
 	--rz-markdown-textarea-color: var(--status-error, #E54457);
