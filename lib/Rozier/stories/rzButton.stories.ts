@@ -16,23 +16,6 @@ export type ButtonArgs = {
     color?: (typeof COLORS)[number]
 }
 
-/** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
- * In most case you will use a label and /or an icon inside the button. add `.rz-button__label` and/or `.rz-button__icon` classes to the inner elements.
- *
- * ### Emphasis modifier classes
- * - `.rz-button--emphasis-low`
- * - `.rz-button--emphasis-medium` (default)
- * - `.rz-button--emphasis-high`
- *
- * ### Size modifier classes
- * - `.rz-button--size-xs`
- * - `.rz-button--size-sm`
- * - `.rz-button--size-md` (default)
- * - `.rz-button--size-lg–`
- *
- * ### Disabled state
- * Add the `disabled` attribute on the button element or add the modifier class `.rz-button--disabled` to apply the disabled state style.
- */
 const meta: Meta<ButtonArgs> = {
     title: 'Components/Button',
     tags: ['autodocs'],
@@ -43,17 +26,38 @@ const meta: Meta<ButtonArgs> = {
         onDark: false,
     },
     argTypes: {
+        label: {
+            description:
+                'Text label inside the button. Could be empty for icon only buttons.',
+            table: {
+                elementClass: 'rz-button__label',
+            },
+        },
+        disabled: {
+            description: 'Add rz-button--disabled class',
+        },
+        iconClass: {
+            description:
+                'Add rz-button__icon and rz-icon-{collection}--{iconName}',
+        },
         emphasis: {
             control: { type: 'select' },
             options: [...EMPHASIS, ''],
+            type: 'string',
+            description:
+                'If no emphasis class is provided, emphasis medium is applied by default.',
         },
         size: {
             control: { type: 'select' },
             options: [...SIZES, ''],
+            type: 'string',
+            description:
+                'If no size class is provided, size md is applied by default.',
         },
         color: {
             control: { type: 'select' },
             options: [...COLORS, ''],
+            type: 'string',
         },
     },
     parameters: {

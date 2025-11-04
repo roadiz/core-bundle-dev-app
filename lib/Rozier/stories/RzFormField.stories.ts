@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { INPUT_TYPES } from '~/custom-elements/RzInput'
 
-const getId = () => 'input-' + Math.random().toString(36).slice(2, 11)
-
 export type Args = {
     label: string
     name: string
@@ -17,19 +15,27 @@ export type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Field',
+    tags: ['autodocs'],
     args: {
         label: 'Input Field Label',
-        name: getId(),
         required: false,
         description: 'This is a description for the input field.',
         type: 'text',
         error: '',
         help: '',
+        inline: false,
     },
     argTypes: {
         type: {
             options: INPUT_TYPES,
             control: { type: 'select' },
+        },
+        name: {
+            description: 'Required. The name and id of the input field.',
+        },
+        inline: {
+            description:
+                'If true, displays the field inline, input and label side by side. Message and help text remain below.',
         },
     },
 }
@@ -41,6 +47,9 @@ export const Default: Story = {
     render: (args) => {
         return rzFormFieldRenderer(args)
     },
+    args: {
+        name: 'default-name',
+    },
 }
 
 export const Inline: Story = {
@@ -48,6 +57,7 @@ export const Inline: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
+        name: 'inline-name',
         type: 'checkbox',
         label: 'Inline Checkbox',
         inline: true,
@@ -59,6 +69,7 @@ export const WithSupportingText: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
+        name: 'with-supporting-text-name',
         help: 'This is a supporting text for the input field.',
     },
 }
@@ -68,6 +79,7 @@ export const WithError: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
+        name: 'with-error-name',
         error: 'This is an error message for the input field.',
     },
 }

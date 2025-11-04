@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const COMPONENT_CLASS = 'rz-switch'
 const COMPONENT_CLASS_NAME = 'rz-switch'
 
 type Args = {
@@ -9,6 +8,7 @@ type Args = {
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Switch',
+    tags: ['autodocs'],
     args: {
         checked: false,
     },
@@ -18,11 +18,11 @@ export default meta
 type Story = StoryObj<Args>
 
 function itemRenderer(args: Args) {
-    const input = document.createElement('button', { is: COMPONENT_CLASS })
-    input.setAttribute('is', COMPONENT_CLASS)
-
+    const input = document.createElement('input')
+    input.setAttribute('type', 'checkbox')
     input.classList.add(COMPONENT_CLASS_NAME)
-    input.setAttribute('aria-checked', (args.checked ?? false).toString())
+
+    input.checked = args.checked ?? false
 
     return input
 }

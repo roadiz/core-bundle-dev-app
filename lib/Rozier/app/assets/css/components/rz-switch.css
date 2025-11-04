@@ -4,6 +4,7 @@
 	--rz-switch-inner-width: 18px;
 	--rz-switch-padding-inline: 3px;
 
+	appearance: initial;
 	display: flex;
 	width: var(--rz-switch-width);
 	height: 24px;
@@ -44,7 +45,7 @@
 	}
 }
 
-.rz-switch--checked {
+.rz-switch:checked {
 	color: var(--status-success, #16A867);
 	background-color: var(--status-success, #16A867);
 

@@ -6,16 +6,15 @@ const COMPONENT_CLASS_NAME = 'rz-fieldset'
 const ORIENTATION_OPTIONS = ['vertical', 'horizontal'] as const
 type Args = {
     legend: string
-    name: string
     formFieldsData?: RzFormFieldArgs[]
     orientation?: (typeof ORIENTATION_OPTIONS)[number]
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Fieldset',
+    tags: ['autodocs'],
     args: {
         legend: 'Fieldset Legend',
-        name: 'fieldset-1',
         orientation: 'vertical',
     },
     argTypes: {
@@ -79,7 +78,6 @@ export const CheckboxGroup: Story = {
         return fieldsetRenderer(args)
     },
     args: {
-        name: 'checkbox-group',
         legend: 'Checkbox Group Legend',
         orientation: 'horizontal',
         formFieldsData: Array.from({ length: 10 }, (_, i) => ({
