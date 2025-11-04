@@ -24,7 +24,6 @@
 	padding: var(--spacing-5xs, 6px);
 	justify-content: flex-end;
 	gap: 6px;
-	flex-wrap: wrap;
 	border-radius: inherit;
 	border-bottom: 1px solid var(--line-on-light-primary, #EAEAEA);
 	background-color: var(--surface-light-primary, #FFF);
