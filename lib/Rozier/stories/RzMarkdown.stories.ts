@@ -101,7 +101,7 @@ function itemRenderer(args: Args) {
     for (const key in args) {
         if (TEXTAREA_ATTRIBUTES.includes(key) && args[key as keyof Args]) {
             textarea.setAttribute(key, String(args[key as keyof Args]))
-            textarea[key] = args[key as keyof Args]
+            Object.assign(textarea, { [key]: args[key as keyof Args] })
         }
     }
     textarea.name = args.name || 'fallback-name'
@@ -122,9 +122,27 @@ export const Default: Story = {
 /**
  * `:invalid` pseudo-class is only apply when user interact with the form control.
  */
-export const Error: Story = {
+export const UserError: Story = {
     render: (args) => {
         return itemRenderer(args)
+    },
+    args: {
+        name: 'text-area-markdown-input',
+        maxlength: 50,
+        minlength: 40,
+        required: true,
+        value: 'Value need more than 40 characters...',
+    },
+}
+
+export const ErrorClass: Story = {
+    render: (args) => {
+        const wrapper = document.createElement('div')
+        wrapper.classList.add('rz-form-field', 'rz-form-field--error')
+        const markdown = itemRenderer(args)
+        wrapper.appendChild(markdown)
+
+        return wrapper
     },
     args: {
         name: 'text-area-markdown-input',
