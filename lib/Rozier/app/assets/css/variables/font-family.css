@@ -6,6 +6,6 @@
 	--font-family-os-title: ui-sans-serif, system-ui, sans-serif;
 	--font-family-os-label: ui-sans-serif, system-ui, sans-serif;
 	--font-family-os-text: ui-sans-serif, system-ui, sans-serif;
-	--font-family-os-code: ui-monospace;
-	--font-family-os-markdown: ui-monospace;
+	--font-family-os-code: ui-monospace, monospace;
+	--font-family-os-markdown: ui-monospace, monospace;
 }
