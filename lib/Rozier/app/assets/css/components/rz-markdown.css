@@ -1,0 +1,50 @@
+.rz-markdown {
+	display: var(--rz-markdown-display, inline-block);
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--rz-markdown-border-color, var(--form-basic-border, #DADADA));
+	background-color: var(--form-basic-bg, #F8F8F8);
+	transition: color 0.3s, border-color 0.3s;
+
+	&:has(.rz-markdown__textarea:focus-visible) {
+		--rz-markdown-border-color: var(--form-basic-border-hover, #383838);
+	}
+}
+
+.rz-form-field--error .rz-markdown,
+.rz-markdown--error,
+.rz-markdown:has(.rz-markdown__textarea:invalid) {
+	--rz-markdown-textarea-color: var(--status-error, #E54457);
+	--rz-markdown-border-color: var(--status-error, #E54457);
+}
+
+.rz-markdown__controls {
+	display: flex;
+	flex-wrap: wrap;
+	min-height: 36px;
+	padding: var(--spacing-5xs, 6px);
+	justify-content: flex-end;
+	gap: 6px;
+	border-radius: inherit;
+	border-bottom: 1px solid var(--line-on-light-primary, #EAEAEA);
+	background-color: var(--surface-light-primary, #FFF);
+}
+
+
+.rz-markdown__textarea {
+	display: flex;
+	padding: var(--spacing-2xs, 12px) var(--spacing-md, 24px) var(--spacing-md, 24px) var(--spacing-2xs, 12px);
+	width: stretch;
+	border: none;
+	background-color: initial;
+	color: var(--rz-markdown-textarea-color, var(--form-basic-input-text, #383838));
+	font-family: var(--font-family-os-markdown);
+	font-size: var(--text-form-markdown-font-size);
+	line-height: var(--text-form-markdown-line-height);
+	letter-spacing: var(--text-form-markdown-letter-spacing);
+	font-weight: var(--text-form-markdown-font-weight);
+	outline: none;
+
+	&::placeholder {
+		--rz-markdown-textarea-color: var(--form-basic-placeholder, #9A9A9A);
+	}
+}
