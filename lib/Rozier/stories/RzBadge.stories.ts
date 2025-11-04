@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 
-const COMPONENT_CLASS = 'rz-badge'
 const SIZES = ['xs', 'sm', 'md'] as const
 const COLORS = ['information', 'success', 'warning', 'error'] as const
 
-type BadgeArgs = {
-    label: string
-    iconClass: string
-    size: (typeof SIZES)[number]
-    color: (typeof COLORS)[number]
+export type BadgeArgs = {
+    iconClass?: string
+    label?: string
+    size?: (typeof SIZES)[number]
+    color?: (typeof COLORS)[number]
 }
 
 const meta: Meta<BadgeArgs> = {
@@ -43,49 +43,24 @@ const meta: Meta<BadgeArgs> = {
 export default meta
 type Story = StoryObj<BadgeArgs>
 
-function iconRenderer(iconClass: string) {
-    if (!iconClass) return undefined
-    const icon = document.createElement('span')
-    icon.classList.add(`${COMPONENT_CLASS}__icon`, iconClass)
-
-    return icon
-}
-
-function labelRenderer(text: string) {
-    const label = document.createElement('span')
-    label.classList.add(`${COMPONENT_CLASS}__label`)
-    label.textContent = text
-
-    return label
-}
-
-function itemRenderer(args: BadgeArgs) {
-    const node = document.createElement('div')
-    const sizeClass = args.size ? `${COMPONENT_CLASS}--size-${args.size}` : ''
-    const statusClass = args.color && `${COMPONENT_CLASS}--${args.color}`
-    const classes = [COMPONENT_CLASS, sizeClass, statusClass].filter((c) => c)
-    node.classList.add(...classes)
-
-    const icon = iconRenderer(args.iconClass)
-    if (icon) {
-        node.appendChild(icon)
-    }
-
-    const label = labelRenderer(args.label)
-    node.appendChild(label)
-
-    return node
-}
-
 export const Default: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzBadgeRenderer(args)
+    },
+}
+
+export const IconOnly: Story = {
+    render: (args) => {
+        return rzBadgeRenderer(args)
+    },
+    args: {
+        label: '',
     },
 }
 
 export const Information: Story = {
     render: (args) => {
-        return itemRenderer({
+        return rzBadgeRenderer({
             ...args,
             label: 'Information',
             color: 'information',
@@ -96,7 +71,7 @@ export const Information: Story = {
 
 export const Published: Story = {
     render: (args) => {
-        return itemRenderer({
+        return rzBadgeRenderer({
             ...args,
             label: 'Published',
             color: 'success',
@@ -107,7 +82,7 @@ export const Published: Story = {
 
 export const Draft: Story = {
     render: (args) => {
-        return itemRenderer({
+        return rzBadgeRenderer({
             ...args,
             label: 'Draft',
             color: 'warning',
@@ -118,7 +93,7 @@ export const Draft: Story = {
 
 export const Unpublished: Story = {
     render: (args) => {
-        return itemRenderer({
+        return rzBadgeRenderer({
             ...args,
             label: 'Unpublished',
             color: 'error',

@@ -4,6 +4,7 @@ import { INPUT_TYPES } from '~/custom-elements/RzInput'
 
 export type Args = {
     label: string
+    iconClass?: string
     name: string
     required?: boolean
     description?: string // under label
@@ -24,6 +25,7 @@ const meta: Meta<Args> = {
         error: '',
         help: '',
         inline: false,
+        iconClass: '',
     },
     argTypes: {
         type: {
@@ -49,6 +51,16 @@ export const Default: Story = {
     },
     args: {
         name: 'default-name',
+    },
+}
+
+export const WithIcon: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        name: 'default-with-icon-name',
+        iconClass: 'rz-icon-ri--earth-line',
     },
 }
 

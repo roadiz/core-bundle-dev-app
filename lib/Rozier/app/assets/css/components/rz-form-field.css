@@ -25,6 +25,10 @@
     }
 }
 
+.rz-form-field__icon {
+    margin-left: var(--spacing-7xs, 2px);
+}
+
 .rz-form-field__description {
     display: block;
     margin-block: var(--spacing-6xs) 0;

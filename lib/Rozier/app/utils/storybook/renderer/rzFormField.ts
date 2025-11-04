@@ -1,6 +1,7 @@
 import type { Args } from '../../../../stories/RzFormField.stories'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
+import { rzBadgeRenderer } from './rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
@@ -20,10 +21,15 @@ export function rzFormFieldRenderer(args: Args) {
     label.setAttribute('for', args.name)
     wrapper.appendChild(label)
 
+    if (args.iconClass) {
+        const icon = rzBadgeRenderer({ iconClass: args.iconClass, size: 'xs' })
+        icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
+        wrapper.appendChild(icon)
+    }
+
     if (args.description) {
-        const description = document.createElement('label')
+        const description = document.createElement('p')
         description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
-        description.setAttribute('for', args.name)
         description.textContent = args.description
         wrapper.appendChild(description)
     }
