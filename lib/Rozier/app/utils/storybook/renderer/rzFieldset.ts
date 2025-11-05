@@ -5,9 +5,7 @@ export const COMPONENT_CLASS_NAME = 'rz-fieldset'
 
 export function rzFieldsetRenderer(args: Args) {
     const fieldset = document.createElement('fieldset')
-
-    const fieldsetClasses = [COMPONENT_CLASS_NAME].filter((c) => c) as string[]
-    fieldset.classList.add(...fieldsetClasses)
+    fieldset.classList.add(COMPONENT_CLASS_NAME)
 
     const legend = document.createElement('legend')
     legend.classList.add(`${COMPONENT_CLASS_NAME}__legend`)
