@@ -46,7 +46,11 @@
 
 .rz-form-field__input {
     margin-top: var(--spacing-4xs);
-    width: stretch;
+
+    &:not(:where([type='checkbox'], [type='radio'])) {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }
 
 .rz-form-field__message {

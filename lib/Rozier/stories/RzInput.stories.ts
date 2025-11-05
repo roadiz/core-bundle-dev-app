@@ -8,6 +8,7 @@ export type Args = {
     placeholder?: string
     value?: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
     required?: boolean
+    className?: string
 }
 
 const meta: Meta<Args> = {

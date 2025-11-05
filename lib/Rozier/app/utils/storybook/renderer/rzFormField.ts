@@ -46,6 +46,7 @@ export function rzFormFieldRenderer(args: Args) {
         ...args,
         name: args.name || 'input',
         placeholder: 'Placeholder',
+        className: args.inputClassName,
     })
     input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
     if (descriptionId) input.setAttribute('aria-describedby', descriptionId)

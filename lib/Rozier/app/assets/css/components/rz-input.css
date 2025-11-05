@@ -41,7 +41,7 @@
 } */
 
 .rz-form-field--error .rz-input,
-.rz-input:not(:placeholder-shown):not(:focus-visible):invalid,
+.rz-input:invalid,
 .rz-input--error {
 	--rz-input-color: var(--status-error, #E54457);
 	--rz-input-border-color: var(--status-error, #E54457);
@@ -107,8 +107,8 @@
 	justify-content: flex-start;
 	column-gap: var(--radius-xs, 6px);
 	min-width: fit-content;
-	box-sizing: content-box;
 	height: 24px;
+	box-sizing: content-box;
 
 	&::after {
 		content: attr(value);

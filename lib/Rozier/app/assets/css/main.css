@@ -23,6 +23,7 @@
 @import './components/rz-entity-thumbnail.css';
 
 /* Components: Form */
+@import './components/rz-form.css';
 @import './components/rz-switch.css';
 @import './components/rz-input.css';
 @import './components/rz-select.css';
