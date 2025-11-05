@@ -4,7 +4,8 @@ import { INPUT_TYPES } from '~/custom-elements/RzInput'
 
 export type Args = {
     label: string
-    iconClass?: string
+    badgeIconClass?: string
+    badgeTitle?: string
     name: string
     required?: boolean
     description?: string // under label
@@ -25,7 +26,8 @@ const meta: Meta<Args> = {
         error: '',
         help: '',
         inline: false,
-        iconClass: '',
+        badgeIconClass: '',
+        badgeTitle: '',
     },
     argTypes: {
         type: {
@@ -60,7 +62,7 @@ export const WithIcon: Story = {
     },
     args: {
         name: 'default-with-icon-name',
-        iconClass: 'rz-icon-ri--earth-line',
+        badgeIconClass: 'rz-icon-ri--earth-line',
     },
 }
 

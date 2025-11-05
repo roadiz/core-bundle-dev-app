@@ -22,11 +22,14 @@ export function rzFormFieldRenderer(args: Args) {
     label.setAttribute('for', args.name)
     wrapper.appendChild(label)
 
-    if (args.iconClass) {
-        const icon = rzBadgeRenderer({ iconClass: args.iconClass, size: 'xs' })
-        icon.setAttribute('aria-label', 'Explain the meaning of this icon')
-        icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
-        wrapper.appendChild(icon)
+    if (args.badgeIconClass) {
+        const badge = rzBadgeRenderer({
+            iconClass: args.badgeIconClass,
+            size: 'xs',
+        })
+        badge.setAttribute('title', args.badgeTitle || 'Badge title')
+        badge.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
+        wrapper.appendChild(badge)
     }
 
     let descriptionId: string | undefined = undefined
