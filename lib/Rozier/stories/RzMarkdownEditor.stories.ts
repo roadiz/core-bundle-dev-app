@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
+const COMPONENT_CLASS_NAME = 'rz-markdown-editor'
+
 const ALL_CONTROLS_BUTTON_GROUPS = [
     [
         'rz-icon-ri--h-1',
@@ -50,7 +52,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Form/Markdown',
+    title: 'Components/Form/MarkdownEditor',
     tags: ['autodocs'],
     args: {
         placeholder: 'Enter your markdown here...',
@@ -78,7 +80,7 @@ function buttonGroupRenderer(iconNames: string[]) {
 
 function controlsRenderer(iconNames: string[][]) {
     const controls = document.createElement('div')
-    controls.classList.add('rz-markdown__controls')
+    controls.classList.add(`${COMPONENT_CLASS_NAME}__controls`)
 
     iconNames.forEach((iconList) => {
         const group = buttonGroupRenderer(iconList)
@@ -90,13 +92,13 @@ function controlsRenderer(iconNames: string[][]) {
 
 function itemRenderer(args: Args) {
     const wrapper = document.createElement('div')
-    wrapper.classList.add('rz-markdown')
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
 
     const head = controlsRenderer(args.controlsButtonGroups || [[]])
     wrapper.appendChild(head)
 
     const textarea = document.createElement('textarea')
-    textarea.classList.add('rz-markdown__textarea')
+    textarea.classList.add(`${COMPONENT_CLASS_NAME}__textarea`)
 
     for (const key in args) {
         if (TEXTAREA_ATTRIBUTES.includes(key) && args[key as keyof Args]) {
