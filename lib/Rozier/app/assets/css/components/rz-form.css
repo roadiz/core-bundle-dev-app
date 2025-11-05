@@ -13,8 +13,8 @@
 }
 
 /*
-Relavent to `uk-form-row form-col-nodesourcebase form-col-base` class name
-Actualy used in node page form, with neccessary fields like title and published date
+Relevant to `uk-form-row form-col-nodesourcebase form-col-base` class name
+Actually used in node page form, with necessary fields like title and published date
 */
 .rz-form__field-list--header {
 	padding-bottom: var(--spacing-md);
