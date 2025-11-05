@@ -23,14 +23,18 @@ export function rzFormFieldRenderer(args: Args) {
 
     if (args.iconClass) {
         const icon = rzBadgeRenderer({ iconClass: args.iconClass, size: 'xs' })
+        icon.setAttribute('aria-label', 'Explain the meaning of this icon')
         icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
         wrapper.appendChild(icon)
     }
 
+    let descriptionId: string | undefined = undefined
     if (args.description) {
+        descriptionId = `description-${Date.now()}`
         const description = document.createElement('p')
         description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
         description.textContent = args.description
+        description.id = descriptionId
         wrapper.appendChild(description)
     }
 
@@ -40,6 +44,7 @@ export function rzFormFieldRenderer(args: Args) {
         placeholder: 'Placeholder',
     })
     input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
+    if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
     if (args.error) input.classList.add('rz-input--error')
     if (args.required) input.setAttribute('required', 'true')
     wrapper.appendChild(input)
