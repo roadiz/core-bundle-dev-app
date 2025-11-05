@@ -40,6 +40,7 @@
 	--rz-input-border-color: var(--form-basic-border-focus, #9A9A9A);
 } */
 
+.rz-form-field--error .rz-input,
 .rz-input:not(:placeholder-shown):not(:focus-visible):invalid,
 .rz-input--error {
 	--rz-input-color: var(--status-error, #E54457);
