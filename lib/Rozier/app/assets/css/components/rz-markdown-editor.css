@@ -1,3 +1,4 @@
+rz-markdown-editor,
 .rz-markdown-editor {
 	display: var(--rz-markdown-editor-display, inline-block);
 	border-radius: var(--radius-xs, 6px);
@@ -10,9 +11,9 @@
 	}
 }
 
-.rz-form-field--error .rz-markdown-editor,
+.rz-form-field--error :where(.rz-markdown-editor, rz-markdown-editor),
 .rz-markdown-editor--error,
-.rz-markdown-editor:has(.rz-markdown-editor__textarea:invalid) {
+:where(.rz-markdown-editor, rz-markdown-editor):has(.rz-markdown-editor__textarea:invalid) {
 	--rz-markdown-editor-textarea-color: var(--status-error, #E54457);
 	--rz-markdown-editor-border-color: var(--status-error, #E54457);
 }
