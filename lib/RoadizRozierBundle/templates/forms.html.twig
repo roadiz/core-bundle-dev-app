@@ -52,9 +52,9 @@
 {%- endblock data_list_text_widget -%}
 
 {% block markdown_widget %}
-<div class="markdown-editor-wrapper">
+<rz-markdown-editor>
     {# just let the textarea widget render the select tag #}
-    <textarea {{ block('widget_attributes') }} data-rz-markdowneditor>{{- value -}}</textarea>
+    <textarea {{ block('widget_attributes') }}>{{- value -}}</textarea>
     <nav class="markdown-editor-navbar">
         <ul class="markdown-editor-navbar-nav">
             {% if attr.allow_h2 %}
@@ -263,7 +263,7 @@
         </ul>
     </nav>
     <div class="markdown-editor-count"><span class="count-current"></span>/<span class="count-limit"></span></div>
-</div>
+</rz-markdown-editor>
 {% endblock markdown_widget %}
 
 
