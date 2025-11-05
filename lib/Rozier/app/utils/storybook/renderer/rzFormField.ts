@@ -12,6 +12,7 @@ export function rzFormFieldRenderer(args: Args) {
         `${COMPONENT_CLASS_NAME}--type-${args.type}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
         args.inline && `${COMPONENT_CLASS_NAME}--inline`,
+        args.error && `${COMPONENT_CLASS_NAME}--error`,
     ].filter((c) => c) as string[]
     wrapper.classList.add(...wrapperClasses)
 
@@ -45,7 +46,6 @@ export function rzFormFieldRenderer(args: Args) {
     })
     input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
     if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
-    if (args.error) input.classList.add('rz-input--error')
     if (args.required) input.setAttribute('required', 'true')
     wrapper.appendChild(input)
 
