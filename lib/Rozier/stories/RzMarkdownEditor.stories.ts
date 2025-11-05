@@ -90,7 +90,9 @@ function controlsRenderer(iconNames: string[][]) {
     return controls
 }
 
-function itemRenderer(args: Args) {
+function rzMarkdownEditorRenderer(args: Args) {
+    // Use `rz-markdown-editor` custom element to instantiate the component
+    // Or `rz-markdown-editor` class to only apply the styles
     const wrapper = document.createElement('div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
@@ -114,7 +116,7 @@ function itemRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzMarkdownEditorRenderer(args)
     },
     args: {
         name: 'text-area-markdown-input',
@@ -126,7 +128,7 @@ export const Default: Story = {
  */
 export const UserError: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzMarkdownEditorRenderer(args)
     },
     args: {
         name: 'text-area-markdown-input',
@@ -141,7 +143,7 @@ export const ErrorClass: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
         wrapper.classList.add('rz-form-field', 'rz-form-field--error')
-        const markdown = itemRenderer(args)
+        const markdown = rzMarkdownEditorRenderer(args)
         wrapper.appendChild(markdown)
 
         return wrapper
