@@ -10,6 +10,10 @@
     .rz-form-field__description {
         grid-column: 2 / -1;
     }
+
+    .rz-form-field__input {
+        margin-right: var(--spacing-2xs, 12px);
+    }
 }
 
 .rz-form-field__label {
