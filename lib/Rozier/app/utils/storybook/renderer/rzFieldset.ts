@@ -1,6 +1,7 @@
-export const COMPONENT_CLASS_NAME = 'rz-fieldset'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import type { Args } from '../../../../stories/RzFieldset.stories'
+
+export const COMPONENT_CLASS_NAME = 'rz-fieldset'
 
 export function rzFieldsetRenderer(args: Args) {
     const fieldset = document.createElement('fieldset')
