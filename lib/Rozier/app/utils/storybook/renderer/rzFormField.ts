@@ -34,7 +34,7 @@ export function rzFormFieldRenderer(args: Args) {
 
     let descriptionId: string | undefined = undefined
     if (args.description) {
-        descriptionId = `description-${Date.now()}`
+        descriptionId = `${args.name}-description-${Date.now()}`
         const description = document.createElement('p')
         description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
         description.textContent = args.description
