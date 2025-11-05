@@ -10,6 +10,10 @@
     .rz-form-field__description {
         grid-column: 2 / -1;
     }
+
+    .rz-form-field__input {
+        margin-right: var(--spacing-2xs, 12px);
+    }
 }
 
 .rz-form-field__label {
@@ -23,6 +27,10 @@
         content: '*';
         color: var(--color-danger-600);
     }
+}
+
+.rz-form-field__icon {
+    margin-left: var(--spacing-7xs, 2px);
 }
 
 .rz-form-field__description {

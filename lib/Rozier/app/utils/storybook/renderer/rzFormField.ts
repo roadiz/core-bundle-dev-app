@@ -1,6 +1,7 @@
 import type { Args } from '../../../../stories/RzFormField.stories'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
+import { rzBadgeRenderer } from './rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
@@ -11,6 +12,7 @@ export function rzFormFieldRenderer(args: Args) {
         `${COMPONENT_CLASS_NAME}--type-${args.type}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
         args.inline && `${COMPONENT_CLASS_NAME}--inline`,
+        args.error && `${COMPONENT_CLASS_NAME}--error`,
     ].filter((c) => c) as string[]
     wrapper.classList.add(...wrapperClasses)
 
@@ -20,11 +22,23 @@ export function rzFormFieldRenderer(args: Args) {
     label.setAttribute('for', args.name)
     wrapper.appendChild(label)
 
+    if (args.badgeIconClass) {
+        const badge = rzBadgeRenderer({
+            iconClass: args.badgeIconClass,
+            size: 'xs',
+        })
+        badge.setAttribute('title', args.badgeTitle || 'Badge title')
+        badge.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
+        wrapper.appendChild(badge)
+    }
+
+    let descriptionId: string | undefined = undefined
     if (args.description) {
-        const description = document.createElement('label')
+        descriptionId = `${args.name}-description-${Date.now()}`
+        const description = document.createElement('p')
         description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
-        description.setAttribute('for', args.name)
         description.textContent = args.description
+        description.id = descriptionId
         wrapper.appendChild(description)
     }
 
@@ -34,7 +48,7 @@ export function rzFormFieldRenderer(args: Args) {
         placeholder: 'Placeholder',
     })
     input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
-    if (args.error) input.classList.add('rz-input--error')
+    if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
     if (args.required) input.setAttribute('required', 'true')
     wrapper.appendChild(input)
 

@@ -16,6 +16,7 @@ export default [
     'close-line',
     'computer-line',
     'search-line',
+    'earth-line',
     // Markdown related icons
     'h-1',
     'h-2',
