@@ -47,7 +47,6 @@
 } */
 
 .rz-form-field--error .rz-input,
-.rz-input:has(input:not(:placeholder-shown):not(:focus-visible):invalid),
 .rz-input:not(:placeholder-shown):not(:focus-visible):invalid,
 .rz-input--error {
 	--rz-input-color: var(--status-error, #E54457);

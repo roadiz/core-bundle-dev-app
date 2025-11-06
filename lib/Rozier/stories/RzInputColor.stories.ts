@@ -27,7 +27,6 @@ type Story = StoryObj<BadgeArgs>
 
 function rzInputColorRenderer(args: BadgeArgs): HTMLElement {
     const node = document.createElement('rz-input-color')
-    node.classList.add('rz-input')
 
     const color = document.createElement('input')
     color.type = 'color'
