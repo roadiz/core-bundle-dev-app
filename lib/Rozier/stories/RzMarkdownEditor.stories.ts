@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
+const COMPONENT_CLASS_NAME = 'rz-markdown-editor'
+
 const ALL_CONTROLS_BUTTON_GROUPS = [
     [
         'rz-icon-ri--h-1',
@@ -50,7 +52,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Form/Markdown',
+    title: 'Components/Form/MarkdownEditor',
     tags: ['autodocs'],
     args: {
         placeholder: 'Enter your markdown here...',
@@ -78,7 +80,7 @@ function buttonGroupRenderer(iconNames: string[]) {
 
 function controlsRenderer(iconNames: string[][]) {
     const controls = document.createElement('div')
-    controls.classList.add('rz-markdown__controls')
+    controls.classList.add(`${COMPONENT_CLASS_NAME}__controls`)
 
     iconNames.forEach((iconList) => {
         const group = buttonGroupRenderer(iconList)
@@ -88,15 +90,17 @@ function controlsRenderer(iconNames: string[][]) {
     return controls
 }
 
-function itemRenderer(args: Args) {
+function rzMarkdownEditorRenderer(args: Args) {
+    // Use `rz-markdown-editor` custom element to instantiate the component
+    // Or `rz-markdown-editor` class to only apply the styles
     const wrapper = document.createElement('div')
-    wrapper.classList.add('rz-markdown')
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
 
     const head = controlsRenderer(args.controlsButtonGroups || [[]])
     wrapper.appendChild(head)
 
     const textarea = document.createElement('textarea')
-    textarea.classList.add('rz-markdown__textarea')
+    textarea.classList.add(`${COMPONENT_CLASS_NAME}__textarea`)
 
     for (const key in args) {
         if (TEXTAREA_ATTRIBUTES.includes(key) && args[key as keyof Args]) {
@@ -112,7 +116,7 @@ function itemRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzMarkdownEditorRenderer(args)
     },
     args: {
         name: 'text-area-markdown-input',
@@ -124,7 +128,7 @@ export const Default: Story = {
  */
 export const UserError: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzMarkdownEditorRenderer(args)
     },
     args: {
         name: 'text-area-markdown-input',
@@ -139,7 +143,7 @@ export const ErrorClass: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
         wrapper.classList.add('rz-form-field', 'rz-form-field--error')
-        const markdown = itemRenderer(args)
+        const markdown = rzMarkdownEditorRenderer(args)
         wrapper.appendChild(markdown)
 
         return wrapper
