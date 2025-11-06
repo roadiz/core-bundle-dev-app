@@ -18,12 +18,11 @@ export default class RzInputColor extends HTMLElement {
     }
 
     /**
-     * Validates hex color formats:
-     * - #RRGGBB (standard)
-     * - #RRGGBBAA (with alpha)
+     * Validates hex color format: #RRGGBB (standard)
+     * for now only supports 6-digit hex colors
      */
     private isValidHexColor(value: string): boolean {
-        return /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(value)
+        return /^#[0-9A-Fa-f]{6}$/.test(value)
     }
 
     onTextInputChange() {

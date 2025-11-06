@@ -27,12 +27,16 @@
         <input
             type="color"
             aria-hidden="true"
+            {{ block('widget_attributes') }}
             {% if value is not empty %}value="{{ value }}" {% endif %}
         />
         <input
             type="text"
+            maxlength="7"
+            pattern="^#[0-9A-Fa-f]{6}$"
             placeholder="{{ 'color_input.placeholder'|trans }}"
-            {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}
         />
     </rz-input-color>
 {%- endblock color_widget -%}
