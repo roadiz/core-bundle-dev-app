@@ -21,8 +21,7 @@ function itemRenderer(args: Args) {
     const input = document.createElement('input')
     input.setAttribute('type', 'checkbox')
     input.classList.add(COMPONENT_CLASS_NAME)
-
-    input.checked = args.checked ?? false
+    if (args.checked) input.setAttribute('checked', '')
 
     return input
 }
@@ -30,5 +29,14 @@ function itemRenderer(args: Args) {
 export const Default: Story = {
     render: (args) => {
         return itemRenderer(args)
+    },
+}
+
+export const Checked: Story = {
+    render: (args) => {
+        return itemRenderer(args)
+    },
+    args: {
+        checked: true,
     },
 }
