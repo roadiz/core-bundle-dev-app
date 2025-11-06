@@ -1,13 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import type { Args as RzFormFieldArgs } from './RzFormField.stories'
+import { rzFieldsetRenderer } from '~/utils/storybook/renderer/rzFieldset'
 
-const COMPONENT_CLASS_NAME = 'rz-fieldset'
-const ORIENTATION_OPTIONS = ['vertical', 'horizontal'] as const
-type Args = {
+export type Args = {
     legend: string
     formFieldsData?: RzFormFieldArgs[]
-    orientation?: (typeof ORIENTATION_OPTIONS)[number]
 }
 
 const meta: Meta<Args> = {
@@ -15,46 +12,15 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         legend: 'Fieldset Legend',
-        orientation: 'vertical',
-    },
-    argTypes: {
-        orientation: {
-            options: ORIENTATION_OPTIONS,
-            control: { type: 'select' },
-        },
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
-function fieldsetRenderer(args: Args) {
-    const fieldset = document.createElement('fieldset')
-    const orientationClass =
-        args.orientation && `${COMPONENT_CLASS_NAME}--${args.orientation}`
-
-    const fieldsetClasses = [COMPONENT_CLASS_NAME, orientationClass].filter(
-        (c) => c,
-    ) as string[]
-    fieldset.classList.add(...fieldsetClasses)
-
-    const legend = document.createElement('legend')
-    legend.classList.add(`${COMPONENT_CLASS_NAME}__legend`)
-    legend.textContent = args.legend
-    fieldset.appendChild(legend)
-
-    const fields = args.formFieldsData || []
-    fields.forEach((fieldData) => {
-        const input = rzFormFieldRenderer(fieldData)
-        fieldset.appendChild(input)
-    })
-
-    return fieldset
-}
-
 export const Default: Story = {
     render: (args) => {
-        return fieldsetRenderer(args)
+        return rzFieldsetRenderer(args)
     },
     args: {
         formFieldsData: [
@@ -73,19 +39,69 @@ export const Default: Story = {
     },
 }
 
-export const CheckboxGroup: Story = {
+export const InlineCheckboxGroup: Story = {
     render: (args) => {
-        return fieldsetRenderer(args)
+        return rzFieldsetRenderer(args)
     },
     args: {
         legend: 'Checkbox Group Legend',
-        orientation: 'horizontal',
         formFieldsData: Array.from({ length: 10 }, (_, i) => ({
             type: 'checkbox',
-            name: `option-${i + 1}`,
+            name: `InlineCheckboxGroup-option-${i + 1}`,
             description: 'This is option description',
             label: `Option ${i + 1}`,
             inline: true,
         })),
+    },
+}
+
+export const SwitchGroup: Story = {
+    render: (args) => {
+        return rzFieldsetRenderer(args)
+    },
+    args: {
+        legend: 'Switch Group Legend',
+        formFieldsData: Array.from({ length: 10 }, (_, i) => ({
+            type: 'checkbox',
+            name: `SwitchGroup-option-${i + 1}`,
+            description: 'This is option description',
+            label: `Option ${i + 1}`,
+            inputClassName: 'rz-switch',
+        })),
+    },
+}
+
+export const Mixed: Story = {
+    render: (args) => {
+        return rzFieldsetRenderer(args)
+    },
+    args: {
+        legend: 'Switch Group Legend',
+        formFieldsData: [
+            ...Array.from({ length: 3 }, (_, i) => ({
+                type: 'checkbox',
+                name: `Mixed-option-${i + 1}`,
+                description: 'This is option description',
+                label: `Option ${i + 1}`,
+                inputClassName: 'rz-switch',
+            })),
+            {
+                label: 'Simple text 2',
+                type: 'text',
+                name: 'simple-text-2-SwitchList',
+            },
+            {
+                type: 'checkbox',
+                name: `Mixed-option-solo`,
+                description: 'This is option description',
+                label: `Option solo`,
+                inputClassName: 'rz-switch',
+            },
+            {
+                label: 'Simple text 2',
+                type: 'color',
+                name: 'simple-text-2-SwitchList',
+            },
+        ],
     },
 }
