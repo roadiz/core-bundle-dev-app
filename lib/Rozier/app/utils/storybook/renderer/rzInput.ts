@@ -17,7 +17,7 @@ export function rzInputRenderer(
 
     if (args.name) {
         input.name = args.name
-        input.id = args.name
+        input.id = args.id || args.name
     }
     if (args.type) input.type = args.type
     if (args.placeholder) input.placeholder = args.placeholder

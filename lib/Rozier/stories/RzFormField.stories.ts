@@ -14,6 +14,7 @@ export type Args = {
     type: (typeof INPUT_TYPES)[number]
     inline?: boolean
     inputClassName?: string
+    inputId?: string
 }
 
 const meta: Meta<Args> = {
