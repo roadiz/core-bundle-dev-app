@@ -16,7 +16,7 @@ export function rzInputRenderer(
     })
 
     input.name = args.name || 'name'
-    input.id = args.id || args.name
+    input.id = args.id || args.name || 'id-needed'
     if (args.type) input.type = args.type
     if (args.placeholder) input.placeholder = args.placeholder
     if (args.required) input.required = args.required
