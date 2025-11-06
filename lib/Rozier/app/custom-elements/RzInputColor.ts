@@ -19,7 +19,7 @@ export default class RzInputColor extends HTMLElement {
 
     /**
      * Validates hex color format: #RRGGBB (standard)
-     * for now only supports 6-digit hex colors
+     * Note: Not all browsers support 8-digit hex colors (#RRGGBBAA with alpha channel).
      */
     private isValidHexColor(value: string): boolean {
         return /^#[0-9A-Fa-f]{6}$/.test(value)
