@@ -26,7 +26,8 @@
     <rz-input-color class="rz-input">
         <input
             type="color"
-            {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}
+            aria-hidden="true"
+            {% if value is not empty %}value="{{ value }}" {% endif %}
         />
         <input
             type="text"
