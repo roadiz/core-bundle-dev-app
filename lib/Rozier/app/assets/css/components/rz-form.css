@@ -4,28 +4,14 @@
 
 .rz-form__field-list {
 	display: flex;
+	flex-direction: var(--rz-form-field-list-flex-direction);
 	flex-wrap: wrap;
+	padding-block: var(--spacing-4xs);
 	gap: var(--rz-form-field-list-gap); /* Not the same value as figma, taking to account rz-field-form inner padding */
-
-	& > *:not(:where(.rz-form-field--type-checkbox, .rz-form-field--type-radio)) {
-		width: 100%;
-	}
 }
 
-/*
-Relevant to `uk-form-row form-col-nodesourcebase form-col-base` class name
-Actually used in node page form, with necessary fields like title and published date
-*/
-.rz-form__field-list--header {
-	padding-bottom: var(--spacing-md);
-
-	.rz-form-field--type-text:not(:only-child) {
-		width: initial;
-		flex-grow: 1;
-	}
-
-	.rz-form-field--type-text + .rz-form-field--type-date {
-		width: unset;
-		flex-grow: 1;
-	}
+.rz-form__field-list--horizontal {
+	--rz-form-field-list-flex-direction: row;
+	--rz-form-field-width: auto;
+	--rz-form-field-flex-grow: 1;
 }

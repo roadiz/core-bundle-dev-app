@@ -1,3 +1,15 @@
+.rz-form-field {
+    width: var(--rz-form-field-width, 100%);
+    flex-grow: var(--rz-form-field-flex-grow);
+
+    &:where(
+		.rz-form-field--type-checkbox,
+        .rz-form-field--type-radio
+	) {
+        width: var(--rz-form-field-width);
+	}
+}
+
 .rz-form-field--inline {
     --rz-form-field-gap: 0 var(--spacing-4xs);
 
@@ -46,11 +58,6 @@
 
 .rz-form-field__input {
     margin-top: var(--spacing-4xs);
-
-    &:not(:where([type='checkbox'], [type='radio'])) {
-        width: 100%;
-        box-sizing: border-box;
-    }
 }
 
 .rz-form-field__message {

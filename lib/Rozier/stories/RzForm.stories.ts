@@ -5,10 +5,12 @@ import { rzFormFieldRenderer } from '../app/utils/storybook/renderer/rzFormField
 import { rzFieldsetRenderer } from '../app/utils/storybook/renderer/rzFieldset'
 
 const COMPONENT_CLASS_NAME = 'rz-form'
+const ORIENTATIONS = ['horizontal', 'vertical']
 
 export type Args = {
     name: string
     fields: (FormFieldArgs | FieldsetArgs)[]
+    orientation?: (typeof ORIENTATIONS)[number]
 }
 
 const meta: Meta<Args> = {
@@ -16,11 +18,32 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         name: 'My form',
+        orientation: 'vertical',
+    },
+    argTypes: {
+        orientation: {
+            control: 'select',
+            options: ORIENTATIONS,
+        },
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
+
+function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 5) {
+    return [...Array(length).keys()].map((i) => {
+        const id = Math.random().toString(36).slice(2, 9)
+        return {
+            type: 'checkbox',
+            label: `Input Field Label ${i + 1}`,
+            description: `This is the description for checkbox ${i + 1}.`,
+            name: `fieldlist-name-${i + 1}-${id}`,
+            inputId: id,
+            ...args,
+        }
+    })
+}
 
 function fieldListRenderer(fields: Args['fields']) {
     const wrapper = document.createElement('div')
@@ -44,6 +67,11 @@ function formRenderer(args: Args) {
     form.classList.add(COMPONENT_CLASS_NAME)
 
     const fieldList = fieldListRenderer(args.fields)
+    if (args.orientation === 'horizontal') {
+        fieldList.classList.add(
+            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
+        )
+    }
     form.appendChild(fieldList)
 
     const button = document.createElement('button')
@@ -98,7 +126,9 @@ export const WithFieldListHeader: Story = {
                 required: true,
             },
         ])
-        fieldList.classList.add(`${COMPONENT_CLASS_NAME}__field-list--header`)
+        fieldList.classList.add(
+            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
+        )
         form.insertBefore(fieldList, form.firstChild)
 
         return form
@@ -133,7 +163,9 @@ export const WithFieldListHeaderDual: Story = {
                 required: true,
             },
         ])
-        fieldList.classList.add(`${COMPONENT_CLASS_NAME}__field-list--header`)
+        fieldList.classList.add(
+            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
+        )
         form.insertBefore(fieldList, form.firstChild)
 
         return form
@@ -150,14 +182,6 @@ export const WithFieldListHeaderDual: Story = {
     },
 }
 
-const checkboxFieldList = [...Array(5).keys()].map((i) => ({
-    label: `Input Field Label ${i + 1}`,
-    type: 'checkbox',
-    description: `This is the description for checkbox ${i + 1}.`,
-    name: `checkbox-SwitchList-name-${i + 1}`,
-    inputClassName: 'rz-switch',
-}))
-
 export const SwitchList: Story = {
     render: (args) => {
         return formRenderer(args)
@@ -169,7 +193,10 @@ export const SwitchList: Story = {
                 type: 'text',
                 name: 'simple-text-SwitchList',
             },
-            ...checkboxFieldList,
+            ...getCheckboxFieldList({
+                type: 'checkbox',
+                inputClassName: 'rz-switch',
+            }),
             {
                 label: 'Simple text 2',
                 type: 'text',
@@ -183,7 +210,7 @@ export const SwitchListWithFieldset: Story = {
     render: (args) => {
         const form = formRenderer(args)
 
-        const fieldList = fieldListRenderer([
+        const inlineFieldList = fieldListRenderer([
             {
                 label: 'Node title',
                 type: 'text',
@@ -197,8 +224,10 @@ export const SwitchListWithFieldset: Story = {
                 required: true,
             },
         ])
-        fieldList.classList.add(`${COMPONENT_CLASS_NAME}__field-list--header`)
-        form.insertBefore(fieldList, form.firstChild)
+        inlineFieldList.classList.add(
+            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
+        )
+        form.insertBefore(inlineFieldList, form.firstChild)
 
         return form
     },
@@ -211,7 +240,17 @@ export const SwitchListWithFieldset: Story = {
             },
             {
                 legend: 'Checkbox Fieldset',
-                formFieldsData: checkboxFieldList,
+                formFieldsData: getCheckboxFieldList({
+                    type: 'checkbox',
+                    inputClassName: 'rz-switch',
+                }),
+            },
+            {
+                legend: 'Radio Fieldset',
+                formFieldsData: getCheckboxFieldList({
+                    type: 'radio',
+                    name: 'radio-SwitchList',
+                }),
             },
             {
                 label: 'Simple text 2',

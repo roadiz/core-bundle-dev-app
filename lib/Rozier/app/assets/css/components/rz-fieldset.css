@@ -17,10 +17,6 @@
         border-radius: var(--radius-xs, 6px);
         border: 1px solid var(--line-on-light-secondary, #DADADA);
     }
-
-    & > *:not(:where(.rz-form-field--type-checkbox, .rz-form-field--type-radio)) {
-		width: 100%;
-	}
 }
 
 .rz-fieldset__legend {
