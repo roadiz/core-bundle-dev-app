@@ -17,9 +17,27 @@ export default class RzInputColor extends HTMLElement {
         this.textInput.textContent = newValue
     }
 
+    /**
+     * Validates hex color formats:
+     * - #RRGGBB (standard)
+     * - #RRGGBBAA (with alpha)
+     */
+    private isValidHexColor(value: string): boolean {
+        return /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(value)
+    }
+
     onTextInputChange() {
         if (!this.textInput || !this.colorInput) return
-        this.colorInput.value = this.textInput.value
+
+        const value = this.textInput.value.trim()
+        if (
+            !this.textInput.hasAttribute('pattern') &&
+            !this.isValidHexColor(value)
+        ) {
+            this.textInput.setCustomValidity('Invalid hex color format')
+        } else {
+            this.colorInput.value = value
+        }
     }
 
     connectedCallback(): void {
