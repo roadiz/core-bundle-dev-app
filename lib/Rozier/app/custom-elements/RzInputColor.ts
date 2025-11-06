@@ -10,14 +10,15 @@ export default class RzInputColor extends HTMLElement {
     }
 
     onColorInputChange() {
-        const newValue = this.colorInput.value
-        if (!newValue) return
+        const newValue = this.colorInput?.value
+        if (!newValue || !this.textInput) return
 
         this.textInput.value = newValue
         this.textInput.textContent = newValue
     }
 
     onTextInputChange() {
+        if (!this.textInput || !this.colorInput) return
         this.colorInput.value = this.textInput.value
     }
 
@@ -40,7 +41,7 @@ export default class RzInputColor extends HTMLElement {
     }
 
     disconnectedCallback() {
-        this.colorInput.removeEventListener('change', this.onColorInputChange)
-        this.textInput.removeEventListener('change', this.onTextInputChange)
+        this.colorInput?.removeEventListener('change', this.onColorInputChange)
+        this.textInput?.removeEventListener('change', this.onTextInputChange)
     }
 }
