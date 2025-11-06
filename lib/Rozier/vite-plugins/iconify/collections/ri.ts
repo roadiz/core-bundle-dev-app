@@ -17,6 +17,12 @@ export default [
     'computer-line',
     'search-line',
     'earth-line',
+    'image-line',
+    'upload-line',
+    'list-check-3',
+    'markdown-line',
+    'stack-line',
+    'layout-4-line',
     // Markdown related icons
     'h-1',
     'h-2',
