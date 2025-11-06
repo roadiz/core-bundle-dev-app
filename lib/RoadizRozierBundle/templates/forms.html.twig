@@ -23,14 +23,16 @@
 {%- endblock date_widget -%}
 
 {%- block color_widget -%}
-    <rz-input-color
-        data-color-picker-label="{{ 'color_input.picker.button'|trans }}"
-        data-hex-color-label="{{ 'color_input.hex.button'|trans }}"
-        data-initial-value="{{ value|default('') }}"
-    >
-        <input placeholder="{{ 'color_input.placeholder'|trans }}"
-               type="color" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        <button class="uk-button color-toggle-btn" type="button">Reset</button>
+    <rz-input-color class="rz-input">
+        <input
+            type="color"
+            {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}
+        />
+        <input
+            type="text"
+            placeholder="{{ 'color_input.placeholder'|trans }}"
+            {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}
+        />
     </rz-input-color>
 {%- endblock color_widget -%}
 
