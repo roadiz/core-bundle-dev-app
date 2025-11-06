@@ -13,6 +13,8 @@ export type Args = {
     error?: string
     type: (typeof INPUT_TYPES)[number]
     inline?: boolean
+    inputClassName?: string
+    inputId?: string
 }
 
 const meta: Meta<Args> = {
@@ -66,12 +68,23 @@ export const WithIcon: Story = {
     },
 }
 
-export const Inline: Story = {
+export const Checkbox: Story = {
     render: (args) => {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'inline-name',
+        name: 'Checkbox-name',
+        type: 'checkbox',
+        label: 'Inline Checkbox',
+    },
+}
+
+export const CheckboxInline: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        name: 'CheckboxInline-name',
         type: 'checkbox',
         label: 'Inline Checkbox',
         inline: true,

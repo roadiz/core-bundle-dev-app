@@ -19,7 +19,7 @@ export function rzFormFieldRenderer(args: Args) {
     const label = document.createElement('label')
     label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
     label.textContent = args.label
-    label.setAttribute('for', args.name)
+    label.setAttribute('for', args.inputId || args.name)
     wrapper.appendChild(label)
 
     if (args.badgeIconClass) {
@@ -44,8 +44,10 @@ export function rzFormFieldRenderer(args: Args) {
 
     const input = rzInputRenderer({
         ...args,
+        id: args.inputId,
         name: args.name || 'input',
         placeholder: 'Placeholder',
+        className: args.inputClassName,
     })
     input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
     if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
