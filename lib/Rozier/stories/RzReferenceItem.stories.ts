@@ -76,10 +76,6 @@ function rzReferenceItemRenderer(args: Args) {
     ].filter((c) => c) as string[]
     wrapper.classList.add(...classes)
 
-    // const inner = document.createElement('div')
-    // inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
-    // wrapper.appendChild(inner)
-
     if (args.overtitle) {
         const overtitle = document.createElement('div')
         overtitle.classList.add(`${COMPONENT_CLASS_NAME}__overtitle`)

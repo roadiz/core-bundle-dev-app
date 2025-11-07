@@ -39,7 +39,7 @@
 		border-radius: inherit;
 	}
 
-	/* Content BG */
+	/* Inner BG */
 	&::before {
 		inset: var(--rz-reference-item-inner-inset);
 		background-color: var(--reference-bg, #F2F2F2);
@@ -92,7 +92,6 @@
 }
 
 .rz-reference-item__img {
-	/* grid-area: img; */
 	display: block;
 	max-width: 100%;
 	width: var(--rz-reference-img-width, auto);
