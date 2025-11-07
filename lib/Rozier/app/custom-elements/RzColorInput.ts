@@ -36,6 +36,7 @@ export default class RzColorInput extends HTMLElement {
             this.textInput.setCustomValidity('Invalid hex color format')
         } else {
             this.colorInput.value = value
+            this.textInput.setCustomValidity('')
         }
     }
 
