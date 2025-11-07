@@ -23,7 +23,7 @@
 {%- endblock date_widget -%}
 
 {%- block color_widget -%}
-    <rz-input-color>
+    <rz-color-input>
         <input
             type="color"
             aria-hidden="true"
@@ -38,7 +38,7 @@
             {{ block('widget_attributes') }}
             {% if value is not empty %}value="{{ value }}" {% endif %}
         />
-    </rz-input-color>
+    </rz-color-input>
 {%- endblock color_widget -%}
 
 {%- block data_list_text_widget -%}
