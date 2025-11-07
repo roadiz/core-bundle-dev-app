@@ -3,7 +3,7 @@ import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { INPUT_TYPES } from '~/custom-elements/RzInput'
 import type { BadgeArgs } from './RzBadge.stories'
 import type { Args as InputArgs } from './RzInput.stories'
-import type { Args as ButonnGroupArg } from './rzButtonGroup.stories'
+import type { Args as ButtonGroupArg } from './rzButtonGroup.stories'
 
 export type Args = {
     label: string
@@ -17,7 +17,7 @@ export type Args = {
     badge: BadgeArgs
     iconClass?: string
     input?: InputArgs
-    buttonGroup?: ButonnGroupArg
+    buttonGroup?: ButtonGroupArg
 }
 
 const meta: Meta<Args> = {
