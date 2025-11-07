@@ -61,10 +61,7 @@ final readonly class UserLifeCycleSubscriber
             $this->dispatcher->dispatch($userEvent);
         }
 
-        if (
-            $event->hasChangedField('username')
-            && false === $event->getOldValue('enabled')
-        ) {
+        if ($event->hasChangedField('username')) {
             $this->dispatcher->dispatch(new UserUsernameChangedEvent(
                 $user,
                 (string) $event->getOldValue('username'),
