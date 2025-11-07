@@ -16,6 +16,7 @@ use RZ\Roadiz\CoreBundle\Event\User\UserDisabledEvent;
 use RZ\Roadiz\CoreBundle\Event\User\UserEnabledEvent;
 use RZ\Roadiz\CoreBundle\Event\User\UserPasswordChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent;
+use RZ\Roadiz\CoreBundle\Event\User\UserUsernameChangedEvent;
 use RZ\Roadiz\CoreBundle\Security\User\UserViewer;
 use RZ\Roadiz\Random\TokenGenerator;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -40,35 +41,48 @@ final readonly class UserLifeCycleSubscriber
     public function preUpdate(PreUpdateEventArgs $event): void
     {
         $user = $event->getObject();
-        if ($user instanceof User) {
-            if (
-                $event->hasChangedField('enabled')
-                && true === $event->getNewValue('enabled')
-            ) {
-                $userEvent = new UserEnabledEvent($user);
-                $this->dispatcher->dispatch($userEvent);
-            }
+        if (!$user instanceof User) {
+            return;
+        }
 
-            if (
-                $event->hasChangedField('enabled')
-                && false === $event->getNewValue('enabled')
-            ) {
-                $userEvent = new UserDisabledEvent($user);
-                $this->dispatcher->dispatch($userEvent);
-            }
+        if (
+            $event->hasChangedField('enabled')
+            && true === $event->getNewValue('enabled')
+        ) {
+            $userEvent = new UserEnabledEvent($user);
+            $this->dispatcher->dispatch($userEvent);
+        }
 
-            /*
-             * Encode user password
-             */
-            if (
-                $event->hasChangedField('password')
-                && null !== $user->getPlainPassword()
-                && '' !== $user->getPlainPassword()
-            ) {
-                if ($this->setPassword($user, $user->getPlainPassword())) {
-                    $userEvent = new UserPasswordChangedEvent($user);
-                    $this->dispatcher->dispatch($userEvent);
-                }
+        if (
+            $event->hasChangedField('enabled')
+            && false === $event->getNewValue('enabled')
+        ) {
+            $userEvent = new UserDisabledEvent($user);
+            $this->dispatcher->dispatch($userEvent);
+        }
+
+        if (
+            $event->hasChangedField('username')
+            && false === $event->getOldValue('enabled')
+        ) {
+            $this->dispatcher->dispatch(new UserUsernameChangedEvent(
+                $user,
+                (string) $event->getOldValue('username'),
+                (string) $event->getNewValue('username')
+            ));
+        }
+
+        /*
+         * Encode user password
+         */
+        if (
+            $event->hasChangedField('password')
+            && null !== $user->getPlainPassword()
+            && '' !== $user->getPlainPassword()
+        ) {
+            if ($this->setPassword($user, $user->getPlainPassword())) {
+                $userEvent = new UserPasswordChangedEvent($user);
+                $this->dispatcher->dispatch($userEvent);
             }
         }
     }
