@@ -14,12 +14,12 @@ export default class RzColorInput extends HTMLElement {
         if (!newValue || !this.textInput) return
 
         this.textInput.value = newValue
-        this.textInput.textContent = newValue
     }
 
     /**
      * Validates hex color format: #RRGGBB (standard)
      * Note: Not all browsers support 8-digit hex colors (#RRGGBBAA with alpha channel).
+     * Use and check only standard 6-digit format for compatibility.
      */
     private isValidHexColor(value: string): boolean {
         return /^#[0-9A-Fa-f]{6}$/.test(value)
