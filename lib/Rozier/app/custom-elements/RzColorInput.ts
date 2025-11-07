@@ -40,7 +40,7 @@ export default class RzColorInput extends HTMLElement {
         }
     }
 
-    connectedCallback(): void {
+    connectedCallback() {
         this.colorInput = this.querySelector('input[type="color"]')
         this.textInput = this.querySelector('input[type="text"]')
 
