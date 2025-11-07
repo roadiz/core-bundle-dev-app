@@ -4,7 +4,7 @@
 
 .rz-input:not(:where([type="checkbox"], [type="radio"], [type="range"], [type="file"])) {
 	display: block;
-	width: 100%;
+	width: var(--rz-input-width, 100%);
 	border: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));
 	border-radius: var(--radius-xs, 6px);
 	padding: var(--rz-input-padding, 11px 12px 10px 12px);

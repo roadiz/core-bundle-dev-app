@@ -1,20 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { INPUT_TYPES } from '~/custom-elements/RzInput'
+import type { BadgeArgs } from './RzBadge.stories'
+import type { Args as InputArgs } from './RzInput.stories'
+import type { Args as ButtonGroupArg } from './rzButtonGroup.stories'
 
 export type Args = {
     label: string
-    badgeIconClass?: string
-    badgeTitle?: string
-    name: string
     required?: boolean
     description?: string // under label
     help?: string // under input
     error?: string
     type: (typeof INPUT_TYPES)[number]
-    inline?: boolean
-    inputClassName?: string
-    inputId?: string
+    horizontal?: boolean
+    // Elements
+    badge: BadgeArgs
+    iconClass?: string
+    input?: InputArgs
+    buttonGroup?: ButtonGroupArg
 }
 
 const meta: Meta<Args> = {
@@ -27,21 +30,22 @@ const meta: Meta<Args> = {
         type: 'text',
         error: '',
         help: '',
-        inline: false,
-        badgeIconClass: '',
-        badgeTitle: '',
+        horizontal: false,
+        input: {
+            type: 'text',
+            placeholder: 'Enter text here',
+            name: 'input-name',
+            id: 'input-id',
+        },
     },
     argTypes: {
         type: {
             options: INPUT_TYPES,
             control: { type: 'select' },
         },
-        name: {
-            description: 'Required. The name and id of the input field.',
-        },
-        inline: {
+        horizontal: {
             description:
-                'If true, displays the field inline, input and label side by side. Message and help text remain below.',
+                'If true, displays the field horizontally, input and label side by side. Message and help text remain below.',
         },
     },
 }
@@ -54,7 +58,29 @@ export const Default: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'default-name',
+        badge: {
+            iconClass: 'rz-icon-ri--earth-line',
+            title: 'Badge title',
+        },
+        input: {
+            type: 'text',
+            id: 'default-input-id',
+            name: 'default-input-name',
+        },
+    },
+}
+
+export const WithoutBadge: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        badge: undefined,
+        input: {
+            type: 'text',
+            id: 'WithoutBadge-input-id',
+            name: 'WithoutBadge-input-name',
+        },
     },
 }
 
@@ -63,8 +89,13 @@ export const WithIcon: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'default-with-icon-name',
-        badgeIconClass: 'rz-icon-ri--earth-line',
+        iconClass: 'rz-icon-ri--markdown-line',
+        badge: undefined,
+        input: {
+            type: 'text',
+            id: 'WithIcon-input-id',
+            name: 'WithIcon-input-name',
+        },
     },
 }
 
@@ -73,9 +104,12 @@ export const Checkbox: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'Checkbox-name',
-        type: 'checkbox',
         label: 'Inline Checkbox',
+        input: {
+            type: 'checkbox',
+            id: 'Checkbox-input-id',
+            name: 'Checkbox-input-name',
+        },
     },
 }
 
@@ -84,10 +118,13 @@ export const CheckboxInline: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'CheckboxInline-name',
-        type: 'checkbox',
         label: 'Inline Checkbox',
-        inline: true,
+        horizontal: true,
+        input: {
+            type: 'checkbox',
+            name: 'CheckboxInline-name',
+            id: 'CheckboxInline-id',
+        },
     },
 }
 
@@ -96,8 +133,12 @@ export const WithSupportingText: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'with-supporting-text-name',
         help: 'This is a supporting text for the input field.',
+        input: {
+            type: 'text',
+            name: 'WithSupportingText-name',
+            id: 'WithSupportingText-id',
+        },
     },
 }
 
@@ -106,7 +147,41 @@ export const WithError: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        name: 'with-error-name',
         error: 'This is an error message for the input field.',
+        input: {
+            type: 'text',
+            name: 'WithError-name',
+            id: 'WithError-id',
+        },
+    },
+}
+
+export const WithButtons: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        iconClass: 'rz-icon-ri--image-line',
+        input: undefined,
+        badge: {
+            label: '0/255',
+            color: 'error',
+            size: 'xs',
+        },
+        buttonGroup: {
+            spacing: 'md',
+            buttons: [
+                {
+                    label: 'Upload',
+                    iconClass: 'rz-icon-ri--upload-line',
+                    size: 'sm',
+                },
+                {
+                    label: 'Explore',
+                    iconClass: 'rz-icon-ri--add-line',
+                    size: 'sm',
+                },
+            ],
+        },
     },
 }

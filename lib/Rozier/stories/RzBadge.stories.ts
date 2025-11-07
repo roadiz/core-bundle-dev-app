@@ -7,6 +7,7 @@ const COLORS = ['information', 'success', 'warning', 'error'] as const
 export type BadgeArgs = {
     iconClass?: string
     label?: string
+    title?: string
     size?: (typeof SIZES)[number]
     color?: (typeof COLORS)[number]
 }

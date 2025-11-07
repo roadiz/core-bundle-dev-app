@@ -1,4 +1,4 @@
-import type { BadgeArgs } from '../../../../stories/rzBadge.stories'
+import type { BadgeArgs } from '../../../../stories/RzBadge.stories'
 
 export const COMPONENT_CLASS_NAME = 'rz-badge'
 
