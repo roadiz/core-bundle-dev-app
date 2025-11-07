@@ -1,4 +1,5 @@
 import type { Args } from '../../../../stories/RzFormField.stories'
+import { rzButtonGroupRenderer } from './rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
 import { rzBadgeRenderer } from './rzBadge'
@@ -11,30 +12,42 @@ export function rzFormFieldRenderer(args: Args) {
         COMPONENT_CLASS_NAME,
         `${COMPONENT_CLASS_NAME}--type-${args.type}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
-        args.inline && `${COMPONENT_CLASS_NAME}--inline`,
+        args.horizontal && `${COMPONENT_CLASS_NAME}--horizontal`,
         args.error && `${COMPONENT_CLASS_NAME}--error`,
     ].filter((c) => c) as string[]
     wrapper.classList.add(...wrapperClasses)
 
+    if (args.iconClass) {
+        const icon = document.createElement('span')
+        icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`, args.iconClass)
+        wrapper.appendChild(icon)
+    }
+
     const label = document.createElement('label')
     label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
     label.textContent = args.label
-    label.setAttribute('for', args.inputId || args.name)
+    label.setAttribute('for', args.input?.id)
     wrapper.appendChild(label)
 
-    if (args.badgeIconClass) {
+    if (args.badge) {
         const badge = rzBadgeRenderer({
-            iconClass: args.badgeIconClass,
-            size: 'xs',
+            ...args.badge,
+            size: args.badge.size || 'xs',
         })
-        badge.setAttribute('title', args.badgeTitle || 'Badge title')
-        badge.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
+        badge.setAttribute('title', args.badge.title || 'Badge title')
+        badge.classList.add(`${COMPONENT_CLASS_NAME}__badge`)
         wrapper.appendChild(badge)
+    }
+
+    if (args.buttonGroup) {
+        const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
+        buttonGroup.classList.add(`${COMPONENT_CLASS_NAME}__button-group`)
+        wrapper.appendChild(buttonGroup)
     }
 
     let descriptionId: string | undefined = undefined
     if (args.description) {
-        descriptionId = `${args.name}-description-${Date.now()}`
+        descriptionId = `${args.input?.name}-description-${Date.now()}`
         const description = document.createElement('p')
         description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
         description.textContent = args.description
@@ -42,29 +55,26 @@ export function rzFormFieldRenderer(args: Args) {
         wrapper.appendChild(description)
     }
 
-    const input = rzInputRenderer({
-        ...args,
-        id: args.inputId,
-        name: args.name || 'input',
-        placeholder: 'Placeholder',
-        className: args.inputClassName,
-    })
-    input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
-    if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
-    if (args.required) input.setAttribute('required', 'true')
-    wrapper.appendChild(input)
+    if (args.input) {
+        const input = rzInputRenderer({
+            ...args.input,
+            name: args.input?.name || 'name',
+        })
+        input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
+        if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
+        if (args.required) input.setAttribute('required', 'true')
+        wrapper.appendChild(input)
+    }
 
     if (args.help) {
         const node = rzMessageRenderer({ text: args.help })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
-        node.setAttribute('for', args.name)
         wrapper.appendChild(node)
     }
 
     if (args.error) {
         const node = rzMessageRenderer({ text: args.error, color: 'error' })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
-        node.setAttribute('for', args.name)
         wrapper.appendChild(node)
     }
 

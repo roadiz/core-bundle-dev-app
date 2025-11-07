@@ -23,6 +23,9 @@ export default [
     'markdown-line',
     'stack-line',
     'layout-4-line',
+    'more-line',
+    'edit-line',
+    'delete-bin-7-line',
     // Markdown related icons
     'h-1',
     'h-2',

@@ -1,4 +1,7 @@
 .rz-form-field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     width: var(--rz-form-field-width, 100%);
     flex-grow: var(--rz-form-field-flex-grow);
 
@@ -10,22 +13,27 @@
 	}
 }
 
-.rz-form-field--inline {
+.rz-form-field--horizontal {
     --rz-form-field-gap: 0 var(--spacing-4xs);
 
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-auto-flow: dense;
-    align-items: center;
-
-    .rz-form-field__label,
-    .rz-form-field__description {
-        grid-column: 2 / -1;
-    }
-
     .rz-form-field__input {
-        margin-right: var(--spacing-2xs, 12px);
+        --rz-input-width: auto;
+        order: 0;
+        margin-top: initial;
+        margin-right: var(--spacing-4xs);
     }
+
+    .rz-form-field__icon,
+    .rz-form-field__label,
+    .rz-form-field__badge,
+    .rz-form-field__description {
+        order: 1;
+    }
+}
+
+
+.rz-form-field__icon {
+    margin-right: var(--spacing-4xs);
 }
 
 .rz-form-field__label {
@@ -41,12 +49,18 @@
     }
 }
 
-.rz-form-field__icon {
-    margin-left: var(--spacing-7xs, 2px);
+.rz-form-field__badge {
+    margin-left: var(--spacing-4xs);
+}
+
+.rz-form-field__button,
+.rz-form-field__button-group {
+	margin-left: auto;
 }
 
 .rz-form-field__description {
     display: block;
+    width: 100%;
     margin-block: var(--spacing-6xs) 0;
 
     font-family: var(--font-family-os-text);
@@ -62,6 +76,7 @@
 
 .rz-form-field__message {
     margin-block: var(--spacing-4xs) 0;
+    width: 100%;
 
     & > p {
         margin: initial;

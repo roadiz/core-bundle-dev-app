@@ -1,4 +1,23 @@
 .rz-button-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--rz-button-group-gap);
+}
+
+.rz-button-group--sm {
+	--rz-button-group-gap: var(--spacing-7xs);
+}
+
+.rz-button-group--md {
+	--rz-button-group-gap: var(--spacing-5xs);
+}
+
+.rz-button-group--lg {
+	--rz-button-group-gap: var(--spacing-4xs);
+}
+
+.rz-button-group--collapsed {
+	--rz-button-group-gap: 0;
 	.rz-button:first-child:not(:only-child) {
 		--rz-button-border-radius: var(--rz-button-border-radius-default) 0 0 var(--rz-button-border-radius-default);
 	}
