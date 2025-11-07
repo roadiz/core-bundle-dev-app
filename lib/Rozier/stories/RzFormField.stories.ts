@@ -13,7 +13,7 @@ export type Args = {
     error?: string
     type: (typeof INPUT_TYPES)[number]
     horizontal?: boolean
-    // ELements
+    // Elements
     badge: BadgeArgs
     iconClass?: string
     input?: InputArgs
