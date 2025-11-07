@@ -1,4 +1,4 @@
-export default class RzInputColor extends HTMLElement {
+export default class RzColorInput extends HTMLElement {
     private colorInput: HTMLInputElement | null = null
     private textInput: HTMLInputElement | null = null
 
@@ -44,12 +44,12 @@ export default class RzInputColor extends HTMLElement {
         this.textInput = this.querySelector('input[type="text"]')
 
         if (!this.colorInput) {
-            console.warn('RzInputColor: Missing color input')
+            console.warn('RzColorInput: Missing color input')
             return
         }
 
         if (!this.textInput) {
-            console.warn('RzInputColor: Missing text input')
+            console.warn('RzColorInput: Missing text input')
             return
         }
 

@@ -1,38 +1,38 @@
-rz-input-color,
-.rz-input-color {
+rz-color-input,
+.rz-color-input {
 	display: flex;
 	align-items: center;
 	column-gap: var(--radius-xs, 6px);
 	height: 36px;
 	box-sizing: border-box;
-	border: 1PX solid var(--rz-input-color-border-color, var(--form-basic-border, #DADADA));
+	border: 1PX solid var(--rz-color-input-border-color, var(--form-basic-border, #DADADA));
 	border-radius: var(--radius-xs, 6px);
 	padding: var(--spacing-5xs);
 	background-color: var(--form-basic-bg, #F8F8F8);
 	transition: border-color 0.2s, color 0.2s;
 	outline: none;
-	color: var(--rz-input-color, var(--form-basic-input-text, #383838));
+	color: var(--rz-color-input-color, var(--form-basic-input-text, #383838));
 
 	@media (hover: hover) {
 		&:hover {
-			--rz-input-color-border-color: var(--form-basic-border-hover, #383838);
+			--rz-color-input-border-color: var(--form-basic-border-hover, #383838);
 		}
 	}
 }
 
-:where(rz-input-color, .rz-input-color):focus-visible,
+:where(rz-color-input, .rz-color-input):focus-visible,
 .rz-input--focus:focus-visible {
-	--rz-input-color-border-color: var(--form-basic-border-hover, #383838);
+	--rz-color-input-border-color: var(--form-basic-border-hover, #383838);
 }
 
-.rz-form-field--error :where(rz-input-color, .rz-input-color),
-:where(rz-input-color, .rz-input-color):has(input[type="text"]:not(:placeholder-shown):not(:focus-visible):invalid),
-.rz-input-color--error {
-	--rz-input-color: var(--status-error, #E54457);
-	--rz-input-color-border-color: var(--status-error, #E54457);
+.rz-form-field--error :where(rz-color-input, .rz-color-input),
+:where(rz-color-input, .rz-color-input):has(input[type="text"]:not(:placeholder-shown):not(:focus-visible):invalid),
+.rz-color-input--error {
+	--rz-color-input-color: var(--status-error, #E54457);
+	--rz-color-input-border-color: var(--status-error, #E54457);
 }
 
-:where(rz-input-color, .rz-input-color) input[type="color"] {
+:where(rz-color-input, .rz-color-input) input[type="color"] {
 	display: flex;
     align-items: center;
     justify-content: center;
@@ -51,7 +51,7 @@ rz-input-color,
 }
 
 
-:where(rz-input-color, .rz-input-color) input[type="text"] {
+:where(rz-color-input, .rz-color-input) input[type="text"] {
 	border: none;
 	outline: none;
 	background-color: initial;

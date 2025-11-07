@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-export type BadgeArgs = {
+export type Args = {
     name: string
     placeholder?: string
     value?: string
@@ -10,7 +10,7 @@ export type BadgeArgs = {
     textMaxLength?: number
 }
 
-const meta: Meta<BadgeArgs> = {
+const meta: Meta<Args> = {
     title: 'Components/Form/ColorInput',
     tags: ['autodocs'],
     args: {
@@ -23,10 +23,10 @@ const meta: Meta<BadgeArgs> = {
 }
 
 export default meta
-type Story = StoryObj<BadgeArgs>
+type Story = StoryObj<Args>
 
-function rzInputColorRenderer(args: BadgeArgs): HTMLElement {
-    const node = document.createElement('rz-input-color')
+function rzColorInputRenderer(args: Args): HTMLElement {
+    const node = document.createElement('rz-color-input')
 
     const color = document.createElement('input')
     color.type = 'color'
@@ -47,7 +47,7 @@ function rzInputColorRenderer(args: BadgeArgs): HTMLElement {
 
 export const Default: Story = {
     render: (args) => {
-        return rzInputColorRenderer(args)
+        return rzColorInputRenderer(args)
     },
     args: {
         id: 'color-input-1',
@@ -57,7 +57,7 @@ export const Default: Story = {
 
 export const WithDefaultValue: Story = {
     render: (args) => {
-        return rzInputColorRenderer(args)
+        return rzColorInputRenderer(args)
     },
     args: {
         id: 'color-input-2',
