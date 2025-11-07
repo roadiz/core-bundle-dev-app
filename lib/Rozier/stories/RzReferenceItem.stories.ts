@@ -1,0 +1,150 @@
+import type { Meta, StoryObj } from '@storybook/html-vite'
+import image from './assets/images/01.jpg'
+import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
+import { rzImageRenderer } from '~/utils/storybook/renderer/rzImage'
+import type { Args as ButtonGroupArgs } from './rzButtonGroup.stories'
+
+const COMPONENT_CLASS_NAME = 'rz-reference-item'
+const LAYOUTS = ['img-only', 'horizontal'] as const
+
+type Args = {
+    overtitle?: string
+    title?: string
+    image?: Image
+    buttonGroup: ButtonGroupArgs
+    buttonGroupTop?: ButtonGroupArgs
+    layout?: (typeof LAYOUTS)[number]
+}
+
+const meta: Meta<Args> = {
+    title: 'Components/ReferenceItem',
+    tags: ['autodocs'],
+    args: {
+        overtitle: 'Overtitle example',
+        title: 'Title example',
+        image: {
+            src: image,
+            width: 110,
+            height: 94,
+        },
+        buttonGroup: {
+            spacing: 'sm',
+            buttons: [
+                {
+                    iconClass: 'rz-icon-ri--equalizer-3-line',
+                    size: 'sm',
+                    emphasis: 'high',
+                },
+                {
+                    iconClass: 'rz-icon-ri--delete-bin-7-line',
+                    size: 'sm',
+                    color: 'error-light',
+                },
+            ],
+        },
+        buttonGroupTop: {
+            spacing: 'sm',
+            buttons: [
+                {
+                    iconClass: 'rz-icon-ri--zoom-in-line',
+                    size: 'sm',
+                    emphasis: 'high',
+                },
+            ],
+        },
+        layout: 'horizontal',
+    },
+    argsTypes: {
+        layout: {
+            options: LAYOUTS,
+            control: { type: 'select' },
+        },
+    },
+    parameters: {
+        layout: 'centered',
+    },
+}
+
+export default meta
+type Story = StoryObj<Args>
+
+function rzReferenceItemRenderer(args: Args) {
+    const wrapper = document.createElement('div')
+    const classes = [
+        COMPONENT_CLASS_NAME,
+        args.layout && `${COMPONENT_CLASS_NAME}--${args.layout}`,
+    ].filter((c) => c) as string[]
+    wrapper.classList.add(...classes)
+
+    // const inner = document.createElement('div')
+    // inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
+    // wrapper.appendChild(inner)
+
+    if (args.overtitle) {
+        const overtitle = document.createElement('div')
+        overtitle.classList.add(`${COMPONENT_CLASS_NAME}__overtitle`)
+        overtitle.textContent = args.overtitle
+        wrapper.appendChild(overtitle)
+    }
+
+    if (args.title) {
+        const title = document.createElement('div')
+        title.classList.add(`${COMPONENT_CLASS_NAME}__title`)
+        title.textContent = args.title
+        wrapper.appendChild(title)
+    }
+
+    if (args.image) {
+        const imageNode = rzImageRenderer(args.image)
+        imageNode.classList.add(`${COMPONENT_CLASS_NAME}__img`)
+        wrapper.appendChild(imageNode)
+    }
+
+    if (args.buttonGroup) {
+        const node = rzButtonGroupRenderer(args.buttonGroup)
+        node.classList.add(`${COMPONENT_CLASS_NAME}__button-group`)
+        wrapper.appendChild(node)
+    }
+
+    if (args.buttonGroupTop) {
+        const node = rzButtonGroupRenderer(args.buttonGroupTop)
+        node.classList.add(
+            `${COMPONENT_CLASS_NAME}__button-group`,
+            `${COMPONENT_CLASS_NAME}__button-group--top`,
+        )
+        wrapper.appendChild(node)
+    }
+
+    return wrapper
+}
+
+export const Default: Story = {
+    render: (args) => {
+        return rzReferenceItemRenderer(args)
+    },
+    args: {
+        buttonGroupTop: undefined,
+    },
+}
+
+export const OnlyImg: Story = {
+    render: (args) => {
+        return rzReferenceItemRenderer(args)
+    },
+    args: {
+        overtitle: undefined,
+        title: undefined,
+        layout: 'img-only',
+    },
+}
+
+export const WithoutImg: Story = {
+    render: (args) => {
+        return rzReferenceItemRenderer(args)
+    },
+    args: {
+        buttonGroupTop: undefined,
+        image: undefined,
+        layout: 'horizontal',
+    },
+}

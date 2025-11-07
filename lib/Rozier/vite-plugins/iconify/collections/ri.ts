@@ -26,6 +26,8 @@ export default [
     'more-line',
     'edit-line',
     'delete-bin-7-line',
+    'equalizer-3-line',
+    'zoom-in-line',
     // Markdown related icons
     'h-1',
     'h-2',
