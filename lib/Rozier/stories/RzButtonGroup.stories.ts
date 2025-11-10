@@ -2,13 +2,14 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { ButtonArgs } from './RzButton.stories'
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 
-const SIZES = ['sm', 'md', 'lg'] as const
+const GAPS = ['sm', 'md', 'lg'] as const
+const SIZES = ['xs', 'sm', 'md', 'lg'] as const
 
 export type Args = {
     collapsed?: boolean
+    gap?: (typeof GAPS)[number]
     size?: (typeof SIZES)[number]
     buttons?: ButtonArgs[]
-    additionalClass?: string
 }
 
 const meta: Meta<Args> = {
@@ -16,7 +17,7 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         collapsed: false,
-        size: 'md',
+        gap: 'md',
         buttons: [
             {
                 iconClass: 'rz-icon-ri--upload-line',
@@ -29,11 +30,16 @@ const meta: Meta<Args> = {
                 emphasis: 'secondary',
             },
         ],
-        additionalClass: 'rz-button--md',
     },
     argTypes: {
         size: {
-            options: SIZES,
+            options: ['', ...SIZES],
+            control: { type: 'select' },
+            type: 'string',
+            description: 'Set button size inside the group: sm | md | lg',
+        },
+        gap: {
+            options: ['', ...GAPS],
             control: { type: 'select' },
             if: { arg: 'collapsed', eq: false },
             type: 'string',
@@ -61,7 +67,7 @@ export const IconOnly: Story = {
     },
     args: {
         size: 'sm',
-        additionalClass: 'rz-button--sm',
+        gap: 'sm',
         buttons: [
             {
                 iconClass: 'rz-icon-ri--more-line',
@@ -86,21 +92,19 @@ export const Collapsed: Story = {
     },
     args: {
         collapsed: true,
+        size: 'lg',
         buttons: [
             {
                 iconClass: 'rz-icon-ri--arrow-drop-left-line',
-                size: 'lg',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
             {
                 iconClass: 'rz-icon-ri--arrow-drop-down-line',
-                size: 'lg',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
             {
                 iconClass: 'rz-icon-ri--arrow-drop-right-line',
-                size: 'lg',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
         ],
     },

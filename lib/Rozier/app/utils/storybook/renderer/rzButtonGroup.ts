@@ -7,8 +7,8 @@ export function rzButtonGroupRenderer(args: Args) {
     const wrapper = document.createElement('div')
     const classList = [
         COMPONENT_CLASS_NAME,
-        ...(args.additionalClass ? args.additionalClass.split(' ') : []),
         args.size && `${COMPONENT_CLASS_NAME}--${args.size}`,
+        args.gap && `${COMPONENT_CLASS_NAME}--gap-${args.gap}`,
         args.collapsed && `${COMPONENT_CLASS_NAME}--collapsed`,
     ].filter((c) => c) as string[]
 

@@ -39,6 +39,7 @@
 }
 
 /* SIZES */
+.rz-button-group--xs,
 .rz-button--xs {
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 24px;
@@ -48,6 +49,7 @@
 	--rz-button-icon-font-size: 16px;
 }
 
+.rz-button-group--sm,
 .rz-button--sm {
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 28px;
@@ -57,6 +59,7 @@
 	--rz-button-icon-font-size: 16px;
 }
 
+.rz-button-group--md,
 .rz-button--md {
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 36px;
@@ -66,6 +69,7 @@
 	--rz-button-icon-font-size: 16px;
 }
 
+.rz-button-group--lg,
 .rz-button--lg {
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 40px;
