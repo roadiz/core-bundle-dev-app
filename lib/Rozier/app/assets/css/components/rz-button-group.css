@@ -4,15 +4,15 @@
 	gap: var(--rz-button-group-gap);
 }
 
-.rz-button-group--sm {
+.rz-button-group--gap-sm {
 	--rz-button-group-gap: var(--spacing-7xs);
 }
 
-.rz-button-group--md {
+.rz-button-group--gap-md {
 	--rz-button-group-gap: var(--spacing-5xs);
 }
 
-.rz-button-group--lg {
+.rz-button-group--gap-lg {
 	--rz-button-group-gap: var(--spacing-4xs);
 }
 

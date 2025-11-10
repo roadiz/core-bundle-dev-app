@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
+import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 
 const COMPONENT_CLASS_NAME = 'rz-markdown-editor'
-
-const ALL_CONTROLS_BUTTON_GROUPS = [
+const BUTTON_GROUP_ICONS = [
     [
         'rz-icon-ri--h-1',
         'rz-icon-ri--h-2',
@@ -27,7 +26,6 @@ const ALL_CONTROLS_BUTTON_GROUPS = [
     ['rz-icon-ri--eye-line'],
     ['rz-icon-ri--translate', 'rz-icon-ri--translate-ai'],
 ]
-
 const TEXTAREA_ATTRIBUTES = [
     'name',
     'value',
@@ -56,7 +54,7 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         placeholder: 'Enter your markdown here...',
-        controlsButtonGroups: ALL_CONTROLS_BUTTON_GROUPS,
+        controlsButtonGroups: BUTTON_GROUP_ICONS,
         minlength: 0,
         maxlength: 255,
     },
@@ -66,24 +64,17 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function buttonGroupRenderer(iconNames: string[]) {
-    const group = document.createElement('div')
-    group.classList.add('rz-button-group')
-
-    iconNames.forEach((iconClass) => {
-        const button = rzButtonRenderer({ iconClass, size: 'md' })
-        group.appendChild(button)
-    })
-
-    return group
-}
-
 function controlsRenderer(iconNames: string[][]) {
     const controls = document.createElement('div')
-    controls.classList.add(`${COMPONENT_CLASS_NAME}__controls`)
+    controls.classList.add(
+        `${COMPONENT_CLASS_NAME}__controls`,
+        'rz-button-group--collapsed',
+        'rz-button--md',
+    )
 
     iconNames.forEach((iconList) => {
-        const group = buttonGroupRenderer(iconList)
+        const buttons = iconList.map((iconClass) => ({ iconClass }))
+        const group = rzButtonGroupRenderer({ buttons, collapsed: true })
         controls.appendChild(group)
     })
 

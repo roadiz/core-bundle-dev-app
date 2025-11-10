@@ -39,7 +39,8 @@
 }
 
 /* SIZES */
-.rz-button--size-xs {
+.rz-button-group--xs,
+.rz-button--xs {
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 24px;
 	--rz-button-min-width: 24px;
@@ -48,7 +49,8 @@
 	--rz-button-icon-font-size: 16px;
 }
 
-.rz-button--size-sm {
+.rz-button-group--sm,
+.rz-button--sm {
 	--rz-button-font-size: 13px;
 	--rz-button-min-height: 28px;
 	--rz-button-min-width: 28px;
@@ -57,7 +59,8 @@
 	--rz-button-icon-font-size: 16px;
 }
 
-.rz-button--size-md {
+.rz-button-group--md,
+.rz-button--md {
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 36px;
 	--rz-button-min-width: 36px;
@@ -66,7 +69,8 @@
 	--rz-button-icon-font-size: 16px;
 }
 
-.rz-button--size-lg {
+.rz-button-group--lg,
+.rz-button--lg {
 	--rz-button-font-size: 14px;
 	--rz-button-min-height: 40px;
 	--rz-button-min-width: 40px;
@@ -76,7 +80,8 @@
 }
 
 /* EMPHASIS */
-.rz-button--emphasis-high {
+/* Corresponds to high emphasis from Figma */
+.rz-button--primary {
 	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
 	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
 	--rz-button-border: none;
@@ -108,8 +113,8 @@
 		}
 	}
 }
-
-.rz-button--emphasis-medium {
+/* Corresponds to medium emphasis from Figma */
+.rz-button--secondary {
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-medium-content-on-light, #18191B);
 	--rz-button-border-color: var(--button-basic-medium-border-on-light, #DADADA);
@@ -141,8 +146,8 @@
 		}
 	}
 }
-
-.rz-button--emphasis-low {
+/* Corresponds to low emphasis from Figma */
+.rz-button--tertiary {
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
 	--rz-button-border: none;

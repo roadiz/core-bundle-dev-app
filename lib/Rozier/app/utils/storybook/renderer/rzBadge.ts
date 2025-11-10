@@ -6,7 +6,7 @@ export function rzBadgeRenderer(args: BadgeArgs) {
     const node = document.createElement('div')
     const classes = [
         COMPONENT_CLASS_NAME,
-        args.size && `${COMPONENT_CLASS_NAME}--size-${args.size}`,
+        args.size && `${COMPONENT_CLASS_NAME}--${args.size}`,
         args.color && `${COMPONENT_CLASS_NAME}--${args.color}`,
     ].filter((c) => c)
     node.classList.add(...classes)
