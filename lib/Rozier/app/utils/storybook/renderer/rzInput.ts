@@ -1,15 +1,17 @@
 import type { Args } from '../../../../stories/RzInput.stories'
 
 export const COMPONENT_CLASS = 'rz-input'
-export const COMPONENT_CLASS_NAME = 'rz-input'
 
-export function rzInputRenderer(
-    args: Args,
-    attrs: Record<string, unknown> = {},
-) {
-    const input = document.createElement('input', { is: COMPONENT_CLASS })
-    input.setAttribute('is', COMPONENT_CLASS)
-    input.classList.add(args.className || COMPONENT_CLASS_NAME)
+type Attributes = {
+    [key: string]: unknown
+    is?: string
+}
+
+export function rzInputRenderer(args: Args, attrs: Attributes = {}) {
+    const input = document.createElement('input', {
+        is: attrs.is || COMPONENT_CLASS,
+    })
+    input.setAttribute('is', attrs.is || COMPONENT_CLASS)
 
     Object.entries(attrs).forEach(([key, value]) => {
         if (value) input.setAttribute(key, String(value))
