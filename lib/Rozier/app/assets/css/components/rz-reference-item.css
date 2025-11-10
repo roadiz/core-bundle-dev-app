@@ -105,7 +105,7 @@
 	height: var(--rz-reference-img-height, 100%);
 	object-fit: cover;
 	overflow: hidden;
-	/* To smoother nesting bordewr radius visualy use: outerBorderRadius = innerBorderRadius + distance */
+	/* To smoother nesting border radius visually use: outerBorderRadius = innerBorderRadius + distance */
 	border-radius:
 		0
 		calc(var(--rz-reference-item-border-radius) - var(--rz-reference-item-border-width))
