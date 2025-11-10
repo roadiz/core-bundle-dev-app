@@ -95,6 +95,9 @@ export const Checkbox: Story = {
     },
 }
 
+/**
+ * Use [RzColorInput custom element](http://localhost:6006/?path=/docs/components-form-colorinput--docs) for better color input support.
+ */
 export const Color: Story = {
     render: (args) => {
         return rzInputRenderer(args)
