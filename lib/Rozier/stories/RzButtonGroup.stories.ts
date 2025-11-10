@@ -21,12 +21,12 @@ const meta: Meta<Args> = {
             {
                 iconClass: 'rz-icon-ri--upload-line',
                 label: 'Upload',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
             {
                 iconClass: 'rz-icon-ri--add-line',
                 label: 'Explore',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
         ],
         additionalClass: 'rz-button--md',
@@ -65,15 +65,15 @@ export const IconOnly: Story = {
         buttons: [
             {
                 iconClass: 'rz-icon-ri--more-line',
-                emphasis: 'low',
+                emphasis: 'tertiary',
             },
             {
                 iconClass: 'rz-icon-ri--edit-line',
-                emphasis: 'low',
+                emphasis: 'tertiary',
             },
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
-                emphasis: 'low',
+                emphasis: 'tertiary',
                 color: 'error-light',
             },
         ],

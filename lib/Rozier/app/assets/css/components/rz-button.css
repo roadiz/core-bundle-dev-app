@@ -76,7 +76,8 @@
 }
 
 /* EMPHASIS */
-.rz-button--high {
+/* Corresponding to high emphasis from Figma */
+.rz-button--primary {
 	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
 	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
 	--rz-button-border: none;
@@ -108,8 +109,8 @@
 		}
 	}
 }
-
-.rz-button--medium {
+/* Corresponding to medium emphasis from Figma */
+.rz-button--secondary {
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-medium-content-on-light, #18191B);
 	--rz-button-border-color: var(--button-basic-medium-border-on-light, #DADADA);
@@ -141,8 +142,8 @@
 		}
 	}
 }
-
-.rz-button--low {
+/* Corresponding to low emphasis from Figma */
+.rz-button--tertiary {
 	--rz-button-background-color: none;
 	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
 	--rz-button-border: none;
