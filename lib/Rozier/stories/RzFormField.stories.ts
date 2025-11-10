@@ -7,14 +7,14 @@ import type { Args as ButtonGroupArg } from './RzButtonGroup.stories'
 
 export type Args = {
     label: string
+    type?: (typeof INPUT_TYPES)[number]
     required?: boolean
     description?: string // under label
     help?: string // under input
     error?: string
-    type: (typeof INPUT_TYPES)[number]
     horizontal?: boolean
     // Elements
-    badge: BadgeArgs
+    badge?: BadgeArgs
     iconClass?: string
     input?: InputArgs
     buttonGroup?: ButtonGroupArg
