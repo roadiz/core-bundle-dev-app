@@ -4,8 +4,7 @@ import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 import { rzImageRenderer, type Image } from '~/utils/storybook/renderer/rzImage'
 import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
 
-const COMPONENT_CLASS_NAME = 'rz-reference-item'
-const LAYOUTS = ['only-img', 'horizontal'] as const
+const COMPONENT_CLASS_NAME = 'rz-drawer-item'
 
 type Args = {
     overtitle?: string
@@ -13,11 +12,13 @@ type Args = {
     image?: Image
     buttonGroup: ButtonGroupArgs
     buttonGroupTop?: ButtonGroupArgs
-    layout?: (typeof LAYOUTS)[number]
 }
 
+/**
+ * Layout is auto determined based on presence of `rz-drawer-item__title` `rz-drawer-item__overtitle` `rz-drawer-item__img` classes.
+ */
 const meta: Meta<Args> = {
-    title: 'Components/ReferenceItem',
+    title: 'Components/Drawer/Item',
     tags: ['autodocs'],
     args: {
         overtitle: 'Overtitle example',
@@ -52,13 +53,6 @@ const meta: Meta<Args> = {
                 },
             ],
         },
-        layout: 'horizontal',
-    },
-    argTypes: {
-        layout: {
-            options: LAYOUTS,
-            control: { type: 'select' },
-        },
     },
     parameters: {
         layout: 'centered',
@@ -68,13 +62,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzReferenceItemRenderer(args: Args) {
+function rzDrawerItemRenderer(args: Args) {
     const wrapper = document.createElement('div')
-    const classes = [
-        COMPONENT_CLASS_NAME,
-        args.layout && `${COMPONENT_CLASS_NAME}--${args.layout}`,
-    ].filter((c) => c) as string[]
-    wrapper.classList.add(...classes)
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
 
     if (args.overtitle) {
         const overtitle = document.createElement('div')
@@ -116,31 +106,29 @@ function rzReferenceItemRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return rzReferenceItemRenderer(args)
+        return rzDrawerItemRenderer(args)
     },
     args: {
         buttonGroupTop: undefined,
-    },
-}
-
-export const OnlyImg: Story = {
-    render: (args) => {
-        return rzReferenceItemRenderer(args)
-    },
-    args: {
-        overtitle: undefined,
-        title: undefined,
-        layout: 'only-img',
     },
 }
 
 export const WithoutImg: Story = {
     render: (args) => {
-        return rzReferenceItemRenderer(args)
+        return rzDrawerItemRenderer(args)
     },
     args: {
         buttonGroupTop: undefined,
         image: undefined,
-        layout: 'horizontal',
+    },
+}
+
+export const OnlyImg: Story = {
+    render: (args) => {
+        return rzDrawerItemRenderer(args)
+    },
+    args: {
+        overtitle: undefined,
+        title: undefined,
     },
 }

@@ -1,31 +1,25 @@
-.rz-reference-item {
-	--rz-reference-item-border-radius: var(--radius-xs);
+.rz-drawer-item {
+	--rz-drawer-item-border-radius: var(--radius-xs);
 
 	box-sizing: border-box;
 	position: relative;
 	overflow: hidden;
-	border-radius: var(--rz-reference-item-border-radius);
-	min-height: var(--rz-reference-item-min-height, 51px);
-	min-width: var(--rz-reference-item-min-width, 294px);
+	border-radius: var(--rz-drawer-item-border-radius);
+	min-height: var(--rz-drawer-item-min-height, 51px);
+	min-width: var(--rz-drawer-item-min-width, 294px);
 }
 
-.rz-reference-item--only-img {
-	.rz-reference-item__overtitle,
-	.rz-reference-item__title {
-		display: none;
-	}
-}
+.rz-drawer-item:has(.rz-drawer-item__title),
+.rz-drawer-item:has(.rz-drawer-item__overtitle) {
+	--rz-drawer-item-border-width: 1PX;
+	--rz-drawer-item-border-left-width: 6PX;
+	--rz-drawer-item-inner-inset:
+		var(--rz-drawer-item-border-width)
+		var(--rz-drawer-item-border-width)
+		var(--rz-drawer-item-border-width)
+		var(--rz-drawer-item-border-left-width);
 
-.rz-reference-item--horizontal {
-	--rz-reference-item-border-width: 1PX;
-	--rz-reference-item-border-left-width: 6PX;
-	--rz-reference-item-inner-inset:
-		var(--rz-reference-item-border-width)
-		var(--rz-reference-item-border-width)
-		var(--rz-reference-item-border-width)
-		var(--rz-reference-item-border-left-width);
-
-	padding-left: calc(var(--rz-reference-item-border-left-width) - var(--rz-reference-item-border-width) + var(--spacing-3xs));
+	padding-left: calc(var(--rz-drawer-item-border-left-width) - var(--rz-drawer-item-border-width) + var(--spacing-3xs));
 	display: grid;
     align-items: flex-start;
 	column-gap: var(--spacing-3xs);
@@ -36,7 +30,7 @@
 		"title     img";
 
 	&:has(img) {
-		--rz-reference-item-min-height: 94px;
+		--rz-drawer-item-min-height: 94px;
 	}
 
 	&::before,
@@ -48,7 +42,7 @@
 
 	/* Inner BG */
 	&::before {
-		inset: var(--rz-reference-item-inner-inset);
+		inset: var(--rz-drawer-item-inner-inset);
 		background-color: var(--reference-bg, #F2F2F2);
 		z-index: -1;
 	}
@@ -56,30 +50,30 @@
 	/* BG */
 	&::after {
 		inset: 0;
-		background-color: var(--rz-reference-item-border-color, var(--reference-border, #DADADA));
+		background-color: var(--rz-drawer-item-border-color, var(--reference-border, #DADADA));
 		z-index: -2;
 		transition: background-color 0.3s;
 	}
 
 	@media (hover: hover) {
 		&:hover::after {
-			background-color: var(--rz-reference-item-border-color-hover, var(--reference-border-hover, #9A9A9A));
+			background-color: var(--rz-drawer-item-border-color-hover, var(--reference-border-hover, #9A9A9A));
 		}
 	}
 
-	.rz-reference-item__overtitle {
+	.rz-drawer-item__overtitle {
 		grid-area: overtitle;
 	}
-	.rz-reference-item__title {
+	.rz-drawer-item__title {
 		grid-area: title;
 	}
-	.rz-reference-item__img {
+	.rz-drawer-item__img {
 		grid-area: img;
 	}
 
 }
 
-.rz-reference-item__overtitle {
+.rz-drawer-item__overtitle {
 	margin-top: var(--spacing-3xs);
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-overtitle-md-font-size);
@@ -88,7 +82,7 @@
 	font-weight: var(--text-overtitle-md-font-weight);
 }
 
-.rz-reference-item__title {
+.rz-drawer-item__title {
 	margin-top: var(--spacing-6xs);
 	margin-bottom: var(--spacing-3xs);
 	font-family: var(--font-family-os-label);
@@ -96,9 +90,13 @@
 	line-height: var(--text-title-md-line-height);
 	letter-spacing: var(--text-title-md-letter-spacing);
 	font-weight: var(--text-title-md-font-weight);
+
+	&:first-child {
+		margin-top: var(--spacing-3xs);
+	}
 }
 
-.rz-reference-item__img {
+.rz-drawer-item__img {
 	display: block;
 	max-width: 100%;
 	width: var(--rz-reference-img-width, auto);
@@ -108,12 +106,12 @@
 	/* To smoother nesting border radius visually use: outerBorderRadius = innerBorderRadius + distance */
 	border-radius:
 		0
-		calc(var(--rz-reference-item-border-radius) - var(--rz-reference-item-border-width))
-		calc(var(--rz-reference-item-border-radius) - var(--rz-reference-item-border-width))
+		calc(var(--rz-drawer-item-border-radius) - var(--rz-drawer-item-border-width))
+		calc(var(--rz-drawer-item-border-radius) - var(--rz-drawer-item-border-width))
 		0;
 }
 
-.rz-reference-item__button-group {
+.rz-drawer-item__button-group {
 	position: absolute;
 	bottom: var(--spacing-6xs);
 	right: var(--spacing-6xs);
@@ -121,13 +119,13 @@
 	transition: translate 0.3s;
 
 	@media (hover: hover) {
-		.rz-reference-item:hover & {
+		.rz-drawer-item:hover & {
 			translate: 0;
 		}
 	}
 }
 
-.rz-reference-item__button-group--top {
+.rz-drawer-item__button-group--top {
 	bottom: initial;
 	top: var(--spacing-6xs);
 	right: var(--spacing-6xs);
