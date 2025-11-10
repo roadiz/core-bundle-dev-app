@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { ButtonArgs } from './rzButton.stories'
+import type { ButtonArgs } from './RzButton.stories'
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 
 const SIZES = ['sm', 'md', 'lg'] as const

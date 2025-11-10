@@ -1,4 +1,4 @@
-import type { ButtonArgs } from '../../../../stories/rzButton.stories'
+import type { ButtonArgs } from '../../../../stories/RzButton.stories'
 
 export function rzButtonRenderer(
     args: ButtonArgs,
