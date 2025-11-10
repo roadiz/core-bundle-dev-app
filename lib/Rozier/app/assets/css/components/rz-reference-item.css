@@ -9,6 +9,13 @@
 	min-width: var(--rz-reference-item-min-width, 294px);
 }
 
+.rz-reference-item--only-img {
+	.rz-reference-item__overtitle,
+	.rz-reference-item__title {
+		display: none;
+	}
+}
+
 .rz-reference-item--horizontal {
 	--rz-reference-item-border-width: 1PX;
 	--rz-reference-item-border-left-width: 6PX;
@@ -55,8 +62,8 @@
 	}
 
 	@media (hover: hover) {
-		&:hover {
-			--rz-reference-item-border-color: var(--reference-border-hover, #9A9A9A);
+		&:hover::after {
+			background-color: var(--rz-reference-item-border-color-hover, var(--reference-border-hover, #9A9A9A));
 		}
 	}
 

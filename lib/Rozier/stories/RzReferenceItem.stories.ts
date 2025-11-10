@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import image from './assets/images/01.jpg'
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
-import { rzImageRenderer } from '~/utils/storybook/renderer/rzImage'
-import type { Args as ButtonGroupArgs } from './rzButtonGroup.stories'
+import { rzImageRenderer, type Image } from '~/utils/storybook/renderer/rzImage'
+import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
 
 const COMPONENT_CLASS_NAME = 'rz-reference-item'
-const LAYOUTS = ['img-only', 'horizontal'] as const
+const LAYOUTS = ['only-img', 'horizontal'] as const
 
 type Args = {
     overtitle?: string
@@ -54,7 +54,7 @@ const meta: Meta<Args> = {
         },
         layout: 'horizontal',
     },
-    argsTypes: {
+    argTypes: {
         layout: {
             options: LAYOUTS,
             control: { type: 'select' },
@@ -130,7 +130,7 @@ export const OnlyImg: Story = {
     args: {
         overtitle: undefined,
         title: undefined,
-        layout: 'img-only',
+        layout: 'only-img',
     },
 }
 
