@@ -12,9 +12,8 @@ export function rzButtonRenderer(
             buttonNode.setAttribute(key, value)
         })
     }
-    const emphasisClass =
-        args.emphasis && `${className}--emphasis-${args.emphasis}`
-    const sizeClass = args.size && `${className}--size-${args.size}`
+    const emphasisClass = args.emphasis && `${className}--${args.emphasis}`
+    const sizeClass = args.size && `${className}--${args.size}`
     const disabledClass = args.disabled && `${className}--disabled`
     const onDarkClass = args.onDark && `${className}--on-dark`
     const colorClass = args.color && `${className}--${args.color}`

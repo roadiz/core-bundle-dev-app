@@ -10,19 +10,19 @@
 	font-family: var(--font-family-os-label);
 }
 
-.rz-badge--size-xs {
+.rz-badge--xs {
 	--rz-badge-padding: 4px;
 	--rz-badge-icon-font-size: 12px;
 	--rz-badge-label-font-size: 12px;
 	--rz-badge-label-padding-inline: 2px;
 }
-.rz-badge--size-sm {
+.rz-badge--sm {
 	--rz-badge-padding: 5px 4px;
 	--rz-badge-icon-font-size: 14px;
 	--rz-badge-label-font-size: 12px;
 	--rz-badge-label-padding-inline: 4px;
 }
-.rz-badge--size-md {
+.rz-badge--md {
 	--rz-badge-padding: 9px 6px;
 	--rz-badge-icon-font-size: 16px;
 	--rz-badge-label-font-size: 13px;
