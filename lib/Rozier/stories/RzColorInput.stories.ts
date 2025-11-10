@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzColorInputRenderer } from '~/utils/storybook/renderer/rzColorInput'
 
 export type Args = {
     name: string
@@ -24,26 +25,6 @@ const meta: Meta<Args> = {
 
 export default meta
 type Story = StoryObj<Args>
-
-function rzColorInputRenderer(args: Args): HTMLElement {
-    const node = document.createElement('rz-color-input')
-
-    const color = document.createElement('input')
-    color.type = 'color'
-    color.value = args.value || ''
-    node.appendChild(color)
-
-    const text = document.createElement('input')
-    text.type = 'text'
-    text.value = args.value || ''
-    text.id = args.id || 'color-input-id'
-    if (args.textPattern) text.pattern = args.textPattern
-    if (args.textMaxLength) text.maxLength = args.textMaxLength
-    if (args.placeholder) text.placeholder = args.placeholder
-    node.appendChild(text)
-
-    return node
-}
 
 export const Default: Story = {
     render: (args) => {

@@ -5,9 +5,9 @@ import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
 export type Args = {
     type: (typeof INPUT_TYPES)[number]
     name: string
-    id?: string
+    id: string
     placeholder?: string
-    value?: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
+    value?: string
     required?: boolean
     className?: string
 }
@@ -91,7 +91,7 @@ export const Checkbox: Story = {
     },
     args: {
         type: 'checkbox',
-        value: true,
+        value: 'true',
     },
 }
 

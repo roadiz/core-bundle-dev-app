@@ -35,14 +35,14 @@ function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 5) {
     return [...Array(length).keys()].map((i) => {
         const id = Math.random().toString(36).slice(2, 9)
         return {
+            ...args,
             label: `Input Field Label ${i + 1}`,
             description: `This is the description for checkbox ${i + 1}.`,
-            ...args,
             input: {
-                name: `fieldlist-name-${i + 1}-${id}`,
-                type: 'checkbox',
-                id: id,
                 ...(args.input || {}),
+                name: args.input?.name || `fieldlist-name-${i + 1}-${id}`,
+                type: args.input?.type || 'checkbox',
+                id: id,
             },
         } as FormFieldArgs
     })
@@ -67,14 +67,14 @@ function fieldListRenderer(fields: Args['fields']) {
 
 function formRenderer(args: Args) {
     const form = document.createElement('form')
-    form.classList.add(COMPONENT_CLASS_NAME)
+    const classList = [
+        COMPONENT_CLASS_NAME,
+        args.orientation === 'horizontal' &&
+            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
+    ].filter((c) => c) as string[]
+    form.classList.add(...classList)
 
     const fieldList = fieldListRenderer(args.fields)
-    if (args.orientation === 'horizontal') {
-        fieldList.classList.add(
-            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
-        )
-    }
     form.appendChild(fieldList)
 
     const button = document.createElement('button')
@@ -95,6 +95,7 @@ export const Default: Story = {
                 input: {
                     type: 'text',
                     name: 'title-name',
+                    id: 'title-id',
                 },
             },
             {
@@ -105,6 +106,7 @@ export const Default: Story = {
                 input: {
                     type: 'date',
                     name: 'datetime-name',
+                    id: 'datetime-id',
                 },
             },
             {
@@ -115,6 +117,7 @@ export const Default: Story = {
                 input: {
                     type: 'color',
                     name: 'background-color',
+                    id: 'background-color-id',
                 },
             },
             {
@@ -125,6 +128,7 @@ export const Default: Story = {
                 input: {
                     type: 'number',
                     name: 'number-of-items',
+                    id: 'number-of-items-id',
                 },
             },
         ],
@@ -142,6 +146,7 @@ export const WithFieldListHeader: Story = {
                 input: {
                     name: 'title-name-WithFieldListHeader',
                     type: 'text',
+                    id: 'title-id-WithFieldListHeader',
                 },
             },
         ])
@@ -162,6 +167,7 @@ export const WithFieldListHeader: Story = {
                 input: {
                     type: 'date',
                     name: 'datetime-name',
+                    id: 'datetime-id-WithFieldListHeader',
                 },
             },
         ],
@@ -179,6 +185,7 @@ export const WithFieldListHeaderDual: Story = {
                 input: {
                     name: 'title-name-WithFieldListHeaderDual',
                     type: 'text',
+                    id: 'title-id-WithFieldListHeaderDual',
                 },
             },
             {
@@ -187,6 +194,7 @@ export const WithFieldListHeaderDual: Story = {
                 input: {
                     type: 'date',
                     name: 'published-at-WithFieldListHeaderDual',
+                    id: 'published-at-id-WithFieldListHeaderDual',
                 },
             },
         ])
@@ -206,7 +214,8 @@ export const WithFieldListHeaderDual: Story = {
                 },
                 input: {
                     type: 'date',
-                    name: 'datetime-name',
+                    name: 'datetime-name-WithFieldListHeaderDual',
+                    id: 'datetime-id-WithFieldListHeaderDual',
                 },
             },
         ],
@@ -224,6 +233,7 @@ export const SwitchList: Story = {
                 input: {
                     type: 'text',
                     name: 'simple-text-SwitchList',
+                    id: 'simple-text-SwitchList-id',
                 },
             },
             ...getCheckboxFieldList({
@@ -231,6 +241,7 @@ export const SwitchList: Story = {
                     type: 'checkbox',
                     className: 'rz-switch',
                     name: 'simple-text-SwitchList-checkbox',
+                    id: 'simple-text-SwitchList-checkbox-id',
                 },
             }),
             {
@@ -238,6 +249,7 @@ export const SwitchList: Story = {
                 input: {
                     type: 'text',
                     name: 'simple-text-2-SwitchList',
+                    id: 'simple-text-2-SwitchList-id',
                 },
             },
         ],
@@ -255,6 +267,7 @@ export const SwitchListWithFieldset: Story = {
                 input: {
                     type: 'text',
                     name: 'title-name-WithFieldListHeaderDual',
+                    id: 'title-id-WithFieldListHeaderDual',
                 },
             },
             {
@@ -263,6 +276,7 @@ export const SwitchListWithFieldset: Story = {
                 input: {
                     type: 'date',
                     name: 'published-at-WithFieldListHeaderDual',
+                    id: 'published-at-id-WithFieldListHeaderDual',
                 },
             },
         ])
@@ -280,6 +294,7 @@ export const SwitchListWithFieldset: Story = {
                 input: {
                     type: 'text',
                     name: 'simple-text-SwitchList',
+                    id: 'simple-text-SwitchList-id',
                 },
             },
             {
@@ -289,6 +304,7 @@ export const SwitchListWithFieldset: Story = {
                         type: 'checkbox',
                         className: 'rz-switch',
                         name: 'checkbox-SwitchList',
+                        id: 'checkbox-SwitchList-id',
                     },
                 }),
             },
@@ -298,6 +314,7 @@ export const SwitchListWithFieldset: Story = {
                     input: {
                         type: 'radio',
                         name: 'radio-SwitchList',
+                        id: 'radio-SwitchList-id',
                     },
                 }),
             },
@@ -306,6 +323,7 @@ export const SwitchListWithFieldset: Story = {
                 input: {
                     type: 'text',
                     name: 'simple-text-2-SwitchList',
+                    id: 'simple-text-2-SwitchList-id',
                 },
             },
         ],
