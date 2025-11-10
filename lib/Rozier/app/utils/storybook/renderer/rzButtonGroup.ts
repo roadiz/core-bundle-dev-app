@@ -1,4 +1,4 @@
-import { type Args } from '../../../../stories/rzButtonGroup.stories'
+import { type Args } from '../../../../stories/RzButtonGroup.stories'
 import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
 
 export const COMPONENT_CLASS_NAME = 'rz-button-group'
