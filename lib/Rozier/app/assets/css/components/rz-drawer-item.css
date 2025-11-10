@@ -21,7 +21,7 @@
 
 	padding-left: calc(var(--rz-drawer-item-border-left-width) - var(--rz-drawer-item-border-width) + var(--spacing-3xs));
 	display: grid;
-    align-items: flex-start;
+	align-items: flex-start;
 	column-gap: var(--spacing-3xs);
 	grid-template-columns: minmax(157px, 1fr) 110px;
 	grid-template-rows: min-content 1fr;
@@ -70,7 +70,6 @@
 	.rz-drawer-item__img {
 		grid-area: img;
 	}
-
 }
 
 .rz-drawer-item__overtitle {
