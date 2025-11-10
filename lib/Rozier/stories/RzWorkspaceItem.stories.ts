@@ -91,13 +91,11 @@ function itemRenderer(
     if (createElementOptions?.is) {
         node.setAttribute('is', createElementOptions.is)
     }
-    const variantClass = args.variants
-        ? `${COMPONENT_CLASS_NAME}--${args.variants}`
-        : ''
-    const activeClass = args.active ? `${COMPONENT_CLASS_NAME}--active` : ''
-    const classes = [COMPONENT_CLASS_NAME, variantClass, activeClass].filter(
-        (c) => c,
-    )
+    const classes = [
+        COMPONENT_CLASS_NAME,
+        args.variants && `${COMPONENT_CLASS_NAME}--${args.variants}`,
+        args.active && `${COMPONENT_CLASS_NAME}--active`,
+    ].filter((c) => c) as string[]
     node.classList.add(...classes)
 
     const icon = iconRenderer(args.iconClass)

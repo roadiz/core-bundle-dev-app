@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
-const EMPHASIS = ['low', 'medium', 'high'] as const
+const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
 const COLORS = ['success', 'success-light', 'error', 'error-light'] as const
 
@@ -79,7 +79,7 @@ export const HighEmphasis: Story = {
         return rzButtonRenderer(args)
     },
     args: {
-        emphasis: 'high',
+        emphasis: 'primary',
     },
     parameters: {
         controls: { exclude: ['emphasis', 'additionalClasses'] },
@@ -92,7 +92,7 @@ export const HighEmphasisList: Story = {
         return buttonSizeListRenderer(args)
     },
     args: {
-        emphasis: 'high',
+        emphasis: 'primary',
     },
     parameters: {
         controls: {
@@ -106,7 +106,7 @@ export const MediumEmphasis: Story = {
         return rzButtonRenderer(args)
     },
     args: {
-        emphasis: 'medium',
+        emphasis: 'secondary',
     },
     parameters: {
         controls: { exclude: ['emphasis', 'class'] },
@@ -118,7 +118,7 @@ export const MediumEmphasisList: Story = {
         return buttonSizeListRenderer(args)
     },
     args: {
-        emphasis: 'medium',
+        emphasis: 'secondary',
     },
     parameters: {
         controls: {
@@ -132,7 +132,7 @@ export const LowEmphasis: Story = {
         return rzButtonRenderer(args)
     },
     args: {
-        emphasis: 'low',
+        emphasis: 'tertiary',
     },
     parameters: {
         controls: { exclude: ['emphasis'] },
@@ -144,7 +144,7 @@ export const LowEmphasisList: Story = {
         return buttonSizeListRenderer(args)
     },
     args: {
-        emphasis: 'low',
+        emphasis: 'tertiary',
     },
     parameters: {
         controls: {

@@ -2,11 +2,13 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { ButtonArgs } from './RzButton.stories'
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 
-const SPACING = ['sm', 'md', 'lg'] as const
+const GAPS = ['sm', 'md', 'lg'] as const
+const SIZES = ['xs', 'sm', 'md', 'lg'] as const
 
 export type Args = {
     collapsed?: boolean
-    spacing?: (typeof SPACING)[number]
+    gap?: (typeof GAPS)[number]
+    size?: (typeof SIZES)[number]
     buttons?: ButtonArgs[]
 }
 
@@ -15,29 +17,34 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         collapsed: false,
-        spacing: 'md',
+        gap: 'md',
         buttons: [
             {
                 iconClass: 'rz-icon-ri--upload-line',
                 label: 'Upload',
-                size: 'md',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
             {
                 iconClass: 'rz-icon-ri--add-line',
                 label: 'Explore',
-                size: 'md',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
         ],
     },
     argTypes: {
-        spacing: {
-            options: SPACING,
+        size: {
+            options: ['', ...SIZES],
+            control: { type: 'select' },
+            type: 'string',
+            description: 'Set button size inside the group: sm | md | lg',
+        },
+        gap: {
+            options: ['', ...GAPS],
             control: { type: 'select' },
             if: { arg: 'collapsed', eq: false },
             type: 'string',
-            description: 'sm: 2px | md: 6px | lg: 8px',
+            description:
+                'Gap between children: sm -> 2px | md -> 6px | lg -> 8px',
         },
     },
     parameters: {
@@ -59,22 +66,20 @@ export const IconOnly: Story = {
         return rzButtonGroupRenderer(args)
     },
     args: {
-        spacing: 'sm',
+        size: 'sm',
+        gap: 'sm',
         buttons: [
             {
                 iconClass: 'rz-icon-ri--more-line',
-                size: 'sm',
-                emphasis: 'low',
+                emphasis: 'tertiary',
             },
             {
                 iconClass: 'rz-icon-ri--edit-line',
-                size: 'sm',
-                emphasis: 'low',
+                emphasis: 'tertiary',
             },
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
-                size: 'sm',
-                emphasis: 'low',
+                emphasis: 'tertiary',
                 color: 'error-light',
             },
         ],
@@ -87,21 +92,19 @@ export const Collapsed: Story = {
     },
     args: {
         collapsed: true,
+        size: 'lg',
         buttons: [
             {
                 iconClass: 'rz-icon-ri--arrow-drop-left-line',
-                size: 'lg',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
             {
                 iconClass: 'rz-icon-ri--arrow-drop-down-line',
-                size: 'lg',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
             {
                 iconClass: 'rz-icon-ri--arrow-drop-right-line',
-                size: 'lg',
-                emphasis: 'medium',
+                emphasis: 'secondary',
             },
         ],
     },

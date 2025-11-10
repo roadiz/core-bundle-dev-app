@@ -1,8 +1,9 @@
+[is="rz-input"],
 .rz-input {
 	box-sizing: border-box;
 }
 
-.rz-input:not(:where([type="checkbox"], [type="radio"], [type="range"], [type="file"])) {
+:where(.rz-input,[is="rz-input"]):not(:where([type="checkbox"], [type="radio"], [type="range"], [type="file"])) {
 	display: block;
 	width: var(--rz-input-width, 100%);
 	border: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));
@@ -35,7 +36,7 @@
 	}
 }
 
-.rz-input:focus-visible,
+:where(.rz-input,[is="rz-input"]):focus-visible,
 .rz-input--focus {
 	--rz-input-border-color: var(--form-basic-border-hover, #383838) !important;
 }
@@ -46,15 +47,15 @@
 	--rz-input-border-color: var(--form-basic-border-focus, #9A9A9A);
 } */
 
-.rz-form-field--error .rz-input,
-.rz-input:not(:placeholder-shown):not(:focus-visible):invalid,
+.rz-form-field--error :where(.rz-input,[is="rz-input"]),
+:where(.rz-input,[is="rz-input"]):not(:placeholder-shown):not(:focus-visible):invalid,
 .rz-input--error {
 	--rz-input-color: var(--status-error, #E54457);
 	--rz-input-border-color: var(--status-error, #E54457);
 }
 
-.rz-input[type="radio"],
-.rz-input[type="checkbox"] {
+:where(.rz-input,[is="rz-input"])[type="radio"],
+:where(.rz-input,[is="rz-input"])[type="checkbox"] {
 	appearance: none;
 	display: inline-flex;
 	justify-content: center;
@@ -89,7 +90,7 @@
 	}
 }
 
-.rz-input[type="checkbox"] {
+:where(.rz-input,[is="rz-input"])[type="checkbox"] {
 	--svg: url('assets/img/icons/ri/checkbox-blank-line.svg');
 
 	&:checked{
@@ -97,7 +98,7 @@
 	}
 }
 
-.rz-input[type="radio"] {
+:where(.rz-input,[is="rz-input"])[type="radio"] {
 	--svg: url('assets/img/icons/ri/checkbox-blank-circle-line.svg');
 
 	&:checked{
@@ -105,7 +106,7 @@
 	}
 }
 
-.rz-input[type="color"] {
+:where(.rz-input,[is="rz-input"])[type="color"] {
 	--rz-input-padding: var(--radius-xs, 6px);
 
 	display: flex;
@@ -157,7 +158,7 @@
 	}
 }
 
-.rz-input[type="file"] {
+:where(.rz-input,[is="rz-input"])[type="file"] {
 	font-family: var(--font-family-os-text);
 	font-size: var(--text-form-placeholder-font-size);
 	line-height: var(--text-form-placeholder-line-height);
@@ -181,7 +182,7 @@
 	}
 }
 
-.rz-input[type="search"] {
+:where(.rz-input,[is="rz-input"])[type="search"] {
 	--rz-input-padding: 11px 12px 10px calc(8px + 16px + 6px);
 
 	/* Can't use pseudo element in input[type="search"] */
