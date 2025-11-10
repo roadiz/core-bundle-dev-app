@@ -2,15 +2,18 @@ import type { Args } from '../../../../stories/RzFormField.stories'
 import { rzButtonGroupRenderer } from './rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
+import { rzColorInputRenderer } from './rzColorInput'
 import { rzBadgeRenderer } from './rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
 export function rzFormFieldRenderer(args: Args) {
     const wrapper = document.createElement('div')
+    const inputType = args.type || args.input?.type || 'text'
+
     const wrapperClasses = [
         COMPONENT_CLASS_NAME,
-        `${COMPONENT_CLASS_NAME}--type-${args.type}`,
+        `${COMPONENT_CLASS_NAME}--type-${inputType}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
         args.horizontal && `${COMPONENT_CLASS_NAME}--horizontal`,
         args.error && `${COMPONENT_CLASS_NAME}--error`,
@@ -56,9 +59,15 @@ export function rzFormFieldRenderer(args: Args) {
     }
 
     if (args.input) {
-        const input = rzInputRenderer({
+        const renderer =
+            args.input?.type === 'color'
+                ? rzColorInputRenderer
+                : rzInputRenderer
+
+        const input = renderer({
             ...args.input,
             name: args.input?.name || 'name',
+            type: inputType,
         })
         input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
         if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
