@@ -37,8 +37,8 @@ final readonly class UserThumbnailProvider extends AbstractEntityThumbnailProvid
         if (is_numeric($identifier)) {
             $user = $this->userRepository->find((int) $identifier);
         } else {
-            // Otherwise try by email
-            $user = $this->userRepository->findOneBy(['email' => $identifier]);
+            // Otherwise try by email/username
+            $user = $this->userRepository->findOneByUserIdentifier($identifier);
         }
 
         if (!$user instanceof User) {
