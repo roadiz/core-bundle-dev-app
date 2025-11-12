@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzSwitchRenderer } from '../app/utils/storybook/renderer/rzSwitch'
 
-const COMPONENT_CLASS_NAME = 'rz-switch'
-
-type Args = {
+export type Args = {
     checked: boolean
+    attributes?: { [key: string]: string }
 }
 
 const meta: Meta<Args> = {
@@ -17,24 +17,15 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function itemRenderer(args: Args) {
-    const input = document.createElement('input')
-    input.setAttribute('type', 'checkbox')
-    input.classList.add(COMPONENT_CLASS_NAME)
-    if (args.checked) input.setAttribute('checked', '')
-
-    return input
-}
-
 export const Default: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzSwitchRenderer(args)
     },
 }
 
 export const Checked: Story = {
     render: (args) => {
-        return itemRenderer(args)
+        return rzSwitchRenderer(args)
     },
     args: {
         checked: true,

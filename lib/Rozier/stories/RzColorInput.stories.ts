@@ -9,6 +9,7 @@ export type Args = {
     id?: string
     textPattern?: string
     textMaxLength?: number
+    attributes?: { [key: string]: string }
 }
 
 const meta: Meta<Args> = {

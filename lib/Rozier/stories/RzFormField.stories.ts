@@ -169,7 +169,8 @@ export const WithButtons: Story = {
             size: 'xs',
         },
         buttonGroup: {
-            spacing: 'md',
+            size: 'md',
+            gap: 'md',
             buttons: [
                 {
                     label: 'Upload',
@@ -183,5 +184,25 @@ export const WithButtons: Story = {
                 },
             ],
         },
+    },
+}
+
+export const Switch: Story = {
+    render: (args) => {
+        const wrapper = rzFormFieldRenderer(args)
+
+        const switchInput = document.createElement('input')
+        switchInput.classList.add('rz-switch', 'rz-form-field__input')
+        switchInput.setAttribute('type', 'checkbox')
+        switchInput.name = args.input?.name || 'switch-name'
+        switchInput.id = args.input?.id || 'switch-id'
+        wrapper.appendChild(switchInput)
+
+        return wrapper
+    },
+    args: {
+        type: 'checkbox',
+        iconClass: 'rz-icon-ri--image-line',
+        input: undefined,
     },
 }
