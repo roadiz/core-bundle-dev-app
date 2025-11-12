@@ -27,7 +27,7 @@ const meta: Meta<Args> = {
         label: 'Input Field Label',
         required: false,
         description: 'This is a description for the input field.',
-        type: 'text',
+        type: undefined,
         error: '',
         help: '',
         horizontal: false,
@@ -118,6 +118,13 @@ export const SwitchCheckbox: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
+        iconClass: 'rz-icon-ri--image-line',
+        description: undefined,
+        badge: {
+            label: 'Switch Badge',
+            color: 'information',
+            size: 'xs',
+        },
         input: {
             type: 'checkbox',
             className: 'rz-switch',

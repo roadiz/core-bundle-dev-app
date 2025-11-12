@@ -56,7 +56,7 @@ export const InlineCheckboxGroup: Story = {
         formFieldsData: Array.from({ length: 10 }, (_, i) => ({
             description: 'This is option description',
             label: `Option ${i + 1}`,
-            inline: true,
+            horizontal: true,
             input: {
                 type: 'checkbox',
                 name: `InlineCheckboxGroup-option-${i + 1}`,
@@ -93,8 +93,8 @@ export const Mixed: Story = {
         legend: 'Switch Group Legend',
         formFieldsData: [
             ...Array.from({ length: 3 }, (_, i) => ({
-                description: 'This is option description',
                 label: `Option ${i + 1}`,
+                horizontal: true,
                 input: {
                     className: 'rz-switch',
                     type: 'checkbox' as const,
