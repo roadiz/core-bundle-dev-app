@@ -9,7 +9,7 @@
             {% if- is_granted('CREATE', node) -%}
                 <a
                    title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
-                   href="{{ path('nodesAddChildPage', { nodeId:node.id }) }}">
+                   href="{{ path('nodesAddChildPage', { nodeId: node.id }) }}">
                     <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.node{% endtrans %}
                 </a>
             {%- endif -%}

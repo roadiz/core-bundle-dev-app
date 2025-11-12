@@ -13,10 +13,12 @@ use RZ\Roadiz\CoreBundle\Node\NodeTranslator;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\TranslateNodeType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class TranslateController extends AbstractController
@@ -29,11 +31,24 @@ final class TranslateController extends AbstractController
     ) {
     }
 
-    public function translateAction(Request $request, Node $nodeId): Response
-    {
-        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $nodeId);
+    #[Route(
+        path: '/rz-admin/nodes/translate/{nodeId}',
+        name: 'nodesTranslatePage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+        ],
+    )]
+    public function translateAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $node);
 
-        $node = $nodeId;
         $availableTranslations = $this->managerRegistry
             ->getRepository(Translation::class)
             ->findUnavailableTranslationsForNode($node);

@@ -24,6 +24,7 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceSeoType;
 use RZ\Roadiz\RozierBundle\Form\RedirectionType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\FormError;
@@ -31,6 +32,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -47,24 +49,41 @@ final class SeoController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/seo/{translationId}',
+        name: 'nodesEditSEOPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+        ],
+        defaults: [
+            'translationId' => null,
+        ],
+    )]
     public function editAliasesAction(
         Request $request,
-        Node $nodeId,
-        ?Translation $translationId = null,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        #[MapEntity(
+            expr: 'translationId ? repository.find(translationId) : null',
+            message: 'Translation does not exist'
+        )]
+        ?Translation $translation = null,
     ): Response {
-        if (null === $translationId) {
+        if (null === $translation) {
             $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        } else {
-            $translation = $translationId;
         }
 
         if (null === $translation) {
             throw new ResourceNotFoundException();
         }
 
-        $node = $nodeId;
         /** @var NodesSources|false $source */
-        $source = $nodeId->getNodeSourcesByTranslation($translation)->first();
+        $source = $node->getNodeSourcesByTranslation($translation)->first();
 
         if (false === $source) {
             throw new ResourceNotFoundException();
@@ -107,7 +126,7 @@ final class SeoController extends AbstractController
 
             return $this->redirectToRoute(
                 'nodesEditSEOPage',
-                ['nodeId' => $node->getId(), 'translationId' => $translationId]
+                ['nodeId' => $node->getId(), 'translationId' => $translation->getId()]
             );
         }
 
@@ -159,7 +178,7 @@ final class SeoController extends AbstractController
 
                 return $this->redirect($this->generateUrl(
                     'nodesEditSEOPage',
-                    ['nodeId' => $node->getId(), 'translationId' => $translationId]
+                    ['nodeId' => $node->getId(), 'translationId' => $translation->getId()]
                 ).'#manage-aliases');
             } catch (EntityAlreadyExistsException|NoTranslationAvailableException $e) {
                 $addAliasForm->addError(new FormError($e->getMessage()));

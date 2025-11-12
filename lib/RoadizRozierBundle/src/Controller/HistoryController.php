@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Logger;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\UserVoter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 final class HistoryController extends AbstractController
@@ -31,13 +32,17 @@ final class HistoryController extends AbstractController
 
     public function __construct(
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
-        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 
-    /**
+    /*
      * List all logs action.
      */
+    #[Route(
+        path: '/rz-admin/history',
+        name: 'historyHomePage',
+        methods: ['GET'],
+    )]
     public function indexAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_LOGS');
@@ -64,23 +69,20 @@ final class HistoryController extends AbstractController
     /**
      * List user logs action.
      */
-    public function userAction(Request $request, int|string $userId): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
-
-        if (
-            !($this->isGranted('ROLE_ACCESS_USERS') || $this->isGranted('ROLE_ACCESS_LOGS'))
-            || ($this->getUser() instanceof User && $this->getUser()->getId() === $userId)
-        ) {
-            throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
-        }
-
-        /** @var User|null $user */
-        $user = $this->managerRegistry->getRepository(User::class)->find($userId);
-
-        if (null === $user) {
-            throw new ResourceNotFoundException();
-        }
+    #[Route(
+        path: '/rz-admin/history/user/{userId}',
+        name: 'historyUserPage',
+        requirements: ['userId' => '[0-9]+'],
+        methods: ['GET'],
+    )]
+    public function userAction(
+        #[MapEntity(
+            expr: 'repository.find(userId)',
+            message: 'User does not exist'
+        )]
+        User $user,
+    ): Response {
+        $this->denyAccessUnlessGranted(UserVoter::VIEW_HISTORY, $user);
 
         /*
          * Manage get request to filter list

@@ -15,11 +15,13 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Controller\NodeControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\NodesTagsType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -42,8 +44,21 @@ final class NodeTagController extends AbstractController
     /**
      * Return tags form for requested node.
      */
-    public function editTagsAction(Request $request, Node $nodeId): Response
-    {
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/tags',
+        name: 'nodesEditTagsPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+        ],
+    )]
+    public function editTagsAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
         /**
          * Get all sources because if node does not have a default translation
          * we still need to get one available translation.
@@ -51,7 +66,7 @@ final class NodeTagController extends AbstractController
          * @var NodesSources|null $source
          */
         $source = $this->allStatusesNodesSourcesRepository->findByNode(
-            $nodeId
+            $node
         )[0] ?? null;
 
         if (null === $source) {
@@ -60,7 +75,6 @@ final class NodeTagController extends AbstractController
 
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_TAGS, $source);
 
-        $node = $source->getNode();
         $form = $this->createForm(NodesTagsType::class, $node);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
