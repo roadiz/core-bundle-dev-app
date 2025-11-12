@@ -1,3 +1,4 @@
+rz-tablist,
 .rz-tablist {
 	width: 100%;
 	isolation: isolate;
@@ -16,6 +17,7 @@
 	}
 }
 
+:where(rz-tablist, .rz-tablist):not(.rz-tablist--underlined),
 .rz-tablist--filled {
 	--rz-tablist-padding-block: var(--spacing-4xs);
 
@@ -118,8 +120,21 @@
 
 
 .rz-tablist__inner__tab--selected {
-	--rz-tablist-inner-tab-border-color: var(--rz-tablist-inner-tab-border-color-selected);
-
 	background-color: var(--rz-tablist-inner-tab-background-color-selected);
 	color: var(--rz-tablist-inner-tab-color-selected);
+
+	.rz-tablist--underlined &::after {
+		background-color: var(--rz-tablist-inner-tab-border-color-selected);
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			background-color: var(--rz-tablist-inner-tab-background-color-selected); /* keep selected bg on hover */
+			color: var(--rz-tablist-inner-tab-color-selected); /* keep selected bg on hover */
+		}
+
+		&:hover::after {
+			background-color: var(--rz-tablist-inner-tab-border-color-selected); /* keep selected bg on hover */
+		}
+	}
 }
