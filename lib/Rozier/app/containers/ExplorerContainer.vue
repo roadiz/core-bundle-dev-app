@@ -49,7 +49,7 @@
                 <transition name="fade">
                     <ul class="uk-sortable" v-if="!isLoading">
                         <draggable v-model="items" :options="{ group: { name: entity, put: false } }">
-                            <transition-group class="sortable-inner">
+                            <transition-group tag="div" class="sortable-inner">
                                 <component
                                     v-bind:is="currentListingView"
                                     v-for="(item, index) in items"
@@ -84,8 +84,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { debounce } from 'lodash'
+import {mapActions, mapState} from 'vuex'
+import {debounce} from 'lodash'
 
 // Components
 import LoadMoreButton from '../components/LoadMoreButton.vue'

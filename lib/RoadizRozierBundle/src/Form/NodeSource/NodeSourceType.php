@@ -153,11 +153,10 @@ final class NodeSourceType extends AbstractType
             FieldType::CUSTOM_FORMS_T => NodeSourceCustomFormType::class,
             FieldType::DATETIME_T => DateTimeType::class,
             FieldType::DATE_T => DateType::class,
-            FieldType::DECIMAL_T => NumberType::class,
+            FieldType::DECIMAL_T,FieldType::INTEGER_T => NumberType::class,
             FieldType::DOCUMENTS_T => NodeSourceDocumentType::class,
             FieldType::EMAIL_T => EmailType::class,
             FieldType::GEOTAG_T, FieldType::MULTI_GEOTAG_T => GeoJsonType::class,
-            FieldType::INTEGER_T => IntegerType::class,
             FieldType::JSON_T => JsonType::class,
             FieldType::MANY_TO_MANY_T, FieldType::MANY_TO_ONE_T => NodeSourceJoinType::class,
             FieldType::MARKDOWN_T => MarkdownType::class,
@@ -238,10 +237,23 @@ final class NodeSourceType extends AbstractType
                 ]);
                 break;
             case FieldType::DECIMAL_T:
+                $options = array_merge_recursive($options, [
+                    'constraints' => [
+                        new Type('numeric'),
+                    ],
+                    'html5' => true,
+                    'scale' => 4,
+                ]);
+                break;
             case FieldType::INTEGER_T:
                 $options = array_merge_recursive($options, [
                     'constraints' => [
                         new Type('numeric'),
+                    ],
+                    'html5' => true,
+                    'scale' => 0,
+                    'attr' => [
+                        'step' => 1,
                     ],
                 ]);
                 break;
@@ -348,7 +360,7 @@ final class NodeSourceType extends AbstractType
         $devName = '{{ nodeSource.'.$field->getVarName().' }}';
         $options = [
             'label' => $label,
-            'required' => false,
+            'required' => $field->isRequired(),
             'attr' => [
                 'data-field-group' => (null !== $field->getGroupName() && '' != $field->getGroupName()) ?
                     $field->getGroupName() :

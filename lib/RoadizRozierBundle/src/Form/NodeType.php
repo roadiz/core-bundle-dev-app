@@ -114,7 +114,7 @@ class NodeType extends AbstractType
             'nodeName' => null,
             'data_class' => Node::class,
             'attr' => [
-                'class' => 'uk-form node-form',
+                'class' => 'rz-form-field node-form',
             ],
         ]);
         $resolver->setAllowedTypes('nodeName', ['string', 'null']);

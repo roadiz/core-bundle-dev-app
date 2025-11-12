@@ -32,7 +32,7 @@
         ]) %}
     {% endif %}
 {% endfor %}
-<div class="uk-form-row form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
+<div class="rz-form-field form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
     <drawer-container data-vuejs
                       inline-template
                       data-entity-name="{{ entityName }}"
@@ -118,7 +118,7 @@
                         v-model="items"
                         :options="getOptions()"
                     >
-                        <transition-group>
+                        <transition-group tag="div">
                             <component
                                 v-bind:is="drawer.currentListingView"
                                 v-for="(item, index) in items"
@@ -138,7 +138,7 @@
                 </ul>
             </div>
             {% if enableDropzone %}
-                <rz-file-upload 
+                <rz-file-upload
                     v-if="drawer.isDropzoneEnable"
                     @error="showError"
                     @success="showSuccess">
