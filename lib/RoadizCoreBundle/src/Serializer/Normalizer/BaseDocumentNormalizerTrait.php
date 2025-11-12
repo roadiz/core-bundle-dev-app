@@ -41,7 +41,7 @@ trait BaseDocumentNormalizerTrait
         }
 
         if (
-            !$object->isPrivate()
+            $object->isProcessable()
             && \in_array('explorer_thumbnail', $serializationGroups, true)
         ) {
             $data['url'] = $this->documentUrlGenerator
