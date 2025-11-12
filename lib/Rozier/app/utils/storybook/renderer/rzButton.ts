@@ -1,12 +1,9 @@
 import type { ButtonArgs } from '../../../../stories/RzButton.stories'
 
-export function rzButtonRenderer(
-    args: ButtonArgs,
-    attrs?: Record<string, string>,
-) {
+export function rzButtonRenderer(args: ButtonArgs) {
     const className = 'rz-button'
     const buttonNode = document.createElement('button')
-    const attributesEntries = Object.entries(attrs || {})
+    const attributesEntries = Object.entries(args.attributes || {})
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {
             buttonNode.setAttribute(key, value)

@@ -14,7 +14,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Form',
+    title: 'Components/Form/Form',
     tags: ['autodocs'],
     args: {
         name: 'My form',

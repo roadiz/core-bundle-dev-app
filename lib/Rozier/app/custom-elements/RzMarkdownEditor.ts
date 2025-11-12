@@ -606,7 +606,7 @@ export default class RzMarkdownEditor extends HTMLElement {
     }
 
     destroy() {
-        this.preview.remove()
+        this.preview?.remove()
     }
 
     resize() {

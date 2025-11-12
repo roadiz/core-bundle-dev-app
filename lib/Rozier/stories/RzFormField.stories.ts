@@ -27,7 +27,7 @@ const meta: Meta<Args> = {
         label: 'Input Field Label',
         required: false,
         description: 'This is a description for the input field.',
-        type: 'text',
+        type: undefined,
         error: '',
         help: '',
         horizontal: false,
@@ -104,11 +104,32 @@ export const Checkbox: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        label: 'Inline Checkbox',
+        label: 'Simple checkbox',
         input: {
             type: 'checkbox',
             id: 'Checkbox-input-id',
             name: 'Checkbox-input-name',
+        },
+    },
+}
+
+export const SwitchCheckbox: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        iconClass: 'rz-icon-ri--image-line',
+        description: undefined,
+        badge: {
+            label: 'Switch Badge',
+            color: 'information',
+            size: 'xs',
+        },
+        input: {
+            type: 'checkbox',
+            className: 'rz-switch',
+            name: 'Switch-name',
+            id: 'Switch-id',
         },
     },
 }
@@ -169,7 +190,8 @@ export const WithButtons: Story = {
             size: 'xs',
         },
         buttonGroup: {
-            spacing: 'md',
+            size: 'md',
+            gap: 'md',
             buttons: [
                 {
                     label: 'Upload',

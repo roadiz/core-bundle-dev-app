@@ -4,12 +4,13 @@ import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
 import { rzBadgeRenderer } from './rzBadge'
+import { rzSwitchRenderer } from './rzSwitch'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
 export function rzFormFieldRenderer(args: Args) {
     const wrapper = document.createElement('div')
-    const inputType = args.type || args.input?.type || 'text'
+    const inputType = args.input?.type || args.type
 
     const wrapperClasses = [
         COMPONENT_CLASS_NAME,
@@ -20,17 +21,24 @@ export function rzFormFieldRenderer(args: Args) {
     ].filter((c) => c) as string[]
     wrapper.classList.add(...wrapperClasses)
 
+    const head = document.createElement('div')
+    head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
+    wrapper.appendChild(head)
+
     if (args.iconClass) {
         const icon = document.createElement('span')
-        icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`, args.iconClass)
-        wrapper.appendChild(icon)
+        icon.classList.add(
+            `${COMPONENT_CLASS_NAME}__head__icon`,
+            args.iconClass,
+        )
+        head.appendChild(icon)
     }
 
     const label = document.createElement('label')
-    label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
+    label.classList.add(`${COMPONENT_CLASS_NAME}__head__label`)
     label.textContent = args.label
     label.setAttribute('for', args.input?.id)
-    wrapper.appendChild(label)
+    head.appendChild(label)
 
     if (args.badge) {
         const badge = rzBadgeRenderer({
@@ -38,14 +46,14 @@ export function rzFormFieldRenderer(args: Args) {
             size: args.badge.size || 'xs',
         })
         badge.setAttribute('title', args.badge.title || 'Badge title')
-        badge.classList.add(`${COMPONENT_CLASS_NAME}__badge`)
-        wrapper.appendChild(badge)
+        badge.classList.add(`${COMPONENT_CLASS_NAME}__head__badge`)
+        head.appendChild(badge)
     }
 
     if (args.buttonGroup) {
         const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
-        buttonGroup.classList.add(`${COMPONENT_CLASS_NAME}__button-group`)
-        wrapper.appendChild(buttonGroup)
+        buttonGroup.classList.add(`${COMPONENT_CLASS_NAME}__head__button-group`)
+        head.appendChild(buttonGroup)
     }
 
     let descriptionId: string | undefined = undefined
@@ -59,17 +67,18 @@ export function rzFormFieldRenderer(args: Args) {
     }
 
     if (args.input) {
-        const renderer =
-            args.input?.type === 'color'
-                ? rzColorInputRenderer
-                : rzInputRenderer
+        const renderer = args.input.className?.includes('rz-switch')
+            ? rzSwitchRenderer
+            : args.input?.type === 'color'
+              ? rzColorInputRenderer
+              : rzInputRenderer
 
         const input = renderer({
             ...args.input,
             name: args.input?.name || 'name',
             type: inputType,
         })
-        input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
+        input.classList.add(`${COMPONENT_CLASS_NAME}__input`)
         if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
         if (args.required) input.setAttribute('required', 'true')
         wrapper.appendChild(input)

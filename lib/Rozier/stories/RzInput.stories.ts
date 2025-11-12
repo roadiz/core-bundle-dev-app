@@ -10,6 +10,7 @@ export type Args = {
     value?: string
     required?: boolean
     className?: string
+    attributes?: { [key: string]: string }
 }
 
 const meta: Meta<Args> = {

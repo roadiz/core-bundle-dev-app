@@ -14,8 +14,8 @@ export function rzFieldsetRenderer(args: Args) {
 
     const fields = args.formFieldsData || []
     fields.forEach((fieldData) => {
-        const input = rzFormFieldRenderer(fieldData)
-        fieldset.appendChild(input)
+        const field = rzFormFieldRenderer(fieldData)
+        fieldset.appendChild(field)
     })
 
     return fieldset
