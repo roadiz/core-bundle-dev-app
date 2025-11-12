@@ -4,12 +4,13 @@ import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
 import { rzBadgeRenderer } from './rzBadge'
+import { rzSwitchRenderer } from './rzSwitch'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
 export function rzFormFieldRenderer(args: Args) {
     const wrapper = document.createElement('div')
-    const inputType = args.type || args.input?.type || 'text'
+    const inputType = args.input?.type || args.type
 
     const wrapperClasses = [
         COMPONENT_CLASS_NAME,
@@ -59,17 +60,18 @@ export function rzFormFieldRenderer(args: Args) {
     }
 
     if (args.input) {
-        const renderer =
-            args.input?.type === 'color'
-                ? rzColorInputRenderer
-                : rzInputRenderer
+        const renderer = args.input.className?.includes('rz-switch')
+            ? rzSwitchRenderer
+            : args.input?.type === 'color'
+              ? rzColorInputRenderer
+              : rzInputRenderer
 
         const input = renderer({
             ...args.input,
             name: args.input?.name || 'name',
             type: inputType,
         })
-        input.classList.add(`${COMPONENT_CLASS_NAME}__input`, 'rz-form-input')
+        input.classList.add(`${COMPONENT_CLASS_NAME}__input`)
         if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
         if (args.required) input.setAttribute('required', 'true')
         wrapper.appendChild(input)

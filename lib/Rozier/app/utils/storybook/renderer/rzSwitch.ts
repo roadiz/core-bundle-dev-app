@@ -12,6 +12,7 @@ export function rzSwitchRenderer(args: Args) {
     })
 
     if (args.checked) input.setAttribute('checked', '')
+    if (args.id) input.setAttribute('id', args.id)
 
     return input
 }

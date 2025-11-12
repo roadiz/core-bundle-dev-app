@@ -104,11 +104,25 @@ export const Checkbox: Story = {
         return rzFormFieldRenderer(args)
     },
     args: {
-        label: 'Inline Checkbox',
+        label: 'Simple checkbox',
         input: {
             type: 'checkbox',
             id: 'Checkbox-input-id',
             name: 'Checkbox-input-name',
+        },
+    },
+}
+
+export const SwitchCheckbox: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        input: {
+            type: 'checkbox',
+            className: 'rz-switch',
+            name: 'Switch-name',
+            id: 'Switch-id',
         },
     },
 }
@@ -184,25 +198,5 @@ export const WithButtons: Story = {
                 },
             ],
         },
-    },
-}
-
-export const Switch: Story = {
-    render: (args) => {
-        const wrapper = rzFormFieldRenderer(args)
-
-        const switchInput = document.createElement('input')
-        switchInput.classList.add('rz-switch', 'rz-form-field__input')
-        switchInput.setAttribute('type', 'checkbox')
-        switchInput.name = args.input?.name || 'switch-name'
-        switchInput.id = args.input?.id || 'switch-id'
-        wrapper.appendChild(switchInput)
-
-        return wrapper
-    },
-    args: {
-        type: 'checkbox',
-        iconClass: 'rz-icon-ri--image-line',
-        input: undefined,
     },
 }

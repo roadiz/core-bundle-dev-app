@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzSwitchRenderer } from '../app/utils/storybook/renderer/rzSwitch'
+import { Args as RzInputArgs } from './RzInput.stories'
 
-export type Args = {
-    checked: boolean
-    attributes?: { [key: string]: string }
+export type Args = RzInputArgs & {
+    checked?: boolean
 }
 
 const meta: Meta<Args> = {

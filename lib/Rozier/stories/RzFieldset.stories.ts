@@ -25,15 +25,23 @@ export const Default: Story = {
     args: {
         formFieldsData: [
             {
-                type: 'text',
-                name: 'text-input',
                 label: 'Text Input',
                 description: 'A simple text input',
+                input: {
+                    type: 'text',
+                    name: 'text-input',
+                    id: 'text-input',
+                    placeholder: 'Enter text here',
+                },
             },
             {
-                type: 'email',
-                name: 'email-input',
                 label: 'Email Input',
+                input: {
+                    type: 'email',
+                    name: 'email-input',
+                    id: 'email-input',
+                    placeholder: 'john@gmail.com',
+                },
             },
         ],
     },
@@ -46,11 +54,14 @@ export const InlineCheckboxGroup: Story = {
     args: {
         legend: 'Checkbox Group Legend',
         formFieldsData: Array.from({ length: 10 }, (_, i) => ({
-            type: 'checkbox',
-            name: `InlineCheckboxGroup-option-${i + 1}`,
             description: 'This is option description',
             label: `Option ${i + 1}`,
             inline: true,
+            input: {
+                type: 'checkbox',
+                name: `InlineCheckboxGroup-option-${i + 1}`,
+                id: `InlineCheckboxGroup-option-${i + 1}`,
+            },
         })),
     },
 }
@@ -62,11 +73,14 @@ export const SwitchGroup: Story = {
     args: {
         legend: 'Switch Group Legend',
         formFieldsData: Array.from({ length: 10 }, (_, i) => ({
-            type: 'checkbox',
-            name: `SwitchGroup-option-${i + 1}`,
-            description: 'This is option description',
             label: `Option ${i + 1}`,
-            inputClassName: 'rz-switch',
+            description: 'This is option description',
+            input: {
+                type: 'checkbox' as const,
+                id: `SwitchGroup-option-${i + 1}`,
+                name: `SwitchGroup-option-${i + 1}`,
+                className: 'rz-switch',
+            },
         })),
     },
 }
@@ -79,28 +93,40 @@ export const Mixed: Story = {
         legend: 'Switch Group Legend',
         formFieldsData: [
             ...Array.from({ length: 3 }, (_, i) => ({
-                type: 'checkbox',
-                name: `Mixed-option-${i + 1}`,
                 description: 'This is option description',
                 label: `Option ${i + 1}`,
-                inputClassName: 'rz-switch',
+                input: {
+                    className: 'rz-switch',
+                    type: 'checkbox' as const,
+                    name: `Mixed-option-${i + 1}`,
+                    id: `Mixed-option-${i + 1}`,
+                },
             })),
             {
                 label: 'Simple text 2',
-                type: 'text',
-                name: 'simple-text-2-SwitchList',
+                input: {
+                    type: 'text',
+                    name: 'simple-text-2-SwitchList',
+                    id: 'simple-text-2-SwitchList',
+                },
             },
             {
-                type: 'checkbox',
-                name: `Mixed-option-solo`,
                 description: 'This is option description',
                 label: `Option solo`,
-                inputClassName: 'rz-switch',
+                input: {
+                    type: 'checkbox',
+                    name: `Mixed-option-solo`,
+                    className: 'rz-switch',
+                    id: `Mixed-option-solo`,
+                },
             },
             {
                 label: 'Simple text 2',
-                type: 'color',
-                name: 'simple-text-2-SwitchList',
+                input: {
+                    type: 'color',
+                    name: 'simple-text-2-SwitchList',
+                    id: 'simple-text-2-SwitchList',
+                },
             },
         ],
     },
