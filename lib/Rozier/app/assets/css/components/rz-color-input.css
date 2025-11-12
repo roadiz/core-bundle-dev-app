@@ -12,6 +12,7 @@ rz-color-input,
 	transition: border-color 0.2s, color 0.2s;
 	outline: none;
 	color: var(--rz-color-input-color, var(--form-basic-input-text, #383838));
+    width: 100%;
 
 	@media (hover: hover) {
 		&:hover {

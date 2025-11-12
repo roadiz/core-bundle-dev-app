@@ -22,6 +22,7 @@
 @import './components/rz-button-group.css';
 @import './components/rz-entity-thumbnail.css';
 @import './components/rz-tablist.css';
+@import './components/rz-drawer-item.css';
 
 /* Components: Form */
 @import './components/rz-form.css';

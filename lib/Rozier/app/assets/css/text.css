@@ -3,14 +3,6 @@ Generated with (figma plugin)[https://www.figma.com/community/plugin/12604727718
 and reformatted with Copilot
 */
 
-.text-h1-md {
-  font-family: var(--font-family-os-title);
-  font-size: var(--text-h1-md-font-size);
-  line-height: var(--text-h1-md-line-height);
-  letter-spacing: var(--text-h1-md-letter-spacing);
-  font-weight: var(--text-h1-md-font-weight);
-}
-
 .text-h1-sm {
   font-family: var(--font-family-os-title);
   font-size: var(--text-h1-sm-font-size);
@@ -19,12 +11,12 @@ and reformatted with Copilot
   font-weight: var(--text-h1-sm-font-weight);
 }
 
-.text-overtitle-sm {
-  font-family: var(--font-family-os-label);
-  font-size: var(--text-overtitle-sm-font-size);
-  line-height: var(--text-overtitle-sm-line-height);
-  letter-spacing: var(--text-overtitle-sm-letter-spacing);
-  font-weight: var(--text-overtitle-sm-font-weight);
+.text-h1-md {
+  font-family: var(--font-family-os-title);
+  font-size: var(--text-h1-md-font-size);
+  line-height: var(--text-h1-md-line-height);
+  letter-spacing: var(--text-h1-md-letter-spacing);
+  font-weight: var(--text-h1-md-font-weight);
 }
 
 .text-overtitle-xs {
@@ -33,6 +25,14 @@ and reformatted with Copilot
   line-height: var(--text-overtitle-xs-line-height);
   letter-spacing: var(--text-overtitle-xs-letter-spacing);
   font-weight: var(--text-overtitle-xs-font-weight);
+}
+
+.text-overtitle-sm {
+  font-family: var(--font-family-os-label);
+  font-size: var(--text-overtitle-sm-font-size);
+  line-height: var(--text-overtitle-sm-line-height);
+  letter-spacing: var(--text-overtitle-sm-letter-spacing);
+  font-weight: var(--text-overtitle-sm-font-weight);
 }
 
 .text-overtitle-md {
