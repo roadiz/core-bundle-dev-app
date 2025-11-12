@@ -74,7 +74,7 @@ function rzTabRenderer(args: Tab) {
 }
 
 function rzTablistRenderer(args: Args) {
-    const wrapper = document.createElement('rz-tablist')
+    const wrapper = document.createElement(COMPONENT_CLASS_NAME)
     const classList = [
         args.variant && `${COMPONENT_CLASS_NAME}--${args.variant}`,
     ].filter((c) => c) as string[]

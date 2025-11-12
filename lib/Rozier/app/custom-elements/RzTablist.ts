@@ -1,5 +1,5 @@
 export default class RzTablist extends HTMLElement {
-    buttonClassName = 'rz-tablist__inner__tab'
+    tabClassName = 'rz-tablist__inner__tab'
     tabElements: HTMLElement[] = []
 
     constructor() {
@@ -12,11 +12,11 @@ export default class RzTablist extends HTMLElement {
         const panel = document.getElementById(tab.getAttribute('aria-controls'))
 
         if (selected) {
-            tab.classList.add(`${this.buttonClassName}--selected`)
+            tab.classList.add(`${this.tabClassName}--selected`)
             tab.setAttribute('aria-selected', 'true')
             panel?.removeAttribute('hidden')
         } else {
-            tab.classList.remove(`${this.buttonClassName}--selected`)
+            tab.classList.remove(`${this.tabClassName}--selected`)
             tab.setAttribute('aria-selected', 'false')
             panel?.setAttribute('hidden', 'true')
         }
@@ -32,7 +32,7 @@ export default class RzTablist extends HTMLElement {
         if (this.tabElements?.length) return
 
         this.tabElements = Array.from(
-            this.querySelectorAll(`.${this.buttonClassName}`),
+            this.querySelectorAll(`.${this.tabClassName}`),
         ) as HTMLElement[]
 
         this.tabElements.forEach((tab) => {
@@ -53,7 +53,7 @@ export default class RzTablist extends HTMLElement {
 
             const isSelected =
                 tab.getAttribute('aria-selected') === 'true' ||
-                tab.classList.contains(`${this.buttonClassName}--selected`)
+                tab.classList.contains(`${this.tabClassName}--selected`)
             this.toggleTabVisibility(tab, isSelected)
 
             tab.addEventListener('click', this.onTabClick)
