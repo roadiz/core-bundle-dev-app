@@ -6,8 +6,11 @@ const VARIANTS = ['filled', 'underlined']
 type Tab = {
     label: string
     id: string
-    panelId: string
     selected?: boolean
+    panel: {
+        id: string
+        hidden?: boolean
+    }
 }
 
 type Args = {
@@ -19,18 +22,24 @@ const DEFAULT_TABS: Tab[] = [
     {
         id: 'tab-1',
         label: 'Tab label 1',
-        panelId: 'panel-1',
         selected: true,
+        panel: {
+            id: 'panel-1',
+        },
     },
     {
         id: 'tab-2',
         label: 'Tab label 2',
-        panelId: 'panel-2',
+        panel: {
+            id: 'panel-2',
+        },
     },
     {
         id: 'tab-3',
         label: 'Tab label 3',
-        panelId: 'panel-3',
+        panel: {
+            id: 'panel-3',
+        },
     },
 ]
 
@@ -54,9 +63,13 @@ type Story = StoryObj<Args>
 
 function tabPanelRenderer(args: Tab) {
     const tabPanel = document.createElement('div')
+    tabPanel.classList.add('rz-tabpanel')
     tabPanel.setAttribute('role', 'tabpanel')
     tabPanel.setAttribute('aria-labelledby', args.id)
-    tabPanel.id = args.panelId
+    tabPanel.id = args.panel.id
+    if (args.panel.hidden) {
+        tabPanel.setAttribute('hidden', 'true')
+    }
     tabPanel.textContent = `Content for ${args.label}`
 
     return tabPanel
@@ -66,7 +79,7 @@ function rzTabRenderer(args: Tab) {
     const tab = document.createElement('button')
     tab.setAttribute('role', 'tab')
     tab.setAttribute('type', 'button')
-    tab.setAttribute('aria-controls', args.panelId)
+    tab.setAttribute('aria-controls', args.panel.id)
     tab.id = args.id
     tab.textContent = args.label
 
