@@ -10,21 +10,35 @@ const headingGroup = {
     buttons: [
         {
             iconClass: 'rz-icon-ri--h-1',
+            additionalClasses: 'markdown-editor-button-h1',
+            attributes: {
+                'data-markdowneditor-button': 'h1',
+            },
         },
         {
             iconClass: 'rz-icon-ri--h-2',
+            additionalClasses: 'markdown-editor-button-h2',
+            attributes: { 'data-markdowneditor-button': 'h2' },
         },
         {
             iconClass: 'rz-icon-ri--h-3',
+            additionalClasses: 'markdown-editor-button-h3',
+            attributes: { 'data-markdowneditor-button': 'h3' },
         },
         {
             iconClass: 'rz-icon-ri--h-4',
+            additionalClasses: 'markdown-editor-button-h4',
+            attributes: { 'data-markdowneditor-button': 'h4' },
         },
         {
             iconClass: 'rz-icon-ri--h-5',
+            additionalClasses: 'markdown-editor-button-h5',
+            attributes: { 'data-markdowneditor-button': 'h5' },
         },
         {
             iconClass: 'rz-icon-ri--h-6',
+            additionalClasses: 'markdown-editor-button-h6',
+            attributes: { 'data-markdowneditor-button': 'h6' },
         },
     ],
 } as ButtonGroupArgs
@@ -162,7 +176,7 @@ function controlsRenderer(groups: Args['controlsButtonGroups']) {
 function rzMarkdownEditorRenderer(args: Args) {
     // Use `rz-markdown-editor` custom element to instantiate the component
     // Or `rz-markdown-editor` class to only apply the styles
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement('rz-markdown-editor')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
     const head = controlsRenderer(args.controlsButtonGroups || [])

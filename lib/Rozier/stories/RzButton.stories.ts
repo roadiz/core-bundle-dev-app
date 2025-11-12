@@ -14,6 +14,7 @@ export type ButtonArgs = {
     onDark?: boolean
     additionalClasses?: string
     color?: (typeof COLORS)[number]
+    attributes?: Record<string, string>
 }
 
 const meta: Meta<ButtonArgs> = {
