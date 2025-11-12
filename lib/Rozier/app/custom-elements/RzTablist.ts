@@ -9,7 +9,8 @@ export default class RzTablist extends HTMLElement {
     }
 
     toggleTabVisibility(tab: HTMLElement, selected: boolean) {
-        const panel = document.getElementById(tab.getAttribute('aria-controls'))
+        const panelId = tab.getAttribute('aria-controls')
+        const panel = panelId ? document.getElementById(panelId) : null
 
         if (selected) {
             tab.classList.add(`${this.tabClassName}--selected`)
