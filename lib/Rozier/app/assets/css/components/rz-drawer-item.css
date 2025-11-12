@@ -3,6 +3,7 @@
 
 	box-sizing: border-box;
 	position: relative;
+	isolation: isolate; /* Allow negative z-index on pseudo element without being displayed behind parent element. */
 	overflow: hidden;
 	border-radius: var(--rz-drawer-item-border-radius);
 	min-height: var(--rz-drawer-item-min-height, 51px);

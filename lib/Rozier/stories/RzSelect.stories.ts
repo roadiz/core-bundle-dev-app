@@ -46,9 +46,7 @@ type Story = StoryObj<Args>
 function itemRenderer(args: Args) {
     const select = document.createElement('select', { is: COMPONENT_CLASS })
     select.setAttribute('is', COMPONENT_CLASS)
-
     select.required = args.required ?? false
-    select.classList.add(COMPONENT_CLASS_NAME, 'rz-input')
 
     args.options.forEach((optionData) => {
         const option = document.createElement('option')
