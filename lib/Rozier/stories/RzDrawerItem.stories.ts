@@ -29,27 +29,26 @@ const meta: Meta<Args> = {
             height: 94,
         },
         buttonGroup: {
-            spacing: 'sm',
+            gap: 'sm',
+            size: 'sm',
             buttons: [
                 {
                     iconClass: 'rz-icon-ri--equalizer-3-line',
-                    size: 'sm',
-                    emphasis: 'high',
+                    emphasis: 'primary',
                 },
                 {
                     iconClass: 'rz-icon-ri--delete-bin-7-line',
-                    size: 'sm',
                     color: 'error-light',
                 },
             ],
         },
         buttonGroupTop: {
-            spacing: 'sm',
+            gap: 'sm',
+            size: 'sm',
             buttons: [
                 {
                     iconClass: 'rz-icon-ri--zoom-in-line',
-                    size: 'sm',
-                    emphasis: 'high',
+                    emphasis: 'primary',
                 },
             ],
         },
