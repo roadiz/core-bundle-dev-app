@@ -1,0 +1,14 @@
+.rz-drawer-body {
+	--rz-drawer-item-img-first-max-width: 120px;
+
+	box-sizing: border-box;
+	display: flex;
+	min-height: 92px;
+	padding: var(--spacing-2xs);
+	gap: var(--spacing-2xs);
+	flex-wrap: wrap;
+	border-radius: var(--radius-xs, 6px);
+	border: 1PX solid var(--form-basic-border, #DADADA);
+	background-color: var(--surface-light-secondary, #F8F8F8);
+	margin-top: var(--spacing-3xs);
+}

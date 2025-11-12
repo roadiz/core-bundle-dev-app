@@ -7,7 +7,11 @@
 	overflow: hidden;
 	border-radius: var(--rz-drawer-item-border-radius);
 	min-height: var(--rz-drawer-item-min-height, 51px);
-	min-width: var(--rz-drawer-item-min-width, 294px);
+
+	&:has(.rz-drawer-item__img) {
+		max-width: var(--rz-drawer-item-img-first-max-width, 100%);
+		min-height: var(--rz-drawer-item-min-height, 96px);
+	}
 }
 
 .rz-drawer-item:has(.rz-drawer-item__title),
@@ -20,6 +24,7 @@
 		var(--rz-drawer-item-border-width)
 		var(--rz-drawer-item-border-left-width);
 
+	min-width: var(--rz-drawer-item-min-width, 294px);
 	padding-left: calc(var(--rz-drawer-item-border-left-width) - var(--rz-drawer-item-border-width) + var(--spacing-3xs));
 	display: grid;
 	align-items: flex-start;
@@ -98,7 +103,7 @@
 
 .rz-drawer-item__img {
 	display: block;
-	max-width: 100%;
+	max-width: var(--rz-drawer-item-img-max-width, 100%);
 	width: var(--rz-reference-img-width, auto);
 	height: var(--rz-reference-img-height, 100%);
 	object-fit: cover;
