@@ -30,11 +30,7 @@ final class CompareDatetimeType extends AbstractType
         ->add('compareDatetime', DateTimeType::class, [
             'label' => false,
             'required' => false,
-            'date_widget' => 'single_text',
-            'date_format' => 'yyyy-MM-dd',
-            'attr' => [
-                'class' => 'rz-datetime-field',
-            ],
+            'html5' => true,
             'placeholder' => [
                 'hour' => 'hour',
                 'minute' => 'minute',
@@ -47,7 +43,7 @@ final class CompareDatetimeType extends AbstractType
     {
         parent::buildView($view, $form, $options);
 
-        $view->vars['attr']['class'] = 'rz-compare-datetype';
+        $view->vars['attr']['class'] = 'rz-fieldset';
     }
 
     #[\Override]

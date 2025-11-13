@@ -355,7 +355,8 @@ final class SearchController extends AbstractController
         $builder->add('search', SubmitType::class, [
             'label' => 'search.a.node',
             'attr' => [
-                'class' => 'uk-button uk-button-primary',
+                'class' => 'rz-button rz-button--success',
+                'icon' => 'rz-icon-ri--search-line'
             ],
         ]);
 
@@ -489,9 +490,6 @@ final class SearchController extends AbstractController
                 'label' => false,
                 'inherit_data' => true,
                 'mapped' => false,
-                'attr' => [
-                    'class' => 'form-col-status-group',
-                ],
             ])
             ->add($prefix.'visible', ExtendedBooleanType::class, [
                 'label' => 'visible',
@@ -556,7 +554,7 @@ final class SearchController extends AbstractController
             'inherit_data' => true,
             'mapped' => false,
             'attr' => [
-                'class' => 'form-col-search-group',
+                'class' => 'rz-fieldset',
             ],
         ])
             ->add($formName, TextType::class, [
