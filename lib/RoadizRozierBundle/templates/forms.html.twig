@@ -10,7 +10,7 @@
 {%- block date_widget -%}
      {%- if widget == 'single_text' -%}
          {%- set type = type|default('text') -%}
-         <input data-uk-datepicker="{format:'YYYY-MM-DD'}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+         <input is="rz-input" type="date" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
      {%- else -%}
          <div {{ block('widget_container_attributes') }}>
              {{- date_pattern|replace({
@@ -186,18 +186,19 @@
 </rz-markdown-editor>
 {% endblock markdown_widget %}
 
+{%- block textarea_widget -%}
+    <textarea {{ block('widget_attributes') }} class="rz-input">{{ value }}</textarea>
+{%- endblock textarea_widget -%}
 
 {% block json_widget %}
 {# just let the textarea widget render the select tag #}
 <textarea {{ block('widget_attributes') }} data-rz-jsoneditor>{{ value }}</textarea>
 {% endblock json_widget %}
 
-
 {% block css_widget %}
 {# just let the textarea widget render the select tag #}
 <textarea {{ block('widget_attributes') }} data-rz-csseditor>{{ value }}</textarea>
 {% endblock css_widget %}
-
 
 {% block yaml_widget %}
 {# just let the textarea widget render the select tag #}
@@ -318,7 +319,7 @@
 {% endblock custom_forms_widget %}
 
 {%- block radio_widget -%}
-    <input type="radio" title="{{ label|trans }}" aria-label="{{ label|trans }}" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    <input is="rz-input" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} >
 {%- endblock radio_widget -%}
 
 {%- block document_alignment_widget -%}
@@ -352,14 +353,15 @@
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
-    <div {{ block('widget_container_attributes') }}>
+        <fieldset class="rz-fieldset">
+            <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
         {%- for child in form %}
-            <div class="uk-form-group uk-margin-bottom">
-                {{- form_widget(child) -}}
+            <div class="rz-form-field rz-form-field--type-radio">
                 {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+                {{- form_widget(child) -}}
             </div>
         {% endfor -%}
-    </div>
+        </fieldset>
 {%- endblock choice_widget_expanded -%}
 
 {% block text_widget %}
@@ -390,6 +392,19 @@
         </div>
     {%- endif %}
 {%- endblock time_widget %}
+
+{%- block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        <input is="rz-input" type="datetime-local" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif -%}
+{%- endblock datetime_widget -%}
 
 {# Override default error block #}
 {% block form_errors -%}
@@ -499,9 +514,6 @@
 {%- endblock form_label %}
 
 {% block form_widget_compound -%}
-    {% set attr = attr|merge({
-        'class': attr.class ~ ' data-uk-margin'
-    }) %}
     <div {{ block('widget_container_attributes') }}>
         {%- if form.parent is empty -%}
             {{ form_errors(form) }}
@@ -551,32 +563,36 @@
 {%- endblock choice_widget_collapsed %}
 
 {% block form_row -%}
-    {% set rowClasses = [
-        'rz-form-field',
-        'form-col-' ~ form.vars.block_prefixes[1],
-        'form-col-' ~ form.vars.name|replace({'_': '-'}),
-        'rz-form-field--type-' ~ form.vars.block_prefixes[1]
-    ] %}
-    {% if required %}
-        {% set rowClasses = rowClasses|merge(['rz-form-field--required']) %}
-    {% endif %}
-    {% if errors|length > 0 -%}
-        {% set rowClasses = rowClasses|merge(['rz-form-field--error']) %}
-    {% endif %}
-    {% if attr.class %}
-        {% set rowClasses = rowClasses|merge([
-            attr.class ~ '-wrapper'
-        ]) %}
-    {% endif %}
-    <div {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
-         data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
-        class="{{ rowClasses|join(' ') }}">
-        {% if form.vars.block_prefixes[1] != 'separator' %}
-            {{- form_label(form) -}}
-        {% endif %}
+    {%- if form.vars.block_prefixes[1] == 'nodesourcebase' -%}
         {{- form_widget(form) -}}
-        {{- form_errors(form) -}}
-    </div>
+    {%- else -%}
+        {% set rowClasses = [
+            'rz-form-field',
+            'form-col-' ~ form.vars.block_prefixes[1],
+            'form-col-' ~ form.vars.name|replace({'_': '-'}),
+            'rz-form-field--type-' ~ form.vars.block_prefixes[1]
+        ] %}
+        {% if required %}
+            {% set rowClasses = rowClasses|merge(['rz-form-field--required']) %}
+        {% endif %}
+        {% if errors|length > 0 -%}
+            {% set rowClasses = rowClasses|merge(['rz-form-field--error']) %}
+        {% endif %}
+        {% if attr.class %}
+            {% set rowClasses = rowClasses|merge([
+                attr.class ~ '-wrapper'
+            ]) %}
+        {% endif %}
+        <div {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
+             data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
+            class="{{ rowClasses|join(' ') }}">
+            {% if form.vars.block_prefixes[1] != 'separator' %}
+                {{- form_label(form) -}}
+            {% endif %}
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    {%- endif -%}
 {%- endblock form_row %}
 
 {%- block button_row -%}
@@ -603,6 +619,24 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {%- if translation_domain is same as(false) -%}
+            {%- if label_html is same as(false) -%}
+                <span class="rz-button__label">{{- label -}}</span>
+            {%- else -%}
+                <span class="rz-button__label">{{- label|raw -}}</span>
+            {%- endif -%}
+        {%- else -%}
+            {%- if label_html is same as(false) -%}
+                <span class="rz-button__label">{{- label|trans(label_translation_parameters, translation_domain) -}}</span>
+            {%- else -%}
+                <span class="rz-button__label">{{- label|trans(label_translation_parameters, translation_domain)|raw -}}</span>
+            {%- endif -%}
+        {%- endif -%}
+        {%- if attr.icon is defined and attr.icon != '' -%}
+            <span class="rz-button__icon {{ attr.icon }}"></span>
+        {%- endif -%}
+    </button>
 {%- endblock button_widget -%}
 
 {%- block widget_attributes -%}
@@ -614,3 +648,11 @@
     {%- endif -%}
     {{ block('attributes') }}
 {%- endblock widget_attributes -%}
+
+{%- block nodesourcebase_widget -%}
+    <div class="rz-form__field-list rz-form__field-list--horizontal">
+        {%- for child in form %}
+            {{- form_row(child) -}}
+        {%- endfor -%}
+    </div>
+{%- endblock nodesourcebase_widget -%}

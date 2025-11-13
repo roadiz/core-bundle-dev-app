@@ -215,11 +215,7 @@ final class NodeSourceType extends AbstractType
                 break;
             case FieldType::DATETIME_T:
                 $options = array_merge_recursive($options, [
-                    'date_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'attr' => [
-                        'class' => 'rz-datetime-field',
-                    ],
+                    'html5' => true,
                     'placeholder' => [
                         'hour' => 'hour',
                         'minute' => 'minute',
@@ -228,11 +224,7 @@ final class NodeSourceType extends AbstractType
                 break;
             case FieldType::DATE_T:
                 $options = array_merge_recursive($options, [
-                    'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
-                    'attr' => [
-                        'class' => 'rz-date-field',
-                    ],
+                    'html5' => true,
                     'placeholder' => '',
                 ]);
                 break;
