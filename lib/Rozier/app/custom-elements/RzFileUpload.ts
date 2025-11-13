@@ -91,6 +91,7 @@ export default class RzFileUpload extends HTMLElement {
                         <div class="circle circle-3"></div>
                         <div class="circle circle-4"></div>
                         <div class="circle circle-5"></div>
+                        <span class="rz-file-upload__icon rz-icon-ri--upload-line"></span>
                         <i class="uk-icon-rz-file"></i>
                     </div>`,
             )

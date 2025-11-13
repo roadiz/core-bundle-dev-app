@@ -2,7 +2,7 @@ rz-file-upload {
     --circle-border-color: #c4c4c4;
 
     position: relative;
-    display: block;    
+    display: block;
     min-height: 360px;
     padding: 23px;
     background: rgba(0,0,0,0.03);
@@ -127,7 +127,7 @@ rz-file-upload .dz-preview {
         color: #800;
         z-index: 500;
     }
-    
+
     &.dz-error .dz-error-message {
         display: block;
     }
@@ -184,11 +184,12 @@ rz-file-upload .dz-preview {
 rz-file-upload .dz-default.dz-message {
     position: absolute;
     inset: 0;
-    width:100%; height:100%;
-    margin:0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     background: none;
 
-    span {
+    > span {
         position: absolute;
         display: block;
         right: 0; bottom: 0; left: 0;
@@ -212,4 +213,18 @@ rz-file-upload .dz-default.dz-message {
   to {
     background-position: -7px -400px;
   }
+}
+
+
+/* New */
+.rz-file-upload__icon {
+    position: absolute;
+    top:50%;
+    left:50%;
+    width:28px;
+    height:28px;
+    margin:-14px 0 0 -14px;
+    text-align: center;
+    font-size:28px;
+    line-height:28px;
 }
