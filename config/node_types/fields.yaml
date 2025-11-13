@@ -1,0 +1,200 @@
+color: '#00FF00'
+name: Fields
+displayName: Fields
+description: Fields
+visible: true
+publishable: false
+attributable: true
+sortingAttributesByWeight: false
+reachable: true
+hidingNodes: false
+hidingNonReachableNodes: true
+highlighted: true
+fields:
+    -
+        name: sub_title
+        description: Sub-title description
+        label: Sub-title
+        type: string
+        required: true
+    -
+        name: long_text
+        label: Text area
+        type: text
+    -
+        name: content
+        label: Content
+        description: Content
+        defaultValues:
+            allow_h1: true
+            allow_h2: true
+            allow_h3: true
+            allow_h4: true
+            allow_h5: true
+            allow_h6: true
+            allow_list: true
+            allow_image: true
+            allow_blockquote: true
+            allow_translate_assistant_translate: true
+            allow_translate_assistant_rephrase: true
+        type: markdown
+    -
+        name: color
+        universal: true
+        excludeFromSearch: true
+        label: 'Page color'
+        type: colour
+    -
+        name: children
+        label: 'Nœuds enfants'
+        defaultValues:
+            - BasicBlock
+            - GroupBlock
+            - ArticleFeedBlock
+            - AliasBlock
+        required: true
+        type: children-nodes
+    -
+        name: images
+        universal: true
+        serializationGroups:
+            - realm_a
+        label: Images
+        required: true
+        type: documents
+    -
+        name: node_references
+        serializationGroups:
+            - page_get_by_path
+        normalizationContext:
+            groups:
+                - page_get_by_path
+                - urls
+                - nodes_sources_base
+        serializationMaxDepth: 1
+        label: References
+        required: true
+        type: nodes
+    -
+        name: sticky
+        universal: true
+        excludeFromSearch: true
+        indexed: true
+        groupName: Boolean
+        label: Sticky
+        type: boolean
+    -
+        name: stickytest
+        universal: true
+        excludeFromSearch: true
+        indexed: true
+        groupName: Boolean
+        label: 'Sticky test'
+        type: boolean
+    -
+        name: custom_form
+        maxLength: 1
+        label: 'Custom form'
+        type: custom-forms
+    -
+        name: amount
+        universal: true
+        label: Amount
+        type: decimal
+    -
+        name: price
+        indexed: true
+        label: Price
+        type: integer
+    -
+        name: email_test
+        label: 'Test email'
+        type: email
+    -
+        name: settings
+        label: Settings
+        defaultValues:
+            classname: RZ\Roadiz\RozierBundle\Explorer\Provider\SettingsProvider
+        type: multiple-provider
+    -
+        name: contacts
+        label: Contacts
+        defaultValues:
+            entry_type: App\Form\ContactFormType
+        type: collection
+    -
+        name: folder
+        label: 'Folder simple'
+        defaultValues:
+            classname: RZ\Roadiz\RozierBundle\Explorer\Provider\FoldersProvider
+        type: single-provider
+    -
+        name: country
+        universal: true
+        excludeFromSearch: true
+        label: Country
+        type: country
+    -
+        name: geolocation
+        universal: true
+        label: Geolocation
+        type: geographic.coordinates
+    -
+        name: multi_geolocation
+        universal: true
+        groupName: Geo
+        label: 'Multi geolocations'
+        type: multiple.geographic.coordinates
+    -
+        name: layout
+        universal: true
+        excludeFromSearch: true
+        indexed: true
+        label: Layout
+        placeholder: light
+        defaultValues:
+            - dark
+            - transparent
+        type: single-choice
+    -
+        name: main_user
+        label: 'Main user'
+        required: true
+        defaultValues:
+            classname: \RZ\Roadiz\CoreBundle\Entity\User
+            displayable: getUsername
+            alt_displayable: getEmail
+            thumbnail: null
+            searchable:
+                - username
+                - email
+            orderBy:
+                -
+                    field: email
+                    direction: ASC
+        type: many-to-one
+    -
+        name: date
+        label: Date
+        universal: true
+        type: date
+    -
+        name: datetime
+        universal: true
+        indexed: true
+        label: 'Date time'
+        type: date-time
+    -
+        name: css
+        label: Css
+        type: css
+    -
+        name: yaml
+        label: Yaml
+        type: yaml
+    -
+        name: json
+        label: Json
+        type: json
+defaultTtl: 15
+searchable: true
