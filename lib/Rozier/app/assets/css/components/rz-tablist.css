@@ -73,7 +73,7 @@ rz-tablist,
 
 }
 
-.rz-tablist__inner__tab {
+.rz-tablist__tab {
 	background-color: var(--rz-tablist-inner-tab-background-color);
 	color: var(--rz-tablist-inner-tab-color, var(--tab-content-on-light, #4E4E4E));
 
@@ -119,7 +119,7 @@ rz-tablist,
 }
 
 
-.rz-tablist__inner__tab--selected {
+.rz-tablist__tab--selected {
 	background-color: var(--rz-tablist-inner-tab-background-color-selected);
 	color: var(--rz-tablist-inner-tab-color-selected);
 

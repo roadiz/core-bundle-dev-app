@@ -1,5 +1,5 @@
 export default class RzTablist extends HTMLElement {
-    tabClassName = 'rz-tablist__inner__tab'
+    tabClassName = 'rz-tablist__tab'
     tabElements: HTMLElement[] = []
 
     constructor() {

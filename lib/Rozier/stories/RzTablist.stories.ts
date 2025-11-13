@@ -100,9 +100,9 @@ function rzTablistRenderer(args: Args) {
 
     args.tabs.forEach((tabArgs) => {
         const tab = rzTabRenderer(tabArgs)
-        tab.classList.add(`${COMPONENT_CLASS_NAME}__inner__tab`)
+        tab.classList.add(`${COMPONENT_CLASS_NAME}__tab`)
         if (tabArgs.selected) {
-            tab.classList.add(`${COMPONENT_CLASS_NAME}__inner__tab--selected`)
+            tab.classList.add(`${COMPONENT_CLASS_NAME}__tab--selected`)
             tab.setAttribute('aria-selected', 'true')
         } else {
             tab.setAttribute('aria-selected', 'false')
