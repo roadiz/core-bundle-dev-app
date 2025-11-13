@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
 const COMPONENT_CLASS = 'rz-select'
-const COMPONENT_CLASS_NAME = 'rz-select'
+
 type Option = {
     value: string
     label: string
