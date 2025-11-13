@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: repeat(var(--rz-drawer-body-columns, 1), 1fr);
-    align-items: flex-start;
+	align-items: flex-start;
 	min-height: 92px;
 	padding: var(--spacing-2xs);
 	gap: var(--spacing-2xs);
