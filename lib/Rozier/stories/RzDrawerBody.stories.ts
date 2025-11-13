@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as DrawerItemArgs } from './RzDrawerItem.stories'
-import { rzDrawerItemRenderer } from '../app/utils/storybook/renderer/rzDrawerItem'
+import { rzDrawerItemRenderer } from '~/utils/storybook/renderer/rzDrawerItem'
+// @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
+// @ts-expect-error — image module declaration not recognized
 import imageVertical from './assets/images/02.jpg'
 
 const COMPONENT_CLASS_NAME = 'rz-drawer-body'

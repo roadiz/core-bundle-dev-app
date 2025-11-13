@@ -1,6 +1,6 @@
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 import { rzImageRenderer } from '~/utils/storybook/renderer/rzImage'
-import type { Args } from '../../../../stories/rzDrawerItem.stories'
+import type { Args } from '../../../../stories/RzDrawerItem.stories'
 
 const COMPONENT_CLASS_NAME = 'rz-drawer-item'
 

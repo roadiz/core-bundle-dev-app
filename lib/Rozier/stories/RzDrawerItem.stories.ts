@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import image from './assets/images/01.jpg'
 import { type Image } from '~/utils/storybook/renderer/rzImage'
 import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
 import { rzDrawerItemRenderer } from '~/utils/storybook/renderer/rzDrawerItem'
+// @ts-expect-error — image module declaration not recognized
+import image from './assets/images/01.jpg'
 
 export type Args = {
     overtitle?: string
