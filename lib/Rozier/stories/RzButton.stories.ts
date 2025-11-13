@@ -15,6 +15,7 @@ export type ButtonArgs = {
     additionalClasses?: string
     color?: (typeof COLORS)[number]
     attributes?: Record<string, string>
+    tag?: string
 }
 
 const meta: Meta<ButtonArgs> = {
@@ -72,6 +73,18 @@ type Story = StoryObj<ButtonArgs>
 export const Default: Story = {
     render: (args) => {
         return rzButtonRenderer(args)
+    },
+}
+
+export const LinkTag: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        tag: 'a',
+        attributes: {
+            href: '#',
+        },
     },
 }
 

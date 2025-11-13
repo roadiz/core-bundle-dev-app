@@ -138,6 +138,18 @@ Do not forget to build final assets for production before shipping a new Roadiz 
 docker compose run --rm node pnpm build
 ```
 
+### Without Docker
+
+If you want to run the frontend development server without Docker, follow these steps.
+Make sure you have Node.js installed (with the right version, you can use `n auto`).
+
+```shell
+cd lib/Rozier
+corepack install
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
 ## Documentation development
 
 The documentation is built with Vitepress and files are located in the `docs` folder.

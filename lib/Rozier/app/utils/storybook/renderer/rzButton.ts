@@ -2,7 +2,7 @@ import type { ButtonArgs } from '../../../../stories/RzButton.stories'
 
 export function rzButtonRenderer(args: ButtonArgs) {
     const className = 'rz-button'
-    const buttonNode = document.createElement('button')
+    const buttonNode = document.createElement(args.tag || 'button')
     const attributesEntries = Object.entries(args.attributes || {})
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {

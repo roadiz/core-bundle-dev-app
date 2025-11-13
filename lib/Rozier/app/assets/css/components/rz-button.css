@@ -2,10 +2,13 @@
 	--rz-button-border-radius-default: var(--radius-xs, 6px);
 	--rz-button-border-width: 1PX;
 
+	box-sizing: border-box;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	text-decoration: none;
 	/* Fallback value are the same as emphasis-medium + size-md */
+  	font-family: var(--font-family-os-label);
 	font-size: var(--rz-button-font-size, 14px);
 	min-height: var(--rz-button-min-height, 36px);
 	min-width: var(--rz-button-min-width, 36px);
