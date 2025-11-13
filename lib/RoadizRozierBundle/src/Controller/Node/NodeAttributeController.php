@@ -81,7 +81,7 @@ final class NodeAttributeController extends AbstractController
         Node $node,
         #[MapEntity(
             expr: 'repository.find(translationId)',
-            message: 'Node does not exist'
+            message: 'Translation does not exist'
         )]
         Translation $translation,
     ): Response {
@@ -271,7 +271,7 @@ final class NodeAttributeController extends AbstractController
         Node $node,
         #[MapEntity(
             expr: 'repository.find(translationId)',
-            message: 'Node does not exist'
+            message: 'Translation does not exist'
         )]
         Translation $translation,
         #[MapEntity(
@@ -335,7 +335,7 @@ final class NodeAttributeController extends AbstractController
         Node $node,
         #[MapEntity(
             expr: 'repository.find(translationId)',
-            message: 'Node does not exist'
+            message: 'Translation does not exist'
         )]
         Translation $translation,
         #[MapEntity(

@@ -52,15 +52,6 @@ settingGroupsRoutes:
     resource: "routing/setting-groups.yml"
     prefix: /rz-admin/setting-groups
 
-
-# TAGS
-tagsHomePage:
-    path:     /rz-admin/tags
-    controller: RZ\Roadiz\RozierBundle\Controller\Tag\TagController::indexAction
-tagsRoutes:
-    resource: "routing/tags.yml"
-    prefix: /rz-admin/tags
-
 # USERS
 usersHomePage:
     path:     /rz-admin/users

@@ -69,19 +69,11 @@ final class SeoController extends AbstractController
         )]
         Node $node,
         #[MapEntity(
-            expr: 'translationId ? repository.find(translationId) : null',
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
             message: 'Translation does not exist'
         )]
-        ?Translation $translation = null,
+        Translation $translation,
     ): Response {
-        if (null === $translation) {
-            $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        }
-
-        if (null === $translation) {
-            throw new ResourceNotFoundException();
-        }
-
         /** @var NodesSources|false $source */
         $source = $node->getNodeSourcesByTranslation($translation)->first();
 

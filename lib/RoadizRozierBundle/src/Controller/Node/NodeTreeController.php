@@ -73,14 +73,14 @@ final class NodeTreeController extends AbstractController
         Request $request,
         #[MapEntity(
             expr: 'nodeId ? repository.find(nodeId) : null',
-            message: 'Node does not exist'
+            message: 'Node does not exist',
         )]
-        ?Node $node = null,
+        ?Node $node,
         #[MapEntity(
-            expr: 'translationId ? repository.find(translationId) : null',
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
             message: 'Translation does not exist'
         )]
-        ?Translation $translation = null,
+        Translation $translation,
     ): Response {
         $assignation = [];
 
@@ -92,11 +92,6 @@ final class NodeTreeController extends AbstractController
             $this->denyAccessUnlessGranted(NodeVoter::READ, $node);
         } else {
             $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
-        }
-
-        if (null === $translation) {
-            /** @var Translation $translation */
-            $translation = $this->translationRepository->findDefault();
         }
 
         $widget = $this->treeWidgetFactory->createNodeTree($node, $translation);
