@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -44,6 +45,12 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         return $this->managerRegistry->getRepository(Tag::class);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/tag/explore',
+        name: 'tagsAjaxExplorer',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -72,6 +79,12 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
     /**
      * Get a Tag list from an array of node id.
      */
+    #[Route(
+        path: '/rz-admin/ajax/tag/explore/array',
+        name: 'tagsAjaxByArray',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function listArrayAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -106,6 +119,12 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
     /**
      * @return Response JSON response
      */
+    #[Route(
+        path: '/rz-admin/ajax/tag/explore/list',
+        name: 'tagsAjaxExplorerList',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function explorerListAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -200,7 +219,13 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
      * Handle AJAX edition requests for Tag
      * such as coming from tag-tree widgets.
      */
-    public function editAction(Request $request, int $tagId): JsonResponse
+    #[Route(
+        path: '/rz-admin/ajax/tag/edit/{tagId}',
+        name: 'tagAjaxEdit',
+        requirements: ['tagId' => '\d+'],
+        format: 'json'
+    )]
+    public function editAction(int $tagId, Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -228,6 +253,12 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         );
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/tag/search',
+        name: 'tagAjaxSearch',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -318,6 +349,12 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
      * @throws ORMException
      * @throws OptimisticLockException
      */
+    #[Route(
+        path: '/rz-admin/ajax/tag/create',
+        name: 'tagsAjaxCreate',
+        methods: ['POST'],
+        format: 'json'
+    )]
     public function createAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');

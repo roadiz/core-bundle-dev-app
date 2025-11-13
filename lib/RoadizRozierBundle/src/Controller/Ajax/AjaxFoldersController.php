@@ -8,10 +8,12 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\EntityHandler\FolderHandler;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -30,16 +32,23 @@ final class AjaxFoldersController extends AbstractAjaxController
      * Handle AJAX edition requests for Folder
      * such as coming from tag-tree widgets.
      */
-    public function editAction(Request $request, int $folderId): JsonResponse
-    {
+    #[Route(
+        path: '/rz-admin/ajax/folder/edit/{folderId}',
+        name: 'foldersAjaxEdit',
+        requirements: ['folderId' => '\d+'],
+        format: 'json',
+    )]
+    public function editAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(folderId)',
+            evictCache: true,
+            message: 'folder.does_not_exist'
+        )]
+        Folder $folder,
+    ): JsonResponse {
         $this->validateRequest($request);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
-
-        $folder = $this->managerRegistry->getRepository(Folder::class)->find((int) $folderId);
-
-        if (null === $folder) {
-            throw $this->createNotFoundException($this->translator->trans('folder.does_not_exist'));
-        }
 
         if ('updatePosition' !== $request->get('_action')) {
             throw new BadRequestHttpException('Action does not exist');
@@ -59,6 +68,12 @@ final class AjaxFoldersController extends AbstractAjaxController
         );
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/folder/search',
+        name: 'foldersAjaxSearch',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');

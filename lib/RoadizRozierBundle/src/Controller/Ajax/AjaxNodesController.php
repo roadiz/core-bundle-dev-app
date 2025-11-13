@@ -24,10 +24,12 @@ use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -53,6 +55,13 @@ final class AjaxNodesController extends AbstractAjaxController
         parent::__construct($managerRegistry, $serializer, $translator);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/node/tags/{nodeId}',
+        name: 'nodeAjaxTags',
+        methods: ['GET'],
+        requirements: ['nodeId' => '\d+'],
+        format: 'json',
+    )]
     public function getTagsAction(int $nodeId): JsonResponse
     {
         $tags = [];
@@ -80,16 +89,23 @@ final class AjaxNodesController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, int|string $nodeId): Response
-    {
+    #[Route(
+        path: '/rz-admin/ajax/node/edit/{nodeId}',
+        name: 'nodeAjaxEdit',
+        requirements: ['nodeId' => '\d+'],
+        format: 'json'
+    )]
+    public function editAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'node.%nodeId%.not_exists'
+        )]
+        Node $node,
+    ): Response {
         $this->validateRequest($request);
 
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find((int) $nodeId);
-
-        if (null === $node) {
-            throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodeId]));
-        }
         /*
          * Get the right update method against "_action" parameter
          */
@@ -222,6 +238,11 @@ final class AjaxNodesController extends AbstractAjaxController
         return $default;
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/nodes/statuses',
+        name: 'nodesStatusesAjax',
+        format: 'json'
+    )]
     /**
      * Update node's status.
      */
@@ -331,6 +352,11 @@ final class AjaxNodesController extends AbstractAjaxController
         );
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/nodes/add',
+        name: 'nodesQuickAddAjax',
+        format: 'json'
+    )]
     public function quickAddAction(Request $request): JsonResponse
     {
         /*

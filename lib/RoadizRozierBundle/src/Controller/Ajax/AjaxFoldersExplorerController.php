@@ -7,12 +7,19 @@ namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Only used to display folders list in document explorer filtering aside.
  */
 final class AjaxFoldersExplorerController extends AbstractAjaxController
 {
+    #[Route(
+        path: '/rz-admin/ajax/folders/explore',
+        name: 'foldersAjaxExplorerPage',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');

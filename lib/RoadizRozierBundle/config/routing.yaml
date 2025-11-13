@@ -17,11 +17,6 @@ nodesRoutes:
     resource: "routing/nodes.yml"
     prefix: /rz-admin/nodes
 
-## Ajax
-ajaxRequestsRoutes:
-    resource: "routing/ajax.yml"
-    prefix: /rz-admin/ajax
-
 # Node TYPES
 nodeTypesHomePage:
     path:     /rz-admin/node-types

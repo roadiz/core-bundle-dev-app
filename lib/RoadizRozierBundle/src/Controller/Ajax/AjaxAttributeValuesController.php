@@ -6,10 +6,12 @@ namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 
 final class AjaxAttributeValuesController extends AbstractAjaxController
 {
@@ -23,22 +25,22 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, int $attributeValueId): Response
-    {
-        /*
-         * Validate
-         */
+    #[Route(
+        path: '/rz-admin/ajax/attribute-values/edit/{attributeValueId}',
+        name: 'attributeValueAjaxEdit',
+        requirements: ['attributeValueId' => '\d+'],
+        format: 'json',
+    )]
+    public function editAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(attributeValueId)',
+            evictCache: true,
+            message: 'AttributeValue does not exist'
+        )]
+        AttributeValue $attributeValue,
+    ): Response {
         $this->validateRequest($request, 'POST', false);
-
-        /** @var AttributeValue|null $attributeValue */
-        $attributeValue = $this->managerRegistry
-            ->getRepository(AttributeValue::class)
-            ->find($attributeValueId);
-
-        if (null === $attributeValue) {
-            throw $this->createNotFoundException($this->translator->trans('attribute_value.%attributeValueId%.not_exists', ['%attributeValueId%' => $attributeValueId]));
-        }
-
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $attributeValue->getAttributable());
 
         $responseArray = [];
