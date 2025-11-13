@@ -4,16 +4,10 @@ rz-entity-thumbnail {
     position: relative;
 }
 
-.children-nodes-tree .unpublished-node .rz-entity-thumbnail {
-    transform: rotate(-45deg);
-    transform-origin: center center;
-}
-
 .rz-entity-thumbnail {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
 }
 
 .rz-entity-thumbnail .uk-thumbnail {

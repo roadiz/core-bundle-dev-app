@@ -179,7 +179,7 @@
         left: 1px;
         width: ~'calc(var(--children-node-height) - 15px)';
         height: ~'calc(var(--children-node-height) - 15px)';
-        border-radius: 100px;
+        clip-path: circle(50%);
         overflow: hidden;
         z-index: 5;
 
@@ -190,21 +190,7 @@
         }
     }
     .unpublished-node .nodetree-element-img {
-        border-radius: 2px;
-        .transform(rotate(45deg));
-        top: 9px;
-        left: 4px;
-        width: ~'calc(var(--children-node-height) / 2)';
-        height: ~'calc(var(--children-node-height) / 2)';
-
-        img {
-            transform-origin: center center;
-            .transform(rotate(-45deg) scale(1.4));
-        }
-        object {
-            transform-origin: center center;
-            .transform(rotate(-45deg));
-        }
+        clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
     }
 }
 
