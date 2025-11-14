@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzTabRenderer } from '../app/utils/storybook/renderer/rzTab'
-
-const VARIANTS = ['filled', 'underlined']
+import { rzTabRenderer, VARIANTS } from '../app/utils/storybook/renderer/rzTab'
 
 export type Args = {
     innerHTML: string

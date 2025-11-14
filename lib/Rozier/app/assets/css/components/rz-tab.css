@@ -1,4 +1,5 @@
 .rz-tab {
+	box-sizing: border-box;
 	border: none;
 	display: inline-flex;
 	align-items: center;
@@ -29,7 +30,6 @@
 	@media (--screen-sm-min) {
 		padding-inline: var(--rz-tab-padding-inline, var(--spacing-4xs));
 		padding-block: var(--rz-tab-padding-block, var(--spacing-4xs));
-		min-height: var(--rz-tab-min-height, 31px);
 
 		font-size: var(--text-tag-md-font-size);
 		line-height: var(--text-tag-md-line-height);

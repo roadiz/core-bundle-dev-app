@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as TabArgs } from './RzTab.stories'
-import { rzTabRenderer } from '../app/utils/storybook/renderer/rzTab'
+import { rzTabRenderer, VARIANTS } from '../app/utils/storybook/renderer/rzTab'
 
 const COMPONENT_CLASS_NAME = 'rz-tablist'
 
 type Args = {
     tabs: TabArgs[]
+    variant?: (typeof VARIANTS)[number]
 }
 
 function getTab(id: number, args: Partial<TabArgs> = {}) {

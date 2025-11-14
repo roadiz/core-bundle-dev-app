@@ -1,6 +1,7 @@
 import type { Args } from '../../../../stories/RzTab.stories'
 
-const COMPONENT_CLASS_NAME = 'rz-tab'
+export const COMPONENT_CLASS_NAME = 'rz-tab'
+export const VARIANTS = ['filled', 'underlined']
 
 export function rzTabRenderer(args: Args) {
     const tab = document.createElement(args.tag || 'button')
