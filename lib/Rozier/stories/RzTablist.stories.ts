@@ -97,6 +97,45 @@ export const Underline: Story = {
     },
 }
 
+function rzTablistWithSeparatorRenderer(args: Args) {
+    const tablist = rzTablistRenderer(args)
+
+    const inner = tablist.querySelector(`.${COMPONENT_CLASS_NAME}__inner`)
+
+    const separator = document.createElement('hr')
+    separator.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
+    inner?.appendChild(separator)
+
+    const tab = rzTabRenderer({
+        tag: 'button',
+        innerHTML: '<span class="rz-icon-ri--printer-line"></span>',
+    })
+    inner?.appendChild(tab)
+
+    const tab2 = rzTabRenderer({
+        tag: 'button',
+        innerHTML: '<span class="rz-icon-ri--file-list-3-line"></span>',
+    })
+    inner?.appendChild(tab2)
+
+    return tablist
+}
+
+export const WithSeparator: Story = {
+    render: (args) => {
+        return rzTablistWithSeparatorRenderer(args)
+    },
+}
+
+export const UnderlinedWithSeparator: Story = {
+    render: (args) => {
+        return rzTablistWithSeparatorRenderer(args)
+    },
+    args: {
+        variant: 'underlined',
+    },
+}
+
 export const WithTabPanels: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
@@ -110,31 +149,5 @@ export const WithTabPanels: Story = {
         })
 
         return wrapper
-    },
-}
-
-export const WithSeparator: Story = {
-    render: (args) => {
-        const tablist = rzTablistRenderer(args)
-
-        const inner = tablist.querySelector(`.${COMPONENT_CLASS_NAME}__inner`)
-
-        const separator = document.createElement('hr')
-        separator.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
-        inner?.appendChild(separator)
-
-        const tab = rzTabRenderer({
-            tag: 'button',
-            innerHTML: '<span class="rz-icon-ri--printer-line"></span>',
-        })
-        inner?.appendChild(tab)
-
-        const tab2 = rzTabRenderer({
-            tag: 'button',
-            innerHTML: '<span class="rz-icon-ri--file-list-3-line"></span>',
-        })
-        inner?.appendChild(tab2)
-
-        return tablist
     },
 }
