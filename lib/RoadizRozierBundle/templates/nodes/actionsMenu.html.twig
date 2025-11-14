@@ -1,6 +1,6 @@
-{# Override vendor/roadiz/rozier/src/Resources/views/nodes/actionsMenu.html.twig #}
 <nav data-roadiz-rozier-bundle data-action-menu class="actions-menu uk-navbar">
-    {% if node and not readOnly and is_granted('DELETE', node) %}
+    {% set canPublish = workflow_can(node, 'publish') %}
+    {% if not readOnly and is_granted('DELETE', node) %}
         {% set canDelete = workflow_can(node, 'delete') %}
         {# Delete current node #}
         {% if workflow_can(node, 'undelete') %}
@@ -51,7 +51,7 @@
         </div>
     {% endif %}
 
-    {% if node and not node.isDeleted %}
+    {% if not node.isDeleted %}
         {#
         # Node actions
         #}
@@ -61,48 +61,22 @@
                 {% block node_public_urls %}
                     {# Only add preview/see button for Reachable node-types #}
                     {% if source and source.Reachable %}
-                        {% if custom_public_scheme %}
-                            {% set publicUrl = url(source, {
-                                'canonicalScheme': custom_public_scheme,
-                                '_no_cache': 1
-                            }) %}
-                        {% else %}
-                            {% set publicUrl = path(source, {
-                                '_no_cache': 1
-                            }) %}
-                        {% endif %}
-                        {% if node.published and publicUrl%}
+                        {% if node.published %}
                             <a class="uk-button public-url-link"
                                target="_blank"
-                               href="{{ publicUrl }}">
+                               href="{{ path('nodesSourcesPublicRedirect', {
+                                  'nodeSourceId': source.id,
+                               }) }}">
                                 <i class="uk-icon-rz-visibility"></i>
                                 <span class="label">{% trans %}see.page{% endtrans %}</span>
                             </a>
                         {% endif %}
                         {% if node.published or node.draft or node.pending %}
-                            {% if custom_preview_scheme %}
-                                {% set previewUrl = url(source, {
-                                    'canonicalScheme': custom_preview_scheme,
-                                    'token': createPreviewJwt(),
-                                    '_no_cache': 1
-                                }) %}
-                            {% elseif custom_public_scheme %}
-                                {% set previewUrl = url(source, {
-                                    'canonicalScheme': custom_public_scheme,
-                                    '_preview': 1,
-                                    'token': createPreviewJwt(),
-                                    '_no_cache': 1
-                                }) %}
-                            {% else %}
-                                {% set previewUrl = path(source, {
-                                    '_preview': 1,
-                                    'token': createPreviewJwt(),
-                                    '_no_cache': 1
-                                }) %}
-                            {% endif %}
                             <a class="uk-button preview-url-link"
                                target="_blank"
-                               href="{{ previewUrl }}">
+                               href="{{ path('nodesSourcesPreviewRedirect', {
+                                   'nodeSourceId': source.id,
+                               }) }}">
                                 <i class="uk-icon-rz-visibility"></i>
                                 <span class="label">{% trans %}preview.page{% endtrans %}</span>
                             </a>
@@ -127,7 +101,7 @@
                     {% endif %}
                 {% endif %}
 
-                {% if workflow_can(node, 'publish') %}
+                {% if canPublish %}
                     <a class="uk-button publish-all-node" title="{% trans %}publish_node_offspring{% endtrans %}" href="{{ path('nodesPublishAllAction', {nodeId : node.id}) }}"><i class="uk-icon-rz-published-mini"></i><span class="label">{% trans %}publish_node_offspring{% endtrans %}</span></a>
                 {% endif %}
 
@@ -150,80 +124,78 @@
                 {% endblock %}
             </nav>
         </div>
-        {% if node %}
-            {#
-            # Node statuses
-            #}
-            <div role="button" tabindex="0" class="node-statuses node-status with-subnav uk-form">
-                {% if node.isDraft %}
-                    {% set iconClass = 'uk-icon-rz-draft-nodes' %}
-                {% elseif node.isPending %}
-                    {% set iconClass = 'uk-icon-rz-pending-nodes' %}
-                {% elseif node.isPublished %}
-                    {% set iconClass = 'uk-icon-rz-published' %}
-                {% elseif node.isArchived %}
-                    {% set iconClass = 'uk-icon-rz-archive-mini' %}
-                {% endif %}
+        {#
+        # Node statuses
+        #}
+        <div role="button" tabindex="0" class="node-statuses node-status with-subnav uk-form">
+            {% if node.isDraft %}
+                {% set iconClass = 'uk-icon-rz-draft-nodes' %}
+            {% elseif node.isPending %}
+                {% set iconClass = 'uk-icon-rz-pending-nodes' %}
+            {% elseif node.isPublished %}
+                {% set iconClass = 'uk-icon-rz-published' %}
+            {% elseif node.isArchived %}
+                {% set iconClass = 'uk-icon-rz-archive-mini' %}
+            {% endif %}
 
-                <header><i class="{{ iconClass }}"></i><span class="label"><span class="label-text">{% trans %}statuses{% endtrans %}</span></span></header>
-                <ul class="node-statuses-list">
-                    {% if workflow_can(node, 'reject') or node.isDraft %}
-                        <li class="node-statuses-item node-draft">
-                            <i class="uk-icon-rz-draft-nodes"></i>
-                            <span class="label">{% trans %}draft{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="reject"
-                                   {% if node.isDraft %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'unarchive') %}
-                        <li class="node-statuses-item node-draft">
-                            <i class="uk-icon-rz-draft-nodes"></i>
-                            <span class="label">{% trans %}draft{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="unarchive"
-                                   {% if node.isDraft %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'review') or node.isPending %}
-                        <li class="node-statuses-item node-pending">
-                            <i class="uk-icon-rz-pending-nodes"></i>
-                            <span class="label">{% trans %}pending{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="review"
-                                   {% if node.isPending %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'publish') or node.isPublished %}
-                        <li class="node-statuses-item node-published">
-                            <i class="uk-icon-rz-published"></i>
-                            <span class="label">{% trans %}published{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="publish"
-                                   {% if node.isPublished %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'archive') or node.isArchived %}
-                        <li class="node-statuses-item node-archived">
-                            <i class="uk-icon-rz-archive-mini"></i>
-                            <span class="label">{% trans %}archived{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="archive"
-                                   {% if node.isArchived %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        {% endif %}
+            <header><i class="{{ iconClass }}"></i><span class="label"><span class="label-text">{% trans %}statuses{% endtrans %}</span></span></header>
+            <ul class="node-statuses-list">
+                {% if workflow_can(node, 'reject') or node.isDraft %}
+                    <li class="node-statuses-item node-draft">
+                        <i class="uk-icon-rz-draft-nodes"></i>
+                        <span class="label">{% trans %}draft{% endtrans %}</span>
+                        <input data-node-id="{{ node.getId }}"
+                               type="radio"
+                               name="status"
+                               value="reject"
+                               {% if node.isDraft %}checked{% endif %} />
+                    </li>
+                {% endif %}
+                {% if workflow_can(node, 'unarchive') %}
+                    <li class="node-statuses-item node-draft">
+                        <i class="uk-icon-rz-draft-nodes"></i>
+                        <span class="label">{% trans %}draft{% endtrans %}</span>
+                        <input data-node-id="{{ node.getId }}"
+                               type="radio"
+                               name="status"
+                               value="unarchive"
+                               {% if node.isDraft %}checked{% endif %} />
+                    </li>
+                {% endif %}
+                {% if workflow_can(node, 'review') or node.isPending %}
+                    <li class="node-statuses-item node-pending">
+                        <i class="uk-icon-rz-pending-nodes"></i>
+                        <span class="label">{% trans %}pending{% endtrans %}</span>
+                        <input data-node-id="{{ node.getId }}"
+                               type="radio"
+                               name="status"
+                               value="review"
+                               {% if node.isPending %}checked{% endif %} />
+                    </li>
+                {% endif %}
+                {% if canPublish or node.isPublished %}
+                    <li class="node-statuses-item node-published">
+                        <i class="uk-icon-rz-published"></i>
+                        <span class="label">{% trans %}published{% endtrans %}</span>
+                        <input data-node-id="{{ node.getId }}"
+                               type="radio"
+                               name="status"
+                               value="publish"
+                               {% if node.isPublished %}checked{% endif %} />
+                    </li>
+                {% endif %}
+                {% if workflow_can(node, 'archive') or node.isArchived %}
+                    <li class="node-statuses-item node-archived">
+                        <i class="uk-icon-rz-archive-mini"></i>
+                        <span class="label">{% trans %}archived{% endtrans %}</span>
+                        <input data-node-id="{{ node.getId }}"
+                               type="radio"
+                               name="status"
+                               value="archive"
+                               {% if node.isArchived %}checked{% endif %} />
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     {% endif %}
 </nav>

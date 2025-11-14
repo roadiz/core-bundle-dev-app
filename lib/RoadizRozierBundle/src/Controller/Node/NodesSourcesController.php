@@ -15,15 +15,12 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
-use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
-use RZ\Roadiz\CoreBundle\TwigExtension\JwtExtension;
 use RZ\Roadiz\RozierBundle\Controller\VersionedControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,7 +33,6 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -50,7 +46,6 @@ final class NodesSourcesController extends AbstractController
 
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly JwtExtension $jwtExtension,
         private readonly FormErrorSerializer $formErrorSerializer,
         private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly TranslatorInterface $translator,
@@ -59,8 +54,6 @@ final class NodesSourcesController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly TranslationRepository $translationRepository,
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
-        private readonly ?string $customPublicScheme,
-        private readonly ?string $customPreviewScheme,
     ) {
     }
 
@@ -158,49 +151,8 @@ final class NodesSourcesController extends AbstractController
                     return $this->getPostUpdateRedirection($source);
                 }
 
-                $jwtToken = $this->jwtExtension->createPreviewJwt();
-
-                if ($this->customPreviewScheme) {
-                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->customPreviewScheme,
-                        'token' => $jwtToken,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } elseif ($this->customPublicScheme) {
-                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->customPublicScheme,
-                        '_preview' => 1,
-                        'token' => $jwtToken,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } else {
-                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        '_preview' => 1,
-                        'token' => $jwtToken,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ]);
-                }
-
-                if ($this->customPublicScheme) {
-                    $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->customPublicScheme,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } else {
-                    $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ]);
-                }
-
                 return new JsonResponse([
                     'status' => 'success',
-                    'public_url' => $source->getNode()->isPublished() ? $publicUrl : null,
-                    'preview_url' => $previewUrl,
                     'errors' => [],
                 ], Response::HTTP_OK);
             }
