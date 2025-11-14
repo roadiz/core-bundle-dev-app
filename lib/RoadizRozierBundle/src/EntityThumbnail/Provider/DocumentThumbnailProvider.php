@@ -30,6 +30,20 @@ final readonly class DocumentThumbnailProvider extends AbstractEntityThumbnailPr
 
     public function getDocumentUrl(BaseDocumentInterface $document, int $size = 64): ?string
     {
+        if ($document->isPrivate()) {
+            return null;
+        }
+
+        if (!$document->isProcessable()) {
+            return $this->documentUrlGenerator
+                ->setDocument($document)
+                ->setOptions([
+                    'noProcess' => true,
+                ])
+                ->getUrl()
+            ;
+        }
+
         $url = $this->documentUrlGenerator
             ->setDocument($document)
             ->setOptions([
@@ -42,7 +56,7 @@ final readonly class DocumentThumbnailProvider extends AbstractEntityThumbnailPr
             ->getUrl()
         ;
 
-        if ($document->isProcessable() && !str_ends_with($url, '.webp')) {
+        if (!str_ends_with($url, '.webp')) {
             $url .= '.webp';
         }
 
