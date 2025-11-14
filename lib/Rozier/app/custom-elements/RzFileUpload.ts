@@ -74,28 +74,10 @@ export default class RzFileUpload extends HTMLElement {
                 )
             }
         })
-
-        this.insertAdjacentHTML(
-            'beforeend',
-            `<div class="dz-default dz-message"><span>${this.options.dictDefaultMessage}</span></div>`,
-        )
-        const dzMessage = this.querySelector('.dz-message')
-
-        if (dzMessage) {
-            dzMessage.insertAdjacentHTML(
-                'beforeend',
-                `
-                    <div class="circles-icons">
-                        <div class="circle circle-1"></div>
-                        <div class="circle circle-2"></div>
-                        <div class="circle circle-3"></div>
-                        <div class="circle circle-4"></div>
-                        <div class="circle circle-5"></div>
-                        <span class="rz-file-upload__icon rz-icon-ri--upload-line"></span>
-                        <i class="uk-icon-rz-file"></i>
-                    </div>`,
-            )
-        }
+        const msgNode = this.querySelector(
+            '.rz-file-upload__message',
+        ) as HTMLElement
+        if (msgNode) msgNode.innerText = this.options.dictDefaultMessage || ''
     }
 
     disconnectedCallback() {
