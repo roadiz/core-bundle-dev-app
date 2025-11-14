@@ -5,7 +5,21 @@
 {% block content %}
 <section class="content-global content-nav-and-filters">
     <header class="content-header content-header-filters manage-history-header">
-        <h1 class="content-title manage-history-title">{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }}</h1>
+        <h1 class="content-title node-edit-source-title">
+            {{ "history.for.%name%"|trans({"%name%":node.nodeName}) }}
+            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+            {% if node.isDeleted %}
+                <div class="rz-badge rz-badge--sm rz-badge--error"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}deleted{% endtrans %}</span></div>
+            {% elseif node.isArchived %}
+                <div class="rz-badge rz-badge--sm rz-badge--error"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}archived{% endtrans %}</span></div>
+            {% elseif node.isPublished %}
+                <div class="rz-badge rz-badge--sm rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-colored"></span><span class="rz-badge__label">{% trans %}published{% endtrans %}</span></div>
+            {% elseif node.isPending %}
+                <div class="rz-badge rz-badge--sm rz-badge--warning"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}pending{% endtrans %}</span></div>
+            {% else %}
+                <div class="rz-badge rz-badge--sm rz-badge--warning"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}draft{% endtrans %}</span></div>
+            {% endif %}
+        </h1>
         {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
 
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
