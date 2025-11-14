@@ -17,7 +17,6 @@ const meta: Meta<Args> = {
     title: 'Components/Tab/Item',
     tags: ['autodocs'],
     args: {
-        // variant: 'filled',
         innerHTML: 'Tab label',
         tag: 'button',
         selected: false,
