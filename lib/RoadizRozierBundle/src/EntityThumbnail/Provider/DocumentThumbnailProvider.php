@@ -42,7 +42,7 @@ final readonly class DocumentThumbnailProvider extends AbstractEntityThumbnailPr
             ->getUrl()
         ;
 
-        if (!str_ends_with($url, '.webp')) {
+        if ($document->isProcessable() && !str_ends_with($url, '.webp')) {
             $url .= '.webp';
         }
 
