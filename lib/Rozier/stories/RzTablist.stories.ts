@@ -8,7 +8,7 @@ type Args = {
     tabs: TabArgs[]
 }
 
-function getTab(id: number, args?: Partial<TabArgs> = {}) {
+function getTab(id: number, args: Partial<TabArgs> = {}) {
     return {
         tag: 'button',
         innerHTML: `Tab label ${id}`,
