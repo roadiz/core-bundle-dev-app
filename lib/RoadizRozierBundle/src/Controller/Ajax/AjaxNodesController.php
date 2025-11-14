@@ -58,8 +58,8 @@ final class AjaxNodesController extends AbstractAjaxController
     #[Route(
         path: '/rz-admin/ajax/node/tags/{nodeId}',
         name: 'nodeAjaxTags',
-        methods: ['GET'],
         requirements: ['nodeId' => '\d+'],
+        methods: ['GET'],
         format: 'json',
     )]
     public function getTagsAction(int $nodeId): JsonResponse
@@ -93,7 +93,8 @@ final class AjaxNodesController extends AbstractAjaxController
         path: '/rz-admin/ajax/node/edit/{nodeId}',
         name: 'nodeAjaxEdit',
         requirements: ['nodeId' => '\d+'],
-        format: 'json'
+        methods: ['POST'],
+        format: 'json',
     )]
     public function editAction(
         Request $request,
@@ -136,7 +137,8 @@ final class AjaxNodesController extends AbstractAjaxController
                 $msg = $this->translator->trans('duplicated.node.%name%', [
                     '%name%' => $node->getNodeName(),
                 ]);
-                $this->logger->info($msg, ['entity' => $newNode->getNodeSources()->first()]);
+
+                $this->logTrail->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: $newNode);
 
                 $responseArray = [
                     'statusCode' => '200',
