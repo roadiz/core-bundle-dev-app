@@ -38,7 +38,7 @@
 	}
 }
 
-.rz-tablist--underlined .rz-tab,
+.rz-tab-wrapper--underlined .rz-tab,
 .rz-tab--underlined {
 	--rz-tab-background-color: none;
 	--rz-tab-padding-inline: var(--spacing-4xs);

@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as TabArgs } from './RzTab.stories'
 import { rzTabRenderer, VARIANTS } from '../app/utils/storybook/renderer/rzTab'
-
-const COMPONENT_CLASS_NAME = 'rz-tablist'
+import {
+    rzTabWrapperRenderer,
+    COMPONENT_CLASS_NAME,
+} from '../app/utils/storybook/renderer/rzTabWrapper'
 
 type Args = {
     tabs: TabArgs[]
@@ -32,6 +34,12 @@ const meta: Meta<Args> = {
         variant: 'filled',
         tabs: [getTab(1, { selected: true }), getTab(2), getTab(3)],
     },
+    argTypes: {
+        variant: {
+            control: 'select',
+            options: ['', ...VARIANTS],
+        },
+    },
 }
 
 export default meta
@@ -53,32 +61,9 @@ function tabPanelRenderer(args: Tab) {
 }
 
 function rzTablistRenderer(args: Args) {
-    const wrapper = document.createElement(COMPONENT_CLASS_NAME)
-    const classList = [
-        COMPONENT_CLASS_NAME,
-        args.variant && `${COMPONENT_CLASS_NAME}--${args.variant}`,
-    ].filter((c) => c) as string[]
-    wrapper.classList.add(...classList)
-
-    const tablist = document.createElement('div')
-    tablist.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
-    tablist.setAttribute('role', 'tablist')
-    wrapper.appendChild(tablist)
-
-    args.tabs.forEach((tabArgs) => {
-        const tab = rzTabRenderer(tabArgs)
-        tab.classList.add(`${COMPONENT_CLASS_NAME}__tab`)
-        tab.setAttribute('role', 'tab')
-        tab.setAttribute('type', 'button')
-        if (tabArgs.panel?.id)
-            tab.setAttribute('aria-controls', tabArgs.panel?.id)
-        tab.setAttribute(
-            'aria-selected',
-            (tabArgs.selected || false).toString(),
-        )
-
-        tablist.appendChild(tab)
-    })
+    const wrapper = rzTabWrapperRenderer(args, 'rz-tablist')
+    const tablist = wrapper.querySelector(`.${COMPONENT_CLASS_NAME}__inner`)
+    tablist?.setAttribute('role', 'tablist')
 
     return wrapper
 }
