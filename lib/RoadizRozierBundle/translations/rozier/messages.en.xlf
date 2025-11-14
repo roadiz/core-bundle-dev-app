@@ -1259,6 +1259,19 @@
         <source>duplicate</source>
         <target state="final">Duplicate</target>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="duplicate.node.%name%">
+        <source>duplicate.node.%name%</source>
+        <target state="final">Duplicate node %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicate.node">
+        <source>duplicate.node</source>
+        <target state="final">Duplicate a node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.duplicate.node">
+        <source>are_you_sure.duplicate.node</source>
+        <target state="final">Are you sure you want to duplicate this node with all its children?</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="315" approved="yes">
         <source>add.child</source>
         <target state="final">Add child</target>

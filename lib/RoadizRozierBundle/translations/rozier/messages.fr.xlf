@@ -1259,6 +1259,19 @@
         <source>duplicate</source>
         <target state="final">Dupliquer</target>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="duplicate.node.%name%">
+        <source>duplicate.node.%name%</source>
+        <target state="final">Dupliquer le nœud %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicate.node">
+        <source>duplicate.node</source>
+        <target state="final">Dupliquer un nœud</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.duplicate.node">
+        <source>are_you_sure.duplicate.node</source>
+        <target state="final">Êtes-vous sûr(e) de vouloir dupliquer ce nœud ainsi que tout sa descendance ?</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="315" approved="yes">
         <source>add.child</source>
         <target state="final">Ajouter un enfant</target>

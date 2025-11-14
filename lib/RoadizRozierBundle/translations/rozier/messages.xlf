@@ -315,6 +315,9 @@
             <trans-unit xml:space="preserve" id="313"><source>see.page</source></trans-unit>
             <trans-unit xml:space="preserve" id="preview.page"><source>preview.page</source></trans-unit>
             <trans-unit xml:space="preserve" id="314"><source>duplicate</source></trans-unit>
+            <trans-unit xml:space="preserve" id="duplicate.node.%name%"><source>duplicate.node.%name%</source></trans-unit>
+            <trans-unit xml:space="preserve" id="duplicate.node"><source>duplicate.node</source></trans-unit>
+            <trans-unit xml:space="preserve" id="are_you_sure.duplicate.node"><source>are_you_sure.duplicate.node</source></trans-unit>
             <trans-unit xml:space="preserve" id="315"><source>add.child</source></trans-unit>
             <trans-unit xml:space="preserve" id="316"><source>statuses</source></trans-unit>
             <trans-unit xml:space="preserve" id="317"><source>visibility</source></trans-unit>
