@@ -98,44 +98,43 @@ export interface RozierConfig {
         }
     }
     routes?: {
-        ping?: string
-        splashRequest?: string
-        loginPage?: string
-        nodeAjaxEdit?: string
-        tagAjaxEdit?: string
-        folderAjaxEdit?: string
-        nodeTypesFieldAjaxList?: string
-        customFormsFieldAjaxEdit?: string
-        documentsUploadPage?: string
-        documentsBulkDeletePage?: string
-        documentsBulkDownloadPage?: string
-        documentsAjaxExplorer?: string
-        documentsAjaxByArray?: string
-        customFormsAjaxByArray?: string
-        nodeTypesAjaxByArray?: string
-        nodeTypesAjaxExplorer?: string
-        joinsAjaxByArray?: string
-        nodesAjaxByArray?: string
-        tagsAjaxExplorer?: string
-        tagsAjaxByArray?: string
-        tagsAjaxExplorerList?: string
-        tagsAjaxCreate?: string
-        foldersAjaxExplorer?: string
-        nodesAjaxExplorer?: string
-        joinsAjaxExplorer?: string
-        providerAjaxExplorer?: string
-        providerAjaxByArray?: string
-        customFormsAjaxExplorer?: string
-        searchAjax?: string
-        nodesStatusesAjax?: string
-        nodesTreeAjax?: string
-        tagsTreeAjax?: string
-        foldersTreeAjax?: string
-        nodesQuickAddAjax?: string
-        tagAjaxSearch?: string
-        foldersAjaxSearch?: string
         ajaxSessionMessages?: string
         attributeValueAjaxEdit?: string
+        customFormsAjaxByArray?: string
+        customFormsAjaxExplorer?: string
+        customFormsFieldAjaxEdit?: string
+        documentsAjaxByArray?: string
+        documentsAjaxExplorer?: string
+        documentsBulkDeletePage?: string
+        documentsBulkDownloadPage?: string
+        documentsUploadPage?: string
+        folderAjaxEdit?: string
+        foldersAjaxExplorer?: string
+        foldersAjaxSearch?: string
+        foldersTreeAjax?: string
+        joinsAjaxByArray?: string
+        joinsAjaxExplorer?: string
+        loginPage?: string
+        nodeTypesAjaxByArray?: string
+        nodeTypesAjaxExplorer?: string
+        nodesAjaxByArray?: string
+        nodesAjaxExplorer?: string
+        nodesPositionAjax?: string
+        nodesQuickAddAjax?: string
+        nodesStatusesAjax?: string
+        nodesTreeAjax?: string
+        ping?: string
+        providerAjaxByArray?: string
+        providerAjaxExplorer?: string
+        searchAjax?: string
+        splashRequest?: string
+        tagPositionAjax?: string
+        tagAjaxSearch?: string
+        tagsAjaxByArray?: string
+        tagsAjaxCreate?: string
+        tagsAjaxExplorer?: string
+        tagsAjaxExplorerList?: string
+        tagsTreeAjax?: string
     }
 }
 

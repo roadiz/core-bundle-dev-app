@@ -58,11 +58,8 @@ abstract class AbstractAjaxController extends AbstractController
             throw new BadRequestHttpException('Wrong action requested');
         }
 
-        if (
-            true === $requestCsrfToken
-            && !$this->isCsrfTokenValid(static::AJAX_TOKEN_INTENTION, $request->get('_token'))
-        ) {
-            throw new BadRequestHttpException('Bad CSRF token');
+        if (true === $requestCsrfToken) {
+            $this->validateCsrfToken($request->get('_token'));
         }
 
         if (
@@ -73,6 +70,13 @@ abstract class AbstractAjaxController extends AbstractController
         }
 
         return true;
+    }
+
+    protected function validateCsrfToken(?string $csrfToken): void
+    {
+        if (!$this->isCsrfTokenValid(static::AJAX_TOKEN_INTENTION, $csrfToken)) {
+            throw new BadRequestHttpException('Bad CSRF token');
+        }
     }
 
     protected function sortIsh(array &$arr, array $map): array

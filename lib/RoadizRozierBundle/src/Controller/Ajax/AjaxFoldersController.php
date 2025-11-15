@@ -36,6 +36,7 @@ final class AjaxFoldersController extends AbstractAjaxController
         path: '/rz-admin/ajax/folder/edit/{folderId}',
         name: 'foldersAjaxEdit',
         requirements: ['folderId' => '\d+'],
+        methods: ['POST'],
         format: 'json',
     )]
     public function editAction(

@@ -22,6 +22,7 @@ final class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
         path: '/rz-admin/ajax/custom-forms/fields/edit/{customFormFieldId}',
         name: 'customFormFieldAjaxEdit',
         requirements: ['customFormFieldId' => '\d+'],
+        methods: ['POST'],
         format: 'json'
     )]
     public function editAction(

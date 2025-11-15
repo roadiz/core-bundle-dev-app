@@ -29,6 +29,7 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
         path: '/rz-admin/ajax/attribute-values/edit/{attributeValueId}',
         name: 'attributeValueAjaxEdit',
         requirements: ['attributeValueId' => '\d+'],
+        methods: ['POST'],
         format: 'json',
     )]
     public function editAction(
