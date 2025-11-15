@@ -108,7 +108,7 @@ export interface RozierConfig {
         documentsBulkDeletePage?: string
         documentsBulkDownloadPage?: string
         documentsUploadPage?: string
-        folderAjaxEdit?: string
+        foldersPositionAjax?: string
         foldersAjaxExplorer?: string
         foldersAjaxSearch?: string
         foldersTreeAjax?: string

@@ -7,22 +7,22 @@ namespace RZ\Roadiz\RozierBundle\Model;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 
-final readonly class TagPositionDto
+final readonly class PositionDto
 {
     public function __construct(
         #[Range(min: 1)]
         #[NotBlank]
-        public int $tagId,
+        public int $id,
         #[NotBlank]
         public string $csrfToken,
         #[Range(min: 1)]
-        public ?int $nextTagId = null,
+        public ?int $nextId = null,
         #[Range(min: 1)]
-        public ?int $prevTagId = null,
+        public ?int $prevId = null,
         public bool $firstPosition = false,
         public bool $lastPosition = false,
         #[Range(min: 1)]
-        public ?int $newParentTagId = null,
+        public ?int $newParentId = null,
     ) {
     }
 }

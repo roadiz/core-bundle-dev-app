@@ -15,8 +15,8 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
+use RZ\Roadiz\RozierBundle\Model\PositionDto;
 use RZ\Roadiz\RozierBundle\Model\TagCreationDto;
-use RZ\Roadiz\RozierBundle\Model\TagPositionDto;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +31,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxTagsController extends AbstractAjaxExplorerController
 {
+    use UpdatePositionTrait;
+
     public function __construct(
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly TagRepository $tagRepository,
@@ -219,10 +221,6 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         return $tagsArray;
     }
 
-    /**
-     * Handle AJAX edition requests for Tag
-     * such as coming from tag-tree widgets.
-     */
     #[Route(
         path: '/rz-admin/ajax/tag/position',
         name: 'tagPositionAjax',
@@ -231,24 +229,35 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
     )]
     public function editPositionAction(
         #[MapRequestPayload]
-        TagPositionDto $tagPositionDto,
+        PositionDto $tagPositionDto,
     ): JsonResponse {
         $this->validateCsrfToken($tagPositionDto->csrfToken);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $tag = $this->tagRepository->find($tagPositionDto->tagId);
+        $tag = $this->tagRepository->find($tagPositionDto->id);
 
         if (null === $tag) {
-            throw $this->createNotFoundException('Tag '.$tagPositionDto->tagId.' does not exists');
+            throw $this->createNotFoundException('Tag '.$tagPositionDto->id.' does not exists');
         }
 
-        $this->updatePosition($tagPositionDto, $tag);
+        $this->updatePositionAndParent($tagPositionDto, $tag, $this->tagRepository);
+
+        // Apply position update before cleaning
+        $this->managerRegistry->getManager()->flush();
+
+        /** @var TagHandler $tagHandler */
+        $tagHandler = $this->handlerFactory->getHandler($tag);
+        $tagHandler->cleanPositions();
+
+        $this->managerRegistry->getManager()->flush();
+
+        $this->eventDispatcher->dispatch(new TagUpdatedEvent($tag));
 
         return new JsonResponse(
             [
                 'statusCode' => '200',
                 'status' => 'success',
-                'responseText' => ('Tag '.$tagPositionDto->tagId.' edited '),
+                'responseText' => ('Tag '.$tagPositionDto->id.' edited '),
             ],
             Response::HTTP_PARTIAL_CONTENT
         );
@@ -292,52 +301,6 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         return $this->createSerializedResponse(
             $responseArray
         );
-    }
-
-    protected function updatePosition(TagPositionDto $tagPositionDto, Tag $tag): void
-    {
-        /*
-         * First, we set the new parent
-         */
-        if (null !== $tagPositionDto->newParentTagId && $tagPositionDto->newParentTagId > 0) {
-            $parent = $this->tagRepository->find((int) $tagPositionDto->newParentTagId);
-            if (null !== $parent) {
-                $tag->setParent($parent);
-            }
-        } else {
-            $tag->setParent(null);
-        }
-
-        /*
-         * Then compute new position
-         */
-        if (
-            null !== $tagPositionDto->nextTagId
-            && $tagPositionDto->nextTagId > 0
-        ) {
-            $nextTag = $this->tagRepository->find($tagPositionDto->nextTagId);
-            if (null !== $nextTag) {
-                $tag->setPosition($nextTag->getPosition() - 0.5);
-            }
-        } elseif (
-            null !== $tagPositionDto->prevTagId
-            && $tagPositionDto->prevTagId > 0
-        ) {
-            $prevTag = $this->tagRepository->find($tagPositionDto->prevTagId);
-            if (null !== $prevTag) {
-                $tag->setPosition($prevTag->getPosition() + 0.5);
-            }
-        }
-        // Apply position update before cleaning
-        $this->managerRegistry->getManager()->flush();
-
-        /** @var TagHandler $tagHandler */
-        $tagHandler = $this->handlerFactory->getHandler($tag);
-        $tagHandler->cleanPositions();
-
-        $this->managerRegistry->getManager()->flush();
-
-        $this->eventDispatcher->dispatch(new TagUpdatedEvent($tag));
     }
 
     /**

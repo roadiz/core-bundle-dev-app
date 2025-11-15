@@ -24,8 +24,8 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Model\NodeDuplicateDto;
-use RZ\Roadiz\RozierBundle\Model\NodePositionDto;
 use RZ\Roadiz\RozierBundle\Model\NodeStatusDto;
+use RZ\Roadiz\RozierBundle\Model\PositionDto;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +39,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxNodesController extends AbstractAjaxController
 {
+    use UpdatePositionTrait;
+
     public function __construct(
         private readonly NodeNamePolicyInterface $nodeNamePolicy,
         private readonly LoggerInterface $logger,
@@ -111,14 +113,14 @@ final class AjaxNodesController extends AbstractAjaxController
     )]
     public function updatePositionAction(
         #[MapRequestPayload]
-        NodePositionDto $nodePositionDto,
+        PositionDto $nodePositionDto,
     ): JsonResponse {
         $this->validateCsrfToken($nodePositionDto->csrfToken);
 
         /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodePositionDto->nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodePositionDto->id);
         if (null === $node) {
-            throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodePositionDto->nodeId]));
+            throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodePositionDto->id]));
         }
 
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
@@ -137,7 +139,7 @@ final class AjaxNodesController extends AbstractAjaxController
         );
     }
 
-    protected function updatePosition(NodePositionDto $nodePositionDto, Node $node): void
+    protected function updatePosition(PositionDto $nodePositionDto, Node $node): void
     {
         if ($node->isLocked()) {
             throw new BadRequestHttpException('Locked node cannot be moved.');
@@ -149,7 +151,7 @@ final class AjaxNodesController extends AbstractAjaxController
         /*
          * Then compute new position
          */
-        $position = $this->parsePosition($nodePositionDto, $node->getPosition());
+        $position = $this->parsePosition($nodePositionDto, $this->allStatusesNodeRepository) ?? $node->getPosition();
 
         try {
             if ($this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable()) {
@@ -182,39 +184,16 @@ final class AjaxNodesController extends AbstractAjaxController
         $this->managerRegistry->getManager()->flush();
     }
 
-    protected function parseParentNode(NodePositionDto $nodePositionDto): ?Node
+    protected function parseParentNode(PositionDto $nodePositionDto): ?Node
     {
-        if (null !== $nodePositionDto->newParentNodeId && $nodePositionDto->newParentNodeId > 0) {
-            return $this->allStatusesNodeRepository->find($nodePositionDto->newParentNodeId);
+        if (null !== $nodePositionDto->newParentId && $nodePositionDto->newParentId > 0) {
+            return $this->allStatusesNodeRepository->find($nodePositionDto->newParentId);
         } elseif (null !== $this->getUser()) {
             // If user is jailed in a node, prevent moving nodes out.
             return $this->nodeChrootResolver->getChroot($this->getUser());
         }
 
         return null;
-    }
-
-    protected function parsePosition(NodePositionDto $nodePositionDto, float $default = 0.0): float
-    {
-        if ($nodePositionDto->firstPosition) {
-            return -0.5;
-        }
-        if ($nodePositionDto->lastPosition) {
-            return 99999999;
-        }
-        if (null !== $nodePositionDto->nextNodeId && $nodePositionDto->nextNodeId > 0) {
-            $nextNode = $this->allStatusesNodeRepository->find($nodePositionDto->nextNodeId);
-            if (null !== $nextNode) {
-                return $nextNode->getPosition() - 0.5;
-            }
-        } elseif (null !== $nodePositionDto->prevNodeId && $nodePositionDto->prevNodeId > 0) {
-            $prevNode = $this->allStatusesNodeRepository->find($nodePositionDto->prevNodeId);
-            if (null !== $prevNode) {
-                return $prevNode->getPosition() + 0.5;
-            }
-        }
-
-        return $default;
     }
 
     #[Route(
