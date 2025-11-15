@@ -18,7 +18,6 @@ use RZ\Roadiz\CoreBundle\Node\Exception\SameNodeUrlException;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
-use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
@@ -47,7 +46,6 @@ final class AjaxNodesController extends AbstractAjaxController
         private readonly NodeMover $nodeMover,
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly Registry $workflowRegistry,
-        private readonly UniqueNodeGenerator $uniqueNodeGenerator,
         private readonly NodeTypes $nodeTypesBag,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
@@ -125,7 +123,7 @@ final class AjaxNodesController extends AbstractAjaxController
 
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
-        $this->updatePosition($nodePositionDto, $node);
+        $this->updateNodePositionAndParent($nodePositionDto, $node);
 
         return new JsonResponse(
             [
@@ -139,7 +137,7 @@ final class AjaxNodesController extends AbstractAjaxController
         );
     }
 
-    protected function updatePosition(PositionDto $nodePositionDto, Node $node): void
+    private function updateNodePositionAndParent(PositionDto $nodePositionDto, Node $node): void
     {
         if ($node->isLocked()) {
             throw new BadRequestHttpException('Locked node cannot be moved.');
@@ -184,7 +182,7 @@ final class AjaxNodesController extends AbstractAjaxController
         $this->managerRegistry->getManager()->flush();
     }
 
-    protected function parseParentNode(PositionDto $nodePositionDto): ?Node
+    private function parseParentNode(PositionDto $nodePositionDto): ?Node
     {
         if (null !== $nodePositionDto->newParentId && $nodePositionDto->newParentId > 0) {
             return $this->allStatusesNodeRepository->find($nodePositionDto->newParentId);
@@ -279,7 +277,7 @@ final class AjaxNodesController extends AbstractAjaxController
         );
     }
 
-    protected function changeNodeStatus(Request $request, Node $node, string $transition): JsonResponse
+    private function changeNodeStatus(Request $request, Node $node, string $transition): JsonResponse
     {
         $workflow = $this->workflowRegistry->get($node);
 
@@ -300,49 +298,6 @@ final class AjaxNodesController extends AbstractAjaxController
                 'value' => $transition,
             ],
             Response::HTTP_PARTIAL_CONTENT
-        );
-    }
-
-    #[Route(
-        path: '/rz-admin/ajax/nodes/add',
-        name: 'nodesQuickAddAjax',
-        methods: ['POST'],
-        format: 'json'
-    )]
-    public function quickAddAction(Request $request): JsonResponse
-    {
-        /*
-         * Validate
-         */
-        $this->validateRequest($request);
-
-        try {
-            $source = $this->uniqueNodeGenerator->generateFromRequest($request);
-
-            $this->eventDispatcher->dispatch(new NodeCreatedEvent($source->getNode()));
-
-            $msg = $this->translator->trans(
-                'added.node.%name%',
-                [
-                    '%name%' => $source->getTitle(),
-                ]
-            );
-            $this->logTrail->publishConfirmMessage($request, $msg, $source);
-
-            $responseArray = [
-                'statusCode' => Response::HTTP_CREATED,
-                'status' => 'success',
-                'responseText' => $msg,
-            ];
-        } catch (\Exception $e) {
-            $msg = $this->translator->trans($e->getMessage());
-            $this->logger->error($msg);
-            throw new BadRequestHttpException($msg);
-        }
-
-        return new JsonResponse(
-            $responseArray,
-            $responseArray['statusCode']
         );
     }
 }

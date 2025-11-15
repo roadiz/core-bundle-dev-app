@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 abstract class AbstractAjaxController extends AbstractController
 {
-    public const AJAX_TOKEN_INTENTION = 'rozier_ajax';
+    public const string AJAX_TOKEN_INTENTION = 'rozier_ajax';
 
     public function __construct(
         protected readonly ManagerRegistry $managerRegistry,

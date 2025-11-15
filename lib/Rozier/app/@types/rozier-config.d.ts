@@ -102,7 +102,7 @@ export interface RozierConfig {
         attributeValueAjaxEdit?: string
         customFormsAjaxByArray?: string
         customFormsAjaxExplorer?: string
-        customFormsFieldAjaxEdit?: string
+        customFormFieldPositionAjax?: string
         documentsAjaxByArray?: string
         documentsAjaxExplorer?: string
         documentsBulkDeletePage?: string
@@ -120,7 +120,7 @@ export interface RozierConfig {
         nodesAjaxByArray?: string
         nodesAjaxExplorer?: string
         nodesPositionAjax?: string
-        nodesQuickAddAjax?: string
+        nodesGenerateAndAddNodeAction?: string
         nodesStatusesAjax?: string
         nodesTreeAjax?: string
         ping?: string

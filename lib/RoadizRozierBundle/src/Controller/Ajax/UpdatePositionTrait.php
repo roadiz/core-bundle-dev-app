@@ -6,10 +6,14 @@ namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 
 use Doctrine\Persistence\ObjectRepository;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
 use RZ\Roadiz\RozierBundle\Model\PositionDto;
 
 trait UpdatePositionTrait
 {
+    /**
+     * @param ObjectRepository<LeafInterface> $repository
+     */
     protected function updatePositionAndParent(PositionDto $positionDto, LeafInterface $item, ObjectRepository $repository): void
     {
         /*
@@ -27,12 +31,26 @@ trait UpdatePositionTrait
         /*
          * Then compute new position
          */
+        $this->updatePosition($positionDto, $item, $repository);
+    }
+
+    /**
+     * @param ObjectRepository<PositionedInterface> $repository
+     */
+    public function updatePosition(PositionDto $positionDto, PositionedInterface $item, ObjectRepository $repository): void
+    {
+        /*
+         * Then compute new position
+         */
         $newPosition = $this->parsePosition($positionDto, $repository);
         if (null !== $newPosition) {
             $item->setPosition($newPosition);
         }
     }
 
+    /**
+     * @param ObjectRepository<PositionedInterface> $repository
+     */
     protected function parsePosition(PositionDto $positionDto, ObjectRepository $repository): ?float
     {
         if ($positionDto->firstPosition) {
