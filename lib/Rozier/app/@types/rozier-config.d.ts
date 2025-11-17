@@ -100,17 +100,17 @@ export interface RozierConfig {
     routes?: {
         ajaxSessionMessages?: string
         attributeValuePositionAjax?: string
+        customFormFieldPositionAjax?: string
         customFormsAjaxByArray?: string
         customFormsAjaxExplorer?: string
-        customFormFieldPositionAjax?: string
         documentsAjaxByArray?: string
         documentsAjaxExplorer?: string
         documentsBulkDeletePage?: string
         documentsBulkDownloadPage?: string
         documentsUploadPage?: string
-        foldersPositionAjax?: string
         foldersAjaxExplorer?: string
         foldersAjaxSearch?: string
+        foldersPositionAjax?: string
         foldersTreeAjax?: string
         joinsAjaxByArray?: string
         joinsAjaxExplorer?: string
@@ -119,8 +119,8 @@ export interface RozierConfig {
         nodeTypesAjaxExplorer?: string
         nodesAjaxByArray?: string
         nodesAjaxExplorer?: string
-        nodesPositionAjax?: string
         nodesGenerateAndAddNodeAction?: string
+        nodesPositionAjax?: string
         nodesStatusesAjax?: string
         nodesTreeAjax?: string
         ping?: string
@@ -128,8 +128,8 @@ export interface RozierConfig {
         providerAjaxExplorer?: string
         searchAjax?: string
         splashRequest?: string
-        tagPositionAjax?: string
         tagAjaxSearch?: string
+        tagPositionAjax?: string
         tagsAjaxByArray?: string
         tagsAjaxCreate?: string
         tagsAjaxExplorer?: string
