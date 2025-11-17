@@ -146,6 +146,8 @@ export type Args = {
     placeholder?: string
 }
 
+const mirrorPreviewId = 'codemirror-preview-containers'
+
 const meta: Meta<Args> = {
     title: 'Components/Form/MarkdownEditor',
     tags: ['autodocs'],
@@ -155,7 +157,19 @@ const meta: Meta<Args> = {
         minlength: 0,
         maxlength: 255,
     },
-    argTypes: {},
+    decorators: [
+        (story) => {
+            const storyBody = document.querySelector('body')
+
+            if (!document.querySelector(`#${mirrorPreviewId}`)) {
+                const container = document.createElement('div')
+                container.id = mirrorPreviewId
+                storyBody?.appendChild(container)
+            }
+
+            return story()
+        },
+    ],
 }
 
 export default meta
@@ -176,8 +190,12 @@ function controlsRenderer(groups: Args['controlsButtonGroups']) {
 function rzMarkdownEditorRenderer(args: Args) {
     // Use `rz-markdown-editor` custom element to instantiate the component
     // Or `rz-markdown-editor` class to only apply the styles
+    const field = document.createElement('div')
+    field.classList.add('uk-form-row')
+
     const wrapper = document.createElement('rz-markdown-editor')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
+    field.appendChild(wrapper)
 
     const head = controlsRenderer(args.controlsButtonGroups || [])
     wrapper.appendChild(head)
@@ -194,7 +212,7 @@ function rzMarkdownEditorRenderer(args: Args) {
     textarea.name = args.name || 'fallback-name'
     wrapper.appendChild(textarea)
 
-    return wrapper
+    return field
 }
 
 export const Default: Story = {
