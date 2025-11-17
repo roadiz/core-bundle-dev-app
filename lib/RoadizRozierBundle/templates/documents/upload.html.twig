@@ -31,12 +31,12 @@
                         {{ form_widget(form) }}
                         <input class="rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
                     </noscript>
-                    <div class="rz-file-upload__inner">
-                        <div class="rz-file-upload__input">
+                    <div class="rz-file-upload__previews">
+                        <div class="rz-file-upload__visual">
                             <span class="rz-file-upload__icon rz-icon-ri--upload-line"></span>
                         </div>
-                        <span class="rz-file-upload__message"></span>
                     </div>
+                    <div class="rz-file-upload__message"></div>
                     {{ form_rest(form) }}
                   </rz-file-upload>
             </form>

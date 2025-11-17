@@ -27,22 +27,21 @@ function rzUploadFileRenderer(args: Args) {
     el.classList.add(COMPONENT_CLASS_NAME)
     if (args.url) el.setAttribute('url', args.url)
 
-    const inner = document.createElement('div')
-    inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
-    el.appendChild(inner)
+    const previews = document.createElement('div')
+    previews.classList.add(`${COMPONENT_CLASS_NAME}__previews`)
+    el.appendChild(previews)
 
-    const input = document.createElement('div')
-    input.classList.add(`${COMPONENT_CLASS_NAME}__input`)
-    inner.appendChild(input)
-
+    const visual = document.createElement('div')
+    visual.classList.add(`${COMPONENT_CLASS_NAME}__visual`)
     const icon = document.createElement('span')
     icon.classList.add(args.iconClass)
-    input.appendChild(icon)
+    visual.appendChild(icon)
+    previews.appendChild(visual)
 
     const message = document.createElement('div')
     message.classList.add(`${COMPONENT_CLASS_NAME}__message`)
     message.innerText = args.label
-    inner.appendChild(message)
+    el.appendChild(message)
 
     return el
 }
@@ -84,9 +83,10 @@ export const Default: Story = {
 export const WithPreviews: Story = {
     render: (args) => {
         const el = rzUploadFileRenderer(args)
+        const previewWrapper = el.querySelector('.rz-file-upload__previews')
 
         for (let i = 0; i < (args.previewLength || 0); i++) {
-            el.insertAdjacentHTML('beforeend', previewItemHtml)
+            previewWrapper?.insertAdjacentHTML('beforeend', previewItemHtml)
         }
         return el
     },

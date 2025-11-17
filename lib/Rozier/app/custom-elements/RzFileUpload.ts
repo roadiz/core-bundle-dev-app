@@ -9,9 +9,13 @@ export default class RzFileUpload extends HTMLElement {
     constructor() {
         super()
 
+        const innerElement = (this.querySelector('.rz-file-upload__inner') ||
+            this.children?.[0]) as HTMLElement | null
+
+        console.log(this, innerElement)
+
         this.options = {
             ...window.RozierConfig?.messages?.dropzone,
-            previewsContainer: this, // https://docs.dropzone.dev/misc/tips
             url:
                 this.getAttribute('url') ||
                 window.RozierConfig?.routes?.documentsUploadPage,
@@ -21,6 +25,7 @@ export default class RzFileUpload extends HTMLElement {
             timeout: 0, // no timeout
             autoDiscover: false,
             headers: { _token: window.RozierConfig?.ajaxToken || '' },
+            previewsContainer: '.rz-file-upload__previews',
         }
     }
 
