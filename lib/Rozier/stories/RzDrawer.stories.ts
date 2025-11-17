@@ -1,23 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as DrawerItemArgs } from './RzDrawerItem.stories'
-import {
-    rzFormFieldRenderer,
-    type Args as FormFieldArgs,
-} from '~/utils/storybook/renderer/rzFormField'
-import { rzDrawerItemRenderer } from '~/utils/storybook/renderer/rzDrawerItem'
+import { type Args as FormFieldArgs } from '~/utils/storybook/renderer/rzFormField'
+import { rzDrawerRenderer } from '~/utils/storybook/renderer/rzDrawer'
+
 // @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
 // @ts-expect-error — image module declaration not recognized
 import imageVertical from './assets/images/02.jpg'
 
-type Args = {
+export type Args = {
     ariaLabel?: string
     items: DrawerItemArgs[]
     moreColumns?: boolean
     formField: FormFieldArgs
 }
-
-const COMPONENT_CLASS_NAME = 'rz-drawer'
 
 const DEFAULT_ITEM: DrawerItemArgs = {
     overtitle: 'Overtitle example',
@@ -131,28 +127,6 @@ const meta: Meta<Args> = {
 
 export default meta
 type Story = StoryObj<Args>
-
-function rzDrawerRenderer(args: Args) {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add(COMPONENT_CLASS_NAME)
-    if (args.moreColumns)
-        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--more-columns`)
-
-    const head = rzFormFieldRenderer(args.formField)
-    head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
-    wrapper.appendChild(head)
-
-    const body = document.createElement('div')
-    body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
-    wrapper.appendChild(body)
-
-    args.items.forEach((itemArgs) => {
-        const itemNode = rzDrawerItemRenderer(itemArgs)
-        body.appendChild(itemNode)
-    })
-
-    return wrapper
-}
 
 export const Default: Story = {
     render: (args) => {
