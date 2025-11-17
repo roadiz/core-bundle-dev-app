@@ -1,15 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import image from './assets/images/01.jpg'
-import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
-import { rzImageRenderer, type Image } from '~/utils/storybook/renderer/rzImage'
+import { type Image } from '~/utils/storybook/renderer/rzImage'
+import { rzDrawerItemRenderer } from '~/utils/storybook/renderer/rzDrawer'
 import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
+import { type BadgeArgs } from './RzBadge.stories'
+// @ts-expect-error — image module declaration not recognized
+import image from './assets/images/01.jpg'
 
-const COMPONENT_CLASS_NAME = 'rz-drawer-item'
-
-type Args = {
+export type Args = {
     overtitle?: string
     title?: string
     image?: Image
+    badge?: BadgeArgs
     buttonGroup: ButtonGroupArgs
     buttonGroupTop?: ButtonGroupArgs
 }
@@ -61,48 +62,6 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzDrawerItemRenderer(args: Args) {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add(COMPONENT_CLASS_NAME)
-
-    if (args.overtitle) {
-        const overtitle = document.createElement('div')
-        overtitle.classList.add(`${COMPONENT_CLASS_NAME}__overtitle`)
-        overtitle.textContent = args.overtitle
-        wrapper.appendChild(overtitle)
-    }
-
-    if (args.title) {
-        const title = document.createElement('div')
-        title.classList.add(`${COMPONENT_CLASS_NAME}__title`)
-        title.textContent = args.title
-        wrapper.appendChild(title)
-    }
-
-    if (args.image) {
-        const imageNode = rzImageRenderer(args.image)
-        imageNode.classList.add(`${COMPONENT_CLASS_NAME}__img`)
-        wrapper.appendChild(imageNode)
-    }
-
-    if (args.buttonGroup) {
-        const node = rzButtonGroupRenderer(args.buttonGroup)
-        node.classList.add(`${COMPONENT_CLASS_NAME}__button-group`)
-        wrapper.appendChild(node)
-    }
-
-    if (args.buttonGroupTop) {
-        const node = rzButtonGroupRenderer(args.buttonGroupTop)
-        node.classList.add(
-            `${COMPONENT_CLASS_NAME}__button-group`,
-            `${COMPONENT_CLASS_NAME}__button-group--top`,
-        )
-        wrapper.appendChild(node)
-    }
-
-    return wrapper
-}
-
 export const Default: Story = {
     render: (args) => {
         return rzDrawerItemRenderer(args)
@@ -119,6 +78,23 @@ export const WithoutImg: Story = {
     args: {
         buttonGroupTop: undefined,
         image: undefined,
+        badge: undefined,
+    },
+}
+
+export const PrivateDocument: Story = {
+    render: (args) => {
+        return rzDrawerItemRenderer(args)
+    },
+    args: {
+        overtitle: undefined,
+        title: undefined,
+        image: undefined,
+        badge: {
+            iconClass: 'rz-icon-ri--lock-2-line',
+            size: 'md',
+        },
+        buttonGroupTop: undefined,
     },
 }
 
