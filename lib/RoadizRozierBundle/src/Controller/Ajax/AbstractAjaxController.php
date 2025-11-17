@@ -51,6 +51,8 @@ abstract class AbstractAjaxController extends AbstractController
 
     /**
      * @return bool Return true if request is valid, else throw exception
+     *
+     * @deprecated Use AbstractAjaxController::validateCsrfToken and DTO
      */
     protected function validateRequest(Request $request, string $method = 'POST', bool $requestCsrfToken = true): bool
     {

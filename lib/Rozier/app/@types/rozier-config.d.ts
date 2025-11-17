@@ -99,7 +99,7 @@ export interface RozierConfig {
     }
     routes?: {
         ajaxSessionMessages?: string
-        attributeValueAjaxEdit?: string
+        attributeValuePositionAjax?: string
         customFormsAjaxByArray?: string
         customFormsAjaxExplorer?: string
         customFormFieldPositionAjax?: string
