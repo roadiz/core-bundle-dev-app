@@ -17,7 +17,7 @@ rz-file-upload,
     color: var(--form-basic-label, #18191B);
     border: 1px solid var(--line-on-light-secondary, #DADADA);
     background-color: var(--surface-light-secondary, #F8F8F8);
-    margin-top: -6px;
+    margin-top: var(--rz-file-upload-margin-top, var(--spacing-6xs)); /* there is a small overlap with previous form field element */
 }
 
 .rz-file-upload--clickable {
