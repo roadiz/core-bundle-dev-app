@@ -70,7 +70,7 @@ final class AjaxFoldersController extends AbstractAjaxController
             [
                 'statusCode' => '200',
                 'status' => 'success',
-                'responseText' => ('Tag '.$positionDto->id.' edited '),
+                'responseText' => ('Folder '.$positionDto->id.' edited '),
             ],
             Response::HTTP_PARTIAL_CONTENT
         );
