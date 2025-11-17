@@ -10,7 +10,10 @@
 }
 
 /* When only image is present */
-/* .rz-drawer-item:has(.rz-drawer-item__img):not(:has(.rz-drawer-item__title):has(.rz-drawer-item__overtitle)) {} */
+.rz-drawer-item:has(.rz-drawer-item__asset):not(:has(.rz-drawer-item__title):has(.rz-drawer-item__overtitle)) {
+	--rz-drawer-item-min-height: 96px;
+	min-width: 120px;
+}
 
 .rz-drawer-item:has(.rz-drawer-item__title),
 .rz-drawer-item:has(.rz-drawer-item__overtitle) {
@@ -24,8 +27,8 @@
 	grid-template-columns: 1fr minmax(0, 110px);
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"overtitle img"
-		"title     img";
+		"overtitle asset"
+		"title     asset";
 
 	&::before,
 	&::after {
@@ -89,14 +92,17 @@
 	}
 }
 
-.rz-drawer-item__img {
-	grid-area: img;
-	display: block;
+.rz-drawer-item__asset {
+	grid-area: asset;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: var(--rz-reference-img-width, 100%);
 	height: var(--rz-reference-img-height, 100%);
 	aspect-ratio: var(--rz-reference-img-aspect-ratio, 120 / 96);
 	object-fit: cover;
 	overflow: hidden;
+	background-color: var(--reference-bg, #F2F2F2);
 	/* To smoother nesting border radius visually use: outerBorderRadius = innerBorderRadius + distance */
 	border-radius:
 		0
@@ -109,6 +115,17 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+}
+
+.rz-drawer-item__badge {
+	position: absolute;
+	transition: opacity 0.3s;
+
+	@media (hover: hover) {
+		.rz-drawer-item:hover & {
+			opacity: 0;
+		}
 	}
 }
 
