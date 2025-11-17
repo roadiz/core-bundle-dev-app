@@ -1,13 +1,21 @@
 import { addClass, stripTags } from '~/utils/plugins'
 import markdownit from 'markdown-it'
 import markdownItFootnote from 'markdown-it-footnote'
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/gfm/gfm'
 import type {
     Editor,
     EditorConfiguration,
     EditorFromTextArea,
 } from 'codemirror'
+import CodeMirror from 'codemirror'
+import 'codemirror/mode/markdown/markdown'
+import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/css/css'
+import 'codemirror/addon/mode/overlay'
+import 'codemirror/mode/xml/xml'
+import 'codemirror/mode/yaml/yaml'
+import 'codemirror/mode/gfm/gfm'
+import 'codemirror/addon/display/rulers'
+import 'assets/css/vendor/codemirror.css'
 
 interface TranslationResponse {
     originalText: string
@@ -35,7 +43,6 @@ export default class RzMarkdownEditor extends HTMLElement {
     usePreview: boolean = false
     editor!: EditorFromTextArea
     cont: HTMLElement | null = null
-    parentForm: HTMLFormElement | null = null
     buttonCode: NodeListOf<HTMLElement> | null = null
     buttonPreview: NodeListOf<HTMLElement> | null = null
     buttonTranslateAssistant: NodeListOf<HTMLElement> | null = null
@@ -63,10 +70,12 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.markdownit.use(markdownItFootnote)
 
         const textarea = this.querySelector<HTMLTextAreaElement>('textarea')
+
         if (!textarea) {
             console.error('No textarea found in RzMarkdownEditor')
             return
         }
+
         this.textarea = textarea
         this.usePreview = false
 
@@ -107,8 +116,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         })
 
         // Selectors
-        this.cont = this.textarea.closest('.uk-form-row')
-        this.parentForm = this.textarea.closest('form')
+        this.cont = this.textarea.closest('.rz-form-field')
 
         // Bind methods
         this.closePreview = this.closePreview.bind(this)
@@ -141,6 +149,7 @@ export default class RzMarkdownEditor extends HTMLElement {
 
         const editorElement =
             this.cont.querySelector<HTMLElement>('.CodeMirror')
+
         if (!editorElement) {
             console.error('No CodeMirror element found')
             return
@@ -607,10 +616,6 @@ export default class RzMarkdownEditor extends HTMLElement {
 
     destroy() {
         this.preview?.remove()
-    }
-
-    resize() {
-        // Reserved for future use
     }
 
     async buttonTranslateAssistantClick(e: Event): Promise<void> {
