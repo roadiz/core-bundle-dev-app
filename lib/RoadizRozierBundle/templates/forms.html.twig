@@ -377,6 +377,10 @@
     <input is="rz-input" class="rz-form-field__input rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock email_widget -%}
 
+{%- block file_widget -%}
+    <input is="rz-input" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+{%- endblock file_widget -%}
+
 {% block separator_widget %}
 {# just let the textarea widget render the select tag #}
 <p {{ block('widget_attributes') }}>{{ label|trans }}</p>
