@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { type Image } from '~/utils/storybook/renderer/rzImage'
-import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
 import { rzDrawerItemRenderer } from '~/utils/storybook/renderer/rzDrawer'
+import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
 import { type BadgeArgs } from './RzBadge.stories'
 // @ts-expect-error — image module declaration not recognized
 import image from './assets/images/01.jpg'

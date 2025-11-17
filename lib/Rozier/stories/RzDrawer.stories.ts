@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as DrawerItemArgs } from './RzDrawerItem.stories'
-import { type Args as FormFieldArgs } from '~/utils/storybook/renderer/rzFormField'
+import { type Args as FormFieldArgs } from './RzFormField.stories'
 import { rzDrawerRenderer } from '~/utils/storybook/renderer/rzDrawer'
 
 // @ts-expect-error — image module declaration not recognized

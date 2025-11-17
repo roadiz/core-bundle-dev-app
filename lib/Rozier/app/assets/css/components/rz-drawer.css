@@ -182,7 +182,7 @@
 	}
 }
 
-.rz-drawer__item__button-group {
+.rz-drawer__item__action {
 	position: absolute;
 	bottom: var(--spacing-6xs);
 	right: var(--spacing-6xs);
@@ -196,7 +196,7 @@
 	}
 }
 
-.rz-drawer__item__button-group--top {
+.rz-drawer__item__action--top {
 	bottom: initial;
 	top: var(--spacing-6xs);
 	right: var(--spacing-6xs);

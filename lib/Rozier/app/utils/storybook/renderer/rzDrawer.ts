@@ -48,15 +48,15 @@ export function rzDrawerItemRenderer(
 
     if (args.buttonGroup) {
         const node = rzButtonGroupRenderer(args.buttonGroup)
-        node.classList.add(`${COMPONENT_CLASS_NAME}__button-group`)
+        node.classList.add(`${COMPONENT_CLASS_NAME}__action`)
         wrapper.appendChild(node)
     }
 
     if (args.buttonGroupTop) {
         const node = rzButtonGroupRenderer(args.buttonGroupTop)
         node.classList.add(
-            `${COMPONENT_CLASS_NAME}__button-group`,
-            `${COMPONENT_CLASS_NAME}__button-group--top`,
+            `${COMPONENT_CLASS_NAME}__action`,
+            `${COMPONENT_CLASS_NAME}__action--top`,
         )
         wrapper.appendChild(node)
     }
