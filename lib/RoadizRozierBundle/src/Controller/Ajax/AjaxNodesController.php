@@ -23,6 +23,7 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Model\NodeDuplicateDto;
+use RZ\Roadiz\RozierBundle\Model\NodePasteDto;
 use RZ\Roadiz\RozierBundle\Model\NodeStatusDto;
 use RZ\Roadiz\RozierBundle\Model\PositionDto;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,6 +56,83 @@ final class AjaxNodesController extends AbstractAjaxController
         TranslatorInterface $translator,
     ) {
         parent::__construct($managerRegistry, $serializer, $translator);
+    }
+
+    #[Route(
+        path: '/rz-admin/ajax/nodes/paste',
+        name: 'nodesPasteAjax',
+        methods: ['POST'],
+        format: 'json'
+    )]
+    public function pasteAction(
+        Request $request,
+        #[MapRequestPayload]
+        NodePasteDto $nodePasteDto,
+    ): JsonResponse {
+        $this->validateCsrfToken($nodePasteDto->csrfToken);
+
+        $newPosition = 99999999;
+        $parentNode = null;
+
+        /** @var Node|null $node */
+        $node = $this->allStatusesNodeRepository->find($nodePasteDto->nodeId);
+        if (null === $node) {
+            throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodePasteDto->nodeId]));
+        }
+
+        if (null !== $nodePasteDto->parentNodeId) {
+            /** @var Node|null $parentNode */
+            $parentNode = $this->allStatusesNodeRepository->find($nodePasteDto->parentNodeId);
+            if (null === $parentNode) {
+                throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodePasteDto->parentNodeId]));
+            }
+        }
+
+        if (null !== $nodePasteDto->prevNodeId) {
+            /** @var Node|null $parentNode */
+            $previousNode = $this->allStatusesNodeRepository->find($nodePasteDto->prevNodeId);
+            if (null === $previousNode) {
+                throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodePasteDto->prevNodeId]));
+            }
+
+            $parentNode = $previousNode->getParent();
+            $newPosition = $previousNode->getPosition() + 0.5;
+        }
+
+        $this->denyAccessUnlessGranted(NodeVoter::DUPLICATE, $node);
+        if (null === $parentNode) {
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE_AT_ROOT);
+        } else {
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE, $parentNode);
+        }
+
+        $duplicator = new NodeDuplicator(
+            $node,
+            $this->managerRegistry->getManager(),
+            $this->nodeNamePolicy
+        );
+        $newNode = $duplicator->duplicate();
+
+        $this->nodeMover->move($newNode, $parentNode, $newPosition);
+        $this->managerRegistry->getManager()->flush();
+
+        $this->eventDispatcher->dispatch(new NodeCreatedEvent($newNode));
+        $this->eventDispatcher->dispatch(new NodeDuplicatedEvent($newNode));
+
+        $msg = $this->translator->trans('copied.node.%name%', [
+            '%name%' => $newNode->getNodeName(),
+        ]);
+
+        $this->logTrail->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: $newNode);
+
+        return new JsonResponse(
+            [
+                'statusCode' => '200',
+                'status' => 'success',
+                'responseText' => $msg,
+            ],
+            Response::HTTP_PARTIAL_CONTENT
+        );
     }
 
     #[Route(

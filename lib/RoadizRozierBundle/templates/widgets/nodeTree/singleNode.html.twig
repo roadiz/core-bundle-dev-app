@@ -146,8 +146,11 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                     node: node.id,
                     translation: nodeTree.translation.id
                 }) }}"
+                data-node-id="{{ node.id }}"
                 data-node-status-path="{{ path('nodesStatusesAjax') }}"
                 data-node-duplicate-path="{{ path('nodesDuplicateAjax') }}"
+                data-node-paste-path="{{ path('nodesPasteAjax') }}"
+                data-node-copied-trans="{{ 'node.copied_to_clipboard'|trans }}"
                 data-node-edit-position-path="{{ path('nodesPositionAjax') }}"
             >
                 <button

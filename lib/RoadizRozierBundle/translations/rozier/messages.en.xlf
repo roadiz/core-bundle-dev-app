@@ -2526,6 +2526,10 @@
         <source>duplicated.node.%name%</source>
         <target state="final">Node “%name%” has been duplicated</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="copied.node.%name%">
+        <source>copied.node.%name%</source>
+        <target state="final">Node “%name%” has been copy-pasted</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="edit.customForm.%name%" approved="yes">
         <source>edit.customForm.%name%</source>
         <target state="final">%name%</target>
@@ -3680,6 +3684,22 @@
       <trans-unit xml:space="preserve" id="node.duplicate" approved="yes">
         <source>node.duplicate</source>
         <target state="final">Duplicate</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.copy" approved="yes">
+        <source>node.copy</source>
+        <target state="final">Copy</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.paste_inside" approved="yes">
+        <source>node.paste_inside</source>
+        <target state="final">Paste inside</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.paste_after" approved="yes">
+        <source>node.paste_after</source>
+        <target state="final">Paste after</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.copied_to_clipboard" approved="yes">
+        <source>node.copied_to_clipboard</source>
+        <target state="final">Node has been copied to clipboard</target>
       </trans-unit>
       <!-- Some constraints messages -->
       <trans-unit xml:space="preserve" id="string.should.only.contain.latin.characters" approved="yes">
