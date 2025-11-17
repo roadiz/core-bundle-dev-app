@@ -10,10 +10,10 @@ use Symfony\Component\Validator\Constraints\Range;
 final readonly class NodeDuplicateDto
 {
     public function __construct(
-        #[Range(min: 1)]
-        public int $nodeId,
         #[NotBlank]
         public string $csrfToken,
+        #[Range(min: 1)]
+        public int $nodeId,
     ) {
     }
 }

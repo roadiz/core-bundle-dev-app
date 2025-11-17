@@ -10,11 +10,11 @@ use Symfony\Component\Validator\Constraints\Range;
 final readonly class PositionDto
 {
     public function __construct(
+        #[NotBlank]
+        public string $csrfToken,
         #[Range(min: 1)]
         #[NotBlank]
         public int $id,
-        #[NotBlank]
-        public string $csrfToken,
         #[Range(min: 1)]
         public ?int $nextId = null,
         #[Range(min: 1)]
