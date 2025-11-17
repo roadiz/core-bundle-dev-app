@@ -9,11 +9,6 @@ export default class RzFileUpload extends HTMLElement {
     constructor() {
         super()
 
-        const innerElement = (this.querySelector('.rz-file-upload__inner') ||
-            this.children?.[0]) as HTMLElement | null
-
-        console.log(this, innerElement)
-
         this.options = {
             ...window.RozierConfig?.messages?.dropzone,
             url:
