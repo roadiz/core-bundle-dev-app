@@ -37,7 +37,7 @@
                         </th>
                         <th class="table-actions-row table-actions-row-3">
                             <div class="bulk-selection">
-                                <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+                                <input is="rz-input" type="checkbox" name="bulk-selection-all" />
                             </div>
                             {% trans %}actions{% endtrans %}
                         </th>
@@ -53,7 +53,7 @@
                             <td>
                                 {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
                                 <div class="tagtree-bulk-selection">
-                                    <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
+                                    <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
                                 </div>
                                 {% endif %}
                                 <div class="uk-button-group">
@@ -73,7 +73,7 @@
                             <td class="table-actions-row table-actions-row-3">
                                 {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
                                     <div class="bulk-selection">
-                                        <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
+                                        <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
                                     </div>
                                 {% endif %}
                                 <div class="uk-button-group">

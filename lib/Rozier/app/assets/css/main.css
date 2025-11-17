@@ -25,6 +25,7 @@
 @import './components/rz-drawer-item.css';
 
 /* Components: Form */
+@import './components/rz-textarea.css';
 @import './components/rz-form.css';
 @import './components/rz-switch.css';
 @import './components/rz-input.css';
