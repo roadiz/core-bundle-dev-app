@@ -11,9 +11,10 @@ export default class RzFileUpload extends HTMLElement {
 
         this.options = {
             ...window.RozierConfig?.messages?.dropzone,
+            previewsContainer: this, // https://docs.dropzone.dev/misc/tips
             url:
                 this.getAttribute('url') ||
-                window.RozierConfig.routes?.documentsUploadPage,
+                window.RozierConfig?.routes?.documentsUploadPage,
             paramName: 'form[attachment]',
             uploadMultiple: false,
             maxFilesize: 64,
