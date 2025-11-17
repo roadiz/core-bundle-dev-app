@@ -33,7 +33,7 @@
 	}
 }
 
-.rz-textarea:focus-visible,
+.rz-textarea:focus,
 .rz-textarea--focus {
 	--rz-textarea-border-color: var(--form-basic-border-hover, #383838) !important;
 }
