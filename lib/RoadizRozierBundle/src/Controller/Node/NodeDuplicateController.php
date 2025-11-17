@@ -37,6 +37,7 @@ final class NodeDuplicateController extends AbstractController
         path: '/rz-admin/nodes/duplicate/{nodeId}',
         name: 'nodesDuplicatePage',
         requirements: ['nodeId' => '[0-9]+'],
+        methods: ['GET', 'POST'],
     )]
     public function duplicateAction(
         Request $request,
@@ -47,6 +48,16 @@ final class NodeDuplicateController extends AbstractController
         Node $existingNode,
     ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::DUPLICATE, $existingNode);
+
+        $form = $this->createFormBuilder()->getForm();
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return $this->render('@RoadizRozier/nodes/duplicate.html.twig', [
+                'node' => $existingNode,
+                'form' => $form->createView(),
+            ]);
+        }
 
         try {
             $duplicator = new NodeDuplicator(

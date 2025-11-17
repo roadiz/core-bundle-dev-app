@@ -4,14 +4,31 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 
-use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository;
+use RZ\Roadiz\RozierBundle\Model\PositionDto;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
+final class AjaxCustomFormFieldsController extends AbstractAjaxController
 {
+    use UpdatePositionTrait;
+
+    public function __construct(
+        private readonly CustomFormFieldRepository $customFormFieldRepository,
+        private readonly HandlerFactoryInterface $handlerFactory,
+        ManagerRegistry $managerRegistry,
+        SerializerInterface $serializer,
+        TranslatorInterface $translator,
+    ) {
+        parent::__construct($managerRegistry, $serializer, $translator);
+    }
+
     /**
      * Handle AJAX edition requests for CustomFormFields
      * such as coming from widgets.
@@ -19,33 +36,39 @@ final class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
      * @return Response JSON response
      */
     #[Route(
-        path: '/rz-admin/ajax/custom-forms/fields/edit/{customFormFieldId}',
-        name: 'customFormFieldAjaxEdit',
-        requirements: ['customFormFieldId' => '\d+'],
+        path: '/rz-admin/ajax/custom-forms/fields/edit/position',
+        name: 'customFormFieldPositionAjax',
+        methods: ['POST'],
         format: 'json'
     )]
     public function editAction(
-        Request $request,
-        #[MapEntity(
-            expr: 'repository.find(customFormFieldId)',
-            evictCache: true,
-            message: 'field.%customFormFieldId%.not_exists'
-        )]
-        CustomFormField $field,
+        #[MapRequestPayload]
+        PositionDto $positionDto,
     ): Response {
-        $this->validateRequest($request);
+        $this->validateCsrfToken($positionDto->csrfToken);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
 
-        if (null !== $response = $this->handleFieldActions($request, $field)) {
-            return $response;
+        $field = $this->customFormFieldRepository->find($positionDto->id);
+        if (null === $field) {
+            throw $this->createNotFoundException();
         }
 
-        throw $this->createNotFoundException($this->translator->trans('field.%customFormFieldId%.not_exists', ['%customFormFieldId%' => $field->getId()]));
-    }
+        $this->updatePosition($positionDto, $field, $this->customFormFieldRepository);
 
-    #[\Override]
-    protected function getEntityClass(): string
-    {
-        return CustomFormField::class;
+        $this->managerRegistry->getManager()->flush();
+        $handler = $this->handlerFactory->getHandler($field);
+        $handler->cleanPositions();
+        $this->managerRegistry->getManager()->flush();
+
+        return new JsonResponse(
+            [
+                'statusCode' => '200',
+                'status' => 'success',
+                'responseText' => $this->translator->trans('field.%name%.updated', [
+                    '%name%' => $field->getName(),
+                ]),
+            ],
+            Response::HTTP_PARTIAL_CONTENT
+        );
     }
 }

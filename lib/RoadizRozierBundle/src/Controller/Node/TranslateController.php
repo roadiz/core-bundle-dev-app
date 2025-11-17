@@ -37,6 +37,7 @@ final class TranslateController extends AbstractController
         requirements: [
             'nodeId' => '[0-9]+',
         ],
+        methods: ['GET', 'POST'],
     )]
     public function translateAction(
         Request $request,

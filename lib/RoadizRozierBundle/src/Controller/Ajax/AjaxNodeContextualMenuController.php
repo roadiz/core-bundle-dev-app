@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
-    path: '/rz-admin/ajax/node/contextual-menu/{node}/{translation}',
+    path: '/rz-admin/ajax/nodes/contextual-menu/{node}/{translation}',
     name: 'nodeContextualMenu',
     requirements: ['node' => '\d+', 'translation' => '\d+'],
+    methods: ['GET'],
     format: 'html',
 )]
 final class AjaxNodeContextualMenuController extends AbstractController

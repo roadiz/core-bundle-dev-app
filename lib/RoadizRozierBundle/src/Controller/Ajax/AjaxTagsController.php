@@ -15,10 +15,13 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
+use RZ\Roadiz\RozierBundle\Model\PositionDto;
+use RZ\Roadiz\RozierBundle\Model\TagCreationDto;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
@@ -28,8 +31,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxTagsController extends AbstractAjaxExplorerController
 {
+    use UpdatePositionTrait;
+
     public function __construct(
         private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly TagRepository $tagRepository,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
         EntityListManagerFactoryInterface $entityListManagerFactory,
@@ -42,7 +48,7 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
 
     protected function getRepository(): TagRepository
     {
-        return $this->managerRegistry->getRepository(Tag::class);
+        return $this->tagRepository;
     }
 
     #[Route(
@@ -137,7 +143,7 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         ];
 
         if ($request->get('tagId') > 0) {
-            $parentTag = $this->managerRegistry->getRepository(Tag::class)->find($request->get('tagId'));
+            $parentTag = $this->tagRepository->find($request->get('tagId'));
 
             $arrayFilter['parent'] = $parentTag;
         }
@@ -215,39 +221,43 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         return $tagsArray;
     }
 
-    /**
-     * Handle AJAX edition requests for Tag
-     * such as coming from tag-tree widgets.
-     */
     #[Route(
-        path: '/rz-admin/ajax/tag/edit/{tagId}',
-        name: 'tagAjaxEdit',
-        requirements: ['tagId' => '\d+'],
+        path: '/rz-admin/ajax/tag/position',
+        name: 'tagPositionAjax',
+        methods: ['POST'],
         format: 'json'
     )]
-    public function editAction(int $tagId, Request $request): JsonResponse
-    {
+    public function editPositionAction(
+        #[MapRequestPayload]
+        PositionDto $tagPositionDto,
+    ): JsonResponse {
+        $this->validateCsrfToken($tagPositionDto->csrfToken);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
+        $tag = $this->tagRepository->find($tagPositionDto->id);
 
         if (null === $tag) {
-            throw $this->createNotFoundException('Tag '.$tagId.' does not exists');
-        }
-        /*
-         * Get the right update method against "_action" parameter
-         */
-        if ('updatePosition' !== $request->get('_action')) {
-            throw new BadRequestHttpException('Action does not exist');
+            throw $this->createNotFoundException('Tag '.$tagPositionDto->id.' does not exists');
         }
 
-        $this->updatePosition($request->request->all(), $tag);
+        $this->updatePositionAndParent($tagPositionDto, $tag, $this->tagRepository);
+
+        // Apply position update before cleaning
+        $this->managerRegistry->getManager()->flush();
+
+        /** @var TagHandler $tagHandler */
+        $tagHandler = $this->handlerFactory->getHandler($tag);
+        $tagHandler->cleanPositions();
+
+        $this->managerRegistry->getManager()->flush();
+
+        $this->eventDispatcher->dispatch(new TagUpdatedEvent($tag));
 
         return new JsonResponse(
             [
                 'statusCode' => '200',
                 'status' => 'success',
-                'responseText' => ('Tag '.$tagId.' edited '),
+                'responseText' => ('Tag '.$tagPositionDto->id.' edited '),
             ],
             Response::HTTP_PARTIAL_CONTENT
         );
@@ -293,56 +303,6 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         );
     }
 
-    protected function updatePosition(array $parameters, Tag $tag): void
-    {
-        /*
-         * First, we set the new parent
-         */
-        if (
-            !empty($parameters['newParent'])
-            && is_numeric($parameters['newParent'])
-            && $parameters['newParent'] > 0
-        ) {
-            $parent = $this->managerRegistry->getRepository(Tag::class)->find((int) $parameters['newParent']);
-            if (null !== $parent) {
-                $tag->setParent($parent);
-            }
-        } else {
-            $tag->setParent(null);
-        }
-
-        /*
-         * Then compute new position
-         */
-        if (
-            !empty($parameters['nextTagId'])
-            && $parameters['nextTagId'] > 0
-        ) {
-            $nextTag = $this->managerRegistry->getRepository(Tag::class)->find((int) $parameters['nextTagId']);
-            if (null !== $nextTag) {
-                $tag->setPosition($nextTag->getPosition() - 0.5);
-            }
-        } elseif (
-            !empty($parameters['prevTagId'])
-            && $parameters['prevTagId'] > 0
-        ) {
-            $prevTag = $this->managerRegistry->getRepository(Tag::class)->find((int) $parameters['prevTagId']);
-            if (null !== $prevTag) {
-                $tag->setPosition($prevTag->getPosition() + 0.5);
-            }
-        }
-        // Apply position update before cleaning
-        $this->managerRegistry->getManager()->flush();
-
-        /** @var TagHandler $tagHandler */
-        $tagHandler = $this->handlerFactory->getHandler($tag);
-        $tagHandler->cleanPositions();
-
-        $this->managerRegistry->getManager()->flush();
-
-        $this->eventDispatcher->dispatch(new TagUpdatedEvent($tag));
-    }
-
     /**
      * Create a new Tag.
      *
@@ -355,20 +315,15 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         methods: ['POST'],
         format: 'json'
     )]
-    public function createAction(Request $request): JsonResponse
-    {
+    public function createAction(
+        #[MapRequestPayload]
+        TagCreationDto $tagCreationDto,
+    ): JsonResponse {
+        $this->validateCsrfToken($tagCreationDto->csrfToken);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        if (!$request->get('tagName')) {
-            throw new InvalidParameterException('tagName should be provided to create a new Tag');
-        }
-
-        if (Request::METHOD_POST != $request->getMethod()) {
-            throw new BadRequestHttpException();
-        }
-
         /** @var Tag $tag */
-        $tag = $this->getRepository()->findOrCreateByPath($request->get('tagName'));
+        $tag = $this->getRepository()->findOrCreateByPath($tagCreationDto->tagName);
         $tagModel = $this->explorerItemFactory->createForEntity($tag);
 
         return new JsonResponse(

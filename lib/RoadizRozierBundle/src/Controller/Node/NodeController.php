@@ -22,6 +22,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Model\NodeCreationDto;
 use RZ\Roadiz\CoreBundle\Node\Exception\SameNodeUrlException;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
@@ -33,6 +34,7 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
+use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use RZ\Roadiz\RozierBundle\Controller\NodeControllerTrait;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,10 +43,13 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\String\UnicodeString;
@@ -685,28 +690,44 @@ final class NodeController extends AbstractController
     #[Route(
         path: '/rz-admin/nodes/create',
         name: 'nodesGenerateAndAddNodeAction',
+        methods: ['POST'],
+        format: 'json',
     )]
-    public function generateAndAddNodeAction(Request $request): RedirectResponse
-    {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+    public function generateAndAddNodeAction(
+        Request $request,
+        #[MapRequestPayload]
+        NodeCreationDto $nodeCreationDto,
+    ): Response {
+        // Authorization is checked within UniqueNodeGenerator::generateFromDto, so no need to check here.
+        if (!$this->isCsrfTokenValid(AbstractAjaxController::AJAX_TOKEN_INTENTION, $nodeCreationDto->csrfToken)) {
+            throw new BadRequestHttpException('Bad CSRF token');
+        }
 
         try {
-            $source = $this->uniqueNodeGenerator->generateFromRequest($request);
-            /** @var Translation $translation */
-            $translation = $source->getTranslation();
+            $source = $this->uniqueNodeGenerator->generateFromDto($nodeCreationDto);
 
             $this->eventDispatcher->dispatch(new NodeCreatedEvent($source->getNode()));
 
-            return $this->redirectToRoute(
-                'nodesEditSourcePage',
+            $msg = $this->translator->trans(
+                'added.node.%name%',
                 [
-                    'nodeId' => $source->getNode()->getId(),
-                    'translationId' => $translation->getId(),
+                    '%name%' => $source->getTitle(),
                 ]
             );
-        } catch (\Exception) {
-            $msg = $this->translator->trans('node.noCreation.alreadyExists');
-            throw new ResourceNotFoundException($msg);
+            $this->logTrail->publishConfirmMessage($request, $msg, $source);
+
+            return new JsonResponse(
+                [
+                    'statusCode' => Response::HTTP_CREATED,
+                    'status' => 'success',
+                    'responseText' => $msg,
+                ],
+                Response::HTTP_CREATED,
+            );
+        } catch (\Exception $e) {
+            $msg = $this->translator->trans($e->getMessage());
+            $this->logTrail->publishErrorMessage($request, $msg);
+            throw new UnprocessableEntityHttpException($msg);
         }
     }
 

@@ -35,6 +35,26 @@
             {%- endif -%}
             {% if is_granted('DUPLICATE', node) %}
                 <button
+                    data-action="copy"
+                    class="copy-node"
+                    type="button"
+                    title="{% trans %}node.copy{% endtrans %}"
+                ><i class="uk-icon-rz-copy"></i> {% trans %}node.copy{% endtrans %}</button>
+                <button
+                    data-action="paste_inside"
+                    class="paste-node"
+                    type="button"
+                    disabled
+                    title="{% trans %}node.paste_inside{% endtrans %}"
+                ><i class="uk-icon-paste"></i> {% trans %}node.paste_inside{% endtrans %}</button>
+                <button
+                    data-action="paste_after"
+                    class="paste-node"
+                    type="button"
+                    disabled
+                    title="{% trans %}node.paste_after{% endtrans %}"
+                ><i class="uk-icon-paste"></i> {% trans %}node.paste_after{% endtrans %}</button>
+                <button
                     data-action="duplicate"
                     class="duplicate-node"
                     type="button"
