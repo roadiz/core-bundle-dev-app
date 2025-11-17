@@ -74,13 +74,16 @@ export default class RzFileUpload extends HTMLElement {
                 )
             }
         })
+
         const msgNode = this.querySelector(
             '.rz-file-upload__message',
         ) as HTMLElement
-
-        if (msgNode) {
-            msgNode.innerText = this.options.dictDefaultMessage || ''
+        const text = this.options.dictDefaultMessage || ''
+        if (msgNode && text) {
+            msgNode.innerText = text
         }
+
+        this.classList.add('rz-file-upload--initialized')
     }
 
     disconnectedCallback() {

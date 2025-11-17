@@ -22,13 +22,15 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
+const DROPZONE_CLASS_NAME = 'dz-message'
+
 function rzUploadFileRenderer(args: Args) {
-    const el = document.createElement('div')
+    const el = document.createElement(COMPONENT_CLASS_NAME)
     el.classList.add(COMPONENT_CLASS_NAME)
     if (args.url) el.setAttribute('url', args.url)
 
     const inner = document.createElement('div')
-    inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
+    inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`, DROPZONE_CLASS_NAME)
     el.appendChild(inner)
 
     const input = document.createElement('div')
