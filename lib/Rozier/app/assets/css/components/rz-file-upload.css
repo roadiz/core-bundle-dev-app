@@ -22,11 +22,8 @@ rz-file-upload,
     }
 }
 
+/* Class name injected from Dropzone lib */
 .dz-clickable {
-    --rz-file-upload-cursor: pointer;
-}
-
-.rz-file-upload--initialized {
     --rz-file-upload-cursor: pointer;
 }
 
@@ -53,17 +50,7 @@ rz-file-upload,
     border: 1px dashed var(--line-on-light-tertiary, #BCBCBC);
 }
 
-.rz-file-upload__message {
-    pointer-events: none; /* let parent handle events */
-    margin-top: var(--spacing-md);
-    text-align: center;
-    font-family: var(--font-family-os-text);
-    font-size: var(--text-form-description-md-font-size);
-    line-height: var(--text-form-description-md-line-height);
-    letter-spacing: var(--text-form-description-md-letter-spacing);
-    font-weight: var(--text-form-description-md-font-weight);
-}
-
+/* Item  */
 :where(rz-file-upload, .rz-file-upload) .dz-preview {
     position: relative;
     display: inline-block;
@@ -192,4 +179,16 @@ rz-file-upload,
     to {
         background-position: -7px -400px;
     }
+}
+
+
+.rz-file-upload__message {
+    pointer-events: none; /* let parent handle events */
+    margin-top: var(--spacing-md);
+    text-align: center;
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-description-md-font-size);
+    line-height: var(--text-form-description-md-line-height);
+    letter-spacing: var(--text-form-description-md-letter-spacing);
+    font-weight: var(--text-form-description-md-font-weight);
 }
