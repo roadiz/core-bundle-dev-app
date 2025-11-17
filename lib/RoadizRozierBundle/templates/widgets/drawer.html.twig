@@ -54,59 +54,50 @@
                 {% set label = name|humanize %}
             {%- endif -%}
 
-            <nav class="drawer-widget-nav">
-                <div class="drawer-widget-nav__head">
-                    <div class="drawer-widget-nav__title"><i class="{{ icon }}"></i></div>
-                    <div class="drawer-widget-nav__title label">
-                        {{ label|trans }}
-                        {% if isSortable == 'false' %}
-                            <span class="uk-text-muted">{% trans %}drawer.sortable-not-enable{% endtrans %}</span>
-                        {% endif %}
-                        <span
-                            class="uk-text-muted"
-                            :class="{ 'uk-text-danger': items.length < this.drawer.minLength }"
+            <div class="rz-form-field__head">
+                <span class="rz-form-field__head__icon {{ icon }}"></span>
+                <label class="rz-form-field__head__label">{{ label|trans }}</label>
+                <template v-if="this.drawer.maxLength < 9999">
+                    <div class="rz-badge rz-badge--xs rz-badge--error rz-form-field__head__badge">
+                        <span class="rz-badge__label">${ items.length } / ${ this.drawer.maxLength }</span>
+                    </div>
+                </template>
+                <template v-if="this.drawer.minLength > 0">
+                    <div class="rz-badge rz-badge--xs rz-badge--information rz-form-field__head__badge">
+                        <span class="rz-badge__label">({% trans %}min{% endtrans %}: ${ this.drawer.minLength })</span>
+                    </div>
+                </template>
+                {% if attr['data-universal'] %}
+                    <div class="rz-badge rz-badge--xs rz-form-field__head__badge">
+                        <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
+                    </div>
+                {% endif %}
+                <div class="rz-button-group rz-button-group--md rz-button-group--gap-md rz-form-field__head__button-group">
+                    {% if enableDropzone %}
+                        <button
+                            type="button"
+                            class="rz-button rz-button--sm rz-button-group__button"
+                            @click.prevent="onDropzoneButtonClick"
                         >
-                            <template v-if="this.drawer.maxLength < 9999">
-                                ${ items.length } / ${ this.drawer.maxLength }
-                            </template>
-                            <template v-if="this.drawer.minLength > 0">
-                                ({% trans %}min{% endtrans %}: ${ this.drawer.minLength })
-                            </template>
-                        </span>
-                        {% if attr['data-universal'] %}
-                            <i data-uk-tooltip="{animation:true}"
-                               title="{% trans %}universal{% endtrans %}"
-                               class="uk-icon uk-icon-flag universal-indicator"></i>
-                        {% endif %}
-                    </div>
+                            <span class="rz-button__label">{%- trans -%}documents.toggle-uploader{%- endtrans -%}</span>
+                            <span class="rz-button__icon rz-icon-ri--upload-line"></span>
+                        </button>
+                    {% endif %}
+                    <button
+                        type="button"
+                        class="rz-button rz-button--sm rz-button-group__button"
+                        @click.prevent="onExplorerButtonClick"
+                    >
+                        <span class="rz-button__label">{%- trans -%}documents.toggle-explorer{%- endtrans -%}</span>
+                        <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                    </button>
+                    <template v-if="drawer.errorMessage">
+                        <div class="rz-message rz-message--error rz-form-field__message">
+                            <p class="rz-message__text"><i class="uk-icon-warning"></i>{{ drawer.errorMessage }}</p>
+                        </div>
+                    </template>
                 </div>
-                <div class="drawer-widget-nav__content">
-                    <div class="drawer-widget-quick-creation uk-button-group">
-                        <rz-button :is-active="drawer.isActive"
-                                   :callback="onExplorerButtonClick">
-                            <i class="uk-icon-rz-explore"></i>
-                            <span class="uk-hidden-small">
-                            {%- trans -%}documents.toggle-explorer{%- endtrans -%}
-                        </span>
-                        </rz-button>
-                        {% if enableDropzone %}
-                            <rz-button :is-active="drawer.isDropzoneEnable"
-                                       :callback="onDropzoneButtonClick">
-                                <i class="uk-icon-rz-upload"></i>
-                                <span class="uk-hidden-small">
-                                {%- trans -%}documents.toggle-uploader{%- endtrans -%}
-                            </span>
-                            </rz-button>
-                        {% endif %}
-                    </div>
-                </div>
-            </nav>
-
-            <template v-if="drawer.errorMessage">
-                <p class="uk-text-danger">
-                    ${ drawer.errorMessage }
-                </p>
-            </template>
+            </div>
 
             <div class="drawer-widget-sortable-container">
                 <transition name="fade" v-if="drawer.isLoading">

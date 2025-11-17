@@ -1,31 +1,31 @@
 <template>
-        <div class="rz-drawer-item" @click.prevent="onAddItemButtonClick">
-            <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
-            <div class="rz-drawer-item__overtitle" v-if="parentName || subParentName">
-                {{ subParentName ? subParentName : parentName }}
-            </div>
-            <div v-if="name" class="rz-drawer-item__title">{{ name }}</div>
-            <picture v-if="thumbnailUrl" style="display: contents;">
-                <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
-                <img :src="thumbnailUrl" width="110" height="94" class="rz-drawer-item__img">
-            </picture>
+    <div class="rz-drawer-item" @click.prevent="onAddItemButtonClick">
+        <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
+        <div class="rz-drawer-item__overtitle" v-if="parentName || subParentName">
+            {{ subParentName ? subParentName : parentName }}
+        </div>
+        <div v-if="name" class="rz-drawer-item__title">{{ name }}</div>
+        <picture v-if="thumbnailUrl" style="display: contents;">
+            <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
+            <img :src="thumbnailUrl" width="110" height="94" class="rz-drawer-item__img">
+        </picture>
 
-            <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer-item__button-group">
-                <ajax-link :href="editItemUrl" class="rz-button rz-button--primary rz-button-group__button" v-if="editItemUrl">
-                    <span class="rz-button__icon rz-icon-ri--equalizer-3-line"></span>
-                </ajax-link>
-                <button
-                    type="button"
-                    class="rz-button rz-button--error-light rz-button-group__button"
-                    @click.prevent="onRemoveItemButtonClick()"
-                >
-                    <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
-                </button>
-            </div>
-            <button v-else class="rz-drawer-item__button-group rz-drawer-item__button-group--top rz-button rz-button--primary rz-button-group__button">
-                <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer-item__button-group">
+            <ajax-link :href="editItemUrl" class="rz-button rz-button--primary rz-button-group__button" v-if="editItemUrl">
+                <span class="rz-button__icon rz-icon-ri--equalizer-3-line"></span>
+            </ajax-link>
+            <button
+                type="button"
+                class="rz-button rz-button--error-light rz-button-group__button"
+                @click.prevent="onRemoveItemButtonClick()"
+            >
+                <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
             </button>
         </div>
+        <button v-else class="rz-drawer-item__button-group rz-drawer-item__button-group--top rz-button rz-button--primary rz-button-group__button">
+            <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
+        </button>
+    </div>
 </template>
 <script>
 import AjaxLink from './AjaxLink.vue'
