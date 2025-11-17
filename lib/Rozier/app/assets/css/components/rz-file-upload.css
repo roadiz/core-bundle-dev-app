@@ -27,7 +27,7 @@ rz-file-upload,
 }
 
 /* Class name injected from Dropzone lib */
-.dz-clickable {
+.rz-file-upload.dz-clickable {
     --rz-file-upload-cursor: pointer;
 }
 
