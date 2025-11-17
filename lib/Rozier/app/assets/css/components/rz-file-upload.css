@@ -9,13 +9,17 @@ rz-file-upload,
     flex-direction: column;
     min-height: 228px;
     padding: 47px 24px 51px 24px;
-    border-radius: var(--radius-md, 12px);
+    border-radius: var(--radius-md);
     overflow: hidden;
     color: var(--form-basic-label, #18191B);
     border: 1px solid var(--line-on-light-secondary, #DADADA);
     background-color: var(--surface-light-secondary, #F8F8F8);
-    margin-top: var(--rz-file-upload-margin-top, -4px); /* there is a small overlap with previous form field element */
     cursor: var(--rz-file-upload-cursor);
+
+    .rz-drawer + & {
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        margin-top: var(--rz-file-upload-margin-top, -4px);
+    }
 
     & > * {
         pointer-events: none; /* let parent handle events */
