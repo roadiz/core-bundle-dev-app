@@ -56,7 +56,7 @@
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
     <td class="table-actions-row">
         <div class="bulk-selection">
-            <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
+            <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
         </div>
 
         <div class="uk-button-group">
