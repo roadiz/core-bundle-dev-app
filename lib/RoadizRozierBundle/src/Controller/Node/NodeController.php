@@ -698,7 +698,7 @@ final class NodeController extends AbstractController
         #[MapRequestPayload]
         NodeCreationDto $nodeCreationDto,
     ): Response {
-        // Do not need to check authorization here, it is done in UniqueNodeGenerator
+        // Authorization is checked within UniqueNodeGenerator::generateFromDto, so no need to check here.
         if (!$this->isCsrfTokenValid(AbstractAjaxController::AJAX_TOKEN_INTENTION, $nodeCreationDto->csrfToken)) {
             throw new BadRequestHttpException('Bad CSRF token');
         }
