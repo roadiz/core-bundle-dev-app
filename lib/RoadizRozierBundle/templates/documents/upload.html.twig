@@ -23,7 +23,6 @@
                 enctype="multipart/form-data"
             >
                 <rz-file-upload
-                    class="rz-form-field"
                     {% if folder.id %}
                         url="{{ path('documentsUploadPage', {_format: 'json'}) ~ '/' ~ folder.id }}"
                     {% endif %}

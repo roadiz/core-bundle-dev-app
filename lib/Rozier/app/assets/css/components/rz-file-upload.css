@@ -206,6 +206,4 @@ rz-file-upload,
 /* Submit input in noscript tag */
 .rz-form-field__submit {
     --rz-input-width: auto;
-
-
 }
