@@ -24,6 +24,11 @@ export default class RzFileUpload extends HTMLElement {
     }
 
     connectedCallback() {
+        if (!this.options.url) {
+            console.error('RzFileUpload: No upload URL defined')
+            return
+        }
+
         this.dropzone = new Dropzone(this, this.options)
 
         this.dropzone.on('addedfile', (file) => {
