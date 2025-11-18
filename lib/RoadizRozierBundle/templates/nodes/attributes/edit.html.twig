@@ -41,43 +41,52 @@
                                     {% form_theme attribute_value_translation_form '@RoadizRozier/horizontalForms.html.twig' %}
                                     {{ form_start(attribute_value_translation_form, {
                                         'attr': {
-                                            'class': 'uk-form uk-form-horizontal'
+                                            'class': 'rz-form rz-form__field-list--horizontal'
                                         }
                                     }) }}
-                                    {{ form_widget(attribute_value_translation_form) }}
-                                    <button data-uk-tooltip="{animation:true}"
-                                            title="{% trans %}edit{% endtrans %}"
-                                            class="uk-button uk-button-settings-submit uk-button-small"
-                                            type="submit"><i class="uk-icon-rz-save-mini"></i></button>
-                                    {{ form_end(attribute_value_translation_form) }}
+                                    <div class="rz-form__field-list">
+                                        {{ form_widget(attribute_value_translation_form) }}
+{#                                        <button class="rz-button uk-button-settings-submit"#}
+{#                                                title="{% trans %}edit{% endtrans %}"#}
+{#                                                type="submit"#}
+{#                                                hidden#}
+{#                                                data-uk-tooltip="{animation:true}">#}
+{#                                            <span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>#}
+{#                                        </button>#}
+                                        {{ form_end(attribute_value_translation_form) }}
+                                    </div>
                                 </td>
                                 <td class="table-actions-row">
-                                    <div class="uk-button-group">
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success"
+                                    <div class="rz-button-group rz-button-group--lg rz-button-group--collapsed">
+                                        <a class="rz-button rz-button--primary rz-button-group__button uk-button-settings-save"
                                            href="#{{ attribute_value_translation_form.vars.id }}"
                                            title="{% trans %}save{% endtrans %}"
-                                           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></a>
-
+                                           data-uk-tooltip="{animation:true}">
+                                            <span class="rz-button__icon uk-icon-rz-save-mini"></span>
+                                        </a>
                                         {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
-                                            <a class="uk-button uk-button-content uk-button-small uk-button-table-warning"
+                                            <a class="rz-button rz-button--secondary rz-button-group__button"
                                                href="{{ path('nodesResetAttributesPage', {
                                                    nodeId : node.id,
                                                    translationId : translation.id,
                                                    attributeValueId : attributeValue.id
                                                }) }}"
                                                title="{% trans %}attributes.reset_value{% endtrans %}"
-                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-undo"></i></a>
+                                               data-uk-tooltip="{animation:true}">
+                                                <span class="rz-button__icon uk-icon-undo"></span>
+                                            </a>
                                         {% endif %}
-
                                         {% if translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
-                                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                            <a class="rz-button rz-button--secondary rz-button-group__button "
                                                href="{{ path('nodesDeleteAttributesPage', {
                                                    nodeId : node.id,
                                                    translationId : translation.id,
                                                    attributeValueId : attributeValue.id
                                                }) }}"
                                                title="{% trans %}attributes.delete_value{% endtrans %}"
-                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                                               data-uk-tooltip="{animation:true}">
+                                                <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+                                            </a>
                                         {% endif %}
                                     </div>
                                 </td>
@@ -92,13 +101,16 @@
                     {{ form_start(addAttributeForm, {
                         'attr': {
                             'id': 'add-node-attribute-form',
-                            'class': 'uk-form uk-form-stacked'
+                            'class': 'rz-form'
                         }
-                    }) }}{{ form_widget(addAttributeForm) }}
-                    <button class="uk-button uk-button-primary" type="submit">
-                        <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
-                        <span class="label"><span class="label-text">{% trans %}add.a.node.attribute{% endtrans %}</span></span>
-                    </button>
+                    }) }}
+                    <div class="rz-form__field-list">
+                        {{ form_widget(addAttributeForm) }}
+                        <button type="submit" class="rz-button rz-button--primary">
+                            <span class="rz-button__label">{% trans %}add.a.node.attribute{% endtrans %}</span>
+                            <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                        </button>
+                    </div>
                     {{ form_end(addAttributeForm) }}
                 </div>
             {% endif %}
@@ -110,10 +122,11 @@
             })  %}
 
             <div class="content-table-cont uk-margin">
-                <a class="uk-button"
-                   href="{{ path('attributesAddPage', {referer: currentPath}) }}">
-                    <i class="uk-icon-rz-plus"></i>
-                    {% trans %}add.a.attribute{%- endtrans -%}
+                <a class="rz-button rz-button--secondary"
+                   href="{{ path('attributesAddPage', {referer: currentPath}) }}"
+                   data-uk-tooltip="{animation:true}">
+                    <span class="rz-button__label">{% trans %}add.a.attribute{%- endtrans -%}</span>
+                    <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
                 </a>
             </div>
         </article>
