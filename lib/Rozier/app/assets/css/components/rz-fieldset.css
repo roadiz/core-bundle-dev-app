@@ -1,10 +1,14 @@
 .rz-fieldset {
     --rz-fieldset-padding-inline: var(--spacing-lg);
 
+    box-sizing: border-box;
     position: relative;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-xs))) var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-md)));
+    width: 100%;
+    flex-direction: var(--rz-fieldset-flex-direction, column);
+    gap:
+        var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-xs)))
+        var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-md)));
     padding: var(--spacing-md) var(--rz-fieldset-padding-inline) var(--spacing-lg);
     margin: 0;
     border: none;
@@ -17,6 +21,13 @@
         border-radius: var(--radius-xs, 6px);
         border: 1px solid var(--line-on-light-secondary, #DADADA);
     }
+}
+
+.rz-fieldset--horizontal {
+    --rz-fieldset-flex-direction: row;
+
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .rz-fieldset__legend {

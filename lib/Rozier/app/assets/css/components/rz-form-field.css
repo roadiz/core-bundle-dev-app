@@ -4,10 +4,11 @@
     width: var(--rz-form-field-width, 100%);
     flex-grow: var(--rz-form-field-flex-grow);
 
-    &:where(
-		.rz-form-field--type-checkbox,
-        .rz-form-field--type-radio
-	) {
+    .rz-form__field-list--horizontal & {
+        width: var(--rz-form-field-width);
+    }
+
+    .rz-fieldset--horizontal & {
         width: var(--rz-form-field-width);
 	}
 }

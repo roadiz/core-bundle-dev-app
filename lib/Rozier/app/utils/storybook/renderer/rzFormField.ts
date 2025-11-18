@@ -14,7 +14,6 @@ export function rzFormFieldRenderer(args: Args) {
 
     const wrapperClasses = [
         COMPONENT_CLASS_NAME,
-        `${COMPONENT_CLASS_NAME}--type-${inputType}`,
         args.required && `${COMPONENT_CLASS_NAME}--required`,
         args.horizontal && `${COMPONENT_CLASS_NAME}--horizontal`,
         args.error && `${COMPONENT_CLASS_NAME}--error`,

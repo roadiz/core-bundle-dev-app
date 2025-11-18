@@ -5,33 +5,75 @@ import { rzFormFieldRenderer } from '../app/utils/storybook/renderer/rzFormField
 import { rzFieldsetRenderer } from '../app/utils/storybook/renderer/rzFieldset'
 
 const COMPONENT_CLASS_NAME = 'rz-form'
-const ORIENTATIONS = ['horizontal', 'vertical']
+
+type FieldList = {
+    horizontal?: boolean
+    fields: (FormFieldArgs | FieldsetArgs)[]
+}
 
 export type Args = {
-    name: string
-    fields: (FormFieldArgs | FieldsetArgs)[]
-    orientation?: (typeof ORIENTATIONS)[number]
+    fieldListGroup: FieldList[]
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Form',
     tags: ['autodocs'],
     args: {
-        name: 'My form',
-        orientation: 'vertical',
-    },
-    argTypes: {
-        orientation: {
-            control: 'select',
-            options: ORIENTATIONS,
-        },
+        fieldListGroup: [
+            {
+                horizontal: false,
+                fields: [
+                    {
+                        label: 'Node title',
+                        input: {
+                            type: 'text',
+                            name: 'title-name',
+                            id: 'title-id',
+                        },
+                    },
+                    {
+                        label: 'Input Field Label',
+                        badge: {
+                            iconClass: 'rz-icon-ri--earth-line',
+                        },
+                        input: {
+                            type: 'date',
+                            name: 'datetime-name',
+                            id: 'datetime-id',
+                        },
+                    },
+                    {
+                        label: 'Background color',
+                        badge: {
+                            iconClass: 'rz-icon-ri--earth-line',
+                        },
+                        input: {
+                            type: 'color',
+                            name: 'background-color',
+                            id: 'background-color-id',
+                        },
+                    },
+                    {
+                        label: 'Number of items',
+                        badge: {
+                            iconClass: 'rz-icon-ri--earth-line',
+                        },
+                        input: {
+                            type: 'number',
+                            name: 'number-of-items',
+                            id: 'number-of-items-id',
+                        },
+                    },
+                ],
+            },
+        ],
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
-function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 5) {
+function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 6) {
     return [...Array(length).keys()].map((i) => {
         const id = Math.random().toString(36).slice(2, 9)
         return {
@@ -48,18 +90,22 @@ function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 5) {
     })
 }
 
-function fieldListRenderer(fields: Args['fields']) {
+function fieldListRenderer(args: FieldList) {
     const wrapper = document.createElement('div')
-    wrapper.classList.add(`${COMPONENT_CLASS_NAME}__field-list`)
+    const className = `${COMPONENT_CLASS_NAME}__field-list`
+    wrapper.classList.add(className)
+    if (args.horizontal) {
+        wrapper.classList.add(`${className}--horizontal`)
+    }
 
-    fields.forEach((fieldArgs) => {
-        let node = null
+    args.fields.forEach((fieldArgs) => {
         if ('formFieldsData' in fieldArgs) {
-            node = rzFieldsetRenderer(fieldArgs)
+            const node = rzFieldsetRenderer(fieldArgs)
+            wrapper.appendChild(node)
         } else {
-            node = rzFormFieldRenderer(fieldArgs as FormFieldArgs)
+            const node = rzFormFieldRenderer(fieldArgs as FormFieldArgs)
+            wrapper.appendChild(node)
         }
-        wrapper.appendChild(node)
     })
 
     return wrapper
@@ -67,15 +113,12 @@ function fieldListRenderer(fields: Args['fields']) {
 
 function formRenderer(args: Args) {
     const form = document.createElement('form')
-    const classList = [
-        COMPONENT_CLASS_NAME,
-        args.orientation === 'horizontal' &&
-            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
-    ].filter((c) => c) as string[]
-    form.classList.add(...classList)
+    form.classList.add(COMPONENT_CLASS_NAME)
 
-    const fieldList = fieldListRenderer(args.fields)
-    form.appendChild(fieldList)
+    args.fieldListGroup.forEach((fieldList) => {
+        const fieldListElement = fieldListRenderer(fieldList)
+        form.appendChild(fieldListElement)
+    })
 
     const button = document.createElement('button')
     button.classList.add(`rz-button`)
@@ -88,87 +131,45 @@ function formRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => formRenderer(args),
-    args: {
-        fields: [
-            {
-                label: 'Node title',
-                input: {
-                    type: 'text',
-                    name: 'title-name',
-                    id: 'title-id',
-                },
-            },
-            {
-                label: 'Input Field Label',
-                badge: {
-                    iconClass: 'rz-icon-ri--earth-line',
-                },
-                input: {
-                    type: 'date',
-                    name: 'datetime-name',
-                    id: 'datetime-id',
-                },
-            },
-            {
-                label: 'Background color',
-                badge: {
-                    iconClass: 'rz-icon-ri--earth-line',
-                },
-                input: {
-                    type: 'color',
-                    name: 'background-color',
-                    id: 'background-color-id',
-                },
-            },
-            {
-                label: 'Number of items',
-                badge: {
-                    iconClass: 'rz-icon-ri--earth-line',
-                },
-                input: {
-                    type: 'number',
-                    name: 'number-of-items',
-                    id: 'number-of-items-id',
-                },
-            },
-        ],
-    },
 }
 
-export const WithFieldListHeader: Story = {
+export const TwoHorizontalGroup: Story = {
     render: (args) => {
-        const form = formRenderer(args)
-
-        const fieldList = fieldListRenderer([
-            {
-                label: 'Node title',
-                required: true,
-                input: {
-                    name: 'title-name-WithFieldListHeader',
-                    type: 'text',
-                    id: 'title-id-WithFieldListHeader',
-                },
-            },
-        ])
-        fieldList.classList.add(
-            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
-        )
-        form.insertBefore(fieldList, form.firstChild)
-
-        return form
+        return formRenderer(args)
     },
     args: {
-        fields: [
+        fieldListGroup: [
             {
-                label: 'Input Field Label',
-                badge: {
-                    iconClass: 'rz-icon-ri--earth-line',
-                },
-                input: {
-                    type: 'date',
-                    name: 'datetime-name',
-                    id: 'datetime-id-WithFieldListHeader',
-                },
+                horizontal: true,
+                fields: [
+                    {
+                        label: 'Simple text',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-SwitchList',
+                            id: 'simple-text-SwitchList-id',
+                        },
+                    },
+                    {
+                        label: 'Simple text 2',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-2-SwitchList',
+                            id: 'simple-text-2-SwitchList-id',
+                        },
+                    },
+                ],
+            },
+            {
+                horizontal: true,
+                fields: getCheckboxFieldList({
+                    input: {
+                        type: 'checkbox',
+                        className: 'rz-switch',
+                        name: 'simple-text-SwitchList-checkbox',
+                        id: 'simple-text-SwitchList-checkbox-id',
+                    },
+                }),
             },
         ],
     },
@@ -176,81 +177,48 @@ export const WithFieldListHeader: Story = {
 
 export const WithFieldListHeaderDual: Story = {
     render: (args) => {
-        const form = formRenderer(args)
-
-        const fieldList = fieldListRenderer([
-            {
-                label: 'Node title',
-                required: true,
-                input: {
-                    name: 'title-name-WithFieldListHeaderDual',
-                    type: 'text',
-                    id: 'title-id-WithFieldListHeaderDual',
-                },
-            },
-            {
-                label: 'Published at',
-                required: true,
-                input: {
-                    type: 'date',
-                    name: 'published-at-WithFieldListHeaderDual',
-                    id: 'published-at-id-WithFieldListHeaderDual',
-                },
-            },
-        ])
-        fieldList.classList.add(
-            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
-        )
-        form.insertBefore(fieldList, form.firstChild)
-
-        return form
-    },
-    args: {
-        fields: [
-            {
-                label: 'Input Field Label',
-                badge: {
-                    iconClass: 'rz-icon-ri--earth-line',
-                },
-                input: {
-                    type: 'date',
-                    name: 'datetime-name-WithFieldListHeaderDual',
-                    id: 'datetime-id-WithFieldListHeaderDual',
-                },
-            },
-        ],
-    },
-}
-
-export const SwitchList: Story = {
-    render: (args) => {
         return formRenderer(args)
     },
     args: {
-        fields: [
+        fieldListGroup: [
             {
-                label: 'Simple text',
-                input: {
-                    type: 'text',
-                    name: 'simple-text-SwitchList',
-                    id: 'simple-text-SwitchList-id',
-                },
+                horizontal: true,
+                fields: [
+                    {
+                        label: 'Node title',
+                        required: true,
+                        input: {
+                            name: 'title-name-WithFieldListHeaderDual',
+                            type: 'text',
+                            id: 'title-id-WithFieldListHeaderDual',
+                        },
+                    },
+                    {
+                        label: 'Published at',
+                        required: true,
+                        input: {
+                            type: 'date',
+                            name: 'published-at-WithFieldListHeaderDual',
+                            id: 'published-at-id-WithFieldListHeaderDual',
+                        },
+                    },
+                ],
             },
-            ...getCheckboxFieldList({
-                input: {
-                    type: 'checkbox',
-                    className: 'rz-switch',
-                    name: 'simple-text-SwitchList-checkbox',
-                    id: 'simple-text-SwitchList-checkbox-id',
-                },
-            }),
             {
-                label: 'Simple text 2',
-                input: {
-                    type: 'text',
-                    name: 'simple-text-2-SwitchList',
-                    id: 'simple-text-2-SwitchList-id',
-                },
+                horizontal: false,
+                fields: [
+                    {
+                        label: 'Input Field Label',
+                        badge: {
+                            iconClass: 'rz-icon-ri--earth-line',
+                        },
+                        input: {
+                            type: 'date',
+                            name: 'datetime-name-WithFieldListHeaderDual',
+                            id: 'datetime-id-WithFieldListHeaderDual',
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -258,59 +226,62 @@ export const SwitchList: Story = {
 
 export const SwitchListWithFieldset: Story = {
     render: (args) => {
-        const form = formRenderer(args)
-
-        const inlineFieldList = fieldListRenderer([
-            {
-                label: 'Node title',
-                required: true,
-                input: {
-                    type: 'text',
-                    name: 'title-name-WithFieldListHeaderDual',
-                    id: 'title-id-WithFieldListHeaderDual',
-                },
-            },
-            {
-                label: 'Published at',
-                required: true,
-                input: {
-                    type: 'date',
-                    name: 'published-at-WithFieldListHeaderDual',
-                    id: 'published-at-id-WithFieldListHeaderDual',
-                },
-            },
-        ])
-        inlineFieldList.classList.add(
-            `${COMPONENT_CLASS_NAME}__field-list--horizontal`,
-        )
-        form.insertBefore(inlineFieldList, form.firstChild)
-
-        return form
+        return formRenderer(args)
     },
     args: {
-        fields: [
+        fieldListGroup: [
             {
-                label: 'Simple text',
-                input: {
-                    type: 'text',
-                    name: 'simple-text-SwitchList',
-                    id: 'simple-text-SwitchList-id',
-                },
-            },
-            {
-                legend: 'Checkbox Fieldset',
-                formFieldsData: getCheckboxFieldList({
-                    input: {
-                        type: 'checkbox',
-                        className: 'rz-switch',
-                        name: 'checkbox-SwitchList',
-                        id: 'checkbox-SwitchList-id',
+                horizontal: true,
+                fields: [
+                    {
+                        label: 'Node title',
+                        required: true,
+                        input: {
+                            type: 'text',
+                            name: 'title-name-WithFieldListHeaderDual',
+                            id: 'title-id-WithFieldListHeaderDual',
+                        },
                     },
-                }),
+                    {
+                        label: 'Published at',
+                        required: true,
+                        input: {
+                            type: 'date',
+                            name: 'published-at-WithFieldListHeaderDual',
+                            id: 'published-at-id-WithFieldListHeaderDual',
+                        },
+                    },
+                ],
             },
             {
-                legend: 'Radio Fieldset',
-                formFieldsData: getCheckboxFieldList({
+                horizontal: false,
+                fields: [
+                    {
+                        label: 'Simple text',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-SwitchList',
+                            id: 'simple-text-SwitchList-id',
+                        },
+                    },
+                    {
+                        legend: 'Checkbox Fieldset',
+                        horizontal: true,
+                        formFieldsData: getCheckboxFieldList({
+                            input: {
+                                type: 'checkbox',
+                                className: 'rz-switch',
+                                name: 'checkbox-SwitchList',
+                                id: 'checkbox-SwitchList-id',
+                            },
+                        }),
+                    },
+                ],
+            },
+            {
+                horizontal: true,
+                fields: getCheckboxFieldList({
+                    horizontal: true,
                     input: {
                         type: 'radio',
                         name: 'radio-SwitchList',
@@ -319,12 +290,17 @@ export const SwitchListWithFieldset: Story = {
                 }),
             },
             {
-                label: 'Simple text 2',
-                input: {
-                    type: 'text',
-                    name: 'simple-text-2-SwitchList',
-                    id: 'simple-text-2-SwitchList-id',
-                },
+                horizontal: false,
+                fields: [
+                    {
+                        label: 'Simple text 2',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-2-SwitchList',
+                            id: 'simple-text-2-SwitchList-id',
+                        },
+                    },
+                ],
             },
         ],
     },
