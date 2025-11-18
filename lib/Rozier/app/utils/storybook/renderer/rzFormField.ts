@@ -22,6 +22,7 @@ export function rzFormFieldRenderer(args: Args) {
 
     const head = document.createElement('div')
     head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
+    if (args.headClass) head.classList.add(args.headClass)
     wrapper.appendChild(head)
 
     if (args.iconClass) {

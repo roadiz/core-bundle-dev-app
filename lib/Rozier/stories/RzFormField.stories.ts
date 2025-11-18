@@ -13,6 +13,7 @@ export type Args = {
     help?: string // under input
     error?: string
     horizontal?: boolean
+    headClass?: string
     // Elements
     badge?: BadgeArgs
     iconClass?: string

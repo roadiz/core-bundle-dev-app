@@ -62,14 +62,14 @@ export function rzDrawerItemRenderer(
 }
 
 export function rzDrawerRenderer(args: RzDrawerArgs) {
-    const wrapper = document.createElement('div')
+    const wrapper = rzFormFieldRenderer({
+        ...args.formField,
+        headClass: `${COMPONENT_CLASS_NAME}__head`,
+    })
     wrapper.classList.add(COMPONENT_CLASS_NAME)
+
     if (args.moreColumns)
         wrapper.classList.add(`${COMPONENT_CLASS_NAME}--more-columns`)
-
-    const head = rzFormFieldRenderer(args.formField)
-    head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
-    wrapper.appendChild(head)
 
     const body = document.createElement('div')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
