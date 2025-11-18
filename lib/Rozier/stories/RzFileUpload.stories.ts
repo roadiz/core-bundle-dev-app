@@ -22,21 +22,25 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function setGlobalRozierConfig(msg: string) {
+function setGlobalRozierConfig(args: Args) {
     window.RozierConfig = {
         ...(window.RozierConfig || {}),
+        routes: {
+            ...(window.RozierConfig?.routes || {}),
+            documentsUploadPage: args.url,
+        },
         messages: {
             ...(window.RozierConfig?.messages || {}),
             dropzone: {
                 ...(window.RozierConfig?.messages?.dropzone || {}),
-                dictDefaultMessage: msg,
+                dictDefaultMessage: args.message,
             },
         },
     }
 }
 
 function rzUploadFileRenderer(args: Args) {
-    setGlobalRozierConfig(args.message)
+    setGlobalRozierConfig(args)
 
     const el = document.createElement(COMPONENT_CLASS_NAME)
     if (args.url) el.setAttribute('url', args.url)
