@@ -49,9 +49,11 @@ const styleGroup = {
     buttons: [
         {
             iconClass: 'rz-icon-ri--bold',
+            attributes: { 'data-markdowneditor-button': 'bold' },
         },
         {
             iconClass: 'rz-icon-ri--italic',
+            attributes: { 'data-markdowneditor-button': 'italic' },
         },
     ],
 } as ButtonGroupArgs
@@ -62,12 +64,15 @@ const nodeGroup = {
     buttons: [
         {
             iconClass: 'rz-icon-ri--single-quotes-l',
+            attributes: { 'data-markdowneditor-button': 'blockquote' },
         },
         {
             iconClass: 'rz-icon-ri--link',
+            attributes: { 'data-markdowneditor-button': 'link' },
         },
         {
             iconClass: 'rz-icon-ri--list-unordered',
+            attributes: { 'data-markdowneditor-button': 'listUl' },
         },
     ],
 } as ButtonGroupArgs
@@ -77,16 +82,16 @@ const spacingGroup = {
     collapsed: true,
     buttons: [
         {
-            iconClass: 'rz-icon-ri--corner-down-left-line',
-        },
-        {
             iconClass: 'rz-icon-ri--separator',
+            attributes: { 'data-markdowneditor-button': 'hr' },
         },
         {
             iconClass: 'rz-icon-ri--space',
+            attributes: { 'data-markdowneditor-button': 'nbsp' },
         },
         {
             iconClass: 'rz-icon-ri--subtract-line',
+            attributes: { 'data-markdowneditor-button': 'nb-hyphen' },
         },
     ],
 } as ButtonGroupArgs
@@ -191,7 +196,7 @@ function rzMarkdownEditorRenderer(args: Args) {
     // Use `rz-markdown-editor` custom element to instantiate the component
     // Or `rz-markdown-editor` class to only apply the styles
     const field = document.createElement('div')
-    field.classList.add('uk-form-row')
+    field.classList.add('rz-form-field')
 
     const wrapper = document.createElement('rz-markdown-editor')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
