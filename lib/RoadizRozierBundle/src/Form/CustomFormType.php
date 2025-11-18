@@ -21,8 +21,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class CustomFormType extends AbstractType
 {
-    public function __construct(private readonly Security $security)
-    {
+    public function __construct(
+        private readonly Security $security,
+        private readonly ?CustomFormWebhookType $webhookType = null,
+    ) {
     }
 
     #[\Override]
@@ -96,6 +98,14 @@ final class CustomFormType extends AbstractType
                 'required' => false,
                 'html5' => true,
             ]);
+
+        // Add webhook configuration if webhook type is available
+        if ($this->webhookType !== null && $this->security->isGranted('ROLE_ACCESS_CUSTOMFORMS_WEBHOOKS')) {
+            $builder->add('webhook', CustomFormWebhookType::class, [
+                'mapped' => false,
+                'inherit_data' => true,
+            ]);
+        }
     }
 
     #[\Override]
