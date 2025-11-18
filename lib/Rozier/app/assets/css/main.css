@@ -23,9 +23,10 @@
 @import './components/rz-entity-thumbnail.css';
 @import './components/rz-tab.css';
 @import './components/rz-tab-wrapper.css';
-@import './components/rz-drawer-item.css';
+@import './components/rz-drawer.css';
 
 /* Components: Form */
+@import './components/rz-textarea.css';
 @import './components/rz-form.css';
 @import './components/rz-switch.css';
 @import './components/rz-input.css';
