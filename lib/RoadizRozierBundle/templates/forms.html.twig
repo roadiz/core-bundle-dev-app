@@ -567,7 +567,7 @@
 {%- endblock choice_widget_collapsed %}
 
 {% block form_row -%}
-    {%- if form.vars.block_prefixes[1] == 'nodesourcebase' -%}
+    {%- if form.vars.block_prefixes[1] == 'nodesourcebase' or form.vars.name == 'nodesTags' -%}
         {{- form_widget(form) -}}
     {%- else -%}
         {% set rowClasses = [

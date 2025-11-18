@@ -98,6 +98,9 @@
                     </template>
                 </div>
             </div>
+            {%- if form.vars.help ?? false -%}
+                <p class="rz-form-field__description" id="{{ form.vars.id }}_help">{{- form.vars.help|trans|inlineMarkdown -}}</p>
+            {%- endif -%}
 
             <div class="drawer-widget-sortable-container">
                 <transition name="fade" v-if="drawer.isLoading">
@@ -137,7 +140,4 @@
             {% endif %}
         </div>
     </drawer-container>
-    {%- if form.vars.help ?? false -%}
-        <small id="{{ form.vars.id }}_help" class="form-row-desc uk-form-label-description drawer-widget-description">{{- form.vars.help|trans|inlineMarkdown -}}</small>
-    {%- endif -%}
 </div>
