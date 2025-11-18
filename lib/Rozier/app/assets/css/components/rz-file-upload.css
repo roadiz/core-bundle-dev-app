@@ -6,8 +6,10 @@ rz-file-upload,
     box-sizing: border-box;
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     min-height: 228px;
+    gap: var(--spacing-md);
     padding: 47px 24px 51px 24px;
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -20,18 +22,14 @@ rz-file-upload,
         border-radius: 0 var(--radius-md) var(--radius-md) 0;
         margin-top: var(--rz-file-upload-margin-top, -4px);
     }
-
-    & > * {
-        pointer-events: none; /* let parent handle events */
-    }
 }
 
-/* Class name injected from Dropzone lib */
-.rz-file-upload.dz-clickable {
+/* Class name injected by Dropzone */
+:where(rz-file-upload,.rz-file-upload).dz-clickable {
     --rz-file-upload-cursor: pointer;
 }
 
-.rz-file-upload__previews {
+.rz-file-upload__placeholder {
     position: relative;
     display: flex;
     align-items: center;
@@ -40,9 +38,15 @@ rz-file-upload,
     width: 100%;
     flex-wrap: wrap;
     min-height:  var(--rz-file-upload-height);
+    order: 1;
+    pointer-events: none; /* let parent handle events */
+
+    :where(rz-file-upload,.rz-file-upload):has(.dz-preview) & {
+        display: none;
+    }
 }
 
-.rz-file-upload__visual {
+.rz-file-upload__item {
     position: absolute;
     align-self: start;
     display: flex;
@@ -52,9 +56,23 @@ rz-file-upload,
     height: var(--rz-file-upload-height);
     border-radius: var(--radius-md);
     border: 1px dashed var(--line-on-light-tertiary, #BCBCBC);
+    font-size: 24px;
 }
 
-/* Item  */
+.rz-file-upload__message {
+    pointer-events: none; /* let parent handle events */
+    text-align: center;
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-description-md-font-size);
+    line-height: var(--text-form-description-md-line-height);
+    letter-spacing: var(--text-form-description-md-letter-spacing);
+    font-weight: var(--text-form-description-md-font-weight);
+    order: 2;
+    width: 100%;
+    padding-inline: 10%;
+}
+
+/* Preview item  */
 :where(rz-file-upload, .rz-file-upload) .dz-preview {
     position: relative;
     display: inline-block;
@@ -183,16 +201,4 @@ rz-file-upload,
     to {
         background-position: -7px -400px;
     }
-}
-
-
-.rz-file-upload__message {
-    pointer-events: none; /* let parent handle events */
-    margin-top: var(--spacing-md);
-    text-align: center;
-    font-family: var(--font-family-os-text);
-    font-size: var(--text-form-description-md-font-size);
-    line-height: var(--text-form-description-md-line-height);
-    letter-spacing: var(--text-form-description-md-letter-spacing);
-    font-weight: var(--text-form-description-md-font-weight);
 }

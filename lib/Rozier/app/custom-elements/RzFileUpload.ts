@@ -20,7 +20,6 @@ export default class RzFileUpload extends HTMLElement {
             timeout: 0, // no timeout
             autoDiscover: false,
             headers: { _token: window.RozierConfig?.ajaxToken || '' },
-            previewsContainer: '.rz-file-upload__previews',
         }
     }
 
@@ -76,15 +75,21 @@ export default class RzFileUpload extends HTMLElement {
             }
         })
 
-        const msgNode = this.querySelector(
-            '.rz-file-upload__message',
-        ) as HTMLElement
-        const text = this.options.dictDefaultMessage || ''
-        if (msgNode && text) {
-            msgNode.innerText = text
+        this.insertAdjacentHTML(
+            'beforeend',
+            `<div class="rz-file-upload__placeholder">
+                <div class="rz-file-upload__item">
+                    <span class="rz-icon-ri--upload-line"></span>
+                </div>
+            </div>`,
+        )
+        const text = this.options.dictDefaultMessage
+        if (text) {
+            this.insertAdjacentHTML(
+                'beforeend',
+                `<div class="rz-file-upload__message">${text}</div>`,
+            )
         }
-
-        this.classList.add('rz-file-upload--initialized')
     }
 
     disconnectedCallback() {

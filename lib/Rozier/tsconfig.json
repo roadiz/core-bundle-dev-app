@@ -8,5 +8,11 @@
       "assets/*": ["./app/assets/*"]
     }
   },
-  "include": ["vite.config.ts", "app/**/*", ".storybook/**/*", "vite-plugins/**/*"]
+  "include": [
+      "vite.config.ts",
+      "app/**/*",
+      ".storybook/**/*",
+      "vite-plugins/**/*",
+      "stories/**/*",
+    ]
 }
