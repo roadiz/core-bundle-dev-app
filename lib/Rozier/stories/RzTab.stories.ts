@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzTabRenderer, VARIANTS } from '../app/utils/storybook/renderer/rzTab'
+import { rzTablistItemRenderer } from '../app/utils/storybook/renderer/rzTablist'
 
 export type Args = {
     innerHTML: string
-    variant?: (typeof VARIANTS)[number]
     selected?: boolean
     tag?: string
     attributes?: Record<string, string>
@@ -21,11 +20,8 @@ const meta: Meta<Args> = {
         tag: 'button',
         selected: false,
     },
-    argTypes: {
-        variant: {
-            control: 'select',
-            options: ['', ...VARIANTS],
-        },
+    parameters: {
+        layout: 'centered',
     },
 }
 
@@ -34,37 +30,24 @@ type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
-        return rzTabRenderer(args)
+        return rzTablistItemRenderer(args)
     },
 }
 
-export const FilledSelected: Story = {
+export const WithIcon: Story = {
     render: (args) => {
-        return rzTabRenderer(args)
+        return rzTablistItemRenderer(args)
     },
     args: {
-        variant: 'filled',
-        selected: true,
-        innerHTML: 'Filled Selected Tab',
-    },
-}
-
-export const Underline: Story = {
-    render: (args) => {
-        return rzTabRenderer(args)
-    },
-    args: {
-        variant: 'underlined',
-        innerHTML: 'Underlined Tab',
+        innerHTML: `tab with icon<span class="rz-icon-ri--edit-line"></span>`,
     },
 }
 
 export const UnderlineSelected: Story = {
     render: (args) => {
-        return rzTabRenderer(args)
+        return rzTablistItemRenderer(args)
     },
     args: {
-        variant: 'underlined',
         selected: true,
         innerHTML: 'Underlined Selected Tab',
     },
@@ -72,7 +55,7 @@ export const UnderlineSelected: Story = {
 
 export const Link: Story = {
     render: (args) => {
-        return rzTabRenderer(args)
+        return rzTablistItemRenderer(args)
     },
     args: {
         tag: 'a',
@@ -81,22 +64,12 @@ export const Link: Story = {
     },
 }
 
-export const Icon: Story = {
+export const IconOnly: Story = {
     render: (args) => {
-        return rzTabRenderer(args)
+        return rzTablistItemRenderer(args)
     },
     args: {
         attributes: { 'aria-label': 'Icon tab label' },
         innerHTML: `<span class="rz-icon-ri--edit-line"></span>`,
-    },
-}
-
-export const IconUnderline: Story = {
-    render: (args) => {
-        return rzTabRenderer(args)
-    },
-    args: {
-        ...Icon.args,
-        variant: 'underlined',
     },
 }

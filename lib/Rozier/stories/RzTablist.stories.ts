@@ -1,27 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as TabArgs } from './RzTab.stories'
-import { rzTabRenderer, VARIANTS } from '../app/utils/storybook/renderer/rzTab'
 import {
-    rzTabWrapperRenderer,
-    COMPONENT_CLASS_NAME,
-} from '../app/utils/storybook/renderer/rzTabWrapper'
+    rzTablistRenderer,
+    rzTablistItemRenderer,
+} from '../app/utils/storybook/renderer/rzTablist'
 
-type Args = {
+export type Args = {
     tabs: TabArgs[]
-    variant?: (typeof VARIANTS)[number]
 }
+
+const COMPONENT_CLASS_NAME = 'rz-tablist'
 
 function getTab(id: number, args: Partial<TabArgs> = {}) {
     return {
         tag: 'button',
         innerHTML: `Tab label ${id}`,
         selected: false,
-        variant: 'filled',
         ...args,
         attributes: {
+            ...(args.attributes || {}),
             id: args.attributes?.id || `tab-${id}`,
         },
         panel: {
+            ...(args.panel || {}),
             id: args.panel?.id || `panel-${id}`,
         },
     }
@@ -31,42 +32,12 @@ const meta: Meta<Args> = {
     title: 'Components/Tab/Tablist',
     tags: ['autodocs'],
     args: {
-        variant: 'filled',
         tabs: [getTab(1, { selected: true }), getTab(2), getTab(3)],
-    },
-    argTypes: {
-        variant: {
-            control: 'select',
-            options: ['', ...VARIANTS],
-        },
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
-
-function tabPanelRenderer(args: Tab) {
-    const tabPanel = document.createElement('div')
-    tabPanel.classList.add('rz-tabpanel')
-    tabPanel.setAttribute('role', 'tabpanel')
-    tabPanel.setAttribute('aria-labelledby', args.attributes?.id)
-    tabPanel.textContent = `Content for ${args.attributes?.id}`
-    tabPanel.id = args.panel.id
-
-    if (args.panel.hidden) {
-        tabPanel.setAttribute('hidden', 'true')
-    }
-
-    return tabPanel
-}
-
-function rzTablistRenderer(args: Args) {
-    const wrapper = rzTabWrapperRenderer(args, 'rz-tablist')
-    const tablist = wrapper.querySelector(`.${COMPONENT_CLASS_NAME}__inner`)
-    tablist?.setAttribute('role', 'tablist')
-
-    return wrapper
-}
 
 export const Default: Story = {
     render: (args) => {
@@ -74,51 +45,27 @@ export const Default: Story = {
     },
 }
 
-export const Underline: Story = {
-    render: (args) => {
-        return rzTablistRenderer(args)
-    },
-    args: {
-        variant: 'underlined',
-    },
-}
-
-function rzTablistWithSeparatorRenderer(args: Args) {
-    const tablist = rzTablistRenderer(args)
-
-    const inner = tablist.querySelector(`.${COMPONENT_CLASS_NAME}__inner`)
-
-    const separator = document.createElement('hr')
-    separator.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
-    inner?.appendChild(separator)
-
-    const tab = rzTabRenderer({
-        tag: 'button',
-        innerHTML: '<span class="rz-icon-ri--printer-line"></span>',
-    })
-    inner?.appendChild(tab)
-
-    const tab2 = rzTabRenderer({
-        tag: 'button',
-        innerHTML: '<span class="rz-icon-ri--file-list-3-line"></span>',
-    })
-    inner?.appendChild(tab2)
-
-    return tablist
-}
-
 export const WithSeparator: Story = {
     render: (args) => {
-        return rzTablistWithSeparatorRenderer(args)
-    },
-}
+        const tablist = rzTablistRenderer(args)
 
-export const UnderlinedWithSeparator: Story = {
-    render: (args) => {
-        return rzTablistWithSeparatorRenderer(args)
-    },
-    args: {
-        variant: 'underlined',
+        const separator = document.createElement('hr')
+        separator.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
+        tablist.appendChild(separator)
+
+        const tab = rzTablistItemRenderer({
+            tag: 'button',
+            innerHTML: '<span class="rz-icon-ri--printer-line"></span>',
+        })
+        tablist.appendChild(tab)
+
+        const tab2 = rzTablistItemRenderer({
+            tag: 'button',
+            innerHTML: '<span class="rz-icon-ri--file-list-3-line"></span>',
+        })
+        tablist.appendChild(tab2)
+
+        return tablist
     },
 }
 
@@ -130,8 +77,17 @@ export const WithTabPanels: Story = {
         wrapper.appendChild(tablist)
 
         args.tabs.forEach((tabArgs) => {
-            const panel = tabPanelRenderer(tabArgs)
-            wrapper.appendChild(panel)
+            const tabPanel = document.createElement('div')
+            tabPanel.classList.add('rz-tabpanel')
+            tabPanel.setAttribute('role', 'tabpanel')
+            tabPanel.textContent = `Content for ${tabArgs.attributes?.id}`
+
+            if (tabArgs.attributes?.id)
+                tabPanel.setAttribute('aria-labelledby', tabArgs.attributes?.id)
+            if (tabArgs.panel?.id) tabPanel.id = tabArgs.panel.id
+            if (tabArgs.panel?.hidden) tabPanel.setAttribute('hidden', 'true')
+
+            wrapper.appendChild(tabPanel)
         })
 
         return wrapper
