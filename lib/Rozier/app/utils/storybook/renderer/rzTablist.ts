@@ -1,4 +1,4 @@
-import type { Args as TabArgs } from '../../../../stories/RzTab.stories'
+import type { Args as TabArgs } from '../../../../stories/RzTablistItem.stories'
 import type { Args as TablistArgs } from '../../../../stories/RzTablist.stories'
 
 export const TABLIST_CLASS_NAME = 'rz-tablist'

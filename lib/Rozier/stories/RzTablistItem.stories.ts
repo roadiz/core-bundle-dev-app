@@ -13,7 +13,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Tab/Item',
+    title: 'Components/Tablist/Item',
     tags: ['autodocs'],
     args: {
         innerHTML: 'Tab label',

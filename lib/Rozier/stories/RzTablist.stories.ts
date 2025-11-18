@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as TabArgs } from './RzTab.stories'
+import type { Args as TabArgs } from './RzTablistItem.stories'
 import {
     rzTablistRenderer,
     rzTablistItemRenderer,
@@ -29,7 +29,7 @@ function getTab(id: number, args: Partial<TabArgs> = {}) {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Tab/Tablist',
+    title: 'Components/Tablist/root',
     tags: ['autodocs'],
     args: {
         tabs: [getTab(1, { selected: true }), getTab(2), getTab(3)],
