@@ -7,14 +7,8 @@ import type {
     EditorFromTextArea,
 } from 'codemirror'
 import CodeMirror from 'codemirror'
-import 'codemirror/mode/markdown/markdown'
-import 'codemirror/mode/javascript/javascript'
-import 'codemirror/mode/css/css'
-import 'codemirror/addon/mode/overlay'
-import 'codemirror/mode/xml/xml'
-import 'codemirror/mode/yaml/yaml'
 import 'codemirror/mode/gfm/gfm'
-import 'codemirror/addon/display/rulers'
+import 'codemirror/mode/markdown/markdown'
 import 'assets/css/vendor/codemirror.css'
 
 interface TranslationResponse {
