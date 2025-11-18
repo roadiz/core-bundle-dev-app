@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Args as TabArgs } from './RzTablistItem.stories'
 import {
+    TABLIST_CLASS_NAME,
     rzTablistRenderer,
     rzTablistItemRenderer,
 } from '../app/utils/storybook/renderer/rzTablist'
@@ -9,30 +10,25 @@ export type Args = {
     tabs: TabArgs[]
 }
 
-const COMPONENT_CLASS_NAME = 'rz-tablist'
-
-function getTab(id: number, args: Partial<TabArgs> = {}) {
-    return {
-        tag: 'button',
-        innerHTML: `Tab label ${id}`,
-        selected: false,
-        ...args,
-        attributes: {
-            ...(args.attributes || {}),
-            id: args.attributes?.id || `tab-${id}`,
-        },
-        panel: {
-            ...(args.panel || {}),
-            id: args.panel?.id || `panel-${id}`,
-        },
-    }
-}
-
 const meta: Meta<Args> = {
     title: 'Components/Tablist/root',
     tags: ['autodocs'],
     args: {
-        tabs: [getTab(1, { selected: true }), getTab(2), getTab(3)],
+        tabs: Array(3)
+            .fill(null)
+            .map((_, i) => {
+                return {
+                    tag: 'button',
+                    innerHTML: `Tab label ${i + 1}`,
+                    selected: false,
+                    attributes: {
+                        id: `tab-${i + 1}`,
+                    },
+                    panel: {
+                        id: `panel-${i + 1}`,
+                    },
+                }
+            }),
     },
 }
 
@@ -50,7 +46,7 @@ export const WithSeparator: Story = {
         const tablist = rzTablistRenderer(args)
 
         const separator = document.createElement('hr')
-        separator.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
+        separator.classList.add(`${TABLIST_CLASS_NAME}__separator`)
         tablist.appendChild(separator)
 
         const tab = rzTablistItemRenderer({
