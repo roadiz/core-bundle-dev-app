@@ -25,7 +25,7 @@ rz-file-upload,
 }
 
 /* Class name injected by Dropzone */
-:where(rz-file-upload,.rz-file-upload).dz-clickable {
+:where(rz-file-upload, .rz-file-upload).dz-clickable {
     --rz-file-upload-cursor: pointer;
 }
 
@@ -41,7 +41,7 @@ rz-file-upload,
     order: 1;
     pointer-events: none; /* let parent handle events */
 
-    :where(rz-file-upload,.rz-file-upload):has(.dz-preview) & {
+    :where(rz-file-upload, .rz-file-upload):has(.dz-preview) & {
         display: none;
     }
 }
