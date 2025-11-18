@@ -82,13 +82,16 @@ export const WithPreviews: Story = {
     render: (args) => {
         const el = rzUploadFileRenderer(args)
 
-        // Wait for injected DOM element to be render from custom-element
-        window.setTimeout(() => {
-            if (!el) return
-            for (let i = 0; i < (args.previewLength || 0); i++) {
-                el.insertAdjacentHTML('beforeend', previewItemHtml)
+        // Wait for the custom element to render its internal DOM before inserting previews
+        const observer = new MutationObserver(() => {
+            if (el.childNodes.length > 0) {
+                for (let i = 0; i < (args.previewLength || 0); i++) {
+                    el.insertAdjacentHTML('beforeend', previewItemHtml)
+                }
+                observer.disconnect()
             }
-        }, 1000)
+        })
+        observer.observe(el, { childList: true })
 
         return el
     },
