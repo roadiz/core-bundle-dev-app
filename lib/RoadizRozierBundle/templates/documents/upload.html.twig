@@ -17,20 +17,20 @@
         <div class="content-upload-inner">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
             <form
-                class="uk-form uk-form-stacked"
+                class="rz-form"
                 action="#"
                 method="post"
                 enctype="multipart/form-data"
             >
                 <rz-file-upload
+                    class="rz-form-field"
                     {% if folder.id %}
                         url="{{ path('documentsUploadPage', {_format: 'json'}) ~ '/' ~ folder.id }}"
-                        style="--rz-accent-color: {{ folder.color }};"
                     {% endif %}
                 >
                     <noscript>
                         {{ form_widget(form) }}
-                        <input class="rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
+                        <input class="rz-form-field__submit rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
                     </noscript>
                     {{ form_rest(form) }}
                 </rz-file-upload>
