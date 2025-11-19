@@ -39,7 +39,7 @@
                       data-locale="{{ form.vars._locale }}"
                       data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
     >
-        <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
+        <div class="rz-drawer drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}{% if entity == 'document' %} rz-drawer--more-columns{% endif %}"
              :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
              v-if="drawer"
              ref="drawer"
@@ -72,7 +72,7 @@
                         <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
                     </div>
                 {% endif %}
-                <div class="rz-button-group rz-button-group--md rz-button-group--gap-md rz-form-field__head__button-group">
+                <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                     {% if enableDropzone %}
                         <button
                             type="button"
@@ -112,7 +112,7 @@
                         v-model="items"
                         :options="getOptions()"
                     >
-                        <transition-group tag="div">
+                        <transition-group tag="div" class="rz-drawer__body">
                             <component
                                 v-bind:is="drawer.currentListingView"
                                 v-for="(item, index) in items"

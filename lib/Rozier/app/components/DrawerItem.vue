@@ -1,28 +1,30 @@
 <template>
-    <div class="rz-drawer-item" @click.prevent="onAddItemButtonClick">
+    <div class="rz-drawer__item" @click.prevent="onAddItemButtonClick">
         <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
-        <div class="rz-drawer-item__overtitle" v-if="parentName || subParentName">
+        <div class="rz-drawer__item__overtitle" v-if="parentName || subParentName">
             {{ subParentName ? subParentName : parentName }}
         </div>
-        <div v-if="name" class="rz-drawer-item__title">{{ name }}</div>
-        <picture v-if="thumbnailUrl" style="display: contents;">
-            <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
-            <img :src="thumbnailUrl" width="110" height="94" class="rz-drawer-item__img">
-        </picture>
+        <div v-if="name" class="rz-drawer__item__title">{{ name }}</div>
+        <div v-if="thumbnailUrl" class="rz-drawer__item__asset">
+            <picture class="rz-drawer__item__img">
+                <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
+                <img :src="thumbnailUrl" width="110" height="94">
+            </picture>
+        </div>
 
-        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer-item__button-group">
-            <ajax-link :href="editItemUrl" class="rz-button rz-button--primary rz-button-group__button" v-if="editItemUrl">
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer__item__action">
+            <ajax-link :href="editItemUrl" class="rz-button rz-button--primary" v-if="editItemUrl">
                 <span class="rz-button__icon rz-icon-ri--equalizer-3-line"></span>
             </ajax-link>
             <button
                 type="button"
-                class="rz-button rz-button--error-light rz-button-group__button"
+                class="rz-button rz-button--error-light"
                 @click.prevent="onRemoveItemButtonClick()"
             >
                 <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
             </button>
         </div>
-        <button v-else class="rz-drawer-item__button-group rz-drawer-item__button-group--top rz-button rz-button--primary rz-button-group__button">
+        <button v-else class="rz-drawer__item__action rz-drawer__item__action--top rz-button rz-button--primary">
             <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
         </button>
     </div>

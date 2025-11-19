@@ -1,50 +1,52 @@
 <template>
     <div v-if="document"
          :title="document.classname"
-         class="rz-drawer-item"
+         class="rz-drawer__item"
          @click.prevent="onAddItemButtonClick">
-        <template v-if="drawerName && entityName">
-            <input type="hidden" :name="drawerName + '[' + index + '][document]'" :value="document.id" />
-            <input
-                type="hidden"
-                :name="drawerName + '[' + index + '][hotspot]'"
-                :value="JSON.stringify(hotspot)"
-            />
-            <input
-                type="hidden"
-                :name="drawerName + '[' + index + '][imageCropAlignment]'"
-                :value="imageCropAlignment"
-            />
-        </template>
-        <template v-else-if="drawerName">
-            <input type="hidden" :name="drawerName + '[' + index + ']'" :value="document.id" />
-        </template>
-        <img :src="document.thumbnail80"
-             width="110"
-             height="94"
-             class="rz-drawer-item__img"
-        >
-        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer-item__button-group">
+        <div class="rz-drawer__item__asset">
+            <template v-if="drawerName && entityName">
+                <input type="hidden" :name="drawerName + '[' + index + '][document]'" :value="document.id" />
+                <input
+                    type="hidden"
+                    :name="drawerName + '[' + index + '][hotspot]'"
+                    :value="JSON.stringify(hotspot)"
+                />
+                <input
+                    type="hidden"
+                    :name="drawerName + '[' + index + '][imageCropAlignment]'"
+                    :value="imageCropAlignment"
+                />
+            </template>
+            <template v-else-if="drawerName">
+                <input type="hidden" :name="drawerName + '[' + index + ']'" :value="document.id" />
+            </template>
+            <img :src="document.thumbnail80"
+                 width="110"
+                 height="94"
+                 class="rz-drawer__item__img"
+            >
+        </div>
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer__item__action">
             <button
                 :id="`edit-${drawerName}[${index}]`"
                 type="button"
-                class="rz-button rz-button--primary rz-button-group__button"
+                class="rz-button rz-button--primary"
                 @click="onEditClick">
                 <span class="rz-button__icon rz-icon-ri--equalizer-3-line"></span>
             </button>
             <button
                 type="button"
-                class="rz-button rz-button--error-light rz-button-group__button"
+                class="rz-button rz-button--error-light"
                 @click.prevent="onRemoveItemButtonClick()">
                 <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
             </button>
         </div>
-        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer-item__button-group rz-drawer-item__button-group--top">
-            <button class="rz-button rz-button--primary rz-button-group__button" @click.prevent="onPreviewClick">
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer__item__action rz-drawer__item__action--top">
+            <button class="rz-button rz-button--primary" @click.prevent="onPreviewClick">
                 <span class="rz-button__icon rz-icon-ri--zoom-in-line"></span>
             </button>
         </div>
-        <button v-else class="rz-drawer-item__button-group rz-drawer-item__button-group--top rz-button rz-button--primary rz-button-group__button">
+        <button v-else class="rz-drawer-item__button-group rz-drawer-item__button-group--top rz-button rz-button--primary">
             <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
         </button>
     </div>
