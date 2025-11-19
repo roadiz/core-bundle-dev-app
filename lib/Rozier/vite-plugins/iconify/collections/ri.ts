@@ -28,6 +28,10 @@ export default [
     'delete-bin-7-line',
     'equalizer-3-line',
     'zoom-in-line',
+    'lock-2-line',
+    'printer-line',
+    'user-shared-line',
+    'file-list-3-line',
     // Markdown related icons
     'h-1',
     'h-2',
