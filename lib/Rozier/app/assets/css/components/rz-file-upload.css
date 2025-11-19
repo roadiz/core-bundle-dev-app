@@ -68,7 +68,6 @@ rz-file-upload,
     letter-spacing: var(--text-form-description-md-letter-spacing);
     font-weight: var(--text-form-description-md-font-weight);
     order: 2;
-    width: 100%;
     padding-inline: 10%;
 }
 
