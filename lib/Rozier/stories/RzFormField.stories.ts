@@ -13,6 +13,7 @@ export type Args = {
     help?: string // under input
     error?: string
     horizontal?: boolean
+    alignStart?: boolean
     headClass?: string
     // Elements
     badge?: BadgeArgs
@@ -32,6 +33,7 @@ const meta: Meta<Args> = {
         error: '',
         help: '',
         horizontal: false,
+        alignStart: false,
         input: {
             type: 'text',
             placeholder: 'Enter text here',

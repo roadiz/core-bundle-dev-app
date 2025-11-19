@@ -120,11 +120,15 @@ function formRenderer(args: Args) {
         form.appendChild(fieldListElement)
     })
 
+    const buttonField = document.createElement('div')
+    buttonField.classList.add(`rz-form-field`, `rz-form-field--align-start`)
+    form.appendChild(buttonField)
+
     const button = document.createElement('button')
     button.classList.add(`rz-button`)
     button.type = 'submit'
     button.textContent = 'Submit'
-    form.appendChild(button)
+    buttonField.appendChild(button)
 
     return form
 }
