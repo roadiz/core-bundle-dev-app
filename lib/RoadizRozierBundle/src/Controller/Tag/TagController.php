@@ -412,7 +412,7 @@ final class TagController extends AbstractController
         path: '/rz-admin/tags/tree/{tagId}',
         name: 'tagsTreePage',
         requirements: ['tagId' => '\d+'],
-        defaults: ['translationId' => '\d+'],
+        defaults: ['translationId' => null],
     )]
     public function treeAction(
         Request $request,
@@ -492,7 +492,7 @@ final class TagController extends AbstractController
         path: '/rz-admin/tags/add-child/{tagId}',
         name: 'tagsAddChildPage',
         requirements: ['tagId' => '\d+'],
-        defaults: ['translationId' => '\d+'],
+        defaults: ['translationId' => null],
     )]
     public function addChildAction(
         Request $request,
