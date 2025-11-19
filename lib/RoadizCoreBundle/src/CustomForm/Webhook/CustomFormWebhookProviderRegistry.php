@@ -14,7 +14,7 @@ final class CustomFormWebhookProviderRegistry
     /**
      * @var array<string, CustomFormWebhookProviderInterface>
      */
-    private array $providers = [];
+    private array $providersMap = [];
 
     /**
      * @param iterable<CustomFormWebhookProviderInterface> $providers
@@ -30,17 +30,17 @@ final class CustomFormWebhookProviderRegistry
 
     public function addProvider(CustomFormWebhookProviderInterface $provider): void
     {
-        $this->providers[$provider->getName()] = $provider;
+        $this->providersMap[$provider->getName()] = $provider;
     }
 
     public function getProvider(string $name): ?CustomFormWebhookProviderInterface
     {
-        return $this->providers[$name] ?? null;
+        return $this->providersMap[$name] ?? null;
     }
 
     public function hasProvider(string $name): bool
     {
-        return isset($this->providers[$name]);
+        return isset($this->providersMap[$name]);
     }
 
     /**
@@ -48,7 +48,7 @@ final class CustomFormWebhookProviderRegistry
      */
     public function getProviders(): array
     {
-        return $this->providers;
+        return $this->providersMap;
     }
 
     /**
@@ -59,7 +59,7 @@ final class CustomFormWebhookProviderRegistry
     public function getProviderChoices(): array
     {
         $choices = [];
-        foreach ($this->providers as $provider) {
+        foreach ($this->providersMap as $provider) {
             $choices[$provider->getDisplayName()] = $provider->getName();
         }
 
