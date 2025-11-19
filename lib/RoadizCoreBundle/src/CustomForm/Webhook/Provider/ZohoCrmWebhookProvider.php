@@ -84,7 +84,8 @@ final class ZohoCrmWebhookProvider extends AbstractCustomFormWebhookProvider
         ];
 
         try {
-            $response = $this->httpClient->request('POST', sprintf('https://www.zohoapis.com/crm/v2/%s', $module), [
+            // Use Zoho CRM v8 API to create records
+            $response = $this->httpClient->request('POST', sprintf('https://www.zohoapis.com/crm/v8/%s', $module), [
                 'headers' => [
                     'Authorization' => 'Zoho-oauthtoken '.$this->apiKey,
                     'Content-Type' => 'application/json',

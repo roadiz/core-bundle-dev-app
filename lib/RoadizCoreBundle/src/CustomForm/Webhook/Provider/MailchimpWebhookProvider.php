@@ -98,7 +98,6 @@ final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
             }
         }
 
-        $subscriberHash = md5(strtolower($email));
         $status = $extraConfig['status'] ?? 'subscribed';
 
         $payload = [
@@ -108,14 +107,14 @@ final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
         ];
 
         try {
+            // Use Mailchimp Marketing API v3 to add/update member
             $url = sprintf(
-                'https://%s.api.mailchimp.com/3.0/lists/%s/members/%s',
+                'https://%s.api.mailchimp.com/3.0/lists/%s/members',
                 $this->serverPrefix,
-                $extraConfig['audience_id'],
-                $subscriberHash
+                $extraConfig['audience_id']
             );
 
-            $response = $this->httpClient->request('PUT', $url, [
+            $response = $this->httpClient->request('POST', $url, [
                 'auth_basic' => ['anystring', $this->apiKey],
                 'headers' => [
                     'Content-Type' => 'application/json',

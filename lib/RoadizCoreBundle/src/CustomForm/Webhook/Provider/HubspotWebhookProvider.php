@@ -64,14 +64,11 @@ final class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
             throw new \InvalidArgumentException('Valid email is required to send to HubSpot');
         }
 
-        // Build contact properties
+        // Build contact properties for HubSpot v3 API
         $properties = [];
         foreach ($mappedData as $key => $value) {
             if (!str_starts_with($key, '_')) {
-                $properties[] = [
-                    'property' => $key,
-                    'value' => $value,
-                ];
+                $properties[$key] = $value;
             }
         }
 
@@ -80,7 +77,8 @@ final class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
         ];
 
         try {
-            $response = $this->httpClient->request('POST', 'https://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/'.$email, [
+            // Use HubSpot CRM v3 API to create or update contact
+            $response = $this->httpClient->request('POST', 'https://api.hubapi.com/crm/v3/objects/contacts', [
                 'headers' => [
                     'Authorization' => 'Bearer '.$this->apiKey,
                     'Content-Type' => 'application/json',
