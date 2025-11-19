@@ -201,8 +201,3 @@ rz-file-upload,
         background-position: -7px -400px;
     }
 }
-
-/* Submit input in noscript tag */
-.rz-file-upload__submit {
-    margin-top: var(--spacing-2xs);
-}

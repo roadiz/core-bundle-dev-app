@@ -31,7 +31,9 @@
                         >
                             <noscript>
                                 {{ form_widget(form) }}
-                                <input class="rz-file-upload__submit rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
+                                <div class="rz-form-field rz-form-field--align-start">
+                                    <input class="rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
+                                </div>
                             </noscript>
                             {{ form_rest(form) }}
                         </rz-file-upload>
