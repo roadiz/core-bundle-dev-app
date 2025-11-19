@@ -1,7 +1,7 @@
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 import { rzImageRenderer } from '~/utils/storybook/renderer/rzImage'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+import { rzFormFieldHeadRenderer } from '~/utils/storybook/renderer/rzFormField'
 import type { Args as RzDrawerItemArgs } from '../../../../stories/RzDrawerItem.stories'
 import type { Args as RzDrawerArgs } from '../../../../stories/RzDrawer.stories'
 
@@ -62,14 +62,15 @@ export function rzDrawerItemRenderer(
 }
 
 export function rzDrawerRenderer(args: RzDrawerArgs) {
-    const wrapper = rzFormFieldRenderer({
-        ...args.formField,
-        headClass: `${COMPONENT_CLASS_NAME}__head`,
-    })
+    const wrapper = document.createElement('div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
-    if (args.moreColumns)
+    if (args.moreColumns) {
         wrapper.classList.add(`${COMPONENT_CLASS_NAME}--more-columns`)
+    }
+
+    const head = rzFormFieldHeadRenderer(args.formField)
+    wrapper.appendChild(head)
 
     const body = document.createElement('div')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)

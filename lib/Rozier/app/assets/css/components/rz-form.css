@@ -1,4 +1,3 @@
-/* No style for now */
 .rz-form {
 	--rz-form-field-list-gap: var(--spacing-md);
 
@@ -9,13 +8,11 @@
 }
 
 .rz-form__field-list {
-	display: flex;
+	display: grid;
 	width: 100%;
-	flex-direction: var(--rz-form-field-list-flex-direction);
-	flex-wrap: wrap;
 	gap: var(--rz-form-field-list-gap);
 }
 
 .rz-form__field-list--horizontal {
-	--rz-form-field-list-flex-direction: row;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
