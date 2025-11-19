@@ -4,6 +4,10 @@
     flex-wrap: wrap;
 }
 
+.rz-form-field--align-start {
+    align-items: flex-start;
+}
+
 .rz-form-field--horizontal {
     --rz-form-field-flex-direction: row;
 
