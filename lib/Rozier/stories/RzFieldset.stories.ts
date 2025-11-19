@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as RzFormFieldArgs } from './RzFormField.stories'
+import type { Args as FormFieldArgs } from './RzFormField.stories'
 import { rzFieldsetRenderer } from '~/utils/storybook/renderer/rzFieldset'
 
 export type Args = {
     legend: string
-    formFieldsData?: RzFormFieldArgs[]
+    formFieldsData?: (FormFieldArgs | Args)[]
+    horizontal?: boolean
 }
 
 const meta: Meta<Args> = {
@@ -12,6 +13,7 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         legend: 'Fieldset Legend',
+        horizontal: false,
     },
 }
 
@@ -47,13 +49,13 @@ export const Default: Story = {
     },
 }
 
-export const InlineCheckboxGroup: Story = {
+export const CheckboxGroup: Story = {
     render: (args) => {
         return rzFieldsetRenderer(args)
     },
     args: {
         legend: 'Checkbox Group Legend',
-        formFieldsData: Array.from({ length: 10 }, (_, i) => ({
+        formFieldsData: Array.from({ length: 4 }, (_, i) => ({
             description: 'This is option description',
             label: `Option ${i + 1}`,
             horizontal: true,
@@ -66,15 +68,37 @@ export const InlineCheckboxGroup: Story = {
     },
 }
 
-export const SwitchGroup: Story = {
+export const HorizontalCheckboxGroup: Story = {
+    render: (args) => {
+        return rzFieldsetRenderer(args)
+    },
+    args: {
+        legend: 'Checkbox Group Legend',
+        horizontal: true,
+        formFieldsData: Array.from({ length: 4 }, (_, i) => ({
+            description: 'This is option description',
+            label: `Option ${i + 1}`,
+            horizontal: true,
+            input: {
+                type: 'checkbox',
+                name: `Horizontal-checkboxGroup-option-${i + 1}`,
+                id: `Horizontal-checkboxGroup-option-${i + 1}`,
+            },
+        })),
+    },
+}
+
+export const HorizontalSwitchGroup: Story = {
     render: (args) => {
         return rzFieldsetRenderer(args)
     },
     args: {
         legend: 'Switch Group Legend',
+        horizontal: true,
         formFieldsData: Array.from({ length: 10 }, (_, i) => ({
             label: `Option ${i + 1}`,
             description: 'This is option description',
+            horizontal: true,
             input: {
                 type: 'checkbox' as const,
                 id: `SwitchGroup-option-${i + 1}`,
@@ -92,16 +116,19 @@ export const Mixed: Story = {
     args: {
         legend: 'Switch Group Legend',
         formFieldsData: [
-            ...Array.from({ length: 3 }, (_, i) => ({
-                label: `Option ${i + 1}`,
+            {
+                legend: 'Nested fieldset',
                 horizontal: true,
-                input: {
-                    className: 'rz-switch',
-                    type: 'checkbox' as const,
-                    name: `Mixed-option-${i + 1}`,
-                    id: `Mixed-option-${i + 1}`,
-                },
-            })),
+                formFieldsData: Array.from({ length: 3 }, (_, i) => ({
+                    label: `Option ${i + 1}`,
+                    input: {
+                        className: 'rz-switch',
+                        type: 'checkbox' as const,
+                        name: `Mixed-option-${i + 1}`,
+                        id: `Mixed-option-${i + 1}`,
+                    },
+                })),
+            },
             {
                 label: 'Simple text 2',
                 input: {
@@ -113,6 +140,7 @@ export const Mixed: Story = {
             {
                 description: 'This is option description',
                 label: `Option solo`,
+                horizontal: true,
                 input: {
                     type: 'checkbox',
                     name: `Mixed-option-solo`,
@@ -121,11 +149,11 @@ export const Mixed: Story = {
                 },
             },
             {
-                label: 'Simple text 2',
+                label: 'Color 2',
                 input: {
                     type: 'color',
-                    name: 'simple-text-2-SwitchList',
-                    id: 'simple-text-2-SwitchList',
+                    name: 'Color-text-2-SwitchList',
+                    id: 'Color-text-2-SwitchList',
                 },
             },
         ],

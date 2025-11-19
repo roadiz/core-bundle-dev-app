@@ -6,6 +6,9 @@ export const COMPONENT_CLASS_NAME = 'rz-fieldset'
 export function rzFieldsetRenderer(args: Args) {
     const fieldset = document.createElement('fieldset')
     fieldset.classList.add(COMPONENT_CLASS_NAME)
+    if (args.horizontal) {
+        fieldset.classList.add(`${COMPONENT_CLASS_NAME}--horizontal`)
+    }
 
     const legend = document.createElement('legend')
     legend.classList.add(`${COMPONENT_CLASS_NAME}__legend`)
@@ -14,8 +17,15 @@ export function rzFieldsetRenderer(args: Args) {
 
     const fields = args.formFieldsData || []
     fields.forEach((fieldData) => {
-        const field = rzFormFieldRenderer(fieldData)
-        fieldset.appendChild(field)
+        if ('formFieldsData' in fieldData) {
+            // Nested fieldset
+            const nestedFieldset = rzFieldsetRenderer(fieldData as Args)
+            fieldset.appendChild(nestedFieldset)
+            return
+        } else if ('label' in fieldData) {
+            const field = rzFormFieldRenderer(fieldData)
+            fieldset.appendChild(field)
+        }
     })
 
     return fieldset
