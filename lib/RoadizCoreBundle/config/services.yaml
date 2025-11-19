@@ -626,7 +626,3 @@ services:
 
     RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\GenericHttpWebhookProvider:
         tags: ['roadiz_core.custom_form_webhook_provider']
-
-    RZ\Roadiz\CoreBundle\CustomForm\Webhook\CustomFormWebhookProviderRegistry:
-        arguments:
-            - !tagged_iterator roadiz_core.custom_form_webhook_provider

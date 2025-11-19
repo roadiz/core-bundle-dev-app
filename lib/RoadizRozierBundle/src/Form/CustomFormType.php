@@ -23,7 +23,6 @@ final class CustomFormType extends AbstractType
 {
     public function __construct(
         private readonly Security $security,
-        private readonly ?CustomFormWebhookType $webhookType = null,
     ) {
     }
 
@@ -99,8 +98,8 @@ final class CustomFormType extends AbstractType
                 'html5' => true,
             ]);
 
-        // Add webhook configuration if webhook type is available
-        if ($this->webhookType !== null && $this->security->isGranted('ROLE_ACCESS_CUSTOMFORMS_WEBHOOKS')) {
+        // Add webhook configuration
+        if ($this->security->isGranted('ROLE_ACCESS_CUSTOMFORMS_WEBHOOKS')) {
             $builder->add('webhook', CustomFormWebhookType::class, [
                 'mapped' => false,
                 'inherit_data' => true,

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\CustomForm\Message\Handler;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormWebhookMessage;
 use RZ\Roadiz\CoreBundle\CustomForm\Webhook\CustomFormWebhookProviderRegistry;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
+use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\RecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 final readonly class CustomFormWebhookMessageHandler
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private CustomFormAnswerRepository $customFormAnswerRepository,
         private CustomFormWebhookProviderRegistry $providerRegistry,
         private LoggerInterface $messengerLogger,
     ) {
@@ -29,7 +29,7 @@ final readonly class CustomFormWebhookMessageHandler
 
     public function __invoke(CustomFormWebhookMessage $message): void
     {
-        $answer = $this->entityManager->find(CustomFormAnswer::class, $message->getCustomFormAnswerId());
+        $answer = $this->customFormAnswerRepository->find($message->getCustomFormAnswerId());
 
         if (!$answer instanceof CustomFormAnswer) {
             throw new UnrecoverableMessageHandlingException(

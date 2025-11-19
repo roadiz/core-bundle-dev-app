@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\CustomForm\Webhook;
 
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
+
 /**
  * Registry for managing CustomForm webhook providers.
  */
@@ -17,9 +19,11 @@ final class CustomFormWebhookProviderRegistry
     /**
      * @param iterable<CustomFormWebhookProviderInterface> $providers
      */
-    public function __construct(iterable $providers = [])
-    {
-        foreach ($providers as $provider) {
+    public function __construct(
+        #[AutowireIterator('roadiz_core.custom_form_webhook_provider')]
+        private readonly iterable $providers,
+    ) {
+        foreach ($this->providers as $provider) {
             $this->addProvider($provider);
         }
     }

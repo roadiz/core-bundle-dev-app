@@ -14,15 +14,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
 {
-    private ?string $apiKey;
-
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        ?string $apiKey = null,
+        private readonly ?string $apiKey = null,
     ) {
         parent::__construct($httpClient, $logger);
-        $this->apiKey = $apiKey;
     }
 
     #[\Override]
@@ -63,8 +60,8 @@ final class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
 
         // Extract email from mapped data or answer
         $email = $mappedData['email'] ?? $answer->getEmail();
-        if (!$email) {
-            throw new \InvalidArgumentException('Email is required to send to HubSpot');
+        if (!$email || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('Valid email is required to send to HubSpot');
         }
 
         // Build contact properties

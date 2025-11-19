@@ -126,6 +126,14 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 
 final class MyCustomProvider extends AbstractCustomFormWebhookProvider
 {
+    public function __construct(
+        HttpClientInterface $httpClient,
+        LoggerInterface $logger,
+        private readonly ?string $apiKey = null,
+    ) {
+        parent::__construct($httpClient, $logger);
+    }
+
     public function getName(): string
     {
         return 'my_custom';
@@ -139,7 +147,7 @@ final class MyCustomProvider extends AbstractCustomFormWebhookProvider
     public function isConfigured(): bool
     {
         // Check if required configuration is present
-        return !empty($_ENV['MY_CUSTOM_API_KEY'] ?? null);
+        return !empty($this->apiKey);
     }
 
     public function getConfigSchema(): array
@@ -166,7 +174,7 @@ final class MyCustomProvider extends AbstractCustomFormWebhookProvider
             $response = $this->httpClient->request('POST', 'https://api.example.com/webhook', [
                 'json' => $mappedData,
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $_ENV['MY_CUSTOM_API_KEY'],
+                    'Authorization' => 'Bearer ' . $this->apiKey,
                 ],
             ]);
 
@@ -193,6 +201,8 @@ Add to your `config/services.yaml`:
 ```yaml
 services:
     App\CustomForm\Webhook\Provider\MyCustomProvider:
+        arguments:
+            $apiKey: '%env(APP_CUSTOM_API_KEY)%'
         tags: ['roadiz_core.custom_form_webhook_provider']
 ```
 
@@ -201,7 +211,7 @@ services:
 Add to `.env`:
 
 ```bash
-MY_CUSTOM_API_KEY=your-key-here
+APP_CUSTOM_API_KEY=your-key-here
 ```
 
 ## Security

@@ -14,15 +14,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
 {
-    private ?string $apiKey;
-
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        ?string $apiKey = null,
+        private readonly ?string $apiKey = null,
     ) {
         parent::__construct($httpClient, $logger);
-        $this->apiKey = $apiKey;
     }
 
     #[\Override]

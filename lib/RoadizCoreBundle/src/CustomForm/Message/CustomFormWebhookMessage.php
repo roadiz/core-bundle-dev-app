@@ -9,6 +9,10 @@ namespace RZ\Roadiz\CoreBundle\CustomForm\Message;
  */
 final readonly class CustomFormWebhookMessage
 {
+    /**
+     * @param array<string, string> $fieldMapping
+     * @param array<string, mixed>  $extraConfig
+     */
     public function __construct(
         private int $customFormAnswerId,
         private string $providerName,
@@ -27,11 +31,17 @@ final readonly class CustomFormWebhookMessage
         return $this->providerName;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getFieldMapping(): array
     {
         return $this->fieldMapping;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getExtraConfig(): array
     {
         return $this->extraConfig;

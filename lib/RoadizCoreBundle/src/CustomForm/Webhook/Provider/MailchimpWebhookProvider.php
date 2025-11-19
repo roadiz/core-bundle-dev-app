@@ -14,18 +14,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
 {
-    private ?string $apiKey;
     private ?string $serverPrefix;
 
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        ?string $apiKey = null,
+        private readonly ?string $apiKey = null,
     ) {
         parent::__construct($httpClient, $logger);
-        $this->apiKey = $apiKey;
         // Extract server prefix from API key (format: xxxxx-us1)
-        $this->serverPrefix = $apiKey ? explode('-', $apiKey)[1] ?? null : null;
+        $this->serverPrefix = $this->apiKey ? explode('-', $this->apiKey)[1] ?? null : null;
     }
 
     #[\Override]
@@ -88,8 +86,8 @@ final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
 
         // Extract email from mapped data or answer
         $email = $mappedData['email'] ?? $answer->getEmail();
-        if (!$email) {
-            throw new \InvalidArgumentException('Email is required to send to Mailchimp');
+        if (!$email || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('Valid email is required to send to Mailchimp');
         }
 
         // Build merge fields
