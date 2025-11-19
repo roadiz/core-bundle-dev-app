@@ -45,7 +45,7 @@ export function rzFormFieldHeadRenderer(args: Args) {
 
     if (args.buttonGroup) {
         const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
-        buttonGroup.classList.add(`${wrapperClass}__action`)
+        buttonGroup.classList.add(`${wrapperClass}__end`)
         head.appendChild(buttonGroup)
     }
 
