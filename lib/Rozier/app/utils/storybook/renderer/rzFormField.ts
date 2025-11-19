@@ -8,6 +8,13 @@ import { rzSwitchRenderer } from './rzSwitch'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
+/**
+ * Renders the head portion of a form field, including label, icon, badge, and button group.
+ * Can be used independently to render just the head section of a form field.
+ *
+ * @param {Args} args - Arguments describing the form field head properties.
+ * @returns {HTMLDivElement} The head element for the form field.
+ */
 export function rzFormFieldHeadRenderer(args: Args) {
     const wrapperClass = `${COMPONENT_CLASS_NAME}__head`
     const head = document.createElement('div')
