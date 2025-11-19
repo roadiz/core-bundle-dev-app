@@ -42,6 +42,7 @@
     flex-wrap: wrap;
     align-items: center;
     width: var(--rz-form-field-head-width, 100%);
+    padding-block: var(--rz-form-field-head-padding-block);
 }
 
 .rz-form-field__head__icon {
@@ -65,8 +66,7 @@
     margin-left: var(--spacing-4xs);
 }
 
-.rz-form-field__head__button,
-.rz-form-field__head__button-group {
+.rz-form-field__head__action {
 	margin-left: auto;
 }
 

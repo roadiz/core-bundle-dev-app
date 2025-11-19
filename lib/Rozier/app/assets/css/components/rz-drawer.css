@@ -1,4 +1,6 @@
 .rz-drawer {
+	--rz-form-field-head-padding-block: var(--spacing-5xs);
+
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -22,10 +24,6 @@
 	@media (--screen-xxl-min) {
 		--rz-drawer-body-columns: 7;
 	}
-}
-
-.rz-drawer__head {
-	min-height: var(--spacing-xl);
 }
 
 .rz-drawer__body {

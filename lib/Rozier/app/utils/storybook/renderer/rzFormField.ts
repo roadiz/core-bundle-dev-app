@@ -8,6 +8,43 @@ import { rzSwitchRenderer } from './rzSwitch'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
+export function rzFormFieldHeadRenderer(args: Args) {
+    const wrapperClass = `${COMPONENT_CLASS_NAME}__head`
+    const head = document.createElement('div')
+    head.classList.add(wrapperClass)
+    if (args.headClass) head.classList.add(args.headClass)
+
+    if (args.iconClass) {
+        const icon = document.createElement('span')
+        icon.classList.add(`${wrapperClass}__icon`, args.iconClass)
+        head.appendChild(icon)
+    }
+
+    const label = document.createElement('label')
+    label.classList.add(`${wrapperClass}__label`)
+    label.textContent = args.label
+    label.setAttribute('for', args.input?.id)
+    head.appendChild(label)
+
+    if (args.badge) {
+        const badge = rzBadgeRenderer({
+            ...args.badge,
+            size: args.badge.size || 'xs',
+        })
+        badge.setAttribute('title', args.badge.title || 'Badge title')
+        badge.classList.add(`${wrapperClass}__badge`)
+        head.appendChild(badge)
+    }
+
+    if (args.buttonGroup) {
+        const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
+        buttonGroup.classList.add(`${wrapperClass}__action`)
+        head.appendChild(buttonGroup)
+    }
+
+    return head
+}
+
 export function rzFormFieldRenderer(args: Args) {
     const wrapper = document.createElement('div')
     const inputType = args.input?.type || args.type
@@ -20,41 +57,8 @@ export function rzFormFieldRenderer(args: Args) {
     ].filter((c) => c) as string[]
     wrapper.classList.add(...wrapperClasses)
 
-    const head = document.createElement('div')
-    head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
-    if (args.headClass) head.classList.add(args.headClass)
+    const head = rzFormFieldHeadRenderer(args)
     wrapper.appendChild(head)
-
-    if (args.iconClass) {
-        const icon = document.createElement('span')
-        icon.classList.add(
-            `${COMPONENT_CLASS_NAME}__head__icon`,
-            args.iconClass,
-        )
-        head.appendChild(icon)
-    }
-
-    const label = document.createElement('label')
-    label.classList.add(`${COMPONENT_CLASS_NAME}__head__label`)
-    label.textContent = args.label
-    label.setAttribute('for', args.input?.id)
-    head.appendChild(label)
-
-    if (args.badge) {
-        const badge = rzBadgeRenderer({
-            ...args.badge,
-            size: args.badge.size || 'xs',
-        })
-        badge.setAttribute('title', args.badge.title || 'Badge title')
-        badge.classList.add(`${COMPONENT_CLASS_NAME}__head__badge`)
-        head.appendChild(badge)
-    }
-
-    if (args.buttonGroup) {
-        const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
-        buttonGroup.classList.add(`${COMPONENT_CLASS_NAME}__head__button-group`)
-        head.appendChild(buttonGroup)
-    }
 
     let descriptionId: string | undefined = undefined
     if (args.description) {
