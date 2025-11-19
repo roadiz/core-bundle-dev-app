@@ -35,7 +35,7 @@
                     autocomplete="username email"
                     placeholder="{% trans %}username{% endtrans %}"
                     class="rz-form-field__input"
-                    required="true"
+                    required
                     value="{{ last_username }}">
             </div>
             <div class="rz-form-field rz-form-field--type-password rz-form-field--required">
@@ -50,7 +50,7 @@
                     autocomplete="current-password"
                     placeholder="{% trans %}password{% endtrans %}"
                     class="rz-form-field__input"
-                    required="true">
+                    required>
             </div>
             <div class="rz-form-field rz-form-field--type-checkbox">
                 <div class="rz-form-field__head">
@@ -61,13 +61,13 @@
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <div class="rz-button-group rz-button-group--gap-md">
-            <button type="submit" class="rz-button rz-button--primary rz-button-group__button">
+            <button type="submit" class="rz-button rz-button--primary">
                 <span class="rz-button__label">{% trans %}login{% endtrans %}</span>
-                <span class="rz-icon-ri--arrow-right-s-line"></span>
+                <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
             </button>
-            <a class="rz-button rz-button--secondary rz-button-group__button" href="{{ path('roadiz_rozier_login_link') }}">
+            <a class="rz-button rz-button--secondary" href="{{ path('roadiz_rozier_login_link') }}">
                 <span class="rz-button__label">{% trans %}request_login_link{% endtrans %}</span>
-                <span class="rz-icon-ri--link"></span>
+                <span class="rz-button__icon rz-icon-ri--link"></span>
             </a>
         </div>
     </form>
