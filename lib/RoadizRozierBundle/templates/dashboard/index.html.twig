@@ -1,4 +1,4 @@
-{% extends '@RoadizRozier/layout.html.twig' %}
+{% extends "@RoadizRozier/admin/base.html.twig" %}
 
 {% if app.user %}
     {% set displayName = app.user.firstName|default(app.user.nickname|default(app.user.givenName|default(app.user.name|default(app.user.userIdentifier)))) %}
@@ -8,22 +8,24 @@
 
 {% block title %}{% trans %}dashboard{% endtrans %} | {{ parent() }}{% endblock %}
 
-{% block content %}
-<section class="content-global">
-    <header class="content-header dashboard-header">
-        <h1 class="content-title dashboard-title">{{ "hello.%name%"|trans({'%name%': displayName}) }}</h1>
-        {% include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'dashboard'} %}
-    </header>
+{%- block content_title -%}{{ "hello.%name%"|trans({'%name%': displayName}) }}{%- endblock -%}
 
-    <article class="content content-dashboard">
+{%- block content_header_nav -%}
+    {%- include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'dashboard'} -%}
+{%- endblock -%}
+
+{%- block content_body -%}
+<article class="content">
+    <div class="uk-grid">
+        {%- block dashboard_panels -%}{%- endblock -%}
         {% if bags.settings.get('dashboard_iframe') %}
-            <div class="dashboard-iframe">
+            <div class="uk-panel uk-width-medium-1-1 uk-margin dashboard-iframe">
                 {{- bags.settings.get('dashboard_iframe')|striptags(['iframe','script'])|raw -}}
             </div>
         {% endif %}
         {% if latestLogs %}
-        <div id="latest-sources">
-            <h3>{% trans %}latest.node-sources.updates{% endtrans %}</h3>
+        <div class="uk-panel uk-width-medium-1-1 uk-margin" id="latest-sources">
+            <h3 class="uk-panel-title uk-text-center">{% trans %}latest.node-sources.updates{% endtrans %}</h3>
             {%- for log in latestLogs -%}
                 <div class="latest-source">
                     {% set entityPath = log_entity_edit_path(log) %}
@@ -61,8 +63,8 @@
         </div>
         {% endif %}
         {% if bookmarks|length %}
-        <div id="dashboard-bookmarks">
-            <h3>{% trans %}bookmarks.links{% endtrans %}</h3>
+        <div class="uk-panel uk-width-medium-1-3 uk-margin" id="dashboard-bookmarks">
+            <h3 class="uk-panel-title uk-text-center">{% trans %}bookmarks.links{% endtrans %}</h3>
             <ul>
                 {% for bookmark in bookmarks %}
                     <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
@@ -70,6 +72,6 @@
             </ul>
         </div>
         {% endif %}
-    </article>
-</section>
-{% endblock %}
+    </div>
+</article>
+{%- endblock -%}
