@@ -73,7 +73,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 6) {
+function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 7) {
     return [...Array(length).keys()].map((i) => {
         const id = Math.random().toString(36).slice(2, 9)
         return {
@@ -133,48 +133,6 @@ export const Default: Story = {
     render: (args) => formRenderer(args),
 }
 
-export const TwoHorizontalGroup: Story = {
-    render: (args) => {
-        return formRenderer(args)
-    },
-    args: {
-        fieldListGroup: [
-            {
-                horizontal: true,
-                fields: [
-                    {
-                        label: 'Simple text',
-                        input: {
-                            type: 'text',
-                            name: 'simple-text-SwitchList',
-                            id: 'simple-text-SwitchList-id',
-                        },
-                    },
-                    {
-                        label: 'Simple text 2',
-                        input: {
-                            type: 'text',
-                            name: 'simple-text-2-SwitchList',
-                            id: 'simple-text-2-SwitchList-id',
-                        },
-                    },
-                ],
-            },
-            {
-                horizontal: true,
-                fields: getCheckboxFieldList({
-                    input: {
-                        type: 'checkbox',
-                        className: 'rz-switch',
-                        name: 'simple-text-SwitchList-checkbox',
-                        id: 'simple-text-SwitchList-checkbox-id',
-                    },
-                }),
-            },
-        ],
-    },
-}
-
 export const WithFieldListHeaderDual: Story = {
     render: (args) => {
         return formRenderer(args)
@@ -219,6 +177,56 @@ export const WithFieldListHeaderDual: Story = {
                         },
                     },
                 ],
+            },
+        ],
+    },
+}
+
+export const HorizontalGroups: Story = {
+    render: (args) => {
+        return formRenderer(args)
+    },
+    args: {
+        fieldListGroup: [
+            {
+                horizontal: true,
+                fields: [
+                    {
+                        label: 'Simple text',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-HorizontalGroups',
+                            id: 'simple-text-HorizontalGroups-id',
+                        },
+                    },
+                    {
+                        label: 'Simple text 2',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-2-HorizontalGroups',
+                            id: 'simple-text-2-HorizontalGroups-id',
+                        },
+                    },
+                    {
+                        label: 'Simple text 3',
+                        input: {
+                            type: 'text',
+                            name: 'simple-text-3-HorizontalGroups',
+                            id: 'simple-text-3-HorizontalGroups-id',
+                        },
+                    },
+                ],
+            },
+            {
+                horizontal: true,
+                fields: getCheckboxFieldList({
+                    input: {
+                        type: 'checkbox',
+                        className: 'rz-switch',
+                        name: 'simple-text-SwitchList-checkbox',
+                        id: 'simple-text-SwitchList-checkbox-id',
+                    },
+                }),
             },
         ],
     },
