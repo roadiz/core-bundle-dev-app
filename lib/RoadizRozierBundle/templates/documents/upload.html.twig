@@ -25,14 +25,13 @@
                 <div class="rz-form__field-list">
                     <div class="rz-form-field">
                         <rz-file-upload
-
                             {% if folder.id %}
                                 url="{{ path('documentsUploadPage', {_format: 'json'}) ~ '/' ~ folder.id }}"
                             {% endif %}
                         >
                             <noscript>
                                 {{ form_widget(form) }}
-                                <input class="rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
+                                <input class="rz-file-upload__submit rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
                             </noscript>
                             {{ form_rest(form) }}
                         </rz-file-upload>

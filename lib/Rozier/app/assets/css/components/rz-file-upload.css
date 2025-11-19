@@ -203,6 +203,6 @@ rz-file-upload,
 }
 
 /* Submit input in noscript tag */
-.rz-form-field__submit {
-    --rz-input-width: auto;
+.rz-file-upload__submit {
+    margin-top: var(--spacing-2xs);
 }
