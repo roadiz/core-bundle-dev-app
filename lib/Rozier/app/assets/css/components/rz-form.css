@@ -11,7 +11,7 @@
 .rz-form__field-list {
 	display: flex;
 	width: 100%;
-	flex-direction: var(--rz-form-field-list-flex-direction);
+	flex-direction: var(--rz-form-field-list-flex-direction, column);
 	flex-wrap: wrap;
 	gap: var(--rz-form-field-list-gap);
 }
