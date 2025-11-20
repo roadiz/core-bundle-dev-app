@@ -112,8 +112,8 @@ function rzLinkRenderer(args: MenuItem) {
     return item
 }
 
-// TODO: Replace with rz-dropdown component when ready
-// Dropdown design should be inspired by Popover API and Anchor positioning API
+// TODO: Replace with rz-popover component when ready
+// Custom Popover element design should be inspired by Popover API and Anchor positioning API
 function rzDropdownRenderer(args: MenuItem) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(`${COMPONENT_CLASS_NAME}__dropdown`)

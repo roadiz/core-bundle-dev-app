@@ -95,7 +95,7 @@
 	font-size: 16px;
 }
 
-/* TODO: Adapt when dropdown component is ready */
+/* TODO: Adapt when rz-popover component is ready */
 .rz-menu-bar__dropdown {
     position: relative;
 }
