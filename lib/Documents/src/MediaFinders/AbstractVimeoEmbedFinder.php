@@ -11,7 +11,7 @@ use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
  */
 abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
 {
-    protected static string $realIdPattern = '#(?<id>[0-9]+)$#';
+    protected static string $realIdPattern = '#(?<id>[0-9]+)(?:\?.*)?$#';
     /**
      * @internal Use getPlatform() instead
      */
@@ -33,7 +33,7 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
     #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
-        if (1 === preg_match('#(?<id>[0-9]+)$#', $embedId, $matches)) {
+        if (1 === preg_match(static::$realIdPattern, $embedId, $matches)) {
             return $matches['id'];
         }
         throw new InvalidEmbedId($embedId, static::$platform);
