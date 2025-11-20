@@ -10,7 +10,7 @@
 {%- block date_widget -%}
      {%- if widget == 'single_text' -%}
          {%- set type = type|default('text') -%}
-         <input class="rz-form-field__input" is="rz-input" type="date" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+         <input class="rz-form-field__body" is="rz-input" type="date" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
      {%- else -%}
          <div {{ block('widget_container_attributes') }}>
              {{- date_pattern|replace({
@@ -23,7 +23,7 @@
 {%- endblock date_widget -%}
 
 {%- block color_widget -%}
-    <rz-color-input class="rz-form-field__input">
+    <rz-color-input class="rz-form-field__body">
         <input
             type="color"
             aria-hidden="true"
@@ -187,7 +187,7 @@
 {% endblock markdown_widget %}
 
 {%- block textarea_widget -%}
-    <textarea {{ block('widget_attributes') }} class="rz-textarea rz-form-field__input">{{ value }}</textarea>
+    <textarea {{ block('widget_attributes') }} class="rz-textarea rz-form-field__body">{{ value }}</textarea>
 {%- endblock textarea_widget -%}
 
 {% block json_widget %}
@@ -319,7 +319,7 @@
 {% endblock custom_forms_widget %}
 
 {%- block radio_widget -%}
-    <input is="rz-input" class="rz-form-field__input" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} >
+    <input is="rz-input" class="rz-form-field__body" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} >
 {%- endblock radio_widget -%}
 
 {%- block document_alignment_widget -%}
@@ -349,7 +349,7 @@
 {% endblock %}
 
 {% block checkbox_widget -%}
-    <input class="rz-switch" class="rz-form-field__input" {% if checked %}checked{% endif %} type="checkbox" />
+    <input class="rz-switch" class="rz-form-field__body" {% if checked %}checked{% endif %} type="checkbox" />
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
@@ -365,20 +365,20 @@
 {%- endblock choice_widget_expanded -%}
 
 {% block text_widget %}
-    <input is="rz-input" class="rz-form-field__input" type="text" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+    <input is="rz-input" class="rz-form-field__body" type="text" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
 {%- endblock text_widget -%}
 
 {% block number_widget -%}
     {%- set type = type|default('number') -%}
-    <input is="rz-input" class="rz-form-field__input" type="{{ type }}" class="rz-form-field__input rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
+    <input is="rz-input" class="rz-form-field__body" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
 {%- endblock number_widget %}
 
 {%- block email_widget -%}
-    <input is="rz-input" class="rz-form-field__input" class="rz-form-field__input rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+    <input is="rz-input" class="rz-form-field__body" class="rz-form-field__body rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock email_widget -%}
 
 {%- block file_widget -%}
-    <input is="rz-input" class="rz-form-field__input" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+    <input is="rz-input" class="rz-form-field__body" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock file_widget -%}
 
 {% block separator_widget %}
@@ -399,7 +399,7 @@
 
 {%- block datetime_widget -%}
     {% if widget == 'single_text' %}
-        <input is="rz-input" class="rz-form-field__input" type="datetime-local" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+        <input is="rz-input" class="rz-form-field__body" type="datetime-local" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
     {%- else -%}
         <div {{ block('widget_container_attributes') }}>
             {{- form_errors(form.date) -}}
@@ -533,7 +533,7 @@
     {%- endif -%}
 
     {% if multiple %}
-        <select is="rz-select" class="rz-form-field__input" {{ block('widget_attributes') }} multiple="multiple">
+        <select is="rz-select" class="rz-form-field__body" {{ block('widget_attributes') }} multiple="multiple">
             {% if placeholder is not none -%}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
             {%- endif %}
@@ -548,7 +548,7 @@
             {{- block('choice_widget_options') -}}
         </select>
     {% else %}
-        <select is="rz-select" class="rz-form-field__input" v-model="selected" {{ block('widget_attributes') }}>
+        <select is="rz-select" class="rz-form-field__body" v-model="selected" {{ block('widget_attributes') }}>
             {% if placeholder is not none -%}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
             {%- endif %}
