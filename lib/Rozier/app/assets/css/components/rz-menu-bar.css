@@ -44,7 +44,6 @@
 	display: inline-flex;
 	gap: var(--spacing-4xs);
     border: none;
-    display: inline-flex;
     align-items: center;
     justify-content: center;
 
