@@ -46,7 +46,7 @@
                 <span class="rz-button__icon rz-icon-ri--zoom-in-line"></span>
             </button>
         </div>
-        <button v-else class="rz-drawer-item__button-group rz-drawer-item__button-group--top rz-button rz-button--primary">
+        <button v-else class="rz-drawer__item__action rz-drawer__item__action--top rz-button rz-button--primary">
             <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
         </button>
     </div>
