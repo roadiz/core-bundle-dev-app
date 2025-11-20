@@ -8,7 +8,7 @@ import {
 import type { Placement } from '@floating-ui/dom'
 
 export class RzPopover extends HTMLElement {
-    target: HTMLElement | null = null
+    targetElement: HTMLElement | null = null
     floatingElement: HTMLElement | null = null
     cleanupAutoUpdate: (() => void) | null = null
 
@@ -26,12 +26,13 @@ export class RzPopover extends HTMLElement {
     }
 
     connectedCallback() {
-        this.target = this.querySelector('[popovertarget]')
-        if (!this.target) {
+        this.targetElement = this.querySelector('[popovertarget]')
+        if (!this.targetElement) {
             console.error('RzPopover: Missing popovertarget element')
             return
         }
-        const popoverId = this.target?.getAttribute('popovertarget') || null
+        const popoverId =
+            this.targetElement?.getAttribute('popovertarget') || null
 
         this.floatingElement = this.querySelector(`#${popoverId}`)
         if (!this.floatingElement) {
@@ -50,10 +51,10 @@ export class RzPopover extends HTMLElement {
     }
 
     startFloating() {
-        if (!this.target || !this.floatingElement) return
+        if (!this.targetElement || !this.floatingElement) return
 
         this.cleanupAutoUpdate = autoUpdate(
-            this.target,
+            this.targetElement,
             this.floatingElement,
             () => this.updatePosition(),
         )
@@ -79,7 +80,7 @@ export class RzPopover extends HTMLElement {
             10,
         )
         const { x, y } = await computePosition(
-            this.target,
+            this.targetElement,
             this.floatingElement,
             {
                 placement,
