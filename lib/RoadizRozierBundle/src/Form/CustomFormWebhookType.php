@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Form;
 
 use RZ\Roadiz\CoreBundle\CustomForm\Webhook\CustomFormWebhookProviderRegistry;
+use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Form\JsonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Form type for CustomForm webhook configuration.
@@ -40,44 +41,6 @@ final class CustomFormWebhookType extends AbstractType
                 'placeholder' => 'customForm.webhook.provider.placeholder',
                 'choices' => $this->providerRegistry->getProviderChoices(),
             ])
-            ->add('webhookFieldMapping', JsonType::class, [
-                'label' => 'customForm.webhook.fieldMapping',
-                'help' => 'customForm.webhook.fieldMapping.help',
-                'required' => false,
-                'attr' => [
-                    'rows' => 10,
-                    'placeholder' => '{"custom_form_field": "provider_field"}',
-                ],
-                'constraints' => [
-                    new Callback(function ($value, ExecutionContextInterface $context) {
-                        if (empty($value)) {
-                            return;
-                        }
-                        $decoded = json_decode($value, true);
-                        if (JSON_ERROR_NONE !== json_last_error()) {
-                            return; // ValidJson constraint will handle this
-                        }
-                        // Check if JSON structure is only "key-valued" with no sub-objects or sub-arrays
-                        if (!is_array($decoded)) {
-                            return;
-                        }
-                        foreach ($decoded as $key => $val) {
-                            if (!is_string($key)) {
-                                $context->buildViolation('Field mapping must be a key-value object with string keys')
-                                    ->addViolation();
-
-                                return;
-                            }
-                            if (is_array($val) || is_object($val)) {
-                                $context->buildViolation('Field mapping must not contain nested objects or arrays')
-                                    ->addViolation();
-
-                                return;
-                            }
-                        }
-                    }),
-                ],
-            ])
             ->add('webhookExtraConfig', JsonType::class, [
                 'label' => 'customForm.webhook.extraConfig',
                 'help' => 'customForm.webhook.extraConfig.help',
@@ -88,6 +51,24 @@ final class CustomFormWebhookType extends AbstractType
                 ],
             ])
         ;
+
+        // Add field mapping sub-form dynamically based on CustomForm data
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            // Get CustomForm from the parent form data
+            $customForm = null;
+            if ($data instanceof CustomForm) {
+                $customForm = $data;
+            }
+
+            // Add the field mapping sub-form with CustomForm context
+            $form->add('webhookFieldMapping', CustomFormWebhookFieldMappingType::class, [
+                'custom_form' => $customForm,
+                'required' => false,
+            ]);
+        });
     }
 
     #[\Override]
