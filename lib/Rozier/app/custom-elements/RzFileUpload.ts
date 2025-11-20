@@ -1,4 +1,6 @@
-import Dropzone, {type DropzoneOptions} from 'dropzone'
+import Dropzone, { type DropzoneOptions } from 'dropzone'
+import { fadeOut } from '~/utils/animation'
+import { sleep } from '~/utils/sleep'
 
 export default class RzFileUpload extends HTMLElement {
     options: DropzoneOptions
