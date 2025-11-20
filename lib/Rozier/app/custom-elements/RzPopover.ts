@@ -14,6 +14,8 @@ export class RzPopover extends HTMLElement {
 
     constructor() {
         super()
+
+        this.onBeforeToggle = this.onBeforeToggle.bind(this)
     }
 
     static get observedAttributes() {
@@ -43,10 +45,25 @@ export class RzPopover extends HTMLElement {
             return
         }
 
-        this.startFloating()
+        this.floatingElement.addEventListener(
+            'beforetoggle',
+            this.onBeforeToggle,
+        )
+    }
+
+    onBeforeToggle() {
+        if (this.cleanupAutoUpdate) {
+            this.stopFloating()
+        } else {
+            this.startFloating()
+        }
     }
 
     disconnectedCallback() {
+        this.floatingElement.removeEventListener(
+            'beforetoggle',
+            this.onBeforeToggle,
+        )
         this.stopFloating()
     }
 
