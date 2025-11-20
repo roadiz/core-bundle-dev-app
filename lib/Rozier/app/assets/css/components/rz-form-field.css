@@ -1,26 +1,22 @@
 .rz-form-field {
     display: flex;
+    flex-direction: var(--rz-form-field-flex-direction, column);
     flex-wrap: wrap;
-    width: var(--rz-form-field-width, 100%);
-    flex-grow: var(--rz-form-field-flex-grow);
+}
 
-    &:where(
-		.rz-form-field--type-checkbox,
-        .rz-form-field--type-radio
-	) {
-        width: var(--rz-form-field-width);
-	}
+.rz-form-field--align-start {
+    align-items: flex-start;
 }
 
 .rz-form-field--horizontal {
-    --rz-form-field-head-width: auto;
+    --rz-form-field-flex-direction: row;
 
     .rz-form-field__head {
         order: 1;
     }
 
     .rz-form-field__input {
-        --rz-input-width: auto;
+        --rz-form-field-input-flex-grow: 0;
         --rz-form-field-input-margin-top: 0;
 
         order: 0;
@@ -40,7 +36,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    width: var(--rz-form-field-head-width, 100%);
+    padding-block: var(--rz-form-field-head-padding-block);
 }
 
 .rz-form-field__head__icon {
@@ -64,8 +60,7 @@
     margin-left: var(--spacing-4xs);
 }
 
-.rz-form-field__head__button,
-.rz-form-field__head__button-group {
+.rz-form-field__head__end {
 	margin-left: auto;
 }
 
@@ -83,6 +78,7 @@
 
 .rz-form-field__input {
     margin-top: var(--rz-form-field-input-margin-top, var(--spacing-4xs));
+    flex-grow: var(--rz-form-field-input-flex-grow, 1);
 }
 
 .rz-form-field__message {

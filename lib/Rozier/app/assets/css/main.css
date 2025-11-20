@@ -22,9 +22,11 @@
 @import './components/rz-button-group.css';
 @import './components/rz-entity-thumbnail.css';
 @import './components/rz-tablist.css';
-@import './components/rz-drawer-item.css';
+@import './components/rz-drawer.css';
+@import './components/rz-menu-bar.css';
 
 /* Components: Form */
+@import './components/rz-textarea.css';
 @import './components/rz-form.css';
 @import './components/rz-switch.css';
 @import './components/rz-input.css';
