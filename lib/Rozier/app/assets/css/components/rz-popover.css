@@ -1,0 +1,9 @@
+:where(rz-popover, rz-popover) {
+	box-sizing: border-box;
+
+	[popover] {
+		position: absolute;
+		inset: initial;
+		margin: 0;
+	}
+}
