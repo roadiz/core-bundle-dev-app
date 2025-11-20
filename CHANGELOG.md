@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.24...v2.6.25) - 2025-11-20
+
+### Bug Fixes
+
+- **(documents)** Update realIdPattern to capture query strings - ([fbb302a](https://github.com/roadiz/core-bundle-dev-app/commit/fbb302aaf702bd9a6f3b81ecab854e1a23626b10))
+
 ## [2.6.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.23...v2.6.24) - 2025-10-31
 
 ### Bug Fixes
