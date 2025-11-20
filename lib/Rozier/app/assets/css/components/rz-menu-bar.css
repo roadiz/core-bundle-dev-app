@@ -3,7 +3,7 @@
     width: 100%;
     isolation: isolate;
     display: flex;
-    align-items: var(--rz-tablist-align-items, center);
+    align-items: center;
     justify-content: center;
     padding-block: var(--spacing-4xs);
 
@@ -33,7 +33,6 @@
     border-left: 1PX solid var(--line-on-light-secondary, #DADADA);
     margin-inline: var(--spacing-7xs); /* margin - gap */
 }
-
 
 .rz-menu-bar__item {
     --rz-menu-bar-item-min-height: 26px;
