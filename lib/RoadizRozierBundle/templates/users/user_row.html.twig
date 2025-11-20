@@ -46,7 +46,7 @@
 <td class="table-actions-row table-actions-row-3">
     {% if hasBulkActions %}
         <div class="bulk-selection">
-            <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+            <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
         </div>
     {% endif %}
     {% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}

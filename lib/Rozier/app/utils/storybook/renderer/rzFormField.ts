@@ -8,34 +8,27 @@ import { rzSwitchRenderer } from './rzSwitch'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
-export function rzFormFieldRenderer(args: Args) {
-    const wrapper = document.createElement('div')
-    const inputType = args.input?.type || args.type
-
-    const wrapperClasses = [
-        COMPONENT_CLASS_NAME,
-        `${COMPONENT_CLASS_NAME}--type-${inputType}`,
-        args.required && `${COMPONENT_CLASS_NAME}--required`,
-        args.horizontal && `${COMPONENT_CLASS_NAME}--horizontal`,
-        args.error && `${COMPONENT_CLASS_NAME}--error`,
-    ].filter((c) => c) as string[]
-    wrapper.classList.add(...wrapperClasses)
-
+/**
+ * Renders the head portion of a form field, including label, icon, badge, and button group.
+ * Can be used independently to render just the head section of a form field.
+ *
+ * @param {Args} args - Arguments describing the form field head properties.
+ * @returns {HTMLDivElement} The head element for the form field.
+ */
+export function rzFormFieldHeadRenderer(args: Args) {
+    const wrapperClass = `${COMPONENT_CLASS_NAME}__head`
     const head = document.createElement('div')
-    head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
-    wrapper.appendChild(head)
+    head.classList.add(wrapperClass)
+    if (args.headClass) head.classList.add(args.headClass)
 
     if (args.iconClass) {
         const icon = document.createElement('span')
-        icon.classList.add(
-            `${COMPONENT_CLASS_NAME}__head__icon`,
-            args.iconClass,
-        )
+        icon.classList.add(`${wrapperClass}__icon`, args.iconClass)
         head.appendChild(icon)
     }
 
     const label = document.createElement('label')
-    label.classList.add(`${COMPONENT_CLASS_NAME}__head__label`)
+    label.classList.add(`${wrapperClass}__label`)
     label.textContent = args.label
     label.setAttribute('for', args.input?.id)
     head.appendChild(label)
@@ -46,15 +39,34 @@ export function rzFormFieldRenderer(args: Args) {
             size: args.badge.size || 'xs',
         })
         badge.setAttribute('title', args.badge.title || 'Badge title')
-        badge.classList.add(`${COMPONENT_CLASS_NAME}__head__badge`)
+        badge.classList.add(`${wrapperClass}__badge`)
         head.appendChild(badge)
     }
 
     if (args.buttonGroup) {
         const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
-        buttonGroup.classList.add(`${COMPONENT_CLASS_NAME}__head__button-group`)
+        buttonGroup.classList.add(`${wrapperClass}__end`)
         head.appendChild(buttonGroup)
     }
+
+    return head
+}
+
+export function rzFormFieldRenderer(args: Args) {
+    const wrapper = document.createElement('div')
+    const inputType = args.input?.type || args.type
+
+    const wrapperClasses = [
+        COMPONENT_CLASS_NAME,
+        args.required && `${COMPONENT_CLASS_NAME}--required`,
+        args.horizontal && `${COMPONENT_CLASS_NAME}--horizontal`,
+        args.alignStart && `${COMPONENT_CLASS_NAME}--align-start`,
+        args.error && `${COMPONENT_CLASS_NAME}--error`,
+    ].filter((c) => c) as string[]
+    wrapper.classList.add(...wrapperClasses)
+
+    const head = rzFormFieldHeadRenderer(args)
+    wrapper.appendChild(head)
 
     let descriptionId: string | undefined = undefined
     if (args.description) {

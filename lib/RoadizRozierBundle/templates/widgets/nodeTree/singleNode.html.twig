@@ -133,7 +133,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
         {% block nodetree_selection %}
             {% if nodeTree.isStackTree %}
                 <div class="nodetree-bulk-selection">
-                    <input class="node-checkbox" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
+                    <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
                 </div>
             {% endif %}
         {% endblock %}

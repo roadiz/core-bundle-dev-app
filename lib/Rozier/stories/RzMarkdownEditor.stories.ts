@@ -49,9 +49,11 @@ const styleGroup = {
     buttons: [
         {
             iconClass: 'rz-icon-ri--bold',
+            attributes: { 'data-markdowneditor-button': 'bold' },
         },
         {
             iconClass: 'rz-icon-ri--italic',
+            attributes: { 'data-markdowneditor-button': 'italic' },
         },
     ],
 } as ButtonGroupArgs
@@ -62,12 +64,15 @@ const nodeGroup = {
     buttons: [
         {
             iconClass: 'rz-icon-ri--single-quotes-l',
+            attributes: { 'data-markdowneditor-button': 'blockquote' },
         },
         {
             iconClass: 'rz-icon-ri--link',
+            attributes: { 'data-markdowneditor-button': 'link' },
         },
         {
             iconClass: 'rz-icon-ri--list-unordered',
+            attributes: { 'data-markdowneditor-button': 'listUl' },
         },
     ],
 } as ButtonGroupArgs
@@ -77,16 +82,16 @@ const spacingGroup = {
     collapsed: true,
     buttons: [
         {
-            iconClass: 'rz-icon-ri--corner-down-left-line',
-        },
-        {
             iconClass: 'rz-icon-ri--separator',
+            attributes: { 'data-markdowneditor-button': 'hr' },
         },
         {
             iconClass: 'rz-icon-ri--space',
+            attributes: { 'data-markdowneditor-button': 'nbsp' },
         },
         {
             iconClass: 'rz-icon-ri--subtract-line',
+            attributes: { 'data-markdowneditor-button': 'nb-hyphen' },
         },
     ],
 } as ButtonGroupArgs
@@ -146,6 +151,8 @@ export type Args = {
     placeholder?: string
 }
 
+const mirrorPreviewId = 'codemirror-preview-containers'
+
 const meta: Meta<Args> = {
     title: 'Components/Form/MarkdownEditor',
     tags: ['autodocs'],
@@ -155,7 +162,19 @@ const meta: Meta<Args> = {
         minlength: 0,
         maxlength: 255,
     },
-    argTypes: {},
+    decorators: [
+        (story) => {
+            const storyBody = document.querySelector('body')
+
+            if (!document.querySelector(`#${mirrorPreviewId}`)) {
+                const container = document.createElement('div')
+                container.id = mirrorPreviewId
+                storyBody?.appendChild(container)
+            }
+
+            return story()
+        },
+    ],
 }
 
 export default meta
@@ -176,8 +195,12 @@ function controlsRenderer(groups: Args['controlsButtonGroups']) {
 function rzMarkdownEditorRenderer(args: Args) {
     // Use `rz-markdown-editor` custom element to instantiate the component
     // Or `rz-markdown-editor` class to only apply the styles
+    const field = document.createElement('div')
+    field.classList.add('rz-form-field')
+
     const wrapper = document.createElement('rz-markdown-editor')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
+    field.appendChild(wrapper)
 
     const head = controlsRenderer(args.controlsButtonGroups || [])
     wrapper.appendChild(head)
@@ -194,7 +217,7 @@ function rzMarkdownEditorRenderer(args: Args) {
     textarea.name = args.name || 'fallback-name'
     wrapper.appendChild(textarea)
 
-    return wrapper
+    return field
 }
 
 export const Default: Story = {

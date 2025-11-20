@@ -51,7 +51,7 @@
         </td>
         <td class="table-actions-row table-actions-row-3">
             <div class="bulk-selection">
-                <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ document.id }}" />
+                <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ document.id }}" />
             </div>
             <div class="uk-button-group">
                 <a class="uk-button uk-button-content uk-button-small document-link"
@@ -128,7 +128,7 @@
                     <th class="mobile-hidden uk-visible-xlarge"></th>
                     <th class="table-actions-row table-actions-row-3">
                         <div class="bulk-selection">
-                            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+                            <input is="rz-input" type="checkbox" name="bulk-selection-all" />
                         </div>
                         {% trans %}actions{% endtrans %}
                     </th>

@@ -46,7 +46,7 @@
 /* CURSOR */
 
 .CodeMirror div.CodeMirror-cursor {
-  border-left: 1px solid black;
+  border-left: 1px solid currentColor;
 }
 /* Shown when moving in bi-directional text */
 .CodeMirror div.CodeMirror-secondarycursor {
@@ -141,8 +141,9 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   line-height: 1;
   position: relative;
   overflow: hidden;
-  background: white;
-  color: black;
+  color: var(--rz-markdown-editor-textarea-color, var(--form-basic-input-text, #383838));
+  /* background: white; */
+  /* color: black; */
 }
 
 .CodeMirror-scroll {

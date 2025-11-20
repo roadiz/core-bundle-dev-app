@@ -36,15 +36,17 @@ const meta: Meta<Args> = {
             options: ['', ...SIZES],
             control: { type: 'select' },
             type: 'string',
-            description: 'Set button size inside the group: sm | md | lg',
+            description: 'Set button children size',
         },
         gap: {
             options: ['', ...GAPS],
             control: { type: 'select' },
             if: { arg: 'collapsed', eq: false },
             type: 'string',
-            description:
-                'Gap between children: sm -> 2px | md -> 6px | lg -> 8px',
+            description: 'Gap between children: sm: 2px | md: 6px | lg: 8px',
+            table: {
+                defaultValue: { summary: 'md' },
+            },
         },
     },
     parameters: {

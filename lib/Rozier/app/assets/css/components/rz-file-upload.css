@@ -1,85 +1,97 @@
-rz-file-upload {
-    --circle-border-color: #c4c4c4;
+rz-file-upload,
+.rz-file-upload {
+    --rz-file-upload-width: 88px;
+    --rz-file-upload-height: 88px;
 
+    box-sizing: border-box;
     position: relative;
-    display: block;    
-    min-height: 360px;
-    padding: 23px;
-    background: rgba(0,0,0,0.03);
-    border-radius: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 228px;
+    gap: var(--spacing-md);
+    padding: 47px 24px 51px 24px;
+    border-radius: var(--radius-md);
     overflow: hidden;
+    color: var(--form-basic-label, #18191B);
+    border: 1px solid var(--line-on-light-secondary, #DADADA);
+    background-color: var(--surface-light-secondary, #F8F8F8);
+    cursor: var(--rz-file-upload-cursor);
 
-    &.dz-clickable {
-        cursor: pointer;
+    .rz-drawer + & {
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        margin-top: var(--rz-file-upload-margin-top, -4px);
     }
 }
 
+/* Class name injected by Dropzone */
+:where(rz-file-upload, .rz-file-upload).dz-clickable {
+    --rz-file-upload-cursor: pointer;
+}
 
-rz-file-upload .circle {
+.rz-file-upload__placeholder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    width: 100%;
+    flex-wrap: wrap;
+    min-height:  var(--rz-file-upload-height);
+    order: 1;
+    pointer-events: none; /* let parent handle events */
+
+    :where(rz-file-upload, .rz-file-upload):has(.dz-preview) & {
+        display: none;
+    }
+}
+
+.rz-file-upload__item {
     position: absolute;
-    top:50%;
-    left:50%;
-    border-radius: 200px;
-    background:none;
-    border:1px solid var(--circle-border-color);
-    pointer-events: none;
-
-    &.circle-1{
-        width:100px; height:100px;
-        margin: -50px 0 0 -50px;
-    }
-
-    &.circle-2{
-        width:148px; height:148px;
-        border-color: color-mix(in srgb, var(--circle-border-color) 90%, white 10%);
-        margin: -74px 0 0 -74px;
-    }
-
-    &.circle-3{
-        width:192px; height:192px;
-        border-color: color-mix(in srgb, var(--circle-border-color) 70%, white 30%);
-        margin: -96px 0 0 -96px;
-    }
-
-    &.circle-4{
-        width:268px; height:268px;
-        border-color: color-mix(in srgb, var(--circle-border-color) 50%, white 50%);
-        margin: -134px 0 0 -134px;
-    }
-
-    &.circle-5{
-        width:386px; height:386px;
-        border-color: color-mix(in srgb, var(--circle-border-color) 40%, white 60%);
-        margin: -193px 0 0 -193px;
-    }
+    align-self: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--rz-file-upload-width);
+    height: var(--rz-file-upload-height);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--line-on-light-tertiary, #BCBCBC);
+    font-size: 24px;
 }
 
-rz-file-upload.dz-started .circles-icons {
-    display: none;
-}
-
-rz-file-upload .uk-icon-rz-file{
-    position: absolute;
-    top:50%; left:50%;
-    width:28px; height:28px;
-    margin:-14px 0 0 -14px;
+.rz-file-upload__message {
+    pointer-events: none; /* let parent handle events */
     text-align: center;
-    font-size:28px; line-height:28px;
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-description-md-font-size);
+    line-height: var(--text-form-description-md-line-height);
+    letter-spacing: var(--text-form-description-md-letter-spacing);
+    font-weight: var(--text-form-description-md-font-weight);
+    order: 2;
+    padding-inline: 10%;
 }
 
-
-rz-file-upload .dz-preview {
+/* Preview item  */
+:where(rz-file-upload, .rz-file-upload) .dz-preview {
     position: relative;
     display: inline-block;
     vertical-align: top;
-    margin:0 12px 12px 0;
     border: 1px solid #acacac;
     background: rgba(255,255,255,0.8);
     box-shadow: none;
-    font-size:13px;
-    min-width: 120px;
-    min-height: 120px;
+    font-size: 13px;
     background-color: rgba(0,0,0,0.1);
+
+    .dz-image {
+        width: var(--rz-file-upload-width);
+        height: var(--rz-file-upload-height);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
 
     /* Progress */
     .dz-progress {
@@ -127,7 +139,7 @@ rz-file-upload .dz-preview {
         color: #800;
         z-index: 500;
     }
-    
+
     &.dz-error .dz-error-message {
         display: block;
     }
@@ -181,35 +193,11 @@ rz-file-upload .dz-preview {
     }
 }
 
-rz-file-upload .dz-default.dz-message {
-    position: absolute;
-    inset: 0;
-    width:100%; height:100%;
-    margin:0;
-    background: none;
-
-    span {
-        position: absolute;
-        display: block;
-        right: 0; bottom: 0; left: 0;
-        height:50px;
-        border-top:1px dashed #D2D2D2;
-        text-align: center;
-        font-size: var(--default-font-size);
-        line-height:50px;
-        background:#ECECEC;
-        color: var(--global-text-lighter-color);
-        letter-spacing: 0.05em;
-        text-shadow: 0 0 4px #fff;
-        z-index: 2;
-    }
-}
-
 @keyframes rz-file-upload-progress {
-  from {
-    background-position: 0 -400px;
-  }
-  to {
-    background-position: -7px -400px;
-  }
+    from {
+        background-position: 0 -400px;
+    }
+    to {
+        background-position: -7px -400px;
+    }
 }
