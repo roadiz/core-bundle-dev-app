@@ -60,6 +60,7 @@ rz-file-upload,
 }
 
 .rz-file-upload__message {
+    box-sizing: border-box;
     pointer-events: none; /* let parent handle events */
     text-align: center;
     font-family: var(--font-family-os-text);
@@ -69,6 +70,7 @@ rz-file-upload,
     font-weight: var(--text-form-description-md-font-weight);
     order: 2;
     padding-inline: 10%;
+    width: 100%;
 }
 
 /* Preview item  */
