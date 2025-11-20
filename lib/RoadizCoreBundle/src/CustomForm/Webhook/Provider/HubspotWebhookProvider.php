@@ -50,7 +50,7 @@ final class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
     public function sendWebhook(
         CustomFormAnswer $answer,
         array $fieldMapping = [],
-        array $extraConfig = []
+        array $extraConfig = [],
     ): bool {
         if (!$this->isConfigured()) {
             throw new \RuntimeException('HubSpot webhook provider is not configured. Set APP_HUBSPOT_WEBHOOK_KEY environment variable.');

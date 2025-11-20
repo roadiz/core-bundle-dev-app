@@ -32,23 +32,17 @@ final readonly class CustomFormWebhookMessageHandler
         $answer = $this->customFormAnswerRepository->find($message->getCustomFormAnswerId());
 
         if (!$answer instanceof CustomFormAnswer) {
-            throw new UnrecoverableMessageHandlingException(
-                sprintf('CustomFormAnswer #%d not found', $message->getCustomFormAnswerId())
-            );
+            throw new UnrecoverableMessageHandlingException(sprintf('CustomFormAnswer #%d not found', $message->getCustomFormAnswerId()));
         }
 
         $provider = $this->providerRegistry->getProvider($message->getProviderName());
 
         if (!$provider) {
-            throw new UnrecoverableMessageHandlingException(
-                sprintf('Webhook provider "%s" not found', $message->getProviderName())
-            );
+            throw new UnrecoverableMessageHandlingException(sprintf('Webhook provider "%s" not found', $message->getProviderName()));
         }
 
         if (!$provider->isConfigured()) {
-            throw new UnrecoverableMessageHandlingException(
-                sprintf('Webhook provider "%s" is not properly configured', $message->getProviderName())
-            );
+            throw new UnrecoverableMessageHandlingException(sprintf('Webhook provider "%s" is not properly configured', $message->getProviderName()));
         }
 
         try {
@@ -59,9 +53,7 @@ final readonly class CustomFormWebhookMessageHandler
             );
 
             if (!$success) {
-                throw new RecoverableMessageHandlingException(
-                    sprintf('Webhook provider "%s" returned false', $message->getProviderName())
-                );
+                throw new RecoverableMessageHandlingException(sprintf('Webhook provider "%s" returned false', $message->getProviderName()));
             }
 
             $this->messengerLogger->info('CustomForm webhook sent successfully', [
@@ -78,11 +70,7 @@ final readonly class CustomFormWebhookMessageHandler
                 'error' => $e->getMessage(),
             ]);
 
-            throw new RecoverableMessageHandlingException(
-                sprintf('Failed to send webhook: %s', $e->getMessage()),
-                0,
-                $e
-            );
+            throw new RecoverableMessageHandlingException(sprintf('Failed to send webhook: %s', $e->getMessage()), 0, $e);
         }
     }
 }

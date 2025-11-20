@@ -74,7 +74,7 @@ final class GenericHttpWebhookProvider extends AbstractCustomFormWebhookProvider
     public function sendWebhook(
         CustomFormAnswer $answer,
         array $fieldMapping = [],
-        array $extraConfig = []
+        array $extraConfig = [],
     ): bool {
         if (empty($extraConfig['url'])) {
             throw new \InvalidArgumentException('url is required in extraConfig for Generic HTTP provider');

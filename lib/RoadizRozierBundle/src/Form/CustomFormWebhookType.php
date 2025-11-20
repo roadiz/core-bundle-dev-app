@@ -54,7 +54,7 @@ final class CustomFormWebhookType extends AbstractType
                             return;
                         }
                         $decoded = json_decode($value, true);
-                        if (json_last_error() !== JSON_ERROR_NONE) {
+                        if (JSON_ERROR_NONE !== json_last_error()) {
                             return; // ValidJson constraint will handle this
                         }
                         // Check if JSON structure is only "key-valued" with no sub-objects or sub-arrays
@@ -65,11 +65,13 @@ final class CustomFormWebhookType extends AbstractType
                             if (!is_string($key)) {
                                 $context->buildViolation('Field mapping must be a key-value object with string keys')
                                     ->addViolation();
+
                                 return;
                             }
                             if (is_array($val) || is_object($val)) {
                                 $context->buildViolation('Field mapping must not contain nested objects or arrays')
                                     ->addViolation();
+
                                 return;
                             }
                         }

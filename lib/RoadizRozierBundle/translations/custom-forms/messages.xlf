@@ -202,7 +202,6 @@
                 <target></target>
                 <note></note>
             </trans-unit>
-        </body>
             <trans-unit xml:space="preserve" id="customForm.webhook.section">
                 <source>customForm.webhook.section</source>
                 <target></target>

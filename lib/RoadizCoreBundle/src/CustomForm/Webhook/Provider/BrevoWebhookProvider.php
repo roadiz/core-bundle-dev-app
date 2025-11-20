@@ -57,7 +57,7 @@ final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
     public function sendWebhook(
         CustomFormAnswer $answer,
         array $fieldMapping = [],
-        array $extraConfig = []
+        array $extraConfig = [],
     ): bool {
         if (!$this->isConfigured()) {
             throw new \RuntimeException('Brevo webhook provider is not configured. Set APP_BREVO_WEBHOOK_KEY environment variable.');
@@ -78,7 +78,7 @@ final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
         // Build contact attributes
         $attributes = [];
         foreach ($mappedData as $key => $value) {
-            if ($key !== 'email' && !str_starts_with($key, '_')) {
+            if ('email' !== $key && !str_starts_with($key, '_')) {
                 $attributes[strtoupper($key)] = $value;
             }
         }

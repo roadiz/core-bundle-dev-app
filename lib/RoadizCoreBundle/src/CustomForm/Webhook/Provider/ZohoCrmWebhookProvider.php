@@ -62,7 +62,7 @@ final class ZohoCrmWebhookProvider extends AbstractCustomFormWebhookProvider
     public function sendWebhook(
         CustomFormAnswer $answer,
         array $fieldMapping = [],
-        array $extraConfig = []
+        array $extraConfig = [],
     ): bool {
         if (!$this->isConfigured()) {
             throw new \RuntimeException('Zoho CRM webhook provider is not configured. Set APP_ZOHO_CRM_WEBHOOK_KEY environment variable.');

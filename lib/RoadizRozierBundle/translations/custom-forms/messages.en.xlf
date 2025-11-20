@@ -202,7 +202,6 @@
                 <target state="final">List one or many email addresses to receive this custom-form answer copy. Use comma to separate multiple email addresses.</target>
                 <note/>
             </trans-unit>
-    </body>
       <trans-unit xml:space="preserve" id="customForm.webhook.section" approved="yes">
                 <source>customForm.webhook.section</source>
                 <target state="final">Webhook Configuration</target>

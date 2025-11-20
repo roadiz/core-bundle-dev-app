@@ -6,12 +6,11 @@ namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormWebhookMessage;
 use RZ\Roadiz\CoreBundle\CustomForm\Webhook\CustomFormWebhookProviderRegistry;
-use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Event\CustomFormAnswer\CustomFormAnswerSubmittedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormWebhookMessage;
 
 /**
  * Dispatches webhooks when CustomFormAnswers are submitted.

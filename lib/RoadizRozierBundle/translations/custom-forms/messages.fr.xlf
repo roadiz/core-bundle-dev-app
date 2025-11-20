@@ -202,7 +202,6 @@
                 <target state="final">Indiquez une ou plusieurs adresses e-mail pour recevoir les réponses de ce formulaire personnalisé. Utilisez une virgule pour séparer plusieurs adresses e-mail.</target>
                 <note/>
             </trans-unit>
-    </body>
       <trans-unit xml:space="preserve" id="customForm.webhook.section" approved="yes">
                 <source>customForm.webhook.section</source>
                 <target state="final">Configuration Webhook</target>

@@ -29,7 +29,7 @@ interface CustomFormWebhookProviderInterface
     /**
      * Send the CustomFormAnswer data to the external system.
      *
-     * @param CustomFormAnswer      $answer      The form answer to send
+     * @param CustomFormAnswer      $answer       The form answer to send
      * @param array<string, string> $fieldMapping Map of CustomForm field names to provider field names
      * @param array<string, mixed>  $extraConfig  Additional provider-specific configuration
      *
@@ -40,7 +40,7 @@ interface CustomFormWebhookProviderInterface
     public function sendWebhook(
         CustomFormAnswer $answer,
         array $fieldMapping = [],
-        array $extraConfig = []
+        array $extraConfig = [],
     ): bool;
 
     /**

@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
 {
-    private ?string $serverPrefix;
+    private readonly ?string $serverPrefix;
 
     public function __construct(
         HttpClientInterface $httpClient,
@@ -72,7 +72,7 @@ final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
     public function sendWebhook(
         CustomFormAnswer $answer,
         array $fieldMapping = [],
-        array $extraConfig = []
+        array $extraConfig = [],
     ): bool {
         if (!$this->isConfigured()) {
             throw new \RuntimeException('Mailchimp webhook provider is not configured. Set APP_MAILCHIMP_WEBHOOK_KEY environment variable.');
@@ -93,7 +93,7 @@ final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
         // Build merge fields
         $mergeFields = [];
         foreach ($mappedData as $key => $value) {
-            if ($key !== 'email' && !str_starts_with($key, '_')) {
+            if ('email' !== $key && !str_starts_with($key, '_')) {
                 $mergeFields[strtoupper($key)] = $value;
             }
         }

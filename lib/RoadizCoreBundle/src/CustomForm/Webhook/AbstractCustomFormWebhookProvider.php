@@ -37,7 +37,7 @@ abstract class AbstractCustomFormWebhookProvider implements CustomFormWebhookPro
     /**
      * Transform CustomFormAnswer data using the field mapping.
      *
-     * @param CustomFormAnswer      $answer      The form answer
+     * @param CustomFormAnswer      $answer       The form answer
      * @param array<string, string> $fieldMapping Map of CustomForm field names to provider field names
      *
      * @return array<string, mixed> Mapped data
