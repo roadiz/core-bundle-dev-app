@@ -1,4 +1,4 @@
-:where(rz-popover, rz-popover) {
+:where(rz-popover, .rz-popover) {
 	box-sizing: border-box;
 
 	[popover] {
