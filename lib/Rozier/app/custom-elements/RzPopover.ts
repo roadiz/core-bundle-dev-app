@@ -1,4 +1,3 @@
-// src/components/my-dropdown.js
 import {
     computePosition,
     offset,
