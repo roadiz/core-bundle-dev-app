@@ -138,10 +138,11 @@
                 </ul>
             </div>
             {% if enableDropzone %}
-                <rz-file-upload 
+                <rz-file-upload
                     v-if="drawer.isDropzoneEnable"
                     @error="showError"
-                    @success="showSuccess">
+                    @success="showSuccess"
+                >
                 </rz-file-upload>
             {% endif %}
         </div>
