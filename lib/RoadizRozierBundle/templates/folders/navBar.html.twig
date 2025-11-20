@@ -1,28 +1,24 @@
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'edit' %} rz-tablist__tab--selected{% endif %}"
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
+        <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
            href="{{ path('foldersEditPage', { folderId: folder.id }) }}">
             {% trans %}folder.settings{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'edit-label' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'edit-label' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'edit-label' ? 'true' : 'false' }}"
            href="{{ path('foldersEditTranslationPage', { folderId: folder.id, translationId:translation.id }) }}">
             {% trans %}folder.labels{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'list' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'list' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'list' ? 'true' : 'false' }}"
            href="{{ path('documentsHomePage', { folderId: folder.id }) }}">
             {% trans %}documents{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'private_list' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'private_list' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'private_list' ? 'true' : 'false' }}"
            href="{{ path('documentsPrivateHomePage', { folderId: folder.id }) }}">
             {% trans %}private_documents{% endtrans %}
         </a>
     </div>
-</rz-tablist>
+</div>

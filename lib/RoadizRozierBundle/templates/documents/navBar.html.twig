@@ -3,47 +3,41 @@
 {% if app.request and app.request.get('referer') %}
     {% set editRouteParams = editRouteParams|merge({ referer: app.request.get('referer') }) %}
 {% endif %}
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'edit' %} rz-tablist__tab--selected{% endif %}"
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
+        <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
            href="{{ path('documentsEditPage', editRouteParams) }}">
             {% trans %}document.edit{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'metas' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'metas' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'metas' ? 'true' : 'false' }}"
            href="{{ path('documentsMetaPage', editRouteParams) }}">
             {% trans %}document.metas{% endtrans %}
         </a>
         {%- if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') -%}
-            <a role="tab"
-               class="rz-tablist__tab{% if current == 'limitations' %} rz-tablist__tab--selected{% endif %}"
+            <a class="rz-menu-bar__item{% if current == 'limitations' %} rz-menu-bar__item--selected{% endif %}"
                aria-current="{{ current == 'limitations' ? 'true' : 'false' }}"
                href="{{ path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }) }}">
                 {% trans %}document.limitations{% endtrans %}
             </a>
         {%- endif -%}
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'preview' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'preview' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'preview' ? 'true' : 'false' }}"
            href="{{ path('documentsPreviewPage', editRouteParams) }}">
             {% trans %}document.preview{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'usage' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'usage' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'usage' ? 'true' : 'false' }}"
            href="{{ path('documentsUsagePage', editRouteParams) }}">
             {% trans %}document.usage{% endtrans %}
         </a>
         {%- if document and document.image -%}
-            <a role="tab"
-               class="rz-tablist__tab{% if current == 'adjust' %} rz-tablist__tab--selected{% endif %}"
+            <a class="rz-menu-bar__item{% if current == 'adjust' %} rz-menu-bar__item--selected{% endif %}"
                aria-current="{{ current == 'adjust' ? 'true' : 'false' }}"
                href="{{ path('documentsAdjustPage', editRouteParams) }}">
                 {% trans %}document.adjust{% endtrans %}
             </a>
         {%- endif -%}
     </div>
-</rz-tablist>
+</div>

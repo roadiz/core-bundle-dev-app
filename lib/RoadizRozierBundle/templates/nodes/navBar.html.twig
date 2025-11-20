@@ -1,68 +1,66 @@
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
         {%- if is_granted('EDIT_CONTENT', node) -%}
             {% set url = path('nodesEditSourcePage', {
                 nodeId: node.id,
                 translationId: translation.id
             }) %}
-            <a class="rz-tablist__tab{% if current == 'source' %} rz-tablist__tab--selected{% endif %}"
-                aria-current="{{ current == 'source' ? 'true' : 'false' }}"
+            <a class="rz-menu-bar__item{% if current == 'source' %} rz-menu-bar__item--selected{% endif %}"
+               aria-current="{{ current == 'source' ? 'true' : 'false' }}"
                href="{{ url }}"
-               role="tab"
             >
                 {% trans %}node.content{% endtrans %}
             </a>
             {% if is_granted('EDIT_SETTING', node) %}
-                <a class="rz-tablist__tab{% if current == 'edit' %} rz-tablist__tab--selected{% endif %}"
+                <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
                    aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
                    href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
-                   role="tab"
                 >
                     {% trans %}node.parameters{% endtrans %}
                 </a>
             {% endif %}
             {% if is_granted('EDIT_TAGS', node) %}
-                <a class="rz-tablist__tab{% if current == 'tags' %} rz-tablist__tab--selected{% endif %}"
+                <a class="rz-menu-bar__item{% if current == 'tags' %} rz-menu-bar__item--selected{% endif %}"
                    aria-current="{{ current == 'tags' ? 'true' : 'false' }}"
                    href="{{ path('nodesEditTagsPage', { nodeId: node.id}) }}"
-                   role="tab"
                 >
                     {% trans %}tags{% endtrans %}
                 </a>
             {% endif %}
             {% if is_granted('EDIT_ATTRIBUTE', node) and getNodeType(node).attributable %}
-                    <a class="rz-tablist__tab{% if current == 'attributes' %} rz-tablist__tab--selected{% endif %}"
-                       aria-current="{{ current == 'attributes' ? 'true' : 'false' }}"
-                       href="{{ path('nodesEditAttributesPage', {
-                           nodeId: node.id,
-                           translationId: translation.id}) }}"
-                       role="tab"
-                    >
-                        {% trans %}node.attributes{% endtrans %}
-                    </a>
+                <a class="rz-menu-bar__item{% if current == 'attributes' %} rz-menu-bar__item--selected{% endif %}"
+                   aria-current="{{ current == 'attributes' ? 'true' : 'false' }}"
+                   href="{{ path('nodesEditAttributesPage', {
+                       nodeId: node.id,
+                       translationId: translation.id}) }}"
+                >
+                    {% trans %}node.attributes{% endtrans %}
+                </a>
             {% endif %}
             {% block node_seo %}
-                <a class="rz-tablist__tab{% if current == 'seo' %} rz-tablist__tab--selected{% endif %}"
+                <a class="rz-menu-bar__item{% if current == 'seo' %} rz-menu-bar__item--selected{% endif %}"
                    aria-current="{{ current == 'seo' ? 'true' : 'false' }}"
                    href="{{ path('nodesEditSEOPage', {
                        nodeId: node.id,
                        translationId: translation.id}) }}"
-                   role="tab"
                 >{% trans %}seo{% endtrans %}</a>
             {% endblock %}
         {%-  endif -%}
+        {% if is_granted('READ', node) or is_granted('EDIT_REALMS', node) or is_granted('READ_LOGS', node) %}
+            <hr class="rz-menu-bar__separator">
+        {% endif %}
         {% if is_granted('READ', node) %}
             {% set tree_url = path('nodesTreePage', {
                 nodeId: node.id,
                 translationId: translation.id
             }) %}
             <a
-               class="rz-tablist__tab{% if current == 'tree' %} rz-tablist__tab--selected{% endif %}"
-               aria-current="{{ current == 'tree' ? 'true' : 'false' }}"
-               href="{{ tree_url }}"
-                role="tab"
+                class="rz-menu-bar__item{% if current == 'tree' %} rz-menu-bar__item--selected{% endif %}"
+                aria-current="{{ current == 'tree' ? 'true' : 'false' }}"
+                aria-label="{% trans %}tree{% endtrans %}"
+                href="{{ tree_url }}"
             >
-                {% trans %}tree{% endtrans %}
+                <span class="rz-icon-ri--node-tree"></span>
             </a>
         {% endif %}
         {% if is_granted('EDIT_REALMS', node) %}
@@ -70,24 +68,24 @@
                 id: node.id,
             }) %}
             <a
-                class="rz-tablist__tab{% if current == 'realm' %} rz-tablist__tab--selected{% endif %}"
+                class="rz-menu-bar__item{% if current == 'realm' %} rz-menu-bar__item--selected{% endif %}"
                 aria-current="{{ current == 'realm' ? 'true' : 'false' }}"
+                aria-label="{% trans %}realm_nodes{% endtrans %}"
                 href="{{ realm_url }}"
-                role="tab"
             >
-                {% trans %}realm_nodes{% endtrans %}
+                <span class="rz-icon-ri--spy-line"></span>
             </a>
         {% endif %}
         {% if is_granted('READ_LOGS', node) %}
             <a
-                class="rz-tablist__tab{% if current == 'history' %} rz-tablist__tab--selected{% endif %}"
+                class="rz-menu-bar__item{% if current == 'history' %} rz-menu-bar__item--selected{% endif %}"
                 aria-current="{{ current == 'history' ? 'true' : 'false' }}"
+                aria-label="{% trans %}history{% endtrans %}"
                 href="{{ path('nodesHistoryPage', { nodeId: node.id}) }}"
-                role="tab"
             >
-                {% trans %}history{% endtrans %}
+                <span class="rz-icon-ri--history-line"></span>
             </a>
         {% endif %}
         {% block additional_entries %}{% endblock %}
     </div>
-</rz-tablist>
+</div>

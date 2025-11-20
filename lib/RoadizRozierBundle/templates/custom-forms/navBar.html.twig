@@ -1,35 +1,31 @@
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'customForm' %} rz-tablist__tab--selected{% endif %}"
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
+        <a class="rz-menu-bar__item{% if current == 'customForm' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'customForm' ? 'true' : 'false' }}"
            href="{{ path('customFormsEditPage', { id: type.id }) }}">
             {% trans %}custom-form.parameters{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'usage' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'usage' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'usage' ? 'true' : 'false' }}"
            href="{{ path('customFormsUsagePage', { id: type.id }) }}">
             {% trans %}custom-form.usage{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'customFormFields' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'customFormFields' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'customFormFields' ? 'true' : 'false' }}"
            href="{{ path('customFormFieldsListPage', { customFormId: type.id }) }}">
             {% trans %}custom-form.fields{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'customFormAnswers' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'customFormAnswers' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'customFormAnswers' ? 'true' : 'false' }}"
            href="{{ path('customFormAnswersHomePage', { customFormId: type.id }) }}">
             {% trans %}custom-form.answers{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab"
-           aria-current="false"
+        <hr class="rz-menu-bar__separator">
+        <a class="rz-menu-bar__item"
            target="_blank"
+           aria-label="{% trans %}customForm.show{% endtrans %}"
            href="{{ path('customFormSendAction', { customFormId: type.id }) }}">
-            {% trans %}customForm.show{% endtrans %}
+            <span class="rz-icon-ri--eye-line"></span>
         </a>
     </div>
-</rz-tablist>
+</div>

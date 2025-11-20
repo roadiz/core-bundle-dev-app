@@ -1,37 +1,34 @@
 {% set tTag = tag.getTranslatedTags.first %}
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
         {% if tag.getChildren|length %}
-            <a role="tab"
-               class="rz-tablist__tab{% if current == 'tree' %} rz-tablist__tab--selected{% endif %} uk-navbar-link"
+            <a class="rz-menu-bar__item{% if current == 'tree' %} rz-menu-bar__item--selected{% endif %} uk-navbar-link"
                aria-current="{{ current == 'tree' ? 'true' : 'false' }}"
+               aria-label="{% trans %}tag.tree{% endtrans %}"
                href="{{ path('tagsTreePage', { tagId: tag.getId }) }}">
-                {% trans %}tag.tree{% endtrans %}
+                <span class="rz-icon-ri--node-tree"></span>
             </a>
+            <hr class="rz-menu-bar__separator">
         {% endif %}
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'edit' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
            href="{{ path('tagsEditTranslatedPage', { tagId: tag.getId, translationId: tTag.getTranslation.getId }) }}">
             {% trans %}tag.content{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'settings' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'settings' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'settings' ? 'true' : 'false' }}"
            href="{{ path('tagsSettingsPage', { tagId: tag.getId }) }}">
             {% trans %}tag.settings{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'nodes' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'nodes' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'nodes' ? 'true' : 'false' }}"
            href="{{ path('tagsEditNodesPage', { tagId: tag.getId }) }}">
             {% trans %}tag.nodes{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'add-multiple' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'add-multiple' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'add-multiple' ? 'true' : 'false' }}"
            href="{{ path('tagsAddMultipleChildPage', { parentTagId: tag.getId }) }}">
             {% trans %}add.tags{% endtrans %}
         </a>
     </div>
-</rz-tablist>
+</div>

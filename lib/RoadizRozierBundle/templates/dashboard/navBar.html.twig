@@ -1,18 +1,16 @@
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'dashboard' %} rz-tablist__tab--selected{% endif %}"
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
+        <a class="rz-menu-bar__item{% if current == 'dashboard' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'dashboard' ? 'true' : 'false' }}"
            href="{{ path('adminHomePage') }}">
             {% trans %}dashboard{% endtrans %}
         </a>
         {% if is_granted('ROLE_ACCESS_LOGS') %}
-            <a role="tab"
-               class="rz-tablist__tab{% if current == 'history' %} rz-tablist__tab--selected{% endif %}"
+            <a class="rz-menu-bar__item{% if current == 'history' %} rz-menu-bar__item--selected{% endif %}"
                aria-current="{{ current == 'history' ? 'true' : 'false' }}"
                href="{{ path('historyHomePage') }}">
                 {% trans %}history{% endtrans %}
             </a>
         {% endif %}
     </div>
-</rz-tablist>
+</div>

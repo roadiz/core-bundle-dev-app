@@ -1,22 +1,19 @@
-<rz-tablist class="rz-tablist--filled">
-    <div class="rz-tablist__inner" role="tablist">
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'edit' %} rz-tablist__tab--selected{% endif %}"
+<div class="rz-menu-bar">
+    <div class="rz-menu-bar__inner">
+        <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
            href="{{ path('groupsEditPage', { id: item.id }) }}">
             {% trans %}group.edit{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'roles' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'roles' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'roles' ? 'true' : 'false' }}"
            href="{{ path('groupsEditRolesPage', { id: item.id }) }}">
             {% trans %}group.roles{% endtrans %}
         </a>
-        <a role="tab"
-           class="rz-tablist__tab{% if current == 'users' %} rz-tablist__tab--selected{% endif %}"
+        <a class="rz-menu-bar__item{% if current == 'users' %} rz-menu-bar__item--selected{% endif %}"
            aria-current="{{ current == 'users' ? 'true' : 'false' }}"
            href="{{ path('groupsEditUsersPage', { id: item.id }) }}">
             {% trans %}group.users{% endtrans %}
         </a>
     </div>
-</rz-tablist>
+</div>
