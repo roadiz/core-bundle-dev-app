@@ -97,18 +97,12 @@
 	font-size: 16px;
 }
 
+/* TODO: Adapt when dropdown component is ready */
 .rz-menu-bar__dropdown {
-    --offset-top: 12px;
-	position: absolute;
-	inset: initial;
+    position: relative;
+}
 
-    /* Fallback positioning for browsers without anchor support */
-    top: calc(100% - var(--offset-top));
-    left: 50%;
-    translate: -50% 0;
-
-    @supports (top: anchor(bottom)) {
-        top: calc(anchor(bottom) + var(--offset-top));
-        left: anchor(center);
-    }
+.rz-menu-bar__dropdown__content {
+    position: fixed;
+    display: none;
 }

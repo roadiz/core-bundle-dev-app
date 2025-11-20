@@ -112,8 +112,11 @@ function rzLinkRenderer(args: MenuItem) {
     return item
 }
 
+// TODO: Replace with rz-dropdown component when ready
+// Dropdown design should be inspired by Popover API and Anchor positioning API
 function rzDropdownRenderer(args: MenuItem) {
     const wrapper = document.createElement('div')
+    wrapper.classList.add(`${COMPONENT_CLASS_NAME}__dropdown`)
 
     const button = document.createElement('button')
     button.classList.add(`${COMPONENT_CLASS_NAME}__item`)
@@ -135,9 +138,9 @@ function rzDropdownRenderer(args: MenuItem) {
     wrapper.appendChild(button)
 
     const dropdown = document.createElement('div')
-    dropdown.classList.add(`${COMPONENT_CLASS_NAME}__dropdown`)
+    dropdown.classList.add(`${COMPONENT_CLASS_NAME}__dropdown__content`)
     if (args.attributes?.popovertarget) {
-        dropdown.setAttribute('popover', '')
+        // dropdown.setAttribute('popover', '')
         dropdown.setAttribute('id', args.attributes.popovertarget)
     }
     if (args.attributes?.id) {
