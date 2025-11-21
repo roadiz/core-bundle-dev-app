@@ -8,7 +8,15 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route(
+    path: '/rz-admin/ajax/nodes/contextual-menu/{node}/{translation}',
+    name: 'nodeContextualMenu',
+    requirements: ['node' => '\d+', 'translation' => '\d+'],
+    methods: ['GET'],
+    format: 'html',
+)]
 final class AjaxNodeContextualMenuController extends AbstractController
 {
     public function __invoke(Node $node, Translation $translation): Response

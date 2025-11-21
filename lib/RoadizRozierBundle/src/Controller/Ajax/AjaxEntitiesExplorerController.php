@@ -16,6 +16,7 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -53,6 +54,12 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
         return $processor->processConfiguration($joinConfig, $configs);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/entities/explore',
+        name: 'entitiesAjaxExplorerPage',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
@@ -118,6 +125,12 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
         ]);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/entities/list',
+        name: 'entitiesAjaxByArray',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function listAction(Request $request): JsonResponse
     {
         if (!$request->query->has('nodeTypeFieldName')) {
