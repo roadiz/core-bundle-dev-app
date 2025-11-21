@@ -71,19 +71,6 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzSeparatorRenderer(args: MenuItem) {
-    const item = document.createElement('hr')
-    item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
-
-    if (args.attributes) {
-        Object.entries(args.attributes).forEach(([key, value]) => {
-            if (value) item.setAttribute(key, String(value))
-        })
-    }
-
-    return item
-}
-
 function rzLinkRenderer(args: MenuItem) {
     const item = document.createElement('a')
     const className = `${COMPONENT_CLASS_NAME}__item`
