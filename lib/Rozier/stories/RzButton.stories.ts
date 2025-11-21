@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
-const EMPHASIS = ['low', 'medium', 'high'] as const
+const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
 const COLORS = ['success', 'success-light', 'error', 'error-light'] as const
 
@@ -14,25 +14,10 @@ export type ButtonArgs = {
     onDark?: boolean
     additionalClasses?: string
     color?: (typeof COLORS)[number]
+    attributes?: Record<string, string>
+    tag?: string
 }
 
-/** Use `.rz-button` class on a button element to create a styled button. Optionally add emphasis and size modifier classes.
- * In most case you will use a label and /or an icon inside the button. add `.rz-button__label` and/or `.rz-button__icon` classes to the inner elements.
- *
- * ### Emphasis modifier classes
- * - `.rz-button--emphasis-low`
- * - `.rz-button--emphasis-medium` (default)
- * - `.rz-button--emphasis-high`
- *
- * ### Size modifier classes
- * - `.rz-button--size-xs`
- * - `.rz-button--size-sm`
- * - `.rz-button--size-md` (default)
- * - `.rz-button--size-lg–`
- *
- * ### Disabled state
- * Add the `disabled` attribute on the button element or add the modifier class `.rz-button--disabled` to apply the disabled state style.
- */
 const meta: Meta<ButtonArgs> = {
     title: 'Components/Button',
     tags: ['autodocs'],
@@ -43,17 +28,38 @@ const meta: Meta<ButtonArgs> = {
         onDark: false,
     },
     argTypes: {
+        label: {
+            description:
+                'Text label inside the button. Could be empty for icon only buttons.',
+            table: {
+                elementClass: 'rz-button__label',
+            },
+        },
+        disabled: {
+            description: 'Add rz-button--disabled class',
+        },
+        iconClass: {
+            description:
+                'Add rz-button__icon and rz-icon-{collection}--{iconName}',
+        },
         emphasis: {
             control: { type: 'select' },
             options: [...EMPHASIS, ''],
+            type: 'string',
+            description:
+                'If no emphasis class is provided, emphasis medium is applied by default.',
         },
         size: {
             control: { type: 'select' },
             options: [...SIZES, ''],
+            type: 'string',
+            description:
+                'If no size class is provided, size md is applied by default.',
         },
         color: {
             control: { type: 'select' },
             options: [...COLORS, ''],
+            type: 'string',
         },
     },
     parameters: {
@@ -70,12 +76,24 @@ export const Default: Story = {
     },
 }
 
+export const LinkTag: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        tag: 'a',
+        attributes: {
+            href: '#',
+        },
+    },
+}
+
 export const HighEmphasis: Story = {
     render: (args) => {
         return rzButtonRenderer(args)
     },
     args: {
-        emphasis: 'high',
+        emphasis: 'primary',
     },
     parameters: {
         controls: { exclude: ['emphasis', 'additionalClasses'] },
@@ -88,7 +106,7 @@ export const HighEmphasisList: Story = {
         return buttonSizeListRenderer(args)
     },
     args: {
-        emphasis: 'high',
+        emphasis: 'primary',
     },
     parameters: {
         controls: {
@@ -102,7 +120,7 @@ export const MediumEmphasis: Story = {
         return rzButtonRenderer(args)
     },
     args: {
-        emphasis: 'medium',
+        emphasis: 'secondary',
     },
     parameters: {
         controls: { exclude: ['emphasis', 'class'] },
@@ -114,7 +132,7 @@ export const MediumEmphasisList: Story = {
         return buttonSizeListRenderer(args)
     },
     args: {
-        emphasis: 'medium',
+        emphasis: 'secondary',
     },
     parameters: {
         controls: {
@@ -128,7 +146,7 @@ export const LowEmphasis: Story = {
         return rzButtonRenderer(args)
     },
     args: {
-        emphasis: 'low',
+        emphasis: 'tertiary',
     },
     parameters: {
         controls: { exclude: ['emphasis'] },
@@ -140,7 +158,7 @@ export const LowEmphasisList: Story = {
         return buttonSizeListRenderer(args)
     },
     args: {
-        emphasis: 'low',
+        emphasis: 'tertiary',
     },
     parameters: {
         controls: {

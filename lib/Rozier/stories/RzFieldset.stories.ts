@@ -1,74 +1,49 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
-import type { Args as RzFormFieldArgs } from './RzFormField.stories'
+import type { Args as FormFieldArgs } from './RzFormField.stories'
+import { rzFieldsetRenderer } from '~/utils/storybook/renderer/rzFieldset'
 
-const COMPONENT_CLASS_NAME = 'rz-fieldset'
-const ORIENTATION_OPTIONS = ['vertical', 'horizontal'] as const
-type Args = {
+export type Args = {
     legend: string
-    name: string
-    formFieldsData?: RzFormFieldArgs[]
-    orientation?: (typeof ORIENTATION_OPTIONS)[number]
+    formFieldsData?: (FormFieldArgs | Args)[]
+    horizontal?: boolean
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Fieldset',
+    tags: ['autodocs'],
     args: {
         legend: 'Fieldset Legend',
-        name: 'fieldset-1',
-        orientation: 'vertical',
-    },
-    argTypes: {
-        orientation: {
-            options: ORIENTATION_OPTIONS,
-            control: { type: 'select' },
-        },
+        horizontal: false,
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
-function fieldsetRenderer(args: Args) {
-    const fieldset = document.createElement('fieldset')
-    const orientationClass =
-        args.orientation && `${COMPONENT_CLASS_NAME}--${args.orientation}`
-
-    const fieldsetClasses = [COMPONENT_CLASS_NAME, orientationClass].filter(
-        (c) => c,
-    ) as string[]
-    fieldset.classList.add(...fieldsetClasses)
-
-    const legend = document.createElement('legend')
-    legend.classList.add(`${COMPONENT_CLASS_NAME}__legend`)
-    legend.textContent = args.legend
-    fieldset.appendChild(legend)
-
-    const fields = args.formFieldsData || []
-    fields.forEach((fieldData) => {
-        const input = rzFormFieldRenderer(fieldData)
-        fieldset.appendChild(input)
-    })
-
-    return fieldset
-}
-
 export const Default: Story = {
     render: (args) => {
-        return fieldsetRenderer(args)
+        return rzFieldsetRenderer(args)
     },
     args: {
         formFieldsData: [
             {
-                type: 'text',
-                name: 'text-input',
                 label: 'Text Input',
                 description: 'A simple text input',
+                input: {
+                    type: 'text',
+                    name: 'text-input',
+                    id: 'text-input',
+                    placeholder: 'Enter text here',
+                },
             },
             {
-                type: 'email',
-                name: 'email-input',
                 label: 'Email Input',
+                input: {
+                    type: 'email',
+                    name: 'email-input',
+                    id: 'email-input',
+                    placeholder: 'john@gmail.com',
+                },
             },
         ],
     },
@@ -76,18 +51,111 @@ export const Default: Story = {
 
 export const CheckboxGroup: Story = {
     render: (args) => {
-        return fieldsetRenderer(args)
+        return rzFieldsetRenderer(args)
     },
     args: {
-        name: 'checkbox-group',
         legend: 'Checkbox Group Legend',
-        orientation: 'horizontal',
-        formFieldsData: Array.from({ length: 10 }, (_, i) => ({
-            type: 'checkbox',
-            name: `option-${i + 1}`,
+        formFieldsData: Array.from({ length: 4 }, (_, i) => ({
             description: 'This is option description',
             label: `Option ${i + 1}`,
-            inline: true,
+            horizontal: true,
+            input: {
+                type: 'checkbox',
+                name: `InlineCheckboxGroup-option-${i + 1}`,
+                id: `InlineCheckboxGroup-option-${i + 1}`,
+            },
         })),
+    },
+}
+
+export const HorizontalCheckboxGroup: Story = {
+    render: (args) => {
+        return rzFieldsetRenderer(args)
+    },
+    args: {
+        legend: 'Checkbox Group Legend',
+        horizontal: true,
+        formFieldsData: Array.from({ length: 4 }, (_, i) => ({
+            description: 'This is option description',
+            label: `Option ${i + 1}`,
+            horizontal: true,
+            input: {
+                type: 'checkbox',
+                name: `Horizontal-checkboxGroup-option-${i + 1}`,
+                id: `Horizontal-checkboxGroup-option-${i + 1}`,
+            },
+        })),
+    },
+}
+
+export const HorizontalSwitchGroup: Story = {
+    render: (args) => {
+        return rzFieldsetRenderer(args)
+    },
+    args: {
+        legend: 'Switch Group Legend',
+        horizontal: true,
+        formFieldsData: Array.from({ length: 10 }, (_, i) => ({
+            label: `Option ${i + 1}`,
+            description: 'This is option description',
+            horizontal: true,
+            input: {
+                type: 'checkbox' as const,
+                id: `SwitchGroup-option-${i + 1}`,
+                name: `SwitchGroup-option-${i + 1}`,
+                className: 'rz-switch',
+            },
+        })),
+    },
+}
+
+export const Mixed: Story = {
+    render: (args) => {
+        return rzFieldsetRenderer(args)
+    },
+    args: {
+        legend: 'Switch Group Legend',
+        formFieldsData: [
+            {
+                legend: 'Nested fieldset',
+                horizontal: true,
+                formFieldsData: Array.from({ length: 3 }, (_, i) => ({
+                    label: `Option ${i + 1}`,
+                    input: {
+                        className: 'rz-switch',
+                        type: 'checkbox' as const,
+                        name: `Mixed-option-${i + 1}`,
+                        id: `Mixed-option-${i + 1}`,
+                    },
+                })),
+            },
+            {
+                label: 'Simple text 2',
+                input: {
+                    type: 'text',
+                    name: 'simple-text-2-SwitchList',
+                    id: 'simple-text-2-SwitchList',
+                },
+            },
+            {
+                description: 'This is option description',
+                label: `Option solo`,
+                horizontal: true,
+                input: {
+                    type: 'checkbox',
+                    name: `Mixed-option-solo`,
+                    className: 'rz-switch',
+                    id: `Mixed-option-solo`,
+                },
+            },
+            {
+                label: 'Color 2',
+                input: {
+                    type: 'color',
+                    name: 'Color-text-2-SwitchList',
+                    id: 'Color-text-2-SwitchList',
+                },
+            },
+        ],
     },
 }

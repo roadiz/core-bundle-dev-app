@@ -1,0 +1,17 @@
+.rz-form {
+	--rz-form-field-list-gap: var(--spacing-md);
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--rz-form-gap, var(--spacing-md));
+}
+
+.rz-form__field-list {
+	display: grid;
+	width: 100%;
+	gap: var(--rz-form-field-list-gap);
+}
+
+.rz-form__field-list--horizontal {
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}

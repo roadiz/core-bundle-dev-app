@@ -11,7 +11,8 @@ export type ItemArgs = {
 const COMPONENT_CLASS_NAME = 'rz-workspace-item'
 
 const meta: Meta<ItemArgs> = {
-    title: 'Components/RzWorkspace/Item',
+    title: 'Components/Workspace/Item',
+    tags: ['autodocs'],
     args: {
         label: 'Workspace item label',
         active: false,
@@ -24,9 +25,6 @@ const meta: Meta<ItemArgs> = {
             options: ['level-1', 'level-2'],
             control: { type: 'radio' },
         },
-    },
-    globals: {
-        backgrounds: { value: 'light' },
     },
     parameters: {
         layout: 'centered',
@@ -93,13 +91,11 @@ function itemRenderer(
     if (createElementOptions?.is) {
         node.setAttribute('is', createElementOptions.is)
     }
-    const variantClass = args.variants
-        ? `${COMPONENT_CLASS_NAME}--${args.variants}`
-        : ''
-    const activeClass = args.active ? `${COMPONENT_CLASS_NAME}--active` : ''
-    const classes = [COMPONENT_CLASS_NAME, variantClass, activeClass].filter(
-        (c) => c,
-    )
+    const classes = [
+        COMPONENT_CLASS_NAME,
+        args.variants && `${COMPONENT_CLASS_NAME}--${args.variants}`,
+        args.active && `${COMPONENT_CLASS_NAME}--active`,
+    ].filter((c) => c) as string[]
     node.classList.add(...classes)
 
     const icon = iconRenderer(args.iconClass)

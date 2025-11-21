@@ -17,22 +17,29 @@
         <div class="content-upload-inner">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
             <form
-                  class="uk-form uk-form-stacked"
-                  action="#"
-                  method="post"
-                  enctype="multipart/form-data">
-                  <rz-file-upload
-                    {% if folder.id %}
-                        url="{{ path('documentsUploadPage', {_format: 'json', folderId: folder.id}) }}"
-                        style="--rz-accent-color: {{ folder.color }};"
-                    {% endif %}
-                  >
-                    <noscript>
-                        {{ form_widget(form) }}
-                        <input class="uk-button uk-button-primary" type="submit" value="{% trans %}upload{% endtrans %}" />
-                    </noscript>
-                    {{ form_rest(form) }}
-                  </rz-file-upload>
+                class="rz-form"
+                action="#"
+                method="post"
+                enctype="multipart/form-data"
+            >
+                <div class="rz-form__field-list">
+                    <div class="rz-form-field">
+                        <rz-file-upload
+                            {% if folder.id %}
+                                url="{{ path('documentsUploadPage', {_format: 'json', folderId: folder.id}) }}"
+                                style="--rz-accent-color: {{ folder.color }};"
+                            {% endif %}
+                        >
+                            <noscript>
+                                {{ form_widget(form) }}
+                                <div class="rz-form-field rz-form-field--align-start">
+                                    <input class="rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
+                                </div>
+                            </noscript>
+                            {{ form_rest(form) }}
+                        </rz-file-upload>
+                    </div>
+                </div>
             </form>
         </div>
     </article>

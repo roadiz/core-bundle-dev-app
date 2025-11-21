@@ -1,20 +1,16 @@
-import type { ButtonArgs } from '../../../../stories/rzButton.stories'
+import type { ButtonArgs } from '../../../../stories/RzButton.stories'
 
-export function rzButtonRenderer(
-    args: ButtonArgs,
-    attrs?: Record<string, string>,
-) {
+export function rzButtonRenderer(args: ButtonArgs) {
     const className = 'rz-button'
-    const buttonNode = document.createElement('button')
-    const attributesEntries = Object.entries(attrs || {})
+    const buttonNode = document.createElement(args.tag || 'button')
+    const attributesEntries = Object.entries(args.attributes || {})
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {
             buttonNode.setAttribute(key, value)
         })
     }
-    const emphasisClass =
-        args.emphasis && `${className}--emphasis-${args.emphasis}`
-    const sizeClass = args.size && `${className}--size-${args.size}`
+    const emphasisClass = args.emphasis && `${className}--${args.emphasis}`
+    const sizeClass = args.size && `${className}--${args.size}`
     const disabledClass = args.disabled && `${className}--disabled`
     const onDarkClass = args.onDark && `${className}--on-dark`
     const colorClass = args.color && `${className}--${args.color}`

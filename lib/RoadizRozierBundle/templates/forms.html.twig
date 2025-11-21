@@ -23,15 +23,22 @@
 {%- endblock date_widget -%}
 
 {%- block color_widget -%}
-    <rz-input-color
-        data-color-picker-label="{{ 'color_input.picker.button'|trans }}"
-        data-hex-color-label="{{ 'color_input.hex.button'|trans }}"
-        data-initial-value="{{ value|default('') }}"
-    >
-        <input placeholder="{{ 'color_input.placeholder'|trans }}"
-               type="color" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        <button class="uk-button color-toggle-btn" type="button">Reset</button>
-    </rz-input-color>
+    <rz-color-input>
+        <input
+            type="color"
+            aria-hidden="true"
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}
+        />
+        <input
+            type="text"
+            maxlength="7"
+            pattern="^#[0-9A-Fa-f]{6}$"
+            placeholder="{{ 'color_input.placeholder'|trans }}"
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}
+        />
+    </rz-color-input>
 {%- endblock color_widget -%}
 
 {%- block data_list_text_widget -%}
@@ -52,9 +59,9 @@
 {%- endblock data_list_text_widget -%}
 
 {% block markdown_widget %}
-<div class="markdown-editor-wrapper">
+<rz-markdown-editor>
     {# just let the textarea widget render the select tag #}
-    <textarea {{ block('widget_attributes') }} data-rz-markdowneditor>{{- value -}}</textarea>
+    <textarea {{ block('widget_attributes') }}>{{- value -}}</textarea>
     <nav class="markdown-editor-navbar">
         <ul class="markdown-editor-navbar-nav">
             {% if attr.allow_h2 %}
@@ -263,7 +270,7 @@
         </ul>
     </nav>
     <div class="markdown-editor-count"><span class="count-current"></span>/<span class="count-limit"></span></div>
-</div>
+</rz-markdown-editor>
 {% endblock markdown_widget %}
 
 

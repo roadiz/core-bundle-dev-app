@@ -1,0 +1,52 @@
+rz-markdown-editor,
+.rz-markdown-editor {
+	display: var(--rz-markdown-editor-display, inline-block);
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--rz-markdown-editor-border-color, var(--form-basic-border, #DADADA));
+	background-color: var(--form-basic-bg, #F8F8F8);
+	transition: color 0.3s, border-color 0.3s;
+
+	&:has(.rz-markdown-editor__textarea:focus-visible) {
+		--rz-markdown-editor-border-color: var(--form-basic-border-hover, #383838);
+	}
+}
+
+.rz-form-field--error :where(.rz-markdown-editor, rz-markdown-editor),
+.rz-markdown-editor--error,
+:where(.rz-markdown-editor, rz-markdown-editor):has(.rz-markdown-editor__textarea:invalid) {
+	--rz-markdown-editor-textarea-color: var(--status-error, #E54457);
+	--rz-markdown-editor-border-color: var(--status-error, #E54457);
+}
+
+.rz-markdown-editor__controls {
+	display: flex;
+	flex-wrap: wrap;
+	min-height: 36px;
+	padding: var(--spacing-5xs, 6px);
+	justify-content: flex-end;
+	gap: 6px;
+	border-radius: inherit;
+	border-bottom: 1px solid var(--line-on-light-primary, #EAEAEA);
+	background-color: var(--surface-light-primary, #FFF);
+}
+
+
+.rz-markdown-editor__textarea {
+	display: flex;
+	padding: var(--spacing-2xs, 12px) var(--spacing-md, 24px) var(--spacing-md, 24px) var(--spacing-2xs, 12px);
+	box-sizing: border-box;
+	width: 100%;
+	border: none;
+	background-color: initial;
+	color: var(--rz-markdown-editor-textarea-color, var(--form-basic-input-text, #383838));
+	font-family: var(--font-family-os-markdown);
+	font-size: var(--text-form-markdown-font-size);
+	line-height: var(--text-form-markdown-line-height);
+	letter-spacing: var(--text-form-markdown-letter-spacing);
+	font-weight: var(--text-form-markdown-font-weight);
+	outline: none;
+
+	&::placeholder {
+		--rz-markdown-editor-textarea-color: var(--form-basic-placeholder, #9A9A9A);
+	}
+}
