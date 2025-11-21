@@ -8,6 +8,10 @@
 	border-radius: var(--radius-sm);
 	background-color: var(--surface-dark-primary, #18191B);
 	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
+
+	li {
+		list-style: none;
+	}
 }
 
 .rz-floating-bar--vertical {

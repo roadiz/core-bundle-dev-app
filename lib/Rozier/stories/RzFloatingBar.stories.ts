@@ -6,7 +6,10 @@ const COMPONENT_CLASS_NAME = 'rz-floating-bar'
 
 export type Args = {
     vertical?: boolean
-    buttons: ButtonArgs[]
+    items: {
+        popoverContent?: string
+        button: ButtonArgs
+    }[]
 }
 
 const meta: Meta<Args> = {
@@ -14,45 +17,65 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         vertical: false,
-        buttons: [
+        items: [
             {
-                emphasis: 'tertiary',
-                iconClass: 'rz-icon-ri--settings-4-line',
-                size: 'md',
-                onDark: true,
-                attributes: { 'aria-label': 'Settings' },
+                popoverContent: 'Popover content',
+                button: {
+                    emphasis: 'tertiary',
+                    iconClass: 'rz-icon-ri--settings-4-line',
+                    size: 'md',
+                    onDark: true,
+                    attributes: { 'aria-label': 'Settings' },
+                },
             },
             {
-                emphasis: 'tertiary',
-                iconClass: 'rz-icon-ri--checkbox-circle-line',
-                size: 'md',
-                onDark: true,
-                attributes: { 'aria-label': 'Checkbox Circle' },
+                button: {
+                    emphasis: 'tertiary',
+                    iconClass: 'rz-icon-ri--checkbox-circle-line',
+                    size: 'md',
+                    onDark: true,
+                    attributes: { 'aria-label': 'Checkbox Circle' },
+                },
             },
             {
-                emphasis: 'tertiary',
-                iconClass: 'rz-icon-ri--history-line',
-                size: 'md',
-                onDark: true,
-                attributes: { 'aria-label': 'History' },
+                button: {
+                    emphasis: 'tertiary',
+                    iconClass: 'rz-icon-ri--history-line',
+                    size: 'md',
+                    onDark: true,
+                    attributes: { 'aria-label': 'History' },
+                },
             },
             {
-                emphasis: 'primary',
-                iconClass: 'rz-icon-ri--delete-bin-7-line',
-                size: 'md',
-                color: 'error',
-                onDark: true,
-                attributes: { 'aria-label': 'Delete' },
+                button: {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--delete-bin-7-line',
+                    size: 'md',
+                    color: 'error',
+                    onDark: true,
+                    attributes: {
+                        'aria-label': 'Delete',
+                        href: '#',
+                    },
+                },
             },
             {
-                emphasis: 'primary',
-                iconClass: 'rz-icon-ri--save-line',
-                size: 'md',
-                color: 'success',
-                onDark: true,
-                attributes: { 'aria-label': 'Save' },
+                button: {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--save-line',
+                    size: 'md',
+                    color: 'success',
+                    onDark: true,
+                    attributes: {
+                        'aria-label': 'Save',
+                        href: '#',
+                    },
+                },
             },
         ],
+    },
+    parameters: {
+        layout: 'centered',
     },
 }
 
@@ -66,9 +89,23 @@ function rzFloatingBar(args: Args) {
         wrapper.classList.add(`${COMPONENT_CLASS_NAME}--vertical`)
     }
 
-    args.buttons.forEach((buttonArgs) => {
-        const button = rzButtonRenderer(buttonArgs)
-        wrapper.appendChild(button)
+    args.items.forEach((item) => {
+        const button = rzButtonRenderer(item.button)
+
+        // TODO: implement when rz-popover-content is ready
+        if (item.popoverContent) {
+            const popoverWrapper = document.createElement('div')
+            popoverWrapper.appendChild(button)
+
+            const p = document.createElement('p')
+            p.style.display = 'none'
+            p.textContent = item.popoverContent
+            popoverWrapper.appendChild(p)
+
+            wrapper.appendChild(popoverWrapper)
+        } else {
+            wrapper.appendChild(button)
+        }
     })
 
     return wrapper
@@ -77,5 +114,14 @@ function rzFloatingBar(args: Args) {
 export const Default: Story = {
     render: (args) => {
         return rzFloatingBar(args)
+    },
+}
+
+export const Vertical: Story = {
+    render: (args) => {
+        return rzFloatingBar(args)
+    },
+    args: {
+        vertical: true,
     },
 }
