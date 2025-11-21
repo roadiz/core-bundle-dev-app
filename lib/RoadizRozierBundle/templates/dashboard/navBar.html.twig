@@ -1,12 +1,20 @@
-<nav class="navbar-navigation dashboard-navigation uk-navbar">
-    <ul class="uk-navbar-nav">
-        <li class="uk-navbar-item{% if current == 'dashboard' %} uk-active{% endif %}">
-            <a class="uk-navbar-link" href="{{ path('adminHomePage') }}">{% trans %}dashboard{% endtrans %}</a>
+<nav class="rz-menu-bar">
+    <ul class="rz-menu-bar__inner">
+        <li>
+            <a class="rz-menu-bar__item{% if current == 'dashboard' %} rz-menu-bar__item--selected{% endif %}"
+               aria-current="{{ current == 'dashboard' ? 'true' : 'false' }}"
+               href="{{ path('adminHomePage') }}">
+                {% trans %}dashboard{% endtrans %}
+            </a>
         </li>
-        {%- if is_granted('ROLE_ACCESS_LOGS') -%}
-            <li class="uk-navbar-item{% if current == 'history' %} uk-active{% endif %}" >
-                <a class="uk-navbar-link" href="{{ path('historyHomePage') }}">{% trans %}history{% endtrans %}</a>
+        {% if is_granted('ROLE_ACCESS_LOGS') %}
+            <li>
+                <a class="rz-menu-bar__item{% if current == 'history' %} rz-menu-bar__item--selected{% endif %}"
+                   aria-current="{{ current == 'history' ? 'true' : 'false' }}"
+                   href="{{ path('historyHomePage') }}">
+                    {% trans %}history{% endtrans %}
+                </a>
             </li>
-        {%- endif -%}
+        {% endif %}
     </ul>
 </nav>

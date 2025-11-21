@@ -71,19 +71,6 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzSeparatorRenderer(args: MenuItem) {
-    const item = document.createElement('hr')
-    item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
-
-    if (args.attributes) {
-        Object.entries(args.attributes).forEach(([key, value]) => {
-            if (value) item.setAttribute(key, String(value))
-        })
-    }
-
-    return item
-}
-
 function rzLinkRenderer(args: MenuItem) {
     const item = document.createElement('a')
     const className = `${COMPONENT_CLASS_NAME}__item`
@@ -153,9 +140,7 @@ function rzDropdownRenderer(args: MenuItem) {
 }
 
 function rzMenuItemRenderer(args: MenuItem) {
-    if (args.tag === 'hr') {
-        return rzSeparatorRenderer(args)
-    } else if (args.tag === 'button') {
+    if (args.tag === 'button') {
         return rzDropdownRenderer(args)
     } else {
         return rzLinkRenderer(args)
@@ -163,16 +148,23 @@ function rzMenuItemRenderer(args: MenuItem) {
 }
 
 function rzMenuBarRenderer(args: Args) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement('nav')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
-    const inner = document.createElement('div')
+    const inner = document.createElement('ul')
     inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
     wrapper.appendChild(inner)
 
     args.menuItems.forEach((menuItemArgs) => {
-        const menuItem = rzMenuItemRenderer(menuItemArgs)
-        inner.appendChild(menuItem)
+        const item = document.createElement('li')
+        inner.appendChild(item)
+
+        if (menuItemArgs.tag === 'hr') {
+            item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
+        } else {
+            const menuItem = rzMenuItemRenderer(menuItemArgs)
+            item.appendChild(menuItem)
+        }
     })
 
     return wrapper
