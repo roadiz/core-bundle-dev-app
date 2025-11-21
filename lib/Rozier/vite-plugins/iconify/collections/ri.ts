@@ -41,6 +41,7 @@ export default [
     'settings-4-line',
     'checkbox-circle-line',
     'history-line',
+    'star-line',
     // Markdown related icons
     'h-1',
     'h-2',

@@ -169,7 +169,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.buttonFullscreen = this.cont.querySelectorAll(
             '.markdown-editor-button-fullscreen',
         )
-        this.count = this.cont.querySelectorAll('.markdown-editor-count')
+        this.count = this.cont.querySelectorAll('.count')
         this.countCurrent = this.cont.querySelectorAll('.count-current')
         this.countMaxLimitText = this.cont.querySelectorAll('.count-limit')
         this.buttonTranslateAssistant = this.cont.querySelectorAll(
@@ -419,6 +419,9 @@ export default class RzMarkdownEditor extends HTMLElement {
                         this.blockquoteSelections(sel),
                     )
                     break
+                case 'h1':
+                    this.editor.replaceSelections(this.h1Selections(sel))
+                    break
                 case 'h2':
                     this.editor.replaceSelections(this.h2Selections(sel))
                     break
@@ -492,6 +495,10 @@ export default class RzMarkdownEditor extends HTMLElement {
             selections = this.editor.getSelections()
         }
         return selections.map((sel) => '*' + sel + '*')
+    }
+
+    h1Selections(selections: string[]): string[] {
+        return selections.map((sel) => '\n# ' + sel + '\n')
     }
 
     h2Selections(selections: string[]): string[] {

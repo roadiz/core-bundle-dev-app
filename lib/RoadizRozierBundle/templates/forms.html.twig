@@ -10,7 +10,7 @@
 {%- block date_widget -%}
      {%- if widget == 'single_text' -%}
          {%- set type = type|default('text') -%}
-         <input data-uk-datepicker="{format:'YYYY-MM-DD'}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+         <input class="rz-form-field__body" is="rz-input" type="date" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
      {%- else -%}
          <div {{ block('widget_container_attributes') }}>
              {{- date_pattern|replace({
@@ -23,7 +23,7 @@
 {%- endblock date_widget -%}
 
 {%- block color_widget -%}
-    <rz-color-input>
+    <rz-color-input class="rz-form-field__body">
         <input
             type="color"
             aria-hidden="true"
@@ -59,232 +59,146 @@
 {%- endblock data_list_text_widget -%}
 
 {% block markdown_widget %}
-<rz-markdown-editor>
-    {# just let the textarea widget render the select tag #}
-    <textarea {{ block('widget_attributes') }}>{{- value -}}</textarea>
-    <nav class="markdown-editor-navbar">
-        <ul class="markdown-editor-navbar-nav">
+<rz-markdown-editor class="rz-markdown-editor">
+    <div class="rz-markdown-editor__controls">
+        <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
+            {% if attr.allow_h1 %}
+                <button data-markdowneditor-button="h1" type="button" class="rz-button rz-button-group__button">
+                    <span class="rz-button__icon rz-icon-ri--h-1"></span>
+                </button>
+            {% endif %}
             {% if attr.allow_h2 %}
-                <li class="markdown-editor-button-cont-h2">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-h2"
-                            type="button"
-                            data-markdowneditor-button="h2"
-                            title="{% trans %}headline.2{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-h2"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="h2" type="button" class="rz-button rz-button-group__button markdown-editor-button-h2">
+                    <span class="rz-button__icon rz-icon-ri--h-2"></span>
+                </button>
             {% endif %}
             {% if attr.allow_h3 %}
-                <li class="markdown-editor-button-cont-h3">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-h3"
-                            type="button"
-                            data-markdowneditor-button="h3"
-                            title="{% trans %}headline.3{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-h3"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="h3" type="button" class="rz-button rz-button-group__button markdown-editor-button-h3">
+                    <span class="rz-button__icon rz-icon-ri--h-3"></span>
+                </button>
             {% endif %}
             {% if attr.allow_h4 %}
-                <li class="markdown-editor-button-cont-h4">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-h4"
-                            type="button"
-                            data-markdowneditor-button="h4"
-                            title="{% trans %}headline.4{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-h4"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="h4" type="button" class="rz-button rz-button-group__button markdown-editor-button-h4">
+                    <span class="rz-button__icon rz-icon-ri--h-4"></span>
+                </button>
             {% endif %}
             {% if attr.allow_h5 %}
-                <li class="markdown-editor-button-cont-h5">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-h5"
-                            type="button"
-                            data-markdowneditor-button="h5"
-                            title="{% trans %}headline.5{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-h5"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="h5" type="button" class="rz-button rz-button-group__button markdown-editor-button-h5">
+                    <span class="rz-button__icon rz-icon-ri--h-5"></span>
+                </button>
             {% endif %}
             {% if attr.allow_h6 %}
-                <li class="markdown-editor-button-cont-h6">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-h6"
-                            type="button"
-                            data-markdowneditor-button="h6"
-                            title="{% trans %}headline.6{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-h6"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="h6" type="button" class="rz-button rz-button-group__button markdown-editor-button-h6">
+                    <span class="rz-button__icon rz-icon-ri--h-6"></span>
+                </button>
             {% endif %}
+        </div>
+        <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
             {% if attr.allow_bold %}
-                <li class="markdown-editor-button-cont-bold">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-bold"
-                            type="button"
-                            data-markdowneditor-button="bold"
-                            title="{% trans %}bold{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-bold"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="bold" type="button" class="rz-button rz-button-group__button markdown-editor-button-bold">
+                    <span class="rz-button__icon rz-icon-ri--bold"></span>
+                </button>
             {% endif %}
             {% if attr.allow_italic %}
-                <li class="markdown-editor-button-cont-italic">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-italic"
-                            type="button"
-                            data-markdowneditor-button="italic"
-                            title="{% trans %}italic{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-italic"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="italic" type="button" class="rz-button rz-button-group__button markdown-editor-button-italic">
+                    <span class="rz-button__icon rz-icon-ri--italic"></span>
+                </button>
             {% endif %}
+        </div>
+        <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
             {% if attr.allow_blockquote %}
-                <li class="markdown-editor-button-cont-blockquote">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-blockquote"
-                            type="button"
-                            data-markdowneditor-button="blockquote"
-                            title="{% trans %}blockquote{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-quote"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="blockquote" type="button" class="rz-button rz-button-group__button markdown-editor-button-blockquote">
+                    <span class="rz-button__icon rz-icon-ri--single-quotes-l"></span>
+                </button>
             {% endif %}
             {% if attr.allow_link %}
-                <li class="markdown-editor-button-cont-link">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-link"
-                            type="button"
-                            data-markdowneditor-button="link"
-                            title="{% trans %}link{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-link"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="link" type="button" class="rz-button rz-button-group__button markdown-editor-button-link">
+                    <span class="rz-button__icon rz-icon-ri--link"></span>
+                </button>
             {% endif %}
             {% if attr.allow_image %}
-                <li class="markdown-editor-button-cont-image">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-image"
-                            type="button"
-                            data-markdowneditor-button="image"
-                            title="{% trans %}image{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-image"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="image" type="button" class="rz-button rz-button-group__button markdown-editor-button-image">
+                    <span class="rz-button__icon rz-icon-ri--image-line"></span>
+                </button>
             {% endif %}
             {% if attr.allow_list %}
-                <li class="markdown-editor-button-cont-listUl">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-listUl"
-                            type="button"
-                            data-markdowneditor-button="listUl"
-                            title="{% trans %}unordered.list{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-unordered-list"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="listUl" type="button" class="rz-button rz-button-group__button markdown-editor-button-listUl">
+                    <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                </button>
             {% endif %}
+        </div>
+        <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
             {% if attr.allow_return %}
-                <li class="markdown-editor-button-cont-back">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-back"
-                            type="button"
-                            data-markdowneditor-button="back"
-                            title="{% trans %}back{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-back"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="back" type="button" class="rz-button rz-button-group__button markdown-editor-button-back">
+                    <span class="rz-button__icon rz-icon-ri--corner-down-left-line"></span>
+                </button>
             {% endif %}
             {% if attr.allow_hr %}
-                <li class="markdown-editor-button-cont-hr">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-hr"
-                            type="button"
-                            data-markdowneditor-button="hr"
-                            title="{% trans %}separator{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-hr"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="hr" type="button" class="rz-button rz-button-group__button markdown-editor-button-hr">
+                    <span class="rz-button__icon rz-icon-ri--separator"></span>
+                </button>
             {% endif %}
             {% if attr.allow_nbsp %}
-                <li class="markdown-editor-button-cont-nbsp">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-nbsp"
-                            type="button"
-                            data-markdowneditor-button="nbsp"
-                            title="{% trans %}non_breaking.space{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-space-forced"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="nbsp" type="button" class="rz-button rz-button-group__button markdown-editor-button-nbsp">
+                    <span class="rz-button__icon rz-icon-ri--space"></span>
+                </button>
             {% endif %}
             {% if attr.allow_nb_hyphen %}
-                <li class="markdown-editor-button-cont-nb-hyphen">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-nb-hyphen"
-                            type="button"
-                            data-markdowneditor-button="nb-hyphen"
-                            title="{% trans %}non_breaking.hyphen{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-minus"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="nb-hyphen" type="button" class="rz-button rz-button-group__button markdown-editor-button-nb-hyphen">
+                    <span class="rz-button__icon rz-icon-ri--subtract-line"></span>
+                </button>
             {% endif %}
+        </div>
+        <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
             {% if attr.allow_preview %}
-                <li class="markdown-editor-button-cont-preview">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-preview"
-                            type="button"
-                            data-markdowneditor-button="preview"
-                            title="{% trans %}markdown.preview{% endtrans %}"
-                            data-uk-tooltip="{animation:true}">
-                        <i class="uk-icon-rz-visibility"></i>
-                    </button>
-                </li>
+                <button data-markdowneditor-button="preview" type="button" class="rz-button rz-button-group__button markdown-editor-button-preview">
+                    <span class="rz-button__icon rz-icon-ri--eye-line"></span>
+                </button>
             {% endif %}
+        </div>
+        <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
             {% if attr.allow_translate_assistant_translate and translateAssistantEnabled and attr.locale %}
-                <li class="markdown-editor-button-cont-translate-assistant-translate">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-translate-assistant-translate"
-                            type="button"
-                            data-markdowneditor-button="translate_assistant-translate"
-                            title="{% trans %}markdown.translate_assistant_translate{% endtrans %}"
-                            data-uk-tooltip="{animation:true}"
-                            data-translate-locale="{{ attr.locale }}"
-                            data-translate-path="{{ path('translateAssistantTranslate') }}" >
-                        <i class="uk-icon-rz-translate"></i>
-                    </button>
-                </li>
+                <button
+                    type="button"
+                    data-markdowneditor-button="translate_assistant-translate"
+                    class="rz-button rz-button-group__button markdown-editor-button-translate-assistant-translate"
+                    data-translate-locale="{{ attr.locale }}"
+                    data-translate-path="{{ path('translateAssistantTranslate') }}"
+                >
+                    <span class="rz-button__icon rz-icon-ri--translate"></span>
+                </button>
             {% endif %}
             {% if attr.allow_translate_assistant_rephrase and translateAssistantEnabled and attr.locale %}
-                <li class="markdown-editor-button-cont-translate-assistant-rephrase">
-                    <button class="uk-button uk-button-content uk-button-small markdown-editor-button-translate-assistant-rephrase"
-                            type="button"
-                            data-markdowneditor-button="translate_assistant-rephrase"
-                            title="{% trans %}markdown.translate_assistant_rephrase{% endtrans %}"
-                            data-uk-tooltip="{animation:true}"
-                            data-translate-locale="{{ attr.locale }}"
-                            data-translate-path="{{ path('translateAssistantRephrase') }}"
-                            {{ (translateAssistantSupportRephrase) ? '' : 'disabled' }} >
-                        <i class="uk-icon-rz-fontes"></i>
-                    </button>
-                </li>
+                <button
+                    type="button"
+                    data-markdowneditor-button="translate_assistant-rephrase"
+                    class="rz-button rz-button-group__button markdown-editor-button-translate-assistant-rephrase"
+                    data-translate-locale="{{ attr.locale }}"
+                    data-translate-path="{{ path('translateAssistantRephrase') }}"
+                    {{ (translateAssistantSupportRephrase) ? '' : 'disabled' }}
+                >
+                    <span class="rz-button__icon rz-icon-ri--translate-ai"></span>
+                </button>
             {% endif %}
-        </ul>
-    </nav>
-    <div class="markdown-editor-count"><span class="count-current"></span>/<span class="count-limit"></span></div>
+        </div>
+    </div>
+    <textarea class="rz-markdown-editor__textarea" {{ block('widget_attributes') }}>{{- value -}}</textarea>
 </rz-markdown-editor>
 {% endblock markdown_widget %}
 
+{%- block textarea_widget -%}
+    <textarea {{ block('widget_attributes') }} class="rz-textarea rz-form-field__body">{{ value }}</textarea>
+{%- endblock textarea_widget -%}
 
 {% block json_widget %}
 {# just let the textarea widget render the select tag #}
 <textarea {{ block('widget_attributes') }} data-rz-jsoneditor>{{ value }}</textarea>
 {% endblock json_widget %}
 
-
 {% block css_widget %}
 {# just let the textarea widget render the select tag #}
 <textarea {{ block('widget_attributes') }} data-rz-csseditor>{{ value }}</textarea>
 {% endblock css_widget %}
-
 
 {% block yaml_widget %}
 {# just let the textarea widget render the select tag #}
@@ -337,7 +251,7 @@
         widget_attributes: block('widget_attributes'),
         enableDropzone: true,
         entity: 'document',
-        icon: 'uk-icon-rz-documents'
+        icon: 'rz-icon-ri--image-line'
     } %}
 {% endblock documents_widget %}
 
@@ -346,7 +260,7 @@
         widget_attributes: block('widget_attributes'),
         enableDropzone: true,
         entity: 'document',
-        icon: 'uk-icon-rz-documents'
+        icon: 'rz-icon-ri--image-line'
     } %}
 {% endblock node_source_documents_widget %}
 
@@ -405,7 +319,7 @@
 {% endblock custom_forms_widget %}
 
 {%- block radio_widget -%}
-    <input type="radio" title="{{ label|trans }}" aria-label="{{ label|trans }}" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    <input is="rz-input" class="rz-form-field__body" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} >
 {%- endblock radio_widget -%}
 
 {%- block document_alignment_widget -%}
@@ -435,28 +349,37 @@
 {% endblock %}
 
 {% block checkbox_widget -%}
-    <input class="rz-boolean-checkbox"
-           type="checkbox"
-           data-on-text="I"
-           data-off-text="O"
-        {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}
-        {% if checked %} checked="checked"{% endif %} />
+    <input class="rz-switch" class="rz-form-field__body" {% if checked %}checked{% endif %} type="checkbox" />
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
-    <div {{ block('widget_container_attributes') }}>
+        <fieldset class="rz-fieldset">
+            <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
         {%- for child in form %}
-            <div class="uk-form-group uk-margin-bottom">
-                {{- form_widget(child) -}}
+            <div class="rz-form-field rz-form-field--type-radio">
                 {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+                {{- form_widget(child) -}}
             </div>
         {% endfor -%}
-    </div>
+        </fieldset>
 {%- endblock choice_widget_expanded -%}
 
+{% block text_widget %}
+    <input is="rz-input" class="rz-form-field__body" type="text" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+{%- endblock text_widget -%}
+
 {% block number_widget -%}
-    <input type="number" step="any" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
+    {%- set type = type|default('number') -%}
+    <input is="rz-input" class="rz-form-field__body" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
 {%- endblock number_widget %}
+
+{%- block email_widget -%}
+    <input is="rz-input" class="rz-form-field__body" class="rz-form-field__body rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+{%- endblock email_widget -%}
+
+{%- block file_widget -%}
+    <input is="rz-input" class="rz-form-field__body" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+{%- endblock file_widget -%}
 
 {% block separator_widget %}
 {# just let the textarea widget render the select tag #}
@@ -474,20 +397,33 @@
     {%- endif %}
 {%- endblock time_widget %}
 
+{%- block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        <input is="rz-input" class="rz-form-field__body" type="datetime-local" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif -%}
+{%- endblock datetime_widget -%}
+
 {# Override default error block #}
 {% block form_errors -%}
     {% if errors|length > 0 -%}
-        <ul class="errors">
+        <div class="rz-message rz-message--error rz-form-field__message">
             {%- for error in errors -%}
-                <li class="uk-alert uk-alert-danger"><i class="uk-icon-warning"></i> {{ error.message|trans(error.messageParameters) }}</li>
+                <p class="rz-message__text"><i class="uk-icon-warning"></i> {{ error.message|trans(error.messageParameters) }}</p>
             {%- endfor -%}
-        </ul>
+        </div>
     {%- endif %}
 {%- endblock form_errors %}
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-<div class="uk-form-row children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
+<div class="uk-form-row rz-form-field children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
@@ -537,7 +473,7 @@
     {%- else -%}
         {% set form_method = "POST" %}
     {%- endif -%}
-    <form class="uk-form uk-form-stacked" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    <form class="rz-form" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
     {%- if form_method != method -%}
         <input type="hidden" name="_method" value="{{ method }}" />
     {%- endif -%}
@@ -549,25 +485,39 @@
             {% set label_attr = label_attr|merge({'for': id}) %}
         {%- endif %}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('uk-form-label') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label') ~ ' required')|trim}) %}
         {%- else %}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('uk-form-label'))|trim}) %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label'))|trim}) %}
         {%- endif %}
         {% if label is empty -%}
             {% set label = name|humanize %}
         {%- endif -%}
-        <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}><span class="uk-form-label-title">{{- label|trans -}}</span>{% if attr['data-universal'] %} <i data-uk-tooltip="{animation:true}" title="{% trans %}universal{% endtrans %}" class="uk-icon uk-icon-flag universal-indicator"></i>{% endif %}
+        <div class="rz-form-field__head">
+            <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+                {{- label|trans -}}
+            </label>
+            {% if attr['data-universal'] %}
+                <div class="rz-badge rz-badge--xs rz-form-field__head__badge">
+                    <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
+                </div>
+            {% endif %}
+            {%- if attr['data-max-length'] -%}
+                <div class="rz-badge rz-badge--xs rz-badge--error rz-form-field__head__badge" title="Badge title">
+                    <span class="rz-badge__label count">
+                        <span class="count-current">0</span>
+                        /
+                        <span class="count-limit">{{ attr['data-max-length'] }}</span>
+                    </span>
+                </div>
+            {%- endif -%}
+        </div>
         {%- if form.vars.help ?? false -%}
-            <small id="{{ form.vars.id }}_help" class="form-row-desc uk-form-label-description">{{ form.vars.help|trans|inlineMarkdown }}</small>
+            <p id="{{ form.vars.id }}_help" class="rz-form-field__description">{{ form.vars.help|trans|inlineMarkdown }}</p>
         {%- endif -%}
-        </label>
     {%- endif %}
 {%- endblock form_label %}
 
 {% block form_widget_compound -%}
-    {% set attr = attr|merge({
-        'class': attr.class ~ ' data-uk-margin'
-    }) %}
     <div {{ block('widget_container_attributes') }}>
         {%- if form.parent is empty -%}
             {{ form_errors(form) }}
@@ -583,7 +533,7 @@
     {%- endif -%}
 
     {% if multiple %}
-        <select {{ block('widget_attributes') }} multiple="multiple">
+        <select is="rz-select" class="rz-form-field__body" {{ block('widget_attributes') }} multiple="multiple">
             {% if placeholder is not none -%}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
             {%- endif %}
@@ -598,52 +548,59 @@
             {{- block('choice_widget_options') -}}
         </select>
     {% else %}
-        <div class="rz-select">
-            <select v-model="selected" {{ block('widget_attributes') }}>
-                {% if placeholder is not none -%}
-                    <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
-                {%- endif %}
-                {%- if preferred_choices|length > 0 -%}
-                    {% set options = preferred_choices %}
-                    {{- block('choice_widget_options') -}}
-                    {% if choices|length > 0 and separator is not none -%}
-                        <option disabled="disabled">{{ separator }}</option>
-                    {%- endif %}
-                {%- endif -%}
-                {% set options = choices -%}
+        <select is="rz-select" class="rz-form-field__body" v-model="selected" {{ block('widget_attributes') }}>
+            {% if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
+            {%- endif %}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
                 {{- block('choice_widget_options') -}}
-            </select>
-        </div>
+                {% if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif %}
+            {%- endif -%}
+            {% set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
     {% endif %}
 
 {%- endblock choice_widget_collapsed %}
 
 {% block form_row -%}
-    {% set rowClasses = [
-        'uk-form-row',
-        'form-col-' ~ form.vars.block_prefixes[1],
-        'form-col-' ~ form.vars.name|replace({'_': '-'})
-    ] %}
-    {% if attr.class %}
-        {% set rowClasses = rowClasses|merge([
-            attr.class ~ '-wrapper'
-        ]) %}
-    {% endif %}
-    <div {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
-         data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
-         {%- if form.vars.help ?? false -%}aria-describedby="{{ form.vars.id }}_help"{% endif %}
-         class="{{ rowClasses|join(' ') }}">
-        {% if form.vars.block_prefixes[1] != 'separator' %}
-            {{- form_label(form) -}}
-        {% endif %}
-        {{- form_errors(form) -}}
+    {%- if form.vars.block_prefixes[1] == 'nodesourcebase' or form.vars.name == 'nodesTags' -%}
         {{- form_widget(form) -}}
-    </div>
+    {%- else -%}
+        {% set rowClasses = [
+            'rz-form-field',
+            'form-col-' ~ form.vars.block_prefixes[1],
+            'form-col-' ~ form.vars.name|replace({'_': '-'}),
+            'rz-form-field--type-' ~ form.vars.block_prefixes[1]
+        ] %}
+        {% if required %}
+            {% set rowClasses = rowClasses|merge(['rz-form-field--required']) %}
+        {% endif %}
+        {% if errors|length > 0 -%}
+            {% set rowClasses = rowClasses|merge(['rz-form-field--error']) %}
+        {% endif %}
+        {% if attr.class %}
+            {% set rowClasses = rowClasses|merge([
+                attr.class ~ '-wrapper'
+            ]) %}
+        {% endif %}
+        <div {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
+             data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
+            class="{{ rowClasses|join(' ') }}">
+            {% if form.vars.block_prefixes[1] != 'separator' %}
+                {{- form_label(form) -}}
+            {% endif %}
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    {%- endif -%}
 {%- endblock form_row %}
 
 {%- block button_row -%}
     {% set rowClasses = [
-    'uk-form-row',
     'form-col-' ~ form.vars.block_prefixes[1],
     'form-col-' ~ form.vars.name|replace({'_': '-'})
     ] %}
@@ -654,7 +611,7 @@
 
 {%- block button_widget -%}
     {% if not attr.class %}
-        {% set attr = attr|merge({'class': 'uk-button'}) %}
+        {% set attr = attr|merge({'class': 'rz-button'}) %}
     {% endif %}
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
@@ -666,6 +623,40 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}><span
-            class="button-text">{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</span></button>
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {%- if translation_domain is same as(false) -%}
+            {%- if label_html is same as(false) -%}
+                <span class="rz-button__label">{{- label -}}</span>
+            {%- else -%}
+                <span class="rz-button__label">{{- label|raw -}}</span>
+            {%- endif -%}
+        {%- else -%}
+            {%- if label_html is same as(false) -%}
+                <span class="rz-button__label">{{- label|trans(label_translation_parameters, translation_domain) -}}</span>
+            {%- else -%}
+                <span class="rz-button__label">{{- label|trans(label_translation_parameters, translation_domain)|raw -}}</span>
+            {%- endif -%}
+        {%- endif -%}
+        {%- if attr.icon is defined and attr.icon != '' -%}
+            <span class="rz-button__icon {{ attr.icon }}"></span>
+        {%- endif -%}
+    </button>
 {%- endblock button_widget -%}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- if form.vars.help ?? false -%}
+        aria-describedby="{{ form.vars.id }}_help"
+    {%- endif -%}
+    {{ block('attributes') }}
+{%- endblock widget_attributes -%}
+
+{%- block nodesourcebase_widget -%}
+    <div class="rz-form__field-list rz-form__field-list--horizontal">
+        {%- for child in form %}
+            {{- form_row(child) -}}
+        {%- endfor -%}
+    </div>
+{%- endblock nodesourcebase_widget -%}
