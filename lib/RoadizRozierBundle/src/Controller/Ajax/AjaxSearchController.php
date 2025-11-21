@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -36,6 +37,7 @@ final class AjaxSearchController extends AbstractAjaxController
     /**
      * Handle AJAX edition requests for Node such as coming from node-tree widgets.
      */
+    #[Route('/rz-admin/ajax/search', name: 'searchAjax', methods: ['GET'], format: 'json')]
     public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted(NodeVoter::SEARCH);

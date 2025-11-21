@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,6 +27,12 @@ final class AjaxNodeTypesController extends AbstractAjaxController
         parent::__construct($managerRegistry, $serializer, $translator);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/node-types/explorer',
+        name: 'nodeTypesAjaxExplorer',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
@@ -44,6 +51,12 @@ final class AjaxNodeTypesController extends AbstractAjaxController
     /**
      * Get a NodeType list from an array of id.
      */
+    #[Route(
+        path: '/rz-admin/ajax/node-types/list',
+        name: 'nodeTypesAjaxByArray',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function listAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');

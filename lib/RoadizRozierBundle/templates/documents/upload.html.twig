@@ -26,7 +26,8 @@
                     <div class="rz-form-field">
                         <rz-file-upload
                             {% if folder.id %}
-                                url="{{ path('documentsUploadPage', {_format: 'json'}) ~ '/' ~ folder.id }}"
+                                url="{{ path('documentsUploadPage', {_format: 'json', folderId: folder.id}) }}"
+                                style="--rz-accent-color: {{ folder.color }};"
                             {% endif %}
                         >
                             <noscript>

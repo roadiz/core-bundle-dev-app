@@ -8,10 +8,10 @@
                     <a class="see-all-root-tree"
                        data-uk-tooltip="{animation:true}"
                        title="{% trans %}see_all{% endtrans %}"
-                       href="{{ path('nodesMainTreePage', {translationId: nodeTree.translation.id}) }}"><i class="uk-icon-search"></i></a>
+                       href="{{ path('nodesMainTreePage', { translationId: nodeTree.translation.id }) }}"><i class="uk-icon-search"></i></a>
                 </h4>
                 {% if not nodeTree.rootNode %}
-                    <a href="{{ path('nodesAddChildPage') }}"
+                    <a href="{{ path('nodesAddPage', { translationId: nodeTree.translation.id }) }}"
                        data-uk-tooltip="{animation:true}"
                        title="{% trans %}add.a.node{% endtrans %}"
                        class="uk-button tree-btn-add"

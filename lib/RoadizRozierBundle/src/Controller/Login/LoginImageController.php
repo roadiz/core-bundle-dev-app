@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 final class LoginImageController extends AbstractController
@@ -24,6 +25,11 @@ final class LoginImageController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/css/login/image',
+        name: 'loginImagePage',
+        methods: ['GET'],
+    )]
     public function imageAction(Request $request): Response
     {
         $response = new JsonResponse();

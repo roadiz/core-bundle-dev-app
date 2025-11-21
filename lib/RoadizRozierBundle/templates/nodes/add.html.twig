@@ -7,7 +7,7 @@
 
     <header class="content-header header-node header-node-add">
         <h1 class="content-title">{% trans %}add.a.node{% endtrans %}</h1>
-        {% if parentNode %}<h2><em>{% trans %}In{% endtrans %}</em> {{ parentNode.getNodeName }}</h2>{% endif %}
+        {% if parentNode %}<h2><em>{% trans %}In{% endtrans %}</em> {{ parentnode.nodeName }}</h2>{% endif %}
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
     </header>
 
