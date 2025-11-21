@@ -20,46 +20,55 @@
         <hr>
     {% endif %}
     <form id="login-form"
-          class="uk-form uk-form-stacked {% if error %}uk-animation-shake{% endif %}"
+          class="rz-form"
           method="post">
-        <div class=" data-uk-margin">
-            <div class="uk-form-row form-col-text form-col--username">
-                <label for="_username" class="uk-form-label required"><span class="uk-form-label-title">{% trans %}username{% endtrans %}</span></label>
-                <input type="text"
-                       value="{{ last_username }}"
-                       name="username"
-                       id="_username"
-                       autocomplete="username email"
-                       placeholder="{% trans %}username{% endtrans %}"
-                       class="form-control"
-                       required
-                       autofocus>
+        <div class="rz-form__field-list">
+            <div class="rz-form-field rz-form-field--type-text rz-form-field--required">
+                <div class="rz-form-field__head">
+                    <label class="rz-form-field__head__label" for="_username">{% trans %}username{% endtrans %}</label>
+                </div>
+                <input
+                    is="rz-input"
+                    name="username"
+                    id="_username"
+                    type="text"
+                    autocomplete="username email"
+                    placeholder="{% trans %}username{% endtrans %}"
+                    class="rz-form-field__input"
+                    required
+                    value="{{ last_username }}">
             </div>
-            <div class="uk-form-row form-col-text form-col--password">
-                <label for="_password" class="uk-form-label required"><span class="uk-form-label-title">{% trans %}password{% endtrans %}</span></label>
-                <input type="password"
-                       name="password"
-                       id="_password"
-                       class="form-control"
-                       placeholder="{% trans %}password{% endtrans %}"
-                       required
-                       autocomplete="current-password">
+            <div class="rz-form-field rz-form-field--type-password rz-form-field--required">
+                <div class="rz-form-field__head">
+                    <label class="rz-form-field__head__label" for="_password">{% trans %}password{% endtrans %}</label>
+                </div>
+                <input
+                    is="rz-input"
+                    name="password"
+                    id="_password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="{% trans %}password{% endtrans %}"
+                    class="rz-form-field__input"
+                    required>
             </div>
-            <div class="uk-form-row form-col-checkbox form-col--remember-me">
-                <label for="_remember_me" class="uk-form-label"><span
-                            class="uk-form-label-title">{% trans %}keep_me_logged_in{% endtrans %}</span></label><input
-                        class="rz-boolean-checkbox"
-                        type="checkbox"
-                        data-on-text="I"
-                        data-off-text="O"
-                        id="_remember_me" name="_remember_me" checked value="1"/></div>
+            <div class="rz-form-field rz-form-field--type-checkbox">
+                <div class="rz-form-field__head">
+                    <label class="rz-form-field__head__label" for="_remember_me">{% trans %}keep_me_logged_in{% endtrans %}</label>
+                </div>
+                <input type="checkbox" class="rz-switch rz-form-field__input" id="_remember_me" name="_remember_me" checked>
+            </div>
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <fieldset>
-            <button class="uk-button uk-button-primary"
-                    type="submit"><i class="uk-icon-sign-in"></i> {% trans %}login{% endtrans %}</button>
-            <a class="uk-button uk-button-secondary"
-               href="{{ path('roadiz_rozier_login_link') }}"><i class="uk-icon-chain"></i> {% trans %}request_login_link{% endtrans %}</a>
-        </fieldset>
+        <div class="rz-button-group rz-button-group--gap-md">
+            <button type="submit" class="rz-button rz-button--primary">
+                <span class="rz-button__label">{% trans %}login{% endtrans %}</span>
+                <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+            </button>
+            <a class="rz-button rz-button--secondary" href="{{ path('roadiz_rozier_login_link') }}">
+                <span class="rz-button__label">{% trans %}request_login_link{% endtrans %}</span>
+                <span class="rz-button__icon rz-icon-ri--link"></span>
+            </a>
+        </div>
     </form>
 {% endblock %}
