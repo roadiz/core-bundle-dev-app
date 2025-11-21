@@ -202,6 +202,11 @@
                 <target></target>
                 <note></note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="custom-form.webhook">
+                <source>custom-form.webhook</source>
+                <target></target>
+                <note>Navigation title for webhook configuration</note>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="customForm.webhook.section">
                 <source>customForm.webhook.section</source>
                 <target></target>

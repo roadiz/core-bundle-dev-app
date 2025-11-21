@@ -11,11 +11,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Abstract base class for webhook providers.
  */
-abstract class AbstractCustomFormWebhookProvider implements CustomFormWebhookProviderInterface
+abstract readonly class AbstractCustomFormWebhookProvider implements CustomFormWebhookProviderInterface
 {
     public function __construct(
-        protected readonly HttpClientInterface $httpClient,
-        protected readonly LoggerInterface $logger,
+        protected HttpClientInterface $httpClient,
+        protected LoggerInterface $logger,
     ) {
     }
 
@@ -48,7 +48,7 @@ abstract class AbstractCustomFormWebhookProvider implements CustomFormWebhookPro
         $mappedData = [];
 
         foreach ($fieldMapping as $customFormField => $providerField) {
-            if (isset($answerData[$customFormField])) {
+            if (!empty($providerField) && !empty($answerData[$customFormField])) {
                 $mappedData[$providerField] = $answerData[$customFormField];
             }
         }

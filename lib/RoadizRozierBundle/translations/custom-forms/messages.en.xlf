@@ -202,6 +202,11 @@
                 <target state="final">List one or many email addresses to receive this custom-form answer copy. Use comma to separate multiple email addresses.</target>
                 <note/>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="custom-form.webhook" approved="yes">
+                <source>custom-form.webhook</source>
+                <target>Webhook</target>
+                <note>Navigation title for webhook configuration</note>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.webhook.section" approved="yes">
                 <source>customForm.webhook.section</source>
                 <target state="final">Webhook Configuration</target>
@@ -234,22 +239,22 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping" approved="yes">
                 <source>customForm.webhook.fieldMapping</source>
-                <target state="final">Field Mapping (JSON)</target>
+                <target state="final">Field Mapping</target>
                 <note/>
             </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping.help" approved="yes">
                 <source>customForm.webhook.fieldMapping.help</source>
-                <target state="final">Map custom form fields to provider fields in JSON format. Example: {"form_field_name": "provider_field_name"}</target>
+                <target state="final">Map custom form fields to provider fields.</target>
                 <note/>
             </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig" approved="yes">
                 <source>customForm.webhook.extraConfig</source>
-                <target state="final">Extra Configuration (JSON)</target>
+                <target state="final">Extra Configuration</target>
                 <note/>
             </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig.help" approved="yes">
                 <source>customForm.webhook.extraConfig.help</source>
-                <target state="final">Provider-specific configuration in JSON format. Example for Brevo: {"list_id": "123"}. See provider documentation for available options.</target>
+                <target state="final">Provider-specific configuration fields.</target>
                 <note/>
             </trans-unit>
     </body>

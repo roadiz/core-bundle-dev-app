@@ -12,12 +12,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Brevo (formerly Sendinblue) webhook provider.
  */
-final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
+final readonly class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
 {
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        private readonly ?string $apiKey = null,
+        #[\SensitiveParameter]
+        private ?string $apiKey = null,
     ) {
         parent::__construct($httpClient, $logger);
     }
@@ -70,7 +71,7 @@ final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
         $mappedData = $this->mapAnswerData($answer, $fieldMapping);
 
         // Extract email from mapped data or answer
-        $email = $mappedData['email'] ?? $answer->getEmail();
+        $email = $mappedData['email'] ?? $mappedData['EMAIL'] ?? $answer->getEmail();
         if (!$email) {
             throw new \InvalidArgumentException('Email is required to send to Brevo');
         }
@@ -90,11 +91,28 @@ final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
             'updateEnabled' => true,
         ];
 
+        $eventPayload = [
+            'identifiers' => [
+                'email_id' => $email,
+            ],
+            'contact_properties' => $attributes,
+            'event_properties' => [
+                ...$attributes,
+                'custom_form_id' => $answer->getCustomForm()->getId(),
+                'custom_form_name' => $answer->getCustomForm()->getName(),
+            ],
+            'event_name' => 'custom_form_submission',
+        ];
+
         try {
+            /*
+             * First create or update contact in Brevo
+             */
             $response = $this->httpClient->request('POST', 'https://api.brevo.com/v3/contacts', [
                 'headers' => [
                     'api-key' => $this->apiKey,
                     'Content-Type' => 'application/json',
+                    'accept' => 'application/json',
                 ],
                 'json' => $payload,
             ]);
@@ -103,10 +121,31 @@ final class BrevoWebhookProvider extends AbstractCustomFormWebhookProvider
             if ($statusCode >= 200 && $statusCode < 300) {
                 $this->logSuccess($answer, 'Contact sent to Brevo successfully');
 
-                return true;
+                /*
+                 * Then create event for that contact
+                 */
+                $eventResponse = $this->httpClient->request('POST', 'https://api.brevo.com/v3/events', [
+                    'headers' => [
+                        'api-key' => $this->apiKey,
+                        'Content-Type' => 'application/json',
+                        'accept' => 'application/json',
+                    ],
+                    'json' => $eventPayload,
+                ]);
+
+                $eventStatusCode = $eventResponse->getStatusCode();
+                if ($eventStatusCode >= 200 && $eventStatusCode < 300) {
+                    $this->logSuccess($answer, 'Event created for contact on Brevo successfully');
+
+                    return true;
+                }
+
+                $this->logError($answer, sprintf('Brevo Event API returned status code: %d', $eventStatusCode));
+
+                return false;
             }
 
-            $this->logError($answer, sprintf('Brevo API returned status code: %d', $statusCode));
+            $this->logError($answer, sprintf('Brevo Contact API returned status code: %d', $statusCode));
 
             return false;
         } catch (\Throwable $e) {

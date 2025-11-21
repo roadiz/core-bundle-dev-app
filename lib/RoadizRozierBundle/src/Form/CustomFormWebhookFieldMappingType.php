@@ -6,7 +6,6 @@ namespace RZ\Roadiz\RozierBundle\Form;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,42 +28,12 @@ final class CustomFormWebhookFieldMappingType extends AbstractType
 
         // Add a text field for each CustomFormField
         foreach ($customForm->getFields() as $field) {
-            $fieldName = $field->getName();
-            $builder->add($fieldName, TextType::class, [
+            $builder->add($field->getName(), TextType::class, [
                 'label' => $field->getLabel(),
                 'required' => false,
-                'attr' => [
-                    'placeholder' => 'provider_field_name',
-                ],
                 'help' => sprintf('Map "%s" to external provider field', $field->getName()),
             ]);
         }
-
-        // Add model transformer to convert array to/from JSON
-        $builder->addModelTransformer(new CallbackTransformer(
-            // Transform JSON string from database to array for the form
-            function ($jsonString) {
-                if (empty($jsonString)) {
-                    return [];
-                }
-                if (is_array($jsonString)) {
-                    return $jsonString;
-                }
-                $decoded = json_decode($jsonString, true);
-
-                return is_array($decoded) ? $decoded : [];
-            },
-            // Transform array from form back to JSON string for database
-            function ($array) {
-                if (empty($array) || !is_array($array)) {
-                    return null;
-                }
-                // Filter out empty values
-                $filtered = array_filter($array, fn ($value) => !empty($value));
-
-                return empty($filtered) ? null : json_encode($filtered);
-            }
-        ));
     }
 
     #[\Override]
@@ -79,6 +48,7 @@ final class CustomFormWebhookFieldMappingType extends AbstractType
         $resolver->setDefaults([
             'label' => 'customForm.webhook.fieldMapping',
             'custom_form' => null,
+            'attr' => ['tag' => 'fieldset'],
         ]);
 
         $resolver->setAllowedTypes('custom_form', ['null', CustomForm::class]);

@@ -12,14 +12,15 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Mailchimp webhook provider.
  */
-final class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
+final readonly class MailchimpWebhookProvider extends AbstractCustomFormWebhookProvider
 {
-    private readonly ?string $serverPrefix;
+    private ?string $serverPrefix;
 
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        private readonly ?string $apiKey = null,
+        #[\SensitiveParameter]
+        private ?string $apiKey = null,
     ) {
         parent::__construct($httpClient, $logger);
         // Extract server prefix from API key (format: xxxxx-us1)

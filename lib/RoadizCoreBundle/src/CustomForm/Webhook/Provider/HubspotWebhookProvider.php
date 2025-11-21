@@ -12,12 +12,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * HubSpot webhook provider.
  */
-final class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
+final readonly class HubspotWebhookProvider extends AbstractCustomFormWebhookProvider
 {
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
-        private readonly ?string $apiKey = null,
+        #[\SensitiveParameter]
+        private ?string $apiKey = null,
     ) {
         parent::__construct($httpClient, $logger);
     }

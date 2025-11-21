@@ -4,23 +4,14 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider;
 
-use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\CustomForm\Webhook\AbstractCustomFormWebhookProvider;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Generic HTTP webhook provider for custom endpoints.
  */
-final class GenericHttpWebhookProvider extends AbstractCustomFormWebhookProvider
+final readonly class GenericHttpWebhookProvider extends AbstractCustomFormWebhookProvider
 {
-    public function __construct(
-        HttpClientInterface $httpClient,
-        LoggerInterface $logger,
-    ) {
-        parent::__construct($httpClient, $logger);
-    }
-
     #[\Override]
     public function getName(): string
     {
@@ -65,7 +56,7 @@ final class GenericHttpWebhookProvider extends AbstractCustomFormWebhookProvider
                 'type' => 'text',
                 'label' => 'Authorization Header',
                 'required' => false,
-                'help' => 'Optional authorization header value (e.g., "Bearer token123")',
+                'help' => 'Optional authorization header value (e.g., "Bearer token123"). Be careful, data will be stored in clear in database.',
             ],
         ];
     }

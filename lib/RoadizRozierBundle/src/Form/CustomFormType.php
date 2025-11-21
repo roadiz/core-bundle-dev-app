@@ -97,14 +97,6 @@ final class CustomFormType extends AbstractType
                 'required' => false,
                 'html5' => true,
             ]);
-
-        // Add webhook configuration
-        if ($this->security->isGranted('ROLE_ACCESS_CUSTOMFORMS_WEBHOOKS')) {
-            $builder->add('webhook', CustomFormWebhookType::class, [
-                'mapped' => false,
-                'inherit_data' => true,
-            ]);
-        }
     }
 
     #[\Override]

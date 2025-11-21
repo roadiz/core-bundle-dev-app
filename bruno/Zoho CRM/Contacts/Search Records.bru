@@ -1,0 +1,26 @@
+meta {
+  name: Search Records
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_domain}}/crm/v8/Contacts/search?email=ambroise@roadiz.io
+  body: none
+  auth: apikey
+}
+
+params:query {
+  email: ambroise@roadiz.io
+}
+
+auth:apikey {
+  key: Authorization
+  value: Zoho-oauthtoken {{access_token}}
+  placement: header
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
