@@ -25,6 +25,7 @@
 @import './components/rz-tablist.css';
 @import './components/rz-drawer.css';
 @import './components/rz-menu-bar.css';
+@import './components/rz-popover.css';
 
 /* Components: Form */
 @import './components/rz-textarea.css';
