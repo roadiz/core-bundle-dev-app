@@ -91,7 +91,7 @@ class CustomFormController extends AbstractAdminWithBulkController
     }
 
     /**
-     * Export all custom form's answers in a CSV file.
+     * Configure webhook settings for a custom form.
      */
     #[Route(
         path: '/rz-admin/custom-forms/webhook/{customForm}',
