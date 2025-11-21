@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.25...v2.6.26) - 2025-11-21
+
+### Bug Fixes
+
+- **(cache)** fixed autowire syntax for cache clearer - ([cf7fd1f](https://github.com/roadiz/core-bundle-dev-app/commit/cf7fd1fd1f084179134f36f14d26954ae5c72f3a))
+
 ## [2.6.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.24...v2.6.25) - 2025-11-20
 
 ### Bug Fixes
