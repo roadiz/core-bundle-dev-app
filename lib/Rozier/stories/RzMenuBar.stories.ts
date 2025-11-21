@@ -153,9 +153,7 @@ function rzDropdownRenderer(args: MenuItem) {
 }
 
 function rzMenuItemRenderer(args: MenuItem) {
-    if (args.tag === 'hr') {
-        return rzSeparatorRenderer(args)
-    } else if (args.tag === 'button') {
+    if (args.tag === 'button') {
         return rzDropdownRenderer(args)
     } else {
         return rzLinkRenderer(args)
@@ -174,8 +172,12 @@ function rzMenuBarRenderer(args: Args) {
         const item = document.createElement('li')
         inner.appendChild(item)
 
-        const menuItem = rzMenuItemRenderer(menuItemArgs)
-        item.appendChild(menuItem)
+        if (menuItemArgs.tag === 'hr') {
+            item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
+        } else {
+            const menuItem = rzMenuItemRenderer(menuItemArgs)
+            item.appendChild(menuItem)
+        }
     })
 
     return wrapper
