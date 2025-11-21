@@ -7,6 +7,7 @@ namespace RZ\Roadiz\RozierBundle\TranslateAssistant;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 final readonly class TranslateAssistantController
@@ -16,6 +17,11 @@ final readonly class TranslateAssistantController
     ) {
     }
 
+    #[Route(
+        path: '/rz-admin/translate-assistant/translate',
+        name: 'translateAssistantTranslate',
+        methods: ['POST'],
+    )]
     public function translateAction(
         #[MapRequestPayload] TranslateAssistantInput $dto,
     ): JsonResponse {
@@ -24,6 +30,11 @@ final readonly class TranslateAssistantController
         );
     }
 
+    #[Route(
+        path: '/rz-admin/translate-assistant/rephrase',
+        name: 'translateAssistantRephrase',
+        methods: ['POST'],
+    )]
     public function rephraseAction(
         #[MapRequestPayload] TranslateAssistantInput $dto,
     ): JsonResponse {

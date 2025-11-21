@@ -1259,6 +1259,19 @@
         <source>duplicate</source>
         <target state="final">Duplicate</target>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="duplicate.node.%name%">
+        <source>duplicate.node.%name%</source>
+        <target state="final">Duplicate node %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicate.node">
+        <source>duplicate.node</source>
+        <target state="final">Duplicate a node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.duplicate.node">
+        <source>are_you_sure.duplicate.node</source>
+        <target state="final">Are you sure you want to duplicate this node with all its children?</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="315" approved="yes">
         <source>add.child</source>
         <target state="final">Add child</target>
@@ -2513,6 +2526,10 @@
         <source>duplicated.node.%name%</source>
         <target state="final">Node “%name%” has been duplicated</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="copied.node.%name%">
+        <source>copied.node.%name%</source>
+        <target state="final">Node “%name%” has been copy-pasted</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="edit.customForm.%name%" approved="yes">
         <source>edit.customForm.%name%</source>
         <target state="final">%name%</target>
@@ -3667,6 +3684,22 @@
       <trans-unit xml:space="preserve" id="node.duplicate" approved="yes">
         <source>node.duplicate</source>
         <target state="final">Duplicate</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.copy" approved="yes">
+        <source>node.copy</source>
+        <target state="final">Copy</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.paste_inside" approved="yes">
+        <source>node.paste_inside</source>
+        <target state="final">Paste inside</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.paste_after" approved="yes">
+        <source>node.paste_after</source>
+        <target state="final">Paste after</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.copied_to_clipboard" approved="yes">
+        <source>node.copied_to_clipboard</source>
+        <target state="final">Node has been copied to clipboard</target>
       </trans-unit>
       <!-- Some constraints messages -->
       <trans-unit xml:space="preserve" id="string.should.only.contain.latin.characters" approved="yes">

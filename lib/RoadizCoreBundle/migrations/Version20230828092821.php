@@ -24,6 +24,8 @@ final class Version20230828092821 extends AbstractMigration
         $this->addSql('CREATE INDEX custom_form_updated_at ON custom_forms (updated_at)');
         $this->addSql('CREATE INDEX redirection_created_at ON redirections (created_at)');
         $this->addSql('CREATE INDEX redirection_updated_at ON redirections (updated_at)');
+        $this->addSql('DROP INDEX IDX_1483A5E98B8E8428 ON users');
+        $this->addSql('DROP INDEX IDX_1483A5E943625D9F ON users');
         $this->addSql('CREATE INDEX idx_user_created_at ON users (created_at)');
         $this->addSql('CREATE INDEX idx_user_updated_at ON users (updated_at)');
     }
@@ -37,6 +39,8 @@ final class Version20230828092821 extends AbstractMigration
         $this->addSql('DROP INDEX redirection_updated_at ON redirections');
         $this->addSql('DROP INDEX idx_user_created_at ON users');
         $this->addSql('DROP INDEX idx_user_updated_at ON users');
+        $this->addSql('CREATE INDEX IDX_1483A5E98B8E8428 ON users (created_at)');
+        $this->addSql('CREATE INDEX IDX_1483A5E943625D9F ON users (updated_at)');
     }
 
     public function isTransactional(): bool
