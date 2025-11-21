@@ -3,41 +3,53 @@
 {% if app.request and app.request.get('referer') %}
     {% set editRouteParams = editRouteParams|merge({ referer: app.request.get('referer') }) %}
 {% endif %}
-<div class="rz-menu-bar">
-    <div class="rz-menu-bar__inner">
-        <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
-           aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
-           href="{{ path('documentsEditPage', editRouteParams) }}">
-            {% trans %}document.edit{% endtrans %}
-        </a>
-        <a class="rz-menu-bar__item{% if current == 'metas' %} rz-menu-bar__item--selected{% endif %}"
-           aria-current="{{ current == 'metas' ? 'true' : 'false' }}"
-           href="{{ path('documentsMetaPage', editRouteParams) }}">
-            {% trans %}document.metas{% endtrans %}
-        </a>
+<nav class="rz-menu-bar">
+    <ul class="rz-menu-bar__inner">
+        <li>
+            <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
+            aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
+            href="{{ path('documentsEditPage', editRouteParams) }}">
+                {% trans %}document.edit{% endtrans %}
+            </a>
+        </li>
+        <li>
+            <a class="rz-menu-bar__item{% if current == 'metas' %} rz-menu-bar__item--selected{% endif %}"
+            aria-current="{{ current == 'metas' ? 'true' : 'false' }}"
+            href="{{ path('documentsMetaPage', editRouteParams) }}">
+                {% trans %}document.metas{% endtrans %}
+            </a>
+        </li>
         {%- if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') -%}
-            <a class="rz-menu-bar__item{% if current == 'limitations' %} rz-menu-bar__item--selected{% endif %}"
-               aria-current="{{ current == 'limitations' ? 'true' : 'false' }}"
-               href="{{ path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }) }}">
-                {% trans %}document.limitations{% endtrans %}
-            </a>
+            <li>
+                <a class="rz-menu-bar__item{% if current == 'limitations' %} rz-menu-bar__item--selected{% endif %}"
+                aria-current="{{ current == 'limitations' ? 'true' : 'false' }}"
+                href="{{ path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }) }}">
+                    {% trans %}document.limitations{% endtrans %}
+                </a>
+            </li>
         {%- endif -%}
-        <a class="rz-menu-bar__item{% if current == 'preview' %} rz-menu-bar__item--selected{% endif %}"
-           aria-current="{{ current == 'preview' ? 'true' : 'false' }}"
-           href="{{ path('documentsPreviewPage', editRouteParams) }}">
-            {% trans %}document.preview{% endtrans %}
-        </a>
-        <a class="rz-menu-bar__item{% if current == 'usage' %} rz-menu-bar__item--selected{% endif %}"
-           aria-current="{{ current == 'usage' ? 'true' : 'false' }}"
-           href="{{ path('documentsUsagePage', editRouteParams) }}">
-            {% trans %}document.usage{% endtrans %}
-        </a>
+        <li>
+            <a class="rz-menu-bar__item{% if current == 'preview' %} rz-menu-bar__item--selected{% endif %}"
+            aria-current="{{ current == 'preview' ? 'true' : 'false' }}"
+            href="{{ path('documentsPreviewPage', editRouteParams) }}">
+                {% trans %}document.preview{% endtrans %}
+            </a>
+        </li>
+        <li>
+            <a class="rz-menu-bar__item{% if current == 'usage' %} rz-menu-bar__item--selected{% endif %}"
+            aria-current="{{ current == 'usage' ? 'true' : 'false' }}"
+            href="{{ path('documentsUsagePage', editRouteParams) }}">
+                {% trans %}document.usage{% endtrans %}
+            </a>
+        </li>
         {%- if document and document.image -%}
-            <a class="rz-menu-bar__item{% if current == 'adjust' %} rz-menu-bar__item--selected{% endif %}"
-               aria-current="{{ current == 'adjust' ? 'true' : 'false' }}"
-               href="{{ path('documentsAdjustPage', editRouteParams) }}">
-                {% trans %}document.adjust{% endtrans %}
-            </a>
+            <li>
+                <a class="rz-menu-bar__item{% if current == 'adjust' %} rz-menu-bar__item--selected{% endif %}"
+                aria-current="{{ current == 'adjust' ? 'true' : 'false' }}"
+                href="{{ path('documentsAdjustPage', editRouteParams) }}">
+                    {% trans %}document.adjust{% endtrans %}
+                </a>
+            </li>
         {%- endif -%}
-    </div>
-</div>
+    </ul>
+</nav>

@@ -1,16 +1,20 @@
-<div class="rz-menu-bar">
-    <div class="rz-menu-bar__inner">
-        <a class="rz-menu-bar__item{% if current == 'dashboard' %} rz-menu-bar__item--selected{% endif %}"
-           aria-current="{{ current == 'dashboard' ? 'true' : 'false' }}"
-           href="{{ path('adminHomePage') }}">
-            {% trans %}dashboard{% endtrans %}
-        </a>
-        {% if is_granted('ROLE_ACCESS_LOGS') %}
-            <a class="rz-menu-bar__item{% if current == 'history' %} rz-menu-bar__item--selected{% endif %}"
-               aria-current="{{ current == 'history' ? 'true' : 'false' }}"
-               href="{{ path('historyHomePage') }}">
-                {% trans %}history{% endtrans %}
+<nav class="rz-menu-bar">
+    <ul class="rz-menu-bar__inner">
+        <li>
+            <a class="rz-menu-bar__item{% if current == 'dashboard' %} rz-menu-bar__item--selected{% endif %}"
+               aria-current="{{ current == 'dashboard' ? 'true' : 'false' }}"
+               href="{{ path('adminHomePage') }}">
+                {% trans %}dashboard{% endtrans %}
             </a>
+        </li>
+        {% if is_granted('ROLE_ACCESS_LOGS') %}
+            <li>
+                <a class="rz-menu-bar__item{% if current == 'history' %} rz-menu-bar__item--selected{% endif %}"
+                   aria-current="{{ current == 'history' ? 'true' : 'false' }}"
+                   href="{{ path('historyHomePage') }}">
+                    {% trans %}history{% endtrans %}
+                </a>
+            </li>
         {% endif %}
-    </div>
-</div>
+    </ul>
+</nav>
