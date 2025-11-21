@@ -1,7 +1,7 @@
 {% if source and source.title %}
 {% set currentTitle = source.title %}
 {% else %}
-{% set currentTitle = node.getNodeName %}
+{% set currentTitle = node.nodeName %}
 {% endif %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}

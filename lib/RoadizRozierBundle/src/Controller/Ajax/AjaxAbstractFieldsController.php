@@ -14,6 +14,9 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @deprecated use specific Ajax controllers for each Field type instead
+ */
 abstract class AjaxAbstractFieldsController extends AbstractAjaxController
 {
     public function __construct(
@@ -37,23 +40,23 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
     {
         $this->validateRequest($request);
 
-        if (null !== $field) {
-            /*
-             * Get the right update method against "_action" parameter
-             */
-            if ('updatePosition' !== $request->get('_action')) {
-                throw new BadRequestHttpException('Action does not exist');
-            }
-
-            $responseArray = $this->updatePosition($request->request->all(), $field);
-
-            return new JsonResponse(
-                $responseArray,
-                Response::HTTP_PARTIAL_CONTENT
-            );
+        if (null === $field) {
+            return null;
         }
 
-        return null;
+        /*
+         * Get the right update method against "_action" parameter
+         */
+        if ('updatePosition' !== $request->get('_action')) {
+            throw new BadRequestHttpException('Action does not exist');
+        }
+
+        $responseArray = $this->updatePosition($request->request->all(), $field);
+
+        return new JsonResponse(
+            $responseArray,
+            Response::HTTP_PARTIAL_CONTENT
+        );
     }
 
     protected function updatePosition(array $parameters, ?AbstractField $field = null): array
