@@ -27,6 +27,7 @@
 @import './components/rz-card-item-drawer.css';
 @import './components/rz-node-item-drawer.css';
 @import './components/rz-menu-bar.css';
+@import './components/rz-popover.css';
 
 /* Components: Form */
 @import './components/rz-textarea.css';
