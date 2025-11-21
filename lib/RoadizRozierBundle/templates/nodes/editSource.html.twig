@@ -16,7 +16,18 @@
             {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
 
             {% if app.debug %}
-                <span class="uk-badge uk-badge-mini">NS #{{ source.id }}</span>
+                <div class="rz-badge rz-badge--sm rz-badge--information"><span class="rz-badge__label">NS #{{ source.id }}</span></div>
+            {% endif %}
+            {% if node.isDeleted %}
+                <div class="rz-badge rz-badge--sm rz-badge--error"><span class="rz-badge__icon rz-icon-rz--status-deleted-outlined"></span><span class="rz-badge__label">{% trans %}deleted{% endtrans %}</span></div>
+            {% elseif node.isArchived %}
+                <div class="rz-badge rz-badge--sm rz-badge--error"><span class="rz-badge__icon rz-icon-rz--status-archived-outlined"></span><span class="rz-badge__label">{% trans %}archived{% endtrans %}</span></div>
+            {% elseif node.isPublished %}
+                <div class="rz-badge rz-badge--sm rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-colored"></span><span class="rz-badge__label">{% trans %}published{% endtrans %}</span></div>
+            {% elseif node.isPending %}
+                <div class="rz-badge rz-badge--sm rz-badge--warning"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}pending{% endtrans %}</span></div>
+            {% else %}
+                <div class="rz-badge rz-badge--sm rz-badge--warning"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}draft{% endtrans %}</span></div>
             {% endif %}
         </h1>
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
