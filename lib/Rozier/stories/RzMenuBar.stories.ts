@@ -163,16 +163,19 @@ function rzMenuItemRenderer(args: MenuItem) {
 }
 
 function rzMenuBarRenderer(args: Args) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement('nav')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
-    const inner = document.createElement('div')
+    const inner = document.createElement('ul')
     inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
     wrapper.appendChild(inner)
 
     args.menuItems.forEach((menuItemArgs) => {
+        const item = document.createElement('li')
+        inner.appendChild(item)
+
         const menuItem = rzMenuItemRenderer(menuItemArgs)
-        inner.appendChild(menuItem)
+        item.appendChild(menuItem)
     })
 
     return wrapper
