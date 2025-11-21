@@ -8,6 +8,7 @@ import {
 import type { Placement } from '@floating-ui/dom'
 
 export class RzPopover extends HTMLElement {
+    isFloating = false
     targetElement: HTMLElement | null = null
     floatingElement: HTMLElement | null = null
     cleanupAutoUpdate: (() => void) | null = null
@@ -23,6 +24,7 @@ export class RzPopover extends HTMLElement {
     }
 
     attributeChangedCallback() {
+        if (!this.isFloating) return
         this.stopFloating()
         this.startFloating()
     }
@@ -68,8 +70,11 @@ export class RzPopover extends HTMLElement {
     }
 
     startFloating() {
-        if (!this.targetElement || !this.floatingElement) return
+        if (!this.targetElement || !this.floatingElement || this.isFloating) {
+            return
+        }
 
+        this.isFloating = true
         this.cleanupAutoUpdate = autoUpdate(
             this.targetElement,
             this.floatingElement,
@@ -78,9 +83,10 @@ export class RzPopover extends HTMLElement {
     }
 
     stopFloating() {
-        if (!this.cleanupAutoUpdate) return
+        if (!this.isFloating) return
 
-        this.cleanupAutoUpdate()
+        this.isFloating = false
+        this.cleanupAutoUpdate?.()
         this.cleanupAutoUpdate = null
     }
 
