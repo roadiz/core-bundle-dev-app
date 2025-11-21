@@ -1,0 +1,9 @@
+.rz-node-item-drawer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--spacing-4xs) var(--spacing-5xs);
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	background-color: var(--node-bg-on-light, #FFF);
+}

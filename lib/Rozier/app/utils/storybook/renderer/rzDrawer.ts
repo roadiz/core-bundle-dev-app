@@ -1,72 +1,48 @@
-import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
-import { rzImageRenderer } from '~/utils/storybook/renderer/rzImage'
-import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 import { rzFormFieldHeadRenderer } from '~/utils/storybook/renderer/rzFormField'
-import type { Args as RzDrawerItemArgs } from '../../../../stories/RzDrawerItem.stories'
-import type { Args as RzDrawerArgs } from '../../../../stories/RzDrawer.stories'
+import type { Args as FormFieldArgs } from '../../../../stories/RzFormField.stories'
 
-const COMPONENT_CLASS_NAME = 'rz-drawer'
+export type RzDrawerArgs = {
+    formField: FormFieldArgs
+    layout: (typeof DRAWER_LAYOUTS)[number]
+}
 
-export function rzDrawerItemRenderer(
-    args: RzDrawerItemArgs,
-    itemClass = `${COMPONENT_CLASS_NAME}__item`,
-) {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add(itemClass)
+export const COMPONENT_CLASS_NAME = 'rz-drawer'
+export const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
 
-    if (args.overtitle) {
-        const overtitle = document.createElement('div')
-        overtitle.classList.add(`${itemClass}__overtitle`)
-        overtitle.textContent = args.overtitle
-        wrapper.appendChild(overtitle)
-    }
-
-    if (args.title) {
-        const title = document.createElement('div')
-        title.classList.add(`${itemClass}__title`)
-        title.textContent = args.title
-        wrapper.appendChild(title)
-    }
-
-    if (args.image || args.badge) {
-        const assetWrapper = document.createElement('div')
-        assetWrapper.classList.add(`${itemClass}__asset`)
-        wrapper.appendChild(assetWrapper)
-
-        if (args.image) {
-            const imageNode = rzImageRenderer(args.image)
-            imageNode.classList.add(`${itemClass}__img`)
-            assetWrapper.appendChild(imageNode)
-        }
-
-        if (args.badge) {
-            const badgeNode = rzBadgeRenderer(args.badge)
-            badgeNode.classList.add(`${itemClass}__badge`)
-            assetWrapper.appendChild(badgeNode)
-        }
-    }
-
-    if (args.buttonGroup) {
-        const node = rzButtonGroupRenderer(args.buttonGroup)
-        node.classList.add(`${itemClass}__action`)
-        wrapper.appendChild(node)
-    }
-
-    if (args.buttonGroupTop) {
-        const node = rzButtonGroupRenderer(args.buttonGroupTop)
-        node.classList.add(`${itemClass}__action`, `${itemClass}__action--top`)
-        wrapper.appendChild(node)
-    }
-
-    return wrapper
+export const defaultFormFieldData = {
+    label: 'Drawer label',
+    iconClass: 'rz-icon-ri--image-line',
+    description: 'Description example',
+    badge: {
+        label: '0/255',
+        color: 'error' as const,
+        size: 'xs' as const,
+    },
+    buttonGroup: {
+        size: 'md' as const,
+        gap: 'md' as const,
+        buttons: [
+            {
+                label: 'Upload',
+                iconClass: 'rz-icon-ri--upload-line',
+                size: 'sm' as const,
+            },
+            {
+                label: 'Explore',
+                iconClass: 'rz-icon-ri--add-line',
+                size: 'sm' as const,
+            },
+        ],
+    },
+    input: undefined,
 }
 
 export function rzDrawerRenderer(args: RzDrawerArgs) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
-    if (args.moreColumns) {
-        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--more-columns`)
+    if (args.layout) {
+        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--${args.layout}`)
     }
 
     const head = rzFormFieldHeadRenderer(args.formField)
@@ -83,11 +59,5 @@ export function rzDrawerRenderer(args: RzDrawerArgs) {
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
     wrapper.appendChild(body)
 
-    const itemClass = `${COMPONENT_CLASS_NAME}__item`
-    args.items.forEach((itemArgs) => {
-        const itemNode = rzDrawerItemRenderer(itemArgs, itemClass)
-        body.appendChild(itemNode)
-    })
-
-    return wrapper
+    return { wrapper, body }
 }

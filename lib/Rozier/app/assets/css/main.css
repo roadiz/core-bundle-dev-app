@@ -25,6 +25,8 @@
 @import './components/rz-tablist.css';
 @import './components/rz-tabpanel.css';
 @import './components/rz-drawer.css';
+@import './components/rz-card-item-drawer.css';
+@import './components/rz-node-item-drawer.css';
 @import './components/rz-menu-bar.css';
 @import './components/rz-popover.css';
 

@@ -1,18 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as DrawerItemArgs } from './RzDrawerItem.stories'
-import { type Args as FormFieldArgs } from './RzFormField.stories'
-import { rzDrawerRenderer } from '~/utils/storybook/renderer/rzDrawer'
-
+import {
+    rzDrawerRenderer,
+    DRAWER_LAYOUTS,
+    defaultFormFieldData,
+    type RzDrawerArgs,
+} from '~/utils/storybook/renderer/rzDrawer'
+import {
+    rzCardItemDrawerRenderer,
+    type Args as DrawerItemArgs,
+} from '~/utils/storybook/renderer/rzCardItemDrawer'
 // @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
 // @ts-expect-error — image module declaration not recognized
 import imageVertical from './assets/images/02.jpg'
 
-export type Args = {
-    ariaLabel?: string
+export type Args = RzDrawerArgs & {
     items: DrawerItemArgs[]
-    moreColumns?: boolean
-    formField: FormFieldArgs
 }
 
 const DEFAULT_ITEM: DrawerItemArgs = {
@@ -91,37 +94,17 @@ const IMAGE_ITEM: DrawerItemArgs = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Drawer',
+    title: 'Components/Drawer/Card/Root',
     tags: ['autodocs'],
     args: {
         items: [...Array(10).keys()].map(() => DEFAULT_ITEM),
-        moreColumns: false,
-        formField: {
-            label: 'Drawer item label',
-            iconClass: 'rz-icon-ri--image-line',
-            description: 'Description example',
-            input: undefined,
-            badge: {
-                label: '0/255',
-                color: 'error',
-                size: 'xs',
-            },
-            buttonGroup: {
-                size: 'md',
-                gap: 'md',
-                buttons: [
-                    {
-                        label: 'Upload',
-                        iconClass: 'rz-icon-ri--upload-line',
-                        size: 'sm',
-                    },
-                    {
-                        label: 'Explore',
-                        iconClass: 'rz-icon-ri--add-line',
-                        size: 'sm',
-                    },
-                ],
-            },
+        layout: 'grid',
+        formField: defaultFormFieldData,
+    },
+    argTypes: {
+        layout: {
+            control: { type: 'select' },
+            options: DRAWER_LAYOUTS,
         },
     },
 }
@@ -129,15 +112,26 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
+function rzDrawerDefaultRenderer(args: Args) {
+    const { wrapper, body } = rzDrawerRenderer(args)
+
+    args.items.forEach((itemArgs) => {
+        const itemNode = rzCardItemDrawerRenderer(itemArgs)
+        body.appendChild(itemNode)
+    })
+
+    return wrapper
+}
+
 export const Default: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
 }
 
 export const OneDefault: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
         items: [DEFAULT_ITEM],
@@ -146,7 +140,7 @@ export const OneDefault: Story = {
 
 export const SimpleItems: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
         items: [...Array(10).keys()].map(() => SIMPLE_ITEM),
@@ -155,7 +149,7 @@ export const SimpleItems: Story = {
 
 export const SimpleItem: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
         items: [SIMPLE_ITEM],
@@ -164,17 +158,17 @@ export const SimpleItem: Story = {
 
 export const Images: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
         items: [...Array(10).keys()].map(() => IMAGE_ITEM),
-        moreColumns: true,
+        layout: 'grid-larger',
     },
 }
 
 export const Image: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
         items: [
@@ -188,16 +182,16 @@ export const Image: Story = {
                 },
             },
         ],
-        moreColumns: true,
+        layout: 'grid-larger',
     },
 }
 
 export const WithPictures: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
-        moreColumns: true,
+        layout: 'grid-larger',
         items: [
             {
                 ...IMAGE_ITEM,
@@ -233,7 +227,7 @@ export const WithPictures: Story = {
 
 export const Mixed: Story = {
     render: (args) => {
-        return rzDrawerRenderer(args)
+        return rzDrawerDefaultRenderer(args)
     },
     args: {
         items: [
