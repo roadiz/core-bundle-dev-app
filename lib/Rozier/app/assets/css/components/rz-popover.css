@@ -7,10 +7,3 @@
 		margin: 0;
 	}
 }
-
-
-.rz-popover__content {
-	display: flex;
-	min-width: 194px;
-	flex-direction: column;
-}
