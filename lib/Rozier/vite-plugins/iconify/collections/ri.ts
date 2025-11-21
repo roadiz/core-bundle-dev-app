@@ -38,6 +38,7 @@ export default [
     'save-line',
     'settings-line',
     'user-line',
+    'draggable',
     // Markdown related icons
     'h-1',
     'h-2',
