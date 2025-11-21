@@ -202,6 +202,61 @@
                 <target state="final">List one or many email addresses to receive this custom-form answer copy. Use comma to separate multiple email addresses.</target>
                 <note/>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="custom-form.webhook" approved="yes">
+                <source>custom-form.webhook</source>
+                <target>Webhook</target>
+                <note>Navigation title for webhook configuration</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.section" approved="yes">
+                <source>customForm.webhook.section</source>
+                <target state="final">Webhook Configuration</target>
+                <note>Section title for webhook configuration</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.enabled" approved="yes">
+                <source>customForm.webhook.enabled</source>
+                <target state="final">Enable Webhook</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.enabled.help" approved="yes">
+                <source>customForm.webhook.enabled.help</source>
+                <target state="final">Enable automatic webhook dispatch to external CRM system when a form is submitted.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.provider" approved="yes">
+                <source>customForm.webhook.provider</source>
+                <target state="final">Webhook Provider</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.provider.help" approved="yes">
+                <source>customForm.webhook.provider.help</source>
+                <target state="final">Select the external CRM system to send form data to. Provider credentials must be configured in environment variables.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.provider.placeholder" approved="yes">
+                <source>customForm.webhook.provider.placeholder</source>
+                <target state="final">-- Select a provider --</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping" approved="yes">
+                <source>customForm.webhook.fieldMapping</source>
+                <target state="final">Field Mapping</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping.help" approved="yes">
+                <source>customForm.webhook.fieldMapping.help</source>
+                <target state="final">Map custom form fields to provider fields.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig" approved="yes">
+                <source>customForm.webhook.extraConfig</source>
+                <target state="final">Extra Configuration</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig.help" approved="yes">
+                <source>customForm.webhook.extraConfig.help</source>
+                <target state="final">Provider-specific configuration fields.</target>
+                <note/>
+            </trans-unit>
     </body>
   </file>
 </xliff>

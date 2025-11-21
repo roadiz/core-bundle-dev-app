@@ -16,6 +16,17 @@ parameters:
     env(OPEN_ID_CLIENT_SECRET): ~
     env(OPEN_ID_HOSTED_DOMAIN): ~
     env(OPEN_ID_DISCOVERY_URL): ~
+    #
+    # Custom form webhook built-in providers
+    #
+    env(APP_BREVO_WEBHOOK_KEY): ~
+    env(APP_MAILCHIMP_WEBHOOK_KEY): ~
+    env(APP_HUBSPOT_WEBHOOK_KEY): ~
+    # See https://accounts.zoho.com/oauth/serverinfo
+    env(APP_ZOHO_CRM_WEBHOOK_ACCOUNT_URL): 'https://accounts.zoho.eu'
+    env(APP_ZOHO_CRM_WEBHOOK_SO_ID): ~
+    env(APP_ZOHO_CRM_WEBHOOK_CLIENT_ID): ~
+    env(APP_ZOHO_CRM_WEBHOOK_CLIENT_SECRET): ~
 
 services:
     # default configuration for services in *this* file
@@ -596,3 +607,32 @@ services:
 
     RZ\TreeWalker\WalkerContextInterface:
         factory: [ '@RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContextFactory', 'createWalkerContext' ]
+
+    #
+    # CustomForm Webhook Providers
+    #
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\BrevoWebhookProvider:
+        arguments:
+            $apiKey: '%env(APP_BREVO_WEBHOOK_KEY)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\MailchimpWebhookProvider:
+        arguments:
+            $apiKey: '%env(APP_MAILCHIMP_WEBHOOK_KEY)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\HubspotWebhookProvider:
+        arguments:
+            $apiKey: '%env(APP_HUBSPOT_WEBHOOK_KEY)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\ZohoCrmWebhookProvider:
+        arguments:
+            $accountUrl: '%env(APP_ZOHO_CRM_WEBHOOK_ACCOUNT_URL)%'
+            $soId: '%env(APP_ZOHO_CRM_WEBHOOK_SO_ID)%'
+            $clientId: '%env(APP_ZOHO_CRM_WEBHOOK_CLIENT_ID)%'
+            $clientSecret: '%env(APP_ZOHO_CRM_WEBHOOK_CLIENT_SECRET)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\GenericHttpWebhookProvider:
+        tags: ['roadiz_core.custom_form_webhook_provider']

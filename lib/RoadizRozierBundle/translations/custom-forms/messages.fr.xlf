@@ -202,6 +202,61 @@
                 <target state="final">Indiquez une ou plusieurs adresses e-mail pour recevoir les réponses de ce formulaire personnalisé. Utilisez une virgule pour séparer plusieurs adresses e-mail.</target>
                 <note/>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="custom-form.webhook" approved="yes">
+          <source>custom-form.webhook</source>
+          <target>Webhook</target>
+          <note>Navigation title for webhook configuration</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.section" approved="yes">
+                <source>customForm.webhook.section</source>
+                <target state="final">Configuration du webhook</target>
+                <note>Section title for webhook configuration</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.enabled" approved="yes">
+                <source>customForm.webhook.enabled</source>
+                <target state="final">Activer le webhook</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.enabled.help" approved="yes">
+                <source>customForm.webhook.enabled.help</source>
+                <target state="final">Activer l'envoi automatique vers un système CRM externe lors de la soumission d'un formulaire.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.provider" approved="yes">
+                <source>customForm.webhook.provider</source>
+                <target state="final">Fournisseur de webhook</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.provider.help" approved="yes">
+                <source>customForm.webhook.provider.help</source>
+                <target state="final">Sélectionnez le système CRM externe vers lequel envoyer les données du formulaire. Les identifiants du fournisseur doivent être configurés dans les variables d'environnement.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.provider.placeholder" approved="yes">
+                <source>customForm.webhook.provider.placeholder</source>
+                <target state="final">-- Sélectionner un fournisseur --</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping" approved="yes">
+                <source>customForm.webhook.fieldMapping</source>
+                <target state="final">Correspondance des champs</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping.help" approved="yes">
+                <source>customForm.webhook.fieldMapping.help</source>
+                <target state="final">Faire correspondre les champs du formulaire personnalisé aux champs du fournisseur.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig" approved="yes">
+                <source>customForm.webhook.extraConfig</source>
+                <target state="final">Configuration supplémentaire</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig.help" approved="yes">
+                <source>customForm.webhook.extraConfig.help</source>
+                <target state="final">Configuration spécifique au fournisseur. Voir la documentation du fournisseur pour les options disponibles.</target>
+                <note/>
+            </trans-unit>
     </body>
   </file>
 </xliff>
