@@ -54,53 +54,26 @@
                 {% set label = name|humanize %}
             {%- endif -%}
 
-            <div class="rz-form-field__head">
-                <span class="rz-form-field__head__icon {{ icon }}"></span>
-                <label class="rz-form-field__head__label">{{ label|trans }}</label>
-                <template v-if="this.drawer.maxLength < 9999">
-                    <div class="rz-badge rz-badge--xs rz-badge--error rz-form-field__head__badge">
-                        <span class="rz-badge__label">${ items.length } / ${ this.drawer.maxLength }</span>
-                    </div>
-                </template>
-                <template v-if="this.drawer.minLength > 0">
-                    <div class="rz-badge rz-badge--xs rz-badge--information rz-form-field__head__badge">
-                        <span class="rz-badge__label">({% trans %}min{% endtrans %}: ${ this.drawer.minLength })</span>
-                    </div>
-                </template>
-                {% if attr['data-universal'] %}
-                    <div class="rz-badge rz-badge--xs rz-form-field__head__badge">
-                        <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
-                    </div>
-                {% endif %}
-                <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
-                    {% if enableDropzone %}
-                        <button
-                            type="button"
-                            class="rz-button rz-button--sm rz-button-group__button"
-                            @click.prevent="onDropzoneButtonClick"
-                        >
-                            <span class="rz-button__label">{%- trans -%}documents.toggle-uploader{%- endtrans -%}</span>
-                            <span class="rz-button__icon rz-icon-ri--upload-line"></span>
-                        </button>
-                    {% endif %}
-                    <button
-                        type="button"
-                        class="rz-button rz-button--sm rz-button-group__button"
-                        @click.prevent="onExplorerButtonClick"
-                    >
-                        <span class="rz-button__label">{%- trans -%}documents.toggle-explorer{%- endtrans -%}</span>
-                        <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                    </button>
-                    <template v-if="drawer.errorMessage">
-                        <div class="rz-message rz-message--error rz-form-field__message">
-                            <p class="rz-message__text"><i class="uk-icon-warning"></i>{{ drawer.errorMessage }}</p>
-                        </div>
-                    </template>
-                </div>
-            </div>
-            {%- if form.vars.help ?? false -%}
-                <p class="rz-drawer__description" id="{{ form.vars.id }}_help">{{- form.vars.help|trans|inlineMarkdown -}}</p>
-            {%- endif -%}
+            {% import "@RoadizRozier/macros/rz_form_label.html.twig" as rz_form_label %}
+            {% if this.drawer.maxLength < 9999 %}
+                {% set label_attr = label_attr|merge({'data-max-length': this.drawer.maxLength}) %}
+            {% endif %}
+            {% if this.drawer.minLength > 0 %}
+                {% set label_attr = label_attr|merge({'data-min-length': this.drawer.minLength}) %}
+            {% endif %}
+            {% if this.drawer.errorMessage != '' %}
+                {% set label_attr = label_attr|merge({'drawer-error-message': this.drawer.errorMessage}) %}
+            {% endif %}
+            {{ rz_form_label.label(
+                label: label,
+                label_attr: label_attr,
+                form: form,
+                icon: icon,
+                attr: attr,
+                items_length: entityIds|length,
+                isDrawer: true,
+                enableDropzone: enableDropzone
+            ) }}
 
             <div class="drawer-widget-sortable-container">
                 <transition name="fade" v-if="drawer.isLoading">

@@ -480,41 +480,16 @@
 {%- endblock form_start %}
 
 {% block form_label -%}
-    {% if label is not same as(false) -%}
-        {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
-        {%- endif %}
-        {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label') ~ ' required')|trim}) %}
-        {%- else %}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label'))|trim}) %}
-        {%- endif %}
-        {% if label is empty -%}
-            {% set label = name|humanize %}
-        {%- endif -%}
-        <div class="rz-form-field__head">
-            <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-                {{- label|trans -}}
-            </label>
-            {% if attr['data-universal'] %}
-                <div class="rz-badge rz-badge--xs rz-form-field__head__badge">
-                    <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
-                </div>
-            {% endif %}
-            {%- if attr['data-max-length'] -%}
-                <div class="rz-badge rz-badge--xs rz-badge--error rz-form-field__head__badge" title="Badge title">
-                    <span class="rz-badge__label count">
-                        <span class="count-current">0</span>
-                        /
-                        <span class="count-limit">{{ attr['data-max-length'] }}</span>
-                    </span>
-                </div>
-            {%- endif -%}
-        </div>
-        {%- if form.vars.help ?? false -%}
-            <p id="{{ form.vars.id }}_help" class="rz-form-field__description">{{ form.vars.help|trans|inlineMarkdown }}</p>
-        {%- endif -%}
+    {% import "@RoadizRozier/macros/rz_form_label.html.twig" as rz_form_label %}
+    {% if not compound -%}
+        {% set label_attr = label_attr|merge({'for': id}) %}
     {%- endif %}
+    {% if required -%}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label') ~ ' required')|trim}) %}
+    {%- else %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label'))|trim}) %}
+    {%- endif %}
+    {{ rz_form_label.label(label : label, label_attr : label_attr, form: form, attr: attr) }}
 {%- endblock form_label %}
 
 {% block form_widget_compound -%}
