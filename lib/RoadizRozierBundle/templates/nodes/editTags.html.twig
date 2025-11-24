@@ -2,6 +2,7 @@
 {% set pageTitle = "edit.node.%name%.tags"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% block title %}{{ pageTitle }} | {{ parent() }}{% endblock %}
 
@@ -12,17 +13,7 @@
         <h1 class="content-title node-edit-tags-title">
             {{ pageTitle }}
             {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-            {% if node.isDeleted %}
-                <div class="rz-badge rz-badge--sm rz-badge--error"><span class="rz-badge__icon rz-icon-rz--status-deleted-outlined"></span><span class="rz-badge__label">{% trans %}deleted{% endtrans %}</span></div>
-            {% elseif node.isArchived %}
-                <div class="rz-badge rz-badge--sm rz-badge--error"><span class="rz-badge__icon rz-icon-rz--status-archived-outlined"></span><span class="rz-badge__label">{% trans %}archived{% endtrans %}</span></div>
-            {% elseif node.isPublished %}
-                <div class="rz-badge rz-badge--sm rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-colored"></span><span class="rz-badge__label">{% trans %}published{% endtrans %}</span></div>
-            {% elseif node.isPending %}
-                <div class="rz-badge rz-badge--sm rz-badge--warning"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}pending{% endtrans %}</span></div>
-            {% else %}
-                <div class="rz-badge rz-badge--sm rz-badge--warning"><span class="rz-badge__icon rz-icon-rz--status-draft-colored"></span><span class="rz-badge__label">{% trans %}draft{% endtrans %}</span></div>
-            {% endif %}
+            {{ rz_status_badge.item(node: node) }}
         </h1>
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
         {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'tags'} %}
