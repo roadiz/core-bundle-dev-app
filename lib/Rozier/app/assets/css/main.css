@@ -39,6 +39,6 @@
 @import './components/rz-markdown-editor.css';
 @import './components/rz-color-input.css';
 /* Form widgets */
-@import './components/rz-children-nodes-widget.css';
+@import './components/rz-children-nodes.css';
 @import './components/rz-drawer.css';
 @import './components/rz-drawer-item.css';

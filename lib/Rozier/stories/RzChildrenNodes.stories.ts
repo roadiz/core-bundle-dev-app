@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
     type Args as ItemArgs,
     defaultItemData,
-    rzChildrenNodesWidgetItemRenderer,
-} from '~/utils/storybook/renderer/rzChildrenNodesWidgetItem'
+    rzChildrenNodesItemRenderer,
+} from '~/utils/storybook/renderer/rzChildrenNodesItem'
 import type { Args as FormFieldArgs } from './RzFormField.stories'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 
@@ -11,7 +11,7 @@ export type Args = FormFieldArgs & {
     items: (ItemArgs | ItemArgs[])[]
 }
 
-const COMPONENT_CLASS_NAME = 'rz-children-nodes-widget'
+const COMPONENT_CLASS_NAME = 'rz-children-nodes'
 
 const meta: Meta<Args> = {
     title: 'Components/Form/ChildrenNodesWidget/Root',
@@ -58,7 +58,7 @@ function listRenderer(items: Args['items']) {
             const subList = listRenderer(itemArgs)
             item.appendChild(subList)
         } else {
-            const itemNode = rzChildrenNodesWidgetItemRenderer({
+            const itemNode = rzChildrenNodesItemRenderer({
                 ...itemArgs,
                 tag: 'li',
             })
@@ -69,7 +69,7 @@ function listRenderer(items: Args['items']) {
     return list
 }
 
-function rzChildrenNodesWidgetRenderer(args: Args) {
+function rzChildrenNodesRenderer(args: Args) {
     const body = document.createElement('div')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
     const list = listRenderer(args.items)
@@ -83,6 +83,6 @@ function rzChildrenNodesWidgetRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return rzChildrenNodesWidgetRenderer(args)
+        return rzChildrenNodesRenderer(args)
     },
 }

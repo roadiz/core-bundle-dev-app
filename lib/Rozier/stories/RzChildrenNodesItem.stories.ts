@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
     type Args,
-    rzChildrenNodesWidgetItemRenderer,
+    rzChildrenNodesItemRenderer,
     defaultItemData,
     MODIFIERS,
-} from '~/utils/storybook/renderer/rzChildrenNodesWidgetItem'
+} from '~/utils/storybook/renderer/rzChildrenNodesItem'
 
 const meta: Meta<Args> = {
     title: 'Components/Form/ChildrenNodesWidget/Item',
@@ -27,6 +27,6 @@ type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
-        return rzChildrenNodesWidgetItemRenderer(args)
+        return rzChildrenNodesItemRenderer(args)
     },
 }

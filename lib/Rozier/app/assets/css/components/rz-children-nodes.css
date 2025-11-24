@@ -1,9 +1,9 @@
-.rz-children-nodes-widget {
+.rz-children-nodes {
 	--rz-form-field-head-padding-block: var(--spacing-5xs);
 	--rz-form-field-description-margin-block: 0 var(--spacing-4xs);
 }
 
-.rz-children-nodes-widget__body {
+.rz-children-nodes__body {
 	box-sizing: border-box;
 	min-height: 92px;
 	padding: var(--spacing-2xs);
@@ -15,7 +15,7 @@
 }
 
 
-.rz-children-nodes-widget__list {
+.rz-children-nodes__list {
 	padding-left: initial;
 	margin-block: initial;
 
@@ -23,7 +23,7 @@
 		padding-left: 78px;
 	}
 
-	.rz-children-nodes-widget__body > & > li {
+	.rz-children-nodes__body > & > li {
 		margin-block: var(--spacing-2xs);
 	}
 
@@ -33,7 +33,7 @@
 }
 
 
-.rz-children-nodes-widget__item {
+.rz-children-nodes__item {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

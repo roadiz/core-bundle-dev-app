@@ -3,7 +3,7 @@ import { rzImageRenderer } from './rzImage'
 import { type Image } from './rzImage'
 import type { Args as ButtonGroupArgs } from '../../../../stories/RzButtonGroup.stories'
 
-export const COMPONENT_CLASS_NAME = 'rz-children-nodes-widget__item'
+export const COMPONENT_CLASS_NAME = 'rz-children-nodes__item'
 
 export const MODIFIERS = [
     'home',
@@ -44,7 +44,7 @@ export const defaultItemData: Args = {
     },
 }
 
-export function rzChildrenNodesWidgetItemRenderer(
+export function rzChildrenNodesItemRenderer(
     args: Args,
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {
