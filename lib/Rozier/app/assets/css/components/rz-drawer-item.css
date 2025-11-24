@@ -121,7 +121,7 @@
 	object-fit: cover;
 }
 
-.rz-drawer__badge-item {
+.rz-drawer-item__badge {
 	position: absolute;
 	transition: opacity 0.3s;
 
