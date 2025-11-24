@@ -10,8 +10,6 @@
 	border-radius: var(--radius-xs, 6px);
 	border: 1PX solid var(--form-basic-border, #DADADA);
 	background-color: var(--surface-light-secondary, #F8F8F8);
-
-
 }
 
 
