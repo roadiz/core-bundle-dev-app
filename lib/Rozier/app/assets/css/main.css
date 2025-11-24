@@ -40,6 +40,5 @@
 @import './components/rz-color-input.css';
 /* Form widgets */
 @import './components/rz-children-nodes-widget.css';
-@import './components/rz-children-nodes-widget-item.css';
 @import './components/rz-drawer.css';
 @import './components/rz-drawer-item.css';
