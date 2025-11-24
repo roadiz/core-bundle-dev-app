@@ -1,0 +1,90 @@
+.rz-dropdown-menu {
+	--rz-dropdown-menu-border-color: var(--surface-dark-primary, #18191B);
+	--rz-dropdown-menu-head-background-color: var(--surface-dark-primary, #18191B);
+
+	position: relative;
+	box-sizing: border-box;
+	min-width: var(--rz-dropdown-min-width, 194px);
+	margin: initial;
+	padding: initial;
+	border: solid var(--rz-dropdown-menu-border-color);
+	border-width: 6PX 1PX 1PX 1PX;
+	border-radius: var(--radius-sm);
+	isolation: isolate;
+	background-color: var(--rz-dropdown-menu-border-color);
+
+	&:has(.rz-dropdown-menu__head__elements) {
+		--rz-dropdown-menu-border-color: var(--surface-dark-primary, #18191B);
+		--rz-dropdown-menu-head-background-color: var(--surface-light-tertiary, #F2F2F2);
+		--rz-dropdown-menu-head-color: var(--content-on-light-secondary, #646464);
+	}
+}
+
+.rz-dropdown-menu__head {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	padding: var(--spacing-4xs);
+	gap: var(--spacing-7xs);
+	border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+	background-color: var(--rz-dropdown-menu-head-background-color);
+
+	&::after {
+		position: absolute;
+		content: '';
+		inset: 0;
+		translate: 0 6PX;
+		background-color: var(--rz-dropdown-menu-head-background-color);
+		z-index: -1;
+	}
+}
+
+
+.rz-dropdown-menu__head__title {
+	color: var(--rz-dropdown-menu-head-color, var(--content-on-darker-primary, #FFF));
+	padding-inline: var(--spacing-6xs);
+
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-overtitle-sm-font-size);
+	line-height: var(--text-overtitle-sm-line-height);
+	letter-spacing: var(--text-overtitle-sm-letter-spacing);
+	font-weight: var(--text-overtitle-sm-font-weight);
+}
+
+.rz-dropdown-menu__head__elements {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: var(--spacing-3xs);
+	padding-block: var(--spacing-6xs);
+}
+
+.rz-dropdown-menu__body {
+	display: flex;
+	flex-direction: column;
+	padding: var(--spacing-4xs);
+	border-radius: inherit;
+	background-color: var(--surface-light-primary, #FFF);
+}
+
+
+.rz-dropdown-menu__item {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-6xs);
+	min-height: 28px;
+	padding-block: var(--spacing-6xs);
+	padding-inline: var(--spacing-6xs);
+
+}
+
+.rz-dropdown-menu__item__label {
+	flex-grow: 1;
+
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size);
+	line-height: var(--text-label-sm-line-height);
+	letter-spacing: var(--text-label-sm-letter-spacing);
+	font-weight: var(--text-label-sm-font-weight);
+}
