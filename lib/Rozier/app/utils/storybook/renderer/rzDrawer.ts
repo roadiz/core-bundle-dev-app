@@ -1,15 +1,16 @@
-import { rzFormFieldHeadRenderer } from '~/utils/storybook/renderer/rzFormField'
+import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import type { Args as FormFieldArgs } from '../../../../stories/RzFormField.stories'
+import { type Args as DrawerItemArgs } from './rzDrawerItem'
 
-export type RzDrawerArgs = {
-    formField: FormFieldArgs
+export type RzDrawerArgs = FormFieldArgs & {
     layout: (typeof DRAWER_LAYOUTS)[number]
+    items: DrawerItemArgs[]
 }
 
 export const COMPONENT_CLASS_NAME = 'rz-drawer'
 export const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
 
-export const defaultFormFieldData = {
+export const defaultFormFieldData: FormFieldArgs = {
     label: 'Drawer label',
     iconClass: 'rz-icon-ri--image-line',
     description: 'Description example',
@@ -38,21 +39,11 @@ export const defaultFormFieldData = {
 }
 
 export function rzDrawerRenderer(args: RzDrawerArgs) {
-    const wrapper = document.createElement('div')
+    const wrapper = rzFormFieldRenderer(args)
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
     if (args.layout) {
         wrapper.classList.add(`${COMPONENT_CLASS_NAME}--${args.layout}`)
-    }
-
-    const head = rzFormFieldHeadRenderer(args.formField)
-    wrapper.appendChild(head)
-
-    if (args.formField.description) {
-        const description = document.createElement('p')
-        description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
-        description.textContent = args.formField.description
-        wrapper.appendChild(description)
     }
 
     const body = document.createElement('div')

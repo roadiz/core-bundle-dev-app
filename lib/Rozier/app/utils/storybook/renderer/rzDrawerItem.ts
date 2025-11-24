@@ -5,7 +5,7 @@ import { type Image } from '~/utils/storybook/renderer/rzImage'
 import type { Args as ButtonGroupArgs } from '../../../../stories/RzButtonGroup.stories'
 import { type BadgeArgs } from '../../../../stories/RzBadge.stories'
 
-export const COMPONENT_CLASS_NAME = 'rz-card-item-drawer'
+export const COMPONENT_CLASS_NAME = 'rz-drawer-item'
 
 export type Args = {
     overtitle?: string
@@ -16,7 +16,7 @@ export type Args = {
     buttonGroupTop?: ButtonGroupArgs
 }
 
-export function rzCardItemDrawerRenderer(
+export function rzDrawerItemRenderer(
     args: Args,
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {

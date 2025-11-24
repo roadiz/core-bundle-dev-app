@@ -1,7 +1,7 @@
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 import { rzImageRenderer } from './rzImage'
 import { type Image } from './rzImage'
-import type { Args as ButtonGroupArgs } from './../../../../stories/RzButtonGroup.stories'
+import type { Args as ButtonGroupArgs } from '../../../../stories/RzButtonGroup.stories'
 
 const COMPONENT_CLASS_NAME = 'rz-node-item-drawer'
 
@@ -43,7 +43,7 @@ export const defaultItemData: Args = {
     },
 }
 
-export function rzNodeItemDrawerRenderer(
+export function rzChildrenNodesWidgetItemRenderer(
     args: Args,
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {

@@ -27,10 +27,10 @@ export function rzFormFieldHeadRenderer(args: Args) {
         head.appendChild(icon)
     }
 
-    const label = document.createElement('label')
+    const label = document.createElement(args.input ? 'label' : 'span')
     label.classList.add(`${wrapperClass}__label`)
     label.textContent = args.label
-    label.setAttribute('for', args.input?.id)
+    if (args.input) label.setAttribute('for', args.input?.id)
     head.appendChild(label)
 
     if (args.badge) {
@@ -70,11 +70,13 @@ export function rzFormFieldRenderer(args: Args) {
 
     let descriptionId: string | undefined = undefined
     if (args.description) {
-        descriptionId = `${args.input?.name}-description-${Date.now()}`
         const description = document.createElement('p')
         description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
         description.textContent = args.description
-        description.id = descriptionId
+        if (args.input?.name) {
+            descriptionId = `${args.input.name}-description-${Date.now()}`
+            description.id = descriptionId
+        }
         wrapper.appendChild(description)
     }
 

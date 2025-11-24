@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
     type Args,
-    rzCardItemDrawerRenderer,
-} from '~/utils/storybook/renderer/rzCardItemDrawer'
+    rzDrawerItemRenderer,
+} from '~/utils/storybook/renderer/rzDrawerItem'
 // @ts-expect-error — image module declaration not recognized
 import image from './assets/images/01.jpg'
 
@@ -10,7 +10,7 @@ import image from './assets/images/01.jpg'
  * Layout is auto determined based on presence of `rz-drawer-item__title` `rz-drawer-item__overtitle` `rz-drawer-item__img` classes.
  */
 const meta: Meta<Args> = {
-    title: 'Components/Drawer/Card/Item',
+    title: 'Components/Form/Drawer/Item',
     tags: ['autodocs'],
     args: {
         overtitle: 'Overtitle example',
@@ -55,7 +55,7 @@ type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
-        return rzCardItemDrawerRenderer(args)
+        return rzDrawerItemRenderer(args)
     },
     args: {
         buttonGroupTop: undefined,
@@ -64,7 +64,7 @@ export const Default: Story = {
 
 export const WithoutImg: Story = {
     render: (args) => {
-        return rzCardItemDrawerRenderer(args)
+        return rzDrawerItemRenderer(args)
     },
     args: {
         buttonGroupTop: undefined,
@@ -75,7 +75,7 @@ export const WithoutImg: Story = {
 
 export const PrivateDocument: Story = {
     render: (args) => {
-        return rzCardItemDrawerRenderer(args)
+        return rzDrawerItemRenderer(args)
     },
     args: {
         overtitle: undefined,
@@ -91,7 +91,7 @@ export const PrivateDocument: Story = {
 
 export const OnlyImg: Story = {
     render: (args) => {
-        return rzCardItemDrawerRenderer(args)
+        return rzDrawerItemRenderer(args)
     },
     args: {
         overtitle: undefined,

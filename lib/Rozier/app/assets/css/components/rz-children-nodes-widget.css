@@ -1,0 +1,13 @@
+.rz-children-nodes-widget {
+	--rz-form-field-head-padding-block: var(--spacing-5xs);
+	--rz-form-field-description-margin-block: 0 var(--spacing-4xs);
+}
+
+.rz-children-nodes-widget__body {
+	box-sizing: border-box;
+	min-height: 92px;
+	padding: var(--spacing-2xs);
+	border-radius: var(--radius-xs, 6px);
+	border: 1PX solid var(--form-basic-border, #DADADA);
+	background-color: var(--surface-light-secondary, #F8F8F8);
+}
