@@ -1,3 +1,4 @@
+{% import "@RoadizRozier/macros/rz-menu-bar.html.twig" as rz_menu_bar %}
 {% set editRouteParams = { documentId: document.id } %}
 
 {% if app.request and app.request.get('referer') %}
@@ -5,51 +6,45 @@
 {% endif %}
 <nav class="rz-menu-bar">
     <ul class="rz-menu-bar__inner">
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
-            href="{{ path('documentsEditPage', editRouteParams) }}">
-                {% trans %}document.edit{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'metas' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'metas' ? 'true' : 'false' }}"
-            href="{{ path('documentsMetaPage', editRouteParams) }}">
-                {% trans %}document.metas{% endtrans %}
-            </a>
-        </li>
-        {%- if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') -%}
-            <li>
-                <a class="rz-menu-bar__item{% if current == 'limitations' %} rz-menu-bar__item--selected{% endif %}"
-                aria-current="{{ current == 'limitations' ? 'true' : 'false' }}"
-                href="{{ path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }) }}">
-                    {% trans %}document.limitations{% endtrans %}
-                </a>
-            </li>
-        {%- endif -%}
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'preview' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'preview' ? 'true' : 'false' }}"
-            href="{{ path('documentsPreviewPage', editRouteParams) }}">
-                {% trans %}document.preview{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'usage' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'usage' ? 'true' : 'false' }}"
-            href="{{ path('documentsUsagePage', editRouteParams) }}">
-                {% trans %}document.usage{% endtrans %}
-            </a>
-        </li>
-        {%- if document and document.image -%}
-            <li>
-                <a class="rz-menu-bar__item{% if current == 'adjust' %} rz-menu-bar__item--selected{% endif %}"
-                aria-current="{{ current == 'adjust' ? 'true' : 'false' }}"
-                href="{{ path('documentsAdjustPage', editRouteParams) }}">
-                    {% trans %}document.adjust{% endtrans %}
-                </a>
-            </li>
-        {%- endif -%}
+        {{ rz_menu_bar.item(
+            name: 'edit',
+            label: 'document.edit',
+            href: path('documentsEditPage', editRouteParams),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'metas',
+            label: 'document.metas',
+            href: path('documentsMetaPage', editRouteParams),
+            current: current
+        ) }}
+        {% if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') %}
+            {{ rz_menu_bar.item(
+                name: 'limitations',
+                label: 'document.limitations',
+                href: path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }),
+                current: current
+            ) }}
+        {% endif %}
+        {{ rz_menu_bar.item(
+            name: 'preview',
+            label: 'document.preview',
+            href: path('documentsPreviewPage', editRouteParams),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'usage',
+            label: 'document.usage',
+            href: path('documentsUsagePage', editRouteParams),
+            current: current
+        ) }}
+        {% if document and document.image %}
+            {{ rz_menu_bar.item(
+                name: 'adjust',
+                label: 'document.adjust',
+                href: path('documentsAdjustPage', editRouteParams),
+                current: current
+            ) }}
+        {% endif %}
     </ul>
 </nav>

@@ -1,25 +1,23 @@
+{% import "@RoadizRozier/macros/rz-menu-bar.html.twig" as rz_menu_bar %}
 <nav class="rz-menu-bar">
     <ul class="rz-menu-bar__inner">
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
-               aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
-               href="{{ path('groupsEditPage', { id: item.id }) }}">
-                {% trans %}group.edit{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'roles' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'roles' ? 'true' : 'false' }}"
-            href="{{ path('groupsEditRolesPage', { id: item.id }) }}">
-                {% trans %}group.roles{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'users' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'users' ? 'true' : 'false' }}"
-            href="{{ path('groupsEditUsersPage', { id: item.id }) }}">
-                {% trans %}group.users{% endtrans %}
-            </a>
-        </li>
+        {{ rz_menu_bar.item(
+            name: 'edit',
+            label: 'group.edit',
+            href: path('groupsEditPage', { id: item.id }),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'roles',
+            label: 'group.roles',
+            href: path('groupsEditRolesPage', { id: item.id }),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'users',
+            label: 'group.users',
+            href: path('groupsEditUsersPage', { id: item.id }),
+            current: current
+        ) }}
     </ul>
 </nav>

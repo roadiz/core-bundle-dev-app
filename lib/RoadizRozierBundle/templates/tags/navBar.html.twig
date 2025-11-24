@@ -1,44 +1,40 @@
+{% import "@RoadizRozier/macros/rz-menu-bar.html.twig" as rz_menu_bar %}
 {% set tTag = tag.getTranslatedTags.first %}
 <nav class="rz-menu-bar">
     <ul class="rz-menu-bar__inner">
         {% if tag.getChildren|length %}
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'tree' %} rz-menu-bar__item--selected{% endif %} uk-navbar-link"
-               aria-current="{{ current == 'tree' ? 'true' : 'false' }}"
-               aria-label="{% trans %}tag.tree{% endtrans %}"
-               href="{{ path('tagsTreePage', { tagId: tag.getId }) }}">
-                <span class="rz-icon-ri--node-tree"></span>
-            </a>
-        </li>
-        <li class="rz-menu-bar__separator"></li>
+            {{ rz_menu_bar.item(
+                name: 'tree',
+                href: path('tagsTreePage', { tagId: tag.getId }),
+                current: current,
+                icon: 'rz-icon-ri--node-tree',
+                aria_label: 'tag.tree'
+            ) }}
+            <li class="rz-menu-bar__separator"></li>
         {% endif %}
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'edit' %} rz-menu-bar__item--selected{% endif %}"
-               aria-current="{{ current == 'edit' ? 'true' : 'false' }}"
-               href="{{ path('tagsEditTranslatedPage', { tagId: tag.getId, translationId: tTag.getTranslation.getId }) }}">
-                {% trans %}tag.content{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'settings' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'settings' ? 'true' : 'false' }}"
-            href="{{ path('tagsSettingsPage', { tagId: tag.getId }) }}">
-                {% trans %}tag.settings{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'nodes' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'nodes' ? 'true' : 'false' }}"
-            href="{{ path('tagsEditNodesPage', { tagId: tag.getId }) }}">
-                {% trans %}tag.nodes{% endtrans %}
-            </a>
-        </li>
-        <li>
-            <a class="rz-menu-bar__item{% if current == 'add-multiple' %} rz-menu-bar__item--selected{% endif %}"
-            aria-current="{{ current == 'add-multiple' ? 'true' : 'false' }}"
-            href="{{ path('tagsAddMultipleChildPage', { parentTagId: tag.getId }) }}">
-                {% trans %}add.tags{% endtrans %}
-            </a>
-        </li>
+        {{ rz_menu_bar.item(
+            name: 'edit',
+            label: 'tag.content',
+            href: path('tagsEditTranslatedPage', { tagId: tag.getId, translationId: tTag.getTranslation.getId }),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'settings',
+            label: 'tag.settings',
+            href: path('tagsSettingsPage', { tagId: tag.getId }),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'nodes',
+            label: 'tag.nodes',
+            href: path('tagsEditNodesPage', { tagId: tag.getId }),
+            current: current
+        ) }}
+        {{ rz_menu_bar.item(
+            name: 'add-multiple',
+            label: 'add.tags',
+            href: path('tagsAddMultipleChildPage', { parentTagId: tag.getId }),
+            current: current
+        ) }}
     </ul>
 </nav>

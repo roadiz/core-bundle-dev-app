@@ -1,0 +1,18 @@
+{% macro item(name, label, href, current, icon, aria_label, target) %}
+    <li>
+        <a
+            class="rz-menu-bar__item{% if current == name %} rz-menu-bar__item--selected{% endif %}"
+            aria-current="{{ current == name ? 'true' : 'false' }}"
+            {% if aria_label is defined and aria_label %}aria-label="{{ aria_label|trans }}"{% endif %}
+            href="{{ href }}"
+            {% if target is defined and target %} target="{{ target }}"{% endif %}
+        >
+            {% if icon is defined and icon %}
+                <span class="{{ icon }}"></span>
+            {% endif %}
+            {% if label is defined and label %}
+                {{- label|trans -}}
+            {% endif %}
+        </a>
+    </li>
+{% endmacro %}
