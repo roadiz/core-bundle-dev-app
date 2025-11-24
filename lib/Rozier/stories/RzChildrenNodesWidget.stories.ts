@@ -39,7 +39,8 @@ const meta: Meta<Args> = {
 
 export default meta
 type Story = StoryObj<Args>
-function rzNodeDrawerRenderer(args: Args) {
+
+export function rzChildrenNodesWidgetRenderer(args: Args) {
     const wrapper = rzFormFieldRenderer(args)
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
@@ -57,6 +58,6 @@ function rzNodeDrawerRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return rzNodeDrawerRenderer(args)
+        return rzChildrenNodesWidgetRenderer(args)
     },
 }

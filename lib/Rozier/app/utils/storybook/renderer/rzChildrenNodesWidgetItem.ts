@@ -3,7 +3,7 @@ import { rzImageRenderer } from './rzImage'
 import { type Image } from './rzImage'
 import type { Args as ButtonGroupArgs } from '../../../../stories/RzButtonGroup.stories'
 
-const COMPONENT_CLASS_NAME = 'rz-node-item-drawer'
+const COMPONENT_CLASS_NAME = 'rz-children-nodes-widget-item'
 
 export const MODIFIERS = [
     'home',
