@@ -52,7 +52,10 @@ export function rzFormFieldHeadRenderer(args: Args) {
     return head
 }
 
-export function rzFormFieldRenderer(args: Args) {
+export function rzFormFieldRenderer(
+    args: Args,
+    mainElement?: HTMLElement | null,
+) {
     const wrapper = document.createElement('div')
     const inputType = args.input?.type || args.type
 
@@ -80,7 +83,10 @@ export function rzFormFieldRenderer(args: Args) {
         wrapper.appendChild(description)
     }
 
-    if (args.input) {
+    if (mainElement) {
+        mainElement.classList.add(`${COMPONENT_CLASS_NAME}__body`)
+        wrapper.appendChild(mainElement)
+    } else if (args.input) {
         const renderer = args.input.className?.includes('rz-switch')
             ? rzSwitchRenderer
             : args.input?.type === 'color'

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { defaultFormFieldData } from '~/utils/storybook/renderer/rzDrawer'
 import {
     type Args as ItemArgs,
     defaultItemData,
@@ -18,9 +17,11 @@ const meta: Meta<Args> = {
     title: 'Components/Form/ChildrenNodesWidget/Root',
     tags: ['autodocs'],
     args: {
-        ...defaultFormFieldData,
+        input: undefined,
         badge: undefined,
         description: 'Manage the blocs of the page here.',
+        help: 'this is a help text for the children nodes widget.',
+        error: 'This is an error message for the children nodes widget.',
         label: 'Blocs',
         iconClass: 'rz-icon-ri--layout-4-line',
         buttonGroup: {
@@ -68,16 +69,14 @@ function listRenderer(items: Args['items']) {
     return list
 }
 
-export function rzChildrenNodesWidgetRenderer(args: Args) {
-    const wrapper = rzFormFieldRenderer(args)
-    wrapper.classList.add(COMPONENT_CLASS_NAME)
-
-    const body = document.createElement('nav')
+function rzChildrenNodesWidgetRenderer(args: Args) {
+    const body = document.createElement('div')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
-    wrapper.appendChild(body)
-
     const list = listRenderer(args.items)
     body.appendChild(list)
+
+    const wrapper = rzFormFieldRenderer(args, body)
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
 
     return wrapper
 }

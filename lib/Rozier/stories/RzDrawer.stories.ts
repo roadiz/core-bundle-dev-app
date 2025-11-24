@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import {
-    rzDrawerRenderer,
-    DRAWER_LAYOUTS,
-    defaultFormFieldData,
-    type RzDrawerArgs,
-} from '~/utils/storybook/renderer/rzDrawer'
+import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+import { type Args as FormFieldArgs } from './RzFormField.stories'
 import {
     rzDrawerItemRenderer,
     type Args as DrawerItemArgs,
@@ -14,7 +10,13 @@ import imageHorizontal from './assets/images/01.jpg'
 // @ts-expect-error — image module declaration not recognized
 import imageVertical from './assets/images/02.jpg'
 
-export type Args = RzDrawerArgs
+const COMPONENT_CLASS_NAME = 'rz-drawer'
+const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
+
+export type Args = FormFieldArgs & {
+    layout: (typeof DRAWER_LAYOUTS)[number]
+    items: DrawerItemArgs[]
+}
 
 const NODE_WITH_IMG_ITEM: DrawerItemArgs = {
     overtitle: 'Overtitle example',
@@ -95,7 +97,33 @@ const meta: Meta<Args> = {
     title: 'Components/Form/Drawer/Root',
     tags: ['autodocs'],
     args: {
-        ...defaultFormFieldData,
+        label: 'Drawer label',
+        iconClass: 'rz-icon-ri--image-line',
+        description: 'Description example',
+        help: 'Help text example',
+        error: 'Error message example',
+        badge: {
+            label: '0/255',
+            color: 'error' as const,
+            size: 'xs' as const,
+        },
+        buttonGroup: {
+            size: 'md' as const,
+            gap: 'md' as const,
+            buttons: [
+                {
+                    label: 'Upload',
+                    iconClass: 'rz-icon-ri--upload-line',
+                    size: 'sm' as const,
+                },
+                {
+                    label: 'Explore',
+                    iconClass: 'rz-icon-ri--add-line',
+                    size: 'sm' as const,
+                },
+            ],
+        },
+        input: undefined,
         items: [...Array(10).fill(null)],
         layout: 'grid',
     },
@@ -110,8 +138,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzDrawerDefaultRenderer(args: Args) {
-    const { wrapper, body } = rzDrawerRenderer(args)
+function rzDrawerRenderer(args: Args) {
+    const body = document.createElement('div')
+    body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
 
     args.items.forEach((itemArgs) => {
         if (itemArgs === null) {
@@ -130,18 +159,24 @@ function rzDrawerDefaultRenderer(args: Args) {
         }
     })
 
+    const wrapper = rzFormFieldRenderer(args, body)
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
+    if (args.layout) {
+        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--${args.layout}`)
+    }
+
     return wrapper
 }
 
 export const Default: Story = {
     render: (args) => {
-        return rzDrawerDefaultRenderer(args)
+        return rzDrawerRenderer(args)
     },
 }
 
 export const NodeEntityDrawer: Story = {
     render: (args) => {
-        return rzDrawerDefaultRenderer(args)
+        return rzDrawerRenderer(args)
     },
     args: {
         items: [...Array(4).fill(null)].map(() => NODE_WITH_IMG_ITEM),
@@ -151,7 +186,7 @@ export const NodeEntityDrawer: Story = {
 
 export const NodeEntityWithoutImgDrawer: Story = {
     render: (args) => {
-        return rzDrawerDefaultRenderer(args)
+        return rzDrawerRenderer(args)
     },
     args: {
         items: [...Array(10).fill(null)].map(() => NODE_ITEM),
@@ -161,7 +196,7 @@ export const NodeEntityWithoutImgDrawer: Story = {
 
 export const NodeEntityMixed: Story = {
     render: (args) => {
-        return rzDrawerDefaultRenderer(args)
+        return rzDrawerRenderer(args)
     },
     args: {
         items: [
@@ -181,7 +216,7 @@ export const NodeEntityMixed: Story = {
 
 export const DocumentDrawer: Story = {
     render: (args) => {
-        return rzDrawerDefaultRenderer(args)
+        return rzDrawerRenderer(args)
     },
     args: {
         items: [...Array(10).fill(null)].map(() => DOCUMENT_ITEM),
@@ -191,7 +226,7 @@ export const DocumentDrawer: Story = {
 
 export const DocumentWithPictureTemplateDrawer: Story = {
     render: (args) => {
-        return rzDrawerDefaultRenderer(args)
+        return rzDrawerRenderer(args)
     },
     args: {
         layout: 'grid-larger',
