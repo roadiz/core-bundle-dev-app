@@ -21,6 +21,7 @@ export type Args = {
     image?: Image
     title: string
     buttonGroup: ButtonGroupArgs
+    tag?: string
 }
 
 export const defaultItemData: Args = {
@@ -47,7 +48,7 @@ export function rzChildrenNodesWidgetItemRenderer(
     args: Args,
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement(args.tag || 'div')
     wrapper.classList.add(itemClass)
     if (args.modifiers) {
         args.modifiers.forEach((modifier) => {

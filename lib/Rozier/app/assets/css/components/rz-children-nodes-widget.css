@@ -10,4 +10,24 @@
 	border-radius: var(--radius-xs, 6px);
 	border: 1PX solid var(--form-basic-border, #DADADA);
 	background-color: var(--surface-light-secondary, #F8F8F8);
+
+
+}
+
+
+.rz-children-nodes-widget__list {
+	padding-left: initial;
+	margin-block: initial;
+
+	& & {
+		padding-left: 78px;
+	}
+
+	.rz-children-nodes-widget__body > & > li {
+		margin-block: var(--spacing-2xs);
+	}
+
+	li {
+		list-style: none;
+	}
 }
