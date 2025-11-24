@@ -26,9 +26,11 @@
                 {% form_theme nodeTypeForm '@RoadizRozier/forms.html.twig' %}
                 <form class="rz-form" id="search-node-type-form" action="#" method="get">
                         {{ form_widget(nodeTypeForm, { 'attr': {'class': 'rz-form__field-list'} }) }}
-                    <button class="rz-button rz-button--success" type="submit">
-                        <span class="rz-button__label">{% trans %}select.nodetype{% endtrans %}</span><span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>
-                    </button>
+                    <div class="rz-form-field rz-form-field--align-start">
+                        <button class="rz-button rz-button--success" type="submit">
+                            <span class="rz-button__label">{% trans %}select.nodetype{% endtrans %}</span><span class="rz-button__icon rz-icon-ri--filter-line"></span>
+                        </button>
+                    </div>
                 </form>
             {% endif %}
 
