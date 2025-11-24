@@ -315,6 +315,9 @@
             <trans-unit xml:space="preserve" id="313"><source>see.page</source></trans-unit>
             <trans-unit xml:space="preserve" id="preview.page"><source>preview.page</source></trans-unit>
             <trans-unit xml:space="preserve" id="314"><source>duplicate</source></trans-unit>
+            <trans-unit xml:space="preserve" id="duplicate.node.%name%"><source>duplicate.node.%name%</source></trans-unit>
+            <trans-unit xml:space="preserve" id="duplicate.node"><source>duplicate.node</source></trans-unit>
+            <trans-unit xml:space="preserve" id="are_you_sure.duplicate.node"><source>are_you_sure.duplicate.node</source></trans-unit>
             <trans-unit xml:space="preserve" id="315"><source>add.child</source></trans-unit>
             <trans-unit xml:space="preserve" id="316"><source>statuses</source></trans-unit>
             <trans-unit xml:space="preserve" id="317"><source>visibility</source></trans-unit>
@@ -660,6 +663,7 @@
             <trans-unit xml:space="preserve" id="documents.linked_to.folders"><source>documents.linked_to.folders</source></trans-unit>
             <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer"><source>drop.files.here.to.upload.or.click.to.open.your.explorer</source></trans-unit>
             <trans-unit xml:space="preserve" id="duplicated.node.%name%"><source>duplicated.node.%name%</source></trans-unit>
+            <trans-unit xml:space="preserve" id="copied.node.%name%"><source>copied.node.%name%</source></trans-unit>
             <trans-unit xml:space="preserve" id="edit.customForm.%name%"><source>edit.customForm.%name%</source></trans-unit>
             <trans-unit xml:space="preserve" id="edit.customFormField.%name%"><source>edit.customFormField.%name%</source></trans-unit>
             <trans-unit xml:space="preserve" id="edit.customFormFields"><source>edit.customFormFields</source></trans-unit>
@@ -956,6 +960,10 @@
             <trans-unit xml:space="preserve" id="node.publish"><source>node.publish</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.unpublish"><source>node.unpublish</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.duplicate"><source>node.duplicate</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.copy"><source>node.copy</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.paste_inside"><source>node.paste_inside</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.paste_after"><source>node.paste_after</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.copied_to_clipboard"><source>node.copied_to_clipboard</source></trans-unit>
 
             <!-- Some constraints messages -->
             <trans-unit xml:space="preserve" id="string.should.only.contain.latin.characters"><source>string.should.only.contain.latin.characters</source></trans-unit>

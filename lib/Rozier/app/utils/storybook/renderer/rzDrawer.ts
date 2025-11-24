@@ -72,6 +72,13 @@ export function rzDrawerRenderer(args: RzDrawerArgs) {
     const head = rzFormFieldHeadRenderer(args.formField)
     wrapper.appendChild(head)
 
+    if (args.formField.description) {
+        const description = document.createElement('p')
+        description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
+        description.textContent = args.formField.description
+        wrapper.appendChild(description)
+    }
+
     const body = document.createElement('div')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
     wrapper.appendChild(body)

@@ -1,0 +1,19 @@
+.rz-floating-bar {
+	display: inline-flex;
+	flex-direction: var(--rz-floating-bar-direction, row);
+	justify-content: center;
+	align-items: flex-start;
+	padding: var(--spacing-6xs);
+	gap: var(--spacing-5xs);
+	border-radius: var(--radius-sm);
+	background-color: var(--surface-dark-primary, #18191B);
+	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
+
+	li {
+		list-style: none;
+	}
+}
+
+.rz-floating-bar--vertical {
+	--rz-floating-bar-direction: column;
+}

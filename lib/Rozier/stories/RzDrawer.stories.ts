@@ -99,6 +99,7 @@ const meta: Meta<Args> = {
         formField: {
             label: 'Drawer item label',
             iconClass: 'rz-icon-ri--image-line',
+            description: 'Description example',
             input: undefined,
             badge: {
                 label: '0/255',

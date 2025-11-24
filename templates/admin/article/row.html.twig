@@ -38,6 +38,15 @@
         </div>
     {% endif %}
     <div class="uk-button-group">
+        <a class="uk-button uk-button-content uk-button-small preview-url-link"
+           target="_blank"
+           data-uk-tooltip="{animation:true}"
+           title="{% trans %}preview.page{% endtrans %}"
+           href="{{ path('nodesSourcesPreviewRedirect', {
+               'nodeSourceId': item.id,
+           }) }}">
+            <i class="uk-icon-rz-visibility"></i>
+        </a>
         {% if is_granted('EDIT_CONTENT', item) %}
             <a href="{{ itemEditUrl }}"
                data-uk-tooltip="{animation:true}"

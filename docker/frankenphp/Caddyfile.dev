@@ -6,12 +6,13 @@
     }
 
 	frankenphp {
-		worker {
-		    file public/index.php
-            watch /app/**/*.php
-            num 1
-            env APP_RUNTIME Runtime\FrankenPhpSymfony\Runtime
-        }
+       {$FRANKENPHP_CONFIG}
+#		worker {
+#		    file public/index.php
+#            watch /app/**/*.php
+#            num 1
+#            env APP_RUNTIME Runtime\FrankenPhpSymfony\Runtime
+#        }
 	}
 }
 

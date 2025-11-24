@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderInterface;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderLocator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -48,6 +49,12 @@ class AjaxExplorerProviderController extends AbstractAjaxController
         return $this->explorerProviderLocator->getProvider($providerClass);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/provider/explore',
+        name: 'providerAjaxExplorerPage',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
@@ -86,6 +93,12 @@ class AjaxExplorerProviderController extends AbstractAjaxController
     /**
      * Get a Node list from an array of id.
      */
+    #[Route(
+        path: '/rz-admin/ajax/provider/list',
+        name: 'providerAjaxByArray',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function listAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');

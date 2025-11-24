@@ -90,7 +90,7 @@ export function rzFormFieldRenderer(args: Args) {
             name: args.input?.name || 'name',
             type: inputType,
         })
-        input.classList.add(`${COMPONENT_CLASS_NAME}__input`)
+        input.classList.add(`${COMPONENT_CLASS_NAME}__body`)
         if (descriptionId) input.setAttribute('aria-describedby', descriptionId)
         if (args.required) input.setAttribute('required', 'true')
         wrapper.appendChild(input)

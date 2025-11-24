@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "undelete.node.%name%"|trans({'%name%': node.getNodeName})|u.truncate(25, '[…]', true) }}
+    {{ "undelete.node.%name%"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }}
     |
     {{ parent() -}}
 {%- endblock -%}
@@ -10,7 +10,7 @@
 <section class="content-global">
 
     <header class="content-header header-node header-node-delete">
-        <h1 class="content-title node-delete-title">{{ "undelete.node.%name%"|trans({'%name%': node.getNodeName})|u.truncate(25, '[…]', true) }}</h1>
+        <h1 class="content-title node-delete-title">{{ "undelete.node.%name%"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }}</h1>
     </header>
 
     <article class="content content-delete content-node-delete content-no-action-menu">
