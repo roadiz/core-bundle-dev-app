@@ -85,6 +85,10 @@
 	padding-block: var(--spacing-6xs);
 }
 
+.rz-dropdown-menu__head__elements > [class*="rz-icon-"]{
+	color: var(--content-on-light-tertiary, #9A9A9A);
+}
+
 .rz-dropdown-menu__body {
 	--rz-dropdown-menu-body-padding-inline: var(--spacing-4xs);
 

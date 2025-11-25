@@ -50,11 +50,11 @@ const meta: Meta<Args> = {
         headElements: [
             {
                 tag: 'span',
-                class: 'rz-icon-ri--lock-2-line rz-icon--ternary',
+                class: 'rz-icon-ri--lock-2-line',
             },
             {
                 tag: 'span',
-                class: 'rz-icon-ri--eye-off-line rz-icon--ternary',
+                class: 'rz-icon-ri--eye-off-line',
             },
             {
                 innerHTML:
