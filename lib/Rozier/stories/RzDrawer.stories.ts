@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { type Args as FormFieldArgs } from './RzFormField.stories'
 import {
-    rzDrawerItemRenderer,
-    type Args as DrawerItemArgs,
-} from '~/utils/storybook/renderer/rzDrawerItem'
+    rzCardRenderer,
+    type Args as CardArgs,
+} from '~/utils/storybook/renderer/rzCard'
 // @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
 // @ts-expect-error — image module declaration not recognized
@@ -15,10 +15,10 @@ const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
 
 export type Args = FormFieldArgs & {
     layout: (typeof DRAWER_LAYOUTS)[number]
-    items: DrawerItemArgs[]
+    items: CardArgs[]
 }
 
-const NODE_WITH_IMG_ITEM: DrawerItemArgs = {
+const NODE_WITH_IMG_ITEM: CardArgs = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     image: {
@@ -42,7 +42,7 @@ const NODE_WITH_IMG_ITEM: DrawerItemArgs = {
     },
 }
 
-const NODE_ITEM: DrawerItemArgs = {
+const NODE_ITEM: CardArgs = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     buttonGroup: {
@@ -61,7 +61,7 @@ const NODE_ITEM: DrawerItemArgs = {
     },
 }
 
-const DOCUMENT_ITEM: DrawerItemArgs = {
+const DOCUMENT_ITEM: CardArgs = {
     image: {
         src: imageHorizontal,
         width: 110,
@@ -154,7 +154,7 @@ function rzDrawerRenderer(args: Args) {
             `
             body.appendChild(item)
         } else {
-            const itemNode = rzDrawerItemRenderer(itemArgs)
+            const itemNode = rzCardRenderer(itemArgs)
             body.appendChild(itemNode)
         }
     })
