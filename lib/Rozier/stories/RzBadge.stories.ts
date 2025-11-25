@@ -66,7 +66,7 @@ export const Information: Story = {
             ...args,
             label: 'Information',
             color: 'information',
-            iconClass: 'rz-icon-rz--status-published-colored',
+            iconClass: 'rz-icon-rz--status-published-fill',
         })
     },
 }
@@ -77,7 +77,7 @@ export const Published: Story = {
             ...args,
             label: 'Published',
             color: 'success',
-            iconClass: 'rz-icon-rz--status-published-colored',
+            iconClass: 'rz-icon-rz--status-published-fill',
         })
     },
 }
@@ -88,7 +88,7 @@ export const Draft: Story = {
             ...args,
             label: 'Draft',
             color: 'warning',
-            iconClass: 'rz-icon-rz--status-draft-colored',
+            iconClass: 'rz-icon-rz--status-draft-fill',
         })
     },
 }
@@ -99,7 +99,7 @@ export const Unpublished: Story = {
             ...args,
             label: 'Unpublished',
             color: 'error',
-            iconClass: 'rz-icon-rz--status-draft-colored',
+            iconClass: 'rz-icon-rz--status-draft-fill',
         })
     },
 }
