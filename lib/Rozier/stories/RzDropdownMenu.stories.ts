@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { BadgeArgs } from './RzBadge.stories'
 
 const COMPOSANT_CLASS_NAME = 'rz-dropdown-menu'
+const COMPOSANT_ITEM_CLASS_NAME = 'rz-dropdown-item'
 
 type Item = {
     iconClass?: string
@@ -14,19 +15,28 @@ type Item = {
 
 export type Args = {
     title?: string
-    columnReverse?: boolean
+    reverse?: boolean
+    headExtended?: boolean
     headElements?: Record<string, string>[]
-    color?: string
-    items: Item[]
+    borderColor?: string
+    items: (Item | Item[])[]
     footerContent?: string
+}
+
+const DEFAULT_ITEM = {
+    iconClass: 'rz-icon-ri--user-6-line',
+    label: 'Profile X',
+    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
 }
 
 const meta: Meta<Args> = {
     title: 'Components/DropdownMenu',
     tags: ['autodocs'],
     args: {
-        title: 'this is a title',
-        color: 'red',
+        title: 'Menu title',
+        borderColor: '',
+        reverse: false,
+        headExtended: true,
         headElements: [
             {
                 tag: 'span',
@@ -38,19 +48,11 @@ const meta: Meta<Args> = {
             },
         ],
         items: [
-            {
-                iconClass: 'rz-icon-ri--user-6-line',
-                label: 'Profile',
-                rightIconClass: 'rz-icon-ri--arrow-right-s-line',
-            },
-            {
-                iconClass: 'rz-icon-ri--user-6-line',
-                label: 'Profile 2',
-                rightIconClass: 'rz-icon-ri--arrow-right-s-line',
-            },
-            {
-                tag: 'hr',
-            },
+            DEFAULT_ITEM,
+            DEFAULT_ITEM,
+            { tag: 'hr' },
+            DEFAULT_ITEM,
+            DEFAULT_ITEM,
         ],
     },
     parameters: {
@@ -61,9 +63,12 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzDropdownItemRenderer(args: Item) {
+function rzDropdownItemRenderer(
+    args: Item,
+    itemClass: string = COMPOSANT_ITEM_CLASS_NAME,
+) {
     const item = document.createElement(args.tag || 'div')
-    item.className = `${COMPOSANT_CLASS_NAME}__item`
+    item.classList.add(itemClass)
 
     if (args.iconClass) {
         const icon = document.createElement('span')
@@ -73,17 +78,51 @@ function rzDropdownItemRenderer(args: Item) {
 
     if (args.label) {
         const label = document.createElement('span')
-        label.className = `${COMPOSANT_CLASS_NAME}__item__label`
+        label.classList.add(`${itemClass}__label`)
         label.innerHTML = args.label
         item.appendChild(label)
+    }
+
+    if (args.rightIconClass) {
+        const icon = document.createElement('span')
+        icon.className = args.rightIconClass
+        item.appendChild(icon)
     }
 
     return item
 }
 
+function rzDropdownBodyRenderer(items: Item[]) {
+    const body = document.createElement('menu')
+    body.className = `${COMPOSANT_CLASS_NAME}__body`
+
+    items.forEach((itemArgs) => {
+        const itemWrapper = document.createElement('li')
+        body.appendChild(itemWrapper)
+        itemWrapper.classList.add(`${COMPOSANT_CLASS_NAME}__item`)
+        if (itemArgs.tag === 'hr') {
+            return
+        }
+
+        const item = rzDropdownItemRenderer(itemArgs)
+        itemWrapper.appendChild(item)
+    })
+
+    return body
+}
+
 function rzDropdownMenuRenderer(args: Args) {
-    const wrapper = document.createElement('menu')
+    const wrapper = document.createElement('div')
     wrapper.className = COMPOSANT_CLASS_NAME
+    if (args.reverse) {
+        wrapper.classList.add(`${COMPOSANT_CLASS_NAME}--reverse`)
+    }
+    if (args.borderColor) {
+        wrapper.style.setProperty(
+            '--rz-dropdown-menu-border-color',
+            args.borderColor,
+        )
+    }
 
     if (args.headElements?.length || args.title) {
         const head = document.createElement('div')
@@ -108,26 +147,37 @@ function rzDropdownMenuRenderer(args: Args) {
                 })
                 headElements.appendChild(element)
             })
-            head.appendChild(headElements)
+            if (args.headExtended) {
+                head.appendChild(headElements)
+            }
         }
 
         wrapper.appendChild(head)
     }
 
-    const body = document.createElement('div')
-    body.className = `${COMPOSANT_CLASS_NAME}__body`
-    wrapper.appendChild(body)
-
-    args.items?.forEach((itemArgs) => {
-        const item = rzDropdownItemRenderer(itemArgs)
-        body.appendChild(item)
+    const bodyList = Array.isArray(args.items[0]) ? args.items : [args.items]
+    bodyList.forEach((bodyItems) => {
+        console.log(bodyItems)
+        const body = rzDropdownBodyRenderer(bodyItems)
+        wrapper.appendChild(body)
     })
-
     return wrapper
 }
 
 export const Default: Story = {
     render: (args) => {
         return rzDropdownMenuRenderer(args)
+    },
+}
+
+export const WithMenuList: Story = {
+    render: (args) => {
+        return rzDropdownMenuRenderer(args)
+    },
+    args: {
+        items: [
+            [DEFAULT_ITEM, DEFAULT_ITEM],
+            [DEFAULT_ITEM, DEFAULT_ITEM],
+        ],
     },
 }

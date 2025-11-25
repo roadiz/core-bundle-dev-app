@@ -1,22 +1,44 @@
 .rz-dropdown-menu {
-	--rz-dropdown-menu-border-color: var(--surface-dark-primary, #18191B);
+	--rz-dropdown-menu-border-radius: var(--radius-sm);
+	--rz-dropdown-menu-border-color-fallback: var(--surface-dark-primary, #18191B);
 	--rz-dropdown-menu-head-background-color: var(--surface-dark-primary, #18191B);
+	--rz-dropdown-menu-large-border: 6PX;
 
 	position: relative;
 	box-sizing: border-box;
 	min-width: var(--rz-dropdown-min-width, 194px);
 	margin: initial;
-	padding: initial;
-	border: solid var(--rz-dropdown-menu-border-color);
-	border-width: 6PX 1PX 1PX 1PX;
-	border-radius: var(--radius-sm);
+	padding: 1PX;
+	border-radius: var(--rz-dropdown-menu-border-radius);
 	isolation: isolate;
-	background-color: var(--rz-dropdown-menu-border-color);
+	overflow: hidden;
+	background-color: var(--rz-dropdown-menu-border-color, var(--rz-dropdown-menu-border-color-fallback));
+}
 
+.rz-dropdown-menu:has(.rz-dropdown-menu__head__elements),
+.rz-dropdown-menu--head-extended {
+	--rz-dropdown-menu-border-color-fallback: var(--surface-dark-primary, #18191B);
+	--rz-dropdown-menu-head-background-color: var(--surface-light-tertiary, #F2F2F2);
+	--rz-dropdown-menu-head-color: var(--content-on-light-secondary, #646464);
+
+	padding-top: var(--rz-dropdown-menu-large-border);
+}
+
+.rz-dropdown-menu--reverse {
+	display: flex;
+	flex-direction: column-reverse;
+
+	&.rz-dropdown-menu--head-extended,
 	&:has(.rz-dropdown-menu__head__elements) {
-		--rz-dropdown-menu-border-color: var(--surface-dark-primary, #18191B);
-		--rz-dropdown-menu-head-background-color: var(--surface-light-tertiary, #F2F2F2);
-		--rz-dropdown-menu-head-color: var(--content-on-light-secondary, #646464);
+		padding: 1PX 1PX var(--rz-dropdown-menu-large-border) 1PX;
+	}
+
+	.rz-dropdown-menu__head{
+		border-radius: 0 0 var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius);
+
+		&::after {
+			translate: 0 calc(var(--rz-dropdown-menu-large-border) * -1);
+		}
 	}
 }
 
@@ -26,14 +48,14 @@
 	flex-direction: column;
 	padding: var(--spacing-4xs);
 	gap: var(--spacing-7xs);
-	border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+	border-radius: var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius) 0 0;
 	background-color: var(--rz-dropdown-menu-head-background-color);
 
 	&::after {
 		position: absolute;
 		content: '';
 		inset: 0;
-		translate: 0 6PX;
+		translate: 0 var(--rz-dropdown-menu-large-border);
 		background-color: var(--rz-dropdown-menu-head-background-color);
 		z-index: -1;
 	}
@@ -60,15 +82,41 @@
 }
 
 .rz-dropdown-menu__body {
+	--rz-dropdown-menu-body-padding-inline: var(--spacing-4xs);
+
 	display: flex;
 	flex-direction: column;
-	padding: var(--spacing-4xs);
-	border-radius: inherit;
+	padding: var(--spacing-4xs) var(--rz-dropdown-menu-body-padding-inline);
+	border-radius: var(--rz-dropdown-menu-border-radius);
 	background-color: var(--surface-light-primary, #FFF);
+	margin: initial;
+
+	/* Multiple rz-dropdown-menu__body sibling element could be used to separate groups*/
+	& + & {
+		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
+		border-radius: 0 0 var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius);
+	}
+
+	&:not(:nth-last-child(1 of &)) {
+		border-radius: var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius) 0 0 ;
+
+	}
+}
+
+.rz-dropdown-menu__item {
+	list-style: none;
+}
+
+.rz-dropdown-menu__item--divider,
+.rz-dropdown-menu__item:empty {
+	border-bottom: 1PX solid var(--line-on-light-primary, #EAEAEA);
+	margin-block: var(--spacing-4xs);
+	width: calc(100% + var(--rz-dropdown-menu-body-padding-inline) * 2);
+	margin-left: calc(var(--rz-dropdown-menu-body-padding-inline) * -1);
 }
 
 
-.rz-dropdown-menu__item {
+.rz-dropdown-item {
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -76,10 +124,9 @@
 	min-height: 28px;
 	padding-block: var(--spacing-6xs);
 	padding-inline: var(--spacing-6xs);
-
 }
 
-.rz-dropdown-menu__item__label {
+.rz-dropdown-item__label {
 	flex-grow: 1;
 
 	font-family: var(--font-family-os-label);
