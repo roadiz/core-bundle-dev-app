@@ -1,4 +1,10 @@
 {% import "@RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
+{% if source %}
+    {% set translation = source.translation %}
+{% elseif available_translations[0] %}
+    {# When no active source use available translation, not default one. #}
+    {% set translation = available_translations[0] %}
+{% endif %}
 <nav class="rz-menu-bar">
     <ul class="rz-menu-bar__inner">
         {%- if is_granted('EDIT_CONTENT', node) -%}
