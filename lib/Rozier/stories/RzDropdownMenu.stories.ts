@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { BadgeArgs } from './RzBadge.stories'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 
-const COMPOSANT_CLASS_NAME = 'rz-dropdown-menu'
-const COMPOSANT_ITEM_CLASS_NAME = 'rz-dropdown-item'
+const COMPONENT_CLASS_NAME = 'rz-dropdown-menu'
+const COMPONENT_ITEM_CLASS_NAME = 'rz-dropdown-item'
 
 type Item = {
     iconClass?: string
@@ -79,7 +79,7 @@ type Story = StoryObj<Args>
 
 function rzDropdownItemRenderer(
     args: Item,
-    itemClass: string = COMPOSANT_ITEM_CLASS_NAME,
+    itemClass: string = COMPONENT_ITEM_CLASS_NAME,
 ) {
     const item = document.createElement(args.tag || 'div')
     item.classList.add(itemClass)
@@ -127,12 +127,12 @@ function rzDropdownItemRenderer(
 
 function rzDropdownBodyRenderer(items: Item[]) {
     const body = document.createElement('menu')
-    body.className = `${COMPOSANT_CLASS_NAME}__body`
+    body.className = `${COMPONENT_CLASS_NAME}__body`
 
     items.forEach((itemArgs) => {
         const itemWrapper = document.createElement('li')
         body.appendChild(itemWrapper)
-        itemWrapper.classList.add(`${COMPOSANT_CLASS_NAME}__item`)
+        itemWrapper.classList.add(`${COMPONENT_CLASS_NAME}__item`)
         if (itemArgs.tag === 'hr') {
             return
         }
@@ -146,9 +146,9 @@ function rzDropdownBodyRenderer(items: Item[]) {
 
 function rzDropdownMenuRenderer(args: Args) {
     const wrapper = document.createElement('div')
-    wrapper.className = COMPOSANT_CLASS_NAME
+    wrapper.className = COMPONENT_CLASS_NAME
     if (args.reverse) {
-        wrapper.classList.add(`${COMPOSANT_CLASS_NAME}--reverse`)
+        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--reverse`)
     }
     if (args.borderColor) {
         wrapper.style.setProperty(
@@ -159,18 +159,18 @@ function rzDropdownMenuRenderer(args: Args) {
 
     if (args.headElements?.length || args.title) {
         const head = document.createElement('div')
-        head.className = `${COMPOSANT_CLASS_NAME}__head`
+        head.className = `${COMPONENT_CLASS_NAME}__head`
 
         if (args.title) {
             const title = document.createElement('div')
-            title.className = `${COMPOSANT_CLASS_NAME}__head__title`
+            title.className = `${COMPONENT_CLASS_NAME}__head__title`
             title.innerText = args.title || ''
             head.appendChild(title)
         }
 
         if (args.displayHeadElements && args.headElements?.length) {
             const headElements = document.createElement('div')
-            headElements.className = `${COMPOSANT_CLASS_NAME}__head__elements`
+            headElements.className = `${COMPONENT_CLASS_NAME}__head__elements`
             head.appendChild(headElements)
 
             args.headElements.forEach((el) => {
