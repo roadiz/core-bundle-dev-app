@@ -194,7 +194,6 @@ function rzDropdownMenuRenderer(args: Args) {
 
     const bodyList = Array.isArray(args.items[0]) ? args.items : [args.items]
     bodyList.forEach((bodyItems) => {
-        console.log(bodyItems)
         const body = rzDropdownBodyRenderer(bodyItems)
         wrapper.appendChild(body)
     })
@@ -203,7 +202,23 @@ function rzDropdownMenuRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return rzDropdownMenuRenderer(args)
+        const popover = document.createElement('rz-popover')
+        popover.setAttribute('popover-placement', 'right-start')
+        popover.setAttribute('popover-offset', '10px')
+
+        const contentId = 'dropdown-menu'
+        const target = document.createElement('button')
+        target.innerText = 'Toggle Dropdown Menu'
+        target.setAttribute('popovertarget', contentId)
+        popover.appendChild(target)
+
+        const content = rzDropdownMenuRenderer(args)
+        content.id = contentId
+        content.setAttribute('popover', '')
+
+        popover.appendChild(content)
+
+        return popover
     },
 }
 
