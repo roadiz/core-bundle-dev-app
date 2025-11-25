@@ -84,8 +84,8 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
-import {debounce} from 'lodash'
+import { mapActions, mapState } from 'vuex'
+import { debounce } from 'lodash'
 
 // Components
 import LoadMoreButton from '../components/LoadMoreButton.vue'
