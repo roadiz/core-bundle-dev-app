@@ -50,7 +50,7 @@ const meta: Meta<Args> = {
         headElements: [
             {
                 tag: 'span',
-                class: 'rz-icon-ri--lock-2-line',
+                class: 'rz-icon-ri--lock-2-line rz-icon--ternary',
             },
             {
                 tag: 'span',
@@ -58,7 +58,7 @@ const meta: Meta<Args> = {
             },
             {
                 innerHTML:
-                    '<div class="rz-badge rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-colored"></span></div>',
+                    '<div class="rz-badge rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-fill"></span></div>',
             },
         ],
         items: [
@@ -202,23 +202,7 @@ function rzDropdownMenuRenderer(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        const popover = document.createElement('rz-popover')
-        popover.setAttribute('popover-placement', 'right-start')
-        popover.setAttribute('popover-offset', '10px')
-
-        const contentId = 'dropdown-menu'
-        const target = document.createElement('button')
-        target.innerText = 'Toggle Dropdown Menu'
-        target.setAttribute('popovertarget', contentId)
-        popover.appendChild(target)
-
-        const content = rzDropdownMenuRenderer(args)
-        content.id = contentId
-        content.setAttribute('popover', '')
-
-        popover.appendChild(content)
-
-        return popover
+        return rzDropdownMenuRenderer(args)
     },
 }
 
@@ -241,5 +225,83 @@ export const ReverseWithCollapsedHead: Story = {
     args: {
         reverse: true,
         displayHeadElements: false,
+    },
+}
+
+export const WithPopover: Story = {
+    render: (args) => {
+        const popover = document.createElement('rz-popover')
+        popover.setAttribute('popover-placement', 'right-start')
+        popover.setAttribute('popover-offset', '10px')
+
+        const contentId = 'dropdown-menu'
+        const target = document.createElement('button')
+        target.innerText = 'Toggle Dropdown Menu'
+        target.setAttribute('popovertarget', contentId)
+        popover.appendChild(target)
+
+        const content = rzDropdownMenuRenderer(args)
+        content.id = contentId
+        content.setAttribute('popover', '')
+
+        popover.appendChild(content)
+
+        return popover
+    },
+    args: {
+        borderColor: 'blue',
+        items: [
+            {
+                iconClass: 'rz-icon-ri--add-line',
+                label: 'Add a child',
+                badge: {
+                    label: 'D',
+                    size: 'xs',
+                    iconClass: 'rz-icon-ri--command-line',
+                    attributes: {
+                        'aria-label': 'command name shorthand',
+                    },
+                },
+            },
+            {
+                iconClass: 'rz-icon-ri--arrow-up-line',
+                label: 'Move first',
+            },
+            {
+                iconClass: 'rz-icon-ri--arrow-down-line',
+                label: 'Move last',
+            },
+            {
+                iconClass: 'rz-icon-ri--edit-line',
+                label: 'Edit',
+            },
+            {
+                tag: 'hr',
+            },
+            {
+                iconClass: 'rz-icon-ri--eye-line',
+                label: 'Make visible',
+            },
+            {
+                iconClass: 'rz-icon-rz--status-draft-line',
+                label: 'Unpublish',
+            },
+            {
+                iconClass: 'rz-icon-ri--file-copy-2-line',
+                label: 'Copy',
+            },
+            {
+                iconClass: 'rz-icon-ri--clipboard-line',
+                label: 'Paste after',
+            },
+            {
+                iconClass: 'rz-icon-ri--clipboard-line',
+                label: 'Paste inside',
+            },
+            {
+                iconClass: 'rz-icon-ri--file-copy-line',
+                label: 'Duplicate',
+            },
+        ],
     },
 }
