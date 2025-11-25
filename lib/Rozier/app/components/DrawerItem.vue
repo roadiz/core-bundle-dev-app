@@ -8,7 +8,7 @@
         <div v-if="thumbnailUrl" class="rz-drawer__item__asset">
             <picture class="rz-drawer__item__img">
                 <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
-                <img :src="thumbnailUrl" width="110" height="94">
+                <img :src="thumbnailUrl" :alt="name || 'Thumbnail'" width="110" height="94">
             </picture>
         </div>
 

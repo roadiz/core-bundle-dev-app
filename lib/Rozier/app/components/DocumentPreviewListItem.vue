@@ -21,6 +21,7 @@
                 <input type="hidden" :name="drawerName + '[' + index + ']'" :value="document.id" />
             </template>
             <img :src="document.thumbnail80"
+                 :alt="name || 'Thumbnail'"
                  width="110"
                  height="94"
                  class="rz-drawer__item__img"

@@ -349,7 +349,7 @@
 {% endblock %}
 
 {% block checkbox_widget -%}
-    <input class="rz-switch" class="rz-form-field__body" {% if checked %}checked{% endif %} type="checkbox" />
+    <input class="rz-switch rz-form-field__body" {% if checked %}checked{% endif %} type="checkbox" />
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
@@ -370,11 +370,11 @@
 
 {% block number_widget -%}
     {%- set type = type|default('number') -%}
-    <input is="rz-input" class="rz-form-field__body" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
+    <input is="rz-input" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
 {%- endblock number_widget %}
 
 {%- block email_widget -%}
-    <input is="rz-input" class="rz-form-field__body" class="rz-form-field__body rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+    <input is="rz-input" class="rz-form-field__body rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock email_widget -%}
 
 {%- block file_widget -%}

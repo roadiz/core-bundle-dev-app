@@ -95,7 +95,7 @@
                         aria-labelledby="{{ tabId }}"
                         id="{{ panelId }}"
                         class="rz-tabpanel rz-form__field-list"
-                        hidden="{{ loop.first ? 'false' : 'true' }}"
+                        {% if not loop.first %}hidden{% endif %}
                     >
                 {% endif %}
                     {% for fieldView in data.fields %}
