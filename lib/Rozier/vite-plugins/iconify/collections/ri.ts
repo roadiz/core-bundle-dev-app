@@ -42,6 +42,7 @@ export default [
     'checkbox-circle-line',
     'history-line',
     'user-6-line',
+    'eye-off-line',
     // Markdown related icons
     'h-1',
     'h-2',

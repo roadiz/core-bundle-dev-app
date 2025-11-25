@@ -40,11 +40,17 @@ const meta: Meta<Args> = {
         headElements: [
             {
                 tag: 'span',
-                class: 'rz-icon-ri--lock-line',
+                class: 'rz-icon-ri--lock-2-line',
+                ['data-tooltip']: 'tooltip content',
             },
             {
                 tag: 'span',
-                class: 'rz-icon-ri--eye-off-line',
+                class: 'rz-icon--ternary rz-icon-ri--eye-off-line',
+                ['data-tooltip']: 'tooltip content',
+            },
+            {
+                innerHTML:
+                    '<div class="rz-badge rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-colored"></span></div>',
             },
         ],
         items: [
@@ -138,7 +144,14 @@ function rzDropdownMenuRenderer(args: Args) {
         if (args.headElements?.length) {
             const headElements = document.createElement('div')
             headElements.className = `${COMPOSANT_CLASS_NAME}__head__elements`
+
             args.headElements.forEach((el) => {
+                if (el.innerHTML) {
+                    // TODO: add el.innerHTML to element
+                    headElements.appendChild()
+                    return
+                }
+
                 const element = document.createElement(el.tag || 'div')
                 Object.entries(el).forEach(([key, value]) => {
                     if (key !== 'tag') {
