@@ -152,7 +152,7 @@ final class NodeSourceType extends AbstractType
             FieldType::CUSTOM_FORMS_T => NodeSourceCustomFormType::class,
             FieldType::DATETIME_T => DateTimeType::class,
             FieldType::DATE_T => DateType::class,
-            FieldType::DECIMAL_T,FieldType::INTEGER_T => NumberType::class,
+            FieldType::DECIMAL_T, FieldType::INTEGER_T => NumberType::class,
             FieldType::DOCUMENTS_T => NodeSourceDocumentType::class,
             FieldType::EMAIL_T => EmailType::class,
             FieldType::GEOTAG_T, FieldType::MULTI_GEOTAG_T => GeoJsonType::class,

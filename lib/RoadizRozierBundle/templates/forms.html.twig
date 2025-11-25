@@ -371,7 +371,7 @@
 {% endblock %}
 
 {% block checkbox_widget -%}
-    <input class="rz-switch rz-form-field__body" {% if checked %}checked{% endif %} type="checkbox" />
+    <input class="rz-switch rz-form-field__body" {{ block('widget_attributes') }} {% if checked %}checked{% endif %} type="checkbox" />
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
@@ -424,7 +424,7 @@
     {% if errors|length > 0 -%}
         <div class="rz-message rz-message--error rz-form-field__message">
             {%- for error in errors -%}
-                <p class="rz-message__text"><i class="uk-icon-warning"></i> {{ error.message|trans(error.messageParameters) }}</p>
+                <p class="rz-message__text">{{ error.message|trans(error.messageParameters) }}</p>
             {%- endfor -%}
         </div>
     {%- endif %}
@@ -432,7 +432,7 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-<div class="uk-form-row rz-form-field children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
+<div class="rz-form-field children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
