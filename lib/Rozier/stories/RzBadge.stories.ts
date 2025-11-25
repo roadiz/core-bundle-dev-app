@@ -10,6 +10,7 @@ export type BadgeArgs = {
     title?: string
     size?: (typeof SIZES)[number]
     color?: (typeof COLORS)[number]
+    attributes?: Record<string, string>
 }
 
 const meta: Meta<BadgeArgs> = {
