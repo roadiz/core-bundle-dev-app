@@ -368,7 +368,7 @@ final class SearchController extends AbstractController
             'label' => 'search.a.node',
             'attr' => [
                 'class' => 'rz-button rz-button--success',
-                'icon' => 'rz-icon-ri--search-line'
+                'icon' => 'rz-icon-ri--search-line',
             ],
         ]);
 
