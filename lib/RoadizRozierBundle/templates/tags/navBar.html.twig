@@ -5,10 +5,11 @@
         {% if tag.getChildren|length %}
             {{ rz_menu_bar.item(
                 name: 'tree',
+                label: 'tag.tree',
                 href: path('tagsTreePage', { tagId: tag.getId }),
                 current: current,
                 icon: 'rz-icon-ri--node-tree',
-                aria_label: 'tag.tree'
+                iconOnly: true,
             ) }}
             <li class="rz-menu-bar__separator"></li>
         {% endif %}

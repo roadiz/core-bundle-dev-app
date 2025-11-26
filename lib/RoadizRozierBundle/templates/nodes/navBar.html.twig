@@ -52,28 +52,31 @@
             {% if is_granted('READ', node) %}
                 {{ rz_menu_bar.item(
                     name: 'tree',
+                    label: 'tree',
                     href: path('nodesTreePage', { nodeId: node.id, translationId: translation.id }),
                     current: current,
                     icon: 'rz-icon-ri--node-tree',
-                    aria_label: 'tree'
+                    iconOnly: true,
                 ) }}
             {% endif %}
             {% if is_granted('EDIT_REALMS', node) %}
                 {{ rz_menu_bar.item(
                     name: 'realm',
+                    label: 'realm_nodes',
                     href: path('nodesRealmsPage', { id: node.id }),
                     current: current,
                     icon: 'rz-icon-ri--spy-line',
-                    aria_label: 'realm_nodes'
+                    iconOnly: true,
                 ) }}
             {% endif %}
             {% if is_granted('READ_LOGS', node) %}
                 {{ rz_menu_bar.item(
                     name: 'history',
+                    label: 'history',
                     href: path('nodesHistoryPage', { nodeId: node.id }),
                     current: current,
                     icon: 'rz-icon-ri--history-line',
-                    aria_label: 'history'
+                    iconOnly: true,
                 ) }}
             {% endif %}
         {% endif %}

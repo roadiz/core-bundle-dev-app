@@ -42,10 +42,11 @@
             <li class="rz-menu-bar__separator"></li>
             {{ rz_menu_bar.item(
                 name: 'history',
+                label: 'user.history',
                 href: path('historyUserPage', { userId: user.getId }),
                 current: current,
                 icon: 'rz-icon-ri--history-line',
-                aria_label: 'user.history'
+                iconOnly: true,
             ) }}
         {% endif %}
     </ul>

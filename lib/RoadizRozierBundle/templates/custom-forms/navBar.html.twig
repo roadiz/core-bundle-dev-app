@@ -28,11 +28,11 @@
         ) }}
         <li class="rz-menu-bar__separator"></li>
         {{ rz_menu_bar.item(
-            name: 'show',
+            name: 'customForm.show',
             href: path('customFormSendAction', { customFormId: type.id }),
             icon: 'rz-icon-ri--eye-line',
-            aria_label: 'customForm.show',
-            target: '_blank'
+            target: '_blank',
+            iconOnly: true,
         ) }}
     </ul>
 </nav>
