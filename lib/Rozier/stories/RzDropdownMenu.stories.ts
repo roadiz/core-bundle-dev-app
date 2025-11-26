@@ -3,7 +3,6 @@ import { BadgeArgs } from './RzBadge.stories'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-dropdown-menu'
-const COMPONENT_ITEM_CLASS_NAME = 'rz-dropdown-item'
 
 type Item = {
     iconClass?: string
@@ -12,6 +11,7 @@ type Item = {
     badge?: BadgeArgs
     rightIconClass?: string
     tag?: string
+    attributes?: Record<string, string>
 }
 
 export type Args = {
@@ -25,6 +25,7 @@ export type Args = {
 }
 
 const DEFAULT_ITEM: Item = {
+    tag: 'button',
     iconClass: 'rz-icon-ri--user-6-line',
     label: 'Profile X',
     description: 'Profile description',
@@ -62,11 +63,8 @@ const meta: Meta<Args> = {
             },
         ],
         items: [
-            DEFAULT_ITEM,
-            DEFAULT_ITEM,
-            { tag: 'hr' },
-            DEFAULT_ITEM,
-            DEFAULT_ITEM,
+            [DEFAULT_ITEM, DEFAULT_ITEM],
+            [DEFAULT_ITEM, DEFAULT_ITEM],
         ],
     },
     parameters: {
@@ -77,12 +75,15 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzDropdownItemRenderer(
-    args: Item,
-    itemClass: string = COMPONENT_ITEM_CLASS_NAME,
-) {
+function rzDropdownItemRenderer(args: Item, itemClass: string) {
     const item = document.createElement(args.tag || 'div')
     item.classList.add(itemClass)
+
+    Object.entries(args.attributes || {}).forEach(([key, value]) => {
+        if (key !== 'tag') {
+            item.setAttribute(key, value)
+        }
+    })
 
     if (args.iconClass) {
         const icon = document.createElement('span')
@@ -127,7 +128,7 @@ function rzDropdownItemRenderer(
 
 function rzDropdownBodyRenderer(items: Item[]) {
     const body = document.createElement('menu')
-    body.className = `${COMPONENT_CLASS_NAME}__body`
+    body.className = `${COMPONENT_CLASS_NAME}__list`
 
     items.forEach((itemArgs) => {
         const itemWrapper = document.createElement('li')
@@ -137,7 +138,10 @@ function rzDropdownBodyRenderer(items: Item[]) {
             return
         }
 
-        const item = rzDropdownItemRenderer(itemArgs)
+        const item = rzDropdownItemRenderer(
+            itemArgs,
+            `${COMPONENT_CLASS_NAME}__button`,
+        )
         itemWrapper.appendChild(item)
     })
 
@@ -163,29 +167,32 @@ function rzDropdownMenuRenderer(args: Args) {
 
         if (args.title) {
             const title = document.createElement('div')
-            title.className = `${COMPONENT_CLASS_NAME}__head__title`
+            title.className = `${COMPONENT_CLASS_NAME}__title`
             title.innerText = args.title || ''
             head.appendChild(title)
         }
 
         if (args.displayHeadElements && args.headElements?.length) {
-            const headElements = document.createElement('div')
-            headElements.className = `${COMPONENT_CLASS_NAME}__head__elements`
+            const headElements = document.createElement('ul')
+            headElements.className = `${COMPONENT_CLASS_NAME}__info-list`
             head.appendChild(headElements)
 
             args.headElements.forEach((el) => {
-                if (el.innerHTML) {
-                    headElements.insertAdjacentHTML('beforeend', el.innerHTML)
-                    return
-                }
+                const infoItem = document.createElement('li')
+                infoItem.classList.add(`${COMPONENT_CLASS_NAME}__info-item`)
+                headElements.appendChild(infoItem)
 
-                const element = document.createElement(el.tag || 'div')
-                Object.entries(el).forEach(([key, value]) => {
-                    if (key !== 'tag') {
-                        element.setAttribute(key, value)
-                    }
-                })
-                headElements.appendChild(element)
+                if (el.innerHTML) {
+                    infoItem.innerHTML += el.innerHTML
+                } else {
+                    const element = document.createElement(el.tag || 'div')
+                    Object.entries(el).forEach(([key, value]) => {
+                        if (key !== 'tag') {
+                            element.setAttribute(key, value)
+                        }
+                    })
+                    infoItem.appendChild(element)
+                }
             })
         }
 
@@ -206,18 +213,6 @@ export const Default: Story = {
     },
 }
 
-export const WithMultipleMenuTemplateGroup: Story = {
-    render: (args) => {
-        return rzDropdownMenuRenderer(args)
-    },
-    args: {
-        items: [
-            [DEFAULT_ITEM, DEFAULT_ITEM],
-            [DEFAULT_ITEM, DEFAULT_ITEM],
-        ],
-    },
-}
-
 export const ReverseWithCollapsedHead: Story = {
     render: (args) => {
         return rzDropdownMenuRenderer(args)
@@ -225,6 +220,35 @@ export const ReverseWithCollapsedHead: Story = {
     args: {
         reverse: true,
         displayHeadElements: false,
+    },
+}
+
+export const WithLinkItems: Story = {
+    render: (args) => {
+        return rzDropdownMenuRenderer(args)
+    },
+    args: {
+        reverse: true,
+        displayHeadElements: false,
+        items: [
+            {
+                tag: 'a',
+                attributes: {
+                    href: '#',
+                },
+                iconClass: 'rz-icon-ri--file-copy-line',
+                label: 'Duplicate',
+                rightIconClass: 'rz-icon-ri--arrow-right-s-line',
+            },
+            {
+                tag: 'a',
+                attributes: {
+                    href: '#',
+                },
+                iconClass: 'rz-icon-ri--delete-bin-6-line',
+                label: 'Delete',
+            },
+        ],
     },
 }
 
@@ -251,57 +275,68 @@ export const WithPopover: Story = {
     args: {
         borderColor: 'blue',
         items: [
-            {
-                iconClass: 'rz-icon-ri--add-line',
-                label: 'Add a child',
-                badge: {
-                    label: 'D',
-                    size: 'xs',
-                    iconClass: 'rz-icon-ri--command-line',
-                    attributes: {
-                        'aria-label': 'command name shorthand',
+            [
+                {
+                    iconClass: 'rz-icon-ri--add-line',
+                    label: 'Add a child',
+                    tag: 'button',
+                    badge: {
+                        label: 'D',
+                        size: 'xs',
+                        iconClass: 'rz-icon-ri--command-line',
+                        attributes: {
+                            'aria-label': 'command name shorthand',
+                        },
                     },
                 },
-            },
-            {
-                iconClass: 'rz-icon-ri--arrow-up-line',
-                label: 'Move first',
-            },
-            {
-                iconClass: 'rz-icon-ri--arrow-down-line',
-                label: 'Move last',
-            },
-            {
-                iconClass: 'rz-icon-ri--edit-line',
-                label: 'Edit',
-            },
-            {
-                tag: 'hr',
-            },
-            {
-                iconClass: 'rz-icon-ri--eye-line',
-                label: 'Make visible',
-            },
-            {
-                iconClass: 'rz-icon-rz--status-draft-line',
-                label: 'Unpublish',
-            },
-            {
-                iconClass: 'rz-icon-ri--file-copy-2-line',
-                label: 'Copy',
-            },
-            {
-                iconClass: 'rz-icon-ri--clipboard-line',
-                label: 'Paste after',
-            },
-            {
-                iconClass: 'rz-icon-ri--clipboard-line',
-                label: 'Paste inside',
-            },
-            {
-                iconClass: 'rz-icon-ri--file-copy-line',
-                label: 'Duplicate',
-            },
+                {
+                    iconClass: 'rz-icon-ri--arrow-up-line',
+                    label: 'Move first',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-ri--arrow-down-line',
+                    label: 'Move last',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-ri--edit-line',
+                    label: 'Edit',
+                    tag: 'button',
+                },
+            ],
+            [
+                {
+                    iconClass: 'rz-icon-ri--eye-line',
+                    label: 'Make visible',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-rz--status-draft-line',
+                    label: 'Unpublish',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-ri--file-copy-2-line',
+                    label: 'Copy',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-ri--clipboard-line',
+                    label: 'Paste after',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-ri--clipboard-line',
+                    label: 'Paste inside',
+                    tag: 'button',
+                },
+                {
+                    iconClass: 'rz-icon-ri--file-copy-line',
+                    label: 'Duplicate',
+                    tag: 'button',
+                },
+            ],
         ],
     },
 }
