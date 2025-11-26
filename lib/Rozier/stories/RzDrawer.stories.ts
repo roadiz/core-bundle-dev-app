@@ -139,12 +139,12 @@ export default meta
 type Story = StoryObj<Args>
 
 function rzDrawerRenderer(args: Args) {
-    const body = document.createElement('div')
+    const body = document.createElement('ul')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
 
     args.items.forEach((itemArgs) => {
         if (itemArgs === null) {
-            const item = document.createElement('div')
+            const item = document.createElement('li')
             item.style = `
                 width: 100%;
                 height: 100px;
@@ -154,7 +154,7 @@ function rzDrawerRenderer(args: Args) {
             `
             body.appendChild(item)
         } else {
-            const itemNode = rzCardRenderer(itemArgs)
+            const itemNode = rzCardRenderer({ ...itemArgs, tag: 'li' })
             body.appendChild(itemNode)
         }
     })

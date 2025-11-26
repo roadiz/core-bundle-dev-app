@@ -8,6 +8,7 @@ import { type BadgeArgs } from '../../../../stories/RzBadge.stories'
 export const COMPONENT_CLASS_NAME = 'rz-card'
 
 export type Args = {
+    tag?: string
     overtitle?: string
     title?: string
     image?: Image

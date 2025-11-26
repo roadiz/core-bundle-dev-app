@@ -14,11 +14,10 @@
 	border-radius: var(--radius-xs, 6px);
 	border: 1PX solid var(--form-basic-border, #DADADA);
 	background-color: var(--surface-light-secondary, #F8F8F8);
-	margin: 0;
 
-	& > li {
-		padding: initial;
+	&:where(ul) {
 		list-style: none;
+		margin: 0;
 	}
 
 	.rz-drawer--grid &,
