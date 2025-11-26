@@ -98,9 +98,9 @@
                         {% if not loop.first %}hidden{% endif %}
                     >
                 {% endif %}
-                    {% for fieldView in data.fields %}
-                        {{ form_row(fieldView) }}
-                    {% endfor %}
+                {% for fieldView in data.fields %}
+                    {{ form_row(fieldView) }}
+                {% endfor %}
                 {% if orderedGroups|length > 1 %}
                     </div>
                 {% endif %}

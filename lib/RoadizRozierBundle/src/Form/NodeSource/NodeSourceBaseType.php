@@ -63,6 +63,9 @@ final class NodeSourceBaseType extends AbstractType
             'label' => false,
             'inherit_data' => true,
             'publishable' => false,
+            'attr' => [
+                'no-field-group' => true,
+            ],
         ]);
 
         $resolver->setRequired('translation');

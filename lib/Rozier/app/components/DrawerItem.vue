@@ -7,7 +7,7 @@
         <div v-if="name" class="rz-drawer__item__title">{{ name }}</div>
         <div v-if="thumbnailUrl" class="rz-drawer__item__asset">
             <picture class="rz-drawer__item__img">
-                <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
+                <source v-if="isThumbnailProcessable && !thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
                 <img :src="thumbnailUrl" :alt="name || 'Thumbnail'" width="110" height="94">
             </picture>
         </div>
@@ -100,6 +100,8 @@ export default {
         thumbnailUrl: function () {
             if (this.item.thumbnail && this.item.thumbnail.url) {
                 return this.item.thumbnail.url
+            } else if (this.item.thumbnail && this.item.thumbnail.publicUrl) {
+                return this.item.thumbnail.publicUrl
             } else if (typeof this.item.thumbnail === 'string') {
                 return this.item.thumbnail
             }
