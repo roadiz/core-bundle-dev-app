@@ -44,6 +44,7 @@
 .rz-drawer__body {
 	box-sizing: border-box;
 	display: grid;
+	margin-block: 0;
 	grid-template-columns: repeat(var(--rz-drawer-body-columns, 1), 1fr);
 	align-items: flex-start;
 	min-height: 92px;

@@ -82,6 +82,7 @@ function rzPopoverRenderer(args: Args) {
 
     const popoverContent = document.createElement('div')
     popoverContent.setAttribute('popover', '')
+    popoverContent.setAttribute('aria-label', 'this is a aria label text')
     popoverContent.id = args.popoverContent.id
     popoverContent.innerHTML = args.popoverContent.content
     popover.appendChild(popoverContent)

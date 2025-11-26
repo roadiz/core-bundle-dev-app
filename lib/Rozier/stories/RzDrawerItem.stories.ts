@@ -7,6 +7,7 @@ import { type BadgeArgs } from './RzBadge.stories'
 import image from './assets/images/01.jpg'
 
 export type Args = {
+    tag?: string
     overtitle?: string
     title?: string
     image?: Image

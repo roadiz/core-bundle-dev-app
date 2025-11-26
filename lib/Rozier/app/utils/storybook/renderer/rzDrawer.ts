@@ -11,7 +11,7 @@ export function rzDrawerItemRenderer(
     args: RzDrawerItemArgs,
     itemClass = `${COMPONENT_CLASS_NAME}__item`,
 ) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement(args.tag || 'div')
     wrapper.classList.add(itemClass)
 
     if (args.overtitle) {
@@ -79,13 +79,16 @@ export function rzDrawerRenderer(args: RzDrawerArgs) {
         wrapper.appendChild(description)
     }
 
-    const body = document.createElement('div')
+    const body = document.createElement('ul')
     body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
     wrapper.appendChild(body)
 
     const itemClass = `${COMPONENT_CLASS_NAME}__item`
     args.items.forEach((itemArgs) => {
-        const itemNode = rzDrawerItemRenderer(itemArgs, itemClass)
+        const itemNode = rzDrawerItemRenderer(
+            { ...itemArgs, tag: 'li' },
+            itemClass,
+        )
         body.appendChild(itemNode)
     })
 
