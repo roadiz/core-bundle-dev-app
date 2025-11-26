@@ -1,15 +1,24 @@
 import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 import { rzImageRenderer } from '~/utils/storybook/renderer/rzImage'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
-import { rzFormFieldHeadRenderer } from '~/utils/storybook/renderer/rzFormField'
-import type { Args as RzDrawerItemArgs } from '../../../../stories/RzDrawerItem.stories'
-import type { Args as RzDrawerArgs } from '../../../../stories/RzDrawer.stories'
+import { type Image } from '~/utils/storybook/renderer/rzImage'
+import type { Args as ButtonGroupArgs } from '../../../../stories/RzButtonGroup.stories'
+import { type BadgeArgs } from '../../../../stories/RzBadge.stories'
 
-const COMPONENT_CLASS_NAME = 'rz-drawer'
+export const COMPONENT_CLASS_NAME = 'rz-card'
 
-export function rzDrawerItemRenderer(
-    args: RzDrawerItemArgs,
-    itemClass = `${COMPONENT_CLASS_NAME}__item`,
+export type Args = {
+    overtitle?: string
+    title?: string
+    image?: Image
+    badge?: BadgeArgs
+    buttonGroup: ButtonGroupArgs
+    buttonGroupTop?: ButtonGroupArgs
+}
+
+export function rzCardRenderer(
+    args: Args,
+    itemClass: string = COMPONENT_CLASS_NAME,
 ) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(itemClass)
@@ -57,37 +66,6 @@ export function rzDrawerItemRenderer(
         node.classList.add(`${itemClass}__action`, `${itemClass}__action--top`)
         wrapper.appendChild(node)
     }
-
-    return wrapper
-}
-
-export function rzDrawerRenderer(args: RzDrawerArgs) {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add(COMPONENT_CLASS_NAME)
-
-    if (args.moreColumns) {
-        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--more-columns`)
-    }
-
-    const head = rzFormFieldHeadRenderer(args.formField)
-    wrapper.appendChild(head)
-
-    if (args.formField.description) {
-        const description = document.createElement('p')
-        description.classList.add(`${COMPONENT_CLASS_NAME}__description`)
-        description.textContent = args.formField.description
-        wrapper.appendChild(description)
-    }
-
-    const body = document.createElement('div')
-    body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
-    wrapper.appendChild(body)
-
-    const itemClass = `${COMPONENT_CLASS_NAME}__item`
-    args.items.forEach((itemArgs) => {
-        const itemNode = rzDrawerItemRenderer(itemArgs, itemClass)
-        body.appendChild(itemNode)
-    })
 
     return wrapper
 }

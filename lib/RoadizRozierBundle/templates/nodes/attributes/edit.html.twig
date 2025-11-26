@@ -1,6 +1,7 @@
 {% set currentTitle = source.title|default(node.nodeName) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% block content %}
     <section class="content-global">
@@ -12,6 +13,7 @@
             <h1 class="content-title node-edit-source-title"{% if source.translation.locale is rtl %} dir="rtl"{% endif %}>
                 {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
                 {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+                {{ rz_status_badge.item(node: node) }}
             </h1>
             {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'attributes'} %}
             {% include '@RoadizRozier/nodes/attributes/translationBar.html.twig' with {"current": translation.id} %}
