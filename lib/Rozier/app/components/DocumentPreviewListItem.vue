@@ -1,33 +1,45 @@
 <template>
-    <div v-if="document"
+    <li v-if="document"
          :title="document.classname"
-         class="rz-drawer__item"
+         class="rz-card"
          @click.prevent="onAddItemButtonClick">
-        <div class="rz-drawer__item__asset">
-            <template v-if="drawerName && entityName">
-                <input type="hidden" :name="drawerName + '[' + index + '][document]'" :value="document.id" />
-                <input
-                    type="hidden"
-                    :name="drawerName + '[' + index + '][hotspot]'"
-                    :value="JSON.stringify(hotspot)"
-                />
-                <input
-                    type="hidden"
-                    :name="drawerName + '[' + index + '][imageCropAlignment]'"
-                    :value="imageCropAlignment"
-                />
+        <div class="rz-card__asset">
+            <template v-if="document.isPrivate">
+                <div class="rz-badge rz-badge--md rz-card__badge">
+                    <span class="rz-badge__icon rz-icon-ri--lock-2-line"></span>
+                </div>
             </template>
-            <template v-else-if="drawerName">
-                <input type="hidden" :name="drawerName + '[' + index + ']'" :value="document.id" />
+            <template v-else-if="document.isPdf">
+                <div class="rz-badge rz-badge--md rz-card__badge">
+                    <span class="rz-badge__icon rz-icon-ri--file-pdf-2-line"></span>
+                </div>
             </template>
-            <img :src="document.thumbnail80"
-                 :alt="name || 'Thumbnail'"
-                 width="110"
-                 height="94"
-                 class="rz-drawer__item__img"
-            >
+            <template v-else>
+                <template v-if="drawerName && entityName">
+                    <input type="hidden" :name="drawerName + '[' + index + '][document]'" :value="document.id" />
+                    <input
+                        type="hidden"
+                        :name="drawerName + '[' + index + '][hotspot]'"
+                        :value="JSON.stringify(hotspot)"
+                    />
+                    <input
+                        type="hidden"
+                        :name="drawerName + '[' + index + '][imageCropAlignment]'"
+                        :value="imageCropAlignment"
+                    />
+                </template>
+                <template v-else-if="drawerName">
+                    <input type="hidden" :name="drawerName + '[' + index + ']'" :value="document.id" />
+                </template>
+                <img :src="document.thumbnail80"
+                     :alt="name || 'Thumbnail'"
+                     width="110"
+                     height="94"
+                     class="rz-card__img"
+                >
+            </template>
         </div>
-        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer__item__action">
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-card__action">
             <button
                 :id="`edit-${drawerName}[${index}]`"
                 type="button"
@@ -42,15 +54,15 @@
                 <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
             </button>
         </div>
-        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer__item__action rz-drawer__item__action--top">
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-card__action rz-card__action--top">
             <button class="rz-button rz-button--primary" @click.prevent="onPreviewClick">
                 <span class="rz-button__icon rz-icon-ri--zoom-in-line"></span>
             </button>
         </div>
-        <button v-else class="rz-drawer__item__action rz-drawer__item__action--top rz-button rz-button--primary">
+        <button v-else class="rz-card__action rz-card__action--top rz-button rz-button--primary">
             <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
         </button>
-    </div>
+    </li>
 </template>
 
 <script>

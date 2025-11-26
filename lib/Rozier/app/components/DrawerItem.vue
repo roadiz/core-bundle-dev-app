@@ -1,33 +1,33 @@
 <template>
-    <div class="rz-drawer__item" @click.prevent="onAddItemButtonClick">
+    <li class="rz-card" @click.prevent="onAddItemButtonClick">
         <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
-        <div class="rz-drawer__item__overtitle" v-if="parentName || subParentName">
+        <div class="rz-card__overtitle" v-if="parentName || subParentName">
             {{ subParentName ? subParentName : parentName }}
         </div>
-        <div v-if="name" class="rz-drawer__item__title">{{ name }}</div>
-        <div v-if="thumbnailUrl" class="rz-drawer__item__asset">
-            <picture class="rz-drawer__item__img">
+        <div v-if="name" class="rz-card__title">{{ name }}</div>
+        <div v-if="thumbnailUrl" class="rz-card__asset">
+            <picture class="rz-card__img">
                 <source v-if="isThumbnailProcessable && !thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
                 <img :src="thumbnailUrl" :alt="name || 'Thumbnail'" width="110" height="94">
             </picture>
         </div>
 
-        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-drawer__item__action">
-            <ajax-link :href="editItemUrl" class="rz-button rz-button--primary" v-if="editItemUrl">
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-card__action">
+            <ajax-link :href="editItemUrl" class="rz-button rz-button--primary rz-button-group__button" v-if="editItemUrl">
                 <span class="rz-button__icon rz-icon-ri--equalizer-3-line"></span>
             </ajax-link>
             <button
                 type="button"
-                class="rz-button rz-button--error-light"
+                class="rz-button rz-button--error-light rz-button-group__button"
                 @click.prevent="onRemoveItemButtonClick()"
             >
                 <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
             </button>
         </div>
-        <button v-else class="rz-drawer__item__action rz-drawer__item__action--top rz-button rz-button--primary">
+        <button v-else class="rz-card__action rz-card__action--top rz-button rz-button--primary rz-button-group__button">
             <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
         </button>
-    </div>
+    </li>
 </template>
 <script>
 import AjaxLink from './AjaxLink.vue'

@@ -39,7 +39,7 @@
                       data-locale="{{ form.vars._locale }}"
                       data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
     >
-        <div class="rz-drawer drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}{% if entity == 'document' %} rz-drawer--more-columns{% endif %}"
+        <div class="rz-drawer rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
              :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
              v-if="drawer"
              ref="drawer"
@@ -108,13 +108,13 @@
                 <transition name="fade" v-if="drawer.isLoading">
                     <div class="spinner"></div>
                 </transition>
-                <ul class="drawer-widget-sortable"
+                <div class="drawer-widget-sortable"
                     data-input-name="{{ name }}">
                     <draggable
                         v-model="items"
                         :options="getOptions()"
                     >
-                        <transition-group tag="div" class="rz-drawer__body">
+                        <transition-group tag="ul" class="rz-drawer__body rz-form-field__body">
                             <component
                                 v-bind:is="drawer.currentListingView"
                                 v-for="(item, index) in items"
@@ -131,7 +131,7 @@
                             </component>
                         </transition-group>
                     </draggable>
-                </ul>
+                </div>
             </div>
             {% if enableDropzone %}
                 <rz-file-upload
