@@ -8,6 +8,7 @@
 	min-width: var(--rz-dropdown-min-width, 194px);
 	margin: initial;
 	padding: 1PX;
+	border: none;
 	border-radius: var(--rz-dropdown-menu-border-radius);
 	isolation: isolate;
 	overflow: hidden;
