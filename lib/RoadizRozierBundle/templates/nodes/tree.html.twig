@@ -1,4 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {%- block title -%}
     {% if node %}
@@ -20,6 +21,7 @@
             {% if node %}
                 {{ source.title|u.truncate(25, '[…]', true) }}{% if specificNodeTree.tag %} ({{ specificNodeTree.tag.translatedTags.first.name }}){% endif %}
                 {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+                {{ rz_status_badge.item(node: node) }}
             {% else %}
                 {{ 'tree'|trans }}
             {% endif %}

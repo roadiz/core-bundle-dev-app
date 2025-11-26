@@ -1,0 +1,12 @@
+{% macro item(label, icon, size, color) %}
+    <div class="rz-badge
+        {{ size is defined and size ? ' rz-badge--'~size : '' }}
+        {{ color is defined and color ? ' rz-badge--'~color : '' }}">
+        {% if icon is defined and icon %}
+            <span class="rz-badge__icon {{ icon }}"></span>
+        {% endif %}
+        {% if label is defined and label %}
+            <span class="rz-badge__label">{{- label|trans -}}</span>
+        {% endif %}
+    </div>
+{% endmacro %}

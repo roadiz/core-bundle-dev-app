@@ -24,10 +24,10 @@
 @import './components/rz-entity-thumbnail.css';
 @import './components/rz-tablist.css';
 @import './components/rz-tabpanel.css';
-@import './components/rz-drawer.css';
 @import './components/rz-menu-bar.css';
 @import './components/rz-popover.css';
 @import './components/rz-floating-bar.css';
+@import './components/rz-card.css';
 
 /* Components: Form */
 @import './components/rz-textarea.css';
@@ -39,3 +39,6 @@
 @import './components/rz-fieldset.css';
 @import './components/rz-markdown-editor.css';
 @import './components/rz-color-input.css';
+/* Form widgets */
+@import './components/rz-children-nodes.css';
+@import './components/rz-drawer.css';

@@ -1,6 +1,8 @@
 {% set currentTitle = source.title|default(node.nodeName) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
+{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
 
 {% block title %}{{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }} | {{ parent() }}{% endblock %}
 
@@ -16,8 +18,13 @@
             {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
 
             {% if app.debug %}
-                <span class="uk-badge uk-badge-mini">NS #{{ source.id }}</span>
+                {{ rz_badge.item(
+                    label: 'NS #' ~ source.id,
+                    size: 'sm',
+                    color: 'information'
+                ) }}
             {% endif %}
+            {{ rz_status_badge.item(node: node) }}
         </h1>
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
         {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'source'} %}
