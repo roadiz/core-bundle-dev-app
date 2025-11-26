@@ -2,6 +2,8 @@ import type { Preview } from '@storybook/html-vite'
 import customTheme from './global-theme'
 import { defineLazyElement } from '~/utils/custom-element/defineLazyElement'
 import customElementList from '~/custom-elements'
+import prettier from 'prettier/standalone'
+import prettierPluginHtml from 'prettier/plugins/html'
 import '@ungap/custom-elements' // Polyfill for Safari (not implementing the customized built-in elements)
 import 'assets/css/main.css'
 
@@ -31,11 +33,6 @@ const preview: Preview = {
         docs: {
             source: {
                 transform: async (source) => {
-                    const prettier = await import('prettier/standalone')
-                    const prettierPluginHtml = await import(
-                        'prettier/plugins/html'
-                    )
-
                     return prettier.format(source, {
                         parser: 'html',
                         plugins: [prettierPluginHtml],
