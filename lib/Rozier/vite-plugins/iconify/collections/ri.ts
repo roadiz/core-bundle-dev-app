@@ -38,6 +38,7 @@ export default [
     'save-line',
     'settings-line',
     'user-line',
+    'draggable',
     'settings-4-line',
     'checkbox-circle-line',
     'history-line',

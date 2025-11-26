@@ -67,7 +67,7 @@
 .rz-form-field__description {
     display: block;
     width: 100%;
-    margin-block: var(--spacing-6xs) 0;
+    margin-block: var(--rz-form-field-description-margin-block, var(--spacing-6xs) 0);
 
     font-family: var(--font-family-os-text);
     font-size: var(--text-form-description-md-font-size);
