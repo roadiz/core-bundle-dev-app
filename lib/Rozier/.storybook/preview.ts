@@ -33,10 +33,15 @@ const preview: Preview = {
         docs: {
             source: {
                 transform: async (source) => {
-                    return prettier.format(source, {
-                        parser: 'html',
-                        plugins: [prettierPluginHtml],
-                    })
+                    try {
+                        return prettier.format(source, {
+                            parser: 'html',
+                            plugins: [prettierPluginHtml],
+                        })
+                    } catch (error) {
+                        console.warn('Prettier formatting failed:', error)
+                        return source
+                    }
                 },
             },
         },
