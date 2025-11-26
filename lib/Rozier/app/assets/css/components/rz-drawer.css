@@ -66,6 +66,8 @@
 .rz-drawer__item {
 	--rz-drawer-item-border-radius: var(--radius-xs);
 
+	padding: initial;
+	list-style: none;
 	box-sizing: border-box;
 	position: relative;
 	isolation: isolate; /* Allow negative z-index on pseudo element without being displayed behind parent element. */
