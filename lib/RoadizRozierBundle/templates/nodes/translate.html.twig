@@ -2,6 +2,7 @@
 {% set currentTitle = node.nodeSources.first.title|default(node.nodeName) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
 
@@ -12,6 +13,7 @@
         <h1 class="content-title node-edit-title">
             {{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
             {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+            {{ rz_status_badge.item(node: node) }}
         </h1>
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
         {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": null} %}
