@@ -15,7 +15,6 @@ export class RzPopover extends HTMLElement {
 
     constructor() {
         super()
-
         this.onBeforeToggle = this.onBeforeToggle.bind(this)
     }
 
@@ -25,6 +24,7 @@ export class RzPopover extends HTMLElement {
 
     attributeChangedCallback() {
         if (!this.isFloating) return
+
         this.stopFloating()
         this.startFloating()
     }

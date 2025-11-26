@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
+import { POPOVER_PLACEMENTS } from '~/utils/popover'
 
 export type Args = {
     targetElement: {
@@ -15,21 +16,6 @@ export type Args = {
     popoverOffset?: number
     popoverShift?: number
 }
-
-const POPOVER_PLACEMENT = [
-    'top',
-    'right',
-    'bottom',
-    'left',
-    'top-start',
-    'top-end',
-    'right-start',
-    'right-end',
-    'bottom-start',
-    'bottom-end',
-    'left-start',
-    'left-end',
-]
 
 const meta: Meta<Args> = {
     title: 'Components/Popover',
@@ -52,7 +38,7 @@ const meta: Meta<Args> = {
     argTypes: {
         popoverPlacement: {
             control: { type: 'select' },
-            options: POPOVER_PLACEMENT,
+            options: POPOVER_PLACEMENTS,
         },
     },
 }

@@ -1,0 +1,9 @@
+:where(rz-tooltip, .rz-tooltip) {
+	box-sizing: border-box;
+
+	[popover] {
+		position: absolute;
+		inset: initial;
+		margin: 0;
+	}
+}
