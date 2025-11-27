@@ -15,6 +15,10 @@
 	border: 1PX solid var(--form-basic-border, #DADADA);
 	background-color: var(--surface-light-secondary, #F8F8F8);
 
+	&:where(ul) {
+		list-style: none;
+		margin: 0;
+	}
 
 	.rz-drawer--grid &,
 	.rz-drawer--grid-larger & {

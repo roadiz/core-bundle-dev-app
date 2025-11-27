@@ -8,6 +8,7 @@ import { type BadgeArgs } from '../../../../stories/RzBadge.stories'
 export const COMPONENT_CLASS_NAME = 'rz-card'
 
 export type Args = {
+    tag?: string
     overtitle?: string
     title?: string
     image?: Image
@@ -20,7 +21,7 @@ export function rzCardRenderer(
     args: Args,
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement(args.tag || 'div')
     wrapper.classList.add(itemClass)
 
     if (args.overtitle) {
