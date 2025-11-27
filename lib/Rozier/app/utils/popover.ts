@@ -57,6 +57,7 @@ export class Popover {
     }
 
     init() {
+        if (!this.targetElement || !this.floatingElement) return
         this.isFloating = true
 
         this.cleanupAutoUpdate = autoUpdate(
@@ -113,6 +114,8 @@ export class Popover {
     }
 
     private async updatePosition() {
+        if (!this.targetElement || !this.floatingElement) return
+
         const { x, y } = await computePosition(
             this.targetElement,
             this.floatingElement,
