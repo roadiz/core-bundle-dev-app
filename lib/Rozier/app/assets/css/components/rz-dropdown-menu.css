@@ -15,6 +15,12 @@
 	background-color: var(--rz-dropdown-menu-border-color, var(--rz-dropdown-menu-border-color-fallback));
 }
 
+.rz-dropdown-menu--open,
+.rz-dropdown-menu:popover-open {
+	display: flex;
+	flex-direction: column;
+}
+
 .rz-dropdown-menu:has(.rz-dropdown-menu__info-list),
 .rz-dropdown-menu--head-extended {
 	--rz-dropdown-menu-head-background-color: var(--surface-light-tertiary, #F2F2F2);
@@ -24,8 +30,6 @@
 }
 
 .rz-dropdown-menu--reverse {
-	display: flex;
-	flex-direction: column;
 
 	.rz-dropdown-menu__head {
 		order: 2;

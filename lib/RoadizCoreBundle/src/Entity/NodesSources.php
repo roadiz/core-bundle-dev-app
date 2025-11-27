@@ -514,6 +514,14 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         return '#000000';
     }
 
+    #[SymfonySerializer\Groups(['nodes_sources_published'])]
+    public function isPublished(): bool
+    {
+        return $this->getNode()->isPublished()
+            && null !== $this->getPublishedAt()
+            && $this->getPublishedAt() <= new \DateTime();
+    }
+
     /**
      * Overridden in NS classes.
      */
