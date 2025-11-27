@@ -28,7 +28,7 @@ set listItems = [
         } : null,
     ],
     [
-        is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') ? {
+        is_granted('USER_VIEW_HISTORY') ? {
             'name': 'history',
             'label': 'user.history',
             'href': path('historyUserPage', { userId: user.getId }),
