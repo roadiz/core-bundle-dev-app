@@ -1,11 +1,16 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% block title %}{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
     <header class="content-header content-header-filters manage-history-header">
-        <h1 class="content-title manage-history-title">{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }}</h1>
+        <h1 class="content-title node-edit-source-title">
+            {{ "history.for.%name%"|trans({"%name%":node.nodeName}) }}
+            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+            {{ rz_status_badge.item(node: node) }}
+        </h1>
         {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
 
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
