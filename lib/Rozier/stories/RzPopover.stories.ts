@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
-import { POPOVER_PLACEMENTS } from '~/utils/popover'
+import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/popover'
 
 export type Args = {
     targetElement: {
@@ -48,14 +48,26 @@ type Story = StoryObj<Args>
 
 function rzPopoverRenderer(args: Args) {
     const popover = document.createElement('rz-popover')
+
     if (args.popoverPlacement) {
-        popover.setAttribute('popover-placement', args.popoverPlacement)
+        popover.setAttribute(
+            ATTRIBUTES_OPTIONS_MAP.placement,
+            args.popoverPlacement,
+        )
     }
+
     if (args.popoverOffset) {
-        popover.setAttribute('popover-offset', args.popoverOffset.toString())
+        popover.setAttribute(
+            ATTRIBUTES_OPTIONS_MAP.offset,
+            args.popoverOffset.toString(),
+        )
     }
+
     if (args.popoverShift) {
-        popover.setAttribute('popover-shift', args.popoverShift.toString())
+        popover.setAttribute(
+            ATTRIBUTES_OPTIONS_MAP.shift,
+            args.popoverShift.toString(),
+        )
     }
 
     const target = document.createElement(args.targetElement.tag || 'button')

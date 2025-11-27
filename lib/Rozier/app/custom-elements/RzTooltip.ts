@@ -1,11 +1,13 @@
 import {
     Popover,
-    type PopoverOptions,
     ATTRIBUTES_OPTIONS,
+    ATTRIBUTES_OPTIONS_MAP,
 } from '~/utils/popover'
 import type { Placement } from '@floating-ui/dom'
 
 export class RzTooltip extends HTMLElement {
+    targetElement: HTMLElement | null = null
+    tooltipElement: HTMLElement | null = null
     floatingInstance: Popover | null = null
 
     constructor() {
@@ -19,106 +21,91 @@ export class RzTooltip extends HTMLElement {
         return [...ATTRIBUTES_OPTIONS]
     }
 
-    attributeChangedCallback(name: string) {
-        if (!this.floatingInstance) return
-
-        if (name === 'data-popover-shift') {
-            this.floatingInstance.shift = parseInt(
-                this.getAttribute('data-popover-shift') || '0',
-                10,
-            )
-        }
-        if (name === 'data-popover-offset') {
-            this.floatingInstance.offset = parseInt(
-                this.getAttribute('data-popover-offset') || '0',
-                10,
-            )
-        }
-        if (name === 'data-popover-placement') {
-            this.floatingInstance.placement =
-                (this.getAttribute('data-popover-placement') as Placement) ||
-                'top'
-        }
-        console.log('RzTooltip attributeChangedCallback', this.floatingInstance)
-    }
-
-    getTargetElement() {
-        return this.floatingInstance?.targetElement
-    }
-
-    getFloatingElement() {
-        return this.floatingInstance?.floatingElement
+    attributeChangedCallback() {
+        if (!this.floatingInstance || !this.targetElement) return
+        this.floatingInstance.clear()
+        this.floatingInstance.updateAttributesOptions(this.targetElement)
     }
 
     showTooltip() {
         this.floatingInstance?.init()
-        this.getFloatingElement()?.showPopover()
+        // Manually show the popover for native popover behavior
+        this.tooltipElement?.showPopover()
     }
 
     hideTooltip() {
         this.floatingInstance?.clear()
-        this.getFloatingElement()?.hidePopover()
+        this.tooltipElement?.hidePopover()
     }
 
-    getPopoverOptions() {
-        const options: PopoverOptions = {
-            placement: this.getAttribute('data-popover-placement') as Placement,
-            offset:
-                Number(this.getAttribute('data-popover-offset')) || undefined,
-            shift: Number(this.getAttribute('data-popover-shift')) || undefined,
-        }
+    createPopoverContent(rawTextContent: string) {
+        const generatedTooltip = document.createElement('div')
+        generatedTooltip.classList.add('rz-tooltip__content')
+        generatedTooltip.setAttribute('popover', 'hint')
+        generatedTooltip.setAttribute('role', 'tooltip')
+        generatedTooltip.textContent = rawTextContent
+        return generatedTooltip
+    }
 
-        // If data-popover-text is set, create tooltip element dynamically
-        const rawTextContent = this.getAttribute('data-popover-text')
+    initPopoverElements() {
+        const targetElement =
+            this.querySelector('button[popovertarget]') || this
 
-        if (rawTextContent) {
-            const generatedTooltip = document.createElement('div')
-            generatedTooltip.setAttribute('popover', 'hint')
-            generatedTooltip.textContent = rawTextContent
-            this.appendChild(generatedTooltip)
-
-            Object.assign(options, {
-                targetElement: this,
-                floatingElement: generatedTooltip,
-            })
-        } else {
-            // Otherwise, expect the user to provide the tooltip element in the DOM with dedicated popover api attributes
-            Object.assign(options, {
-                targetElement: this.querySelector('[popovertarget]'),
-                floatingElement: this.querySelector('[popover]'),
-            })
+        if (targetElement instanceof HTMLElement) {
+            this.targetElement = targetElement
         }
 
         if (
-            options.targetElement instanceof HTMLElement === false ||
-            options.floatingElement instanceof HTMLElement === false
+            targetElement instanceof HTMLButtonElement === false &&
+            !targetElement.hasAttribute('tabindex')
         ) {
-            console.error(
-                'RzTooltip: Missing target or tooltip element for tooltip',
-            )
-            return
+            this.targetElement.setAttribute('tabindex', '0')
         }
 
-        return options
+        // If data-popover-text is set, create tooltip element dynamically
+        const tooltipElement = this.querySelector('[popover]')
+        const rawTextContent = this.getAttribute('data-popover-text')
+
+        if (tooltipElement instanceof HTMLElement) {
+            this.tooltipElement = tooltipElement
+        } else if (rawTextContent) {
+            const generatedTooltip = this.createPopoverContent(rawTextContent)
+            targetElement.appendChild(generatedTooltip)
+            this.tooltipElement = generatedTooltip
+        }
     }
 
     connectedCallback() {
-        const options = this.getPopoverOptions()
-        if (!options) return
+        this.initPopoverElements()
 
-        this.floatingInstance = new Popover(options)
+        if (!this.targetElement || !this.tooltipElement) return
 
-        const targetElement = this.getTargetElement()
-        targetElement?.addEventListener('mouseenter', this.showTooltip)
-        targetElement?.addEventListener('mouseleave', this.hideTooltip)
+        this.floatingInstance = new Popover({
+            targetElement: this.targetElement,
+            floatingElement: this.tooltipElement,
+            shift: this.targetElement?.getAttribute(
+                ATTRIBUTES_OPTIONS_MAP.shift,
+            ),
+            offset: this.targetElement?.getAttribute(
+                ATTRIBUTES_OPTIONS_MAP.offset,
+            ),
+            placement:
+                (this.targetElement?.getAttribute(
+                    ATTRIBUTES_OPTIONS_MAP.placement,
+                ) as Placement) || 'top',
+        })
+
+        this.targetElement.addEventListener('mouseenter', this.showTooltip)
+        this.targetElement.addEventListener('focus', this.showTooltip)
+        this.targetElement.addEventListener('mouseleave', this.hideTooltip)
+        this.targetElement.addEventListener('blur', this.hideTooltip)
     }
 
     disconnectedCallback() {
-        console.log('RzTooltip disconnected from the DOM', this)
-        const targetElement = this.getTargetElement()
-
-        targetElement?.removeEventListener('mouseenter', this.showTooltip)
-        targetElement?.removeEventListener('mouseleave', this.hideTooltip)
+        this.targetElement?.removeEventListener('mouseenter', this.showTooltip)
+        this.targetElement?.removeEventListener('focus', this.showTooltip)
+        this.targetElement?.removeEventListener('mouseleave', this.hideTooltip)
+        this.targetElement?.removeEventListener('blur', this.hideTooltip)
 
         this.floatingInstance?.clear()
         this.floatingInstance = null

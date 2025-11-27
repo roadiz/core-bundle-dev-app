@@ -22,24 +22,20 @@ export const POPOVER_PLACEMENTS: Placement[] = [
     'left-end',
 ]
 
-export const ATTRIBUTES_OPTIONS = [
-    'data-popover-position',
-    'data-popover-offset',
-    'data-popover-shift',
-]
+export const ATTRIBUTES_OPTIONS_MAP = {
+    placement: 'data-popover-placement',
+    offset: 'data-popover-offset',
+    shift: 'data-popover-shift',
+} as const
 
-// export const ATTRIBUTES_OPTIONS_MAP = {
-//     position: 'data-popover-position',
-//     offset: 'data-popover-offset',
-//     shift: 'data-popover-shift',
-// }
+export const ATTRIBUTES_OPTIONS = Object.values(ATTRIBUTES_OPTIONS_MAP)
 
 export type PopoverOptions = {
     targetElement?: HTMLElement | null
     floatingElement?: HTMLElement | null
     placement?: Placement
-    offset?: number
-    shift?: number
+    offset?: string | number
+    shift?: string | number
 }
 
 export class Popover {
@@ -56,8 +52,8 @@ export class Popover {
         this.targetElement = options.targetElement || null
         this.floatingElement = options.floatingElement || null
         this.placement = options.placement || 'bottom-start'
-        this.offset = options.offset || 0
-        this.shift = options.shift || 0
+        this.offset = Number(options.offset) || 0
+        this.shift = Number(options.shift) || 0
     }
 
     init() {
@@ -79,18 +75,41 @@ export class Popover {
     }
 
     toggle() {
-        if (this.cleanupAutoUpdate) {
+        if (this.isFloating) {
             this.clear()
         } else {
             this.init()
         }
     }
 
-    reset() {
-        if (!this.isFloating) return
+    getAttributesOptions(element: HTMLElement | undefined) {
+        const shift = element?.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift)
+        const offset = element?.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset)
+        const placement = element?.getAttribute(
+            ATTRIBUTES_OPTIONS_MAP.placement,
+        ) as Placement
 
-        this.clear()
-        this.init()
+        return {
+            placement: placement || this.placement,
+            offset: offset ? parseInt(offset) : this.offset,
+            shift: shift ? parseInt(shift) : this.shift,
+        }
+    }
+
+    updateAttributesOptions(element: HTMLElement) {
+        const { offset, placement, shift } = this.getAttributesOptions(element)
+
+        if (this.placement !== placement) {
+            this.placement = placement
+        }
+
+        if (this.offset !== offset) {
+            this.offset = offset
+        }
+
+        if (this.shift !== shift) {
+            this.shift = shift
+        }
     }
 
     private async updatePosition() {
