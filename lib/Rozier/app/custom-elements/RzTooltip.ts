@@ -51,9 +51,8 @@ export class RzTooltip extends HTMLElement {
         const targetElement =
             this.querySelector('button[popovertarget]') || this
 
-        if (targetElement instanceof HTMLElement) {
-            this.targetElement = targetElement
-        }
+        if (!targetElement) return
+        this.targetElement = targetElement as HTMLElement
 
         if (
             targetElement instanceof HTMLButtonElement === false &&
