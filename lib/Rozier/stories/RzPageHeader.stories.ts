@@ -175,7 +175,7 @@ export const Default: Story = {
 export const Item: Story = {
     render: (args) => {
         args.rows.forEach((row) => {
-            return row.map((el) => {
+            return row.forEach((el) => {
                 el.className = args.itemClass || ''
             })
         })
