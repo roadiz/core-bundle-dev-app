@@ -1,38 +1,44 @@
-{% import "@RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
+{%
+set listItems = [
+    [
+        {
+            'name': 'customForm',
+            'label': 'custom-form.parameters',
+            'href': path('customFormsEditPage', { id: type.id }),
+        },
+        {
+            'name': 'usage',
+            'label': 'custom-form.usage',
+            'href': path('customFormsUsagePage', { id: type.id }),
+        },
+        {
+            'name': 'customFormFields',
+            'label': 'custom-form.fields',
+            'href': path('customFormFieldsListPage', { customFormId: type.id }),
+        },
+        {
+            'name': 'customFormAnswers',
+            'label': 'custom-form.answers',
+            'href': path('customFormAnswersHomePage', { customFormId: type.id }),
+        },
+    ],
+    [
+        {
+            'name': 'customForm.show',
+            'href': path('customFormSendAction', { customFormId: type.id }),
+            'icon': 'rz-icon-ri--eye-line',
+            'target': '_blank',
+            'iconOnly': true,
+        },
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
 
-<nav class="rz-menu-bar">
-    <ul class="rz-menu-bar__inner">
-        {{ rz_menu_bar.item(
-            name: 'customForm',
-            label: 'custom-form.parameters',
-            href: path('customFormsEditPage', { id: type.id }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'usage',
-            label: 'custom-form.usage',
-            href: path('customFormsUsagePage', { id: type.id }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'customFormFields',
-            label: 'custom-form.fields',
-            href: path('customFormFieldsListPage', { customFormId: type.id }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'customFormAnswers',
-            label: 'custom-form.answers',
-            href: path('customFormAnswersHomePage', { customFormId: type.id }),
-            current: current
-        ) }}
-        <li class="rz-menu-bar__separator"></li>
-        {{ rz_menu_bar.item(
-            name: 'customForm.show',
-            href: path('customFormSendAction', { customFormId: type.id }),
-            icon: 'rz-icon-ri--eye-line',
-            target: '_blank',
-            iconOnly: true,
-        ) }}
-    </ul>
-</nav>
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

@@ -1,19 +1,26 @@
-{% import "@RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
-<nav class="rz-menu-bar">
-    <ul class="rz-menu-bar__inner">
-        {{ rz_menu_bar.item(
-            name: 'dashboard',
-            label: 'dashboard',
-            href: path('adminHomePage'),
-            current: current
-        ) }}
-        {% if is_granted('ROLE_ACCESS_LOGS') %}
-            {{ rz_menu_bar.item(
-                name: 'history',
-                label: 'history',
-                href: path('historyHomePage'),
-                current: current
-            ) }}
-        {% endif %}
-    </ul>
-</nav>
+{%
+    set listItems = [
+    [
+        {
+            'name': 'dashboard',
+            'label': 'dashboard',
+            'href': path('adminHomePage'),
+        },
+        is_granted('ROLE_ACCESS_LOGS') ? {
+            'name': 'history',
+            'label': 'history',
+            'href': path('historyHomePage'),
+        } : null,
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}
+

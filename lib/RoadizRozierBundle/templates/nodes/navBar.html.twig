@@ -47,8 +47,9 @@
                 ) }}
             {% endblock %}
         {%- endif -%}
-        {% if is_granted('READ', node) or is_granted('EDIT_REALMS', node) or is_granted('READ_LOGS', node) %}
-            <li class="rz-menu-bar__separator"></li>
+    </ul>
+    {% if is_granted('READ', node) or is_granted('EDIT_REALMS', node) or is_granted('READ_LOGS', node) %}
+        <ul class="rz-menu-bar__inner">
             {% if is_granted('READ', node) %}
                 {{ rz_menu_bar.item(
                     name: 'tree',
@@ -79,7 +80,11 @@
                     iconOnly: true,
                 ) }}
             {% endif %}
-        {% endif %}
-        {% block additional_entries %}{% endblock %}
-    </ul>
+        </ul>
+    {% endif %}
+    {% if block('additional_entries')|trim %}
+        <ul class="rz-menu-bar__inner">
+            {% block additional_entries %}{% endblock %}
+        </ul>
+    {% endif %}
 </nav>

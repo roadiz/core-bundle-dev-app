@@ -1,41 +1,45 @@
-{% import "@RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
 {% set tTag = tag.getTranslatedTags.first %}
-<nav class="rz-menu-bar">
-    <ul class="rz-menu-bar__inner">
-        {% if tag.getChildren|length %}
-            {{ rz_menu_bar.item(
-                name: 'tree',
-                label: 'tag.tree',
-                href: path('tagsTreePage', { tagId: tag.getId }),
-                current: current,
-                icon: 'rz-icon-ri--node-tree',
-                iconOnly: true,
-            ) }}
-            <li class="rz-menu-bar__separator"></li>
-        {% endif %}
-        {{ rz_menu_bar.item(
-            name: 'edit',
-            label: 'tag.content',
-            href: path('tagsEditTranslatedPage', { tagId: tag.getId, translationId: tTag.getTranslation.getId }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'settings',
-            label: 'tag.settings',
-            href: path('tagsSettingsPage', { tagId: tag.getId }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'nodes',
-            label: 'tag.nodes',
-            href: path('tagsEditNodesPage', { tagId: tag.getId }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'add-multiple',
-            label: 'add.tags',
-            href: path('tagsAddMultipleChildPage', { parentTagId: tag.getId }),
-            current: current
-        ) }}
-    </ul>
-</nav>
+{%
+set listItems = [
+    [
+        tag.getChildren|length ? {
+            'name': 'tree',
+            'label': 'tag.tree',
+            'href': path('tagsTreePage', { tagId: tag.getId }),
+            'icon': 'rz-icon-ri--node-tree',
+            'iconOnly': true,
+        } : null,
+    ],
+    [
+        {
+            'name': 'edit',
+            'label': 'tag.content',
+            'href': path('tagsEditTranslatedPage', { tagId: tag.getId, translationId: tTag.getTranslation.getId }),
+        },
+        {
+            'name': 'settings',
+            'label': 'tag.settings',
+            'href': path('tagsSettingsPage', { tagId: tag.getId }),
+        },
+        {
+            'name': 'nodes',
+            'label': 'tag.nodes',
+            'href': path('tagsEditNodesPage', { tagId: tag.getId }),
+        },
+        {
+            'name': 'add-multiple',
+            'label': 'add.tags',
+            'href': path('tagsAddMultipleChildPage', { parentTagId: tag.getId }),
+        },
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

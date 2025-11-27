@@ -1,53 +1,49 @@
-{% import "@RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
+{%
+set listItems = [
+    [
+        is_granted('USER_EDIT', user) ? {
+            'name': 'edit',
+            'label': 'user.edit',
+            'href': path('usersEditPage', { id: user.getId }),
+        } : null,
+        is_granted('USER_EDIT_DETAIL', user) ? {
+            'name': 'edit_details',
+            'label': 'user.edit_details',
+            'href': path('usersEditDetailsPage', { id: user.getId }),
+        } : null,
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'security',
+            'label': 'user.security',
+            'href': path('usersSecurityPage', { userId: user.getId }),
+        } : null,
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'roles',
+            'label': 'user.roles',
+            'href': path('usersEditRolesPage', { userId: user.getId }),
+        } : null,
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'groups',
+            'label': 'user.groups',
+            'href': path('usersEditGroupsPage', { userId: user.getId }),
+        } : null,
+    ],
+    [
+        is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') ? {
+            'name': 'history',
+            'label': 'user.history',
+            'href': path('historyUserPage', { userId: user.getId }),
+            'icon': 'rz-icon-ri--history-line',
+            'iconOnly': true,
+        } : null,
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
 
-<nav class="rz-menu-bar">
-    <ul class="rz-menu-bar__inner">
-        {% if is_granted('USER_EDIT', user) %}
-            {{ rz_menu_bar.item(
-                name: 'edit',
-                label: 'user.edit',
-                href: path('usersEditPage', { id: user.getId }),
-                current: current
-            ) }}
-        {% endif %}
-        {% if is_granted('USER_EDIT_DETAIL', user) %}
-            {{ rz_menu_bar.item(
-                name: 'edit_details',
-                label: 'user.edit_details',
-                href: path('usersEditDetailsPage', { id: user.getId }),
-                current: current
-            ) }}
-        {% endif %}
-        {% if is_granted('ROLE_ACCESS_USERS') %}
-            {{ rz_menu_bar.item(
-                name: 'security',
-                label: 'user.security',
-                href: path('usersSecurityPage', { userId: user.getId }),
-                current: current
-            ) }}
-            {{ rz_menu_bar.item(
-                name: 'roles',
-                label: 'user.roles',
-                href: path('usersEditRolesPage', { userId: user.getId }),
-                current: current
-            ) }}
-            {{ rz_menu_bar.item(
-                name: 'groups',
-                label: 'user.groups',
-                href: path('usersEditGroupsPage', { userId: user.getId }),
-                current: current
-            ) }}
-        {% endif %}
-        {% if is_granted('USER_VIEW_HISTORY', user) %}
-            <li class="rz-menu-bar__separator"></li>
-            {{ rz_menu_bar.item(
-                name: 'history',
-                label: 'user.history',
-                href: path('historyUserPage', { userId: user.getId }),
-                current: current,
-                icon: 'rz-icon-ri--history-line',
-                iconOnly: true,
-            ) }}
-        {% endif %}
-    </ul>
-</nav>
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

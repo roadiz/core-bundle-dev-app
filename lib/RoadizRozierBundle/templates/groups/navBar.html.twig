@@ -1,23 +1,30 @@
-{% import "@RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
-<nav class="rz-menu-bar">
-    <ul class="rz-menu-bar__inner">
-        {{ rz_menu_bar.item(
-            name: 'edit',
-            label: 'group.edit',
-            href: path('groupsEditPage', { id: item.id }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'roles',
-            label: 'group.roles',
-            href: path('groupsEditRolesPage', { id: item.id }),
-            current: current
-        ) }}
-        {{ rz_menu_bar.item(
-            name: 'users',
-            label: 'group.users',
-            href: path('groupsEditUsersPage', { id: item.id }),
-            current: current
-        ) }}
-    </ul>
-</nav>
+{%
+    set listItems = [
+    [
+        {
+            'name': 'edit',
+            'label': 'group.edit',
+            'href': path('groupsEditPage', { id: item.id }),
+        },
+        {
+            'name': 'roles',
+            'label': 'group.roles',
+            'href': path('groupsEditRolesPage', { id: item.id }),
+        },
+        {
+            'name': 'users',
+            'label': 'group.users',
+            'href': path('groupsEditUsersPage', { id: item.id }),
+        }
+    ],
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}
