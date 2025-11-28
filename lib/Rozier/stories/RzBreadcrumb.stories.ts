@@ -6,16 +6,19 @@ type BreadcrumbItem = {
     innerText?: string
     attributes?: Record<string, string>
     children?: BreadcrumbItem[]
+    id?: string
 }
 
 type Args = {
     items: BreadcrumbItem[]
+    ariaLabel: string
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Breadcrumb',
     tags: ['autodocs'],
     args: {
+        ariaLabel: "Fil d'arianne principal",
         items: [
             { innerText: 'Home', attributes: { href: '#' } },
             { innerText: 'Category', attributes: { href: '#' } },
@@ -34,7 +37,7 @@ type Story = StoryObj<Args>
 function itemRenderer(item: BreadcrumbItem) {
     const link = document.createElement(item.attributes?.href ? 'a' : 'span')
     link.classList.add(`${COMPONENT_CLASS_NAME}__item`)
-    link.innerText = item.innerText
+    link.innerText = item.innerText || ''
 
     if (item.attributes) {
         for (const [key, value] of Object.entries(item.attributes)) {
@@ -47,7 +50,7 @@ function itemRenderer(item: BreadcrumbItem) {
 function rzBreadcrumbRenderer(args: Args) {
     const nav = document.createElement('nav')
     nav.classList.add(COMPONENT_CLASS_NAME)
-    nav.setAttribute('aria-label', "Fil d'arianne principal")
+    nav.setAttribute('aria-label', args.ariaLabel)
 
     const ol = document.createElement('ol')
     ol.classList.add(`${COMPONENT_CLASS_NAME}__list`)
@@ -64,7 +67,7 @@ function rzBreadcrumbRenderer(args: Args) {
             popover.setAttribute('data-popover-offset', '12px')
             popover.classList.add(`${COMPONENT_CLASS_NAME}__dropdown`)
 
-            const listId = 'popover-1'
+            const listId = item.id || 'popover-1'
             const target = document.createElement('button')
             target.classList.add('rz-button', 'rz-button--xs')
             target.innerHTML =
@@ -109,6 +112,7 @@ export const WithPopover: Story = {
             { innerText: 'Category', attributes: { href: '#' } },
             { innerText: 'Subcategory', attributes: { href: '#' } },
             {
+                id: 'more-children-hidden',
                 children: [
                     { innerText: 'Hidden item 1', attributes: { href: '#' } },
                     { innerText: 'Hidden item 2', attributes: { href: '#' } },
