@@ -22,6 +22,7 @@ export type Args = {
     borderColor?: string
     items: (Item | Item[])[]
     footerContent?: string
+    isOpen?: boolean
 }
 
 const DEFAULT_ITEM: Item = {
@@ -46,6 +47,7 @@ const meta: Meta<Args> = {
     args: {
         title: 'Menu title',
         borderColor: '',
+        isOpen: true,
         reverse: false,
         displayHeadElements: true,
         headElements: [
@@ -151,6 +153,9 @@ function rzDropdownBodyRenderer(items: Item[]) {
 function rzDropdownMenuRenderer(args: Args) {
     const wrapper = document.createElement('div')
     wrapper.className = COMPONENT_CLASS_NAME
+    if (args.isOpen) {
+        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--open`)
+    }
     if (args.reverse) {
         wrapper.classList.add(`${COMPONENT_CLASS_NAME}--reverse`)
     }
@@ -273,6 +278,7 @@ export const WithPopover: Story = {
         return popover
     },
     args: {
+        isOpen: false,
         borderColor: 'blue',
         items: [
             [

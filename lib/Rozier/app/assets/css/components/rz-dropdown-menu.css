@@ -4,6 +4,7 @@
 	--rz-dropdown-menu-large-border: 6PX;
 
 	position: relative;
+	display: var(--rz-dropdown-display, none);
 	box-sizing: border-box;
 	min-width: var(--rz-dropdown-min-width, 194px);
 	margin: initial;
@@ -17,7 +18,7 @@
 
 .rz-dropdown-menu--open,
 .rz-dropdown-menu:popover-open {
-	display: flex;
+	--rz-dropdown-display: flex;
 	flex-direction: column;
 }
 
@@ -148,6 +149,10 @@
 			background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
 		}
 	}
+}
+
+.rz-dropdown-menu__button--selected {
+	background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
 }
 
 .rz-dropdown-menu__button__icon {
