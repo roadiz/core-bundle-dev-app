@@ -15,15 +15,53 @@
         background-color: var(--line-on-light-secondary, #DADADA);
         z-index: -1;
     }
+
+    ul {
+        margin: initial;
+    }
+
+    li {
+        list-style: none;
+    }
 }
 
-.rz-menu-bar__inner {
+.rz-menu-bar__list {
     display: flex;
     gap: var(--spacing-6xs);
     align-items: center;
     padding: var(--spacing-6xs);
     background-color: var(--tab-container-bg-on-light, #F2F2F2);
-    border-radius: var(--radius-sm);
+    border-radius: var(--rz-menu-bar-list-border-radius);
+
+    /* Adapt border-radius and separator based on position when multiple lists are present */
+    &:first-child:last-child {
+        --rz-menu-bar-list-border-radius: var(--radius-sm);
+    }
+
+    .rz-menu-bar:has(& + &) &:first-child {
+        --rz-menu-bar-list-border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    }
+
+    .rz-menu-bar:has(& + &) &:last-child {
+        --rz-menu-bar-list-border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .rz-menu-bar:has(& + &) &:not(:last-child) {
+        padding-right: 0px;
+    }
+
+    .rz-menu-bar:has(& + &) &:not(:first-child) {
+        padding-left: 6px;
+    }
+
+    .rz-menu-bar:has(& + &) &:not(:last-child)::after {
+        content: '';
+        position: relative;
+        height: 20px;
+        width: 1PX;
+        margin-left: 2px;
+        border-left: var(--line-on-light-secondary, #DADADA) solid 1PX;
+    }
 }
 
 .rz-menu-bar__separator {
