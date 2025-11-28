@@ -47,12 +47,8 @@
         {{ form_start(form, { attr: {id: 'edit-tag-form'}}) }}
         {{ form_widget(form) }}
         {% if not readOnly %}
-        <fieldset data-uk-margin>
-            <button is="rz-save-button" data-action-save="#edit-tag-form" class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
-        </fieldset>
+            {% import "@RoadizRozier/macros/rz_floating_bar.html.twig" as floating_bar  %}
+            {{ floating_bar.saveItem('#edit-tag-form') }}
         {% endif %}
         {{ form_end(form) }}
     </tag-edit-page>

@@ -1,15 +1,21 @@
-{% apply spaceless %}
-<nav data-action-menu class="actions-menu uk-navbar">
-    {% if item.id %}
-    <a class="uk-button rz-no-ajax-link" href="{{ path('fontsDownloadPage', { id: item.id }) }}">
-        <span class="icon-container"><i class="uk-icon-rz-download"></i></span>
-        <span class="label"><span class="label-text">{% trans %}download{% endtrans %}</span></span>
-    </a>
-    {# Delete current node #}
-    <a class="uk-button uk-button-danger" href="{{ path('fontsDeletePage', { id: item.id}) }}">
-        <span class="icon-container"><i class="uk-icon-rz-trash-mini-o"></i></span>
-        <span class="label"><span class="label-text">{% trans %}delete{% endtrans %}</span></span>
-    </a>
-    {% endif %}
-</nav>
-{% endapply %}
+{% embed "@RoadizRozier/macros/rz_floating_bar.html.twig" with {
+    vertical: true,
+    class: 'actions-menu'
+} %}
+    {% block items %}
+        {% if item.id %}
+            {{ _self.item(
+                label: 'download',
+                class: 'rz-button--tertiary',
+                href: path('fontsDownloadPage', { id: item.id }),
+                icon: 'rz-icon-ri--download-cloud-2-line'
+            ) }}
+            {{ _self.item(
+                label: 'delete',
+                class: 'rz-button--error',
+                href: path('fontsDeletePage', { id: item.id}),
+                icon: 'rz-icon-ri--delete-bin-7-line'
+            ) }}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

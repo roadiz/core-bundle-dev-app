@@ -13,3 +13,28 @@
         {% endif %}
     {% endif %}
 </nav>
+
+{% embed "@RoadizRozier/macros/rz_floating_bar.html.twig" with {
+    vertical: true,
+    class: 'actions-menu'
+} %}
+    {% block items %}
+        {% if folder.getId %}
+            {{ _self.item(
+                label: 'download',
+                class: 'rz-button--tertiary',
+                href: path('foldersDownloadPage', { folderId: folder.getId }),
+                icon: 'rz-icon-ri--download-line'
+            ) }}
+
+            {% if not folder.Locked %}
+                {{ _self.item(
+                    label: 'delete.folder',
+                    class: 'rz-button--error',
+                    href: path('foldersDeletePage', { folderId: folder.getId }),
+                    icon: 'rz-icon-ri--delete-bin-7-line'
+                ) }}
+            {% endif  %}
+        {% endif %}
+    {% endblock %}
+{% endembed %}
