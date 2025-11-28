@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { getRootCssVarsByGroups } from './getCssVars'
+import { getRootCssVarsByGroups } from '~/utils/storybook/getCssVars'
 
 const meta: Meta = {
     title: 'Integration/Colors',
