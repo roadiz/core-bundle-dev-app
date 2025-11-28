@@ -25,9 +25,9 @@ export class Tooltip {
 
     createTargetElement() {
         const targetElement = document.createElement('button')
-        targetElement.style.all = 'unset'
         targetElement.classList.add('rz-tooltip__target')
         targetElement.innerHTML = this.context.innerHTML
+
         return targetElement
     }
 
@@ -57,6 +57,10 @@ export class Tooltip {
 
         if (!targetElement) {
             targetElement = this.createTargetElement()
+            if (this.context.className) {
+                targetElement.classList.add(this.context.className)
+                this.context.className = ''
+            }
             targetElement.setAttribute('popovertarget', popoverId)
             this.context.innerHTML = targetElement.outerHTML
         }

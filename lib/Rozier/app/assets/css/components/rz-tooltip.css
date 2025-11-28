@@ -2,6 +2,11 @@
 	box-sizing: border-box;
 }
 
+/* Undo default button style for generated tooltip target */
+:where(rz-tooltip [popovertarget], .rz-tooltip [popovertarget])  {
+	all: unset;
+}
+
 :where(rz-tooltip, .rz-tooltip) [popover="hint"],
 .rz-tooltip__content {
 	position: absolute;
