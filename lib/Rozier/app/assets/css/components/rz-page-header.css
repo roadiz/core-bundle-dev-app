@@ -28,10 +28,10 @@
 	}
 }
 
-.rz-page-header__item-grow {
+.rz-page-header__item--grow {
 	flex-grow: 1;
 }
 
-.rz-page-header__item-right {
+.rz-page-header__item--right {
 	margin-left: auto;
 }

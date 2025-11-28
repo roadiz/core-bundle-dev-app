@@ -11,8 +11,8 @@ type HeaderElement = {
 
 const ITEM_CLASSES = [
     'rz-page-header__item',
-    'rz-page-header__item-grow',
-    'rz-page-header__item-right',
+    'rz-page-header__item--grow',
+    'rz-page-header__item--right',
 ]
 
 const COMPONENT_CLASS_NAME = 'rz-page-header'
@@ -53,7 +53,7 @@ const meta: Meta<Args> = {
                 },
                 {
                     tag: 'nav',
-                    className: 'rz-page-header__item-grow',
+                    className: 'rz-page-header__item--grow',
                     children: [
                         {
                             tag: 'ol',
@@ -96,7 +96,7 @@ const meta: Meta<Args> = {
                 {
                     tag: 'div',
                     className:
-                        'rz-page-header__item-right rz-badge rz-badge--warning',
+                        'rz-page-header__item--right rz-badge rz-badge--warning',
                     innerHTML:
                         '<span class="rz-badge__icon rz-icon-rz--status-draft-fill"></span><span class="rz-badge__label">Draft</span>',
                 },
@@ -172,6 +172,9 @@ export const Default: Story = {
     },
 }
 
+/**
+ * Example of different item classes to adjust their behavior.
+ */
 export const Item: Story = {
     render: (args) => {
         args.rows.forEach((row) => {
@@ -179,7 +182,9 @@ export const Item: Story = {
                 el.className = args.itemClass || ''
             })
         })
-        return rzPageHeaderRenderer(args)
+        const el = rzPageHeaderRenderer(args)
+        el.style.border = '1px solid #000000ff'
+        return el
     },
     args: {
         rows: [
@@ -188,7 +193,7 @@ export const Item: Story = {
                     tag: 'div',
                     innerText: 'Single Item',
                     attributes: {
-                        style: 'background-color: #e0e0e0; padding: 1rem;',
+                        style: 'background-color: #ddddddff; padding: 1rem;',
                     },
                 },
             ],
