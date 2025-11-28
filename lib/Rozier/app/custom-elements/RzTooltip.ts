@@ -20,11 +20,10 @@ export class RzTooltip extends HTMLElement {
     }
 
     attributeChangedCallback() {
-        const target = this.getTargetElement()
-        if (!target) return
+        if (!this.popoverInstance) return
 
         this.popoverInstance.clear()
-        this.popoverInstance.updateAttributesOptions(target)
+        this.popoverInstance.updateAttributesOptions(this)
     }
 
     showTooltip() {
@@ -84,12 +83,10 @@ export class RzTooltip extends HTMLElement {
         this.popoverInstance = new Popover({
             targetElement,
             popoverElement: tooltipElement,
-            shift: targetElement?.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift),
-            offset:
-                targetElement?.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset) ||
-                '4px',
+            shift: this.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift),
+            offset: this.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset) || '4px',
             placement:
-                (targetElement?.getAttribute(
+                (this.getAttribute(
                     ATTRIBUTES_OPTIONS_MAP.placement,
                 ) as Placement) || 'top',
         })

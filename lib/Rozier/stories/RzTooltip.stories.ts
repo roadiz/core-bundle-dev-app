@@ -99,6 +99,7 @@ export const WithCustomTooltip: Story = {
         return rzTooltipRenderer(args)
     },
     args: {
+        offset: 20,
         tooltipText: undefined,
         innerHtml: `
 			<button popovertarget="popover-id" class="rz-button">
