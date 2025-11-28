@@ -150,6 +150,10 @@
 	}
 }
 
+.rz-dropdown-menu__button--selected {
+	background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
+}
+
 .rz-dropdown-menu__button__icon {
 	font-size: 16px;
 }

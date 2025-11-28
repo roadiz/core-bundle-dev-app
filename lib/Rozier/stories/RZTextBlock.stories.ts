@@ -218,7 +218,7 @@ function elementRenderer(attribute: nodeAttribute) {
     return node
 }
 
-export const Primary: Story = {
+export const Default: Story = {
     render: () => {
         const container = document.createElement('div')
         container.style = 'max-width: 1000px; margin-inline: auto;'
