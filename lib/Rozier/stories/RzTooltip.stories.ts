@@ -13,7 +13,7 @@ export type Args = {
 const COMPONENT_CLASS_NAME = 'rz-tooltip'
 
 /**
- * To display simple tooltips, use the `data-popover-text` attribute on the element.
+ * To display simple tooltips, use the `tooltip-text` attribute on the element.
  * An tooltip will be automatically created with the provided text content.
  *
  * For more complex tooltips, you can define a custom tooltip content
@@ -58,7 +58,7 @@ function rzTooltipRenderer(args: Args) {
     tooltip.innerHTML = args.innerHtml
 
     if (args.tooltipText) {
-        tooltip.setAttribute('data-popover-text', args.tooltipText)
+        tooltip.setAttribute('tooltip-text', args.tooltipText)
     }
     if (args.placement) {
         tooltip.setAttribute(ATTRIBUTES_OPTIONS_MAP.placement, args.placement)

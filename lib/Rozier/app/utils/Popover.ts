@@ -23,9 +23,9 @@ export const POPOVER_PLACEMENTS: Placement[] = [
 ]
 
 export const ATTRIBUTES_OPTIONS_MAP = {
-    placement: 'data-popover-placement',
-    offset: 'data-popover-offset',
-    shift: 'data-popover-shift',
+    placement: 'popover-placement',
+    offset: 'popover-offset',
+    shift: 'popover-shift',
 } as const
 
 export const ATTRIBUTES_OPTIONS = Object.values(ATTRIBUTES_OPTIONS_MAP)
@@ -39,6 +39,7 @@ export type PopoverOptions = {
 }
 
 export class Popover {
+    context: HTMLElement
     targetElement?: HTMLElement | null
     popoverElement?: HTMLElement | null
     placement: Placement = 'bottom-start'
@@ -48,17 +49,34 @@ export class Popover {
     isFloating = false
     private cleanupAutoUpdate: (() => void) | null = null
 
-    constructor(options: PopoverOptions) {
-        this.targetElement = options.targetElement || null
-        this.popoverElement = options.popoverElement || null
-        this.placement = options.placement || 'bottom-start'
+    constructor(context: HTMLElement, options?: PopoverOptions) {
+        this.context = context
+        this.targetElement =
+            options?.targetElement || context.querySelector('[popovertarget]')
+
+        this.popoverElement =
+            options?.popoverElement || context.querySelector('[popover]')
+
+        this.placement = options?.placement || 'bottom-start'
         this.offset =
-            typeof options.offset === 'string' ? parseInt(options.offset) : 0
+            typeof options?.offset === 'string' ? parseInt(options.offset) : 0
         this.shift =
-            typeof options.shift === 'string' ? parseInt(options.shift) : 0
+            typeof options?.shift === 'string' ? parseInt(options.shift) : 0
+
+        this.toggle = this.toggle.bind(this)
     }
 
     init() {
+        this.updateOptions()
+        this.popoverElement.addEventListener('beforetoggle', this.toggle)
+    }
+
+    destroy() {
+        this.popoverElement?.removeEventListener('beforetoggle', this.toggle)
+        this.close()
+    }
+
+    open() {
         if (!this.targetElement || !this.popoverElement) return
         this.isFloating = true
 
@@ -69,7 +87,7 @@ export class Popover {
         )
     }
 
-    clear() {
+    close() {
         if (!this.isFloating) return
 
         this.isFloating = false
@@ -79,16 +97,16 @@ export class Popover {
 
     toggle() {
         if (this.isFloating) {
-            this.clear()
+            this.close()
         } else {
-            this.init()
+            this.open()
         }
     }
 
-    getAttributesOptions(element: HTMLElement | undefined) {
-        const shift = element?.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift)
-        const offset = element?.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset)
-        const placement = element?.getAttribute(
+    getOptions() {
+        const shift = this.context?.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift)
+        const offset = this.context?.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset)
+        const placement = this.context?.getAttribute(
             ATTRIBUTES_OPTIONS_MAP.placement,
         ) as Placement
 
@@ -99,8 +117,8 @@ export class Popover {
         }
     }
 
-    updateAttributesOptions(element: HTMLElement) {
-        const { offset, placement, shift } = this.getAttributesOptions(element)
+    updateOptions() {
+        const { offset, placement, shift } = this.getOptions()
 
         if (this.placement !== placement) {
             this.placement = placement
