@@ -2,7 +2,7 @@
     {% for items in listItems %}
         {% set validItems = items|filter(i => (i.name is defined and i.name is not null)) %}
         {% if validItems|length > 0 %}
-            <ul class="rz-menu-bar__inner">
+            <ul class="rz-menu-bar__list">
                 {% for item in validItems %}
                     {{ _self.item(
                         item.name,
@@ -22,7 +22,7 @@
     {% endset %}
 
     {% if additional_content|trim is not empty %}
-        <ul class="rz-menu-bar__inner">
+        <ul class="rz-menu-bar__list">
             {{ additional_content|raw }}
         </ul>
     {% endif %}

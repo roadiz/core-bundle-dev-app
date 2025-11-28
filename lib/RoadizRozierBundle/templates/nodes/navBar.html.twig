@@ -6,7 +6,7 @@
     {% set translation = available_translations[0] %}
 {% endif %}
 <nav class="rz-menu-bar">
-    <ul class="rz-menu-bar__inner">
+    <ul class="rz-menu-bar__list">
         {%- if is_granted('EDIT_CONTENT', node) -%}
             {{ rz_menu_bar.item(
                 name: 'source',
@@ -49,7 +49,7 @@
         {%- endif -%}
     </ul>
     {% if is_granted('READ', node) or is_granted('EDIT_REALMS', node) or is_granted('READ_LOGS', node) %}
-        <ul class="rz-menu-bar__inner">
+        <ul class="rz-menu-bar__list">
             {% if is_granted('READ', node) %}
                 {{ rz_menu_bar.item(
                     name: 'tree',
@@ -83,7 +83,7 @@
         </ul>
     {% endif %}
     {% if block('additional_entries')|trim %}
-        <ul class="rz-menu-bar__inner">
+        <ul class="rz-menu-bar__list">
             {% block additional_entries %}{% endblock %}
         </ul>
     {% endif %}

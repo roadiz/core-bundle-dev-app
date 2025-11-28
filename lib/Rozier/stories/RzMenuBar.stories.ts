@@ -10,7 +10,7 @@ type MenuItem = {
 
 export type Args = {
     label?: string
-    menuItems: MenuItem[]
+    menuItems: MenuItem[][]
 }
 
 const COMPONENT_CLASS_NAME = 'rz-menu-bar'
@@ -21,49 +21,32 @@ const meta: Meta<Args> = {
     args: {
         label: 'Menu Item',
         menuItems: [
-            {
-                tag: 'a',
-                label: 'Content',
-                attributes: {
-                    href: '#',
+            [
+                {
+                    tag: 'a',
+                    label: 'Content',
+                    attributes: {
+                        href: '#',
+                    },
                 },
-            },
-            {
-                tag: 'a',
-                label: 'Settings',
-                selected: true,
-                attributes: {
-                    href: '#',
+                {
+                    tag: 'a',
+                    label: 'Settings',
+                    selected: true,
+                    attributes: {
+                        href: '#',
+                    },
                 },
-            },
-            {
-                tag: 'button',
-                iconClass: 'rz-icon-ri--more-line',
-                attributes: {
-                    id: 'dropdown-button-1',
-                    popovertarget: 'dropdown-id-1',
-                    'aria-label': 'dropdown button label',
+                {
+                    tag: 'button',
+                    iconClass: 'rz-icon-ri--more-line',
+                    attributes: {
+                        id: 'dropdown-button-1',
+                        popovertarget: 'dropdown-id-1',
+                        'aria-label': 'dropdown button label',
+                    },
                 },
-            },
-            {
-                tag: 'hr',
-            },
-            {
-                tag: 'a',
-                iconClass: 'rz-icon-ri--printer-line',
-                attributes: {
-                    href: '#',
-                    'aria-label': 'print',
-                },
-            },
-            {
-                tag: 'a',
-                iconClass: 'rz-icon-ri--user-shared-line',
-                attributes: {
-                    href: '#',
-                    'aria-label': 'user shared',
-                },
-            },
+            ],
         ],
     },
 }
@@ -147,17 +130,13 @@ function rzMenuItemRenderer(args: MenuItem) {
     }
 }
 
-function rzMenuBarRenderer(args: Args) {
-    const wrapper = document.createElement('nav')
-    wrapper.classList.add(COMPONENT_CLASS_NAME)
+function rzMenuBarListRenderer(menuItems: Args['menuItems'][0]) {
+    const list = document.createElement('ul')
+    list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
-    const inner = document.createElement('ul')
-    inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
-    wrapper.appendChild(inner)
-
-    args.menuItems.forEach((menuItemArgs) => {
+    menuItems.forEach((menuItemArgs) => {
         const item = document.createElement('li')
-        inner.appendChild(item)
+        list.appendChild(item)
 
         if (menuItemArgs.tag === 'hr') {
             item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
@@ -167,11 +146,103 @@ function rzMenuBarRenderer(args: Args) {
         }
     })
 
+    return list
+}
+function rzMenuBarRenderer(args: Args) {
+    const wrapper = document.createElement('nav')
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
+
+    args.menuItems.forEach((menuItemsGroup) => {
+        const menuBarList = rzMenuBarListRenderer(menuItemsGroup)
+        wrapper.appendChild(menuBarList)
+    })
+
     return wrapper
 }
 
 export const Default: Story = {
     render: (args) => {
         return rzMenuBarRenderer(args)
+    },
+}
+
+export const MultipleList: Story = {
+    render: (args) => {
+        return rzMenuBarRenderer(args)
+    },
+    args: {
+        menuItems: [
+            [
+                {
+                    tag: 'a',
+                    label: 'Content',
+                    attributes: {
+                        href: '#',
+                    },
+                },
+                {
+                    tag: 'a',
+                    label: 'Settings',
+                    selected: true,
+                    attributes: {
+                        href: '#',
+                    },
+                },
+                {
+                    tag: 'button',
+                    iconClass: 'rz-icon-ri--more-line',
+                    attributes: {
+                        id: 'dropdown-button-1',
+                        popovertarget: 'dropdown-id-1',
+                        'aria-label': 'dropdown button label',
+                    },
+                },
+            ],
+            [
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--printer-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'print',
+                    },
+                },
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--user-shared-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'user shared',
+                    },
+                },
+            ],
+            [
+                {
+                    tag: 'a',
+                    label: 'Settings',
+                    attributes: {
+                        href: '#',
+                    },
+                },
+            ],
+            [
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--printer-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'print',
+                    },
+                },
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--user-shared-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'user shared',
+                    },
+                },
+            ],
+        ],
     },
 }
