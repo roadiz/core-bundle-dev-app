@@ -22,7 +22,7 @@ const meta: Meta<Args> = {
             { innerText: 'Subcategory', attributes: { href: '#' } },
             {
                 innerText: 'Current Page',
-                attributes: { 'aria-current': 'page', href: '#' },
+                attributes: { 'aria-current': 'page' },
             },
         ],
     },
@@ -32,7 +32,7 @@ export default meta
 type Story = StoryObj<Args>
 
 function itemRenderer(item: BreadcrumbItem) {
-    const link = document.createElement('a')
+    const link = document.createElement(item.attributes?.href ? 'a' : 'span')
     link.classList.add(`${COMPONENT_CLASS_NAME}__item`)
     link.innerText = item.innerText
 
