@@ -32,7 +32,7 @@ export const ATTRIBUTES_OPTIONS = Object.values(ATTRIBUTES_OPTIONS_MAP)
 
 export type PopoverOptions = {
     targetElement?: HTMLElement | null
-    floatingElement?: HTMLElement | null
+    popoverElement?: HTMLElement | null
     placement?: Placement
     offset?: string | number
     shift?: string | number
@@ -40,7 +40,7 @@ export type PopoverOptions = {
 
 export class Popover {
     targetElement?: HTMLElement | null
-    floatingElement?: HTMLElement | null
+    popoverElement?: HTMLElement | null
     placement: Placement = 'bottom-start'
     offset: number = 0
     shift: number = 0
@@ -50,19 +50,21 @@ export class Popover {
 
     constructor(options: PopoverOptions) {
         this.targetElement = options.targetElement || null
-        this.floatingElement = options.floatingElement || null
+        this.popoverElement = options.popoverElement || null
         this.placement = options.placement || 'bottom-start'
-        this.offset = Number(options.offset) || 0
-        this.shift = Number(options.shift) || 0
+        this.offset =
+            typeof options.offset === 'string' ? parseInt(options.offset) : 0
+        this.shift =
+            typeof options.shift === 'string' ? parseInt(options.shift) : 0
     }
 
     init() {
-        if (!this.targetElement || !this.floatingElement) return
+        if (!this.targetElement || !this.popoverElement) return
         this.isFloating = true
 
         this.cleanupAutoUpdate = autoUpdate(
             this.targetElement,
-            this.floatingElement,
+            this.popoverElement,
             () => this.updatePosition(),
         )
     }
@@ -114,11 +116,11 @@ export class Popover {
     }
 
     private async updatePosition() {
-        if (!this.targetElement || !this.floatingElement) return
+        if (!this.targetElement || !this.popoverElement) return
 
         const { x, y } = await computePosition(
             this.targetElement,
-            this.floatingElement,
+            this.popoverElement,
             {
                 placement: this.placement,
                 middleware: [
@@ -132,7 +134,7 @@ export class Popover {
             },
         )
 
-        Object.assign(this.floatingElement.style, {
+        Object.assign(this.popoverElement.style, {
             left: `${x}px`,
             top: `${y}px`,
         })

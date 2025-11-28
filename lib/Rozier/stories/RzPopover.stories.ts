@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
-import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/popover'
+import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/Popover'
 
 export type Args = {
     targetElement: {

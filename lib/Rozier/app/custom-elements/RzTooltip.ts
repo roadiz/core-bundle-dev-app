@@ -2,13 +2,11 @@ import {
     Popover,
     ATTRIBUTES_OPTIONS,
     ATTRIBUTES_OPTIONS_MAP,
-} from '~/utils/popover'
+} from '~/utils/Popover'
 import type { Placement } from '@floating-ui/dom'
 
 export class RzTooltip extends HTMLElement {
-    targetElement: HTMLElement | null = null
-    tooltipElement: HTMLElement | null = null
-    floatingInstance: Popover | null = null
+    popoverInstance: Popover | null = null
 
     constructor() {
         super()
@@ -22,23 +20,29 @@ export class RzTooltip extends HTMLElement {
     }
 
     attributeChangedCallback() {
-        if (!this.floatingInstance || !this.targetElement) return
-        this.floatingInstance.clear()
-        this.floatingInstance.updateAttributesOptions(this.targetElement)
+        const target = this.getTargetElement()
+        if (!target) return
+
+        this.popoverInstance.clear()
+        this.popoverInstance.updateAttributesOptions(target)
     }
 
     showTooltip() {
-        this.floatingInstance?.init()
+        this.popoverInstance?.init()
         // Manually show the popover for native popover behavior
-        this.tooltipElement?.showPopover()
+        this.getTooltipElement()?.showPopover()
     }
 
     hideTooltip() {
-        this.floatingInstance?.clear()
-        this.tooltipElement?.hidePopover()
+        this.popoverInstance?.clear()
+        this.getTooltipElement()?.hidePopover()
     }
 
-    createPopoverContent(rawTextContent: string) {
+    /*
+     * Creates a tooltip element if not present in the DOM,
+     * using the data-popover-text attribute as content.
+     */
+    createTooltipElement(rawTextContent: string) {
         const generatedTooltip = document.createElement('div')
         generatedTooltip.classList.add('rz-tooltip__content')
         generatedTooltip.setAttribute('popover', 'hint')
@@ -47,66 +51,63 @@ export class RzTooltip extends HTMLElement {
         return generatedTooltip
     }
 
-    initPopoverElements() {
-        const targetElement =
-            this.querySelector('button[popovertarget]') || this
+    getTargetElement() {
+        return (
+            this.popoverInstance?.targetElement ||
+            this.querySelector('button[popovertarget]') ||
+            this
+        )
+    }
 
-        if (!targetElement) return
-        this.targetElement = targetElement as HTMLElement
-
-        if (
-            targetElement instanceof HTMLButtonElement === false &&
-            !targetElement.hasAttribute('tabindex')
-        ) {
-            this.targetElement.setAttribute('tabindex', '0')
-        }
-
-        // If data-popover-text is set, create tooltip element dynamically
-        const tooltipElement = this.querySelector('[popover]')
-        const rawTextContent = this.getAttribute('data-popover-text')
-
-        if (tooltipElement instanceof HTMLElement) {
-            this.tooltipElement = tooltipElement
-        } else if (rawTextContent) {
-            const generatedTooltip = this.createPopoverContent(rawTextContent)
-            targetElement.appendChild(generatedTooltip)
-            this.tooltipElement = generatedTooltip
-        }
+    getTooltipElement() {
+        return (
+            this.popoverInstance?.popoverElement ||
+            this.querySelector('[popover]')
+        )
     }
 
     connectedCallback() {
-        this.initPopoverElements()
+        const targetElement = this.getTargetElement()
+        if (targetElement instanceof HTMLElement === false) {
+            console.error('RzTooltip: Missing target element')
+            return
+        }
 
-        if (!this.targetElement || !this.tooltipElement) return
+        let tooltipElement = this.getTooltipElement()
+        const rawTextContent = this.getAttribute('data-popover-text')
 
-        this.floatingInstance = new Popover({
-            targetElement: this.targetElement,
-            floatingElement: this.tooltipElement,
-            shift: this.targetElement?.getAttribute(
-                ATTRIBUTES_OPTIONS_MAP.shift,
-            ),
-            offset: this.targetElement?.getAttribute(
-                ATTRIBUTES_OPTIONS_MAP.offset,
-            ),
+        if (!tooltipElement && rawTextContent) {
+            tooltipElement = this.createTooltipElement(rawTextContent)
+            targetElement.appendChild(tooltipElement)
+        }
+
+        this.popoverInstance = new Popover({
+            targetElement,
+            popoverElement: tooltipElement,
+            shift: targetElement?.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift),
+            offset:
+                targetElement?.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset) ||
+                '4px',
             placement:
-                (this.targetElement?.getAttribute(
+                (targetElement?.getAttribute(
                     ATTRIBUTES_OPTIONS_MAP.placement,
                 ) as Placement) || 'top',
         })
 
-        this.targetElement.addEventListener('mouseenter', this.showTooltip)
-        this.targetElement.addEventListener('focus', this.showTooltip)
-        this.targetElement.addEventListener('mouseleave', this.hideTooltip)
-        this.targetElement.addEventListener('blur', this.hideTooltip)
+        targetElement.addEventListener('mouseenter', this.showTooltip)
+        targetElement.addEventListener('focus', this.showTooltip)
+        targetElement.addEventListener('mouseleave', this.hideTooltip)
+        targetElement.addEventListener('blur', this.hideTooltip)
     }
 
     disconnectedCallback() {
-        this.targetElement?.removeEventListener('mouseenter', this.showTooltip)
-        this.targetElement?.removeEventListener('focus', this.showTooltip)
-        this.targetElement?.removeEventListener('mouseleave', this.hideTooltip)
-        this.targetElement?.removeEventListener('blur', this.hideTooltip)
+        const targetElement = this.getTargetElement()
+        targetElement?.removeEventListener('mouseenter', this.showTooltip)
+        targetElement?.removeEventListener('focus', this.showTooltip)
+        targetElement?.removeEventListener('mouseleave', this.hideTooltip)
+        targetElement?.removeEventListener('blur', this.hideTooltip)
 
-        this.floatingInstance?.clear()
-        this.floatingInstance = null
+        this.popoverInstance?.clear()
+        this.popoverInstance = null
     }
 }

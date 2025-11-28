@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
-import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/popover'
+import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/Popover'
 
 export type Args = {
     tooltipText?: string
@@ -12,6 +12,15 @@ export type Args = {
 
 const COMPONENT_CLASS_NAME = 'rz-tooltip'
 
+/**
+ * To display simple tooltips, use the `data-popover-text` attribute on the element.
+ * An tooltip will be automatically created with the provided text content.
+ *
+ * For more complex tooltips, you can define a custom tooltip content
+ * by adding a child element with the `popover="hint"` attribute and
+ * a unique ID, then reference that ID in a `popovertarget` attribute
+ * on the target element.
+ */
 const meta: Meta<Args> = {
     title: 'Components/Tooltip',
     tags: ['autodocs'],
@@ -26,6 +35,14 @@ const meta: Meta<Args> = {
         placement: {
             control: { type: 'select' },
             options: POPOVER_PLACEMENTS,
+            table: {
+                defaultValue: { summary: 'top' },
+            },
+        },
+        offset: {
+            table: {
+                defaultValue: { summary: '4px' },
+            },
         },
     },
     parameters: {

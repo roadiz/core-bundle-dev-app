@@ -1,10 +1,9 @@
-import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/popover'
+import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
 
 export class RzPopover extends HTMLElement {
-    targetElement: HTMLElement | null = null
-    floatingElement: HTMLElement | null = null
-    floatingInstance: Popover | null = null
+    popoverInstance: Popover | null = null
     toggle: (() => void) | null = null
+
     constructor() {
         super()
     }
@@ -14,47 +13,44 @@ export class RzPopover extends HTMLElement {
     }
 
     attributeChangedCallback() {
-        if (!this.floatingInstance || !this.targetElement) return
-        this.floatingInstance.clear()
-        this.floatingInstance.updateAttributesOptions(this.targetElement)
-    }
+        if (!this.popoverInstance?.targetElement) return
 
-    setElements() {
-        this.targetElement = this.querySelector('[popovertarget]')
-
-        const popoverId =
-            this.targetElement?.getAttribute('popovertarget') || null
-        this.floatingElement = document.querySelector(`#${popoverId}`)
+        this.popoverInstance.clear()
+        this.popoverInstance.updateAttributesOptions(this)
     }
 
     connectedCallback() {
-        this.setElements()
+        const targetElement = this.querySelector('[popovertarget]')
 
-        if (!this.targetElement || !this.floatingElement) {
+        const popoverId = targetElement?.getAttribute('popovertarget') || null
+        const popoverElement =
+            popoverId && document.querySelector(`#${popoverId}`)
+
+        if (
+            targetElement instanceof HTMLElement === false ||
+            popoverElement instanceof HTMLElement === false
+        ) {
             console.error('RzPopover: Missing popover elements')
             return
         }
 
-        this.floatingInstance = new Popover({
-            targetElement: this.targetElement,
-            floatingElement: this.floatingElement,
-        })
-
-        this.floatingInstance.updateAttributesOptions(this)
+        this.popoverInstance = new Popover({ targetElement, popoverElement })
+        this.popoverInstance.updateAttributesOptions(this)
 
         if (!this.toggle) {
-            this.toggle = this.floatingInstance.toggle.bind(
-                this.floatingInstance,
-            )
+            this.toggle = this.popoverInstance.toggle.bind(this.popoverInstance)
         }
-        this.floatingElement.addEventListener('beforetoggle', this.toggle)
+        popoverElement.addEventListener('beforetoggle', this.toggle)
     }
 
     disconnectedCallback() {
-        this.floatingElement?.removeEventListener('beforetoggle', this.toggle)
+        this.popoverInstance.popoverElement?.removeEventListener(
+            'beforetoggle',
+            this.toggle,
+        )
         this.toggle = null
 
-        this.floatingInstance?.clear()
-        this.floatingInstance = null
+        this.popoverInstance?.clear()
+        this.popoverInstance = null
     }
 }
