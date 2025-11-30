@@ -28,7 +28,7 @@ trait PositionedTrait
         return $this->position;
     }
 
-    public function setPosition(float $newPosition): PositionedInterface
+    public function setPosition(float $newPosition): static
     {
         if ($newPosition > -1) {
             $this->position = $newPosition;

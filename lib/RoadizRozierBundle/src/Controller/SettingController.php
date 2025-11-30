@@ -140,7 +140,7 @@ final class SettingController extends AbstractController
                 try {
                     $this->resetSettingsCache();
                     $this->eventDispatcher->dispatch(new SettingUpdatedEvent($setting));
-                    $this->managerRegistry->getManagerForClass(Setting::class)->flush();
+                    $this->managerRegistry->getManagerForClass(Setting::class)?->flush();
                     $msg = $this->translator->trans(
                         'setting.%name%.updated',
                         ['%name%' => $setting->getName()]
@@ -219,7 +219,7 @@ final class SettingController extends AbstractController
             try {
                 $this->resetSettingsCache();
                 $this->eventDispatcher->dispatch(new SettingUpdatedEvent($setting));
-                $this->managerRegistry->getManagerForClass(Setting::class)->flush();
+                $this->managerRegistry->getManagerForClass(Setting::class)?->flush();
                 $msg = $this->translator->trans('setting.%name%.updated', ['%name%' => $setting->getName()]);
                 $this->logTrail->publishConfirmMessage($request, $msg, $setting);
 
@@ -244,7 +244,7 @@ final class SettingController extends AbstractController
         /** @var CacheProvider|null $cacheDriver */
         $cacheDriver = $this->managerRegistry
             ->getManagerForClass(Setting::class)
-            ->getConfiguration()
+            ?->getConfiguration()
             ->getResultCacheImpl();
         $cacheDriver?->deleteAll();
         $this->eventDispatcher->dispatch(new CachePurgeRequestEvent());
@@ -269,8 +269,8 @@ final class SettingController extends AbstractController
             try {
                 $this->eventDispatcher->dispatch(new SettingCreatedEvent($setting));
                 $this->resetSettingsCache();
-                $this->managerRegistry->getManagerForClass(Setting::class)->persist($setting);
-                $this->managerRegistry->getManagerForClass(Setting::class)->flush();
+                $this->managerRegistry->getManagerForClass(Setting::class)?->persist($setting);
+                $this->managerRegistry->getManagerForClass(Setting::class)?->flush();
                 $msg = $this->translator->trans('setting.%name%.created', ['%name%' => $setting->getName()]);
                 $this->logTrail->publishConfirmMessage($request, $msg, $setting);
 
@@ -309,8 +309,8 @@ final class SettingController extends AbstractController
             try {
                 $this->eventDispatcher->dispatch(new SettingDeletedEvent($setting));
                 $this->resetSettingsCache();
-                $this->managerRegistry->getManagerForClass(Setting::class)->remove($setting);
-                $this->managerRegistry->getManagerForClass(Setting::class)->flush();
+                $this->managerRegistry->getManagerForClass(Setting::class)?->remove($setting);
+                $this->managerRegistry->getManagerForClass(Setting::class)?->flush();
 
                 $msg = $this->translator->trans('setting.%name%.deleted', ['%name%' => $setting->getName()]);
                 $this->logTrail->publishConfirmMessage($request, $msg, $setting);

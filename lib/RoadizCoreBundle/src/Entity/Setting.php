@@ -104,7 +104,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setName(?string $name): self
+    public function setName(?string $name): static
     {
         $this->name = trim(\mb_strtolower($name ?? ''));
         $this->name = (new UnicodeString($this->name))
@@ -157,7 +157,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setValue(mixed $value): self
+    public function setValue(mixed $value): static
     {
         if (null === $value) {
             $this->value = null;
@@ -178,7 +178,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setVisible(bool $visible): self
+    public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
 
@@ -193,7 +193,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setSettingGroup(?SettingGroup $settingGroup): self
+    public function setSettingGroup(?SettingGroup $settingGroup): static
     {
         $this->settingGroup = $settingGroup;
 

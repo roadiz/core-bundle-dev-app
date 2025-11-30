@@ -34,7 +34,7 @@ final class NodeTypeHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setNodeType(NodeType $nodeType): self
+    public function setNodeType(NodeType $nodeType): static
     {
         $this->nodeType = $nodeType;
 
@@ -165,7 +165,7 @@ final class NodeTypeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function updateSchema(): NodeTypeHandler
+    public function updateSchema(): static
     {
         $this->regenerateEntityClass();
 
@@ -191,7 +191,7 @@ final class NodeTypeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function deleteSchema(): NodeTypeHandler
+    public function deleteSchema(): static
     {
         if (null !== $this->nodeType) {
             $this->apiResourceGenerator->remove($this->nodeType);
@@ -210,7 +210,7 @@ final class NodeTypeHandler extends AbstractHandler
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function deleteWithAssociations(): NodeTypeHandler
+    public function deleteWithAssociations(): static
     {
         /*
          * Delete every nodes

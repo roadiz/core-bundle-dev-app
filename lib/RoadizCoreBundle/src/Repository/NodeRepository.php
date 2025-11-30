@@ -41,11 +41,8 @@ class NodeRepository extends StatusAwareRepository
         parent::__construct($registry, Node::class, $previewResolver, $dispatcher, $security);
     }
 
-    /**
-     * @return Event
-     */
     #[\Override]
-    protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
+    protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): Event
     {
         // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
@@ -53,11 +50,8 @@ class NodeRepository extends StatusAwareRepository
         );
     }
 
-    /**
-     * @return Event
-     */
     #[\Override]
-    protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
+    protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): Event
     {
         // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(

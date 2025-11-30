@@ -64,7 +64,7 @@ final class NodeHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setNode(Node $node): self
+    public function setNode(Node $node): static
     {
         $this->node = $node;
 
@@ -78,7 +78,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function cleanCustomFormsFromField(NodeTypeFieldInterface $field, bool $flush = true): self
+    public function cleanCustomFormsFromField(NodeTypeFieldInterface $field, bool $flush = true): static
     {
         $nodesCustomForms = $this->objectManager
             ->getRepository(NodesCustomForms::class)
@@ -150,7 +150,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function cleanNodesFromField(NodeTypeFieldInterface $field, bool $flush = true): self
+    public function cleanNodesFromField(NodeTypeFieldInterface $field, bool $flush = true): static
     {
         $this->node->clearBNodesForField($field);
 
@@ -168,7 +168,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function addNodeForField(Node $node, NodeTypeFieldInterface $field, bool $flush = true, ?float $position = null): self
+    public function addNodeForField(Node $node, NodeTypeFieldInterface $field, bool $flush = true, ?float $position = null): static
     {
         $ntn = new NodesToNodes($this->getNode(), $node, $field);
 
@@ -196,7 +196,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren(): self
+    private function removeChildren(): static
     {
         /** @var Node $node */
         foreach ($this->getNode()->getChildren() as $node) {
@@ -213,7 +213,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeAssociations(): self
+    public function removeAssociations(): static
     {
         /** @var NodesSources $ns */
         foreach ($this->getNode()->getNodeSources() as $ns) {
@@ -231,7 +231,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations(): self
+    public function removeWithChildrenAndAssociations(): static
     {
         $this->removeChildren();
         $this->removeAssociations();
@@ -252,7 +252,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function softRemoveWithChildren(): self
+    public function softRemoveWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'delete')) {
@@ -276,7 +276,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function softUnremoveWithChildren(): self
+    public function softUnremoveWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'undelete')) {
@@ -300,7 +300,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function publishWithChildren(): self
+    public function publishWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'publish')) {
@@ -324,7 +324,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function archiveWithChildren(): self
+    public function archiveWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'archive')) {

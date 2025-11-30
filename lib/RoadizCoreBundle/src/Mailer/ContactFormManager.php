@@ -115,7 +115,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function disableCsrfProtection(): self
+    public function disableCsrfProtection(): static
     {
         $this->options['csrf_protection'] = false;
 
@@ -136,7 +136,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function setEmailStrictMode(bool $emailStrictMode = true): self
+    public function setEmailStrictMode(bool $emailStrictMode = true): static
     {
         $this->emailStrictMode = $emailStrictMode;
 
@@ -153,7 +153,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function withDefaultFields(bool $useHoneypot = true): self
+    public function withDefaultFields(bool $useHoneypot = true): static
     {
         $this->getFormBuilder()->add('email', EmailType::class, [
             'label' => 'your.email',
@@ -196,7 +196,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function withHoneypot(string $honeypotName = 'eml'): self
+    public function withHoneypot(string $honeypotName = 'eml'): static
     {
         $this->getFormBuilder()->add($honeypotName, HoneypotType::class);
 
@@ -208,7 +208,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function withUserConsent(string $consentDescription = 'contact_form.user_consent'): self
+    public function withUserConsent(string $consentDescription = 'contact_form.user_consent'): static
     {
         $this->getFormBuilder()->add('consent', CheckboxType::class, [
             'label' => $consentDescription,
@@ -424,7 +424,7 @@ final class ContactFormManager
      *
      * @throws BadFormRequestException
      */
-    protected function addUploadedFile(array &$uploadedFiles, string $name, UploadedFile $uploadedFile): ContactFormManager
+    protected function addUploadedFile(array &$uploadedFiles, string $name, UploadedFile $uploadedFile): static
     {
         if (
             !$uploadedFile->isValid()
@@ -667,7 +667,7 @@ final class ContactFormManager
     /**
      * @return $this
      */
-    public function setOptions(array $options): self
+    public function setOptions(array $options): static
     {
         $this->options = $options;
 

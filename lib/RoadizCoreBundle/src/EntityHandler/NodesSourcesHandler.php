@@ -51,7 +51,7 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setNodeSource(NodesSources $nodeSource): self
+    public function setNodeSource(NodesSources $nodeSource): static
     {
         $this->nodeSource = $nodeSource;
 
@@ -65,7 +65,7 @@ final class NodesSourcesHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function cleanDocumentsFromField(NodeTypeFieldInterface $field, bool $flush = true): self
+    public function cleanDocumentsFromField(NodeTypeFieldInterface $field, bool $flush = true): static
     {
         $this->nodeSource->clearDocumentsByFields($field);
 

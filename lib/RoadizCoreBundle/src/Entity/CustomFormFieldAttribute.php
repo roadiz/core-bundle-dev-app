@@ -79,7 +79,7 @@ class CustomFormFieldAttribute implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setValue(?string $value): CustomFormFieldAttribute
+    public function setValue(?string $value): static
     {
         $this->value = $value;
 

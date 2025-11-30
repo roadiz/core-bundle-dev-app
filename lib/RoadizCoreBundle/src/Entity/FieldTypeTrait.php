@@ -18,7 +18,7 @@ trait FieldTypeTrait
      *
      * @return $this
      */
-    public function setType(int|FieldType $type): self
+    public function setType(int|FieldType $type): static
     {
         $this->type = is_int($type) ? FieldType::tryFrom($type) : $type;
 

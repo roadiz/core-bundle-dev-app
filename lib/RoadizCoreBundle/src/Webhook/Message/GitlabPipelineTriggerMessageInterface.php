@@ -39,9 +39,6 @@ final readonly class GitlabPipelineTriggerMessageInterface implements AsyncMessa
         ];
     }
 
-    /**
-     * @return static
-     */
     #[\Override]
     public static function fromWebhook(WebhookInterface $webhook): self
     {

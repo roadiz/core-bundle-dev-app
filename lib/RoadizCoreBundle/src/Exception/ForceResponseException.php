@@ -29,9 +29,9 @@ class ForceResponseException extends \Exception
      *
      * @param Response $response the response
      *
-     * @return self
+     * @return $this
      */
-    public function setResponse(Response $response)
+    public function setResponse(Response $response): static
     {
         $this->response = $response;
 

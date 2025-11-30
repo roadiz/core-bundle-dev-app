@@ -16,5 +16,5 @@ interface PositionedInterface extends Comparable
      *
      * @return $this
      */
-    public function setPosition(float $newPosition): PositionedInterface;
+    public function setPosition(float $newPosition): static;
 }

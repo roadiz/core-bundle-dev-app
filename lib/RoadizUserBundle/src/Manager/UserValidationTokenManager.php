@@ -105,6 +105,6 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
             )
         );
 
-        $this->notifier->send($notification, new Recipient($user->getEmail()));
+        $this->notifier->send($notification, new Recipient($user->getEmail() ?? throw new \RuntimeException('User email is null.')));
     }
 }

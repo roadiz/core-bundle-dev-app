@@ -11,19 +11,19 @@ interface ContextualizedDocumentInterface
     /**
      * @return $this
      */
-    public function setDocument(DocumentInterface $document): self;
+    public function setDocument(DocumentInterface $document): static;
 
     public function getImageCropAlignment(): ?string;
 
     /**
      * @return $this
      */
-    public function setImageCropAlignment(?string $imageCropAlignment): self;
+    public function setImageCropAlignment(?string $imageCropAlignment): static;
 
     public function getHotspot(): ?array;
 
     /**
      * @return $this
      */
-    public function setHotspot(?array $hotspot): self;
+    public function setHotspot(?array $hotspot): static;
 }

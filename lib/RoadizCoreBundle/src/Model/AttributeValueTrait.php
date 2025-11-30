@@ -68,7 +68,10 @@ trait AttributeValueTrait
         return $this->attribute;
     }
 
-    public function setAttribute(AttributeInterface $attribute): self
+    /**
+     * @return $this
+     */
+    public function setAttribute(AttributeInterface $attribute): static
     {
         $this->attribute = $attribute;
 
@@ -91,7 +94,7 @@ trait AttributeValueTrait
     /**
      * @return $this
      */
-    public function setAttributeValueTranslations(Collection $attributeValueTranslations): self
+    public function setAttributeValueTranslations(Collection $attributeValueTranslations): static
     {
         $this->attributeValueTranslations = $attributeValueTranslations;
         /** @var AttributeValueTranslationInterface $attributeValueTranslation */

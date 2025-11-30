@@ -27,7 +27,7 @@ final class FolderHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setFolder(Folder $folder): self
+    public function setFolder(Folder $folder): static
     {
         $this->folder = $folder;
 
@@ -39,7 +39,7 @@ final class FolderHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren(): self
+    private function removeChildren(): static
     {
         /** @var Folder $folder */
         foreach ($this->getFolder()->getChildren() as $folder) {
@@ -57,7 +57,7 @@ final class FolderHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations(): self
+    public function removeWithChildrenAndAssociations(): static
     {
         $this->removeChildren();
         $this->objectManager->remove($this->getFolder());

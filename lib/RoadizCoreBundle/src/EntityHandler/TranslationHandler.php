@@ -21,7 +21,7 @@ final class TranslationHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation): self
+    public function setTranslation(TranslationInterface $translation): static
     {
         $this->translation = $translation;
 
@@ -33,7 +33,7 @@ final class TranslationHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function makeDefault(): self
+    public function makeDefault(): static
     {
         $defaults = $this->objectManager
             ->getRepository(Translation::class)

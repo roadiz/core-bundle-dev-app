@@ -218,10 +218,7 @@ final class TranslationViewer
         return $this->translation;
     }
 
-    /**
-     * @return TranslationViewer
-     */
-    public function setTranslation(?TranslationInterface $translation)
+    public function setTranslation(?TranslationInterface $translation): TranslationViewer
     {
         $this->translation = $translation;
 

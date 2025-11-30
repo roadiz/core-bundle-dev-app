@@ -18,7 +18,7 @@ final class TagHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setTag(Tag $tag): self
+    public function setTag(Tag $tag): static
     {
         $this->tag = $tag;
 
@@ -30,7 +30,7 @@ final class TagHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren(): self
+    private function removeChildren(): static
     {
         /** @var Tag $tag */
         foreach ($this->tag->getChildren() as $tag) {
@@ -47,7 +47,7 @@ final class TagHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeAssociations(): self
+    public function removeAssociations(): static
     {
         foreach ($this->tag->getTranslatedTags() as $tt) {
             $this->objectManager->remove($tt);
@@ -62,7 +62,7 @@ final class TagHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations(): self
+    public function removeWithChildrenAndAssociations(): static
     {
         $this->removeChildren();
         $this->removeAssociations();

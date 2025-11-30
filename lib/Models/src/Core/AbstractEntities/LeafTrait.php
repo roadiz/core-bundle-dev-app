@@ -61,10 +61,7 @@ trait LeafTrait
     /*
      * Do not add static return type because of Doctrine Proxy.
      */
-    /**
-     * @return static|null
-     */
-    public function getParent(): ?LeafInterface
+    public function getParent(): ?static
     {
         /* @phpstan-ignore-next-line */
         return $this->parent;

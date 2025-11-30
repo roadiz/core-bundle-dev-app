@@ -90,7 +90,7 @@ final class DocumentHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setDocument(DocumentInterface $document): self
+    public function setDocument(DocumentInterface $document): static
     {
         $this->document = $document;
 
