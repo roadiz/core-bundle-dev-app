@@ -12,7 +12,6 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     RZ\Roadiz\CoreBundle\RoadizCoreBundle::class => ['all' => true],
-    RZ\Roadiz\FontBundle\RoadizFontBundle::class => ['all' => true],
     RZ\Roadiz\RozierBundle\RoadizRozierBundle::class => ['all' => true],
     RZ\Roadiz\UserBundle\RoadizUserBundle::class => ['all' => true],
     RZ\Roadiz\TwoFactorBundle\RoadizTwoFactorBundle::class => ['all' => true],

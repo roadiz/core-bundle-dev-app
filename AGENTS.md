@@ -14,7 +14,7 @@ Project overview
     - `docs/`: Roadiz documentation (VitePress)
     - `src/`: Development application sources (testing the CMS)
     - `lib/`: Symfony bundles and shared libraries. Each bundle is split into its own repository during CI and published under the `roadiz/` namespace.
-        - `lib/RoadizCoreBundle`, `lib/RoadizRozierBundle`, `lib/RoadizSolrBundle`, `lib/RoadizTwoFactorBundle`, `lib/RoadizUserBundle`, `lib/RoadizFontBundle`, `lib/Documents`, `lib/DocGenerator`, `lib/DtsGenerator`, `lib/EntityGenerator`, `lib/Jwt`, `lib/Markdown`, `lib/Models`, `lib/OpenId`, `lib/Random`, `lib/Rozier`
+        - `lib/RoadizCoreBundle`, `lib/RoadizRozierBundle`, `lib/RoadizSolrBundle`, `lib/RoadizTwoFactorBundle`, `lib/RoadizUserBundle`, `lib/Documents`, `lib/DocGenerator`, `lib/DtsGenerator`, `lib/EntityGenerator`, `lib/Jwt`, `lib/Markdown`, `lib/Models`, `lib/OpenId`, `lib/Random`, `lib/Rozier`
 - Key technologies
     - PHP 8.0+
     - Symfony framework
