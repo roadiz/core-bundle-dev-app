@@ -81,7 +81,7 @@
 {% block wrapper %}
     <div class="rz-dropdown-menu {{ reverse ? 'rz-dropdown-menu--reverse' : '' }}" id="{{ targetId }}" popover>
         {{ _self.head(title, items) }}
-        <menu class="rz-dropdown-menu__list {{ menuClass ? menuClass : '' }}">
+        <menu class="rz-dropdown-menu__list">
             {% block items %}
             {% endblock %}
         </menu>

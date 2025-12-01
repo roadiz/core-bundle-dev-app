@@ -7,7 +7,7 @@
             {{ _self.item(
                 label: 'delete',
                 class: 'rz-button--error',
-                href: path('settingsDeletePage', { id: item.getId}),
+                href: path('settingsDeletePage', { settingId: setting.getId}),
                 icon: 'rz-icon-ri--delete-bin-7-line'
             ) }}
         {% endif %}
