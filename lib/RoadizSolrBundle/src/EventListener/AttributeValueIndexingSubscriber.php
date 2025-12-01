@@ -47,7 +47,8 @@ final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
 
         /** @var AttributeValueInterface $attributeValue */
         foreach ($attributeValues as $attributeValue) {
-            if (!$attributeValue->getAttribute()?->isSearchable()) {
+            $attribute = $attributeValue->getAttribute();
+            if (!$attribute || !$attribute->isSearchable()) {
                 continue;
             }
             $data = $attributeValue->getAttributeValueTranslation(
@@ -61,7 +62,7 @@ final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
             if (null === $data) {
                 continue;
             }
-            $fieldName = (new AsciiSlugger())->slug($attributeValue->getAttribute()->getCode())->snake()->lower()->toString();
+            $fieldName = (new AsciiSlugger())->slug($attribute->getCode())->snake()->lower()->toString();
             switch ($attributeValue->getType()) {
                 case AttributeInterface::INTEGER_T:
                     $fieldName .= '_i';
