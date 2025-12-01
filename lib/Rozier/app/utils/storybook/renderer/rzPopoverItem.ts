@@ -24,6 +24,10 @@ export function rzPopoverItemRenderer(
     const item = document.createElement(args.tag || 'div')
     item.classList.add(itemClass)
 
+    if (args.selected) {
+        item.classList.add(`${itemClass}--selected`)
+    }
+
     Object.entries(args.attributes || {}).forEach(([key, value]) => {
         if (key !== 'tag') {
             item.setAttribute(key, value)

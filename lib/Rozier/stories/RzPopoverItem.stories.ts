@@ -13,6 +13,7 @@ export type Args = {
     rightIconClass?: string
     tag?: string
     attributes?: Record<string, string>
+    selected?: boolean
 }
 
 const meta: Meta<Args> = {
@@ -29,6 +30,15 @@ type Story = StoryObj<Args>
 export const Default: Story = {
     render: (args) => {
         return rzPopoverItemRenderer(args)
+    },
+}
+
+export const Selected: Story = {
+    render: (args) => {
+        return rzPopoverItemRenderer(args)
+    },
+    args: {
+        selected: true,
     },
 }
 
