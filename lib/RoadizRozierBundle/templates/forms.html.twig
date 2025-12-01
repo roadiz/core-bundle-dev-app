@@ -489,7 +489,7 @@
 {%- endblock form_start %}
 
 {% block form_label -%}
-    {% import "@RoadizRozier/macros/rz_form/head.html.twig" as rz_form_head %}
+    {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
     {% if not compound -%}
         {% set label_attr = label_attr|merge({'for': id}) %}
     {%- endif %}
@@ -498,7 +498,7 @@
     {%- else %}
         {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field__head__label'))|trim}) %}
     {%- endif %}
-    {{ rz_form_head.label(label, label_attr, form, attr: attr) }}
+    {{ rz_form_field.head(label, label_attr, form, attr: attr) }}
 {%- endblock form_label %}
 
 {% block form_widget_compound -%}

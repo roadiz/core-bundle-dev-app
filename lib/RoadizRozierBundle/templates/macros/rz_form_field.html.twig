@@ -1,16 +1,16 @@
-{% macro label(label, label_attr, form, icon, attr, items_length) %}
+{% macro head(label, label_attr, form, icon, attr, items_length) %}
     {% if label is not same as(false) -%}
         {% if label is empty -%}
             {% set label = name|humanize %}
         {%- endif -%}
         <div class="rz-form-field__head">
-            {{ _self.inner_label(label, label_attr, form, icon, attr, items_length) }}
+            {{ _self.inner_head(label, label_attr, form, icon, attr, items_length) }}
         </div>
         {{ _self.help(form) }}
     {%- endif %}
 {% endmacro %}
 
-{% macro inner_label(label, label_attr, form, icon, attr, items_length) %}
+{% macro inner_head(label, label_attr, form, icon, attr, items_length) %}
     {% if icon is defined and icon %}
         <span class="rz-form-field__head__icon {{ icon }}"></span>
     {% endif %}

@@ -54,7 +54,7 @@
                 {% set label = name|humanize %}
             {%- endif -%}
 
-            {% import "@RoadizRozier/macros/rz_form/head.html.twig" as rz_form_head %}
+            {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
             {% if this.drawer.maxLength < 9999 %}
                 {% set label_attr = label_attr|merge({'data-max-length': this.drawer.maxLength}) %}
             {% endif %}
@@ -69,7 +69,7 @@
                     {% set label = name|humanize %}
                 {%- endif -%}
                 <div class="rz-form-field__head">
-                    {{ rz_form_head.inner_label(label, label_attr, form, icon, attr, entityIds|length) }}
+                    {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entityIds|length) }}
                     <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                         {% if enableDropzone %}
                             <button
@@ -98,7 +98,7 @@
                 </div>
             {% endif %}
             {%- if form.vars.help ?? false -%}
-                {{ rz_form_head.help(
+                {{ rz_form_field.help(
                     form: form,
                     class: 'rz-drawer'
                 ) }}
