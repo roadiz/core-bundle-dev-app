@@ -1,8 +1,5 @@
 {% macro head(label, label_attr, form, icon, attr, items_length) %}
     {% if label is not same as(false) -%}
-        {% if label is empty -%}
-            {% set label = name|humanize %}
-        {%- endif -%}
         <div class="rz-form-field__head">
             {{ _self.inner_head(label, label_attr, form, icon, attr, items_length) }}
         </div>
