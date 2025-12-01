@@ -10,7 +10,7 @@ use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-final class DocumentDto implements BaseDocumentInterface
+final class DocumentDto implements \Stringable, BaseDocumentInterface
 {
     use BaseDocumentTrait;
 
