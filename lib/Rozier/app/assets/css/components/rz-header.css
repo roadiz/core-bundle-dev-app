@@ -1,0 +1,39 @@
+.rz-header {
+
+}
+
+.rz-header__head {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs);
+}
+
+.rz-header__quick-menu {
+
+}
+
+.rz-header__burger {
+	/* display: none; */
+}
+
+
+
+.rz-header__body {
+	border: 1px solid black;
+
+	.rz-header:has(.burger-menu-input:checked) & {
+		background-color: red;
+	}
+}
+
+.rz-header__search {
+
+}
+
+.rz-header__menu {
+
+}
+
+.rz-header__settings {
+
+}
