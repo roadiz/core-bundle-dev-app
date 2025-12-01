@@ -94,6 +94,15 @@ export const WithIcon: Story = {
     },
 }
 
+export const Link: Story = {
+    render: (args) => {
+        return rzTooltipRenderer(args)
+    },
+    args: {
+        innerHtml: '<a href="#">Hover me</a>',
+    },
+}
+
 export const WithCustomTooltip: Story = {
     render: (args) => {
         return rzTooltipRenderer(args)
@@ -102,11 +111,11 @@ export const WithCustomTooltip: Story = {
         offset: 20,
         tooltipText: undefined,
         innerHtml: `
-			<button popovertarget="popover-id" class="rz-button">
+			<button popovertarget="manual-popover-id" class="rz-button">
 				<span class="rz-button__label">button label</span>
 				<span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>
 			</button>
-			<div popover="hint" id="popover-id">
+			<div popover="hint" id="manual-popover-id">
                 <span class="rz-icon-ri--information-line"></span>
                 <h3>Tooltip title</h3>
                 <p>This is a custom tooltip content with an icon, a title and a paragraph.</p>

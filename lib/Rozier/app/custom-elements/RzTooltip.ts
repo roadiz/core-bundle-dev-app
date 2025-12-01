@@ -17,7 +17,6 @@ export class RzTooltip extends HTMLElement {
 
     connectedCallback() {
         this.tooltip = new Tooltip(this)
-        this.tooltip.init()
     }
 
     disconnectedCallback() {

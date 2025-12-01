@@ -22,7 +22,6 @@ export class RzButton extends HTMLElement {
     connectedCallback() {
         if (this.hasAttribute(ATTRIBUTES_OPTIONS_MAP.text)) {
             this.tooltip = new Tooltip(this)
-            this.tooltip.init()
         }
     }
 

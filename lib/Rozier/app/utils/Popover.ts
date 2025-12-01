@@ -36,6 +36,7 @@ export type PopoverOptions = {
     placement?: Placement
     offset?: string | number
     shift?: string | number
+    autoInit?: boolean
 }
 
 export class Popover {
@@ -52,7 +53,9 @@ export class Popover {
     constructor(context: HTMLElement, options?: PopoverOptions) {
         this.context = context
         this.targetElement =
-            options?.targetElement || context.querySelector('[popovertarget]')
+            options?.targetElement ||
+            context.querySelector('[popovertarget]') ||
+            context
 
         this.popoverElement =
             options?.popoverElement || context.querySelector('[popover]')
@@ -64,6 +67,10 @@ export class Popover {
             typeof options?.shift === 'string' ? parseInt(options.shift) : 0
 
         this.toggle = this.toggle.bind(this)
+
+        if (options?.autoInit || options?.autoInit === undefined) {
+            this.init()
+        }
     }
 
     init() {
@@ -89,8 +96,8 @@ export class Popover {
 
     close() {
         if (!this.isFloating) return
-
         this.isFloating = false
+
         this.cleanupAutoUpdate?.()
         this.cleanupAutoUpdate = null
     }

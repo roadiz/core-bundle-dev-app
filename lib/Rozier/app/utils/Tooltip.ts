@@ -14,21 +14,48 @@ export const ATTRIBUTES_OPTIONS = Object.values(ATTRIBUTES_OPTIONS_MAP)
 type TooltipOptions = PopoverOptions
 
 export class Tooltip {
-    context: HTMLElement
-    options: TooltipOptions
     popoverInstance: Popover | null = null
 
     constructor(context: HTMLElement, options?: TooltipOptions) {
-        this.context = context
-        this.options = options
-    }
+        // Set default options
+        if (!context.hasAttribute(ATTRIBUTES_OPTIONS_MAP.placement)) {
+            context.setAttribute(ATTRIBUTES_OPTIONS_MAP.placement, 'top')
+        }
 
-    createTargetElement() {
-        const targetElement = document.createElement('button')
-        targetElement.classList.add('rz-tooltip__target')
-        targetElement.innerHTML = this.context.innerHTML
+        if (!context.hasAttribute(ATTRIBUTES_OPTIONS_MAP.offset)) {
+            context.setAttribute(ATTRIBUTES_OPTIONS_MAP.offset, '4')
+        }
 
-        return targetElement
+        // Define target element and set attributes
+        const targetElement: HTMLElement | null =
+            context.querySelector('[popovertarget]') || context
+
+        if (targetElement instanceof HTMLButtonElement === false) {
+            targetElement.setAttribute('role', 'button')
+        }
+
+        const popoverId: string | null =
+            targetElement?.getAttribute('popovertarget') ||
+            uniqueId('rz-tooltip-')
+
+        if (!targetElement?.hasAttribute('popovertarget')) {
+            targetElement.setAttribute('popovertarget', popoverId)
+        }
+
+        // Create popover element if not present
+        const popoverElement = context.querySelector('[popover]')
+        const textContent = context.getAttribute(ATTRIBUTES_OPTIONS_MAP.text)
+        if (textContent && !popoverElement) {
+            const generatedTooltip = this.createTooltipElement(textContent)
+            generatedTooltip.id = popoverId
+            context.appendChild(generatedTooltip)
+        }
+
+        this.popoverInstance = new Popover(context, options)
+
+        this.open = this.open.bind(this)
+        this.close = this.close.bind(this)
+        this.initListeners()
     }
 
     createTooltipElement(text: string) {
@@ -41,55 +68,35 @@ export class Tooltip {
         return generatedTooltip
     }
 
-    init() {
-        this.setDefaultOption()
-
-        const textContent = this.context.getAttribute(
-            ATTRIBUTES_OPTIONS_MAP.text,
-        )
-        let targetElement: HTMLElement | null = this.context.querySelector(
-            'button[popovertarget]',
-        )
-        const popoverId =
-            targetElement?.getAttribute('popovertarget') ||
-            uniqueId('rz-tooltip-')
-        const popoverElement = this.context.querySelector('[popover]')
-
-        if (!targetElement) {
-            targetElement = this.createTargetElement()
-            if (this.context.className) {
-                targetElement.classList.add(this.context.className)
-                this.context.className = ''
-            }
-            targetElement.setAttribute('popovertarget', popoverId)
-            this.context.innerHTML = targetElement.outerHTML
-        }
-
-        if (textContent && !popoverElement) {
-            const generatedTooltip = this.createTooltipElement(textContent)
-            generatedTooltip.id = popoverId
-            this.context.appendChild(generatedTooltip)
-        }
-
-        this.popoverInstance = new Popover(this.context, this.options)
-        this.popoverInstance.init()
-    }
-
-    setDefaultOption() {
-        if (!this.context.hasAttribute(ATTRIBUTES_OPTIONS_MAP.placement)) {
-            this.context.setAttribute(ATTRIBUTES_OPTIONS_MAP.placement, 'top')
-        }
-
-        if (!this.context.hasAttribute(ATTRIBUTES_OPTIONS_MAP.offset)) {
-            this.context.setAttribute(ATTRIBUTES_OPTIONS_MAP.offset, '4')
-        }
-    }
-
     updateOptions() {
         this.popoverInstance?.updateOptions()
     }
 
+    close() {
+        // Popover Class will sync popover state and visibility
+        this.popoverInstance?.popoverElement?.hidePopover()
+    }
+
+    open() {
+        // Popover Class will sync popover state and visibility
+        this.popoverInstance?.popoverElement?.showPopover()
+    }
+
+    initListeners() {
+        const target = this.popoverInstance?.targetElement
+        target?.addEventListener('mouseenter', this.open)
+        target?.addEventListener('focus', this.open)
+        target?.addEventListener('mouseleave', this.close)
+        target?.addEventListener('blur', this.close)
+    }
+
     destroy() {
+        const target = this.popoverInstance?.targetElement
+        target?.removeEventListener('mouseenter', this.open)
+        target?.removeEventListener('focus', this.open)
+        target?.removeEventListener('mouseleave', this.close)
+        target?.removeEventListener('blur', this.close)
+
         this.popoverInstance?.destroy()
         this.popoverInstance = null
     }

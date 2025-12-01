@@ -17,7 +17,6 @@ export class RzPopover extends HTMLElement {
 
     connectedCallback() {
         this.popoverInstance = new Popover(this)
-        this.popoverInstance.init()
     }
 
     disconnectedCallback() {
