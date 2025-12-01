@@ -63,6 +63,9 @@ export default [
     'folders-line',
     'folder-zip-line',
     'information-line',
+    'download-cloud-2-line',
+    'space-ship-line',
+    'download-line',
     // Markdown related icons
     'h-1',
     'h-2',
