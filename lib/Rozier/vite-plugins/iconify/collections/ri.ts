@@ -10,6 +10,7 @@ export default [
     'arrow-down-line',
     'arrow-left-line',
     'arrow-right-line',
+    'arrow-right-up-line',
     'arrow-up-line',
     'check-line',
     'checkbox-blank-line',

@@ -14,6 +14,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-quick-access-menu.css';
 @import './components/rz-button.css';
 @import './components/rz-dashboard.css';
 @import './components/rz-file-upload.css';
@@ -26,6 +27,7 @@
 @import './components/rz-tabpanel.css';
 @import './components/rz-menu-bar.css';
 @import './components/rz-popover.css';
+@import './components/rz-popover-item.css';
 @import './components/rz-floating-bar.css';
 @import './components/rz-dropdown-menu.css';
 @import './components/rz-card.css';

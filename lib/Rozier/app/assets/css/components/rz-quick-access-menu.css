@@ -1,0 +1,28 @@
+.rz-quick-access-menu__target {
+	display: flex;
+	width: 44px;
+	height: 44px;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border: none;
+	border-radius: var(--radius-xs, 6px);
+	color: var(--rz-quick-access-menu-target-color, var(--content-on-darker-primary, #FFF));
+	background-color: var(--rz-quick-access-menu-target-background-color, var(--brand-primary, #2050F5));
+	font-size: 20px;
+}
+
+.rz-quick-access-menu__popover {
+	padding: var(--spacing-4xs, 8px);
+	gap: var(--spacing-4xs, 8px);
+	border-radius: var(--radius-sm, 8px);
+	border: 1px solid var(--line-on-light-quinary, #4E4E4E);
+	box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+	min-width: min(100%, 196px);
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+}

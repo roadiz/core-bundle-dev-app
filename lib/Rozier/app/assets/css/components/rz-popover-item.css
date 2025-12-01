@@ -1,0 +1,65 @@
+
+.rz-popover-item {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--spacing-6xs);
+	min-height: 28px;
+	padding-block: var(--spacing-6xs);
+	padding-inline: var(--spacing-6xs);
+	cursor: pointer;
+	border-radius: var(--radius-xs, 6px);
+	color: var(--button-basic-low-content-on-light, #18191B);
+	text-decoration: none;
+	transition: background-color 0.3s;
+
+	&:where(button) {
+		border: initial;
+		width: 100%;
+		text-align: initial;
+		background-color: initial;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
+		}
+	}
+}
+
+.rz-popover-item--selected {
+	background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
+}
+
+.rz-popover-item__icon {
+	font-size: 16px;
+}
+
+.rz-popover-item__text-wrapper {
+	flex-grow: 1;
+	margin-right: var(--spacing-xs);
+}
+
+.rz-popover-item__label {
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size);
+	line-height: var(--text-label-sm-line-height);
+	letter-spacing: var(--text-label-sm-letter-spacing);
+	font-weight: var(--text-label-sm-font-weight);
+
+	& + & {
+		margin-left: var(--spacing-4xs);
+	}
+}
+
+.rz-popover-item__description {
+	color: var(--content-on-light-tertiary, #9A9A9A);
+	margin-top: var(--spacing-6xs);
+
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-overtitle-xs-font-size);
+	line-height: var(--text-overtitle-xs-line-height);
+	letter-spacing: var(--text-overtitle-xs-letter-spacing);
+	font-weight: var(--text-overtitle-xs-font-weight);
+}
