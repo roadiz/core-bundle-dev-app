@@ -31,6 +31,8 @@
 @import './components/rz-dropdown-menu.css';
 @import './components/rz-card.css';
 @import './components/rz-page-header.css';
+@import './components/rz-breadcrumb.css';
+
 
 /* Components: Form */
 @import './components/rz-textarea.css';
