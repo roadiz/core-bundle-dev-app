@@ -151,7 +151,7 @@
         "async-aws/simple-s3": "^1.1",
         "deptrac/deptrac": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
-        "friendsofphp/php-cs-fixer": "^3.64",
+        "friendsofphp/php-cs-fixer": "*",
         "league/flysystem-async-aws-s3": "^3.10",
         "league/flysystem-aws-s3-v3": "^3.10",
         "php-coveralls/php-coveralls": "^2.4",
