@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * Simple document implementation for tests purposes.
  */
-class SimpleDocument implements DocumentInterface
+class SimpleDocument implements \Stringable, DocumentInterface
 {
     use BaseDocumentTrait;
     use DocumentTrait;
