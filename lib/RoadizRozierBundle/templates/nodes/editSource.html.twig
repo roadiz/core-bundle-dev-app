@@ -3,33 +3,56 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-
-{% block title %}{{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }} | {{ parent() }}{% endblock %}
+{% import "@RoadizRozier/macros/rz_page_header.html.twig" as page_header %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-edit-source">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-            "node": node,
-            "source": source,
-        } only %}
-        <h1 class="content-title node-edit-source-title"{% if source.translation.locale is rtl %} dir="rtl"{% endif %}>
-            {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
-            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+    {% if not source %}
+        {% set source = node.nodeSources.first %}
+    {% endif %}
+    {% set breadcrumb = {
+        'label': 'node-breadcrumb',
+        'parent': source|parents(null, true)|reverse,
+        'current': source.title|default(node.nodeName)
+    } %}
+    {% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+        breadcrumb: breadcrumb
+    } %}
+        {% block translation %}
+            <div class="rz-page-header__item">
+                {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": translation.getId} %}
+            </div>
+        {% endblock %}
+        {% block breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endblock %}
+        {% block title %}
+            {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            <h1 class="rz-page-header__title rz-page-header__item">
+                {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
+            </h1>
+            <div>
+                {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+            </div>
 
             {% if app.debug %}
-                {{ rz_badge.item(
-                    label: 'NS #' ~ source.id,
-                    size: 'sm',
-                    color: 'information'
-                ) }}
+                <div class="rz-page-header__item">
+                    {{ rz_badge.item(
+                        label: 'NS #' ~ source.id,
+                        size: 'sm',
+                        color: 'information'
+                    ) }}
+                </div>
             {% endif %}
-            {{ rz_status_badge.item(node: node) }}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'source'} %}
-        {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": translation.getId} %}
-    </header>
+            <div class="rz-page-header__item--right">
+                {{ rz_status_badge.item(node: node) }}
+            </div>
+        {% endblock %}
+        {% block nav_bar %}
+            {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'source'} %}
+        {% endblock %}
+    {% endembed %}
 
     <div class="content content-node-edit-source">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

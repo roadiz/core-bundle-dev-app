@@ -8,16 +8,42 @@
 
 {% block content %}
 <section class="content-global" data-page-title="{{ pageTitle }} – {% trans %}back_office{% endtrans %}">
-    <header class="content-header header-node header-node-edit-tags">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {"node": node} only %}
-        <h1 class="content-title node-edit-tags-title">
-            {{ pageTitle }}
-            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-            {{ rz_status_badge.item(node: node) }}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'tags'} %}
-    </header>
+    {% if not source %}
+        {% set source = node.nodeSources.first %}
+    {% endif %}
+    {% set breadcrumb = {
+        'label': 'node-breadcrumb',
+        'parent': source|parents(null, true)|reverse,
+        'current': source.title|default(node.nodeName)
+    } %}
+    {% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+        breadcrumb: breadcrumb
+    } %}
+        {% block translation %}
+            <div class="rz-page-header__item">
+                {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": translation.getId} %}
+            </div>
+        {% endblock %}
+        {% block breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endblock %}
+        {% block title %}
+            {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            <h1 class="rz-page-header__title rz-page-header__item">
+                {{ pageTitle }}
+            </h1>
+            <div class="rz-page-header__item">
+                {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+            </div>
+            <div class="rz-page-header__item--right">
+                {{ rz_status_badge.item(node: node) }}
+            </div>
+        {% endblock %}
+        {% block nav_bar %}
+            {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'tags'} %}
+        {% endblock %}
+    {% endembed %}
     <article class="content content-node-edit-tags">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-node-tags-form'}}) }}
