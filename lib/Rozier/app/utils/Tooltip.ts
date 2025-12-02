@@ -30,10 +30,6 @@ export class Tooltip {
         const targetElement: HTMLElement | null =
             context.querySelector('[popovertarget]') || context
 
-        if (targetElement instanceof HTMLButtonElement === false) {
-            targetElement.setAttribute('role', 'button')
-        }
-
         const popoverId: string | null =
             targetElement?.getAttribute('popovertarget') ||
             uniqueId('rz-tooltip-')

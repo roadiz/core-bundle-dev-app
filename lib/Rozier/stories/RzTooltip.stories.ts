@@ -90,7 +90,8 @@ export const WithIcon: Story = {
         return rzTooltipRenderer(args)
     },
     args: {
-        innerHtml: '<span class="rz-icon-ri--information-line"></span>',
+        innerHtml:
+            '<span aria-label="Information" class="rz-icon-ri--information-line"></span>',
     },
 }
 
