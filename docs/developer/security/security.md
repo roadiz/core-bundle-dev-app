@@ -5,6 +5,10 @@ Roadiz uses Symfony's security component to manage user authentication and autho
 entity to manage roles in bulk.
 This user entity can be used in classic session firewall, in API authentication with JWT tokens or even with OpenID (openid user must match a local user).
 
+::: tip
+Roadiz provides its own OpenID Connect implementation for web application SSO. See the [OpenID vs Native Symfony OIDC comparison](./openid-native-comparison.md) to understand the differences between Roadiz's OpenID bundle and Symfony's native OIDC token authentication.
+:::
+
 ```yaml
 # config/packages/security.yaml
 security:
