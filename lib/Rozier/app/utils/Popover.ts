@@ -72,7 +72,10 @@ export class Popover {
 
         this.toggle = this.toggle.bind(this)
 
-        if (options?.autoInit || options?.autoInit === undefined) {
+        if (
+            options?.autoInit === true ||
+            typeof options?.autoInit === 'undefined'
+        ) {
             this.init()
         }
     }
