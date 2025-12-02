@@ -6,8 +6,6 @@ import prettier from 'prettier/standalone'
 import prettierPluginHtml from 'prettier/plugins/html'
 import '@ungap/custom-elements' // Polyfill for Safari (not implementing the customized built-in elements)
 import 'assets/css/main.css'
-
-// Initialize preview environment
 ;(function () {
     // Auto-register custom elements
     for (const name in customElementList) {

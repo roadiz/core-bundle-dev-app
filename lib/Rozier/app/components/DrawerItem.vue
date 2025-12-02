@@ -1,54 +1,33 @@
 <template>
-    <transition name="fade">
-        <li
-            class="uk-sortable-list-item drawer-item type-label"
-            v-if="item"
-            @click.prevent="onAddItemButtonClick"
-            :class="{ 'has-thumbnail': !!thumbnailUrl, 'not-published': published === false }"
-        >
-            <div class="uk-sortable-handle"></div>
-            <div class="border" :style="{ backgroundColor: color }"></div>
-            <figure
-                class="thumbnail"
-                v-if="thumbnailUrl && !isThumbnailProcessable"
-                :style="{ 'background-image': 'url(' + thumbnailUrl + ')' }"
-            ></figure>
-            <figure class="thumbnail" v-else-if="thumbnailUrl && isThumbnailProcessable">
-                <picture>
-                    <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
-                    <img :src="thumbnailUrl" :alt="name" />
-                </picture>
-            </figure>
-            <div class="names">
-                <p class="parent-name" v-if="parentName">
-                    <template v-if="subParentName">
-                        <span class="sub">
-                            {{ subParentName }}
-                        </span>
-                    </template>
-                    <span class="direct">{{ parentName }}</span>
-                </p>
-                <span class="name">{{ name }}</span>
-                <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
-                <div class="links" :class="editItemUrl ? '' : 'no-edit'">
-                    <ajax-link :href="editItemUrl" class="uk-button link uk-button-mini" v-if="editItemUrl">
-                        <i class="uk-icon-rz-pencil"></i> </ajax-link
-                    ><button
-                        type="button"
-                        class="uk-button uk-button-mini link uk-button-danger"
-                        @click.prevent="onRemoveItemButtonClick()"
-                    >
-                        <i class="uk-icon-rz-trash-o"></i>
-                    </button>
-                </div>
-                <button type="button" class="uk-button uk-button-mini link-button">
-                    <div class="link-button-inner">
-                        <i class="uk-icon-rz-plus"></i>
-                    </div>
-                </button>
-            </div>
-        </li>
-    </transition>
+    <li class="rz-card" @click.prevent="onAddItemButtonClick">
+        <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
+        <div class="rz-card__overtitle" v-if="parentName || subParentName">
+            {{ subParentName ? subParentName : parentName }}
+        </div>
+        <div v-if="name" class="rz-card__title">{{ name }}</div>
+        <div v-if="thumbnailUrl" class="rz-card__asset">
+            <picture class="rz-card__img">
+                <source v-if="isThumbnailProcessable && !thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
+                <img :src="thumbnailUrl" :alt="name || 'Thumbnail'" width="110" height="94">
+            </picture>
+        </div>
+
+        <div v-if="!isItemExplorer" class="rz-button-group rz-button-group--sm rz-button-group--gap-sm rz-card__action">
+            <ajax-link :href="editItemUrl" class="rz-button rz-button--primary rz-button-group__button" v-if="editItemUrl">
+                <span class="rz-button__icon rz-icon-ri--equalizer-3-line"></span>
+            </ajax-link>
+            <button
+                type="button"
+                class="rz-button rz-button--error-light rz-button-group__button"
+                @click.prevent="onRemoveItemButtonClick()"
+            >
+                <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+            </button>
+        </div>
+        <button v-else class="rz-card__action rz-card__action--top rz-button rz-button--primary rz-button-group__button">
+            <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
+        </button>
+    </li>
 </template>
 <script>
 import AjaxLink from './AjaxLink.vue'
@@ -121,7 +100,9 @@ export default {
         thumbnailUrl: function () {
             if (this.item.thumbnail && this.item.thumbnail.url) {
                 return this.item.thumbnail.url
-            } else if (this.item.thumbnail) {
+            } else if (this.item.thumbnail && this.item.thumbnail.publicUrl) {
+                return this.item.thumbnail.publicUrl
+            } else if (typeof this.item.thumbnail === 'string') {
                 return this.item.thumbnail
             }
             return null
