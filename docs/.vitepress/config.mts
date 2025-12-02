@@ -102,12 +102,22 @@ export default ({ mode }) => {
                         { text: 'Solr search engine', link: '/developer/first-steps/use_apache_solr' },
                         { text: 'Infrastructure', link: '/developer/infrastructure/infrastructure' },
                         {
+                            text: 'Optional bundles',
+                            collapsed: true,
+                            items: [
+                                { text: 'Introduction', link: '/developer/optional-bundles/' },
+                                { text: 'Solr Bundle', link: '/developer/optional-bundles/solr-bundle' },
+                                { text: 'Two-Factor Authentication Bundle', link: '/developer/optional-bundles/two-factor-bundle' },
+                                { text: 'User Bundle', link: '/developer/optional-bundles/user-bundle' },
+                            ]
+                        },
+                        {
                             text: 'Extending Roadiz',
                             collapsed: false,
                             items: [
                                 { text: 'Roadiz events', link: '/extensions/events' },
                                 { text: 'Extension examples', link: '/extensions/extending_roadiz' },
-                                { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry.md' },
+                                { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry' },
                                 { text: 'Extending Solr indexation', link: '/extensions/extending_solr' },
                             ]
                         },
