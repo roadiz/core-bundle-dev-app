@@ -55,7 +55,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'name' => 'exact',
     ])
 ]
-class Translation implements TranslationInterface
+class Translation implements \Stringable, TranslationInterface
 {
     use SequentialIdTrait;
     use DateTimedTrait;
