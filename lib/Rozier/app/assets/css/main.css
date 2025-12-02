@@ -17,7 +17,8 @@
 @import './components/rz-button.css';
 @import './components/rz-dashboard.css';
 @import './components/rz-file-upload.css';
-@import './components/rz-workspace-item.css';
+@import './components/rz-header.css';
+@import './components/rz-header-item.css';
 @import './components/rz-badge.css';
 @import './components/rz-message.css';
 @import './components/rz-button-group.css';
@@ -31,7 +32,6 @@
 @import './components/rz-card.css';
 @import './components/rz-page-header.css';
 @import './components/rz-breadcrumb.css';
-@import './components/rz-header.css';
 
 
 /* Components: Form */

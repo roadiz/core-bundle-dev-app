@@ -27,7 +27,6 @@ function quickMenuRenderer() {
 function burgerRenderer() {
     const burger = document.createElement('input')
     burger.type = 'checkbox'
-    burger.checked = true
 
     burger.style = `
 		padding: 8px 12px;
@@ -42,18 +41,17 @@ function burgerRenderer() {
 
 function itemRenderer(label: string) {
     const item = document.createElement('button')
-    item.classList.add(`${COMPONENT_CLASS_NAME}__menu-item`)
+    item.classList.add(`${COMPONENT_CLASS_NAME}__list__item`)
     item.innerText = label
     return item
 }
 
 function menuRenderer() {
     const menu = document.createElement('ul')
-    menu.classList.add(`${COMPONENT_CLASS_NAME}__menu`)
+    menu.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
     Array.from({ length: 4 }).forEach((_, index) => {
         const listItem = document.createElement('li')
-        listItem.classList.add(`${COMPONENT_CLASS_NAME}__menu-item`)
 
         const item = itemRenderer(`Menu Item ${index + 1}`)
         listItem.appendChild(item)
@@ -79,13 +77,13 @@ export const Default: Story = {
         burger.classList.add('burger-menu-input')
         head.appendChild(burger)
 
-        const body = document.createElement('div')
-        body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
-        header.appendChild(body)
+        const nav = document.createElement('nav')
+        nav.classList.add(`${COMPONENT_CLASS_NAME}__nav`)
+        header.appendChild(nav)
 
-        body.appendChild(itemRenderer('Search'))
-        body.appendChild(menuRenderer())
-        body.appendChild(itemRenderer('Settings'))
+        nav.appendChild(itemRenderer('Search'))
+        nav.appendChild(menuRenderer())
+        nav.appendChild(itemRenderer('Settings'))
 
         return header
     },
