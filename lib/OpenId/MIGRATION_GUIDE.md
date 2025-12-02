@@ -14,17 +14,20 @@ The Roadiz OpenID bundle is **actively maintained and necessary** for web applic
 - Uses `lcobucci/jwt` directly for JWT parsing and validation
 - Manual JWKS fetching and PEM conversion with `codercat/jwk-to-pem`
 
-**Potential Enhancement:**
+**Current Approach:**
 ```php
-// Current approach in OpenIdAuthenticator
+// In OpenIdAuthenticator::authenticate()
 $configuration = $this->jwtConfigurationFactory->create();
 $jwt = $configuration->parser()->parse($jsonResponse['id_token']);
 $configuration->validator()->assert($jwt, ...$constraints);
 ```
 
-**Could Leverage:**
-- Symfony's `Web\Token\*` components if they provide better integration
-- However, `lcobucci/jwt` is well-maintained and works well, so this is low priority
+**Potential Enhancement:**
+```php
+// Could leverage Symfony's Web Token components if available
+// However, lcobucci/jwt is well-maintained and works well
+// This is low priority unless clear benefits emerge
+```
 
 **Benefits:**
 - Potential performance improvements

@@ -5,7 +5,9 @@ Roadiz sub-package for handling OpenID Connect authentication
 
 ## Purpose
 
-This package implements the **OAuth2 Authorization Code Flow** for OpenID Connect, providing web application Single Sign-On (SSO) for the Roadiz CMS backoffice. This is different from Symfony's native OIDC support (introduced in 6.3+), which focuses on stateless API authentication with Bearer tokens.
+This package implements the **OAuth2 Authorization Code Flow** for OpenID Connect, providing web application Single Sign-On (SSO) for the Roadiz CMS backoffice. 
+
+This is different from Symfony's native OIDC support (introduced in 6.3+). Symfony's implementation focuses on stateless API authentication with Bearer tokens.
 
 ## Why Not Use Symfony's Native OIDC?
 

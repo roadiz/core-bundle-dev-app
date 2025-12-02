@@ -51,7 +51,7 @@ Symfony's native OIDC is designed for:
 1. **Stateless API authentication** with Bearer tokens
 2. **Resource server** validation of access tokens
 3. **Service-to-service** authentication
-4. **Mobile and SPA** applications that obtain tokens independently
+4. **Mobile and Single Page Application (SPA)** applications that obtain tokens independently
 
 ## Roadiz OpenID Bundle
 
