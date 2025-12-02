@@ -3,10 +3,10 @@ import { rzHeaderItemRenderer } from '~/utils/storybook/renderer/rzHeaderItem'
 
 export type Args = {
     label: string
-    active: boolean
-    iconClass: string
-    variants: 'level-1' | 'level-2'
-    tag: string
+    iconClass?: string
+    active?: boolean
+    variants?: 'level-1' | 'level-2'
+    tag?: string
     attributes?: { [key: string]: string }
 }
 

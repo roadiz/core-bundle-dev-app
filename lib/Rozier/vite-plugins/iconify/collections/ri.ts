@@ -67,6 +67,8 @@ export default [
     'download-cloud-2-line',
     'space-ship-line',
     'download-line',
+    'dashboard-line',
+    'calendar-event-line',
     // Markdown related icons
     'h-1',
     'h-2',

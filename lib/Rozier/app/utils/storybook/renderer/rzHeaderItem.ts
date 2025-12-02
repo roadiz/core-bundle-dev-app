@@ -28,7 +28,9 @@ export function rzHeaderItemRenderer(args: Args) {
         node.appendChild(icon)
     }
 
-    const label = document.createTextNode(args.label)
+    const label = document.createElement('span')
+    label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
+    label.textContent = args.label
     node.appendChild(label)
 
     if (customElement || args.tag === 'a') {

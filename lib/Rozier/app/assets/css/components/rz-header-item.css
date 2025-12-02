@@ -1,23 +1,20 @@
 .rz-header-item {
 	display: flex;
-	border: none;
 	padding: var(--rz-header-item-padding, var(--spacing-4xs, 8px));
 	align-items: center;
 	gap: var(--spacing-xs, 16px);
 	background-color: var(--workspace-bg, #F2F2F2);
 	border-radius: var(--radius-2xs, 4px);
 	transition: background-color 0.3s;
-	font-family: var(--font-family-os-label);
-	font-size: var(--text-label-sm-font-size);
-	line-height: var(--text-label-sm-line-height);
-	letter-spacing: var(--text-label-sm-letter-spacing);
-	font-weight: var(--text-label-sm-font-weight);
 	color: var(--workspace-content, #18191B);
 	cursor: pointer;
 
-	/* TODO: add active/current state styles */
-	a& {
+	&:where(a) {
 		text-decoration: none;
+	}
+
+	&:where(button) {
+		border: none;
 	}
 
 	@media (hover: hover) {
@@ -48,7 +45,17 @@
 }
 
 .rz-header-item__icon {
+	flex-shrink: 0;
 	font-size: 20px;
+}
+
+.rz-header-item__label {
+	white-space: nowrap;
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size);
+	line-height: var(--text-label-sm-line-height);
+	letter-spacing: var(--text-label-sm-letter-spacing);
+	font-weight: var(--text-label-sm-font-weight);
 }
 
 .rz-header-item__arrow {

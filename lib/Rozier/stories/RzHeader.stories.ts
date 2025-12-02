@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzHeaderItemRenderer } from '~/utils/storybook/renderer/rzHeaderItem'
+import type { Args as ItemArgs } from './RzHeaderItem.stories'
 
 const meta: Meta = {
     title: 'Components/Header',
@@ -19,7 +21,7 @@ function quickMenuRenderer() {
 		border-radius: 4px;
 	`
     menu.classList.add(`${COMPONENT_CLASS_NAME}__quick-menu`)
-    menu.innerText = 'Quick Menu'
+    menu.innerText = 'R'
 
     return menu
 }
@@ -39,21 +41,36 @@ function burgerRenderer() {
     return burger
 }
 
-function itemRenderer(label: string) {
-    const item = document.createElement('button')
-    item.classList.add(`${COMPONENT_CLASS_NAME}__list__item`)
-    item.innerText = label
+function itemRenderer(itemArgs: ItemArgs) {
+    const item = rzHeaderItemRenderer(itemArgs)
+    item.classList.add(`${COMPONENT_CLASS_NAME}__item`)
     return item
 }
 
 function menuRenderer() {
     const menu = document.createElement('ul')
     menu.classList.add(`${COMPONENT_CLASS_NAME}__list`)
-
-    Array.from({ length: 4 }).forEach((_, index) => {
+    ;[
+        {
+            iconClass: 'rz-icon-ri--dashboard-line',
+            label: 'Dashboard',
+        },
+        {
+            iconClass: 'rz-icon-ri--calendar-event-line',
+            label: 'Events',
+        },
+        {
+            iconClass: 'rz-icon-ri--image-line',
+            label: 'Documents',
+        },
+        {
+            iconClass: 'rz-icon-ri--computer-line',
+            label: 'Main menu',
+        },
+    ].forEach((itemArgs) => {
         const listItem = document.createElement('li')
 
-        const item = itemRenderer(`Menu Item ${index + 1}`)
+        const item = itemRenderer(itemArgs)
         listItem.appendChild(item)
         menu.appendChild(listItem)
     })
@@ -81,9 +98,19 @@ export const Default: Story = {
         nav.classList.add(`${COMPONENT_CLASS_NAME}__nav`)
         header.appendChild(nav)
 
-        nav.appendChild(itemRenderer('Search'))
+        nav.appendChild(
+            itemRenderer({
+                label: 'Search',
+                iconClass: 'rz-icon-ri--search-line',
+            }),
+        ).classList.add(`${COMPONENT_CLASS_NAME}__item--start`)
         nav.appendChild(menuRenderer())
-        nav.appendChild(itemRenderer('Settings'))
+        nav.appendChild(
+            itemRenderer({
+                label: 'Settings',
+                iconClass: 'rz-icon-ri--settings-4-line',
+            }),
+        ).classList.add(`${COMPONENT_CLASS_NAME}__item--end`)
 
         return header
     },
