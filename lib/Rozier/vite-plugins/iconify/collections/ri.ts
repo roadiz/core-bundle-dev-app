@@ -64,6 +64,7 @@ export default [
     'folders-line',
     'folder-zip-line',
     'information-line',
+    'star-line',
     'download-cloud-2-line',
     'space-ship-line',
     'download-line',
