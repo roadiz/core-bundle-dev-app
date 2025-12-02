@@ -62,9 +62,13 @@ export class Popover {
 
         this.placement = options?.placement || 'bottom-start'
         this.offset =
-            typeof options?.offset === 'string' ? parseInt(options.offset) : 0
+            (typeof options?.offset === 'string'
+                ? parseInt(options.offset)
+                : options?.offset) || 0
         this.shift =
-            typeof options?.shift === 'string' ? parseInt(options.shift) : 0
+            (typeof options?.shift === 'string'
+                ? parseInt(options.shift)
+                : options?.shift) || 0
 
         this.toggle = this.toggle.bind(this)
 
