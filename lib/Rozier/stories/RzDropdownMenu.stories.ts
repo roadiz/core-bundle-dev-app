@@ -61,7 +61,7 @@ function rzDropdownBodyRenderer(items: PopoverItemArgs[]) {
     items.forEach((itemArgs) => {
         const itemWrapper = document.createElement('li')
         body.appendChild(itemWrapper)
-        itemWrapper.classList.add(`${COMPONENT_CLASS_NAME}__item`)
+
         if (itemArgs.tag === 'hr') {
             return
         }
@@ -89,7 +89,8 @@ function rzDropdownMenuRenderer(args: Args) {
         )
     }
 
-    if (args.headElements?.length || args.title) {
+    const headElements = args.displayHeadElements ? args.headElements : []
+    if (args.title || headElements.length) {
         const head = document.createElement('div')
         head.className = `${COMPONENT_CLASS_NAME}__head`
 
@@ -100,15 +101,15 @@ function rzDropdownMenuRenderer(args: Args) {
             head.appendChild(title)
         }
 
-        if (args.displayHeadElements && args.headElements?.length) {
-            const headElements = document.createElement('ul')
-            headElements.className = `${COMPONENT_CLASS_NAME}__info-list`
-            head.appendChild(headElements)
+        if (headElements.length) {
+            const headElementList = document.createElement('ul')
+            headElementList.className = `${COMPONENT_CLASS_NAME}__info-list`
+            head.appendChild(headElementList)
 
-            args.headElements.forEach((el) => {
+            headElements.forEach((el) => {
                 const infoItem = document.createElement('li')
                 infoItem.classList.add(`${COMPONENT_CLASS_NAME}__info-item`)
-                headElements.appendChild(infoItem)
+                headElementList.appendChild(infoItem)
 
                 if (el.innerHTML) {
                     infoItem.innerHTML += el.innerHTML
@@ -138,6 +139,21 @@ function rzDropdownMenuRenderer(args: Args) {
 export const Default: Story = {
     render: (args) => {
         return rzDropdownMenuRenderer(args)
+    },
+}
+
+export const Simple: Story = {
+    render: (args) => {
+        return rzDropdownMenuRenderer(args)
+    },
+    args: {
+        title: '',
+        displayHeadElements: false,
+        items: [
+            [DEFAULT_ITEM, DEFAULT_ITEM, DEFAULT_ITEM, DEFAULT_ITEM].map(
+                (i) => ({ ...i, description: undefined, badge: undefined }),
+            ),
+        ],
     },
 }
 

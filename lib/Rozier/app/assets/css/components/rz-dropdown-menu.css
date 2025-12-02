@@ -1,55 +1,44 @@
 .rz-dropdown-menu {
-	--rz-dropdown-menu-border-radius: var(--radius-sm);
 	--rz-dropdown-menu-border-color-fallback: var(--surface-dark-primary, #18191B);
-	--rz-dropdown-menu-large-border: 6PX;
+	--rz-dropdown-menu-head-background-color: var(--rz-dropdown-menu-border-color, var(--rz-dropdown-menu-border-color-fallback));
+	--rz-dropdown-menu-border-radius: calc(var(--radius-sm) - 1px); /* Fix visual inner radius */
 
+	box-sizing: border-box;
 	position: relative;
 	display: var(--rz-dropdown-display, none);
-	box-sizing: border-box;
 	min-width: var(--rz-dropdown-min-width, 194px);
 	margin: initial;
-	padding: 1PX;
-	border: none;
-	border-radius: var(--rz-dropdown-menu-border-radius);
-	isolation: isolate;
-	overflow: hidden;
+	border-width: var(--rz-dropdown-menu-border-top-width, 1PX) 1PX var(--rz-dropdown-menu-border-bottom-width, 1PX) 1PX;
+	border-style: solid;
+	border-color: var(--rz-dropdown-menu-border-color, var(--rz-dropdown-menu-border-color-fallback));
+	border-radius: var(--radius-sm);
 	background-color: var(--rz-dropdown-menu-border-color, var(--rz-dropdown-menu-border-color-fallback));
+	padding: 0;
+	overflow: hidden;
+	isolation: isolate;
 }
 
+/* Default element with popover attribute is hidden by default */
 .rz-dropdown-menu--open,
 .rz-dropdown-menu:popover-open {
 	--rz-dropdown-display: flex;
 	flex-direction: column;
 }
 
-.rz-dropdown-menu:has(.rz-dropdown-menu__info-list),
-.rz-dropdown-menu--head-extended {
-	--rz-dropdown-menu-head-background-color: var(--surface-light-tertiary, #F2F2F2);
+/* wrapper has different border style and head element has a different background color */
+.rz-dropdown-menu:has(.rz-dropdown-menu__info-list) {
+	--rz-dropdown-menu-border-bottom-width: 1PX;
+	--rz-dropdown-menu-border-top-width: 6PX;
+
 	--rz-dropdown-menu-title-color: var(--content-on-light-secondary, #646464);
-
-	padding-top: var(--rz-dropdown-menu-large-border);
+	--rz-dropdown-menu-head-background-color: var(--surface-light-tertiary, #F2F2F2);
 }
 
-.rz-dropdown-menu--reverse {
-
-	.rz-dropdown-menu__head {
-		order: 2;
-	}
-
-	&.rz-dropdown-menu--head-extended,
-	&:has(.rz-dropdown-menu__info-list) {
-		padding-top: 1PX;
-		padding-bottom: var(--rz-dropdown-menu-large-border);
-	}
-
-	.rz-dropdown-menu__head{
-		border-radius: 0 0 var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius);
-
-		&::after {
-			translate: 0 calc(var(--rz-dropdown-menu-large-border) * -1);
-		}
-	}
+.rz-dropdown-menu--reverse:has(.rz-dropdown-menu__info-list) {
+	--rz-dropdown-menu-border-top-width: 1PX;
+	--rz-dropdown-menu-border-bottom-width: 6PX;
 }
+
 
 .rz-dropdown-menu__head {
 	position: relative;
@@ -59,20 +48,19 @@
 	gap: var(--spacing-7xs);
 	border-radius: var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius) 0 0;
 	background-color: var(--rz-dropdown-menu-head-background-color);
+	box-shadow: 0 10px 0 0 var(--rz-dropdown-menu-head-background-color);
+	z-index: -1;
 
-	&::after {
-		position: absolute;
-		content: '';
-		inset: 0;
-		translate: 0 var(--rz-dropdown-menu-large-border);
-		background-color: var(--rz-dropdown-menu-head-background-color);
-		z-index: -1;
+	.rz-dropdown-menu--reverse & {
+		order: 2;
+		border-radius: 0 0 var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius);
+		box-shadow: 0 -10px 0 0 var(--rz-dropdown-menu-head-background-color);
 	}
 }
 
 .rz-dropdown-menu__title {
 	color: var(--rz-dropdown-menu-title-color, var(--content-on-darker-primary, #FFF));
-	padding-inline: var(--spacing-6xs);
+	-inline-inline: var(--spacing-6xs);
 
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-overtitle-sm-font-size);
@@ -105,6 +93,7 @@
 	border-radius: var(--rz-dropdown-menu-border-radius);
 	background-color: var(--surface-light-primary, #FFF);
 	margin: initial;
+	list-style: none;
 
 	/* Multiple rz-dropdown-menu__body sibling element could be used to separate groups */
 	& + & {
@@ -116,8 +105,4 @@
 		border-radius: var(--rz-dropdown-menu-border-radius) var(--rz-dropdown-menu-border-radius) 0 0 ;
 
 	}
-}
-
-.rz-dropdown-menu__item {
-	list-style: none;
 }
