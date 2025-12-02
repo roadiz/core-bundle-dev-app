@@ -14,7 +14,9 @@ interface PositionedInterface extends Comparable
      * Set position as a float to enable increment and decrement by O.5
      * to insert an entity between two others.
      *
+     * Do not add static return type because of Doctrine Proxy.
+     *
      * @return $this
      */
-    public function setPosition(float $newPosition): static;
+    public function setPosition(float $newPosition): PositionedInterface;
 }

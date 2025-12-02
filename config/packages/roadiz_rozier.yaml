@@ -157,11 +157,6 @@ roadiz_rozier:
                     route: translationsHomePage
                     icon: uk-icon-rz-translate
                     roles: ['ROLE_ACCESS_TRANSLATIONS']
-                manage_fonts:
-                    name: 'manage.fonts'
-                    route: fontsHomePage
-                    icon: 'uk-icon-rz-fontes'
-                    roles: ['ROLE_ACCESS_FONTS']
                 manage_redirections:
                     name: 'manage.redirections'
                     route: redirectionsHomePage

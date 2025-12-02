@@ -1,4 +1,4 @@
-selg<?php
+<?php
 
 // This file is auto-generated and is for apps only. Bundles SHOULD NOT rely on its content.
 
@@ -2237,7 +2237,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         http_ssl_verify_peer?: bool,
  *         http_compression?: bool,
  *         capture_silenced_errors?: bool,
- *         max_request_body_size?: "none"|"small"|"medium"|"always",
+ *         max_request_body_size?: "none"|"never"|"small"|"medium"|"always",
  *         class_serializers?: array<string, scalar|null>,
  *     },
  *     messenger?: bool|array{

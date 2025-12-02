@@ -27,7 +27,7 @@ interface LeafInterface extends PositionedInterface
     /**
      * Do not add static return type because of Doctrine Proxy.
      */
-    public function getParent(): ?static;
+    public function getParent(): ?LeafInterface;
 
     /**
      * @return static[]

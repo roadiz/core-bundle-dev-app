@@ -143,6 +143,7 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
         if (null === $this->secret) {
             throw new \RuntimeException('Secret cannot be null');
         }
+
         // You could persist the other configuration options in the user entity to make it individual per user.
         return new TotpConfiguration($this->secret, $this->getAlgorithm(), $this->getPeriod(), $this->getDigits());
     }

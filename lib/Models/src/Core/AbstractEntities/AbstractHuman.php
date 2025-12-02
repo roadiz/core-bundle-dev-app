@@ -76,7 +76,7 @@ abstract class AbstractHuman implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setEmail(?string $email): static
+    public function setEmail(?string $email): AbstractHuman
     {
         if (false !== filter_var($email ?? '', FILTER_VALIDATE_EMAIL)) {
             $this->email = $email;
@@ -93,7 +93,7 @@ abstract class AbstractHuman implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setFirstName(?string $firstName): static
+    public function setFirstName(?string $firstName): AbstractHuman
     {
         $this->firstName = $firstName;
 
@@ -108,7 +108,7 @@ abstract class AbstractHuman implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setLastName(?string $lastName): static
+    public function setLastName(?string $lastName): AbstractHuman
     {
         $this->lastName = $lastName;
 
@@ -123,7 +123,7 @@ abstract class AbstractHuman implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setCompany(?string $company): static
+    public function setCompany(?string $company): AbstractHuman
     {
         $this->company = $company;
 
