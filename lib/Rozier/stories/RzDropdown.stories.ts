@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    rzPopoverItemRenderer,
+    rzDropdownItemRenderer,
     DEFAULT_ITEM,
-} from '~/utils/storybook/renderer/rzPopoverItem'
-import { type Args as PopoverItemArgs } from './RzPopoverItem.stories'
+} from '~/utils/storybook/renderer/rzDropDownItem'
+import { type Args as PopoverItemArgs } from './RzDropdownItem.stories'
+import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 
-const COMPONENT_CLASS_NAME = 'rz-dropdown-menu'
+const COMPONENT_CLASS_NAME = 'rz-dropdown'
 
 export type Args = {
     title?: string
@@ -19,7 +20,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/DropdownMenu',
+    title: 'Components/Overlay/Dropdown',
     tags: ['autodocs'],
     args: {
         title: 'Menu title',
@@ -28,6 +29,12 @@ const meta: Meta<Args> = {
         reverse: false,
         displayHeadElements: true,
         headElements: [
+            {
+                innerHTML: `
+                <rz-tooltip tooltip-text="Status name">
+                    <span class="rz-icon-rz--status-no-index-line"></span>
+                </rz-tooltip>`,
+            },
             {
                 tag: 'span',
                 class: 'rz-icon-ri--lock-2-line',
@@ -66,15 +73,15 @@ function rzDropdownBodyRenderer(items: PopoverItemArgs[]) {
             return
         }
 
-        const item = rzPopoverItemRenderer(itemArgs)
+        const item = rzDropdownItemRenderer(itemArgs)
         itemWrapper.appendChild(item)
     })
 
     return body
 }
 
-function rzDropdownMenuRenderer(args: Args) {
-    const wrapper = document.createElement('div')
+function rzDropdownMenuRenderer(args: Args, el?: HTMLElement) {
+    const wrapper = el || document.createElement('div')
     wrapper.className = COMPONENT_CLASS_NAME
     if (args.isOpen) {
         wrapper.classList.add(`${COMPONENT_CLASS_NAME}--open`)
@@ -84,7 +91,7 @@ function rzDropdownMenuRenderer(args: Args) {
     }
     if (args.borderColor) {
         wrapper.style.setProperty(
-            '--rz-dropdown-menu-border-color',
+            '--rz-dropdown-border-color',
             args.borderColor,
         )
     }
@@ -128,17 +135,31 @@ function rzDropdownMenuRenderer(args: Args) {
         wrapper.appendChild(head)
     }
 
-    const bodyList = Array.isArray(args.items[0]) ? args.items : [args.items]
+    const bodyList = (
+        Array.isArray(args.items[0]) ? args.items : [args.items]
+    ) as PopoverItemArgs[][]
+
     bodyList.forEach((bodyItems) => {
         const body = rzDropdownBodyRenderer(bodyItems)
         wrapper.appendChild(body)
     })
+
+    if (args.footerContent) {
+        const footer = document.createElement('div')
+        footer.className = `${COMPONENT_CLASS_NAME}__footer`
+        footer.innerHTML = args.footerContent
+        wrapper.appendChild(footer)
+    }
+
     return wrapper
 }
 
 export const Default: Story = {
     render: (args) => {
         return rzDropdownMenuRenderer(args)
+    },
+    args: {
+        footerContent: 'Last edited by John D. Sep 10, 2025, 4:08 PM',
     },
 }
 
@@ -196,24 +217,17 @@ export const WithLinkItems: Story = {
     },
 }
 
-export const WithPopover: Story = {
+export const TreeWalkerDropdownMenu: Story = {
     render: (args) => {
-        const popover = document.createElement('rz-popover')
-        popover.setAttribute('popover-placement', 'right-start')
-        popover.setAttribute('popover-offset', '10px')
+        const { popover, target, popoverContent } = rzPopoverRenderer({
+            placement: 'right-start',
+            offset: 10,
+            popoverElement: { id: 'TreeWalkerDropdownMenu' },
+        })
 
-        const contentId = 'dropdown-menu'
-        const target = document.createElement('button')
         target.innerText = 'Toggle Dropdown Menu'
-        target.setAttribute('popovertarget', contentId)
-        popover.appendChild(target)
 
-        const content = rzDropdownMenuRenderer(args)
-        content.id = contentId
-        content.setAttribute('popover', '')
-
-        popover.appendChild(content)
-
+        rzDropdownMenuRenderer(args, popoverContent)
         return popover
     },
     args: {
@@ -280,6 +294,63 @@ export const WithPopover: Story = {
                     iconClass: 'rz-icon-ri--file-copy-line',
                     label: 'Duplicate',
                     tag: 'button',
+                },
+            ],
+        ],
+    },
+}
+
+export const QuickAccessMenu: Story = {
+    render: (args) => {
+        const { popover, target, popoverContent } = rzPopoverRenderer({
+            placement: 'bottom-start',
+            offset: 10,
+            popoverElement: { id: 'QuickAccessMenu' },
+        })
+
+        target.classList.add(`rz-brand-watermark`)
+
+        const icon = document.createElement('span')
+        icon.classList.add('rz-icon-rz--logo-rz')
+        target.appendChild(icon)
+
+        rzDropdownMenuRenderer(args, popoverContent)
+        return popover
+    },
+    args: {
+        title: undefined,
+        displayHeadElements: false,
+        isOpen: false,
+        items: [
+            [
+                {
+                    tag: 'a',
+                    label: 'Label',
+                    iconClass: 'rz-icon-ri--user-6-line',
+                    rightIconClass: 'rz-icon-ri--arrow-right-up-line',
+                    attributes: { href: '#' },
+                },
+                {
+                    tag: 'a',
+                    label: 'Label 2',
+                    iconClass: 'rz-icon-ri--user-6-line',
+                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
+                    attributes: { href: '#' },
+                },
+                {
+                    tag: 'button',
+                    label: 'Label 3',
+                    iconClass: 'rz-icon-ri--user-6-line',
+                    attributes: {
+                        'aria-label': 'Label for this button action',
+                    },
+                },
+                {
+                    tag: 'a',
+                    label: 'Label 4',
+                    iconClass: 'rz-icon-ri--user-6-line',
+                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
+                    attributes: { href: '#' },
                 },
             ],
         ],

@@ -22,7 +22,7 @@ const COMPONENT_CLASS_NAME = 'rz-tooltip'
  * on the target element.
  */
 const meta: Meta<Args> = {
-    title: 'Components/Tooltip',
+    title: 'Components/Overlay/Tooltip',
     tags: ['autodocs'],
     args: {
         tooltipText:

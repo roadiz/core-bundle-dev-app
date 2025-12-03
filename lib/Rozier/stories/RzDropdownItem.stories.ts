@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { BadgeArgs } from './RzBadge.stories'
 import {
-    rzPopoverItemRenderer,
+    rzDropdownItemRenderer,
     DEFAULT_ITEM,
-} from '~/utils/storybook/renderer/rzPopoverItem'
+} from '~/utils/storybook/renderer/rzDropDownItem'
 
 export type Args = {
     iconClass?: string
@@ -17,7 +17,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Popover/Item',
+    title: 'Components/Overlay/Dropdown/Item',
     tags: ['autodocs'],
     args: {
         ...DEFAULT_ITEM,
@@ -29,13 +29,13 @@ type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
-        return rzPopoverItemRenderer(args)
+        return rzDropdownItemRenderer(args)
     },
 }
 
 export const Selected: Story = {
     render: (args) => {
-        return rzPopoverItemRenderer(args)
+        return rzDropdownItemRenderer(args)
     },
     args: {
         selected: true,
@@ -44,7 +44,7 @@ export const Selected: Story = {
 
 export const Link: Story = {
     render: (args) => {
-        return rzPopoverItemRenderer(args)
+        return rzDropdownItemRenderer(args)
     },
     args: {
         tag: 'a',

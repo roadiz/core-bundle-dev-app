@@ -1,4 +1,4 @@
-import type { Args } from '../../../../stories/RzPopoverItem.stories'
+import type { Args } from '../../../../stories/RzDropdownItem.stories'
 import { rzBadgeRenderer } from './rzBadge'
 
 export const DEFAULT_ITEM: Args = {
@@ -17,9 +17,9 @@ export const DEFAULT_ITEM: Args = {
     },
 }
 
-export function rzPopoverItemRenderer(
+export function rzDropdownItemRenderer(
     args: Args,
-    itemClass: string = 'rz-popover-item',
+    itemClass: string = 'rz-dropdown-item',
 ) {
     const item = document.createElement(args.tag || 'div')
     item.classList.add(itemClass)
