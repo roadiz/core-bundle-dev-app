@@ -17,7 +17,7 @@ export function rzHeaderNavItemRenderer(args: Args) {
 
     const classes = [
         COMPONENT_CLASS_NAME,
-        args.variants && `${COMPONENT_CLASS_NAME}--${args.variants}`,
+        args.subItem && `${COMPONENT_CLASS_NAME}--sub-item`,
         args.active && `${COMPONENT_CLASS_NAME}--active`,
     ].filter((c) => c) as string[]
     node.classList.add(...classes)

@@ -174,6 +174,7 @@ const COMPONENT_CLASS_NAME = 'rz-header'
 export default meta
 type Story = StoryObj<Args>
 
+// TODO: use rz-brand-watermark class when available
 function brandItemRenderer() {
     const menu = document.createElement('div')
     menu.classList.add(`${COMPONENT_CLASS_NAME}__brand`)
@@ -182,6 +183,7 @@ function brandItemRenderer() {
     return menu
 }
 
+// TODO: use rz-dropdown when available
 function quickMenuRenderer() {
     const wrapper = document.createElement('div')
     wrapper.classList.add(`${COMPONENT_CLASS_NAME}__quick-menu`)
@@ -230,14 +232,7 @@ function itemRenderer(itemArgs: navItem) {
     listItem.appendChild(item)
 
     if (itemArgs.children?.length) {
-        const items = itemArgs.children.map(
-            (childArgs) =>
-                ({
-                    ...childArgs,
-                    variants: 'level-2',
-                }) as ItemArgs,
-        )
-        const subList = listRenderer(items)
+        const subList = listRenderer(itemArgs.children, true)
         subList.classList.add(`${COMPONENT_CLASS_NAME}__sub-list`)
         listItem.appendChild(subList)
     }
@@ -245,12 +240,12 @@ function itemRenderer(itemArgs: navItem) {
     return listItem
 }
 
-function listRenderer(items: Args['navItems']) {
+function listRenderer(items: Args['navItems'], subList?: boolean) {
     const list = document.createElement('ul')
     list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
     items.forEach((itemArgs) => {
-        const item = itemRenderer(itemArgs)
+        const item = itemRenderer({ ...itemArgs, subItem: subList })
         list.appendChild(item)
     })
 

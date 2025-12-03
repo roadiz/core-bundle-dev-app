@@ -1,8 +1,10 @@
 .rz-header-nav-item {
+	box-sizing: border-box;
 	display: flex;
 	padding: var(--rz-header-nav-item-padding, var(--spacing-4xs, 8px));
 	align-items: center;
 	gap: var(--spacing-xs, 16px);
+	min-height: 32px;
 	background-color: var(--workspace-bg, #F2F2F2);
 	border-radius: var(--radius-2xs, 4px);
 	transition: background-color 0.3s;
@@ -34,14 +36,8 @@
 	}
 }
 
-.rz-header-nav-item--level-1 {
-	&:not(:has(.rz-header-nav-item__icon)) {
-		--rz-header-nav-item-padding: var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) 44px;
-	}
-}
-
-.rz-header-nav-item--level-2 {
-	--rz-header-nav-item-padding: var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) 46px;
+.rz-header-nav-item--sub-item {
+	--rz-header-nav-item-padding: var(--spacing-5xs) var(--spacing-5xs) var(--spacing-5xs) 46px;
 }
 
 .rz-header-nav-item__icon {

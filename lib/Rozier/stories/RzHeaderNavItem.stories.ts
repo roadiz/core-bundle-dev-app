@@ -5,7 +5,7 @@ export type Args = {
     label: string
     iconClass?: string
     active?: boolean
-    variants?: 'level-1' | 'level-2'
+    subItem?: boolean
     tag?: string
     attributes?: { [key: string]: string }
 }
@@ -17,14 +17,8 @@ const meta: Meta<Args> = {
         label: 'Workspace item label',
         active: false,
         iconClass: 'rz-icon-ri--computer-line',
-        variants: 'level-1',
+        subItem: false,
         tag: '',
-    },
-    argTypes: {
-        variants: {
-            options: ['level-1', 'level-2'],
-            control: { type: 'radio' },
-        },
     },
     parameters: {
         layout: 'centered',
@@ -57,7 +51,7 @@ export const ButtonCustomElement: Story = {
     args: {
         tag: 'button',
         iconClass: 'rz-icon-ri--computer-line',
-        attributes: { is: 'rz-workspace-item-button' },
+        attributes: { is: 'rz-header-nav-button' },
     },
     parameters: {
         controls: { exclude: ['tag'] },
