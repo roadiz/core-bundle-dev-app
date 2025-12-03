@@ -4,6 +4,7 @@ export type Args = {
     tag?: string
     innerText?: string
     iconClass?: string
+    color?: string
 }
 
 const COMPONENT_CLASS_NAME = 'rz-brand-watermark'
@@ -15,6 +16,7 @@ const meta: Meta<Args> = {
         tag: 'button',
         innerText: 'RZ',
         iconClass: 'rz-icon-rz--logo-rz',
+        color: '',
     },
     parameters: {
         layout: 'centered',
@@ -27,6 +29,13 @@ type Story = StoryObj<Args>
 function rzBrandWatermarkRenderer(args: Args) {
     const wrapper = document.createElement(args.tag || 'div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
+
+    if (args.color) {
+        wrapper.style.setProperty(
+            '--rz-brand-watermark-background-color',
+            args.color,
+        )
+    }
 
     if (args.innerText) {
         wrapper.innerText = args.innerText
