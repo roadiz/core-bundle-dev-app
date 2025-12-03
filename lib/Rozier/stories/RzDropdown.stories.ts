@@ -17,6 +17,7 @@ export type Args = {
     footerContent?: string
     isOpen?: boolean
     items: (PopoverItemArgs | PopoverItemArgs[])[]
+    listTag?: string
 }
 
 const meta: Meta<Args> = {
@@ -61,8 +62,8 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzDropdownBodyRenderer(items: PopoverItemArgs[]) {
-    const body = document.createElement('menu')
+function rzDropdownListRenderer(items: PopoverItemArgs[], tag?: string) {
+    const body = document.createElement(tag || 'menu')
     body.className = `${COMPONENT_CLASS_NAME}__list`
 
     items.forEach((itemArgs) => {
@@ -140,7 +141,7 @@ function rzDropdownMenuRenderer(args: Args, el?: HTMLElement) {
     ) as PopoverItemArgs[][]
 
     bodyList.forEach((bodyItems) => {
-        const body = rzDropdownBodyRenderer(bodyItems)
+        const body = rzDropdownListRenderer(bodyItems, args.listTag)
         wrapper.appendChild(body)
     })
 
@@ -300,15 +301,16 @@ export const TreeWalkerDropdownMenu: Story = {
     },
 }
 
-export const QuickAccessMenu: Story = {
+export const QuickAccessNav: Story = {
     render: (args) => {
         const { popover, target, popoverContent } = rzPopoverRenderer({
             placement: 'bottom-start',
             offset: 10,
-            popoverElement: { id: 'QuickAccessMenu' },
+            popoverElement: { tag: 'nav', id: 'QuickAccessNav' },
         })
 
         target.classList.add(`rz-brand-watermark`)
+        target.setAttribute('aria-label', 'Open quick access navigation')
 
         const icon = document.createElement('span')
         icon.classList.add('rz-icon-rz--logo-rz')
@@ -321,6 +323,7 @@ export const QuickAccessMenu: Story = {
         title: undefined,
         displayHeadElements: false,
         isOpen: false,
+        listTag: 'ul',
         items: [
             [
                 {
