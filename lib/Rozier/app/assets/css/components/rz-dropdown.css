@@ -65,7 +65,7 @@
 
 .rz-dropdown__title {
 	color: var(--rz-dropdown-title-color, var(--content-on-darker-primary, #FFF));
-	-inline-inline: var(--spacing-6xs);
+	padding-inline: var(--spacing-6xs);
 
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-overtitle-sm-font-size);
