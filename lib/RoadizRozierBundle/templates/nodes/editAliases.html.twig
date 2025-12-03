@@ -28,7 +28,7 @@
             {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
             <form id="edit-seo-form" class="uk-form uk-form-stacked" action="#" method="post">
                 {{ form_widget(seoForm) }}
-                {% import "@RoadizRozier/macros/rz_floating_bar.html.twig" as floating_bar %}
+                {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as floating_bar %}
                 {{ floating_bar.saveItem('#edit-seo-form') }}
             </form>
             <hr />

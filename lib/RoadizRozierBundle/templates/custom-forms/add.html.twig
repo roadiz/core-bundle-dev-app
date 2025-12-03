@@ -22,7 +22,7 @@
             }
         }) -}}
         {{- form_widget(form) -}}
-        {% import "@RoadizRozier/macros/rz_floating_bar.html.twig" as floating_bar %}
+        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as floating_bar %}
         {{ floating_bar.saveItem('#edit-customform-form') }}
         {{- form_end(form) -}}
         {%- block content_body_after -%}{%- endblock -%}

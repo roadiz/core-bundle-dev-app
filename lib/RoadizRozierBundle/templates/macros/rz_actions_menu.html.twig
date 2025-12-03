@@ -16,9 +16,9 @@
     {% endif %}
 {% endmacro %}
 
-{% macro saveItem(dataActionSave) %}
+{% macro saveItem(dataActionSave, label = 'save') %}
     {{ _self.item(
-        label: 'save',
+        label: label,
         class: 'rz-button--success',
         icon: 'rz-icon-ri--save-line',
         attr: {
@@ -29,7 +29,11 @@
     ) }}
 {% endmacro %}
 
-<div class="rz-floating-bar{{ vertical ? ' rz-floating-bar--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">
+{% macro deleteItem(label = 'delete', href) %}
+    {{ _self.item(label, 'rz-button--error', href, 'rz-icon-ri--delete-bin-7-line') }}
+{% endmacro %}
+
+<div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">
     {% block items %}
     {% endblock %}
 </div>

@@ -1,7 +1,8 @@
-{% embed "@RoadizRozier/macros/rz_floating_bar.html.twig" with {
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
     vertical: true,
-    class: 'actions-menu'
-} %}
+    class: 'actions-menu',
+    folder: folder
+} only %}
     {% block items %}
         {% if folder.getId %}
             {{ _self.item(
@@ -12,11 +13,9 @@
             ) }}
 
             {% if not folder.locked %}
-                {{ _self.item(
+                {{ _self.deleteItem(
                     label: 'delete.folder',
-                    class: 'rz-button--error',
                     href: path('foldersDeletePage', { folderId: folder.getId }),
-                    icon: 'rz-icon-ri--delete-bin-7-line'
                 ) }}
             {% endif  %}
         {% endif %}

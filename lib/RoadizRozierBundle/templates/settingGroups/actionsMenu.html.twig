@@ -1,15 +1,11 @@
-{% embed "@RoadizRozier/macros/rz_floating_bar.html.twig" with {
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
     vertical: true,
-    class: 'actions-menu'
-} %}
+    class: 'actions-menu',
+    item: item
+} only %}
     {% block items %}
         {% if item.getId %}
-            {{ _self.item(
-                label: 'delete',
-                class: 'rz-button--error',
-                href: path('settingGroupsDeletePage', { id: item.getId}),
-                icon: 'rz-icon-ri--delete-bin-7-line'
-            ) }}
+            {{ _self.deleteItem(href: path('settingGroupsDeletePage', { id: item.getId})) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

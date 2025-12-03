@@ -1,7 +1,15 @@
-{% embed "@RoadizRozier/macros/rz_floating_bar.html.twig" with {
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
     vertical: true,
-    class: 'actions-menu'
-} %}
+    class: 'actions-menu',
+    node: node,
+    source: source,
+    translation: translation,
+    versions: versions,
+    currentVersion: currentVersion,
+    loop: loop,
+    max_versions_showed: max_versions_showed,
+    readOnly: readOnly,
+} only %}
     {% block items %}
     {% if node %}
         {% set canPublish = workflow_can(node, 'publish') %}
@@ -218,11 +226,9 @@
             {% endif %}
 
             {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
-                {{ _self.item(
+                {{ _self.deleteItem(
                     label: 'delete.node',
-                    class: 'rz-button--error',
-                    href: path('nodesDeletePage', {nodeId: node.getId, referer: node.parent ? getBreadcrumbsItem(node.parent).url : null}),
-                    icon: 'rz-icon-ri--delete-bin-7-line'
+                    href: path('nodesDeletePage', {nodeId: node.getId, referer: node.parent ? getBreadcrumbsItem(node.parent).url : null})
                 ) }}
             {% endif %}
         {% endif %}

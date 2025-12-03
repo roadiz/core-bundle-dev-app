@@ -1,16 +1,12 @@
-{% embed "@RoadizRozier/macros/rz_floating_bar.html.twig" with {
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
     vertical: true,
-    class: 'actions-menu'
-} %}
+    class: 'actions-menu',
+    item: item
+} only %}
     {% block items %}
         {% if item.id %}
             {% if is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') %}
-                {{ _self.item(
-                    label: 'delete',
-                    class: 'rz-button--error',
-                    href: path('attributeGroupsDeletePage', { id: item.id}),
-                    icon: 'rz-icon-ri--delete-bin-7-line'
-                ) }}
+                {{ _self.deleteItem(href: path('attributeGroupsDeletePage', { id: item.id })) }}
             {% endif %}
         {% endif %}
     {% endblock %}
