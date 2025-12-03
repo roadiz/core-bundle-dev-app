@@ -1,6 +1,6 @@
-.rz-floating-bar {
+.rz-actions-menu {
 	display: inline-flex;
-	flex-direction: var(--rz-floating-bar-direction, row);
+	flex-direction: var(--rz-actions-menu-direction, row);
 	justify-content: center;
 	align-items: flex-start;
 	padding: var(--spacing-6xs);
@@ -14,6 +14,6 @@
 	}
 }
 
-.rz-floating-bar--vertical {
-	--rz-floating-bar-direction: column;
+.rz-actions-menu--vertical {
+	--rz-actions-menu-direction: column;
 }
