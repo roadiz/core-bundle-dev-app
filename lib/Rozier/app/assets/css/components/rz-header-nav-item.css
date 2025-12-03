@@ -1,6 +1,6 @@
-.rz-header-item {
+.rz-header-nav-item {
 	display: flex;
-	padding: var(--rz-header-item-padding, var(--spacing-4xs, 8px));
+	padding: var(--rz-header-nav-item-padding, var(--spacing-4xs, 8px));
 	align-items: center;
 	gap: var(--spacing-xs, 16px);
 	background-color: var(--workspace-bg, #F2F2F2);
@@ -24,7 +24,7 @@
 	}
 }
 
-.rz-header-item--active {
+.rz-header-nav-item--active {
 	background-color: var(--workspace-bg-selected, #DADADA);
 
 	@media (hover: hover) {
@@ -34,22 +34,22 @@
 	}
 }
 
-.rz-header-item--level-1 {
-	&:not(:has(.rz-header-item__icon)) {
-		--rz-header-item-padding: var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) 44px;
+.rz-header-nav-item--level-1 {
+	&:not(:has(.rz-header-nav-item__icon)) {
+		--rz-header-nav-item-padding: var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) var(--spacing-4xs, 8px) 44px;
 	}
 }
 
-.rz-header-item--level-2 {
-	--rz-header-item-padding: var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) 46px;
+.rz-header-nav-item--level-2 {
+	--rz-header-nav-item-padding: var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) var(--spacing-5xs, 6px) 46px;
 }
 
-.rz-header-item__icon {
+.rz-header-nav-item__icon {
 	flex-shrink: 0;
 	font-size: 20px;
 }
 
-.rz-header-item__label {
+.rz-header-nav-item__label {
 	white-space: nowrap;
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-label-sm-font-size);
@@ -58,19 +58,19 @@
 	font-weight: var(--text-label-sm-font-weight);
 }
 
-.rz-header-item__arrow {
+.rz-header-nav-item__arrow {
 	color: var(--workspace-icon, #BCBCBC);
 	font-size: 20px;
 	margin-left: auto;
 	transition: rotate 0.3s, color 0.3s;
 
-	.rz-header-item--active & {
+	.rz-header-nav-item--active & {
 		rotate: 180deg;
 		color: var(--workspace-icon-hover, #18191B);
 	}
 
 	@media (hover: hover) {
-		.rz-header-item:hover & {
+		.rz-header-nav-item:hover & {
 			color: var(--workspace-icon-hover, #18191B);
 		}
 	}

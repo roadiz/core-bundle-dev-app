@@ -1,8 +1,8 @@
-import type { Args } from '../../../../stories/RzHeaderItem.stories'
+import type { Args } from '../../../../stories/RzHeaderNavItem.stories'
 
-const COMPONENT_CLASS_NAME = 'rz-header-item'
+const COMPONENT_CLASS_NAME = 'rz-header-nav-item'
 
-export function rzHeaderItemRenderer(args: Args) {
+export function rzHeaderNavItemRenderer(args: Args) {
     const customElement = args.attributes?.is
     const node = document.createElement(
         args.tag || 'div',

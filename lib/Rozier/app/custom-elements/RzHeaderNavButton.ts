@@ -1,5 +1,5 @@
-export default class RzWorkspaceItemButton extends HTMLButtonElement {
-    COMPONENT_CLASS_NAME = 'rz-workspace-item'
+export default class RzHeaderNavButton extends HTMLButtonElement {
+    COMPONENT_CLASS_NAME = 'rz-header-nav-item'
 
     constructor() {
         super()

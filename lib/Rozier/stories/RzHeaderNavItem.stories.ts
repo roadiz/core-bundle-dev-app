@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzHeaderItemRenderer } from '~/utils/storybook/renderer/rzHeaderItem'
+import { rzHeaderNavItemRenderer } from '~/utils/storybook/renderer/rzHeaderNavItem'
 
 export type Args = {
     label: string
@@ -36,13 +36,13 @@ type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
-        return rzHeaderItemRenderer(args)
+        return rzHeaderNavItemRenderer(args)
     },
 }
 
 export const Link: Story = {
     render: (args) => {
-        return rzHeaderItemRenderer(args)
+        return rzHeaderNavItemRenderer(args)
     },
     args: {
         tag: 'a',
@@ -52,7 +52,7 @@ export const Link: Story = {
 
 export const ButtonCustomElement: Story = {
     render: (args) => {
-        return rzHeaderItemRenderer(args)
+        return rzHeaderNavItemRenderer(args)
     },
     args: {
         tag: 'button',

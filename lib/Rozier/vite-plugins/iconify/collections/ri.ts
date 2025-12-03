@@ -69,6 +69,7 @@ export default [
     'download-line',
     'dashboard-line',
     'calendar-event-line',
+    'menu-line',
     // Markdown related icons
     'h-1',
     'h-2',
