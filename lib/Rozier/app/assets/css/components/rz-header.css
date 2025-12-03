@@ -3,7 +3,7 @@
 	display: inline-flex;
 	flex-direction: column;
 	height: 50vh; /* For demo purposes, probably set 100svh instead */
-	gap: var(--spacing-xs);
+	gap: var(--spacing-4xs);
 	padding: 12px 10px;
 	border: 1PX solid black;
 	transition: width 0.8s;
@@ -65,7 +65,6 @@
 	justify-content: center;
 	width: 36px;
 	height: 36px;
-	margin-right: auto;
 
 	input[type="checkbox"] {
 		all: unset;
@@ -75,8 +74,21 @@
 		z-index: 1;
 	}
 
+	@media (--screen-xs-max) {
+		margin-left: var(--spacing-4xs);
+
+		&::before {
+			position: absolute;
+			content: '';
+			height: 24px;
+			left: calc(var(--spacing-4xs) * -1);
+			width: 1PX;
+			background-color: var(--line-on-light-secondary, #DADADA);
+		}
+	}
+
 	@media (--screen-sm-min) {
-			display: none;
+		display: none;
 	}
 }
 
@@ -87,13 +99,14 @@
 .rz-header__nav {
 	--rz-header-nav-gap: var(--spacing-5xs);
 
+	border-top: 1PX solid var(--line-on-light-secondary, #DADADA);
 	display: var(--rz-header-nav-display, none);
 	flex-direction: column;
 	gap: var(--rz-header-nav-gap);
 	flex-grow: 1;
-	padding-inline: var(--spacing-6xs);
-	border: 1PX solid black;
+	padding-top: var(--spacing-4xs);
 	overflow: auto;
+	margin-inline: 3px;
 }
 
 .rz-header__list {

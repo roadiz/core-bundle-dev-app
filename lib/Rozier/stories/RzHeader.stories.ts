@@ -190,13 +190,14 @@ function quickMenuRenderer() {
         emphasis: 'tertiary',
         size: 'md',
     })
+    wrapper.appendChild(target)
 
     const popover = document.createElement('div')
     popover.setAttribute('popover', 'dialog')
     popover.classList.add('rz-popover')
     popover.textContent = 'Quick menu content'
+    wrapper.appendChild(popover)
 
-    wrapper.appendChild(target)
     return wrapper
 }
 
