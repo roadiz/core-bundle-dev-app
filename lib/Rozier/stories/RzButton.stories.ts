@@ -3,7 +3,7 @@ import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
 const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
-const COLORS = ['success', 'success-light', 'error', 'error-light'] as const
+const COLORS = ['success', 'danger'] as const
 
 export type ButtonArgs = {
     label?: string
