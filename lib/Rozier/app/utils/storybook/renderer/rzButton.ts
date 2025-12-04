@@ -1,24 +1,28 @@
 import type { ButtonArgs } from '../../../../stories/RzButton.stories'
 
+const COMPONENT_CLASS_NAME = 'rz-button'
+
 export function rzButtonRenderer(args: ButtonArgs) {
-    const className = 'rz-button'
-    const buttonNode = document.createElement(args.tag || 'button')
+    const buttonNode = document.createElement(args.tag || 'rz-button')
     const attributesEntries = Object.entries(args.attributes || {})
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {
             buttonNode.setAttribute(key, value)
         })
     }
-    const emphasisClass = args.emphasis && `${className}--${args.emphasis}`
-    const sizeClass = args.size && `${className}--${args.size}`
-    const disabledClass = args.disabled && `${className}--disabled`
-    const onDarkClass = args.onDark && `${className}--on-dark`
-    const colorClass = args.color && `${className}--${args.color}`
+    const emphasisClass =
+        args.emphasis && `${COMPONENT_CLASS_NAME}--${args.emphasis}`
+    const sizeClass = args.size && `${COMPONENT_CLASS_NAME}--${args.size}`
+    const selectedClass = args.selected && `${COMPONENT_CLASS_NAME}--selected`
+    const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
+    const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
+    const colorClass = args.color && `${COMPONENT_CLASS_NAME}--${args.color}`
 
     buttonNode.className = [
-        className,
+        COMPONENT_CLASS_NAME,
         emphasisClass,
         sizeClass,
+        selectedClass,
         disabledClass,
         onDarkClass,
         colorClass,
@@ -30,14 +34,17 @@ export function rzButtonRenderer(args: ButtonArgs) {
 
     if (args.label) {
         const labelNode = document.createElement('span')
-        labelNode.className = [`${className}__label`].join(' ')
+        labelNode.className = [`${COMPONENT_CLASS_NAME}__label`].join(' ')
         labelNode.innerText = args.label
         buttonNode.appendChild(labelNode)
     }
 
     if (args.iconClass) {
         const iconNode = document.createElement('span')
-        iconNode.className = [`${className}__icon`, args.iconClass].join(' ')
+        iconNode.className = [
+            `${COMPONENT_CLASS_NAME}__icon`,
+            args.iconClass,
+        ].join(' ')
         buttonNode.appendChild(iconNode)
     }
 
