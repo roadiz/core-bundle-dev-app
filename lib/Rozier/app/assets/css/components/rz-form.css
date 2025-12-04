@@ -9,6 +9,7 @@
 .rz-form__field-list {
 	display: grid;
 	width: 100%;
+	align-items: flex-start;
 	gap: var(--rz-form-field-list-gap);
 }
 
