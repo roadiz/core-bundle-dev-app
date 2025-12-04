@@ -10,6 +10,7 @@ export type ButtonArgs = {
     emphasis?: (typeof EMPHASIS)[number]
     size?: (typeof SIZES)[number]
     disabled?: boolean
+    selected?: boolean
     iconClass?: string
     onDark?: boolean
     additionalClasses?: string
@@ -26,6 +27,7 @@ const meta: Meta<ButtonArgs> = {
         disabled: false,
         iconClass: 'rz-icon-ri--arrow-drop-right-line',
         onDark: false,
+        selected: false,
     },
     argTypes: {
         label: {
@@ -101,6 +103,20 @@ export const HighEmphasis: Story = {
     },
 }
 
+export const HighEmphasisSelected: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'primary',
+        selected: true,
+    },
+    parameters: {
+        controls: { exclude: ['emphasis', 'additionalClasses'] },
+        layout: 'centered',
+    },
+}
+
 export const HighEmphasisList: Story = {
     render: (args) => {
         return buttonSizeListRenderer(args)
@@ -127,6 +143,19 @@ export const MediumEmphasis: Story = {
     },
 }
 
+export const MediumEmphasisSelected: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'secondary',
+        selected: true,
+    },
+    parameters: {
+        controls: { exclude: ['emphasis', 'class'] },
+    },
+}
+
 export const MediumEmphasisList: Story = {
     render: (args) => {
         return buttonSizeListRenderer(args)
@@ -147,6 +176,19 @@ export const LowEmphasis: Story = {
     },
     args: {
         emphasis: 'tertiary',
+    },
+    parameters: {
+        controls: { exclude: ['emphasis'] },
+    },
+}
+
+export const LowEmphasisSelected: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'tertiary',
+        selected: true,
     },
     parameters: {
         controls: { exclude: ['emphasis'] },

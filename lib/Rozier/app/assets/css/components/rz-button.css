@@ -101,6 +101,11 @@
 		}
 	}
 
+	&.rz-button--selected {
+		--rz-button-background-color: var(--button-basic-high-content-on-light-selected, #FFF);
+		--rz-button-background-color: var(--button-basic-high-bg-on-light-selected, #18191B);
+	}
+
 	&.rz-button--on-dark {
 		--rz-button-background-color: var(--button-basic-high-bg-on-dark, #FFF);
 		--rz-button-color: var(--button-basic-high-content-on-dark, #222);
@@ -129,8 +134,12 @@
 	@media (hover: hover) {
 		&:hover {
 			--rz-button-border-color: var(--button-basic-medium-border-on-light-hover, #4E4E4E);
-			--rz-button-background-color: var(--button-basic-medium-bg-on-light-selected, #F2F2F2);
 		}
+	}
+
+	&.rz-button--selected {
+		--rz-button-border-color: var(--button-basic-medium-border-on-light-selected, #646464);
+		--rz-button-background-color: var(--button-basic-medium-bg-on-light-selected, #F2F2F2);
 	}
 
 	&.rz-button--on-dark {
@@ -162,8 +171,14 @@
 
 	@media (hover: hover) {
 		&:hover {
+			--rz-button-color: var(--button-basic-low-content-on-light-hover, #18191B);
 			--rz-button-background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
 		}
+	}
+
+	&.rz-button--selected {
+		--rz-button-color: var(--button-basic-low-content-on-light-selected, #18191B);
+		--rz-button-background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
 	}
 
 	&.rz-button--on-dark {

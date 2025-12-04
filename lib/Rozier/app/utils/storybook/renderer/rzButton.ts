@@ -13,6 +13,7 @@ export function rzButtonRenderer(args: ButtonArgs) {
     const emphasisClass =
         args.emphasis && `${COMPONENT_CLASS_NAME}--${args.emphasis}`
     const sizeClass = args.size && `${COMPONENT_CLASS_NAME}--${args.size}`
+    const selectedClass = args.selected && `${COMPONENT_CLASS_NAME}--selected`
     const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
     const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
     const colorClass = args.color && `${COMPONENT_CLASS_NAME}--${args.color}`
@@ -21,6 +22,7 @@ export function rzButtonRenderer(args: ButtonArgs) {
         COMPONENT_CLASS_NAME,
         emphasisClass,
         sizeClass,
+        selectedClass,
         disabledClass,
         onDarkClass,
         colorClass,
