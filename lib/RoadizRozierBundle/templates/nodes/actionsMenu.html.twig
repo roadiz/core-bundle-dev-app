@@ -210,16 +210,16 @@
             {% if workflow_can(node, 'undelete') %}
                 {{ _self.item(
                     label: 'undelete',
-                    class: 'rz-button--error',
+                    class: 'rz-button--primary rz-button--danger',
                     href: path('nodesUndeletePage', { nodeId: node.getId}),
-                    icon: 'rz-icon-ri--upload-line'
+                    icon: 'rz-icon-ri--device-recover-line'
                 ) }}
             {% endif %}
 
             {% if canDelete and node.nodeSources|length > 1 and source %}
                 {{ _self.item(
                     label: 'delete.translation',
-                    class: 'rz-button--error',
+                    class: 'rz-button--primary rz-button--danger',
                     href: path('nodesDeleteSourcePage', { nodeSourceId: source.id}),
                     icon: 'rz-icon-ri--flag-off-line'
                 ) }}

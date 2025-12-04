@@ -64,7 +64,7 @@
             {% if document.id %}
                 {{ _self.item(
                     label: 'delete.document',
-                    class: 'rz-button--error',
+                    class: 'rz-button--primary rz-button--danger',
                     href: path('documentsDeletePage', { documentId: document.id}),
                     icon: 'rz-icon-ri--delete-bin-7-line'
                 ) }}

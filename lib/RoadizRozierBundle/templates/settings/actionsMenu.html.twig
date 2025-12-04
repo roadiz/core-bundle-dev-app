@@ -1,11 +1,10 @@
 {% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
-    item: item,
-    setting: setting
+    setting: setting,
 } only %}
     {% block items %}
-        {% if item.getId %}
+        {% if setting.getId %}
             {{ _self.deleteItem(href: path('settingsDeletePage', { settingId: setting.getId})) }}
         {% endif %}
     {% endblock %}

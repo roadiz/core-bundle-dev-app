@@ -19,7 +19,7 @@
 {% macro saveItem(dataActionSave, label = 'save') %}
     {{ _self.item(
         label: label,
-        class: 'rz-button--success',
+        class: 'rz-button--primary rz-button--success',
         icon: 'rz-icon-ri--save-line',
         attr: {
             'is': 'rz-save-button',
@@ -30,7 +30,7 @@
 {% endmacro %}
 
 {% macro deleteItem(label = 'delete', href) %}
-    {{ _self.item(label, 'rz-button--error', href, 'rz-icon-ri--delete-bin-7-line') }}
+    {{ _self.item(label, 'rz-button--primary rz-button--danger', href, 'rz-icon-ri--delete-bin-7-line') }}
 {% endmacro %}
 
 <div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">
