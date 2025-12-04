@@ -34,6 +34,21 @@
 	}
 }
 
+.rz-button--pill {
+	position: relative;
+
+	&:after {
+		position: absolute;
+		content: '';
+		top: -1px;
+		right: -1px;
+		width: 0.5em;
+		height: 0.5em;
+		border-radius: 1em;
+		background-color: var(--rz-button-pill-background-color, var(--status-error, #E54457));
+	}
+}
+
 .rz-button[disabled],
 .rz-button--disabled {
 	color: var(--rz-button-disabled-color);
@@ -85,148 +100,177 @@
 /* EMPHASIS */
 /* Corresponds to high emphasis from Figma */
 .rz-button--primary {
-	--rz-button-color: var(--button-basic-high-content-on-light, #FFF);
-	--rz-button-background-color: var(--button-basic-high-bg-on-light, #18191B);
-	--rz-button-border: none;
+	color: var(--rz-button-primary-color, var(--button-basic-high-content-on-light, #FFF));
+	background-color: var(--rz-button-primary-background-color, var(--button-basic-high-bg-on-light, #18191B));
+	border: var(--rz-button-primary-border, none);
 
-	/* Disabled */
-	--rz-button-disabled-color: var(--button-basic-high-content-on-light-disabled, #9A9A9A);
-	--rz-button-disabled-background-color: var(--button-basic-high-bg-on-light-disabled, #EAEAEA);
-	--rz-button-disabled-border: none;
-
-	@media (hover: hover) {
-		&:hover {
-			--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
-			--rz-button-background-color: var(--button-basic-high-bg-on-light-hover, #4E4E4E);
-		}
+	&.rz-button--selected {
+		--rz-button-primary-background-color: var(--button-basic-high-content-on-light-selected, #FFF);
+		--rz-button-primary-background-color: var(--button-basic-high-bg-on-light-selected, #18191B);
 	}
 
 	&.rz-button--on-dark {
-		--rz-button-background-color: var(--button-basic-high-bg-on-dark, #FFF);
-		--rz-button-color: var(--button-basic-high-content-on-dark, #222);
+		--rz-button-primary-background-color: var(--button-basic-high-bg-on-dark, #FFF);
+		--rz-button-primary-color: var(--button-basic-high-content-on-dark, #222);
+	}
 
-		--rz-button-disabled-color: var(--button-basic-high-content-on-dark-disabled, #9A9A9A);
-		--rz-button-disabled-background-color: var(--button-basic-high-bg-on-dark-disabled, #4E4E4E);
+	@media (hover: hover) {
+		&:hover {
+			--rz-button-primary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-primary-background-color: var(--button-basic-high-bg-on-light-hover, #4E4E4E);
+		}
 
-		@media (hover: hover) {
-			&:hover {
-				--rz-button-color: var(--button-basic-high-content-on-dark-hover, #222);
-				--rz-button-background-color: var(--button-basic-high-bg-on-dark-hover, #F2F2F2);
-			}
+		&.rz-button--on-dark:hover {
+			--rz-button-primary-color: var(--button-basic-high-content-on-dark-hover, #222);
+			--rz-button-primary-background-color: var(--button-basic-high-bg-on-dark-hover, #F2F2F2);
+		}
+	}
+
+	&.rz-button--disabled, &[disabled] {
+		--rz-button-primary-color: var(--button-basic-high-content-on-light-disabled, #9A9A9A);
+		--rz-button-primary-background-color: var(--button-basic-high-bg-on-light-disabled, #EAEAEA);
+
+		&.rz-button--on-dark {
+			--rz-button-primary-color: var(--button-basic-high-content-on-dark-disabled, #9A9A9A);
+			--rz-button-primary-background-color: var(--button-basic-high-bg-on-dark-disabled, #4E4E4E);
 		}
 	}
 }
 /* Corresponds to medium emphasis from Figma */
 .rz-button--secondary {
-	--rz-button-background-color: none;
-	--rz-button-color: var(--button-basic-medium-content-on-light, #18191B);
-	--rz-button-border-color: var(--button-basic-medium-border-on-light, #DADADA);
+	background-color: var(--rz-button-secondary-background-color, none);
+	color: var(--rz-button-secondary-color, var(--button-basic-medium-content-on-light, #18191B));
+	border-color: var(--rz-button-secondary-border-color, var(--button-basic-medium-border-on-light, #DADADA));
 
-	/* Disabled */
-	--rz-button-disabled-border: 1px solid var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
-	--rz-button-disabled-color: var(--button-basic-medium-content-on-light-disabled, #9A9A9A);
 
-	@media (hover: hover) {
-		&:hover {
-			--rz-button-border-color: var(--button-basic-medium-border-on-light-hover, #4E4E4E);
-			--rz-button-background-color: var(--button-basic-medium-bg-on-light-selected, #F2F2F2);
-		}
+	&.rz-button--selected {
+		--rz-button-secondary-border-color: var(--button-basic-medium-border-on-light-selected, #646464);
+		--rz-button-secondary-background-color: var(--button-basic-medium-bg-on-light-selected, #F2F2F2);
 	}
 
 	&.rz-button--on-dark {
-		--rz-button-color: var(--button-basic-medium-content-on-dark-hover, #FFF);
-		--rz-button-border-color: var(--button-basic-medium-border-on-dark-hover, #EAEAEA);
+		--rz-button-secondary-color: var(--button-basic-medium-content-on-dark-hover, #FFF);
+		--rz-button-secondary-border-color: var(--button-basic-medium-border-on-dark-hover, #EAEAEA);
+	}
 
-		--rz-button-disabled-border: 1px solid var(--button-basic-medium-border-on-dark-disabled, #9A9A9A);
-		--rz-button-disabled-color: var(--button-basic-medium-border-on-dark-disabled, #9A9A9A);
+	@media (hover: hover) {
+		&:hover {
+			--rz-button-secondary-border-color: var(--button-basic-medium-border-on-light-hover, #4E4E4E);
+		}
 
-		@media (hover: hover) {
-			&:hover {
-				--rz-button-color: var(--button-basic-medium-content-on-dark-selected, #FFF);
-				--rz-button-border-color: var(--button-basic-medium-border-on-dark-selected, #FFF);
-				--rz-button-background-color: var(--button-basic-medium-bg-on-dark-selected, #383838);
-			}
+		&.rz-button--on-dark:hover {
+			--rz-button-secondary-color: var(--button-basic-medium-content-on-dark-selected, #FFF);
+			--rz-button-secondary-border-color: var(--button-basic-medium-border-on-dark-selected, #FFF);
+			--rz-button-secondary-background-color: var(--button-basic-medium-bg-on-dark-selected, #383838);
+		}
+	}
+
+	&.rz-button--disabled, &[disabled] {
+		--rz-button-secondary-border-color: var(--button-basic-medium-border-on-light-disabled, #9A9A9A);
+		--rz-button-secondary-color: var(--button-basic-medium-content-on-light-disabled, #9A9A9A);
+
+		&.rz-button--on-dark {
+			--rz-button-secondary-disabled-border: 1px solid var(--button-basic-medium-border-on-dark-disabled, #9A9A9A);
+			--rz-button-secondary-disabled-color: var(--button-basic-medium-border-on-dark-disabled, #9A9A9A);
 		}
 	}
 }
 /* Corresponds to low emphasis from Figma */
 .rz-button--tertiary {
-	--rz-button-background-color: none;
-	--rz-button-color: var(--button-basic-low-content-on-light, #18191B);
-	--rz-button-border: none;
+	background-color: var(--rz-button-tertiary-background-color, none);
+	color: var(--rz-button-tertiary-color, var(--button-basic-low-content-on-light, #18191B));
+	border: var(--rz-button-tertiary-border, none);
 
-	/* Disabled */
-	--rz-button-disabled-color: var(--button-basic-low-content-on-light-disabled, #9A9A9A);
-	--rz-button-disabled-background-color: initial;
-	--rz-button-disabled-border: none;
-
-	@media (hover: hover) {
-		&:hover {
-			--rz-button-background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
-		}
+	&.rz-button--selected {
+		--rz-button-tertiary-color: var(--button-basic-low-content-on-light-selected, #18191B);
+		--rz-button-tertiary-background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
 	}
 
 	&.rz-button--on-dark {
-		--rz-button-color: var(--button-basic-low-content-on-dark, #FFF);
-		--rz-button-disabled-color: var(--button-basic-low-content-on-dark-disabled, #7A7A7A);
-
-		@media (hover: hover) {
-			&:hover {
-				--rz-button-background-color: var(--button-basic-low-bg-on-dark-hover, #383838);
-
-
-			}
-		}
+		--rz-button-tertiary-color: var(--button-basic-low-content-on-dark, #FFF);
+		--rz-button-tertiary-disabled-color: var(--button-basic-low-content-on-dark-disabled, #7A7A7A);
 	}
-}
-
-
-/* COLORS */
-.rz-button--success-light {
-	--rz-button-background-color: var(--status-success-container, #D5FFEC);
-	--rz-button-color: var(--status-success, #16A867);
 
 	@media (hover: hover) {
 		&:hover {
-			--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
-			--rz-button-background-color: var(--status-success, #16A867);
+			--rz-button-tertiary-color: var(--button-basic-low-content-on-light-hover, #18191B);
+			--rz-button-tertiary-background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
 		}
+
+		&.rz-button--on-dark:hover {
+			--rz-button-tertiary-background-color: var(--button-basic-low-bg-on-dark-hover, #383838);
+		}
+	}
+
+	&.rz-button--disabled, &[disabled] {
+		--rz-button-tertiary-color: var(--button-basic-low-content-on-light-disabled, #9A9A9A);
+		--rz-button-tertiary-background-color: initial;
+		--rz-button-tertiary-border: none;
 	}
 }
 
+/* COLOR MODIFIERS
+* Color modifier affect default and emphasis styles
+* Same with or without onDark modifier
+*/
+.rz-button--success.rz-button--on-dark,
 .rz-button--success {
-	--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
-	--rz-button-background-color: var(--status-success, #16A867);
-	--rz-button-border: none;
+	--rz-button-color: var(--status-success, #16A867);
+	--rz-button-border-color: var(--status-success, #16A867);
+
+	--rz-button-primary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+	--rz-button-primary-background-color: var(--status-success, #16A867);
+
+	--rz-button-secondary-color: var(--status-success, #16A867);
+	--rz-button-secondary-border-color: var(--status-success, #16A867);
+
+	--rz-button-tertiary-color: var(--status-success, #16A867);
+	--rz-button-tertiary-background-color: var(--status-success-container, #D5FFEC);
 
 	@media (hover: hover) {
 		&:hover {
-			--rz-button-background-color: var(--status-success-on-container, #298059);
+			--rz-button-color: var(--status-success-on-container, #298059);
+			--rz-button-border-color: var(--status-success-on-container, #298059);
+
+			--rz-button-primary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-primary-background-color: var(--status-success-on-container, #298059);
+
+			--rz-button-secondary-color: var(--status-success, #16A867);
+			--rz-button-secondary-border-color: var(--status-success, #16A867);
+
+			--rz-button-tertiary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-tertiary-background-color: var(--status-success, #16A867);
 		}
 	}
 }
 
-.rz-button--error {
-	--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
-	--rz-button-background-color: var(--status-error, #E54457);
-	--rz-button-border: none;
-
-	@media (hover: hover) {
-		&:hover {
-			--rz-button-background-color: var(--status-error-on-container, #A92A3E);
-		}
-	}
-}
-
-.rz-button--error-light {
+.rz-button--danger.rz-button--on-dark,
+.rz-button--danger {
 	--rz-button-color: var(--status-error, #E54457);
-	--rz-button-background-color: var(--status-error-container, #FFD3DA);
-	--rz-button-border: none;
+	--rz-button-border-color: var(--status-error, #E54457);
+
+	--rz-button-primary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+	--rz-button-primary-background-color: var(--status-error, #E54457);
+
+	--rz-button-secondary-color: var(--status-error, #E54457);
+	--rz-button-secondary-border-color: var(--status-error, #E54457);
+
+	--rz-button-tertiary-color: var(--status-error, #E54457);
+	--rz-button-tertiary-background-color: var(--status-error-container, #FFD3DA);
 
 	@media (hover: hover) {
 		&:hover {
-			--rz-button-color: var(--button-basic-high-content-on-light-hover, #FFF);
-			--rz-button-background-color: var(--status-error, #E54457);
+			--rz-button-color: var(--status-error-on-container, #A92A3E);
+			--rz-button-border-color: var(--status-error-on-container, #A92A3E);
+
+			--rz-button-primary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-primary-background-color: var(--status-error-on-container, #A92A3E);
+
+			--rz-button-secondary-color: var(--status-error, #E54457);
+			--rz-button-secondary-border-color: var(--status-error, #E54457);
+
+			--rz-button-tertiary-color: var(--button-basic-high-content-on-light-hover, #FFF);
+			--rz-button-tertiary-background-color: var(--status-error, #E54457);
 		}
 	}
 }

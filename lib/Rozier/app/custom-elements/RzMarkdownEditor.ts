@@ -1,13 +1,15 @@
 import { addClass, stripTags } from '~/utils/plugins'
 import markdownit from 'markdown-it'
 import markdownItFootnote from 'markdown-it-footnote'
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/gfm/gfm'
 import type {
     Editor,
     EditorConfiguration,
     EditorFromTextArea,
 } from 'codemirror'
+import CodeMirror from 'codemirror'
+import 'codemirror/mode/gfm/gfm'
+import 'codemirror/mode/markdown/markdown'
+import 'assets/css/vendor/codemirror.css'
 
 interface TranslationResponse {
     originalText: string
@@ -35,7 +37,6 @@ export default class RzMarkdownEditor extends HTMLElement {
     usePreview: boolean = false
     editor!: EditorFromTextArea
     cont: HTMLElement | null = null
-    parentForm: HTMLFormElement | null = null
     buttonCode: NodeListOf<HTMLElement> | null = null
     buttonPreview: NodeListOf<HTMLElement> | null = null
     buttonTranslateAssistant: NodeListOf<HTMLElement> | null = null
@@ -63,10 +64,12 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.markdownit.use(markdownItFootnote)
 
         const textarea = this.querySelector<HTMLTextAreaElement>('textarea')
+
         if (!textarea) {
             console.error('No textarea found in RzMarkdownEditor')
             return
         }
+
         this.textarea = textarea
         this.usePreview = false
 
@@ -107,8 +110,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         })
 
         // Selectors
-        this.cont = this.textarea.closest('.uk-form-row')
-        this.parentForm = this.textarea.closest('form')
+        this.cont = this.textarea.closest('.rz-form-field')
 
         // Bind methods
         this.closePreview = this.closePreview.bind(this)
@@ -141,6 +143,7 @@ export default class RzMarkdownEditor extends HTMLElement {
 
         const editorElement =
             this.cont.querySelector<HTMLElement>('.CodeMirror')
+
         if (!editorElement) {
             console.error('No CodeMirror element found')
             return
@@ -166,7 +169,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.buttonFullscreen = this.cont.querySelectorAll(
             '.markdown-editor-button-fullscreen',
         )
-        this.count = this.cont.querySelectorAll('.markdown-editor-count')
+        this.count = this.cont.querySelectorAll('.count')
         this.countCurrent = this.cont.querySelectorAll('.count-current')
         this.countMaxLimitText = this.cont.querySelectorAll('.count-limit')
         this.buttonTranslateAssistant = this.cont.querySelectorAll(
@@ -416,6 +419,9 @@ export default class RzMarkdownEditor extends HTMLElement {
                         this.blockquoteSelections(sel),
                     )
                     break
+                case 'h1':
+                    this.editor.replaceSelections(this.h1Selections(sel))
+                    break
                 case 'h2':
                     this.editor.replaceSelections(this.h2Selections(sel))
                     break
@@ -489,6 +495,10 @@ export default class RzMarkdownEditor extends HTMLElement {
             selections = this.editor.getSelections()
         }
         return selections.map((sel) => '*' + sel + '*')
+    }
+
+    h1Selections(selections: string[]): string[] {
+        return selections.map((sel) => '\n# ' + sel + '\n')
     }
 
     h2Selections(selections: string[]): string[] {
@@ -607,10 +617,6 @@ export default class RzMarkdownEditor extends HTMLElement {
 
     destroy() {
         this.preview?.remove()
-    }
-
-    resize() {
-        // Reserved for future use
     }
 
     async buttonTranslateAssistantClick(e: Event): Promise<void> {

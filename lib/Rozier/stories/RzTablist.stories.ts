@@ -1,117 +1,39 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import type { Args as TabArgs } from './RzTablistItem.stories'
+import {
+    TABLIST_CLASS_NAME,
+    rzTablistRenderer,
+    rzTablistItemRenderer,
+} from '../app/utils/storybook/renderer/rzTablist'
 
-const COMPONENT_CLASS_NAME = 'rz-tablist'
-const VARIANTS = ['filled', 'underlined']
-
-type Tab = {
-    label: string
-    id: string
-    selected?: boolean
-    panel: {
-        id: string
-        hidden?: boolean
-    }
+export type Args = {
+    tabs: TabArgs[]
 }
-
-type Args = {
-    variant?: (typeof VARIANTS)[number]
-    tabs: Tab[]
-}
-
-const DEFAULT_TABS: Tab[] = [
-    {
-        id: 'tab-1',
-        label: 'Tab label 1',
-        selected: true,
-        panel: {
-            id: 'panel-1',
-        },
-    },
-    {
-        id: 'tab-2',
-        label: 'Tab label 2',
-        panel: {
-            id: 'panel-2',
-        },
-    },
-    {
-        id: 'tab-3',
-        label: 'Tab label 3',
-        panel: {
-            id: 'panel-3',
-        },
-    },
-]
 
 const meta: Meta<Args> = {
-    title: 'Components/Tab/Tablist',
+    title: 'Components/Tablist/root',
     tags: ['autodocs'],
     args: {
-        variant: 'filled',
-        tabs: DEFAULT_TABS,
-    },
-    argTypes: {
-        variant: {
-            control: 'select',
-            options: ['', ...VARIANTS],
-        },
+        tabs: Array(3)
+            .fill(null)
+            .map((_, i) => {
+                return {
+                    tag: 'button',
+                    innerHTML: `Tab label ${i + 1}`,
+                    selected: false,
+                    attributes: {
+                        id: `tab-${i + 1}`,
+                    },
+                    panel: {
+                        id: `panel-${i + 1}`,
+                    },
+                }
+            }),
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
-
-function tabPanelRenderer(args: Tab) {
-    const tabPanel = document.createElement('div')
-    tabPanel.classList.add('rz-tabpanel')
-    tabPanel.setAttribute('role', 'tabpanel')
-    tabPanel.setAttribute('aria-labelledby', args.id)
-    tabPanel.id = args.panel.id
-    if (args.panel.hidden) {
-        tabPanel.setAttribute('hidden', 'true')
-    }
-    tabPanel.textContent = `Content for ${args.label}`
-
-    return tabPanel
-}
-
-function rzTabRenderer(args: Tab) {
-    const tab = document.createElement('button')
-    tab.setAttribute('role', 'tab')
-    tab.setAttribute('type', 'button')
-    tab.setAttribute('aria-controls', args.panel.id)
-    tab.id = args.id
-    tab.textContent = args.label
-
-    return tab
-}
-
-function rzTablistRenderer(args: Args) {
-    const wrapper = document.createElement(COMPONENT_CLASS_NAME)
-    const classList = [
-        args.variant && `${COMPONENT_CLASS_NAME}--${args.variant}`,
-    ].filter((c) => c) as string[]
-    wrapper.classList.add(...classList)
-
-    const tablist = document.createElement('div')
-    tablist.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
-    tablist.setAttribute('role', 'tablist')
-    wrapper.appendChild(tablist)
-
-    args.tabs.forEach((tabArgs) => {
-        const tab = rzTabRenderer(tabArgs)
-        tab.classList.add(`${COMPONENT_CLASS_NAME}__tab`)
-        if (tabArgs.selected) {
-            tab.classList.add(`${COMPONENT_CLASS_NAME}__tab--selected`)
-            tab.setAttribute('aria-selected', 'true')
-        } else {
-            tab.setAttribute('aria-selected', 'false')
-        }
-        tablist.appendChild(tab)
-    })
-
-    return wrapper
-}
 
 export const Default: Story = {
     render: (args) => {
@@ -119,12 +41,27 @@ export const Default: Story = {
     },
 }
 
-export const Underline: Story = {
+export const WithSeparator: Story = {
     render: (args) => {
-        return rzTablistRenderer(args)
-    },
-    args: {
-        variant: 'underlined',
+        const tablist = rzTablistRenderer(args)
+
+        const separator = document.createElement('hr')
+        separator.classList.add(`${TABLIST_CLASS_NAME}__separator`)
+        tablist.appendChild(separator)
+
+        const tab = rzTablistItemRenderer({
+            tag: 'button',
+            innerHTML: '<span class="rz-icon-ri--printer-line"></span>',
+        })
+        tablist.appendChild(tab)
+
+        const tab2 = rzTablistItemRenderer({
+            tag: 'button',
+            innerHTML: '<span class="rz-icon-ri--file-list-3-line"></span>',
+        })
+        tablist.appendChild(tab2)
+
+        return tablist
     },
 }
 
@@ -136,13 +73,19 @@ export const WithTabPanels: Story = {
         wrapper.appendChild(tablist)
 
         args.tabs.forEach((tabArgs) => {
-            const panel = tabPanelRenderer(tabArgs)
-            wrapper.appendChild(panel)
+            const tabPanel = document.createElement('div')
+            tabPanel.classList.add('rz-tabpanel')
+            tabPanel.setAttribute('role', 'tabpanel')
+            tabPanel.textContent = `Content for ${tabArgs.attributes?.id}`
+
+            if (tabArgs.attributes?.id)
+                tabPanel.setAttribute('aria-labelledby', tabArgs.attributes?.id)
+            if (tabArgs.panel?.id) tabPanel.id = tabArgs.panel.id
+            if (tabArgs.panel?.hidden) tabPanel.setAttribute('hidden', 'true')
+
+            wrapper.appendChild(tabPanel)
         })
 
         return wrapper
-    },
-    args: {
-        variant: undefined,
     },
 }

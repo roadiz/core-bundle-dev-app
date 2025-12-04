@@ -30,6 +30,20 @@ final readonly class DocumentThumbnailProvider extends AbstractEntityThumbnailPr
 
     public function getDocumentUrl(BaseDocumentInterface $document, int $size = 64): ?string
     {
+        if ($document->isPrivate()) {
+            return null;
+        }
+
+        if (!$document->isProcessable()) {
+            return $this->documentUrlGenerator
+                ->setDocument($document)
+                ->setOptions([
+                    'noProcess' => true,
+                ])
+                ->getUrl()
+            ;
+        }
+
         $url = $this->documentUrlGenerator
             ->setDocument($document)
             ->setOptions([

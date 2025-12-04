@@ -15,12 +15,13 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -43,35 +44,54 @@ final class NodeTreeController extends AbstractController
     ) {
     }
 
-    public function treeAction(Request $request, ?int $nodeId = null, ?int $translationId = null): Response
-    {
+    #[Route(
+        path: '/rz-admin/nodes/tree/{nodeId}/{translationId}',
+        name: 'nodesTreePage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+        ],
+        defaults: [
+            'nodeId' => null,
+            'translationId' => null,
+        ],
+        priority: 0,
+    )]
+    #[Route(
+        path: '/rz-admin/nodes/tree/main/{translationId}',
+        name: 'nodesMainTreePage',
+        requirements: [
+            'translationId' => '[0-9]+',
+        ],
+        defaults: [
+            'nodeId' => null,
+            'translationId' => null,
+        ],
+        priority: 1,
+    )]
+    public function treeAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'nodeId ? repository.find(nodeId) : null',
+            message: 'Node does not exist',
+        )]
+        ?Node $node,
+        #[MapEntity(
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
+    ): Response {
         $assignation = [];
 
-        if (null !== $nodeId) {
-            /** @var Node|null $node */
-            $node = $this->allStatusesNodeRepository->find($nodeId);
-            if (null === $node) {
-                throw new ResourceNotFoundException();
-            }
-            $this->managerRegistry->getManager()->refresh($node);
-        } elseif (null !== $user = $this->getUser()) {
+        if (null === $node && null !== $user = $this->getUser()) {
             $node = $this->nodeChrootResolver->getChroot($user);
-        } else {
-            $node = null;
         }
 
         if (null !== $node) {
             $this->denyAccessUnlessGranted(NodeVoter::READ, $node);
         } else {
             $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
-        }
-
-        if (null !== $translationId) {
-            /** @var Translation $translation */
-            $translation = $this->translationRepository->findOneBy(['id' => $translationId]);
-        } else {
-            /** @var Translation $translation */
-            $translation = $this->translationRepository->findDefault();
         }
 
         $widget = $this->treeWidgetFactory->createNodeTree($node, $translation);

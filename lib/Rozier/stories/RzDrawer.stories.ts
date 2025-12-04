@@ -1,21 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as DrawerItemArgs } from './RzDrawerItem.stories'
+import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { type Args as FormFieldArgs } from './RzFormField.stories'
-import { rzDrawerRenderer } from '~/utils/storybook/renderer/rzDrawer'
-
+import {
+    rzCardRenderer,
+    type Args as CardArgs,
+} from '~/utils/storybook/renderer/rzCard'
 // @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
 // @ts-expect-error — image module declaration not recognized
 import imageVertical from './assets/images/02.jpg'
 
-export type Args = {
-    ariaLabel?: string
-    items: DrawerItemArgs[]
-    moreColumns?: boolean
-    formField: FormFieldArgs
+const COMPONENT_CLASS_NAME = 'rz-drawer'
+const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
+
+export type Args = FormFieldArgs & {
+    layout: (typeof DRAWER_LAYOUTS)[number]
+    items: CardArgs[]
 }
 
-const DEFAULT_ITEM: DrawerItemArgs = {
+const NODE_WITH_IMG_ITEM: CardArgs = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     image: {
@@ -39,7 +42,7 @@ const DEFAULT_ITEM: DrawerItemArgs = {
     },
 }
 
-const SIMPLE_ITEM: DrawerItemArgs = {
+const NODE_ITEM: CardArgs = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     buttonGroup: {
@@ -58,7 +61,7 @@ const SIMPLE_ITEM: DrawerItemArgs = {
     },
 }
 
-const IMAGE_ITEM: DrawerItemArgs = {
+const DOCUMENT_ITEM: CardArgs = {
     image: {
         src: imageHorizontal,
         width: 110,
@@ -91,36 +94,43 @@ const IMAGE_ITEM: DrawerItemArgs = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Drawer',
+    title: 'Components/Form/Drawer/Root',
     tags: ['autodocs'],
     args: {
-        items: [...Array(10).keys()].map(() => DEFAULT_ITEM),
-        moreColumns: false,
-        formField: {
-            label: 'Drawer item label',
-            iconClass: 'rz-icon-ri--image-line',
-            input: undefined,
-            badge: {
-                label: '0/255',
-                color: 'error',
-                size: 'xs',
-            },
-            buttonGroup: {
-                size: 'md',
-                gap: 'md',
-                buttons: [
-                    {
-                        label: 'Upload',
-                        iconClass: 'rz-icon-ri--upload-line',
-                        size: 'sm',
-                    },
-                    {
-                        label: 'Explore',
-                        iconClass: 'rz-icon-ri--add-line',
-                        size: 'sm',
-                    },
-                ],
-            },
+        label: 'Drawer label',
+        iconClass: 'rz-icon-ri--image-line',
+        description: 'Description example',
+        help: 'Help text example',
+        error: 'Error message example',
+        badge: {
+            label: '0/255',
+            color: 'error' as const,
+            size: 'xs' as const,
+        },
+        buttonGroup: {
+            size: 'md' as const,
+            gap: 'md' as const,
+            buttons: [
+                {
+                    label: 'Upload',
+                    iconClass: 'rz-icon-ri--upload-line',
+                    size: 'sm' as const,
+                },
+                {
+                    label: 'Explore',
+                    iconClass: 'rz-icon-ri--add-line',
+                    size: 'sm' as const,
+                },
+            ],
+        },
+        input: undefined,
+        items: [...Array(10).fill(null)],
+        layout: 'grid',
+    },
+    argTypes: {
+        layout: {
+            control: { type: 'select' },
+            options: DRAWER_LAYOUTS,
         },
     },
 }
@@ -128,78 +138,101 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
+function rzDrawerRenderer(args: Args) {
+    const body = document.createElement('ul')
+    body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
+
+    args.items.forEach((itemArgs) => {
+        if (itemArgs === null) {
+            const item = document.createElement('li')
+            item.style = `
+                width: 100%;
+                height: 100px;
+                background-color: #e0e0e0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            `
+            body.appendChild(item)
+        } else {
+            const itemNode = rzCardRenderer({ ...itemArgs, tag: 'li' })
+            body.appendChild(itemNode)
+        }
+    })
+
+    const wrapper = rzFormFieldRenderer(args, body)
+    wrapper.classList.add(COMPONENT_CLASS_NAME)
+    if (args.layout) {
+        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--${args.layout}`)
+    }
+
+    return wrapper
+}
+
 export const Default: Story = {
     render: (args) => {
         return rzDrawerRenderer(args)
     },
 }
 
-export const OneDefault: Story = {
+export const NodeEntityDrawer: Story = {
     render: (args) => {
         return rzDrawerRenderer(args)
     },
     args: {
-        items: [DEFAULT_ITEM],
+        items: [...Array(4).fill(null)].map(() => NODE_WITH_IMG_ITEM),
+        layout: 'grid',
     },
 }
 
-export const SimpleItems: Story = {
+export const NodeEntityWithoutImgDrawer: Story = {
     render: (args) => {
         return rzDrawerRenderer(args)
     },
     args: {
-        items: [...Array(10).keys()].map(() => SIMPLE_ITEM),
+        items: [...Array(10).fill(null)].map(() => NODE_ITEM),
+        layout: 'grid',
     },
 }
 
-export const SimpleItem: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
-    args: {
-        items: [SIMPLE_ITEM],
-    },
-}
-
-export const Images: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
-    args: {
-        items: [...Array(10).keys()].map(() => IMAGE_ITEM),
-        moreColumns: true,
-    },
-}
-
-export const Image: Story = {
+export const NodeEntityMixed: Story = {
     render: (args) => {
         return rzDrawerRenderer(args)
     },
     args: {
         items: [
-            IMAGE_ITEM,
-            {
-                ...IMAGE_ITEM,
-                image: {
-                    src: imageVertical,
-                    width: 88,
-                    height: 110,
-                },
-            },
+            NODE_ITEM,
+            NODE_WITH_IMG_ITEM,
+            NODE_WITH_IMG_ITEM,
+            NODE_ITEM,
+            NODE_ITEM,
+            NODE_ITEM,
+            NODE_WITH_IMG_ITEM,
+            NODE_ITEM,
+            NODE_WITH_IMG_ITEM,
         ],
-        moreColumns: true,
+        layout: 'grid',
     },
 }
 
-export const WithPictures: Story = {
+export const DocumentDrawer: Story = {
     render: (args) => {
         return rzDrawerRenderer(args)
     },
     args: {
-        moreColumns: true,
+        items: [...Array(10).fill(null)].map(() => DOCUMENT_ITEM),
+        layout: 'grid-larger',
+    },
+}
+
+export const DocumentWithPictureTemplateDrawer: Story = {
+    render: (args) => {
+        return rzDrawerRenderer(args)
+    },
+    args: {
+        layout: 'grid-larger',
         items: [
             {
-                ...IMAGE_ITEM,
+                ...DOCUMENT_ITEM,
                 image: {
                     src: imageHorizontal,
                     width: 110,
@@ -213,7 +246,7 @@ export const WithPictures: Story = {
                 },
             },
             {
-                ...IMAGE_ITEM,
+                ...DOCUMENT_ITEM,
                 image: {
                     src: imageVertical,
                     width: 110,
@@ -226,25 +259,8 @@ export const WithPictures: Story = {
                     ],
                 },
             },
-        ],
-    },
-}
-
-export const Mixed: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
-    args: {
-        items: [
-            DEFAULT_ITEM,
-            SIMPLE_ITEM,
-            SIMPLE_ITEM,
-            DEFAULT_ITEM,
-            DEFAULT_ITEM,
-            SIMPLE_ITEM,
-            SIMPLE_ITEM,
-            SIMPLE_ITEM,
-            SIMPLE_ITEM,
+            DOCUMENT_ITEM,
+            DOCUMENT_ITEM,
         ],
     },
 }

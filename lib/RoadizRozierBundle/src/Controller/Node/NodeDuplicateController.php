@@ -10,13 +10,14 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
-use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -29,20 +30,34 @@ final class NodeDuplicateController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
-        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
-    public function duplicateAction(Request $request, int $nodeId): Response
-    {
-        /** @var Node|null $existingNode */
-        $existingNode = $this->allStatusesNodeRepository->find($nodeId);
-
-        if (null === $existingNode) {
-            throw $this->createNotFoundException();
-        }
-
+    #[Route(
+        path: '/rz-admin/nodes/duplicate/{nodeId}',
+        name: 'nodesDuplicatePage',
+        requirements: ['nodeId' => '[0-9]+'],
+        methods: ['GET', 'POST'],
+    )]
+    public function duplicateAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $existingNode,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::DUPLICATE, $existingNode);
+
+        $form = $this->createFormBuilder()->getForm();
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return $this->render('@RoadizRozier/nodes/duplicate.html.twig', [
+                'node' => $existingNode,
+                'form' => $form->createView(),
+            ]);
+        }
 
         try {
             $duplicator = new NodeDuplicator(

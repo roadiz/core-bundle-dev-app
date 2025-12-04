@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -24,6 +25,11 @@ final class EntityThumbnailController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/entity-thumbnail',
+        name: 'ajaxEntityThumbnail',
+        methods: ['GET'],
+    )]
     public function __invoke(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');

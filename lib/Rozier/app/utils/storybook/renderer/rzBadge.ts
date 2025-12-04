@@ -11,6 +11,10 @@ export function rzBadgeRenderer(args: BadgeArgs) {
     ].filter((c) => c)
     node.classList.add(...classes)
 
+    Object.entries(args.attributes || {}).forEach(([key, value]) => {
+        if (value) node.setAttribute(key, String(value))
+    })
+
     if (args.iconClass) {
         const icon = document.createElement('span')
         icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`, args.iconClass)

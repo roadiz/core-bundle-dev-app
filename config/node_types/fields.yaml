@@ -3,7 +3,7 @@ name: Fields
 displayName: Fields
 description: Fields
 visible: true
-publishable: false
+publishable: true
 attributable: true
 sortingAttributesByWeight: false
 reachable: true

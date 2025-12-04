@@ -32,14 +32,14 @@
         ]) %}
     {% endif %}
 {% endfor %}
-<div class="uk-form-row form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
+<div class="rz-form-field form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
     <drawer-container data-vuejs
                       inline-template
                       data-entity-name="{{ entityName }}"
                       data-locale="{{ form.vars._locale }}"
                       data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
     >
-        <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
+        <div class="rz-drawer rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
              :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
              v-if="drawer"
              ref="drawer"
@@ -54,71 +54,66 @@
                 {% set label = name|humanize %}
             {%- endif -%}
 
-            <nav class="drawer-widget-nav">
-                <div class="drawer-widget-nav__head">
-                    <div class="drawer-widget-nav__title"><i class="{{ icon }}"></i></div>
-                    <div class="drawer-widget-nav__title label">
-                        {{ label|trans }}
-                        {% if isSortable == 'false' %}
-                            <span class="uk-text-muted">{% trans %}drawer.sortable-not-enable{% endtrans %}</span>
-                        {% endif %}
-                        <span
-                            class="uk-text-muted"
-                            :class="{ 'uk-text-danger': items.length < this.drawer.minLength }"
-                        >
-                            <template v-if="this.drawer.maxLength < 9999">
-                                ${ items.length } / ${ this.drawer.maxLength }
-                            </template>
-                            <template v-if="this.drawer.minLength > 0">
-                                ({% trans %}min{% endtrans %}: ${ this.drawer.minLength })
-                            </template>
-                        </span>
-                        {% if attr['data-universal'] %}
-                            <i data-uk-tooltip="{animation:true}"
-                               title="{% trans %}universal{% endtrans %}"
-                               class="uk-icon uk-icon-flag universal-indicator"></i>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="drawer-widget-nav__content">
-                    <div class="drawer-widget-quick-creation uk-button-group">
-                        <rz-button :is-active="drawer.isActive"
-                                   :callback="onExplorerButtonClick">
-                            <i class="uk-icon-rz-explore"></i>
-                            <span class="uk-hidden-small">
-                            {%- trans -%}documents.toggle-explorer{%- endtrans -%}
-                        </span>
-                        </rz-button>
+            {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+            {% if this.drawer.maxLength < 9999 %}
+                {% set label_attr = label_attr|merge({'data-max-length': this.drawer.maxLength}) %}
+            {% endif %}
+            {% if this.drawer.minLength > 0 %}
+                {% set label_attr = label_attr|merge({'data-min-length': this.drawer.minLength}) %}
+            {% endif %}
+            {% if this.drawer.errorMessage != '' %}
+                {% set label_attr = label_attr|merge({'drawer-error-message': this.drawer.errorMessage}) %}
+            {% endif %}
+            {% if label is not same as(false) -%}
+                {% if label is empty -%}
+                    {% set label = name|humanize %}
+                {%- endif -%}
+                <div class="rz-form-field__head">
+                    {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entityIds|length) }}
+                    <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                         {% if enableDropzone %}
-                            <rz-button :is-active="drawer.isDropzoneEnable"
-                                       :callback="onDropzoneButtonClick">
-                                <i class="uk-icon-rz-upload"></i>
-                                <span class="uk-hidden-small">
-                                {%- trans -%}documents.toggle-uploader{%- endtrans -%}
-                            </span>
-                            </rz-button>
+                            <button
+                                type="button"
+                                class="rz-button rz-button--sm rz-button-group__button"
+                                @click.prevent="onDropzoneButtonClick"
+                            >
+                                <span class="rz-button__label">{%- trans -%}documents.toggle-uploader{%- endtrans -%}</span>
+                                <span class="rz-button__icon rz-icon-ri--upload-line"></span>
+                            </button>
                         {% endif %}
+                        <button
+                            type="button"
+                            class="rz-button rz-button--sm rz-button-group__button"
+                            @click.prevent="onExplorerButtonClick"
+                        >
+                            <span class="rz-button__label">{%- trans -%}documents.toggle-explorer{%- endtrans -%}</span>
+                            <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                        </button>
+                        <template v-if="drawer.errorMessage">
+                            <div class="rz-message rz-message--error rz-form-field__message">
+                                <p class="rz-message__text">{ drawer.errorMessage }}</p>
+                            </div>
+                        </template>
                     </div>
                 </div>
-            </nav>
-
-            <template v-if="drawer.errorMessage">
-                <p class="uk-text-danger">
-                    ${ drawer.errorMessage }
-                </p>
-            </template>
+            {% endif %}
+            {%- if form.vars.help ?? false -%}
+                {{ rz_form_field.help(
+                    form: form,
+                ) }}
+            {%- endif -%}
 
             <div class="drawer-widget-sortable-container">
                 <transition name="fade" v-if="drawer.isLoading">
                     <div class="spinner"></div>
                 </transition>
-                <ul class="drawer-widget-sortable"
+                <div class="drawer-widget-sortable"
                     data-input-name="{{ name }}">
                     <draggable
                         v-model="items"
                         :options="getOptions()"
                     >
-                        <transition-group>
+                        <transition-group tag="ul" class="rz-drawer__body rz-form-field__body">
                             <component
                                 v-bind:is="drawer.currentListingView"
                                 v-for="(item, index) in items"
@@ -135,18 +130,16 @@
                             </component>
                         </transition-group>
                     </draggable>
-                </ul>
+                </div>
             </div>
             {% if enableDropzone %}
-                <rz-file-upload 
+                <rz-file-upload
                     v-if="drawer.isDropzoneEnable"
                     @error="showError"
-                    @success="showSuccess">
+                    @success="showSuccess"
+                >
                 </rz-file-upload>
             {% endif %}
         </div>
     </drawer-container>
-    {%- if form.vars.help ?? false -%}
-        <small id="{{ form.vars.id }}_help" class="form-row-desc uk-form-label-description drawer-widget-description">{{- form.vars.help|trans|inlineMarkdown -}}</small>
-    {%- endif -%}
 </div>

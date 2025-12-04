@@ -102,6 +102,12 @@
                     line-height: var(--contextualdropdown-p-height);
                     font-size: 16px;
                 }
+
+                &[disabled] {
+                    opacity: 0.5;
+                    pointer-events: none;
+                    cursor: not-allowed;
+                }
             }
 
             .wrapper {

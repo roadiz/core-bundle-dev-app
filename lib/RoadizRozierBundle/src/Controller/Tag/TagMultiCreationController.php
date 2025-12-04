@@ -11,12 +11,13 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\CoreBundle\Tag\TagFactory;
 use RZ\Roadiz\RozierBundle\Form\MultiTagType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -32,16 +33,22 @@ final class TagMultiCreationController extends AbstractController
     ) {
     }
 
-    public function addChildAction(Request $request, int $parentTagId): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/add-multiple-child/{parentTagId}',
+        name: 'tagsAddMultipleChildPage',
+        requirements: ['parentTagId' => '\d+']
+    )]
+    public function addChildAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(parentTagId)',
+            evictCache: true,
+        )]
+        Tag $parentTag,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
         $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        $parentTag = $this->managerRegistry->getRepository(Tag::class)->find($parentTagId);
-
-        if (null === $parentTag) {
-            throw new ResourceNotFoundException();
-        }
 
         $form = $this->createForm(MultiTagType::class);
         $form->handleRequest($request);
@@ -73,7 +80,7 @@ final class TagMultiCreationController extends AbstractController
                     $this->logTrail->publishConfirmMessage($request, $msg, $tag);
                 }
 
-                return $this->redirectToRoute('tagsTreePage', ['tagId' => $parentTagId]);
+                return $this->redirectToRoute('tagsTreePage', ['tagId' => $parentTag->getId()]);
             } catch (\InvalidArgumentException $e) {
                 $form->addError(new FormError($e->getMessage()));
             }

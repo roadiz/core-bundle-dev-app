@@ -14,6 +14,7 @@ use RZ\Roadiz\RozierBundle\Widget\NodeTreeWidget;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -33,6 +34,12 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         parent::__construct($managerRegistry, $serializer, $translator);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/nodes/tree',
+        name: 'nodesTreeAjax',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function getTreeAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');

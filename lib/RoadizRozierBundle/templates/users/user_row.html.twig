@@ -57,7 +57,7 @@
                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
             {% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
                 <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                   href="{{ path('adminHomePage') }}?_su={{ item.username }}"
+                   href="{{ path('adminHomePage') }}?_su={{ item.username|url_encode }}"
                    title="{% trans %}start.test.user.right{% endtrans %}"
                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-sudo"></i></a>
             {% endif %}

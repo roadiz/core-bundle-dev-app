@@ -1,0 +1,48 @@
+<nav class="rz-menu-bar">
+    {% for items in listItems %}
+        {% set validItems = items|filter(i => (i.name is defined and i.name is not null)) %}
+        {% if validItems|length > 0 %}
+            <ul class="rz-menu-bar__list">
+                {% for item in validItems %}
+                    {{ _self.item(
+                        item.name,
+                        item.label is defined ? item.label : null,
+                        item.href is defined ? item.href : '#',
+                        current,
+                        item.icon is defined ? item.icon : null,
+                        item.target is defined ? item.target : null,
+                        item.iconOnly is defined ? item.iconOnly : false
+                    ) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+    {% set additional_content %}
+        {% block additional_entries %}{% endblock %}
+    {% endset %}
+
+    {% if additional_content|trim is not empty %}
+        <ul class="rz-menu-bar__list">
+            {{ additional_content|raw }}
+        </ul>
+    {% endif %}
+</nav>
+
+{% macro item(name, label, href, current, icon, target, iconOnly = false) %}
+    <li>
+        <a
+            class="rz-menu-bar__item{% if current == name %} rz-menu-bar__item--selected{% endif %}"
+            {% if current == name %}aria-current="true"{% endif %}
+            {% if label is defined and label %}aria-label="{{ label|trans }}" title="{{ label|trans }}"{% endif %}
+            href="{{ href }}"
+            {% if target is defined and target %} target="{{ target }}"{% endif %}
+        >
+            {% if icon is defined and icon %}
+                <span class="{{ icon }}"></span>
+            {% endif %}
+            {% if label is defined and label and not iconOnly %}
+                {{- label|trans -}}
+            {% endif %}
+        </a>
+    </li>
+{% endmacro %}
