@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 
 const SIZES = ['xs', 'sm', 'md'] as const
-const COLORS = ['information', 'success', 'warning', 'error'] as const
+const COLORS = ['information', 'success', 'warning', 'danger'] as const
 
 export type BadgeArgs = {
     iconClass?: string
@@ -10,6 +10,7 @@ export type BadgeArgs = {
     title?: string
     size?: (typeof SIZES)[number]
     color?: (typeof COLORS)[number]
+    attributes?: Record<string, string>
 }
 
 const meta: Meta<BadgeArgs> = {
@@ -65,7 +66,7 @@ export const Information: Story = {
             ...args,
             label: 'Information',
             color: 'information',
-            iconClass: 'rz-icon-rz--status-published-colored',
+            iconClass: 'rz-icon-rz--status-published-fill',
         })
     },
 }
@@ -76,7 +77,7 @@ export const Published: Story = {
             ...args,
             label: 'Published',
             color: 'success',
-            iconClass: 'rz-icon-rz--status-published-colored',
+            iconClass: 'rz-icon-rz--status-published-fill',
         })
     },
 }
@@ -87,7 +88,7 @@ export const Draft: Story = {
             ...args,
             label: 'Draft',
             color: 'warning',
-            iconClass: 'rz-icon-rz--status-draft-colored',
+            iconClass: 'rz-icon-rz--status-draft-fill',
         })
     },
 }
@@ -98,7 +99,7 @@ export const Unpublished: Story = {
             ...args,
             label: 'Unpublished',
             color: 'error',
-            iconClass: 'rz-icon-rz--status-draft-colored',
+            iconClass: 'rz-icon-rz--status-draft-fill',
         })
     },
 }

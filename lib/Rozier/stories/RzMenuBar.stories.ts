@@ -10,7 +10,7 @@ type MenuItem = {
 
 export type Args = {
     label?: string
-    menuItems: MenuItem[]
+    menuItems: MenuItem[][]
 }
 
 const COMPONENT_CLASS_NAME = 'rz-menu-bar'
@@ -21,68 +21,38 @@ const meta: Meta<Args> = {
     args: {
         label: 'Menu Item',
         menuItems: [
-            {
-                tag: 'a',
-                label: 'Content',
-                attributes: {
-                    href: '#',
+            [
+                {
+                    tag: 'a',
+                    label: 'Content',
+                    attributes: {
+                        href: '#',
+                    },
                 },
-            },
-            {
-                tag: 'a',
-                label: 'Settings',
-                selected: true,
-                attributes: {
-                    href: '#',
+                {
+                    tag: 'a',
+                    label: 'Settings',
+                    selected: true,
+                    attributes: {
+                        href: '#',
+                    },
                 },
-            },
-            {
-                tag: 'button',
-                iconClass: 'rz-icon-ri--more-line',
-                attributes: {
-                    id: 'dropdown-button-1',
-                    popovertarget: 'dropdown-id-1',
-                    'aria-label': 'dropdown button label',
+                {
+                    tag: 'button',
+                    iconClass: 'rz-icon-ri--more-line',
+                    attributes: {
+                        id: 'dropdown-button-1',
+                        popovertarget: 'dropdown-id-1',
+                        'aria-label': 'dropdown button label',
+                    },
                 },
-            },
-            {
-                tag: 'hr',
-            },
-            {
-                tag: 'a',
-                iconClass: 'rz-icon-ri--printer-line',
-                attributes: {
-                    href: '#',
-                    'aria-label': 'print',
-                },
-            },
-            {
-                tag: 'a',
-                iconClass: 'rz-icon-ri--user-shared-line',
-                attributes: {
-                    href: '#',
-                    'aria-label': 'user shared',
-                },
-            },
+            ],
         ],
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
-
-function rzSeparatorRenderer(args: MenuItem) {
-    const item = document.createElement('hr')
-    item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
-
-    if (args.attributes) {
-        Object.entries(args.attributes).forEach(([key, value]) => {
-            if (value) item.setAttribute(key, String(value))
-        })
-    }
-
-    return item
-}
 
 function rzLinkRenderer(args: MenuItem) {
     const item = document.createElement('a')
@@ -153,26 +123,38 @@ function rzDropdownRenderer(args: MenuItem) {
 }
 
 function rzMenuItemRenderer(args: MenuItem) {
-    if (args.tag === 'hr') {
-        return rzSeparatorRenderer(args)
-    } else if (args.tag === 'button') {
+    if (args.tag === 'button') {
         return rzDropdownRenderer(args)
     } else {
         return rzLinkRenderer(args)
     }
 }
 
+function rzMenuBarListRenderer(menuItems: Args['menuItems'][0]) {
+    const list = document.createElement('ul')
+    list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
+
+    menuItems.forEach((menuItemArgs) => {
+        const item = document.createElement('li')
+        list.appendChild(item)
+
+        if (menuItemArgs.tag === 'hr') {
+            item.classList.add(`${COMPONENT_CLASS_NAME}__separator`)
+        } else {
+            const menuItem = rzMenuItemRenderer(menuItemArgs)
+            item.appendChild(menuItem)
+        }
+    })
+
+    return list
+}
 function rzMenuBarRenderer(args: Args) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement('nav')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 
-    const inner = document.createElement('div')
-    inner.classList.add(`${COMPONENT_CLASS_NAME}__inner`)
-    wrapper.appendChild(inner)
-
-    args.menuItems.forEach((menuItemArgs) => {
-        const menuItem = rzMenuItemRenderer(menuItemArgs)
-        inner.appendChild(menuItem)
+    args.menuItems.forEach((menuItemsGroup) => {
+        const menuBarList = rzMenuBarListRenderer(menuItemsGroup)
+        wrapper.appendChild(menuBarList)
     })
 
     return wrapper
@@ -181,5 +163,86 @@ function rzMenuBarRenderer(args: Args) {
 export const Default: Story = {
     render: (args) => {
         return rzMenuBarRenderer(args)
+    },
+}
+
+export const MultipleList: Story = {
+    render: (args) => {
+        return rzMenuBarRenderer(args)
+    },
+    args: {
+        menuItems: [
+            [
+                {
+                    tag: 'a',
+                    label: 'Content',
+                    attributes: {
+                        href: '#',
+                    },
+                },
+                {
+                    tag: 'a',
+                    label: 'Settings',
+                    selected: true,
+                    attributes: {
+                        href: '#',
+                    },
+                },
+                {
+                    tag: 'button',
+                    iconClass: 'rz-icon-ri--more-line',
+                    attributes: {
+                        id: 'dropdown-button-1',
+                        popovertarget: 'dropdown-id-1',
+                        'aria-label': 'dropdown button label',
+                    },
+                },
+            ],
+            [
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--printer-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'print',
+                    },
+                },
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--user-shared-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'user shared',
+                    },
+                },
+            ],
+            [
+                {
+                    tag: 'a',
+                    label: 'Settings',
+                    attributes: {
+                        href: '#',
+                    },
+                },
+            ],
+            [
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--printer-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'print',
+                    },
+                },
+                {
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--user-shared-line',
+                    attributes: {
+                        href: '#',
+                        'aria-label': 'user shared',
+                    },
+                },
+            ],
+        ],
     },
 }

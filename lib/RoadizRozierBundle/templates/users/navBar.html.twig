@@ -1,31 +1,49 @@
-<nav class="user-edit-navigation navbar-navigation uk-navbar">
-    <ul class="uk-navbar-nav">
-        {# See RZ\Roadiz\CoreBundle\Security\Authorization\Voter\UserVoter #}
-        {% if is_granted('USER_EDIT', user) %}
-            <li class="{% if current == 'edit' %}uk-active{% endif %}" >
-                <a href="{{ path('usersEditPage', { id: user.getId }) }}">{% trans %}user.edit{% endtrans %}</a>
-            </li>
-        {% endif %}
-        {% if is_granted('USER_EDIT_DETAIL', user) %}
-            <li class="{% if current == 'edit_details' %}uk-active{% endif %}" >
-                <a href="{{ path('usersEditDetailsPage', { id: user.getId }) }}">{% trans %}user.edit_details{% endtrans %}</a>
-            </li>
-        {% endif %}
-        {% if (is_granted('ROLE_ACCESS_USERS')) %}
-            <li class="{% if current == 'security' %}uk-active{% endif %}">
-                <a href="{{ path('usersSecurityPage', { userId: user.getId }) }}">{% trans %}user.security{% endtrans %}</a>
-            </li>
-            <li class="{% if current == 'roles' %}uk-active{% endif %}">
-                <a href="{{ path('usersEditRolesPage', { userId: user.getId }) }}">{% trans %}user.roles{% endtrans %}</a>
-            </li>
-            <li class="{% if current == 'groups' %}uk-active{% endif %}">
-                <a href="{{ path('usersEditGroupsPage', { userId: user.getId }) }}">{% trans %}user.groups{% endtrans %}</a>
-            </li>
-        {% endif %}
-        {% if is_granted('USER_VIEW_HISTORY', user) %}
-            <li class="{% if current == 'history' %}uk-active{% endif %}">
-                <a href="{{ path('historyUserPage', { userId: user.getId }) }}">{% trans %}user.history{% endtrans %}</a>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
+{%
+set listItems = [
+    [
+        is_granted('USER_EDIT', user) ? {
+            'name': 'edit',
+            'label': 'user.edit',
+            'href': path('usersEditPage', { id: user.getId }),
+        } : null,
+        is_granted('USER_EDIT_DETAIL', user) ? {
+            'name': 'edit_details',
+            'label': 'user.edit_details',
+            'href': path('usersEditDetailsPage', { id: user.getId }),
+        } : null,
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'security',
+            'label': 'user.security',
+            'href': path('usersSecurityPage', { userId: user.getId }),
+        } : null,
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'roles',
+            'label': 'user.roles',
+            'href': path('usersEditRolesPage', { userId: user.getId }),
+        } : null,
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'groups',
+            'label': 'user.groups',
+            'href': path('usersEditGroupsPage', { userId: user.getId }),
+        } : null,
+    ],
+    [
+        is_granted('USER_VIEW_HISTORY') ? {
+            'name': 'history',
+            'label': 'user.history',
+            'href': path('historyUserPage', { userId: user.getId }),
+            'icon': 'rz-icon-ri--history-line',
+            'iconOnly': true,
+        } : null,
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

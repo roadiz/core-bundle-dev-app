@@ -19,13 +19,17 @@ const meta: Meta<Args> = {
         vertical: false,
         items: [
             {
-                popoverContent: 'Popover content',
+                popoverContent:
+                    '<div popover id="popover1">Popover content</div>',
                 button: {
                     emphasis: 'tertiary',
                     iconClass: 'rz-icon-ri--settings-4-line',
                     size: 'md',
                     onDark: true,
-                    attributes: { 'aria-label': 'Settings' },
+                    attributes: {
+                        'aria-label': 'Settings',
+                        popovertarget: 'popover1',
+                    },
                 },
             },
             {
@@ -92,15 +96,12 @@ function rzFloatingBar(args: Args) {
     args.items.forEach((item) => {
         const button = rzButtonRenderer(item.button)
 
-        // TODO: implement when rz-popover-content is ready
         if (item.popoverContent) {
-            const popoverWrapper = document.createElement('div')
+            const popoverWrapper = document.createElement('rz-popover')
+            popoverWrapper.setAttribute('data-popover-offset', '24px')
+            popoverWrapper.setAttribute('data-popover-placement', 'top-start')
+            popoverWrapper.innerHTML = item.popoverContent
             popoverWrapper.appendChild(button)
-
-            const p = document.createElement('p')
-            p.style.display = 'none'
-            p.textContent = item.popoverContent
-            popoverWrapper.appendChild(p)
 
             wrapper.appendChild(popoverWrapper)
         } else {
