@@ -1,21 +1,38 @@
 <div class="rz-page-header content-header">
-    <div class="rz-page-header__row">
-        {% block translation %}
-        {% endblock %}
-        {% block breadcrumb %}
-        {% endblock %}
-        {% block buttons %}
-        {% endblock %}
-    </div>
-    <div class="rz-page-header__row">
-        {% block title %}
-            <h1 class="rz-page-header__title rz-page-header__item">{{ title }}</h1>
-        {% endblock %}
-    </div>
-    <div class="rz-page-header__row">
-        {% block nav_bar %}
-        {% endblock %}
-    </div>
+    {% if block('breadcrumb')|trim is not empty or block('buttons')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block breadcrumb %}
+            {% endblock %}
+            {% block buttons %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('badges')|trim is not empty or block('translation')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block badges %}
+            {% endblock %}
+            {% block translation %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('title')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block title %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('subtitle')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block subtitle %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('nav_bar')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block nav_bar %}
+            {% endblock %}
+        </div>
+    {% endif %}
     {% block additional_row %}
     {% endblock %}
 </div>
@@ -41,4 +58,28 @@
             </li>
         </ol>
     </nav>
+{% endmacro %}
+
+{% macro translationsBar(available_translations, node, current) %}
+    {% if available_translations %}
+        {% if not route %}
+            {% set route = 'nodesEditSourcePage' %}
+        {% endif %}
+        <div class="rz-button-group rz-button-group--sm rz-button-group--collapsed">
+            {%- for translation in available_translations -%}
+                <a class="rz-button rz-button-group__button{% if current == translation.getId %} rz-button--primary {% else %} rz-button--secondary {% endif %}"
+                   href="{{ path(route, { nodeId: node.getId, translationId:translation.getId }) }}"
+                   {% if current == translation.getId %} aria-current="page"{% endif %}
+                >
+                    <span class="rz-button__label">{{- translation.preferredLocale -}}</span>
+                </a>
+            {%- endfor -%}
+            <a class="rz-button rz-button-group__button{% if not current %} rz-button--primary{% else %} rz-button--secondary{% endif %}"
+                href="{{ path('nodesTranslatePage', { nodeId: node.getId }) }}"
+                title="{{ 'translate.node'|trans }}"
+            >
+                <span class="rz-button__icon rz-icon-ri--add-line"></span>
+            </a>
+        </div>
+    {% endif %}
 {% endmacro %}

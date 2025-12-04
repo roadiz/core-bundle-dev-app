@@ -4,12 +4,17 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-node header-node-add">
-        <h1 class="content-title">{% trans %}add.a.node{% endtrans %}</h1>
-        {% if parentNode %}<h2><em>{% trans %}In{% endtrans %}</em> {{ parentnode.nodeName }}</h2>{% endif %}
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-    </header>
+    {% set title = 'add.a.node'|trans %}
+    {% if parentNode %}
+        {% set subtitle = 'In'|trans ~ ' ' ~ parentNode.nodeName %}
+    {% endif %}
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        title: title,
+        subtitle: subtitle,
+        without_info_badge: true,
+        without_status_badge: true,
+        without_nav_bar: true,
+    } only %}
 
     <article class="content">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

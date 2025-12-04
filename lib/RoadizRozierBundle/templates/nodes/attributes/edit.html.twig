@@ -5,42 +5,15 @@
 
 {% block content %}
     <section class="content-global">
-        {% if not source %}
-            {% set source = node.nodeSources.first %}
-        {% endif %}
-        {% set breadcrumb = {
-            'label': 'node-breadcrumb',
-            'parent': source|parents(null, true)|reverse,
-            'current': source.title|default(node.nodeName)
-        } %}
-        {% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
-            breadcrumb: breadcrumb
-        } %}
-            {% block translation %}
-                <div class="rz-page-header__item">
-                    {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": translation.id} %}
-                </div>
-            {% endblock %}
-            {% block breadcrumb %}
-                {{ _self.breadcrumb(breadcrumb) }}
-            {% endblock %}
-            {% block title %}
-                {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
-                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                <h1 class="rz-page-header__title rz-page-header__item">
-                    {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
-                </h1>
-                <div class="rz-page-header__item">
-                    {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-                </div>
-                <div class="rz-page-header__item--right">
-                    {{ rz_status_badge.item(node: node) }}
-                </div>
-            {% endblock %}
-            {% block nav_bar %}
-                {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'attributes'} %}
-            {% endblock %}
-        {% endembed %}
+        {% include '@RoadizRozier/nodes/head.html.twig' with {
+            node: node,
+            title: ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false),
+            translation: translation,
+            available_translations: available_translations,
+            current: 'attributes',
+            app: app,
+            with_debug_badge: true,
+        } only %}
 
         <article class="content content-settings-list">
             <div class="content-table-cont uk-margin">

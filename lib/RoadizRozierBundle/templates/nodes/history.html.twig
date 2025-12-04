@@ -6,10 +6,10 @@
 {% block content %}
 <section class="content-global content-nav-and-filters">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        "node": node,
-        "title": "history.for.%name%"|trans({"%name%":node.nodeName}),
-        "current": 'history',
-        "filters": filters,
+        node: node,
+        title: "history.for.%name%"|trans({"%name%":node.nodeName}),
+        current: 'history',
+        filters: filters,
     } only %}
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
 

@@ -4,11 +4,14 @@
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-delete">
-        <h1 class="content-title node-delete-title">{% trans %}leave.realm{% endtrans %}</h1>
-        <p>{{ source.title }}{{ realmNode.realm ? ' – ' ~ realmNode.realm.name : '' }}</p>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-    </header>
+    {% set subtitle = source.title ~ (realmNode.realm ? ' – ' ~ realmNode.realm.name : '') %}
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        title: 'leave.realm'|trans,
+        subtitle: subtitle,
+        without_info_badge: true,
+        without_status_badge: true,
+        without_nav_bar: true,
+    } only %}
     <article class="content content-delete content-node-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, {
