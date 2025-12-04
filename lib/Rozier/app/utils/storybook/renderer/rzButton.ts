@@ -17,9 +17,11 @@ export function rzButtonRenderer(args: ButtonArgs) {
     const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
     const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
     const colorClass = args.color && `${COMPONENT_CLASS_NAME}--${args.color}`
+    const pillClass = args.hasPill && `${COMPONENT_CLASS_NAME}--pill`
 
     buttonNode.className = [
         COMPONENT_CLASS_NAME,
+        pillClass,
         emphasisClass,
         sizeClass,
         selectedClass,

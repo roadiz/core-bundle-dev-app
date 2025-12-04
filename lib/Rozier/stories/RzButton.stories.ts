@@ -17,6 +17,7 @@ export type ButtonArgs = {
     color?: (typeof COLORS)[number]
     attributes?: Record<string, string>
     tag?: string
+    hasPill?: boolean
 }
 
 const meta: Meta<ButtonArgs> = {
@@ -280,5 +281,17 @@ export const Tooltip: Story = {
         attributes: {
             'tooltip-text': 'This is a tooltip text',
         },
+    },
+}
+
+export const Pill: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'primary',
+        label: undefined,
+        iconClass: 'rz-icon-ri--equalizer-3-line',
+        hasPill: true,
     },
 }

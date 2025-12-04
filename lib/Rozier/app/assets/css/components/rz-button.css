@@ -34,6 +34,21 @@
 	}
 }
 
+.rz-button--pill {
+	position: relative;
+
+	&:after {
+		position: absolute;
+		content: '';
+		top: -1px;
+		right: -1px;
+		width: 0.5em;
+		height: 0.5em;
+		border-radius: 1em;
+		background-color: var(--rz-button-pill-background-color, var(--status-error, #E54457));
+	}
+}
+
 .rz-button[disabled],
 .rz-button--disabled {
 	color: var(--rz-button-disabled-color);
