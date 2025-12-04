@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 
 const SIZES = ['xs', 'sm', 'md'] as const
-const COLORS = ['information', 'success', 'warning', 'error'] as const
+const COLORS = ['information', 'success', 'warning', 'danger'] as const
 
 export type BadgeArgs = {
     iconClass?: string
