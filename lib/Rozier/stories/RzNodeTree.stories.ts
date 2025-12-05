@@ -103,7 +103,7 @@ function rzNodeTreeListItemRenderer(item: Item) {
 
     const li = document.createElement('li', { is: ITEM_LIST_CLASS })
     li.setAttribute('is', ITEM_LIST_CLASS)
-    li.classList.add(`${COMPONENT_CLASS_NAME}__li`)
+    li.classList.add(`${COMPONENT_CLASS_NAME}__list-item`)
 
     const itemEl = rzNodeTreeItemRenderer(item)
     li.appendChild(itemEl)
@@ -130,7 +130,7 @@ function listRenderer(items: Item[]) {
 
 function nodeTreeRenderer(args: Args) {
     const tree = listRenderer(args.items)
-    // tree.classList.add(`${COMPONENT_CLASS_NAME}__list--root`)
+    tree.classList.add(`${COMPONENT_CLASS_NAME}__list--root`)
 
     if (args.iconColor) {
         tree.style.setProperty('--rz-node-tree-icon-color', args.iconColor)

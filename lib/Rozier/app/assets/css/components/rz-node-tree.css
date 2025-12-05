@@ -8,32 +8,36 @@
 }
 
 
-.rz-node-tree__li:has(> .rz-node-tree__item > .rz-node-tree__expand-button[aria-expanded="false"]) > .rz-node-tree__list,
+.rz-node-tree__list-item:has(> .rz-node-tree__item > .rz-node-tree__expand-button[aria-expanded="false"]) > .rz-node-tree__list,
 .rz-node-tree__list--hidden {
 	display: none;
 }
 
-.rz-node-tree__li {
-	--rz-node-tree-level: 1;
-
+.rz-node-tree__list-item {
 	position: relative;
 
+	/*
+	* For now, there is no way to have recursive CSS variables, so we manually set the depth variable.
+	* There is a technique with limited compatibility: https://kizu.dev/self-modifying-variables/
+	*/
+	--depth: 1;
 	& & {
-		--rz-node-tree-level: 2;
+		--depth: 2;
 	}
-
 	& & & {
-		--rz-node-tree-level: 3;
+		--depth: 3;
 	}
-
 	& & & & {
-		--rz-node-tree-level: 4;
+		--depth: 4;
 	}
-
 	& & & & & {
-		--rz-node-tree-level: 5;
+		--depth: 5;
+	}
+	& & & & & & {
+		--depth: 6;
 	}
 }
+
 
 .rz-node-tree__item {
 	box-sizing: border-box;
@@ -43,7 +47,7 @@
 	width: 100%;
 	background-color: transparent;
 	border-radius: var(--radius-2xs, 4px);
-	padding-left: calc(var(--rz-node-tree-level) * var(--rz-node-tree-indent-width));
+	padding-left: calc(var(--depth) * var(--rz-node-tree-indent-width));
 	transition: background-color 0.3s;
 	height: var(--rz-node-tree-item-height);
 
@@ -53,15 +57,15 @@
 		padding-block: initial;
 	}
 
-	.rz-node-tree__li .rz-node-tree__li &::before,
-	.rz-node-tree__li .rz-node-tree__li &::after {
+	.rz-node-tree__list-item .rz-node-tree__list-item &::before,
+	.rz-node-tree__list-item .rz-node-tree__list-item &::after {
 		position: absolute;
 		content: '';
 		top: 0;
 	}
 
 	/* Last nested item  */
-	.rz-node-tree__li:last-of-type &::after {
+	.rz-node-tree__list-item:last-of-type &::after {
 		display: none;
 	}
 
@@ -82,7 +86,7 @@
 		border-width: 0 0 1px 1px;
 		border-radius: 0 0 0 4px;
 		translate:
-			calc(var(--rz-node-tree-level) * var(--rz-node-tree-indent-width) + var(--rz-node-tree-icon-width) * 0.5 - 100%)
+			calc(var(--depth) * var(--rz-node-tree-indent-width) + var(--rz-node-tree-icon-width) * 0.5 - 100%)
 			calc(var(--rz-node-tree-item-height) * -0.5);
 	}
 
@@ -101,7 +105,7 @@
 	opacity: 0;
 	transition: opacity 0.3s;
 
-	.rz-node-tree__list:not(.rz-node-tree__list--sub) > .rz-node-tree__li > .rz-node-tree__item & {
+	.rz-node-tree__list:not(.rz-node-tree__list--sub) > .rz-node-tree__list-item > .rz-node-tree__item & {
 		opacity: 1;
 	}
 
