@@ -2,9 +2,6 @@ export default class RzNodeTreeListItem extends HTMLLIElement {
     EXPAND_BUTTON_CLASS_NAME = 'rz-node-tree__expand-button'
     expandButton: HTMLButtonElement | null = null
 
-    SUB_LIST_CLASS_NAME = 'rz-node-tree__list'
-    subListElement: HTMLElement | null = null
-
     constructor() {
         super()
         this.onExpandButtonClick = this.onExpandButtonClick.bind(this)
@@ -27,15 +24,12 @@ export default class RzNodeTreeListItem extends HTMLLIElement {
             this.querySelector(`.${this.EXPAND_BUTTON_CLASS_NAME}`) ||
             this.querySelector('button[aria-expanded]')
 
-        this.subListElement =
-            this.querySelector(`.${this.SUB_LIST_CLASS_NAME}`) ||
-            this.querySelector(
-                `#${this.expandButton?.getAttribute('aria-controls')}`,
+        if (this.expandButton) {
+            this.expandButton.addEventListener(
+                'click',
+                this.onExpandButtonClick,
             )
-
-        if (!this.expandButton || !this.subListElement) return
-
-        this.expandButton.addEventListener('click', this.onExpandButtonClick)
+        }
     }
 
     disconnectedCallback() {
