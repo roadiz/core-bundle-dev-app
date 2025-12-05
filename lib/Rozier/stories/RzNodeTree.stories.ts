@@ -47,20 +47,14 @@ const meta: Meta<Args> = {
             },
         ],
     },
-    // argTypes: {
-    //     itemIcon: {
-    //         control: 'select',
-    //         options: ['rz-icon-ri--folder-line', 'rz-icon-ri--price-tag-line'],
-    //     },
-    // },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
-function rzItemRenderer(item: Item) {
+function rzNodeTreeItemRenderer(item: Item) {
     const hasChildren = item.children && item.children.length > 0
-    const tag = hasChildren ? 'button' : item.href ? 'a' : 'div'
+    const tag = item.href ? 'a' : 'div'
     const itemEl = document.createElement(tag)
     itemEl.classList.add(`${COMPONENT_CLASS_NAME}__item`)
 
@@ -80,15 +74,17 @@ function rzItemRenderer(item: Item) {
 
     if (hasChildren) {
         const expandButton = rzButtonRenderer({
+            tag: 'button',
             iconClass: 'rz-icon-ri--arrow-down-s-line',
             emphasis: 'tertiary',
             size: 'xs',
             attributes: {
-                'aria-controls': 'node-tree-child-list',
                 'aria-expanded': 'true',
                 'aria-label': 'Expand/Collapse node children',
             },
         })
+        expandButton.classList.add(`${COMPONENT_CLASS_NAME}__expand-button`)
+
         itemEl.appendChild(expandButton)
     }
 
@@ -102,11 +98,14 @@ function rzItemRenderer(item: Item) {
     return itemEl
 }
 
-function rzLiRenderer(item: Item) {
-    const li = document.createElement('li')
+function rzNodeTreeListItemRenderer(item: Item) {
+    const ITEM_LIST_CLASS = 'rz-node-tree-list-item'
+
+    const li = document.createElement('li', { is: ITEM_LIST_CLASS })
+    li.setAttribute('is', ITEM_LIST_CLASS)
     li.classList.add(`${COMPONENT_CLASS_NAME}__li`)
 
-    const itemEl = rzItemRenderer(item)
+    const itemEl = rzNodeTreeItemRenderer(item)
     li.appendChild(itemEl)
 
     if (item.children) {
@@ -114,7 +113,6 @@ function rzLiRenderer(item: Item) {
         childrenList.classList.add(`${COMPONENT_CLASS_NAME}__list--sub`)
         li.appendChild(childrenList)
     }
-
     return li
 }
 
@@ -123,7 +121,7 @@ function listRenderer(items: Item[]) {
     list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
     items.forEach((item) => {
-        const itemEl = rzLiRenderer(item)
+        const itemEl = rzNodeTreeListItemRenderer(item)
         list.appendChild(itemEl)
     })
 
@@ -132,6 +130,7 @@ function listRenderer(items: Item[]) {
 
 function nodeTreeRenderer(args: Args) {
     const tree = listRenderer(args.items)
+    // tree.classList.add(`${COMPONENT_CLASS_NAME}__list--root`)
 
     if (args.iconColor) {
         tree.style.setProperty('--rz-node-tree-icon-color', args.iconColor)
