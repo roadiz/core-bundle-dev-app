@@ -10,6 +10,7 @@ type Item = {
 
 export type Args = {
     items: Item[]
+    iconColor?: string
 }
 
 const COMPONENT_CLASS_NAME = 'rz-node-tree'
@@ -17,9 +18,11 @@ const meta: Meta<Args> = {
     title: 'Components/NodeTree',
     tags: ['autodocs'],
     args: {
+        iconColor: '',
         items: [
             {
                 label: 'Menu 1',
+                iconClass: 'rz-icon-ri--home-2-fill',
                 children: [
                     { label: 'item 1.1' },
                     { label: 'item 1.2' },
@@ -44,13 +47,20 @@ const meta: Meta<Args> = {
             },
         ],
     },
+    // argTypes: {
+    //     itemIcon: {
+    //         control: 'select',
+    //         options: ['rz-icon-ri--folder-line', 'rz-icon-ri--price-tag-line'],
+    //     },
+    // },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
 function rzItemRenderer(item: Item) {
-    const tag = item.children?.length ? 'button' : item.href ? 'a' : 'div'
+    const hasChildren = item.children && item.children.length > 0
+    const tag = hasChildren ? 'button' : item.href ? 'a' : 'div'
     const itemEl = document.createElement(tag)
     itemEl.classList.add(`${COMPONENT_CLASS_NAME}__item`)
 
@@ -59,7 +69,8 @@ function rzItemRenderer(item: Item) {
     itemEl.appendChild(dragIcon)
 
     const typeIcon = document.createElement('span')
-    typeIcon.classList.add(item.iconClass || 'rz-icon-ri--folder-line')
+    typeIcon.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
+    typeIcon.classList.add(item.iconClass || 'rz-icon-ri--folder-fill')
     itemEl.appendChild(typeIcon)
 
     const label = document.createElement('span')
@@ -67,19 +78,26 @@ function rzItemRenderer(item: Item) {
     label.textContent = item.label
     itemEl.appendChild(label)
 
+    if (hasChildren) {
+        const expandButton = rzButtonRenderer({
+            iconClass: 'rz-icon-ri--arrow-down-s-line',
+            emphasis: 'tertiary',
+            size: 'xs',
+            attributes: {
+                'aria-controls': 'node-tree-child-list',
+                'aria-expanded': 'true',
+                'aria-label': 'Expand/Collapse node children',
+            },
+        })
+        itemEl.appendChild(expandButton)
+    }
+
     const moreButton = rzButtonRenderer({
         iconClass: 'rz-icon-ri--more-line',
         emphasis: 'tertiary',
         size: 'xs',
     })
     itemEl.appendChild(moreButton)
-
-    const expandButton = rzButtonRenderer({
-        iconClass: 'rz-icon-ri--arrow-down-s-line',
-        emphasis: 'tertiary',
-        size: 'xs',
-    })
-    itemEl.appendChild(expandButton)
 
     return itemEl
 }
@@ -93,6 +111,7 @@ function rzLiRenderer(item: Item) {
 
     if (item.children) {
         const childrenList = listRenderer(item.children)
+        childrenList.classList.add(`${COMPONENT_CLASS_NAME}__list--sub`)
         li.appendChild(childrenList)
     }
 
@@ -111,8 +130,17 @@ function listRenderer(items: Item[]) {
     return list
 }
 
+function nodeTreeRenderer(args: Args) {
+    const tree = listRenderer(args.items)
+
+    if (args.iconColor) {
+        tree.style.setProperty('--rz-node-tree-icon-color', args.iconColor)
+    }
+    return tree
+}
+
 export const Default: Story = {
     render: (args) => {
-        return listRenderer(args.items)
+        return nodeTreeRenderer(args)
     },
 }

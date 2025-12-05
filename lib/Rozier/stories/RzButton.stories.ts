@@ -275,7 +275,20 @@ function buttonSizeListRenderer(args: ButtonArgs) {
  */
 export const Tooltip: Story = {
     render: (args) => {
-        return rzButtonRenderer(args)
+        const wrapper = document.createElement('div')
+
+        const customElement = rzButtonRenderer(args)
+        const builtInElement = rzButtonRenderer({
+            ...args,
+            tag: 'button',
+            attributes: {
+                ...args.attributes,
+                is: 'rz-button',
+            },
+        })
+        wrapper.appendChild(builtInElement)
+        wrapper.appendChild(customElement)
+        return wrapper
     },
     args: {
         attributes: {
