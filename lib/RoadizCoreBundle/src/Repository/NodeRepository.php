@@ -868,8 +868,10 @@ EOT,
         usort($results, function (Node $a, Node $b) use ($parentsId) {
             $posA = array_search($a->getId(), $parentsId, true);
             $posB = array_search($b->getId(), $parentsId, true);
+
             return $posA <=> $posB;
         });
+
         return $results;
     }
 

@@ -364,6 +364,7 @@ final class NodeHandler extends AbstractHandler
      * Return every node’s parents.
      *
      * @return array<Node>
+     *
      * @deprecated use NodeRepository::findAllNodeParentsBy() instead
      */
     public function getParents(?TokenStorageInterface $tokenStorage = null): array
