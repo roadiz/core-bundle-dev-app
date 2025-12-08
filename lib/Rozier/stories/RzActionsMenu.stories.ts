@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { ButtonArgs } from './RzButton.stories'
 import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
-const COMPONENT_CLASS_NAME = 'rz-floating-bar'
+const COMPONENT_CLASS_NAME = 'rz-actions-menu'
 
 export type Args = {
     vertical?: boolean
@@ -13,7 +13,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/FloatingBar',
+    title: 'Components/ActionsMenu',
     tags: ['autodocs'],
     args: {
         vertical: false,
@@ -86,7 +86,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzFloatingBar(args: Args) {
+function rzActionsMenu(args: Args) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
     if (args.vertical) {
@@ -114,13 +114,13 @@ function rzFloatingBar(args: Args) {
 
 export const Default: Story = {
     render: (args) => {
-        return rzFloatingBar(args)
+        return rzActionsMenu(args)
     },
 }
 
 export const Vertical: Story = {
     render: (args) => {
-        return rzFloatingBar(args)
+        return rzActionsMenu(args)
     },
     args: {
         vertical: true,
