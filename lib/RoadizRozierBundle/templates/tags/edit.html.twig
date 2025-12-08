@@ -47,8 +47,8 @@
         {{ form_start(form, { attr: {id: 'edit-tag-form'}}) }}
         {{ form_widget(form) }}
         {% if not readOnly %}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as floating_bar %}
-            {{ floating_bar.saveItem('#edit-tag-form') }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#edit-tag-form') }}
         {% endif %}
         {{ form_end(form) }}
     </tag-edit-page>

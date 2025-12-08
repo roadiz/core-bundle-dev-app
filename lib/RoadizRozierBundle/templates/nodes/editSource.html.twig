@@ -113,8 +113,8 @@
                 {% endif %}
             {% endfor %}
         {% if not readOnly %}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as floating_bar %}
-            {{ floating_bar.saveItem('#edit-node-source-form') }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#edit-node-source-form') }}
         {% endif %}
         {{ form_end(form) }}
     </div>

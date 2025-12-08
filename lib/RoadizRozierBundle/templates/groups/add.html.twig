@@ -13,8 +13,8 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: "add-group-form" }}) }}
             {{ form_widget(form) }}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as floating_bar %}
-            {{ floating_bar.saveItem('#add-group-form') }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#add-group-form') }}
         {{ form_end(form) }}
     </article>
 
