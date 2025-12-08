@@ -367,7 +367,7 @@ final class SearchController extends AbstractController
         $builder->add('search', SubmitType::class, [
             'label' => 'search.a.node',
             'attr' => [
-                'class' => 'rz-button rz-button--success',
+                'class' => 'rz-button rz-button--primary rz-button--success',
                 'icon' => 'rz-icon-ri--search-line',
             ],
         ]);
@@ -376,7 +376,8 @@ final class SearchController extends AbstractController
             $builder->add('export', SubmitType::class, [
                 'label' => 'export.all.nodesSource',
                 'attr' => [
-                    'class' => 'uk-button rz-no-ajax',
+                    'class' => 'rz-button rz-button--secondary',
+                    'icon' => 'rz-icon-ri--download-line',
                 ],
             ]);
         }
@@ -502,18 +503,37 @@ final class SearchController extends AbstractController
                 'label' => false,
                 'inherit_data' => true,
                 'mapped' => false,
+                'attr' => [
+                    'class' => 'rz-fieldset--horizontal',
+                ],
             ])
             ->add($prefix.'visible', ExtendedBooleanType::class, [
                 'label' => 'visible',
+                'attr' => [
+                    'no-field-group' => true,
+                    'class' => 'rz-form-field--horizontal',
+                ],
             ])
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
+                'attr' => [
+                    'no-field-group' => true,
+                    'class' => 'rz-form-field--horizontal',
+                ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
+                'attr' => [
+                    'no-field-group' => true,
+                    'class' => 'rz-form-field--horizontal',
+                ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
+                'attr' => [
+                    'no-field-group' => true,
+                    'class' => 'rz-form-field--horizontal',
+                ],
             ])
         );
         $builder->add(
