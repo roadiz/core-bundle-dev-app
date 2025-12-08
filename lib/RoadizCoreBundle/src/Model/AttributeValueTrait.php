@@ -80,7 +80,7 @@ trait AttributeValueTrait
 
     public function getType(): int
     {
-        return $this->getAttribute()->getType();
+        return $this->getAttribute()?->getType() ?? throw new \RuntimeException('Attribute is not set on AttributeValue.');
     }
 
     /**

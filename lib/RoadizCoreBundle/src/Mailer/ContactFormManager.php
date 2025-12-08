@@ -124,7 +124,7 @@ final class ContactFormManager
 
     public function getForm(): FormInterface
     {
-        return $this->form;
+        return $this->form ?? $this->getFormBuilder()->getForm();
     }
 
     /**
@@ -465,6 +465,7 @@ final class ContactFormManager
     {
         $formData = $form->getData();
         $fields = $this->flattenFormData($form, []);
+        $request = $this->requestStack->getMainRequest();
 
         /*
          * Sender email
@@ -492,10 +493,12 @@ final class ContactFormManager
         /*
          * IP
          */
-        $fields[] = [
-            'name' => $this->translator->trans('ip.address'),
-            'value' => $this->requestStack->getMainRequest()->getClientIp(),
-        ];
+        if (null !== $request) {
+            $fields[] = [
+                'name' => $this->translator->trans('ip.address'),
+                'value' => $request->getClientIp(),
+            ];
+        }
 
         return new ContactFormNotification(
             [
@@ -503,7 +506,7 @@ final class ContactFormManager
                 'title' => $this->getEmailTitle(),
                 'fields' => $fields,
             ],
-            $this->requestStack->getMainRequest()->getLocale(),
+            $request?->getLocale() ?? 'en',
             $uploadedFiles,
             $emailData ? new Address($emailData) : null,
             $this->getSubject(),

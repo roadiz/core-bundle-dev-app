@@ -15,6 +15,11 @@ final class TagHandler extends AbstractHandler
 {
     private ?Tag $tag = null;
 
+    public function getTag(): Tag
+    {
+        return $this->tag ?? throw new \RuntimeException('Tag is not initialized.');
+    }
+
     /**
      * @return $this
      */
@@ -33,7 +38,7 @@ final class TagHandler extends AbstractHandler
     private function removeChildren(): static
     {
         /** @var Tag $tag */
-        foreach ($this->tag->getChildren() as $tag) {
+        foreach ($this->getTag()->getChildren() as $tag) {
             $handler = new TagHandler($this->objectManager);
             $handler->setTag($tag);
             $handler->removeWithChildrenAndAssociations();
@@ -49,7 +54,7 @@ final class TagHandler extends AbstractHandler
      */
     public function removeAssociations(): static
     {
-        foreach ($this->tag->getTranslatedTags() as $tt) {
+        foreach ($this->getTag()->getTranslatedTags() as $tt) {
             $this->objectManager->remove($tt);
         }
 
@@ -67,7 +72,7 @@ final class TagHandler extends AbstractHandler
         $this->removeChildren();
         $this->removeAssociations();
 
-        $this->objectManager->remove($this->tag);
+        $this->objectManager->remove($this->getTag());
 
         /*
          * Final flush
@@ -85,10 +90,8 @@ final class TagHandler extends AbstractHandler
     #[\Override]
     public function cleanPositions(bool $setPositions = true): float
     {
-        if (null !== $this->tag->getParent()) {
+        if (null !== $parent = $this->getTag()->getParent()) {
             $tagHandler = new TagHandler($this->objectManager);
-            /** @var Tag|null $parent */
-            $parent = $this->tag->getParent();
             $tagHandler->setTag($parent);
 
             return $tagHandler->cleanChildrenPositions($setPositions);
@@ -114,7 +117,7 @@ final class TagHandler extends AbstractHandler
             'position' => Criteria::ASC,
         ]);
 
-        $children = $this->tag->getChildren()->matching($sort);
+        $children = $this->getTag()->getChildren()->matching($sort);
         $i = 1;
         /** @var Tag $child */
         foreach ($children as $child) {

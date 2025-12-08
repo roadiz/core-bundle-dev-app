@@ -40,6 +40,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Node entities are the central feature of Roadiz,
  * it describes a document-like object which can be inherited
  * with *NodesSources* to create complex data structures.
+ *
+ * @implements LeafInterface<Node>
  */
 #[
     ORM\Entity(repositoryClass: NodeRepository::class),
@@ -327,7 +329,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
      */
     public static function getStatusLabel(int|string $status): string
     {
-        $status = NodeStatus::tryFrom((int) $status);
+        $status = NodeStatus::tryFrom((int) $status) ?? throw new \InvalidArgumentException('Invalid status '.$status);
 
         return $status->getLabel();
     }
@@ -663,6 +665,10 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         $stackType = $this->stackTypes->findFirst(
             fn (int $key, StackType $stackType) => $stackType->getNodeTypeName() === $nodeType->getName()
         );
+
+        if (null === $stackType) {
+            return $this;
+        }
 
         $this->stackTypes->removeElement($stackType);
 

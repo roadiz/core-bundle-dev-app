@@ -110,7 +110,7 @@ class Setting implements PersistableInterface
         $this->name = (new UnicodeString($this->name))
             ->ascii()
             ->toString();
-        $this->name = preg_replace('#([^a-z])#', '_', $this->name);
+        $this->name = preg_replace('#([^a-z])#', '_', $this->name) ?? $this->name;
 
         return $this;
     }

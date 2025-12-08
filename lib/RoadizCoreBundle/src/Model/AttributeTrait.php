@@ -167,7 +167,7 @@ trait AttributeTrait
 
             if (
                 $attributeTranslation->first()
-                && '' !== $attributeTranslation->first()->getLabel()
+                && !empty($attributeTranslation->first()->getLabel())
             ) {
                 return $attributeTranslation->first()->getLabel();
             }
@@ -176,10 +176,10 @@ trait AttributeTrait
         return $this->getCode();
     }
 
-    public function getOptions(TranslationInterface $translation): ?array
+    public function getOptions(?TranslationInterface $translation): ?array
     {
         $attributeTranslation = $this->getAttributeTranslations()->filter(
-            fn (AttributeTranslationInterface $attributeTranslation) => $attributeTranslation->getTranslation() === $translation
+            fn (AttributeTranslationInterface $attributeTranslation) => null !== $translation && $attributeTranslation->getTranslation() === $translation
         )->first();
         if (false !== $attributeTranslation) {
             return $attributeTranslation->getOptions();

@@ -226,7 +226,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * Gets the value of color.
      */
-    public function getColor(): string
+    public function getColor(): ?string
     {
         return $this->color;
     }

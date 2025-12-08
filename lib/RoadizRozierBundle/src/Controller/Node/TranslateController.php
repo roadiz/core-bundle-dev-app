@@ -70,7 +70,7 @@ final class TranslateController extends AbstractController
 
                 try {
                     $this->nodeTranslator->translateNode($sourceTranslation, $destinationTranslation, $node, $translateOffspring);
-                    $this->managerRegistry->getManagerForClass(NodesSources::class)->flush();
+                    $this->managerRegistry->getManagerForClass(NodesSources::class)?->flush();
                     $msg = $this->translator->trans('node.%name%.translated', [
                         '%name%' => $node->getNodeName(),
                     ]);

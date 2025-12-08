@@ -82,7 +82,7 @@ final class NodeTypeHandler extends AbstractHandler
                 $fileSystem->remove($repositoryFile);
             }
             $this->logger->info('Entity class file and repository have been removed.', [
-                'nodeType' => $this->nodeType->getName(),
+                'nodeType' => $this->getNodeType()->getName(),
                 'file' => $file,
                 'repositoryFile' => $repositoryFile,
             ]);
@@ -112,8 +112,8 @@ final class NodeTypeHandler extends AbstractHandler
         }
 
         if (!$fileSystem->exists($file)) {
-            $classGenerator = $this->entityGeneratorFactory->createWithCustomRepository($this->nodeType);
-            $repositoryGenerator = $this->entityGeneratorFactory->createCustomRepository($this->nodeType);
+            $classGenerator = $this->entityGeneratorFactory->createWithCustomRepository($this->getNodeType());
+            $repositoryGenerator = $this->entityGeneratorFactory->createCustomRepository($this->getNodeType());
             $content = $classGenerator->getClassContent();
             $repositoryContent = $repositoryGenerator->getClassContent();
 
@@ -134,7 +134,7 @@ final class NodeTypeHandler extends AbstractHandler
             \clearstatcache(true, $file);
             \clearstatcache(true, $repositoryFile);
             $this->logger->info('Entity class file and repository have been generated.', [
-                'nodeType' => $this->nodeType->getName(),
+                'nodeType' => $this->getNodeType()->getName(),
                 'file' => $file,
                 'repositoryFile' => $repositoryFile,
             ]);
@@ -149,14 +149,14 @@ final class NodeTypeHandler extends AbstractHandler
     {
         $folder = $this->getGeneratedEntitiesFolder();
 
-        return $folder.DIRECTORY_SEPARATOR.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType).'.php';
+        return $folder.DIRECTORY_SEPARATOR.$this->nodeTypeClassLocator->getSourceEntityClassName($this->getNodeType()).'.php';
     }
 
     public function getRepositoryClassPath(): string
     {
         $folder = $this->getGeneratedRepositoriesFolder();
 
-        return $folder.DIRECTORY_SEPARATOR.$this->nodeTypeClassLocator->getRepositoryClassName($this->nodeType).'.php';
+        return $folder.DIRECTORY_SEPARATOR.$this->nodeTypeClassLocator->getRepositoryClassName($this->getNodeType()).'.php';
     }
 
     /**

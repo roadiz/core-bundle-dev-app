@@ -78,7 +78,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
         return new TranslateAssistantOutput(
             originalText: $translatorDto->text,
             translatedText: is_array($result) ? $result[0]->text : $result->text,
-            sourceLang: $translatorDto->sourceLang,
+            sourceLang: $translatorDto->sourceLang ?? '',
             targetLang: $translatorDto->targetLang,
         );
     }

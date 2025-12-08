@@ -92,14 +92,15 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     #[\Override]
     public function setPage(int $page): static
     {
-        $this->currentPage = $page > 0 ? $page : 1;
+        assert($page > 0, 'Page number must be greater than 0.');
+        $this->currentPage = $page;
 
         return $this;
     }
 
     protected function getPage(): int
     {
-        return $this->currentPage;
+        return $this->currentPage ?? 1;
     }
 
     /**
@@ -179,7 +180,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
 
     protected function getItemPerPage(): int
     {
-        return $this->itemPerPage;
+        return $this->itemPerPage ?? static::ITEM_PER_PAGE;
     }
 
     /**
@@ -190,7 +191,8 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     #[\Override]
     public function setItemPerPage(int $itemPerPage): static
     {
-        $this->itemPerPage = $itemPerPage > 0 ? $itemPerPage : 1;
+        assert($itemPerPage > 0, 'Item per page must be greater than 0.');
+        $this->itemPerPage = $itemPerPage;
 
         return $this;
     }

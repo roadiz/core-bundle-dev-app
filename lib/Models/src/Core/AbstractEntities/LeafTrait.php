@@ -63,7 +63,6 @@ trait LeafTrait
      */
     public function getParent(): ?LeafInterface
     {
-        /* @phpstan-ignore-next-line */
         return $this->parent;
     }
 

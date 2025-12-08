@@ -20,7 +20,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherInterface
 {
     /**
-     * @param class-string<AbstractController> $defaultControllerClass
+     * @param class-string<object&callable> $defaultControllerClass
      */
     public function __construct(
         private readonly PathResolverInterface $pathResolver,

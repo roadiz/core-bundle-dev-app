@@ -46,26 +46,28 @@ final readonly class NodesSourcesReachableFilter implements EventSubscriberInter
 
     public function onNodesSourcesQueryBuilderBuild(QueryBuilderNodesSourcesBuildEvent $event): void
     {
-        if ($this->supports($event)) {
-            // Prevent other query builder filters to execute
-            $event->stopPropagation();
-            $qb = $event->getQueryBuilder();
-            $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
-            $value = (bool) $event->getValue();
+        if (!$this->supports($event)) {
+            return;
+        }
+        // Prevent other query builder filters to execute
+        $event->stopPropagation();
+        $qb = $event->getQueryBuilder();
+        $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
+        $rootAlias = $simpleQB->getRootAlias();
+        $value = (bool) $event->getValue();
 
-            $nodeTypes = array_unique(array_filter($this->nodeTypesBag->all(), fn (NodeType $nodeType) => $nodeType->getReachable() === $value));
+        $nodeTypes = array_unique(array_filter($this->nodeTypesBag->all(), fn (NodeType $nodeType) => $nodeType->getReachable() === $value));
 
-            if (count($nodeTypes) > 0) {
-                $orX = $qb->expr()->orX();
-                /** @var NodeType $nodeType */
-                foreach ($nodeTypes as $nodeType) {
-                    $orX->add($qb->expr()->isInstanceOf(
-                        $simpleQB->getRootAlias(),
-                        $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
-                    ));
-                }
-                $qb->andWhere($orX);
+        if (null !== $rootAlias && count($nodeTypes) > 0) {
+            $orX = $qb->expr()->orX();
+            /** @var NodeType $nodeType */
+            foreach ($nodeTypes as $nodeType) {
+                $orX->add($qb->expr()->isInstanceOf(
+                    $rootAlias,
+                    $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
+                ));
             }
+            $qb->andWhere($orX);
         }
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\SolrBundle\EventListener;
 
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -80,7 +81,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
              * Index parent node ID and name to filter on it
              */
             $parent = $node->getParent();
-            if (null !== $parent) {
+            if ($parent instanceof Node) {
                 $assoc['node_parent_i'] = $parent->getId();
                 $assoc['node_parent_s'] = $parent->getNodeName();
             }

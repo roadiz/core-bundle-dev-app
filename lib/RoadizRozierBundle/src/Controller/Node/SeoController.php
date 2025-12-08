@@ -252,8 +252,8 @@ final class SeoController extends AbstractController
         // Match delete
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $entityManager->remove($alias);
-            $entityManager->flush();
+            $entityManager?->remove($alias);
+            $entityManager?->flush();
             $msg = $this->translator->trans('url_alias.%alias%.deleted', ['%alias%' => $alias->getAlias()]);
             $this->logTrail->publishConfirmMessage($request, $msg, $alias->getNodeSource());
 
@@ -313,12 +313,12 @@ final class SeoController extends AbstractController
             $this->eventDispatcher->dispatch(new PostCreatedRedirectionEvent($redirection));
 
             /** @var Translation $translation */
-            $translation = $redirection->getRedirectNodeSource()->getTranslation();
+            $translation = $redirection->getRedirectNodeSource()?->getTranslation();
 
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
-                    'nodeId' => $redirection->getRedirectNodeSource()->getNode()->getId(),
+                    'nodeId' => $redirection->getRedirectNodeSource()?->getNode()->getId(),
                     'translationId' => $translation->getId(),
                 ]
             ).'#manage-redirections');
@@ -347,7 +347,7 @@ final class SeoController extends AbstractController
         );
 
         /** @var Translation $translation */
-        $translation = $redirection->getRedirectNodeSource()->getTranslation();
+        $translation = $redirection->getRedirectNodeSource()?->getTranslation();
         $deleteForm = $this->formFactory->createNamed('delete_redirection_'.$redirection->getId());
 
         $editForm->handleRequest($request);
@@ -358,7 +358,7 @@ final class SeoController extends AbstractController
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
-                    'nodeId' => $redirection->getRedirectNodeSource()->getNode()->getId(),
+                    'nodeId' => $redirection->getRedirectNodeSource()?->getNode()->getId(),
                     'translationId' => $translation->getId(),
                 ]
             ).'#manage-redirections');
@@ -374,7 +374,7 @@ final class SeoController extends AbstractController
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
-                    'nodeId' => $redirection->getRedirectNodeSource()->getNode()->getId(),
+                    'nodeId' => $redirection->getRedirectNodeSource()?->getNode()->getId(),
                     'translationId' => $translation->getId(),
                 ]
             ).'#manage-redirections');

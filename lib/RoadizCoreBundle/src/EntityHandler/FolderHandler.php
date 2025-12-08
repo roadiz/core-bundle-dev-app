@@ -78,10 +78,8 @@ final class FolderHandler extends AbstractHandler
     #[\Override]
     public function cleanPositions(bool $setPositions = true): float
     {
-        if (null !== $this->getFolder()->getParent()) {
+        if (null !== $parent = $this->getFolder()->getParent()) {
             $parentHandler = new FolderHandler($this->objectManager);
-            /** @var Folder|null $parent */
-            $parent = $this->getFolder()->getParent();
             $parentHandler->setFolder($parent);
 
             return $parentHandler->cleanChildrenPositions($setPositions);

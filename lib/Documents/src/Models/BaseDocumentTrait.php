@@ -284,6 +284,9 @@ trait BaseDocumentTrait
 
     /**
      * Return false if no local file is linked to document. i.e no filename, no folder.
+     *
+     * @phpstan-assert-if-true non-empty-string $this->getMountPath()
+     * @phpstan-assert-if-true non-empty-string $this->getRelativePath()
      */
     #[Serializer\Ignore()]
     public function isLocal(): bool

@@ -217,21 +217,21 @@ final class AttributesExtension extends AbstractExtension
         if (null === $mixed) {
             return null;
         }
-        if ($mixed instanceof AttributeGroupInterface) {
+        if ($mixed instanceof AttributeGroupInterface && null !== $translation) {
             return $mixed->getTranslatedName($translation);
         }
-        if ($mixed instanceof AttributeInterface && null !== $mixed->getGroup()) {
+        if ($mixed instanceof AttributeInterface && null !== $mixed->getGroup() && null !== $translation) {
             return $mixed->getGroup()->getTranslatedName($translation);
         }
-        if ($mixed instanceof AttributeValueInterface && null !== $mixed->getAttribute()?->getGroup()) {
-            return $mixed->getAttribute()?->getGroup()->getTranslatedName($translation);
+        if ($mixed instanceof AttributeValueInterface && null !== $mixed->getAttribute()?->getGroup() && null !== $translation) {
+            return $mixed->getAttribute()->getGroup()->getTranslatedName($translation);
         }
         if ($mixed instanceof AttributeValueTranslationInterface && null !== $mixed->getAttribute()?->getGroup()) {
             if (null === $translation) {
-                $translation = $mixed->getTranslation();
+                $translation = $mixed->getTranslation() ?? throw new \RuntimeException('Translation cannot be null');
             }
 
-            return $mixed->getAttribute()?->getGroup()->getTranslatedName($translation);
+            return $mixed->getAttribute()->getGroup()->getTranslatedName($translation);
         }
 
         return null;

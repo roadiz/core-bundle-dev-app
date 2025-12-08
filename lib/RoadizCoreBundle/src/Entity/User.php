@@ -379,7 +379,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this;
     }
 
-    public function getGroups(): ?Collection
+    public function getGroups(): Collection
     {
         return $this->groups;
     }

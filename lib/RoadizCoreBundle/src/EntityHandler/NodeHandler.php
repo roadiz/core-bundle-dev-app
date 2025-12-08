@@ -152,7 +152,7 @@ final class NodeHandler extends AbstractHandler
      */
     public function cleanNodesFromField(NodeTypeFieldInterface $field, bool $flush = true): static
     {
-        $this->node->clearBNodesForField($field);
+        $this->getNode()->clearBNodesForField($field);
 
         if (true === $flush) {
             $this->objectManager->flush();
@@ -172,7 +172,7 @@ final class NodeHandler extends AbstractHandler
     {
         $ntn = new NodesToNodes($this->getNode(), $node, $field);
 
-        if (!$this->node->hasBNode($ntn)) {
+        if (!$this->getNode()->hasBNode($ntn)) {
             if (null === $position) {
                 $latestPosition = $this->objectManager
                     ->getRepository(NodesToNodes::class)
@@ -181,7 +181,7 @@ final class NodeHandler extends AbstractHandler
             } else {
                 $ntn->setPosition($position);
             }
-            $this->node->addBNode($ntn);
+            $this->getNode()->addBNode($ntn);
             $this->objectManager->persist($ntn);
             if (true === $flush) {
                 $this->objectManager->flush();
@@ -350,9 +350,9 @@ final class NodeHandler extends AbstractHandler
             return true;
         }
 
-        $parents = $this->getParents();
+        $parents = $this->getRepository()->findAllAncestors($this->getNode());
         foreach ($parents as $parent) {
-            if ($parent->getId() === $relative->getId()) {
+            if ($parent['node'] === $relative->getId()) {
                 return true;
             }
         }
@@ -364,6 +364,7 @@ final class NodeHandler extends AbstractHandler
      * Return every node’s parents.
      *
      * @return array<Node>
+     * @deprecated use NodeRepository::findAllNodeParentsBy() instead
      */
     public function getParents(?TokenStorageInterface $tokenStorage = null): array
     {
@@ -371,7 +372,7 @@ final class NodeHandler extends AbstractHandler
         $parent = $this->getNode()->getParent();
         $chroot = null;
 
-        if (null !== $tokenStorage) {
+        if (null !== $tokenStorage && null !== $tokenStorage->getToken()) {
             $user = $tokenStorage->getToken()->getUser();
             /** @var Node|null $chroot */
             $chroot = $this->chrootResolver->getChroot($user);
@@ -395,10 +396,8 @@ final class NodeHandler extends AbstractHandler
     #[\Override]
     public function cleanPositions(bool $setPositions = true): float
     {
-        if (null !== $this->getNode()->getParent()) {
+        if (null !== $parent = $this->getNode()->getParent()) {
             $parentHandler = $this->createSelf();
-            /** @var Node|null $parent */
-            $parent = $this->getNode()->getParent();
             $parentHandler->setNode($parent);
 
             return $parentHandler->cleanChildrenPositions($setPositions);

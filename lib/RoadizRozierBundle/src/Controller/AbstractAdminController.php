@@ -182,7 +182,7 @@ abstract class AbstractAdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
+            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass()) ?? throw new \RuntimeException('No entity manager found for class '.$this->getEntityClass());
             /*
              * Events are dispatched before entity manager is flushed
              * to be able to throw exceptions before it is persisted.

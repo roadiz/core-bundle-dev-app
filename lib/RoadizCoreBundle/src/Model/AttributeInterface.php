@@ -92,7 +92,7 @@ interface AttributeInterface extends PersistableInterface
 
     public function setSearchable(bool $searchable): self;
 
-    public function getOptions(TranslationInterface $translation): ?array;
+    public function getOptions(?TranslationInterface $translation): ?array;
 
     public function getType(): int;
 

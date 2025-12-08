@@ -95,6 +95,7 @@ final class AjaxNodesController extends AbstractAjaxController
                 throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodePasteDto->prevNodeId]));
             }
 
+            /** @var Node|null $parentNode */
             $parentNode = $previousNode->getParent();
             $newPosition = $previousNode->getPosition() + 0.5;
         }

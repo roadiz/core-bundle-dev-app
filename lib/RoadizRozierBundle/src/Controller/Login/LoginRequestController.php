@@ -48,7 +48,7 @@ final class LoginRequestController extends AbstractController
             if ($form->isValid()) {
                 $this->sendConfirmationEmail(
                     $form,
-                    $this->managerRegistry->getManagerForClass(User::class),
+                    $this->managerRegistry->getManagerForClass(User::class) ?? throw new \RuntimeException('No entity manager found for User class.'),
                     $this->logger,
                     $this->urlGenerator
                 );

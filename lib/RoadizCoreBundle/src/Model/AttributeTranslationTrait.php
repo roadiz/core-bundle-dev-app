@@ -51,7 +51,7 @@ trait AttributeTranslationTrait
      */
     public function setLabel(?string $label): static
     {
-        $this->label = null !== $label ? trim($label) : null;
+        $this->label = null !== $label ? trim($label) : '';
 
         return $this;
     }

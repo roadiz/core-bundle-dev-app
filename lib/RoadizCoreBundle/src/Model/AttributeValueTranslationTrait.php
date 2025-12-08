@@ -116,6 +116,6 @@ trait AttributeValueTranslationTrait
 
     public function getAttribute(): AttributeInterface
     {
-        return $this->getAttributeValue()->getAttribute();
+        return $this->getAttributeValue()->getAttribute() ?? throw new \RuntimeException('AttributeValue has no Attribute assigned.');
     }
 }

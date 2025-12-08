@@ -44,7 +44,7 @@ final class TranslationHandler extends AbstractHandler
             $default->setDefaultTranslation(false);
         }
         $this->objectManager->flush();
-        $this->translation->setDefaultTranslation(true);
+        $this->translation?->setDefaultTranslation(true);
         $this->objectManager->flush();
 
         if ($this->objectManager instanceof EntityManagerInterface) {

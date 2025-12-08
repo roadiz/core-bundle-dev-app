@@ -67,6 +67,9 @@ final readonly class UserProvider implements UserProviderInterface
     {
         if ($user instanceof User) {
             $manager = $this->managerRegistry->getManagerForClass(User::class);
+            if (null === $manager) {
+                throw new \RuntimeException('No manager found for User class.');
+            }
             /** @var User|null $refreshUser */
             $refreshUser = $manager->find(User::class, (int) $user->getId());
             if (

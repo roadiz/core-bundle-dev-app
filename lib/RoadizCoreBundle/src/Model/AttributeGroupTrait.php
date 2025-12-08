@@ -80,7 +80,7 @@ trait AttributeGroupTrait
     {
         if (0 === $this->getAttributeGroupTranslations()->count()) {
             $this->getAttributeGroupTranslations()->add(
-                $this->createAttributeGroupTranslation()->setName($name)
+                $this->createAttributeGroupTranslation()->setName($name ?? '')
             );
         }
 
