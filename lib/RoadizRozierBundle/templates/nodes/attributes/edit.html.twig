@@ -48,7 +48,7 @@
                                     }) }}
                                     <div class="rz-form__field-list rz-form__field-list--horizontal">
                                         {{ form_widget(attribute_value_translation_form) }}
-                                        <button class="rz-button uk-button-settings-submit"
+                                        <button class="rz-button"
                                                 title="{% trans %}edit{% endtrans %}"
                                                 type="submit"
                                                 style="display:none"
@@ -64,7 +64,7 @@
                                             tooltip-text="{% trans %}save{% endtrans %}"
                                             popover-placement="top"
                                             popover-offset="4"
-                                            popovertarget="rz-tooltip-10"
+                                            popovertarget="save-attribute-{{ attributeValue.id }}"
                                         >
                                             <a class="rz-button rz-button--primary rz-button--success rz-button-group__button rz-button-settings-save"
                                                href="#{{ attribute_value_translation_form.vars.id }}"
@@ -78,7 +78,7 @@
                                                 tooltip-text="{% trans %}attributes.reset_value{% endtrans %}"
                                                 popover-placement="top"
                                                 popover-offset="4"
-                                                popovertarget="rz-tooltip-10"
+                                                popovertarget="reset-attribute-{{ attributeValue.id }}"
                                             >
                                                 <a class="rz-button rz-button--secondary rz-button-group__button"
                                                    href="{{ path('nodesResetAttributesPage', {
@@ -97,7 +97,7 @@
                                                 tooltip-text="{% trans %}attributes.delete_value{% endtrans %}"
                                                 popover-placement="top"
                                                 popover-offset="4"
-                                                popovertarget="rz-tooltip-10"
+                                                popovertarget="delete-attribute-{{ attributeValue.id }}"
                                             >
                                                 <a class="rz-button rz-button--primary rz-button--danger rz-button-group__button"
                                                    href="{{ path('nodesDeleteAttributesPage', {
