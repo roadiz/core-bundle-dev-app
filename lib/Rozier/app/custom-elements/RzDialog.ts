@@ -53,8 +53,8 @@ export class RzDialog extends HTMLDialogElement {
     }
 
     disconnectedCallback() {
-        const targets = this.getTargets('open')
-        targets?.forEach((target) =>
+        const openTargets = this.getTargets('open')
+        openTargets?.forEach((target) =>
             target.removeEventListener('click', this.display),
         )
         const closeTargets = this.getTargets('close')
