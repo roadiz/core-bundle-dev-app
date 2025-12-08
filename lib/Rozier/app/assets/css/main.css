@@ -14,6 +14,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-dialog.css';
 @import './components/rz-button.css';
 @import './components/rz-dashboard.css';
 @import './components/rz-file-upload.css';
