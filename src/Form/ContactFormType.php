@@ -50,10 +50,6 @@ final class ContactFormType extends AbstractType
                     new NotNull(),
                 ],
             ])
-            ->add('file', FileType::class, [
-                'label' => 'contact_form.file',
-                'required' => false,
-            ])
             ->add('color', ColorType::class, [
                 'label' => 'contact_form.color',
                 'required' => false,

@@ -60,7 +60,7 @@
     </nav>
 {% endmacro %}
 
-{% macro translationsBar(available_translations, node, current) %}
+{% macro translations_bar(available_translations, node, current) %}
     {% if available_translations %}
         {% if not route %}
             {% set route = 'nodesEditSourcePage' %}

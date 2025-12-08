@@ -13,9 +13,9 @@
 } %}
     {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
     {% block translation %}
-        {% if available_translations is defined and available_translations %}
+        {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             <div class="rz-page-header__item--right">
-                {{ _self.translationsBar(
+                {{ _self.translations_bar(
                     available_translations,
                     node,
                     translation.id

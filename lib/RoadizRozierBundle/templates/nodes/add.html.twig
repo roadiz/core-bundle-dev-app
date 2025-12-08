@@ -5,7 +5,7 @@
 {% block content %}
 <section class="content-global">
     {% set title = 'add.a.node'|trans %}
-    {% if parentNode %}
+    {% if parentNode is defined and parentNode.nodeName %}
         {% set subtitle = 'In'|trans ~ ' ' ~ parentNode.nodeName %}
     {% endif %}
     {% include '@RoadizRozier/nodes/head.html.twig' with {
