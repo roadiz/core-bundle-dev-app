@@ -82,7 +82,7 @@ export const IconOnly: Story = {
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
                 emphasis: 'tertiary',
-                color: 'error-light',
+                color: 'danger',
             },
         ],
     },
@@ -99,14 +99,26 @@ export const Collapsed: Story = {
             {
                 iconClass: 'rz-icon-ri--arrow-drop-left-line',
                 emphasis: 'secondary',
+                attributes: {
+                    'tooltip-text': 'Left',
+                    is: 'rz-button',
+                },
             },
             {
                 iconClass: 'rz-icon-ri--arrow-drop-down-line',
                 emphasis: 'secondary',
+                attributes: {
+                    'tooltip-text': 'Down',
+                    is: 'rz-button',
+                },
             },
             {
                 iconClass: 'rz-icon-ri--arrow-drop-right-line',
                 emphasis: 'secondary',
+                attributes: {
+                    'tooltip-text': 'Right',
+                    is: 'rz-button',
+                },
             },
         ],
     },
