@@ -74,7 +74,7 @@
 }
 
 .rz-dialog__body {
-	padding: var(--rz-dialog--body-padding,  var(--spacing-2xs, 12px) var(--spacing-xs, 16px));
+	padding: var(--rz-dialog--body-padding, var(--spacing-2xs, 12px) var(--spacing-xs, 16px));
 	min-width: 100%;
 	box-sizing: border-box;
 
