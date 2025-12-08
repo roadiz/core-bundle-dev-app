@@ -54,7 +54,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function setAttribute(element: HTMLElement, args: Args) {
+function setAttributes(element: HTMLElement, args: Args) {
     if (args.tooltipText) {
         element.setAttribute('tooltip-text', args.tooltipText)
     }
@@ -78,7 +78,7 @@ function setAttribute(element: HTMLElement, args: Args) {
 function rzTooltipRenderer(args: Args) {
     const tooltip = document.createElement(COMPONENT_CLASS_NAME)
     tooltip.innerHTML = args.innerHtml
-    setAttribute(tooltip, args)
+    setAttributes(tooltip, args)
 
     return tooltip
 }
@@ -135,7 +135,7 @@ export const ButtonOnlyUsage: Story = {
             },
         })
 
-        setAttribute(button, args)
+        setAttributes(button, args)
         return button
     },
     args: {
