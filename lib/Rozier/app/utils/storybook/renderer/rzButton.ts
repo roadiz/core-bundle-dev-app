@@ -5,7 +5,7 @@ const COMPONENT_CLASS = 'rz-button'
 
 export function rzButtonRenderer(args: ButtonArgs) {
     const buttonNode = document.createElement('button', { is: COMPONENT_CLASS })
-    const attributesEntries = Object.entries({ ...(args.attributes || {}) })
+    const attributesEntries = Object.entries(args.attributes || {})
 
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {

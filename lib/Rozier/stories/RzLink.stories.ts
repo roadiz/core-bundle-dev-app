@@ -34,10 +34,12 @@ type Story = StoryObj<Args>
 function rzLinkRenderer(args: Args) {
     const is = args.attributes?.is
     const el = document.createElement('a', is ? { is } : undefined)
-    const attrs = args.attributes ? Object.entries(args.attributes) : []
+    const attributesEntries = args.attributes
+        ? Object.entries(args.attributes)
+        : []
 
-    if (attrs.length) {
-        attrs.forEach(([key, value]) => {
+    if (attributesEntries.length) {
+        attributesEntries.forEach(([key, value]) => {
             el.setAttribute(key, value)
         })
     }
