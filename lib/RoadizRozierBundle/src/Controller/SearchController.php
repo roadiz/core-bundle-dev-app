@@ -504,35 +504,35 @@ final class SearchController extends AbstractController
                 'inherit_data' => true,
                 'mapped' => false,
                 'attr' => [
-                    'class' => 'rz-fieldset--horizontal',
+                    'class' => 'rz-form__field-list rz-form__field-list--horizontal',
                 ],
             ])
             ->add($prefix.'visible', ExtendedBooleanType::class, [
                 'label' => 'visible',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-form-field--horizontal',
+                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-form-field--horizontal',
+                    'class' => 'rz-fieldset',
                 ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-form-field--horizontal',
+                    'class' => 'rz-fieldset',
                 ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-form-field--horizontal',
+                    'class' => 'rz-fieldset',
                 ],
             ])
         );

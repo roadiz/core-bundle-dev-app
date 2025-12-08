@@ -42,8 +42,6 @@ final class CompareDatetimeType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
-
-        $view->vars['attr']['class'] = 'rz-fieldset';
     }
 
     #[\Override]
@@ -52,6 +50,9 @@ final class CompareDatetimeType extends AbstractType
         $resolver->setDefaults([
             'inherit_data' => false,
             'required' => false,
+            'attr' => [
+                'class' => 'rz-fieldset',
+            ],
         ]);
     }
 

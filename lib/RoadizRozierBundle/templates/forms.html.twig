@@ -375,9 +375,10 @@
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
-    {% if attr() %}
-    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('rz-form-field rz-form-field--type-radio') ~ ' rz-form-field--horizontal')|trim}) %}
-        <fieldset class="rz-fieldset">
+    {% if attr %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' rz-fieldset')|trim}) %}
+    {% endif %}
+        <fieldset class="{{ attr.class }}">
             <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
         {%- for child in form %}
             <div class="rz-form-field rz-form-field--type-radio">
