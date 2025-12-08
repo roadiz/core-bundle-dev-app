@@ -18,7 +18,7 @@
 		overlay 0.4s allow-discrete,
 		display 0.4s allow-discrete;
 
-	/* État ouvert du dialogue */
+	/* Open state */
 	&:open {
 		opacity: 1;
 		translate: 0 0;
@@ -36,8 +36,8 @@
 		background-color: var(--surface-overlay-secondary, rgba(24, 25, 27, 0.50));
 	}
 
-	/* État avant ouverture */
-	/* Doit se trouver après la règle dialog:open précédente pour prendre effet, car la spécificité est la même */
+	/* State before opening */
+	/* Must be placed after the previous dialog:open rule to take effect, as the specificity is the same */
 	@starting-style {
 		&:open {
 			opacity: 0;
@@ -78,7 +78,6 @@
 	min-width: 100%;
 	box-sizing: border-box;
 
-
 	.rz-dialog__header + & {
 		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
 	}
@@ -90,7 +89,7 @@
 	padding: var(--spacing-4xs);
 	border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
 
-	* + * {
+	> * + * {
 		margin-left: var(--spacing-5xs);
 	}
 }
