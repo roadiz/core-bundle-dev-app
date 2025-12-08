@@ -45,7 +45,7 @@ class UrlAlias implements PersistableInterface, \Stringable
     /**
      * @return $this
      */
-    public function setAlias(string $alias): UrlAlias
+    public function setAlias(string $alias): static
     {
         $this->alias = StringHandler::slugify($alias);
 

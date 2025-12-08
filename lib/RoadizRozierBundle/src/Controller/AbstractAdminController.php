@@ -137,8 +137,8 @@ abstract class AbstractAdminController extends AbstractController
             $event = $this->createCreateEvent($item);
             $this->dispatchSingleOrMultipleEvent($event);
 
-            $entityManager->persist($item);
-            $entityManager->flush();
+            $entityManager?->persist($item);
+            $entityManager?->flush();
 
             $postEvent = $this->createPostCreateEvent($item);
             $this->dispatchSingleOrMultipleEvent($postEvent);
@@ -182,7 +182,7 @@ abstract class AbstractAdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
+            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass()) ?? throw new \RuntimeException('No entity manager found for class '.$this->getEntityClass());
             /*
              * Events are dispatched before entity manager is flushed
              * to be able to throw exceptions before it is persisted.
@@ -244,8 +244,8 @@ abstract class AbstractAdminController extends AbstractController
              */
             $event = $this->createDeleteEvent($item);
             $this->dispatchSingleOrMultipleEvent($event);
-            $entityManager->remove($item);
-            $entityManager->flush();
+            $entityManager?->remove($item);
+            $entityManager?->flush();
 
             $postEvent = $this->createPostDeleteEvent($item);
             $this->dispatchSingleOrMultipleEvent($postEvent);
@@ -443,7 +443,7 @@ abstract class AbstractAdminController extends AbstractController
     /**
      * @return Event|Event[]|null
      */
-    protected function createCreateEvent(PersistableInterface $item)
+    protected function createCreateEvent(PersistableInterface $item): Event|array|null
     {
         return null;
     }
@@ -451,7 +451,7 @@ abstract class AbstractAdminController extends AbstractController
     /**
      * @return Event|Event[]|null
      */
-    protected function createPostCreateEvent(PersistableInterface $item)
+    protected function createPostCreateEvent(PersistableInterface $item): Event|array|null
     {
         return null;
     }
@@ -459,7 +459,7 @@ abstract class AbstractAdminController extends AbstractController
     /**
      * @return Event|Event[]|null
      */
-    protected function createUpdateEvent(PersistableInterface $item)
+    protected function createUpdateEvent(PersistableInterface $item): Event|array|null
     {
         return null;
     }
@@ -467,7 +467,7 @@ abstract class AbstractAdminController extends AbstractController
     /**
      * @return Event|Event[]|null
      */
-    protected function createPostUpdateEvent(PersistableInterface $item)
+    protected function createPostUpdateEvent(PersistableInterface $item): Event|array|null
     {
         return null;
     }
@@ -475,7 +475,7 @@ abstract class AbstractAdminController extends AbstractController
     /**
      * @return Event|Event[]|null
      */
-    protected function createDeleteEvent(PersistableInterface $item)
+    protected function createDeleteEvent(PersistableInterface $item): Event|array|null
     {
         return null;
     }
@@ -485,7 +485,7 @@ abstract class AbstractAdminController extends AbstractController
      *
      * @return Event|Event[]|null
      */
-    protected function createPostDeleteEvent(PersistableInterface $item)
+    protected function createPostDeleteEvent(PersistableInterface $item): Event|array|null
     {
         return null;
     }

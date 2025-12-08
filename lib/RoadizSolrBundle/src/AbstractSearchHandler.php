@@ -225,11 +225,10 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $qHelper = new Helper();
         $input = $qHelper->filterControlCharacters($input);
         $input = $qHelper->escapeTerm($input);
+
         // Solarium does not escape Lucene reserved words
         // https://stackoverflow.com/questions/10337908/how-to-properly-escape-or-and-and-in-lucene-query
-        $input = preg_replace('#\\b(AND|OR|NOT)\\b#', '\\\\\\\$1', $input);
-
-        return $input;
+        return preg_replace('#\\b(AND|OR|NOT)\\b#', '\\\\\\\$1', $input) ?? $input;
     }
 
     /**

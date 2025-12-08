@@ -81,15 +81,20 @@ class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
      * Sets the value of nodeSource.
      *
      * @param NodesSources $nodeSource the node source
+     *
+     * @return $this
      */
-    public function setNodeSource(NodesSources $nodeSource): NodesSourcesDocuments
+    public function setNodeSource(NodesSources $nodeSource): static
     {
         $this->nodeSource = $nodeSource;
 
         return $this;
     }
 
-    public function copyFrom(NodesSourcesDocuments $source): NodesSourcesDocuments
+    /**
+     * @return $this
+     */
+    public function copyFrom(NodesSourcesDocuments $source): static
     {
         $this->setDocument($source->getDocument());
         $this->setHotspot($source->getHotspot());

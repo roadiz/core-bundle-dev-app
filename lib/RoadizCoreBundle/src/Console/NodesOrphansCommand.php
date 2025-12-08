@@ -43,7 +43,8 @@ final class NodesOrphansCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $entityManager = $this->managerRegistry->getManagerForClass(Node::class);
+        $entityManager = $this->managerRegistry
+            ->getManagerForClass(Node::class) ?? throw new \RuntimeException('No entity manager found for Node class.');
         $qb = $entityManager->createQueryBuilder();
         $qb->select('n')
             ->from(Node::class, 'n')

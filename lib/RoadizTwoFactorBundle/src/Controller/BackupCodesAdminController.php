@@ -17,10 +17,11 @@ final class BackupCodesAdminController extends AbstractController
 {
     public function __construct(
         private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
+        private readonly TokenStorageInterface $tokenStorage,
     ) {
     }
 
-    public function backupCodesAdminAction(Request $request, TokenStorageInterface $tokenStorage): Response
+    public function backupCodesAdminAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
@@ -28,7 +29,7 @@ final class BackupCodesAdminController extends AbstractController
             throw $this->createAccessDeniedException('You cannot impersonate to access this page.');
         }
 
-        $user = $tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()?->getUser();
         if (!($user instanceof User)) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }

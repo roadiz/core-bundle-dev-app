@@ -281,7 +281,7 @@ final class NodeTreeWidget extends AbstractWidget
         return $this->managerRegistry
             ->getRepository(Document::class)
             ->findOneDisplayableDtoByNodeSource(
-                $node->getNodeSource()->getId(),
+                $node->getNodeSource()->getId() ?? throw new \RuntimeException('NodeSource ID is null.')
             );
     }
 

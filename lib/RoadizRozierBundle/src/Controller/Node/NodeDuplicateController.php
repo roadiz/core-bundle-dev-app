@@ -62,7 +62,7 @@ final class NodeDuplicateController extends AbstractController
         try {
             $duplicator = new NodeDuplicator(
                 $existingNode,
-                $this->managerRegistry->getManagerForClass(Node::class),
+                $this->managerRegistry->getManagerForClass(Node::class) ?? throw new \RuntimeException('No object manager found for Node class.'),
                 $this->nodeNamePolicy
             );
             $newNode = $duplicator->duplicate();

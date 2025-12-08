@@ -238,7 +238,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function addUrlAlias(UrlAlias $urlAlias): NodesSources
+    public function addUrlAlias(UrlAlias $urlAlias): static
     {
         if (!$this->urlAliases->contains($urlAlias)) {
             $this->urlAliases->add($urlAlias);
@@ -310,7 +310,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
      *
      * @return $this
      */
-    public function addDocumentsByFields(NodesSourcesDocuments $nodesSourcesDocuments): NodesSources
+    public function addDocumentsByFields(NodesSourcesDocuments $nodesSourcesDocuments): static
     {
         if (!$this->getDocumentsByFields()->contains($nodesSourcesDocuments)) {
             $this->getDocumentsByFields()->add($nodesSourcesDocuments);
@@ -392,7 +392,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setMetaTitle(?string $metaTitle): NodesSources
+    public function setMetaTitle(?string $metaTitle): static
     {
         $this->metaTitle = null !== $metaTitle ? trim($metaTitle) : '';
 
@@ -407,7 +407,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setMetaDescription(?string $metaDescription): NodesSources
+    public function setMetaDescription(?string $metaDescription): static
     {
         $this->metaDescription = null !== $metaDescription ? trim($metaDescription) : '';
 
@@ -478,7 +478,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setTitle(?string $title): NodesSources
+    public function setTitle(?string $title): static
     {
         $this->title = null !== $title ? trim($title) : null;
 
@@ -493,7 +493,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation): NodesSources
+    public function setTranslation(TranslationInterface $translation): static
     {
         $this->translation = $translation;
 
@@ -543,7 +543,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
      *
      * @return $this
      */
-    public function withNodesSources(NodesSources $nodesSources): self
+    public function withNodesSources(NodesSources $nodesSources): static
     {
         $this->setTitle($nodesSources->getTitle());
         $this->setPublishedAt($nodesSources->getPublishedAt());

@@ -39,6 +39,12 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
     #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
+        $mountPath = $document->getMountPath();
+
+        if (null === $mountPath) {
+            return;
+        }
+
         if (!$document instanceof SizeableInterface) {
             return;
         }
@@ -49,14 +55,14 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
         }
 
         try {
-            $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($document->getMountPath()));
+            $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($mountPath));
             $document->setImageWidth($imageProcess->width());
             $document->setImageHeight($imageProcess->height());
         } catch (DriverException|FilesystemException $exception) {
             $this->messengerLogger->warning(
                 'Document file is not a readable image.',
                 [
-                    'path' => $document->getMountPath(),
+                    'path' => $mountPath,
                     'message' => $exception->getMessage(),
                 ]
             );

@@ -21,7 +21,7 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getId(): string|int
     {
-        return $this->customForm->getId();
+        return $this->customForm->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
     #[\Override]

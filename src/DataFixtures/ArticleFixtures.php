@@ -31,8 +31,9 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     #[\Override]
     public function load(ObjectManager $manager): void
     {
+        $articleType = $this->nodeTypesBag->get('Article') ?? throw new \RuntimeException('Article node type is missing.');
         $articleContainer = $this->uniqueNodeGenerator->generate(
-            nodeType: $this->nodeTypesBag->get('Article'),
+            nodeType: $articleType,
             translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE, Translation::class),
             flush: false,
         );
@@ -43,7 +44,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 50; ++$i) {
             $article = $this->uniqueNodeGenerator->generate(
-                nodeType: $this->nodeTypesBag->get('Article'),
+                nodeType: $articleType,
                 translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE, Translation::class),
                 parent: $articleContainer->getNode(),
                 flush: false,

@@ -47,7 +47,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     public function getId(): string|int|Uuid
     {
         if ($this->document instanceof PersistableInterface) {
-            return $this->document->getId();
+            return $this->document->getId() ?? throw new \RuntimeException('Entity must have an ID');
         }
 
         return 0;

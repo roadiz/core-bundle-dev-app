@@ -128,12 +128,12 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
     private function isArchiveEnabled(
         ?Operation $operation = null,
     ): bool {
-        return $operation->getExtraProperties()['archive_enabled'] ?? false;
+        return $operation?->getExtraProperties()['archive_enabled'] ?? false;
     }
 
     private function getPublicationFieldName(
         ?Operation $operation = null,
     ): string {
-        return $operation->getExtraProperties()['archive_publication_field_name'] ?? $this->defaultPublicationFieldName;
+        return $operation?->getExtraProperties()['archive_publication_field_name'] ?? $this->defaultPublicationFieldName;
     }
 }
