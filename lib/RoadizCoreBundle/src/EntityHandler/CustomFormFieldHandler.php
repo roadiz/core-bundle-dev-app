@@ -25,7 +25,7 @@ final class CustomFormFieldHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setCustomFormField(CustomFormField $customFormField): self
+    public function setCustomFormField(CustomFormField $customFormField): static
     {
         $this->customFormField = $customFormField;
 

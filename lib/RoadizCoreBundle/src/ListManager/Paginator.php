@@ -23,6 +23,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class Paginator
 {
     protected ?int $itemCount = null;
+    /**
+     * @var non-empty-string|null
+     */
     protected ?string $searchPattern = null;
     protected ?int $totalCount = null;
     protected bool $displayNotPublishedNodes;
@@ -78,12 +81,17 @@ class Paginator
         return $this;
     }
 
+    /**
+     * @return non-empty-string|null
+     */
     public function getSearchPattern(): ?string
     {
         return $this->searchPattern;
     }
 
     /**
+     * @param non-empty-string|null $searchPattern
+     *
      * @return $this
      */
     public function setSearchPattern(?string $searchPattern): Paginator
@@ -164,6 +172,10 @@ class Paginator
      */
     public function searchByAtPage(array $order = [], int $page = 1): array
     {
+        if (empty($this->searchPattern)) {
+            return [];
+        }
+
         $repository = $this->getRepository();
         if ($repository instanceof EntityRepository) {
             // @phpstan-ignore-next-line

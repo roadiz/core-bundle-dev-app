@@ -39,9 +39,9 @@ final class FolderExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getDisplayable(): string
     {
-        return $this->folder->getTranslatedFolders()->first() ?
-            $this->folder->getTranslatedFolders()->first()->getName() :
-            $this->folder->getName();
+        return ($this->folder->getTranslatedFolders()->first()) ?
+            ($this->folder->getTranslatedFolders()->first()->getName()) :
+            ($this->folder->getName() ?? throw new \RuntimeException('Folder name cannot be null'));
     }
 
     #[\Override]

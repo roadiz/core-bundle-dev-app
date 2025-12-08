@@ -62,7 +62,7 @@ interface AttributeInterface extends PersistableInterface
     /**
      * @return $this
      */
-    public function setCode(string $code): self;
+    public function setCode(string $code): static;
 
     public function getLabelOrCode(?TranslationInterface $translation = null): string;
 
@@ -76,23 +76,23 @@ interface AttributeInterface extends PersistableInterface
      *
      * @return $this
      */
-    public function setAttributeTranslations(Collection $attributeTranslations): self;
+    public function setAttributeTranslations(Collection $attributeTranslations): static;
 
     /**
      * @return $this
      */
-    public function addAttributeTranslation(AttributeTranslationInterface $attributeTranslation): self;
+    public function addAttributeTranslation(AttributeTranslationInterface $attributeTranslation): static;
 
     /**
      * @return $this
      */
-    public function removeAttributeTranslation(AttributeTranslationInterface $attributeTranslation): self;
+    public function removeAttributeTranslation(AttributeTranslationInterface $attributeTranslation): static;
 
     public function isSearchable(): bool;
 
     public function setSearchable(bool $searchable): self;
 
-    public function getOptions(TranslationInterface $translation): ?array;
+    public function getOptions(?TranslationInterface $translation): ?array;
 
     public function getType(): int;
 
@@ -107,14 +107,14 @@ interface AttributeInterface extends PersistableInterface
     /**
      * @return $this
      */
-    public function setGroup(?AttributeGroupInterface $group): self;
+    public function setGroup(?AttributeGroupInterface $group): static;
 
     public function getDocuments(): Collection;
 
     /**
      * @return $this
      */
-    public function setType(int $type): self;
+    public function setType(int $type): static;
 
     public function isString(): bool;
 

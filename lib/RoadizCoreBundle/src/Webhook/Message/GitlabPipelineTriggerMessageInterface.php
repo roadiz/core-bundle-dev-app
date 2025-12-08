@@ -39,16 +39,13 @@ final readonly class GitlabPipelineTriggerMessageInterface implements AsyncMessa
         ];
     }
 
-    /**
-     * @return static
-     */
     #[\Override]
     public static function fromWebhook(WebhookInterface $webhook): self
     {
         $payload = $webhook->getPayload();
 
         return new self(
-            $webhook->getUri(),
+            $webhook->getUri() ?? throw new \InvalidArgumentException('Webhook URI cannot be null.'),
             $payload['token'] ?? '',
             $payload['ref'] ?? 'main',
             $payload['variables'] ?? []

@@ -149,6 +149,6 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             )
         );
 
-        $this->notifier->send($notification, new Recipient($user->getEmail()));
+        $this->notifier->send($notification, new Recipient($user->getEmail() ?? throw new \RuntimeException('User email is null.')));
     }
 }

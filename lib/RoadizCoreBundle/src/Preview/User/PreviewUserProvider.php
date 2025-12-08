@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Preview\User;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final readonly class PreviewUserProvider implements PreviewUserProviderInterface
@@ -20,6 +21,10 @@ final readonly class PreviewUserProvider implements PreviewUserProviderInterface
     #[\Override]
     public function createFromSecurity(): UserInterface
     {
+        if (null === $this->security->getUser()) {
+            throw new AuthenticationException('No authenticated user found to create a preview user proxy.');
+        }
+
         if (!$this->security->isGranted($this->previewResolver->getRequiredRole())) {
             throw new AccessDeniedException('Cannot create a preview user proxy from a user that is not allowed to preview.');
         }

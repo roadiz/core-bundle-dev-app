@@ -72,7 +72,7 @@ final readonly class UserSignupProcessor implements ProcessorInterface
             $this->publicUserRoleName,
         ]);
         $user->sendCreationConfirmationEmail(true);
-        $user->setLocale($request->getLocale());
+        $user->setLocale($request?->getLocale());
 
         $this->validator->validate($user);
 

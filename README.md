@@ -14,7 +14,6 @@ This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and 
 - OpenId
 - Random
 - RoadizCoreBundle
-- RoadizFontBundle
 - RoadizRozierBundle
 - RoadizTwoFactorBundle
 - RoadizUserBundle
