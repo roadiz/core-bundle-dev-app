@@ -3,7 +3,7 @@ import { BadgeArgs } from './RzBadge.stories'
 import {
     rzDropdownItemRenderer,
     DEFAULT_ITEM,
-} from '~/utils/storybook/renderer/rzDropDownItem'
+} from '~/utils/storybook/renderer/rzDropDown'
 
 export type Args = {
     iconClass?: string

@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    rzDropdownItemRenderer,
+    rzDropdownRenderer,
     DEFAULT_ITEM,
-} from '~/utils/storybook/renderer/rzDropDownItem'
+} from '~/utils/storybook/renderer/rzDropDown'
 import { type Args as PopoverItemArgs } from './RzDropdownItem.stories'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
-
-const COMPONENT_CLASS_NAME = 'rz-dropdown'
 
 export type Args = {
     title?: string
@@ -62,102 +60,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzDropdownListRenderer(items: PopoverItemArgs[], tag?: string) {
-    const body = document.createElement(tag || 'menu')
-    body.className = `${COMPONENT_CLASS_NAME}__list`
-
-    items.forEach((itemArgs) => {
-        const itemWrapper = document.createElement('li')
-        body.appendChild(itemWrapper)
-
-        if (itemArgs.tag === 'hr') {
-            return
-        }
-
-        const item = rzDropdownItemRenderer(itemArgs)
-        itemWrapper.appendChild(item)
-    })
-
-    return body
-}
-
-function rzDropdownMenuRenderer(args: Args, el?: HTMLElement) {
-    const wrapper = el || document.createElement('div')
-    wrapper.className = COMPONENT_CLASS_NAME
-    if (args.isOpen) {
-        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--open`)
-    }
-    if (args.reverse) {
-        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--reverse`)
-    }
-    if (args.borderColor) {
-        wrapper.style.setProperty(
-            '--rz-dropdown-border-color',
-            args.borderColor,
-        )
-    }
-
-    const headElements = args.displayHeadElements ? args.headElements : []
-    if (args.title || headElements.length) {
-        const head = document.createElement('div')
-        head.className = `${COMPONENT_CLASS_NAME}__head`
-
-        if (args.title) {
-            const title = document.createElement('div')
-            title.className = `${COMPONENT_CLASS_NAME}__title`
-            title.innerText = args.title || ''
-            head.appendChild(title)
-        }
-
-        if (headElements.length) {
-            const headElementList = document.createElement('ul')
-            headElementList.className = `${COMPONENT_CLASS_NAME}__info-list`
-            head.appendChild(headElementList)
-
-            headElements.forEach((el) => {
-                const infoItem = document.createElement('li')
-                infoItem.classList.add(`${COMPONENT_CLASS_NAME}__info-item`)
-                headElementList.appendChild(infoItem)
-
-                if (el.innerHTML) {
-                    infoItem.innerHTML += el.innerHTML
-                } else {
-                    const element = document.createElement(el.tag || 'div')
-                    Object.entries(el).forEach(([key, value]) => {
-                        if (key !== 'tag') {
-                            element.setAttribute(key, value)
-                        }
-                    })
-                    infoItem.appendChild(element)
-                }
-            })
-        }
-
-        wrapper.appendChild(head)
-    }
-
-    const bodyList = (
-        Array.isArray(args.items[0]) ? args.items : [args.items]
-    ) as PopoverItemArgs[][]
-
-    bodyList.forEach((bodyItems) => {
-        const body = rzDropdownListRenderer(bodyItems, args.listTag)
-        wrapper.appendChild(body)
-    })
-
-    if (args.footerContent) {
-        const footer = document.createElement('div')
-        footer.className = `${COMPONENT_CLASS_NAME}__footer`
-        footer.innerHTML = args.footerContent
-        wrapper.appendChild(footer)
-    }
-
-    return wrapper
-}
-
 export const Default: Story = {
     render: (args) => {
-        return rzDropdownMenuRenderer(args)
+        return rzDropdownRenderer(args)
     },
     args: {
         footerContent: 'Last edited by John D. Sep 10, 2025, 4:08 PM',
@@ -166,7 +71,7 @@ export const Default: Story = {
 
 export const Simple: Story = {
     render: (args) => {
-        return rzDropdownMenuRenderer(args)
+        return rzDropdownRenderer(args)
     },
     args: {
         title: '',
@@ -181,7 +86,7 @@ export const Simple: Story = {
 
 export const ReverseWithCollapsedHead: Story = {
     render: (args) => {
-        return rzDropdownMenuRenderer(args)
+        return rzDropdownRenderer(args)
     },
     args: {
         reverse: true,
@@ -191,7 +96,7 @@ export const ReverseWithCollapsedHead: Story = {
 
 export const WithLinkItems: Story = {
     render: (args) => {
-        return rzDropdownMenuRenderer(args)
+        return rzDropdownRenderer(args)
     },
     args: {
         reverse: true,
@@ -228,7 +133,7 @@ export const TreeWalkerDropdownMenu: Story = {
 
         target.innerText = 'Toggle Dropdown Menu'
 
-        rzDropdownMenuRenderer(args, popoverContent)
+        rzDropdownRenderer(args, popoverContent)
         return popover
     },
     args: {
@@ -316,7 +221,7 @@ export const QuickAccessNav: Story = {
         icon.classList.add('rz-icon-rz--logo-rz')
         target.appendChild(icon)
 
-        rzDropdownMenuRenderer(args, popoverContent)
+        rzDropdownRenderer(args, popoverContent)
         return popover
     },
     args: {
