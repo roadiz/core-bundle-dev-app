@@ -3,10 +3,9 @@
 	border-radius: var(--radius-xs, 6px);
 	border: 1px solid var(--form-basic-border, #DADADA);
 	min-height: 44px;
-	margin-bottom: 12px;
 	list-style: none;
 	padding: initial;
-	margin: inherit;
+	margin: initial;
 }
 
 .rz-form-collection__header {
