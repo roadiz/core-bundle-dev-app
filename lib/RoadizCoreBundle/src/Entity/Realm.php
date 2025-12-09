@@ -148,10 +148,8 @@ class Realm implements RealmInterface
 
     /**
      * @param Collection<int, RealmNode> $realmNodes
-     *
-     * @return Realm
      */
-    public function setRealmNodes(Collection $realmNodes)
+    public function setRealmNodes(Collection $realmNodes): Realm
     {
         $this->realmNodes = $realmNodes;
 
@@ -169,10 +167,8 @@ class Realm implements RealmInterface
 
     /**
      * @param Collection<int, User> $users
-     *
-     * @return Realm
      */
-    public function setUsers(Collection $users)
+    public function setUsers(Collection $users): Realm
     {
         $this->users = $users;
 

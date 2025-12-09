@@ -120,6 +120,9 @@ final class DocumentEmbedController extends AbstractController
 
         try {
             $document = $this->randomDocument($folderId);
+            if (null === $document) {
+                throw new \RuntimeException('document.random_not_found');
+            }
 
             $msg = $this->translator->trans('document.%name%.uploaded', [
                 '%name%' => (new UnicodeString((string) $document))->truncate(50, '...')->toString(),
@@ -199,7 +202,9 @@ final class DocumentEmbedController extends AbstractController
         if (null !== $folderId && $folderId > 0) {
             /** @var Folder|null $folder */
             $folder = $this->managerRegistry->getRepository(Folder::class)->find($folderId);
-
+            if (null === $folder) {
+                throw new \RuntimeException('Folder not found');
+            }
             if (is_iterable($document)) {
                 /** @var DocumentInterface $singleDocument */
                 foreach ($document as $singleDocument) {

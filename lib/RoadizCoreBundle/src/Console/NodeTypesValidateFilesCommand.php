@@ -42,7 +42,8 @@ final class NodeTypesValidateFilesCommand extends Command
 
         $nodeTypes = [];
         if ($onlyFile = $input->getArgument('file')) {
-            $nodeTypes[] = $this->repository->findOneByName($onlyFile);
+            $nodeTypes[] = $this->repository
+                ->findOneByName($onlyFile) ?? throw new \RuntimeException('Node type not found: '.$onlyFile);
         } else {
             $nodeTypes = $this->repository->findAll();
         }

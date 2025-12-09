@@ -10,9 +10,6 @@ roadiz_core:
 roadiz_rozier:
     resource: "@RoadizRozierBundle/config/routing.yaml"
 
-roadiz_font:
-    resource: "@RoadizFontBundle/config/routing.yaml"
-
 roadiz_two_factor:
     resource: "@RoadizTwoFactorBundle/config/routing.yaml"
 

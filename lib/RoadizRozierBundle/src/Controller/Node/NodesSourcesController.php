@@ -290,10 +290,10 @@ final class NodesSourcesController extends AbstractController
     }
 
     #[\Override]
-    protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
+    protected function getPostUpdateRedirection(PersistableInterface $entity): Response
     {
         if (!$entity instanceof NodesSources) {
-            return null;
+            throw new \InvalidArgumentException('Entity must be an instance of NodesSources');
         }
 
         /** @var Translation $translation */

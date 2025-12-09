@@ -23,7 +23,7 @@ final readonly class JwtDecorator implements OpenApiFactoryInterface
         $openApi = $openApi->withComponents(
             $openApi->getComponents()
                 ->withSecuritySchemes(new \ArrayObject([
-                    ...$openApi->getComponents()->getSecuritySchemes()->getArrayCopy(),
+                    ...($openApi->getComponents()->getSecuritySchemes()?->getArrayCopy() ?? []),
                     'JWT' => new Model\SecurityScheme(
                         type: 'http',
                         scheme: 'bearer',
@@ -31,7 +31,7 @@ final readonly class JwtDecorator implements OpenApiFactoryInterface
                     ),
                 ]))
                 ->withSchemas(new \ArrayObject([
-                    ...$openApi->getComponents()->getSchemas()->getArrayCopy(),
+                    ...($openApi->getComponents()->getSchemas()?->getArrayCopy() ?? []),
                     'TokenResponse' => new \ArrayObject([
                         'type' => 'object',
                         'properties' => [

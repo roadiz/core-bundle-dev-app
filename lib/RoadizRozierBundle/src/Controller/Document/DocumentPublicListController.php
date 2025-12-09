@@ -245,7 +245,7 @@ class DocumentPublicListController extends AbstractController
                 }
             }
 
-            $this->managerRegistry->getManagerForClass(Document::class)->flush();
+            $this->managerRegistry->getManagerForClass(Document::class)?->flush();
             $msg = $this->translator->trans('documents.linked_to.folders');
 
             /*
@@ -298,7 +298,7 @@ class DocumentPublicListController extends AbstractController
                     }
                 }
             }
-            $this->managerRegistry->getManagerForClass(Document::class)->flush();
+            $this->managerRegistry->getManagerForClass(Document::class)?->flush();
             $msg = $this->translator->trans('documents.removed_from.folders');
 
             /*

@@ -279,6 +279,7 @@ export const Tooltip: Story = {
     },
     args: {
         attributes: {
+            is: 'rz-button',
             'tooltip-text': 'This is a tooltip text',
         },
     },

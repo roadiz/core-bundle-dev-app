@@ -311,7 +311,9 @@ trait NodeBulkActionTrait
                 $tag = $this->managerRegistry
                     ->getRepository(Tag::class)
                     ->findOrCreateByPath($path);
-
+                if (null === $tag) {
+                    continue;
+                }
                 foreach ($nodes as $node) {
                     $node->addTag($tag);
                 }

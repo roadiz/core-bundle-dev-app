@@ -60,15 +60,16 @@ final readonly class UserProvider implements UserProviderInterface
      * object can just be merged into some internal array of users / identity
      * map.
      *
-     * @return User
-     *
      * @throws UnsupportedUserException
      */
     #[\Override]
-    public function refreshUser(UserInterface $user): UserInterface
+    public function refreshUser(UserInterface $user): User
     {
         if ($user instanceof User) {
             $manager = $this->managerRegistry->getManagerForClass(User::class);
+            if (null === $manager) {
+                throw new \RuntimeException('No manager found for User class.');
+            }
             /** @var User|null $refreshUser */
             $refreshUser = $manager->find(User::class, (int) $user->getId());
             if (

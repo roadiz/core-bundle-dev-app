@@ -98,7 +98,7 @@ final class SettingUtilsController extends AbstractController
                     if ($this->settingsImporter->import($serializedData)) {
                         $msg = $this->translator->trans('setting.imported');
                         $this->logTrail->publishConfirmMessage($request, $msg);
-                        $this->managerRegistry->getManagerForClass(Setting::class)->flush();
+                        $this->managerRegistry->getManagerForClass(Setting::class)?->flush();
 
                         // redirect even if its null
                         return $this->redirectToRoute(

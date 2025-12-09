@@ -45,23 +45,25 @@ trait NodeControllerTrait
         return $node;
     }
 
-    public function addStackType(array $data, Node $node, DecoratedNodeTypes $nodeTypesBag): ?NodeType
+    public function addStackType(array $data, Node $node, DecoratedNodeTypes $nodeTypesBag): NodeType
     {
-        if (
-            $data['nodeId'] == $node->getId()
-            && !empty($data['nodeTypeName'])
-        ) {
-            $nodeType = $nodeTypesBag->get($data['nodeTypeName']);
-
-            if (null !== $nodeType) {
-                $node->addStackType($nodeType);
-                $this->em()->flush();
-
-                return $nodeType;
-            }
+        if (empty($data['nodeTypeName'])) {
+            throw new \InvalidArgumentException('Node type name is required.');
+        }
+        if (empty($data['nodeId']) || $data['nodeId'] != $node->getId()) {
+            throw new \InvalidArgumentException('Node ID is required and must match the target node.');
         }
 
-        return null;
+        $nodeType = $nodeTypesBag->get($data['nodeTypeName']);
+
+        if (null === $nodeType) {
+            throw new \InvalidArgumentException('Node type '.$data['nodeTypeName'].' does not exist.');
+        }
+
+        $node->addStackType($nodeType);
+        $this->em()->flush();
+
+        return $nodeType;
     }
 
     public function buildStackTypesForm(Node $node): ?FormInterface
