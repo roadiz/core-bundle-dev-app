@@ -6,10 +6,6 @@ export class RzDialog extends HTMLDialogElement {
         this.onCloseTargetClick = this.onCloseTargetClick.bind(this)
     }
 
-    static get observedAttributes() {
-        return []
-    }
-
     onOpenTargetClick() {
         const isModal =
             this.hasAttribute('modal') && this.getAttribute('modal') !== 'false'
@@ -23,8 +19,6 @@ export class RzDialog extends HTMLDialogElement {
     onCloseTargetClick() {
         this.close()
     }
-
-    attributeChangedCallback() {}
 
     getTargets(state: 'open' | 'close') {
         const id = this.getAttribute('id')
