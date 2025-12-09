@@ -1,0 +1,239 @@
+import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+import { type Args as FormFieldArgs } from './RzFormField.stories'
+import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
+import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
+import { useArgs } from 'storybook/preview-api'
+
+type CallbackFunctions = {
+    onDeleteClicked?: () => void
+    onAddClicked?: () => void
+}
+
+export type Args = {
+    schema: FormFieldArgs[]
+    length: number
+} & FormFieldArgs
+
+const meta: Meta<Args> = {
+    title: 'Components/Form/Collection',
+    tags: ['autodocs'],
+    args: {
+        length: 0,
+        label: 'Repeatable',
+        iconClass: 'rz-icon-ri--repeat-2-line',
+        description: '',
+        help: 'Help text example',
+        error: '',
+        input: undefined,
+        schema: [
+            {
+                label: 'Node title',
+                input: {
+                    type: 'text',
+                    name: 'title-name',
+                    id: 'title-id',
+                },
+            },
+            {
+                label: 'Input Field Label',
+                badge: {
+                    iconClass: 'rz-icon-ri--earth-line',
+                },
+                input: {
+                    type: 'date',
+                    name: 'datetime-name',
+                    id: 'datetime-id',
+                },
+            },
+            {
+                label: 'Background color',
+                badge: {
+                    iconClass: 'rz-icon-ri--earth-line',
+                },
+                input: {
+                    type: 'color',
+                    name: 'background-color',
+                    id: 'background-color-id',
+                },
+            },
+            {
+                label: 'Number of items',
+                badge: {
+                    iconClass: 'rz-icon-ri--earth-line',
+                },
+                input: {
+                    type: 'number',
+                    name: 'number-of-items',
+                    id: 'number-of-items-id',
+                },
+            },
+        ],
+        buttonGroup: {
+            size: 'md',
+            buttons: [
+                {
+                    label: 'Add item',
+                    iconClass: 'rz-icon-ri--add-line',
+                    emphasis: 'secondary',
+                },
+            ],
+        },
+    },
+}
+
+export default meta
+type Story = StoryObj<Args>
+
+function headerRenderer(
+    position: string = 'middle',
+    callbacks: CallbackFunctions,
+) {
+    const header = document.createElement('div')
+    header.classList.add('rz-form-collection__header')
+
+    const icon = document.createElement('span')
+    icon.classList.add('rz-icon-ri--earth-line')
+    header.appendChild(icon)
+
+    const label = document.createElement('span')
+    label.classList.add('rz-form-collection__title')
+    label.textContent = 'Repeatable'
+    header.appendChild(label)
+
+    const directionGroup = rzButtonGroupRenderer({
+        size: 'sm',
+        collapsed: true,
+        buttons: [
+            {
+                iconClass: 'rz-icon-ri--arrow-up-line',
+                attributes: {
+                    'tooltip-text': 'Move up',
+                    disabled:
+                        position === 'first' || position === 'only'
+                            ? 'true'
+                            : undefined,
+                },
+            },
+            {
+                iconClass: 'rz-icon-ri--arrow-down-line',
+                attributes: {
+                    'tooltip-text': 'Move down',
+                    disabled:
+                        position === 'last' || position === 'only'
+                            ? 'true'
+                            : undefined,
+                },
+            },
+        ],
+    })
+
+    directionGroup.classList.add('rz-form-collection__item--align-end')
+    header.appendChild(directionGroup)
+
+    const removeButton = rzButtonRenderer({
+        iconClass: 'rz-icon-ri--delete-bin-7-line',
+        emphasis: 'tertiary',
+        size: 'sm',
+        color: 'danger',
+        attributes: {
+            'tooltip-text': 'Remove item',
+        },
+    })
+    if (callbacks?.onDeleteClicked) {
+        removeButton.addEventListener('click', callbacks.onDeleteClicked)
+    }
+    removeButton.classList.add('rz-form-collection__remove-button')
+    header.appendChild(removeButton)
+
+    return header
+}
+
+function insertZoneRenderer(
+    position: 'start' | 'end',
+    callbacks: CallbackFunctions,
+) {
+    const insertZone = document.createElement('div')
+    insertZone.classList.add('rz-form-collection__insert-zone')
+
+    const addButton = rzButtonRenderer({
+        iconClass: 'rz-icon-ri--add-line',
+        emphasis: 'secondary',
+        size: 'sm',
+        attributes: {
+            'tooltip-text': `Insert item ${position === 'start' ? 'before' : 'after'}`,
+        },
+    })
+    if (callbacks?.onAddClicked) {
+        addButton.addEventListener('click', callbacks.onAddClicked)
+    }
+    insertZone.appendChild(addButton)
+    return insertZone
+}
+
+function rzFormCollectionItemRenderer(
+    items: Args['schema'],
+    position: string,
+    callbacks: CallbackFunctions,
+) {
+    const wrapper = document.createElement('li')
+    wrapper.classList.add('rz-form-collection__item')
+
+    const header = headerRenderer(position, callbacks)
+    wrapper.appendChild(header)
+
+    if (items.length) {
+        const body = document.createElement('div')
+        body.classList.add('rz-form-collection__body')
+        wrapper.appendChild(body)
+
+        for (const fieldArgs of items) {
+            const field = rzFormFieldRenderer(fieldArgs)
+            body.appendChild(field)
+        }
+    }
+
+    const insertZoneEnd = insertZoneRenderer(
+        position === 'last' || position === 'only' ? 'end' : 'start',
+        callbacks,
+    )
+    wrapper.appendChild(insertZoneEnd)
+    return wrapper
+}
+
+export const Default: Story = {
+    render: (args) => {
+        const [{ length }, updateArgs] = useArgs()
+        const list = document.createElement('ul')
+        list.classList.add('rz-form-collection__list')
+
+        function addItem() {
+            updateArgs({ length: length + 1 })
+        }
+        function removeItem() {
+            updateArgs({ length: length - 1 })
+        }
+
+        const field = rzFormFieldRenderer(args, list)
+        const button = field.querySelector('.rz-button')
+        button?.addEventListener('click', addItem)
+
+        for (let i = 0; i < args.length; i++) {
+            const position =
+                i === 0 && args.length === 1
+                    ? 'only'
+                    : i === 0
+                      ? 'first'
+                      : i === args.length - 1
+                        ? 'last'
+                        : 'middle'
+            const item = rzFormCollectionItemRenderer(args.schema, position, {
+                onAddClicked: addItem,
+                onDeleteClicked: removeItem,
+            })
+            list.appendChild(item)
+        }
+
+        return field
+    },
+}

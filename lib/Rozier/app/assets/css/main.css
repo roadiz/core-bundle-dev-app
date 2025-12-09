@@ -35,6 +35,7 @@
 
 
 /* Components: Form */
+@import './components/rz-form-collection.css';
 @import './components/rz-textarea.css';
 @import './components/rz-form.css';
 @import './components/rz-switch.css';

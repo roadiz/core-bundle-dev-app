@@ -7,6 +7,7 @@ export function rzButtonRenderer(args: ButtonArgs) {
     const attributesEntries = Object.entries(args.attributes || {})
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {
+            if (typeof value === 'undefined') return
             buttonNode.setAttribute(key, value)
         })
     }
