@@ -232,4 +232,22 @@
   --text-form-description-xs-line-height: 130%;
   --text-form-description-xs-letter-spacing: 0px;
   --text-form-description-xs-font-weight: 400;
+
+  /* body-md */
+  --text-body-md-font-size: 13px;
+  --text-body-md-line-height: 140%;
+  --text-body-md-letter-spacing: -2%;
+  --text-body-md-font-weight: 400;
+
+  /* body-sm */
+  --text-body-sm-font-size: 11px;
+  --text-body-sm-line-height: 140%;
+  --text-body-sm-letter-spacing: -2%;
+  --text-body-sm-font-weight: 400;
+
+  /* body-xs */
+  --text-body-xs-font-size: 10px;
+  --text-body-xs-line-height: 140%;
+  --text-body-xs-letter-spacing: 0px;
+  --text-body-xs-font-weight: 400;
 }

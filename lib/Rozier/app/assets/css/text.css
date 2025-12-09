@@ -314,3 +314,27 @@ and reformatted with Copilot
   letter-spacing: var(--text-form-description-xs-letter-spacing);
   font-weight: var(--text-form-description-xs-font-weight);
 }
+
+.text-body-md {
+  font-family: var(--font-family-os-text);
+  font-size: var(--text-body-md-font-size);
+  line-height: var(--text-body-md-line-height);
+  letter-spacing: var(--text-body-md-letter-spacing);
+  font-weight: var(--text-body-md-font-weight);
+}
+
+.text-body-sm {
+  font-family: var(--font-family-os-text);
+  font-size: var(--text-body-sm-font-size);
+  line-height: var(--text-body-sm-line-height);
+  letter-spacing: var(--text-body-sm-letter-spacing);
+  font-weight: var(--text-body-sm-font-weight);
+}
+
+.text-body-xs {
+  font-family: var(--font-family-os-text);
+  font-size: var(--text-body-xs-font-size);
+  line-height: var(--text-body-xs-line-height);
+  letter-spacing: var(--text-body-xs-letter-spacing);
+  font-weight: var(--text-body-xs-font-weight);
+}
