@@ -1,5 +1,5 @@
 export type Args = {
-    targetElement?: { tag?: string }
+    targetElement?: { tag?: string; element?: HTMLElement }
     popoverElement: { tag?: string; id: string }
     placement?: string
     offset?: number
@@ -22,7 +22,9 @@ export function rzPopoverRenderer(args: Args) {
 
     const id = args.popoverElement.id || 'popover-element'
 
-    const target = document.createElement(args.targetElement?.tag || 'button')
+    const target =
+        args.targetElement?.element ||
+        document.createElement(args.targetElement?.tag || 'button')
     target.setAttribute('popovertarget', id)
     popover.appendChild(target)
 

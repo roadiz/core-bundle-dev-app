@@ -6,6 +6,7 @@ export type Args = {
     innerText?: string
     iconClass?: string
     color?: string
+    attributes?: Record<string, string>
 }
 
 const meta: Meta<Args> = {

@@ -5,6 +5,7 @@ import {
 } from '~/utils/storybook/renderer/rzDropDown'
 import { type Args as PopoverItemArgs } from './RzDropdownItem.stories'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
+import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 
 export type Args = {
     title?: string
@@ -208,18 +209,23 @@ export const TreeWalkerDropdownMenu: Story = {
 
 export const QuickAccessNav: Story = {
     render: (args) => {
-        const { popover, target, popoverContent } = rzPopoverRenderer({
+        const { popover, popoverContent } = rzPopoverRenderer({
             placement: 'bottom-start',
             offset: 10,
-            popoverElement: { tag: 'nav', id: 'QuickAccessNav' },
+            popoverElement: {
+                tag: 'nav',
+                id: 'QuickAccessNav',
+            },
+            targetElement: {
+                element: rzBrandRenderer({
+                    tag: 'button',
+                    iconClass: 'rz-icon-rz--logo-rz',
+                    attributes: {
+                        'aria-label': 'Open quick access navigation',
+                    },
+                }),
+            },
         })
-
-        target.classList.add(`rz-brand`)
-        target.setAttribute('aria-label', 'Open quick access navigation')
-
-        const icon = document.createElement('span')
-        icon.classList.add('rz-icon-rz--logo-rz')
-        target.appendChild(icon)
 
         rzDropdownRenderer(args, popoverContent)
         return popover
