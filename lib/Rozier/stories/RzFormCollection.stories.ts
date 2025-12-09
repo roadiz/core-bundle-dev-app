@@ -155,7 +155,8 @@ function insertZoneRenderer(options: ItemOptions) {
         emphasis: 'secondary',
         size: 'sm',
         attributes: {
-            'tooltip-text': `Insert item ${options.itemIndex === options.totalItems - 1 ? 'after' : 'before'}`,
+            is: 'rz-button',
+            'tooltip-text': `Insert item ${options.itemIndex < options.totalItems - 1 ? 'after' : 'before'}`,
         },
     })
     if (options?.onAddClicked) {
