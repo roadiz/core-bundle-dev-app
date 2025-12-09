@@ -5,9 +5,11 @@ import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
 import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
 import { useArgs } from 'storybook/preview-api'
 
-type CallbackFunctions = {
-    onDeleteClicked?: () => void
-    onAddClicked?: () => void
+type ItemOptions = {
+    itemIndex: number
+    totalItems: number
+    onDeleteClicked: () => void
+    onAddClicked: () => void
 }
 
 export type Args = {
@@ -85,10 +87,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function headerRenderer(
-    position: string = 'middle',
-    callbacks: CallbackFunctions,
-) {
+function headerRenderer(options: ItemOptions) {
     const header = document.createElement('div')
     header.classList.add('rz-form-collection__header')
 
@@ -109,10 +108,7 @@ function headerRenderer(
                 iconClass: 'rz-icon-ri--arrow-up-line',
                 attributes: {
                     'tooltip-text': 'Move up',
-                    disabled:
-                        position === 'first' || position === 'only'
-                            ? 'true'
-                            : undefined,
+                    disabled: options.itemIndex === 0 ? 'true' : undefined,
                 },
             },
             {
@@ -120,7 +116,8 @@ function headerRenderer(
                 attributes: {
                     'tooltip-text': 'Move down',
                     disabled:
-                        position === 'last' || position === 'only'
+                        options.totalItems <= 1 ||
+                        options.itemIndex === options.totalItems - 1
                             ? 'true'
                             : undefined,
                 },
@@ -140,8 +137,8 @@ function headerRenderer(
             'tooltip-text': 'Remove item',
         },
     })
-    if (callbacks?.onDeleteClicked) {
-        removeButton.addEventListener('click', callbacks.onDeleteClicked)
+    if (options?.onDeleteClicked) {
+        removeButton.addEventListener('click', options.onDeleteClicked)
     }
     removeButton.classList.add('rz-form-collection__remove-button')
     header.appendChild(removeButton)
@@ -149,10 +146,7 @@ function headerRenderer(
     return header
 }
 
-function insertZoneRenderer(
-    position: 'start' | 'end',
-    callbacks: CallbackFunctions,
-) {
+function insertZoneRenderer(options: ItemOptions) {
     const insertZone = document.createElement('div')
     insertZone.classList.add('rz-form-collection__insert-zone')
 
@@ -161,11 +155,11 @@ function insertZoneRenderer(
         emphasis: 'secondary',
         size: 'sm',
         attributes: {
-            'tooltip-text': `Insert item ${position === 'start' ? 'before' : 'after'}`,
+            'tooltip-text': `Insert item ${options.itemIndex === options.totalItems - 1 ? 'after' : 'before'}`,
         },
     })
-    if (callbacks?.onAddClicked) {
-        addButton.addEventListener('click', callbacks.onAddClicked)
+    if (options?.onAddClicked) {
+        addButton.addEventListener('click', options.onAddClicked)
     }
     insertZone.appendChild(addButton)
     return insertZone
@@ -173,13 +167,12 @@ function insertZoneRenderer(
 
 function rzFormCollectionItemRenderer(
     items: Args['schema'],
-    position: string,
-    callbacks: CallbackFunctions,
+    options: ItemOptions,
 ) {
     const wrapper = document.createElement('li')
     wrapper.classList.add('rz-form-collection__item')
 
-    const header = headerRenderer(position, callbacks)
+    const header = headerRenderer(options)
     wrapper.appendChild(header)
 
     if (items.length) {
@@ -193,10 +186,7 @@ function rzFormCollectionItemRenderer(
         }
     }
 
-    const insertZoneEnd = insertZoneRenderer(
-        position === 'last' || position === 'only' ? 'end' : 'start',
-        callbacks,
-    )
+    const insertZoneEnd = insertZoneRenderer(options)
     wrapper.appendChild(insertZoneEnd)
     return wrapper
 }
@@ -219,15 +209,9 @@ export const Default: Story = {
         button?.addEventListener('click', addItem)
 
         for (let i = 0; i < args.length; i++) {
-            const position =
-                i === 0 && args.length === 1
-                    ? 'only'
-                    : i === 0
-                      ? 'first'
-                      : i === args.length - 1
-                        ? 'last'
-                        : 'middle'
-            const item = rzFormCollectionItemRenderer(args.schema, position, {
+            const item = rzFormCollectionItemRenderer(args.schema, {
+                itemIndex: i,
+                totalItems: args.length,
                 onAddClicked: addItem,
                 onDeleteClicked: removeItem,
             })
