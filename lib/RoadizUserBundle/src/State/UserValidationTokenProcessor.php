@@ -51,7 +51,7 @@ final readonly class UserValidationTokenProcessor implements ProcessorInterface
 
         $user = $userValidationToken->getUser();
 
-        if ($this->security->getUser()->getUserIdentifier() !== $user->getUserIdentifier()) {
+        if ($this->security->getUser()?->getUserIdentifier() !== $user->getUserIdentifier()) {
             throw new AccessDeniedHttpException('Token does not belong to current account');
         }
 

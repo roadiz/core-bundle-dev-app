@@ -62,7 +62,7 @@ final readonly class NodeFactory
         $sourceClass = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
         /** @var NodesSources $source */
         $source = new $sourceClass($node, $translation);
-        $manager = $this->managerRegistry->getManagerForClass(NodesSources::class);
+        $manager = $this->managerRegistry->getManagerForClass(NodesSources::class) ?? throw new \RuntimeException('No entity manager found for NodesSources class.');
         $source->injectObjectManager($manager);
         $source->setTitle($title);
         $source->setPublishedAt(new \DateTime());
@@ -102,7 +102,7 @@ final readonly class NodeFactory
             $alias = new UrlAlias();
             $alias->setNodeSource($nodeSource);
             $alias->setAlias($urlAlias);
-            $this->managerRegistry->getManagerForClass(UrlAlias::class)->persist($alias);
+            $this->managerRegistry->getManagerForClass(UrlAlias::class)?->persist($alias);
         }
 
         return $node;

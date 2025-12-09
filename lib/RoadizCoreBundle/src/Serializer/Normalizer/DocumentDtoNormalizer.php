@@ -71,7 +71,10 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
 
         if (\in_array('document_folders_all', $serializationGroups, true)
             || \in_array('document_folders', $serializationGroups, true)) {
-            $document = $this->repository->findOneBy(['id' => $data->getId()]);
+            $document = $this->repository->find($data->getId());
+            if (null === $document) {
+                throw new \RuntimeException('Document not found.');
+            }
 
             if (\in_array('document_folders_all', $serializationGroups, true)) {
                 $normalized['folders'] = $document->getFolders()

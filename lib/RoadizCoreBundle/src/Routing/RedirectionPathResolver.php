@@ -77,7 +77,7 @@ final readonly class RedirectionPathResolver implements PathResolverInterface
 
         $this->stopwatch->start('incrementRedirection', 'routing');
         $redirection->incrementUseCount();
-        $this->managerRegistry->getManagerForClass(Redirection::class)->flush();
+        $this->managerRegistry->getManagerForClass(Redirection::class)?->flush();
         $this->stopwatch->stop('incrementRedirection');
 
         return (new ResourceInfo())->setResource($redirection);

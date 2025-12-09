@@ -76,7 +76,7 @@ final class GetWebResponseByPathController extends AbstractController
                  */
                 if ($operation instanceof HttpOperation && $isNodeSource) {
                     $operation = $operation->withCacheHeaders([
-                        ...$operation->getCacheHeaders(),
+                        ...($operation->getCacheHeaders() ?? []),
                         'shared_max_age' => $resource->getNode()->getTtl() * 60,
                     ]);
                 }
@@ -148,11 +148,11 @@ final class GetWebResponseByPathController extends AbstractController
 
         // Set translation and locale to be used in Request context
         if (null !== $resourceInfo->getTranslation()) {
-            $request->attributes->set('_translation', $resourceInfo->getTranslation());
+            $request?->attributes->set('_translation', $resourceInfo->getTranslation());
         }
 
         if (null !== $resourceInfo->getLocale()) {
-            $request->attributes->set('_locale', $resourceInfo->getLocale());
+            $request?->attributes->set('_locale', $resourceInfo->getLocale());
         }
 
         /*

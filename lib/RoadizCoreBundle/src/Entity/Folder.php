@@ -28,6 +28,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Folders entity represent a directory on server with datetime and naming.
+ *
+ * @implements LeafInterface<Folder>
  */
 #[
     ORM\Entity(repositoryClass: FolderRepository::class),

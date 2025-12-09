@@ -79,7 +79,7 @@ final class DocumentDto implements \Stringable, BaseDocumentInterface
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getImageAverageColor(): string
     {
-        return $this->imageAverageColor;
+        return $this->imageAverageColor ?? '#ffffff';
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]

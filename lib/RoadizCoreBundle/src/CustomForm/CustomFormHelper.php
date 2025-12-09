@@ -172,7 +172,7 @@ final readonly class CustomFormHelper
         return $this->em->getRepository(Folder::class)
             ->findOrCreateByPath(
                 'custom_forms/'.
-                $this->customForm->getCreatedAt()->format('Ymd').'_'.
+                $this->customForm->getCreatedAt()?->format('Ymd').'_'.
                 \mb_substr($this->customForm->getDisplayName(), 0, 30)
             );
     }

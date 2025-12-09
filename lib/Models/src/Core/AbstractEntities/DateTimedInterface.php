@@ -11,12 +11,12 @@ interface DateTimedInterface
     /**
      * @return $this
      */
-    public function setCreatedAt(?\DateTime $createdAt): self;
+    public function setCreatedAt(?\DateTime $createdAt): static;
 
     public function getUpdatedAt(): ?\DateTime;
 
     /**
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updatedAt): self;
+    public function setUpdatedAt(?\DateTime $updatedAt): static;
 }

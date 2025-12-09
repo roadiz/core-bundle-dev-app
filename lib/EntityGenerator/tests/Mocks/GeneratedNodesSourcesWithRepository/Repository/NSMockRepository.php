@@ -27,7 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSMock[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method NSMock|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSMock|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
- * @method NSMock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method NSMock[]      findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
 class NSMockRepository extends NodesSourcesRepository

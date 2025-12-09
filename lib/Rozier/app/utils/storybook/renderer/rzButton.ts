@@ -1,10 +1,12 @@
 import type { ButtonArgs } from '../../../../stories/RzButton.stories'
 
 const COMPONENT_CLASS_NAME = 'rz-button'
+const COMPONENT_CLASS = 'rz-button'
 
 export function rzButtonRenderer(args: ButtonArgs) {
-    const buttonNode = document.createElement(args.tag || 'rz-button')
+    const buttonNode = document.createElement('button', { is: COMPONENT_CLASS })
     const attributesEntries = Object.entries(args.attributes || {})
+
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {
             buttonNode.setAttribute(key, value)
@@ -13,14 +15,18 @@ export function rzButtonRenderer(args: ButtonArgs) {
     const emphasisClass =
         args.emphasis && `${COMPONENT_CLASS_NAME}--${args.emphasis}`
     const sizeClass = args.size && `${COMPONENT_CLASS_NAME}--${args.size}`
+    const selectedClass = args.selected && `${COMPONENT_CLASS_NAME}--selected`
     const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
     const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
     const colorClass = args.color && `${COMPONENT_CLASS_NAME}--${args.color}`
+    const pillClass = args.hasPill && `${COMPONENT_CLASS_NAME}--pill`
 
     buttonNode.className = [
         COMPONENT_CLASS_NAME,
+        pillClass,
         emphasisClass,
         sizeClass,
+        selectedClass,
         disabledClass,
         onDarkClass,
         colorClass,
