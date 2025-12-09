@@ -4,9 +4,9 @@ export type Args = {
     hasTreesSection: boolean
 }
 
-const ELEMENT_CLASS_NAME = 'app-container'
+const ELEMENT_CLASS_NAME = 'rz-app'
 const meta: Meta<Args> = {
-    title: 'Integration/Layout/AppContainer',
+    title: 'Integration/Layout/App',
     tags: ['autodocs'],
     args: {
         hasTreesSection: true,

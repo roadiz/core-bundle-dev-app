@@ -1,22 +1,22 @@
-.app-container {
-	--app-container-padding: var(--spacing-4xs);
-	--app-container-trees-section-head-height: 50px;
+.rz-app {
+	--rz-app-padding: var(--spacing-4xs);
+	--rz-app-trees-section-head-height: 50px;
 
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: auto var(--app-container-trees-section-head-height) 1fr;
+	grid-template-rows: auto var(--rz-app-trees-section-head-height) 1fr;
 	height: 100svh;
 	background-color: var(--surface-light-tertiary, #F2F2F2);
-	padding: 0 var(--app-container-padding) var(--app-container-padding) var(--app-container-padding);
+	padding: 0 var(--rz-app-padding) var(--rz-app-padding) var(--rz-app-padding);
 	overflow: hidden;
 
 	@media (--screen-sm-min) {
-		--app-container-trees-section-head-height: 54px;
+		--rz-app-trees-section-head-height: 54px;
 
 		grid-template-columns: auto auto 1fr;
 		grid-template-rows: 1fr;
-		padding: var(--app-container-padding) var(--app-container-padding) var(--app-container-padding) 0;
+		padding: var(--rz-app-padding) var(--rz-app-padding) var(--rz-app-padding) 0;
 	}
 
 	@media (--screen-xs-max) {
