@@ -42,7 +42,7 @@ final class UsersEnableCommand extends UsersCommand
             )
         ) {
             $user->setEnabled(true);
-            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $this->managerRegistry->getManagerForClass(User::class)?->flush();
             $io->success('User “'.$name.'” was enabled.');
 
             return 0;

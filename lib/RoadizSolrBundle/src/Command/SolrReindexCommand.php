@@ -99,7 +99,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
 
         $stopwatch->stop('global');
         $duration = $stopwatch->getEvent('global')->getDuration();
-        $this->io->success(sprintf('Node and document database has been re-indexed in %.2d ms.', $duration));
+        $this->io?->success(sprintf('Node and document database has been re-indexed in %.2d ms.', $duration));
     }
 
     protected function executeForDocuments(Stopwatch $stopwatch): void
@@ -113,7 +113,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
 
         $stopwatch->stop('global');
         $duration = $stopwatch->getEvent('global')->getDuration();
-        $this->io->success(sprintf('Document database has been re-indexed in %.2d ms.', $duration));
+        $this->io?->success(sprintf('Document database has been re-indexed in %.2d ms.', $duration));
     }
 
     protected function executeForNodes(Stopwatch $stopwatch, int $batchCount, int $batchNumber): void
@@ -136,14 +136,14 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
         $stopwatch->stop('global');
         $duration = $stopwatch->getEvent('global')->getDuration();
         if ($batchCount > 1) {
-            $this->io->success(sprintf(
+            $this->io?->success(sprintf(
                 'Batch %d/%d of node database has been re-indexed in %.2d ms.',
                 $batchNumber + 1,
                 $batchCount,
                 $duration
             ));
         } else {
-            $this->io->success(sprintf('Node database has been re-indexed in %.2d ms.', $duration));
+            $this->io?->success(sprintf('Node database has been re-indexed in %.2d ms.', $duration));
         }
     }
 }

@@ -152,6 +152,10 @@ final readonly class UniqueNodeGenerator
             $translation = $this->translationRepository->findDefault();
         }
 
+        if (null === $translation) {
+            throw new BadRequestHttpException('Translation does not exist.');
+        }
+
         return $this->generate(
             $nodeType,
             $translation,

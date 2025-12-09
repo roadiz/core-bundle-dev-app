@@ -11,8 +11,8 @@ use RZ\Roadiz\CoreBundle\EntityHandler\FolderHandler;
 use RZ\Roadiz\CoreBundle\Repository\FolderRepository;
 use RZ\Roadiz\RozierBundle\Model\PositionDto;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -82,33 +82,38 @@ final class AjaxFoldersController extends AbstractAjaxController
         methods: ['GET'],
         format: 'json'
     )]
-    public function searchAction(Request $request): JsonResponse
-    {
+    public function searchAction(
+        #[MapQueryParameter]
+        string $search = '',
+    ): JsonResponse {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
-        if ($request->query->has('search') && '' != $request->get('search')) {
-            $responseArray = [];
+        $responseArray = [];
 
-            $pattern = strip_tags((string) $request->get('search'));
-            $folders = $this->managerRegistry
-                        ->getRepository(Folder::class)
-                        ->searchBy(
-                            $pattern,
-                            [],
-                            [],
-                            10
-                        );
-            /** @var Folder $folder */
-            foreach ($folders as $folder) {
-                $responseArray[] = $folder->getFullPath();
-            }
-
+        $search = strip_tags($search);
+        if (empty($search)) {
             return new JsonResponse(
-                $responseArray,
+                [],
                 Response::HTTP_OK
             );
         }
 
-        throw $this->createNotFoundException($this->translator->trans('no.folder.found'));
+        $folders = $this->managerRegistry
+                    ->getRepository(Folder::class)
+                    ->searchBy(
+                        $search,
+                        [],
+                        [],
+                        10
+                    );
+        /** @var Folder $folder */
+        foreach ($folders as $folder) {
+            $responseArray[] = $folder->getFullPath();
+        }
+
+        return new JsonResponse(
+            $responseArray,
+            Response::HTTP_OK
+        );
     }
 }

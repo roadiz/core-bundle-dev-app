@@ -70,12 +70,18 @@ final class TranstypeController extends AbstractController
             $data = $form->getData();
 
             $newNodeType = $this->nodeTypesBag->get($data['nodeTypeName']);
+            if (null === $newNodeType) {
+                throw new \RuntimeException('Selected node type does not exist.');
+            }
 
             /*
              * Trans-typing SHOULD be executed in one single transaction
              * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/transactions-and-concurrency.html
              */
             $manager = $this->managerRegistry->getManagerForClass(Node::class);
+            if (null === $manager) {
+                throw new \RuntimeException('No entity manager found for Node class.');
+            }
             $manager->getConnection()->beginTransaction(); // suspend auto-commit
             try {
                 $this->nodeTranstyper->transtype($node, $newNodeType);

@@ -13,8 +13,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public const INHERITANCE_TYPE_JOINED = 'joined';
-    public const INHERITANCE_TYPE_SINGLE_TABLE = 'single_table';
+    public const string INHERITANCE_TYPE_JOINED = 'joined';
+    public const string INHERITANCE_TYPE_SINGLE_TABLE = 'single_table';
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
@@ -153,10 +153,7 @@ EOT)
         return $builder;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addInheritanceNode()
+    protected function addInheritanceNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('inheritance');
         $node = $builder->getRootNode();
@@ -184,10 +181,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addMediasNode()
+    protected function addMediasNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('medias');
         $node = $builder->getRootNode();
@@ -205,10 +199,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addCaptchaNode()
+    protected function addCaptchaNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('captcha');
         $node = $builder->getRootNode();
@@ -222,10 +213,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addSolrNode()
+    protected function addSolrNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('solr');
         $node = $builder
@@ -262,10 +250,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addReverseProxyCacheNode()
+    protected function addReverseProxyCacheNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('reverseProxyCache');
         $node = $builder->getRootNode();

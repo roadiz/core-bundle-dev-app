@@ -45,6 +45,9 @@ final class TagGroupFilter extends AbstractFilter
         if (!\is_array($value)) {
             return;
         }
+        if (null === $this->managerRegistry) {
+            return;
+        }
 
         /*
          * Convert comma separated tag identifiers to sub-arrays

@@ -32,8 +32,8 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
         $assoc[SolariumDocumentTranslation::IDENTIFIER_KEY] = $documentTranslation->getId();
         if ($document instanceof Document) {
             $assoc['document_id_i'] = $document->getId();
-            $assoc['created_at_dt'] = $this->formatDateTimeToUTC($document->getCreatedAt());
-            $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($document->getUpdatedAt());
+            $assoc['created_at_dt'] = null !== $document->getCreatedAt() ? $this->formatDateTimeToUTC($document->getCreatedAt()) : null;
+            $assoc['updated_at_dt'] = null !== $document->getUpdatedAt() ? $this->formatDateTimeToUTC($document->getUpdatedAt()) : null;
 
             $copyrightValidSince = $document->getCopyrightValidSince() ?? new \DateTime('1970-01-01 00:00:00');
             $copyrightValidUntil = $document->getCopyrightValidUntil() ?? new \DateTime('9999-12-31 23:59:59');

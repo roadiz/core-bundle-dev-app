@@ -54,7 +54,7 @@ final class TranslationsDisableCommand extends TranslationsCommand
             )
         ) {
             $translation->setAvailable(false);
-            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+            $this->managerRegistry->getManagerForClass(Translation::class)?->flush();
             $io->success('Translation disabled.');
         }
 

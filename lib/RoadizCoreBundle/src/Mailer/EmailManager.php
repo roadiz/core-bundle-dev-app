@@ -71,8 +71,8 @@ class EmailManager
     public function createMessage(): TemplatedEmail
     {
         $email = (new TemplatedEmail())
-            ->subject($this->getSubject())
-            ->to(...$this->getReceiver())
+            ->subject($this->getSubject() ?? 'No subject')
+            ->to(...($this->getReceiver() ?? []))
             ->context($this->assignation)
         ;
 

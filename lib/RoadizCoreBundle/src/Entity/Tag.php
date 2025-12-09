@@ -28,6 +28,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tags are hierarchical entities used to qualify Nodes.
+ *
+ * @implements LeafInterface<Tag>
  */
 #[
     ORM\Entity(repositoryClass: TagRepository::class),
