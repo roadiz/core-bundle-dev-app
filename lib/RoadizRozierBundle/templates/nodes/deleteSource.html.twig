@@ -7,9 +7,6 @@
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         title: "delete.translation"|trans|u.truncate(25, '[…]', true),
         subtitle: nodeSource.title ~ ' – ' ~ nodeSource.translation.name,
-        without_info_badge: true,
-        without_status_badge: true,
-        without_nav_bar: true,
     } only %}
     <article class="content content-delete content-node-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

@@ -7,9 +7,6 @@
         {% include '@RoadizRozier/nodes/head.html.twig' with {
             title: "duplicate.node"|trans,
             subtitle: node.nodeName,
-            without_info_badge: true,
-            without_status_badge: true,
-            without_nav_bar: true,
         } only %}
         <article class="content content-no-action-menu">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
