@@ -6,21 +6,21 @@ namespace RZ\Roadiz\CoreBundle\ListManager;
 
 interface EntityListManagerInterface
 {
-    public const ITEM_PER_PAGE = 20;
+    public const int ITEM_PER_PAGE = 20;
 
     /**
      * @return $this
      */
-    public function setAllowRequestSorting(bool $allowRequestSorting): self;
+    public function setAllowRequestSorting(bool $allowRequestSorting): static;
 
     /**
      * @return $this
      */
-    public function setAllowRequestSearching(bool $allowRequestSearching): self;
+    public function setAllowRequestSearching(bool $allowRequestSearching): static;
 
     public function isDisplayingNotPublishedNodes(): bool;
 
-    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self;
+    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): static;
 
     public function isDisplayingAllNodesStatuses(): bool;
 
@@ -28,7 +28,7 @@ interface EntityListManagerInterface
      * Switch repository to disable any security on Node status. To use ONLY in order to
      * view deleted and archived nodes.
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self;
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): static;
 
     /**
      * Handle request to find filter to apply to entity listing.
@@ -40,9 +40,9 @@ interface EntityListManagerInterface
     /**
      * Configure a custom current page.
      */
-    public function setPage(int $page): self;
+    public function setPage(int $page): static;
 
-    public function disablePagination(): self;
+    public function disablePagination(): static;
 
     /**
      * Get Twig assignation to render list details.
@@ -76,5 +76,5 @@ interface EntityListManagerInterface
     /**
      * Configure a custom item count per page.
      */
-    public function setItemPerPage(int $itemPerPage): self;
+    public function setItemPerPage(int $itemPerPage): static;
 }

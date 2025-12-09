@@ -148,7 +148,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setDisplayName(?string $displayName): CustomForm
+    public function setDisplayName(?string $displayName): static
     {
         $this->displayName = $displayName ?? '';
         $this->setName($displayName ?? '');
@@ -164,7 +164,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setDescription(?string $description): CustomForm
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
@@ -179,7 +179,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setEmail(?string $email): CustomForm
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -189,7 +189,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setOpen(bool $open): CustomForm
+    public function setOpen(bool $open): static
     {
         $this->open = $open;
 
@@ -204,7 +204,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setCloseDate(?\DateTime $closeDate): CustomForm
+    public function setCloseDate(?\DateTime $closeDate): static
     {
         $this->closeDate = $closeDate;
 
@@ -226,7 +226,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * Gets the value of color.
      */
-    public function getColor(): string
+    public function getColor(): ?string
     {
         return $this->color;
     }
@@ -236,7 +236,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
      *
      * @return $this
      */
-    public function setColor(?string $color): CustomForm
+    public function setColor(?string $color): static
     {
         $this->color = $color;
 
@@ -319,7 +319,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setName(string $name): CustomForm
+    public function setName(string $name): static
     {
         $this->name = StringHandler::slugify($name);
 

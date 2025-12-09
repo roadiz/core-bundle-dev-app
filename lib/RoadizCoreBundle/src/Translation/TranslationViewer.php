@@ -92,7 +92,7 @@ final class TranslationViewer
 
         if (key_exists('node', $attr) && $attr['node'] instanceof Node) {
             $node = $attr['node'];
-            $this->managerRegistry->getManagerForClass(Node::class)->refresh($node);
+            $this->managerRegistry->getManagerForClass(Node::class)?->refresh($node);
         } else {
             $node = null;
         }
@@ -204,7 +204,7 @@ final class TranslationViewer
                     'name' => $name,
                     'url' => $url,
                     'locale' => $translation->getPreferredLocale(),
-                    'active' => $this->translation->getPreferredLocale() === $translation->getPreferredLocale(),
+                    'active' => null !== $this->translation && $this->translation->getPreferredLocale() === $translation->getPreferredLocale(),
                     'translation' => $translation->getName(),
                 ];
             }
@@ -218,10 +218,7 @@ final class TranslationViewer
         return $this->translation;
     }
 
-    /**
-     * @return TranslationViewer
-     */
-    public function setTranslation(?TranslationInterface $translation)
+    public function setTranslation(?TranslationInterface $translation): TranslationViewer
     {
         $this->translation = $translation;
 

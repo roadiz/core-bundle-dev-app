@@ -101,6 +101,11 @@ final class NodeTypeDecoratorType extends AbstractType
     {
         $pathExploded = explode('.', $path);
         $nodeType = $this->decoratedNodeTypes->get($pathExploded[0]);
+
+        if (null === $nodeType) {
+            throw new \RuntimeException('Cannot find NodeType for NodeTypeDecorator path '.$path);
+        }
+
         $field = $nodeType->getFieldByName($pathExploded[1]);
 
         return [

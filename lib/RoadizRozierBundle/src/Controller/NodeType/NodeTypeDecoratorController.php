@@ -51,9 +51,14 @@ final class NodeTypeDecoratorController extends AbstractAdminController
         $nodeTypeName = $request->get('nodeTypeName');
         $nodeTypeFieldName = $request->request->get('nodeTypeFieldName') ?? $request->query->get('nodeTypeFieldName');
         $nodeType = $this->nodeTypesBag->get($nodeTypeName);
+
+        if (null === $nodeType) {
+            throw new \InvalidArgumentException('Node type '.$nodeTypeName.' does not exist.');
+        }
+
         $nodeTypeField = null;
         if ($nodeTypeFieldName && is_string($nodeTypeFieldName)) {
-            $nodeTypeField = $this->nodeTypesBag->get($nodeTypeName)->getFieldByName($nodeTypeFieldName);
+            $nodeTypeField = $this->nodeTypesBag->get($nodeTypeName)?->getFieldByName($nodeTypeFieldName);
         }
         if (null !== $nodeTypeField) {
             $property = NodeTypeDecoratorProperty::NODE_TYPE_FIELD_LABEL;

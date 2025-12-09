@@ -4,7 +4,7 @@ import {
     ATTRIBUTES_OPTIONS_MAP,
 } from '~/utils/Tooltip'
 
-export class RzButton extends HTMLElement {
+export class RzButton extends HTMLButtonElement {
     tooltip: Tooltip | null = null
 
     constructor() {

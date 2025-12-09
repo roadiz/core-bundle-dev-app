@@ -76,10 +76,18 @@ abstract class AbstractLockingDocumentMessageHandler extends AbstractDocumentMes
         }
     }
 
+    /**
+     * Check if document file is stored locally.
+     *
+     * @phpstan-assert-if-true non-empty-string $document->getMountPath()
+     */
     protected function isFileLocal(DocumentInterface $document): bool
     {
         return
-            $document->isPrivate()
-            || str_starts_with($this->documentsStorage->publicUrl($document->getMountPath()), '/');
+            null !== $document->getMountPath()
+            && (
+                $document->isPrivate()
+                || str_starts_with($this->documentsStorage->publicUrl($document->getMountPath()), '/')
+            );
     }
 }

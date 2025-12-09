@@ -22,7 +22,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/PageHeader',
+    title: 'Components/Page/Header',
     tags: ['autodocs'],
     args: {
         rows: [
@@ -158,8 +158,11 @@ function rzPageHeaderRenderer(args: Args) {
     const wrapper = document.createElement('header')
     wrapper.className = COMPONENT_CLASS_NAME
 
-    args.rows.forEach((row) => {
+    args.rows.forEach((row, index) => {
         const rowNode = rowRenderer(row)
+        if (index === 0) {
+            rowNode.classList.add(`${COMPONENT_CLASS_NAME}__row--border`)
+        }
         wrapper.appendChild(rowNode)
     })
 

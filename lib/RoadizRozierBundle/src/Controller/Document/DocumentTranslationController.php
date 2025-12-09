@@ -141,7 +141,7 @@ final class DocumentTranslationController extends AbstractController
         $dt->setDocument($document);
         $dt->setTranslation($translation);
 
-        $this->managerRegistry->getManagerForClass(DocumentTranslation::class)->persist($dt);
+        $this->managerRegistry->getManagerForClass(DocumentTranslation::class)?->persist($dt);
 
         return $dt;
     }
@@ -156,7 +156,7 @@ final class DocumentTranslationController extends AbstractController
         $this->eventDispatcher->dispatch(
             new DocumentTranslationUpdatedEvent($entity->getDocument(), $entity)
         );
-        $this->managerRegistry->getManagerForClass(DocumentTranslation::class)->flush();
+        $this->managerRegistry->getManagerForClass(DocumentTranslation::class)?->flush();
         $msg = $this->translator->trans('document.translation.%name%.updated', [
             '%name%' => (string) $entity->getDocument(),
         ]);
@@ -164,7 +164,7 @@ final class DocumentTranslationController extends AbstractController
     }
 
     #[\Override]
-    protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
+    protected function getPostUpdateRedirection(PersistableInterface $entity): Response
     {
         if (
             $entity instanceof DocumentTranslation
@@ -185,6 +185,6 @@ final class DocumentTranslationController extends AbstractController
             );
         }
 
-        return null;
+        throw new \RuntimeException('Could not determine redirection route.');
     }
 }

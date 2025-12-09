@@ -79,7 +79,7 @@ final class NodeTagController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->eventDispatcher->dispatch(new NodeTaggedEvent($node));
-            $this->managerRegistry->getManagerForClass(Node::class)->flush();
+            $this->managerRegistry->getManagerForClass(Node::class)?->flush();
 
             $msg = $this->translator->trans('node.%node%.linked.tags', [
                 '%node%' => $node->getNodeName(),
@@ -109,7 +109,7 @@ final class NodeTagController extends AbstractController
     #[\Override]
     protected function em(): ObjectManager
     {
-        return $this->managerRegistry->getManagerForClass(Node::class);
+        return $this->managerRegistry->getManagerForClass(Node::class) ?? throw new \RuntimeException('No entity manager found for Node class.');
     }
 
     #[\Override]

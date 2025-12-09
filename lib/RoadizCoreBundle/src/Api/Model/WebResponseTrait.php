@@ -106,7 +106,7 @@ trait WebResponseTrait
      *
      * @return $this
      */
-    public function setBlocks(?Collection $blocks): self
+    public function setBlocks(?Collection $blocks): static
     {
         $this->blocks = $blocks;
 
@@ -126,7 +126,7 @@ trait WebResponseTrait
      *
      * @return $this
      */
-    public function setRealms(?array $realms): self
+    public function setRealms(?array $realms): static
     {
         $this->realms = $realms;
 
@@ -141,7 +141,7 @@ trait WebResponseTrait
     /**
      * @return $this
      */
-    public function setHidingBlocks(bool $hidingBlocks): self
+    public function setHidingBlocks(bool $hidingBlocks): static
     {
         $this->hidingBlocks = $hidingBlocks;
 

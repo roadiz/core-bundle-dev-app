@@ -32,7 +32,7 @@ final class BlockRenderExtension extends AbstractExtension
     /**
      * @throws RuntimeError
      */
-    public function blockRender(?NodesSources $nodeSource = null, string $themeName = 'DefaultTheme', array $assignation = []): string
+    public function blockRender(?NodesSources $nodeSource = null, string $themeName = 'DefaultTheme', array $assignation = []): ?string
     {
         if (null !== $nodeSource) {
             if (!empty($themeName)) {

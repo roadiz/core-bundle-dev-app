@@ -34,73 +34,88 @@ class ANodesFilter implements EventSubscriberInterface
 
     public function onNodeQueryBuilderBuild(QueryBuilderBuildEvent $event): void
     {
-        if ($event->supports() && Node::class === $event->getActualEntityName()) {
-            $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
-            if (str_contains($event->getProperty(), $this->getProperty().'.')) {
-                // Prevent other query builder filters to execute
-                $event->stopPropagation();
-                $qb = $event->getQueryBuilder();
-                $baseKey = $simpleQB->getParameterKey($event->getProperty());
-
-                if (
-                    !$simpleQB->joinExists(
-                        $simpleQB->getRootAlias(),
-                        $this->getNodeJoinAlias()
-                    )
-                ) {
-                    $qb->innerJoin(
-                        $simpleQB->getRootAlias().'.'.$this->getProperty(),
-                        $this->getNodeJoinAlias()
-                    );
-                }
-
-                $prefix = $this->getNodeJoinAlias().'.';
-                $key = str_replace($this->getProperty().'.', '', $event->getProperty());
-
-                $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
-            }
+        if (!$event->supports() || Node::class !== $event->getActualEntityName()) {
+            return;
         }
+        $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
+        $rootAlias = $simpleQB->getRootAlias();
+        if (null === $rootAlias) {
+            return;
+        }
+        if (!str_contains($event->getProperty(), $this->getProperty().'.')) {
+            return;
+        }
+        // Prevent other query builder filters to execute
+        $event->stopPropagation();
+        $qb = $event->getQueryBuilder();
+        $baseKey = $simpleQB->getParameterKey($event->getProperty());
+
+        if (
+            !$simpleQB->joinExists(
+                $rootAlias,
+                $this->getNodeJoinAlias()
+            )
+        ) {
+            $qb->innerJoin(
+                $rootAlias.'.'.$this->getProperty(),
+                $this->getNodeJoinAlias()
+            );
+        }
+
+        $prefix = $this->getNodeJoinAlias().'.';
+        $key = str_replace($this->getProperty().'.', '', $event->getProperty());
+
+        $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
     }
 
     public function onNodesSourcesQueryBuilderBuild(QueryBuilderNodesSourcesBuildEvent $event): void
     {
-        if ($event->supports()) {
-            $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
-            if (str_contains($event->getProperty(), 'node.'.$this->getProperty().'.')) {
-                // Prevent other query builder filters to execute
-                $event->stopPropagation();
-                $qb = $event->getQueryBuilder();
-                $baseKey = $simpleQB->getParameterKey($event->getProperty());
-
-                if (
-                    !$simpleQB->joinExists(
-                        $simpleQB->getRootAlias(),
-                        EntityRepository::NODE_ALIAS
-                    )
-                ) {
-                    $qb->innerJoin(
-                        $simpleQB->getRootAlias().'.node',
-                        EntityRepository::NODE_ALIAS
-                    );
-                }
-
-                if (
-                    !$simpleQB->joinExists(
-                        $simpleQB->getRootAlias(),
-                        $this->getNodeJoinAlias()
-                    )
-                ) {
-                    $qb->innerJoin(
-                        EntityRepository::NODE_ALIAS.'.'.$this->getProperty(),
-                        $this->getNodeJoinAlias()
-                    );
-                }
-
-                $prefix = $this->getNodeJoinAlias().'.';
-                $key = str_replace('node.'.$this->getProperty().'.', '', $event->getProperty());
-
-                $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
-            }
+        if (!$event->supports()) {
+            return;
         }
+
+        $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
+        $rootAlias = $simpleQB->getRootAlias();
+
+        if (null === $rootAlias) {
+            return;
+        }
+        if (!str_contains($event->getProperty(), 'node.'.$this->getProperty().'.')) {
+            return;
+        }
+
+        // Prevent other query builder filters to execute
+        $event->stopPropagation();
+        $qb = $event->getQueryBuilder();
+        $baseKey = $simpleQB->getParameterKey($event->getProperty());
+
+        if (
+            !$simpleQB->joinExists(
+                $rootAlias,
+                EntityRepository::NODE_ALIAS
+            )
+        ) {
+            $qb->innerJoin(
+                $rootAlias.'.node',
+                EntityRepository::NODE_ALIAS
+            );
+        }
+
+        if (
+            !$simpleQB->joinExists(
+                $rootAlias,
+                $this->getNodeJoinAlias()
+            )
+        ) {
+            $qb->innerJoin(
+                EntityRepository::NODE_ALIAS.'.'.$this->getProperty(),
+                $this->getNodeJoinAlias()
+            );
+        }
+
+        $prefix = $this->getNodeJoinAlias().'.';
+        $key = str_replace('node.'.$this->getProperty().'.', '', $event->getProperty());
+
+        $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
     }
 }
