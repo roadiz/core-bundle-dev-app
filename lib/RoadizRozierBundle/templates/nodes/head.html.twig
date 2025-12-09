@@ -104,7 +104,7 @@
                 ) }}
             </div>
         {% endif %}
-        {% if not without_status_badge %}
+        {% if with_status_badge is defined and with_status_badge %}
             {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
             <div class="rz-page-header__item">
                 {{ rz_status_badge.item(node: node) }}
@@ -116,7 +116,7 @@
         <h1 class="rz-page-header__title rz-page-header__item">
             {{ title }}
         </h1>
-        {% if not without_info_badge %}
+        {% if with_info_badge is defined and with_info_badge %}
             <div class="rz-page-header__item">
                 {{ rz_badge.item(
                     label: getNodeType(node).displayName,
@@ -138,7 +138,7 @@
     {% endblock %}
 
     {% block nav_bar %}
-        {% if not without_nav_bar %}
+        {% if with_nav_bar is defined and with_nav_bar %}
             {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": current} %}
         {% endif %}
     {% endblock %}

@@ -19,13 +19,16 @@
 {% block content %}
 <section class="content-global stack-tree bulk-layout">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        "node": node,
-        "translation": translation,
-        "title": title,
-        "current": 'tree',
-        "translationRoute": 'nodesTreePage',
-        "filters": specificNodeTree.filters,
-        "stackTypesButton": true,
+        node: node,
+        translation: translation,
+        title: title,
+        current: 'tree',
+        translationRoute: 'nodesTreePage',
+        filters: specificNodeTree.filters,
+        stackTypesButton: true,
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
     } only %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' with {

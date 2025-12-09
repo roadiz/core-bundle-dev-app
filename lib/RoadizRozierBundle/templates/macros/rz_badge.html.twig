@@ -1,20 +1,26 @@
-{% macro item(label, icon, size, color, href, onlyIcon = false) %}
+{% macro item(label, icon, size, color, href, tagName = 'span', onlyIcon = false) %}
+
+    {# If a link is provided, use an <a> tag instead of the default #}
     {% if href is defined and href %}
-        <a class="rz-badge
-           {{ size is defined and size ? ' rz-badge--'~size : '' }}
-           {{ color is defined and color ? ' rz-badge--'~color : '' }}"
-           href="{{ href }}"
-           {{ label is defined and label ? 'title="'~label|trans : '"' }}
-        >
-            {{ _self.inner_item(label, icon, onlyIcon) }}
-        </a>
-    {% else %}
-        <div class="rz-badge
-            {{ size is defined and size ? ' rz-badge--'~size : '' }}
-            {{ color is defined and color ? ' rz-badge--'~color : '' }}">
-            {{ _self.inner_item(label, icon, onlyIcon) }}
-        </div>
+        {% set tagName = 'a' %}
     {% endif %}
+
+    <{{ tagName }}
+        class="
+            rz-badge
+            {{ size is defined and size ? ' rz-badge--'~size : '' }}
+            {{ color is defined and color ? ' rz-badge--'~color : '' }}
+        "
+        {# If the badge is clickable, add href and an accessible title #}
+        {% if href is defined and href %}
+            href="{{ href }}"
+            {{ label is defined and label ? 'title="'~label|trans~'"' : '' }}
+        {% endif %}
+    >
+        {# Internal content: icon, label or icon-only #}
+        {{ _self.inner_item(label, icon, onlyIcon) }}
+    </{{ tagName }}>
+
 {% endmacro %}
 
 {% macro inner_item(label, icon, onlyIcon) %}

@@ -6,9 +6,6 @@
 <section class="content-global">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         title: "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true),
-        without_info_badge: true,
-        without_status_badge: true,
-        without_nav_bar: true,
     } only %}
 
     <article class="content content-publish-all content-node-publish-all content-no-action-menu">
