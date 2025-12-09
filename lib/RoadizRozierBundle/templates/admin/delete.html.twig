@@ -1,0 +1,39 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <section class="content-global delete-document">
+        {% include headPath with {
+            title: title,
+        } only %}
+
+        <article class="content content-delete content-no-action-menu">
+            {% form_theme form '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(form, {
+                'attr': {
+                    'class': 'uk-form uk-form-stacked'
+                }
+            }) }}
+            {{ form_widget(form) }}
+            <div class="rz-message rz-message--error rz-form-field__message">
+                <p class="rz-message__text">
+                    {{ alertMessage|trans }}
+                </p>
+            </div>
+            <div class="rz-button-group rz-button-group--gap-md">
+                <a class="rz-button rz-button--secondary rz-button-group__button"
+                      href="{{ cancelPath }}"
+                >
+                    <span class="rz-button__label">{% trans %}cancel{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--corner-down-left-line"></span>
+                </a>
+                <rz-button type="submit" class="rz-button rz-button--primary rz-button--error rz-button-group__button">
+                    <span class="rz-button__label">{% trans %}delete{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+                </rz-button>
+            </div>
+            {{ form_end(form) }}
+        </article>
+    </section>
+{% endblock %}

@@ -91,8 +91,18 @@ final class DocumentController extends AbstractController
             return $this->redirectToRoute('documentsHomePage');
         }
 
-        return $this->render('@RoadizRozier/documents/delete.html.twig', [
-            'document' => $document,
+        $title = (new UnicodeString(
+            $this->translator->trans(
+                'delete.document.%name%',
+                ['%name%' => $document->getFilename()]
+            )
+        ))->truncate(25, '[…]', true)->toString();
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/documents/head.html.twig',
+            'cancelPath' => $this->generateUrl('documentsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.document',
             'form' => $form->createView(),
         ]);
     }

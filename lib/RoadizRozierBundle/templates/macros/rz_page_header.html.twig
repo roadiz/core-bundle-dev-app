@@ -60,26 +60,26 @@
     </nav>
 {% endmacro %}
 
-{% macro translations_bar(available_translations, node, current) %}
+{% macro translations_bar(available_translations, basePath, entity, idParamName, current, pathAddTranslations, pathAddTranslationsTitle) %}
     {% if available_translations %}
-        {% if not route %}
-            {% set route = 'nodesEditSourcePage' %}
-        {% endif %}
         <div class="rz-button-group rz-button-group--sm rz-button-group--collapsed">
             {%- for translation in available_translations -%}
+                {% set params = { (idParamName): entity.id, 'translationId': translation.id } %}
                 <a class="rz-button rz-button-group__button{% if current == translation.getId %} rz-button--primary {% else %} rz-button--secondary {% endif %}"
-                   href="{{ path(route, { nodeId: node.getId, translationId:translation.getId }) }}"
+                   href="{{ path(basePath, params) }}"
                    {% if current == translation.getId %} aria-current="page"{% endif %}
                 >
                     <span class="rz-button__label">{{- translation.preferredLocale -}}</span>
                 </a>
             {%- endfor -%}
-            <a class="rz-button rz-button-group__button{% if not current %} rz-button--primary{% else %} rz-button--secondary{% endif %}"
-                href="{{ path('nodesTranslatePage', { nodeId: node.getId }) }}"
-                title="{{ 'translate.node'|trans }}"
-            >
-                <span class="rz-button__icon rz-icon-ri--add-line"></span>
-            </a>
+            {% if pathAddTranslations is defined and pathAddTranslations %}
+                <a class="rz-button rz-button-group__button{% if not current %} rz-button--primary{% else %} rz-button--secondary{% endif %}"
+                    href="{{ pathAddTranslations }}"
+                    title="{{ pathAddTranslationsTitle }}"
+                >
+                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                </a>
+            {% endif %}
         </div>
     {% endif %}
 {% endmacro %}

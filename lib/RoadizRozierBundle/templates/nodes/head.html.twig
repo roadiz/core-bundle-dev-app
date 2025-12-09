@@ -14,11 +14,18 @@
     {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
+            {% if not route %}
+                {% set basePath = 'nodesEditSourcePage' %}
+            {% endif %}
             <div class="rz-page-header__item--right">
                 {{ _self.translations_bar(
                     available_translations,
+                    basePath,
                     node,
-                    translation.id
+                    'nodeId',
+                    translation.id,
+                    path('nodesTranslatePage', { nodeId: node.getId }),
+                    'translate.node'|trans
                 ) }}
             </div>
         {% endif %}
