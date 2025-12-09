@@ -11,11 +11,12 @@ export class RzDialog extends HTMLDialogElement {
     }
 
     onOpenTargetClick() {
-        const isNonModal = this.hasAttribute('rz-dialog-non-modal')
-        if (isNonModal) {
-            this.show()
-        } else {
+        const isModal =
+            this.hasAttribute('modal') && this.getAttribute('modal') !== 'false'
+        if (isModal) {
             this.showModal()
+        } else {
+            this.show()
         }
     }
 
@@ -27,11 +28,9 @@ export class RzDialog extends HTMLDialogElement {
 
     getTargets(state: 'open' | 'close') {
         const id = this.getAttribute('id')
-        const innerTargets = this.querySelectorAll(
-            `[rz-dialog-${state}-target]`,
-        )
+        const innerTargets = this.querySelectorAll(`[${state}-target]`)
         const outerTargets = document.querySelectorAll(
-            `[rz-dialog-${state}-target="${id}"]`,
+            `[${state}-target="${id}"]`,
         )
 
         return [

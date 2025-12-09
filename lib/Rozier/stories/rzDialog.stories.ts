@@ -23,7 +23,7 @@ export type Args = {
     footer?: Footer
     innerHTML?: string
     closedby: (typeof CLOSED_BY_VALUES)[number]
-    nonModal?: boolean
+    modal?: boolean
 }
 
 const meta: Meta<Args> = {
@@ -42,20 +42,21 @@ const meta: Meta<Args> = {
                     label: 'Cancel',
                     emphasis: 'tertiary',
                     attributes: {
-                        'rz-dialog-close-target': '',
+                        'close-target': '',
                     },
                 },
                 {
                     label: 'Confirm',
                     emphasis: 'primary',
                     attributes: {
-                        'rz-dialog-close-target': '',
+                        'close-target': '',
                     },
                 },
             ],
         },
         innerHTML: 'rz dialog body content',
         closedby: 'any',
+        modal: true,
     },
     argTypes: {
         closedby: {
@@ -95,7 +96,7 @@ function rzDialogHeaderRenderer(args: Header) {
             attributes: {
                 'aria-label': 'Close dialog',
                 autofocus: '',
-                'rz-dialog-close-target': '',
+                'close-target': '',
             },
         })
         button.classList.add('rz-dialog__close')
@@ -125,8 +126,8 @@ function rzDialogRenderer(args: Args) {
     wrapper.setAttribute('is', 'rz-dialog')
 
     wrapper.classList.add('rz-dialog')
-    if (args.nonModal) {
-        wrapper.setAttribute('rz-dialog-non-modal', args.nonModal?.toString())
+    if (args.modal) {
+        wrapper.setAttribute('modal', args.modal?.toString())
     }
 
     if (args.closedby) {
@@ -161,7 +162,7 @@ export const Default: Story = {
             label: 'Open dialog',
             emphasis: 'primary',
             attributes: {
-                'rz-dialog-open-target': id,
+                'open-target': id,
             },
         })
         wrapper.appendChild(button)
@@ -179,10 +180,10 @@ export const WithForm: Story = {
         wrapper.appendChild(dialog)
 
         const button = rzButtonRenderer({
-            label: 'Open non modal dialog',
+            label: 'Open form dialog',
             emphasis: 'primary',
             attributes: {
-                'rz-dialog-open-target': id,
+                'open-target': id,
             },
         })
         wrapper.appendChild(button)
@@ -216,7 +217,7 @@ export const NonModal: Story = {
             label: 'Open dialog',
             emphasis: 'primary',
             attributes: {
-                'rz-dialog-open-target': id,
+                'open-target': id,
             },
         })
         wrapper.appendChild(button)
@@ -224,7 +225,7 @@ export const NonModal: Story = {
         return wrapper
     },
     args: {
-        nonModal: true,
+        modal: false,
         closedby: 'none',
     },
 }
