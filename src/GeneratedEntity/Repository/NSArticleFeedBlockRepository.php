@@ -27,7 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSArticleFeedBlock[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method NSArticleFeedBlock|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSArticleFeedBlock|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
- * @method NSArticleFeedBlock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method NSArticleFeedBlock[] findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
 class NSArticleFeedBlockRepository extends NodesSourcesRepository

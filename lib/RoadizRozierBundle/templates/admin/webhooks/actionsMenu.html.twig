@@ -1,15 +1,16 @@
-<nav data-action-menu class="actions-menu uk-navbar">
-    {% if item.id %}
-        {% if is_granted('ROLE_ACCESS_WEBHOOKS') %}
-            <a class="uk-button uk-button-danger" href="{{ path('webhooksDeletePage', { id: item.id}) }}">
-                <span class="icon-container"><i class="uk-icon-rz-trash-mini-o"></i></span>
-                <span class="label"><span class="label-text">{% trans %}delete{% endtrans %}</span></span>
-            </a>
-            <a class="uk-button"
-               href="{{ path('webhooksTriggerPage', { id: item.id }) }}">
-                <span class="icon-container"><i class="uk-icon-space-shuttle"></i></span>
-                <span class="label"><span class="label-text">{% trans %}webhook.trigger{% endtrans %}</span></span>
-            </a>
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+    vertical: true,
+    class: 'actions-menu',
+    item: item
+} only %}
+    {% block items %}
+        {% if item.id and is_granted('ROLE_ACCESS_WEBHOOKS') %}
+            {{ _self.item(
+                label: 'webhook.trigger',
+                href: path('webhooksTriggerPage', { id: item.id }),
+                icon: 'rz-icon-ri--space-ship-line'
+            ) }}
+            {{ _self.deleteItem(href: path('webhooksDeletePage', { id: item.id })) }}
         {% endif %}
-    {% endif %}
-</nav>
+    {% endblock %}
+{% endembed %}

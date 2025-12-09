@@ -111,7 +111,6 @@ roadiz_rozier:
                 - 'ROLE_ACCESS_NODETYPES'
                 - 'ROLE_ACCESS_ATTRIBUTES'
                 - 'ROLE_ACCESS_TRANSLATIONS'
-                - 'ROLE_ACCESS_FONTS'
                 - 'ROLE_ACCESS_REDIRECTIONS'
                 - 'ROLE_ACCESS_WEBHOOKS'
                 - 'ROLE_ACCESS_REALMS'

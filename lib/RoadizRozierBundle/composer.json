@@ -23,7 +23,7 @@
         "roadiz/openid": "2.7.x-dev",
         "roadiz/doc-generator": "2.7.x-dev",
         "roadiz/dts-generator": "2.7.x-dev",
-        "symfony/framework-bundle": "7.3.*",
+        "symfony/framework-bundle": "7.4.*",
         "deeplcom/deepl-php": "^1.12"
     },
     "require-dev": {

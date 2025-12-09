@@ -38,13 +38,13 @@ final readonly class NetlifyBuildHookMessageInterface implements AsyncMessage, H
         ];
     }
 
-    /**
-     * @return static
-     */
     #[\Override]
     public static function fromWebhook(WebhookInterface $webhook): self
     {
-        return new self($webhook->getUri(), $webhook->getPayload());
+        return new self(
+            $webhook->getUri() ?? throw new \InvalidArgumentException('Webhook URI cannot be null.'),
+            $webhook->getPayload()
+        );
     }
 
     #[\Override]

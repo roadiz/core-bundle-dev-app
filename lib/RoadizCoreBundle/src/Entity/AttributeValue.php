@@ -92,7 +92,7 @@ class AttributeValue implements AttributeValueInterface
      * @return $this
      */
     #[\Override]
-    public function setAttributable(?AttributableInterface $attributable): self
+    public function setAttributable(?AttributableInterface $attributable): static
     {
         if ($attributable instanceof Node) {
             $this->node = $attributable;
@@ -107,7 +107,10 @@ class AttributeValue implements AttributeValueInterface
         return $this->node;
     }
 
-    public function setNode(Node $node): AttributeValue
+    /**
+     * @return $this
+     */
+    public function setNode(Node $node): static
     {
         $this->node = $node;
 
@@ -120,8 +123,11 @@ class AttributeValue implements AttributeValueInterface
         return $this->realm;
     }
 
+    /**
+     * @return $this
+     */
     #[\Override]
-    public function setRealm(?RealmInterface $realm): AttributeValue
+    public function setRealm(?RealmInterface $realm): static
     {
         $this->realm = $realm;
 

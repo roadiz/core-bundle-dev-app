@@ -51,7 +51,11 @@ final class EntityGenerator implements EntityGeneratorInterface
         $this->options = $resolver->resolve($options);
 
         foreach ($this->nodeType->getFields() as $field) {
-            $this->fieldGenerators[] = $this->getFieldGenerator($field);
+            $generator = $this->getFieldGenerator($field);
+            if (null === $generator) {
+                continue;
+            }
+            $this->fieldGenerators[] = $generator;
         }
         $this->fieldGenerators = array_filter($this->fieldGenerators);
         $this->printer = new PsrPrinter();

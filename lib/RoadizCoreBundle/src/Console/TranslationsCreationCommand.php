@@ -75,8 +75,8 @@ final class TranslationsCreationCommand extends TranslationsCommand
             $newTrans->setName($name)
                 ->setLocale($locale);
 
-            $this->managerRegistry->getManagerForClass(Translation::class)->persist($newTrans);
-            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+            $this->managerRegistry->getManagerForClass(Translation::class)?->persist($newTrans);
+            $this->managerRegistry->getManagerForClass(Translation::class)?->flush();
 
             $io->success('New '.$newTrans->getName().' translation for '.$newTrans->getLocale().' locale.');
         }

@@ -26,7 +26,7 @@ final readonly class SettingsImporter implements EntityImporterInterface
     #[\Override]
     public function import(string $serializedData): bool
     {
-        $manager = $this->managerRegistry->getManagerForClass(Setting::class);
+        $manager = $this->managerRegistry->getManagerForClass(Setting::class) ?? throw new \RuntimeException('No manager found for Setting class.');
         $settings = $this->serializer->deserialize(
             $serializedData,
             Setting::class.'[]',
@@ -53,7 +53,7 @@ final readonly class SettingsImporter implements EntityImporterInterface
 
     private function importSingleSetting(Setting $setting): void
     {
-        $manager = $this->managerRegistry->getManagerForClass(Setting::class);
+        $manager = $this->managerRegistry->getManagerForClass(Setting::class) ?? throw new \RuntimeException('No manager found for Setting class.');
         $existingSetting = $this->managerRegistry->getRepository(Setting::class)->findOneByName($setting->getName());
 
         if (null !== $settingGroup = $setting->getSettingGroup()) {

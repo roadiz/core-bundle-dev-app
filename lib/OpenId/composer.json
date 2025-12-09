@@ -23,12 +23,12 @@
         "roadiz/models": "2.7.x-dev",
         "roadiz/random": "2.7.x-dev",
         "symfony/event-dispatcher-contracts": "^3.5.1",
-        "symfony/http-client": "7.3.*",
-        "symfony/http-foundation": "7.3.*",
-        "symfony/routing": "7.3.*",
-        "symfony/security-core": "7.3.*",
-        "symfony/security-csrf": "7.3.*",
-        "symfony/security-http": "7.3.*"
+        "symfony/http-client": "7.4.*",
+        "symfony/http-foundation": "7.4.*",
+        "symfony/routing": "7.4.*",
+        "symfony/security-core": "7.4.*",
+        "symfony/security-csrf": "7.4.*",
+        "symfony/security-http": "7.4.*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.5.3",

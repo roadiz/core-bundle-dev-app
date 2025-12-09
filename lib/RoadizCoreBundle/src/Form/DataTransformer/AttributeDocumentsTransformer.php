@@ -63,7 +63,7 @@ final readonly class AttributeDocumentsTransformer implements DataTransformerInt
 
             $ttd = new AttributeDocuments($this->attribute, $document);
             $ttd->setPosition($position);
-            $this->managerRegistry->getManagerForClass(class: AttributeDocuments::class)->persist($ttd);
+            $this->managerRegistry->getManagerForClass(class: AttributeDocuments::class)?->persist($ttd);
             $documents->add($ttd);
 
             ++$position;
