@@ -214,7 +214,7 @@ export const QuickAccessNav: Story = {
             popoverElement: { tag: 'nav', id: 'QuickAccessNav' },
         })
 
-        target.classList.add(`rz-brand-watermark`)
+        target.classList.add(`rz-brand`)
         target.setAttribute('aria-label', 'Open quick access navigation')
 
         const icon = document.createElement('span')
