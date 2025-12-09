@@ -2,15 +2,15 @@ export class RzDialog extends HTMLDialogElement {
     constructor() {
         super()
 
-        this.display = this.display.bind(this)
-        this.hide = this.hide.bind(this)
+        this.onOpenTargetClick = this.onOpenTargetClick.bind(this)
+        this.onCloseTargetClick = this.onCloseTargetClick.bind(this)
     }
 
     static get observedAttributes() {
         return []
     }
 
-    display() {
+    onOpenTargetClick() {
         const isNonModal = this.hasAttribute('rz-dialog-non-modal')
         if (isNonModal) {
             this.show()
@@ -19,7 +19,7 @@ export class RzDialog extends HTMLDialogElement {
         }
     }
 
-    hide() {
+    onCloseTargetClick() {
         this.close()
     }
 
@@ -43,23 +43,23 @@ export class RzDialog extends HTMLDialogElement {
     connectedCallback() {
         const openTargets = this.getTargets('open')
         openTargets?.forEach((target) => {
-            target.addEventListener('click', this.display)
+            target.addEventListener('click', this.onOpenTargetClick)
         })
 
         const closeTargets = this.getTargets('close')
         closeTargets?.forEach((target) => {
-            target.addEventListener('click', this.hide)
+            target.addEventListener('click', this.onCloseTargetClick)
         })
     }
 
     disconnectedCallback() {
         const openTargets = this.getTargets('open')
         openTargets?.forEach((target) =>
-            target.removeEventListener('click', this.display),
+            target.removeEventListener('click', this.onOpenTargetClick),
         )
         const closeTargets = this.getTargets('close')
         closeTargets?.forEach((target) =>
-            target.removeEventListener('click', this.hide),
+            target.removeEventListener('click', this.onCloseTargetClick),
         )
     }
 }
