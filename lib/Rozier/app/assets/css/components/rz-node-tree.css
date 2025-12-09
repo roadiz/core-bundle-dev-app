@@ -20,21 +20,21 @@
 	* For now, there is no way to have recursive CSS variables, so we manually set the depth variable.
 	* There is a technique with limited compatibility: https://kizu.dev/self-modifying-variables/
 	*/
-	--depth: 1;
+	--rz-node-tree-depth: 1;
 	& & {
-		--depth: 2;
+		--rz-node-tree-depth: 2;
 	}
 	& & & {
-		--depth: 3;
+		--rz-node-tree-depth: 3;
 	}
 	& & & & {
-		--depth: 4;
+		--rz-node-tree-depth: 4;
 	}
 	& & & & & {
-		--depth: 5;
+		--rz-node-tree-depth: 5;
 	}
 	& & & & & & {
-		--depth: 6;
+		--rz-node-tree-depth: 6;
 	}
 }
 
@@ -47,7 +47,7 @@
 	width: 100%;
 	background-color: transparent;
 	border-radius: var(--radius-2xs, 4px);
-	padding-left: calc(var(--depth) * var(--rz-node-tree-indent-width));
+	padding-left: calc(var(--rz-node-tree-depth) * var(--rz-node-tree-indent-width));
 	transition: background-color 0.3s;
 	height: var(--rz-node-tree-item-height);
 
@@ -86,7 +86,7 @@
 		border-width: 0 0 1px 1px;
 		border-radius: 0 0 0 4px;
 		translate:
-			calc(var(--depth) * var(--rz-node-tree-indent-width) + var(--rz-node-tree-icon-width) * 0.5 - 100%)
+			calc(var(--rz-node-tree-depth) * var(--rz-node-tree-indent-width) + var(--rz-node-tree-icon-width) * 0.5 - 100%)
 			calc(var(--rz-node-tree-item-height) * -0.5);
 	}
 
@@ -97,7 +97,7 @@
 	}
 }
 
-.rz-icon-ri--draggable {
+.rz-node-tree__item .rz-icon-ri--draggable {
 	position: absolute;
 	left: 4px;
 	flex-shrink: 0;
