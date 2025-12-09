@@ -1,4 +1,4 @@
-export default class RzHeaderNavButton extends HTMLButtonElement {
+export default class RzHeaderNavItemButton extends HTMLButtonElement {
     COMPONENT_CLASS_NAME = 'rz-header-nav-item'
 
     constructor() {

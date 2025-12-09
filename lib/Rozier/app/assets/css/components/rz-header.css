@@ -22,6 +22,7 @@
 		width: 64px;
 
 		@media (hover: hover) {
+			&:has(:where(.rz-header-nav-item[aria-expanded="true"], .rz-header-nav-item--active)),
 			&:hover {
 				width: calc-size(fit-content, max(size, 280px));
 			}
@@ -120,7 +121,7 @@
 }
 
 
-.rz-header__item {
+.rz-header__li {
 	box-sizing: border-box;
 	overflow: hidden;
 	width: 100%;
@@ -129,9 +130,13 @@
 	> button {
 		width: 100%;
 	}
+
+	.rz-header__sub-list > &:first-child {
+		margin-top: var(--spacing-4xs);
+	}
 }
 
-.rz-header__item--start {
+.rz-header__li--start {
 	position: relative;
 	margin-bottom: var(--rz-header-nav-gap);
 
@@ -147,7 +152,7 @@
 	}
 }
 
-.rz-header__item--end {
+.rz-header__li--end {
 	margin-top: auto;
 	position: sticky;
     bottom: 0;
@@ -171,8 +176,4 @@
 	@starting-style {
         height: 0px;
     }
-
-	& > .rz-header__item:first-child {
-		margin-top: var(--spacing-4xs);
-	}
 }

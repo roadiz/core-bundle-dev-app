@@ -25,7 +25,7 @@ const meta: Meta<Args> = {
             {
                 tag: 'button',
                 attributes: {
-                    is: 'rz-header-nav-button',
+                    is: 'rz-header-nav-item-button',
                 },
                 label: 'Dashboard',
                 iconClass: 'rz-icon-ri--dashboard-line',
@@ -60,7 +60,7 @@ const meta: Meta<Args> = {
             {
                 tag: 'button',
                 attributes: {
-                    is: 'rz-header-nav-button',
+                    is: 'rz-header-nav-item-button',
                 },
                 label: 'Events',
                 iconClass: 'rz-icon-ri--calendar-event-line',
@@ -107,11 +107,11 @@ const meta: Meta<Args> = {
             {
                 tag: 'button',
                 attributes: {
-                    is: 'rz-header-nav-button',
+                    is: 'rz-header-nav-item-button',
                 },
                 label: 'Settings',
                 iconClass: 'rz-icon-ri--settings-4-line',
-                additionalClass: 'rz-header__item--end',
+                additionalClass: 'rz-header__li--end',
                 children: [
                     {
                         tag: 'a',
@@ -222,7 +222,7 @@ function burgerRenderer() {
 
 function itemRenderer(itemArgs: navItem) {
     const listItem = document.createElement('li')
-    listItem.classList.add(`${COMPONENT_CLASS_NAME}__item`)
+    listItem.classList.add(`${COMPONENT_CLASS_NAME}__li`)
 
     if (itemArgs.additionalClass) {
         listItem.classList.add(itemArgs.additionalClass)
