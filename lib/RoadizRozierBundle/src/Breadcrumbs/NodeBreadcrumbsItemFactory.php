@@ -27,9 +27,9 @@ final readonly class NodeBreadcrumbsItemFactory implements BreadcrumbsItemFactor
         }
 
         return new BreadcrumbsItem(
-            false !== $item->getNodeSources()->first()
-                ? $item->getNodeSources()->first()->getTitle()
-                : $item->getNodeName(),
+            (false !== $item->getNodeSources()->first() && null !== $item->getNodeSources()->first()->getTitle())
+                ? ($item->getNodeSources()->first()->getTitle())
+                : ($item->getNodeName()),
             $item->isHidingChildren() ?
                 $this->urlGenerator->generate(
                     'nodesTreePage',

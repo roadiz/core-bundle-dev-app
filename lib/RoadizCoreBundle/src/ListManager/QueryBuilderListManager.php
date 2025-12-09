@@ -69,8 +69,11 @@ class QueryBuilderListManager extends AbstractEntityListManager
         return $this->paginator;
     }
 
+    /**
+     * @return $this
+     */
     #[\Override]
-    public function setPage(int $page): self
+    public function setPage(int $page): static
     {
         parent::setPage($page);
         $this->queryBuilder->setFirstResult($this->getItemPerPage() * ($page - 1));
@@ -78,8 +81,11 @@ class QueryBuilderListManager extends AbstractEntityListManager
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     #[\Override]
-    public function setItemPerPage(int $itemPerPage): self
+    public function setItemPerPage(int $itemPerPage): static
     {
         parent::setItemPerPage($itemPerPage);
         $this->queryBuilder->setMaxResults((int) $itemPerPage);

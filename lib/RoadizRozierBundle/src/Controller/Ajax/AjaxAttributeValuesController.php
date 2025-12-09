@@ -65,7 +65,7 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
                 'responseText' => $this->translator->trans(
                     'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                     [
-                        '%name%' => $attributeValue->getAttribute()->getLabelOrCode(),
+                        '%name%' => $attributeValue->getAttribute()?->getLabelOrCode(),
                         '%nodeName%' => $attributeValue->getAttributable()->getNodeName(),
                     ]
                 ),

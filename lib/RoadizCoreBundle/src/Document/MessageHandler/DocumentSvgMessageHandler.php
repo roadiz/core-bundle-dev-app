@@ -29,23 +29,28 @@ final class DocumentSvgMessageHandler extends AbstractLockingDocumentMessageHand
             return;
         }
 
+        $mountPath = $document->getMountPath();
+        if (null === $mountPath) {
+            throw new UnrecoverableMessageHandlingException('Document mount path is null.');
+        }
+
         // Create a new sanitizer instance
         $sanitizer = new Sanitizer();
         $sanitizer->minify(true);
 
-        if (!$this->documentsStorage->fileExists($document->getMountPath())) {
+        if (!$this->documentsStorage->fileExists($mountPath)) {
             return;
         }
 
         // Load the dirty svg
-        $dirtySVG = $this->documentsStorage->read($document->getMountPath());
+        $dirtySVG = $this->documentsStorage->read($mountPath);
         $cleanSVG = $sanitizer->sanitize($dirtySVG);
 
         if (false === $cleanSVG) {
             throw new UnrecoverableMessageHandlingException('SVG document could not be sanitized.');
         }
 
-        $this->documentsStorage->write($document->getMountPath(), $cleanSVG);
+        $this->documentsStorage->write($mountPath, $cleanSVG);
         $this->messengerLogger->info('Svg document sanitized.');
 
         /*

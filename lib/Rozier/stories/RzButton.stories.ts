@@ -3,19 +3,21 @@ import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
 
 const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
-const COLORS = ['success', 'success-light', 'error', 'error-light'] as const
+const COLORS = ['success', 'danger'] as const
 
 export type ButtonArgs = {
     label?: string
     emphasis?: (typeof EMPHASIS)[number]
     size?: (typeof SIZES)[number]
     disabled?: boolean
+    selected?: boolean
     iconClass?: string
     onDark?: boolean
     additionalClasses?: string
     color?: (typeof COLORS)[number]
     attributes?: Record<string, string>
     tag?: string
+    hasPill?: boolean
 }
 
 const meta: Meta<ButtonArgs> = {
@@ -26,6 +28,7 @@ const meta: Meta<ButtonArgs> = {
         disabled: false,
         iconClass: 'rz-icon-ri--arrow-drop-right-line',
         onDark: false,
+        selected: false,
     },
     argTypes: {
         label: {
@@ -101,6 +104,20 @@ export const HighEmphasis: Story = {
     },
 }
 
+export const HighEmphasisSelected: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'primary',
+        selected: true,
+    },
+    parameters: {
+        controls: { exclude: ['emphasis', 'additionalClasses'] },
+        layout: 'centered',
+    },
+}
+
 export const HighEmphasisList: Story = {
     render: (args) => {
         return buttonSizeListRenderer(args)
@@ -127,6 +144,19 @@ export const MediumEmphasis: Story = {
     },
 }
 
+export const MediumEmphasisSelected: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'secondary',
+        selected: true,
+    },
+    parameters: {
+        controls: { exclude: ['emphasis', 'class'] },
+    },
+}
+
 export const MediumEmphasisList: Story = {
     render: (args) => {
         return buttonSizeListRenderer(args)
@@ -147,6 +177,19 @@ export const LowEmphasis: Story = {
     },
     args: {
         emphasis: 'tertiary',
+    },
+    parameters: {
+        controls: { exclude: ['emphasis'] },
+    },
+}
+
+export const LowEmphasisSelected: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'tertiary',
+        selected: true,
     },
     parameters: {
         controls: { exclude: ['emphasis'] },
@@ -236,7 +279,20 @@ export const Tooltip: Story = {
     },
     args: {
         attributes: {
+            is: 'rz-button',
             'tooltip-text': 'This is a tooltip text',
         },
+    },
+}
+
+export const Pill: Story = {
+    render: (args) => {
+        return rzButtonRenderer(args)
+    },
+    args: {
+        emphasis: 'primary',
+        label: undefined,
+        iconClass: 'rz-icon-ri--equalizer-3-line',
+        hasPill: true,
     },
 }

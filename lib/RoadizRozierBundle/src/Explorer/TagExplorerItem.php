@@ -33,7 +33,7 @@ final class TagExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getId(): string|int
     {
-        return $this->tag->getId();
+        return $this->tag->getId() ?? throw new \RuntimeException('Tag ID is null');
     }
 
     #[\Override]

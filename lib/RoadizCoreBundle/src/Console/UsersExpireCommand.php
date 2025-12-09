@@ -50,7 +50,7 @@ final class UsersExpireCommand extends UsersCommand
             )
         ) {
             $user->setExpiresAt($expirationDate);
-            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $this->managerRegistry->getManagerForClass(User::class)?->flush();
             $io->success('User “'.$name.'” expiration date was set on '.$expirationDate->format('c').'.');
 
             return 0;

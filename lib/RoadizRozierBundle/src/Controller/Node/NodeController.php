@@ -6,6 +6,7 @@ namespace RZ\Roadiz\RozierBundle\Controller\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -99,7 +100,7 @@ final class NodeController extends AbstractController
     #[\Override]
     protected function em(): ObjectManager
     {
-        return $this->managerRegistry->getManagerForClass(Node::class);
+        return $this->managerRegistry->getManagerForClass(Node::class) ?? throw new \RuntimeException('No object manager found for Node class.');
     }
 
     #[\Override]
@@ -143,7 +144,7 @@ final class NodeController extends AbstractController
     public function indexAction(Request $request, ?string $filter = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-        $translation = $this->translationRepository->findDefault();
+        $translation = $this->getDefaultTranslation();
 
         /** @var User|null $user */
         $user = $this->getUser();
@@ -314,7 +315,7 @@ final class NodeController extends AbstractController
             }
         }
 
-        $translation = $this->translationRepository->findDefault();
+        $translation = $this->getDefaultTranslation();
         $source = $node->getNodeSourcesByTranslation($translation)->first() ?: null;
 
         if (null === $source) {
@@ -450,7 +451,7 @@ final class NodeController extends AbstractController
         ?Node $parentNode = null,
     ): Response {
         /** @var Translation|null $translation */
-        $translation = $this->translationRepository->findDefault();
+        $translation = $this->getDefaultTranslation();
         $nodeTypesCount = $this->nodeTypesBag->count();
 
         if (null === $translation) {
@@ -528,7 +529,7 @@ final class NodeController extends AbstractController
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->translationRepository->findDefault()->getId(),
+                    'translationId' => $this->getDefaultTranslation()->getId(),
                 ]
             );
         }
@@ -568,7 +569,7 @@ final class NodeController extends AbstractController
                 $breadcrumbsItem = $this->breadcrumbsItemFactory->createBreadcrumbsItem($parent);
                 if (null !== $breadcrumbsItem) {
                     return $this->redirect(
-                        $breadcrumbsItem->url
+                        $breadcrumbsItem->url ?? throw new UnprocessableEntityHttpException('Cannot determine parent node URL.')
                     );
                 }
 
@@ -576,7 +577,7 @@ final class NodeController extends AbstractController
                     'nodesEditSourcePage',
                     [
                         'nodeId' => $parent->getId(),
-                        'translationId' => $this->translationRepository->findDefault()->getId(),
+                        'translationId' => $this->getDefaultTranslation()->getId(),
                     ]
                 );
             }
@@ -655,7 +656,7 @@ final class NodeController extends AbstractController
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->translationRepository->findDefault()->getId(),
+                    'translationId' => $this->getDefaultTranslation()->getId(),
                 ]
             );
         }
@@ -754,7 +755,7 @@ final class NodeController extends AbstractController
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->translationRepository->findDefault()->getId(),
+                    'translationId' => $this->getDefaultTranslation()->getId(),
                 ]
             );
         }
@@ -782,5 +783,10 @@ final class NodeController extends AbstractController
             'node' => $node,
             'form' => $form->createView(),
         ]);
+    }
+
+    protected function getDefaultTranslation(): TranslationInterface
+    {
+        return $this->translationRepository->findDefault() ?? throw new ResourceNotFoundException('Default translation does not exist');
     }
 }

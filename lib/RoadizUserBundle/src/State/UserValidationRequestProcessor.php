@@ -40,7 +40,7 @@ final readonly class UserValidationRequestProcessor implements ProcessorInterfac
             throw new AccessDeniedHttpException('User must be logged in');
         }
 
-        if ($this->security->getUser()->getUserIdentifier() !== $user->getUserIdentifier()) {
+        if ($this->security->getUser()?->getUserIdentifier() !== $user->getUserIdentifier()) {
             throw new AccessDeniedHttpException('Only current user can request email validation');
         }
 

@@ -30,7 +30,7 @@ class Theme
     /**
      * @return $this
      */
-    public function setAvailable(bool $available): Theme
+    public function setAvailable(bool $available): static
     {
         $this->available = $available;
 
@@ -49,7 +49,7 @@ class Theme
     /**
      * @return $this
      */
-    public function setStaticTheme(bool $staticTheme): Theme
+    public function setStaticTheme(bool $staticTheme): static
     {
         $this->staticTheme = (bool) $staticTheme;
 
@@ -106,7 +106,7 @@ class Theme
      *
      * @return $this
      */
-    public function setClassName(string $className): Theme
+    public function setClassName(string $className): static
     {
         $this->className = $className;
 
@@ -121,7 +121,7 @@ class Theme
     /**
      * @return $this
      */
-    public function setHostname(string $hostname): Theme
+    public function setHostname(string $hostname): static
     {
         $this->hostname = $hostname;
 
@@ -136,7 +136,7 @@ class Theme
     /**
      * @return $this
      */
-    public function setRoutePrefix(string $routePrefix): Theme
+    public function setRoutePrefix(string $routePrefix): static
     {
         $this->routePrefix = $routePrefix;
 
@@ -151,7 +151,7 @@ class Theme
     /**
      * @return $this
      */
-    public function setBackendTheme(bool $backendTheme): Theme
+    public function setBackendTheme(bool $backendTheme): static
     {
         $this->backendTheme = $backendTheme;
 

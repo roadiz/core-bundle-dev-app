@@ -39,7 +39,7 @@ class TagListManager extends EntityListManager
                     ->getRepository(TagTranslation::class)
                     ->searchBy($this->searchPattern, $this->filteringArray, $this->orderingArray);
             } else {
-                return $this->paginator->findByAtPage($this->filteringArray, $this->currentPage);
+                return $this->paginator?->findByAtPage($this->filteringArray, $this->getPage()) ?? [];
             }
         } catch (\Exception) {
             return [];

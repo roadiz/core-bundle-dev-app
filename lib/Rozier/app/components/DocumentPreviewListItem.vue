@@ -49,7 +49,7 @@
             </button>
             <button
                 type="button"
-                class="rz-button rz-button--error-light"
+                class="rz-button rz-button--tertiary rz-button--danger"
                 @click.prevent="onRemoveItemButtonClick()">
                 <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
             </button>

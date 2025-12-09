@@ -70,7 +70,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function addAnswerField(CustomFormFieldAttribute $field): CustomFormAnswer
+    public function addAnswerField(CustomFormFieldAttribute $field): static
     {
         if (!$this->getAnswerFields()->contains($field)) {
             $this->getAnswerFields()->add($field);
@@ -90,7 +90,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function removeAnswerField(CustomFormFieldAttribute $field): CustomFormAnswer
+    public function removeAnswerField(CustomFormFieldAttribute $field): static
     {
         if ($this->getAnswerFields()->contains($field)) {
             $this->getAnswerFields()->removeElement($field);
@@ -107,7 +107,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setCustomForm(CustomForm $customForm): CustomFormAnswer
+    public function setCustomForm(CustomForm $customForm): static
     {
         $this->customForm = $customForm;
 
@@ -128,7 +128,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setIp(string $ip): CustomFormAnswer
+    public function setIp(string $ip): static
     {
         $this->ip = $ip;
 
@@ -143,7 +143,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setSubmittedAt(\DateTime $submittedAt): CustomFormAnswer
+    public function setSubmittedAt(\DateTime $submittedAt): static
     {
         $this->submittedAt = $submittedAt;
 

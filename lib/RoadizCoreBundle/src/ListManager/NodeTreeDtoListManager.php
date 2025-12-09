@@ -18,7 +18,7 @@ final class NodeTreeDtoListManager extends EntityListManager
         $this->paginator = new NodeTreeDtoPaginator(
             $this->entityManager,
             Node::class,
-            $this->itemPerPage,
+            $this->getItemPerPage(),
             $this->filteringArray
         );
         $this->paginator->setTranslation($this->translation);

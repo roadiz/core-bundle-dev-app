@@ -17,7 +17,6 @@ test:
 	make check
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
-	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates

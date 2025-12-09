@@ -95,7 +95,7 @@ final class AttributeValueTranslationType extends AbstractType
 
     protected function getOptions(AttributeValueTranslationInterface $attributeValueTranslation): array
     {
-        $options = $this->getAttribute($attributeValueTranslation)->getOptions(
+        $options = $this->getAttribute($attributeValueTranslation)?->getOptions(
             $attributeValueTranslation->getTranslation()
         );
         if (null !== $options) {

@@ -21,8 +21,8 @@ use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -269,24 +269,32 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         methods: ['GET'],
         format: 'json'
     )]
-    public function searchAction(Request $request): JsonResponse
-    {
+    public function searchAction(
+        #[MapQueryParameter]
+        string $search = '',
+    ): JsonResponse {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        if (empty($request->get('search'))) {
-            throw new BadRequestHttpException('Search is empty.');
+        $responseArray = [];
+        $search = strip_tags($search);
+
+        if (empty($search)) {
+            return $this->createSerializedResponse([]);
         }
 
-        $responseArray = [];
-        $pattern = strip_tags((string) $request->get('search'));
-        $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
+        $tags = $this->getRepository()->searchBy($search, [], [], 10);
 
         if (0 === count($tags)) {
             /*
              * Try again using tag slug
              */
-            $pattern = StringHandler::slugify($pattern);
-            $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
+            $search = StringHandler::slugify($search);
+
+            if (empty($search)) {
+                return $this->createSerializedResponse([]);
+            }
+
+            $tags = $this->getRepository()->searchBy($search, [], [], 10);
         }
 
         if (0 === count($tags)) {

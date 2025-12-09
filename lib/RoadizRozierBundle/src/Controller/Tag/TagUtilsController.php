@@ -41,7 +41,7 @@ final class TagUtilsController extends AbstractController
             [
                 'Content-Disposition' => sprintf(
                     'attachment; filename="%s"',
-                    'tag-'.$existingTag->getTagName().'-'.date('YmdHis').'.json'
+                    'tag-'.$existingTag?->getTagName().'-'.date('YmdHis').'.json'
                 ),
             ],
             true
