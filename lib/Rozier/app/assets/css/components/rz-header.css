@@ -19,7 +19,7 @@
 	@media (--screen-sm-min) {
 		--rz-header-nav-display: flex;
 
-		width: var(--rz-app-header-width);
+		width: var(--rz-app-header-width, 64px);
 
 		@media (hover: hover) {
 			&:has(:where(.rz-header-nav-item[aria-expanded="true"], .rz-header-nav-item--active)),
