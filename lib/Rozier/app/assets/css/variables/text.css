@@ -14,37 +14,37 @@
   /* overtitle-sm */
   --text-overtitle-sm-font-size: 13px;
   --text-overtitle-sm-line-height: 110%;
-  --text-overtitle-sm-letter-spacing: -2%;
+  --text-overtitle-sm-letter-spacing: -0.26px;
   --text-overtitle-sm-font-weight: 500;
 
   /* overtitle-xs */
   --text-overtitle-xs-font-size: 11px;
   --text-overtitle-xs-line-height: 110%;
-  --text-overtitle-xs-letter-spacing: -2%;
+  --text-overtitle-xs-letter-spacing: -0.22px;
   --text-overtitle-xs-font-weight: 500;
 
   /* overtitle-md */
   --text-overtitle-md-font-size: 10px;
   --text-overtitle-md-line-height: 110%;
-  --text-overtitle-md-letter-spacing: 2%;
+  --text-overtitle-md-letter-spacing: 0.2px;
   --text-overtitle-md-font-weight: 500;
 
   /* label-md */
   --text-label-md-font-size: 14px;
   --text-label-md-line-height: 110%;
-  --text-label-md-letter-spacing: 0%;
+  --text-label-md-letter-spacing: 0px;
   --text-label-md-font-weight: 400;
 
   /* label-sm */
   --text-label-sm-font-size: 13px;
   --text-label-sm-line-height: 110%;
-  --text-label-sm-letter-spacing: 0%;
+  --text-label-sm-letter-spacing: 0px;
   --text-label-sm-font-weight: 400;
 
   /* label-xs */
   --text-label-xs-font-size: 12px;
   --text-label-xs-line-height: 110%;
-  --text-label-xs-letter-spacing: 0%;
+  --text-label-xs-letter-spacing: 0px;
   --text-label-xs-font-weight: 400;
 
   /* search-md */
@@ -56,13 +56,13 @@
   /* tab-md */
   --text-tab-md-font-size: 14px;
   --text-tab-md-line-height: 110%;
-  --text-tab-md-letter-spacing: -2%;
+  --text-tab-md-letter-spacing: -0.28px;
   --text-tab-md-font-weight: 400;
 
   /* tab-sm */
   --text-tab-sm-font-size: 12px;
   --text-tab-sm-line-height: 110%;
-  --text-tab-sm-letter-spacing: -2%;
+  --text-tab-sm-letter-spacing: -0.24px;
   --text-tab-sm-font-weight: 400;
 
   /* guide-md */
@@ -86,7 +86,7 @@
   /* node-md */
   --text-node-md-font-size: 12px;
   --text-node-md-line-height: 100%;
-  --text-node-md-letter-spacing: 0%;
+  --text-node-md-letter-spacing: 0px;
   --text-node-md-font-weight: 400;
 
   /* calendar-month */
@@ -98,7 +98,7 @@
   /* calendar-day */
   --text-calendar-day-font-size: 12px;
   --text-calendar-day-line-height: 120%;
-  --text-calendar-day-letter-spacing: 0%;
+  --text-calendar-day-letter-spacing: 0px;
   --text-calendar-day-font-weight: 700;
 
   /* calendar-date */
@@ -110,7 +110,7 @@
   /* breadcrumb-md */
   --text-breadcrumb-md-font-size: 14px;
   --text-breadcrumb-md-line-height: 110%;
-  --text-breadcrumb-md-letter-spacing: 0%;
+  --text-breadcrumb-md-letter-spacing: 0px;
   --text-breadcrumb-md-font-weight: 400;
 
   /* breadcrumb-sm */
@@ -122,55 +122,55 @@
   /* tooltip-md */
   --text-tooltip-md-font-size: 13px;
   --text-tooltip-md-line-height: 110%;
-  --text-tooltip-md-letter-spacing: 0%;
+  --text-tooltip-md-letter-spacing: 0px;
   --text-tooltip-md-font-weight: 500;
 
   /* tooltip-sm */
   --text-tooltip-sm-font-size: 11px;
   --text-tooltip-sm-line-height: 110%;
-  --text-tooltip-sm-letter-spacing: 0%;
+  --text-tooltip-sm-letter-spacing: 0px;
   --text-tooltip-sm-font-weight: 500;
 
   /* tag-md */
   --text-tag-md-font-size: 13px;
   --text-tag-md-line-height: 110%;
-  --text-tag-md-letter-spacing: -2%;
+  --text-tag-md-letter-spacing: -0.26px;
   --text-tag-md-font-weight: 500;
 
   /* tag-sm */
   --text-tag-sm-font-size: 12px;
   --text-tag-sm-line-height: 110%;
-  --text-tag-sm-letter-spacing: -2%;
+  --text-tag-sm-letter-spacing: -0.24px;
   --text-tag-sm-font-weight: 400;
 
   /* card-md */
   --text-card-md-font-size: 12px;
   --text-card-md-line-height: 110%;
-  --text-card-md-letter-spacing: 0%;
+  --text-card-md-letter-spacing: 0px;
   --text-card-md-font-weight: 500;
 
   /* card-sm */
   --text-card-sm-font-size: 10px;
   --text-card-sm-line-height: 110%;
-  --text-card-sm-letter-spacing: 0%;
+  --text-card-sm-letter-spacing: 0px;
   --text-card-sm-font-weight: 500;
 
   /* title-md */
   --text-title-md-font-size: 13px;
   --text-title-md-line-height: 110%;
-  --text-title-md-letter-spacing: -1%;
+  --text-title-md-letter-spacing: -0.13px;
   --text-title-md-font-weight: 400;
 
   /* toast-title */
   --text-toast-title-font-size: 13px;
   --text-toast-title-line-height: 120%;
-  --text-toast-title-letter-spacing: -2%;
+  --text-toast-title-letter-spacing: -0.26px;
   --text-toast-title-font-weight: 700;
 
   /* toast-text */
   --text-toast-text-font-size: 12px;
   --text-toast-text-line-height: 130%;
-  --text-toast-text-letter-spacing: 0%;
+  --text-toast-text-letter-spacing: 0px;
   --text-toast-text-font-weight: 400;
 
   /* legend-md */
@@ -182,37 +182,37 @@
   /* form-label */
   --text-form-label-font-size: 14px;
   --text-form-label-line-height: 110%;
-  --text-form-label-letter-spacing: 0%;
+  --text-form-label-letter-spacing: 0px;
   --text-form-label-font-weight: 400;
 
   /* form-input-text */
   --text-form-input-text-font-size: 14px;
   --text-form-input-text-line-height: 110%;
-  --text-form-input-text-letter-spacing: -2%;
+  --text-form-input-text-letter-spacing: -0.28px;
   --text-form-input-text-font-weight: 400;
 
   /* form-placeholder */
   --text-form-placeholder-font-size: 14px;
   --text-form-placeholder-line-height: 110%;
-  --text-form-placeholder-letter-spacing: -2%;
+  --text-form-placeholder-letter-spacing: -0.28px;
   --text-form-placeholder-font-weight: 400;
 
   /* form-supporting-text */
   --text-form-supporting-text-font-size: 12px;
   --text-form-supporting-text-line-height: 130%;
-  --text-form-supporting-text-letter-spacing: -2%;
+  --text-form-supporting-text-letter-spacing: -0.24px;
   --text-form-supporting-text-font-weight: 400;
 
   /* form-markdown */
   --text-form-markdown-font-size: 14px;
   --text-form-markdown-line-height: 120%;
-  --text-form-markdown-letter-spacing: -4%;
+  --text-form-markdown-letter-spacing: -0.56px;
   --text-form-markdown-font-weight: 400;
 
   /* form-markdown-quick-view */
   --text-form-markdown-quick-view-font-size: 14px;
   --text-form-markdown-quick-view-line-height: 130%;
-  --text-form-markdown-quick-view-letter-spacing: -2%;
+  --text-form-markdown-quick-view-letter-spacing: -0.28px;
   --text-form-markdown-quick-view-font-weight: 400;
 
   /* form-description-md */
@@ -236,13 +236,13 @@
   /* body-md */
   --text-body-md-font-size: 13px;
   --text-body-md-line-height: 140%;
-  --text-body-md-letter-spacing: -2%;
+  --text-body-md-letter-spacing: -0.26px;
   --text-body-md-font-weight: 400;
 
   /* body-sm */
   --text-body-sm-font-size: 11px;
   --text-body-sm-line-height: 140%;
-  --text-body-sm-letter-spacing: -2%;
+  --text-body-sm-letter-spacing: -0.22px;
   --text-body-sm-font-weight: 400;
 
   /* body-xs */
