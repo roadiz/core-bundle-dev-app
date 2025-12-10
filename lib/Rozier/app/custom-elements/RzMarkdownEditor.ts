@@ -1,4 +1,4 @@
-import { addClass, stripTags } from '~/utils/plugins'
+import { stripTags } from '~/utils/plugins'
 import markdownit from 'markdown-it'
 import markdownItFootnote from 'markdown-it-footnote'
 import type {
