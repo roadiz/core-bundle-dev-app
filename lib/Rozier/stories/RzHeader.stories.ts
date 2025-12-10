@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzHeaderNavItemRenderer } from '~/utils/storybook/renderer/rzHeaderNavItem'
 import type { Args as ItemArgs } from './RzHeaderNavItem.stories'
 import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
+import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
+import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
+import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
 
 type navItem = ItemArgs & {
     children?: ItemArgs[]
@@ -12,6 +14,8 @@ type navItem = ItemArgs & {
 type Args = {
     navItems: navItem[]
 }
+
+const COMPONENT_CLASS_NAME = 'rz-header'
 
 const meta: Meta<Args> = {
     title: 'Components/Header',
@@ -169,56 +173,8 @@ const meta: Meta<Args> = {
     },
 }
 
-const COMPONENT_CLASS_NAME = 'rz-header'
-
 export default meta
 type Story = StoryObj<Args>
-
-// TODO: use rz-brand-watermark class when available
-function brandItemRenderer() {
-    const menu = document.createElement('div')
-    menu.classList.add(`${COMPONENT_CLASS_NAME}__brand`)
-    menu.innerText = 'R'
-
-    return menu
-}
-
-// TODO: use rz-dropdown when available
-function quickMenuRenderer() {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add(`${COMPONENT_CLASS_NAME}__quick-menu`)
-    const target = rzButtonRenderer({
-        iconClass: 'rz-icon-ri--more-line',
-        emphasis: 'tertiary',
-        size: 'md',
-    })
-    wrapper.appendChild(target)
-
-    const popover = document.createElement('div')
-    popover.setAttribute('popover', 'dialog')
-    popover.classList.add('rz-popover')
-    popover.textContent = 'Quick menu content'
-    wrapper.appendChild(popover)
-
-    return wrapper
-}
-
-function burgerRenderer() {
-    const field = document.createElement('div')
-    field.classList.add(`${COMPONENT_CLASS_NAME}__burger`)
-
-    const icon = document.createElement('span')
-    icon.classList.add('rz-icon-ri--menu-line')
-    field.appendChild(icon)
-
-    const burger = document.createElement('input')
-    burger.name = 'burger-menu'
-    burger.id = 'burger-menu'
-    burger.type = 'checkbox'
-    field.appendChild(burger)
-
-    return field
-}
 
 function itemRenderer(itemArgs: navItem) {
     const listItem = document.createElement('li')
@@ -252,18 +208,98 @@ function listRenderer(items: Args['navItems'], subList?: boolean) {
     return list
 }
 
+function getQuickAccessPopoverElement() {
+    const { popover, popoverContent } = rzPopoverRenderer({
+        placement: 'bottom-start',
+        offset: 8,
+        popoverElement: {
+            tag: 'nav',
+            id: 'QuickAccessNav',
+        },
+        targetElement: {
+            element: rzBrandRenderer({
+                tag: 'button',
+                iconClass: 'rz-icon-rz--logo-rz',
+                attributes: {
+                    'aria-label': 'Open quick access navigation',
+                },
+            }),
+        },
+    })
+
+    rzDropdownRenderer(
+        {
+            listTag: 'ul',
+            items: [
+                [
+                    {
+                        tag: 'a',
+                        label: 'Label',
+                        iconClass: 'rz-icon-ri--user-6-line',
+                        rightIconClass: 'rz-icon-ri--arrow-right-up-line',
+                        attributes: { href: '#' },
+                    },
+                    {
+                        tag: 'a',
+                        label: 'Label 2',
+                        iconClass: 'rz-icon-ri--user-6-line',
+                        rightIconClass: 'rz-icon-ri--arrow-right-s-line',
+                        attributes: { href: '#' },
+                    },
+                    {
+                        tag: 'button',
+                        label: 'Label 3',
+                        iconClass: 'rz-icon-ri--user-6-line',
+                        attributes: {
+                            'aria-label': 'Label for this button action',
+                        },
+                    },
+                    {
+                        tag: 'a',
+                        label: 'Label 4',
+                        iconClass: 'rz-icon-ri--user-6-line',
+                        rightIconClass: 'rz-icon-ri--arrow-right-s-line',
+                        attributes: { href: '#' },
+                    },
+                ],
+            ],
+        },
+        popoverContent,
+    )
+
+    return popover
+}
+
+function burgerRenderer() {
+    const field = document.createElement('div')
+    field.classList.add(`${COMPONENT_CLASS_NAME}__burger`)
+
+    const icon = document.createElement('span')
+    icon.classList.add('rz-icon-ri--menu-line')
+    field.appendChild(icon)
+
+    const burger = document.createElement('input')
+    burger.name = 'burger-menu'
+    burger.id = 'burger-menu'
+    burger.type = 'checkbox'
+    field.appendChild(burger)
+
+    return field
+}
+
 function rzHeaderHeadRenderer() {
     const head = document.createElement('div')
     head.classList.add(`${COMPONENT_CLASS_NAME}__head`)
 
-    const brand = brandItemRenderer()
-    head.appendChild(brand)
-
-    const quickMenu = quickMenuRenderer()
-    head.appendChild(quickMenu)
+    const quickAccessPopover = getQuickAccessPopoverElement()
+    head.appendChild(quickAccessPopover)
 
     const burger = burgerRenderer()
     head.appendChild(burger)
+
+    const badge = rzBadgeRenderer({ label: 'Production', size: 'sm' })
+    badge.classList.add(`${COMPONENT_CLASS_NAME}__head__item--end`)
+    head.appendChild(badge)
 
     return head
 }
@@ -275,10 +311,6 @@ export const Default: Story = {
 
         const head = rzHeaderHeadRenderer()
         header.appendChild(head)
-
-        const badge = rzBadgeRenderer({ label: 'Production', size: 'sm' })
-        badge.classList.add(`${COMPONENT_CLASS_NAME}__head__item--end`)
-        head.appendChild(badge)
 
         const nav = document.createElement('nav')
         nav.classList.add(`${COMPONENT_CLASS_NAME}__nav`)
