@@ -1,12 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global manage-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         document: document,
-        title: "document.%name%.usage"|trans({'%name%': document})|u.truncate(25, '[…]', true),
+        title: "document.%name%.usage"|trans({'%name%': document})|truncate_title,
         current: 'usage',
         with_nav_bar: true,
     } only %}

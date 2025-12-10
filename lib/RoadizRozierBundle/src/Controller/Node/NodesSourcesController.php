@@ -33,7 +33,6 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -262,9 +261,7 @@ final class NodesSourcesController extends AbstractController
             );
         }
 
-        $title = (new UnicodeString(
-            $this->translator->trans('delete.translation')
-        ))->truncate(25, '[…]', true)->toString();
+        $title = $this->translator->trans('delete.translation');
 
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,

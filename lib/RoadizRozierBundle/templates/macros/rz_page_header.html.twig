@@ -48,7 +48,7 @@
                             {%- if breadcrumbsItem.isHome -%}
                                 <span class="rz-button__icon rz-icon-ri--home-2-line"></span>
                             {%- endif -%}
-                            {{- breadcrumbsItem.label|u.truncate(25, '[…]', true) -}}
+                            {{- breadcrumbsItem.label|truncate_title -}}
                         </a>
                     </li>
                 {% endif %}

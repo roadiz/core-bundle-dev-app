@@ -1,12 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ customForm.displayName|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="content-global manage-custom-form">
 
         <header class="content-header header-custom-form header-custom-form-edit">
-            <h1 class="content-title custom-form-edit-title">{{ customForm.displayName|u.truncate(25, '[…]', true) }}</h1>
+            <h1 class="content-title custom-form-edit-title">{{ customForm.displayName|truncate_title }}</h1>
             {% include '@RoadizRozier/custom-forms/navBar.html.twig' with {
                 type: customForm,
                 current:'usage'
