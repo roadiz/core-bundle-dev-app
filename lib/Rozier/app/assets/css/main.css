@@ -17,6 +17,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-node-tree.css';
 @import './components/rz-dialog.css';
 @import './components/rz-page.css';
 @import './components/rz-trees-section.css';
