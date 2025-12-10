@@ -2,7 +2,6 @@
 	position: relative;
 	border-radius: var(--radius-xs, 6px);
 	border: 1px solid var(--form-basic-border, #DADADA);
-	min-height: 44px;
 	list-style: none;
 	padding: initial;
 	margin: initial;
@@ -41,6 +40,11 @@
 	align-items: center;
 	justify-content: center;
 	padding-block: var(--spacing-6xs);
+
+	/* Hide the first insert zone when at least one item exists */
+	&:first-child:not(:only-child) {
+		display: none;
+	}
 
 	&::before,
 	&::after {

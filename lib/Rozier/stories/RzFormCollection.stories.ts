@@ -6,8 +6,8 @@ import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
 import { useArgs } from 'storybook/preview-api'
 
 type ItemOptions = {
-    itemIndex: number
-    totalItems: number
+    itemIndex?: number
+    totalItems?: number
     onDeleteClicked: () => void
     onAddClicked: () => void
 }
@@ -116,8 +116,9 @@ function headerRenderer(options: ItemOptions) {
                 attributes: {
                     'tooltip-text': 'Move down',
                     disabled:
-                        options.totalItems <= 1 ||
-                        options.itemIndex === options.totalItems - 1
+                        options.totalItems !== undefined &&
+                        (options.totalItems <= 1 ||
+                            options.itemIndex === options.totalItems - 1)
                             ? 'true'
                             : undefined,
                 },
@@ -146,8 +147,8 @@ function headerRenderer(options: ItemOptions) {
     return header
 }
 
-function insertZoneRenderer(options: ItemOptions) {
-    const insertZone = document.createElement('div')
+function insertZoneRenderer(options?: ItemOptions & { tag?: string }) {
+    const insertZone = document.createElement(options.tag || 'div')
     insertZone.classList.add('rz-form-collection__insert-zone')
 
     const addButton = rzButtonRenderer({
@@ -156,7 +157,7 @@ function insertZoneRenderer(options: ItemOptions) {
         size: 'sm',
         attributes: {
             is: 'rz-button',
-            'tooltip-text': `Insert item ${options.itemIndex === options.totalItems - 1 ? 'after' : 'before'}`,
+            'tooltip-text': `Insert item ${options?.itemIndex === options?.totalItems - 1 ? 'after' : 'before'}`,
         },
     })
     if (options?.onAddClicked) {
@@ -194,16 +195,23 @@ function rzFormCollectionItemRenderer(
 
 export const Default: Story = {
     render: (args) => {
-        const [{ length }, updateArgs] = useArgs()
-        const list = document.createElement('ul')
-        list.classList.add('rz-form-collection__list')
-
         function addItem() {
             updateArgs({ length: length + 1 })
         }
         function removeItem() {
             updateArgs({ length: length - 1 })
         }
+
+        const [{ length }, updateArgs] = useArgs()
+        const list = document.createElement('ul')
+        list.classList.add('rz-form-collection__list')
+
+        const insertZone = insertZoneRenderer({
+            tag: 'li',
+            onAddClicked: addItem,
+            onDeleteClicked: removeItem,
+        })
+        list.appendChild(insertZone)
 
         const field = rzFormFieldRenderer(args, list)
         const button = field.querySelector('.rz-button')
