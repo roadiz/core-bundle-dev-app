@@ -53,9 +53,10 @@ const meta: Meta<Args> = {
             {
                 button: {
                     tag: 'a',
+                    emphasis: 'primary',
                     iconClass: 'rz-icon-ri--delete-bin-7-line',
                     size: 'md',
-                    color: 'error',
+                    color: 'danger',
                     onDark: true,
                     attributes: {
                         'aria-label': 'Delete',
@@ -66,6 +67,7 @@ const meta: Meta<Args> = {
             {
                 button: {
                     tag: 'a',
+                    emphasis: 'primary',
                     iconClass: 'rz-icon-ri--save-line',
                     size: 'md',
                     color: 'success',
