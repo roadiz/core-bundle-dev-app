@@ -8,7 +8,6 @@ use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,10 +48,6 @@ final class ContactFormType extends AbstractType
                 'constraints' => [
                     new NotNull(),
                 ],
-            ])
-            ->add('file', FileType::class, [
-                'label' => 'contact_form.file',
-                'required' => false,
             ])
             ->add('color', ColorType::class, [
                 'label' => 'contact_form.color',

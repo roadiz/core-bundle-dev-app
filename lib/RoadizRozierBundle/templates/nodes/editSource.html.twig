@@ -3,33 +3,22 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-
-{% block title %}{{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }} | {{ parent() }}{% endblock %}
+{% import "@RoadizRozier/macros/rz_page_header.html.twig" as page_header %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-edit-source">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-            "node": node,
-            "source": source,
-        } only %}
-        <h1 class="content-title node-edit-source-title"{% if source.translation.locale is rtl %} dir="rtl"{% endif %}>
-            {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
-            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-
-            {% if app.debug %}
-                {{ rz_badge.item(
-                    label: 'NS #' ~ source.id,
-                    size: 'sm',
-                    color: 'information'
-                ) }}
-            {% endif %}
-            {{ rz_status_badge.item(node: node) }}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'source'} %}
-        {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": translation.getId} %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false),
+        translation: translation,
+        available_translations: available_translations,
+        current: 'source',
+        app: app,
+        with_debug_badge: true,
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
+    } only %}
 
     <div class="content content-node-edit-source">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

@@ -8,19 +8,14 @@
 
 {% block content %}
     <section class="content-global">
-        <header class="content-header header-node header-node-edit-seo">
-            {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-                "node": node,
-                "source": source,
-            } only %}
-            <h1 class="content-title node-edit-seo-title">
-                {{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
-                {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-                {{ rz_status_badge.item(node: node) }}
-            </h1>
-            {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-            {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'realm'} %}
-        </header>
+        {% include '@RoadizRozier/nodes/head.html.twig' with {
+            node: node,
+            title: "edit.node.%name%.realms"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true),
+            current: 'realm',
+            with_info_badge: true,
+            with_status_badge: true,
+            with_nav_bar: true,
+        } only %}
 
         <article class="content content-node-edit-seo">
             <div class="content-table-cont">
