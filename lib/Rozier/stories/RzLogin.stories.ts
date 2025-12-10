@@ -11,7 +11,7 @@ type Element = {
 }
 
 export type Args = {
-    header: Element
+    header?: Element
     body: Element
     footer?: Element
 }
@@ -185,14 +185,18 @@ function rzLoginRenderer(args: Args) {
     section.classList.add('rz-login__section')
     wrapper.appendChild(section)
 
-    const header = elementRenderer(args.header)
-    section.appendChild(header)
+    if (args.header) {
+        const header = elementRenderer(args.header)
+        section.appendChild(header)
+    }
 
     const body = elementRenderer(args.body)
     section.appendChild(body)
 
-    const footer = elementRenderer(args.footer)
-    section.appendChild(footer)
+    if (args.footer) {
+        const footer = elementRenderer(args.footer)
+        section.appendChild(footer)
+    }
 
     return wrapper
 }
