@@ -57,7 +57,7 @@
     {% block nav_bar %}
         {% if with_nav_bar is defined and with_nav_bar %}
             {% if folder is defined and folder %}
-                {% include '@RoadizRozier/folders/navBar.html.twig' with {folder:folder, current: current, translation, translation} %}
+                {% include '@RoadizRozier/folders/navBar.html.twig' with {folder: folder, current: current, translation: translation} %}
             {% else %}
                 {% include '@RoadizRozier/documents/navBar.html.twig' with {current: current} %}
             {% endif %}
