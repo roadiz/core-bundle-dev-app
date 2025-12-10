@@ -14,53 +14,62 @@ export type Args = {
     elements: Element[]
 }
 
-let counter = 0
-function getFormElement() {
-    counter++
+function getFormElement(counter: number) {
     const form = document.createElement('form')
-    ;[
-        rzFormFieldRenderer({
+    const formFieldList = [
+        {
             label: 'Username',
             required: true,
             input: {
-                name: `username${counter}`,
-                id: `username${counter}`,
+                name: `username`,
                 type: 'text',
                 placeholder: 'Enter your username',
             },
-        }),
-        rzFormFieldRenderer({
+        },
+        {
             label: 'Password',
             required: true,
             help: '<a href="/rz-admin/login/request">Forgot password?</a>',
             input: {
-                name: `password${counter}`,
-                id: `password${counter}`,
+                name: `password`,
                 type: 'password',
                 placeholder: '*******',
             },
-        }),
-        rzFormFieldRenderer({
+        },
+        {
             label: 'Keep me logged in',
             input: {
                 className: 'rz-switch',
-                name: `keepMeLoggedIn${counter}`,
-                id: `keepMeLoggedIn${counter}`,
+                name: `keepMeLoggedIn`,
                 type: 'checkbox',
             },
-        }),
-    ].forEach((el) => form.appendChild(el))
+        },
+    ] as const
+
+    formFieldList.forEach((data) => {
+        const id = `${data.label}-${Math.random().toString(36).slice(2, 11)}-${counter}`
+        const newData = {
+            ...data,
+            input: {
+                ...data.input,
+                id: id,
+                name: id,
+            },
+        }
+        const el = rzFormFieldRenderer(newData)
+        form.appendChild(el)
+    })
 
     return form
 }
 
-function getDefaultElements() {
+function getDefaultElements(counter: number) {
     return [
         {
             tag: 'header',
             class: 'rz-login__header',
             children: [
-                { tag: 'button', innerHTML: 'RZ', class: 'rz-brand' },
+                { tag: 'span', innerHTML: 'RZ', class: 'rz-brand' },
                 {
                     tag: 'span',
                     class: 'rz-badge',
@@ -117,7 +126,7 @@ function getDefaultElements() {
                 {
                     tag: 'form',
                     class: 'rz-login__group',
-                    innerHTML: getFormElement().innerHTML,
+                    innerHTML: getFormElement(counter).innerHTML,
                 },
             ],
         },
@@ -146,20 +155,6 @@ function getDefaultElements() {
         },
     ]
 }
-
-const meta: Meta<Args> = {
-    title: 'Components/Login',
-    tags: ['autodocs'],
-    args: {
-        elements: getDefaultElements(),
-    },
-    parameters: {
-        layout: 'fullscreen',
-    },
-}
-
-export default meta
-type Story = StoryObj<Args>
 
 function elementRenderer(element: Element) {
     const el = document.createElement(element.tag)
@@ -199,12 +194,26 @@ function rzLoginRenderer(args: Args) {
     return wrapper
 }
 
+const meta: Meta<Args> = {
+    title: 'Components/Login',
+    tags: ['autodocs'],
+    args: {
+        elements: getDefaultElements(1),
+    },
+    parameters: {
+        layout: 'fullscreen',
+    },
+}
+
+export default meta
+type Story = StoryObj<Args>
+
 export const Default: Story = {
     render: (args) => {
         return rzLoginRenderer(args)
     },
     args: {
-        elements: getDefaultElements(),
+        elements: getDefaultElements(2),
     },
 }
 
@@ -218,7 +227,7 @@ export const NoFooter: Story = {
                 tag: 'header',
                 class: 'rz-login__header',
                 children: [
-                    { tag: 'button', innerHTML: 'RZ', class: 'rz-brand' },
+                    { tag: 'span', innerHTML: 'RZ', class: 'rz-brand' },
                     {
                         tag: 'span',
                         class: 'rz-badge',
@@ -277,7 +286,7 @@ export const NoFooter: Story = {
                         tag: 'form',
                         class: 'rz-login__group',
                         innerHTML:
-                            getFormElement().innerHTML +
+                            getFormElement(3).innerHTML +
                             `<div class="rz-login__group rz-login__group--last rz-login__group--full-width">
                                 <a href="#" class="rz-button rz-button--secondary">
                                     <span class="rz-button__label">Ask help</span>
