@@ -1,0 +1,11 @@
+.rz-page {
+	border-radius: var(--radius-md, 12px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	background-color: var(--surface-light-primary, #FFF);
+	padding-inline: var(--spacing-4xs);
+	overflow: auto;
+
+	@media (--screen-sm-min) {
+		padding-inline: var(--spacing-2xs);
+	}
+}
