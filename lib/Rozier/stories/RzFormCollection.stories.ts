@@ -147,9 +147,12 @@ function headerRenderer(options: ItemOptions) {
     return header
 }
 
-function insertZoneRenderer(options?: ItemOptions & { tag?: string }) {
+function insertZoneRenderer(options: ItemOptions & { tag?: string }) {
     const insertZone = document.createElement(options.tag || 'div')
     insertZone.classList.add('rz-form-collection__insert-zone')
+
+    const hasItem = options?.totalItems !== undefined && options?.totalItems > 0
+    const isBeforeItem = options?.itemIndex === options?.totalItems - 1
 
     const addButton = rzButtonRenderer({
         iconClass: 'rz-icon-ri--add-line',
@@ -157,7 +160,7 @@ function insertZoneRenderer(options?: ItemOptions & { tag?: string }) {
         size: 'sm',
         attributes: {
             is: 'rz-button',
-            'tooltip-text': `Insert item ${options?.itemIndex === options?.totalItems - 1 ? 'after' : 'before'}`,
+            'tooltip-text': `Insert item ${hasItem ? (isBeforeItem ? 'after' : 'before') : ''}`,
         },
     })
     if (options?.onAddClicked) {
