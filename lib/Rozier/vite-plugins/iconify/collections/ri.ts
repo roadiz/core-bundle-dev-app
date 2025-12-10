@@ -68,6 +68,8 @@ export default [
     'download-cloud-2-line',
     'space-ship-line',
     'download-line',
+    'home-2-fill',
+    'folder-fill',
     'dashboard-line',
     'calendar-event-line',
     'menu-line',
