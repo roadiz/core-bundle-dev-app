@@ -77,6 +77,14 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         ];
     }
 
+    /**
+     * Truncate a title string to a maximum length with an ellipsis suffix.
+     *
+     * @param string $title The title string to truncate
+     * @param int $length Maximum length of the truncated string (default: 25)
+     * @param string $suffix Suffix to append when truncated (default: '[…]')
+     * @return string The truncated title
+     */
     public function truncateTitle(string $title, int $length = 25, string $suffix = '[…]'): string
     {
         return (new UnicodeString($title))->truncate($length, $suffix, true)->toString();
