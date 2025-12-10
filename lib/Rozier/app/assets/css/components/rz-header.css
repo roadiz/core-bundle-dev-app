@@ -23,7 +23,11 @@
 		@media (hover: hover) {
 			&:has(:where(.rz-header-nav-item[aria-expanded="true"], .rz-header-nav-item--active)),
 			&:hover {
-				width: calc-size(fit-content, max(size, 280px));
+		        width: 280px;
+
+				@supports (width: calc-size(auto, size)) {
+					width: calc-size(fit-content, max(size, 280px));
+				}
 			}
 		}
 	}
