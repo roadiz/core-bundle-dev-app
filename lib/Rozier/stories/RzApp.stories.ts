@@ -1,4 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import {
+    DEFAULT_NAV_ITEMS,
+    rzHeaderRenderer,
+} from '~/utils/storybook/renderer/rzHeader'
 
 export type Args = {
     hasTreesSection: boolean
@@ -23,9 +27,7 @@ function appContainerRenderer(args: Args) {
     const app = document.createElement('div')
     app.classList.add(ELEMENT_CLASS_NAME)
 
-    const header = document.createElement('header')
-    header.textContent = 'Header'
-    header.classList.add('rz-header')
+    const header = rzHeaderRenderer({ navItems: DEFAULT_NAV_ITEMS })
     app.appendChild(header)
 
     if (args.hasTreesSection) {
@@ -43,11 +45,11 @@ function appContainerRenderer(args: Args) {
     main.classList.add('rz-page')
     app.appendChild(main)
 
-    return app
+    return { app, header }
 }
 
 export const Default: Story = {
     render: (args) => {
-        return appContainerRenderer(args)
+        return appContainerRenderer(args).app
     },
 }

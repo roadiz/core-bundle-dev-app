@@ -8,6 +8,7 @@
 	width: 100%;
 	overflow: hidden;
 	background-color: var(--surface-light-tertiary, #F2F2F2);
+	z-index: 1;
 
 	@media (--screen-xs-max) {
 		&:has(.rz-header__burger input[type="checkbox"]:checked) {
@@ -18,7 +19,7 @@
 	@media (--screen-sm-min) {
 		--rz-header-nav-display: flex;
 
-		width: 64px;
+		width: var(--rz-app-header-width);
 
 		@media (hover: hover) {
 			&:has(:where(.rz-header-nav-item[aria-expanded="true"], .rz-header-nav-item--active)),
