@@ -585,12 +585,10 @@ final class NodeController extends AbstractController
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        $title = (new UnicodeString(
-            $this->translator->trans(
-                'delete.node.%name%',
-                ['%name%' => $node->getNodeName()]
-            )
-        ))->truncate(25, '[…]', true)->toString();
+        $title = $this->translator->trans(
+            'delete.node.%name%',
+            ['%name%' => $node->getNodeName()]
+        );
 
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,

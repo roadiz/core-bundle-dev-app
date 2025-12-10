@@ -1,14 +1,14 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {% set folderName = folder.translatedFolders.first.name|default(folder.folderName) %}
-{% block title %}{{ "edit.folder.%name%"|trans({'%name%': folderName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.folder.%name%"|trans({'%name%': folderName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global edit-folder">
 
     <header class="content-header header-folder header-folder-add">
         <h1 class="content-title folder-add-title">
-            {{ "edit.folder.%name%"|trans({'%name%': folderName})|u.truncate(25, '[…]', true) }}
+            {{ "edit.folder.%name%"|trans({'%name%': folderName})|truncate_title }}
             {% if translation and available_translations %}
                 ({{ translation.locale }})
             {% endif %}

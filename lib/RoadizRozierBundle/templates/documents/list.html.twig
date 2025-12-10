@@ -3,7 +3,7 @@
 {%- block title -%}
     {%- if folder -%}
         {%- set folderName = folder.translatedFolders.first.name|default(folder.folderName) -%}
-        {{- folderName|u.truncate(25, '[…]', true) }}
+        {{- folderName|truncate_title }}
     {%- elseif orphans -%}
         {%- trans %}unused_documents{% endtrans %}
     {%- else -%}
@@ -16,7 +16,7 @@
 <section class="content-global content-nav-and-filters bulk-layout">
     {% if folder %}
         {% set folderName = folder.translatedFolders.first.name|default(folder.folderName) %}
-        {% set title = folderName|u.truncate(25, '[…]', true) %}
+        {% set title = folderName|truncate_title %}
         {% set with_nav_bar = true %}
         {% set current = displayPrivateDocuments ? 'private_list' : 'list' %}
     {% else %}

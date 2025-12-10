@@ -91,12 +91,10 @@ final class DocumentController extends AbstractController
             return $this->redirectToRoute('documentsHomePage');
         }
 
-        $title = (new UnicodeString(
-            $this->translator->trans(
-                'delete.document.%name%',
-                ['%name%' => $document->getFilename()]
-            )
-        ))->truncate(25, '[…]', true)->toString();
+        $title = $this->translator->trans(
+            'delete.document.%name%',
+            ['%name%' => $document->getFilename()]
+        );
 
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,

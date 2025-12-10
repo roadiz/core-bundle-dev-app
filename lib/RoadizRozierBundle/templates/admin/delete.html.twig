@@ -1,11 +1,11 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title|truncate_title }}{% endblock %}
 
 {% block content %}
     <section class="content-global delete-document">
         {% include headPath with {
-            title: title,
+            title: title|truncate_title,
             subtitle: subtitle,
         } only %}
 

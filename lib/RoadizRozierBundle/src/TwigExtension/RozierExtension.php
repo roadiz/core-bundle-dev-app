@@ -17,8 +17,10 @@ use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\Vite\JsonManifestResolver;
+use Symfony\Component\String\UnicodeString;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 final class RozierExtension extends AbstractExtension implements GlobalsInterface
@@ -56,6 +58,14 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     }
 
     #[\Override]
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('truncate_title', $this->truncateTitle(...)),
+        ];
+    }
+
+    #[\Override]
     public function getFunctions(): array
     {
         return [
@@ -65,6 +75,11 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
         ];
+    }
+
+    public function truncateTitle(string $title, int $length = 25, string $suffix = '[…]'): string
+    {
+        return (new UnicodeString($title))->truncate($length, $suffix, true)->toString();
     }
 
     public function getBreadcrumbsItem(?object $item): ?BreadcrumbsItem

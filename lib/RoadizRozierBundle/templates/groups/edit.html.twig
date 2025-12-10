@@ -1,12 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.group.%name%"|trans({'%name%': item.name})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.group.%name%"|trans({'%name%': item.name})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global edit-group">
 
     <header class="content-header header-group header-group-edit">
-        <h1 class="content-title group-add-title">{{ "edit.group.%name%"|trans({'%name%': item.name})|u.truncate(25, '[…]', true) }}</h1>
+        <h1 class="content-title group-add-title">{{ "edit.group.%name%"|trans({'%name%': item.name})|truncate_title }}</h1>
         <a class="content-header-nav-back uk-navbar-content"
            href="{{ path('groupsHomePage') }}"
            title="{% trans %}back_to.groups{% endtrans %}"

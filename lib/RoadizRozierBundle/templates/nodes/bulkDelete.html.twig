@@ -4,7 +4,7 @@
 {% block content %}
 <section class="content-global delete-node">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        title: "delete.nodes"|trans()|u.truncate(25, '[…]', true),
+        title: "delete.nodes"|trans()|truncate_title,
     } only %}
 
     <article class="content content-delete content-no-action-menu">
