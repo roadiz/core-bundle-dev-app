@@ -18,7 +18,7 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Popover',
+    title: 'Components/Overlay/Popover',
     tags: ['autodocs'],
     args: {
         targetElement: {
