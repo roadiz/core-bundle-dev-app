@@ -102,7 +102,7 @@
 		position: absolute;
 		content: '';
 		left: 0;
-		top:0;
+		top: 0;
 		right: 0;
 		background-color: var(--border-secondary, #E0E0E0);
 		height: 1PX;
