@@ -6,7 +6,7 @@
 <section class="content-global manage-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         document: document,
-        title: "edit.document.%name%"|trans({'%name%': document|truncate_title}),
+        title: "edit.document.%name%"|trans({'%name%': document})|truncate_title,
         current: 'edit',
         with_nav_bar: true,
     } only %}
