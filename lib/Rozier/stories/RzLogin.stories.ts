@@ -24,6 +24,7 @@ const formElements = [
             name: 'username',
             id: 'username',
             type: 'text',
+            placeholder: 'Enter your username',
         },
     }),
     rzFormFieldRenderer({
@@ -34,6 +35,7 @@ const formElements = [
             name: 'password',
             id: 'password',
             type: 'password',
+            placeholder: '*******',
         },
     }),
     rzFormFieldRenderer({
@@ -68,7 +70,8 @@ const meta: Meta<Args> = {
                     innerHTML: '<span class="rz-badge__label">V 3.1.2</span>',
                 },
                 {
-                    tag: 'button',
+                    tag: 'a',
+                    attributes: { href: '#' },
                     class: 'rz-button rz-button--secondary rz-login__item--end',
                     innerHTML: `
 						<span class="rz-button__label">View website</span>
@@ -91,7 +94,8 @@ const meta: Meta<Args> = {
                     class: 'rz-login__group',
                     children: [
                         {
-                            tag: 'button',
+                            tag: 'a',
+                            attributes: { href: '#' },
                             class: 'rz-button rz-button--secondary',
                             innerHTML: `
 								<span class="rz-button__label">Log in by SSO</span>
@@ -99,7 +103,8 @@ const meta: Meta<Args> = {
 							`,
                         },
                         {
-                            tag: 'button',
+                            tag: 'a',
+                            attributes: { href: '#' },
                             class: 'rz-button rz-button--secondary',
                             innerHTML: `
 								<span class="rz-button__label">Log in with Magic Link</span>
@@ -141,6 +146,9 @@ const meta: Meta<Args> = {
                 },
             ],
         },
+    },
+    parameters: {
+        layout: 'fullscreen',
     },
 }
 
