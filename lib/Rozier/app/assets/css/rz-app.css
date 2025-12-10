@@ -1,23 +1,22 @@
 .rz-app {
-	--rz-app-padding: var(--spacing-4xs);
+	--rz-app-padding-block: var(--spacing-4xs);
 	--rz-app-trees-section-head-height: 50px;
+	--rz-app-header-height: 52px;
 
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: auto var(--rz-app-trees-section-head-height) 1fr;
-	height: 100svh;
+	grid-template-rows: var(--rz-app-header-height) var(--rz-app-trees-section-head-height) 1fr;
+	align-items: flex-start;
 	background-color: var(--surface-light-tertiary, #F2F2F2);
-	padding: 0 var(--rz-app-padding) var(--rz-app-padding) var(--rz-app-padding);
-	overflow: hidden;
 
 	@media (--screen-sm-min) {
 		--rz-app-trees-section-head-height: 54px;
 		--rz-app-header-width: 64px;
+		--rz-app-header-height: initial;
 
 		grid-template-columns: var(--rz-app-header-width) auto 1fr;
 		grid-template-rows: 1fr;
-		padding: var(--rz-app-padding) var(--rz-app-padding) var(--rz-app-padding) 0;
 	}
 
 	@media (--screen-xs-max) {

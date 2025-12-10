@@ -1,14 +1,29 @@
+.rz-app > .rz-header {
+	position: sticky;
+	z-index: 100;
+	top: 0;
+
+	.rz-header__head {
+		height: var(--rz-app-header-height);
+	}
+
+	@media (--screen-sm-min) {
+		margin-block: var(--rz-app-padding-block);
+		top: var(--rz-app-padding-block);
+		height: calc(100vh - var(--rz-app-padding-block) * 2);
+	}
+}
+
 .rz-header {
 	box-sizing: border-box;
 	display: inline-flex;
 	flex-direction: column;
 	gap: var(--spacing-4xs);
-	padding: 12px 10px;
+	padding-inline: var(--spacing-2xs);
 	transition: width 0.8s;
 	width: 100%;
 	overflow: hidden;
 	background-color: var(--surface-light-tertiary, #F2F2F2);
-	z-index: 1;
 
 	@media (--screen-xs-max) {
 		&:has(.rz-header__burger input[type="checkbox"]:checked) {
