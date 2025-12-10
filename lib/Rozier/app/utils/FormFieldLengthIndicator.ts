@@ -19,7 +19,7 @@ export default class FormFieldLengthIndicator {
         options: { maxLength?: number; minLength?: number } = {},
     ) {
         // Find elements
-        this.indicatorElement = element?.querySelector(
+        this.indicatorElement = element?.querySelector?.(
             '[data-length-indicator]',
         )
 
