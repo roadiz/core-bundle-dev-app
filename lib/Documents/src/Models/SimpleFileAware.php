@@ -38,18 +38,6 @@ class SimpleFileAware implements FileAwareInterface
     }
 
     #[\Override]
-    public function getFontsFilesPath(): string
-    {
-        return $this->basePath.$this->getPrivateFilesBasePath();
-    }
-
-    #[\Override]
-    public function getFontsFilesBasePath(): string
-    {
-        return '/fonts';
-    }
-
-    #[\Override]
     public function getPublicCachePath(): string
     {
         return '/cache';

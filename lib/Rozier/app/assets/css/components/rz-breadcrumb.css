@@ -24,13 +24,21 @@
 
 .rz-breadcrumb__item {
 	color: var(--breadcrumb-content, #383838);
-	text-decoration: none;
+	text-decoration-color: transparent;
+	text-underline-offset: 3px;
+	transition: text-decoration-color 0.2s;
 
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-breadcrumb-sm-font-size);
 	line-height: var(--text-breadcrumb-sm-line-height);
 	letter-spacing: var(--text-breadcrumb-sm-letter-spacing);
 	font-weight: var(--text-breadcrumb-sm-font-weight);
+
+	@media (hover: hover) {
+		&:hover {
+			text-decoration-color: currentColor;
+		}
+	}
 }
 
 .rz-breadcrumb__popover-content {

@@ -40,7 +40,7 @@ trait AttributeGroupTranslationTrait
     /**
      * @return $this
      */
-    public function setName(string $value): self
+    public function setName(string $value): static
     {
         $this->name = $value;
 
@@ -50,7 +50,7 @@ trait AttributeGroupTranslationTrait
     /**
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation): self
+    public function setTranslation(TranslationInterface $translation): static
     {
         $this->translation = $translation;
 
@@ -70,7 +70,7 @@ trait AttributeGroupTranslationTrait
     /**
      * @return $this
      */
-    public function setAttributeGroup(AttributeGroupInterface $attributeGroup): self
+    public function setAttributeGroup(AttributeGroupInterface $attributeGroup): static
     {
         $this->attributeGroup = $attributeGroup;
 

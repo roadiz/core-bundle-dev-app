@@ -30,16 +30,6 @@ interface FileAwareInterface
     public function getPrivateFilesBasePath(): string;
 
     /**
-     * @return string Return absolute path to private font files folder. Path must be protected.
-     */
-    public function getFontsFilesPath(): string;
-
-    /**
-     * @return string return relative path to private font files folder
-     */
-    public function getFontsFilesBasePath(): string;
-
-    /**
      * @return string return absolute path to public images cache
      */
     public function getPublicCachePath(): string;

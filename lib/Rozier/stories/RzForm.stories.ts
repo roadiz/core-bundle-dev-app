@@ -13,12 +13,16 @@ type FieldList = {
 
 export type Args = {
     fieldListGroup: FieldList[]
+    horizontal?: boolean
+    withFieldList?: boolean
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Form',
     tags: ['autodocs'],
     args: {
+        horizontal: false,
+        withFieldList: true,
         fieldListGroup: [
             {
                 horizontal: false,
@@ -90,23 +94,27 @@ function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 7) {
     })
 }
 
-function fieldListRenderer(args: FieldList) {
+function appendFieldList(fieldList: FieldList, parent: HTMLElement) {
+    fieldList.fields.forEach((fieldArgs) => {
+        if ('formFieldsData' in fieldArgs) {
+            const node = rzFieldsetRenderer(fieldArgs)
+            parent.appendChild(node)
+        } else {
+            const node = rzFormFieldRenderer(fieldArgs as FormFieldArgs)
+            parent.appendChild(node)
+        }
+    })
+}
+
+function fieldListRenderer(fieldList: FieldList) {
     const wrapper = document.createElement('div')
     const className = `${COMPONENT_CLASS_NAME}__field-list`
     wrapper.classList.add(className)
-    if (args.horizontal) {
+    if (fieldList.horizontal) {
         wrapper.classList.add(`${className}--horizontal`)
     }
 
-    args.fields.forEach((fieldArgs) => {
-        if ('formFieldsData' in fieldArgs) {
-            const node = rzFieldsetRenderer(fieldArgs)
-            wrapper.appendChild(node)
-        } else {
-            const node = rzFormFieldRenderer(fieldArgs as FormFieldArgs)
-            wrapper.appendChild(node)
-        }
-    })
+    appendFieldList(fieldList, wrapper)
 
     return wrapper
 }
@@ -114,10 +122,17 @@ function fieldListRenderer(args: FieldList) {
 function formRenderer(args: Args) {
     const form = document.createElement('form')
     form.classList.add(COMPONENT_CLASS_NAME)
+    if (args.horizontal) {
+        form.classList.add(`${COMPONENT_CLASS_NAME}--horizontal`)
+    }
 
     args.fieldListGroup.forEach((fieldList) => {
-        const fieldListElement = fieldListRenderer(fieldList)
-        form.appendChild(fieldListElement)
+        if (args.withFieldList) {
+            const fieldListElement = fieldListRenderer(fieldList)
+            form.appendChild(fieldListElement)
+        } else {
+            appendFieldList(fieldList, form)
+        }
     })
 
     const buttonField = document.createElement('div')

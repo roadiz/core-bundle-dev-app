@@ -102,6 +102,16 @@ export default ({ mode }) => {
                         { text: 'Solr search engine', link: '/developer/first-steps/use_apache_solr' },
                         { text: 'Infrastructure', link: '/developer/infrastructure/infrastructure' },
                         {
+                            text: 'Optional bundles',
+                            collapsed: true,
+                            items: [
+                                { text: 'Introduction', link: '/developer/optional-bundles/' },
+                                { text: 'Solr Bundle', link: '/developer/optional-bundles/solr-bundle' },
+                                { text: 'Two-Factor Authentication Bundle', link: '/developer/optional-bundles/two-factor-bundle' },
+                                { text: 'User Bundle', link: '/developer/optional-bundles/user-bundle' },
+                            ]
+                        },
+                        {
                             text: 'Extending Roadiz',
                             collapsed: false,
                             items: [

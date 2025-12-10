@@ -49,39 +49,41 @@ final class FolderRepository extends EntityRepository
         $folderName = $folders[count($folders) - 1];
         $folder = $this->findOneByFolderName($folderName);
 
-        if (null === $folder) {
-            /*
-             * Creation of a new folder
-             * before linking it to the node
-             */
-            $parentFolder = null;
-
-            if (count($folders) > 1) {
-                // Call recursively to create parent folder if not exists with $folders array without last element
-                $parentFolder = $this->findOrCreateByPath(implode('/', array_slice($folders, 0, -1)), $translation);
-            }
-
-            $folder = new Folder();
-            $folder->setFolderName($folderName);
-
-            if (null !== $parentFolder) {
-                $folder->setParent($parentFolder);
-            }
-
-            /*
-             * Add folder translation
-             * with given name
-             */
-            if (null === $translation) {
-                $translation = $this->_em->getRepository(Translation::class)->findDefault();
-            }
-            $folderTranslation = new FolderTranslation($folder, $translation);
-            $folderTranslation->setName($folderName);
-
-            $this->_em->persist($folder);
-            $this->_em->persist($folderTranslation);
-            $this->_em->flush();
+        if (null !== $folder) {
+            return $folder;
         }
+
+        /*
+         * Creation of a new folder
+         * before linking it to the node
+         */
+        $parentFolder = null;
+
+        if (count($folders) > 1) {
+            // Call recursively to create parent folder if not exists with $folders array without last element
+            $parentFolder = $this->findOrCreateByPath(implode('/', array_slice($folders, 0, -1)), $translation);
+        }
+
+        $folder = new Folder();
+        $folder->setFolderName($folderName);
+
+        if (null !== $parentFolder) {
+            $folder->setParent($parentFolder);
+        }
+
+        /*
+         * Add folder translation
+         * with given name
+         */
+        if (null === $translation) {
+            $translation = $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
+        }
+        $folderTranslation = new FolderTranslation($folder, $translation);
+        $folderTranslation->setName($folderName);
+
+        $this->_em->persist($folder);
+        $this->_em->persist($folderTranslation);
+        $this->_em->flush();
 
         return $folder;
     }

@@ -62,10 +62,6 @@ jobs:
                         split_repository: 'core-bundle'
                         default_branch: 'main'
                     -
-                        local_path: 'RoadizFontBundle'
-                        split_repository: 'font-bundle'
-                        default_branch: 'main'
-                    -
                         local_path: 'RoadizRozierBundle'
                         split_repository: 'rozier-bundle'
                         default_branch: 'main'

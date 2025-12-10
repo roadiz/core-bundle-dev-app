@@ -27,7 +27,8 @@ const meta: Meta<Args> = {
                 },
                 {
                     iconClass: 'rz-icon-ri--delete-bin-7-line',
-                    color: 'error-light',
+                    color: 'danger',
+                    emphasis: 'tertiary',
                 },
             ],
         },

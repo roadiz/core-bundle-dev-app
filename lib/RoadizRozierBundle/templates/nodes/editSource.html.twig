@@ -102,10 +102,8 @@
                 {% endif %}
             {% endfor %}
         {% if not readOnly %}
-            <button is="rz-save-button" data-action-save="#edit-node-source-form" class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#edit-node-source-form') }}
         {% endif %}
         {{ form_end(form) }}
     </div>

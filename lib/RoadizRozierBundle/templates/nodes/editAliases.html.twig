@@ -26,12 +26,8 @@
             {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
             <form id="edit-seo-form" class="uk-form uk-form-stacked" action="#" method="post">
                 {{ form_widget(seoForm) }}
-                <fieldset data-uk-margin>
-                    <button is="rz-save-button" data-action-save="#edit-seo-form" class="uk-button uk-button-success" type="submit">
-                        <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                        <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-                    </button>
-                </fieldset>
+                {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+                {{ actions_menu.saveItem('#edit-seo-form') }}
             </form>
             <hr />
         {% endif %}

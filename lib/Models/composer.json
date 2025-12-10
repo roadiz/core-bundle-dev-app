@@ -23,12 +23,12 @@
         "api-platform/doctrine-orm": "^4.1.18",
         "api-platform/metadata": "^4.1.18",
         "roadiz/nodetype-contracts": "^3.1.1",
-        "symfony/string": "7.3.*",
+        "symfony/string": "7.4.*",
         "symfony/translation-contracts": "^3.0",
-        "symfony/http-foundation": "7.3.*",
-        "symfony/serializer": "7.3.*",
-        "symfony/uid": "7.3.*",
-        "symfony/validator": "7.3.*"
+        "symfony/http-foundation": "7.4.*",
+        "symfony/serializer": "7.4.*",
+        "symfony/uid": "7.4.*",
+        "symfony/validator": "7.4.*"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.8.1",

@@ -141,7 +141,7 @@ final class NodeAttributeController extends AbstractController
                     $msg = $this->translator->trans(
                         'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                         [
-                            '%name%' => $attributeValue->getAttribute()->getLabelOrCode($translation),
+                            '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
                             '%nodeName%' => $nodeSource->getTitle(),
                         ]
                     );
@@ -236,7 +236,7 @@ final class NodeAttributeController extends AbstractController
                 $msg = $this->translator->trans(
                     'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                     [
-                        '%name%' => $attributeValue->getAttribute()->getLabelOrCode($translation),
+                        '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );
@@ -293,7 +293,7 @@ final class NodeAttributeController extends AbstractController
                 $msg = $this->translator->trans(
                     'attribute.%name%.deleted_from_node.%nodeName%',
                     [
-                        '%name%' => $attributeValue->getAttribute()->getLabelOrCode($translation),
+                        '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );

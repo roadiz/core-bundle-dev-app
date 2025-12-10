@@ -67,8 +67,8 @@ final class TranslationsDeleteCommand extends TranslationsCommand
                 $confirmation
             )
         ) {
-            $this->managerRegistry->getManagerForClass(Translation::class)->remove($translation);
-            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+            $this->managerRegistry->getManagerForClass(Translation::class)?->remove($translation);
+            $this->managerRegistry->getManagerForClass(Translation::class)?->flush();
             $io->success('Translation deleted.');
         }
 

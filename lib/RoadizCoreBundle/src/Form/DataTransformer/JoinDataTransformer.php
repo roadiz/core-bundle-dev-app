@@ -54,11 +54,8 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
         return [];
     }
 
-    /**
-     * @return array|object|null
-     */
     #[\Override]
-    public function reverseTransform(mixed $value): mixed
+    public function reverseTransform(mixed $value): array|object|null
     {
         if ($this->nodeTypeField->isManyToMany()) {
             /** @var PersistableInterface[] $unorderedEntities */

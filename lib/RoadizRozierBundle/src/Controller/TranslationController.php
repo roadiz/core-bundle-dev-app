@@ -103,7 +103,7 @@ final class TranslationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+            $this->managerRegistry->getManagerForClass(Translation::class)?->flush();
             $msg = $this->translator->trans('translation.%name%.updated', ['%name%' => $translation->getName()]);
             $this->logTrail->publishConfirmMessage($request, $msg, $translation);
 
@@ -134,8 +134,8 @@ final class TranslationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->managerRegistry->getManagerForClass(Translation::class)->persist($translation);
-            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+            $this->managerRegistry->getManagerForClass(Translation::class)?->persist($translation);
+            $this->managerRegistry->getManagerForClass(Translation::class)?->flush();
 
             $msg = $this->translator->trans('translation.%name%.created', ['%name%' => $translation->getName()]);
             $this->logTrail->publishConfirmMessage($request, $msg, $translation);
@@ -171,8 +171,8 @@ final class TranslationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if (false === $translation->isDefaultTranslation()) {
-                $this->managerRegistry->getManagerForClass(Translation::class)->remove($translation);
-                $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+                $this->managerRegistry->getManagerForClass(Translation::class)?->remove($translation);
+                $this->managerRegistry->getManagerForClass(Translation::class)?->flush();
                 $msg = $this->translator->trans('translation.%name%.deleted', ['%name%' => $translation->getName()]);
                 $this->logTrail->publishConfirmMessage($request, $msg, $translation);
                 $this->eventDispatcher->dispatch(new TranslationDeletedEvent($translation));

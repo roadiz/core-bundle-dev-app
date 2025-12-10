@@ -1,9 +1,11 @@
-<nav data-action-menu class="actions-menu uk-navbar">
-    {# Delete current node #}
-    {% if is_granted('ROLE_ACCESS_TRANSLATIONS') and translation.id and not translation.isDefaultTranslation %}
-    <a class="uk-button uk-button-danger" href="{{ path('translationsDeletePage', { translationId: translation.id}) }}">
-        <span class="icon-container"><i class="uk-icon-rz-trash-o"></i></span>
-        <span class="label"><span class="label-text">{% trans %}delete{% endtrans %}</span></span>
-    </a>
-    {% endif %}
-</nav>
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+    vertical: true,
+    class: 'actions-menu',
+    translation: translation
+} only %}
+    {% block items %}
+        {% if is_granted('ROLE_ACCESS_TRANSLATIONS') and translation.id and not translation.isDefaultTranslation %}
+            {{ _self.deleteItem(href: path('translationsDeletePage', { translationId: translation.id})) }}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

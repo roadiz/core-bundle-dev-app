@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
 import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/Popover'
+import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
 
 export type Args = {
     tooltipText?: string
@@ -22,7 +23,7 @@ const COMPONENT_CLASS_NAME = 'rz-tooltip'
  * on the target element.
  */
 const meta: Meta<Args> = {
-    title: 'Components/Tooltip',
+    title: 'Components/Overlay/Tooltip',
     tags: ['autodocs'],
     args: {
         tooltipText:
@@ -53,28 +54,31 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzTooltipRenderer(args: Args) {
-    const tooltip = document.createElement(COMPONENT_CLASS_NAME)
-    tooltip.innerHTML = args.innerHtml
-
+function setAttributes(element: HTMLElement, args: Args) {
     if (args.tooltipText) {
-        tooltip.setAttribute('tooltip-text', args.tooltipText)
+        element.setAttribute('tooltip-text', args.tooltipText)
     }
     if (args.placement) {
-        tooltip.setAttribute(ATTRIBUTES_OPTIONS_MAP.placement, args.placement)
+        element.setAttribute(ATTRIBUTES_OPTIONS_MAP.placement, args.placement)
     }
     if (args.offset) {
-        tooltip.setAttribute(
+        element.setAttribute(
             ATTRIBUTES_OPTIONS_MAP.offset,
             args.offset.toString(),
         )
     }
     if (args.shift) {
-        tooltip.setAttribute(
+        element.setAttribute(
             ATTRIBUTES_OPTIONS_MAP.shift,
             args.shift.toString(),
         )
     }
+}
+
+function rzTooltipRenderer(args: Args) {
+    const tooltip = document.createElement(COMPONENT_CLASS_NAME)
+    tooltip.innerHTML = args.innerHtml
+    setAttributes(tooltip, args)
 
     return tooltip
 }
@@ -112,15 +116,29 @@ export const WithCustomTooltip: Story = {
         offset: 20,
         tooltipText: undefined,
         innerHtml: `
-			<button popovertarget="manual-popover-id" class="rz-button">
-				<span class="rz-button__label">button label</span>
-				<span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>
-			</button>
+			<button popovertarget="manual-popover-id">button label</button>
 			<div popover="hint" id="manual-popover-id">
                 <span class="rz-icon-ri--information-line"></span>
                 <h3>Tooltip title</h3>
                 <p>This is a custom tooltip content with an icon, a title and a paragraph.</p>
             </div>
 		`,
+    },
+}
+
+export const ButtonOnlyUsage: Story = {
+    render: (args) => {
+        const button = rzButtonRenderer({
+            label: 'Hover me',
+            attributes: {
+                is: 'rz-button',
+            },
+        })
+
+        setAttributes(button, args)
+        return button
+    },
+    args: {
+        tooltipText: 'This is a tooltip for a button element',
     },
 }

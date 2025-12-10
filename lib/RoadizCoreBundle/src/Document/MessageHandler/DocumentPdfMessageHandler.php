@@ -45,6 +45,12 @@ final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHand
     #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
+        $mountPath = $document->getMountPath();
+
+        if (null === $mountPath) {
+            return;
+        }
+
         /*
          * This process requires document files to be locally stored!
          */
@@ -61,7 +67,7 @@ final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHand
         if (false === $pdfPathResource) {
             throw new UnrecoverableMessageHandlingException('Cannot open temporary file for PDF thumbnail.');
         }
-        \stream_copy_to_stream($this->documentsStorage->readStream($document->getMountPath()), $pdfPathResource);
+        \stream_copy_to_stream($this->documentsStorage->readStream($mountPath), $pdfPathResource);
         \fclose($pdfPathResource);
 
         $this->extractPdfThumbnail($document, $pdfPath);

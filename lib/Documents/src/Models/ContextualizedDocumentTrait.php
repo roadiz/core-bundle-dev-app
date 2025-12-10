@@ -47,7 +47,10 @@ trait ContextualizedDocumentTrait
         return $this->document;
     }
 
-    public function setDocument(DocumentInterface $document): self
+    /**
+     * @return $this
+     */
+    public function setDocument(DocumentInterface $document): static
     {
         $this->document = $document;
 
@@ -59,7 +62,10 @@ trait ContextualizedDocumentTrait
         return $this->imageCropAlignment;
     }
 
-    public function setImageCropAlignment(?string $imageCropAlignment): self
+    /**
+     * @return $this
+     */
+    public function setImageCropAlignment(?string $imageCropAlignment): static
     {
         $this->imageCropAlignment = $imageCropAlignment;
 
@@ -71,7 +77,10 @@ trait ContextualizedDocumentTrait
         return $this->hotspot;
     }
 
-    public function setHotspot(?array $hotspot): self
+    /**
+     * @return $this
+     */
+    public function setHotspot(?array $hotspot): static
     {
         $this->hotspot = $hotspot;
 

@@ -18,7 +18,7 @@
             </ajax-link>
             <button
                 type="button"
-                class="rz-button rz-button--error-light rz-button-group__button"
+                class="rz-button rz-button--tertiary rz-button--danger rz-button-group__button"
                 @click.prevent="onRemoveItemButtonClick()"
             >
                 <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>

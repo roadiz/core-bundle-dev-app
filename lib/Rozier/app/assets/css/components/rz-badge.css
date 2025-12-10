@@ -44,7 +44,7 @@
 	--rz-badge-border-color: var(--status-warning, #F4956C);
 	--rz-badge-color: var(--status-warning-on-container, #D35824);
 }
-.rz-badge--error {
+.rz-badge--danger {
 	--rz-badge-background-color: var(--status-error-container, #FFD3DA);
 	--rz-badge-border-color: var(--status-error, #E54457);
 	--rz-badge-color: var(--status-error-on-container, #A92A3E);

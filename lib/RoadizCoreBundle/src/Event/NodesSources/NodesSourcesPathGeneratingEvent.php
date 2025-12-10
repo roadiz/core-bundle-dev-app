@@ -60,12 +60,12 @@ final class NodesSourcesPathGeneratingEvent extends Event
         return $this;
     }
 
-    public function getParameters(): ?array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    public function setParameters(?array $parameters): NodesSourcesPathGeneratingEvent
+    public function setParameters(array $parameters): NodesSourcesPathGeneratingEvent
     {
         $this->parameters = $parameters;
 

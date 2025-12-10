@@ -1,9 +1,14 @@
-<nav data-action-menu class="actions-menu uk-navbar">
-    {# Delete current node #}
-    {%- if is_granted('ROLE_ACCESS_CUSTOMFORMS_DELETE') and field.id -%}
-        <a class="uk-button uk-button-danger" href="{{ path('customFormFieldsDeletePage', { customFormFieldId: field.id}) }}">
-            <span class="icon-container"><i class="uk-icon-rz-trash-o"></i></span>
-            <span class="label"><span class="label-text">{% trans %}delete.customFormField{% endtrans %}</span></span>
-        </a>
-    {%- endif -%}
-</nav>
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+    vertical: true,
+    class: 'actions-menu',
+    field: field
+} only %}
+    {% block items %}
+        {%- if is_granted('ROLE_ACCESS_CUSTOMFORMS_DELETE') and field.id -%}
+            {{ _self.deleteItem(
+                label: 'delete.customFormField',
+                href: path('customFormFieldsDeletePage', { customFormFieldId: field.id}),
+            ) }}
+        {%- endif -%}
+    {% endblock %}
+{% endembed %}
