@@ -151,10 +151,7 @@ final class RealmNodeController extends AbstractController
 
         $title = (new UnicodeString($this->translator->trans('leave.realm')));
 
-        $subtitle = $nodeSource->getTitle();
-        if ($realmNode->getRealm()) {
-            $subtitle .= ' - ' . $realmNode->getRealm()->getName();
-        }
+        $subtitle = $nodeSource->getTitle().' - '.$realmNode->getRealm()->getName();
 
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,

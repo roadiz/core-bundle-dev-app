@@ -265,7 +265,7 @@ final class NodesSourcesController extends AbstractController
 
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,
-            'subtitle' => $ns->getTitle() . ' - ' . $ns->getTranslation()->getName(),
+            'subtitle' => $ns->getTitle().' - '.$ns->getTranslation()->getName(),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $ns->getNode()->getId()]),
             'alertMessage' => 'are_you_sure.delete.nodeSource',
