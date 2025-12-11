@@ -21,19 +21,18 @@
     </div>
 {% endmacro %}
 
-{% macro item(label, class, description, href, title, leftIcon, rightIcon, badgeLabel, badgeIcon, input, selected) %}
+{% macro item(label, class, description, href, title, leftIcon, rightIcon, badgeLabel, badgeIcon, input, selected, tag= 'button') %}
     <li class="{{ input is defined and input ? 'node-statuses-item' : '' }}">
         {% if href is defined and href %}
-            <a class="rz-dropdown__item {{ class|default('') }} {{ selected is defined and selected ? 'rz-dropdown__item--selected' : '' }}"
-                {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
-                target="_blank"
-                href="{{ href }}"
-            >
-        {% else %}
-            <button class="rz-dropdown__item"
-                {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
-            >
+            {% set tag = 'a' %}
         {% endif %}
+            <{{ tag }} class="rz-dropdown__item {{ class|default('') }} {{ selected is defined and selected ? 'rz-dropdown__item--selected' : '' }}"
+                {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
+                {% if tag == 'a' %}
+                    target="_blank"
+                    href="{{ href }}"
+                {% endif %}
+            >
             {% if leftIcon is defined and leftIcon %}
                 <span class="rz-dropdown__item__icon {{ leftIcon }}"></span>
             {% endif %}
@@ -70,21 +69,22 @@
                        {% endfor %}
                 >
             {% endif %}
-        {% if href is defined and href %}
-            </a>
-        {% else %}
-            </button>
-        {% endif %}
+        </{{ tag }}>
     </li>
 {% endmacro %}
 
 {% block wrapper %}
     <div class="rz-dropdown {{ reverse ? 'rz-dropdown--reverse' : '' }}" id="{{ targetId }}" popover>
-        {{ _self.head(title, items) }}
-        <menu class="rz-dropdown__list">
+        {% if title is defined and title %}
+            {{ _self.head(title, items) }}
+        {% endif %}
+        {% if (tagList is not defined or tagList is empty) %}
+            {% set tagList = 'menu' %}
+        {% endif %}
+        <{{ tagList }} class="rz-dropdown__list">
             {% block items %}
             {% endblock %}
-        </menu>
+        </{{ tagList }}>
 
         {% block additional_menu %}
         {% endblock %}

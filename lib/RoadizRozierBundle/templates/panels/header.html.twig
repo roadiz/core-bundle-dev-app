@@ -1,0 +1,162 @@
+{% import "@RoadizRozier/macros/rz_header.html.twig" as header %}
+
+<div class="rz-header__head">
+    <rz-popover popover-placement="bottom-start" popover-offset="8">
+        <button
+            class="rz-brand"
+            aria-label="Open quick access navigation"
+            popovertarget="QuickAccessNav"
+        >
+            <span class="rz-icon-rz--logo-rz"></span>
+        </button>
+        {%- if bookmarks|length -%}
+            {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                targetId: 'QuickAccessNav',
+                tagList: 'ul',
+            } %}
+                {% block items %}
+                    {% for bookmark in bookmarks %}
+                        {{ _self.item(
+                            label: bookmark.label,
+                            href: bookmark.url,
+                            selected: currentVersion and currentVersion.id == version.id,
+                            leftIcon: 'rz-icon-ri--link',
+                            rightIcon: 'rz-icon-ri--arrow-right-up-line',
+                        ) }}
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
+        {%- endif -%}
+    </rz-popover>
+    <div class="rz-header__burger">
+        <span class="rz-icon-ri--menu-line"></span>
+        <input name="burger-menu" id="burger-menu" type="checkbox"/>
+    </div>
+    <div class="rz-badge rz-badge--sm rz-header__head__item--end">
+        <span class="rz-badge__label">{{ cms_prefix }} {{ cms_version }}</span>
+    </div>
+</div>
+<nav class="rz-header__nav">
+    <ul class="rz-header__list">
+        {% for mainEntry in rozier.backofficeMenuEntries %}
+            {% set granted = false %}
+            {% for role in mainEntry.roles %}
+                {% if is_granted(role) %}
+                    {% set granted = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if mainEntry.subentries %}
+                {% set children = '' %}
+                {% for subEntry in mainEntry.subentries %}
+                    {% if subEntry.name == 'setting.groups.dynamic' %}
+                        {% for group in rozier.settingGroups %}
+                            {% set children = children ~ header.item(
+                                label: group.name|trans,
+                                icon: 'uk-icon-rz-settings-group',
+                                href: path('settingGroupsSettingsPage', {'settingGroupId': group.id}),
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endfor %}
+                        {% if is_granted('IS_IMPERSONATOR') %}
+                            {% set children = children ~ header.item(
+                                label: 'stop.test.user.right'|trans,
+                                icon: 'rz-icon-ri--logout-circle-line',
+                                href: '?_su=_exit',
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% else %}
+                            {% set children = children ~ header.item(
+                                label: 'logout'|trans,
+                                icon: 'rz-icon-ri--logout-box-line',
+                                href: path('logoutPage'),
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endif %}
+                        {% for action in rozier.userActions %}
+                            {% set children = children ~ header.item(
+                                label: action.label|trans,
+                                icon: action.icon,
+                                href: action.path,
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endfor %}
+                        {% if app.user and app.user.id %}
+                            {% set children = children ~ header.item(
+                                label: 'edit.account'|trans,
+                                icon: 'uk-icon-rz-user',
+                                href: path('usersEditPage', {'id':app.user.id }),
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endif %}
+                        {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
+                            {% set children = children ~ header.item(
+                                label: 'delete.caches'|trans,
+                                icon: 'uk-icon-rz-flash',
+                                href: path('deleteDoctrineCache'),
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endif %}
+                        {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
+                            {% set children = children ~ header.item(
+                                label: 'delete.generated_images.cache'|trans,
+                                icon: 'uk-icon-rz-flash-images',
+                                href: path('deleteAssetsCache'),
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endif %}
+                    {% else %}
+                        {% set subEntryGranted = false %}
+                        {% for role in subEntry.roles %}
+                            {% if is_granted(role) %}
+                                {% set subEntryGranted = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if (not subEntry.roles or subEntryGranted) %}
+                            {% if subEntry.path %}
+                                {% set path = subEntry.path %}
+                            {% else %}
+                                {% set path = path(subEntry.route) %}
+                            {% endif %}
+                            {% set children = children ~ header.item(
+                                label: subEntry.name|trans,
+                                icon: subEntry.icon,
+                                href: path,
+                                subItem: true,
+                                tag: 'a',
+                            ) %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            {% if mainEntry.path or mainEntry.route %}
+                {% if mainEntry.path %}
+                    {% set path = mainEntry.path %}
+                {% else %}
+                    {% set path = path(mainEntry.route) %}
+                {% endif %}
+                {% set tag = 'a' %}
+            {% else %}
+                {% set path = null %}
+                {% set tag = 'button' %}
+            {% endif %}
+
+            {{ header.item(
+                label: mainEntry.name|trans,
+                icon: mainEntry.icon,
+                href: path,
+                tag: tag,
+                children: children,
+                end: (mainEntry.name == 'settings') ? true : false,
+            ) }}
+        {% endfor %}
+    </ul>
+</nav>
