@@ -79,6 +79,13 @@ export default class FormFieldLengthIndicator {
         if (minLength) {
             this.minLength = minLength
         }
+
+        // Initial update
+        if (this.inputElement) {
+            this.updateLength(this.inputElement.value.length)
+        } else if (this.markdownEditor) {
+            this.updateLength(this.markdownEditor.strippedValue.length)
+        }
     }
 
     dispose() {
