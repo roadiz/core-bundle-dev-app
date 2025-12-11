@@ -25,17 +25,8 @@
     {% endblock %}
 
     {% block translation %}
-        {% if available_translations is defined and available_translations and tag is defined and translation is defined %}
-            <div class="rz-page-header__item--right">
-                {{ _self.translations_bar(
-                    available_translations,
-                    'tagsEditTranslatedPage',
-                    tag,
-                    'tagId',
-                    translation.id
-                ) }}
-            </div>
-        {% endif %}
+        {# Override in specific templates if translation bar is needed #}
+        {# Tags templates should include their own translationBar.html.twig if needed #}
     {% endblock %}
 
     {% block title %}

@@ -4,7 +4,7 @@
     {% endblock %}
 
     {% block buttons %}
-        {% if buttons is defined %}
+        {% if buttons is defined and buttons %}
             <div class="rz-button-group--gap-md rz-page-header__item--right">
                 {{ buttons|raw }}
             </div>
