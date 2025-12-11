@@ -9,9 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Form\RealmType;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\RozierBundle\Controller\AbstractAdminWithBulkController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class RealmController extends AbstractAdminWithBulkController
 {
@@ -73,63 +71,5 @@ class RealmController extends AbstractAdminWithBulkController
     protected function getEntityName(PersistableInterface $item): string
     {
         return $item instanceof RealmInterface ? $item->getName() : '';
-    }
-
-    public function deleteAction(Request $request, int|string $id): ?Response
-    {
-        /** @var Realm|null $item */
-        $item = $this->getRepository()->find($id);
-
-        if (!($item instanceof PersistableInterface)) {
-            throw $this->createNotFoundException();
-        }
-
-        $this->denyAccessUnlessGranted($this->getRequiredDeletionRole(), $item);
-        $this->additionalAssignation($request);
-
-        $this->prepareWorkingItem($item);
-        $this->denyAccessUnlessItemGranted($item);
-
-        $form = $this->createForm(FormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
-            /*
-             * Events are dispatched before entity manager is flushed
-             * to be able to throw exceptions before it is persisted.
-             */
-            $event = $this->createDeleteEvent($item);
-            $this->dispatchSingleOrMultipleEvent($event);
-            $entityManager?->remove($item);
-            $entityManager?->flush();
-
-            $postEvent = $this->createPostDeleteEvent($item);
-            $this->dispatchSingleOrMultipleEvent($postEvent);
-
-            $msg = $this->translator->trans(
-                '%namespace%.%item%.was_deleted',
-                [
-                    '%item%' => $this->getEntityName($item),
-                    '%namespace%' => $this->translator->trans($this->getNamespace()),
-                ]
-            );
-            $this->logTrail->publishConfirmMessage($request, $msg, $item);
-
-            return $this->getPostDeleteResponse($item);
-        }
-
-        $title = $this->translator->trans(
-            'delete.realm.%name%',
-            ['%name%' => $this->getEntityName($item)]
-        );
-
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
-            'title' => $title,
-            'headPath' => '@RoadizRozier/realms/head.html.twig',
-            'cancelPath' => $this->generateUrl('realmsHomePage'),
-            'alertMessage' => 'are_you_sure.delete.realm',
-            'form' => $form->createView(),
-        ]);
     }
 }

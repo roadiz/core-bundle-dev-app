@@ -1,0 +1,43 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{%- block title -%}
+    {{ "delete.user.%name%"|trans({'%name%': item.username })|truncate_title }}
+    |
+    {{ parent() -}}
+{%- endblock -%}
+
+{% block content %}
+<section class="content-global delete-user">
+    {% include '@RoadizRozier/users/head.html.twig' with {
+        title: "delete.user.%name%"|trans({'%name%': item.username })|truncate_title
+    } only %}
+
+    <article class="content content-delete content-no-action-menu">
+        {% form_theme form '@RoadizRozier/forms.html.twig' %}
+        {{ form_start(form, {
+            'attr': {
+                'class': 'rz-form'
+            }
+        }) }}
+        {{ form_widget(form) }}
+        <div class="rz-message rz-message--error rz-form-field__message">
+            <p class="rz-message__text">
+                {% trans %}are_you_sure.delete.user{% endtrans %}
+            </p>
+        </div>
+        <div class="rz-button-group rz-button-group--gap-md">
+            <a class="rz-button rz-button--secondary rz-button-group__button"
+                  href="{{ path('usersHomePage') }}"
+            >
+                <span class="rz-button__label">{% trans %}cancel{% endtrans %}</span>
+                <span class="rz-button__icon rz-icon-ri--corner-down-left-line"></span>
+            </a>
+            <button is="rz-button" type="submit" class="rz-button rz-button--primary rz-button--error rz-button-group__button">
+                <span class="rz-button__label">{% trans %}delete{% endtrans %}</span>
+                <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </article>
+</section>
+{% endblock %}

@@ -8,11 +8,12 @@
 
 {% block content %}
 <section class="content-global edit-user">
-
-    <header class="content-header header-user header-user-edit">
-        <h1 class="content-title user-add-title">{{ "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title }}</h1>
-        {% include '@RoadizRozier/users/navBar.html.twig' with {'user':user, current:'groups'} %}
-    </header>
+    {% include '@RoadizRozier/users/head.html.twig' with {
+        title: "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title,
+        with_nav_bar: true,
+        current: 'groups',
+        item: user
+    } only %}
 
     <article class="content content-user-groups">
         <div class="content-table-cont">

@@ -8,16 +8,9 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-settingGroup header-settingGroup-add">
-       <h1 class="content-title settingGroup-list-title">
-           {{- "edit.settingGroup.%name%"|trans({'%name%': item.name })|truncate_title -}}
-       </h1>
-       <a class="content-header-nav-back uk-navbar-content"
-          href="{{ path('settingGroupsHomePage') }}"
-          title="{% trans %}back_to.settingGroups{% endtrans %}"
-          data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/settingGroups/head.html.twig' with {
+        title: "edit.settingGroup.%name%"|trans({'%name%': item.name })|truncate_title
+    } only %}
 
     <article class="content content-settingGroup-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

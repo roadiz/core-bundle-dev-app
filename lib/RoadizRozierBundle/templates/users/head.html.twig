@@ -32,7 +32,7 @@
 
     {% block nav_bar %}
         {% if with_nav_bar is defined and with_nav_bar %}
-            {% include '@RoadizRozier/users/navBar.html.twig' with {current: current} %}
+            {% include '@RoadizRozier/users/navBar.html.twig' with {user: item, current: current} %}
         {% endif %}
     {% endblock %}
 {% endembed %}
