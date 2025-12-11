@@ -48,6 +48,11 @@
 			background-color: transparent;
 		}
 	}
+
+	@media (--screen-xs-max) {
+		/* Dialog attached on bottom for small screens */
+		margin-bottom: initial;
+	}
 }
 
 .rz-dialog__header {

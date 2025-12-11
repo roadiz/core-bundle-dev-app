@@ -22,6 +22,8 @@ export type Args = {
     closedby?: (typeof CLOSED_BY_VALUES)[number]
     dialogId?: string
     modal?: boolean
+    defaultOpen?: boolean
+    attributes?: Record<string, string>
 }
 
 const meta: Meta<Args> = {
@@ -29,6 +31,7 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         tag: 'dialog',
+        defaultOpen: false,
         header: {
             title: 'Dialog title',
             iconClass: 'rz-icon-ri--layout-4-line',

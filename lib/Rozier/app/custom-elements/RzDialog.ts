@@ -51,6 +51,9 @@ export class RzDialog extends HTMLDialogElement {
     }
 
     connectedCallback() {
+        if (this.getAttribute('defaultopen') === 'true') {
+            this.showDialog()
+        }
         const openTargets = this.getTargets('open')
         openTargets?.forEach((target) => {
             target.addEventListener('click', this.onOpenTargetClick)

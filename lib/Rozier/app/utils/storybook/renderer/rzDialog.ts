@@ -59,9 +59,16 @@ function rzDialogFooterRenderer(args: Args['footer']) {
 export function rzDialogRenderer(args: Args) {
     const dialog = document.createElement('dialog', { is: 'rz-dialog' })
     dialog.setAttribute('is', 'rz-dialog')
-    dialog.id = args.dialogId
     dialog.classList.add('rz-dialog')
-    // dialog.setAttribute('popover', '')
+    dialog.id = args.dialogId
+
+    const attributesEntries = Object.entries(args.attributes || {})
+    if (attributesEntries.length) {
+        attributesEntries.forEach(([key, value]) => {
+            if (typeof value === 'undefined') return
+            dialog.setAttribute(key, value)
+        })
+    }
 
     if (args.modal) {
         dialog.setAttribute('modal', args.modal?.toString())
