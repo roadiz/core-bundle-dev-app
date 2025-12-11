@@ -1,18 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{%- block title -%}
-    {% trans %}add.a.setting{% endtrans %}
-    |
-    {{ parent() -}}
-{%- endblock -%}
+{% block title %}{% trans %}add.a.setting{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-setting header-setting-add">
-        <h1 class="content-title setting-list-title">{% trans %}add.a.setting{% endtrans %}</h1>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('settingsHomePage') }}" title="{% trans %}back_to.settings{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/settings/head.html.twig' with {
+        title: 'add.a.setting'|trans
+    } only %}
 
     <article class="content content-setting-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

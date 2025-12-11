@@ -1,17 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{%- block title -%}
-    {{ "delete.setting.%name%"|trans({'%name%': setting.getName })|truncate_title }}
-    |
-    {{ parent() -}}
-{%- endblock -%}
+{% block title %}{{ "delete.setting.%name%"|trans({'%name%': setting.getName })|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-setting header-setting-delete">
-       <h1 class="content-title setting-delete-title">{{ "delete.setting.%name%"|trans({'%name%': setting.getName })|truncate_title }}</h1>
-    </header>
+    {% include '@RoadizRozier/settings/head.html.twig' with {
+        title: "delete.setting.%name%"|trans({'%name%': setting.getName })|truncate_title
+    } only %}
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
