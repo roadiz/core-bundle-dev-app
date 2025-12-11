@@ -1,0 +1,38 @@
+{% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+    {% block buttons %}
+        {% if displayButtonAction is defined and displayButtonAction %}
+            <div class="rz-button-group--gap-md rz-page-header__item--right">
+                <a class="rz-button rz-button--primary rz-button-group__button"
+                   href="{{ path('usersAddPage') }}">
+                    <span class="rz-button__label">{{ 'add.a.user'|trans }}</span>
+                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                </a>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block badges %}
+        {% if filters is defined and filters and filters.itemCount %}
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            <div class="rz-page-header__item">
+                {{ rz_badge.item(
+                    label: '%count%.items'|transchoice(filters.itemCount)|raw,
+                    size: 'sm',
+                    color: 'default'
+                ) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block title %}
+        <h1 class="rz-page-header__title rz-page-header__item">
+            {{ title|default('users'|trans) }}
+        </h1>
+    {% endblock %}
+
+    {% block nav_bar %}
+        {% if with_nav_bar is defined and with_nav_bar %}
+            {% include '@RoadizRozier/users/navBar.html.twig' with {current: current} %}
+        {% endif %}
+    {% endblock %}
+{% endembed %}
