@@ -1,13 +1,7 @@
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
-    {% block breadcrumb %}
-        {# Override in specific templates if breadcrumb is needed #}
-    {% endblock %}
-
     {% block buttons %}
         {% if buttons is defined and buttons %}
-            <div class="rz-button-group--gap-md rz-page-header__item--right">
-                {{ buttons|raw }}
-            </div>
+            {{ _self.button_group(buttons) }}
         {% endif %}
     {% endblock %}
 
@@ -24,18 +18,10 @@
         {% endif %}
     {% endblock %}
 
-    {% block translation %}
-        {# Override in specific templates if translation bar is needed #}
-    {% endblock %}
-
     {% block title %}
         <h1 class="rz-page-header__title rz-page-header__item">
             {{ title }}
         </h1>
-    {% endblock %}
-
-    {% block subtitle %}
-        {# Override in specific templates if subtitle is needed #}
     {% endblock %}
 
     {% block nav_bar %}

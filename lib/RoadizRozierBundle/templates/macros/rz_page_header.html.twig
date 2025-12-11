@@ -83,3 +83,23 @@
         </div>
     {% endif %}
 {% endmacro %}
+
+{% macro button(label, href, icon, style) %}
+    {%- set buttonStyle = style|default('primary') -%}
+    <a class="rz-button rz-button--{{ buttonStyle }}" href="{{ href }}">
+        <span class="rz-button__label">{{ label }}</span>
+        {%- if icon is defined and icon -%}
+        <span class="rz-button__icon {{ icon }}"></span>
+        {%- endif -%}
+    </a>
+{%- endmacro %}
+
+{% macro button_group(buttons) %}
+    {%- if buttons and buttons|length > 0 -%}
+    <div class="rz-button-group--gap-md rz-page-header__item--right">
+        {%- for btn in buttons -%}
+            {{ _self.button(btn.label, btn.href, btn.icon|default(null), btn.style|default('primary')) }}
+        {%- endfor -%}
+    </div>
+    {%- endif -%}
+{% endmacro %}

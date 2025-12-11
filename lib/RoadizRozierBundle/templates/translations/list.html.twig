@@ -12,7 +12,11 @@
     {% include '@RoadizRozier/translations/head.html.twig' with {
         title: 'translations'|trans,
         filters: filters,
-        buttons: '<a class="rz-button rz-button--primary" href="' ~ path('translationsAddPage') ~ '"><span class="rz-button__label">' ~ 'add.a.translation'|trans ~ '</span><span class="rz-button__icon rz-icon-ri--add-line"></span></a>'
+        buttons: [{
+            label: 'add.a.translation'|trans,
+            href: path('translationsAddPage'),
+            icon: 'rz-icon-ri--add-line'
+        }]
     } only %}
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
