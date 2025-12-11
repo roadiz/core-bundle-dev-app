@@ -4,11 +4,13 @@ export class RzDialog extends HTMLDialogElement {
 
         this.onOpenTargetClick = this.onOpenTargetClick.bind(this)
         this.onCloseTargetClick = this.onCloseTargetClick.bind(this)
+        this.onToggleTargetClick = this.onToggleTargetClick.bind(this)
     }
 
-    onOpenTargetClick() {
+    showDialog() {
         const isModal =
             this.hasAttribute('modal') && this.getAttribute('modal') !== 'false'
+
         if (isModal) {
             this.showModal()
         } else {
@@ -16,15 +18,30 @@ export class RzDialog extends HTMLDialogElement {
         }
     }
 
+    onOpenTargetClick() {
+        this.showDialog()
+    }
+
+    onToggleTargetClick() {
+        if (this.open) {
+            this.close()
+        } else {
+            this.showDialog()
+        }
+    }
+
     onCloseTargetClick() {
         this.close()
     }
 
-    getTargets(state: 'open' | 'close') {
+    getTargets(action: 'open' | 'close' | 'toggle') {
         const id = this.getAttribute('id')
-        const innerTargets = this.querySelectorAll(`[${state}-target]`)
+        const attributeName = `${action}target`
+
+        const innerTargets =
+            action === 'open' ? [] : this.querySelectorAll(`[${attributeName}]`)
         const outerTargets = document.querySelectorAll(
-            `[${state}-target="${id}"]`,
+            `[${attributeName}="${id}"]`,
         )
 
         return [
@@ -39,6 +56,11 @@ export class RzDialog extends HTMLDialogElement {
             target.addEventListener('click', this.onOpenTargetClick)
         })
 
+        const toggleTargets = this.getTargets('toggle')
+        toggleTargets?.forEach((target) => {
+            target.addEventListener('click', this.onToggleTargetClick)
+        })
+
         const closeTargets = this.getTargets('close')
         closeTargets?.forEach((target) => {
             target.addEventListener('click', this.onCloseTargetClick)
@@ -50,6 +72,11 @@ export class RzDialog extends HTMLDialogElement {
         openTargets?.forEach((target) =>
             target.removeEventListener('click', this.onOpenTargetClick),
         )
+
+        const toggleTargets = this.getTargets('toggle')
+        toggleTargets?.forEach((target) => {
+            target.removeEventListener('click', this.onToggleTargetClick)
+        })
         const closeTargets = this.getTargets('close')
         closeTargets?.forEach((target) =>
             target.removeEventListener('click', this.onCloseTargetClick),

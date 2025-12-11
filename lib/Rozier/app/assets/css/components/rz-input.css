@@ -185,7 +185,7 @@
 	--rz-input-padding: 11px 12px 10px calc(8px + 16px + 6px);
 
 	/* Can't use pseudo element in input[type="search"] */
-	background: url("assets/img/icons/ri/search-line.svg") no-repeat center left 8px;
+	background: url("assets/img/icons/ri/search-line.svg") no-repeat center left 8px var(--form-search-bg-on-light, #F2F2F2);;
 
 	&::-webkit-search-cancel-button {
 		appearance: none;

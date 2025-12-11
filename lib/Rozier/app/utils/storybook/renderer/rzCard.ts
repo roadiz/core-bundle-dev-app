@@ -13,8 +13,9 @@ export type Args = {
     title?: string
     image?: Image
     badge?: BadgeArgs
-    buttonGroup: ButtonGroupArgs
+    buttonGroup?: ButtonGroupArgs
     buttonGroupTop?: ButtonGroupArgs
+    attributes?: Record<string, string>
 }
 
 export function rzCardRenderer(
@@ -22,6 +23,12 @@ export function rzCardRenderer(
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {
     const wrapper = document.createElement(args.tag || 'div')
+    const attributesEntries = Object.entries(args.attributes || {})
+
+    attributesEntries?.forEach(([key, value]) => {
+        if (typeof value === 'undefined') return
+        wrapper.setAttribute(key, value)
+    })
     wrapper.classList.add(itemClass)
 
     if (args.overtitle) {

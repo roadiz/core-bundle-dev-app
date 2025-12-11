@@ -1,0 +1,45 @@
+.rz-search .rz-dialog {
+	--rz-dialog-width: 100%;
+
+	@media (--screen-sm-min) {
+		--rz-dialog-width: min(100% - var(--spacing-md) * 2, 914px);
+	}
+}
+
+.rz-search .rz-dialog__body {
+	min-height: 212px;
+	overflow: auto;
+
+	@media (--screen-sm-min) {
+		max-height: 385px;
+	}
+}
+
+.rz-search__list {
+	--rz-card-min-height: 62px;
+
+	display: grid;
+	gap: var(--spacing-4xs);
+	padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-md) var(--spacing-xs);
+	margin: 0;
+	list-style: none;
+
+	@media (--screen-sm-min) {
+		--rz-card-min-height: 94px;
+
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--spacing-xs);
+	}
+}
+
+.rz-search__search-form {
+	position: sticky;
+	top: 0;
+	padding: var(--spacing-4xs);
+	z-index: 1;
+	background-color: var(--surface-light-primary, #FFF);
+}
+
+.rz-search__search-form input[type="search"] {
+	width: 100%;
+}

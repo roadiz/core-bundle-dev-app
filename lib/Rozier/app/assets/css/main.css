@@ -17,6 +17,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-search.css';
 @import './components/rz-brand.css';
 @import './components/rz-node-tree.css';
 @import './components/rz-dialog.css';

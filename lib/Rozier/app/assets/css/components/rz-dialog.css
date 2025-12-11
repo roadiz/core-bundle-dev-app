@@ -1,13 +1,13 @@
 .rz-dialog {
-	position: fixed;
-	max-width: min(90vw, var(--rz-dialog-max-width));
+	box-sizing: border-box;
 	min-width: var(--rz-dialog-min-width, 300px);
-	overflow: hidden;
+	width: var(--rz-dialog-width, fit-content);
+	max-width: var(--rz-dialog-max-width);
 	padding: 0;
 	border: 0;
 	border-radius: var(--radius-sm, 8px);
 	border: 1PX solid var(--line-on-light-primary, #EAEAEA);
-	background: var(--surface-light-primary, #FFF);
+	background-color: var(--surface-light-primary, #FFF);
 
 	/* Reveal/close animation */
 	opacity: 0;
@@ -74,9 +74,11 @@
 }
 
 .rz-dialog__body {
-	padding: var(--rz-dialog--body-padding, var(--spacing-2xs, 12px) var(--spacing-xs, 16px));
-	min-width: 100%;
 	box-sizing: border-box;
+
+	&:not(:has( > *)) {
+		padding: var(--spacing-xs);
+	}
 
 	.rz-dialog__header + & {
 		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
@@ -94,6 +96,7 @@
 	}
 }
 
-.rz-dialog__item--end {
-	margin-left: auto;
+.rz-dialog__footer--justify-end {
+	justify-content: flex-end;
+
 }

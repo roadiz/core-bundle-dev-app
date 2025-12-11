@@ -7,6 +7,11 @@
 	overflow: hidden;
 	border-radius: var(--rz-card-border-radius);
 	min-height: var(--rz-card-min-height, 51px);
+
+	&:where(a) {
+		text-decoration: none;
+		color: inherit
+	}
 }
 
 /* When only image is present */

@@ -9,32 +9,34 @@ export function rzButtonRenderer(args: ButtonArgs) {
 
     if (attributesEntries.length) {
         attributesEntries.forEach(([key, value]) => {
+            if (typeof value === 'undefined') return
             buttonNode.setAttribute(key, value)
         })
     }
-    const emphasisClass =
-        args.emphasis && `${COMPONENT_CLASS_NAME}--${args.emphasis}`
-    const sizeClass = args.size && `${COMPONENT_CLASS_NAME}--${args.size}`
-    const selectedClass = args.selected && `${COMPONENT_CLASS_NAME}--selected`
-    const disabledClass = args.disabled && `${COMPONENT_CLASS_NAME}--disabled`
-    const onDarkClass = args.onDark && `${COMPONENT_CLASS_NAME}--on-dark`
-    const colorClass = args.color && `${COMPONENT_CLASS_NAME}--${args.color}`
-    const pillClass = args.hasPill && `${COMPONENT_CLASS_NAME}--pill`
 
-    buttonNode.className = [
-        COMPONENT_CLASS_NAME,
-        pillClass,
-        emphasisClass,
-        sizeClass,
-        selectedClass,
-        disabledClass,
-        onDarkClass,
-        colorClass,
-        args.additionalClasses,
-    ]
-        .filter((c) => !!c)
-        .join(' ')
-        .trim()
+    // Add classes after setting attributes to avoid overwriting class attribute
+    buttonNode.classList.add(COMPONENT_CLASS_NAME)
+    if (args.emphasis) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--${args.emphasis}`)
+    }
+    if (args.size) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--${args.size}`)
+    }
+    if (args.disabled) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--disabled`)
+    }
+    if (args.onDark) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--on-dark`)
+    }
+    if (args.color) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--${args.color}`)
+    }
+    if (args.hasPill) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--pill`)
+    }
+    if (args.selected) {
+        buttonNode.classList.add(`${COMPONENT_CLASS}--selected`)
+    }
 
     if (args.label) {
         const labelNode = document.createElement('span')
