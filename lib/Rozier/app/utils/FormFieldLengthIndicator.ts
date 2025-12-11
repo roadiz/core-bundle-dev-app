@@ -10,6 +10,7 @@ export default class FormFieldLengthIndicator {
     markdownEditor: RzMarkdownEditor | null = null
 
     constructor() {
+        // Bind methods
         this.onInput = this.onInput.bind(this)
         this.onMarkdownEditorChange = this.onMarkdownEditorChange.bind(this)
     }
