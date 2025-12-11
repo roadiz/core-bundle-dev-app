@@ -1,16 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{%- block title -%}
-    {{ "delete.redirection"|trans }}
-    |
-    {{ parent() -}}
-{%- endblock -%}
+{% block title %}{{ "delete.redirection"|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-redirection header-redirection-add">
-        <h1 class="content-title">{{ "delete.redirection"|trans }}</h1>
-    </header>
+    {% include '@RoadizRozier/redirections/head.html.twig' with {
+        title: "delete.redirection"|trans
+    } only %}
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
