@@ -4,10 +4,9 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-node-types header-node-types-delete">
-        <h1 class="content-title node-delete-title">{{ "delete.customFormAnswer.%name%"|trans({'%name%': customForm.getDisplayName})|truncate_title }}</h1>
-    </header>
+    {% include '@RoadizRozier/custom-form-answers/head.html.twig' with {
+        title: "delete.customFormAnswer.%name%"|trans({'%name%': customForm.getDisplayName})|truncate_title
+    } only %}
 
     <article class="content content-delete content-node-types-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
@@ -20,6 +19,5 @@
             </fieldset>
         {{ form_end(form) }}
     </article>
-
 </section>
 {% endblock %}
