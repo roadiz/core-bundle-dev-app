@@ -9,13 +9,11 @@
 {% block content %}
 <section class="content-global edit-translation content-nav-and-filters">
 
-    <header class="content-header header-translation header-translation-list">
-        <h1 class="content-title translation-add-title">{% trans %}translations{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('translationsAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.translation{% endtrans %}</a>
-        </div>
-    </header>
+    {% include '@RoadizRozier/translations/head.html.twig' with {
+        title: 'translations'|trans,
+        filters: filters,
+        buttons: '<a class="rz-button rz-button--primary" href="' ~ path('translationsAddPage') ~ '"><span class="rz-button__label">' ~ 'add.a.translation'|trans ~ '</span><span class="rz-button__icon rz-icon-ri--add-line"></span></a>'
+    } only %}
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
 
