@@ -24,7 +24,7 @@ export function rzBadgeRenderer(args: BadgeArgs) {
     if (args.label) {
         const label = document.createElement('span')
         label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
-        label.textContent = args.label
+        label.innerHTML = args.label
         node.appendChild(label)
     }
 

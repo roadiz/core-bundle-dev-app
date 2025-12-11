@@ -15,6 +15,8 @@ export type Args = {
     horizontal?: boolean
     alignStart?: boolean
     headClass?: string
+    maxLength?: number
+    minLength?: number
     // Elements
     badge?: BadgeArgs
     iconClass?: string
@@ -189,7 +191,7 @@ export const WithButtons: Story = {
         input: undefined,
         badge: {
             label: '0/255',
-            color: 'error',
+            color: 'danger',
             size: 'xs',
         },
         buttonGroup: {
@@ -207,6 +209,34 @@ export const WithButtons: Story = {
                     size: 'sm',
                 },
             ],
+        },
+    },
+}
+
+export const MaxLength: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        maxLength: 20,
+        input: {
+            type: 'text',
+            name: 'maxlength-name',
+            id: 'maxlength-id',
+        },
+    },
+}
+
+export const MinLength: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        minLength: 5,
+        input: {
+            type: 'text',
+            name: 'minlength-name',
+            id: 'minlength-id',
         },
     },
 }
