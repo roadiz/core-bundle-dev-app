@@ -8,9 +8,9 @@
     {% set title = entity  %}
 {% endif %}
 
-{% block title %}{{ title|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ title|truncate_title }} | {{ parent() }}{% endblock %}
 
-{%- block content_title -%}{{ title|u.truncate(25, '[…]', true) }}{%- endblock -%}
+{%- block content_title -%}{{ title|truncate_title }}{%- endblock -%}
 
 {%- block content_header_nav -%}
     <a class="content-header-nav-back uk-navbar-content"

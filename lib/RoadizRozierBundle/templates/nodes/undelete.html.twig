@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "undelete.node.%name%"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }}
+    {{ "undelete.node.%name%"|trans({'%name%': node.nodeName})|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
@@ -9,7 +9,7 @@
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        title: "undelete.node.%name%"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true),
+        title: "undelete.node.%name%"|trans({'%name%': node.nodeName})|truncate_title,
     } only %}
 
     <article class="content content-delete content-node-delete content-no-action-menu">

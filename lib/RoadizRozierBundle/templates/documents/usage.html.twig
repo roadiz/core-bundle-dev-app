@@ -1,16 +1,15 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global manage-document">
-
-    <header class="content-header header-document header-document-edit">
-        <h1 class="content-title document-edit-title">{{ "document.%name%.usage"|trans({'%name%': document})|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/documents/navBar.html.twig' with {'document':document, current:'usage'} %}
-        {% include '@RoadizRozier/documents/backLink.html.twig' %}
-    </header>
-    {# usages #}
+    {% include '@RoadizRozier/documents/head.html.twig' with {
+        document: document,
+        title: "document.%name%.usage"|trans({'%name%': document})|truncate_title,
+        current: 'usage',
+        with_nav_bar: true,
+    } only %}
 
     <article class="content content-no-action-menu">
         {% if usages|length %}

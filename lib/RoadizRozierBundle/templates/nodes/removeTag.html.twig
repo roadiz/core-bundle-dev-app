@@ -1,11 +1,11 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global content-node-remove-tag">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        title: "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|u.truncate(25, '[…]', true),
+        title: "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|truncate_title,
     } only %}
 
     <article class="content content-delete content-remove-tag">

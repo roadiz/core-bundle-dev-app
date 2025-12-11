@@ -2,7 +2,7 @@
 {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% if node %}
-    {% set title = source.title|u.truncate(25, '[…]', true) %}
+    {% set title = source.title|truncate_title %}
     {% if specificNodeTree.tag is defined and specificNodeTree.tag %}
         {% set title = specificNodeTree.tag.translatedTags.first.name %}
     {% endif %}

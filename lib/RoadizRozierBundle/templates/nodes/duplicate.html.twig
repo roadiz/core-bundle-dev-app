@@ -1,6 +1,6 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "duplicate.node.%name%"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "duplicate.node.%name%"|trans({'%name%': node.nodeName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="content-global">
