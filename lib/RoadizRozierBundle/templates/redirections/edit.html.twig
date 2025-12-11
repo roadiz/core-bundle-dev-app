@@ -1,6 +1,10 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.redirection"|trans }} | {{ parent() }}{% endblock %}
+{%- block title -%}
+    {{ "edit.redirection"|trans }}
+    |
+    {{ parent() -}}
+{%- endblock -%}
 
 {% block content %}
 <section class="content-global">

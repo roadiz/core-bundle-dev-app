@@ -1,6 +1,10 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "delete.setting.%name%"|trans({'%name%': setting.getName })|truncate_title }} | {{ parent() }}{% endblock %}
+{%- block title -%}
+    {{ "delete.setting.%name%"|trans({'%name%': setting.getName })|truncate_title }}
+    |
+    {{ parent() -}}
+{%- endblock -%}
 
 {% block content %}
 <section class="content-global">

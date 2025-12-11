@@ -1,6 +1,10 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{% trans %}manage.redirections{% endtrans %} | {{ parent() }}{% endblock %}
+{%- block title -%}
+    {% trans %}manage.redirections{% endtrans %}
+    |
+    {{ parent() -}}
+{%- endblock -%}
 
 {% block content %}
 <section class="bulk-layout content-global content-nav-and-filters">
