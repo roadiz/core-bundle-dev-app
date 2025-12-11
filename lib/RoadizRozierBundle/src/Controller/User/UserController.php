@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Controller\AbstractAdminWithBulkController;
 use RZ\Roadiz\RozierBundle\Form\UserDetailsType;
 use RZ\Roadiz\RozierBundle\Form\UserType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -136,6 +137,64 @@ class UserController extends AbstractAdminWithBulkController
     protected function getDefaultOrder(Request $request): array
     {
         return ['username' => 'ASC'];
+    }
+
+    public function deleteAction(Request $request, int|string $id): ?Response
+    {
+        /** @var User|null $item */
+        $item = $this->getRepository()->find($id);
+
+        if (!($item instanceof PersistableInterface)) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->denyAccessUnlessGranted($this->getRequiredDeletionRole(), $item);
+        $this->additionalAssignation($request);
+
+        $this->prepareWorkingItem($item);
+        $this->denyAccessUnlessItemGranted($item);
+
+        $form = $this->createForm(FormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
+            /*
+             * Events are dispatched before entity manager is flushed
+             * to be able to throw exceptions before it is persisted.
+             */
+            $event = $this->createDeleteEvent($item);
+            $this->dispatchSingleOrMultipleEvent($event);
+            $entityManager?->remove($item);
+            $entityManager?->flush();
+
+            $postEvent = $this->createPostDeleteEvent($item);
+            $this->dispatchSingleOrMultipleEvent($postEvent);
+
+            $msg = $this->translator->trans(
+                '%namespace%.%item%.was_deleted',
+                [
+                    '%item%' => $this->getEntityName($item),
+                    '%namespace%' => $this->translator->trans($this->getNamespace()),
+                ]
+            );
+            $this->logTrail->publishConfirmMessage($request, $msg, $item);
+
+            return $this->getPostDeleteResponse($item);
+        }
+
+        $title = $this->translator->trans(
+            'delete.user.%name%',
+            ['%name%' => $this->getEntityName($item)]
+        );
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/users/head.html.twig',
+            'cancelPath' => $this->generateUrl('usersHomePage'),
+            'alertMessage' => 'are_you_sure.delete.user',
+            'form' => $form->createView(),
+        ]);
     }
 
     #[\Override]
