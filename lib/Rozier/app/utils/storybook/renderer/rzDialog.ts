@@ -1,6 +1,5 @@
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import type { Args } from '../../../../stories/RzDialog.stories'
-import type { ButtonArgs } from '../../../../stories/RzButton.stories'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
 
 function rzDialogHeaderRenderer(args: Args['header']) {
     const wrapper = document.createElement('header')

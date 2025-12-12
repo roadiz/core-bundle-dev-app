@@ -10,6 +10,9 @@
 @import './font-family.css';
 @import './text.css';
 
+/* common */
+@import './common.css';
+
 /* Layout */
 @import './rz-app.css';
 

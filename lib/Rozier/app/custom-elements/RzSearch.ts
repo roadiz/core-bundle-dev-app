@@ -1,57 +1,160 @@
 import type { RzDialog } from './RzDialog'
+import type { NodeSourceSearch } from '~/types/node-source-search'
 import api from '~/api'
+import { rzCardRenderer } from '~/utils/component-renderer/rzCard'
+import { debounce } from 'lodash'
 
 const SEARCH_QUERY = 'search_all'
 
-const SEARCH_REQUEST_EVENT = 'rz-search-request'
-const SEARCH_SUCCESS_EVENT = 'rz-search-success'
-const SEARCH_FAILED_EVENT = 'rz-search-failed'
-const SEARCH_RESET_EVENT = 'rz-search-reset'
+const ITEM_MOCKED_RESPONSE: NodeSourceSearch = {
+    classname: 'Main menu',
+    color: '#000000',
+    displayable: 'Homepage',
+    editItem: '/rz-admin/nodes/edit/1/source/1',
+    id: 1,
+    published: true,
+    thumbnail: {
+        alt: null,
+        embedId: null,
+        embedPlatform: null,
+        hotspot: null,
+        imageAverageColor: '#4e4e4e',
+        imageHeight: 384,
+        imageWidth: 384,
+        mediaDuration: 0,
+        mimeType: 'image/avif',
+        processable: true,
+        relativePath:
+            '850881a5/884d3ed1_b143_4c1b_961a_deaec938e46d_fontimate_0.avif',
+        type: 'image',
+        url: '/assets/w250-c5:4-s3-q60/850881a5/884d3ed1_b143_4c1b_961a_deaec938e46d_fontimate_0.avif',
+    },
+}
 
 export class RzSearch extends HTMLElement {
     value: string | null = null
     searchInput: HTMLInputElement | null = null
+
     dialogElement: RzDialog | null = null
+    listELement: HTMLUListElement | null = null
+    statusMessage: HTMLDivElement | null = null
+
+    fetchStatus:
+        | 'idle'
+        | 'reset'
+        | 'pending'
+        | 'results'
+        | 'no-results'
+        | 'error' = 'idle'
+    items: NodeSourceSearch[] | null = null
 
     constructor() {
         super()
-        this.onInputChange = this.onInputChange.bind(this)
+        this.onInputChange = debounce(this.onInputChange.bind(this), 300)
     }
 
-    dispatchSearchEvent(
-        eventName: string,
-        detail: Record<string, unknown> = {},
-    ) {
-        const event = new CustomEvent(eventName, {
-            detail,
-            bubbles: true,
-            composed: true,
+    createStatusMessage() {
+        this.statusMessage = document.createElement('div')
+        this.statusMessage.classList.add('visually-hidden')
+        this.statusMessage.setAttribute('aria-live', 'polite')
+        this.statusMessage.setAttribute('role', 'status')
+        this.statusMessage.setAttribute('aria-atomic', 'true')
+
+        if (this.listELement && this.statusMessage) {
+            this.listELement.parentElement?.insertBefore(
+                this.statusMessage,
+                this.listELement,
+            )
+        }
+    }
+
+    updateStatusMessage() {
+        if (!this.statusMessage) return
+        const itemLength = this.items?.length
+
+        if (this.fetchStatus === 'idle') {
+            this.statusMessage.textContent = 'Waiting for request'
+        } else if (this.fetchStatus === 'reset') {
+            this.statusMessage.textContent = 'Request reset'
+        } else if (this.fetchStatus === 'pending') {
+            this.statusMessage.textContent = 'Searching...'
+        } else if (this.fetchStatus === 'results' && this.items !== null) {
+            this.statusMessage.textContent = `${itemLength} result${
+                itemLength > 1 ? 's' : ''
+            } found`
+        } else if (this.fetchStatus === 'no-results') {
+            this.statusMessage.textContent = 'No results found'
+        } else if (this.fetchStatus === 'error') {
+            this.statusMessage.textContent =
+                'An error occurred while fetching results'
+        }
+    }
+
+    getItemsElement() {
+        if (!this.items?.length) return []
+
+        return this.items.map((item) => {
+            const li = document.createElement('li')
+            const card = rzCardRenderer({
+                tag: item.editItem ? 'a' : 'div',
+                title: item.displayable,
+                overtitle: item.classname,
+                image: {
+                    src: item.thumbnail.url,
+                    width: item.thumbnail.imageWidth,
+                    height: item.thumbnail.imageHeight,
+                    alt: item.thumbnail.alt || item.displayable,
+                },
+                attributes: {
+                    href: item.editItem,
+                },
+            })
+            li.appendChild(card)
+
+            return li
         })
-        this.dispatchEvent(event)
     }
 
-    async nodesSourceSearchUpdate(searchTerms: string = '') {
-        if (!searchTerms || searchTerms.length <= 1) {
-            this.dispatchSearchEvent(SEARCH_RESET_EVENT)
-            return
-        }
+    render() {
+        this.updateStatusMessage()
 
-        this.dispatchSearchEvent(SEARCH_REQUEST_EVENT, { searchTerms })
-
-        try {
-            const items = await api.getNodesSourceFromSearch(searchTerms)
-
-            this.dispatchSearchEvent(SEARCH_SUCCESS_EVENT, { items })
-        } catch (error) {
-            this.dispatchSearchEvent(SEARCH_FAILED_EVENT, { error })
+        if (this.listELement) {
+            this.listELement.innerHTML = ''
+            this.getItemsElement()?.forEach((el) => {
+                this.listELement?.appendChild(el)
+            })
         }
     }
 
-    onInputChange() {
+    async onInputChange() {
         const newValue = this.searchInput?.value || ''
         this.value = newValue
 
-        this.nodesSourceSearchUpdate(newValue)
+        if (!newValue || newValue.length <= 1) {
+            this.fetchStatus = 'reset'
+        } else {
+            try {
+                this.fetchStatus = 'pending'
+                const items = await api.getNodesSourceFromSearch(newValue)
+
+                if (items.length) {
+                    this.fetchStatus = 'results'
+                    this.items = items
+                } else {
+                    this.fetchStatus = 'no-results'
+                    this.items = []
+                }
+            } catch {
+                this.fetchStatus = 'error'
+                this.items = [
+                    ITEM_MOCKED_RESPONSE,
+                    ITEM_MOCKED_RESPONSE,
+                    ITEM_MOCKED_RESPONSE,
+                ]
+            }
+        }
+
+        this.render()
     }
 
     getQueryParamsValue() {
@@ -60,6 +163,9 @@ export class RzSearch extends HTMLElement {
     }
 
     connectedCallback() {
+        this.listELement =
+            this.querySelector<HTMLUListElement>('[data-search-list]')
+
         this.dialogElement = this.querySelector<RzDialog>('[is="rz-dialog"]')
         const initialValue =
             this.getAttribute('initial-value') || this.getQueryParamsValue()
@@ -74,21 +180,8 @@ export class RzSearch extends HTMLElement {
             this.searchInput.value = initialValue
         }
 
-        this.addEventListener(SEARCH_REQUEST_EVENT, (e: CustomEvent) => {
-            console.log('Search request:', e.detail.searchTerms)
-        })
-
-        this.addEventListener(SEARCH_SUCCESS_EVENT, (e: CustomEvent) => {
-            console.log('Search success:', e.detail.items)
-        })
-
-        this.addEventListener(SEARCH_FAILED_EVENT, (e: CustomEvent) => {
-            console.log('Search failed:', e.detail.error)
-        })
-
-        this.addEventListener(SEARCH_RESET_EVENT, () => {
-            console.log('Search reset')
-        })
+        this.createStatusMessage()
+        this.render()
     }
 
     disconnectedCallback() {

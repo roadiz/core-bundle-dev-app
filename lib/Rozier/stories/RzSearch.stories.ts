@@ -1,15 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
-import { rzCardRenderer } from '~/utils/storybook/renderer/rzCard'
+// import { rzCardRenderer } from '~/utils/storybook/renderer/rzCard'
 import { rzDialogRenderer } from '~/utils/storybook/renderer/rzDialog'
 import { rzInputRenderer } from '~/utils/storybook/renderer/rzInput'
 import type { Args as DialogArgs } from './RzDialog.stories'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 export type Args = {
     value?: string
     action?: string
     placeholder?: string
-    resultLength?: number
     dialogData: DialogArgs & Required<Pick<DialogArgs, 'dialogId'>>
     attributes?: Record<string, string>
 }
@@ -22,7 +21,6 @@ const meta: Meta<Args> = {
     args: {
         placeholder: 'Search...',
         action: '',
-        resultLength: 20,
         dialogData: {
             modal: true,
             header: undefined,
@@ -42,6 +40,20 @@ const meta: Meta<Args> = {
             },
         },
     },
+    decorators: [
+        (story) => {
+            window.RozierConfig = {
+                ...(window.RozierConfig || {}),
+                ajaxToken:
+                    'df5fd31.BsNTK_iUS4RuAXYJCY4aKyP8PhT2eIvrWI7Tpc1H0-s.P48GGq_Aev4mbx1KMcNeeUWQX0G9E--cNfq_3KsDhKdXkDl5svUZzwpsRg',
+                routes: {
+                    searchAjax: '/rz-admin/ajax/search',
+                },
+            }
+
+            return story()
+        },
+    ],
 }
 
 export default meta
@@ -54,9 +66,6 @@ function innerDialogRenderer(args: Args) {
     form.setAttribute('action', args.action || '#')
     form.setAttribute('role', 'search')
     form.setAttribute('aria-label', 'Une entité')
-    // form.onsubmit = (event: Event) => {
-    //     event.preventDefault()
-    // }
 
     const searchInput = rzInputRenderer({
         type: 'search',
@@ -68,6 +77,7 @@ function innerDialogRenderer(args: Args) {
     form.appendChild(searchInput)
 
     const ul = document.createElement('ul')
+    ul.setAttribute('data-search-list', '')
     ul.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
     /* A11Y NOTE :
@@ -76,21 +86,6 @@ function innerDialogRenderer(args: Args) {
     - result count: displaying
     e.g: <span class="visibility-hidden" aria-live="polite" aria-atomic="true">10 results found for query "test"</span>
      */
-
-    if (args.resultLength) {
-        for (let i = 1; i <= args.resultLength; i++) {
-            const li = document.createElement('li')
-            const card = rzCardRenderer({
-                tag: 'a',
-                title: `Search result item ${i} for query "${args.value}"`,
-                attributes: {
-                    href: '#',
-                },
-            })
-            li.appendChild(card)
-            ul.appendChild(li)
-        }
-    }
 
     return [form, ul]
 }
