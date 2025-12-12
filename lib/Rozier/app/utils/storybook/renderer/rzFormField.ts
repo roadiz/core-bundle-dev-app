@@ -3,8 +3,8 @@ import { rzButtonGroupRenderer } from './rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
-import { rzBadgeRenderer } from './rzBadge'
 import { rzSwitchRenderer } from './rzSwitch'
+import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 

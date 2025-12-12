@@ -15,7 +15,10 @@ export type RzBadgeData = RzElement & {
 }
 
 export function rzBadgeRenderer(data: RzBadgeData) {
-    const root = rzElement(data)
+    const root = rzElement({
+        tag: 'span',
+        ...data,
+    })
     root.classList.add(COMPONENT_CLASS_NAME)
 
     if (data.size) {

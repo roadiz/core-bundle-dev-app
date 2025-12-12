@@ -5,7 +5,6 @@ import {
     SIZES,
     COLORS,
 } from '~/utils/component-renderer/rzBadge'
-import {} from '~/utils/storybook/renderer/rzBadge'
 
 type Args = RzBadgeData
 
