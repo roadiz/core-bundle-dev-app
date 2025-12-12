@@ -1,15 +1,15 @@
 import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
 
 import {
-    type RzButtonGroupData,
+    type RzButtonGroupOptions,
     rzButtonGroupRenderer,
 } from '~/utils/component-renderer/rzButtonGroup'
 import {
-    type RzImageData,
+    type RzImageOptions,
     rzImageRenderer,
 } from '~/utils/component-renderer/rzImage'
 import {
-    type RzBadgeData,
+    type RzBadgeOptions,
     rzBadgeRenderer,
 } from '~/utils/component-renderer/rzBadge'
 
@@ -18,56 +18,56 @@ export const COMPONENT_CLASS_NAME = 'rz-card'
 export type RzCardData = RzElement & {
     overtitle?: string
     title?: string
-    image?: RzImageData
-    badge?: RzBadgeData
-    buttonGroup: RzButtonGroupData
-    buttonGroupTop?: RzButtonGroupData
+    image?: RzImageOptions
+    badge?: RzBadgeOptions
+    buttonGroup: RzButtonGroupOptions
+    buttonGroupTop?: RzButtonGroupOptions
 }
 
-export function rzCardRenderer(data: RzCardData) {
-    const root = rzElement(data)
+export function rzCardRenderer(options: RzCardData) {
+    const root = rzElement(options)
     root.classList.add(COMPONENT_CLASS_NAME)
 
-    if (data.overtitle) {
+    if (options.overtitle) {
         const overtitle = document.createElement('div')
         overtitle.classList.add(`${COMPONENT_CLASS_NAME}__overtitle`)
-        overtitle.textContent = data.overtitle
+        overtitle.textContent = options.overtitle
         root.appendChild(overtitle)
     }
 
-    if (data.title) {
+    if (options.title) {
         const title = document.createElement('div')
         title.classList.add(`${COMPONENT_CLASS_NAME}__title`)
-        title.textContent = data.title
+        title.textContent = options.title
         root.appendChild(title)
     }
 
-    if (data.image || data.badge) {
+    if (options.image || options.badge) {
         const assetWrapper = document.createElement('div')
         assetWrapper.classList.add(`${COMPONENT_CLASS_NAME}__asset`)
         root.appendChild(assetWrapper)
 
-        if (data.image) {
-            const imageNode = rzImageRenderer(data.image)
+        if (options.image) {
+            const imageNode = rzImageRenderer(options.image)
             imageNode.classList.add(`${COMPONENT_CLASS_NAME}__img`)
             assetWrapper.appendChild(imageNode)
         }
 
-        if (data.badge) {
-            const badgeNode = rzBadgeRenderer(data.badge)
+        if (options.badge) {
+            const badgeNode = rzBadgeRenderer(options.badge)
             badgeNode.classList.add(`${COMPONENT_CLASS_NAME}__badge`)
             assetWrapper.appendChild(badgeNode)
         }
     }
 
-    if (data.buttonGroup) {
-        const node = rzButtonGroupRenderer(data.buttonGroup)
+    if (options.buttonGroup) {
+        const node = rzButtonGroupRenderer(options.buttonGroup)
         node.classList.add(`${COMPONENT_CLASS_NAME}__action`)
         root.appendChild(node)
     }
 
-    if (data.buttonGroupTop) {
-        const node = rzButtonGroupRenderer(data.buttonGroupTop)
+    if (options.buttonGroupTop) {
+        const node = rzButtonGroupRenderer(options.buttonGroupTop)
         node.classList.add(
             `${COMPONENT_CLASS_NAME}__action`,
             `${COMPONENT_CLASS_NAME}__action--top`,

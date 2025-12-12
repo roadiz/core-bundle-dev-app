@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    type RzBadgeData,
+    type RzBadgeOptions,
     rzBadgeRenderer,
     SIZES,
     COLORS,
 } from '~/utils/component-renderer/rzBadge'
 
-type Args = RzBadgeData
+type Args = RzBadgeOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Badge',

@@ -1,9 +1,9 @@
 import {
-    RzButtonGroupData,
+    RzButtonGroupOptions,
     rzButtonGroupRenderer,
 } from '~/utils/component-renderer/rzButtonGroup'
 import {
-    type RzImageData,
+    type RzImageOptions,
     rzImageRenderer,
 } from '~/utils/component-renderer/rzImage'
 
@@ -22,9 +22,9 @@ export const MODIFIERS = [
 
 export type Args = {
     modifiers?: typeof MODIFIERS
-    image?: RzImageData
+    image?: RzImageOptions
     title: string
-    buttonGroup: RzButtonGroupData
+    buttonGroup: RzButtonGroupOptions
     tag?: string
 }
 

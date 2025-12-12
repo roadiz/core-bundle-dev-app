@@ -7,7 +7,7 @@ export const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 export const SIZES = ['xs', 'sm', 'md', 'lg'] as const
 export const COLORS = ['success', 'danger'] as const
 
-export type RzButtonData = RzElement & {
+export type RzButtonOptions = RzElement & {
     label?: string
     emphasis?: (typeof EMPHASIS)[number]
     size?: (typeof SIZES)[number]
@@ -19,50 +19,50 @@ export type RzButtonData = RzElement & {
     hasPill?: boolean
 }
 
-export function rzButtonRenderer(data: RzButtonData) {
+export function rzButtonRenderer(options: RzButtonOptions) {
     const root = rzElement({
-        ...data,
+        ...options,
         is: 'rz-button',
         tag: 'button',
     })
     root.classList.add(COMPONENT_CLASS_NAME)
 
-    if (data.emphasis) {
-        root.classList.add(`${COMPONENT_CLASS_NAME}--${data.emphasis}`)
+    if (options.emphasis) {
+        root.classList.add(`${COMPONENT_CLASS_NAME}--${options.emphasis}`)
     }
-    if (data.size) {
-        root.classList.add(`${COMPONENT_CLASS_NAME}--${data.size}`)
+    if (options.size) {
+        root.classList.add(`${COMPONENT_CLASS_NAME}--${options.size}`)
     }
-    if (data.disabled) {
+    if (options.disabled) {
         root.classList.add(`${COMPONENT_CLASS_NAME}--disabled`)
         // same style result as class above
         // root.setAttribute('disabled', 'true')
     }
-    if (data.selected) {
+    if (options.selected) {
         root.classList.add(`${COMPONENT_CLASS_NAME}--selected`)
     }
-    if (data.onDark) {
+    if (options.onDark) {
         root.classList.add(`${COMPONENT_CLASS_NAME}--on-dark`)
     }
-    if (data.color) {
-        root.classList.add(`${COMPONENT_CLASS_NAME}--${data.color}`)
+    if (options.color) {
+        root.classList.add(`${COMPONENT_CLASS_NAME}--${options.color}`)
     }
-    if (data.hasPill) {
+    if (options.hasPill) {
         root.classList.add(`${COMPONENT_CLASS_NAME}--pill`)
     }
 
-    if (data.label) {
+    if (options.label) {
         const labelNode = rzIconRenderer({
             tag: 'span',
             class: `${COMPONENT_CLASS_NAME}__label`,
-            innerHTML: data.label,
+            innerHTML: options.label,
         })
         root.appendChild(labelNode)
     }
 
-    if (data.iconClass) {
+    if (options.iconClass) {
         const iconNode = rzIconRenderer({
-            class: `${COMPONENT_CLASS_NAME}__icon ${data.iconClass}`,
+            class: `${COMPONENT_CLASS_NAME}__icon ${options.iconClass}`,
         })
         root.appendChild(iconNode)
     }

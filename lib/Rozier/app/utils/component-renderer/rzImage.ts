@@ -7,7 +7,7 @@ type ImageSource = RzElement & {
     srcset: string
 }
 
-export type RzImageData = RzElement & {
+export type RzImageOptions = RzElement & {
     alt?: string
     src?: string
     width?: number
@@ -15,32 +15,32 @@ export type RzImageData = RzElement & {
     sources?: ImageSource[]
 }
 
-export function rzSourceRenderer(data: ImageSource) {
+export function rzSourceRenderer(options: ImageSource) {
     const node = rzElement({
         tag: 'source',
-        ...data,
+        ...options,
     })
-    node.setAttribute('type', data.type)
-    node.setAttribute('srcset', data.srcset)
+    node.setAttribute('type', options.type)
+    node.setAttribute('srcset', options.srcset)
 
     return node
 }
 
-export function rzImageRenderer(data: RzImageData) {
+export function rzImageRenderer(options: RzImageOptions) {
     const root = rzElement({
         tag: 'img',
-        ...data,
+        ...options,
     })
     root.classList.add(COMPONENT_CLASS_NAME)
 
-    if (data.alt) root.setAttribute('alt', data.alt)
-    if (data.src) root.setAttribute('src', data.src)
-    if (data.width) root.setAttribute('width', data.width.toString())
-    if (data.height) root.setAttribute('height', data.height.toString())
+    if (options.alt) root.setAttribute('alt', options.alt)
+    if (options.src) root.setAttribute('src', options.src)
+    if (options.width) root.setAttribute('width', options.width.toString())
+    if (options.height) root.setAttribute('height', options.height.toString())
 
-    if (data.sources?.length) {
+    if (options.sources?.length) {
         const picture = document.createElement('picture')
-        data.sources.forEach((source) => {
+        options.sources.forEach((source) => {
             const sourceNode = rzSourceRenderer(source)
             picture.appendChild(sourceNode)
         })
