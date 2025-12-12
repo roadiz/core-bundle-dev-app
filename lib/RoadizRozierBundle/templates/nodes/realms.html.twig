@@ -4,13 +4,13 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
-{% block title %}{{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="content-global">
         {% include '@RoadizRozier/nodes/head.html.twig' with {
             node: node,
-            title: "edit.node.%name%.realms"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true),
+            title: "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title,
             current: 'realm',
             with_info_badge: true,
             with_status_badge: true,

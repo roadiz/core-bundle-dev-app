@@ -55,15 +55,6 @@
             {%- endif -%}
 
             {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
-            {% if this.drawer.maxLength < 9999 %}
-                {% set label_attr = label_attr|merge({'data-max-length': this.drawer.maxLength}) %}
-            {% endif %}
-            {% if this.drawer.minLength > 0 %}
-                {% set label_attr = label_attr|merge({'data-min-length': this.drawer.minLength}) %}
-            {% endif %}
-            {% if this.drawer.errorMessage != '' %}
-                {% set label_attr = label_attr|merge({'drawer-error-message': this.drawer.errorMessage}) %}
-            {% endif %}
             {% if label is not same as(false) -%}
                 {% if label is empty -%}
                     {% set label = name|humanize %}

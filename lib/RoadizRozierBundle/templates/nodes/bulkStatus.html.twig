@@ -4,7 +4,7 @@
 {% block content %}
 <section class="content-global change-status-node">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        title: "change.nodes.status"|trans()|u.truncate(25, '[…]', true),
+        title: "change.nodes.status"|trans()|truncate_title,
     } only %}
 
     <article class="content content-delete content-no-action-menu">

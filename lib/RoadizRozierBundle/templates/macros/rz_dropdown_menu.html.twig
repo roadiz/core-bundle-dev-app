@@ -1,12 +1,12 @@
 {% macro head(title, items) %}
-    <div class="rz-dropdown-menu__head">
+    <div class="rz-dropdown__head">
         {% if title is defined and title %}
-            <div class="rz-dropdown-menu__title">{{- title|trans -}}</div>
+            <div class="rz-dropdown__title">{{- title|trans -}}</div>
         {% endif %}
         {% if items is defined and items|length > 0 %}
-            <ul class="rz-dropdown-menu__info-list">
+            <ul class="rz-dropdown__info-list">
                 {% for item in items %}
-                    <li class="rz-dropdown-menu__info-item">
+                    <li class="rz-dropdown__info-item">
                         {% if item.badge is defined and item.badge %}
                             {% import "@RoadizRozier/macros/rz_badge.html.twig" as badge %}
                             {{ badge.item(item.badge.label, item.badge.icon, item.badge.size, item.badge.color) }}
@@ -22,33 +22,33 @@
 {% endmacro %}
 
 {% macro item(label, class, description, href, title, leftIcon, rightIcon, badgeLabel, badgeIcon, input, selected) %}
-    <li class="rz-dropdown-menu__item {{ input is defined and input ? 'node-statuses-item' : '' }}">
+    <li class="{{ input is defined and input ? 'node-statuses-item' : '' }}">
         {% if href is defined and href %}
-            <a class="rz-dropdown-menu__button {{ class|default('') }} {{ selected is defined and selected ? 'rz-dropdown-menu__button--selected' : '' }}"
+            <a class="rz-dropdown__item {{ class|default('') }} {{ selected is defined and selected ? 'rz-dropdown__item--selected' : '' }}"
                 {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
                 target="_blank"
                 href="{{ href }}"
             >
         {% else %}
-            <button class="rz-dropdown-menu__button"
+            <button class="rz-dropdown__item"
                 {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
             >
         {% endif %}
             {% if leftIcon is defined and leftIcon %}
-                <span class="rz-dropdown-menu__button__icon {{ leftIcon }}"></span>
+                <span class="rz-dropdown__item__icon {{ leftIcon }}"></span>
             {% endif %}
-            <div class="rz-dropdown-menu__button__text-wrapper">
+            <div class="rz-dropdown__item__text-wrapper">
                 {% if label is defined and label %}
-                    <span class="rz-dropdown-menu__button__label">{{- label|trans -}}</span>
+                    <span class="rz-dropdown__item__label">{{- label|trans -}}</span>
                 {% endif %}
                 {% if description is defined and description %}
-                    <div class="rz-dropdown-menu__button__description">
+                    <div class="rz-dropdown__item__description">
                         {{- description|trans -}}
                     </div>
                 {% endif %}
             </div>
             {% if (badgeLabel is defined and badgeLabel) or (badgeIcon is defined and badgeIcon) %}
-                <div class="rz-badge rz-badge--xs rz-dropdown-menu__button__badge" aria-label="{{- badgeLabel|trans -}}">
+                <div class="rz-badge rz-badge--xs rz-dropdown__item__badge" aria-label="{{- badgeLabel|trans -}}">
                     {% if badgeIcon is defined and badgeIcon %}
                         <span class="rz-badge__icon {{ badgeIcon }}"></span>
                     {% endif %}
@@ -58,7 +58,7 @@
                 </div>
             {% endif %}
             {% if rightIcon is defined and rightIcon %}
-                <span class="rz-dropdown-menu__button__icon {{ rightIcon }}"></span>
+                <span class="rz-dropdown__item__icon {{ rightIcon }}"></span>
             {% endif %}
             {% if input is defined and input %}
                 <input type="{{ input.type }}"
@@ -79,9 +79,9 @@
 {% endmacro %}
 
 {% block wrapper %}
-    <div class="rz-dropdown-menu {{ reverse ? 'rz-dropdown-menu--reverse' : '' }}" id="{{ targetId }}" popover>
+    <div class="rz-dropdown {{ reverse ? 'rz-dropdown--reverse' : '' }}" id="{{ targetId }}" popover>
         {{ _self.head(title, items) }}
-        <menu class="rz-dropdown-menu__list">
+        <menu class="rz-dropdown__list">
             {% block items %}
             {% endblock %}
         </menu>

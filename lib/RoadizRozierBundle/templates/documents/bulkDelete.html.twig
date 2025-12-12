@@ -4,7 +4,9 @@
 {% block content %}
 <section class="content-global delete-document">
     <header class="content-header header-document header-document-preview">
-        <h1 class="content-title document-delete-title">{{ "delete.documents"|trans() }}</h1>
+        {% include '@RoadizRozier/documents/head.html.twig' with {
+            title: "delete.documents"|trans,
+        } only %}
     </header>
 
     <article class="content content-delete content-no-action-menu">

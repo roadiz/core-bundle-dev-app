@@ -585,9 +585,17 @@ final class NodeController extends AbstractController
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        return $this->render('@RoadizRozier/nodes/delete.html.twig', [
+        $title = $this->translator->trans(
+            'delete.node.%name%',
+            ['%name%' => $node->getNodeName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'alertMessage' => 'are_you_sure.delete.node.and.data',
             'form' => $form->createView(),
-            'node' => $node,
         ]);
     }
 

@@ -4,14 +4,9 @@
 
 {% block content %}
 <section class="content-global upload-document">
-
-    <header class="content-header header-document header-document-upload">
-        <h1 class="content-title document-upload-title">{% trans %}upload.document{% endtrans %}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('documentsHomePage', {folderId: folder.id}) }}"
-           title="{% trans %}back_to.documents{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/documents/head.html.twig' with {
+        title: "upload.document"|trans,
+    } only %}
 
     <article class="content content-upload">
         <div class="content-upload-inner">

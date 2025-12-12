@@ -1,11 +1,11 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        title: "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true),
+        title: "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|truncate_title,
     } only %}
 
     <article class="content content-publish-all content-node-publish-all content-no-action-menu">

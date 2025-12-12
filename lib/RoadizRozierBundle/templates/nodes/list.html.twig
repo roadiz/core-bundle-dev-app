@@ -2,12 +2,12 @@
 
 {% set mainTitle = mainFilter ~ '.nodes' %}
 
-{% block title %}{{ mainTitle|trans()|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ mainTitle|trans()|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global content-nav-and-filters bulk-layout">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
-        title: mainTitle|trans()|u.truncate(25, '[…]', true),
+        title: mainTitle|trans()|truncate_title,
         filters: filters,
         availableTranslations: availableTranslations,
         translation: translation,
