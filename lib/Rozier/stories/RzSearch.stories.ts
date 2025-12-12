@@ -10,7 +10,7 @@ export type Args = {
     action?: string
     placeholder?: string
     resultLength?: number
-    dialogData?: DialogArgs
+    dialogData: DialogArgs & Required<Pick<DialogArgs, 'dialogId'>>
     attributes?: Record<string, string>
 }
 
@@ -27,6 +27,7 @@ const meta: Meta<Args> = {
             modal: true,
             header: undefined,
             closedby: 'any',
+            dialogId: 'search-dialog',
             footer: {
                 justifyEnd: true,
                 buttons: [
@@ -104,10 +105,8 @@ function rzSearchRenderer(args: Args) {
         })
     }
 
-    const dialogId = 'search-dialog'
     const dialog = rzDialogRenderer({
         ...args.dialogData,
-        dialogId: dialogId,
         innerHTML: innerDialogRenderer(args)
             .map((el) => el.outerHTML)
             .join(''),
@@ -117,7 +116,7 @@ function rzSearchRenderer(args: Args) {
     const button = rzButtonRenderer({
         label: 'Open search',
         attributes: {
-            opentarget: dialogId,
+            opentarget: args.dialogData?.dialogId,
         },
     })
     wrapper.appendChild(button)
@@ -136,6 +135,10 @@ export const DefaultOpen: Story = {
         return rzSearchRenderer(args)
     },
     args: {
+        dialogData: {
+            ...meta.args.dialogData,
+            dialogId: 'search-dialog-default-open',
+        },
         attributes: {
             ['initial-value']: 'test',
         },
