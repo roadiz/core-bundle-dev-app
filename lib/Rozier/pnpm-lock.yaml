@@ -29,6 +29,9 @@ importers:
       dropzone:
         specifier: ~5.5.1
         version: 5.5.1
+      invokers-polyfill:
+        specifier: ^0.5.7
+        version: 0.5.7
       jquery:
         specifier: ^3.5.0
         version: 3.7.1
@@ -1479,6 +1482,9 @@ packages:
   indent-string@4.0.0:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
+
+  invokers-polyfill@0.5.7:
+    resolution: {integrity: sha512-T1MmQ40+ARzC0W3YgyVUyncXIi1G7jnUq1PVdsYNr1ql7etYGHWNr3RKvJABIiFO5Ktk3xK9/A8+1lFASvcrKw==}
 
   is-core-module@2.16.1:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
@@ -3624,6 +3630,8 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   indent-string@4.0.0: {}
+
+  invokers-polyfill@0.5.7: {}
 
   is-core-module@2.16.1:
     dependencies:
