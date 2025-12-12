@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { ButtonArgs } from './RzButton.stories'
-import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
+import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 
 const GAPS = ['sm', 'md', 'lg'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const

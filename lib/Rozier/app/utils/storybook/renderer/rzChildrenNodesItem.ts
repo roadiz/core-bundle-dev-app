@@ -1,7 +1,9 @@
-import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
+import {
+    RzButtonGroupData,
+    rzButtonGroupRenderer,
+} from '~/utils/component-renderer/rzButtonGroup'
 import { rzImageRenderer } from './rzImage'
 import { type Image } from './rzImage'
-import type { Args as ButtonGroupArgs } from '../../../../stories/RzButtonGroup.stories'
 
 export const COMPONENT_CLASS_NAME = 'rz-children-nodes__item'
 
@@ -20,7 +22,7 @@ export type Args = {
     modifiers?: typeof MODIFIERS
     image?: Image
     title: string
-    buttonGroup: ButtonGroupArgs
+    buttonGroup: RzButtonGroupData
     tag?: string
 }
 
