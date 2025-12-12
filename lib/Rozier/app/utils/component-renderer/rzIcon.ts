@@ -14,7 +14,6 @@ export function rzIconRenderer(data: rzBadgeData) {
             class: data.class,
         },
     })
-    root.classList.add(COMPONENT_CLASS_NAME)
 
     return root
 }

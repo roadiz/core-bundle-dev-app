@@ -1,4 +1,5 @@
 import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
+import { rzIconRenderer } from './rzIcon'
 
 export const COMPONENT_CLASS_NAME = 'rz-badge'
 
@@ -25,8 +26,9 @@ export function rzBadgeRenderer(data: RzBadgeData) {
     }
 
     if (data.iconClass) {
-        const icon = document.createElement('span')
-        icon.classList.add(`${COMPONENT_CLASS_NAME}__icon`, data.iconClass)
+        const icon = rzIconRenderer({
+            class: `${COMPONENT_CLASS_NAME}__icon ${data.iconClass}`,
+        })
         root.appendChild(icon)
     }
 

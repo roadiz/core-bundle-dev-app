@@ -52,15 +52,17 @@ export function rzButtonRenderer(data: RzButtonData) {
     }
 
     if (data.label) {
-        const labelNode = document.createElement('span')
-        labelNode.classList.add(`${COMPONENT_CLASS_NAME}__label`)
-        labelNode.innerText = data.label
+        const labelNode = rzIconRenderer({
+            tag: 'span',
+            class: `${COMPONENT_CLASS_NAME}__label`,
+            innerHTML: data.label,
+        })
         root.appendChild(labelNode)
     }
 
     if (data.iconClass) {
         const iconNode = rzIconRenderer({
-            class: `${COMPONENT_CLASS_NAME}__icon ` + data.iconClass,
+            class: `${COMPONENT_CLASS_NAME}__icon ${data.iconClass}`,
         })
         root.appendChild(iconNode)
     }

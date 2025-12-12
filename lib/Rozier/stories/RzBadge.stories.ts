@@ -1,19 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
+import {
+    type RzBadgeData,
+    rzBadgeRenderer,
+    SIZES,
+    COLORS,
+} from '~/utils/component-renderer/rzBadge'
+import {} from '~/utils/storybook/renderer/rzBadge'
 
-const SIZES = ['xs', 'sm', 'md'] as const
-const COLORS = ['information', 'success', 'warning', 'danger'] as const
+type Args = RzBadgeData
 
-export type BadgeArgs = {
-    iconClass?: string
-    label?: string
-    title?: string
-    size?: (typeof SIZES)[number]
-    color?: (typeof COLORS)[number]
-    attributes?: Record<string, string>
-}
-
-const meta: Meta<BadgeArgs> = {
+const meta: Meta<Args> = {
     title: 'Components/Badge',
     tags: ['autodocs'],
     args: {
@@ -43,7 +39,7 @@ const meta: Meta<BadgeArgs> = {
 }
 
 export default meta
-type Story = StoryObj<BadgeArgs>
+type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
@@ -98,7 +94,7 @@ export const Unpublished: Story = {
         return rzBadgeRenderer({
             ...args,
             label: 'Unpublished',
-            color: 'error',
+            color: 'danger',
             iconClass: 'rz-icon-rz--status-draft-fill',
         })
     },
