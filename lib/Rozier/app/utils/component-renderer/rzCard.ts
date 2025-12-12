@@ -15,7 +15,7 @@ import {
 
 export const COMPONENT_CLASS_NAME = 'rz-card'
 
-export type RzCardData = RzElement & {
+export type RzCardOptions = RzElement & {
     overtitle?: string
     title?: string
     image?: RzImageOptions
@@ -24,7 +24,7 @@ export type RzCardData = RzElement & {
     buttonGroupTop?: RzButtonGroupOptions
 }
 
-export function rzCardRenderer(options: RzCardData) {
+export function rzCardRenderer(options: RzCardOptions) {
     const root = rzElement(options)
     root.classList.add(COMPONENT_CLASS_NAME)
 

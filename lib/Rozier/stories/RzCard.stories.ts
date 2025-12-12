@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    type RzCardData,
+    type RzCardOptions,
     rzCardRenderer,
 } from '~/utils/component-renderer/rzCard'
 // @ts-expect-error — image module declaration not recognized
 import image from './assets/images/01.jpg'
 
-type Args = RzCardData & {}
+type Args = RzCardOptions
 
 /**
  * Layout is auto determined based on presence of `rz-card__title` `rz-card__overtitle` `rz-card__img` classes.

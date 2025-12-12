@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { type Args as FormFieldArgs } from './RzFormField.stories'
 import {
-    type RzCardData,
+    type RzCardOptions,
     rzCardRenderer,
 } from '~/utils/component-renderer/rzCard'
 // @ts-expect-error — image module declaration not recognized
@@ -15,10 +15,10 @@ const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
 
 export type Args = FormFieldArgs & {
     layout: (typeof DRAWER_LAYOUTS)[number]
-    items: RzCardData[]
+    items: RzCardOptions[]
 }
 
-const NODE_WITH_IMG_ITEM: RzCardData = {
+const NODE_WITH_IMG_ITEM: RzCardOptions = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     image: {
@@ -43,7 +43,7 @@ const NODE_WITH_IMG_ITEM: RzCardData = {
     },
 }
 
-const NODE_ITEM: RzCardData = {
+const NODE_ITEM: RzCardOptions = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     buttonGroup: {
@@ -63,7 +63,7 @@ const NODE_ITEM: RzCardData = {
     },
 }
 
-const DOCUMENT_ITEM: RzCardData = {
+const DOCUMENT_ITEM: RzCardOptions = {
     image: {
         src: imageHorizontal,
         width: 110,
