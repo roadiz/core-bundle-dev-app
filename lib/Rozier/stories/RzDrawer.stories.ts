@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { type Args as FormFieldArgs } from './RzFormField.stories'
 import {
+    type RzCardData,
     rzCardRenderer,
-    type Args as CardArgs,
-} from '~/utils/storybook/renderer/rzCard'
+} from '~/utils/component-renderer/rzCard'
 // @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
 // @ts-expect-error — image module declaration not recognized
@@ -15,10 +15,10 @@ const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
 
 export type Args = FormFieldArgs & {
     layout: (typeof DRAWER_LAYOUTS)[number]
-    items: CardArgs[]
+    items: RzCardData[]
 }
 
-const NODE_WITH_IMG_ITEM: CardArgs = {
+const NODE_WITH_IMG_ITEM: RzCardData = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     image: {
@@ -36,13 +36,14 @@ const NODE_WITH_IMG_ITEM: CardArgs = {
             },
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
-                color: 'error-light',
+                emphasis: 'tertiary',
+                color: 'danger',
             },
         ],
     },
 }
 
-const NODE_ITEM: CardArgs = {
+const NODE_ITEM: RzCardData = {
     overtitle: 'Overtitle example',
     title: 'Title example',
     buttonGroup: {
@@ -55,13 +56,14 @@ const NODE_ITEM: CardArgs = {
             },
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
-                color: 'error-light',
+                emphasis: 'tertiary',
+                color: 'danger',
             },
         ],
     },
 }
 
-const DOCUMENT_ITEM: CardArgs = {
+const DOCUMENT_ITEM: RzCardData = {
     image: {
         src: imageHorizontal,
         width: 110,
@@ -77,7 +79,8 @@ const DOCUMENT_ITEM: CardArgs = {
             },
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
-                color: 'error-light',
+                emphasis: 'tertiary',
+                color: 'danger',
             },
         ],
     },
@@ -104,7 +107,7 @@ const meta: Meta<Args> = {
         error: 'Error message example',
         badge: {
             label: '0/255',
-            color: 'error' as const,
+            color: 'danger' as const,
             size: 'xs' as const,
         },
         buttonGroup: {
