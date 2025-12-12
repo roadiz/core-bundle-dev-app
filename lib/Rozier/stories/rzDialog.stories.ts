@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
-import type { ButtonArgs } from './RzButton.stories'
+import {
+    type RzButtonOptions,
+    rzButtonRenderer,
+} from '~/utils/component-renderer/rzButton'
 
 type Header = {
     title?: string
@@ -9,7 +11,7 @@ type Header = {
 }
 
 type Footer = {
-    buttons?: ButtonArgs[]
+    buttons?: RzButtonOptions[]
 }
 
 // 'none' = dialog cannot be closed by user interaction

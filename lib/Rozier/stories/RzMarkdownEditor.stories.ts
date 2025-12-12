@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonGroupRenderer } from '../app/utils/storybook/renderer/rzButtonGroup'
+import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
 
 const COMPONENT_CLASS_NAME = 'rz-markdown-editor'

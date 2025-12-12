@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzIconRenderer } from '~/utils/component-renderer/rzIcon'
 
 export type IconArgs = {
     className: string
@@ -25,10 +26,11 @@ function getClassName(args: IconArgs) {
 }
 
 function iconRenderer(args: IconArgs) {
-    const iconNode = document.createElement('span')
+    const iconNode = rzIconRenderer({
+        class: getClassName(args),
+    })
     if (args.color) iconNode.style.color = args.color
     if (args.fontSize) iconNode.style.fontSize = args.fontSize
-    iconNode.className = getClassName(args)
 
     return iconNode
 }
