@@ -52,10 +52,10 @@ export function rzButtonRenderer(options: RzButtonOptions) {
     }
 
     if (options.label) {
-        const labelNode = rzIconRenderer({
+        const labelNode = rzElement({
             tag: 'span',
-            class: `${COMPONENT_CLASS_NAME}__label`,
             innerHTML: options.label,
+            attributes: { class: `${COMPONENT_CLASS_NAME}__label` },
         })
         root.appendChild(labelNode)
     }
