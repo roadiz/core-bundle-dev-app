@@ -1,5 +1,6 @@
 {% set entityIds = [] %}
 {% set isSortable = isSortable|default('true') %}
+
 {% for entity in value %}
     {% if entity is ContextualizedDocumentInterface %}
         {% set entityIds = entityIds|merge([{
@@ -19,127 +20,106 @@
     {% endif %}
 {% endfor %}
 
-{% set drawerAttributesWhitelist = [
+{% set fieldAttributesWhitelist = [
     'data-field-group',
     'data-field-group-canonical',
     'data-dev-name',
 ] %}
-{% set drawerAttributes = [] %}
+{% set fieldAttributes = [] %}
+
 {% for key, value in form.vars.attr %}
-    {% if key in drawerAttributesWhitelist %}
-        {% set drawerAttributes = drawerAttributes|merge([
+    {% if key in fieldAttributesWhitelist %}
+        {% set fieldAttributes = fieldAttributes|merge([
             key ~ '="' ~ value|escape ~ '"'
         ]) %}
     {% endif %}
 {% endfor %}
-<div class="rz-form-field form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
-    <drawer-container data-vuejs
-                      inline-template
-                      data-entity-name="{{ entityName }}"
-                      data-locale="{{ form.vars._locale }}"
-                      data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
-    >
-        <div class="rz-drawer rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
-             :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
-             v-if="drawer"
-             ref="drawer"
-            {{ widget_attributes|raw }}
-            {% if entity %}data-accept-entity="{{ entity }}"{% endif %}
-             data-entity-types="[]"
-             data-is-sortable="{{ isSortable }}"
-            {% if provider_class %}data-provider-class="{{ provider_class }}" {% endif %}
-            {% if provider_options %}data-provider-options="{{ provider_options|json_encode }}" {% endif %}
-             data-initial-items="{{ entityIds|json_encode }}">
-            {% if label is empty -%}
-                {% set label = name|humanize %}
-            {%- endif -%}
 
-            {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
-            {% if this.drawer.maxLength < 9999 %}
-                {% set label_attr = label_attr|merge({'data-max-length': this.drawer.maxLength}) %}
-            {% endif %}
-            {% if this.drawer.minLength > 0 %}
-                {% set label_attr = label_attr|merge({'data-min-length': this.drawer.minLength}) %}
-            {% endif %}
-            {% if this.drawer.errorMessage != '' %}
-                {% set label_attr = label_attr|merge({'drawer-error-message': this.drawer.errorMessage}) %}
-            {% endif %}
-            {% if label is not same as(false) -%}
-                {% if label is empty -%}
-                    {% set label = name|humanize %}
-                {%- endif -%}
-                <div class="rz-form-field__head">
-                    {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entityIds|length) }}
-                    <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
-                        {% if enableDropzone %}
-                            <button
-                                type="button"
-                                class="rz-button rz-button--sm rz-button-group__button"
-                                @click.prevent="onDropzoneButtonClick"
-                            >
-                                <span class="rz-button__label">{%- trans -%}documents.toggle-uploader{%- endtrans -%}</span>
-                                <span class="rz-button__icon rz-icon-ri--upload-line"></span>
-                            </button>
-                        {% endif %}
-                        <button
-                            type="button"
-                            class="rz-button rz-button--sm rz-button-group__button"
-                            @click.prevent="onExplorerButtonClick"
-                        >
-                            <span class="rz-button__label">{%- trans -%}documents.toggle-explorer{%- endtrans -%}</span>
-                            <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                        </button>
-                        <template v-if="drawer.errorMessage">
-                            <div class="rz-message rz-message--error rz-form-field__message">
-                                <p class="rz-message__text">{ drawer.errorMessage }}</p>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-            {% endif %}
-            {%- if form.vars.help ?? false -%}
-                {{ rz_form_field.help(
-                    form: form,
-                ) }}
-            {%- endif -%}
+{% set drawerAttributes = [] %}
+{% set drawerAttributesMap = {} %}
 
-            <div class="drawer-widget-sortable-container">
-                <transition name="fade" v-if="drawer.isLoading">
-                    <div class="spinner"></div>
-                </transition>
-                <div class="drawer-widget-sortable"
-                    data-input-name="{{ name }}">
-                    <draggable
-                        v-model="items"
-                        :options="getOptions()"
+{# Parse widget_attributes string into a map for easy access #}
+{% if widget_attributes is defined and widget_attributes is not empty %}
+    {% set attributePairs = widget_attributes|split(' ') %}
+    {% for pair in attributePairs %}
+        {% if '=' in pair %}
+            {% set parts = pair|split('=', 2) %}
+            {% set attrKey = parts[0]|trim %}
+            {% set attrValue = parts[1]|trim('"')|trim("'") %}
+            {% set drawerAttributesMap = drawerAttributesMap|merge({ (attrKey): attrValue }) %}
+            {% set drawerAttributes = drawerAttributes|merge([pair]) %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% set drawerId = drawerAttributesMap['id']|default('drawer-id') %}
+{% set fileUploadId = drawerId ~ '-file-upload' %}
+
+
+{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+
+<rz-form-field {{ fieldAttributes|join(' ')|raw }}>
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    {% if label is not same as(false) -%}
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <div class="rz-form-field__head">
+            {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entityIds|length) }}
+            <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
+                {% if enableDropzone %}
+                    <button
+                        type="button"
+                        class="rz-button rz-button--sm rz-button-group__button"
+                        command="--toggle-file-upload"
+                        commandfor="{{ drawerId }}"
+                        aria-expanded="false"
+                        aria-controls="{{ fileUploadId }}"
                     >
-                        <transition-group tag="ul" class="rz-drawer__body rz-form-field__body">
-                            <component
-                                v-bind:is="drawer.currentListingView"
-                                v-for="(item, index) in items"
-                                :key="(item.document) ? item.document.id : item.id"
-                                :drawer-name="drawerName"
-                                :is-item-explorer="false"
-                                :add-item="addItem"
-                                :remove-item="removeItem"
-                                :index="index"
-                                :item="item"
-                                :entity-name="entityName"
-                                @edit="onEditItem"
-                            >
-                            </component>
-                        </transition-group>
-                    </draggable>
-                </div>
-            </div>
-            {% if enableDropzone %}
-                <rz-file-upload
-                    v-if="drawer.isDropzoneEnable"
-                    @error="showError"
-                    @success="showSuccess"
+                        <span class="rz-button__label">{%- trans -%}documents.toggle-uploader{%- endtrans -%}</span>
+                        <span class="rz-button__icon rz-icon-ri--upload-line"></span>
+                    </button>
+                {% endif %}
+                <button
+                    type="button"
+                    class="rz-button rz-button--sm rz-button-group__button"
                 >
-                </rz-file-upload>
-            {% endif %}
+                    <span class="rz-button__label">{%- trans -%}documents.toggle-explorer{%- endtrans -%}</span>
+                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                </button>
+                <template v-if="drawer.errorMessage">
+                    <div class="rz-message rz-message--error rz-form-field__message">
+                        <p class="rz-message__text">{ drawer.errorMessage }}</p>
+                    </div>
+                </template>
+            </div>
         </div>
-    </drawer-container>
-</div>
+    {% endif %}
+
+    {%- if form.vars.help ?? false -%}
+        {{ rz_form_field.help(
+            form: form,
+        ) }}
+    {%- endif -%}
+
+    <rz-drawer 
+        {{ drawerAttributes|join(' ')|raw }}
+        class="rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} rz-form-field__body"
+        {% if entity %}accept-entity="{{ entity }}"{% endif %}
+        {% if isSortable %}sortable="" {% endif %}
+        {% if provider_class %}provider-class="{{ provider_class }}" {% endif %}
+        {% if provider_options %}provider-options="{{ provider_options|json_encode }}" {% endif %}
+        entity-types="[]"
+        items="{{ entityIds|json_encode }}"
+        entity-name="{{ entityName }}"
+        locale="{{ form.vars._locale }}"
+        document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
+    >
+        <div class="rz-drawer__body" data-list></div>
+        {% if enableDropzone %}
+            <rz-file-upload id="{{ fileUploadId }}" hidden></rz-file-upload>
+        {% endif %}
+    </rz-drawer>
+</rz-form-field>
