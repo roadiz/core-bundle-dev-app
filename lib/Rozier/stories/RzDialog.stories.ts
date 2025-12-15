@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { ButtonArgs } from './RzButton.stories'
 import { rzDialogWrapperRenderer } from '~/utils/storybook/renderer/rzDialog'
+import { type RzButtonOptions } from '~/utils/component-renderer/rzButton'
 
 // 'none' = dialog cannot be closed by user interaction
 // 'closerequest' = dialog can be closed only by close button or calling close() method
@@ -16,7 +16,7 @@ export type Args = {
     }
     footer?: {
         justifyEnd?: boolean
-        buttons?: ButtonArgs[]
+        buttons?: RzButtonOptions[]
     }
     innerHTML?: string
     closedby?: (typeof CLOSED_BY_VALUES)[number]
@@ -124,15 +124,15 @@ export const WithForm: Story = {
     args: {
         dialogId: 'WithForm-dialog',
         innerHTML: `
-			<div>
-				<form method="dialog">
-					<button>Close dialog from form 'method="dialog"'</button>
-				</form>
-				<form>
-					<button formmethod="dialog">Close dialog from button 'formmethod="dialog"'</button>
-				</form>
-			</div>
-		`,
+            <div>
+                <form method="dialog">
+                    <button>Close dialog from form 'method="dialog"'</button>
+                </form>
+                <form>
+                    <button formmethod="dialog">Close dialog from button 'formmethod="dialog"'</button>
+                </form>
+            </div>
+        `,
         footer: undefined,
     },
 }
