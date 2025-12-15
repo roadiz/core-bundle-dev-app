@@ -16,7 +16,7 @@ export type Args = {
 const COMPONENT_CLASS_NAME = 'rz-search'
 
 const meta: Meta<Args> = {
-    title: 'Components/SearchDialog',
+    title: 'Components/Overlay/SearchDialog',
     tags: ['autodocs'],
     args: {
         placeholder: 'Search...',
