@@ -97,6 +97,7 @@ export default {
     data: () => {
         return {
             searchPlaceHolder: '',
+            drawerId: '',
         }
     },
     computed: {
@@ -128,6 +129,12 @@ export default {
             }, 450),
         },
     },
+    mounted() {
+        document.addEventListener('show-explorer', this.onShowExplorer)
+    },
+    unmounted() {
+        document.removeEventListener('show-explorer', this.onShowExplorer)
+    },
     methods: {
         ...mapActions([
             'filterExplorerToggle',
@@ -140,7 +147,20 @@ export default {
             this.explorerUpdateSearch({ searchTerms: this.searchTerms })
         },
         addItem(item) {
-            this.drawersAddItem({ item })
+            // this.drawersAddItem({ item })
+            document.dispatchEvent(new CustomEvent('add-drawer-item', {
+                detail: {
+                    item: item,
+                    drawerId: this.drawerId,
+                },
+            }))
+        },
+        onShowExplorer(event) {
+            if (event.detail?.acceptEntity) {
+                this.drawerId = event.detail.id || ''
+
+                this.$store.dispatch('explorerOpen', { entity: event.detail.acceptEntity})
+            }
         },
     },
     components: {
