@@ -3,7 +3,10 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzDialogRenderer } from '~/utils/storybook/renderer/rzDialog'
 import { rzInputRenderer } from '~/utils/storybook/renderer/rzInput'
 import type { Args as DialogArgs } from './RzDialog.stories'
-import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import {
+    rzButtonRenderer,
+    type RzButtonOptions,
+} from '~/utils/component-renderer/rzButton'
 import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
 
 export type Args = RzElement & {
@@ -11,6 +14,7 @@ export type Args = RzElement & {
     action?: string
     placeholder?: string
     dialogData: DialogArgs & Required<Pick<DialogArgs, 'dialogId'>>
+    buttonOptions?: RzButtonOptions
 }
 
 const COMPONENT_CLASS_NAME = 'rz-search'
@@ -107,8 +111,10 @@ function rzSearchRenderer(args: Args) {
 
     const button = rzButtonRenderer({
         label: 'Open search',
+        ...args.buttonOptions,
         attributes: {
             opentarget: args.dialogData?.dialogId,
+            ...(args.buttonOptions?.attributes || {}),
         },
     })
     wrapper.appendChild(button)
@@ -128,6 +134,9 @@ export const WithOpenKeyBind: Story = {
     },
     args: {
         ...meta.args,
+        buttonOptions: {
+            label: 'Open search with Meta+K',
+        },
         attributes: {
             'open-key': 'meta+k',
         },
