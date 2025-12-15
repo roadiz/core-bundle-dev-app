@@ -1,10 +1,10 @@
 import type { Args } from '../../../../stories/RzFormField.stories'
-import { rzButtonGroupRenderer } from './rzButtonGroup'
+import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
-import { rzBadgeRenderer } from './rzBadge'
 import { rzSwitchRenderer } from './rzSwitch'
+import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
@@ -43,6 +43,26 @@ export function rzFormFieldHeadRenderer(args: Args) {
         head.appendChild(badge)
     }
 
+    if (args.maxLength || args.minLength) {
+        const badge = rzBadgeRenderer({
+            size: 'xs',
+            label: `<span data-length-indicator-current>0</span>${args.maxLength ? '/' + args.maxLength : ''}`,
+        })
+        badge.setAttribute('data-length-indicator', 'rz-badge--danger')
+        badge.classList.add(`${wrapperClass}__badge`)
+        head.appendChild(badge)
+    }
+
+    if (args.minLength) {
+        const badge = rzBadgeRenderer({
+            size: 'xs',
+            color: 'information',
+            label: `min: ${args.minLength}`,
+        })
+        badge.classList.add(`${wrapperClass}__badge`)
+        head.appendChild(badge)
+    }
+
     if (args.buttonGroup) {
         const buttonGroup = rzButtonGroupRenderer(args.buttonGroup)
         buttonGroup.classList.add(`${wrapperClass}__end`)
@@ -56,7 +76,7 @@ export function rzFormFieldRenderer(
     args: Args,
     mainElement?: HTMLElement | null,
 ) {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement('rz-form-field')
     const inputType = args.input?.type || args.type
 
     const wrapperClasses = [
@@ -97,6 +117,15 @@ export function rzFormFieldRenderer(
             ...args.input,
             name: args.input?.name || 'name',
             type: inputType,
+            attributes: {
+                ...args.input?.attributes,
+                'data-max-length': args.maxLength
+                    ? String(args.maxLength)
+                    : undefined,
+                'data-min-length': args.minLength
+                    ? String(args.minLength)
+                    : undefined,
+            },
         })
         input.classList.add(`${COMPONENT_CLASS_NAME}__body`)
         if (descriptionId) input.setAttribute('aria-describedby', descriptionId)

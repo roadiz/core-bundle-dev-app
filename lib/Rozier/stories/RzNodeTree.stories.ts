@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 type Item = {
     label: string

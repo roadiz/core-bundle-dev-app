@@ -1,6 +1,6 @@
 import type { Args as ItemArgs } from '../../../../stories/RzDropdownItem.stories'
 import type { Args as DropdownArgs } from '../../../../stories/RzDropdown.stories'
-import { rzBadgeRenderer } from './rzBadge'
+import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-dropdown'
 

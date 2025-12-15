@@ -1,9 +1,9 @@
 import type { Args } from '../../../../stories/RzHeader.stories'
 import { rzHeaderNavItemRenderer } from '~/utils/storybook/renderer/rzHeaderNavItem'
-import { rzBadgeRenderer } from '~/utils/storybook/renderer/rzBadge'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
+import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-header'
 
