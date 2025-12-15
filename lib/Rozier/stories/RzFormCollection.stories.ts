@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { type Args as FormFieldArgs } from './RzFormField.stories'
-import { rzButtonGroupRenderer } from '~/utils/storybook/renderer/rzButtonGroup'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
 import { useArgs } from 'storybook/preview-api'
+import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 type ItemOptions = {
     itemIndex?: number
