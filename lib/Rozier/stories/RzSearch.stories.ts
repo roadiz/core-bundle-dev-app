@@ -4,13 +4,13 @@ import { rzDialogRenderer } from '~/utils/storybook/renderer/rzDialog'
 import { rzInputRenderer } from '~/utils/storybook/renderer/rzInput'
 import type { Args as DialogArgs } from './RzDialog.stories'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
 
-export type Args = {
+export type Args = RzElement & {
     value?: string
     action?: string
     placeholder?: string
     dialogData: DialogArgs & Required<Pick<DialogArgs, 'dialogId'>>
-    attributes?: Record<string, string>
 }
 
 const COMPONENT_CLASS_NAME = 'rz-search'
@@ -63,7 +63,11 @@ function innerDialogRenderer(args: Args) {
     const form = document.createElement('form')
     form.classList.add(`${COMPONENT_CLASS_NAME}__search-form`)
     form.setAttribute('method', 'GET')
-    form.setAttribute('action', args.action || '#')
+    form.setAttribute(
+        'action',
+        args.action || window.RozierConfig.routes?.searchAjax || '',
+    )
+    form.setAttribute('prevent-submit', '')
     form.setAttribute('role', 'search')
     form.setAttribute('aria-label', 'Une entité')
 
@@ -91,14 +95,7 @@ function innerDialogRenderer(args: Args) {
 }
 
 function rzSearchRenderer(args: Args) {
-    const wrapper = document.createElement('rz-search')
-    const attributesEntries = Object.entries(args.attributes || {})
-    if (attributesEntries.length) {
-        attributesEntries.forEach(([key, value]) => {
-            if (typeof value === 'undefined') return
-            wrapper.setAttribute(key, value)
-        })
-    }
+    const wrapper = rzElement({ ...args, tag: 'rz-search' })
 
     const dialog = rzDialogRenderer({
         ...args.dialogData,
@@ -122,6 +119,18 @@ function rzSearchRenderer(args: Args) {
 export const Default: Story = {
     render: (args) => {
         return rzSearchRenderer(args)
+    },
+}
+
+export const WithOpenKeyBind: Story = {
+    render: (args) => {
+        return rzSearchRenderer(args)
+    },
+    args: {
+        ...meta.args,
+        attributes: {
+            'open-key': 'meta+k',
+        },
     },
 }
 

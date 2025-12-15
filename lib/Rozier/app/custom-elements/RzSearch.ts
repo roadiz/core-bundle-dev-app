@@ -50,7 +50,9 @@ export class RzSearch extends HTMLElement {
 
     constructor() {
         super()
+
         this.onInputChange = debounce(this.onInputChange.bind(this), 300)
+        this.onKeyDown = this.onKeyDown.bind(this)
     }
 
     createStatusMessage() {
@@ -146,11 +148,7 @@ export class RzSearch extends HTMLElement {
                 }
             } catch {
                 this.fetchStatus = 'error'
-                this.items = [
-                    ITEM_MOCKED_RESPONSE,
-                    ITEM_MOCKED_RESPONSE,
-                    ITEM_MOCKED_RESPONSE,
-                ]
+                this.items = null
             }
         }
 
@@ -167,6 +165,7 @@ export class RzSearch extends HTMLElement {
             this.querySelector<HTMLUListElement>('[data-search-list]')
 
         this.dialogElement = this.querySelector<RzDialog>('[is="rz-dialog"]')
+
         const initialValue =
             this.getAttribute('initial-value') || this.getQueryParamsValue()
 
@@ -180,32 +179,56 @@ export class RzSearch extends HTMLElement {
             this.searchInput.value = initialValue
         }
 
+        const preventSubmitElement =
+            this.querySelectorAll<HTMLElement>('[prevent-submit]')
+        if (preventSubmitElement?.length) {
+            preventSubmitElement.forEach((el) => {
+                el.onsubmit = (e) => {
+                    e.preventDefault()
+                }
+            })
+        }
+
+        if (this.hasAttribute('open-key')) {
+            this.initKeyBindEvent()
+        }
+
         this.createStatusMessage()
         this.render()
     }
 
     disconnectedCallback() {
-        // Remove event listener from search input
+        if (this.hasAttribute('open-key')) {
+            this.disposeKeyBindEvent()
+        }
+
         this.searchInput?.removeEventListener('input', this.onInputChange)
     }
 
     /* Open the search dialog with `Cmd | ctrl + k`  */
-    onKeyDown(event: KeyboardEvent, dialog: HTMLDialogElement) {
-        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+    onKeyDown(event: KeyboardEvent) {
+        const openKey = this.getAttribute('open-key')
+        if (!openKey) return
+
+        const keys = openKey.split('+').map((k) => k.trim().toLowerCase())
+        const isValid = keys.every((key) => {
+            const isMeta =
+                (key === 'meta' && event.metaKey) ||
+                (key === 'meta' && event.ctrlKey)
+            return isMeta || key === event.key
+        })
+
+        if (isValid) {
             event.preventDefault()
-            dialog.showModal()
+            this.dialogElement.showModal()
         }
     }
 
-    initKeyBindEvent(dialog: HTMLDialogElement) {
-        window.addEventListener('keydown', (event) =>
-            this.onKeyDown(event, dialog),
-        )
+    initKeyBindEvent() {
+        window.addEventListener('keydown', this.onKeyDown)
     }
 
-    disposeKeyBindEvent(dialog: HTMLDialogElement) {
-        window.removeEventListener('keydown', (event) =>
-            this.onKeyDown(event, dialog),
-        )
+    disposeKeyBindEvent() {
+        window.removeEventListener('keydown', this.onKeyDown)
     }
 }
