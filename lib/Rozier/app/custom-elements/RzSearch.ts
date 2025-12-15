@@ -152,6 +152,7 @@ export class RzSearch extends HTMLElement {
         if (this.dialogElement && !!initialValue) {
             this.dialogElement.showDialog()
             this.searchInput.value = initialValue
+            this.onInputChange()
         }
 
         const preventSubmitElement =
