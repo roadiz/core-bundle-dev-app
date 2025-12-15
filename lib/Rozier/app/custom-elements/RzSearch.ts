@@ -6,31 +6,6 @@ import { debounce } from 'lodash'
 
 const SEARCH_QUERY = 'search_all'
 
-const ITEM_MOCKED_RESPONSE: NodeSourceSearch = {
-    classname: 'Main menu',
-    color: '#000000',
-    displayable: 'Homepage',
-    editItem: '/rz-admin/nodes/edit/1/source/1',
-    id: 1,
-    published: true,
-    thumbnail: {
-        alt: null,
-        embedId: null,
-        embedPlatform: null,
-        hotspot: null,
-        imageAverageColor: '#4e4e4e',
-        imageHeight: 384,
-        imageWidth: 384,
-        mediaDuration: 0,
-        mimeType: 'image/avif',
-        processable: true,
-        relativePath:
-            '850881a5/884d3ed1_b143_4c1b_961a_deaec938e46d_fontimate_0.avif',
-        type: 'image',
-        url: '/assets/w250-c5:4-s3-q60/850881a5/884d3ed1_b143_4c1b_961a_deaec938e46d_fontimate_0.avif',
-    },
-}
-
 export class RzSearch extends HTMLElement {
     value: string | null = null
     searchInput: HTMLInputElement | null = null
