@@ -4,11 +4,9 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-node header-node-delete">
-        <h1 class="content-title node-delete-title">{{ "empty.node.trash"|trans }}</h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        title: "empty.node.trash"|trans,
+    } only %}
 
     <article class="content content-delete content-node-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

@@ -1,9 +1,25 @@
+.rz-app > .rz-header {
+	position: sticky;
+	z-index: 100;
+	top: 0;
+
+	.rz-header__head {
+		height: var(--rz-app-header-height);
+	}
+
+	@media (--screen-sm-min) {
+		margin-block: var(--rz-app-padding-block);
+		top: var(--rz-app-padding-block);
+		height: calc(100vh - var(--rz-app-padding-block) * 2);
+	}
+}
+
 .rz-header {
 	box-sizing: border-box;
 	display: inline-flex;
 	flex-direction: column;
 	gap: var(--spacing-4xs);
-	padding: 12px 10px;
+	padding-inline: var(--spacing-2xs);
 	transition: width 0.8s;
 	width: 100%;
 	overflow: hidden;
@@ -18,12 +34,16 @@
 	@media (--screen-sm-min) {
 		--rz-header-nav-display: flex;
 
-		width: 64px;
+		width: var(--rz-app-header-width, 64px);
 
 		@media (hover: hover) {
 			&:has(:where(.rz-header-nav-item[aria-expanded="true"], .rz-header-nav-item--active)),
 			&:hover {
-				width: calc-size(fit-content, max(size, 280px));
+		        width: 280px;
+
+				@supports (width: calc-size(auto, size)) {
+					width: calc-size(fit-content, max(size, 280px));
+				}
 			}
 		}
 	}

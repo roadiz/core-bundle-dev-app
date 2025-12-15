@@ -6,6 +6,8 @@ import {
 import { type Args as PopoverItemArgs } from './RzDropdownItem.stories'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
+import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
+import { rzIconRenderer } from '~/utils/component-renderer/rzIcon'
 
 export type Args = {
     title?: string
@@ -36,16 +38,18 @@ const meta: Meta<Args> = {
                 </rz-tooltip>`,
             },
             {
-                tag: 'span',
-                class: 'rz-icon-ri--lock-2-line',
+                innerHTML: rzIconRenderer({ class: 'rz-icon-ri--lock-2-line' })
+                    .outerHTML,
             },
             {
-                tag: 'span',
-                class: 'rz-icon-ri--eye-off-line',
+                innerHTML: rzIconRenderer({ class: 'rz-icon-ri--eye-off-line' })
+                    .outerHTML,
             },
             {
-                innerHTML:
-                    '<div class="rz-badge rz-badge--success"><span class="rz-badge__icon rz-icon-rz--status-published-fill"></span></div>',
+                innerHTML: rzBadgeRenderer({
+                    iconClass: 'rz-icon-rz--status-published-fill',
+                    color: 'success',
+                }).outerHTML,
             },
         ],
         items: [

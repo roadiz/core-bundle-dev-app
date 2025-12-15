@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
 import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/Popover'
-import { rzButtonRenderer } from '~/utils/storybook/renderer/rzButton'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 export type Args = {
     tooltipText?: string
