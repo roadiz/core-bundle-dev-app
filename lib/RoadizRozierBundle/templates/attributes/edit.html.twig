@@ -3,12 +3,12 @@
 {% block title %}{{ "edit.attribute.%name%"|trans({'%name%': item.code}) }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
+<section class="content-global edit-item">
     {% include '@RoadizRozier/attributes/head.html.twig' with {
         title: "edit.attribute.%name%"|trans({'%name%': item.code})
     } only %}
 
-    <article class="content">
+    <article class="content content-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, {attr:{id: 'edit-attribute-form'}}) }}
             {{ form_widget(form) }}
@@ -17,6 +17,6 @@
         {{ form_end(form) }}
     </article>
 
-    {% include '@RoadizRozier/attributes/actionsMenu.html.twig' %}
+    {% include '@RoadizRozier/attributes/actionsMenu.html.twig' with {"item": item} only %}
 </section>
 {% endblock %}

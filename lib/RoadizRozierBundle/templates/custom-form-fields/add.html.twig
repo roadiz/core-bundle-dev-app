@@ -4,17 +4,17 @@
 
 {% block content %}
 <section class="content-global">
-    {% include '@RoadizRozier/custom-form-fields/head.html.twig' with {
-        title: 'add.a.customFormField'|trans
+    {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+        title: 'add.a.customFormField'|trans,
     } only %}
 
     <article class="content">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, { attr: { id: 'add-customformfield-form'}}) }}
-            {{ form_widget(form) }}
+        {{- form_start(form, { 'attr': { 'id': "add-custom-form-field-form" }}) -}}
+        {{ form_widget(form) }}
             {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#add-customformfield-form') }}
-        {{ form_end(form) }}
+            {{ actions_menu.saveItem('#add-custom-form-field-form') }}
+        {{- form_end(form) -}}
     </article>
 
     {% include '@RoadizRozier/custom-form-fields/actionsMenu.html.twig' %}

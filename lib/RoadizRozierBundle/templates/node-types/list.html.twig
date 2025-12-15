@@ -3,67 +3,95 @@
 {% block title %}{% trans %}nodeTypes{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    {% include '@RoadizRozier/node-types/head.html.twig' with {
-        title: 'nodeTypes'|trans,
-        filters: filters
-    } only %}
+    <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/node-types/head.html.twig' with {
+            title: 'nodeTypes'|trans,
+            filters: filters,
+            buttons: [
+                {
+                    label: 'manage.decorators'|trans,
+                    href: path('nodeTypeDecoratorsListPage'),
+                    icon: 'rz-icon-ri--paint-brush-line',
+                },
+                {
+                    label: 'export.documentation'|trans,
+                    href: path('nodesTypesExportDocumentationPage'),
+                    icon: 'rz-icon-ri--download-cloud-2-line',
+                },
+                {
+                    label: 'export.typescript_declaration'|trans,
+                    href: path('nodesTypesExportTypeScriptPage'),
+                    icon: 'rz-icon-ri--download-cloud-2-line',
+                }
+            ]
+        } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="node-types content-table uk-table">
-                <thead>
-                <tr>
-                    <th>{% trans %}name{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}displayName{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}status{% endtrans %}</th>
-                    <th class="table-actions-row table-actions-row-3 table-actions-row-xs-2">{% trans %}actions{% endtrans %}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for nodeType in nodeTypes %}
+        <article class="content content-no-action-menu content-node-types-list">
+            <div class="content-table-cont">
+                <table class="node-types content-table uk-table">
+                    <thead>
                     <tr>
-                        <td>{{ nodeType.name }}</td>
-                        <td class="mobile-hidden"><strong>{{ nodeType.displayName }}</strong></td>
-                        <td class="mobile-hidden">
-                            {% if nodeType.isVisible == false %}
-                                <div class="uk-badge uk-badge-warning">{% trans %}not_available{% endtrans %}</div>
-                            {% endif %}
-                            {% if nodeType.isReachable == false %}
-                                <div class="uk-badge uk-badge-warning">{% trans %}not_reachable{% endtrans %}</div>
-                            {% endif %}
-                            {% if nodeType.isPublishable == false %}
-                                <div class="uk-badge uk-badge-warning">{% trans %}not_publishable{% endtrans %}</div>
-                            {% endif %}
-                            {% if nodeType.isHidingNodes == true %}
-                                <div class="uk-badge uk-badge-notification">{% trans %}hiding_nodes{% endtrans %}</div>
-                            {% endif %}
-                            {% if nodeType.isHidingNonReachableNodes == true %}
-                                <div class="uk-badge uk-badge-notification">{% trans %}hiding_non_reachable_nodes{% endtrans %}</div>
-                            {% endif %}
-                        </td>
-                        <td class="table-actions-row">
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: nodeType.name }) }}"
-                                   title="{% trans %}edit{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('nodesTypesShowSchemasPage', {nodeTypeName:nodeType.name}) }}"
-                                   title="{% trans %}schema{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-file-code"></i> </a>
-                                <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                                   href="{{ path('nodesTypesExportSingleJsonSchemaPage', {nodeTypeName:nodeType.name}) }}"
-                                   title="{% trans %}export.schema{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i> </a>
-                            </div>
-                        </td>
+                        <th>
+                            {% trans %}name{% endtrans %}
+                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                                'filters': filters,
+                            } only %}
+                        </th>
+                        <th class="mobile-hidden uk-hidden-small">{% trans %}nodeType.displayName{% endtrans %}</th>
+                        <th class="mobile-hidden uk-hidden-small uk-visible-xlarge">{% trans %}nodeType.entityName{% endtrans %}</th>
+                        <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.numberFields{% endtrans %}</th>
+                        <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.status{% endtrans %}</th>
+                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
-</section>
+                    </thead>
+                    <tbody>
+                    {%- for type in node_types -%}
+                        {% set classes = ['node-type-item'] %}
+                        {% if not type.reachable %}
+                            {% set classes = classes|merge(['not-reachable']) %}
+                        {% endif %}
+                        {% if not type.visible %}
+                            {% set classes = classes|merge(['not-visible']) %}
+                        {% endif %}
+                        {% if type.hidingNodes %}
+                            {% set classes = classes|merge(['hiding-children']) %}
+                        {% endif %}
+
+                        <tr style="--rz-accent-color:{{ type.getColor }};" class="{{ classes|join(' ') }}">
+                            <td class="name"><a href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) }}">
+                                    <span class="color"></span>{{ type.getName }}
+                                </a></td>
+                            <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
+                            <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>
+                            <td class="mobile-hidden uk-hidden-small uk-visible-large"><div class="uk-badge uk-badge-table">{% transchoice type.getFields|length %}{0} no.nodeTypeField|{1} 1.nodeTypeField|]1,Inf] %count%.nodeTypeFields{% endtranschoice %}</div></td>
+                            <td class="mobile-hidden uk-hidden-small uk-visible-large">
+                                {% if not type.visible %}<span data-uk-tooltip="{animation:true}" title="{% trans %}nodeType.not_visible{% endtrans %}" class="uk-button-status uk-button-warning"><i class="uk-icon-eye-slash"></i></span>{% endif %}
+                                {% if type.hidingNodes %}<span class="uk-button-status" data-uk-tooltip="{animation:true}" title="{% trans %}nodeType.hiding_nodes{% endtrans %}"><i class="uk-icon-rz-steril"></i></span>{% endif %}
+                                {%- if type.highlighted -%}
+                                    <span class="uk-button-status" data-uk-tooltip="{animation:true}" title="{% trans %}nodeType.highlighted{% endtrans %}">
+                                    <i class="uk-icon-justify uk-icon-star uk-icon-small" style="color: var(--rz-accent-color)"></i>
+                                </span>
+                                {%- endif -%}
+                            </td>
+                            <td class="table-actions-row">
+                                <div class="uk-button-group">
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.name }) }}"
+                                       title="{% trans %}manage.nodeTypeFields{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': type.name}) }}"
+                                       title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}">
+                                        <i class="uk-icon-pencil"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {%- endfor -%}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
 {% endblock %}

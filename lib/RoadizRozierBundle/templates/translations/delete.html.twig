@@ -9,9 +9,9 @@
 {% block content %}
 <section class="content-global edit-translation">
 
-    {% include '@RoadizRozier/translations/head.html.twig' with {
-        title: "delete.translation.%name%"|trans({'%name%': translation.getName})|truncate_title
-    } only %}
+    <header class="content-header header-translation header-translation-list">
+        <h1 class="content-title translation-add-title">{{ "delete.translation.%name%"|trans({'%name%': translation.getName })|truncate_title }}</h1>
+    </header>
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

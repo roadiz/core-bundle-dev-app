@@ -5,16 +5,21 @@
 
 {% block content %}
 <section class="content-global edit-folder">
-    {% include '@RoadizRozier/folders/head.html.twig' with {
-        title: "edit.folder.%name%"|trans({'%name%': folderName})|truncate_title ~ (translation and available_translations ? ' (' ~ translation.locale ~ ')' : '')
-    } only %}
-
-    {% if available_translations %}
-        {% include '@RoadizRozier/folders/navBar.html.twig' with {'folder':folder, current:'edit-label'} %}
-        {% include '@RoadizRozier/folders/translationBar.html.twig' with {'folder':folder, "current":translation.id} %}
-    {% else %}
-        {% include '@RoadizRozier/folders/navBar.html.twig' with {'folder':folder, current:'edit'} %}
+    {% set title = "edit.folder.%name%"|trans({'%name%': folderName})|truncate_title %}
+    {% set current = 'edit' %}
+    {% if translation and available_translations %}
+        {% set title = title~'('~translation.locale~')'%}
+        {% set current = 'edit-label' %}
     {% endif %}
+
+    {% include '@RoadizRozier/folders/head.html.twig' with {
+        title: title,
+        folder: folder,
+        translation: translation,
+        available_translations: available_translations,
+        with_nav_bar: true,
+        current: current,
+    } only %}
 
     <article class="content content-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

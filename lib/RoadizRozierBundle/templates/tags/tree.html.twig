@@ -8,12 +8,13 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-tags header-tags-tree">
-        <h1 class="content-title tags-tree-title">{{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title }}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"current": 'tree', "tag":tag} only %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title(40),
+        filters: filters,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'tree',
+    } only %}
 
     <article class="content content-tags-tree">
         {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with { "tagTree":specificTagTree, "tag":specificTagTree.getRootTag } only %}

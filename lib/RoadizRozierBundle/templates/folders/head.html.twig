@@ -1,4 +1,18 @@
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+    {% block translation %}
+        {% if available_translations is defined and available_translations and translation is defined and translation.id %}
+            <div class="rz-page-header__item--right">
+                {{ _self.translations_bar(
+                    available_translations,
+                    'foldersEditTranslationPage',
+                    folder,
+                    'folderId',
+                    translation.id
+                ) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
     {% block buttons %}
         {% if buttons is defined and buttons %}
             {{ _self.button_group(buttons) }}
@@ -22,5 +36,11 @@
         <h1 class="rz-page-header__title rz-page-header__item">
             {{ title }}
         </h1>
+    {% endblock %}
+
+    {% block nav_bar %}
+        {% if with_nav_bar is defined and with_nav_bar %}
+            {% include '@RoadizRozier/folders/navBar.html.twig' with {folder: folder, current: current, translation: translation} %}
+        {% endif %}
     {% endblock %}
 {% endembed %}

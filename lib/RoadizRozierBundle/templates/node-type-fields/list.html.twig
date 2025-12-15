@@ -3,50 +3,49 @@
 {% block title %}{{ "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName}) }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    {% include '@RoadizRozier/node-type-fields/head.html.twig' with {
-        title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName})
-    } only %}
+    <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/node-types/head.html.twig' with {
+            title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName})
+        } only %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="node-type-fields content-table uk-table">
-                <thead>
-                <tr>
-                    <th>{% trans %}name{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}label{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}status{% endtrans %}</th>
-                    <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
-                </tr>
-                </thead>
-                <tbody class="uk-sortable">
-                {% for field in fields %}
-                    <tr class="node-type-field-row" data-position="{{ field.position }}">
-                        <td class="node-type-field-col-1">{{ field.name }}</td>
-                        <td class="mobile-hidden">{{ field.label }}</td>
-                        <td class="mobile-hidden">{{ getReadableFieldType(field) }}</td>
-                        <td class="mobile-hidden">{% if field.groupName %}{{ field.groupName }}{% endif %}</td>
-                        <td class="mobile-hidden">
-                            {% if field.isVirtual %}
-                                <div class="uk-badge uk-badge-notification">{% trans %}virtual{% endtrans %}</div>
-                            {% endif %}
-                            {% if not field.isVisible %}
-                                <div class="uk-badge uk-badge-warning">{% trans %}not_available{% endtrans %}</div>
-                            {% endif %}
-                            {% if field.isUniversal %}
-                                <div class="uk-badge uk-badge-table">{% trans %}universal{% endtrans %}</div>
-                            {% endif %}
-                        </td>
-                        <td class="table-actions-row">
-                            <i class="uk-icon-rz-drag-and-drop"></i>
-                        </td>
+        <article class="content content-no-action-menu">
+            <div class="content-table-cont">
+                <table class="node-type-fields content-table uk-table">
+                    <thead>
+                    <tr>
+                        <th>{% trans %}name{% endtrans %}</th>
+                        <th class="mobile-hidden">{% trans %}label{% endtrans %}</th>
+                        <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
+                        <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
+                        <th class="mobile-hidden">{% trans %}status{% endtrans %}</th>
+                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
-</section>
+                    </thead>
+                    <tbody class="uk-sortable">
+                    {% for field in fields %}
+                        <tr class="node-type-field-row" data-position="{{ field.position }}">
+                            <td class="node-type-field-col-1">{{- field.name -}}</td>
+                            <td class="mobile-hidden">{{ field.label }}</td>
+                            <td class="mobile-hidden">{{ field.typeName|trans }}</td>
+                            <td class="mobile-hidden">{{ field.groupName|trans }}</td>
+                            <td class="mobile-hidden">
+                                {% if not field.Visible %}<i title="{{ 'invisible'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-eye-slash"></i>{% endif %}
+                                {% if field.Universal %}<i title="{{ 'universal'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-flag"></i>{% endif %}
+                                {% if field.Indexed %}<i title="{{ 'indexed'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-filter"></i>{% endif %}
+                            </td>
+                            <td class="table-actions-row">
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': nodeType.name, 'nodeTypeFieldName': field.name }) }}"
+                                   title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}">
+                                    <i class="uk-icon-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
 {% endblock %}

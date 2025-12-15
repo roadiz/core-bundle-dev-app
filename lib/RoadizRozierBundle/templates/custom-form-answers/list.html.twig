@@ -3,65 +3,70 @@
 {% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    {% include '@RoadizRozier/custom-form-answers/head.html.twig' with {
-        title: customForm.displayName|truncate_title,
-        filters: filters,
-        buttons: [{
-            label: 'export'|trans,
-            href: path('customFormsExportPage', { id: customForm.id }),
-            icon: 'rz-icon-ri--download-line'
-        }]
-    } only %}
-    
-    {% include '@RoadizRozier/custom-forms/navBar.html.twig' with {
-        type: customForm,
-        current: 'customFormAnswers'
-    } only %}
-
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-    <article class="content content-no-action-menu content-node-types-list">
-        <div class="content-table-cont">
-            <table class="node-types content-table uk-table">
-                <thead>
-                <tr>
-                    <th class="mobile-hidden">
-                        {% trans %}ip.address{% endtrans %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'ip',
-                            'filters': filters,
-                        } only %}
-                    </th>
-                    <th class="mobile-hidden">
-                        {% trans %}submitted.at{% endtrans %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'submittedAt',
-                            'filters': filters,
-                        } only %}
-                    </th>
-                    <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for answer in answers %}
+    <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+            title: customForm.displayName|truncate_title,
+            filters: filters,
+            with_nav_bar: true,
+            current: 'customFormAnswers',
+            type: customForm,
+            buttons: [{
+                label: 'export'|trans,
+                href: path('customFormsExportPage', { id: customForm.id }),
+                icon: 'rz-icon-ri--download-line'
+            }]
+        } only %}
+        {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+        <article class="content content-no-action-menu content-node-types-list">
+            <div class="content-table-cont">
+                <table class="node-types content-table uk-table">
+                    <thead>
                     <tr>
-                        <td class="mobile-hidden">{{ answer.ip }}</td>
-                        <td class="mobile-hidden">{{ answer.submittedAt|date("Y-m-d H:i") }}</td>
-                        <td class="table-actions-row">
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('customFormAnswersDeletePage', { id: answer.id }) }}"
-                                   title="{% trans %}delete{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}">
-                                    <i class="uk-icon-rz-trash-mini-o"></i>
-                                </a>
-                            </div>
-                        </td>
+                        <th class="mobile-hidden">
+                            {% trans %}ip.address{% endtrans %}
+                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                                'field': 'ip',
+                                'filters': filters,
+                            } only %}
+                        </th>
+                        <th class="mobile-hidden">
+                            {% trans %}email{% endtrans %}
+                        </th>
+                        <th>
+                            {% trans %}submitted.date{% endtrans %}
+                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                                'field': 'submittedAt',
+                                'filters': filters,
+                            } only %}
+                        </th>
+                        <th class="table-actions-row table-actions-row-2">{% trans %}actions{% endtrans %}</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
-</section>
+                    </thead>
+                    <tbody>
+                    {% for type in custom_form_answers %}
+                        <tr>
+                            <td class="mobile-hidden">{{ type.ip }}</td>
+                            <td class="mobile-hidden">{{ type.email }}</td>
+                            <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
+                            <td class="table-actions-row table-actions-row-2">
+                                <div class="uk-button-group">
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }) }}"
+                                       title="{% trans %}customFormAnswer.answers{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
+                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                       href="{{ path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }) }}"
+                                       title="{% trans %}delete{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}">
+                                        <i class="uk-icon-rz-trash-o"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
 {% endblock %}

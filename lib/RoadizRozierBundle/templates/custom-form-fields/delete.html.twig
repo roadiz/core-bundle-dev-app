@@ -1,23 +1,29 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "delete.customFormField.%name%"|trans({'%name%': field.label})|truncate_title }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "delete.customFormField.%name%"|trans({'%name%': field.getLabel})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
-    {% include '@RoadizRozier/custom-form-fields/head.html.twig' with {
-        title: "delete.customFormField.%name%"|trans({'%name%': field.label})|truncate_title
-    } only %}
+    <section class="content-global">
 
-    <article class="content content-delete content-no-action-menu">
-        {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form) }}
+        <header class="content-header header-node-types header-node-type-fields-delete">
+            <h1 class="content-title node-delete-title">{{ "delete.customFormField.%name%"|trans({'%name%': field.getLabel})|truncate_title }}</h1>
+        </header>
+
+        <article class="content content-delete content-node-type-fields-delete content-no-action-menu">
+            {% form_theme form '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(form, {
+                attr: {
+                    class: 'uk-form uk-form-stacked'
+                }
+            }) }}
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
                 <legend class="uk-alert uk-alert-danger"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.delete.customFormField{% endtrans %}</legend>
-                <a href="{{ path('customFormFieldsHomePage', {customFormId: field.customForm.getId}) }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                <button class="uk-button uk-button-danger" type="submit"><i class="uk-icon-rz-trash-o"></i> {% trans %}delete{% endtrans %}</button>
+                <a href="{{ path('customFormFieldsListPage', { customFormId: field.customForm.getId }) }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
+                <button class="uk-button uk-button-danger" type="submit"><i class="uk-icon-trash-o"></i> {% trans %}delete{% endtrans %}</button>
             </fieldset>
-        {{ form_end(form) }}
-    </article>
-</section>
+            {{ form_end(form) }}
+        </article>
+
+    </section>
 {% endblock %}

@@ -8,9 +8,11 @@
 
 {% block content %}
 <section class="content-global">
-    {% include '@RoadizRozier/settingGroups/head.html.twig' with {
-        title: "delete.settingGroup.%name%"|trans({'%name%': item.getName})|truncate_title
-    } only %}
+    <header class="content-header header-settingGroup header-settingGroup-delete">
+        <h1 class="content-title settingGroup-delete-title">
+            {{ "delete.settingGroup.%name%"|trans({'%name%': item.getName })|truncate_title }}
+        </h1>
+    </header>
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

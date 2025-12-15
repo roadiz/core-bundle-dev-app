@@ -3,6 +3,36 @@
         {% if buttons is defined and buttons %}
             {{ _self.button_group(buttons) }}
         {% endif %}
+        {% if popover is defined and popover %}
+            <rz-popover popover-placement="bottom-end"
+                        popover-offset="10" popover-shift="10"
+                        class="rz-page-header__item--right"
+            >
+                <button popovertarget="nodeType-menu"
+                        class="rz-button rz-button--primary"
+                        aria-label="{{ popover.title|trans }}">
+                    <span class="rz-button__label">{{ popover.title|trans }}</span>
+                    <span class="rz-button__icon {{ popover.icon }}"></span>
+                </button>
+
+                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                    targetId: 'nodeType-menu',
+                    items: popover.items,
+                } only %}
+                    {% block items %}
+                        {% for item in items %}
+                            {{ _self.item(
+                                label: item.getDisplayName,
+                                href: path('nodeTypeDecoratorsAddPage', {
+                                    nodeTypeName: item.getName
+                                }),
+                                rightIcon: 'rz-icon-ri--arrow-right-s-line'
+                            ) }}
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            </rz-popover>
+        {% endif %}
     {% endblock %}
 
     {% block badges %}

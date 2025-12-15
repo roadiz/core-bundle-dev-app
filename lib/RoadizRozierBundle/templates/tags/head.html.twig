@@ -1,4 +1,18 @@
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+    {% block translation %}
+        {% if available_translations is defined and available_translations and translation is defined and translation.id %}
+            <div class="rz-page-header__item--right">
+                {{ _self.translations_bar(
+                    available_translations,
+                    'tagsEditTranslatedPage',
+                    tag,
+                    'tagId',
+                    translation.id
+                ) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
     {% block buttons %}
         {% if buttons is defined and buttons %}
             {{ _self.button_group(buttons) }}

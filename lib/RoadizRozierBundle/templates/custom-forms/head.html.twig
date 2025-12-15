@@ -23,4 +23,13 @@
             {{ title }}
         </h1>
     {% endblock %}
+
+    {% block nav_bar %}
+        {% if with_nav_bar is defined and with_nav_bar %}
+            {% include '@RoadizRozier/custom-forms/navBar.html.twig' with {
+                current: current,
+                type: type
+            } %}
+        {% endif %}
+    {% endblock %}
 {% endembed %}

@@ -9,20 +9,25 @@
         filters: filters,
         buttons: [
             {
-                label: 'add.an.attribute'|trans,
+                label: 'add.a.attribute'|trans,
                 href: path('attributesAddPage'),
                 icon: 'rz-icon-ri--add-line'
+            },
+            {
+                label: 'attribute_groups'|trans,
+                href: path('attributeGroupsHomePage'),
+                icon: 'rz-icon-ri--folder-2-line'
+            },
+            {
+                label: 'export.all'|trans,
+                href: path('attributesExportPage'),
+                icon: 'rz-icon-ri--download-line'
             },
             {
                 label: 'import'|trans,
                 href: path('attributesImportPage'),
                 icon: 'rz-icon-ri--upload-line'
             },
-            {
-                label: 'export'|trans,
-                href: path('attributesExportPage'),
-                icon: 'rz-icon-ri--download-line'
-            }
         ]
     } only %}
 
@@ -30,7 +35,7 @@
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
-            <table class="content-table attributes uk-table">
+            <table class="items content-table uk-table attributes">
                 <thead>
                     <tr>
                         {% include '@RoadizRozier/attributes/attribute_row_header.html.twig' %}
@@ -42,7 +47,7 @@
                             {% include '@RoadizRozier/attributes/attribute_row.html.twig' %}
                         </tr>
                     {% else %}
-                        <tr><td colspan="6">{% trans %}no_attributes{% endtrans %}</td></tr>
+                        <tr><td colspan="4">{% trans %}no_attributes{% endtrans %}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

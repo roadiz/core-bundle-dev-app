@@ -8,9 +8,9 @@
 
 {% block content %}
 <section class="content-global">
-    {% include '@RoadizRozier/redirections/head.html.twig' with {
-        title: "delete.redirection"|trans
-    } only %}
+    <header class="content-header header-redirection header-redirection-add">
+        <h1 class="content-title">{{ "delete.redirection"|trans }}</h1>
+    </header>
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

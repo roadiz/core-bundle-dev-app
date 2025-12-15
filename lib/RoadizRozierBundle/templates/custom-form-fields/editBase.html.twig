@@ -1,22 +1,13 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.customFormField.%name%"|trans({'%name%': field.label }) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
-    {% include '@RoadizRozier/custom-form-fields/head.html.twig' with {
-        title: "edit.customFormField.%name%"|trans({'%name%': field.label })
-    } only %}
-
-    <article class="content">
-        {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, {attr:{id: 'edit-customformfield-form'}}) }}
-            {{ form_widget(form) }}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#edit-customformfield-form') }}
-        {{ form_end(form) }}
-    </article>
-
+    <section class="content-global manage-custom-form-field">
+        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+            title: "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|truncate_title(40),
+        } only %}
+        {% block subcontent %}{% endblock %}
     {% include '@RoadizRozier/custom-form-fields/actionsMenu.html.twig' %}
-</section>
+    </section>
 {% endblock %}

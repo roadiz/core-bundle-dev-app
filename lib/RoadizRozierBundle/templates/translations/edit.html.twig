@@ -10,7 +10,7 @@
 <section class="content-global edit-translation">
 
     {% include '@RoadizRozier/translations/head.html.twig' with {
-        title: "edit.translation.%name%"|trans({'%name%': translation.getName})|truncate_title
+        title: "edit.translation.%name%"|trans({'%name%': translation.getName})|truncate_title(40)
     } only %}
 
     <article class="content content-edit-translation">
