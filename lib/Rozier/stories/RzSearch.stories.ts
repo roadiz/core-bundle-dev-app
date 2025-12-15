@@ -126,6 +126,12 @@ export const Default: Story = {
     render: (args) => {
         return rzSearchRenderer(args)
     },
+    args: {
+        dialogData: {
+            ...meta.args.dialogData,
+            dialogId: 'Default-2',
+        },
+    },
 }
 
 export const WithOpenKeyBind: Story = {
@@ -139,6 +145,10 @@ export const WithOpenKeyBind: Story = {
         },
         attributes: {
             'open-key': 'meta+k',
+        },
+        dialogData: {
+            ...meta.args.dialogData,
+            dialogId: 'WithOpenKeyBind',
         },
     },
 }
