@@ -312,6 +312,7 @@ final class SearchController extends AbstractController
             } else {
                 /** @var NodeTypeField $field */
                 foreach ($fields as $field) {
+                    dump($field);
                     if ($key == $field->getName()) {
                         if (
                             FieldType::MARKDOWN_T === $field->getType()
@@ -516,28 +517,24 @@ final class SearchController extends AbstractController
                 'label' => 'visible',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
         );
@@ -659,6 +656,7 @@ final class SearchController extends AbstractController
                 $option['required'] = false;
                 $option['expanded'] = false;
                 if (count($choices) < 4) {
+                    $option['attr']['no-field-group'] = true;
                     $option['expanded'] = true;
                 }
                 $option['choices'] = $choices;
@@ -673,6 +671,7 @@ final class SearchController extends AbstractController
                 $option['multiple'] = true;
                 $option['expanded'] = false;
                 if (count($choices) < 4) {
+                    $option['attr']['no-field-group'] = true;
                     $option['expanded'] = true;
                 }
             } elseif (FieldType::DATETIME_T === $field->getType()) {

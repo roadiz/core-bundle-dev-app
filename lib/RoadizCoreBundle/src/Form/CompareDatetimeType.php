@@ -51,7 +51,7 @@ final class CompareDatetimeType extends AbstractType
             'inherit_data' => false,
             'required' => false,
             'attr' => [
-                'class' => 'rz-fieldset',
+                'class' => 'rz-fieldset--horizontal rz-fieldset',
             ],
         ]);
     }
