@@ -24,17 +24,17 @@
                     targetId: 'version-menu'
                 } %}
                     {% block items %}
-                        {{ _self.item(
+                        {{ _self.item({
                             label: 'versions.working_copy',
                             href: path('tagsEditTranslatedPage', {
                                 tagId: tag.id,
                                 translationId: translation.id
                             }),
                             selected: not currentVersion,
-                        ) }}
+                        }) }}
                         {% for version in versions %}
                             {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: version.loggedAt|format_datetime('short', 'short', locale=app.request.locale),
                                     description: version.username,
                                     href: path('tagsEditTranslatedPage', {
@@ -43,7 +43,7 @@
                                         version: version.version
                                     }),
                                     selected: currentVersion and currentVersion.id == version.id,
-                                ) }}
+                                }) }}
                             {% endif %}
                         {% endfor %}
                     {% endblock %}

@@ -16,13 +16,13 @@
             } %}
                 {% block items %}
                     {% for bookmark in bookmarks %}
-                        {{ _self.item(
+                        {{ _self.item({
                             label: bookmark.label,
                             href: bookmark.url,
                             selected: currentVersion and currentVersion.id == version.id,
                             leftIcon: 'rz-icon-ri--link',
                             rightIcon: 'rz-icon-ri--arrow-right-up-line',
-                        ) }}
+                        }) }}
                     {% endfor %}
                 {% endblock %}
             {% endembed %}
