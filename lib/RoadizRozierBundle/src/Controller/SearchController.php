@@ -518,21 +518,21 @@ final class SearchController extends AbstractController
                 'label' => 'locked',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset',
+                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset',
+                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
                 'attr' => [
                     'no-field-group' => true,
-                    'class' => 'rz-fieldset',
+                    'class' => 'rz-fieldset--horizontal',
                 ],
             ])
         );

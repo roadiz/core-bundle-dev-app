@@ -375,10 +375,10 @@
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
-    {% if attr %}
+    {% if attr is defined %}
         {% set attr = attr|merge({'class': (attr.class|default('') ~ ' rz-fieldset')|trim}) %}
     {% endif %}
-        <fieldset class="{{ attr.class }}">
+        <fieldset class="{{ attr.class|default('rz-fieldset') }}">
             <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
         {%- for child in form %}
             <div class="rz-form-field rz-form-field--type-radio">
