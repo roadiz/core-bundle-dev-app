@@ -12,8 +12,8 @@ export class RzSearch extends HTMLElement {
 
     dialogElement: RzDialog | null = null
     listELement: HTMLUListElement | null = null
-    statusMessage: HTMLDivElement | null = null
 
+    statusMessage: HTMLDivElement | null = null
     fetchStatus:
         | 'idle'
         | 'reset'
@@ -21,6 +21,7 @@ export class RzSearch extends HTMLElement {
         | 'results'
         | 'no-results'
         | 'error' = 'idle'
+
     items: NodeSourceSearch[] | null = null
 
     constructor() {
@@ -37,12 +38,11 @@ export class RzSearch extends HTMLElement {
         this.statusMessage.setAttribute('role', 'status')
         this.statusMessage.setAttribute('aria-atomic', 'true')
 
-        if (this.listELement && this.statusMessage) {
-            this.listELement.parentElement?.insertBefore(
-                this.statusMessage,
-                this.listELement,
-            )
-        }
+        if (!this.listELement) return
+        this.listELement.parentElement?.insertBefore(
+            this.statusMessage,
+            this.listELement,
+        )
     }
 
     updateStatusMessage() {
@@ -56,9 +56,7 @@ export class RzSearch extends HTMLElement {
         } else if (this.fetchStatus === 'pending') {
             this.statusMessage.textContent = 'Searching...'
         } else if (this.fetchStatus === 'results' && this.items !== null) {
-            this.statusMessage.textContent = `${itemLength} result${
-                itemLength > 1 ? 's' : ''
-            } found`
+            this.statusMessage.textContent = `${itemLength} result${itemLength > 1 ? 's' : ''} found`
         } else if (this.fetchStatus === 'no-results') {
             this.statusMessage.textContent = 'No results found'
         } else if (this.fetchStatus === 'error') {
@@ -181,7 +179,6 @@ export class RzSearch extends HTMLElement {
         this.searchInput?.removeEventListener('input', this.onInputChange)
     }
 
-    /* Open the search dialog with `Cmd | ctrl + k`  */
     onKeyDown(event: KeyboardEvent) {
         const openKey = this.getAttribute('open-key')
         if (!openKey) return
