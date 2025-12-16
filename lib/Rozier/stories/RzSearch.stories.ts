@@ -153,10 +153,10 @@ export const WithOpenKeyBind: Story = {
     args: {
         ...meta.args,
         buttonOptions: {
-            label: 'Open search with Meta+K',
+            label: 'Open search with Meta+shift+k',
         },
         attributes: {
-            'open-key': 'meta+k',
+            'open-key': 'meta+shift+k',
         },
         dialogData: {
             ...meta.args.dialogData,
