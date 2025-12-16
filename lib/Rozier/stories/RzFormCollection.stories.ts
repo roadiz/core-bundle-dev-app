@@ -87,16 +87,18 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
+const COMPONENT_CLASS_NAME = 'rz-form-collection'
+
 function headerRenderer(options: ItemOptions) {
     const header = document.createElement('div')
-    header.classList.add('rz-form-collection__header')
+    header.classList.add(`${COMPONENT_CLASS_NAME}__item__header`)
 
     const icon = document.createElement('span')
     icon.classList.add('rz-icon-ri--earth-line')
     header.appendChild(icon)
 
     const label = document.createElement('span')
-    label.classList.add('rz-form-collection__title')
+    label.classList.add(`${COMPONENT_CLASS_NAME}__item__title`)
     label.textContent = 'Repeatable'
     header.appendChild(label)
 
@@ -126,7 +128,7 @@ function headerRenderer(options: ItemOptions) {
         ],
     })
 
-    directionGroup.classList.add('rz-form-collection__item--align-end')
+    directionGroup.classList.add(`${COMPONENT_CLASS_NAME}__item--align-end`)
     header.appendChild(directionGroup)
 
     const removeButton = rzButtonRenderer({
@@ -141,7 +143,7 @@ function headerRenderer(options: ItemOptions) {
     if (options?.onDeleteClicked) {
         removeButton.addEventListener('click', options.onDeleteClicked)
     }
-    removeButton.classList.add('rz-form-collection__remove-button')
+    removeButton.classList.add(`${COMPONENT_CLASS_NAME}__remove-button`)
     header.appendChild(removeButton)
 
     return header
@@ -149,7 +151,7 @@ function headerRenderer(options: ItemOptions) {
 
 function insertZoneRenderer(options: ItemOptions & { tag?: string }) {
     const insertZone = document.createElement(options.tag || 'div')
-    insertZone.classList.add('rz-form-collection__insert-zone')
+    insertZone.classList.add(`${COMPONENT_CLASS_NAME}__insert-zone`)
 
     const hasItem = options?.totalItems !== undefined && options?.totalItems > 0
     const isBeforeItem = options?.itemIndex === options?.totalItems - 1
@@ -175,14 +177,14 @@ function rzFormCollectionItemRenderer(
     options: ItemOptions,
 ) {
     const wrapper = document.createElement('li')
-    wrapper.classList.add('rz-form-collection__item')
+    wrapper.classList.add(`${COMPONENT_CLASS_NAME}__item`)
 
     const header = headerRenderer(options)
     wrapper.appendChild(header)
 
     if (items.length) {
         const body = document.createElement('div')
-        body.classList.add('rz-form-collection__body')
+        body.classList.add(`${COMPONENT_CLASS_NAME}__item__body`)
         wrapper.appendChild(body)
 
         for (const fieldArgs of items) {
@@ -207,7 +209,7 @@ export const Default: Story = {
 
         const [{ length }, updateArgs] = useArgs()
         const list = document.createElement('ul')
-        list.classList.add('rz-form-collection__list')
+        list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
         const insertZone = insertZoneRenderer({
             tag: 'li',
