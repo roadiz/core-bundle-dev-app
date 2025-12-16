@@ -5,6 +5,7 @@
 	--rz-switch-padding-inline: 3px;
 
 	appearance: initial;
+	position: relative;
 	display: flex;
 	width: var(--rz-switch-width);
 	height: 24px;
