@@ -186,9 +186,11 @@ export class RzSearch extends HTMLElement {
             this.getAttribute('initial-value') || this.getQueryParamsValue()
 
         this.searchInput = this.querySelector('input[type="search"]')
-        if (this.searchInput) {
-            this.searchInput?.addEventListener('input', this.onInputChange)
+        if (!this.searchInput) {
+            console.error('RzSearch: No search input found')
+            return
         }
+        this.searchInput.addEventListener('input', this.onInputChange)
 
         if (this.dialogElement && !!initialValue) {
             this.dialogElement.showDialog()
