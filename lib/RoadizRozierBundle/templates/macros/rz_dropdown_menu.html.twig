@@ -21,46 +21,76 @@
     </div>
 {% endmacro %}
 
-{% macro item(label, class, description, href, title, leftIcon, rightIcon, badgeLabel, badgeIcon, input, selected) %}
-    <li class="{{ input is defined and input ? 'node-statuses-item' : '' }}">
-        {% if href is defined and href %}
-            <a class="rz-dropdown__item {{ class|default('') }} {{ selected is defined and selected ? 'rz-dropdown__item--selected' : '' }}"
-                {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
-                target="_blank"
-                href="{{ href }}"
-            >
-        {% else %}
-            <button class="rz-dropdown__item"
-                {% if title is defined and title %} title="{{- title|trans -}}" {% endif %}
-            >
+{#
+    Renders a dropdown menu item with customizable content and behavior.
+    
+    @param options {object} - Configuration object with the following properties:
+        - label {string} - The main text label for the item
+        - description {string} - Optional secondary description text
+        - title {string} - Optional tooltip text
+        - href {string} - Optional URL (converts item to link)
+        - class {string} - Optional CSS classes
+        - leftIcon {string} - Optional left icon class
+        - rightIcon {string} - Optional right icon class
+        - badgeLabel {string} - Optional badge text
+        - badgeIcon {string} - Optional badge icon class
+        - input {object} - Optional hidden input configuration {type, value, name, attr}
+        - selected {boolean} - Whether the item is selected (default: false)
+        - tag {string} - HTML tag to use (default: 'button', auto-set to 'a' if href provided)
+#}
+{% macro item(options = {}) %}
+    {# Set default values #}
+    {% set label = options.label|default(null) %}
+    {% set description = options.description|default(null) %}
+    {% set title = options.title|default(null) %}
+    {% set href = options.href|default(null) %}
+    {% set class = options.class|default('') %}
+    {% set leftIcon = options.leftIcon|default(null) %}
+    {% set rightIcon = options.rightIcon|default(null) %}
+    {% set badgeLabel = options.badgeLabel|default(null) %}
+    {% set badgeIcon = options.badgeIcon|default(null) %}
+    {% set input = options.input|default(null) %}
+    {% set selected = options.selected|default(false) %}
+    {% set tag = options.tag|default('button') %}
+    
+    <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
+        {% if href %}
+            {% set tag = 'a' %}
         {% endif %}
-            {% if leftIcon is defined and leftIcon %}
+            <{{ tag }} class="rz-dropdown__item {{ class }} {{ selected ? 'rz-dropdown__item--selected' : '' }}"
+                {% if title %} title="{{- title|trans -}}" {% endif %}
+                {% if tag == 'a' %}
+                    target="_blank"
+                    href="{{ href }}"
+                {% endif %}
+            >
+            {% if leftIcon %}
                 <span class="rz-dropdown__item__icon {{ leftIcon }}"></span>
             {% endif %}
             <div class="rz-dropdown__item__text-wrapper">
-                {% if label is defined and label %}
+                {% if label %}
                     <span class="rz-dropdown__item__label">{{- label|trans -}}</span>
                 {% endif %}
-                {% if description is defined and description %}
+                {% if description %}
                     <div class="rz-dropdown__item__description">
                         {{- description|trans -}}
                     </div>
                 {% endif %}
             </div>
-            {% if (badgeLabel is defined and badgeLabel) or (badgeIcon is defined and badgeIcon) %}
-                <div class="rz-badge rz-badge--xs rz-dropdown__item__badge" aria-label="{{- badgeLabel|trans -}}">
-                    {% if badgeIcon is defined and badgeIcon %}
+            {% if badgeLabel or badgeIcon %}
+                <div class="rz-badge rz-badge--xs rz-dropdown__item__badge"{% if badgeLabel %} aria-label="{{- badgeLabel|trans -}}"{% endif %}>
+                    {% if badgeIcon %}
                         <span class="rz-badge__icon {{ badgeIcon }}"></span>
                     {% endif %}
-                    {% if badgeLabel is defined and badgeLabel %}
+                    {% if badgeLabel %}
                         <span class="rz-badge__label">{{- badgeLabel|trans -}}</span>
                     {% endif %}
                 </div>
             {% endif %}
-            {% if rightIcon is defined and rightIcon %}
+            {% if rightIcon %}
                 <span class="rz-dropdown__item__icon {{ rightIcon }}"></span>
             {% endif %}
-            {% if input is defined and input %}
+            {% if input %}
                 <input type="{{ input.type }}"
                        value="{{ input.value|default('')}}"
                        name="{{ input.name|default('')}}"
@@ -70,21 +100,22 @@
                        {% endfor %}
                 >
             {% endif %}
-        {% if href is defined and href %}
-            </a>
-        {% else %}
-            </button>
-        {% endif %}
+        </{{ tag }}>
     </li>
 {% endmacro %}
 
 {% block wrapper %}
     <div class="rz-dropdown {{ reverse ? 'rz-dropdown--reverse' : '' }}" id="{{ targetId }}" popover>
-        {{ _self.head(title, items) }}
-        <menu class="rz-dropdown__list">
+        {% if title is defined and title %}
+            {{ _self.head(title, items) }}
+        {% endif %}
+        {% if (tagList is not defined or tagList is empty) %}
+            {% set tagList = 'menu' %}
+        {% endif %}
+        <{{ tagList }} class="rz-dropdown__list">
             {% block items %}
             {% endblock %}
-        </menu>
+        </{{ tagList }}>
 
         {% block additional_menu %}
         {% endblock %}
