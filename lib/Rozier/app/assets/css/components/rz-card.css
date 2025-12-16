@@ -13,7 +13,7 @@
 .rz-card:has(.rz-card__asset):not(:has(.rz-card__title):has(.rz-card__overtitle))
 {
 	--rz-card-min-height: 96px;
-	min-width: 120px;
+	min-width: 120px; /* To keep a size without a parent constraint */
 }
 
 .rz-card:has(.rz-card__title),
@@ -100,7 +100,7 @@
 	align-items: center;
 	width: var(--rz-reference-img-width, 100%);
 	height: var(--rz-reference-img-height, 100%);
-	aspect-ratio: var(--rz-reference-img-aspect-ratio, 120 / 96);
+	aspect-ratio: var(--rz-reference-img-aspect-ratio, 120 / 96); /* Default aspect ratio for a single image */
 	object-fit: cover;
 	overflow: hidden;
 	background-color: var(--reference-bg, #F2F2F2);

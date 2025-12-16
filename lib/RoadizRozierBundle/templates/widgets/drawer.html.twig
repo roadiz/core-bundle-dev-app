@@ -119,7 +119,7 @@
         locale="{{ form.vars._locale }}"
         document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
     >
-        <div class="rz-drawer__body" data-list></div>
+        <ul class="rz-drawer__body" data-list></ul>
         {% if enableDropzone %}
             <rz-file-upload id="{{ fileUploadId }}" hidden></rz-file-upload>
         {% endif %}
