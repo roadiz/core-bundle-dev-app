@@ -7,19 +7,28 @@ import { debounce } from 'lodash'
 const SEARCH_QUERY = 'search_all'
 
 /* Used for component documentation */
+/*
 type RzSearchAttributes = {
     'initial-value'?: string // Initial value to populate the search input
     'open-key'?: string // Key combination to open the search dialog (e.g., "Meta+K")
     'status-wrapper'?: string // Wrapper element for status message and spinner wrapper
     'results-wrapper'?: string // UL element to display search results
+    'idle-text'?: string // Text to display when idle
+    'reset-text'?: string // Text to display when search is reset
+    'pending-text'?: string // Text to display when search is pending
+    'unique-result-text'?: string // Text to display when exactly one result is found
+    'results-text'?: string // Text to display when multiple results are found
+    'no-results-text'?: string // Text to display when no results are found
+    'error-text'?: string // Text to display when an error occurs
 }
+*/
 
 export class RzSearch extends HTMLElement {
     value: string | null = null
     searchInput: HTMLInputElement | null = null
 
     dialogElement: RzDialog | null = null
-    listELement: HTMLUListElement | null = null
+    listElement: HTMLUListElement | null = null
 
     spinnerElement: HTMLElement | null = null
     messageElement: HTMLElement | null = null
@@ -54,19 +63,25 @@ export class RzSearch extends HTMLElement {
         if (!this.messageElement) return
 
         if (this.fetchStatus === 'idle') {
-            this.messageElement.textContent = 'Waiting for request'
+            this.messageElement.textContent = this.getAttribute('idle-text')
         } else if (this.fetchStatus === 'reset') {
-            this.messageElement.textContent = 'Request reset'
+            this.messageElement.textContent = this.getAttribute('reset-text')
         } else if (this.fetchStatus === 'pending') {
-            this.messageElement.textContent = 'Searching...'
-        } else if (this.fetchStatus === 'results' && this.items !== null) {
-            const itemLength = this.items?.length
-            this.messageElement.textContent = `${itemLength} result${itemLength > 1 ? 's' : ''} found`
-        } else if (this.fetchStatus === 'no-results') {
-            this.messageElement.textContent = 'No results found'
-        } else if (this.fetchStatus === 'error') {
+            this.messageElement.textContent = this.getAttribute('pending-text')
+        } else if (this.fetchStatus === 'results' && this.items?.length === 1) {
             this.messageElement.textContent =
-                'An error occurred while fetching results'
+                this.getAttribute('unique-result-text')
+        } else if (this.fetchStatus === 'results' && this.items?.length > 1) {
+            const text = this.getAttribute('results-text') || ''
+            this.messageElement.textContent = text.replace(
+                '{n}',
+                String(this.items.length),
+            )
+        } else if (this.fetchStatus === 'no-results') {
+            this.messageElement.textContent =
+                this.getAttribute('no-results-text')
+        } else if (this.fetchStatus === 'error') {
+            this.messageElement.textContent = this.getAttribute('error-text')
         }
     }
 
@@ -98,10 +113,10 @@ export class RzSearch extends HTMLElement {
     render() {
         this.updateStatusMessage()
         this.updateSpinnerVisibility()
-        if (this.listELement) {
-            this.listELement.innerHTML = ''
+        if (this.listElement) {
+            this.listElement.innerHTML = ''
             this.getItemsElement()?.forEach((el) => {
-                this.listELement?.appendChild(el)
+                this.listElement?.appendChild(el)
             })
         }
     }
@@ -162,7 +177,7 @@ export class RzSearch extends HTMLElement {
     }
 
     connectedCallback() {
-        this.listELement =
+        this.listElement =
             this.querySelector<HTMLUListElement>('[results-wrapper]')
 
         this.dialogElement = this.querySelector<RzDialog>('[is="rz-dialog"]')

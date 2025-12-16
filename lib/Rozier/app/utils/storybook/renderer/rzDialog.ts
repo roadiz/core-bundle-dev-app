@@ -1,4 +1,7 @@
-import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import {
+    RzButtonOptions,
+    rzButtonRenderer,
+} from '~/utils/component-renderer/rzButton'
 import type { Args } from '../../../../stories/RzDialog.stories'
 
 function rzDialogHeaderRenderer(args: Args['header']) {
@@ -96,7 +99,7 @@ export function rzDialogRenderer(args: Args) {
 
 export function rzDialogWrapperRenderer(
     dialogArgs: Args,
-    target: Partial<ButtonArgs> = {},
+    target: Partial<RzButtonOptions> = {},
 ) {
     const wrapper = document.createElement('div')
     const dialog = rzDialogRenderer(dialogArgs)

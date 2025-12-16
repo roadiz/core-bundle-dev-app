@@ -18,6 +18,17 @@ export type Args = RzElement & {
 
 const COMPONENT_CLASS_NAME = 'rz-search'
 
+const statusTexts = {
+    'idle-text': 'Waiting for request',
+    'reset-text': 'Request reset',
+    'pending-text': 'Searching...',
+    'unique-result-text': `1 result found`,
+    'results-text': `{n} results found`,
+    'no-results-text': 'No results found',
+    'error-text':
+        'An error occurred while fetching results. Please check your network connection and try again.',
+}
+
 const meta: Meta<Args> = {
     title: 'Components/Overlay/SearchDialog',
     tags: ['autodocs'],
@@ -45,6 +56,7 @@ const meta: Meta<Args> = {
                 ],
             },
         },
+        attributes: { ...statusTexts },
     },
     decorators: [
         (story) => {
@@ -75,7 +87,7 @@ function innerDialogRenderer(args: Args) {
     )
     form.setAttribute('prevent-submit', '')
     form.setAttribute('role', 'search')
-    form.setAttribute('aria-label', 'Une entité')
+    form.setAttribute('aria-label', 'An entity')
 
     const searchInput = rzInputRenderer({
         type: 'search',
