@@ -200,6 +200,8 @@ function rzFormCollectionItemRenderer(
 
 export const Default: Story = {
     render: (args) => {
+        const [{ length }, updateArgs] = useArgs()
+
         function addItem() {
             updateArgs({ length: length + 1 })
         }
@@ -207,7 +209,6 @@ export const Default: Story = {
             updateArgs({ length: length - 1 })
         }
 
-        const [{ length }, updateArgs] = useArgs()
         const list = document.createElement('ul')
         list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
