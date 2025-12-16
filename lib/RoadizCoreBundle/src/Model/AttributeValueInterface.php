@@ -16,14 +16,14 @@ interface AttributeValueInterface extends PositionedInterface, PersistableInterf
     /**
      * @return $this
      */
-    public function setRealm(?RealmInterface $realm): self;
+    public function setRealm(?RealmInterface $realm): static;
 
     public function getAttribute(): ?AttributeInterface;
 
     /**
      * @return $this
      */
-    public function setAttribute(AttributeInterface $attribute): self;
+    public function setAttribute(AttributeInterface $attribute): static;
 
     public function getType(): int;
 
@@ -39,12 +39,12 @@ interface AttributeValueInterface extends PositionedInterface, PersistableInterf
      *
      * @return $this
      */
-    public function setAttributeValueTranslations(Collection $attributeValueTranslations): self;
+    public function setAttributeValueTranslations(Collection $attributeValueTranslations): static;
 
     public function getAttributable(): ?AttributableInterface;
 
     /**
      * @return $this
      */
-    public function setAttributable(?AttributableInterface $attributable): self;
+    public function setAttributable(?AttributableInterface $attributable): static;
 }

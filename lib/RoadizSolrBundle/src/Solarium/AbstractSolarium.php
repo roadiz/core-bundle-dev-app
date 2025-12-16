@@ -87,7 +87,7 @@ abstract class AbstractSolarium
 
         if (true === $this->index()) {
             // add the documents and a commit command to the update query
-            $update->addDocument($this->getDocument());
+            $update->addDocument($this->getDocument() ?? throw new \RuntimeException('No Solr document available.'));
             $update->addCommit();
 
             return $this->getSolr()->update($update);
@@ -127,7 +127,7 @@ abstract class AbstractSolarium
         $this->createEmptyDocument($update);
         $this->index();
         // add the document to the update query
-        $update->addDocument($this->document);
+        $update->addDocument($this->document ?? throw new \RuntimeException('No Solr document available.'));
     }
 
     /**

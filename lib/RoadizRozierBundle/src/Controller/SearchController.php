@@ -159,6 +159,11 @@ final class SearchController extends AbstractController
     public function searchNodeSourceAction(Request $request, string $nodeTypeName): Response
     {
         $nodeType = $this->nodeTypesBag->get($nodeTypeName);
+
+        if (null === $nodeType) {
+            throw $this->createNotFoundException('Node type '.$nodeTypeName.' does not exist.');
+        }
+
         $assignation = [];
         $pagination = true;
         $itemPerPage = null;
@@ -307,6 +312,7 @@ final class SearchController extends AbstractController
             } else {
                 /** @var NodeTypeField $field */
                 foreach ($fields as $field) {
+                    dump($field);
                     if ($key == $field->getName()) {
                         if (
                             FieldType::MARKDOWN_T === $field->getType()
@@ -367,7 +373,8 @@ final class SearchController extends AbstractController
         $builder->add('search', SubmitType::class, [
             'label' => 'search.a.node',
             'attr' => [
-                'class' => 'uk-button uk-button-primary',
+                'class' => 'rz-button rz-button--primary rz-button--success',
+                'icon' => 'rz-icon-ri--search-line',
             ],
         ]);
 
@@ -375,7 +382,8 @@ final class SearchController extends AbstractController
             $builder->add('export', SubmitType::class, [
                 'label' => 'export.all.nodesSource',
                 'attr' => [
-                    'class' => 'uk-button rz-no-ajax',
+                    'class' => 'rz-button rz-button--secondary',
+                    'icon' => 'rz-icon-ri--download-line',
                 ],
             ]);
         }
@@ -502,20 +510,32 @@ final class SearchController extends AbstractController
                 'inherit_data' => true,
                 'mapped' => false,
                 'attr' => [
-                    'class' => 'form-col-status-group',
+                    'class' => 'rz-form__field-list rz-form__field-list--horizontal',
                 ],
             ])
             ->add($prefix.'visible', ExtendedBooleanType::class, [
                 'label' => 'visible',
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
         );
         $builder->add(
@@ -568,7 +588,7 @@ final class SearchController extends AbstractController
             'inherit_data' => true,
             'mapped' => false,
             'attr' => [
-                'class' => 'form-col-search-group',
+                'class' => 'rz-fieldset',
             ],
         ])
             ->add($formName, TextType::class, [
@@ -636,6 +656,7 @@ final class SearchController extends AbstractController
                 $option['required'] = false;
                 $option['expanded'] = false;
                 if (count($choices) < 4) {
+                    $option['attr']['no-field-group'] = true;
                     $option['expanded'] = true;
                 }
                 $option['choices'] = $choices;
@@ -650,6 +671,7 @@ final class SearchController extends AbstractController
                 $option['multiple'] = true;
                 $option['expanded'] = false;
                 if (count($choices) < 4) {
+                    $option['attr']['no-field-group'] = true;
                     $option['expanded'] = true;
                 }
             } elseif (FieldType::DATETIME_T === $field->getType()) {

@@ -19,15 +19,22 @@
             <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
         </div>
     {% endif %}
-    {%- if attr['data-max-length'] -%}
-        <div class="rz-badge rz-badge--xs rz-badge--danger rz-form-field__head__badge" title="Count title">
-        <span class="rz-badge__label count">
-            <span class="count-current">{{ items_length ? items_length : 0 }}</span>
-            /
-            <span class="count-limit">{{ attr['data-max-length'] }}</span>
-        </span>
+    {% if attr['data-max-length'] or attr['data-min-length'] -%}
+        {% set has_error = false %}
+        {% if attr['data-max-length'] and items_length > attr['data-max-length'] %}
+            {% set has_error = true %}
+        {% elseif attr['data-min-length'] and items_length < attr['data-min-length'] %}
+            {% set has_error = true %}
+        {% endif %}
+        {% set error_class = 'rz-badge--danger' %}
+        <div class="rz-badge rz-badge--xs {{ has_error ? error_class : '' }} rz-form-field__head__badge" data-length-indicator="{{ error_class }}">
+            <span class="rz-badge__label">
+                <span data-length-indicator-current>{{ items_length ? items_length : 0 }}</span>
+                {%- if attr['data-max-length'] -%}/<span>{{ attr['data-max-length'] }}</span>
+                {%- endif -%}
+            </span>
         </div>
-    {%- endif -%}
+    {% endif %}
     {% if attr['data-min-length'] %}
         <div class="rz-badge rz-badge--xs rz-badge--information rz-form-field__head__badge">
             <span class="rz-badge__label">({% trans %}min{% endtrans %}: {{ attr['data-min-length'] }})</span>

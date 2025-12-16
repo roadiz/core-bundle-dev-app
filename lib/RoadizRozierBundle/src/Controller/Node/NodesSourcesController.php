@@ -261,8 +261,14 @@ final class NodesSourcesController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/nodes/deleteSource.html.twig', [
-            'nodeSource' => $ns,
+        $title = $this->translator->trans('delete.translation');
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'subtitle' => $ns->getTitle().' - '.$ns->getTranslation()->getName(),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $ns->getNode()->getId()]),
+            'alertMessage' => 'are_you_sure.delete.nodeSource',
             'form' => $form->createView(),
         ]);
     }
@@ -290,10 +296,10 @@ final class NodesSourcesController extends AbstractController
     }
 
     #[\Override]
-    protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
+    protected function getPostUpdateRedirection(PersistableInterface $entity): Response
     {
         if (!$entity instanceof NodesSources) {
-            return null;
+            throw new \InvalidArgumentException('Entity must be an instance of NodesSources');
         }
 
         /** @var Translation $translation */

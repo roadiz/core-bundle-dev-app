@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { ButtonArgs } from './RzButton.stories'
-import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
+import {
+    type RzButtonOptions,
+    rzButtonRenderer,
+} from '~/utils/component-renderer/rzButton'
 
 const COMPONENT_CLASS_NAME = 'rz-actions-menu'
 
@@ -8,7 +10,7 @@ export type Args = {
     vertical?: boolean
     items: {
         popoverContent?: string
-        button: ButtonArgs
+        button: RzButtonOptions
     }[]
 }
 
@@ -53,9 +55,10 @@ const meta: Meta<Args> = {
             {
                 button: {
                     tag: 'a',
+                    emphasis: 'primary',
                     iconClass: 'rz-icon-ri--delete-bin-7-line',
                     size: 'md',
-                    color: 'error',
+                    color: 'danger',
                     onDark: true,
                     attributes: {
                         'aria-label': 'Delete',
@@ -66,6 +69,7 @@ const meta: Meta<Args> = {
             {
                 button: {
                     tag: 'a',
+                    emphasis: 'primary',
                     iconClass: 'rz-icon-ri--save-line',
                     size: 'md',
                     color: 'success',

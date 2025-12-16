@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultItemInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -160,6 +161,10 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         Request $request,
         array $arrayFilter,
     ): array {
+        if (null === $this->nodeSourceSearchHandler) {
+            throw new ServiceUnavailableHttpException('Search engine is not available.');
+        }
+
         $this->nodeSourceSearchHandler->boostByUpdateDate();
         $currentPage = $request->get('page', 1);
         $searchQuery = $request->get('search');

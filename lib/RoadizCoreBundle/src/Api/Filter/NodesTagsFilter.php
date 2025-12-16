@@ -115,6 +115,10 @@ final class NodesTagsFilter extends AbstractFilter
 
     private function alterQueryBuilder(QueryBuilder $queryBuilder, array $parameters): void
     {
+        if (null === $this->managerRegistry) {
+            return;
+        }
+
         $ntgQb = $this->managerRegistry
             ->getRepository(NodesTags::class)
             ->createQueryBuilder('ntg');

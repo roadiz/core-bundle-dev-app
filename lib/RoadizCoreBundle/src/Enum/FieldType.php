@@ -185,6 +185,6 @@ enum FieldType: int
             throw new \InvalidArgumentException(sprintf('The type %s is not a valid field type.', $type));
         }
 
-        return self::tryFrom($results);
+        return self::tryFrom($results) ?? throw new \InvalidArgumentException(sprintf('The type %s is not a valid field type.', $type));
     }
 }

@@ -26,7 +26,7 @@ final class GroupHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setGroup(Group $group): self
+    public function setGroup(Group $group): static
     {
         $this->group = $group;
 

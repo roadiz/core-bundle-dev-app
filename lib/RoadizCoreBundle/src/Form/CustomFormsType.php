@@ -82,7 +82,7 @@ final class CustomFormsType extends AbstractType
     /**
      * @return $this
      */
-    protected function addSingleField(FormBuilderInterface $builder, CustomFormField $field, array $formOptions): self
+    protected function addSingleField(FormBuilderInterface $builder, CustomFormField $field, array $formOptions): static
     {
         $builder->add(
             $field->getName(),
@@ -186,14 +186,14 @@ final class CustomFormsType extends AbstractType
                 if (!empty($field->getDefaultValues())) {
                     $mimeTypes = $field->getDefaultValuesAsArray();
                 }
-                $option['constraints'][] = new All([
-                    'constraints' => [
+                $option['constraints'][] = new All(
+                    constraints: [
                         new File([
                             'maxSize' => $formOptions['fileUploadMaxSize'],
                             'mimeTypes' => $mimeTypes,
                         ]),
                     ],
-                ]);
+                );
                 break;
             case FieldType::COUNTRY_T:
                 $option['expanded'] = $field->isExpanded();

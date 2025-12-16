@@ -174,3 +174,4 @@ fabric.properties
 ###> deptrac/deptrac ###
 /.deptrac.cache
 ###< deptrac/deptrac ###
+/phpstan_report.txt

@@ -375,7 +375,10 @@
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
-        <fieldset class="rz-fieldset">
+    {% if attr is defined %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' rz-fieldset')|trim}) %}
+    {% endif %}
+        <fieldset class="{{ attr.class|default('rz-fieldset') }}">
             <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
         {%- for child in form %}
             <div class="rz-form-field rz-form-field--type-radio">
@@ -577,7 +580,7 @@
                 attr.class ~ '-wrapper'
             ]) %}
         {% endif %}
-        <div {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
+        <rz-form-field {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
              data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
             class="{{ rowClasses|join(' ') }}">
             {% if form.vars.block_prefixes[1] != 'separator' %}
@@ -585,7 +588,7 @@
             {% endif %}
             {{- form_widget(form) -}}
             {{- form_errors(form) -}}
-        </div>
+        </rz-form-field>
     {%- endif -%}
 {%- endblock form_row %}
 

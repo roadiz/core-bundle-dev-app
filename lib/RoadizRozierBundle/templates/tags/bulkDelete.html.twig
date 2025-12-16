@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "delete.tags"|trans()|u.truncate(25, '[…]', true) }}
+    {{ "delete.tags"|trans()|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
@@ -9,7 +9,7 @@
 {% block content %}
 <section class="content-global delete-tag">
     <header class="content-header header-tag header-tag-preview">
-        <h1 class="content-title tag-delete-title">{{ "delete.tags"|trans()|u.truncate(25, '[…]', true) }}</h1>
+        <h1 class="content-title tag-delete-title">{{ "delete.tags"|trans()|truncate_title }}</h1>
     </header>
 
     <article class="content content-delete content-no-action-menu">

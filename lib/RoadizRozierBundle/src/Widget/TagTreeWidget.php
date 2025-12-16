@@ -102,7 +102,7 @@ final class TagTreeWidget extends AbstractWidget
             $this->getTagTreeAssignationForParent();
         }
 
-        return $this->tags;
+        return $this->tags ?? [];
     }
 
     protected function getTagRepository(): TagRepository

@@ -34,6 +34,10 @@ final readonly class GlobalNodeSourceSearchHandler
     ): array {
         $safeSearchTerms = strip_tags($searchTerm);
 
+        if (empty($safeSearchTerms)) {
+            return [];
+        }
+
         /**
          * First try with Search engine.
          */

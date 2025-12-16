@@ -1,26 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
+import {
+    type RzButtonOptions,
+    rzButtonRenderer,
+} from '~/utils/component-renderer/rzButton'
 
 const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 const SIZES = ['xs', 'sm', 'md', 'lg'] as const
 const COLORS = ['success', 'danger'] as const
 
-export type ButtonArgs = {
-    label?: string
-    emphasis?: (typeof EMPHASIS)[number]
-    size?: (typeof SIZES)[number]
-    disabled?: boolean
-    selected?: boolean
-    iconClass?: string
-    onDark?: boolean
-    additionalClasses?: string
-    color?: (typeof COLORS)[number]
-    attributes?: Record<string, string>
-    tag?: string
-    hasPill?: boolean
-}
+type Args = RzButtonOptions
 
-const meta: Meta<ButtonArgs> = {
+const meta: Meta<Args> = {
     title: 'Components/Button',
     tags: ['autodocs'],
     args: {
@@ -71,7 +61,7 @@ const meta: Meta<ButtonArgs> = {
 }
 
 export default meta
-type Story = StoryObj<ButtonArgs>
+type Story = StoryObj<Args>
 
 export const Default: Story = {
     render: (args) => {
@@ -250,7 +240,7 @@ export const DisabledList: Story = {
 }
 
 /* RENDERER */
-function buttonSizeListRenderer(args: ButtonArgs) {
+function buttonSizeListRenderer(args: Args) {
     const wrapper = document.createElement('div')
     wrapper.style =
         'display: flex; gap: 16px; flex-wrap: wrap; align-items: center;'

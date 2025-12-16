@@ -27,7 +27,6 @@
     "gitignore": [
         "/public/assets/*",
         "/public/files/*",
-        "/var/files/fonts/*",
         "/var/files/private/*",
         "/var/secret/*"
     ]

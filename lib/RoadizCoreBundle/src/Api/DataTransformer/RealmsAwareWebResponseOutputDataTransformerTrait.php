@@ -18,11 +18,11 @@ trait RealmsAwareWebResponseOutputDataTransformerTrait
     /**
      * @throws UnauthorizedHttpException
      */
-    protected function injectRealms(?RealmsAwareWebResponseInterface $output, NodesSources $data): WebResponseInterface
+    protected function injectRealms(RealmsAwareWebResponseInterface $output, NodesSources $data): WebResponseInterface
     {
         $nodeRealms = $this->getRealmResolver()->getRealms($data->getNode());
-        $output?->setRealms($nodeRealms);
-        $output?->setHidingBlocks(false);
+        $output->setRealms($nodeRealms);
+        $output->setHidingBlocks(false);
 
         $denyingRealms = array_filter($nodeRealms, fn (RealmInterface $realm) => RealmInterface::BEHAVIOUR_DENY === $realm->getBehaviour());
         foreach ($denyingRealms as $denyingRealm) {
@@ -32,7 +32,7 @@ trait RealmsAwareWebResponseOutputDataTransformerTrait
         $blockHidingRealms = array_filter($nodeRealms, fn (RealmInterface $realm) => RealmInterface::BEHAVIOUR_HIDE_BLOCKS === $realm->getBehaviour());
         foreach ($blockHidingRealms as $blockHidingRealm) {
             if (!$this->getRealmResolver()->isGranted($blockHidingRealm)) {
-                $output?->setHidingBlocks(true);
+                $output->setHidingBlocks(true);
             }
         }
 

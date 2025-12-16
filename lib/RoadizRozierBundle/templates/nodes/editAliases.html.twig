@@ -3,24 +3,22 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
-{% block title %}{{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-edit-seo">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-            "node": node,
-            "source": source,
-        } only %}
-        <h1 class="content-title node-edit-seo-title">
-            {{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
-           {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-            {{ rz_status_badge.item(node: node) }}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'seo'} %}
-        {% include '@RoadizRozier/nodes/translationSEOBar.html.twig' with {"current": translation.getId} %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "edit.node.%name%.seo"|trans({'%name%': currentTitle})|truncate_title,
+        translation: translation,
+        available_translations: available_translations,
+        current: 'seo',
+        app: app,
+        with_debug_badge: true,
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
+    } only %}
 
     <article class="content content-node-edit-seo">
         {% if seoForm %}

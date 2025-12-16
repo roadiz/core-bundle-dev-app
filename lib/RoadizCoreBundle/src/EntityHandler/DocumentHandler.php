@@ -38,16 +38,16 @@ final class DocumentHandler extends AbstractHandler
      */
     public function getDownloadResponse(bool $asAttachment = true): StreamedResponse
     {
-        if ($this->document->isLocal()) {
-            $documentPath = $this->document->getMountPath();
+        if ($this->getDocument()->isLocal()) {
+            $documentPath = $this->getDocument()->getMountPath();
 
-            if ($this->documentStorage->fileExists($documentPath)) {
+            if (null !== $documentPath && $this->documentStorage->fileExists($documentPath)) {
                 $headers = [
                     'Content-Type' => $this->documentStorage->mimeType($documentPath),
                     'Content-Length' => $this->documentStorage->fileSize($documentPath),
                 ];
                 if ($asAttachment) {
-                    $headers['Content-disposition'] = 'attachment; filename="'.basename($this->document->getFilename()).'"';
+                    $headers['Content-disposition'] = 'attachment; filename="'.basename($this->getDocument()->getFilename()).'"';
                 }
 
                 return new StreamedResponse(function () use ($documentPath) {
@@ -82,9 +82,9 @@ final class DocumentHandler extends AbstractHandler
         return $repository->findByDocumentAndTranslation($this->document);
     }
 
-    public function getDocument(): ?DocumentInterface
+    public function getDocument(): DocumentInterface
     {
-        return $this->document;
+        return $this->document ?? throw new \RuntimeException('No document is set in DocumentHandler.');
     }
 
     /**

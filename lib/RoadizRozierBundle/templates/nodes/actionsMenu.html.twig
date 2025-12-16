@@ -29,71 +29,71 @@
                     {% block items %}
                         {% if source and source.Reachable %}
                             {% if node.published %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'see.page',
                                     href: path('nodesSourcesPublicRedirect', {
                                         'nodeSourceId': source.id,
                                     }),
                                     leftIcon: 'rz-icon-ri--eye-line',
                                     rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if node.published or node.draft or node.pending %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'preview.page',
                                     href: path('nodesSourcesPreviewRedirect', {
                                         'nodeSourceId': source.id,
                                     }),
                                     leftIcon: 'rz-icon-ri--eye-line',
                                     rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                                ) }}
+                                }) }}
                             {% endif %}
                         {% endif %}
                         {% if not node.isLocked %}
                             {% if is_granted('DUPLICATE', node) %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'duplicate',
                                     href: path('nodesDuplicatePage', { nodeId: node.getId }),
                                     leftIcon: 'rz-icon-ri--file-copy-2-line',
                                     rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if is_granted('EDIT_SETTING', node) %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'transtype',
                                     href: path('nodesTranstypePage', { nodeId: node.getId }),
                                     leftIcon: 'rz-icon-ri--command-line',
                                     rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if canPublish %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'publish_node_offspring',
                                     href: path('nodesPublishAllAction', { nodeId: node.getId }),
                                     leftIcon: 'rz-icon-ri--checkbox-line',
                                     rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                                ) }}
+                                }) }}
                             {% endif %}
                         {% endif %}
-                        {{ _self.item(
+                        {{ _self.item({
                             label: 'add.child',
                             href: path('nodesAddChildPage', { nodeId: node.getId }),
                             leftIcon: 'rz-icon-ri--add-line',
                             rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                        ) }}
+                        }) }}
                         {% if node.hidingChildren and translation %}
-                            {{ _self.item(
+                            {{ _self.item({
                                 label: 'export_format.csv.%language%'|trans({'%language%':translation.name }),
                                 href: path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}),
                                 leftIcon: 'rz-icon-ri--file-pdf-2-line',
                                 rightIcon: 'rz-icon-ri--arrow-right-s-line',
-                            ) }}
+                            }) }}
                         {% endif %}
                     {% endblock %}
                     {% block additional_menu %}
-                        <menu class="rz-dropdown-menu__list node-statuses node-actions">
+                        <menu class="rz-dropdown__list node-statuses node-actions">
                             {% if workflow_can(node, 'reject') or node.isDraft %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'draft',
                                     leftIcon: 'rz-icon-rz--status-draft-fill',
                                     rightIcon : (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
@@ -103,10 +103,10 @@
                                     value: 'reject',
                                     attr: {'data-node-id': node.getId},
                                 },
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if workflow_can(node, 'unarchive') %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'draft',
                                     leftIcon: 'rz-icon-rz--status-draft-fill',
                                     rightIcon : (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
@@ -116,10 +116,10 @@
                                     value: 'unarchive',
                                     attr: {'data-node-id': node.getId},
                                 },
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if workflow_can(node, 'review') or node.isPending %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'pending',
                                     leftIcon: 'rz-icon-rz--status-pending-fill',
                                     rightIcon : (node.isPending) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
@@ -129,10 +129,10 @@
                                     value: 'review',
                                     attr: {'data-node-id': node.getId},
                                 },
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if canPublish or node.isPublished %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'published',
                                     leftIcon: 'rz-icon-rz--status-published-fill',
                                     rightIcon : (node.isPublished) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
@@ -142,10 +142,10 @@
                                     value: 'publish',
                                     attr: {'data-node-id': node.getId},
                                 },
-                                ) }}
+                                }) }}
                             {% endif %}
                             {% if workflow_can(node, 'archive') or node.isArchived %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: 'archived',
                                     leftIcon: 'rz-icon-rz--status-archived-fill',
                                     rightIcon : (node.isArchived) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
@@ -155,7 +155,7 @@
                                     value: 'archive',
                                     attr: {'data-node-id': node.getId},
                                 },
-                                ) }}
+                                }) }}
                             {% endif %}
                         </menu>
                     {% endblock %}
@@ -177,17 +177,17 @@
                     targetId: 'version-menu'
                 } %}
                     {% block items %}
-                        {{ _self.item(
+                        {{ _self.item({
                             label: 'versions.working_copy',
                             href: path('nodesEditSourcePage', {
                                 nodeId: node.id,
                                 translationId: translation.id
                             }),
                             selected: not currentVersion,
-                        ) }}
+                        }) }}
                         {% for version in versions %}
                             {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
-                                {{ _self.item(
+                                {{ _self.item({
                                     label: version.loggedAt|format_datetime('short', 'short', locale=app.request.locale),
                                     description: version.username,
                                     href: path('nodesEditSourcePage', {
@@ -196,7 +196,7 @@
                                         version: version.version
                                     }),
                                     selected: currentVersion and currentVersion.id == version.id,
-                                ) }}
+                                }) }}
                             {% endif %}
                         {% endfor %}
                     {% endblock %}

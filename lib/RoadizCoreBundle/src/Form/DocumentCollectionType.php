@@ -22,7 +22,7 @@ class DocumentCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new DocumentCollectionTransformer(
-            $this->managerRegistry->getManagerForClass(Document::class),
+            $this->managerRegistry->getManagerForClass(Document::class) ?? throw new \RuntimeException('No manager found for Document class.'),
             true
         ));
     }

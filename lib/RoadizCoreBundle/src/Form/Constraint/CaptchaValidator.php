@@ -37,9 +37,15 @@ final class CaptchaValidator extends ConstraintValidator
                 $this->context->buildViolation('Request is not defined')
                     ->atPath($propertyPath)
                     ->addViolation();
+
+                return;
             }
 
-            $data = $request->get($this->captchaService->getFieldName());
+            /*
+             * Look for captcha field in POST or GET parameters.
+             */
+            $data = $request->request->get($this->captchaService->getFieldName())
+                ?? $request->query->get($this->captchaService->getFieldName());
         }
 
         if (empty($data)) {

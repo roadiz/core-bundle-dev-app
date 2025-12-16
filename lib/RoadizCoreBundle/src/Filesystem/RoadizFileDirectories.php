@@ -37,18 +37,6 @@ final readonly class RoadizFileDirectories implements FileAwareInterface
     }
 
     #[\Override]
-    public function getFontsFilesPath(): string
-    {
-        return $this->projectDir.'/var'.$this->getFontsFilesBasePath();
-    }
-
-    #[\Override]
-    public function getFontsFilesBasePath(): string
-    {
-        return '/files/fonts';
-    }
-
-    #[\Override]
     public function getPublicCachePath(): string
     {
         return $this->projectDir.'/public'.$this->getPublicCacheBasePath();

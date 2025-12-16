@@ -19,5 +19,5 @@ interface BlocksAwareWebResponseInterface extends WebResponseInterface
      *
      * @return $this
      */
-    public function setBlocks(?Collection $blocks): self;
+    public function setBlocks(?Collection $blocks): static;
 }

@@ -41,8 +41,8 @@ final readonly class AttributeGroupNormalizer implements DenormalizerInterface
             $attributeGroup = new AttributeGroup();
             $attributeGroup->setCanonicalName($groupCanonicalName);
             if ($context[AttributeNormalizer::PERSIST_NEW_ENTITIES] ?? false) {
-                $this->managerRegistry->getManagerForClass(AttributeGroup::class)->persist($attributeGroup);
-                $this->managerRegistry->getManagerForClass(AttributeGroup::class)->flush();
+                $this->managerRegistry->getManagerForClass(AttributeGroup::class)?->persist($attributeGroup);
+                $this->managerRegistry->getManagerForClass(AttributeGroup::class)?->flush();
             }
         }
 
@@ -89,8 +89,8 @@ final readonly class AttributeGroupNormalizer implements DenormalizerInterface
             $attributeGroup->addAttributeGroupTranslation($attributeGroupTranslation);
 
             if ($context[AttributeNormalizer::PERSIST_NEW_ENTITIES] ?? false) {
-                $this->managerRegistry->getManagerForClass(AttributeGroupTranslation::class)->persist($attributeGroupTranslation);
-                $this->managerRegistry->getManagerForClass(AttributeGroupTranslation::class)->flush();
+                $this->managerRegistry->getManagerForClass(AttributeGroupTranslation::class)?->persist($attributeGroupTranslation);
+                $this->managerRegistry->getManagerForClass(AttributeGroupTranslation::class)?->flush();
             }
         }
 

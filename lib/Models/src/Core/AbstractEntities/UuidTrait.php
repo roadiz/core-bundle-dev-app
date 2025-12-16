@@ -27,7 +27,7 @@ trait UuidTrait
     /**
      * @return $this
      */
-    public function setId(?Uuid $id): self
+    public function setId(?Uuid $id): static
     {
         $this->id = $id;
 
