@@ -50,12 +50,9 @@
 	padding: var(--spacing-4xs);
 	z-index: 1;
 	background-color: var(--surface-light-primary, #FFF);
-
-	& input[type="search"] {
-	    box-sizing: border-box;
-	}
 }
 
 .rz-search__search-form input[type="search"] {
+	box-sizing: border-box;
 	width: 100%;
 }
