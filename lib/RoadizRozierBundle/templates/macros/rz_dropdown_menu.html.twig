@@ -61,7 +61,7 @@
                 {% endif %}
             </div>
             {% if badgeLabel or badgeIcon %}
-                <div class="rz-badge rz-badge--xs rz-dropdown__item__badge" aria-label="{{- badgeLabel|trans -}}">
+                <div class="rz-badge rz-badge--xs rz-dropdown__item__badge"{% if badgeLabel %} aria-label="{{- badgeLabel|trans -}}"{% endif %}>
                     {% if badgeIcon %}
                         <span class="rz-badge__icon {{ badgeIcon }}"></span>
                     {% endif %}
