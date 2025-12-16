@@ -6,6 +6,14 @@ import { debounce } from 'lodash'
 
 const SEARCH_QUERY = 'search_all'
 
+/* Used for component documentation */
+type RzSearchAttributes = {
+    'initial-value'?: string // Initial value to populate the search input
+    'open-key'?: string // Key combination to open the search dialog (e.g., "Meta+K")
+    'status-wrapper'?: string // Wrapper element for status message and spinner wrapper
+    'results-wrapper'?: string // UL element to display search results
+}
+
 export class RzSearch extends HTMLElement {
     value: string | null = null
     searchInput: HTMLInputElement | null = null
@@ -13,7 +21,8 @@ export class RzSearch extends HTMLElement {
     dialogElement: RzDialog | null = null
     listELement: HTMLUListElement | null = null
 
-    statusMessage: HTMLDivElement | null = null
+    spinnerElement: HTMLElement | null = null
+    messageElement: HTMLElement | null = null
     fetchStatus:
         | 'idle'
         | 'reset'
@@ -31,36 +40,32 @@ export class RzSearch extends HTMLElement {
         this.onKeyDown = this.onKeyDown.bind(this)
     }
 
-    createStatusMessage() {
-        this.statusMessage = document.createElement('div')
-        this.statusMessage.classList.add('visually-hidden')
-        this.statusMessage.setAttribute('aria-live', 'polite')
-        this.statusMessage.setAttribute('role', 'status')
-        this.statusMessage.setAttribute('aria-atomic', 'true')
+    updateSpinnerVisibility() {
+        if (!this.spinnerElement) return
 
-        if (!this.listELement) return
-        this.listELement.parentElement?.insertBefore(
-            this.statusMessage,
-            this.listELement,
-        )
+        if (this.fetchStatus === 'pending') {
+            this.spinnerElement.style.display = 'initial'
+        } else {
+            this.spinnerElement.style.display = 'none'
+        }
     }
 
     updateStatusMessage() {
-        if (!this.statusMessage) return
-        const itemLength = this.items?.length
+        if (!this.messageElement) return
 
         if (this.fetchStatus === 'idle') {
-            this.statusMessage.textContent = 'Waiting for request'
+            this.messageElement.textContent = 'Waiting for request'
         } else if (this.fetchStatus === 'reset') {
-            this.statusMessage.textContent = 'Request reset'
+            this.messageElement.textContent = 'Request reset'
         } else if (this.fetchStatus === 'pending') {
-            this.statusMessage.textContent = 'Searching...'
+            this.messageElement.textContent = 'Searching...'
         } else if (this.fetchStatus === 'results' && this.items !== null) {
-            this.statusMessage.textContent = `${itemLength} result${itemLength > 1 ? 's' : ''} found`
+            const itemLength = this.items?.length
+            this.messageElement.textContent = `${itemLength} result${itemLength > 1 ? 's' : ''} found`
         } else if (this.fetchStatus === 'no-results') {
-            this.statusMessage.textContent = 'No results found'
+            this.messageElement.textContent = 'No results found'
         } else if (this.fetchStatus === 'error') {
-            this.statusMessage.textContent =
+            this.messageElement.textContent =
                 'An error occurred while fetching results'
         }
     }
@@ -92,7 +97,7 @@ export class RzSearch extends HTMLElement {
 
     render() {
         this.updateStatusMessage()
-
+        this.updateSpinnerVisibility()
         if (this.listELement) {
             this.listELement.innerHTML = ''
             this.getItemsElement()?.forEach((el) => {
@@ -107,11 +112,12 @@ export class RzSearch extends HTMLElement {
 
         if (!newValue || newValue.length <= 1) {
             this.fetchStatus = 'reset'
+            this.render()
         } else {
             try {
                 this.fetchStatus = 'pending'
+                this.render()
                 const items = await api.getNodesSourceFromSearch(newValue)
-
                 if (items.length) {
                     this.fetchStatus = 'results'
                     this.items = items
@@ -122,8 +128,30 @@ export class RzSearch extends HTMLElement {
             } catch {
                 this.fetchStatus = 'error'
                 this.items = null
+            } finally {
+                this.render()
             }
         }
+    }
+
+    createStatusElements() {
+        const wrapper = this.querySelector('[status-wrapper]')
+        if (!wrapper) return
+
+        wrapper.setAttribute('aria-live', 'polite')
+        wrapper.setAttribute('role', 'status')
+        wrapper.setAttribute('aria-atomic', 'true')
+
+        this.messageElement = document.createElement('div')
+        this.messageElement.classList.add('visually-hidden')
+        this.updateStatusMessage()
+        wrapper.appendChild(this.messageElement)
+
+        this.spinnerElement = document.createElement('div')
+        this.spinnerElement.setAttribute('aria-hidden', 'true')
+        this.spinnerElement.classList.add('rz-spinner', 'rz-spinner--lg')
+        this.updateSpinnerVisibility()
+        wrapper.appendChild(this.spinnerElement)
 
         this.render()
     }
@@ -135,7 +163,7 @@ export class RzSearch extends HTMLElement {
 
     connectedCallback() {
         this.listELement =
-            this.querySelector<HTMLUListElement>('[data-search-list]')
+            this.querySelector<HTMLUListElement>('[results-wrapper]')
 
         this.dialogElement = this.querySelector<RzDialog>('[is="rz-dialog"]')
 
@@ -167,8 +195,7 @@ export class RzSearch extends HTMLElement {
             this.initKeyBindEvent()
         }
 
-        this.createStatusMessage()
-        this.render()
+        this.createStatusElements()
     }
 
     disconnectedCallback() {

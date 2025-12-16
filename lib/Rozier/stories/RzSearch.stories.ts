@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-// import { rzCardRenderer } from '~/utils/storybook/renderer/rzCard'
 import { rzDialogRenderer } from '~/utils/storybook/renderer/rzDialog'
 import { rzInputRenderer } from '~/utils/storybook/renderer/rzInput'
 import type { Args as DialogArgs } from './RzDialog.stories'
@@ -34,9 +33,12 @@ const meta: Meta<Args> = {
                 justifyEnd: true,
                 buttons: [
                     {
+                        tag: 'a',
+                        is: '',
                         label: 'Advanced search',
                         emphasis: 'primary',
                         attributes: {
+                            href: '/search',
                             class: 'rz-dialog__item--end',
                         },
                     },
@@ -84,30 +86,20 @@ function innerDialogRenderer(args: Args) {
     })
     form.appendChild(searchInput)
 
+    /* Use to display search status message and spinner */
+    const statusWrapper = document.createElement('div')
+    statusWrapper.setAttribute('status-wrapper', '')
+    statusWrapper.classList.add(`${COMPONENT_CLASS_NAME}__status-wrapper`)
+
     const ul = document.createElement('ul')
-    ul.setAttribute('data-search-list', '')
+    ul.setAttribute('results-wrapper', '')
     ul.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
-    /* A11Y NOTE :
-    An non displayed element (visibility-hidden) could be added to describe accessibility informations.
-    - search status: wainting for query, searching, no result found
-    - result count: displaying
-    e.g: <span class="visibility-hidden" aria-live="polite" aria-atomic="true">10 results found for query "test"</span>
-     */
-
-    return [form, ul]
+    return [form, statusWrapper, ul]
 }
 
 function rzSearchRenderer(args: Args) {
     const wrapper = rzElement({ ...args, tag: 'rz-search' })
-
-    const dialog = rzDialogRenderer({
-        ...args.dialogData,
-        innerHTML: innerDialogRenderer(args)
-            .map((el) => el.outerHTML)
-            .join(''),
-    })
-    wrapper.appendChild(dialog)
 
     const button = rzButtonRenderer({
         label: 'Open search',
@@ -118,6 +110,14 @@ function rzSearchRenderer(args: Args) {
         },
     })
     wrapper.appendChild(button)
+
+    const dialog = rzDialogRenderer({
+        ...args.dialogData,
+        innerHTML: innerDialogRenderer(args)
+            .map((el) => el.outerHTML)
+            .join(''),
+    })
+    wrapper.appendChild(dialog)
 
     return wrapper
 }
