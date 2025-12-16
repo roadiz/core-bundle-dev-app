@@ -175,7 +175,7 @@ export const DefaultOpen: Story = {
             dialogId: 'search-dialog-default-open',
         },
         attributes: {
-            ['initial-value']: 'test',
+            'initial-value': 'test',
         },
     },
 }

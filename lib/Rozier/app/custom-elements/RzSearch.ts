@@ -225,17 +225,18 @@ export class RzSearch extends HTMLElement {
         const openKey = this.getAttribute('open-key')
         if (!openKey) return
 
-        const keys = openKey.split('+').map((k) => k.trim().toLowerCase())
+        const keys = openKey.split('+').map((k) => k.trim())
         const isValid = keys.every((key) => {
-            const isMeta =
-                (key === 'meta' && event.metaKey) ||
-                (key === 'meta' && event.ctrlKey)
-            return isMeta || key === event.key
+            if (key === 'meta') return event.metaKey || event.ctrlKey
+            if (key === 'ctrl') return event.ctrlKey
+            if (key === 'alt') return event.altKey
+            if (key === 'shift') return event.shiftKey
+            return key === event.key
         })
 
         if (isValid) {
             event.preventDefault()
-            this.dialogElement.showModal()
+            this.dialogElement.showDialog()
         }
     }
 
