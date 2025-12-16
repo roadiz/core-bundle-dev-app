@@ -21,6 +21,23 @@
     </div>
 {% endmacro %}
 
+{#
+    Renders a dropdown menu item with customizable content and behavior.
+    
+    @param options {object} - Configuration object with the following properties:
+        - label {string} - The main text label for the item
+        - description {string} - Optional secondary description text
+        - title {string} - Optional tooltip text
+        - href {string} - Optional URL (converts item to link)
+        - class {string} - Optional CSS classes
+        - leftIcon {string} - Optional left icon class
+        - rightIcon {string} - Optional right icon class
+        - badgeLabel {string} - Optional badge text
+        - badgeIcon {string} - Optional badge icon class
+        - input {object} - Optional hidden input configuration {type, value, name, attr}
+        - selected {boolean} - Whether the item is selected (default: false)
+        - tag {string} - HTML tag to use (default: 'button', auto-set to 'a' if href provided)
+#}
 {% macro item(options = {}) %}
     {# Set default values #}
     {% set label = options.label|default(null) %}
@@ -36,7 +53,7 @@
     {% set selected = options.selected|default(false) %}
     {% set tag = options.tag|default('button') %}
     
-    <li class="{{ input ? 'node-statuses-item' : '' }}">
+    <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
         {% if href %}
             {% set tag = 'a' %}
         {% endif %}
