@@ -91,7 +91,7 @@
                         {% endif %}
                     {% endblock %}
                     {% block additional_menu %}
-                        <menu class="rz-dropdown-menu__list node-statuses node-actions">
+                        <menu class="rz-dropdown__list node-statuses node-actions">
                             {% if workflow_can(node, 'reject') or node.isDraft %}
                                 {{ _self.item(
                                     label: 'draft',

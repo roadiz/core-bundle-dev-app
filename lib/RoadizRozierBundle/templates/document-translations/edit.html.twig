@@ -1,16 +1,17 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global manage-document">
-
-    <header class="content-header header-document header-document-edit">
-        <h1 class="content-title document-edit-title">{{ "edit.document.%name%"|trans({'%name%': document})|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/documents/navBar.html.twig' with {'document':document, current:'metas'} %}
-        {% include '@RoadizRozier/document-translations/translationBar.html.twig' with {"current": translation.getId} %}
-        {% include '@RoadizRozier/documents/backLink.html.twig' %}
-    </header>
+    {% include '@RoadizRozier/documents/head.html.twig' with {
+        document: document,
+        title: "edit.document.%name%"|trans({'%name%': document})|truncate_title,
+        translation: translation,
+        available_translations: available_translations,
+        with_nav_bar: true,
+        current: 'metas',
+    } only %}
 
     <article class="content content-document-edit">
         {% if readOnly %}

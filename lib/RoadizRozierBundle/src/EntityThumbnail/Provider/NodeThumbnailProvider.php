@@ -50,7 +50,7 @@ final readonly class NodeThumbnailProvider extends AbstractEntityThumbnailProvid
 
         return $this->nodesSourcesThumbnailProvider->getThumbnail(
             NodesSources::class,
-            $nodesSources->getId(),
+            $nodesSources->getId() ?? throw new \RuntimeException('NodesSources must have an ID'),
         );
     }
 }

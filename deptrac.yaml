@@ -91,11 +91,6 @@ deptrac:
               - type: 'directory'
                 value: 'lib/RoadizCoreBundle/*'
 
-        - name: 'RoadizFontBundle'
-          collectors:
-              - type: 'directory'
-                value: 'lib/RoadizFontBundle/*'
-
         - name: 'RoadizRozierBundle'
           collectors:
               - type: 'directory'
@@ -146,12 +141,6 @@ deptrac:
             - 'DocGenerator'
             - 'DtsGenerator'
             - 'Random'
-        RoadizFontBundle:
-            - 'Documents'
-            - 'Models'
-            - 'RoadizCoreBundle'
-            - 'EntityGenerator'
-            - 'RoadizRozierBundle'
         RoadizSolrBundle:
             - 'Documents'
             - 'RoadizCoreBundle'

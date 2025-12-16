@@ -61,6 +61,9 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
 
     protected function updatePosition(array $parameters, ?AbstractField $field = null): array
     {
+        if (null === $field) {
+            throw new BadRequestHttpException('Field does not exist');
+        }
         if (!empty($parameters['afterFieldId']) && is_numeric($parameters['afterFieldId'])) {
             $afterField = $this->findEntity((int) $parameters['afterFieldId']);
             if (null === $afterField) {

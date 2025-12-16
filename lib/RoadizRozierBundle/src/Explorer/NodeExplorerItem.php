@@ -29,7 +29,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getId(): string|int
     {
-        return $this->node->getId();
+        return $this->node->getId() ?? throw new \RuntimeException('Node has no ID associated.');
     }
 
     private function getNodeSource(Node $node): ?NodesSources
@@ -131,6 +131,6 @@ final class NodeExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getColor(): string
     {
-        return $this->nodeTypesBag->get($this->node->getNodeTypeName())->getColor() ?? '#000000';
+        return $this->nodeTypesBag->get($this->node->getNodeTypeName())?->getColor() ?? '#000000';
     }
 }

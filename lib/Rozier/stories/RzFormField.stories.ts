@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
 import { INPUT_TYPES } from '~/custom-elements/RzInput'
-import type { BadgeArgs } from './RzBadge.stories'
 import type { Args as InputArgs } from './RzInput.stories'
 import type { Args as ButtonGroupArg } from './RzButtonGroup.stories'
+import { type RzBadgeOptions } from '~/utils/component-renderer/rzBadge'
 
 export type Args = {
     label: string
@@ -15,8 +15,10 @@ export type Args = {
     horizontal?: boolean
     alignStart?: boolean
     headClass?: string
+    maxLength?: number
+    minLength?: number
     // Elements
-    badge?: BadgeArgs
+    badge?: RzBadgeOptions
     iconClass?: string
     input?: InputArgs
     buttonGroup?: ButtonGroupArg
@@ -189,7 +191,7 @@ export const WithButtons: Story = {
         input: undefined,
         badge: {
             label: '0/255',
-            color: 'error',
+            color: 'danger',
             size: 'xs',
         },
         buttonGroup: {
@@ -207,6 +209,34 @@ export const WithButtons: Story = {
                     size: 'sm',
                 },
             ],
+        },
+    },
+}
+
+export const MaxLength: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        maxLength: 20,
+        input: {
+            type: 'text',
+            name: 'maxlength-name',
+            id: 'maxlength-id',
+        },
+    },
+}
+
+export const MinLength: Story = {
+    render: (args) => {
+        return rzFormFieldRenderer(args)
+    },
+    args: {
+        minLength: 5,
+        input: {
+            type: 'text',
+            name: 'minlength-name',
+            id: 'minlength-id',
         },
     },
 }

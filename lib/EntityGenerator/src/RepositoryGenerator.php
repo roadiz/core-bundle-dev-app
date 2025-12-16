@@ -63,7 +63,7 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
             ->addComment('@method '.$simplifiedFqcn.'[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)')
             ->addComment('@method '.$simplifiedFqcn.'|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)')
             ->addComment('@method '.$simplifiedFqcn.'|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)')
-            ->addComment('@method '.$simplifiedFqcn.'[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])')
+            ->addComment('@method '.$simplifiedFqcn.'[]      findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])')
             ->addComment('@method int countBy(mixed $criteria)')
         ;
 

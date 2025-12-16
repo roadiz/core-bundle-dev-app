@@ -580,7 +580,7 @@
                 attr.class ~ '-wrapper'
             ]) %}
         {% endif %}
-        <div {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
+        <rz-form-field {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
              data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
             class="{{ rowClasses|join(' ') }}">
             {% if form.vars.block_prefixes[1] != 'separator' %}
@@ -588,7 +588,7 @@
             {% endif %}
             {{- form_widget(form) -}}
             {{- form_errors(form) -}}
-        </div>
+        </rz-form-field>
     {%- endif -%}
 {%- endblock form_row %}
 

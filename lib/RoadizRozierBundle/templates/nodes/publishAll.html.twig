@@ -1,14 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-node header-node-publish-all">
-        <h1 class="content-title node-publish-all-title">{{ "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        title: "publish.node.%name%.offspring"|trans({'%name%': node.nodeName})|truncate_title,
+    } only %}
 
     <article class="content content-publish-all content-node-publish-all content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

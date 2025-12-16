@@ -41,8 +41,8 @@ final class UsersDeleteCommand extends UsersCommand
                 $confirmation
             )
         ) {
-            $this->managerRegistry->getManagerForClass(User::class)->remove($user);
-            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $this->managerRegistry->getManagerForClass(User::class)?->remove($user);
+            $this->managerRegistry->getManagerForClass(User::class)?->flush();
             $io->success('User “'.$name.'” deleted.');
 
             return 0;

@@ -1,4 +1,4 @@
-import { addClass, stripTags } from '~/utils/plugins'
+import { stripTags } from '~/utils/plugins'
 import markdownit from 'markdown-it'
 import markdownItFootnote from 'markdown-it-footnote'
 import type {
@@ -42,13 +42,6 @@ export default class RzMarkdownEditor extends HTMLElement {
     buttonTranslateAssistant: NodeListOf<HTMLElement> | null = null
     buttonTranslateAssistantRephrase: NodeListOf<HTMLElement> | null = null
     buttonFullscreen: NodeListOf<HTMLElement> | null = null
-    count: NodeListOf<HTMLElement> | null = null
-    countCurrent: NodeListOf<HTMLElement> | null = null
-    limit: boolean = false
-    countMinLimit: number = 0
-    countMaxLimit: number = 0
-    countMaxLimitText: NodeListOf<HTMLElement> | null = null
-    countAlertActive: boolean = false
     fullscreenActive: boolean = false
     $editor!: HTMLElement
     buttons: NodeListOf<HTMLElement> | null = null
@@ -58,6 +51,15 @@ export default class RzMarkdownEditor extends HTMLElement {
     preview!: HTMLDivElement
     refreshPreviewTimeout: number | null = null
     index: number = 0
+    changeEvent: CustomEvent
+
+    constructor() {
+        super()
+
+        this.changeEvent = new CustomEvent('change', {
+            detail: { target: this },
+        })
+    }
 
     connectedCallback() {
         this.markdownit = new markdownit()
@@ -114,7 +116,7 @@ export default class RzMarkdownEditor extends HTMLElement {
 
         // Bind methods
         this.closePreview = this.closePreview.bind(this)
-        this.textareaChange = this.textareaChange.bind(this)
+        this.onEditorChange = this.onEditorChange.bind(this)
         this.textareaFocus = this.textareaFocus.bind(this)
         this.textareaBlur = this.textareaBlur.bind(this)
         this.onDropFile = this.onDropFile.bind(this)
@@ -135,8 +137,6 @@ export default class RzMarkdownEditor extends HTMLElement {
     }
 
     init() {
-        this.editor.on('change', this.textareaChange)
-
         if (!this.cont || !this.textarea) {
             return
         }
@@ -169,9 +169,6 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.buttonFullscreen = this.cont.querySelectorAll(
             '.markdown-editor-button-fullscreen',
         )
-        this.count = this.cont.querySelectorAll('.count')
-        this.countCurrent = this.cont.querySelectorAll('.count-current')
-        this.countMaxLimitText = this.cont.querySelectorAll('.count-limit')
         this.buttonTranslateAssistant = this.cont.querySelectorAll(
             '.markdown-editor-button-translate-assistant-translate',
         )
@@ -220,69 +217,9 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.previewContainer.append(this.preview)
         this.editor.refresh()
 
-        // Check if a max length is defined
-        if (
-            this.textarea.hasAttribute('data-max-length') &&
-            this.textarea.getAttribute('data-max-length') !== ''
-        ) {
-            this.limit = true
-            this.countMaxLimit = parseInt(
-                this.textarea.getAttribute('data-max-length') || '0',
-            )
-
-            if (
-                this.countCurrent.length &&
-                this.countMaxLimitText.length &&
-                this.count.length
-            ) {
-                this.countCurrent[0].innerHTML = String(
-                    stripTags(this.editor.getValue()).length,
-                )
-                this.countMaxLimitText[0].innerHTML =
-                    this.textarea.getAttribute('data-max-length') || ''
-                this.count[0].style.display = 'block'
-            }
-        }
-
-        if (
-            this.textarea.hasAttribute('data-min-length') &&
-            this.textarea.getAttribute('data-min-length') !== ''
-        ) {
-            this.limit = true
-            this.countMinLimit = parseInt(
-                this.textarea.getAttribute('data-min-length') || '0',
-            )
-        }
-
-        if (
-            this.textarea.hasAttribute('data-max-length') &&
-            this.textarea.hasAttribute('data-min-length') &&
-            this.textarea.getAttribute('data-min-length') === '' &&
-            this.textarea.getAttribute('data-max-length') === ''
-        ) {
-            this.limit = false
-            this.countMaxLimit = 0
-            this.countAlertActive = false
-        }
-
         this.fullscreenActive = false
 
-        if (this.limit) {
-            // Check if current length is over limit
-            if (stripTags(this.editor.getValue()).length > this.countMaxLimit) {
-                this.countAlertActive = true
-                addClass(this.cont, 'content-limit')
-            } else if (
-                stripTags(this.editor.getValue()).length < this.countMinLimit
-            ) {
-                this.countAlertActive = true
-                addClass(this.cont, 'content-limit')
-            } else {
-                this.countAlertActive = false
-            }
-        }
-
-        this.editor.on('change', this.textareaChange)
+        this.editor.on('change', this.onEditorChange)
         this.editor.on('focus', this.textareaFocus)
         this.editor.on('blur', this.textareaBlur)
 
@@ -310,6 +247,23 @@ export default class RzMarkdownEditor extends HTMLElement {
             })
             this.forceEditorUpdate()
         })
+    }
+
+    get value(): string {
+        if (!this.editor) return ''
+
+        return this.editor.getValue()
+    }
+
+    set value(value: string) {
+        if (!this.editor) return
+
+        this.editor.setValue(value)
+        this.forceEditorUpdate()
+    }
+
+    get strippedValue(): string {
+        return stripTags(this.value)
     }
 
     setDataIndex(elements: NodeListOf<Element> | null) {
@@ -525,7 +479,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         return selections.map((sel) => '\n> ' + sel + '\n')
     }
 
-    textareaChange() {
+    onEditorChange() {
         this.editor.save()
 
         if (this.usePreview) {
@@ -539,34 +493,7 @@ export default class RzMarkdownEditor extends HTMLElement {
             })
         }
 
-        if (this.limit) {
-            window.requestAnimationFrame(() => {
-                const textareaVal = this.editor.getValue()
-                const textareaValStripped = stripTags(textareaVal)
-                const textareaValLength = textareaValStripped.length
-
-                if (this.countCurrent && this.countCurrent.length > 0) {
-                    this.countCurrent[0].innerHTML = String(textareaValLength)
-                }
-
-                if (textareaValLength > this.countMaxLimit) {
-                    if (!this.countAlertActive) {
-                        this.cont?.classList.add('content-limit')
-                        this.countAlertActive = true
-                    }
-                } else if (textareaValLength < this.countMinLimit) {
-                    if (!this.countAlertActive) {
-                        this.cont?.classList.add('content-limit')
-                        this.countAlertActive = true
-                    }
-                } else {
-                    if (this.countAlertActive) {
-                        this.cont?.classList.remove('content-limit')
-                        this.countAlertActive = false
-                    }
-                }
-            })
-        }
+        this.dispatchEvent(this.changeEvent)
     }
 
     textareaFocus() {

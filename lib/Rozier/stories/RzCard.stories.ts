@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { type Args, rzCardRenderer } from '~/utils/storybook/renderer/rzCard'
+import {
+    type RzCardOptions,
+    rzCardRenderer,
+} from '~/utils/component-renderer/rzCard'
 // @ts-expect-error — image module declaration not recognized
 import image from './assets/images/01.jpg'
+
+type Args = RzCardOptions
 
 /**
  * Layout is auto determined based on presence of `rz-card__title` `rz-card__overtitle` `rz-card__img` classes.
@@ -27,7 +32,8 @@ const meta: Meta<Args> = {
                 },
                 {
                     iconClass: 'rz-icon-ri--delete-bin-7-line',
-                    color: 'error-light',
+                    color: 'danger',
+                    emphasis: 'tertiary',
                 },
             ],
         },

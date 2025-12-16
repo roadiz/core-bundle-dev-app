@@ -19,7 +19,6 @@ return RectorConfig::configure()
         __DIR__.'/lib/OpenId/src',
         __DIR__.'/lib/Random/src',
         __DIR__.'/lib/RoadizCoreBundle/src',
-        __DIR__.'/lib/RoadizFontBundle/src',
         __DIR__.'/lib/RoadizRozierBundle/src',
         __DIR__.'/lib/RoadizTwoFactorBundle/src',
         __DIR__.'/lib/RoadizUserBundle/src',

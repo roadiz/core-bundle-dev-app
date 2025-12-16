@@ -67,7 +67,7 @@ final class UsersRolesCommand extends UsersCommand
                         ...$user->getUserRoles(),
                         $role,
                     ]);
-                    $this->managerRegistry->getManagerForClass(User::class)->flush();
+                    $this->managerRegistry->getManagerForClass(User::class)?->flush();
                     $io->success('Role: '.$role.' added.');
                 }
             } while ('' != $role);
@@ -84,7 +84,7 @@ final class UsersRolesCommand extends UsersCommand
                     $user->setUserRoles(
                         array_values(array_filter($roles, fn ($r) => $r !== $role))
                     );
-                    $this->managerRegistry->getManagerForClass(User::class)->flush();
+                    $this->managerRegistry->getManagerForClass(User::class)?->flush();
                     $io->success('Role: '.$role.' removed.');
                 }
             } while ('' != $role);

@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|u.truncate(25, '[…]', true) }}
+    {{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
@@ -10,7 +10,7 @@
 <section class="content-global">
 
     <header class="content-header header-tags header-tags-tree">
-        <h1 class="content-title tags-tree-title">{{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|u.truncate(25, '[…]', true) }}</h1>
+        <h1 class="content-title tags-tree-title">{{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title }}</h1>
         {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
         {% include '@RoadizRozier/tags/navBar.html.twig' with {"current": 'tree', "tag":tag} only %}
     </header>

@@ -159,6 +159,11 @@ final class SearchController extends AbstractController
     public function searchNodeSourceAction(Request $request, string $nodeTypeName): Response
     {
         $nodeType = $this->nodeTypesBag->get($nodeTypeName);
+
+        if (null === $nodeType) {
+            throw $this->createNotFoundException('Node type '.$nodeTypeName.' does not exist.');
+        }
+
         $assignation = [];
         $pagination = true;
         $itemPerPage = null;

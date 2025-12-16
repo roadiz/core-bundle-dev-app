@@ -68,6 +68,12 @@ export default [
     'user-line',
     'user-shared-line',
     'zoom-in-line',
+    'download-line',
+    'home-2-fill',
+    'folder-fill',
+    'dashboard-line',
+    'calendar-event-line',
+    'menu-line',
     // Markdown related icons
     'h-1',
     'h-2',

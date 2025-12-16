@@ -1,0 +1,22 @@
+.rz-app > .rz-page {
+	min-height: var(--rz-app-trees-section-head-height);
+	margin-block: var(--rz-app-padding-block);
+	margin-inline: var(--spacing-4xs);
+	z-index: 1;
+
+	@media (--screen-sm-min) {
+		margin-inline: 0 var(--spacing-4xs);
+	}
+}
+
+.rz-page {
+	border-radius: var(--radius-md, 12px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	background-color: var(--surface-light-primary, #FFF);
+	padding-inline: var(--spacing-4xs);
+	transition: translate 0.4s;
+
+	@media (--screen-sm-min) {
+		padding-inline: var(--spacing-2xs);
+	}
+}
