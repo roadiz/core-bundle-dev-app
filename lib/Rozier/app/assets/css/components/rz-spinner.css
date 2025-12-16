@@ -1,5 +1,5 @@
 .rz-spinner {
-	width: 12px;
+    width: 12px;
     height: 12px;
     border: 2px solid currentColor;
     border-bottom-color: transparent;
@@ -10,9 +10,9 @@
 }
 
 .rz-spinner--lg {
-	width: 32px;
+    width: 32px;
     height: 32px;
-	border-width: 4px;
+    border-width: 4px;
 }
 
 
