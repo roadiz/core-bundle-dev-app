@@ -27,7 +27,6 @@ export default [
     'delete-bin-7-line',
     'download-cloud-2-line',
     'download-line',
-    'download-line',
     'draggable',
     'earth-line',
     'edit-line',
