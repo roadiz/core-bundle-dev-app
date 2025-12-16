@@ -144,7 +144,7 @@ roadiz_rozier:
                 manage_nodeTypes:
                     name: 'manage.nodeTypes'
                     route: nodeTypesHomePage
-                    icon: 'rz-icon-ri--kanban-view-line'
+                    icon: 'rz-icon-ri--kanban-view'
                     roles: ['ROLE_ACCESS_NODETYPES']
                 manage_attributes:
                     name: 'manage.attributes'

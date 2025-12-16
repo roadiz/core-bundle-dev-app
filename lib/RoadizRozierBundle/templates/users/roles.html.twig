@@ -44,12 +44,16 @@
                         <td>{{ role }}</td>
                         <td class="table-actions-row table-actions-row-3">
                             {% if is_granted(role) %}
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('usersRemoveRolesPage', { userId: user.id, role: role }) }}"
-                                   title="{% trans %}remove{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                            </div>
+                                <a
+                                    is="rz-link"
+                                    href="{{ path('usersRemoveRolesPage', { userId: user.id, role: role }) }}"
+                                    tooltip-text="{% trans %}remove{% endtrans %}"
+                                    popover-placement="top"
+                                    popover-offset="4"
+                                    class="rz-button rz-button--primary rz-button--danger"
+                                >
+                                    <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+                                </a>
                             {% endif %}
                         </td>
                     </tr>
@@ -63,9 +67,12 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button class="uk-button uk-button-primary" type="submit"><i class="uk-icon-rz-plus"></i> {% trans %}add.role{% endtrans %}</button>
-            </fieldset>
+            <div class="rz-form-field rz-form-field--align-start">
+                <button class="rz-button rz-button--primary" type="submit">
+                    <span class="rz-button__label">{% trans %}add.role{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                </button>
+            </div>
         {{ form_end(form) }}
     </article>
 
