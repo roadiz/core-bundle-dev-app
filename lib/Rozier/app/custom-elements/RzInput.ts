@@ -35,7 +35,7 @@ export default class RzInput extends HTMLInputElement {
         const isUnsetColorValue =
             this.getAttribute('type') === 'color' && this.value === '#000000'
 
-        if (this.value === '' || isUnsetColorValue) {
+        if (isUnsetColorValue) {
             this.removeAttribute('value')
         } else {
             this.setAttribute('value', this.value)

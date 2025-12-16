@@ -1,0 +1,24 @@
+{% macro item(label, active, icon, href, subItem = false, tag = 'div', children = [], end) %}
+    <li class="rz-header__li{{ end ? ' rz-header__li--end' : '' }}">
+        <{{ tag }} class="rz-header-nav-item
+        {{ subItem ? ' rz-header-nav-item--sub-item' : '' }}
+        {{ active ? ' rz-header-nav-item--active' : '' }}"
+        {% if href is defined and href %} href="{{ href }}"{% endif %}
+        {% if tag == 'button' %} is="rz-header-nav-item-button" aria-expanded="false"{% endif %}
+    >
+            {% if icon is not empty %}
+                <span class="rz-header-nav-item__icon {{ icon }}"></span>
+            {% endif %}
+            <span class="rz-header-nav-item__label">{{ label }}</span>
+            {% if tag == 'a' %}
+                <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-right-line"></span>
+            {% endif %}
+        </{{ tag }}>
+
+        {% if children|length %}
+            <ul class="rz-header__list rz-header__sub-list">
+                {{ children|raw }}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}

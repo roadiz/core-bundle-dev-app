@@ -6,7 +6,6 @@
 	padding: var(--spacing-4xs);
 	justify-content: center;
 	align-items: center;
-	cursor: pointer;
 	border: none;
 	border-radius: var(--radius-xs, 6px);
 	color: var(--rz-brand-color, var(--content-on-darker-primary, #FFF));
@@ -17,6 +16,10 @@
 	line-height: var(--text-h1-sm-line-height);
 	letter-spacing: var(--text-h1-sm-letter-spacing);
 	font-weight: var(--text-h1-sm-font-weight);
+
+	&:where(button) {
+		cursor: pointer;
+	}
 
 	[class*="rz-icon-"] {
 		font-size: 20px;

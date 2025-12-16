@@ -134,7 +134,7 @@ export function rzFormFieldRenderer(
     }
 
     if (args.help) {
-        const node = rzMessageRenderer({ text: args.help })
+        const node = rzMessageRenderer({ text: args.help, variant: 'ghost' })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         wrapper.appendChild(node)
     }
