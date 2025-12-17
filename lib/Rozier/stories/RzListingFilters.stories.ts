@@ -11,8 +11,10 @@ export type Args = RzElement & {
     elements: PossibleElement[]
 }
 
+const COMPONENT_CLASS_NAME = 'rz-listing-filters'
+
 const meta: Meta<Args> = {
-    title: 'Components/ListingMenu',
+    title: 'Components/ListingFilters',
     tags: ['autodocs'],
     args: {
         tag: 'form',
@@ -23,7 +25,7 @@ const meta: Meta<Args> = {
             {
                 tag: 'div',
                 attributes: {
-                    class: 'rz-listing-menu__group rz-listing-menu__group--divider',
+                    class: `${COMPONENT_CLASS_NAME}__group ${COMPONENT_CLASS_NAME}__group--divider`,
                 },
                 children: [
                     {
@@ -57,7 +59,7 @@ const meta: Meta<Args> = {
                     name: 'search',
                     type: 'search',
                     placeholder: 'Search...',
-                    class: 'rz-listing-menu__search-input',
+                    class: `${COMPONENT_CLASS_NAME}__search-input`,
                 },
             },
             {
@@ -100,7 +102,7 @@ const meta: Meta<Args> = {
             }),
             {
                 tag: 'div',
-                attributes: { class: 'rz-listing-menu__group' },
+                attributes: { class: `${COMPONENT_CLASS_NAME}__group` },
                 children: [
                     {
                         tag: 'span',
@@ -177,7 +179,7 @@ function appendElements(elements: Args['elements'], parent: HTMLElement) {
 
 function rzListingMenuRenderer(args: Args) {
     const root = rzElement(args)
-    root.classList.add('rz-listing-menu')
+    root.classList.add(COMPONENT_CLASS_NAME)
 
     appendElements(args.elements, root)
     return root

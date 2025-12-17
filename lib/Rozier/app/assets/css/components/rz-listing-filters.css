@@ -1,4 +1,4 @@
-.rz-listing-menu {
+.rz-listing-filters {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -23,7 +23,7 @@
 }
 
 
-.rz-listing-menu__group {
+.rz-listing-filters__group {
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-6xs);
@@ -39,7 +39,7 @@
 	}
 }
 
-.rz-listing-menu__group--divider {
+.rz-listing-filters__group--divider {
 	padding-right: var(--spacing-5xs);
 	border-right: 1PX solid var(--line-on-light-secondary, #DADADA);;
 }
