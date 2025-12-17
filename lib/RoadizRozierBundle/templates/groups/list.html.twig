@@ -4,16 +4,27 @@
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
-
-    <header class="content-header header-group header-group-list">
-        <h1 class="content-title group-list-title">{% trans %}groups{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('groupsAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.group{% endtrans %}</a>
-            <a class="uk-button" href="{{ path('groupsImportPage') }}"><i class="uk-icon-rz-upload"></i> {% trans %}import.group{% endtrans %}</a>
-            <a class="uk-button rz-no-ajax-link" href="{{ path('groupsExportAllPage') }}"><i class="uk-icon-rz-download"></i> {% trans %}export.all.groups{% endtrans %}</a>
-        </div>
-    </header>
+    {% include '@RoadizRozier/groups/head.html.twig' with {
+        title: 'groups'|trans,
+        filters: filters,
+        buttons: [
+            {
+                label: 'add.a.group'|trans,
+                href: path('groupsAddPage'),
+                icon: 'rz-icon-ri--add-line',
+            },
+            {
+                label: 'import.group'|trans,
+                href: path('groupsImportPage'),
+                icon: 'rz-icon-ri-upload-line',
+            },
+            {
+                label: 'export.all.groups'|trans,
+                href: path('groupsExportAllPage'),
+                icon: 'rz-icon-ri-download-line',
+            },
+        ]
+    } only %}
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
     <article class="content content-no-action-menu">
