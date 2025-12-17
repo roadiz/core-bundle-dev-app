@@ -34,31 +34,25 @@
     </head>
     <body>
         <div id="app"></div>
-        <div id="main-container">
             {% set treePanelEnabled = (is_granted('ROLE_ACCESS_NODES') or
                 is_granted('ROLE_ACCESS_DOCUMENTS') or
                 is_granted('ROLE_ACCESS_TAGS')) %}
-            <div id="main-container-inner"{% if not treePanelEnabled %} class="trees-panel--hidden"{% endif %}>
-                <section class="main-container-section navigation-container-section" id="user-panel">
-                    {% include '@RoadizRozier/panels/user_panel.html.twig' with {
-                        'session' : session,
-                        'head' : head,
-                    } only %}
-                </section>
-                <section class="main-container-section navigation-container-section" id="admin-menu">
-                    {% include '@RoadizRozier/panels/admin_menu.html.twig' with {
+            <div class="rz-app{% if not treePanelEnabled %} trees-panel--hidden{% endif %}">
+
+                <header class="rz-header">
+                    {% include '@RoadizRozier/panels/header.html.twig' with {
                         'backofficeEntries':backofficeEntries,
                     } only %}
-                </section>
+                </header>
                 {% if treePanelEnabled %}
-                <section class="main-container-section navigation-container-section" id="main-trees">
+                <section class="rz-trees-section">
                     <div id="main-trees-container">
                         {% include '@RoadizRozier/panels/tree_panel.html.twig' %}
                     </div>
                 </section>
                 {% endif %}
                 <!-- Add your site or application content here -->
-                <section id="main-content" class="main-container-section" data-uk-observe>
+                <main id="rz-page" class="rz-page" data-uk-observe>
                     <div id="main-content-overlay"></div>
                     <div id="main-content-scrollable" data-ajax-root>
                         {% block permanentComponents %}
@@ -71,7 +65,7 @@
                          title="{% trans %}back_to.top{% endtrans %}"
                          data-uk-tooltip="{animation:true,pos:'top'}"><i class="uk-icon-rz-backtop"></i></div>
                     {# This is a debug panel placeholder… do not remove it. #}
-                </section>
+                </main>
             </div>
         </div>
 

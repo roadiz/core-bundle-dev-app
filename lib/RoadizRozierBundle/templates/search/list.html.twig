@@ -24,24 +24,20 @@
         <article class="content content-no-action-menu">
             {% if nodeTypeForm %}
                 {% form_theme nodeTypeForm '@RoadizRozier/forms.html.twig' %}
-                <form class="uk-form uk-form-stacked"
-                      id="search-node-type-form"
-                      action="#"
-                      method="get">
-                    {{ form_widget(nodeTypeForm) }}
-                    <div class="data-uk-margin">
-                        <button class="uk-button uk-button-primary" type="submit"><i class="uk-icon-filter"></i> {% trans %}select.nodetype{% endtrans %}</button>
+                <form class="rz-form" id="search-node-type-form" action="#" method="get">
+                        {{ form_widget(nodeTypeForm, { 'attr': {'class': 'rz-form__field-list'} }) }}
+                    <div class="rz-form-field rz-form-field--align-start">
+                        <button class="rz-button rz-button--primary rz-button--success" type="submit">
+                            <span class="rz-button__label">{% trans %}select.nodetype{% endtrans %}</span><span class="rz-button__icon rz-icon-ri--filter-line"></span>
+                        </button>
                     </div>
                 </form>
             {% endif %}
 
             {% if form %}
                 {% form_theme form '@RoadizRozier/forms.html.twig' %}
-                <form class="uk-form uk-form-stacked"
-                      id="search-node-form"
-                      action="#"
-                      method="get">
-                    {{ form_widget(form) }}
+                <form class="rz-form" id="search-node-form" action="#" method="get">
+                        {{ form_widget(form, { 'attr': {'class': 'rz-form__field-list'} }) }}
                 </form>
             {% endif %}
 

@@ -41,6 +41,9 @@ final class CompareDateType extends AbstractType
     {
         $resolver->setDefaults([
             'required' => false,
+            'attr' => [
+                'class' => 'rz-fieldset--horizontal rz-fieldset',
+            ],
         ]);
     }
 
