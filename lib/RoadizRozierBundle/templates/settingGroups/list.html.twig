@@ -8,18 +8,15 @@
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
-    <header class="content-header header-settingGroup header-settingGroup-add">
-       <h1 class="content-title settingGroup-list-title">{% trans %}settingGroups{% endtrans %}</h1>
-       {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-       <div class="content-header-action-menu">
-            <nav>
-                <a class="uk-button"
-                   href="{{ path('settingGroupsAddPage') }}">
-                    <i class="uk-icon-rz-plus"></i> {% trans %}add.a.settingGroup{% endtrans %}
-                </a>
-            </nav>
-       </div>
-    </header>
+    {% include '@RoadizRozier/settingGroups/head.html.twig' with {
+        title: 'settingGroups'|trans,
+        filters: filters,
+        buttons: [{
+            label: 'add.a.settingGroup'|trans,
+            href: path('settingGroupsAddPage'),
+            icon: 'rz-icon-ri--add-line'
+        }]
+    } only %}
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
 

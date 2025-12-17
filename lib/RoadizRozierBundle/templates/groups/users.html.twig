@@ -4,17 +4,12 @@
 
 {% block content %}
 <section class="content-global edit-group">
-
-    <header class="content-header header-group header-group-users">
-        <h1 class="content-title group-add-title">
-            {{- "edit.group.%name%.users"|trans({'%name%': item.getName})|truncate_title -}}
-        </h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('groupsHomePage') }}"
-           title="{% trans %}back_to.groups{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-        {% include '@RoadizRozier/groups/navBar.html.twig' with {'item':item, current:'users'} %}
-    </header>
+    {% include '@RoadizRozier/groups/head.html.twig' with {
+        title: 'edit.group.%name%.users'|trans({'%name%': item.name})|truncate_title(40),
+        item: item,
+        current: 'users',
+        with_nav_bar: true,
+    } only %}
 
     <article class="content content-edit">
         <div class="content-table-cont">

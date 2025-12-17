@@ -9,6 +9,7 @@ export default [
     'arrow-drop-right-line',
     'arrow-drop-up-line',
     'arrow-left-line',
+    'arrow-left-s-line',
     'arrow-right-line',
     'arrow-right-s-line',
     'arrow-up-line',
@@ -64,7 +65,7 @@ export default [
     'information-line',
     'italic',
     'layout-4-line',
-    'layout-grid-line'
+    'layout-grid-line',
     'link',
     'list-check-3',
     'list-check',

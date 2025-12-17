@@ -1,0 +1,5 @@
+{# Scope with nav_bar support - uses generic head template #}
+{% include "@RoadizRozier/admin/head.html.twig" with {
+    nav_bar_template: '@RoadizRozier/groups/navBar.html.twig',
+    nav_bar_context: {'item': item, current: current}
+} %}
