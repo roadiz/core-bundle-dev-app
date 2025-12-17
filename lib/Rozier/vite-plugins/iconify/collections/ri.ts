@@ -64,7 +64,7 @@ export default [
     'information-line',
     'italic',
     'layout-4-line',
-    'layout-grid-line'
+    'layout-grid-line',
     'link',
     'list-check-3',
     'list-check',

@@ -4,16 +4,17 @@
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
-    <header class="content-header header-item header-item-list">
-        <h1 class="content-title item-list-title">{% trans %}attribute_groups{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('attributeGroupsAddPage') }}">
-                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.attribute_group{% endtrans %}
-            </a>
-        </div>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('attributesHomePage') }}" title="{% trans %}back_to.attributes{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/attributes/head.html.twig' with {
+        title: 'attribute_groups'|trans,
+        filters: filters,
+        buttons: [
+            {
+                label: 'add.a.attribute_group'|trans,
+                href: path('attributeGroupsAddPage'),
+                icon: 'rz-icon-ri--add-line'
+            },
+        ]
+    } only %}
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
 

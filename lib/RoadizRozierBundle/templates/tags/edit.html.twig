@@ -8,13 +8,14 @@
 
 {% block content %}
 <section class="content-global edit-tag">
-
-    <header class="content-header header-tag header-tag-edit">
-        <h1 class="content-title tag-edit-title">{{ "edit.tag.%name%"|trans({'%name%': tag.getTagName })|truncate_title }}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"tag": tag, "current": 'edit'} only %}
-        {% include '@RoadizRozier/tags/translationBar.html.twig' with {"tag": tag, "current":translation.getId } %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: "edit.tag.%name%"|trans({'%name%': tag.getTagName })|truncate_title,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'edit',
+        available_translations, available_translations,
+        translation: translation
+    } only %}
 
     <tag-edit-page class="content content-tag-edit">
         {% if readOnly %}

@@ -23,7 +23,7 @@
 
 {#
     Renders a dropdown menu item with customizable content and behavior.
-    
+
     @param options {object} - Configuration object with the following properties:
         - label {string} - The main text label for the item
         - description {string} - Optional secondary description text
@@ -52,7 +52,7 @@
     {% set input = options.input|default(null) %}
     {% set selected = options.selected|default(false) %}
     {% set tag = options.tag|default('button') %}
-    
+
     <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
         {% if href %}
             {% set tag = 'a' %}

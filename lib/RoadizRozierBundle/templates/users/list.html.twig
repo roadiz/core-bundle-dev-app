@@ -4,13 +4,15 @@
 
 {% block content %}
     <section class="bulk-layout content-global content-nav-and-filters">
-        <header class="content-header header-user header-user-list">
-            <h1 class="content-title user-add-title">{% trans %}users{% endtrans %}</h1>
-            {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-            <div class="content-header-action-menu">
-                <a class="uk-button" href="{{ path('usersAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.user{% endtrans %}</a>
-            </div>
-        </header>
+        {% include '@RoadizRozier/users/head.html.twig' with {
+            title: 'users'|trans,
+            filters: filters,
+            buttons: [{
+                label: 'add.a.user'|trans,
+                href: path('usersAddPage'),
+                icon: 'rz-icon-ri--add-line',
+            }],
+        } only %}
 
         {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
         {% embed '@RoadizRozier/admin/bulk_actions.html.twig' %}

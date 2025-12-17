@@ -8,12 +8,12 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-tags header-tags-add">
-        <h1 class="content-title nodes-list-title">{% trans %}add.multiple.tags{% endtrans %}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"tag": tag, "current": 'add-multiple'} only %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: 'add.multiple.tags'|trans,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'add-multiple'
+    } only %}
 
     <article class="content content-tags-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
