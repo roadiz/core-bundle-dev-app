@@ -8,23 +8,19 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-tags header-tags-settings">
-        <h1 class="content-title tags-settings-title">{{ "edit.tag.%name%.settings"|trans({'%name%': tag.getTagName }) }}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"tag": tag, "current": 'settings'} only %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: "edit.tag.%name%.settings"|trans({'%name%': tag.getTagName }),
+        with_nav_bar: true,
+        tag: tag,
+        current: 'settings',
+    } only %}
 
     <article class="content content-tags-settings">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-tag-form'}}) }}
         {{ form_widget(form) }}
-        <fieldset data-uk-margin>
-            <button is="rz-save-button" data-action-save="#edit-tag-form" class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
-        </fieldset>
+        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem('#edit-tag-form') }}
         {{ form_end(form) }}
 
         <div class="content-table-cont metadata-list">

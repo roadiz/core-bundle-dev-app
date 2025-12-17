@@ -8,14 +8,9 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-redirection header-redirection-add">
-        <h1 class="content-title">{{ "edit.redirection"|trans }}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('redirectionsHomePage') }}"
-           title="{% trans %}back_to.redirections{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/redirections/head.html.twig' with {
+        title: "edit.redirection"|trans
+    } only %}
 
     <article class="content">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

@@ -1,0 +1,8 @@
+{# Scope with translation bar and nav_bar support - uses generic head template #}
+{% include "@RoadizRozier/admin/head.html.twig" with {
+    translation_route: 'tagsEditTranslatedPage',
+    translation_params_key: 'tagId',
+    translation_entity: tag,
+    nav_bar_template: '@RoadizRozier/tags/navBar.html.twig',
+    nav_bar_context: {"tag": tag, "current": current}
+} %}

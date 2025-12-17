@@ -4,11 +4,9 @@
 
 {% block content %}
 <section class="content-global edit-item">
-
-    <header class="content-header header-item header-item-add">
-        <h1 class="content-title item-add-title">{{ "edit.attribute.%name%"|trans({'%name%': item.name}) }}</h1>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('attributeGroupsHomePage') }}" title="{% trans %}back_to.attribute_groups{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/attributes/head.html.twig' with {
+        title: "edit.attribute.%name%"|trans({'%name%': item.name}),
+    } only %}
 
     <article class="content content-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
