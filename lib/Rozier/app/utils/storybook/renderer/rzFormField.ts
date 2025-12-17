@@ -1,10 +1,10 @@
 import type { Args } from '../../../../stories/RzFormField.stories'
-import { rzButtonGroupRenderer } from './rzButtonGroup'
+import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
-import { rzBadgeRenderer } from './rzBadge'
 import { rzSwitchRenderer } from './rzSwitch'
+import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
@@ -134,7 +134,7 @@ export function rzFormFieldRenderer(
     }
 
     if (args.help) {
-        const node = rzMessageRenderer({ text: args.help })
+        const node = rzMessageRenderer({ text: args.help, variant: 'ghost' })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         wrapper.appendChild(node)
     }
