@@ -76,6 +76,7 @@ export default [
     'list-check-3',
     'list-unordered',
     'lock-2-line',
+    'lock-password-line',
     'mail-send-line',
     'markdown-line',
     'menu-line',
