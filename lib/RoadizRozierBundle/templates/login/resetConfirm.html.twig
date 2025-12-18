@@ -1,10 +1,13 @@
 {% extends '@RoadizRozier/login/base.html.twig' %}
 
 {% block login_content %}
-    <p class="login-desc">{% trans %}your.new.password.has.been.saved{% endtrans %}</p>
-    <p class="login-desc">{% trans %}go_back_to.login.page.to.connect{% endtrans %}</p>
+    <p class="text-body-md rz-login__group">{% trans %}your.new.password.has.been.saved{% endtrans %}</p>
+    <p class="text-body-md rz-login__group">{% trans %}go_back_to.login.page.to.connect{% endtrans %}</p>
 {% endblock %}
 
-{% block login_links %}
-    <a href="{{ path('loginPage') }}" class="login-link">{% trans %}back_to.login{% endtrans %}</a>
+{% block login_footer %}
+    <a class="rz-button rz-button--primary" href="{{ path('loginPage') }}">
+        <span class="rz-button__icon rz-icon-ri--arrow-left-s-line"></span>
+        <span class="rz-button__label">{% trans %}back_to.login{% endtrans %}</span>
+    </a>
 {% endblock %}
