@@ -12,6 +12,7 @@ export default [
     'arrow-left-s-line',
     'arrow-right-line',
     'arrow-right-s-line',
+    'arrow-right-up-line',
     'arrow-up-line',
     'arrow-up-s-fill',
     'bold',
