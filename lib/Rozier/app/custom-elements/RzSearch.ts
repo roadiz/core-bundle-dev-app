@@ -158,7 +158,7 @@ export class RzSearch extends HTMLElement {
         wrapper.setAttribute('aria-atomic', 'true')
 
         this.messageElement = document.createElement('div')
-        this.messageElement.classList.add('visually-hidden')
+        this.messageElement.classList.add('rz-visually-hidden')
         this.updateStatusMessage()
         wrapper.appendChild(this.messageElement)
 
