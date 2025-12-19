@@ -1,3 +1,9 @@
+/*
+This class hides an element visually while keeping it accessible to screen readers.
+References:
+- WebAIM: Invisible Content Just for Screen Readers — https://webaim.org/techniques/css/invisiblecontent/
+- The A11Y Project: How to hide content — https://www.a11yproject.com/posts/how-to-hide-content/
+*/
 .rz-visually-hidden {
 	clip: rect(0 0 0 0);
 	clip-path: inset(50%);
