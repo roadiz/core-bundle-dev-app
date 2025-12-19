@@ -18,7 +18,7 @@ export type Args = {
 } & FormFieldArgs
 
 const meta: Meta<Args> = {
-    title: 'Components/Form/Collection',
+    title: 'Components/Form/Repeatable',
     tags: ['autodocs'],
     args: {
         length: 0,
@@ -87,7 +87,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-const COMPONENT_CLASS_NAME = 'rz-form-collection'
+const COMPONENT_CLASS_NAME = 'rz-repeatable'
 
 function headerRenderer(options: ItemOptions) {
     const header = document.createElement('div')

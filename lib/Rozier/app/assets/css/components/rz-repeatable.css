@@ -1,4 +1,4 @@
-.rz-form-collection__list {
+.rz-repeatable__list {
 	position: relative;
 	border-radius: var(--radius-xs, 6px);
 	border: 1px solid var(--form-basic-border, #DADADA);
@@ -7,11 +7,11 @@
 	margin: initial;
 }
 
-.rz-form-collection__item--align-end {
+.rz-repeatable__item--align-end {
 	margin-left: auto;
 }
 
-.rz-form-collection__item__header {
+.rz-repeatable__item__header {
 	display: flex;
 	align-items: center;
 	background-color: var(--surface-light-secondary, #F8F8F8);
@@ -20,7 +20,7 @@
 	gap: var(--spacing-6xs);
 }
 
-.rz-form-collection__item__title {
+.rz-repeatable__item__title {
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-form-label-font-size);
 	line-height: var(--text-form-label-line-height);
@@ -28,14 +28,14 @@
 	font-weight: var(--text-form-label-font-weight);
 }
 
-.rz-form-collection__item__body {
+.rz-repeatable__item__body {
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-2xs);
 	padding: var(--spacing-4xs) var(--spacing-2xs);
 }
 
-.rz-form-collection__insert-zone {
+.rz-repeatable__insert-zone {
 	display: flex;
 	align-items: center;
 	justify-content: center;
