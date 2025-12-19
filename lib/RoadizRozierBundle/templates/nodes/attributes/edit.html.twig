@@ -50,8 +50,7 @@
                                         <button class="rz-button"
                                                 title="{% trans %}edit{% endtrans %}"
                                                 type="submit"
-                                                style="display:none"
-                                                data-uk-tooltip="{animation:true}">
+                                                style="display:none">
                                             <span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>
                                         </button>
                                         {{ form_end(attribute_value_translation_form) }}
@@ -64,7 +63,6 @@
                                                 tooltip-text="{% trans %}save{% endtrans %}"
                                                 popover-placement="top"
                                                 popover-offset="4"
-                                                popovertarget="save-attribute-{{ attributeValue.id }}"
                                                 class="rz-button rz-button--primary rz-button--success rz-button-group__button rz-button-settings-save"
                                                 href="#{{ attribute_value_translation_form.vars.id }}"
                                                 title="{% trans %}save{% endtrans %}"
@@ -77,7 +75,6 @@
                                                 tooltip-text="{% trans %}attributes.reset_value{% endtrans %}"
                                                 popover-placement="top"
                                                 popover-offset="4"
-                                                popovertarget="reset-attribute-{{ attributeValue.id }}"
                                                 class="rz-button rz-button--secondary rz-button-group__button"
                                                 href="{{ path('nodesResetAttributesPage', {
                                                     nodeId : node.id,
@@ -95,7 +92,6 @@
                                                 tooltip-text="{% trans %}attributes.delete_value{% endtrans %}"
                                                 popover-placement="top"
                                                 popover-offset="4"
-                                                popovertarget="delete-attribute-{{ attributeValue.id }}"
                                                 class="rz-button rz-button--primary rz-button--danger rz-button-group__button"
                                                 href="{{ path('nodesDeleteAttributesPage', {
                                                     nodeId : node.id,
@@ -144,8 +140,7 @@
 
             <div class="content-table-cont uk-margin">
                 <a class="rz-button rz-button--secondary"
-                   href="{{ path('attributesAddPage', {referer: currentPath}) }}"
-                   data-uk-tooltip="{animation:true}">
+                   href="{{ path('attributesAddPage', {referer: currentPath}) }}">
                     <span class="rz-button__label">{% trans %}add.a.attribute{%- endtrans -%}</span>
                     <span class="rz-button__icon rz-icon-ri--add-large-line"></span>
                 </a>
