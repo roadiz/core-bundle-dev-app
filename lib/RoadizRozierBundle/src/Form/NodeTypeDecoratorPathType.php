@@ -77,7 +77,7 @@ final class NodeTypeDecoratorPathType extends AbstractType
             'label' => false,
             'data_class' => NodeTypeDecoratorPathDto::class,
             'attr' => [
-                'class' => 'uk-form node-type-form',
+                'class' => 'rz-form node-type-form',
             ],
             'displayNodeType' => false,
         ]);

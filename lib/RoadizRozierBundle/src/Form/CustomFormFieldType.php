@@ -138,7 +138,7 @@ final class CustomFormFieldType extends AbstractType
             'customForm' => null,
             'data_class' => CustomFormField::class,
             'attr' => [
-                'class' => 'uk-form custom-form-field-form',
+                'class' => 'rz-form custom-form-field-form',
             ],
         ]);
     }

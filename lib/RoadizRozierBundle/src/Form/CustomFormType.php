@@ -81,11 +81,7 @@ final class CustomFormType extends AbstractType
             ->add('closeDate', DateTimeType::class, [
                 'label' => 'customForm.closeDate',
                 'required' => false,
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
+                'html5' => true,
                 'placeholder' => [
                     'hour' => 'hour',
                     'minute' => 'minute',
@@ -112,7 +108,7 @@ final class CustomFormType extends AbstractType
             'name' => '',
             'data_class' => CustomForm::class,
             'attr' => [
-                'class' => 'uk-form custom-form-form',
+                'class' => 'rz-form custom-form-form',
             ],
         ]);
         $resolver->setAllowedTypes('name', 'string');

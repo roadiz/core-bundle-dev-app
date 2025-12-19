@@ -73,7 +73,7 @@ class NodeTypesFieldDecoratorType extends AbstractType
             'name' => '',
             'data_class' => NodeTypeField::class,
             'attr' => [
-                'class' => 'uk-form node-type-form',
+                'class' => 'rz-form node-type-form',
             ],
         ]);
     }
