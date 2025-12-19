@@ -123,16 +123,19 @@ export class RzSearch extends HTMLElement {
 
         return this.items.map((item) => {
             const li = document.createElement('li')
+            const imgSrc = item.thumbnail?.url
             const card = rzCardRenderer({
                 tag: item.editItem ? 'a' : 'div',
                 title: item.displayable,
                 overtitle: item.classname,
-                image: {
-                    src: item.thumbnail?.url,
-                    width: item.thumbnail?.imageWidth,
-                    height: item.thumbnail?.imageHeight,
-                    alt: item.thumbnail?.alt || item.displayable,
-                },
+                image: imgSrc
+                    ? {
+                          src: imgSrc,
+                          width: item.thumbnail?.imageWidth,
+                          height: item.thumbnail?.imageHeight,
+                          alt: item.thumbnail?.alt || item.displayable,
+                      }
+                    : undefined,
                 attributes: {
                     href: item.editItem,
                 },
