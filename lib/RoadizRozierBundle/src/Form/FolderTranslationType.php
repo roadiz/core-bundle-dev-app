@@ -33,7 +33,7 @@ class FolderTranslationType extends AbstractType
             'label' => false,
             'data_class' => FolderTranslation::class,
             'attr' => [
-                'class' => 'uk-form folder-form',
+                'class' => 'rz-form folder-form',
             ],
         ]);
     }

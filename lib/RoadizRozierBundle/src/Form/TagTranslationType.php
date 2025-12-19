@@ -58,7 +58,7 @@ class TagTranslationType extends AbstractType
             'tagName' => '',
             'data_class' => TagTranslation::class,
             'attr' => [
-                'class' => 'uk-form tag-translation-form',
+                'class' => 'rz-form tag-translation-form',
             ],
         ]);
         $resolver->setAllowedTypes('tagName', 'string');

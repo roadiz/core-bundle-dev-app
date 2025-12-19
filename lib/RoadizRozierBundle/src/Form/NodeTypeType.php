@@ -99,7 +99,7 @@ class NodeTypeType extends AbstractType
             'name' => '',
             'data_class' => NodeType::class,
             'attr' => [
-                'class' => 'uk-form node-type-form',
+                'class' => 'rz-form node-type-form',
             ],
         ]);
     }

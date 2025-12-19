@@ -406,6 +406,10 @@
     <input is="rz-input" class="rz-form-field__body" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock file_widget -%}
 
+{%- block password_widget -%}
+    <input is="rz-input" class="rz-form-field__body" type="password" {{ block('widget_attributes') }}>
+{%- endblock password_widget -%}
+
 {% block separator_widget %}
 {# just let the textarea widget render the select tag #}
 <p {{ block('widget_attributes') }}>{{ label|trans }}</p>
