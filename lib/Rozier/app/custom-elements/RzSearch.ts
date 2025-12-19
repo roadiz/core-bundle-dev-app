@@ -59,29 +59,28 @@ export class RzSearch extends HTMLElement {
         }
     }
 
-    updateStatusMessage() {
-        if (!this.messageElement) return
-
-        if (this.fetchStatus === 'idle') {
-            this.messageElement.textContent = this.getAttribute('idle-text')
-        } else if (this.fetchStatus === 'reset') {
-            this.messageElement.textContent = this.getAttribute('reset-text')
-        } else if (this.fetchStatus === 'pending') {
-            this.messageElement.textContent = this.getAttribute('pending-text')
-        } else if (this.fetchStatus === 'results' && this.items?.length === 1) {
-            this.messageElement.textContent =
-                this.getAttribute('unique-result-text')
-        } else if (this.fetchStatus === 'results' && this.items?.length > 1) {
-            const text = this.getAttribute('results-text') || ''
-            this.messageElement.textContent = text.replace(
-                '{n}',
-                String(this.items.length),
-            )
-        } else if (this.fetchStatus === 'no-results') {
-            this.messageElement.textContent =
-                this.getAttribute('no-results-text')
-        } else if (this.fetchStatus === 'error') {
-            this.messageElement.textContent = this.getAttribute('error-text')
+    getStatusText() {
+        switch (this.fetchStatus) {
+            case 'idle':
+                return this.getAttribute('idle-text') || ''
+            case 'reset':
+                return this.getAttribute('reset-text') || ''
+            case 'pending':
+                return this.getAttribute('pending-text') || ''
+            case 'results':
+                if (this.items?.length === 1) {
+                    return this.getAttribute('unique-result-text') || ''
+                } else if (this.items?.length && this.items.length > 1) {
+                    const text = this.getAttribute('results-text') || ''
+                    return text.replace('{n}', String(this.items.length))
+                }
+                return ''
+            case 'no-results':
+                return this.getAttribute('no-results-text') || ''
+            case 'error':
+                return this.getAttribute('error-text') || ''
+            default:
+                return ''
         }
     }
 
@@ -111,8 +110,12 @@ export class RzSearch extends HTMLElement {
     }
 
     render() {
-        this.updateStatusMessage()
+        if (this.messageElement) {
+            this.messageElement.textContent = this.getStatusText()
+        }
+
         this.updateSpinnerVisibility()
+
         if (this.listElement) {
             this.listElement.innerHTML = ''
             this.getItemsElement()?.forEach((el) => {
