@@ -85,7 +85,7 @@ function getSearchFormElement(args: Args) {
         'action',
         args.action || window.RozierConfig.routes?.searchAjax || '',
     )
-    form.setAttribute('prevent-submit', '')
+    form.setAttribute('data-prevent-submit', '')
     form.setAttribute('role', 'search')
     form.setAttribute('aria-label', 'An entity')
 

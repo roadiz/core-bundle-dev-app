@@ -229,8 +229,9 @@ export class RzSearch extends HTMLElement {
             this.onInputChange()
         }
 
-        const preventSubmitElement =
-            this.querySelectorAll<HTMLElement>('[prevent-submit]')
+        const preventSubmitElement = this.querySelectorAll<HTMLElement>(
+            '[data-prevent-submit]',
+        )
         if (preventSubmitElement?.length) {
             preventSubmitElement.forEach((el) => {
                 el.onsubmit = (e) => {
