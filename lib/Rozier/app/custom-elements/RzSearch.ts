@@ -11,8 +11,8 @@ const SEARCH_QUERY = 'search_all'
 type RzSearchAttributes = {
     'initial-value'?: string // Initial value to populate the search input
     'open-key'?: string // Key combination to open the search dialog (e.g., "Meta+K")
-    'status-wrapper'?: string // Wrapper element for status message and spinner wrapper
-    'results-wrapper'?: string // UL element to display search results
+    'data-status-wrapper'?: string // Wrapper element for status message and spinner wrapper
+    'data-results-wrapper'?: string // UL element to display search results
     'idle-text'?: string // Text to display when idle
     'reset-text'?: string // Text to display when search is reset
     'pending-text'?: string // Text to display when search is pending
@@ -31,7 +31,7 @@ export class RzSearch extends HTMLElement {
     listElement: HTMLUListElement | null = null
 
     spinnerElement: HTMLElement | null = null
-    messageElement: HTMLElement | null = null
+    statusElement: HTMLElement | null = null
     fetchStatus:
         | 'idle'
         | 'reset'
@@ -84,6 +84,40 @@ export class RzSearch extends HTMLElement {
         }
     }
 
+    setStatusText() {
+        if (this.statusElement) {
+            this.statusElement.textContent = this.getStatusText()
+        }
+    }
+
+    createStatusElements() {
+        let wrapper = this.querySelector('[data-status-wrapper]')
+        const body = this.querySelector('[data-search-body]')
+
+        if (!wrapper && body) {
+            wrapper = document.createElement('div')
+            wrapper.setAttribute('data-status-wrapper', '')
+            body.appendChild(wrapper)
+        }
+
+        wrapper.setAttribute('aria-live', 'polite')
+        wrapper.setAttribute('role', 'status')
+        wrapper.setAttribute('aria-atomic', 'true')
+
+        this.statusElement = document.createElement('div')
+        this.statusElement.classList.add('rz-visually-hidden')
+        this.setStatusText()
+        wrapper.appendChild(this.statusElement)
+
+        this.spinnerElement = document.createElement('div')
+        this.spinnerElement.setAttribute('aria-hidden', 'true')
+        this.spinnerElement.classList.add('rz-spinner', 'rz-spinner--lg')
+        this.updateSpinnerVisibility()
+        wrapper.appendChild(this.spinnerElement)
+
+        this.render()
+    }
+
     getItemsElement() {
         if (!this.items?.length) return []
 
@@ -110,17 +144,39 @@ export class RzSearch extends HTMLElement {
     }
 
     render() {
-        if (this.messageElement) {
-            this.messageElement.textContent = this.getStatusText()
-        }
-
+        this.setStatusText()
         this.updateSpinnerVisibility()
 
-        if (this.listElement) {
-            this.listElement.innerHTML = ''
-            this.getItemsElement()?.forEach((el) => {
-                this.listElement?.appendChild(el)
-            })
+        if (!this.listElement) return
+        // Use DocumentFragment for batch rendering to minimize reflows
+        const fragment = document.createDocumentFragment()
+        this.getItemsElement()?.forEach((el) => {
+            fragment.appendChild(el)
+        })
+
+        this.listElement.innerHTML = ''
+        this.listElement.appendChild(fragment)
+    }
+
+    async fetchNodeSources(value: string) {
+        try {
+            this.fetchStatus = 'pending'
+            this.render()
+
+            const items = await api.getNodesSourceFromSearch(value)
+
+            if (items.length) {
+                this.fetchStatus = 'results'
+                this.items = items
+            } else {
+                this.fetchStatus = 'no-results'
+                this.items = []
+            }
+        } catch {
+            this.fetchStatus = 'error'
+            this.items = null
+        } finally {
+            this.render()
         }
     }
 
@@ -132,46 +188,8 @@ export class RzSearch extends HTMLElement {
             this.fetchStatus = 'reset'
             this.render()
         } else {
-            try {
-                this.fetchStatus = 'pending'
-                this.render()
-                const items = await api.getNodesSourceFromSearch(newValue)
-                if (items.length) {
-                    this.fetchStatus = 'results'
-                    this.items = items
-                } else {
-                    this.fetchStatus = 'no-results'
-                    this.items = []
-                }
-            } catch {
-                this.fetchStatus = 'error'
-                this.items = null
-            } finally {
-                this.render()
-            }
+            await this.fetchNodeSources(newValue)
         }
-    }
-
-    createStatusElements() {
-        const wrapper = this.querySelector('[status-wrapper]')
-        if (!wrapper) return
-
-        wrapper.setAttribute('aria-live', 'polite')
-        wrapper.setAttribute('role', 'status')
-        wrapper.setAttribute('aria-atomic', 'true')
-
-        this.messageElement = document.createElement('div')
-        this.messageElement.classList.add('rz-visually-hidden')
-        this.updateStatusMessage()
-        wrapper.appendChild(this.messageElement)
-
-        this.spinnerElement = document.createElement('div')
-        this.spinnerElement.setAttribute('aria-hidden', 'true')
-        this.spinnerElement.classList.add('rz-spinner', 'rz-spinner--lg')
-        this.updateSpinnerVisibility()
-        wrapper.appendChild(this.spinnerElement)
-
-        this.render()
     }
 
     getQueryParamsValue() {
@@ -180,8 +198,15 @@ export class RzSearch extends HTMLElement {
     }
 
     connectedCallback() {
-        this.listElement =
-            this.querySelector<HTMLUListElement>('[results-wrapper]')
+        this.listElement = this.querySelector<HTMLUListElement>(
+            '[data-results-wrapper]',
+        )
+        const body = this.querySelector('[data-search-body]')
+        if (!this.listElement && body) {
+            this.listElement = document.createElement('ul')
+            this.listElement.setAttribute('data-results-wrapper', '')
+            body.appendChild(this.listElement)
+        }
 
         this.dialogElement = this.querySelector<RzDialog>('[is="rz-dialog"]')
 

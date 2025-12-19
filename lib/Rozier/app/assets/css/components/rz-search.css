@@ -18,7 +18,7 @@
 	}
 }
 
-:where(rz-search, .rz-search) [status-wrapper] {
+:where(rz-search, .rz-search) [data-status-wrapper] {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +27,7 @@
 	pointer-events: none;
 }
 
-:where(rz-search, .rz-search) [results-wrapper] {
+:where(rz-search, .rz-search) [data-results-wrapper] {
 	--rz-card-min-height: 62px;
 
 	display: grid;

@@ -77,7 +77,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function innerDialogRenderer(args: Args) {
+function getSearchFormElement(args: Args) {
     const form = document.createElement('form')
     form.classList.add(`${COMPONENT_CLASS_NAME}__search-form`)
     form.setAttribute('method', 'GET')
@@ -98,16 +98,7 @@ function innerDialogRenderer(args: Args) {
     })
     form.appendChild(searchInput)
 
-    /* Use to display search status message and spinner */
-    const statusWrapper = document.createElement('div')
-    statusWrapper.setAttribute('status-wrapper', '')
-    statusWrapper.classList.add(`${COMPONENT_CLASS_NAME}__status-wrapper`)
-
-    const ul = document.createElement('ul')
-    ul.setAttribute('results-wrapper', '')
-    ul.classList.add(`${COMPONENT_CLASS_NAME}__list`)
-
-    return [form, statusWrapper, ul]
+    return form
 }
 
 function rzSearchRenderer(args: Args) {
@@ -125,9 +116,12 @@ function rzSearchRenderer(args: Args) {
 
     const dialog = rzDialogRenderer({
         ...args.dialogData,
-        innerHTML: innerDialogRenderer(args)
-            .map((el) => el.outerHTML)
-            .join(''),
+        body: {
+            attributes: {
+                'data-search-body': '',
+            },
+            innerHTML: getSearchFormElement(args).outerHTML,
+        },
     })
     wrapper.appendChild(dialog)
 

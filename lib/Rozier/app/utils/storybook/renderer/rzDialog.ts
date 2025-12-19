@@ -3,6 +3,7 @@ import {
     rzButtonRenderer,
 } from '~/utils/component-renderer/rzButton'
 import type { Args } from '../../../../stories/RzDialog.stories'
+import { rzElement } from '~/utils/component-renderer/rzElement'
 
 function rzDialogHeaderRenderer(args: Args['header']) {
     const wrapper = document.createElement('header')
@@ -85,9 +86,14 @@ export function rzDialogRenderer(args: Args) {
         dialog.appendChild(header)
     }
 
-    const body = document.createElement('div')
-    body.classList.add('rz-dialog__body')
-    body.innerHTML = args.innerHTML || ''
+    const body = rzElement({
+        tag: 'div',
+        ...args?.body,
+        attributes: {
+            ...(args.body?.attributes || {}),
+            class: `rz-dialog__body ${args.body?.attributes?.class || ''}`,
+        },
+    })
     dialog.appendChild(body)
 
     const footer = rzDialogFooterRenderer(args.footer)

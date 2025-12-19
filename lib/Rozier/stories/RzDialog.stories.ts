@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzDialogWrapperRenderer } from '~/utils/storybook/renderer/rzDialog'
 import { type RzButtonOptions } from '~/utils/component-renderer/rzButton'
+import { RzElement } from '~/utils/component-renderer/rzElement'
 
 // 'none' = dialog cannot be closed by user interaction
 // 'closerequest' = dialog can be closed only by close button or calling close() method
@@ -14,6 +15,7 @@ export type Args = {
         iconClass?: string
         closeIconClass?: string
     }
+    body?: RzElement
     footer?: {
         justifyEnd?: boolean
         buttons?: RzButtonOptions[]
@@ -55,7 +57,9 @@ const meta: Meta<Args> = {
                 },
             ],
         },
-        innerHTML: 'rz dialog body content',
+        body: {
+            innerHTML: 'rz dialog body content',
+        },
         closedby: 'any',
         modal: true,
         dialogId: 'meta-default-dialog',
