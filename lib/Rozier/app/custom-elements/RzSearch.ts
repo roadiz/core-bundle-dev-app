@@ -128,10 +128,10 @@ export class RzSearch extends HTMLElement {
                 title: item.displayable,
                 overtitle: item.classname,
                 image: {
-                    src: item.thumbnail.url,
-                    width: item.thumbnail.imageWidth,
-                    height: item.thumbnail.imageHeight,
-                    alt: item.thumbnail.alt || item.displayable,
+                    src: item.thumbnail?.url,
+                    width: item.thumbnail?.imageWidth,
+                    height: item.thumbnail?.imageHeight,
+                    alt: item.thumbnail?.alt || item.displayable,
                 },
                 attributes: {
                     href: item.editItem,
