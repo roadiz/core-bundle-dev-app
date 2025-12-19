@@ -13,7 +13,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
+<rz-bulk-section>
     {% if folder %}
         {% set folderName = folder.translatedFolders.first.name|default(folder.folderName) %}
         {% set title = folderName|truncate_title %}
@@ -51,5 +51,5 @@
         </div>
 	</article>
     {% endblock %}
-</section>
+</rz-bulk-section>
 {% endblock %}

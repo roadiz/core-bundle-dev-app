@@ -11,76 +11,79 @@ export type Args = RzElement & {
     elements: PossibleElement[]
 }
 
-const COMPONENT_CLASS_NAME = 'rz-listing-filters'
+const COMPONENT_CLASS_NAME = 'rz-filters-bar'
 
 const meta: Meta<Args> = {
-    title: 'Components/ListingFilters',
+    title: 'Components/FiltersBar',
     tags: ['autodocs'],
     args: {
-        tag: 'form',
-        attributes: {
-            method: 'get',
-        },
+        tag: 'rz-filters-bar',
         elements: [
             {
                 tag: 'div',
                 attributes: {
-                    class: `${COMPONENT_CLASS_NAME}__group ${COMPONENT_CLASS_NAME}__group--divider`,
+                    class: `${COMPONENT_CLASS_NAME}__group`,
                 },
                 children: [
                     {
-                        tag: 'label',
+                        tag: 'div',
                         attributes: {
-                            'aria-label': 'Grid view',
-                            class: 'rz-button--secondary',
+                            class: `${COMPONENT_CLASS_NAME}__group ${COMPONENT_CLASS_NAME}__group--divider`,
                         },
-                        innerHTML: `
-							<input id="listing-layout-grid" type="radio" name="layout" value="grid" />
-							<span aria-hidden="true" class="rz-icon-ri--layout-grid-line"></span>
-							`,
+                        children: [
+                            {
+                                tag: 'label',
+                                attributes: {
+                                    'aria-label': 'Grid view',
+                                    class: 'rz-button rz-button--secondary',
+                                },
+                                innerHTML: `
+                                    <input id="listing-layout-grid" type="radio" name="layout" value="grid" />
+                                    <span aria-hidden="true" class="rz-icon-ri--layout-grid-line"></span>
+                                `,
+                            },
+                            {
+                                tag: 'label',
+                                attributes: {
+                                    'aria-label': 'List view',
+                                    class: 'rz-button rz-button--secondary',
+                                },
+                                innerHTML: `
+                                    <input id="listing-layout-list" type="radio" name="layout" value="list" />
+                                    <span aria-hidden="true" class="rz-icon-ri--list-check"></span>
+                                    `,
+                            },
+                        ],
                     },
                     {
-                        tag: 'label',
+                        tag: 'input',
+                        is: 'rz-input',
                         attributes: {
-                            'aria-label': 'List view',
-                            class: 'rz-button--secondary',
+                            name: 'search',
+                            type: 'search',
+                            placeholder: 'Search...',
+                            class: `${COMPONENT_CLASS_NAME}__search-input`,
+                        },
+                    },
+                    {
+                        tag: 'select',
+                        is: 'rz-select',
+                        attributes: {
+                            name: 'embedPlatform',
                         },
                         innerHTML: `
-							<input id="listing-layout-list" type="radio" name="layout" value="list" />
-							<span aria-hidden="true" class="rz-icon-ri--list-check"></span>
-							`,
-                    },
-                ],
-            },
-            {
-                tag: 'input',
-                is: 'rz-input',
-                attributes: {
-                    name: 'search',
-                    type: 'search',
-                    placeholder: 'Search...',
-                    class: `${COMPONENT_CLASS_NAME}__search-input`,
-                },
-            },
-            {
-                tag: 'select',
-                is: 'rz-select',
-                attributes: {
-                    name: 'embedPlatform',
-                },
-                innerHTML: `
                         <option label="-- Tag --"value=""></option>
                         <option label="Tag 1" value="tag-1"></option>
 						<option label="Tag 2" value="tag-2"></option>
 				`,
-            },
-            {
-                tag: 'select',
-                is: 'rz-select',
-                attributes: {
-                    name: 'embedPlatform',
-                },
-                innerHTML: `
+                    },
+                    {
+                        tag: 'select',
+                        is: 'rz-select',
+                        attributes: {
+                            name: 'embedPlatform',
+                        },
+                        innerHTML: `
                         <option label="-- Embedded Media --" value=""></option>
                         <option label="Unsplash" value="unsplash"></option>
 						<option label="Apple Podcast" value="apple_podcast"></option>
@@ -94,12 +97,14 @@ const meta: Meta<Args> = {
 						<option label="Vimeo" value="vimeo"></option>
 						<option label="Youtube" value="youtube"></option>
 				`,
+                    },
+                    rzButtonRenderer({
+                        attributes: { type: 'submit' },
+                        label: 'Apply Filters',
+                        iconClass: 'rz-icon-ri--check-line',
+                    }),
+                ],
             },
-            rzButtonRenderer({
-                attributes: { type: 'submit' },
-                label: 'Apply Filters',
-                iconClass: 'rz-icon-ri--check-line',
-            }),
             {
                 tag: 'div',
                 attributes: { class: `${COMPONENT_CLASS_NAME}__group` },
@@ -131,6 +136,7 @@ const meta: Meta<Args> = {
                             type: 'button',
                             'aria-label': 'Previous page',
                         },
+                        size: 'xs',
                         iconClass: 'rz-icon-ri--arrow-left-s-line',
                     }),
                     rzButtonRenderer({
@@ -138,6 +144,7 @@ const meta: Meta<Args> = {
                             type: 'button',
                             'aria-label': 'Next page',
                         },
+                        size: 'xs',
                         iconClass: 'rz-icon-ri--arrow-right-s-line',
                     }),
                     {

@@ -17,6 +17,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-bulk-actions.css';
 @import './components/rz-login.css';
 @import './components/rz-brand.css';
 @import './components/rz-node-tree.css';
@@ -42,7 +43,7 @@
 @import './components/rz-card.css';
 @import './components/rz-page-header.css';
 @import './components/rz-breadcrumb.css';
-@import './components/rz-listing-filters.css';
+@import './components/rz-filters-bar.css';
 
 
 /* Components: Form */

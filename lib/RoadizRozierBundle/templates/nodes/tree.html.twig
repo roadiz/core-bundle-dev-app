@@ -17,7 +17,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global stack-tree bulk-layout">
+<rz-bulk-section>
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         translation: translation,
@@ -31,12 +31,7 @@
         with_nav_bar: true,
     } only %}
 
-    {% include '@RoadizRozier/nodes/filtersBar.html.twig' with {
-        filters: specificNodeTree.filters,
-        deleteNodesForm: deleteNodesForm,
-        tagNodesForm: tagNodesForm,
-        statusNodesForm: statusNodesForm
-    } only %}
+    {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
 
     <article class="content content-node-tree">
         {% if availableTags %}
@@ -57,5 +52,5 @@
     {% if node %}
         {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
     {% endif %}
-</section>
+</rz-bulk-section>
 {% endblock %}

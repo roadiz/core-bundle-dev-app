@@ -1,0 +1,91 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+<rz-bulk-actions
+	class="rz-bulk-actions"
+	visibility-class="rz-bulk-actions--visible"
+>
+	<h3 class="rz-bulk-actions__title">
+		{% block title_content %}
+			{% trans %}bulk.actions{% endtrans %}
+		{% endblock %}
+	</h3>
+
+	<div class="rz-bulk-actions__buttons">
+		{{
+			rz_button.root({
+				attributes: {
+					type: 'button',
+					title: "deselect.all"|trans,
+					'data-bulk-deselect-all-button': '',
+				},
+				emphasis: 'primary',
+				icon: 'rz-icon-ri--checkbox-blank-line',
+			})
+		}}
+
+		{% if bulkPublishForm %}
+			{% form_theme bulkPublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+			{{ form_start(bulkPublishForm) }}
+				{{ form_widget(bulkPublishForm) }}
+				{{
+					rz_button.root({
+						attributes: {
+							type: 'submit',
+							title: "bulk.publish"|trans,
+						},
+						color: 'success',
+						emphasis: 'primary',
+						icon: 'rz-icon-ri--checkbox-circle-line',
+					})
+				}}
+			{{ form_end(bulkPublishForm) }}
+		{% endif %}
+		{% if bulkUnpublishForm %}
+			{% form_theme bulkUnpublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+			{{ form_start(bulkUnpublishForm) }}
+				{{ form_widget(bulkUnpublishForm) }}
+				{{
+					rz_button.root({
+						attributes: {
+							type: 'submit',
+							title: "bulk.unpublish"|trans,
+						},
+						color: 'success',
+						emphasis: 'primary',
+						icon: 'rz-icon-rz--status-draft-fill',
+					})
+				}}
+			{{ form_end(bulkUnpublishForm) }}
+		{% endif %}
+
+		{% block other_actions %}{% endblock %}
+
+		{% block delete_form %}
+			<form
+				class="rz-form rz-bulk-actions__form-button"
+				action="{{ delete_form_action }}"
+				method="{{ delete_form_method|default('post') }}"
+			>
+				{% block delete_form_content %}
+					{% if detete_form_data %}
+						{% form_theme detete_form_data '@RoadizRozier/forms.html.twig' %}
+						{{ form_widget(detete_form_data) }}
+					{% endif %}
+				{% endblock %}
+				{{
+					rz_button.root({
+						attributes: {
+							type: 'submit',
+							title: title
+						},
+						color: 'danger',
+						emphasis: 'primary',
+						icon: 'rz-icon-ri--delete-bin-7-line',
+					})
+				}}
+			</form>
+		{% endblock %}
+	</div>
+
+	{% block panels %}{% endblock %}
+</rz-bulk-actions>

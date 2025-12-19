@@ -1,0 +1,40 @@
+{% macro root(options = {}) %}
+    {% set element_class = 'rz-button' %}
+    {% set tagName = options.tagName|default('button') %}
+
+    {% set class = options.class|default('') %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set label = options.label|default(null) %}
+    {% set icon = options.icon|default(null) %}
+
+    {% set size = options.size|default(null) %}
+    {% set emphasis = options.emphasis|default(null) %}
+    {% set color = options.color|default(null) %}
+    {% set selected = options.selected|default(false) %}
+
+    <{{ tagName }}
+        is="rz-button"
+        class="{{ html_classes(element_class, class, {
+            (element_class ~ '--' ~ size): size,
+            (element_class ~ '--' ~ emphasis): emphasis,
+            (element_class ~ '--' ~ color): color,
+            (element_class ~ '--' ~ 'selected'): selected,
+        }) }}"
+
+        {% for attrname, attrvalue in attributes %}
+            {% if attrvalue and attrvalue is same as(true) %}
+                {{ attrname }}
+            {% else %}
+                {{ attrname }}="{{ attrvalue }}"
+            {% endif %}
+        {% endfor %}
+
+    >
+        {% if label is defined and label %}
+            <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
+        {% endif %}
+        {% if icon is defined and icon %}
+            <span class="{{element_class ~ '__icon ' ~ icon }}"></span>
+        {% endif %}
+    </{{ tagName }}>
+{% endmacro %}

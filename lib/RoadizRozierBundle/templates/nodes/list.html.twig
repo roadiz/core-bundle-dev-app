@@ -5,7 +5,7 @@
 {% block title %}{{ mainTitle|trans()|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
+<rz-bulk-section>
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         title: mainTitle|trans()|truncate_title,
         filters: filters,
