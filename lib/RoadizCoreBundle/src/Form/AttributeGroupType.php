@@ -30,7 +30,8 @@ final class AttributeGroupType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
-                        'class' => 'rz-form uk-form-horizontal',
+                        'class' => 'rz-fieldset--horizontal rz-fieldset',
+                        'no-field-group' => true,
                     ],
                 ],
                 'attr' => [
