@@ -54,7 +54,7 @@ class RedirectionType extends AbstractType
             'only_query' => false,
             'placeholder' => null,
             'attr' => [
-                'class' => 'uk-form redirection-form',
+                'class' => 'rz-form redirection-form',
             ],
         ]);
     }

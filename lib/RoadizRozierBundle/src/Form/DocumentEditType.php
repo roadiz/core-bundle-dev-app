@@ -152,11 +152,7 @@ final class DocumentEditType extends AbstractType
                 'label' => 'createdAt',
                 'help' => 'document.createdAt.help',
                 'required' => false,
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
+                'html5' => true,
                 'placeholder' => [
                     'hour' => 'hour',
                     'minute' => 'minute',

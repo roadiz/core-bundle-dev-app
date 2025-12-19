@@ -50,6 +50,7 @@
 
 
 /* Components: Form */
+@import './components/rz-repeatable.css';
 @import './components/rz-textarea.css';
 @import './components/rz-form.css';
 @import './components/rz-switch.css';

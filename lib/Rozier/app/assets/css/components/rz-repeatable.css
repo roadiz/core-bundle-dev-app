@@ -1,0 +1,55 @@
+.rz-repeatable__list {
+	position: relative;
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--form-basic-border, #DADADA);
+	list-style: none;
+	padding: initial;
+	margin: initial;
+}
+
+.rz-repeatable__item--align-end {
+	margin-left: auto;
+}
+
+.rz-repeatable__item__header {
+	display: flex;
+	align-items: center;
+	background-color: var(--surface-light-secondary, #F8F8F8);
+	padding: var(--spacing-4xs) var(--spacing-2xs);
+	border-radius: var(--radius-xs, 6px);
+	gap: var(--spacing-6xs);
+}
+
+.rz-repeatable__item__title {
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-form-label-font-size);
+	line-height: var(--text-form-label-line-height);
+	letter-spacing: var(--text-form-label-letter-spacing);
+	font-weight: var(--text-form-label-font-weight);
+}
+
+.rz-repeatable__item__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2xs);
+	padding: var(--spacing-4xs) var(--spacing-2xs);
+}
+
+.rz-repeatable__insert-zone {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-block: var(--spacing-6xs);
+
+	/* Hide the first insert zone when at least one item exists */
+	&:first-child:not(:only-child) {
+		display: none;
+	}
+
+	&::before,
+	&::after {
+		content: '';
+		flex-grow: 1;
+		border-bottom: 1PX dashed var(--line-on-light-secondary, #DADADA);
+	}
+}

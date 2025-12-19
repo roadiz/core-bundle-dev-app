@@ -8,10 +8,9 @@
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-tags header-tags-add">
-        <h1 class="content-title nodes-list-title">{% trans %}add.a.tag{% endtrans %}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: 'add.a.tag'|trans,
+    } only %}
 
     <article class="content content-tags-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
