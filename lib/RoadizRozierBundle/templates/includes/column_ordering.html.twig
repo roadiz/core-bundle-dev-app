@@ -17,22 +17,48 @@
     {% endif %}
 {% endif %}
 
-{% if app.request.query.get("field") == field and app.request.query.get("ordering") == "DESC" %}
+{% set hasQuery = app.request.query.get("field") == field %}
+
+{% if hasQuery and app.request.query.get("ordering") == "DESC" %}
     {% set localOrderingParams = orderingParams|merge({
         'field': field,
         'ordering': 'ASC'
     }) %}
-    <a title="{{ 'sort_asc'|trans }}" class="active" href="?{{ localOrderingParams|url_encode }}"><i class="uk-icon-caret-down"></i></a>
-{% elseif app.request.query.get("field") == field and app.request.query.get("ordering") == "ASC" %}
+    <a
+        is="rz-link"
+        title="{{ 'sort_asc'|trans }}"
+        class="active {{ class_name|default('') }}"
+        href="?{{ localOrderingParams|url_encode }}"
+    >
+        {% if label %}{{ label }}{% endif %}
+        <span class="rz-icon-ri--arrow-down-s-fill"></span>
+    </a>
+{% elseif hasQuery and app.request.query.get("ordering") == "ASC" %}
     {% set localOrderingParams = orderingParams|merge({
         'field': field,
         'ordering': 'DESC'
     }) %}
-    <a title="{{ 'sort_desc'|trans }}" class="active" href="?{{ localOrderingParams|url_encode }}"><i class="uk-icon-caret-up"></i></a>
+    <a
+        is="rz-link"
+        title="{{ 'sort_desc'|trans }}"
+        class="active {{ class_name|default('') }}"
+        href="?{{ localOrderingParams|url_encode }}"
+    >
+        {% if label %}{{ label }}{% endif %}
+        <span class="rz-icon-ri--arrow-up-s-fill"></span>
+    </a>
 {% else %}
     {% set localOrderingParams = orderingParams|merge({
         'field': field,
         'ordering': 'ASC'
     }) %}
-    <a title="{{ 'sort_asc'|trans }}" href="?{{ localOrderingParams|url_encode }}">&bull;</a>
+    <a
+        is="rz-link"
+        class="{{ class_name|default('') }}"
+        title="{{ 'sort_asc'|trans }}"
+        href="?{{ localOrderingParams|url_encode }}"
+    >
+        {% if label %}{{ label }}{% endif %}
+        &bull;
+    </a>
 {% endif %}

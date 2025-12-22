@@ -13,6 +13,13 @@ export const ATTRIBUTES_OPTIONS = Object.values(ATTRIBUTES_OPTIONS_MAP)
 
 type TooltipOptions = PopoverOptions
 
+export function getTooltipContent(element: HTMLElement) {
+    return (
+        element.getAttribute(ATTRIBUTES_OPTIONS_MAP.text) ||
+        element.getAttribute('title')
+    )
+}
+
 export class Tooltip {
     popoverInstance: Popover | null = null
 
@@ -40,7 +47,11 @@ export class Tooltip {
 
         // Create popover element if not present
         const popoverElement = context.querySelector('[popover]')
-        const textContent = context.getAttribute(ATTRIBUTES_OPTIONS_MAP.text)
+        const textContent = getTooltipContent(context)
+        if (context.hasAttribute('title')) {
+            context.removeAttribute('title')
+        }
+
         if (textContent && !popoverElement) {
             const generatedTooltip = this.createTooltipElement(textContent)
             generatedTooltip.id = popoverId
