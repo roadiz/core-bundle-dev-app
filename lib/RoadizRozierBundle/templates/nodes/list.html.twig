@@ -16,6 +16,13 @@
     } only %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+        delete_form_data: deleteNodesForm|default(null),
+        delete_form_action: path('nodesBulkDeletePage'),
+        delete_form_method: 'post',
+        tagNodesForm: tagNodesForm,
+        statusNodesForm: statusNodesForm,
+    } only %}
 
     <article class="content content-no-action-menu">
         <div class="content-table-cont">

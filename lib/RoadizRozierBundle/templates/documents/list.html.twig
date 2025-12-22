@@ -34,7 +34,15 @@
         filters: filters
     } only %}
 
-    {% include '@RoadizRozier/documents/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/documents/filtersBar.html.twig' with {
+        filters: filters,
+    } %}
+
+    {% include '@RoadizRozier/documents/bulkActions.html.twig' with {
+        joinFolderForm: joinFolderForm,
+    } %}
+
+
 
     {% block content_body %}
     <article class="content">

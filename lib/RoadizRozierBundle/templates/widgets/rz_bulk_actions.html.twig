@@ -62,14 +62,14 @@
 
 		{% block delete_form %}
 			<form
-				class="rz-form rz-bulk-actions__form-button"
+				class="rz-bulk-actions__form-button"
 				action="{{ delete_form_action }}"
-				method="{{ delete_form_method|default('post') }}"
+				method="{{ delete_form_method|default('POST') }}"
 			>
 				{% block delete_form_content %}
-					{% if detete_form_data %}
-						{% form_theme detete_form_data '@RoadizRozier/forms.html.twig' %}
-						{{ form_widget(detete_form_data) }}
+					{% if delete_form_data %}
+						{% form_theme delete_form_data '@RoadizRozier/forms.html.twig' %}
+						{{ form_widget(delete_form_data) }}
 					{% endif %}
 				{% endblock %}
 				{{
