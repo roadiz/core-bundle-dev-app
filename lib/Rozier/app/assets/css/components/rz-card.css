@@ -7,6 +7,11 @@
 	overflow: hidden;
 	border-radius: var(--rz-card-border-radius);
 	min-height: var(--rz-card-min-height, 51px);
+
+	&:where(a) {
+		text-decoration: none;
+		color: inherit;
+	}
 }
 
 /* When only image is present */
@@ -80,6 +85,12 @@
 
 .rz-card__title {
 	grid-area: title;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: var(--rz-card-title-line-clamp, 3);
+	-webkit-box-orient: vertical;
+
 	margin-top: var(--spacing-6xs);
 	margin-bottom: var(--spacing-3xs);
 	font-family: var(--font-family-os-label);

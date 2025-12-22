@@ -20,7 +20,7 @@ export type RzCardOptions = RzElement & {
     title?: string
     image?: RzImageOptions
     badge?: RzBadgeOptions
-    buttonGroup: RzButtonGroupOptions
+    buttonGroup?: RzButtonGroupOptions
     buttonGroupTop?: RzButtonGroupOptions
 }
 

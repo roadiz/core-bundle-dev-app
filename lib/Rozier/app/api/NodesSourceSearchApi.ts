@@ -1,10 +1,6 @@
-/**
- * Fetch Nodes Source from search terms.
- *
- * @param  {String} searchTerms
- * @return Promise
- */
-export function getNodesSourceFromSearch(searchTerms) {
+import type { NodeSourceSearch } from '~/types/node-source-search'
+
+export function getNodesSourceFromSearch(searchTerms: string) {
     const postData = {
         _token: window.RozierConfig.ajaxToken,
         _action: 'searchNodesSources',
@@ -27,7 +23,7 @@ export function getNodesSourceFromSearch(searchTerms) {
         .then(async (response) => {
             const data = await response.json()
             if (typeof data.data !== 'undefined' && data.data.length > 0) {
-                return data.data
+                return data.data as NodeSourceSearch[]
             } else {
                 return []
             }
