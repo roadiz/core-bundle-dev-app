@@ -34,12 +34,15 @@ export class RzDialog extends HTMLDialogElement {
         this.close()
     }
 
-    getTargets(action: 'open' | 'close' | 'toggle') {
+    getTargets(targetAction: 'open' | 'close' | 'toggle') {
         const id = this.getAttribute('id')
-        const attributeName = `${action}target`
+        const attributeName = `${targetAction}target`
 
+        // Inner open targets are intentionally ignored to prevent opening the dialog from inside itself.
         const innerTargets =
-            action === 'open' ? [] : this.querySelectorAll(`[${attributeName}]`)
+            targetAction === 'open'
+                ? []
+                : this.querySelectorAll(`[${attributeName}]`)
         const outerTargets = document.querySelectorAll(
             `[${attributeName}="${id}"]`,
         )
