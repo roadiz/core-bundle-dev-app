@@ -269,7 +269,7 @@ export class RzSearch extends HTMLElement {
             return event.key.toLowerCase() === key
         })
 
-        if (isValid) {
+        if (isValid && this.dialogElement) {
             event.preventDefault()
             this.dialogElement.showDialog()
         }
