@@ -13,6 +13,7 @@ export type RzImageOptions = RzElement & {
     width?: number
     height?: number
     sources?: ImageSource[]
+    loading?: 'eager' | 'lazy'
 }
 
 export function rzSourceRenderer(options: ImageSource) {
@@ -37,6 +38,7 @@ export function rzImageRenderer(options: RzImageOptions) {
     if (options.src) root.setAttribute('src', options.src)
     if (options.width) root.setAttribute('width', options.width.toString())
     if (options.height) root.setAttribute('height', options.height.toString())
+    root.setAttribute('loading', options.loading || 'lazy')
 
     if (options.sources?.length) {
         const picture = document.createElement('picture')
