@@ -4,7 +4,7 @@ import api from '~/api'
 import { rzCardRenderer } from '~/utils/component-renderer/rzCard'
 import { debounce } from 'lodash'
 
-const SEARCH_QUERY = 'search_all'
+const SEARCH_QUERY = 'searchTerms'
 
 /* Used for component documentation */
 /*
