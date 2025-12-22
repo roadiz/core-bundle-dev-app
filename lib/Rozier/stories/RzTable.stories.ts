@@ -99,7 +99,7 @@ const meta: Meta<Args> = {
                     name: 'Status',
                     element: {
                         innerHTML: rzBadgeRenderer({
-                            label: 'Draf',
+                            label: 'Draft',
                             color: 'warning',
                             iconClass: 'rz-icon-rz-draft-line',
                         }).outerHTML,
