@@ -4,9 +4,9 @@ type TabElements = {
 }
 
 // type Attributes = {
-//     'tab-controls'?: string
-//     'tab-panel-active-class'?: string
-//     'tab-active-class'?: string
+//     'data-tab-controls'?: string
+//     'data-tab-panel-active-class'?: string
+//     'data-tab-active-class'?: string
 // }
 
 export class RzBulkActions extends HTMLElement {
@@ -20,8 +20,10 @@ export class RzBulkActions extends HTMLElement {
     onTabClick(event: Event) {
         const clickedTab = event?.currentTarget as HTMLElement
         this.tabElements.forEach(({ tab, panel }) => {
-            const activePanelClass = tab?.getAttribute('tab-panel-active-class')
-            const activeTabClass = tab?.getAttribute('tab-active-class')
+            const activePanelClass = tab?.getAttribute(
+                'data-tab-panel-active-class',
+            )
+            const activeTabClass = tab?.getAttribute('data-tab-active-class')
 
             if (tab === clickedTab && !tab.classList.contains(activeTabClass)) {
                 tab.setAttribute('aria-selected', 'true')
@@ -37,12 +39,15 @@ export class RzBulkActions extends HTMLElement {
 
     connectedCallback() {
         this.tabElements = Array.from(
-            this.querySelectorAll<HTMLElement>('[tab-controls]'),
+            this.querySelectorAll<HTMLElement>('[data-tab-controls]'),
         ).map((tabElement) => {
             tabElement.addEventListener('click', this.onTabClick)
 
-            const panelId = tabElement.getAttribute('tab-controls')
-            const panelElement = document.getElementById(panelId)!
+            const panelId = tabElement.getAttribute('data-tab-controls')
+            if (panelId) {
+                tabElement.setAttribute('aria-controls', panelId)
+            }
+            const panelElement = document.getElementById(panelId)
 
             return {
                 tab: tabElement,
