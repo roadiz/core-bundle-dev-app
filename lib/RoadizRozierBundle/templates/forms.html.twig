@@ -458,7 +458,7 @@
                     popover-placement="bottom-end"
                     popover-offset="12"
                 >
-                {% set popover_id = "ChildrenNodesQuickCreation" %}
+                {% set popover_id = 'ChildrenNodesQuickCreation_' ~ nodeTree.rootNode.id  %}
                     <button
                         type="button"
                         is="rz-button"
