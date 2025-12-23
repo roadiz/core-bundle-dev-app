@@ -32,11 +32,69 @@
         <span class="rz-icon-ri--menu-line"></span>
         <input name="burger-menu" id="burger-menu" type="checkbox"/>
     </div>
-    <div class="rz-badge rz-badge--sm rz-header__head__item--end">
+    <div class="rz-header__head__item rz-header__head__item--end rz-badge rz-badge--sm">
         <span class="rz-badge__label">{{ cms_prefix }} {{ cms_version }}</span>
     </div>
 </div>
 <nav class="rz-header__nav">
+    <rz-search
+        idle-text="{% trans %}search_status.idle{% endtrans %}"
+        reset-text="{% trans %}search_status.reset{% endtrans %}"
+        pending-text="{% trans %}search_status.pending{% endtrans %}"
+        unique-result-text="{% trans %}search_status.uniqueResult{% endtrans %}"
+        results-text="{% trans %}search_status.results{% endtrans %}"
+        no-results-text="{% trans %}search_status.noResults{% endtrans %}"
+        error-text="{% trans %}search_status.error{% endtrans %}"
+        open-key="meta+k"
+    >
+        {% set search_dialog_id = "search_dialog_id" %}
+        <div class="rz-header__li">
+            {{
+                header.button({
+                    label: "search"|trans,
+                    icon: "rz-icon-ri--search-line",
+                    tag: 'button',
+                    opentarget: search_dialog_id,
+                    component: "rz-button"
+                })
+            }}
+        </div>
+        <dialog
+            is="rz-dialog"
+            class="rz-dialog"
+            id="{{ search_dialog_id }}"
+            modal="true"
+            closedby="any"
+        >
+            <div data-search-body="" class="rz-dialog__body">
+                <form
+                    class="rz-search__search-form"
+                    method="GET"
+                    action="{{ path('searchAjax') }}"
+                    data-prevent-submit=""
+                    role="search"
+                    aria-label="{% trans %}search_form.ariaLabel{% endtrans %}"
+                >
+                    <input
+                        is="rz-input"
+                        name="searchTerms"
+                        id="nodes-sources-search-input"
+                        type="search"
+                        placeholder="{% trans %}search.placeholder{% endtrans %}"
+                        value="{{ app.request.query.get('searchTerms')|default('') }}"
+                    />
+                </form>
+            </div>
+            <footer class="rz-dialog__footer rz-dialog__footer--justify-end">
+                <a
+                    href="/rz-admin/search"
+                    class="rz-dialog__item--end rz-button rz-button--primary"
+                >
+                    <span class="rz-button__label">Advanced search</span>
+                </a>
+            </footer>
+        </dialog>
+    </rz-search>
     <ul class="rz-header__list">
         {% for mainEntry in rozier.backofficeMenuEntries %}
             {% set granted = false %}
@@ -60,57 +118,57 @@
                             ) %}
                         {% endfor %}
                         {% if is_granted('IS_IMPERSONATOR') %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: 'stop.test.user.right'|trans,
                                 icon: 'rz-icon-ri--logout-circle-line',
                                 href: '?_su=_exit',
                                 subItem: true,
                                 tag: 'a',
-                            ) %}
+                            }) %}
                         {% else %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: 'logout'|trans,
                                 icon: 'rz-icon-ri--logout-box-line',
                                 href: path('logoutPage'),
                                 subItem: true,
                                 tag: 'a',
-                            ) %}
+                            }) %}
                         {% endif %}
                         {% for action in rozier.userActions %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: action.label|trans,
                                 icon: action.icon,
                                 href: action.path,
                                 subItem: true,
                                 tag: 'a',
-                            ) %}
+                            }) %}
                         {% endfor %}
                         {% if app.user and app.user.id %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: 'edit.account'|trans,
                                 icon: 'uk-icon-rz-user',
                                 href: path('usersEditPage', {'id':app.user.id }),
                                 subItem: true,
                                 tag: 'a',
-                            ) %}
+                            }) %}
                         {% endif %}
                         {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: 'delete.caches'|trans,
                                 icon: 'uk-icon-rz-flash',
                                 href: path('deleteDoctrineCache'),
                                 subItem: true,
                                 tag: 'a',
-                            ) %}
+                            }) %}
                         {% endif %}
                         {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: 'delete.generated_images.cache'|trans,
                                 icon: 'uk-icon-rz-flash-images',
                                 href: path('deleteAssetsCache'),
                                 subItem: true,
                                 tag: 'a',
-                            ) %}
+                            }) %}
                         {% endif %}
                     {% else %}
                         {% set subEntryGranted = false %}
@@ -125,13 +183,13 @@
                             {% else %}
                                 {% set path = path(subEntry.route) %}
                             {% endif %}
-                            {% set children = children ~ header.item(
+                            {% set children = children ~ header.item({
                                 label: subEntry.name|trans,
                                 icon: subEntry.icon,
                                 href: path,
                                 subItem: true,
-                                tag: 'a',
-                            ) %}
+                                tag: 'a'
+                            }) %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -149,11 +207,12 @@
                 {% set tag = 'button' %}
             {% endif %}
 
-            {{ header.item(
-                label: mainEntry.name|trans,
-                icon: mainEntry.icon,
-                href: path,
-                tag: tag,
+            {{ header.item({
+                    label: mainEntry.name|trans,
+                    icon: mainEntry.icon,
+                    href: path,
+                    tag: tag
+                },
                 children: children,
                 end: (mainEntry.name == 'settings') ? true : false,
             ) }}

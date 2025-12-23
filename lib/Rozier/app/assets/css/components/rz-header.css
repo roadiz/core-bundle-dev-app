@@ -112,6 +112,10 @@
 	}
 }
 
+.rz-header__head__item {
+	white-space: nowrap;
+}
+
 .rz-header__head__item--end {
 	margin-left: auto;
 }
