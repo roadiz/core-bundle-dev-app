@@ -2,13 +2,10 @@
 
 {% block title %}{% trans %}disable_two_factor_authentication{% endtrans %} | {{ parent() }}{% endblock %}
 
-{%- block content_title -%}{% trans %}disable_two_factor_authentication{% endtrans %}{%- endblock -%}
-
-{%- block content_header_nav -%}
-    <a class="content-header-nav-back uk-navbar-content"
-       href="{{ path('2fa_admin_two_factor') }}"
-       title="{% trans %}back_to.two_factor{% endtrans %}"
-       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'disable_two_factor_authentication'|trans,
+    } only %}
 {%- endblock -%}
 
 {%- block content_body -%}
