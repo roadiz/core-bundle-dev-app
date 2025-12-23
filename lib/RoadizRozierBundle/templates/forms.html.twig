@@ -439,7 +439,11 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-<div class="rz-form-field children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
+<div
+    class="rz-form-field children-nodes-widget"
+    data-translation-id="{{ nodeTree.translation.id }}"
+    data-children-nodes-widget {{ block('widget_attributes') }}
+>
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
@@ -450,22 +454,49 @@
         </div>
         <div class="drawer-widget-nav__content">
             {% if linkedTypes|length %}
-                <ul class="uk-navbar-nav">
-                    <li class="children-nodes-quick-creation"
-                        data-uk-dropdown="{mode:'click'}">
-                        <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
-                        <div class="uk-dropdown uk-dropdown-navbar">
+                <rz-popover
+                    popover-placement="bottom-end"
+                    popover-offset="12"
+                >
+                {% set popover_id = "ChildrenNodesQuickCreation" %}
+                    <button
+                        type="button"
+                        is="rz-button"
+                        aria-label="{{ "add.node"|trans}}"
+                        class="rz-button"
+                        popovertarget="{{ popover_id }}"
+                    >
+                        <span class="rz-button__label">{% trans %}Add{% endtrans %}</span>
+                        <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                    </button>
+                    <div
+                        popover=""
+                        class="rz-dropdown"
+                        id="{{ popover_id }}"
+                    >
+                        <menu
+                            class="rz-dropdown__list children-nodes-quick-creation"
+                        >
                             {% for linkedType in linkedTypes %}
-                                <button type="button" class="uk-button uk-button-small"
-                                   data-children-node-type="{{ linkedType.name }}"
-                                   data-children-parent-node="{{ nodeTree.rootNode.id }}"
-                                   data-translation-id="{{ nodeTree.translation.id }}">
-                                    <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.displayName }}
-                                </button>
+                                <li>
+                                    <button
+                                        is="rz-button"
+                                        type="button"
+                                        class="rz-dropdown__item"
+                                        data-children-node-type="{{ linkedType.name }}"
+                                        data-children-parent-node="{{ nodeTree.rootNode.id }}"
+                                        data-translation-id="{{ nodeTree.translation.id }}"
+                                    >
+                                        <span class="rz-dropdown__item__text-wrapper">
+                                            {{ linkedType.displayName }}
+                                        </span>
+                                        <span class="rz-dropdown__item__icon rz-icon-ri--add-line"></span>
+                                    </button>
+                                </li>
                             {% endfor %}
-                        </div>
-                    </li>
-                </ul>
+                        </menu>
+                    </div>
+                </rz-popover>
             {% endif %}
         </div>
     </nav>
