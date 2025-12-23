@@ -89,6 +89,7 @@ export default [
     'printer-line',
     'questionnaire-line',
     'radio-button-line',
+    'repeat-2-line',
     'save-line',
     'search-line',
     'separator',
