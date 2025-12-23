@@ -17,7 +17,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global stack-tree bulk-layout">
+<rz-bulk-section>
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         translation: translation,
@@ -31,11 +31,14 @@
         with_nav_bar: true,
     } only %}
 
-    {% include '@RoadizRozier/nodes/filtersBar.html.twig' with {
-        filters: specificNodeTree.filters,
-        deleteNodesForm: deleteNodesForm,
+    {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+
+    {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+        delete_form_data: deleteNodesForm|default(null),
+        delete_form_action: path('nodesBulkDeletePage'),
+        delete_form_method: 'post',
         tagNodesForm: tagNodesForm,
-        statusNodesForm: statusNodesForm
+        statusNodesForm: statusNodesForm,
     } only %}
 
     <article class="content content-node-tree">
@@ -57,5 +60,5 @@
     {% if node %}
         {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
     {% endif %}
-</section>
+</rz-bulk-section>
 {% endblock %}

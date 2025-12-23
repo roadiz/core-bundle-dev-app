@@ -1,4 +1,9 @@
-.rz-button {
+
+:where(
+	.rz-button,
+	[class|="rz-button--"],
+	[is="rz-button"]
+) {
 	--rz-button-border-radius-default: var(--radius-xs, 6px);
 	--rz-button-border-width: 1PX;
 

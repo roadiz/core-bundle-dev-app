@@ -1,0 +1,57 @@
+:where(rz-bulk-actions, .rz-bulk-actions) {
+	display: none;
+	padding-block: var(--spacing-xs);
+}
+
+.rz-bulk-actions--visible {
+	display: block;
+}
+
+.rz-bulk-actions__title {
+	display: flex;
+	align-items: center;
+	position: relative;
+	margin-block-end: var(--spacing-xs);
+	white-space: nowrap;
+	text-align: center;
+
+	&::before,
+	&::after {
+		content: '';
+		display: inline-block;
+		flex-grow: 1;
+		height: 1PX;
+		background-color: var(--line-on-light-primary, #EAEAEA);
+	}
+
+	&::before {
+		margin-right: 20px;
+	}
+
+	&::after {
+		margin-left: 20px;
+	}
+}
+
+.rz-bulk-actions__buttons {
+	display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-5xs);
+	justify-content: center;
+}
+
+.rz-bulk-actions__form {
+	display: inline-block;
+}
+
+.rz-bulk-actions__group {
+	--rz-form-width: auto;
+
+	display: none;
+	justify-content: center;
+	margin-block: var(--spacing-md) var(--spacing-xs);
+}
+
+.rz-bulk-actions__group--visible {
+	display: flex;
+}

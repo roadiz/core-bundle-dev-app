@@ -3,7 +3,7 @@
 {% block title %}{% trans %}customForms{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="bulk-layout content-global content-nav-and-filters">
+<rz-bulk-section>
     {% include '@RoadizRozier/custom-forms/head.html.twig' with {
         title: 'customForms'|trans,
         filters: filters,
@@ -14,7 +14,10 @@
         }]
     } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: true,
+    }  only %}
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
     <article class="content content-no-action-menu content-node-types-list">
         <div class="content-table-cont">
@@ -34,5 +37,5 @@
             </table>
         </div>
     </article>
-</section>
+</rz-bulk-section>
 {% endblock %}

@@ -13,7 +13,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
+<rz-bulk-section>
     {% if folder %}
         {% set folderName = folder.translatedFolders.first.name|default(folder.folderName) %}
         {% set title = folderName|truncate_title %}
@@ -34,7 +34,15 @@
         filters: filters
     } only %}
 
-    {% include '@RoadizRozier/documents/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/documents/filtersBar.html.twig' with {
+        filters: filters,
+    } %}
+
+    {% include '@RoadizRozier/documents/bulkActions.html.twig' with {
+        joinFolderForm: joinFolderForm,
+    } %}
+
+
 
     {% block content_body %}
     <article class="content">
@@ -51,5 +59,5 @@
         </div>
 	</article>
     {% endblock %}
-</section>
+</rz-bulk-section>
 {% endblock %}
