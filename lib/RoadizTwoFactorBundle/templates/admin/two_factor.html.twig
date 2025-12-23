@@ -2,7 +2,11 @@
 
 {% block title %}{% trans %}two_factor_authentication{% endtrans %} | {{ parent() }}{% endblock %}
 
-{%- block content_title -%}{% trans %}two_factor_authentication{% endtrans %}{%- endblock -%}
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'two_factor_authentication'|trans,
+    } only %}
+{%- endblock -%}
 
 {%- block content_body -%}
     <article class="content">

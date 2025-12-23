@@ -1,16 +1,18 @@
 {% extends "@RoadizRozier/admin/base.html.twig" %}
 
-{%- block content_title -%}{{ shadowTitle }}{%- endblock -%}
-
-{%- block content_header_actions -%}
-    <a class="uk-button" href="{{ path('appArticlesAddPage') }}">
-        <i class="uk-icon-rz-plus"></i> {% trans %}articles.add{% endtrans %}
-    </a>
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'articles'|trans,
+        filters: filters,
+        buttons : [
+            {
+                label: 'articles.add'|trans,
+                href: path('appArticlesAddPage'),
+                icon: 'rz-icon-ri--add-line',
+            }
+        ]
+    } only %}
 {%- endblock -%}
-
-{% block content_header_nav %}
-    {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-{% endblock %}
 
 {%- block content_filters -%}
     {% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
