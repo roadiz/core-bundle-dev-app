@@ -3,10 +3,15 @@
         {# Update URL alias #}
         {% form_theme urlAlias.editForm '@RoadizRozier/horizontalForms.html.twig' %}
         {{ form_start(urlAlias.editForm, {
-            attr: { class: "uk-form uk-form-horizontal urlalias-form" }
+            attr: { class: "urlalias-form" }
         }) }}
             {{ form_widget(urlAlias.editForm) }}
-            <button class="uk-button uk-button-primary" type="submit" value="{% trans %}edit{% endtrans %}"><i class="uk-icon-pencil"></i> {% trans %}edit{% endtrans %}</button>
+            <div class="rz-form-field rz-form-field--align-end">
+                <button class="rz-button rz-button--primary" type="submit" value="{% trans %}edit{% endtrans %}">
+                    <span class="rz-button__label">{% trans %}edit{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--edit-line"></span>
+                </button>
+            </div>
         {{ form_end(urlAlias.editForm) }}
     </td>
     <td>{{ urlAlias.alias.getNodeSource.getTranslation.getName }}</td>
@@ -15,7 +20,12 @@
         {% form_theme urlAlias.deleteForm '@RoadizRozier/horizontalForms.html.twig' %}
         {{ form_start(urlAlias.deleteForm) }}
             {{ form_widget(urlAlias.deleteForm) }}
-            <button class="uk-button uk-button-danger" type="submit" value="{% trans %}delete{% endtrans %}"><i class="uk-icon-rz-trash-o"></i> {% trans %}delete{% endtrans %}</button>
+            <div class="rz-form-field rz-form-field--justify-end">
+                <button class="rz-button rz-button--primary rz-button--danger" type="submit" value="{% trans %}delete{% endtrans %}">
+                    <span class="rz-button__label">{% trans %}delete{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+                </button>
+            </div>
         {{ form_end(urlAlias.deleteForm) }}
     </td>
 </tr>

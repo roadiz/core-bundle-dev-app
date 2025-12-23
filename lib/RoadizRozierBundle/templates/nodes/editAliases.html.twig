@@ -23,8 +23,8 @@
     <article class="content content-node-edit-seo">
         {% if seoForm %}
             <h2 class="content-subtitle">{% trans %}edit.node.seo{% endtrans %}</h2>
-            {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
-            <form id="edit-seo-form" class="uk-form uk-form-stacked" action="#" method="post">
+            <form id="edit-seo-form" class="rz-form" action="#" method="post">
+                {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_widget(seoForm) }}
                 {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
                 {{ actions_menu.saveItem('#edit-seo-form') }}
@@ -33,64 +33,72 @@
         {% endif %}
 
         <h2 id="manage-aliases" class="content-subtitle">{% trans %}urlAlias{% endtrans %}</h2>
-        <p class="form-row-desc">{% trans %}nodeSource.urlAlias.help{% endtrans %}</p>
+        <p class="text-body-md">{% trans %}nodeSource.urlAlias.help{% endtrans %}</p>
 
-        <div class="content-table-cont">
-            <table class="aliases content-table uk-table">
-                <thead>
+        <table class="rz-table">
+            <thead>
+                <tr>
+                    <th>{% trans %}urlAlias{% endtrans %}</th>
+                    <th>{% trans %}translation{% endtrans %}</th>
+                    <th class="rz-table__cell rz-table__cell--align-right">{% trans %}actions{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if form %}
                     <tr>
-                        <th>{% trans %}urlAlias{% endtrans %}</th>
-                        <th>{% trans %}translation{% endtrans %}</th>
-                        <th>{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if form %}
-                        <tr>
-                            <td colspan="3">
-                                {% form_theme form '@RoadizRozier/horizontalForms.html.twig' %}
-                                {{ form_start(form) }}
-                                {{ form_widget(form) }}
-                                <button class="uk-button uk-button-primary" type="submit">
-                                    <i class="uk-icon-rz-plus"></i> {% trans %}add.urlAlias{% endtrans %}
+                        <td colspan="3">
+                            {% form_theme form '@RoadizRozier/horizontalForms.html.twig' %}
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <div class="rz-form-field rz-form-field--align-center rz-form-field--justify-end">
+                                <button class="rz-button rz-button--primary" type="submit">
+                                    <span class="rz-button__label">{% trans %}add.urlAlias{% endtrans %}</span>
+                                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
                                 </button>
-                                {{ form_end(form) }}
-                            </td>
-                        </tr>
-                    {% endif %}
-                    {% for urlAlias in aliases %}
-                        {% include '@RoadizRozier/url-aliases/editRow.html.twig' with {
-                            'urlAlias': urlAlias
-                        } %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for urlAlias in aliases %}
+                    {% include '@RoadizRozier/url-aliases/editRow.html.twig' with {
+                        'urlAlias': urlAlias
+                    } %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">{% trans %}no_alias_found{% endtrans %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
         <hr />
 
         <h2 id="manage-redirections" class="content-subtitle">{% trans %}manage.redirections{% endtrans %}</h2>
-        <p class="form-row-desc">{% trans %}nodeSource.redirections.help{% endtrans %}</p>
+        <p class="text-body-md">{% trans %}nodeSource.redirections.help{% endtrans %}</p>
 
-        <div class="content-table-cont">
-            <table class="redirections content-table uk-table">
-                <thead>
+        <table class="rz-table">
+            <thead>
                 <tr>
                     <th>{% trans %}redirection.query{% endtrans %}</th>
                     <th>{% trans %}redirection.redirect_uri{% endtrans %}</th>
                     <th>{% trans %}translation{% endtrans %}</th>
-                    <th>{% trans %}actions{% endtrans %}</th>
+                    <th class="rz-table__cell rz-table__cell--align-right">{% trans %}actions{% endtrans %}</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% if addRedirection %}
                     <tr>
                         <td colspan="4">
                             {% form_theme addRedirection '@RoadizRozier/horizontalForms.html.twig' %}
                             {{ form_start(addRedirection) }}
                             {{ form_widget(addRedirection) }}
-                            <button class="uk-button uk-button-primary" type="submit">
-                                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.redirection{% endtrans %}
-                            </button>
+                            <div class="rz-form-field rz-form-field--align-center rz-form-field--justify-end">
+                                <button class="rz-button rz-button--primary" type="submit">
+                                    <span class="rz-button__label">{% trans %}add.a.redirection{% endtrans %}</span>
+                                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                                </button>
+                            </div>
                             {{ form_end(addRedirection) }}
                         </td>
                     </tr>
@@ -100,11 +108,12 @@
                         'redirection': redirection
                     } %}
                 {% else %}
-                    <tr><td colspan="4">{% trans %}no_redirection_found{% endtrans %}</td></tr>
+                    <tr>
+                        <td colspan="4">{% trans %}no_redirection_found{% endtrans %}</td>
+                    </tr>
                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </article>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}

@@ -47,6 +47,10 @@
 	border-collapse: separate;
     border-spacing: 0 var(--spacing-5xs);
 
+	td, th {
+		position: relative;
+	}
+
 	td {
 		height: var(--rz-table-td-height);
 		border-radius: var(--rz-table-td-border-radius);
@@ -92,4 +96,17 @@
 
 .rz-table__cell--align-right {
 	text-align: right;
+}
+
+
+:where(
+	.rz-table,
+	[is='rz-table']
+) span[style*="--rz-accent-color"] {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 3px;
+	background-color: var(--rz-accent-color);
 }

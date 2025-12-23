@@ -6,7 +6,12 @@
             attr: { class: "uk-form uk-form-horizontal redirection-form" }
         }) }}
             {{ form_widget(redirection.editForm) }}
-            <button class="uk-button uk-button-primary" type="submit" value="{% trans %}edit{% endtrans %}"><i class="uk-icon-pencil"></i> {% trans %}edit{% endtrans %}</button>
+            <div class="rz-form-field rz-form-field--align-end">
+                <button class="rz-button rz-button--primary" type="submit" value="{% trans %}edit{% endtrans %}">
+                    <span class="rz-button__label">{% trans %}edit{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--edit-line"></span>
+                </button>
+            </div>
         {{ form_end(redirection.editForm) }}
     </td>
     <td>{{ path(redirection.redirection.redirectNodeSource) }}</td>
@@ -16,7 +21,12 @@
         {% form_theme redirection.deleteForm '@RoadizRozier/horizontalForms.html.twig' %}
         {{ form_start(redirection.deleteForm) }}
             {{ form_widget(redirection.deleteForm) }}
-            <button class="uk-button uk-button-danger" type="submit" value="{% trans %}delete{% endtrans %}"><i class="uk-icon-rz-trash-o"></i> {% trans %}delete{% endtrans %}</button>
+            <div class="rz-form-field rz-form-field--justify-end">
+                <button class="rz-button rz-button--primary rz-button--danger" type="submit" value="{% trans %}delete{% endtrans %}">
+                    <span class="rz-button__label">{% trans %}delete{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+                </button>
+            </div>
         {{ form_end(redirection.deleteForm) }}
     </td>
 </tr>
