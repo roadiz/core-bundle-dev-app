@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters  bulk-layout">
+<rz-bulk-section>
     {% include '@RoadizRozier/tags/head.html.twig' with {
         title: 'tags'|trans,
         filters: filters,
@@ -20,8 +20,14 @@
 
     {% include '@RoadizRozier/tags/filtersBar.html.twig' with {
         filters: filters,
-        deleteTagsForm: deleteTagsForm
     } only %}
+
+    {% include "@RoadizRozier/widgets/rz_bulk_actions.html.twig" with {
+        delete_form_data: deleteTagsForm,
+        delete_form_action: path('tagsBulkDeletePage'),
+        delete_form_method: 'GET',
+    } only %}
+
 
     <article class="content content-no-action-menu content-tags-list">
         <div class="content-table-cont">
@@ -100,5 +106,5 @@
         </div>
     </article>
 
-</section>
+</rz-bulk-section>
 {% endblock %}

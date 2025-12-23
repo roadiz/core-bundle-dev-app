@@ -267,19 +267,21 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitTag', SubmitType::class, [
-                'label' => 'link.tags',
+                'label' => null,
                 'attr' => [
-                    'class' => 'uk-button uk-button-primary',
-                    'title' => 'link.tags',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('link.tags'),
+                    'icon' => 'rz-icon-ri--add-line',
                 ],
             ])
             ->add('submitUntag', SubmitType::class, [
-                'label' => 'unlink.tags',
+                'label' => null,
                 'attr' => [
-                    'class' => 'uk-button',
-                    'title' => 'unlink.tags',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('unlink.tags'),
+                    'icon' => 'rz-icon-ri--subtract-line',
                 ],
             ])
         ;
