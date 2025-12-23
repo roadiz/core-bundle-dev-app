@@ -483,7 +483,7 @@ final class TagController extends AbstractController
         }
 
         $title = $this->translator->trans(
-            "delete.tag.%name%",
+            'delete.tag.%name%',
             ['%name%' => $tag->getTagName()]
         );
 
