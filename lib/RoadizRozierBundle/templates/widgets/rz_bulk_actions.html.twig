@@ -23,41 +23,6 @@
 			})
 		}}
 
-		{% if bulkPublishForm %}
-			{% form_theme bulkPublishForm '@RoadizRozier/horizontalForms.html.twig' %}
-			{{ form_start(bulkPublishForm) }}
-				{{ form_widget(bulkPublishForm) }}
-				{{
-					rz_button.root({
-						attributes: {
-							type: 'submit',
-							title: "bulk.publish"|trans,
-						},
-						color: 'success',
-						emphasis: 'primary',
-						icon: 'rz-icon-ri--checkbox-circle-line',
-					})
-				}}
-			{{ form_end(bulkPublishForm) }}
-		{% endif %}
-		{% if bulkUnpublishForm %}
-			{% form_theme bulkUnpublishForm '@RoadizRozier/horizontalForms.html.twig' %}
-			{{ form_start(bulkUnpublishForm) }}
-				{{ form_widget(bulkUnpublishForm) }}
-				{{
-					rz_button.root({
-						attributes: {
-							type: 'submit',
-							title: "bulk.unpublish"|trans,
-						},
-						color: 'success',
-						emphasis: 'primary',
-						icon: 'rz-icon-rz--status-draft-fill',
-					})
-				}}
-			{{ form_end(bulkUnpublishForm) }}
-		{% endif %}
-
 		{% block other_actions %}{% endblock %}
 
 		{% block delete_form %}
