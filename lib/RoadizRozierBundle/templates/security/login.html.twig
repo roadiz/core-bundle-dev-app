@@ -9,66 +9,67 @@
         </div>
     {% endif %}
 
-    {% if openid %}
-        <p>
-            <a href="{{ openid }}"
-               class="uk-button uk-button-secondary">
-                <i class="uk-icon uk-icon-chain"></i>
-                {{ (openid_button_label|default('login_with_openid'))|trans -}}
+    <div class="rz-login__group rz-login__group--row">
+        {% if openid %}
+            <a class="rz-button rz-button--secondary" href="{{ openid }}">
+                <span class="rz-button__label">{{ (openid_button_label|default('login_with_openid'))|trans -}}</span>
+                <span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
             </a>
-        </p>
-        <hr>
-    {% endif %}
+        {% endif %}
+        <a class="rz-button rz-button--secondary" href="{{ path('roadiz_rozier_login_link') }}">
+            <span class="rz-button__label">{% trans %}request_login_link{% endtrans %}</span>
+            <span class="rz-button__icon rz-icon-ri--link"></span>
+        </a>
+    </div>
+    <hr class="rz-login__divider" />
     <form id="login-form"
-          class="rz-form"
-          method="post">
-        <div class="rz-form__field-list">
-            <div class="rz-form-field rz-form-field--type-text rz-form-field--required">
-                <div class="rz-form-field__head">
-                    <label class="rz-form-field__head__label" for="_username">{% trans %}username{% endtrans %}</label>
-                </div>
-                <input
-                    is="rz-input"
-                    name="username"
-                    id="_username"
-                    type="text"
-                    value="{{ last_username }}"
-                    autocomplete="username email"
-                    placeholder="{% trans %}username{% endtrans %}"
-                    class="rz-form-field__input"
-                    required>
+        class="rz-login__group"
+        method="post">
+        <rz-form-field class="rz-form-field rz-form-field--required">
+            <div class="rz-form-field__head">
+                <label class="rz-form-field__head__label" for="_username">{% trans %}username{% endtrans %}</label>
             </div>
-            <div class="rz-form-field rz-form-field--type-password rz-form-field--required">
-                <div class="rz-form-field__head">
-                    <label class="rz-form-field__head__label" for="_password">{% trans %}password{% endtrans %}</label>
-                </div>
-                <input
-                    is="rz-input"
-                    name="password"
-                    id="_password"
-                    type="password"
-                    autocomplete="current-password"
-                    placeholder="{% trans %}password{% endtrans %}"
-                    class="rz-form-field__input"
-                    required>
+            <input is="rz-input"
+                   name="username"
+                   id="_username"
+                   type="text"
+                   autocomplete="username email"
+                   placeholder="{% trans %}username{% endtrans %}"
+                   class="rz-form-field__body"
+                   required
+                   value="{{ last_username }}" />
+        </rz-form-field>
+        <rz-form-field class="rz-form-field rz-form-field--required">
+            <div class="rz-form-field__head">
+                <label class="rz-form-field__head__label" for="_password">Password</label>
             </div>
-            <div class="rz-form-field rz-form-field--type-checkbox">
-                <div class="rz-form-field__head">
-                    <label class="rz-form-field__head__label" for="_remember_me">{% trans %}keep_me_logged_in{% endtrans %}</label>
-                </div>
-                <input type="checkbox" class="rz-switch rz-form-field__input" id="_remember_me" name="_remember_me" checked>
+            <input
+                is="rz-input"
+                name="password"
+                id="_password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="{% trans %}password{% endtrans %}"
+                class="rz-form-field__body"
+                required>
+            <div class="rz-message rz-message--ghost rz-form-field__message">
+                <p class="rz-message__text">
+                    <a href="{{ path('loginRequestPage') }}">{% trans %}forgot.password{% endtrans %}</a>
+                </p>
             </div>
-        </div>
+        </rz-form-field>
+        <rz-form-field class="rz-form-field">
+            <div class="rz-form-field__head">
+                <label class="rz-form-field__head__label" for="_remember_me">{% trans %}keep_me_logged_in{% endtrans %}</label>
+            </div>
+            <input type="checkbox" class="rz-switch rz-form-field__body" id="_remember_me" name="_remember_me" checked />
+        </rz-form-field>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <div class="rz-button-group rz-button-group--gap-md">
+        <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
             <button type="submit" class="rz-button rz-button--primary">
                 <span class="rz-button__label">{% trans %}login{% endtrans %}</span>
                 <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
             </button>
-            <a class="rz-button rz-button--secondary" href="{{ path('roadiz_rozier_login_link') }}">
-                <span class="rz-button__label">{% trans %}request_login_link{% endtrans %}</span>
-                <span class="rz-button__icon rz-icon-ri--link"></span>
-            </a>
         </div>
     </form>
 {% endblock %}

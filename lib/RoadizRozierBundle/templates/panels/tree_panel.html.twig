@@ -12,9 +12,6 @@
 {% set tabCount = tabCount + 1 %}
 {% endif %}
 
-<div id="search-button" class="mobile-button"><i class="uk-icon-search"></i></div>
-{% include '@RoadizRozier/widgets/nodesSourcesSearch.html.twig' %}
-<div id="tree-button" class="mobile-button"><i class="uk-icon-rz-node-tree"></i></div>
 <main-trees v-pre id="tree-wrapper">
     {% if tabCount >= 1 %}
     <nav id="tree-menu" role="tablist">
