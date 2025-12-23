@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
+<rz-bulk-section>
     {% include '@RoadizRozier/tags/head.html.twig' with {
         title: 'tags'|trans,
         filters: filters,
@@ -20,37 +20,43 @@
 
     {% include '@RoadizRozier/tags/filtersBar.html.twig' with {
         filters: filters,
-        deleteTagsForm: deleteTagsForm
     } only %}
 
-    <table class="rz-table">
-        <thead>
-            <tr>
-                <th>
-                    <div class="bulk-selection">
-                        <input is="rz-input" type="checkbox" name="bulk-selection-all" />
-                    </div>
-                </th>
-                <th class="table-id-row">{% trans %}id{% endtrans %}</th>
-                <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'tagName',
-                        'filters': filters,
-                        'label': 'name'|trans,
-                        'class_name': 'rz-table__ordering-link',
-                    } only %}
-                </th>
-                <th class="table-actions-row table-actions-row-3">
-                    {% trans %}actions{% endtrans %}
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tag in tags %}
-                {% set ttag = tag.getTranslatedTags.first %}
-                {% if ttag %}
+    {% include "@RoadizRozier/widgets/rz_bulk_actions.html.twig" with {
+        delete_form_data: deleteTagsForm,
+        delete_form_action: path('tagsBulkDeletePage'),
+        delete_form_method: 'GET',
+    } only %}
+
+
+    <article class="content content-no-action-menu content-tags-list">
+        <div class="content-table-cont">
+            <table class="tags content-table uk-table">
+                <thead>
                     <tr>
-                        {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
+                        <th class="table-id-row">{% trans %}id{% endtrans %}</th>
+                        <th>
+                            {% trans %}name{% endtrans %}
+                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                                'field': 'tagName',
+                                'filters': filters,
+                            } only %}
+                        </th>
+                        <th class="table-actions-row table-actions-row-3">
+                            <div class="bulk-selection">
+                                <input is="rz-input" type="checkbox" name="bulk-selection-all" />
+                            </div>
+                            {% trans %}actions{% endtrans %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in tags %}
+                        {% set ttag = tag.getTranslatedTags.first %}
+                        {% if ttag %}
+                        <tr>
+                            <td><a href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}">{{ tag.id }}</a></td>
+                            <td><a href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}">{{ ttag.getName }}</a></td>
                             <td>
                                 <div class="tagtree-bulk-selection">
                                     <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
@@ -108,5 +114,5 @@
         </tbody>
     </table>
 
-</section>
+</rz-bulk-section>
 {% endblock %}
