@@ -454,49 +454,41 @@
         </div>
         <div class="drawer-widget-nav__content">
             {% if linkedTypes|length %}
-                <rz-popover
-                    popover-placement="bottom-end"
-                    popover-offset="12"
-                >
-                {% set popover_id = 'ChildrenNodesQuickCreation_' ~ nodeTree.rootNode.id  %}
-                    <button
-                        type="button"
-                        is="rz-button"
-                        aria-label="{{ "add.node"|trans}}"
-                        class="rz-button"
-                        popovertarget="{{ popover_id }}"
-                    >
-                        <span class="rz-button__label">{% trans %}Add{% endtrans %}</span>
-                        <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                    </button>
-                    <div
-                        popover=""
-                        class="rz-dropdown"
-                        id="{{ popover_id }}"
-                    >
-                        <menu
-                            class="rz-dropdown__list children-nodes-quick-creation"
-                        >
-                            {% for linkedType in linkedTypes %}
-                                <li>
-                                    <button
-                                        is="rz-button"
-                                        type="button"
-                                        class="rz-dropdown__item"
-                                        data-children-node-type="{{ linkedType.name }}"
-                                        data-children-parent-node="{{ nodeTree.rootNode.id }}"
-                                        data-translation-id="{{ nodeTree.translation.id }}"
-                                    >
-                                        <span class="rz-dropdown__item__text-wrapper">
-                                            {{ linkedType.displayName }}
-                                        </span>
-                                        <span class="rz-dropdown__item__icon rz-icon-ri--add-line"></span>
-                                    </button>
-                                </li>
-                            {% endfor %}
-                        </menu>
-                    </div>
-                </rz-popover>
+                {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
+                {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
+                        id: popover_id,
+                        placement: 'bottom-end',
+                        offset: '12',
+                        target_options: {
+                            attributes: {
+                                'aria-label': 'add.node'|trans,
+                            },
+                            label: 'Add'|trans,
+                            icon: 'rz-icon-ri--add-line',
+                        }
+                } %}
+                    {% block popover %}
+                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                                targetId: popover_id,
+                                class: 'children-nodes-quick-creation',
+                            } %}
+                            {% block items %}
+                                {% for linkedType in linkedTypes %}
+                                    {{ _self.item({
+                                        label: linkedType.displayName,
+                                        rightIcon: 'rz-icon-ri--add-line',
+                                        attributes: {
+                                            type: 'button',
+                                            'data-children-node-type': linkedType.name,
+                                            'data-children-parent-node': nodeTree.rootNode.id,
+                                            'data-translation-id': nodeTree.translation.id,
+                                        }
+                                    }) }}
+                                {% endfor %}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
         </div>
     </nav>
