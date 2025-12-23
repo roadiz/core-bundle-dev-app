@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
-// import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
 
 type PossibleElement =
@@ -72,10 +71,10 @@ const meta: Meta<Args> = {
                             name: 'embedPlatform',
                         },
                         innerHTML: `
-                        <option label="-- Tag --"value=""></option>
-                        <option label="Tag 1" value="tag-1"></option>
-						<option label="Tag 2" value="tag-2"></option>
-				`,
+                            <option label="-- Tag --" value=""></option>
+                            <option label="Tag 1" value="tag-1"></option>
+                            <option label="Tag 2" value="tag-2"></option>
+                        `,
                     },
                     {
                         tag: 'select',
@@ -84,19 +83,19 @@ const meta: Meta<Args> = {
                             name: 'embedPlatform',
                         },
                         innerHTML: `
-                        <option label="-- Embedded Media --" value=""></option>
-                        <option label="Unsplash" value="unsplash"></option>
-						<option label="Apple Podcast" value="apple_podcast"></option>
-						<option label="Dailymotion" value="dailymotion"></option>
-						<option label="Deezer" value="deezer"></option>
-						<option label="Mixcloud" value="mixcloud"></option>
-						<option label="Podcast" value="podcast"></option>
-						<option label="Soundcloud" value="soundcloud"></option>
-						<option label="Spotify" value="spotify"></option>
-						<option label="Ted" value="ted"></option>
-						<option label="Vimeo" value="vimeo"></option>
-						<option label="Youtube" value="youtube"></option>
-				`,
+                            <option label="-- Embedded Media --" value=""></option>
+                            <option label="Unsplash" value="unsplash"></option>
+                            <option label="Apple Podcast" value="apple_podcast"></option>
+                            <option label="Dailymotion" value="dailymotion"></option>
+                            <option label="Deezer" value="deezer"></option>
+                            <option label="Mixcloud" value="mixcloud"></option>
+                            <option label="Podcast" value="podcast"></option>
+                            <option label="Soundcloud" value="soundcloud"></option>
+                            <option label="Spotify" value="spotify"></option>
+                            <option label="Ted" value="ted"></option>
+                            <option label="Vimeo" value="vimeo"></option>
+                            <option label="Youtube" value="youtube"></option>
+                        `,
                     },
                     rzButtonRenderer({
                         attributes: { type: 'submit' },
@@ -159,7 +158,7 @@ const meta: Meta<Args> = {
 							<option label="50 items" value="50"></option>
 							<option label="100 items" value="100"></option>
 							<option label="200 items" value="200"></option>
-				`,
+				    `,
                     },
                 ],
             },
