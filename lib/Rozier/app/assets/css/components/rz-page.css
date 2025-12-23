@@ -6,6 +6,7 @@
 
 	@media (--screen-sm-min) {
 		margin-inline: 0 var(--spacing-4xs);
+		min-height: calc(100vh - var(--rz-app-padding-block) * 2);
 	}
 }
 
