@@ -1,3 +1,5 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
 {% macro head(title, items) %}
     <div class="rz-dropdown__head">
         {% if title is defined and title %}
@@ -100,13 +102,12 @@
                 <span class="rz-dropdown__item__icon {{ rightIcon }}"></span>
             {% endif %}
             {% if input %}
-                <input type="{{ input.type }}"
-                       value="{{ input.value|default('')}}"
-                       name="{{ input.name|default('')}}"
-                       hidden
-                       {% for attrname, attrvalue in input.attr %}
-                        {{ attrname }}="{{ attrvalue }}"
-                       {% endfor %}
+                <input
+                    type="{{ input.type }}"
+                    value="{{ input.value|default('')}}"
+                    name="{{ input.name|default('')}}"
+                    hidden
+                    {{ el_attrs.print(input.attr|default({})) }}
                 >
             {% endif %}
         </{{ tag }}>

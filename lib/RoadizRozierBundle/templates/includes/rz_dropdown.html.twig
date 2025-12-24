@@ -1,29 +1,24 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
 {% set popover_id = id|default('rz-dropdown-' ~ random()) %}
 {% set placement = placement|default('bottom-end') %}
 {% set offset = offset|default('12') %}
-{% set shift = shift|default('0') %}
+{% set shift = shift|default(null) %}
 
-{% set _opts = target_options|default({}) %}
-{% set _attrs = _opts.attributes|default({})|merge({
+{% set _target_options = target_options|default({}) %}
+{% set target_options_attributes = _target_options.attributes|default({})|merge({
 		'popovertarget': popover_id,
 		type: 'button',
 	}) %}
-{% set button_options = _opts|merge({ attributes: _attrs })%}
+{% set button_options = _target_options|merge({ attributes: target_options_attributes })%}
 
 <rz-popover
+	{% if shift is not null %}popover-shift="{{ shift }}"{% endif %}
 	popover-placement="{{ placement }}"
 	popover-offset="{{ offset }}"
-	popover-shift="{{ shift }}"
-	{% for attrname, attrvalue in attributes %}
-		{% if attrvalue and attrvalue is same as(true) %}
-			{{ attrname }}
-		{% else %}
-			{{ attrname }}="{{ attrvalue }}"
-		{% endif %}
-	{% endfor %}
+	{{ el_attrs.print(attributes|default({})) }}
 >
-	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 	{{ rz_button.root(button_options) }}
-
 	{% block popover %}{% endblock %}
 </rz-popover>

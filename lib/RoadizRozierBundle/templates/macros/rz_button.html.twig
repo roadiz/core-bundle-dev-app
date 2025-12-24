@@ -1,9 +1,11 @@
+
 {% macro root(options = {}) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
     {% set element_class = 'rz-button' %}
     {% set tagName = options.tagName|default('button') %}
 
     {% set class = options.class|default('') %}
-    {% set attributes = options.attributes|default({}) %}
     {% set label = options.label|default(null) %}
     {% set icon = options.icon|default(null) %}
 
@@ -20,15 +22,7 @@
             (element_class ~ '--' ~ color): color,
             (element_class ~ '--' ~ 'selected'): selected,
         }) }}"
-
-        {% for attrname, attrvalue in attributes %}
-            {% if attrvalue and attrvalue is same as(true) %}
-                {{ attrname }}
-            {% else %}
-                {{ attrname }}="{{ attrvalue }}"
-            {% endif %}
-        {% endfor %}
-
+		{{ el_attrs.print(options.attributes|default({})) }}
     >
         {% if label is defined and label %}
             <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
