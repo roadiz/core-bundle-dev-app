@@ -1,0 +1,24 @@
+{% import '@RoadizRozier/macros/rz_table_cell.html.twig' as rz_table_cell %}
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
+
+{% set classes = "rz-table " ~ (bordered is defined and bordered ? "rz-table--bordered " : "") ~ (class|default("")) %}
+
+<table
+    class="{{ classes }}"
+    {{ el_attr.print(attributes|default({})) }}
+    >
+    <thead>
+        <tr>
+            {% if selection_available %}
+                {{ rz_table_cell.input_checkbox({
+                    'tagName': 'th',
+                    select_all: true,
+                }) }}
+            {% endif %}
+            {% block head_cells %}{% endblock %}
+        </tr>
+    </thead>
+    <tbody>
+        {% block t_body %}{% endblock %}
+    </tbody>
+</table>

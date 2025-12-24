@@ -1,0 +1,20 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
+
+{% macro input_checkbox(options = {}) %}
+    {% set tagName = options.tagName|default('td') %}
+    {% set inputName = options.inputName|default('bulk-selection[]') %}
+
+    {% if select_all %}
+        {% set inputName = 'bulk-selection-all' %}
+    {% endif %}
+
+    {% set value = options.value|default('') %}
+
+    <{{ tagName }}
+        {{ el_attr.print(options.attributes|default({})) }}
+    >
+        <div class="bulk-selection">
+            <input is="rz-input" type="checkbox" name="{{ inputName }}" value="{{ value }}" />
+        </div>
+    </{{ tagName }}>
+{% endmacro %}
