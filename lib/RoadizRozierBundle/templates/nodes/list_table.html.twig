@@ -1,0 +1,18 @@
+{# TODO: Allow head and body items to be overide, useful in custom-forms/usage.html.twig #}
+
+{% set nodes = items|default(nodes) %}
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+	{% block thead_cells %}
+		{% include '@RoadizRozier/nodes/widgets/rz_head_cells.html.twig' with {
+			'filters': filters
+		} only %}
+	{% endblock %}
+
+	{% block tbody_content %}
+		{% for node in nodes %}
+			{% include '@RoadizRozier/nodes/widgets/rz_body_row.html.twig' with {
+				node: node,
+			} only %}
+		{% endfor %}
+	{% endblock %}
+{% endembed %}

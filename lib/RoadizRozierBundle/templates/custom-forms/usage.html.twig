@@ -14,6 +14,15 @@
         <article class="content content-no-action-menu">
             <div class="content-table-cont">
                 <h3>{% trans %}nodes{% endtrans %}</h3>
+
+                {% set nodes = usages|map(u => u.node) %}
+                {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+                    sortable: false,
+                    selection_available: false,
+                    actions_available: false,
+                    items: nodes,
+                } %}
+
                 <table class="content-table uk-table">
                     <thead>
                     <tr>
