@@ -10,25 +10,13 @@
 {%- endblock -%}
 
 {% block content_body %}
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table">
-                <thead>
-                    <tr>
-                        {% include '@RoadizRozier/admin/webhooks/webhook_row_header.html.twig' with { no_sort: true } %}
-                    </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/admin/webhooks/webhook_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="6">{% trans %}no_webhooks{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <article>
+        {% include '@RoadizRozier/admin/webhooks/webhook_table.html.twig' with {
+            selection_available: false,
+            actions_available: false,
+            no_sort: true,
+        } %}
+
         {% block bulk_form %}{% endblock %}
     </article>
 {% endblock %}

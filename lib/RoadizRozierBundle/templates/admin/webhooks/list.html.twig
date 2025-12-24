@@ -20,25 +20,11 @@
     }  only %}
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table webhooks">
-                <thead>
-                <tr>
-                    {% include '@RoadizRozier/admin/webhooks/webhook_row_header.html.twig' %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/admin/webhooks/webhook_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="6">{% trans %}no_webhooks{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <article>
+        {% include '@RoadizRozier/admin/webhooks/webhook_table.html.twig' with {
+            selection_available: hasBulkActions,
+            actions_available: true,
+        } %}
     </article>
 </rz-bulk-section>
 {% endblock %}

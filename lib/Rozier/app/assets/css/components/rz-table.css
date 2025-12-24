@@ -110,3 +110,14 @@
 	width: 3px;
 	background-color: var(--rz-accent-color);
 }
+
+.rz-table__cell--rtl {
+	direction: rtl;
+}
+
+.rz-table__cell--ellipsis {
+	max-width: var(--rz-table-cell-max-width, 20ch);
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
