@@ -8,6 +8,7 @@ import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 import { rzIconRenderer } from '~/utils/component-renderer/rzIcon'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 export type Args = {
     title?: string
@@ -269,6 +270,65 @@ export const QuickAccessNav: Story = {
                     iconClass: 'rz-icon-ri--user-6-line',
                     rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                     attributes: { href: '#' },
+                },
+            ],
+        ],
+    },
+}
+
+export const ChildrenNodesQuickCreation: Story = {
+    render: (args) => {
+        const { popover, popoverContent } = rzPopoverRenderer({
+            placement: 'bottom-end',
+            offset: 10,
+            popoverElement: {
+                tag: 'nav',
+                id: 'ChildrenNodesQuickCreation',
+            },
+            targetElement: {
+                element: rzButtonRenderer({
+                    label: 'Add',
+                    iconClass: 'rz-icon-ri--add-line',
+                    attributes: {
+                        'aria-label': 'Open quick children nodes creation',
+                    },
+                }),
+            },
+        })
+
+        rzDropdownRenderer(args, popoverContent)
+        return popover
+    },
+    args: {
+        title: undefined,
+        displayHeadElements: false,
+        isOpen: false,
+        listTag: 'ul',
+        items: [
+            [
+                {
+                    tag: 'button',
+                    label: 'Menu',
+                    rightIconClass: 'rz-icon-ri--add-line',
+                    attributes: { type: 'button' },
+                },
+                {
+                    tag: 'button',
+                    label: 'Menu item',
+                    rightIconClass: 'rz-icon-ri--add-line',
+                    attributes: { type: 'button' },
+                },
+                {
+                    tag: 'button',
+                    label: 'Page',
+                    rightIconClass: 'rz-icon-ri--add-line',
+                    attributes: { type: 'button' },
+                },
+                {
+                    tag: 'button',
+                    label: 'Content block',
+                    rightIconClass: 'rz-icon-ri--add-line',
+                    attributes: { type: 'button' },
                 },
             ],
         ],
