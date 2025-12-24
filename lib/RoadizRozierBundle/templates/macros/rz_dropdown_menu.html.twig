@@ -1,3 +1,5 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
 {% macro head(title, items) %}
     <div class="rz-dropdown__head">
         {% if title is defined and title %}
@@ -52,6 +54,7 @@
     {% set input = options.input|default(null) %}
     {% set selected = options.selected|default(false) %}
     {% set tag = options.tag|default('button') %}
+    {% set attributes = options.attributes|default({}) %}
 
     <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
         {% if href %}
@@ -63,6 +66,14 @@
                     target="_blank"
                     href="{{ href }}"
                 {% endif %}
+
+                {% for attrname, attrvalue in attributes %}
+                    {% if attrvalue and attrvalue is same as(true) %}
+                        {{ attrname }}
+                    {% else %}
+                        {{ attrname }}="{{ attrvalue }}"
+                    {% endif %}
+                {% endfor %}
             >
             {% if leftIcon %}
                 <span class="rz-dropdown__item__icon {{ leftIcon }}"></span>
@@ -91,13 +102,12 @@
                 <span class="rz-dropdown__item__icon {{ rightIcon }}"></span>
             {% endif %}
             {% if input %}
-                <input type="{{ input.type }}"
-                       value="{{ input.value|default('')}}"
-                       name="{{ input.name|default('')}}"
-                       hidden
-                       {% for attrname, attrvalue in input.attr %}
-                        {{ attrname }}="{{ attrvalue }}"
-                       {% endfor %}
+                <input
+                    type="{{ input.type }}"
+                    value="{{ input.value|default('')}}"
+                    name="{{ input.name|default('')}}"
+                    hidden
+                    {{ el_attrs.print(input.attr|default({})) }}
                 >
             {% endif %}
         </{{ tag }}>
@@ -105,7 +115,17 @@
 {% endmacro %}
 
 {% block wrapper %}
-    <div class="rz-dropdown {{ reverse ? 'rz-dropdown--reverse' : '' }}" id="{{ targetId }}" popover>
+    {%
+        set classes = html_classes('rz-dropdown', class|default(''), {
+            'rz-dropdown--reverse': reverse,
+        })
+    %}
+
+    <div
+        class="{{ classes }}"
+        id="{{ targetId }}"
+        popover
+    >
         {% if title is defined and title %}
             {{ _self.head(title, items) }}
         {% endif %}
