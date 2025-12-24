@@ -19,24 +19,27 @@
         } only %}
 
         <article>
-            <table class="attribute-value-forms rz-table">
-                {% if not order_by_weight %}
-                    <tbody class="uk-sortable" data-uk-sortable="{animation:0, dragCustomClass:'setting-row rz-node-type-field-dragged', handleClass:'attribute-value-col'}">
-                {% else %}
-                    <tbody>
-                {% endif %}
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                display_thead: false,
+                sortable: not order_by_weight,
+                class: 'attribute-value-forms',
+            } %}
+                {% block tbody_content %}
                     {% for attribute_value_translation_form in attribute_value_translation_forms %}
                         {% set attributeValue = attribute_value_translation_form.vars.data.attributeValue %}
-                        <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.id }}">
+                        <tr
+                            class="setting-row"
+                            data-position="{{ attributeValue.position }}"
+                            data-id="{{ attributeValue.id }}"
+                        >
                             <th class="name attribute-value-col">
                                 <span class="color" style="--rz-accent-color: {{ attributeValue.attribute.color|default('transparent') }};"></span>
                                 <strong>{{- attribute_value_translation_form.vars.data|attribute_label -}}</strong>
                             </th>
-                            {%- if attributeValue.attribute.group %}
-                                <td class="uk-visible-xlarge">
-                                    {{- attributeValue.attribute.group|attribute_group_label -}}
-                                </td>
-                            {% endif -%}
+                            <td>
+                                {% set _groupLabel = attributeValue.attribute.group|attribute_group_label %}
+                                {{- _groupLabel is not empty ? _groupLabel : attributeValue.attribute.group.name -}}
+                            </td>
                             <td>
                                 {% form_theme attribute_value_translation_form '@RoadizRozier/horizontalForms.html.twig' %}
                                 {{ form_start(attribute_value_translation_form, {
@@ -44,24 +47,21 @@
                                         'class': 'rz-form'
                                     }
                                 }) }}
-                                {{ form_widget(attribute_value_translation_form) }}
-                                <button
-                                    class="rz-button"
-                                    title="{% trans %}edit{% endtrans %}"
-                                    type="submit"
-                                    style="display:none"
-                                >
-                                    <span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>
-                                </button>
+                                    {{ form_widget(attribute_value_translation_form) }}
+                                    <button
+                                        class="rz-button"
+                                        title="{% trans %}edit{% endtrans %}"
+                                        type="submit"
+                                        style="display: none"
+                                    >
+                                        <span class="rz-button__icon rz-icon-ri--arrow-drop-right-line"></span>
+                                    </button>
                                 {{ form_end(attribute_value_translation_form) }}
                             </td>
                             <td class="table-actions-row">
-                                <div class="rz-button-group rz-button-group--md rz-button-group--end rz-button-group--collapsed">
+                                <div class="rz-button-group rz-button-group--md rz-button-group--end">
                                         <a
                                             is="rz-link"
-                                            tooltip-text="{% trans %}save{% endtrans %}"
-                                            popover-placement="top"
-                                            popover-offset="4"
                                             class="rz-button rz-button--primary rz-button--success rz-button-group__button rz-button-settings-save"
                                             href="#{{ attribute_value_translation_form.vars.id }}"
                                             title="{% trans %}save{% endtrans %}"
@@ -71,9 +71,6 @@
                                     {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
                                         <a
                                             is="rz-link"
-                                            tooltip-text="{% trans %}attributes.reset_value{% endtrans %}"
-                                            popover-placement="top"
-                                            popover-offset="4"
                                             class="rz-button rz-button--secondary rz-button-group__button"
                                             href="{{ path('nodesResetAttributesPage', {
                                                 nodeId : node.id,
@@ -88,9 +85,6 @@
                                     {% if translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
                                         <a
                                             is="rz-link"
-                                            tooltip-text="{% trans %}attributes.delete_value{% endtrans %}"
-                                            popover-placement="top"
-                                            popover-offset="4"
                                             class="rz-button rz-button--primary rz-button--danger rz-button-group__button"
                                             href="{{ path('nodesDeleteAttributesPage', {
                                                 nodeId : node.id,
@@ -106,8 +100,9 @@
                             </td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                {% endblock %}
+            {% endembed %}
+
             {% if addAttributeForm %}
                 {% form_theme addAttributeForm '@RoadizRozier/horizontalForms.html.twig' %}
                 {{ form_start(addAttributeForm, {

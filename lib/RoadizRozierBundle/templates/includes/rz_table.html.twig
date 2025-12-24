@@ -3,22 +3,32 @@
 
 {% set classes = "rz-table " ~ (bordered is defined and bordered ? "rz-table--bordered " : "") ~ (class|default("")) %}
 
+{% set _tbody_attributes = tbody_attributes|default({}) %}
+{% if sortable %}
+	{% set _tbody_attributes = _tbody_attributes|merge({
+		'class': (_tbody_attributes.class|default('') ~ ' uk-sortable')|trim,
+		'data-uk-sortable': '{animation:0, dragCustomClass:\'setting-row rz-node-type-field-dragged\', handleClass:\'attribute-value-col\'}',
+	}) %}
+{% endif %}
 <table
     class="{{ classes }}"
     {{ el_attr.print(attributes|default({})) }}
     >
-    <thead>
-        <tr>
-            {% if selection_available %}
-                {{ rz_table_cell.input_checkbox({
-                    'tagName': 'th',
-                    select_all: true,
-                }) }}
-            {% endif %}
-            {% block head_cells %}{% endblock %}
-        </tr>
-    </thead>
-    <tbody>
-        {% block t_body %}{% endblock %}
+	{% if display_thead %}
+		<thead>
+			<tr>
+				{% if selection_available %}
+					{{ rz_table_cell.input_checkbox({
+						'tagName': 'th',
+						select_all: true,
+					}) }}
+				{% endif %}
+				{% block thead_cells %}{% endblock %}
+			</tr>
+		</thead>
+	{% endif %}
+
+    <tbody {{ el_attr.print(_tbody_attributes) }}>
+        {% block tbody_content %}{% endblock %}
     </tbody>
 </table>
