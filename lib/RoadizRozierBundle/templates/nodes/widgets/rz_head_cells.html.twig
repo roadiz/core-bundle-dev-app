@@ -1,0 +1,27 @@
+<th>
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'nodeName',
+        'filters': filters,
+        label: 'nodeName'|trans,
+    } only %}
+</th>
+<th class="mobile-hidden">
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'nodeTypeName',
+        'filters': filters,
+        label: 'node.type'|trans,
+    } only %}
+</th>
+<th class="mobile-hidden uk-visible-large">
+    {% trans %}node.status{% endtrans %}
+</th>
+<th class="mobile-hidden uk-visible-xlarge">
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'updatedAt',
+        'filters': filters,
+        label: 'last.modification'|trans,
+    } only %}
+</th>
+<th class="table-actions-row table-actions-row-3">
+    {% trans %}actions{% endtrans %}
+</th>

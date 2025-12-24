@@ -8,37 +8,36 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    {% include '@RoadizRozier/tags/head.html.twig' with {
-        title: tTag.getName,
-        filters: filters,
-        with_nav_bar: true,
-        tag: tag,
-        current: 'nodes',
-        available_translations, available_translations,
-        translation: translation
-    } only %}
+    <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/tags/head.html.twig' with {
+            title: tTag.getName,
+            filters: filters,
+            with_nav_bar: true,
+            tag: tag,
+            current: 'nodes',
+            available_translations, available_translations,
+            translation: translation
+        } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+        {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
 
-    <article class="content content-no-action-menu content-tags-nodes">
-        <div class="content-table-cont">
-            <table class="tags content-table uk-table">
-                <thead>
-                {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' with {
-                    'filters': filters
-                } only %}
-                </thead>
-                <tbody>
+        <article>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                selection_available: false,
+            } only %}
+                {% block thead_cells %}
+                    {% include '@RoadizRozier/nodes/widgets/rz_head_cells.html.twig' %}
+                {% endblock %}
+
+                {% block tbody_content %}
                     {% for node in nodes %}
-                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
-                            'node': node
+                        {% include '@RoadizRozier/nodes/widgets/rz_body_row.html.twig' with {
+                            'node': node,
+                            'selection_available': selection_available,
                         } only %}
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
-
-</section>
+                {% endblock %}
+            {% endembed %}
+        </article>
+    </section>
 {% endblock %}

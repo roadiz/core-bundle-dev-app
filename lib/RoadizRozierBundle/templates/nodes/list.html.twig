@@ -24,23 +24,27 @@
         statusNodesForm: statusNodesForm,
     } only %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="nodes content-table uk-table">
-                <thead>
-                {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' with {
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            sortable: true,
+            selection_available: true,
+        } %}
+
+            {% block thead_cells %}
+                {% include '@RoadizRozier/nodes/widgets/rz_head_cells.html.twig' with {
                     'filters': filters
                 } only %}
-                </thead>
-                <tbody>
-                    {% for node in nodes %}
-                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
-                            'node': node
-                        } only %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for node in nodes %}
+                    {% include '@RoadizRozier/nodes/widgets/rz_body_row.html.twig' with {
+                        'node': node,
+                        'selection_available': selection_available,
+                    } only %}
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 </rz-bulk-section>
 {% endblock %}

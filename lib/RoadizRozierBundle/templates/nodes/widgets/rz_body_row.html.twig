@@ -1,4 +1,8 @@
 <tr style="--rz-accent-color: {{ getNodeType(node).color }};">
+    {% if selection_available %}
+        {% import '@RoadizRozier/macros/rz_cell.html.twig' as rz_cell %}
+        {{ rz_cell.selection_input({ input: { value: node.id } }) }}
+    {% endif %}
     <td class="nodes-list-item-link">
         <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
         <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">
@@ -6,7 +10,8 @@
                 class="mobile-hidden uk-visible-large"
                 entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
                 entity-id="{{ node.id }}"
-            ></rz-entity-thumbnail>
+            >
+            </rz-entity-thumbnail>
             {{ node.nodeSources.first.title|default(node.nodeName) }}
         </a>
     </td>
@@ -55,30 +60,26 @@
     </td>
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
     <td class="table-actions-row">
-        <div class="bulk-selection">
-            <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
-        </div>
-
         <div class="uk-button-group">
             <a class="uk-button uk-button-content uk-button-small"
-               href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
-               title="{% trans %}edit.node{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
+                title="{% trans %}edit.node{% endtrans %}"
+                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
             <a class="uk-button uk-button-content uk-button-small"
-               href="{{ path('nodesTreePage', { nodeId: node.id }) }}"
-               title="{% trans %}see.nodetree{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-tree-mini"></i></a>
+                href="{{ path('nodesTreePage', { nodeId: node.id }) }}"
+                title="{% trans %}see.nodetree{% endtrans %}"
+                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-tree-mini"></i></a>
             {% if workflow_can(node, 'delete') %}
                 <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                   href="{{ path('nodesDeletePage', { nodeId: node.id }) }}"
-                   title="{% trans %}delete{% endtrans %}"
-                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                    href="{{ path('nodesDeletePage', { nodeId: node.id }) }}"
+                    title="{% trans %}delete{% endtrans %}"
+                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
             {% endif %}
             {% if workflow_can(node, 'undelete') %}
                 <a class="uk-button uk-button-content uk-button-small"
-                   href="{{ path('nodesUndeletePage', { nodeId: node.id }) }}"
-                   data-uk-tooltip="{animation:true}"
-                   title="{% trans %}undelete{% endtrans %}"><i class="uk-icon-rz-untrash"></i></a>
+                    href="{{ path('nodesUndeletePage', { nodeId: node.id }) }}"
+                    data-uk-tooltip="{animation:true}"
+                    title="{% trans %}undelete{% endtrans %}"><i class="uk-icon-rz-untrash"></i></a>
             {% endif %}
         </div>
     </td>
