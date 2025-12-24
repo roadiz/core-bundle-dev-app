@@ -4,6 +4,12 @@
 
     {% set element_class = 'rz-button' %}
     {% set tagName = options.tagName|default('button') %}
+    {% set component = options.component|default('rz-button') %}
+
+    {% if options.attributes.href is defined %}
+        {% set tagName = 'a' %}
+        {% set component = 'rz-link' %}
+    {% endif %}
 
     {% set class = options.class|default('') %}
     {% set label = options.label|default(null) %}
@@ -15,7 +21,7 @@
     {% set selected = options.selected|default(false) %}
 
     <{{ tagName }}
-        is="rz-button"
+        is="{{ component }}"
         class="{{ html_classes(element_class, class, {
             (element_class ~ '--' ~ size): size,
             (element_class ~ '--' ~ emphasis): emphasis,

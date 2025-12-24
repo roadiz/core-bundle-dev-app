@@ -59,28 +59,30 @@
         {% endif %}
     </td>
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
-    <td class="table-actions-row">
-        <div class="uk-button-group">
-            <a class="uk-button uk-button-content uk-button-small"
-                href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
-                title="{% trans %}edit.node{% endtrans %}"
-                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-            <a class="uk-button uk-button-content uk-button-small"
-                href="{{ path('nodesTreePage', { nodeId: node.id }) }}"
-                title="{% trans %}see.nodetree{% endtrans %}"
-                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-tree-mini"></i></a>
-            {% if workflow_can(node, 'delete') %}
-                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                    href="{{ path('nodesDeletePage', { nodeId: node.id }) }}"
-                    title="{% trans %}delete{% endtrans %}"
-                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-            {% endif %}
-            {% if workflow_can(node, 'undelete') %}
-                <a class="uk-button uk-button-content uk-button-small"
-                    href="{{ path('nodesUndeletePage', { nodeId: node.id }) }}"
-                    data-uk-tooltip="{animation:true}"
-                    title="{% trans %}undelete{% endtrans %}"><i class="uk-icon-rz-untrash"></i></a>
-            {% endif %}
-        </div>
+    <td>
+        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+            'edit_href': path('nodesEditPage', { nodeId: node.id }),
+            'delete_href': workflow_can(node, 'delete') ? path('nodesDeletePage', { nodeId: node.id }) : null,
+        } %}
+            {% block other_actions %}
+                {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
+                {{ rz_table_action.item({
+                    icon: 'uk-icon-rz-node-tree-mini',
+                    attributes: {
+                        href: path('nodesTreePage', { nodeId: node.id }),
+                        title: 'see.nodetree'|trans,
+                    }
+                }) }}
+                {% if workflow_can(node, 'undelete') %}
+                    {{ rz_table_action.item({
+                        icon: 'uk-icon-rz-untrash',
+                        attributes: {
+                            href: path('nodesUndeletePage', { nodeId: node.id }),
+                            title: 'undelete'|trans,
+                        }
+                    })}}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
     </td>
 </tr>

@@ -18,7 +18,7 @@
 <table
     class="{{ classes }}"
     {{ el_attr.print(attributes|default({})) }}
-    >
+>
 	{% block thead %}
 		{% if has_thead_content %}
 			<thead>
@@ -27,6 +27,9 @@
 						{{ rz_cell.selection_all_input({ 'tagName': 'th' })}}
 					{% endif %}
 					{{ _thead_cells|raw }}
+					{% if actions_available %}
+						<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
+					{% endif %}
 				</tr>
 			</thead>
 		{% endif %}

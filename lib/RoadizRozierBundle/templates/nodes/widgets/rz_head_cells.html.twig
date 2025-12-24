@@ -5,23 +5,20 @@
         label: 'nodeName'|trans,
     } only %}
 </th>
-<th class="mobile-hidden">
+<th>
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
         'field': 'nodeTypeName',
         'filters': filters,
         label: 'node.type'|trans,
     } only %}
 </th>
-<th class="mobile-hidden uk-visible-large">
+<th>
     {% trans %}node.status{% endtrans %}
 </th>
-<th class="mobile-hidden uk-visible-xlarge">
+<th>
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
         'field': 'updatedAt',
         'filters': filters,
         label: 'last.modification'|trans,
     } only %}
-</th>
-<th class="table-actions-row table-actions-row-3">
-    {% trans %}actions{% endtrans %}
 </th>
