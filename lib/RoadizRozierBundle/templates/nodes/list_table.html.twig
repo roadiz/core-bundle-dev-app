@@ -3,16 +3,12 @@
 {% set nodes = items|default(nodes) %}
 {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
 	{% block thead_cells %}
-		{% include '@RoadizRozier/nodes/widgets/rz_head_cells.html.twig' with {
-			'filters': filters
-		} only %}
+		{% include '@RoadizRozier/nodes/widgets/rz_head_cells.html.twig' %}
 	{% endblock %}
 
 	{% block tbody_content %}
 		{% for node in nodes %}
-			{% include '@RoadizRozier/nodes/widgets/rz_body_row.html.twig' with {
-				node: node,
-			} only %}
+			{% include '@RoadizRozier/nodes/widgets/rz_body_row.html.twig' %}
 		{% endfor %}
 	{% endblock %}
 {% endembed %}
