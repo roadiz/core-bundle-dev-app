@@ -8,6 +8,7 @@ export default [
     'arrow-drop-left-line',
     'arrow-drop-right-line',
     'arrow-drop-up-line',
+    'arrow-go-back-line',
     'arrow-left-line',
     'arrow-left-s-line',
     'arrow-right-line',
