@@ -14,7 +14,9 @@
                 entity-id="{{ node.id }}"
             >
             </rz-entity-thumbnail>
+            <span class="rz-table__cell--ellipsis">
             {{ node.nodeSources.first.title|default(node.nodeName) }}
+            </span>
         </a>
     </td>
     <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>

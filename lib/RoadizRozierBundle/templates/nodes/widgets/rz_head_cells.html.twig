@@ -1,16 +1,14 @@
 <th>
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
         'field': 'nodeName',
-        'filters': filters,
         label: 'nodeName'|trans,
-    } only %}
+    } %}
 </th>
 <th>
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
         'field': 'nodeTypeName',
-        'filters': filters,
         label: 'node.type'|trans,
-    } only %}
+    } %}
 </th>
 <th>
     {% trans %}node.status{% endtrans %}
@@ -18,7 +16,6 @@
 <th>
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
         'field': 'updatedAt',
-        'filters': filters,
         label: 'last.modification'|trans,
-    } only %}
+    } %}
 </th>
