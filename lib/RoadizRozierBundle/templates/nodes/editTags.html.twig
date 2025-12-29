@@ -2,7 +2,6 @@
 {% set pageTitle = "edit.node.%name%.tags"|trans({'%name%': currentTitle})|truncate_title %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% block title %}{{ pageTitle }} | {{ parent() }}{% endblock %}
 

@@ -104,9 +104,9 @@
             </div>
         {% endif %}
         {% if with_status_badge is defined and with_status_badge %}
-            {% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
+            {% import "@RoadizRozier/macros/rz_node_status_badge_list.html.twig" as rz_badge_list %}
             <div class="rz-page-header__item">
-                {{ rz_status_badge.item(node: node) }}
+                {{ rz_badge_list.main_badge(node) }}
             </div>
         {% endif %}
     {% endblock %}
