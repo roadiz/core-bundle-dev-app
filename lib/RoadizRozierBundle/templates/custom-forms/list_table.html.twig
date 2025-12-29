@@ -21,7 +21,6 @@
 				'label': 'customForm.closeDate'|trans,
 			} only %}
 		</th>
-		<th></th>
 	{% endblock %}
 
 	{% block tbody_content %}
@@ -93,6 +92,15 @@
 					</td>
 				{% endif %}
 			</tr>
+		{% else %}
+			{% set colspan = 3 %}
+			{% if actions_available %}
+				{% set colspan = colspan + 1 %}
+			{% endif %}
+			{% if selection_available %}
+				{% set colspan = colspan + 1 %}
+			{% endif %}
+			<tr><td colspan="{{ colspan }}">{% trans %}no_custom_forms{% endtrans %}</td></tr>
 		{% endfor %}
 	{% endblock %}
 {% endembed %}

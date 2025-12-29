@@ -3,7 +3,7 @@
 {% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global manage-custom-form">
+    <section>
         {% include '@RoadizRozier/custom-forms/head.html.twig' with {
             title: customForm.displayName|truncate_title,
             current: 'usage',
@@ -11,48 +11,29 @@
             with_nav_bar: true
         } only %}
 
-        <article class="content content-no-action-menu">
-            <div class="content-table-cont">
-                <h3>{% trans %}nodes{% endtrans %}</h3>
+        <article>
+            <h3>{% trans %}nodes{% endtrans %}</h3>
 
-                {% set nodes = usages|map(u => u.node) %}
-                {% include '@RoadizRozier/nodes/list_table.html.twig' with {
-                    sortable: false,
-                    selection_available: false,
-                    actions_available: false,
-                    items: nodes,
-                } %}
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                {% block thead_cells %}
+                    <th>{% trans %}title{% endtrans %}</th>
+                    <th>{% trans %}usage.fieldName{% endtrans %}</th>
+                {% endblock %}
 
-                <table class="content-table uk-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans %}title{% endtrans %}</th>
-                        <th>{% trans %}usage.fieldName{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                {% block tbody_content %}
                     {% for usage in usages %}
-                        {% set source = usage.node.nodeSources.first %}
-                        {% set field = usage.fieldName %}
+                    {% set source = usage.node.nodeSources.first %}
+                    {% set nodeHref = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id}) %}
+                    {% set nodeName = source.title ? source.title : source.node.nodeName %}
                         <tr>
                             <td>
-                                <a href="{{ path('nodesEditSourcePage', {
-                                    nodeId: source.node.id,
-                                    translationId: source.translation.id
-                                }) }}">
-                                    {% if source.title %}
-                                        {{ source.title }}
-                                    {% else %}
-                                        {{ source.node.nodeName }}
-                                    {% endif %}
-                                </a>
+                                <a href="{{ nodeHref }}">{{ nodeName }}</a>
                             </td>
-                            <td>{{ field }}</td>
+                            <td>{{ usage.fieldName }}</td>
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endblock %}
+            {% endembed %}
         </article>
     </section>
 {% endblock %}

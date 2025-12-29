@@ -10,25 +10,12 @@
 {%- endblock -%}
 
 {% block content_body %}
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table">
-                <thead>
-                <tr>
-                    {% include '@RoadizRozier/custom-forms/customform_row_header.html.twig' with { no_sort: true } %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/custom-forms/customform_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="5">{% trans %}no_custom_forms{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <article>
         {% block bulk_form %}{% endblock %}
+
+        {% include '@RoadizRozier/custom-forms/list_table.html.twig' with {
+            selection_available: false,
+            actions_available: false,
+        } %}
     </article>
 {% endblock %}

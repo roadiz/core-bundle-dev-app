@@ -1,0 +1,13 @@
+
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+    {% set class = options.class|default('') %}
+    <a
+        is="rz-link"
+        class="{{ html_classes('rz-link', class) }}"
+		{{ el_attrs.print(options.attributes|default({})) }}
+    >
+        {{- options.content|raw -}}
+    </a>
+{% endmacro %}
