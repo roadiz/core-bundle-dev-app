@@ -202,7 +202,6 @@ export class RzDrawer extends HTMLElement {
     createItemElement(item: RzDrawerItem, index: number): HTMLElement {
         const buttons: RzButtonOptions[] = [
             {
-                tag: 'a',
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
                 emphasis: 'tertiary',
                 color: 'danger',
@@ -217,23 +216,39 @@ export class RzDrawer extends HTMLElement {
             },
         ]
 
-        // Edit image
-        if (item.isImage && item.editImageUrl) {
-            buttons.unshift({
-                tag: 'a',
-                iconClass: 'rz-icon-ri--equalizer-3-line',
-                emphasis: 'primary',
-                attributes: {
-                    type: 'button', // do not submit form
-                    href: item.editImageUrl,
-                },
-                on: {
-                    click: (event: MouseEvent) => {
-                        event.preventDefault()
-                        this.openImageEditDialog(item)
+        // Edit link
+        if (item.editItem) {
+            const href = item.editItem + '?referer=' + window.location.pathname
+
+            // Image
+            if (item.isImage) {
+                buttons.unshift({
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--equalizer-3-line',
+                    emphasis: 'primary',
+                    attributes: {
+                        href,
                     },
-                },
-            })
+                    on: {
+                        click: (event: MouseEvent) => {
+                            event.preventDefault()
+                            event.stopImmediatePropagation()
+                            this.openImageEditDialog(item)
+                        },
+                    },
+                })
+            }
+            // Other reference
+            else {
+                buttons.unshift({
+                    tag: 'a',
+                    iconClass: 'rz-icon-ri--edit-line',
+                    emphasis: 'primary',
+                    attributes: {
+                        href,
+                    },
+                })
+            }
         }
 
         const cardOptions: RzCardOptions = {
