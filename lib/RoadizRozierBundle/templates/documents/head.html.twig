@@ -39,11 +39,10 @@
         {% if filters and filters.itemCount %}
             {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item(
+                {{ rz_badge.item({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,
                     size: 'sm',
-                    color: 'default'
-                ) }}
+                }) }}
             </div>
         {% endif %}
     {% endblock %}
