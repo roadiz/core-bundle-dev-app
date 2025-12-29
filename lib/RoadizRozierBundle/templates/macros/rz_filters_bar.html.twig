@@ -1,6 +1,6 @@
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
-{% macro layout_field(value) %}
+{% macro layout_fields(value) %}
 	<div class="rz-filters-bar__group rz-filters-bar__group--divider">
 		{% set selected_class = "rz-button--selected" %}
 		{% set isGrid = value == 'grid' or value is empty %}
