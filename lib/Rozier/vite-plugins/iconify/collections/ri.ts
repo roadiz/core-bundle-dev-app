@@ -15,6 +15,7 @@ export default [
     'arrow-right-up-line',
     'arrow-up-line',
     'arrow-up-s-fill',
+    'asterisk',
     'bold',
     'calendar-event-line',
     'check-line',
