@@ -1,39 +1,39 @@
 {% macro item(node) %}
 {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
     {% if node.isDeleted %}
-        {{ rz_badge.item(
+        {{ rz_badge.item({
             label: 'deleted',
             icon: 'rz-icon-rz--status-deleted-fill',
             size: 'sm',
             color: 'danger'
-        ) }}
+        }) }}
     {% elseif node.isArchived %}
-        {{ rz_badge.item(
+        {{ rz_badge.item({
             label: 'archived',
             icon: 'rz-icon-rz--status-archived-fill',
             size: 'sm',
             color: 'danger'
-        ) }}
+        }) }}
     {% elseif node.isPublished %}
-        {{ rz_badge.item(
+        {{ rz_badge.item({
             label: 'published',
             icon: 'rz-icon-rz--status-published-fill',
             size: 'sm',
             color: 'success'
-        ) }}
+        }) }}
     {% elseif node.isPending %}
-        {{ rz_badge.item(
+        {{ rz_badge.item({
             label: 'pending',
             icon: 'rz-icon-rz--status-draft-fill',
             size: 'sm',
             color: 'warning'
-        ) }}
+        }) }}
     {% else %}
-        {{ rz_badge.item(
+        {{ rz_badge.item({
             label: 'draft',
             icon: 'rz-icon-rz--status-draft-fill',
             size: 'sm',
             color: 'warning'
-        ) }}
+        }) }}
     {% endif %}
 {% endmacro %}
