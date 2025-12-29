@@ -47,6 +47,7 @@ export default [
     'file-4-line',
     'file-copy-2-line',
     'file-copy-line',
+    'file-download-line',
     'file-list-3-line',
     'file-pdf-2-line',
     'filter-line',
