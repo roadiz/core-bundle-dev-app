@@ -27,7 +27,7 @@
     <a
         is="rz-link"
         title="{{ 'sort_asc'|trans }}"
-        class="active {{ class_name|default('') }}"
+        class="active {{ column_ordering_class|default('') }}"
         href="?{{ localOrderingParams|url_encode }}"
     >
         {% if label %}{{ label }}{% endif %}
@@ -41,7 +41,7 @@
     <a
         is="rz-link"
         title="{{ 'sort_desc'|trans }}"
-        class="active {{ class_name|default('') }}"
+        class="active {{ column_ordering_class|default('') }}"
         href="?{{ localOrderingParams|url_encode }}"
     >
         {% if label %}{{ label }}{% endif %}
@@ -54,7 +54,7 @@
     }) %}
     <a
         is="rz-link"
-        class="{{ class_name|default('') }}"
+        class="{{ column_ordering_class|default('') }}"
         title="{{ 'sort_asc'|trans }}"
         href="?{{ localOrderingParams|url_encode }}"
     >

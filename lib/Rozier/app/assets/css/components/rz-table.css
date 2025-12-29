@@ -98,18 +98,10 @@
 	text-align: right;
 }
 
-
-:where(
-	.rz-table,
-	[is='rz-table']
-) span[style*="--rz-accent-color"],
-.rz-table__color {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	width: 3px;
-	background-color: var(--rz-accent-color);
+.rz-table__cell--flex {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2xs);
 }
 
 .rz-table__cell--rtl {
@@ -125,4 +117,17 @@
 
 .rz-table__cell--bold {
 	font-weight: 700;
+}
+
+:where(
+	.rz-table,
+	[is='rz-table']
+) span[style*="--rz-accent-color"],
+.rz-table__color {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 3px;
+	background-color: var(--rz-accent-color);
 }

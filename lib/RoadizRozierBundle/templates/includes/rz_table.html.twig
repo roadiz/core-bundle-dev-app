@@ -3,7 +3,7 @@
 {% import '@RoadizRozier/macros/rz_cell.html.twig' as rz_cell %}
 
 {% set classes = "rz-table " ~ (bordered is defined and bordered ? "rz-table--bordered " : "") ~ (class|default("")) %}
-
+{% set column_ordering_class = 'rz-table__ordering-link' %}
 {% set _tbody_attributes = tbody_attributes|default({}) %}
 {% if sortable %}
 	{% set _tbody_attributes = _tbody_attributes|merge({
