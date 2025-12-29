@@ -11,30 +11,32 @@
         with_nav_bar: true,
     } only %}
 
-    <article class="content content-edit">
-        <div class="content-table-cont">
-            <table class="content-table groups-users uk-table">
-                <thead>
-                    <tr>
-                        <th>{% trans %}user{% endtrans %}</th>
-                        <th>{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in item.getUsers %}
-                    <tr>
-                        <td>{{ user.userName }}</td>
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}user{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for user in item.getUsers %}
+                <tr>
+                    <td>{{ user.userName }}</td>
+                    {% if actions_available %}
                         <td>
-                            <a class="uk-button uk-button-small uk-button-danger"
-                               href="{{ path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }) }}">
-                                <i class='uk-icon-trash-o'></i> {% trans %}unlink.user{% endtrans %}
-                            </a>
+                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'delete_href': path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }),
+                                'delete_title': 'unlink.user'|trans,
+                            } %}
+                            {% endembed %}
                         </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
 
         <hr />
         <h2>{% trans %}add.a.user{% endtrans %}</h2>
