@@ -30,8 +30,10 @@
 		{% for item in items %}
 			<tr>
 				{% if selection_available %}
-					{% import '@RoadizRozier/macros/rz_cell.html.twig' as rz_cell %}
-					{{ rz_cell.selection_input({ input: { value: item.id } }) }}
+				<td>
+					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+					{{ rz_bulk.select_input({ value: item.id }) }}
+				</td>
 				{% endif %}
 				<td>{{- item.description|u.truncate(50) -}}</td>
 				<td title="{{ item.messageType }}" class="rz-table__cell--ellipsis rz-table__cell--rtl">

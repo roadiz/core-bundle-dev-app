@@ -1,7 +1,9 @@
 <tr style="--rz-accent-color: {{ getNodeType(node).color }};">
     {% if selection_available %}
-        {% import '@RoadizRozier/macros/rz_cell.html.twig' as rz_cell %}
-        {{ rz_cell.selection_input({ input: { value: node.id } }) }}
+        <td>
+            {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+            {{ rz_bulk.select_input({ value: node.id }) }}
+        </td>
     {% endif %}
     <td class="nodes-list-item-link">
         <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>

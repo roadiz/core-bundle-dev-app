@@ -1,6 +1,6 @@
 
 {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
-{% import '@RoadizRozier/macros/rz_cell.html.twig' as rz_cell %}
+{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
 
 {% set classes = "rz-table " ~ (bordered is defined and bordered ? "rz-table--bordered " : "") ~ (class|default("")) %}
 {% set column_ordering_class = 'rz-table__ordering-link' %}
@@ -24,7 +24,9 @@
 			<thead>
 				<tr>
 					{% if selection_available %}
-						{{ rz_cell.selection_all_input({ 'tagName': 'th' })}}
+						<th>
+						{{ rz_bulk.select_all_input() }}
+						</th>
 					{% endif %}
 					{{ _thead_cells|raw }}
 					{% if actions_available %}

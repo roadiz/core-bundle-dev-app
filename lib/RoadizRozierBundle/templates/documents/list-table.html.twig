@@ -66,8 +66,10 @@
                 {% for document in documents %}
                     <tr>
                         {% if selection_available %}
-					        {% import '@RoadizRozier/macros/rz_cell.html.twig' as rz_cell %}
-                            {{ rz_cell.selection_input({ input: { value: document.id } }) }}
+                        <td>
+					        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                            {{ rz_bulk.select_input({ value: document.id }) }}
+                        </td>
                         {% endif %}
                         <td class="mobile-hidden">
                             <figure class="document-image">
