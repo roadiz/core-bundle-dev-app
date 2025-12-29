@@ -29,9 +29,13 @@
                     <span class="rz-button__label">{% trans %}cancel{% endtrans %}</span>
                     <span class="rz-button__icon rz-icon-ri--corner-down-left-line"></span>
                 </a>
+                {% if deleteLabel is not defined %}
+                    {% set deleteLabel = 'delete' %}
+                    {% set deleteIcon = 'rz-icon-ri--delete-bin-7-line' %}
+                {% endif %}
                 <button is="rz-button" type="submit" class="rz-button rz-button--primary rz-button--error rz-button-group__button">
-                    <span class="rz-button__label">{% trans %}delete{% endtrans %}</span>
-                    <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
+                    <span class="rz-button__label">{{ deleteLabel }}</span>
+                    <span class="rz-button__icon {{ deleteIcon }}"></span>
                 </button>
             </div>
             {{ form_end(form) }}

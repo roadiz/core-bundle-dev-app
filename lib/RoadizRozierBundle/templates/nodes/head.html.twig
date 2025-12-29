@@ -63,18 +63,35 @@
                         <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
                     </a>
                 {% else %}
-                    <div class="uk-button-dropdown rz-button-group__button" data-uk-dropdown="{mode:'click'}">
-                        <button class="uk-button">
-                            <i class="uk-icon-rz-download"></i> {% trans %}export.all.nodes{% endtrans %} <i class="uk-icon-caret-down"></i>
+                    <rz-popover popover-placement="bottom-end"
+                                popover-offset="10" popover-shift="10"
+                                class="rz-page-header__item--right"
+                    >
+                        <button popovertarget="nodeExport-menu"
+                                class="rz-button rz-button--primary"
+                                aria-label="{{ 'export.all.nodes'|trans }}">
+                            <span class="rz-button__label">{{ 'export.all.nodes'|trans }}</span>
+                            <span class="rz-button__icon rz-icon-ri--download-cloud-2-line"></span>
                         </button>
-                        <div class="uk-dropdown uk-dropdown-flip uk-dropdown-small">
-                            <ul class="uk-nav uk-nav-dropdown">
-                                {% for translationItem in availableTranslations %}
-                                    <li><a class="rz-no-ajax-link" href="{{ path('nodesExportAllCsvPage', {translationId:translationItem.id}) }}"><i class="uk-icon-file-excel-o"></i> {{ 'export_format.csv.%language%'|trans({'%language%':translationItem.name }) }}</a></li>
+
+                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                            targetId: 'nodeExport-menu',
+                            tagList: 'ul',
+                            items: availableTranslations,
+                        } only %}
+                            {% block items %}
+                                {% for item in items %}
+                                    {{ _self.item({
+                                        label: 'export_format.csv.%language%'|trans({'%language%':item.name }),
+                                        href: path('nodesExportAllCsvPage', {
+                                            translationId: item.id
+                                        }),
+                                        rightIcon: 'rz-icon-ri--ile-download-line'
+                                    }) }}
                                 {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+                            {% endblock %}
+                        {% endembed %}
+                    </rz-popover>
                     <a class="rz-button rz-button--primary rz-button-group__button"
                        href="{{ path('nodesAddPage', { translationId:translation.getId }) }}">
                         <span class="rz-button__label">{{ 'create.a.node'|trans }}</span>

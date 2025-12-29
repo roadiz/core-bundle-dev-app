@@ -11,7 +11,7 @@
 {%- endblock -%}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters bulk-layout">
+    <rz-bulk-section>
         <header class="content-header header-node header-nodes-list">
             {% if nodeType %}
                 <h1 class="content-title">{% trans %}search{% endtrans %} - {{ nodeType.displayName }}</h1>
@@ -42,6 +42,13 @@
             {% endif %}
 
             {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+            {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+                delete_form_data: deleteNodesForm|default(null),
+                delete_form_action: path('nodesBulkDeletePage'),
+                delete_form_method: 'post',
+                tagNodesForm: tagNodesForm,
+                statusNodesForm: statusNodesForm,
+            } only %}
 
             <div class="data-uk-margin content-table-cont">
                 <table class="nodes content-table uk-table">
@@ -58,5 +65,5 @@
                 </table>
             </div>
         </article>
-    </section>
+    </rz-bulk-section>
 {% endblock %}
