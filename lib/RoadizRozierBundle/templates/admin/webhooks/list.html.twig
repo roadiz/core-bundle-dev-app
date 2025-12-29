@@ -21,7 +21,7 @@
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
 
     <article>
-        {% include '@RoadizRozier/admin/webhooks/webhook_table.html.twig' with {
+        {% include '@RoadizRozier/admin/webhooks/list_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
         } %}
