@@ -1,5 +1,5 @@
 {% include '@RoadizRozier/admin/delete.html.twig' with {
-    'title': "undelete.node.%name%"|trans({'%name%': item.getNodeName}),
+    'title': "undelete.node.%name%"|trans({'%name%': item.getNodeName()}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
     'cancelPath': path('nodesHomeDeletedPage'),
     'deleteLabel': 'undelete'|trans,

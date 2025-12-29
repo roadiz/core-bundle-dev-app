@@ -31,6 +31,8 @@
                 </a>
                 {% if deleteLabel is not defined %}
                     {% set deleteLabel = 'delete' %}
+                {% endif %}
+                {% if deleteIcon is not defined %}
                     {% set deleteIcon = 'rz-icon-ri--delete-bin-7-line' %}
                 {% endif %}
                 <button is="rz-button" type="submit" class="rz-button rz-button--primary rz-button--error rz-button-group__button">
