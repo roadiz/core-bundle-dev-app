@@ -48,7 +48,7 @@
         {% endif %}
     </form>
 
-    {% if filters.itemCount > filters.itemPerPage %}
+    {% if (filters.itemCount > 10 and filters.itemCount < 20) or (filters.itemCount > filters.itemPerPage) %}
         <div class="rz-filters-bar__group">
             {{ rz_filters_bar.pagination(filters) }}
 

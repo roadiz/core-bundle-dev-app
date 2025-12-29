@@ -20,9 +20,14 @@
         } only %}
     </th>
     <th class="table-actions-row table-actions-row-3">
-        <div class="bulk-selection">
-            <input is="rz-input" type="checkbox" name="bulk-selection-all" />
-        </div>
+        {% if (withSelectAction is not defined) %}
+            {% set withSelectAction = true %}
+        {% endif %}
+        {% if withSelectAction %}
+            <div class="bulk-selection">
+                <input is="rz-input" type="checkbox" name="bulk-selection-all" />
+            </div>
+        {% endif %}
         {% trans %}actions{% endtrans %}
     </th>
 </tr>
