@@ -14,7 +14,7 @@
         })%}
 
     {# If a link is provided, use an <a> tag instead of the default #}
-    {% set tagName = options.tagName|default('span') %}
+    {% set tagName = options.tagName|default('rz-badge') %}
     {% if attributes.href is defined and attributes.href %}
         {% set tagName = 'a' %}
     {% endif %}

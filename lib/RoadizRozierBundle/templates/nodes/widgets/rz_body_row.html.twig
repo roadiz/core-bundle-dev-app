@@ -21,46 +21,8 @@
     </td>
     <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
     <td class="mobile-hidden uk-visible-large">
-        {% if node.isDraft == true %}
-            <div class="uk-button-status uk-button-draft" title="{% trans %}node.draft{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-rz-draft-nodes"></i>
-            </div><!-- uk-badge-warning -->
-        {% endif %}
-        {% if node.isPending == true %}
-            <div class="uk-button-status uk-button-pending" title="{% trans %}node.pending.validation{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-rz-pending-nodes"></i>
-            </div><!-- uk-badge-warning -->
-        {% endif %}
-        {% if node.isDeleted == true %}
-            <div class="uk-button-status uk-button-deleted" title="{% trans %}node.deleted{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-rz-trash-mini-o"></i>
-            </div><!-- uk-badge-danger -->
-        {% endif %}
-        {% if node.isVisible == false %}
-            <div class="uk-button-status uk-button-hidden" title="{% trans %}node.hidden{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-eye-slash"></i>
-            </div><!-- uk-badge-notification -->
-        {% endif %}
-        {% if node.isLocked %}
-            <div class="uk-button-status uk-button-locked" title="{% trans %}locked{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-lock"></i>
-            </div><!-- uk-badge-notification -->
-        {% endif %}
-        {% if node.isHidingChildren %}
-            <div class="uk-button-status uk-button-hiding-children" title="{% trans %}hiding-children{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-sitemap"></i>
-            </div><!-- uk-badge-notification -->
-        {% endif %}
-        {% if node.isShadow %}
-            <div class="uk-button-status uk-button-shadow" title="{% trans %}node.shadow{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-flag-o"></i>
-            </div><!-- uk-badge-notification -->
-        {% endif %}
-        {% if node.isArchived %}
-            <div class="uk-button-status uk-button-archived" title="{% trans %}node.archived{% endtrans %}" data-uk-tooltip="{animation:true}">
-                <i class="uk-icon-rz-archive-mini"></i>
-            </div><!-- uk-badge-notification -->
-        {% endif %}
+        {% import "@RoadizRozier/macros/rz_node_status_badge.html.twig" as rz_node_status %}
+        {{ rz_node_status.all_badges(node, { display_label: false }) }}
     </td>
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
     {% if actions_available %}
