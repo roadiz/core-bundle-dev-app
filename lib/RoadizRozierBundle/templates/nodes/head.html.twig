@@ -88,20 +88,19 @@
     {% block badges %}
         {% if app.debug and with_debug_badge %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item(
+                {{ rz_badge.item({
                     label: 'NS #' ~ source.id,
                     size: 'sm',
                     color: 'information'
-                ) }}
+                }) }}
             </div>
         {% endif %}
         {% if filters and filters.itemCount %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item(
+                {{ rz_badge.item({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,
                     size: 'sm',
-                    color: 'default'
-                ) }}
+                }) }}
             </div>
         {% endif %}
         {% if with_status_badge is defined and with_status_badge %}
@@ -118,13 +117,14 @@
         </h1>
         {% if with_info_badge is defined and with_info_badge %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item(
-                    label: getNodeType(node).displayName,
+                {{ rz_badge.item({
                     size: 'sm',
                     icon: 'rz-icon-ri--information-line',
-                    href: path('nodeTypeFieldsListPage', {'nodeTypeName': node.nodeTypeName}),
-                    onlyIcon: true
-                ) }}
+                    attributes: {
+                        href: path('nodeTypeFieldsListPage', {'nodeTypeName': node.nodeTypeName}),
+                        title: getNodeType(node).displayName
+                    }
+                }) }}
             </div>
         {% endif %}
     {% endblock %}

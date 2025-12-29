@@ -11,7 +11,12 @@
                     <li class="rz-dropdown__info-item">
                         {% if item.badge is defined and item.badge %}
                             {% import "@RoadizRozier/macros/rz_badge.html.twig" as badge %}
-                            {{ badge.item(item.badge.label, item.badge.icon, item.badge.size, item.badge.color) }}
+                            {{ badge.item({
+                                label: item.badge.label,
+                                icon: item.badge.icon,
+                                size: item.badge.size,
+                                color: item.badge.color
+                            }) }}
                         {% endif %}
                         {% if item.icon is defined and item.icon %}
                             <span class="{{ item.icon }}"></span>
