@@ -322,6 +322,9 @@ export class RzDrawer extends HTMLElement {
     }
 
     createItemElement(item: RzDrawerItem, index: number): HTMLElement {
+        const isDocument =
+            item.isPdf || item.isImage || item.isVideo || item.isEmbed
+
         // Action buttons
         const buttons: RzButtonOptions[] = [
             {
@@ -381,17 +384,36 @@ export class RzDrawer extends HTMLElement {
             },
         }
 
-        // Image thumbnail
-        if (item.thumbnail80 || item.thumbnail) {
-            cardOptions.image = {
-                src: item.thumbnail80 || item.thumbnail.url || '',
-            }
-        }
+        let iconClass = ''
 
         // Private item
         if (item.isPrivate) {
+            iconClass = 'rz-icon-ri--lock-2-line'
+        } else {
+            // Image thumbnail
+            if ((item.isImage && item.thumbnail80) || item.thumbnail?.url) {
+                cardOptions.image = {
+                    src: item.thumbnail80 || item.thumbnail.url || '',
+                }
+            }
+
+            // PDF icon
+            if (item.isPdf) {
+                iconClass = 'rz-icon-ri--file-pdf-2-line'
+            } else if (item.isEmbed) {
+                if (item.embedPlatform === 'vimeo') {
+                    iconClass = 'rz-icon-ri--vimeo-fill'
+                } else if (item.embedPlatform === 'youtube') {
+                    iconClass = 'rz-icon-ri--youtube-fill'
+                }
+            } else if (item.isVideo) {
+                iconClass = 'rz-icon-ri--file-video-fill'
+            }
+        }
+
+        if (iconClass) {
             cardOptions.badge = {
-                iconClass: 'rz-icon-ri--lock-2-line',
+                iconClass,
                 size: 'md',
             }
         }
@@ -412,7 +434,7 @@ export class RzDrawer extends HTMLElement {
         // Main hidden input for form submission
         const input = document.createElement('input')
         input.type = 'hidden'
-        input.name = `${this.name}[${index}]${item.isImage ? '[document]' : ''}`
+        input.name = `${this.name}[${index}]${isDocument ? '[document]' : ''}`
         input.value = item.id.toString()
         element.appendChild(input)
 

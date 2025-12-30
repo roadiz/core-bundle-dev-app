@@ -73,6 +73,9 @@ export default [
     'dashboard-line',
     'calendar-event-line',
     'menu-line',
+    'vimeo-fill',
+    'youtube-fill',
+    'file-video-fill',
     // Markdown related icons
     'h-1',
     'h-2',
