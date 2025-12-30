@@ -78,6 +78,7 @@ export class RzDrawer extends HTMLElement {
     listElement: HTMLElement | null = null
     drawerName: string = ''
     itemElements: WeakMap<RzDrawerItem, HTMLElement> = new WeakMap()
+    sortable: Sortable | null = null
 
     constructor() {
         super()
@@ -107,6 +108,12 @@ export class RzDrawer extends HTMLElement {
         // Clear cached references
         this.listElement = null
         this.itemElements = new WeakMap()
+
+        // Destroy sortable instance
+        if (this.sortable) {
+            this.sortable.destroy()
+            this.sortable = null
+        }
     }
 
     // ATTRIBUTES
@@ -439,11 +446,11 @@ export class RzDrawer extends HTMLElement {
 
     //Sortable
     initSortable() {
-        if (!this.listElement) {
+        if (!this.listElement || this.sortable) {
             return
         }
 
-        Sortable.create(this.listElement, {
+        this.sortable = Sortable.create(this.listElement, {
             animation: 150,
             onEnd: () => {
                 // Reindex hidden inputs
