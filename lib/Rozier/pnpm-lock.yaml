@@ -56,6 +56,9 @@ importers:
       mousetrap:
         specifier: ^1.6.5
         version: 1.6.5
+      sortablejs:
+        specifier: ^1.15.6
+        version: 1.15.6
       symfony-collection:
         specifier: ^2.1.26
         version: 2.1.30
@@ -1958,6 +1961,9 @@ packages:
 
   sortablejs@1.10.2:
     resolution: {integrity: sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A==}
+
+  sortablejs@1.15.6:
+    resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -4112,6 +4118,8 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   sortablejs@1.10.2: {}
+
+  sortablejs@1.15.6: {}
 
   source-map-js@1.2.1: {}
 

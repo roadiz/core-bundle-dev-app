@@ -27,6 +27,7 @@
     "markdown-it": "^14.1.0",
     "markdown-it-footnote": "^4.0.0",
     "mousetrap": "^1.6.5",
+    "sortablejs": "^1.15.6",
     "symfony-collection": "^2.1.26",
     "uikit": "2.27.4",
     "vue": "2.7.16",

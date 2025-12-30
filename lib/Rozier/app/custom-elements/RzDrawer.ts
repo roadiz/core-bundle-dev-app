@@ -4,6 +4,7 @@ import {
     RzCardOptions,
     rzCardRenderer,
 } from '~/utils/component-renderer/rzCard'
+import Sortable from 'sortablejs/modular/sortable.core.esm.js'
 
 interface Hotspot {
     x: number
@@ -68,6 +69,8 @@ interface DocumentItemAttribute {
 
 type ItemAttribute = number | DocumentItemAttribute
 
+const ITEM_CLASS_NAME = 'rz-drawer__item'
+
 export class RzDrawer extends HTMLElement {
     fileUploadIsVisible: boolean = false
     fileUpload: HTMLElement | null = null
@@ -94,6 +97,7 @@ export class RzDrawer extends HTMLElement {
         document.addEventListener('add-drawer-item', this.onAddDrawerItem)
 
         this.initItems()
+        this.initSortable()
     }
 
     disconnectedCallback() {
@@ -295,6 +299,7 @@ export class RzDrawer extends HTMLElement {
 
         // Create card element
         const element = rzCardRenderer(cardOptions)
+        element.classList.add(ITEM_CLASS_NAME)
 
         // Main hidden input for form submission
         const input = document.createElement('input')
@@ -311,7 +316,7 @@ export class RzDrawer extends HTMLElement {
             hotspotInput.name = `${this.drawerName}[${index}][hotspot]`
             hotspotInput.value = item.hotspot
                 ? JSON.stringify(item.hotspot)
-                : ''
+                : 'null'
             element.appendChild(hotspotInput)
 
             // Image crop alignment
@@ -349,13 +354,20 @@ export class RzDrawer extends HTMLElement {
             return
         }
 
-        const inputs = this.listElement.querySelectorAll<HTMLInputElement>(
-            'input[type="hidden"]',
-        )
+        for (
+            let i = 0, numChildren = this.listElement.children.length;
+            i < numChildren;
+            i++
+        ) {
+            const child = this.listElement.children[i] as HTMLElement
+            const inputs = child.querySelectorAll<HTMLInputElement>(
+                `input[type="hidden"][name^="${this.drawerName}["]`,
+            )
 
-        inputs.forEach((input, index) => {
-            input.name = `${this.drawerName}[${index}][document]`
-        })
+            for (let j = 0; j < inputs.length; j++) {
+                inputs[j].name = inputs[j].name.replace(/\[\d+\]/, `[${i}]`)
+            }
+        }
     }
 
     async initItems() {
@@ -404,6 +416,21 @@ export class RzDrawer extends HTMLElement {
 
             this.listElement.appendChild(fragment)
         }
+    }
+
+    //Sortable
+    initSortable() {
+        if (!this.listElement) {
+            return
+        }
+
+        Sortable.create(this.listElement, {
+            animation: 150,
+            onEnd: () => {
+                // Reindex hidden inputs
+                this.reindexItems()
+            },
+        })
     }
 
     // Image editing dialog
