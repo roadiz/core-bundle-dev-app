@@ -5,6 +5,27 @@ import {
     rzCardRenderer,
 } from '~/utils/component-renderer/rzCard'
 
+interface Hotspot {
+    x: number
+    y: number
+}
+
+interface Document {
+    url?: string
+    alt?: string | null
+    embedId?: string | null
+    embedPlatform?: string | null
+    hotspot?: Hotspot | null
+    imageAverageColor?: string
+    imageHeight?: number
+    imageWidth?: number
+    mediaDuration?: number
+    mimeType?: string
+    processable?: boolean
+    relativePath?: string
+    type?: string
+}
+
 interface RzDrawerItem {
     classname?: string
     color?: string
@@ -16,7 +37,7 @@ interface RzDrawerItem {
     editItem?: string
     embedPlatform?: string | null
     hasThumbnail?: boolean
-    hotspot?: { x: number; y: number }
+    hotspot?: Hotspot
     icon?: string
     id?: number
     imageCropAlignment?: string
@@ -27,21 +48,21 @@ interface RzDrawerItem {
     isSvg?: boolean
     isVideo?: boolean
     isWebp?: boolean
-    originalHotspot?: { x: number; y: number } | null
+    originalHotspot?: Hotspot | null
     previewHtml?: string
     processable?: boolean
     published?: boolean
     relativePath?: string
     shortMimeType?: string
     shortType?: string
-    thumbnail?: string | null
+    thumbnail?: Document | null
     thumbnail80?: string
 }
 
 interface DocumentItemAttribute {
     document?: number
     id?: number
-    originalHotspot?: { x: number; y: number } | null
+    originalHotspot?: Hotspot | null
     imageCropAlignment?: string
 }
 
@@ -200,6 +221,7 @@ export class RzDrawer extends HTMLElement {
     }
 
     createItemElement(item: RzDrawerItem, index: number): HTMLElement {
+        // Action buttons
         const buttons: RzButtonOptions[] = [
             {
                 iconClass: 'rz-icon-ri--delete-bin-7-line',
@@ -253,23 +275,31 @@ export class RzDrawer extends HTMLElement {
 
         const cardOptions: RzCardOptions = {
             tag: 'li',
-            image: {
-                src: item.thumbnail80,
-            },
             buttonGroup: {
                 buttons,
             },
         }
 
+        // Image thumbnail
+        if (item.thumbnail80 || item.thumbnail) {
+            cardOptions.image = {
+                src: item.thumbnail80 || item.thumbnail.url || '',
+            }
+        }
+
+        // Title and overtitle (only if not a reference to a document)
         if (this.acceptEntity !== 'document') {
+            cardOptions.overtitle = item.classname
             cardOptions.title = item.displayable
         }
 
+        // Create card element
         const element = rzCardRenderer(cardOptions)
 
+        // Hidden input for form submission
         const input = document.createElement('input')
         input.type = 'hidden'
-        input.name = `${this.drawerName}[${index}][document]`
+        input.name = `${this.drawerName}[${index}]${item.isImage ? '[document]' : ''}`
         input.value = item.id.toString()
         element.appendChild(input)
 
