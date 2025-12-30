@@ -119,10 +119,6 @@
 	font-weight: 700;
 }
 
-:where(
-	.rz-table,
-	[is='rz-table']
-) span[style*="--rz-accent-color"],
 .rz-table__color {
 	position: absolute;
 	top: 0;

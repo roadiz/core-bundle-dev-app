@@ -7,7 +7,14 @@
     {%- else -%}
         {% set form_method = "POST" %}
     {%- endif -%}
-    <form class="rz-form rz-form--horizontal" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    <form
+        class="rz-form rz-form--horizontal{% if attr.class is defined %} {{ attr.class }}{% endif %}"
+        name="{{ form.vars.name }}"
+        method="{{ form_method|lower }}"
+        action="{{ action }}"
+        {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}
+        {% if multipart %} enctype="multipart/form-data"{% endif %}
+    >
     {%- if form_method != method -%}
         <input type="hidden" name="_method" value="{{ method }}" />
     {%- endif -%}

@@ -1,0 +1,49 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+	{% block thead_cells %}
+        <th>{% trans %}name{% endtrans %}</th>
+        <th>{% trans %}realm.type{% endtrans %}</th>
+        <th>{% trans %}realm.behaviour{% endtrans %}</th>
+        <th>{% trans %}realm_node.inheritanceType{% endtrans %}</th>
+	{% endblock %}
+	{% block tbody_content %}
+        {% set accessRealms = is_granted('ROLE_ACCESS_REALMS') %}
+        {% for nodeRealm in nodeRealms %}
+            <tr>
+                <td>
+                    {% if nodeRealm.realm %}
+                        {% if accessRealms %}
+                            <a href="{{ path('realmsEditPage', { id: nodeRealm.realm.id }) }}">
+                                {{ nodeRealm.realm.name }}
+                            </a>
+                        {% else %}
+                            {{ nodeRealm.realm.name }}
+                        {% endif %}
+                    {% else %}
+                        {% trans %}node.no_realm{% endtrans %}
+                    {% endif %}
+                </td>
+                <td>{{ nodeRealm.realm.type ? ('realm.' ~ nodeRealm.realm.type)|trans : '' }}</td>
+                <td>{{ nodeRealm.realm.behaviour ? ('realm.behaviour_' ~ nodeRealm.realm.behaviour)|trans : '' }}</td>
+                <td>{{ ('realm_node.' ~ nodeRealm.inheritanceType)|trans }}</td>
+                 {% if actions_available %}
+                    <td>
+                        {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            edit_href: path('realmsEditPage', {  id: nodeRealm.realm.id }),
+                            edit_title: 'edit.realm'|trans,
+                            delete_href: path('nodesRealmsDeletePage', { id: node.id, realmNodeId: nodeRealm.id }),
+                            delete_title: 'leave.realm'|trans,
+                        } %}
+                    </td>
+                {% endif %}
+            </tr>
+		{% else %}
+			<tr>
+                {% set colspan = 4 %}
+                {% if actions_available %}
+                    {% set colspan = colspan + 1 %}
+                {% endif %}
+				<td colspan="{{ colspan }}">{% trans %}no_realm_found{% endtrans %}</td>
+			</tr>
+		{% endfor %}
+	{% endblock %}
+{% endembed %}
