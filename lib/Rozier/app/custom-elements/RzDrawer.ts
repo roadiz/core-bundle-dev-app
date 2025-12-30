@@ -322,19 +322,6 @@ export class RzDrawer extends HTMLElement {
         this.itemElements = new WeakMap()
     }
 
-    appendItem(item: RzDrawerItem) {
-        if (!this.listElement) {
-            return
-        }
-
-        this.items.push(item)
-        const itemIndex = this.items.length - 1
-
-        const element = this.createItemElement(item, itemIndex)
-        this.itemElements.set(item, element)
-        this.listElement.appendChild(element)
-    }
-
     createItemElement(item: RzDrawerItem, index: number): HTMLElement {
         // Action buttons
         const buttons: RzButtonOptions[] = [
@@ -444,6 +431,21 @@ export class RzDrawer extends HTMLElement {
         return element
     }
 
+    appendItem(item: RzDrawerItem) {
+        if (!this.listElement) {
+            return
+        }
+
+        this.items.push(item)
+        const itemIndex = this.items.length - 1
+
+        const element = this.createItemElement(item, itemIndex)
+        this.itemElements.set(item, element)
+        this.listElement.appendChild(element)
+
+        this.dispatchLengthChange()
+    }
+
     removeItem(item: RzDrawerItem) {
         const index = this.items.indexOf(item)
 
@@ -460,6 +462,8 @@ export class RzDrawer extends HTMLElement {
 
             // Reindex remaining items
             this.reindexItems()
+
+            this.dispatchLengthChange()
         }
     }
 
@@ -529,6 +533,15 @@ export class RzDrawer extends HTMLElement {
         }
 
         document.body.appendChild(dialog)
+    }
+
+    dispatchLengthChange() {
+        this.dispatchEvent(
+            new CustomEvent('length-change', {
+                detail: { length: this.items.length },
+                bubbles: true,
+            }),
+        )
     }
 
     // SORTABLE

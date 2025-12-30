@@ -1,6 +1,7 @@
 import type RzMarkdownEditor from '~/custom-elements/RzMarkdownEditor'
 
 export default class FormFieldLengthIndicator {
+    element: HTMLElement | null = null
     inputElement: HTMLInputElement | HTMLTextAreaElement | null = null
     indicatorElement: HTMLElement | null = null
     lengthElement: HTMLElement | null = null
@@ -13,12 +14,15 @@ export default class FormFieldLengthIndicator {
         // Bind methods
         this.onInput = this.onInput.bind(this)
         this.onMarkdownEditorChange = this.onMarkdownEditorChange.bind(this)
+        this.onLengthChange = this.onLengthChange.bind(this)
     }
 
     init(
         element: HTMLElement,
         options: { maxLength?: number; minLength?: number } = {},
     ) {
+        this.element = element
+
         // Find elements
         this.indicatorElement = element?.querySelector?.(
             '[data-length-indicator]',
@@ -37,8 +41,10 @@ export default class FormFieldLengthIndicator {
             this.errorClassName = errorClassName
         }
 
+        element.addEventListener('length-change', this.onLengthChange)
+
         // Find input element
-        const inputElement = element?.querySelector(
+        const inputElement = element.querySelector<HTMLElement>(
             '[data-max-length], [data-min-length]',
         )
 
@@ -67,11 +73,11 @@ export default class FormFieldLengthIndicator {
         const maxLength =
             typeof options.maxLength !== 'undefined'
                 ? options.maxLength
-                : Number(this.inputElement?.dataset.maxLength)
+                : Number(inputElement?.dataset.maxLength)
         const minLength =
             typeof options.minLength !== 'undefined'
                 ? options.minLength
-                : Number(this.inputElement?.dataset.minLength)
+                : Number(inputElement?.dataset.minLength)
 
         if (maxLength) {
             this.maxLength = maxLength
@@ -98,6 +104,9 @@ export default class FormFieldLengthIndicator {
             this.onMarkdownEditorChange,
         )
         this.markdownEditor = null
+
+        this.element?.removeEventListener('length-change', this.onLengthChange)
+        this.element = null
     }
 
     updateLength(length: number) {
@@ -123,5 +132,15 @@ export default class FormFieldLengthIndicator {
 
     onMarkdownEditorChange() {
         this.updateLength(this.markdownEditor!.strippedValue.length)
+    }
+
+    onLengthChange(event: CustomEvent) {
+        if (!event.detail) return
+
+        const { length } = event.detail
+
+        if (typeof length !== 'number') return
+
+        this.updateLength(length)
     }
 }
