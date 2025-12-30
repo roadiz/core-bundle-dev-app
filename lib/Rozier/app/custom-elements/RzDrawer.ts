@@ -255,7 +255,7 @@ export class RzDrawer extends HTMLElement {
                         click: (event: MouseEvent) => {
                             event.preventDefault()
                             event.stopImmediatePropagation()
-                            this.openImageEditDialog(item)
+                            this.openImageEditDialog(item, index)
                         },
                     },
                 })
@@ -296,12 +296,31 @@ export class RzDrawer extends HTMLElement {
         // Create card element
         const element = rzCardRenderer(cardOptions)
 
-        // Hidden input for form submission
+        // Main hidden input for form submission
         const input = document.createElement('input')
         input.type = 'hidden'
         input.name = `${this.drawerName}[${index}]${item.isImage ? '[document]' : ''}`
         input.value = item.id.toString()
         element.appendChild(input)
+
+        // Document hidden inputs for images
+        if (item.isImage) {
+            // Original hotspot
+            const hotspotInput = document.createElement('input')
+            hotspotInput.type = 'hidden'
+            hotspotInput.name = `${this.drawerName}[${index}][hotspot]`
+            hotspotInput.value = item.hotspot
+                ? JSON.stringify(item.hotspot)
+                : ''
+            element.appendChild(hotspotInput)
+
+            // Image crop alignment
+            const alignmentInput = document.createElement('input')
+            alignmentInput.type = 'hidden'
+            alignmentInput.name = `${this.drawerName}[${index}][imageCropAlignment]`
+            alignmentInput.value = item.imageCropAlignment || ''
+            element.appendChild(alignmentInput)
+        }
 
         return element
     }
@@ -388,7 +407,7 @@ export class RzDrawer extends HTMLElement {
     }
 
     // Image editing dialog
-    openImageEditDialog(item: RzDrawerItem) {
+    openImageEditDialog(item: RzDrawerItem, index: number) {
         const dialog = document.createElement('document-edit-dialog')
 
         dialog.setAttribute(
@@ -403,7 +422,7 @@ export class RzDrawer extends HTMLElement {
         dialog.setAttribute('image-path', item.editImageUrl)
         dialog.setAttribute('image-width', String(item.editImageWidth))
         dialog.setAttribute('image-height', String(item.editImageHeight))
-        dialog.setAttribute('input-base-name', this.drawerName)
+        dialog.setAttribute('input-base-name', `${this.drawerName}[${index}]`)
         dialog.setAttribute('open', '')
 
         if (item.originalHotspot) {
