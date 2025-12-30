@@ -20,8 +20,10 @@
         {{ actions_menu.saveItem('#edit-realm-form') }}
         {{ form_end(form) }}
 
-        <div class="content-table-cont metadata-list">
-            <table class="uk-table content-table">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            bordered: true,
+        } only %}
+            {% block tbody_content %}
                 <tr>
                     <th>{% trans %}created.at{% endtrans %}</th>
                     <td>{{ item.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
@@ -30,9 +32,10 @@
                     <th>{% trans %}updated.at{% endtrans %}</th>
                     <td>{{ item.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
                 </tr>
-            </table>
-        </div>
+            {% endblock %}
+        {% endembed %}
     </article>
+
     {% include '@RoadizRozier/realms/actionsMenu.html.twig' %}
 </section>
 {% endblock %}
