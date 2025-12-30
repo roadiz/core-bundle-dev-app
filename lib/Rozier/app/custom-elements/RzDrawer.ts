@@ -63,7 +63,7 @@ interface RzDrawerItem {
 interface DocumentItemAttribute {
     document?: number
     id?: number
-    originalHotspot?: Hotspot | null
+    hotspot?: Hotspot | null
     imageCropAlignment?: string
 }
 
@@ -259,7 +259,7 @@ export class RzDrawer extends HTMLElement {
                         click: (event: MouseEvent) => {
                             event.preventDefault()
                             event.stopImmediatePropagation()
-                            this.openImageEditDialog(item, index)
+                            this.openImageEditDialog(item)
                         },
                     },
                 })
@@ -299,7 +299,10 @@ export class RzDrawer extends HTMLElement {
 
         // Create card element
         const element = rzCardRenderer(cardOptions)
+
         element.classList.add(ITEM_CLASS_NAME)
+        element.dataset.id = item.id ? item.id.toString() : ''
+        element.dataset.inputBaseName = `${this.drawerName}[${index}]`
 
         // Main hidden input for form submission
         const input = document.createElement('input')
@@ -364,6 +367,8 @@ export class RzDrawer extends HTMLElement {
                 `input[type="hidden"][name^="${this.drawerName}["]`,
             )
 
+            child.dataset.inputBaseName = `${this.drawerName}[${i}]`
+
             for (let j = 0; j < inputs.length; j++) {
                 inputs[j].name = inputs[j].name.replace(/\[\d+\]/, `[${i}]`)
             }
@@ -408,9 +413,23 @@ export class RzDrawer extends HTMLElement {
             const fragment = document.createDocumentFragment()
 
             response.items.forEach((item, index) => {
-                this.items.push(item)
-                const element = this.createItemElement(item, index)
-                this.itemElements.set(item, element)
+                const newItem = { ...item }
+                const itemData = items[index]
+
+                if (itemData && typeof itemData === 'object') {
+                    if ('hotspot' in itemData) {
+                        newItem.hotspot = itemData.hotspot as Hotspot
+                    }
+
+                    if ('imageCropAlignment' in itemData) {
+                        newItem.imageCropAlignment = itemData.imageCropAlignment
+                    }
+                }
+
+                this.items.push(newItem)
+
+                const element = this.createItemElement(newItem, index)
+                this.itemElements.set(newItem, element)
                 fragment.appendChild(element)
             })
 
@@ -434,8 +453,22 @@ export class RzDrawer extends HTMLElement {
     }
 
     // Image editing dialog
-    openImageEditDialog(item: RzDrawerItem, index: number) {
+    openImageEditDialog(item: RzDrawerItem) {
         const dialog = document.createElement('document-edit-dialog')
+
+        if (this.listElement) {
+            const itemElement: HTMLElement = this.listElement.querySelector(
+                `[data-id="${item.id?.toString()}"]`,
+            )
+
+            if (itemElement) {
+                const inputBaseName = itemElement.dataset.inputBaseName || ''
+
+                if (inputBaseName) {
+                    dialog.setAttribute('input-base-name', inputBaseName)
+                }
+            }
+        }
 
         dialog.setAttribute(
             'template-path',
@@ -446,17 +479,20 @@ export class RzDrawer extends HTMLElement {
             'edit-url',
             item.editItem + '?referer=' + window.location.pathname,
         )
-        dialog.setAttribute('image-path', item.editImageUrl)
-        dialog.setAttribute('image-width', String(item.editImageWidth))
-        dialog.setAttribute('image-height', String(item.editImageHeight))
-        dialog.setAttribute('input-base-name', `${this.drawerName}[${index}]`)
+
         dialog.setAttribute('open', '')
 
-        if (item.originalHotspot) {
-            dialog.setAttribute(
-                'original-hotspot',
-                JSON.stringify(item.originalHotspot),
-            )
+        if (item.isImage) {
+            dialog.setAttribute('image-path', item.editImageUrl)
+            dialog.setAttribute('image-width', String(item.editImageWidth))
+            dialog.setAttribute('image-height', String(item.editImageHeight))
+
+            if (item.originalHotspot) {
+                dialog.setAttribute(
+                    'original-hotspot',
+                    JSON.stringify(item.originalHotspot),
+                )
+            }
         }
 
         document.body.appendChild(dialog)
