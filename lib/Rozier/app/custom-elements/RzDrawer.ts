@@ -85,6 +85,7 @@ export class RzDrawer extends HTMLElement {
 
         this.onCommand = this.onCommand.bind(this)
         this.onAddDrawerItem = this.onAddDrawerItem.bind(this)
+        this.onFileUploadSuccess = this.onFileUploadSuccess.bind(this)
     }
 
     connectedCallback() {
@@ -99,6 +100,7 @@ export class RzDrawer extends HTMLElement {
 
         this.initItems()
         this.initSortable()
+        this.initFileUpload()
     }
 
     disconnectedCallback() {
@@ -109,11 +111,8 @@ export class RzDrawer extends HTMLElement {
         this.listElement = null
         this.itemElements = new WeakMap()
 
-        // Destroy sortable instance
-        if (this.sortable) {
-            this.sortable.destroy()
-            this.sortable = null
-        }
+        this.destroySortable()
+        this.destroyFileUpload()
     }
 
     // ATTRIBUTES
@@ -459,6 +458,13 @@ export class RzDrawer extends HTMLElement {
         })
     }
 
+    destroySortable() {
+        if (!this.sortable) return
+
+        this.sortable.destroy()
+        this.sortable = null
+    }
+
     // Image editing dialog
     openImageEditDialog(item: RzDrawerItem) {
         const dialog = document.createElement('document-edit-dialog')
@@ -503,5 +509,30 @@ export class RzDrawer extends HTMLElement {
         }
 
         document.body.appendChild(dialog)
+    }
+
+    // File upload
+    initFileUpload() {
+        if (!this.fileUpload) {
+            return
+        }
+
+        this.fileUpload.addEventListener('success', this.onFileUploadSuccess)
+    }
+
+    destroyFileUpload() {
+        if (!this.fileUpload) {
+            return
+        }
+
+        this.fileUpload.removeEventListener('success', this.onFileUploadSuccess)
+    }
+
+    onFileUploadSuccess(event: CustomEvent) {
+        const item: RzDrawerItem = event.detail.response.document
+
+        if (item) {
+            this.appendItem(item)
+        }
     }
 }
