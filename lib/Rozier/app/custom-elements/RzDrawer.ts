@@ -76,43 +76,16 @@ export class RzDrawer extends HTMLElement {
     fileUpload: HTMLElement | null = null
     items: RzDrawerItem[] = []
     listElement: HTMLElement | null = null
-    drawerName: string = ''
     itemElements: WeakMap<RzDrawerItem, HTMLElement> = new WeakMap()
     sortable: Sortable | null = null
 
     constructor() {
         super()
 
+        // Bindings
         this.onCommand = this.onCommand.bind(this)
         this.onAddDrawerItem = this.onAddDrawerItem.bind(this)
         this.onFileUploadSuccess = this.onFileUploadSuccess.bind(this)
-    }
-
-    connectedCallback() {
-        this.fileUpload = this.querySelector('rz-file-upload')
-        this.listElement = this.querySelector('[data-list]')
-        this.drawerName = this.getAttribute('name') || 'drawer-items[]'
-
-        // Listen for commands from external buttons
-        this.addEventListener('command', this.onCommand)
-        // Listen for explorer add item events
-        document.addEventListener('add-drawer-item', this.onAddDrawerItem)
-
-        this.initItems()
-        this.initSortable()
-        this.initFileUpload()
-    }
-
-    disconnectedCallback() {
-        this.removeEventListener('command', this.onCommand)
-        document.removeEventListener('add-drawer-item', this.onAddDrawerItem)
-
-        // Clear cached references
-        this.listElement = null
-        this.itemElements = new WeakMap()
-
-        this.destroySortable()
-        this.destroyFileUpload()
     }
 
     // ATTRIBUTES
@@ -120,7 +93,36 @@ export class RzDrawer extends HTMLElement {
         return this.getAttribute('accept-entity') || ''
     }
 
+    get name(): string {
+        return this.getAttribute('name') || ''
+    }
+
+    connectedCallback() {
+        this.initExplorer()
+        this.initCommands()
+        this.initItems()
+        this.initSortable()
+        this.initFileUpload()
+    }
+
+    disconnectedCallback() {
+        this.destroyExplorer()
+        this.destroyItems()
+        this.destroyCommands()
+        this.destroySortable()
+        this.destroyFileUpload()
+    }
+
     // COMMANDS
+    initCommands() {
+        // Listen for commands from external buttons
+        this.addEventListener('command', this.onCommand)
+    }
+
+    destroyCommands() {
+        this.removeEventListener('command', this.onCommand)
+    }
+
     onCommand(event: CommandEvent) {
         switch (event.command) {
             case '--open-explorer':
@@ -133,6 +135,32 @@ export class RzDrawer extends HTMLElement {
     }
 
     // FILE UPLOAD
+    initFileUpload() {
+        this.fileUpload = this.querySelector('rz-file-upload')
+
+        if (!this.fileUpload) {
+            return
+        }
+
+        this.fileUpload.addEventListener('success', this.onFileUploadSuccess)
+    }
+
+    destroyFileUpload() {
+        if (!this.fileUpload) {
+            return
+        }
+
+        this.fileUpload.removeEventListener('success', this.onFileUploadSuccess)
+    }
+
+    onFileUploadSuccess(event: CustomEvent) {
+        const item: RzDrawerItem = event.detail.response.document
+
+        if (item) {
+            this.appendItem(item)
+        }
+    }
+
     showFileUpload() {
         if (this.fileUploadIsVisible) {
             return
@@ -191,6 +219,15 @@ export class RzDrawer extends HTMLElement {
     }
 
     // EXPLORER
+    initExplorer() {
+        // Listen for explorer add item events
+        document.addEventListener('add-drawer-item', this.onAddDrawerItem)
+    }
+
+    destroyExplorer() {
+        document.removeEventListener('add-drawer-item', this.onAddDrawerItem)
+    }
+
     openExplorer() {
         document.dispatchEvent(
             new CustomEvent('show-explorer', {
@@ -217,6 +254,74 @@ export class RzDrawer extends HTMLElement {
     }
 
     // ITEMS
+    async initItems() {
+        const items: ItemAttribute[] = JSON.parse(
+            this.getAttribute('items') || '[]',
+        )
+        const entityType = this.acceptEntity
+
+        this.listElement = this.querySelector('[data-list]')
+
+        if (
+            !Array.isArray(items) ||
+            items.length === 0 ||
+            !entityType ||
+            !this.listElement
+        ) {
+            return
+        }
+
+        // Format IDs
+        const filteredIds = items.map((item) => {
+            // If item is an object with a document property, extract it
+            if (typeof item === 'object' && 'document' in item) {
+                return item.document
+            }
+
+            return item
+        })
+
+        // Fetch items from API
+        const response: { items?: RzDrawerItem[] } = await getItemsByIds(
+            entityType,
+            filteredIds,
+        ).catch((error) => {
+            console.error('Error fetching drawer items', error)
+        })
+
+        if (response && response.items) {
+            // Use DocumentFragment for batch rendering to minimize reflows
+            const fragment = document.createDocumentFragment()
+
+            response.items.forEach((item, index) => {
+                const newItem = { ...item }
+                const itemData = items[index]
+
+                if (itemData && typeof itemData === 'object') {
+                    if ('hotspot' in itemData) {
+                        newItem.hotspot = itemData.hotspot as Hotspot
+                    }
+
+                    if ('imageCropAlignment' in itemData) {
+                        newItem.imageCropAlignment = itemData.imageCropAlignment
+                    }
+                }
+
+                this.items.push(newItem)
+
+                const element = this.createItemElement(newItem, index)
+                this.itemElements.set(newItem, element)
+                fragment.appendChild(element)
+            })
+
+            this.listElement.appendChild(fragment)
+        }
+    }
+
+    destroyItems() {
+        this.itemElements = new WeakMap()
+    }
+
     appendItem(item: RzDrawerItem) {
         if (!this.listElement) {
             return
@@ -308,12 +413,12 @@ export class RzDrawer extends HTMLElement {
 
         element.classList.add(ITEM_CLASS_NAME)
         element.dataset.id = item.id ? item.id.toString() : ''
-        element.dataset.inputBaseName = `${this.drawerName}[${index}]`
+        element.dataset.inputBaseName = `${this.name}[${index}]`
 
         // Main hidden input for form submission
         const input = document.createElement('input')
         input.type = 'hidden'
-        input.name = `${this.drawerName}[${index}]${item.isImage ? '[document]' : ''}`
+        input.name = `${this.name}[${index}]${item.isImage ? '[document]' : ''}`
         input.value = item.id.toString()
         element.appendChild(input)
 
@@ -322,7 +427,7 @@ export class RzDrawer extends HTMLElement {
             // Original hotspot
             const hotspotInput = document.createElement('input')
             hotspotInput.type = 'hidden'
-            hotspotInput.name = `${this.drawerName}[${index}][hotspot]`
+            hotspotInput.name = `${this.name}[${index}][hotspot]`
             hotspotInput.value = item.hotspot
                 ? JSON.stringify(item.hotspot)
                 : 'null'
@@ -331,7 +436,7 @@ export class RzDrawer extends HTMLElement {
             // Image crop alignment
             const alignmentInput = document.createElement('input')
             alignmentInput.type = 'hidden'
-            alignmentInput.name = `${this.drawerName}[${index}][imageCropAlignment]`
+            alignmentInput.name = `${this.name}[${index}][imageCropAlignment]`
             alignmentInput.value = item.imageCropAlignment || ''
             element.appendChild(alignmentInput)
         }
@@ -370,10 +475,10 @@ export class RzDrawer extends HTMLElement {
         ) {
             const child = this.listElement.children[i] as HTMLElement
             const inputs = child.querySelectorAll<HTMLInputElement>(
-                `input[type="hidden"][name^="${this.drawerName}["]`,
+                `input[type="hidden"][name^="${this.name}["]`,
             )
 
-            child.dataset.inputBaseName = `${this.drawerName}[${i}]`
+            child.dataset.inputBaseName = `${this.name}[${i}]`
 
             for (let j = 0; j < inputs.length; j++) {
                 inputs[j].name = inputs[j].name.replace(/\[\d+\]/, `[${i}]`)
@@ -381,91 +486,6 @@ export class RzDrawer extends HTMLElement {
         }
     }
 
-    async initItems() {
-        const items: ItemAttribute[] = JSON.parse(
-            this.getAttribute('items') || '[]',
-        )
-        const entityType = this.acceptEntity
-
-        if (
-            !Array.isArray(items) ||
-            items.length === 0 ||
-            !entityType ||
-            !this.listElement
-        ) {
-            return
-        }
-
-        // Format IDs
-        const filteredIds = items.map((item) => {
-            // If item is an object with a document property, extract it
-            if (typeof item === 'object' && 'document' in item) {
-                return item.document
-            }
-
-            return item
-        })
-
-        // Fetch items from API
-        const response: { items?: RzDrawerItem[] } = await getItemsByIds(
-            entityType,
-            filteredIds,
-        ).catch((error) => {
-            console.error('Error fetching drawer items', error)
-        })
-
-        if (response && response.items) {
-            // Use DocumentFragment for batch rendering to minimize reflows
-            const fragment = document.createDocumentFragment()
-
-            response.items.forEach((item, index) => {
-                const newItem = { ...item }
-                const itemData = items[index]
-
-                if (itemData && typeof itemData === 'object') {
-                    if ('hotspot' in itemData) {
-                        newItem.hotspot = itemData.hotspot as Hotspot
-                    }
-
-                    if ('imageCropAlignment' in itemData) {
-                        newItem.imageCropAlignment = itemData.imageCropAlignment
-                    }
-                }
-
-                this.items.push(newItem)
-
-                const element = this.createItemElement(newItem, index)
-                this.itemElements.set(newItem, element)
-                fragment.appendChild(element)
-            })
-
-            this.listElement.appendChild(fragment)
-        }
-    }
-
-    //Sortable
-    initSortable() {
-        if (!this.listElement || this.sortable) {
-            return
-        }
-
-        this.sortable = Sortable.create(this.listElement, {
-            animation: 150,
-            onEnd: () => {
-                // Reindex hidden inputs
-                this.reindexItems()
-            },
-        })
-    }
-
-    destroySortable() {
-        if (!this.sortable) return
-
-        this.sortable.destroy()
-        this.sortable = null
-    }
-
-    // Image editing dialog
     openImageEditDialog(item: RzDrawerItem) {
         const dialog = document.createElement('document-edit-dialog')
 
@@ -511,28 +531,25 @@ export class RzDrawer extends HTMLElement {
         document.body.appendChild(dialog)
     }
 
-    // File upload
-    initFileUpload() {
-        if (!this.fileUpload) {
+    // SORTABLE
+    initSortable() {
+        if (!this.listElement || this.sortable) {
             return
         }
 
-        this.fileUpload.addEventListener('success', this.onFileUploadSuccess)
+        this.sortable = Sortable.create(this.listElement, {
+            animation: 150,
+            onEnd: () => {
+                // Reindex hidden inputs
+                this.reindexItems()
+            },
+        })
     }
 
-    destroyFileUpload() {
-        if (!this.fileUpload) {
-            return
-        }
+    destroySortable() {
+        if (!this.sortable) return
 
-        this.fileUpload.removeEventListener('success', this.onFileUploadSuccess)
-    }
-
-    onFileUploadSuccess(event: CustomEvent) {
-        const item: RzDrawerItem = event.detail.response.document
-
-        if (item) {
-            this.appendItem(item)
-        }
+        this.sortable.destroy()
+        this.sortable = null
     }
 }
