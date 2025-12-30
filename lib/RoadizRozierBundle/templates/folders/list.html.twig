@@ -35,7 +35,7 @@
                         {% if selection_available %}
                             <td>
                                 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: item.id }) }}
+                                {{ rz_bulk.select_input({ value: folder.id }) }}
                             </td>
                         {% endif %}
                         <td>
