@@ -1,0 +1,87 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+    {% block thead_cells %}
+        <th>
+            {% set label = 'redirection.query'|trans %}
+            {% if not no_sort %}
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'query',
+                'filters': filters,
+                'label': label,
+                'column_ordering_class': column_ordering_class,
+            } only %}
+            {% else %}
+                {{ label }}
+            {% endif %}
+        </th>
+        <th>
+            {% set label = 'redirection.redirect_uri'|trans %}
+            {% if not no_sort %}
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'redirectUri',
+                'filters': filters,
+                'label': label,
+                'column_ordering_class': column_ordering_class,
+            } only %}
+            {% else %}
+                {{ label }}
+            {% endif %}
+        </th>
+        <th class="mobile-hidden">{% trans %}redirection.type{% endtrans %}</th>
+        <th class="mobile-hidden">
+            {% set label = 'redirection.use_count'|trans %}
+            {% if not no_sort %}
+                {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                    'field': 'useCount',
+                    'filters': filters,
+                    'label': label,
+                    'column_ordering_class': column_ordering_class,
+                } only %}
+            {% else %}
+                {{ label }}
+            {% endif %}
+        </th>
+    {% endblock %}
+
+    {% block tbody_content %}
+        {% for item in items %}
+            <tr>
+                {% set url = path('redirectionsEditPage', { id: item.id }) %}
+                {% if item.redirectNodeSource %}
+                    {% set url = path('nodesEditSEOPage', {
+                        'nodeId': item.redirectNodeSource.node.id,
+                        'translationId': item.redirectNodeSource.translation.id
+                    }) ~ '#manage-redirections' %}
+                {% endif %}
+                {% if selection_available %}
+                    <td>
+                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                        {{ rz_bulk.select_input({ value: item.id }) }}
+                    </td>
+                {% endif %}
+                <td>
+                    <a href="{{ url }}">{{ item.query }}</a>
+                </td>
+                <td>
+                    {% if item.redirectNodeSource %}
+                        <i class="uk-icon uk-icon-magic"></i>
+                        {{ path(item.redirectNodeSource) -}}
+                    {% else %}
+                        {{- item.redirectUri|u.truncate(80, '…') -}}
+                    {% endif %}
+                </td>
+                <td class="mobile-hidden">{{ item.typeAsString|trans }}</td>
+                <td class="mobile-hidden">{{ item.useCount }}</td>
+                {% if actions_available %}
+                    <td>
+                        {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            'edit_href': url,
+                            'delete_href':path('redirectionsDeletePage', { id: item.id }),
+                        } %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="5">{% trans %}no_redirections{% endtrans %}</td></tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}
