@@ -39,28 +39,31 @@
         {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
             filters: filters,
         }  only %}
-        <article class="content content-no-action-menu content-settings-list">
-            <div class="content-table-cont">
-                <table class="content-table settings uk-table">
-                    <thead>
-                    <tr>
-                        <th>
-                            {% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden">{% trans %}value{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3 table-actions-row-xs-2">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+
+        <article>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                actions_available: true,
+                selection_available: false,
+            } %}
+                {% block thead_cells %}
+                    <th>
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'name',
+                            'filters': filters,
+                            'label': 'name'|trans,
+                            'column_ordering_class': column_ordering_class,
+                        } only %}
+                    </th>
+                    <th class="mobile-hidden">{% trans %}value{% endtrans %}</th>
+                {% endblock %}
+
+                {% block tbody_content %}
                     {% for setting in settings %}
+                        {% set edit_href = path('settingsEditPage', { settingId: setting.setting.getId }) %}
                         <tr class="setting-row">
-                            <td>
+                            <td class="rz-table__cell rz-table__cell--sm">
                                 <p>
-                                    <a href="{{ path('settingsEditPage', { settingId: setting.setting.getId }) }}">
+                                    <a href="{{ edit_href }}">
                                         {{ setting.setting.name|trans|inlineMarkdown -}}
                                     </a>
                                 </p>
@@ -74,31 +77,32 @@
                                 {% endif %}
                                 {% form_theme setting.form '@RoadizRozier/horizontalForms.html.twig' %}
                                 {{ form_start(setting.form) }}
-                                {{ form_widget(setting.form) }}
-                                <button class="uk-button uk-button-settings-submit uk-button-small" type="submit"><i class="uk-icon-rz-save-mini"></i></button>
+                                    {{ form_widget(setting.form) }}
+                                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                                    {{ rz_button.root({
+                                        icon: 'rz-icon-ri--save-line',
+                                        attributes: {
+                                            type: 'submit',
+                                            title: 'save'|trans,
+                                            style: 'display: none;',
+                                        }
+                                    }) }}
                                 {{ form_end(setting.form) }}
                             </td>
-                            <td class="table-actions-row">
-                                <div class="uk-button-group">
-                                    <button class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success mobile-hidden"
-                                            type="button"
-                                            title="{% trans %}save{% endtrans %}"
-                                            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></button>
-                                    <a class="uk-button uk-button-content uk-button-small"
-                                       href="{{ path('settingsEditPage', { settingId: setting.setting.getId }) }}"
-                                       title="{% trans %}edit{% endtrans %}"
-                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                       href="{{ path('settingsDeletePage', { settingId: setting.setting.getId }) }}"
-                                       title="{% trans %}delete{% endtrans %}"
-                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                </div>
-                            </td>
+                            {% if actions_available %}
+                                <td>
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': edit_href,
+                                        'delete_href': path('settingsDeletePage', { settingId: setting.setting.getId }),
+                                        'save_href': '#',
+                                        'save_class': 'rz-button-settings-save',
+                                    } only %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endblock %}
+            {% endembed %}
         </article>
     </section>
 {% endblock %}

@@ -98,6 +98,10 @@
 	text-align: right;
 }
 
+.rz-table__cell--sm {
+	max-width: var(--rz-table-cell-max-width, 50ch);
+}
+
 .rz-table__cell--flex {
 	display: flex;
 	align-items: center;
