@@ -78,23 +78,22 @@ export class RzDrawer extends HTMLElement {
     listElement: HTMLElement | null = null
     itemElements: WeakMap<RzDrawerItem, HTMLElement> = new WeakMap()
     sortable: Sortable | null = null
+    acceptEntity: string
+    name: string
+    sortableEnabled: boolean
 
     constructor() {
         super()
+
+        // Initialize with attributes
+        this.acceptEntity = this.getAttribute('accept-entity') || ''
+        this.name = this.getAttribute('name') || ''
+        this.sortableEnabled = this.hasAttribute('sortable')
 
         // Bindings
         this.onCommand = this.onCommand.bind(this)
         this.onAddDrawerItem = this.onAddDrawerItem.bind(this)
         this.onFileUploadSuccess = this.onFileUploadSuccess.bind(this)
-    }
-
-    // ATTRIBUTES
-    get acceptEntity(): string {
-        return this.getAttribute('accept-entity') || ''
-    }
-
-    get name(): string {
-        return this.getAttribute('name') || ''
     }
 
     connectedCallback() {
@@ -546,7 +545,7 @@ export class RzDrawer extends HTMLElement {
 
     // SORTABLE
     initSortable() {
-        if (!this.listElement || this.sortable) {
+        if (!this.listElement || this.sortable || !this.sortableEnabled) {
             return
         }
 
