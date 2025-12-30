@@ -388,6 +388,14 @@ export class RzDrawer extends HTMLElement {
             }
         }
 
+        // Private item
+        if (item.isPrivate) {
+            cardOptions.badge = {
+                iconClass: 'rz-icon-ri--lock-2-line',
+                size: 'md',
+            }
+        }
+
         // Title and overtitle (only if not a reference to a document)
         if (this.acceptEntity !== 'document') {
             cardOptions.overtitle = item.classname
