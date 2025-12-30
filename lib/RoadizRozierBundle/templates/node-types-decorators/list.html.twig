@@ -52,15 +52,14 @@
 
                 {% block tbody_content %}
                 {%- for item in items -%}
+                    {% set path = item.path|split('.') %}
+                    {% set entity, field = path[0], path [1] %}
+                    {% if '' != field %}
+                        {% set color = '#FF0000' %}
+                    {% else %}
+                        {% set color = '#000000' %}
+                    {% endif %}
                     <tr style="--rz-accent-color: {{ color }};">
-                        {% set path = item.path|split('.') %}
-                        {% set entity, field = path[0], path [1] %}
-                        {% if '' != field %}
-                            {% set color = '#FF0000' %}
-                        {% else %}
-                            {% set color = '#000000' %}
-                        {% endif %}
-
                         {% if selection_available %}
                             <td>
                                 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
