@@ -24,24 +24,9 @@
         {{ form_end(form) }}
     </article>
 
-    {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-        bordered: true,
-    } %}
-        {% block tbody_content %}
-            <tr>
-                <th>{% trans %}created.at{% endtrans %}</th>
-                <td>{{ tag.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
-            </tr>
-            <tr>
-                <th>{% trans %}updated.at{% endtrans %}</th>
-                <td>{{ tag.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
-            </tr>
-            <tr>
-                <th>{% trans %}position{% endtrans %}</th>
-                <td>{{ tag.position }}</td>
-            </tr>
-        {% endblock %}
-    {% endembed %}
+    {% include '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
+        item: tag
+    } only %}
 
     {% include '@RoadizRozier/tags/actionsMenu.html.twig' %}
 
