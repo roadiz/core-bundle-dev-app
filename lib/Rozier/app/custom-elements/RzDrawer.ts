@@ -280,10 +280,31 @@ export class RzDrawer extends HTMLElement {
             return item
         })
 
+        // Get filters
+        const providerClass = this.getAttribute('provider-class')
+        const locale = this.getAttribute('locale')
+        const providerOptions = JSON.parse(
+            decodeURIComponent(this.getAttribute('provider-options')),
+        )
+        const nodeTypes = this.getAttribute('data-nodetypes')
+        const nodeTypeField = this.getAttribute('data-nodetypefield')
+        const nodeTypeName = this.getAttribute('data-nodetypename')
+
+        // Merge filters into one object
+        const filters = {
+            nodeTypes,
+            nodeTypeField,
+            providerClass,
+            providerOptions,
+            nodeTypeName,
+            _locale: locale,
+        }
+
         // Fetch items from API
         const response: { items?: RzDrawerItem[] } = await getItemsByIds(
             entityType,
             filteredIds,
+            filters,
         ).catch((error) => {
             console.error('Error fetching drawer items', error)
         })
