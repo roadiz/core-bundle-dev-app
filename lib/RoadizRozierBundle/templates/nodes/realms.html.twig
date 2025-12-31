@@ -2,7 +2,6 @@
 {% set currentTitle = source.title|default(node.nodeName) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_status_badge.html.twig" as rz_status_badge %}
 
 {% block title %}{{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 

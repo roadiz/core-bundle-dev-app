@@ -8,10 +8,13 @@
 
 {% block title %}{% trans %}dashboard{% endtrans %} | {{ parent() }}{% endblock %}
 
-{%- block content_title -%}{{ "hello.%name%"|trans({'%name%': displayName}) }}{%- endblock -%}
-
-{%- block content_header_nav -%}
-    {%- include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'dashboard'} -%}
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: "hello.%name%"|trans({'%name%': displayName}),
+        with_nav_bar: true,
+        nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
+        nav_bar_context: {'current':'dashboard'}
+    } only %}
 {%- endblock -%}
 
 {%- block content_body -%}

@@ -7,20 +7,27 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters  bulk-layout">
-
-    <header class="content-header header-tags header-nodes-list">
-        <h1 class="content-title tags-list-title">{% trans %}tags{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <nav><a class="uk-button" href="{{ path('tagsAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.tag{% endtrans %}</a></nav>
-        </div>
-    </header>
+<rz-bulk-section>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: 'tags'|trans,
+        filters: filters,
+        buttons: [{
+            label: 'add.a.tag'|trans,
+            href: path('tagsAddPage'),
+            icon: 'rz-icon-ri--add-line',
+        }]
+    } only %}
 
     {% include '@RoadizRozier/tags/filtersBar.html.twig' with {
         filters: filters,
-        deleteTagsForm: deleteTagsForm
     } only %}
+
+    {% include "@RoadizRozier/widgets/rz_bulk_actions.html.twig" with {
+        delete_form_data: deleteTagsForm,
+        delete_form_action: path('tagsBulkDeletePage'),
+        delete_form_method: 'GET',
+    } only %}
+
 
     <article class="content content-no-action-menu content-tags-list">
         <div class="content-table-cont">
@@ -99,5 +106,5 @@
         </div>
     </article>
 
-</section>
+</rz-bulk-section>
 {% endblock %}

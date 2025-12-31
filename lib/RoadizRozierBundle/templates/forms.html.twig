@@ -375,7 +375,10 @@
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
-        <fieldset class="rz-fieldset">
+    {% if attr is defined %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' rz-fieldset')|trim}) %}
+    {% endif %}
+        <fieldset class="{{ attr.class|default('rz-fieldset') }}">
             <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
         {%- for child in form %}
             <div class="rz-form-field rz-form-field--type-radio">
@@ -402,6 +405,10 @@
 {%- block file_widget -%}
     <input is="rz-input" class="rz-form-field__body" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock file_widget -%}
+
+{%- block password_widget -%}
+    <input is="rz-input" class="rz-form-field__body" type="password" {{ block('widget_attributes') }}>
+{%- endblock password_widget -%}
 
 {% block separator_widget %}
 {# just let the textarea widget render the select tag #}
@@ -432,7 +439,11 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-<div class="rz-form-field children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
+<div
+    class="rz-form-field children-nodes-widget"
+    data-translation-id="{{ nodeTree.translation.id }}"
+    data-children-nodes-widget {{ block('widget_attributes') }}
+>
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
@@ -443,22 +454,41 @@
         </div>
         <div class="drawer-widget-nav__content">
             {% if linkedTypes|length %}
-                <ul class="uk-navbar-nav">
-                    <li class="children-nodes-quick-creation"
-                        data-uk-dropdown="{mode:'click'}">
-                        <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
-                        <div class="uk-dropdown uk-dropdown-navbar">
-                            {% for linkedType in linkedTypes %}
-                                <button type="button" class="uk-button uk-button-small"
-                                   data-children-node-type="{{ linkedType.name }}"
-                                   data-children-parent-node="{{ nodeTree.rootNode.id }}"
-                                   data-translation-id="{{ nodeTree.translation.id }}">
-                                    <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.displayName }}
-                                </button>
-                            {% endfor %}
-                        </div>
-                    </li>
-                </ul>
+                {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
+                {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
+                        id: popover_id,
+                        placement: 'bottom-end',
+                        offset: '12',
+                        target_options: {
+                            attributes: {
+                                'aria-label': 'add.node'|trans,
+                            },
+                            label: 'Add'|trans,
+                            icon: 'rz-icon-ri--add-line',
+                        }
+                } %}
+                    {% block popover %}
+                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                                targetId: popover_id,
+                                class: 'children-nodes-quick-creation',
+                            } %}
+                            {% block items %}
+                                {% for linkedType in linkedTypes %}
+                                    {{ _self.item({
+                                        label: linkedType.displayName,
+                                        rightIcon: 'rz-icon-ri--add-line',
+                                        attributes: {
+                                            type: 'button',
+                                            'data-children-node-type': linkedType.name,
+                                            'data-children-parent-node': nodeTree.rootNode.id,
+                                            'data-translation-id': nodeTree.translation.id,
+                                        }
+                                    }) }}
+                                {% endfor %}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
         </div>
     </nav>

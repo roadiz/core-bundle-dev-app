@@ -1,33 +1,38 @@
-{% macro item(label, icon, size, color, href, tagName = 'span', onlyIcon = false) %}
+{% macro item(options = {} ) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-badge'%}
+    {% set label = options.label|default('') %}
+    {% set icon = options.icon|default('') %}
+    {% set size = options.size|default('') %}
+    {% set color = options.color|default('') %}
+    {% set attributes = options.attributes|default({}) %}
+
+    {% set classes = html_classes(element_class, attributes.class|default(''), {
+            (element_class ~ '--' ~ size): size,
+            (element_class ~ '--' ~ color): color,
+        })%}
 
     {# If a link is provided, use an <a> tag instead of the default #}
-    {% if href is defined and href %}
+    {% set tagName = options.tagName|default('rz-badge') %}
+    {% if attributes.href is defined and attributes.href %}
         {% set tagName = 'a' %}
     {% endif %}
 
     <{{ tagName }}
-        class="
-            rz-badge
-            {{ size is defined and size ? ' rz-badge--'~size : '' }}
-            {{ color is defined and color ? ' rz-badge--'~color : '' }}
-        "
-        {# If the badge is clickable, add href and an accessible title #}
-        {% if href is defined and href %}
-            href="{{ href }}"
-            {{ label is defined and label ? 'title="'~label|trans~'"' : '' }}
-        {% endif %}
+        class="{{ classes }}"
+		{{ el_attrs.print(attributes) }}
     >
-        {# Internal content: icon, label or icon-only #}
-        {{ _self.inner_item(label, icon, onlyIcon) }}
+        {{ _self.inner_item(label, icon) }}
     </{{ tagName }}>
 
 {% endmacro %}
 
-{% macro inner_item(label, icon, onlyIcon) %}
+{% macro inner_item(label, icon) %}
     {% if icon is defined and icon %}
         <span class="rz-badge__icon {{ icon }}"></span>
     {% endif %}
-    {% if label is defined and label and not onlyIcon %}
+    {% if label is defined and label %}
         <span class="rz-badge__label">{{- label|trans -}}</span>
     {% endif %}
 {% endmacro %}

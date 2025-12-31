@@ -482,8 +482,16 @@ final class TagController extends AbstractController
             return $this->redirectToRoute('tagsHomePage');
         }
 
-        return $this->render('@RoadizRozier/tags/delete.html.twig', [
-            'tag' => $tag,
+        $title = $this->translator->trans(
+            'delete.tag.%name%',
+            ['%name%' => $tag->getTagName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/tags/head.html.twig',
+            'cancelPath' => $this->generateUrl('tagsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.tag',
             'form' => $form->createView(),
         ]);
     }

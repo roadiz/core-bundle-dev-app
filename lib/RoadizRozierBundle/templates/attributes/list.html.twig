@@ -3,29 +3,39 @@
 {% block title %}{% trans %}attributes{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
-    <header class="content-header header-item header-item-list">
-        <h1 class="content-title item-list-title">{% trans %}attributes{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('attributesAddPage') }}">
-                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.attribute{% endtrans %}
-            </a>
-            <a class="uk-button" href="{{ path('attributeGroupsHomePage') }}">
-                <i class="uk-icon-gears"></i> {% trans %}attribute_groups{% endtrans %}
-            </a>
-            <a class="uk-button rz-no-ajax-link" href="{{ path('attributesExportPage') }}">
-                <i class="uk-icon-rz-download"></i> {% trans %}export.all{% endtrans %}
-            </a>
-            <a class="uk-button rz-no-ajax-link" href="{{ path('attributesImportPage') }}">
-                <i class="uk-icon-rz-upload"></i> {% trans %}import{% endtrans %}
-            </a>
-        </div>
-    </header>
+<rz-bulk-section>
+    {% include '@RoadizRozier/attributes/head.html.twig' with {
+        title: 'attributes'|trans,
+        filters: filters,
+        buttons: [
+            {
+                label: 'add.a.attribute'|trans,
+                href: path('attributesAddPage'),
+                icon: 'rz-icon-ri--add-line'
+            },
+            {
+                label: 'attribute_groups'|trans,
+                href: path('attributeGroupsHomePage'),
+                icon: 'rz-icon-ri--folder-2-line'
+            },
+            {
+                label: 'export.all'|trans,
+                href: path('attributesExportPage'),
+                icon: 'rz-icon-ri--download-line'
+            },
+            {
+                label: 'import'|trans,
+                href: path('attributesImportPage'),
+                icon: 'rz-icon-ri--upload-line'
+            },
+        ]
+    } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: true,
+    }  only %}
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
-
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
             <table class="items content-table uk-table attributes">
@@ -36,9 +46,9 @@
                 </thead>
                 <tbody>
                     {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/attributes/attribute_row.html.twig' %}
-                    </tr>
+                        <tr>
+                            {% include '@RoadizRozier/attributes/attribute_row.html.twig' %}
+                        </tr>
                     {% else %}
                         <tr><td colspan="4">{% trans %}no_attributes{% endtrans %}</td></tr>
                     {% endfor %}
@@ -46,5 +56,5 @@
             </table>
         </div>
     </article>
-</section>
+</rz-bulk-section>
 {% endblock %}

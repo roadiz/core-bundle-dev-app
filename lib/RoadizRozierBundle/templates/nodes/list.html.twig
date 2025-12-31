@@ -5,7 +5,7 @@
 {% block title %}{{ mainTitle|trans()|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
+<rz-bulk-section>
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         title: mainTitle|trans()|truncate_title,
         filters: filters,
@@ -16,6 +16,13 @@
     } only %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+        delete_form_data: deleteNodesForm|default(null),
+        delete_form_action: path('nodesBulkDeletePage'),
+        delete_form_method: 'post',
+        tagNodesForm: tagNodesForm,
+        statusNodesForm: statusNodesForm,
+    } only %}
 
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
@@ -35,5 +42,5 @@
             </table>
         </div>
     </article>
-</section>
+</rz-bulk-section>
 {% endblock %}

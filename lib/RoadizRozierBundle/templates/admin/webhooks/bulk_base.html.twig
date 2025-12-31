@@ -1,18 +1,13 @@
 {% extends '@RoadizRozier/admin/base.html.twig' %}
 
 {% block title %}{{ block('bulk_title') }} | {{ parent() }}{% endblock %}
-{% block content_title %}{% block bulk_title %}{% endblock %}{% endblock %}
 
-{% block content_count_filters %}
-    {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-{% endblock %}
-
-{% block content_header_nav %}
-    <a class="content-header-nav-back uk-navbar-content"
-       href="{{ path('webhooksHomePage') }}"
-       title="{% trans %}back_to.webhooks{% endtrans %}"
-       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-{% endblock %}
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: block('bulk_title')|trans,
+        filters: filters,
+    } only %}
+{%- endblock -%}
 
 {% block content_body %}
     <article class="content content-no-action-menu">

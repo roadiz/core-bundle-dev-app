@@ -1,0 +1,46 @@
+{% macro item(buttonOptions = {}, children = [], end) %}
+    <li class="rz-header__li{{ end ? ' rz-header__li--end' : '' }}">
+        {{ _self.button(buttonOptions, children|length > 0) }}
+
+        {% if children|length %}
+            <ul class="rz-header__list rz-header__sub-list">
+                {{ children|raw }}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+{% macro button(buttonOptions = {}, hasChildren = false) %}
+    {% set label = buttonOptions.label|default('') %}
+    {% set active = buttonOptions.active|default(false) %}
+    {% set icon = buttonOptions.icon|default('') %}
+    {% set component = buttonOptions.component|default('') %}
+    {% set href = buttonOptions.href|default(null) %}
+    {% set subItem = buttonOptions.subItem|default(false) %}
+    {% set tag = buttonOptions.tag|default('div') %}
+    {% set opentarget = buttonOptions.opentarget|default(null) %}
+
+    {% set buttonClass = "rz-header-nav-item" ~ (subItem ? " rz-header-nav-item--sub-item" : "") ~ (active ? " rz-header-nav-item--active" : "") %}
+
+    <{{ tag }}
+        class="{{ buttonClass }}"
+        {% if href is defined and href %} href="{{ href }}"{% endif %}
+        {% if tag == 'button' %}aria-expanded="false"{% endif %}
+        {% if component %}
+            is="{{ component }}"
+        {% elseif tag == 'button' %}
+            is="rz-header-nav-item-button"
+        {% endif %}
+        {% if opentarget %}opentarget="{{ opentarget }}"{% endif %}
+    >
+        {% if icon is not empty %}
+            <span class="rz-header-nav-item__icon {{ icon }}"></span>
+        {% endif %}
+        <span class="rz-header-nav-item__label">{{ label }}</span>
+        {% if tag == 'a' %}
+            <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-right-line"></span>
+        {% elseif hasChildren %}
+            <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-down-s-line"></span>
+        {% endif %}
+    </{{ tag }}>
+{% endmacro %}

@@ -1,39 +1,72 @@
-{% macro item(node) %}
-{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-    {% if node.isDeleted %}
-        {{ rz_badge.item(
-            label: 'deleted',
+{# Possible type: deleted, hidden, locked, archived, hiding-children, published, pending, draft, shadow #}
+{% macro item(type = 'unknown', display_label = true, badgeOptions = {}) %}
+    {% set default_options = { size: 'sm'}|merge(badgeOptions) %}
+
+    {% if type == 'deleted' %}
+        {% set type_options = {
+            label: 'deleted'|trans,
             icon: 'rz-icon-rz--status-deleted-fill',
-            size: 'sm',
-            color: 'danger'
-        ) }}
-    {% elseif node.isArchived %}
-        {{ rz_badge.item(
-            label: 'archived',
+            color: 'danger',
+        } %}
+    {% elseif type == 'hidden' %}
+        {% set type_options = {
+            label: 'hidden'|trans,
+            icon: 'rz-icon-ri--eye-off-line',
+        } %}
+    {% elseif type == 'locked' %}
+        {% set type_options = {
+            label: 'locked'|trans,
+            icon: 'rz-icon-ri--lock-2-line',
+        } %}
+    {% elseif type == 'archived' %}
+        {% set type_options = {
+            label: 'archived'|trans,
             icon: 'rz-icon-rz--status-archived-fill',
-            size: 'sm',
-            color: 'danger'
-        ) }}
-    {% elseif node.isPublished %}
-        {{ rz_badge.item(
-            label: 'published',
+        } %}
+    {% elseif type == 'hiding-children' %}
+        {% set type_options = {
+            label: 'hiding-children'|trans,
+            icon: 'rz-icon-rz--status-container-line',
+        } %}
+    {% elseif type == 'published' %}
+        {% set type_options = {
+            label: 'published'|trans,
             icon: 'rz-icon-rz--status-published-fill',
-            size: 'sm',
-            color: 'success'
-        ) }}
-    {% elseif node.isPending %}
-        {{ rz_badge.item(
-            label: 'pending',
+            color: 'success',
+        } %}
+    {% elseif type == 'pending' %}
+        {% set type_options = {
+            label: 'pending.validation'|trans,
+            icon: 'rz-icon-rz--status-pending-validation-fill',
+            color: 'warning',
+        } %}
+    {% elseif type == 'draft' %}
+        {% set type_options = {
+            label: 'draft'|trans,
             icon: 'rz-icon-rz--status-draft-fill',
-            size: 'sm',
-            color: 'warning'
-        ) }}
+            color: 'warning',
+        } %}
+    {% elseif type == 'shadow' %}
+        {% set type_options = {
+            label: 'shadow'|trans,
+            icon: 'rz-icon-rz--status-shadow-container-line',
+            color: 'information',
+        } %}
     {% else %}
-        {{ rz_badge.item(
-            label: 'draft',
-            icon: 'rz-icon-rz--status-draft-fill',
-            size: 'sm',
-            color: 'warning'
-        ) }}
+        {% set type_options = {
+            label: type|trans,
+            icon: 'rz-icon-rz--status-unknown-fill',
+        } %}
     {% endif %}
+
+    {% if display_label is same as(false) %}
+        {% set type_options = type_options|merge(
+            {
+                attributes: { 'tooltip-text': type_options.label }|merge(default_options.attributes|default({})),
+                label: ''
+            }) %}
+    {% endif %}
+
+    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+    {{ rz_badge.item(default_options|merge(type_options)) }}
 {% endmacro %}

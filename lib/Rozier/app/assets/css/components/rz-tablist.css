@@ -1,6 +1,7 @@
 rz-tablist,
 .rz-tablist {
 	box-sizing: border-box;
+	position: relative;
 	width: 100%;
 	isolation: isolate;
 	display: flex;

@@ -1,0 +1,42 @@
+/*
+This class hides an element visually while keeping it accessible to screen readers.
+References:
+- WebAIM: Invisible Content Just for Screen Readers — https://webaim.org/techniques/css/invisiblecontent/
+- The A11Y Project: How to hide content — https://www.a11yproject.com/posts/how-to-hide-content/
+*/
+.rz-visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/*
+** Temporaly fix layout when legacy style removed
+** Remove when legacy styles will be refactored
+*/
+
+/* Fix contextualmenu modal prevent tree item to be clicked*/
+.tree-contextualmenu .uk-dropdown {
+	position: absolute;
+}
+
+/* Fix overflow item in ChildrenNodesTree */
+.tree-element-name.nodetree-element-name {
+	flex: 1;
+	max-width: min(80ch, 80%) !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+
+	a {
+		white-space: initial;
+		max-width: initial !important;
+		overflow: initial;
+	}
+}

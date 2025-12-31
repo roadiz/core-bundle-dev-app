@@ -1,0 +1,45 @@
+rz-filters-bar {
+	--rz-input-width: auto;
+
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2xs) var(--spacing-5xs);
+	justify-content: space-between;
+	flex-wrap: wrap;
+	padding: initial;
+	margin: initial;
+	padding-block: var(--spacing-5xs);
+	background-color: var(--surface-light-primary, #FFF);
+	color: var(--content-on-light-primary, #18191B);
+
+	@media (--screen-sm-min) {
+		padding: var(--spacing-2xs);
+	}
+}
+
+
+.rz-filters-bar__description {
+	margin-block: var(--spacing-2xs);
+	width: 100%;
+}
+
+.rz-filters-bar__group {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-6xs);
+
+	& > * {
+		position: relative;
+	}
+
+	& input[type="radio"] {
+		position: absolute;
+		cursor: pointer;
+		opacity: 0;
+	}
+}
+
+.rz-filters-bar__group--divider {
+	padding-right: var(--spacing-5xs);
+	border-right: 1PX solid var(--line-on-light-secondary, #DADADA);
+}

@@ -19,6 +19,40 @@
 - Removed obsolete `roadiz/fonts-bundle`
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
 
+## Twig changes
+For twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update 
+- `content_title`
+- `content_count_filters`
+- `content_header_nav`
+blocks to use new `header` block instead.
+
+example:
+```twig
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'articles'|trans,
+        filters: filters,
+        buttons : [
+            {
+                label: 'articles.add'|trans,
+                href: path('appArticlesAddPage'),
+                icon: 'rz-icon-ri--add-line',
+            }
+        ]
+    } only %}
+{%- endblock -%}
+```
+
+You need to update your `content_filters` block to use new `widgets/rz_filters_bar.html.twig` inside this block.
+
+example:
+```twig
+{% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    filters: filters,
+    display_select_all_button: true,
+} only %}
+```
+
 # Upgrade to 2.6
 
 - [⚠ Breaking changes](#-breaking-changes)
