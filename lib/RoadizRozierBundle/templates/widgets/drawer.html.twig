@@ -52,7 +52,7 @@
     {% endfor %}
 {% endif %}
 
-{% set drawerId = drawerAttributesMap['id']|default('drawer-id') %}
+{% set drawerId = drawerAttributesMap['id']|default('drawer-' ~ random()) %}
 {% set fileUploadId = drawerId ~ '-file-upload' %}
 
 
