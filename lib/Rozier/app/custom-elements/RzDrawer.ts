@@ -347,7 +347,7 @@ export class RzDrawer extends HTMLElement {
             const href = item.editItem + '?referer=' + window.location.pathname
 
             // Image
-            if (item.isImage) {
+            if (item.isImage && !item.isEmbed && !item.isVideo && !item.isPdf) {
                 buttons.unshift({
                     tag: 'a',
                     iconClass: 'rz-icon-ri--equalizer-3-line',
