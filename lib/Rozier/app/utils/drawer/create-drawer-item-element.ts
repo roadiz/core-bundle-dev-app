@@ -117,7 +117,7 @@ export function createDrawerItemElement({
         // Image thumbnail
         if ((item.isImage && item.thumbnail80) || item.thumbnail?.url) {
             cardOptions.image = {
-                src: item.thumbnail80 || item.thumbnail.url || '',
+                src: item.thumbnail80 || item.thumbnail?.url || '',
             }
         }
 
