@@ -384,6 +384,32 @@ export class RzDrawer extends HTMLElement {
             },
         }
 
+        // Previewable image
+        if (item.isImage) {
+            cardOptions.buttonGroupTop = {
+                gap: 'sm',
+                size: 'sm',
+                buttons: [
+                    {
+                        iconClass: 'rz-icon-ri--zoom-in-line',
+                        emphasis: 'primary',
+                        attributes: {
+                            type: 'button', // do not submit form
+                        },
+                        on: {
+                            click: () => {
+                                document.dispatchEvent(
+                                    new CustomEvent('show-preview', {
+                                        detail: { document: item },
+                                    }),
+                                )
+                            },
+                        },
+                    },
+                ],
+            }
+        }
+
         let iconClass = ''
 
         // Private item
@@ -507,12 +533,15 @@ export class RzDrawer extends HTMLElement {
             i++
         ) {
             const child = this.listElement.children[i] as HTMLElement
+            // Get all hidden inputs related to this item
             const inputs = child.querySelectorAll<HTMLInputElement>(
                 `input[type="hidden"][name^="${this.name}["]`,
             )
 
+            // Update input base name following the new index
             child.dataset.inputBaseName = `${this.name}[${i}]`
 
+            // Update each input name following the new index
             for (let j = 0; j < inputs.length; j++) {
                 inputs[j].name = inputs[j].name.replace(/\[\d+\]/, `[${i}]`)
             }
