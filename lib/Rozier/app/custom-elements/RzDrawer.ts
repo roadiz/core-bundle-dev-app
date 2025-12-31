@@ -1,73 +1,7 @@
 import { getItemsByIds } from '~/api/DrawerApi'
-import { RzButtonOptions } from '~/utils/component-renderer/rzButton'
-import {
-    RzCardOptions,
-    rzCardRenderer,
-} from '~/utils/component-renderer/rzCard'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
-
-interface Hotspot {
-    x: number
-    y: number
-}
-
-interface Document {
-    url?: string
-    alt?: string | null
-    embedId?: string | null
-    embedPlatform?: string | null
-    hotspot?: Hotspot | null
-    imageAverageColor?: string
-    imageHeight?: number
-    imageWidth?: number
-    mediaDuration?: number
-    mimeType?: string
-    processable?: boolean
-    relativePath?: string
-    type?: string
-}
-
-interface RzDrawerItem {
-    classname?: string
-    color?: string
-    displayable?: string
-    document?: number
-    editImageHeight?: number
-    editImageUrl?: string
-    editImageWidth?: number
-    editItem?: string
-    embedPlatform?: string | null
-    hasThumbnail?: boolean
-    hotspot?: Hotspot
-    icon?: string
-    id?: number
-    imageCropAlignment?: string
-    isEmbed?: boolean
-    isImage?: boolean
-    isPdf?: boolean
-    isPrivate?: boolean
-    isSvg?: boolean
-    isVideo?: boolean
-    isWebp?: boolean
-    originalHotspot?: Hotspot | null
-    previewHtml?: string
-    processable?: boolean
-    published?: boolean
-    relativePath?: string
-    shortMimeType?: string
-    shortType?: string
-    thumbnail?: Document | null
-    thumbnail80?: string
-}
-
-interface DocumentItemAttribute {
-    document?: number
-    id?: number
-    hotspot?: Hotspot | null
-    imageCropAlignment?: string
-}
-
-type ItemAttribute = number | DocumentItemAttribute
+import { createDrawerItemElement } from '~/utils/drawer/create-drawer-item-element'
+import { Hotspot, ItemAttribute, RzDrawerItem } from '~/utils/drawer/types'
 
 const ITEM_CLASS_NAME = 'rz-drawer__item'
 
@@ -85,11 +19,6 @@ export class RzDrawer extends HTMLElement {
     constructor() {
         super()
 
-        // Initialize with attributes
-        this.acceptEntity = this.getAttribute('accept-entity') || ''
-        this.name = this.getAttribute('name') || ''
-        this.sortableEnabled = this.hasAttribute('sortable')
-
         // Bindings
         this.onCommand = this.onCommand.bind(this)
         this.onAddDrawerItem = this.onAddDrawerItem.bind(this)
@@ -97,6 +26,11 @@ export class RzDrawer extends HTMLElement {
     }
 
     connectedCallback() {
+        // Initialize with attributes
+        this.acceptEntity = this.getAttribute('accept-entity') || ''
+        this.name = this.getAttribute('name') || ''
+        this.sortableEnabled = this.hasAttribute('sortable')
+
         this.initExplorer()
         this.initCommands()
         this.initItems()
@@ -343,166 +277,20 @@ export class RzDrawer extends HTMLElement {
     }
 
     createItemElement(item: RzDrawerItem, index: number): HTMLElement {
-        const isDocument =
-            item.isPdf || item.isImage || item.isVideo || item.isEmbed
-
-        // Action buttons
-        const buttons: RzButtonOptions[] = [
-            {
-                iconClass: 'rz-icon-ri--delete-bin-7-line',
-                emphasis: 'tertiary',
-                color: 'danger',
-                attributes: {
-                    type: 'button', // do not submit form
-                },
-                on: {
-                    click: () => {
-                        this.removeItem(item)
-                    },
-                },
+        const element = createDrawerItemElement({
+            item,
+            index,
+            acceptEntity: this.acceptEntity,
+            name: this.name,
+            onRemoveClick: (itemToRemove: RzDrawerItem) => {
+                this.removeItem(itemToRemove)
             },
-        ]
-
-        // Edit link
-        if (item.editItem) {
-            const href = item.editItem + '?referer=' + window.location.pathname
-
-            // Image
-            if (item.isImage && !item.isEmbed && !item.isVideo && !item.isPdf) {
-                buttons.unshift({
-                    tag: 'a',
-                    iconClass: 'rz-icon-ri--equalizer-3-line',
-                    emphasis: 'primary',
-                    attributes: {
-                        href,
-                    },
-                    on: {
-                        click: (event: MouseEvent) => {
-                            event.preventDefault()
-                            event.stopImmediatePropagation()
-                            this.openImageEditDialog(item)
-                        },
-                    },
-                })
-            }
-            // Other reference
-            else {
-                buttons.unshift({
-                    tag: 'a',
-                    iconClass: 'rz-icon-ri--edit-line',
-                    emphasis: 'primary',
-                    attributes: {
-                        href,
-                    },
-                })
-            }
-        }
-
-        const cardOptions: RzCardOptions = {
-            tag: 'li',
-            buttonGroup: {
-                buttons,
+            onEditClick: (itemToEdit: RzDrawerItem) => {
+                this.openImageEditDialog(itemToEdit)
             },
-        }
-
-        // Previewable image
-        if (item.isImage) {
-            cardOptions.buttonGroupTop = {
-                gap: 'sm',
-                size: 'sm',
-                buttons: [
-                    {
-                        iconClass: 'rz-icon-ri--zoom-in-line',
-                        emphasis: 'primary',
-                        attributes: {
-                            type: 'button', // do not submit form
-                        },
-                        on: {
-                            click: () => {
-                                document.dispatchEvent(
-                                    new CustomEvent('show-preview', {
-                                        detail: { document: item },
-                                    }),
-                                )
-                            },
-                        },
-                    },
-                ],
-            }
-        }
-
-        let iconClass = ''
-
-        // Private item
-        if (item.isPrivate) {
-            iconClass = 'rz-icon-ri--lock-2-line'
-        } else {
-            // Image thumbnail
-            if ((item.isImage && item.thumbnail80) || item.thumbnail?.url) {
-                cardOptions.image = {
-                    src: item.thumbnail80 || item.thumbnail.url || '',
-                }
-            }
-
-            // PDF icon
-            if (item.isPdf) {
-                iconClass = 'rz-icon-ri--file-pdf-2-line'
-            } else if (item.isEmbed) {
-                if (item.embedPlatform === 'vimeo') {
-                    iconClass = 'rz-icon-ri--vimeo-fill'
-                } else if (item.embedPlatform === 'youtube') {
-                    iconClass = 'rz-icon-ri--youtube-fill'
-                }
-            } else if (item.isVideo) {
-                iconClass = 'rz-icon-ri--file-video-fill'
-            }
-        }
-
-        if (iconClass) {
-            cardOptions.badge = {
-                iconClass,
-                size: 'md',
-            }
-        }
-
-        // Title and overtitle (only if not a reference to a document)
-        if (this.acceptEntity !== 'document') {
-            cardOptions.overtitle = item.classname
-            cardOptions.title = item.displayable
-        }
-
-        // Create card element
-        const element = rzCardRenderer(cardOptions)
+        })
 
         element.classList.add(ITEM_CLASS_NAME)
-        element.dataset.id = item.id ? item.id.toString() : ''
-        element.dataset.inputBaseName = `${this.name}[${index}]`
-
-        // Main hidden input for form submission
-        const input = document.createElement('input')
-        input.type = 'hidden'
-        input.name = `${this.name}[${index}]${isDocument ? '[document]' : ''}`
-        input.value = item.id.toString()
-        element.appendChild(input)
-
-        // Document hidden inputs for images
-        if (item.isImage) {
-            // Original hotspot
-            const hotspotInput = document.createElement('input')
-            hotspotInput.type = 'hidden'
-            hotspotInput.name = `${this.name}[${index}][hotspot]`
-            hotspotInput.value = item.hotspot
-                ? JSON.stringify(item.hotspot)
-                : 'null'
-            element.appendChild(hotspotInput)
-
-            // Image crop alignment
-            const alignmentInput = document.createElement('input')
-            alignmentInput.type = 'hidden'
-            alignmentInput.name = `${this.name}[${index}][imageCropAlignment]`
-            alignmentInput.value = item.imageCropAlignment || ''
-            element.appendChild(alignmentInput)
-        }
 
         return element
     }
