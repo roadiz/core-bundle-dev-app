@@ -134,7 +134,7 @@ export default class FormFieldLengthIndicator {
         this.updateLength(this.markdownEditor!.strippedValue.length)
     }
 
-    onLengthChange(event: CustomEvent) {
+    onLengthChange(event: CustomEvent<{ length: number }>) {
         if (!event.detail) return
 
         const { length } = event.detail
