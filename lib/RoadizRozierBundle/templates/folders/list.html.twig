@@ -14,7 +14,10 @@
         }]
     } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+    }  only %}
     <article>
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             selection_available: false,

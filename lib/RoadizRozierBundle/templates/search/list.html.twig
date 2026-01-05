@@ -11,7 +11,7 @@
 {%- endblock -%}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters bulk-layout">
+    <rz-bulk-section>
         <header class="content-header header-node header-nodes-list">
             {% if nodeType %}
                 <h1 class="content-title">{% trans %}search{% endtrans %} - {{ nodeType.displayName }}</h1>
@@ -42,10 +42,13 @@
             {% endif %}
 
             {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
-
-            {% if filters.itemCount > filters.itemPerPage %}
-                {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-            {% endif %}
+            {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+                delete_form_data: deleteNodesForm|default(null),
+                delete_form_action: path('nodesBulkDeletePage'),
+                delete_form_method: 'post',
+                tagNodesForm: tagNodesForm,
+                statusNodesForm: statusNodesForm,
+            } only %}
 
             {% include '@RoadizRozier/nodes/list_table.html.twig' with {
                 sortable: false,
@@ -53,5 +56,5 @@
                 actions_available: true,
             } %}
         </article>
-    </section>
+    </rz-bulk-section>
 {% endblock %}
