@@ -55,10 +55,10 @@
     </td>
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
     <td class="table-actions-row">
-        {% if (withSelectAction is not defined) %}
-            {% set withSelectAction = true %}
+        {% if (with_select_action is not defined) %}
+            {% set with_select_action = true %}
         {% endif %}
-        {% if withSelectAction %}
+        {% if with_select_action %}
         <div class="bulk-selection">
             <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
         </div>

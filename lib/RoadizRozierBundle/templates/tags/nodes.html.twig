@@ -30,14 +30,14 @@
                 <thead>
                 {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' with {
                     'filters': filters,
-                    'withSelectAction': false
+                    'with_select_action': false
                 } only %}
                 </thead>
                 <tbody>
                     {% for node in nodes %}
                         {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
                             'node': node,
-                            'withSelectAction': false
+                            'with_select_action': false
                         } only %}
                     {% endfor %}
                 </tbody>

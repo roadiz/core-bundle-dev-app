@@ -1,4 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
 {% block title %}{{ title|truncate_title }}{% endblock %}
 
@@ -23,22 +24,28 @@
                 </p>
             </div>
             <div class="rz-button-group rz-button-group--gap-md">
-                <a class="rz-button rz-button--secondary rz-button-group__button"
-                      href="{{ cancelPath }}"
-                >
-                    <span class="rz-button__label">{% trans %}cancel{% endtrans %}</span>
-                    <span class="rz-button__icon rz-icon-ri--corner-down-left-line"></span>
-                </a>
-                {% if deleteLabel is not defined %}
-                    {% set deleteLabel = 'delete' %}
-                {% endif %}
-                {% if deleteIcon is not defined %}
-                    {% set deleteIcon = 'rz-icon-ri--delete-bin-7-line' %}
-                {% endif %}
-                <button is="rz-button" type="submit" class="rz-button rz-button--primary rz-button--error rz-button-group__button">
-                    <span class="rz-button__label">{{ deleteLabel }}</span>
-                    <span class="rz-button__icon {{ deleteIcon }}"></span>
-                </button>
+                {{
+                    rz_button.root({
+                        tagName: 'a',
+                        attributes: {
+                            href: cancelPath,
+                        },
+                        emphasis: 'secondary',
+                        label: 'cancel',
+                        icon: 'rz-icon-ri--corner-down-left-line',
+                    })
+                }}
+                {{
+                    rz_button.root({
+                        attributes: {
+                            type: 'submit',
+                        },
+                        emphasis: 'primary',
+                        color: 'danger',
+                        label: delete_label|default('delete'),
+                        icon: delete_icon|default('rz-icon-ri--delete-bin-7-line'),
+                    })
+                }}
             </div>
             {{ form_end(form) }}
         </article>
