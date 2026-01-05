@@ -1,4 +1,3 @@
-{# Possible type: deleted, hidden, locked, archived, hiding-children, published, pending, draft, shadow #}
 {% macro item(type = 'unknown', display_label = true, badgeOptions = {}) %}
     {% set default_options = { size: 'sm'}|merge(badgeOptions) %}
 
@@ -69,4 +68,47 @@
 
     {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
     {{ rz_badge.item(default_options|merge(type_options)) }}
+{% endmacro %}
+
+
+{% macro status(node, options = { display_label: true }) %}
+    {% set status = 'unknown' %}
+
+    {% if node.isPublished == true %}
+        {% set status = 'published' %}
+    {% elseif node.isDeleted %}
+        {% set status = 'deleted' %}
+    {% elseif node.isDraft == true %}
+        {% set status = 'draft' %}
+    {% elseif node.isArchived == true %}
+        {% set status = 'archived' %}
+    {% elseif node.isPending == true %}
+        {% set status = 'pending' %}
+    {% endif %}
+
+    {{ _self.item(status, options.display_label) }}
+{% endmacro %}
+
+{% macro parameters(node, options = { display_label: true }) %}
+    {% if node.isVisible == false %}
+        {{ _self.item('hidden', options.display_label) }}
+    {% endif %}
+
+    {% if node.isHidingChildren == true %}
+        {{ _self.item('hiding-children', options.display_label) }}
+    {% endif %}
+
+    {% if node.isShadow == true %}
+        {{ _self.item('shadow', options.display_label) }}
+    {% endif %}
+
+    {% if node.isLocked == true %}
+        {{ _self.item('locked', options.display_label) }}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro all(node, options = { display_label: true }) %}
+    {{ _self.status(node, options) }}
+    {{ _self.parameters(node, options) }}
 {% endmacro %}
