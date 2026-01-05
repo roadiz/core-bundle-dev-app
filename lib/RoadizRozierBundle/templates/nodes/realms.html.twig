@@ -84,9 +84,12 @@
                         {% form_theme form '@RoadizRozier/forms.html.twig' %}
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
-                        <button class="uk-button uk-button-primary" type="submit">
-                            <i class="uk-icon-rz-plus"></i> {% trans %}join.realm{% endtrans %}
-                        </button>
+                        <div class="rz-form-field rz-form-field--align-start">
+                            <button class="rz-button rz-button--primary" type="submit">
+                                <span class="rz-button__label">{% trans %}join.realm{% endtrans %}</span>
+                                <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                            </button>
+                        </div>
                         {{ form_end(form) }}
                     </div>
                 {% endif %}

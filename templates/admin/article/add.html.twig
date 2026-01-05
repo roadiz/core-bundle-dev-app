@@ -13,18 +13,22 @@
         {{ form_start(form, {
             'attr': {
                 'id': 'articles-form',
-                'class': 'uk-form uk-form-stacked'
+                'class': 'rz-form'
             }
         }) }}{{ form_widget(form) }}
         <fieldset data-uk-margin>
             {% apply spaceless %}
-                <button data-action-save="#articles-form"
-                        class="uk-button uk-button-primary rz-action-save" type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-save"></i></span>
-                    <span class="label"><span class="label-text">{% block content_form_submit_label %}
-                                {%- trans -%}articles.form.add{%- endtrans -%}
-                            {% endblock %}</span></span>
-                </button>
+                {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        'data-action-save': '#articles-form',
+                        title: 'articles.form.add'|trans,
+                    },
+                    label: 'articles.form.add'|trans,
+                    emphasis: 'primary',
+                    icon: 'rz-icon-ri--save-line',
+                }) }}
             {% endapply %}
         </fieldset>
         {{ form_end(form) }}
