@@ -5,6 +5,7 @@
 				'field': 'displayName',
 				'filters': filters,
 				'label': 'customForm.displayName'|trans,
+				'column_ordering_class': column_ordering_class,
 			} only %}
 		</th>
 		<th>
@@ -12,13 +13,16 @@
 				'field': 'createdAt',
 				'filters': filters,
 				'label': 'createdAt'|trans,
+				'column_ordering_class': column_ordering_class,
 			} only %}
 		</th>
+		<th></th>
 		<th>
 			{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
 				'field': 'closeDate',
 				'filters': filters,
 				'label': 'customForm.closeDate'|trans,
+				'column_ordering_class': column_ordering_class,
 			} only %}
 		</th>
 	{% endblock %}
