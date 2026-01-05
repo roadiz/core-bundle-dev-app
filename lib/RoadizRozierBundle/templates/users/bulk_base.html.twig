@@ -10,25 +10,15 @@
 {%- endblock -%}
 
 {% block content_body %}
+
     <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table">
-                <thead>
-                    <tr>
-                        {% include '@RoadizRozier/users/user_row_header.html.twig' with { no_sort: true } %}
-                    </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/users/user_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="7">{% trans %}no_users{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
+        {% include '@RoadizRozier/users/list_table.html.twig' with {
+            no_sort: true,
+            actions_available: false,
+            selection_available: false,
+        } %}
+
         {% block bulk_form %}{% endblock %}
     </article>
 {% endblock %}

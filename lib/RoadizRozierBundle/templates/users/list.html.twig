@@ -25,25 +25,11 @@
             bulkEnableForm: bulkEnableForm,
             bulkDisableForm: bulkDisableForm,
         } only %}
-        <article class="content content-no-action-menu">
-            <div class="content-table-cont">
-                <table class="content-table users uk-table">
-                    <thead>
-                    <tr>
-                        {% include '@RoadizRozier/users/user_row_header.html.twig' %}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in items %}
-                        <tr>
-                            {% include '@RoadizRozier/users/user_row.html.twig' %}
-                        </tr>
-                    {% else %}
-                        <tr><td colspan="7">{% trans %}no_users{% endtrans %}</td></tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <article>
+            {% include '@RoadizRozier/users/list_table.html.twig' with {
+                selection_available: hasBulkActions,
+                actions_available: true,
+            } %}
         </article>
     </rz-bulk-section>
 {% endblock %}
