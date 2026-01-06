@@ -34,16 +34,37 @@ export class RzRepeatable extends HTMLElement {
 
     moveDownItem(event: Event) {
         event.preventDefault()
-        const parentElement = this.getClosetestItem(event.target as HTMLElement)
-        // TODO: re order item placement logic
-        this.updateInputs()
+        const currentItem = this.getClosetestItem(event.target as HTMLElement)
+        const nextElement = currentItem?.nextElementSibling
+
+        if (currentItem && nextElement) {
+            console.log(
+                'moveDownItem',
+                currentItem,
+                nextElement,
+                this.list.querySelectorAll(`.${this.itemClass}`),
+            )
+            nextElement.after(currentItem)
+
+            this.updateInputs()
+        }
     }
 
     moveUpItem(event: Event) {
         event.preventDefault()
-        const parentElement = this.getClosetestItem(event.target as HTMLElement)
-        // TODO: re order item placement logic
-        this.updateInputs()
+        const currentItem = this.getClosetestItem(event.target as HTMLElement)
+        const previousItem = currentItem?.previousElementSibling
+
+        if (currentItem && previousItem) {
+            previousItem.before(currentItem)
+            console.log(
+                'moveUpItem',
+                currentItem,
+                previousItem,
+                this.list.querySelectorAll(`.${this.itemClass}`),
+            )
+            this.updateInputs()
+        }
     }
 
     removeItem(event: Event) {
@@ -52,7 +73,7 @@ export class RzRepeatable extends HTMLElement {
         parentElement?.remove()
 
         // item name and id need to be updated only if not the last item removed
-        const isLastItem = parentElement?.nextElementSibling === null
+        const isLastItem = !parentElement?.nextElementSibling
         if (!isLastItem) {
             this.updateInputs()
         }
@@ -66,13 +87,15 @@ export class RzRepeatable extends HTMLElement {
 
         const bodyElement = newItem.querySelector('[data-form]')
         const bodyToAdd = this.prototypeTemplate?.content.cloneNode(true)
-        bodyElement.appendChild(bodyToAdd)
-        newItem.appendChild(this.insertZoneTemplate?.content.cloneNode(true))
+        if (bodyElement && bodyToAdd) bodyElement.appendChild(bodyToAdd)
+
+        const insertZone = this.insertZoneTemplate?.content.cloneNode(true)
+        if (insertZone) newItem.appendChild(insertZone)
         this.initButtonsListeners(newItem)
 
-        const parentItem = this.getClosetestItem(event.target as HTMLElement)
-        if (parentItem) {
-            parentItem.after(newItem)
+        const targetItem = this.getClosetestItem(event.target as HTMLElement)
+        if (targetItem) {
+            targetItem.after(newItem)
         } else {
             this.list.prepend(newItem)
         }
@@ -82,8 +105,6 @@ export class RzRepeatable extends HTMLElement {
 
     updateInputs() {
         const items = this.list?.querySelectorAll(`.${this.itemClass}`)
-        console.log('updating inputs for items', items)
-
         if (!items.length) return
 
         items?.forEach((item, itemIndex) => {
@@ -94,6 +115,7 @@ export class RzRepeatable extends HTMLElement {
             inputs.forEach((input) => {
                 const name = input.getAttribute('name')
                 if (name) {
+                    // TODO: only work one time, need to be improved to replace all occurrences with new index
                     const newName = name.replace(
                         new RegExp(this.prototypeName, 'g'),
                         String(itemIndex),
