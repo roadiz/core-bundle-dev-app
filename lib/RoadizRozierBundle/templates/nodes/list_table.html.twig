@@ -48,8 +48,8 @@
                 </td>
                 <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
                 <td class="mobile-hidden uk-visible-large">
-                    {% import "@RoadizRozier/macros/rz_node_status_badge.html.twig" as rz_node_status %}
-                    {{ rz_node_status.all_badges(node, { display_label: false }) }}
+                    {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+                    {{ rz_node_badge.all(node, { display_label: false }) }}
                 </td>
                 <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
                 {% if actions_available %}
