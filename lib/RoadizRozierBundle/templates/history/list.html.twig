@@ -25,7 +25,10 @@
         nav_bar_context: user ? {'user':user, 'current':'history'} : {'current':'history'}
     } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+    }  only %}
 
     <article class="content content-no-action-menu content-manage-history">
         <div class="history-logs">

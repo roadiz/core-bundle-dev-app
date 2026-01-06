@@ -17,17 +17,18 @@
 
                 {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
                     targetId: 'nodeType-menu',
+                    tagList: 'ul',
                     items: popover.items,
                 } only %}
                     {% block items %}
                         {% for item in items %}
-                            {{ _self.item(
+                            {{ _self.item({
                                 label: item.getDisplayName,
                                 href: path('nodeTypeDecoratorsAddPage', {
                                     nodeTypeName: item.getName
                                 }),
                                 rightIcon: 'rz-icon-ri--arrow-right-s-line'
-                            ) }}
+                            }) }}
                         {% endfor %}
                     {% endblock %}
                 {% endembed %}

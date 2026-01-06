@@ -26,7 +26,10 @@
         ]
     } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+    }  only %}
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
             <table class="groups content-table uk-table">

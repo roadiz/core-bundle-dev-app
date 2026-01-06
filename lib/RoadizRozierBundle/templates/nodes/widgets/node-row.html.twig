@@ -12,14 +12,19 @@
     </td>
     <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
     <td class="mobile-hidden uk-visible-large">
-        {% import "@RoadizRozier/macros/rz_node_status_badge.html.twig" as rz_node_status %}
-        {{ rz_node_status.all_badges(node, { display_label: false }) }}
+        {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+        {{ rz_node_badge.all(node, { display_label: false }) }}
     </td>
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
     <td class="table-actions-row">
+        {% if (with_select_action is not defined) %}
+            {% set with_select_action = true %}
+        {% endif %}
+        {% if with_select_action %}
         <div class="bulk-selection">
             <input is="rz-input" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
         </div>
+        {% endif %}
 
         <div class="uk-button-group">
             <a class="uk-button uk-button-content uk-button-small"
