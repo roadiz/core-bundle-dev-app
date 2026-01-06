@@ -30,11 +30,23 @@
         }) }}"
 		{{ el_attrs.print(options.attributes|default({})) }}
     >
-        {% if label is defined and label %}
-            <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
-        {% endif %}
-        {% if icon is defined and icon %}
-            <span class="{{element_class ~ '__icon ' ~ icon }}"></span>
-        {% endif %}
+        {{ _self.inner({
+            element_class: element_class,
+            label: label,
+            icon: icon,
+        }) }}
     </{{ tagName }}>
+{% endmacro %}
+
+{% macro inner(options = {} ) %}
+    {% set element_class = options.element_class|default('rz-button') %}
+    {% set label = options.label|default(null) %}
+    {% set icon = options.icon|default(null) %}
+
+    {% if label is defined and label %}
+        <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
+    {% endif %}
+    {% if icon is defined and icon %}
+        <span class="{{element_class ~ '__icon ' ~ icon }}"></span>
+    {% endif %}
 {% endmacro %}

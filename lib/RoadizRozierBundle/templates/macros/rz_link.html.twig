@@ -8,6 +8,16 @@
         class="{{ html_classes('rz-link', class) }}"
 		{{ el_attrs.print(options.attributes|default({})) }}
     >
-        {{- options.content|raw -}}
+        {% if options.label is defined and options.label %}
+            <span class="rz-link__label">{{ options.label }}</span>
+        {% endif %}
+
+        {% if options.icon is defined and options.icon %}
+            <span class="rz-link__icon {{ options.icon }}"></span>
+        {% endif %}
+
+        {% if options.content is defined and options.content %}
+            {{- options.content|raw -}}
+        {% endif %}
     </a>
 {% endmacro %}
