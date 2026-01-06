@@ -26,13 +26,13 @@ export class RzRepeatable extends HTMLElement {
         this.moveUpItem = this.moveUpItem.bind(this)
     }
 
-    getClosetestItem(element: HTMLElement) {
+    getClosestItem(element: HTMLElement) {
         return element.closest(`.${this.itemClass}`) as HTMLElement
     }
 
     moveDownItem(event: Event) {
         event.preventDefault()
-        const currentItem = this.getClosetestItem(event.target as HTMLElement)
+        const currentItem = this.getClosestItem(event.target as HTMLElement)
         const nextElement = currentItem?.nextElementSibling
 
         if (currentItem && nextElement) {
@@ -44,7 +44,7 @@ export class RzRepeatable extends HTMLElement {
 
     moveUpItem(event: Event) {
         event.preventDefault()
-        const currentItem = this.getClosetestItem(event.target as HTMLElement)
+        const currentItem = this.getClosestItem(event.target as HTMLElement)
         const previousItem = currentItem?.previousElementSibling
 
         if (currentItem && previousItem) {
@@ -55,7 +55,7 @@ export class RzRepeatable extends HTMLElement {
 
     removeItem(event: Event) {
         event.preventDefault()
-        const parentElement = this.getClosetestItem(event.target as HTMLElement)
+        const parentElement = this.getClosestItem(event.target as HTMLElement)
         // TODO: Need to remove all inner buttons listeners ?
         parentElement?.remove()
 
@@ -72,11 +72,11 @@ export class RzRepeatable extends HTMLElement {
             true,
         ) as HTMLElement
 
-        const targetItem = this.getClosetestItem(event.target as HTMLElement)
+        const targetItem = this.getClosestItem(event.target as HTMLElement)
         if (targetItem) {
             targetItem.after(newItem)
         } else {
-            this.list.prepend(newItem)
+            this.list?.prepend(newItem)
         }
 
         this.initButtonsListeners(newItem)
@@ -112,7 +112,7 @@ export class RzRepeatable extends HTMLElement {
                 const nameMatch = name?.match(nameRegex)
 
                 if (!nameMatch.groups?.id) {
-                    console.warn('No newId found for name', name)
+                    console.warn("Can't extract id/index from input name", name)
                     return
                 }
                 const newName = `${nameMatch[1]}[${itemIndex}]${nameMatch[3]}`
@@ -121,7 +121,6 @@ export class RzRepeatable extends HTMLElement {
                 const id = input.getAttribute('id')
                 const label = item.querySelector(`label[for="${id}"]`)
                 const idMatch = id?.match(idRegex)
-                console.log('id', id, idMatch)
                 if (label) {
                     const newId = [idMatch?.[1], itemIndex, idMatch?.[3]]
                         .filter((v) => v)
