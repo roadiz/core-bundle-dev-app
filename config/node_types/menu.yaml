@@ -17,6 +17,7 @@ fields:
             - MenuLink
             - Page
             - ArticleContainer
+            - Fields
         type: children-nodes
 defaultTtl: 0
 searchable: true
