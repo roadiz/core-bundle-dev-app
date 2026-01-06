@@ -256,8 +256,7 @@
         },
         "branch-alias": {
             "dev-main": "2.6.x-dev",
-            "dev-develop": "2.7.x-dev",
-            "dev-2.7-ui": "2.7.x-dev"
+            "dev-develop": "2.7.x-dev"
         }
     },
     "minimum-stability": "dev",
