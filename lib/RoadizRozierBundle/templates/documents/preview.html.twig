@@ -3,6 +3,8 @@
 {% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
+    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
     <section class="content-global manage-document">
         {% include '@RoadizRozier/documents/head.html.twig' with {
             document: document,
@@ -45,7 +47,10 @@
                         {# Try to download PDF using private route #}
                         <object width="100%" height="700px" data="{{ path('documentsDownloadInlinePage', { documentId: document.id}) }}" type="application/pdf"></object>
                     {% else %}
-                        <p class="uk-alert uk-alert-warning"><i class="uk-icon-warning"></i> {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}</p>
+                        <p class="uk-alert uk-alert-warning">
+                            <i class="uk-icon-warning"></i>
+                            {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
+                        </p>
                     {% endif %}
                 {% endif %}
             </div>
@@ -82,8 +87,16 @@
                             <tr>
                                 <td>{{ otherVideo.mimeType }}</td>
                                 <td>{{ otherVideo.relativePath }}</td>
-                                <td><a class="uk-button uk-button-content uk-button-small document-link"
-                                        href="{{ path('documentsEditPage', { documentId: otherVideo.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                <td>
+                                    {{ rz_button.root({
+                                        icon: 'rz-icon-ri--edit-line',
+                                        size: 'sm',
+                                        attributes: {
+                                            href: path('documentsEditPage', { documentId: otherVideo.id }),
+                                            title: 'edit'|trans,
+                                        },
+                                    }) }}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
@@ -100,8 +113,16 @@
                             <tr>
                                 <td>{{ otherAudio.mimeType }}</td>
                                 <td>{{ otherAudio.relativePath }}</td>
-                                <td><a class="uk-button uk-button-content uk-button-small document-link"
-                                        href="{{ path('documentsEditPage', { documentId: otherAudio.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                <td>
+                                  {{ rz_button.root({
+                                        icon: 'rz-icon-ri--edit-line',
+                                        size: 'sm',
+                                        attributes: {
+                                            href: path('documentsEditPage', { documentId: otherAudio.id }),
+                                            title: 'edit'|trans,
+                                        },
+                                    }) }}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
@@ -118,8 +139,16 @@
                             <tr>
                                 <td>{{ otherPicture.mimeType }}</td>
                                 <td>{{ otherPicture.relativePath }}</td>
-                                <td><a class="uk-button uk-button-content uk-button-small document-link"
-                                        href="{{ path('documentsEditPage', { documentId: otherPicture.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                <td>
+                                    {{ rz_button.root({
+                                        icon: 'rz-icon-ri--edit-line',
+                                        size: 'sm',
+                                        attributes: {
+                                            href: path('documentsEditPage', { documentId: otherPicture.id }),
+                                            title: 'edit'|trans,
+                                        },
+                                    }) }}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
