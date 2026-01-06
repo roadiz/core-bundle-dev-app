@@ -60,6 +60,7 @@ final class ContactFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('label', false);
+        $resolver->setDefault('attr', ['childLabel' => 'contact_form_child_label']);
         $resolver->setDefault('required', false);
     }
 

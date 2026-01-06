@@ -319,6 +319,7 @@ final class NodeSourceType extends AbstractType
                     'allow_delete' => true,
                     'attr' => [
                         'class' => 'rz-collection-form-type',
+                        'no-field-group' => true,
                     ],
                     'entry_options' => [
                         'label' => false,
