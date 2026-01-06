@@ -1,26 +1,24 @@
-// import '~/vendor/jquery.collection'
-// import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
-
 export class RzRepeatable extends HTMLElement {
     list: HTMLElement | null = null
-    prototypeTemplate: HTMLTemplateElement | null = null
     itemTemplate: HTMLTemplateElement | null = null
-    insertZoneTemplate: HTMLTemplateElement | null = null
     itemClass = 'rz-repeatable__item'
 
+    // With example values
     prototypeName = '__name__'
     namePrefix = 'source[key]'
+    idPrefix = 'source_key'
 
     constructor() {
         super()
         this.list = this.querySelector('[data-list]')
-        this.prototypeTemplate = this.querySelector('template[data-prototype]')
         this.itemTemplate = this.querySelector('template[data-item]')
-        this.insertZoneTemplate = this.querySelector(
-            'template[data-insert-zone]',
-        )
+
         this.prototypeName = this.getAttribute('prototype-name') || ''
         this.namePrefix = this.getAttribute('name-prefix') || ''
+        this.idPrefix = this.getAttribute('id-prefix') || ''
+        if (this.getAttribute('item-class')) {
+            this.itemClass = this.getAttribute('item-class')
+        }
 
         this.addItem = this.addItem.bind(this)
         this.removeItem = this.removeItem.bind(this)
@@ -40,7 +38,7 @@ export class RzRepeatable extends HTMLElement {
         if (currentItem && nextElement) {
             nextElement.after(currentItem)
 
-            this.updateInputs()
+            this.updateAllInputAttributes()
         }
     }
 
@@ -51,19 +49,20 @@ export class RzRepeatable extends HTMLElement {
 
         if (currentItem && previousItem) {
             previousItem.before(currentItem)
-            this.updateInputs()
+            this.updateAllInputAttributes()
         }
     }
 
     removeItem(event: Event) {
         event.preventDefault()
         const parentElement = this.getClosetestItem(event.target as HTMLElement)
+        // TODO: Need to remove all inner buttons listeners ?
         parentElement?.remove()
 
         // item name and id need to be updated only if not the last item removed
         const isLastItem = !parentElement?.nextElementSibling
         if (!isLastItem) {
-            this.updateInputs()
+            this.updateAllInputAttributes()
         }
     }
 
@@ -73,14 +72,6 @@ export class RzRepeatable extends HTMLElement {
             true,
         ) as HTMLElement
 
-        const bodyElement = newItem.querySelector('[data-form]')
-        const bodyToAdd = this.prototypeTemplate?.content.cloneNode(true)
-        if (bodyElement && bodyToAdd) bodyElement.appendChild(bodyToAdd)
-
-        const insertZone = this.insertZoneTemplate?.content.cloneNode(true)
-        if (insertZone) newItem.appendChild(insertZone)
-        this.initButtonsListeners(newItem)
-
         const targetItem = this.getClosetestItem(event.target as HTMLElement)
         if (targetItem) {
             targetItem.after(newItem)
@@ -88,41 +79,55 @@ export class RzRepeatable extends HTMLElement {
             this.list.prepend(newItem)
         }
 
-        this.updateInputs()
+        this.initButtonsListeners(newItem)
+        this.updateAllInputAttributes()
     }
 
-    updateInputs() {
-        const items = this.list?.querySelectorAll(`.${this.itemClass}`)
-        if (!items.length) return
+    private escapeRegExp(str: string): string {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }
 
-        items?.forEach((item, itemIndex) => {
+    updateAllInputAttributes() {
+        const items = this.list?.querySelectorAll(`.${this.itemClass}`)
+        if (!items || !items.length) return
+
+        const escapedIdPrefix = this.escapeRegExp(this.idPrefix)
+        const escapedPrefix = this.escapeRegExp(this.namePrefix)
+        const escapedProtoName = this.escapeRegExp(this.prototypeName)
+
+        const nameRegex = new RegExp(
+            `^(${escapedPrefix})\\[(?<id>${escapedProtoName}|\\d+)\\](.*)$`,
+        )
+        const idRegex = new RegExp(
+            `^(${escapedIdPrefix})(?<id>_{1,3}${escapedProtoName}_{1,3}|_{1,3}\\d+_{1,3})(.*)$`,
+        )
+
+        items.forEach((item, itemIndex) => {
             const inputs = item.querySelectorAll(
                 `input[name^="${this.namePrefix}"], select[name^="${this.namePrefix}"], textarea[name^="${this.namePrefix}"]`,
             )
 
             inputs.forEach((input) => {
                 const name = input.getAttribute('name')
-                if (name) {
-                    // TODO: only work one time, need to be improved to replace all occurrences with new index
-                    const newName = name.replace(
-                        new RegExp(this.prototypeName, 'g'),
-                        String(itemIndex),
-                    )
+                const nameMatch = name?.match(nameRegex)
 
-                    input.setAttribute('name', newName)
+                if (!nameMatch.groups?.id) {
+                    console.warn('No newId found for name', name)
+                    return
                 }
+                const newName = `${nameMatch[1]}[${itemIndex}]${nameMatch[3]}`
+                input.setAttribute('name', newName)
 
                 const id = input.getAttribute('id')
-                if (id) {
-                    const newId = id.replace(
-                        new RegExp(this.prototypeName, 'g'),
-                        '_' + String(itemIndex) + '_',
-                    )
+                const label = item.querySelector(`label[for="${id}"]`)
+                const idMatch = id?.match(idRegex)
+                console.log('id', id, idMatch)
+                if (label) {
+                    const newId = [idMatch?.[1], itemIndex, idMatch?.[3]]
+                        .filter((v) => v)
+                        .join('_')
                     input.setAttribute('id', newId)
-                    const label = item.querySelector(`label[for="${id}"]`)
-                    if (label) {
-                        label.setAttribute('for', newId)
-                    }
+                    label.setAttribute('for', newId)
                 }
             })
         })
@@ -154,5 +159,25 @@ export class RzRepeatable extends HTMLElement {
         this.initButtonsListeners(this)
     }
 
-    disconnectedCallback() {}
+    disconnectedCallback() {
+        const addButtons = this.querySelectorAll('[data-add]')
+        addButtons.forEach((button) => {
+            button.removeEventListener('click', this.addItem)
+        })
+
+        const removeButtons = this.querySelectorAll('[data-remove]')
+        removeButtons.forEach((button) => {
+            button.removeEventListener('click', this.removeItem)
+        })
+
+        const moveUpButtons = this.querySelectorAll('[data-move-up]')
+        moveUpButtons.forEach((button) => {
+            button.removeEventListener('click', this.moveUpItem)
+        })
+
+        const moveDownButtons = this.querySelectorAll('[data-move-down]')
+        moveDownButtons.forEach((button) => {
+            button.removeEventListener('click', this.moveDownItem)
+        })
+    }
 }

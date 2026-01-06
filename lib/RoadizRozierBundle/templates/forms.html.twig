@@ -230,17 +230,6 @@
 {% endblock dynamic_widget %}
 
 {%- block collection_widget -%}
-    {# {% if prototype is defined %}
-        {% set attr = attr|merge({'data-prototype': form_row(prototype)}) %}
-        {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
-    {% endif %}
-    {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
-    {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
-    {% set attr = attr|merge({'data-name-prefix': full_name}) %} #}
-
-    {% set additional_class = 'rz-repeatable__item' %}
-
-        {# form_widget: block('form_widget'), #}
     {% include '@RoadizRozier/widgets/repeatable.html.twig' with {
         widget_attributes: block('widget_attributes'),
         data_prototype: form_row(prototype, { attr: { 'no-field-group': true } }),
