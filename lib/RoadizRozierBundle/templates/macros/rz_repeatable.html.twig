@@ -1,7 +1,8 @@
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 <li class="rz-repeatable__item">
     <div class="rz-repeatable__item__header">
-        <span class="rz-icon-ri--earth-line"></span>
+        {% set _icon = icon|default('rz-icon-ri--list-unordered') %}
+        <span class="{{ _icon }}"></span>
         <span class="rz-repeatable__item__title">{{ label }} {{ loop.index }}</span>
         <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
             {{ rz_button.root({

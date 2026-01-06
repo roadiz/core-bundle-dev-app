@@ -1,10 +1,10 @@
+{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
 
 <rz-repeatable
 	prototype-name="{{ prototype.vars.name }}"
 	name-prefix="{{ full_name }}"
 	id-prefix="{{ id }}"
 >
-	{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
 	{% if label is not same as(false) -%}
 		{% if label is empty -%}
 			{% set label = name|humanize %}
@@ -16,6 +16,7 @@
 			{{ rz_button.root({
 				label: 'repeatable.add'|trans,
 				icon: 'rz-icon-ri--add-line',
+				size: 'sm',
 				class: 'rz-form-field__head__end',
 				attributes: {
 					type: 'button',
