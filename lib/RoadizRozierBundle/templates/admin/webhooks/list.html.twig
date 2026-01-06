@@ -24,7 +24,9 @@
         {% include '@RoadizRozier/admin/webhooks/list_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
-        } %}
+            filters: filters,
+            items: items,
+        } only %}
     </article>
 </rz-bulk-section>
 {% endblock %}
