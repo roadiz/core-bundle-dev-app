@@ -245,7 +245,7 @@
     {% include '@RoadizRozier/widgets/repeatable.html.twig' with {
         widget_attributes: block('widget_attributes'),
         data_prototype: form_row(prototype, { attr: { 'no-field-group': true } }),
-        stored_items_form: form_widget(form),
+        stored_items_form: form.vars.value is not empty ? form_widget(form) : null,
     } %}
 {%- endblock collection_widget -%}
 

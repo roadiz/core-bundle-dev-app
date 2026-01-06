@@ -49,8 +49,6 @@ export class RzRepeatable extends HTMLElement {
     removeItem(event: Event) {
         event.preventDefault()
         const parentElement = this.getClosetestItem(event.target as HTMLElement)
-
-        console.log('removing item', parentElement)
         parentElement?.remove()
 
         // item name and id need to be updated only if not the last item removed
@@ -62,22 +60,23 @@ export class RzRepeatable extends HTMLElement {
 
     addItem(event: Event) {
         event.preventDefault()
-        const item = this.itemTemplate?.content.firstElementChild?.cloneNode(
+        const newItem = this.itemTemplate?.content.firstElementChild?.cloneNode(
             true,
         ) as HTMLElement
-        console.log('item to add', item)
-        // TODO: Set index depending on where addButton is located
-        const items = this.list?.querySelectorAll(`.${this.itemClass}`)
-        const itemIndex = items ? items.length : 0
-        item.setAttribute?.('data-item-index', String(itemIndex + 1))
 
-        const bodyElement = item.querySelector('[data-form]')
-        bodyElement.appendChild(this.prototypeTemplate?.content.cloneNode(true))
+        const bodyElement = newItem.querySelector('[data-form]')
+        const bodyToAdd = this.prototypeTemplate?.content.cloneNode(true)
+        bodyElement.appendChild(bodyToAdd)
+        newItem.appendChild(this.insertZoneTemplate?.content.cloneNode(true))
+        this.initButtonsListeners(newItem)
 
-        item.appendChild(this.insertZoneTemplate?.content.cloneNode(true))
+        const parentItem = this.getClosetestItem(event.target as HTMLElement)
+        if (parentItem) {
+            parentItem.after(newItem)
+        } else {
+            this.list.prepend(newItem)
+        }
 
-        this.initButtonsListeners(item)
-        this.list?.appendChild(item)
         this.updateInputs()
     }
 
@@ -142,12 +141,6 @@ export class RzRepeatable extends HTMLElement {
     }
 
     connectedCallback() {
-        const items = this.list?.querySelectorAll(`.${this.itemClass}`)
-        if (items.length) {
-            items.forEach((item, index) => {
-                item.setAttribute('data-item-index', String(index + 1))
-            })
-        }
         this.initButtonsListeners(this)
     }
 

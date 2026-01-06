@@ -11,7 +11,7 @@
 	padding-block: var(--spacing-6xs);
 
 	/* Hide the first insert zone when at least one item exists */
-	.rz-repeatable__body:has(.rz-repeatable__item-list:empty) > & {
+	.rz-repeatable__body:has(.rz-repeatable__item) > .rz-repeatable__insert-zone {
 		display: none;
 	}
 
@@ -23,7 +23,9 @@
 	}
 }
 
-.rz-repeatable__item-list {
+
+
+.rz-repeatable__list {
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-2xs);
@@ -31,6 +33,7 @@
 	list-style: none;
 	padding: initial;
 	margin: initial;
+
 }
 
 /* .rz-repeatable__item {} */

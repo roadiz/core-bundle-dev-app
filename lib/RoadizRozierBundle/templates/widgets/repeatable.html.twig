@@ -1,98 +1,103 @@
 
+{% if label is empty -%}
+	{% set label = name|humanize %}
+{%- endif -%}
+
 <rz-repeatable
 	prototype-name="{{ prototype.vars.name }}"
 	name-prefix="{{ full_name }}"
 >
 	{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
-	{% if label is not same as(false) -%}
-		{% if label is empty -%}
-			{% set label = name|humanize %}
-		{%- endif -%}
-		<div class="rz-form-field__head">
-			{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
 
+	<div class="rz-form-field__head">
+		{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
+
+		{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+		{{ rz_button.root({
+			label: 'repeatable.add'|trans,
+			icon: 'rz-icon-ri--add-line',
+			size: 'sm',
+			class: 'rz-form-field__head__end',
+			attributes: {
+				type: 'button',
+				'data-add': '',
+			},
+		}) }}
+		{{ rz_form_field.help(form) }}
+	</div>
+
+	<div class="rz-form-field__body rz-repeatable__body">
+		<div class="rz-repeatable__insert-zone">
 			{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 			{{ rz_button.root({
-				label: 'repeatable.add'|trans,
 				icon: 'rz-icon-ri--add-line',
-				class: 'rz-form-field__head__end',
 				attributes: {
 					type: 'button',
+					'tooltip-text': 'insert.zone'|trans,
 					'data-add': '',
 				},
 			}) }}
 		</div>
-		<div class="rz-repeatable__body">
-			<div class="rz-repeatable__insert-zone">
-				{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
-				{{ rz_button.root({
-					icon: 'rz-icon-ri--add-line',
-					attributes: {
-						type: 'button',
-						'tooltip-text': 'insert.zone'|trans,
-						'data-add': '',
-					},
-				}) }}
-			</div>
-			<ul data-list="" class="rz-repeatable__item-list">
-				{# TODO: use above data-item template to render existing form #}
-				{% if stored_items_form is defined %}
-					<li class="rz-repeatable__item">
-						<div class="rz-repeatable__item__header">
-							<span class="rz-icon-ri--earth-line"></span>
-							<span class="rz-repeatable__item__title">Item xxx | to replace</span>
-							<div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
-								{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
-								{{ rz_button.root({
-									icon: 'rz-icon-ri--arrow-up-line',
-									size: 'sm',
-									attributes: {
-										type: 'button',
-										'tooltip-text': 'move.up'|trans,
-										'data-move-up': '',
-									},
-								}) }}
-								{{ rz_button.root({
-									icon: 'rz-icon-ri--arrow-down-line',
-									size: 'sm',
-									attributes: {
-										type: 'button',
-										'tooltip-text': 'move.down'|trans,
-										'data-move-down': '',
-									},
-								}) }}
-							</div>
-							{{ rz_button.root({
-								icon: 'rz-icon-ri--delete-bin-7-line',
-								size: 'sm',
-								color: 'danger',
-								emphasis: 'primary',
-								attributes: {
-									type: 'button',
-									'tooltip-text': 'remove.item'|trans,
-									'data-remove': '',
-								},
-							}) }}
-						</div>
-						<div data-form class="rz-repeatable__body">
-							{{ stored_items_form|raw }}
-						</div>
-						<div class="rz-repeatable__insert-zone">
+		<ul data-list="" class="rz-repeatable__list">
+			{# TODO: use above data-item template to render existing form #}
+			{% if stored_items_form is not null %}
+				<li class="rz-repeatable__item">
+					<div class="rz-repeatable__item__header">
+						<span class="rz-icon-ri--earth-line"></span>
+						<span class="rz-repeatable__item__title">Item xxx | to replace</span>
+						<div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
 							{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 							{{ rz_button.root({
-								icon: 'rz-icon-ri--add-line',
+								icon: 'rz-icon-ri--arrow-up-line',
+								size: 'sm',
 								attributes: {
 									type: 'button',
-									'tooltip-text': 'insert.zone'|trans,
-									'data-add': '',
+									'tooltip-text': 'move.up'|trans,
+									'data-move-up': '',
+								},
+							}) }}
+							{{ rz_button.root({
+								icon: 'rz-icon-ri--arrow-down-line',
+								size: 'sm',
+								attributes: {
+									type: 'button',
+									'tooltip-text': 'move.down'|trans,
+									'data-move-down': '',
 								},
 							}) }}
 						</div>
-					</li>
-				{% endif %}
-			</ul>
-		</div>
-	{% endif %}
+						{{ rz_button.root({
+							icon: 'rz-icon-ri--delete-bin-7-line',
+							size: 'sm',
+							color: 'danger',
+							emphasis: 'primary',
+							attributes: {
+								type: 'button',
+								'tooltip-text': 'remove.item'|trans,
+								'data-remove': '',
+							},
+						}) }}
+					</div>
+					<div data-form class="rz-repeatable__body">
+						{{ stored_items_form|raw }}
+					</div>
+					<div class="rz-repeatable__insert-zone">
+						{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+						{{ rz_button.root({
+							icon: 'rz-icon-ri--add-line',
+							attributes: {
+								type: 'button',
+								'tooltip-text': 'insert.zone'|trans,
+								'data-add': '',
+							},
+						}) }}
+					</div>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+
+
 
 	<template data-insert-zone="">
 		<div class="rz-repeatable__insert-zone">
