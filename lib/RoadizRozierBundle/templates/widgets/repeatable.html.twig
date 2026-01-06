@@ -38,7 +38,7 @@
 			</div>
 			<ul data-list="" class="rz-repeatable__list">
 				{% if stored_items_form is not null %}
-                    {%  for item in stored_items_form %}
+                    {% for item in stored_items_form %}
                         {% embed "@RoadizRozier/macros/rz_repeatable.html.twig" %}
                             {% block inner_body %}
                                 {{ form_widget(item) }}
