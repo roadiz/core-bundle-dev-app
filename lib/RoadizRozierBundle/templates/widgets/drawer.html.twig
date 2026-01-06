@@ -1,64 +1,64 @@
-{% set entityIds = [] %}
-{% set isSortable = isSortable|default('true') %}
+{% set entity_ids = [] %}
+{% set is_sortable = isSortable|default('true') %}
 
 {% for entity in value %}
     {% if entity is ContextualizedDocumentInterface %}
-        {% set entityIds = entityIds|merge([{
+        {% set entity_ids = entity_ids|merge([{
             id: entity.id,
             document: entity.document.id,
             hotspot: entity.hotspot,
             imageCropAlignment: entity.imageCropAlignment
         }]) %}
     {% elseif entity.id is defined %}
-        {% set entityIds = entityIds|merge([entity.id]) %}
+        {% set entity_ids = entity_ids|merge([entity.id]) %}
     {% else %}
         {#
          # During **Form Errors**, entities are not transformed to ExplorerProviderItem.
          # We need to use directly data item as string.
          #}
-        {% set entityIds = entityIds|merge([entity]) %}
+        {% set entity_ids = entity_ids|merge([entity]) %}
     {% endif %}
 {% endfor %}
 
-{% set fieldAttributesWhitelist = [
+{% set field_attributes_whitelist = [
     'data-field-group',
     'data-field-group-canonical',
     'data-dev-name',
 ] %}
-{% set fieldAttributes = [] %}
+{% set field_attributes = [] %}
 
 {% for key, value in form.vars.attr %}
-    {% if key in fieldAttributesWhitelist %}
-        {% set fieldAttributes = fieldAttributes|merge([
+    {% if key in field_attributes_whitelist %}
+        {% set field_attributes = field_attributes|merge([
             key ~ '="' ~ value|escape ~ '"'
         ]) %}
     {% endif %}
 {% endfor %}
 
-{% set drawerAttributes = [] %}
-{% set drawerAttributesMap = {} %}
+{% set drawer_attributes = [] %}
+{% set drawer_attributes_map = {} %}
 
 {# Parse widget_attributes string into a map for easy access #}
 {% if widget_attributes is defined and widget_attributes is not empty %}
-    {% set attributePairs = widget_attributes|split(' ') %}
-    {% for pair in attributePairs %}
+    {% set attribute_pairs = widget_attributes|split(' ') %}
+    {% for pair in attribute_pairs %}
         {% if '=' in pair %}
             {% set parts = pair|split('=', 2) %}
-            {% set attrKey = parts[0]|trim %}
-            {% set attrValue = parts[1]|trim('"')|trim("'") %}
-            {% set drawerAttributesMap = drawerAttributesMap|merge({ (attrKey): attrValue }) %}
-            {% set drawerAttributes = drawerAttributes|merge([pair]) %}
+            {% set attr_key = parts[0]|trim %}
+            {% set attr_value = parts[1]|trim('"')|trim("'") %}
+            {% set drawer_attributes_map = drawer_attributes_map|merge({ (attr_key): attr_value }) %}
+            {% set drawer_attributes = drawer_attributes|merge([pair]) %}
         {% endif %}
     {% endfor %}
 {% endif %}
 
-{% set drawerId = drawerAttributesMap['id']|default('drawer-' ~ random()) %}
-{% set fileUploadId = drawerId ~ '-file-upload' %}
+{% set drawer_id = drawer_attributes_map['id']|default('drawer-' ~ random()) %}
+{% set file_upload_id = drawer_id ~ '-file-upload' %}
 
 
 {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
 
-<rz-form-field {{ fieldAttributes|join(' ')|raw }}>
+<rz-form-field {{ field_attributes|join(' ')|raw }}>
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
@@ -67,16 +67,16 @@
             {% set label = name|humanize %}
         {%- endif -%}
         <div class="rz-form-field__head">
-            {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entityIds|length) }}
+            {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entity_ids|length) }}
             <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                 {% if enableDropzone %}
                     <button
                         type="button"
                         class="rz-button rz-button--sm rz-button-group__button"
                         command="--toggle-file-upload"
-                        commandfor="{{ drawerId }}"
+                        commandfor="{{ drawer_id }}"
                         aria-expanded="false"
-                        aria-controls="{{ fileUploadId }}"
+                        aria-controls="{{ file_upload_id }}"
                     >
                         <span class="rz-button__label">{%- trans -%}documents.toggle-uploader{%- endtrans -%}</span>
                         <span class="rz-button__icon rz-icon-ri--upload-line"></span>
@@ -86,7 +86,7 @@
                     type="button"
                     class="rz-button rz-button--sm rz-button-group__button"
                     command="--open-explorer"
-                    commandfor="{{ drawerId }}"
+                    commandfor="{{ drawer_id }}"
                 >
                     <span class="rz-button__label">{%- trans -%}documents.toggle-explorer{%- endtrans -%}</span>
                     <span class="rz-button__icon rz-icon-ri--add-line"></span>
@@ -107,21 +107,21 @@
     {%- endif -%}
 
     <rz-drawer 
-        {{ drawerAttributes|join(' ')|raw }}
+        {{ drawer_attributes|join(' ')|raw }}
         class="rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} rz-form-field__body"
         {% if entity %}accept-entity="{{ entity }}"{% endif %}
-        {% if isSortable %}sortable="" {% endif %}
+        {% if is_sortable %}sortable="" {% endif %}
         {% if provider_class %}provider-class="{{ provider_class }}" {% endif %}
         {% if provider_options %}provider-options="{{ provider_options|json_encode }}" {% endif %}
         entity-types="[]"
-        items="{{ entityIds|json_encode }}"
+        items="{{ entity_ids|json_encode }}"
         entity-name="{{ entityName }}"
         locale="{{ form.vars._locale }}"
         document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
     >
         <ul class="rz-drawer__body" data-list></ul>
         {% if enableDropzone %}
-            <rz-file-upload id="{{ fileUploadId }}" hidden></rz-file-upload>
+            <rz-file-upload id="{{ file_upload_id }}" hidden></rz-file-upload>
         {% endif %}
     </rz-drawer>
 </rz-form-field>
