@@ -1,22 +1,3 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-    bordered: true,
-} %}
-    {% block tbody_content %}
-        {% for key, cache in cachesInfo %}
-            <tr>
-                <th>{{ key|trans }}</th>
-                <td>
-                    {% if cache %}
-                        <i class="uk-icon-check"></i> {{ cache }}
-                    {% else %}
-                        <i class="uk-icon-close"></i> {% trans %}no.cache.available{% endtrans %}
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    {% endblock %}
-{% endembed %}
-
 {% include '@RoadizRozier/admin/delete.html.twig' with {
     'title': "purge.cache"|trans,
     'headPath': '@RoadizRozier/admin/head.html.twig',
