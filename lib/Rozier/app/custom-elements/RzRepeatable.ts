@@ -38,12 +38,6 @@ export class RzRepeatable extends HTMLElement {
         const nextElement = currentItem?.nextElementSibling
 
         if (currentItem && nextElement) {
-            console.log(
-                'moveDownItem',
-                currentItem,
-                nextElement,
-                this.list.querySelectorAll(`.${this.itemClass}`),
-            )
             nextElement.after(currentItem)
 
             this.updateInputs()
@@ -57,12 +51,6 @@ export class RzRepeatable extends HTMLElement {
 
         if (currentItem && previousItem) {
             previousItem.before(currentItem)
-            console.log(
-                'moveUpItem',
-                currentItem,
-                previousItem,
-                this.list.querySelectorAll(`.${this.itemClass}`),
-            )
             this.updateInputs()
         }
     }
