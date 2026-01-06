@@ -1,0 +1,52 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+<li class="rz-repeatable__item">
+    <div class="rz-repeatable__item__header">
+        <span class="rz-icon-ri--earth-line"></span>
+        <span class="rz-repeatable__item__title">{{ label }} {{ loop.index }}</span>
+        <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--arrow-up-line',
+                size: 'sm',
+                attributes: {
+                    type: 'button',
+                    'tooltip-text': 'move.up'|trans,
+                    'data-move-up': '',
+                },
+            }) }}
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--arrow-down-line',
+                size: 'sm',
+                attributes: {
+                    type: 'button',
+                    'tooltip-text': 'move.down'|trans,
+                    'data-move-down': '',
+                },
+            }) }}
+        </div>
+        {{ rz_button.root({
+            icon: 'rz-icon-ri--delete-bin-7-line',
+            size: 'sm',
+            color: 'danger',
+            emphasis: 'primary',
+            attributes: {
+                type: 'button',
+                'tooltip-text': 'remove.item'|trans,
+                'data-remove': '',
+            },
+        }) }}
+    </div>
+    <div data-form class="rz-repeatable__body">
+        {% block inner_body %}
+        {% endblock %}
+    </div>
+    <div class="rz-repeatable__insert-zone">
+        {{ rz_button.root({
+            icon: 'rz-icon-ri--add-line',
+            attributes: {
+                type: 'button',
+                'tooltip-text': 'insert.zone'|trans,
+                'data-add': '',
+            },
+        }) }}
+    </div>
+</li>
