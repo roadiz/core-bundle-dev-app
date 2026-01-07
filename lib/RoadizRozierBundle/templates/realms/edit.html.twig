@@ -19,21 +19,6 @@
         {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
         {{ actions_menu.saveItem('#edit-realm-form') }}
         {{ form_end(form) }}
-
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            bordered: true,
-        } only %}
-            {% block tbody_content %}
-                <tr>
-                    <th>{% trans %}created.at{% endtrans %}</th>
-                    <td>{{ item.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans %}updated.at{% endtrans %}</th>
-                    <td>{{ item.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
-                </tr>
-            {% endblock %}
-        {% endembed %}
     </article>
 
     {% include '@RoadizRozier/realms/actionsMenu.html.twig' %}
