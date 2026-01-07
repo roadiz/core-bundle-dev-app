@@ -10,16 +10,6 @@ export class RzRepeatable extends HTMLElement {
 
     constructor() {
         super()
-        this.list = this.querySelector('[data-list]')
-        this.itemTemplate = this.querySelector('template[data-item]')
-
-        this.inputIndexPlaceholder =
-            this.getAttribute('input-index-placeholder') || ''
-        this.inputBaseName = this.getAttribute('input-base-name') || ''
-        this.idBaseName = this.getAttribute('id-base-name') || ''
-        if (this.getAttribute('item-class')) {
-            this.itemClass = this.getAttribute('item-class')
-        }
 
         this.addItem = this.addItem.bind(this)
         this.removeItem = this.removeItem.bind(this)
@@ -157,6 +147,17 @@ export class RzRepeatable extends HTMLElement {
     }
 
     connectedCallback() {
+        this.list = this.querySelector('[data-list]')
+        this.itemTemplate = this.querySelector('template[data-item]')
+
+        this.inputIndexPlaceholder =
+            this.getAttribute('input-index-placeholder') || ''
+        this.inputBaseName = this.getAttribute('input-base-name') || ''
+        this.idBaseName = this.getAttribute('id-base-name') || ''
+        if (this.getAttribute('item-class')) {
+            this.itemClass = this.getAttribute('item-class')
+        }
+
         this.initButtonsListeners(this)
     }
 
