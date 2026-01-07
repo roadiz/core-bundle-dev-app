@@ -11,67 +11,68 @@ export class RzRepeatable extends HTMLElement {
     constructor() {
         super()
 
-        this.addItem = this.addItem.bind(this)
-        this.removeItem = this.removeItem.bind(this)
-        this.moveDownItem = this.moveDownItem.bind(this)
-        this.moveUpItem = this.moveUpItem.bind(this)
+        this.onCommand = this.onCommand.bind(this)
     }
 
-    getClosestItem(element: HTMLElement) {
-        return element.closest(`.${this.itemClass}`) as HTMLElement
-    }
+    moveDownItem(item: HTMLElement | undefined) {
+        const nextElement = item?.nextElementSibling
 
-    moveDownItem(event: Event) {
-        event.preventDefault()
-        const currentItem = this.getClosestItem(event.target as HTMLElement)
-        const nextElement = currentItem?.nextElementSibling
-
-        if (currentItem && nextElement) {
-            nextElement.after(currentItem)
+        if (item && nextElement) {
+            nextElement.after(item)
 
             this.updateAllInputAttributes()
         }
     }
 
-    moveUpItem(event: Event) {
-        event.preventDefault()
-        const currentItem = this.getClosestItem(event.target as HTMLElement)
-        const previousItem = currentItem?.previousElementSibling
+    moveUpItem(item: HTMLElement | undefined) {
+        const previousItem = item?.previousElementSibling
 
-        if (currentItem && previousItem) {
-            previousItem.before(currentItem)
+        if (item && previousItem) {
+            previousItem.before(item)
             this.updateAllInputAttributes()
         }
     }
 
-    removeItem(event: Event) {
-        event.preventDefault()
-        const parentElement = this.getClosestItem(event.target as HTMLElement)
-        // TODO: Need to remove all inner buttons listeners ?
-        parentElement?.remove()
+    removeItem(item: HTMLElement | undefined) {
+        item?.remove()
 
-        // item name and id need to be updated only if not the last item removed
-        const isLastItem = !parentElement?.nextElementSibling
+        const isLastItem = !item?.nextElementSibling
         if (!isLastItem) {
             this.updateAllInputAttributes()
         }
     }
 
-    addItem(event: Event) {
-        event.preventDefault()
+    addItem(item: HTMLElement | undefined) {
         const itemToDuplicate = this.itemTemplate.content.firstElementChild
         if (!itemToDuplicate) return
         const newItem = document.importNode(itemToDuplicate, true)
 
-        const targetItem = this.getClosestItem(event.target as HTMLElement)
-        if (targetItem) {
-            targetItem.after(newItem)
+        if (item) {
+            item.after(newItem)
         } else {
             this.list?.prepend(newItem)
         }
 
-        this.initButtonsListeners(newItem)
         this.updateAllInputAttributes()
+    }
+
+    onCommand(event: CommandEvent) {
+        const item = event.source.closest(`.${this.itemClass}`) as HTMLElement
+
+        switch (event.command) {
+            case '--add':
+                this.addItem(item)
+                break
+            case '--remove':
+                this.removeItem(item)
+                break
+            case '--move-up':
+                this.moveUpItem(item)
+                break
+            case '--move-down':
+                this.moveDownItem(item)
+                break
+        }
     }
 
     private escapeRegExp(str: string): string {
@@ -124,28 +125,6 @@ export class RzRepeatable extends HTMLElement {
         })
     }
 
-    initButtonsListeners(context: HTMLElement | Element) {
-        const addButtons = context.querySelectorAll('[data-add]')
-        addButtons.forEach((button) => {
-            button.addEventListener('click', this.addItem)
-        })
-
-        const removeButtons = context.querySelectorAll('[data-remove]')
-        removeButtons.forEach((button) => {
-            button.addEventListener('click', this.removeItem)
-        })
-
-        const moveUpButtons = context.querySelectorAll('[data-move-up]')
-        moveUpButtons.forEach((button) => {
-            button.addEventListener('click', this.moveUpItem)
-        })
-
-        const moveDownButtons = context.querySelectorAll('[data-move-down]')
-        moveDownButtons.forEach((button) => {
-            button.addEventListener('click', this.moveDownItem)
-        })
-    }
-
     connectedCallback() {
         this.list = this.querySelector('[data-list]')
         this.itemTemplate = this.querySelector('template[data-item]')
@@ -154,32 +133,14 @@ export class RzRepeatable extends HTMLElement {
             this.getAttribute('input-index-placeholder') || ''
         this.inputBaseName = this.getAttribute('input-base-name') || ''
         this.idBaseName = this.getAttribute('id-base-name') || ''
-        if (this.getAttribute('item-class')) {
+        if (this.hasAttribute('item-class')) {
             this.itemClass = this.getAttribute('item-class')
         }
 
-        this.initButtonsListeners(this)
+        this.addEventListener('command', this.onCommand)
     }
 
-    disconnectedCallback() {
-        const addButtons = this.querySelectorAll('[data-add]')
-        addButtons.forEach((button) => {
-            button.removeEventListener('click', this.addItem)
-        })
-
-        const removeButtons = this.querySelectorAll('[data-remove]')
-        removeButtons.forEach((button) => {
-            button.removeEventListener('click', this.removeItem)
-        })
-
-        const moveUpButtons = this.querySelectorAll('[data-move-up]')
-        moveUpButtons.forEach((button) => {
-            button.removeEventListener('click', this.moveUpItem)
-        })
-
-        const moveDownButtons = this.querySelectorAll('[data-move-down]')
-        moveDownButtons.forEach((button) => {
-            button.removeEventListener('click', this.moveDownItem)
-        })
+    destroyCommands() {
+        this.removeEventListener('command', this.onCommand)
     }
 }

@@ -10,8 +10,10 @@
                 size: 'sm',
                 attributes: {
                     type: 'button',
+                    'command': '--move-up',
+                    'commandfor': repeatable_id,
                     'tooltip-text': 'move.up'|trans,
-                    'data-move-up': '',
+                    'aria-label': 'collection.move_up_item'|trans,
                 },
             }) }}
             {{ rz_button.root({
@@ -19,8 +21,10 @@
                 size: 'sm',
                 attributes: {
                     type: 'button',
+                    'command': '--move-down',
+                    'commandfor': repeatable_id,
                     'tooltip-text': 'move.down'|trans,
-                    'data-move-down': '',
+                    'aria-label': 'collection.move_down_item'|trans,
                 },
             }) }}
         </div>
@@ -31,8 +35,10 @@
             emphasis: 'primary',
             attributes: {
                 type: 'button',
+                'command': '--remove',
+                'commandfor': repeatable_id,
                 'tooltip-text': 'remove.item'|trans,
-                'data-remove': '',
+                'aria-label': 'collection.delete_item'|trans,
             },
         }) }}
     </div>
@@ -45,8 +51,10 @@
             icon: 'rz-icon-ri--add-line',
             attributes: {
                 type: 'button',
+                'command': '--add',
+                'commandfor': repeatable_id,
                 'tooltip-text': 'insert.zone'|trans,
-                'data-add': '',
+                'aria-label': 'collection.insert_item'|trans,
             },
         }) }}
     </div>

@@ -1,10 +1,13 @@
 {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
+{% set repeatable_id = id ~ '_repeatable'|default(random() ~ '_repeatable') %}
+
 <rz-repeatable
 	input-index-placeholder="{{ prototype.vars.name }}"
 	input-base-name="{{ full_name }}"
 	id-base-name="{{ id }}"
+	id="{{ repeatable_id }}"
 >
 	{% if label is not same as(false) -%}
 		{% if label is empty -%}
@@ -13,7 +16,6 @@
 		<div class="rz-form-field__head">
 			{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
 
-
 			{{ rz_button.root({
 				label: 'repeatable.add'|trans,
 				icon: 'rz-icon-ri--add-line',
@@ -21,7 +23,8 @@
 				class: 'rz-form-field__head__end',
 				attributes: {
 					type: 'button',
-					'data-add': '',
+					'command': '--add',
+					'commandfor': repeatable_id,
 				},
 			}) }}
 		</div>
@@ -32,7 +35,8 @@
 					attributes: {
 						type: 'button',
 						'tooltip-text': 'insert.zone'|trans,
-						'data-add': '',
+						'command': '--add',
+						'commandfor': repeatable_id,
 					},
 				}) }}
 			</div>
