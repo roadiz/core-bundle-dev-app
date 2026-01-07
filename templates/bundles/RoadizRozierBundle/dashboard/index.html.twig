@@ -1,0 +1,53 @@
+{% extends "@!RoadizRozier/dashboard/index.html.twig" %}
+
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: "hello.%name%"|trans({'%name%': displayName}),
+        with_nav_bar: true,
+        nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
+        nav_bar_context: {'current':'dashboard'},
+        buttons : [
+            {
+                label: 'articles.add'|trans,
+                href: path('appArticlesAddPage'),
+                icon: 'rz-icon-ri--add-line',
+            }
+        ],
+    } only %}
+{%- endblock -%}
+
+{%- block dashboard_panels -%}
+    <div class="rz-dashboard__row">
+        <div class="rz-dashboard__panel uk-panel uk-panel-box">
+            <h3 class="uk-panel-title uk-text-center">{% trans %}roadiz.dashboard.my_last_articles{% endtrans %}</h3>
+            <table class="uk-table">
+                {% for article in articles %}
+                    <tr>
+                        <td>
+                            <rz-entity-thumbnail
+                                size="medium"
+                                entity-class="App\GeneratedEntity\NSArticle"
+                                entity-id="{{ article.id }}"
+                                data-uk-tooltip="{animation:true}"
+                            ></rz-entity-thumbnail>
+                        </td>
+                        <td><a href="{{ path('nodesForwardSourcePage', {nodeSourceId: article.id}) }}">{{ article.title }}</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">{{ '{0} no.item|{1} 1.item|]1,Inf] %count%.items'|transchoice(0)|raw }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <a class="uk-button uk-button-small" href="{{ path('appArticlesListPage') }}">{% trans %}see_all{% endtrans %}</a>
+        </div>
+        {% if clientsTag is not null %}
+            <div class="rz-dashboard__panel uk-panel uk-panel-box">
+                <h3 class="uk-panel-title uk-text-center">{% trans %}roadiz.dashboard.clients{% endtrans %}</h3>
+                <p style="font-size: 3em;"><strong>{{ clients|length }}</strong></p>
+                <a class="uk-button uk-button-small" href="{{ path('tagsTreePage', {tagId: clientsTag.id}) }}">{% trans %}see_all{% endtrans %}</a>
+            </div>
+        {% endif %}
+    </div>
+
+{%- endblock -%}
