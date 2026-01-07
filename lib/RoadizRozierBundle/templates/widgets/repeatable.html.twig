@@ -1,4 +1,5 @@
 {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
 <rz-repeatable
 	prototype-name="{{ prototype.vars.name }}"
@@ -12,7 +13,7 @@
 		<div class="rz-form-field__head">
 			{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
 
-			{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
 			{{ rz_button.root({
 				label: 'repeatable.add'|trans,
 				icon: 'rz-icon-ri--add-line',
@@ -26,7 +27,6 @@
 		</div>
 		<div class="rz-form-field__body rz-repeatable__body">
 			<div class="rz-repeatable__insert-zone">
-				{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 				{{ rz_button.root({
 					icon: 'rz-icon-ri--add-line',
 					attributes: {
