@@ -31,13 +31,17 @@ set listItems = [
             'name': 'usage',
             'label': 'document.usage',
             'href': path('documentsUsagePage', editRouteParams),
-        },
+        }
+    ],
+    [
         document and document.image ? {
             'name': 'adjust',
             'label': 'document.adjust',
             'href': path('documentsAdjustPage', editRouteParams),
+            'icon': 'rz-icon-ri--crop-2-line',
+            'iconOnly': true,
         } : null,
-    ],
+    ]
 ]
 %}
 {% set custom_entries_content %}
