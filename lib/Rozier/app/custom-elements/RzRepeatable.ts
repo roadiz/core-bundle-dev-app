@@ -14,23 +14,14 @@ export class RzRepeatable extends HTMLElement {
         this.onCommand = this.onCommand.bind(this)
     }
 
-    moveDownItem(item: HTMLElement | undefined) {
-        const nextElement = item?.nextElementSibling
-
-        if (item && nextElement) {
-            nextElement.after(item)
-
-            this.updateAllInputAttributes()
+    moveItem(element: HTMLElement, direction: number) {
+        if (direction === -1 && element.previousElementSibling) {
+            element.previousElementSibling.before(element)
+        } else if (direction === 1 && element.nextElementSibling) {
+            element.nextElementSibling.after(element)
         }
-    }
 
-    moveUpItem(item: HTMLElement | undefined) {
-        const previousItem = item?.previousElementSibling
-
-        if (item && previousItem) {
-            previousItem.before(item)
-            this.updateAllInputAttributes()
-        }
+        this.updateAllInputAttributes()
     }
 
     removeItem(item: HTMLElement | undefined) {
@@ -67,10 +58,10 @@ export class RzRepeatable extends HTMLElement {
                 this.removeItem(item)
                 break
             case '--move-up':
-                this.moveUpItem(item)
+                this.moveItem(item, -1)
                 break
             case '--move-down':
-                this.moveDownItem(item)
+                this.moveItem(item, 1)
                 break
         }
     }
