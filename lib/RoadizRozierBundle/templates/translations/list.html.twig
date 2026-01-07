@@ -89,9 +89,16 @@
                                     {% block other_actions %}
                                         {% if is_not_default is same as(true) %}
                                             {% form_theme t.defaultForm '@RoadizRozier/forms.html.twig' %}
-                                            <form class="uk-form-translation-default" action="#" method="post">
+                                            <form class="rz-form" action="#" method="post">
                                                 {{ form_widget(t.defaultForm) }}
-                                                <button class="uk-button uk-button-content uk-button-small" title="{% trans %}set.default{% endtrans %}" type="submit" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-star"></i></button>
+                                                <button
+                                                    class="uk-button uk-button-content uk-button-small"
+                                                    title="{% trans %}set.default{% endtrans %}"
+                                                    type="submit"
+                                                    data-uk-tooltip="{animation:true}"
+                                                >
+                                                    <i class="uk-icon-rz-star"></i>
+                                                </button>
                                             </form>
                                         {% endif %}
                                     {% endblock %}
