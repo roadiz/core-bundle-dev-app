@@ -95,8 +95,9 @@
 
         {% include '@RoadizRozier/nodes/redirection_table.html.twig' with {
             actions_available: true,
-            redirections: redirections
-        } %}
+            filters: filters,
+            redirections: redirections,
+        } only %}
     </article>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
