@@ -21,6 +21,7 @@
 <article class="content">
     <div class="rz-dashboard">
         {%- block dashboard_panels -%}{%- endblock -%}
+
         {% if bags.settings.get('dashboard_iframe') %}
             <div class="rz-dashboard__row">
                 <div class="rz-dashboard__panel uk-panel uk-panel-box dashboard-iframe">
@@ -28,58 +29,72 @@
                 </div>
             </div>
         {% endif %}
+
         {% if latestLogs %}
-        <div class="rz-dashboard__row">
-            <div class="rz-dashboard__panel rz-dashboard__panel--double uk-panel uk-panel-box" id="latest-sources">
-                <h3 class="uk-panel-title uk-text-center">{% trans %}latest.node-sources.updates{% endtrans %}</h3>
-                <ul class="latest-source-list">
-                {%- for log in latestLogs -%}
-                    <li class="latest-source">
-                        {% set entityPath = log_entity_edit_path(log) %}
-                        {% if entityPath %}
-                        <a href="{{ entityPath }}">
-                        {% endif %}
-                            {% set thumbnail = log.additionalData.entity_thumbnail_src %}
-                            <figure>
-                                {% if thumbnail %}
-                                    <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
-                                {% else %}
-                                    <span class="no-thumb"></span>
-                                {% endif %}
-                                {% if log.additionalData.user_picture_url %}
-                                    <img width="60"
-                                         height="60"
-                                         class="user-image"
-                                         src="{{ log.additionalData.user_picture_url }}"
-                                         alt="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                         title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                         data-uk-tooltip="{animation:true}"/>
-                                {% elseif log.username %}
-                                    <span class="user-image"
-                                          title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                          data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
-                                {% endif %}
-                            </figure>
-                            <p class="source-title">{{ log.additionalData.entity_title }}</p>
-                            <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
-                        {% if entityPath %}
-                        </a>
-                        {% endif %}
-                    </li>
-                {%- endfor -%}
-                </ul>
+            <div class="rz-dashboard__row">
+                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                    icon: 'rz-icon-ri--computer-line',
+                    title: 'latest.node-sources.updates'|trans,
+                } %}
+                    {% block content %}
+                    <ul class="latest-source-list">
+                    {%- for log in latestLogs -%}
+                        <li class="latest-source">
+                            {% set entityPath = log_entity_edit_path(log) %}
+                            {% if entityPath %}
+                            <a href="{{ entityPath }}">
+                            {% endif %}
+                                {% set thumbnail = log.additionalData.entity_thumbnail_src %}
+                                <figure>
+                                    {% if thumbnail %}
+                                        <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
+                                    {% else %}
+                                        <span class="no-thumb"></span>
+                                    {% endif %}
+                                    {% if log.additionalData.user_picture_url %}
+                                        <img width="60"
+                                            height="60"
+                                            class="user-image"
+                                            src="{{ log.additionalData.user_picture_url }}"
+                                            alt="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                            title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                            data-uk-tooltip="{animation:true}"/>
+                                    {% elseif log.username %}
+                                        <span class="user-image"
+                                            title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                            data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
+                                    {% endif %}
+                                </figure>
+                                <p class="source-title">{{ log.additionalData.entity_title }}</p>
+                                <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
+                            {% if entityPath %}
+                            </a>
+                            {% endif %}
+                        </li>
+                    {%- endfor -%}
+                    </ul>
+                    {% endblock %}
+                {% endembed %}
             </div>
-            {% if bookmarks|length %}
-            <div class="rz-dashboard__panel uk-panel uk-panel-box" id="dashboard-bookmarks">
-                <h3 class="uk-panel-title uk-text-center">{% trans %}bookmarks.links{% endtrans %}</h3>
-                <ul class="uk-list uk-list-striped">
-                    {% for bookmark in bookmarks %}
-                        <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
-                    {% endfor %}
-                </ul>
+        {% endif %}
+
+        {% if bookmarks|length %}
+            <div class="rz-dashboard__row">
+                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                    id: 'dashboard-bookmarks',
+                    type: 'card',
+                    icon: 'rz-icon-ri--computer-line',
+                    title: 'bookmarks.links'|trans,
+                } %}
+                    {% block content %}
+                        <ul class="uk-list uk-list-striped">
+                            {% for bookmark in bookmarks %}
+                                <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endblock %}
+                {% endembed %}
             </div>
-            {% endif %}
-        </div>
         {% endif %}
     </div>
 </article>
