@@ -49,9 +49,9 @@
 
             {% block tbody_content %}
                 {% for tag in tags %}
-                    {% set ttag = tag.getTranslatedTags.first %}
-                    {% set tag_href = ttag ?
-                        path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id })
+                    {% set translated_tag = tag.getTranslatedTags.first %}
+                    {% set tag_href = translated_tag ?
+                        path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translated_tag.translation.id })
                         : path('tagsEditPage', { tagId: tag.id })
                     %}
                     {% set can_delete = is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
@@ -66,14 +66,21 @@
                             <a href="{{ tag_href }}">{{ tag.id }}</a>
                         </td>
                         <td>
-                            <a href="{{ tag_href }}">{{ ttag.getName|default('tag_' ~ tag.id) }}</a>
-                            {% if not ttag %}
-                                <span class="rz-badge rz-badge--warning">{% trans %}notranslation_available.tag{% endtrans %}</span>
+                            <a href="{{ tag_href }}">{{ translated_tag.getName|default('tag_' ~ tag.id) }}</a>
+                            {% if not translated_tag %}
+                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--error-warning-line',
+                                    color: 'warning',
+                                    attributes: {
+                                        title: 'notranslation_available.tag'|trans,
+                                    }
+                                }) }}
                             {% endif %}
                         </td>
                         <td>
                             {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                'edit_href': ttag ? path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) : path('tagsEditPage', { tagId: tag.id }),
+                                'edit_href': translated_tag ? path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translated_tag.translation.id }) : path('tagsEditPage', { tagId: tag.id }),
                                 'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
                             } only %}
                         </td>
