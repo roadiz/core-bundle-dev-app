@@ -59,9 +59,9 @@ export class RzRepeatable extends HTMLElement {
 
     addItem(event: Event) {
         event.preventDefault()
-        const newItem = this.itemTemplate?.content.firstElementChild?.cloneNode(
-            true,
-        ) as HTMLElement
+        const itemToDuplicate = this.itemTemplate.content.firstElementChild
+        if (!itemToDuplicate) return
+        const newItem = document.importNode(itemToDuplicate, true)
 
         const targetItem = this.getClosestItem(event.target as HTMLElement)
         if (targetItem) {
@@ -124,7 +124,7 @@ export class RzRepeatable extends HTMLElement {
         })
     }
 
-    initButtonsListeners(context: HTMLElement) {
+    initButtonsListeners(context: HTMLElement | Element) {
         const addButtons = context.querySelectorAll('[data-add]')
         addButtons.forEach((button) => {
             button.addEventListener('click', this.addItem)
