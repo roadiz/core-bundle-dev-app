@@ -1,3 +1,5 @@
+{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+
 {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
 	{% block thead_cells %}
 		<th>
@@ -38,7 +40,12 @@
 				{% endif %}
 				<td>
 					<span class="rz-table__color" style="background-color:{{ item.color|raw }};"></span>
-					{{ item.displayName }}
+					{{ rz_link.root({
+						label: item.displayName,
+						attributes: {
+							href: path('customFormsEditPage', { id: item.getId }),
+						},
+					}) }}
 				</td>
 				<td>{{ item.createdAt|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
 				<td>{{ item.closeDate|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
