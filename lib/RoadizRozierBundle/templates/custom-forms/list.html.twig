@@ -24,7 +24,9 @@
         {% include '@RoadizRozier/custom-forms/list_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
-        } %}
+            items: items,
+            filters: filters,
+        } only %}
     </article>
 
 </rz-bulk-section>
