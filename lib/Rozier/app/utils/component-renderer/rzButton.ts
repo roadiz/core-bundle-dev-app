@@ -21,9 +21,8 @@ export type RzButtonOptions = RzElement & {
 
 export function rzButtonRenderer(options: RzButtonOptions) {
     const root = rzElement({
-        is: 'rz-button',
-        tag: 'button',
         ...options,
+        tag: options.tag || 'button',
     })
     root.classList.add(COMPONENT_CLASS_NAME)
 

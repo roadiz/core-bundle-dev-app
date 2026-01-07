@@ -1,3 +1,4 @@
+rz-form-field,
 .rz-form-field {
     display: flex;
     flex-direction: var(--rz-form-field-flex-direction, column);
