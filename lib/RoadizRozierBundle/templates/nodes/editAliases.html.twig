@@ -22,8 +22,8 @@
     <article class="content content-node-edit-seo">
         {% if seoForm %}
             <h2 class="content-subtitle">{% trans %}edit.node.seo{% endtrans %}</h2>
+            {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
             <form id="edit-seo-form" class="rz-form" action="#" method="post">
-                {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_widget(seoForm) }}
                 {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
                 {{ actions_menu.saveItem('#edit-seo-form') }}
