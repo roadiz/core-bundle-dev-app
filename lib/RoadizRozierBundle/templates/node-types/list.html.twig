@@ -70,15 +70,15 @@
                                 {% transchoice type.getFields|length %}{0} no.nodeTypeField|{1} 1.nodeTypeField|]1,Inf] %count%.nodeTypeFields{% endtranschoice %}
                             </td>
                             <td class="mobile-hidden uk-hidden-small uk-visible-large">
-                                {% import '@RoadizRozier/macros/rz_status_badge.html.twig' as rz_status_badge %}
+                                {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not type.visible %}
-                                    {{ rz_status_badge.item('hidden', false) }}
+                                    {{ rz_node_badge.item('hidden', false) }}
                                 {% endif %}
                                 {% if type.hidingNodes %}
-                                    {{ rz_status_badge.item('hiding-nodes', false) }}
+                                    {{ rz_node_badge.item('hiding-nodes', false) }}
                                 {% endif %}
                                 {%- if type.highlighted -%}
-                                    {{ rz_status_badge.item('highlighted', false) }}
+                                    {{ rz_node_badge.item('highlighted', false) }}
                                 {%- endif -%}
                             </td>
                             {% if actions_available %}

@@ -29,15 +29,15 @@
                             <td class="mobile-hidden">{{ field.typeName|trans }}</td>
                             <td class="mobile-hidden">{{ field.groupName|trans }}</td>
                             <td class="mobile-hidden">
-                                {% import '@RoadizRozier/macros/rz_status_badge.html.twig' as rz_status_badge %}
+                                {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not field.visible %}
-                                    {{ rz_status_badge.item('hidden', false) }}
+                                    {{ rz_node_badge.item('hidden', false) }}
                                 {% endif %}
                                 {% if field.universal %}
-                                    {{ rz_status_badge.item('universal', false) }}
+                                    {{ rz_node_badge.item('universal', false) }}
                                 {% endif %}
                                 {% if field.indexed %}
-                                    {{ rz_status_badge.item('indexed', false) }}
+                                    {{ rz_node_badge.item('indexed', false) }}
                                 {% endif %}
                             </td>
                             {% if actions_available %}
