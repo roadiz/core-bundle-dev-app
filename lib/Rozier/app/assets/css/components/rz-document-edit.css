@@ -1,0 +1,35 @@
+.rz-document-edit {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+	padding-block: var(--spacing-md);
+
+	@media (--screen-sm-min) {
+		display: grid;
+		grid-template-columns: 4fr 6fr;
+		column-gap: var(--spacing-md);
+	}
+}
+
+.rz-document-edit__first-column {
+	display: flex;
+	align-items: center;
+	background-color: var(--surface-light-tertiary, #F2F2F2);
+	grid-column: 1 / 2;
+	padding-block: 50px;
+	border-radius: var(--radius-xs);
+
+	figure,
+	picture {
+    	width: 100%;
+	}
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.rz-document-edit__second-column {
+	grid-column: 2 / -1;
+}

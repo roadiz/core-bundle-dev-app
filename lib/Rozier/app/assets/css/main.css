@@ -20,6 +20,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-document-edit.css';
 @import './components/rz-search.css';
 @import './components/rz-spinner.css';
 @import './components/rz-bulk-actions.css';
