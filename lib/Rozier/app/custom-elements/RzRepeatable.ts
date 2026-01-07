@@ -4,18 +4,19 @@ export class RzRepeatable extends HTMLElement {
     itemClass = 'rz-repeatable__item'
 
     // With example values
-    prototypeName = '__name__'
-    namePrefix = 'source[key]'
-    idPrefix = 'source_key'
+    inputIndexPlaceholder = '__name__'
+    inputBaseName = 'source[key]'
+    idBaseName = 'source_key'
 
     constructor() {
         super()
         this.list = this.querySelector('[data-list]')
         this.itemTemplate = this.querySelector('template[data-item]')
 
-        this.prototypeName = this.getAttribute('prototype-name') || ''
-        this.namePrefix = this.getAttribute('name-prefix') || ''
-        this.idPrefix = this.getAttribute('id-prefix') || ''
+        this.inputIndexPlaceholder =
+            this.getAttribute('input-index-placeholder') || ''
+        this.inputBaseName = this.getAttribute('input-base-name') || ''
+        this.idBaseName = this.getAttribute('id-base-name') || ''
         if (this.getAttribute('item-class')) {
             this.itemClass = this.getAttribute('item-class')
         }
@@ -91,27 +92,28 @@ export class RzRepeatable extends HTMLElement {
         const items = this.list?.querySelectorAll(`.${this.itemClass}`)
         if (!items || !items.length) return
 
-        const escapedIdPrefix = this.escapeRegExp(this.idPrefix)
-        const escapedPrefix = this.escapeRegExp(this.namePrefix)
-        const escapedProtoName = this.escapeRegExp(this.prototypeName)
+        const indexEscaped = this.escapeRegExp(this.inputIndexPlaceholder)
 
+        const inputBaseNameEscaped = this.escapeRegExp(this.inputBaseName)
         const nameRegex = new RegExp(
-            `^(${escapedPrefix})\\[(?<id>${escapedProtoName}|\\d+)\\](.*)$`,
+            `^(${inputBaseNameEscaped})\\[(?<id>${indexEscaped}|\\d+)\\](.*)$`,
         )
+
+        const idBaseNameEscaped = this.escapeRegExp(this.idBaseName)
         const idRegex = new RegExp(
-            `^(${escapedIdPrefix})(?<id>_{1,3}${escapedProtoName}_{1,3}|_{1,3}\\d+_{1,3})(.*)$`,
+            `^(${idBaseNameEscaped})(?<id>_{1,3}${indexEscaped}_{1,3}|_{1,3}\\d+_{1,3})(.*)$`,
         )
 
         items.forEach((item, itemIndex) => {
             const inputs = item.querySelectorAll(
-                `input[name^="${this.namePrefix}"], select[name^="${this.namePrefix}"], textarea[name^="${this.namePrefix}"]`,
+                `input[name^="${this.inputBaseName}"], select[name^="${this.inputBaseName}"], textarea[name^="${this.inputBaseName}"]`,
             )
 
             inputs.forEach((input) => {
                 const name = input.getAttribute('name')
                 const nameMatch = name?.match(nameRegex)
 
-                if (!nameMatch.groups?.id) {
+                if (!nameMatch?.groups?.id) {
                     console.warn("Can't extract id/index from input name", name)
                     return
                 }
@@ -123,7 +125,7 @@ export class RzRepeatable extends HTMLElement {
                 const idMatch = id?.match(idRegex)
                 if (label) {
                     const newId = [idMatch?.[1], itemIndex, idMatch?.[3]]
-                        .filter((v) => v)
+                        .filter((v) => !!v || typeof v === 'number')
                         .join('_')
                     input.setAttribute('id', newId)
                     label.setAttribute('for', newId)

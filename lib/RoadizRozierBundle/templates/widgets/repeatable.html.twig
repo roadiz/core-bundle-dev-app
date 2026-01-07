@@ -2,9 +2,9 @@
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
 <rz-repeatable
-	prototype-name="{{ prototype.vars.name }}"
-	name-prefix="{{ full_name }}"
-	id-prefix="{{ id }}"
+	input-index-placeholder="{{ prototype.vars.name }}"
+	input-base-name="{{ full_name }}"
+	id-base-name="{{ id }}"
 >
 	{% if label is not same as(false) -%}
 		{% if label is empty -%}
