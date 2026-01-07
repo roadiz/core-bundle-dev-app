@@ -32,4 +32,5 @@
 
 .rz-document-edit__second-column {
 	grid-column: 2 / -1;
+    height: min-content;
 }
