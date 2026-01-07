@@ -9,6 +9,18 @@ rz-form-field,
     align-items: flex-start;
 }
 
+.rz-form-field--align-center {
+    align-self: center;
+}
+
+.rz-form-field--align-end {
+    align-self: end;
+}
+
+.rz-form-field--justify-end {
+    margin-left: auto;
+}
+
 .rz-form-field--horizontal {
     --rz-form-field-flex-direction: row;
 

@@ -1,0 +1,43 @@
+
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
+{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+
+{% set classes = "rz-table " ~ (bordered is defined and bordered ? "rz-table--bordered " : "") ~ (class|default("")) %}
+{% set column_ordering_class = 'rz-table__ordering-link' %}
+{% set _tbody_attributes = tbody_attributes|default({}) %}
+{% if sortable %}
+	{% set _tbody_attributes = _tbody_attributes|merge({
+		'class': (_tbody_attributes.class|default('') ~ ' uk-sortable')|trim,
+		'data-uk-sortable': '{animation:0, dragCustomClass:\'setting-row rz-node-type-field-dragged\', handleClass:\'attribute-value-col\'}',
+	}) %}
+{% endif %}
+
+{% set _thead_cells %}{% block thead_cells %}{% endblock %}{% endset %}
+{% set _has_thead_cells = _thead_cells|trim is not empty %}
+{% set has_thead_content = _has_thead_cells or selection_available %}
+<table
+    class="{{ classes }}"
+    {{ el_attr.print(attributes|default({})) }}
+>
+	{% block thead %}
+		{% if has_thead_content %}
+			<thead>
+				<tr>
+					{% if selection_available %}
+						<th>
+						{{ rz_bulk.select_all_input() }}
+						</th>
+					{% endif %}
+					{{ _thead_cells|raw }}
+					{% if actions_available %}
+						<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
+					{% endif %}
+				</tr>
+			</thead>
+		{% endif %}
+	{% endblock %}
+
+    <tbody {{ el_attr.print(_tbody_attributes) }}>
+        {% block tbody_content %}{% endblock %}
+    </tbody>
+</table>

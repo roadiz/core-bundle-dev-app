@@ -4,6 +4,10 @@
 	gap: var(--rz-button-group-gap, var(--spacing-5xs));
 }
 
+.rz-button-group--end {
+	justify-content: flex-end;
+}
+
 .rz-button-group--gap-sm {
 	--rz-button-group-gap: var(--spacing-7xs);
 }

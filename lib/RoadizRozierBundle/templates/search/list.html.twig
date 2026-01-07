@@ -50,20 +50,11 @@
                 statusNodesForm: statusNodesForm,
             } only %}
 
-            <div class="data-uk-margin content-table-cont">
-                <table class="nodes content-table uk-table">
-                    <thead>
-                        {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' %}
-                    </thead>
-                    <tbody>
-                    {% for node in nodes %}
-                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
-                            'node': node
-                        } only %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+                sortable: false,
+                selection_available: true,
+                actions_available: true,
+            } %}
         </article>
     </rz-bulk-section>
 {% endblock %}

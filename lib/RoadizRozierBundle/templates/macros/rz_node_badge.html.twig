@@ -27,6 +27,16 @@
             label: 'hiding-children'|trans,
             icon: 'rz-icon-rz--status-container-line',
         } %}
+    {% elseif type == 'hiding-nodes' %}
+        {% set type_options = {
+            label: 'nodeType.hiding_nodes'|trans,
+            icon: 'rz-icon-rz--status-container-line',
+        } %}
+    {% elseif type == 'highlighted' %}
+        {% set type_options = {
+            label: 'nodeType.highlighted'|trans,
+            icon: 'rz-icon-ri--lightbulb-line',
+        } %}
     {% elseif type == 'published' %}
         {% set type_options = {
             label: 'published'|trans,
@@ -50,6 +60,16 @@
             label: 'shadow'|trans,
             icon: 'rz-icon-rz--status-shadow-container-line',
             color: 'information',
+        } %}
+    {% elseif type == 'universal' %}
+        {% set type_options = {
+            label: 'universal'|trans,
+            icon: 'rz-icon-ri--earth-line',
+        } %}
+    {% elseif type == 'indexed' %}
+        {% set type_options = {
+            label: 'indexed'|trans,
+            icon: 'rz-icon-ri--search-line',
         } %}
     {% else %}
         {% set type_options = {

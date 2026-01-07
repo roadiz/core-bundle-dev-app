@@ -10,25 +10,13 @@
 {%- endblock -%}
 
 {% block content_body %}
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table">
-                <thead>
-                <tr>
-                    {% include '@RoadizRozier/attributes/attribute_row_header.html.twig' with { no_sort: true } %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/attributes/attribute_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="4">{% trans %}no_attributes{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <article>
+        {% include '@RoadizRozier/attributes/list_table.html.twig' with {
+            no_sort: true,
+            filters: filters,
+            items: items,
+        } only %}
+
         {% block bulk_form %}{% endblock %}
     </article>
 {% endblock %}

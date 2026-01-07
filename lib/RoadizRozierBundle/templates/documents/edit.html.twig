@@ -19,8 +19,10 @@
         {{ actions_menu.saveItem('#edit-document-form') }}
         {{ form_end(form) }}
 
-        <div class="content-table-cont metadata-list">
-            <table class="uk-table content-table">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            bordered: true,
+        } %}
+            {% block tbody_content %}
                 <tr>
                     <th>{% trans %}created.at{% endtrans %}</th>
                     <td>{{ document.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
@@ -62,8 +64,8 @@
                         </td>
                     </tr>
                 {% endif %}
-            </table>
-        </div>
+            {% endblock %}
+        {% endembed %}
     </article>
 
     {% include '@RoadizRozier/documents/actionsMenu.html.twig' %}

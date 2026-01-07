@@ -3,32 +3,24 @@
 {% block title %}{% block bulk_title %}{% endblock %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    {% include '@RoadizRozier/redirections/head.html.twig' with {
-        title: block('bulk_title'),
-        filters: filters
-    } only %}
+    <section>
+        {% include '@RoadizRozier/redirections/head.html.twig' with {
+            title: block('bulk_title'),
+            filters: filters
+        } only %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table">
-                <thead>
-                    <tr>
-                        {% include '@RoadizRozier/redirections/redirection_row_header.html.twig' with { no_sort: true } %}
-                    </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/redirections/redirection_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="5">{% trans %}no_redirections{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% block bulk_form %}{% endblock %}
-    </article>
-</section>
+        {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+
+        <article>
+            {% include '@RoadizRozier/redirections/list_table.html.twig' with {
+                items: items,
+                filters: filters,
+                actions_available: false,
+                selection_available: false,
+                no_sort: true,
+            } only %}
+
+            {% block bulk_form %}{% endblock %}
+        </article>
+    </section>
 {% endblock %}

@@ -4,6 +4,12 @@
 
     {% set element_class = 'rz-button' %}
     {% set tagName = options.tagName|default('button') %}
+    {% set component = options.component|default('rz-button') %}
+
+    {% if options.attributes.href is defined %}
+        {% set tagName = 'a' %}
+        {% set component = 'rz-link' %}
+    {% endif %}
 
     {% set class = options.class|default('') %}
     {% set label = options.label|default(null) %}
@@ -15,7 +21,7 @@
     {% set selected = options.selected|default(false) %}
 
     <{{ tagName }}
-        is="rz-button"
+        is="{{ component }}"
         class="{{ html_classes(element_class, class, {
             (element_class ~ '--' ~ size): size,
             (element_class ~ '--' ~ emphasis): emphasis,
@@ -24,11 +30,23 @@
         }) }}"
 		{{ el_attrs.print(options.attributes|default({})) }}
     >
-        {% if label is defined and label %}
-            <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
-        {% endif %}
-        {% if icon is defined and icon %}
-            <span class="{{element_class ~ '__icon ' ~ icon }}"></span>
-        {% endif %}
+        {{ _self.inner({
+            element_class: element_class,
+            label: label,
+            icon: icon,
+        }) }}
     </{{ tagName }}>
+{% endmacro %}
+
+{% macro inner(options = {} ) %}
+    {% set element_class = options.element_class|default('rz-button') %}
+    {% set label = options.label|default(null) %}
+    {% set icon = options.icon|default(null) %}
+
+    {% if label is defined and label %}
+        <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
+    {% endif %}
+    {% if icon is defined and icon %}
+        <span class="{{element_class ~ '__icon ' ~ icon }}"></span>
+    {% endif %}
 {% endmacro %}

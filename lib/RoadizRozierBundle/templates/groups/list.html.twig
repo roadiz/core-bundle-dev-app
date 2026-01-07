@@ -32,55 +32,54 @@
     }  only %}
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
-            <table class="groups content-table uk-table">
-                <thead>
-                    <tr>
-                        <th>
-                            {% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden">{% trans %}roles{% endtrans %}</th>
-                        <th class="mobile-hidden">{% trans %}users{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                        {% if is_granted(item) %}
-                            <tr>
+         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'name',
+                        'filters': filters,
+                        'label': 'name'|trans,
+                    } only %}
+                </th>
+                <th class="mobile-hidden">{% trans %}roles{% endtrans %}</th>
+                <th class="mobile-hidden">{% trans %}users{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for item in items %}
+                    {% if is_granted(item) %}
+                        <tr>
+                            <td>
+                                {% if not item.required %}<a href="{{ path('groupsEditPage', { id: item.id }) }}">{{ item.name }}</a>{% else %}
+                                    {{ item.name }}{% endif %}
+                            </td>
+                            <td class="mobile-hidden">
+                                {% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
+                            </td>
+                            <td class="mobile-hidden">
+                                {% transchoice item.users|length %}{0} no.user|{1} 1.user|]1,Inf] %count%.users{% endtranschoice %}
+                            </td>
+                            {% if actions_available %}
                                 <td>
-                                    {% if not item.required %}<a href="{{ path('groupsEditPage', { id: item.id }) }}">{{ item.name }}</a>{% else %}
-                                        {{ item.name }}{% endif %}
-                                </td>
-                                <td class="mobile-hidden">
-                                    {% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
-                                </td>
-                                <td class="mobile-hidden">
-                                    {% transchoice item.users|length %}{0} no.user|{1} 1.user|]1,Inf] %count%.users{% endtranschoice %}
-                                </td>
-                                <td class="table-actions-row">
                                     {% if not item.required %}
-                                        <div class="uk-button-group">
-                                            {% if is_granted(item) %}
-                                                <a class="uk-button uk-button-content uk-button-small"
-                                                   href="{{ path('groupsEditPage', { id: item.id }) }}"
-                                                   title="{% trans %}edit{% endtrans %}"
-                                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                            {% endif %}
-                                            <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                                               href="{{ path('groupsExportPage', { id: item.id }) }}"
-                                               title="{% trans %}export{% endtrans %}"
-                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
-                                            {% if is_granted(item) %}
-                                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                                   href="{{ path('groupsDeletePage', { id: item.id }) }}"
-                                                   title="{% trans %}delete{% endtrans %}"
-                                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                            {% endif %}
-                                        </div>
+                                        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                            'edit_href': is_granted(item) ? path('groupsEditPage', { id: item.id }) : null,
+                                            'delete_href': is_granted(item) ? path('groupsDeletePage', { id: item.id }) : null,
+                                        } %}
+                                            {% block other_actions %}
+                                                {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
+                                                {{ rz_table_action.item({
+                                                    icon: 'uk-icon-rz-download',
+                                                    attributes: {
+                                                        href: path('groupsExportPage', { id: item.id }),
+                                                        title: 'export'|trans,
+                                                    }
+                                                }) }}
+                                            {% endblock %}
+                                        {% endembed %}
                                     {% else %}
                                         <div class="uk-badge uk-badge-table">
                                             <span class="uk-icon-rz-lock"></span>
@@ -88,12 +87,12 @@
                                         </div>
                                     {% endif %}
                                 </td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 </section>
 {% endblock %}

@@ -11,32 +11,32 @@
         with_nav_bar: true,
     } only %}
 
-    <article class="content content-edit">
-        <div class="content-table-cont">
-            <table class="content-table groups-roles uk-table">
-                <thead>
-                    <tr>
-                        <th>{% trans %}role{% endtrans %}</th>
-                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%- for role in item.roles -%}
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}role{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {%- for role in item.roles -%}
                     <tr>
                         <td>{{ role }}</td>
-                        <td class="table-actions-row">
-                            {% if is_granted(role) %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('groupsRemoveRolesPage', { id: item.id, role: role }) }}"
-                                   title="{% trans %}unlink.role{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                            {% endif %}
-                        </td>
+                        {% if actions_available %}
+                            <td>
+                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'delete_href': is_granted(role) ? path('groupsRemoveRolesPage', { id: item.id, role: role }) : null,
+                                    'delete_title': 'unlink.role'|trans,
+                                } %}
+                                {% endembed %}
+                            </td>
+                        {% endif %}
                     </tr>
-                    {%- endfor -%}
-                </tbody>
-            </table>
-        </div>
+                {%- endfor -%}
+            {% endblock %}
+        {% endembed %}
         <hr />
         <h2>{% trans %}add.a.role{% endtrans %}</h2>
 
