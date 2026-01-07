@@ -56,7 +56,7 @@
                 {% block tbody_content %}
                 {%- for item in items -%}
                     {% set path = item.path|split('.') %}
-                    {% set entity, field = path[0], path [1] %}
+                    {% set entity, field = path[0], path[1] %}
                     {% if '' != field %}
                         {% set color = '#FF0000' %}
                     {% else %}
