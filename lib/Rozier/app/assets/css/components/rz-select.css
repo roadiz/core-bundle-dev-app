@@ -17,7 +17,7 @@ rz-select,
 	background-size: var(--rz-select-arrow-size);
 
 	@media (prefers-color-scheme: dark) {
-		background-image: url("assets/img/icons/rz/arrow-down-s-line-on-dark.svg");
+		background-image: url("assets/img/icons/arrow-down-s-line-on-dark.svg");
 	}
 
 	display: block;
