@@ -29,14 +29,14 @@
 
             {% set icon_centered = '' %}
 
-            {% if document.pdf %}
-                {% set icon_centered = 'rz-icon-ri--file-pdf-2-line' %}
-            {% elseif document.private %}
+            {% if document.private %}
                 {% set icon_centered = 'rz-icon-ri--lock-2-line' %}
-            {% elseif document.embedPlatform %}
-                {% set icon_centered = 'rz-icon-rz--social-' ~ document.embedPlatform %}
+            {% elseif document.pdf %}
+                {% set icon_centered = 'rz-icon-ri--file-pdf-2-line' %}
             {% elseif document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
                 {% set icon_centered = 'rz-icon-ri--file-4-line' %}
+            {% elseif document.embedPlatform %}
+                {% set icon_centered = 'rz-icon-rz--social-' ~ document.embedPlatform %}
             {% endif %}
 
             {% if icon_centered %}
@@ -57,14 +57,14 @@
                             href: path('documentsEditPage', { documentId: document.id })
                         }
                     }) }}
-                      {{ rz_button.root({
-                            icon: 'rz-icon-ri--delete-bin-7-line',
-                            emphasis: 'primary',
-                            color: 'danger',
-                            attributes: {
-                                title: 'delete'|trans,
-                                href: path('documentsDeletePage', { documentId: document.id })
-                            }
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--delete-bin-7-line',
+                        emphasis: 'primary',
+                        color: 'danger',
+                        attributes: {
+                            title: 'delete'|trans,
+                            href: path('documentsDeletePage', { documentId: document.id })
+                        }
                     }) }}
                 </div>
             {% endif %}
