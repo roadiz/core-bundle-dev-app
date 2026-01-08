@@ -8,7 +8,7 @@
     {% set color = options.color|default('') %}
     {% set attributes = options.attributes|default({}) %}
 
-    {% set classes = html_classes(element_class, attributes.class|default(''), {
+    {% set classes = html_classes(element_class, attributes.class|default(options.class|default('')), {
             (element_class ~ '--' ~ size): size,
             (element_class ~ '--' ~ color): color,
         })%}
