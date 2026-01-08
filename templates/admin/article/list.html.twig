@@ -40,26 +40,111 @@
 {%- endblock -%}
 
 {%- block content_body -%}
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="content-table uk-table">
-                <thead>
-                <tr>
-                    {%- include '/admin/article/row_header.html.twig' -%}
-                </tr>
-                </thead>
-                <tbody>
-                {%- for item in items -%}
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: true,
+            actions_available: true,
+            items: items
+        } only %}
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'title',
+                        label: 'article.title'|trans,
+                    } %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'publishedAt',
+                        label: 'article.published_at'|trans,
+                    } %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'node.createdAt',
+                        label: 'article.created_at'|trans,
+                    } %}
+                </th>
+                <th>
+                    {% trans %}article.status{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}article.tags{% endtrans %}
+                </th>
+            {% endblock %}
+            {% block tbody_content %}
+                {% for item in items %}
+                    {% set itemEditUrl = path('nodesEditSourcePage', {
+                        nodeId: item.node.id,
+                        translationId: item.translation.id,
+                    }) %}
                     <tr>
-                        {%- include '/admin/article/row.html.twig' -%}
+                        {% if selection_available %}
+                            <td>
+                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                                {{ rz_bulk.select_input({ value: item.id }) }}
+                            </td>
+                        {% endif %}
+                        <td>
+                            <a href="{{ itemEditUrl }}">
+                                <rz-entity-thumbnail
+                                    entity-class="App\GeneratedEntity\NSArticle"
+                                    entity-id="{{ item.id }}"
+                                ></rz-entity-thumbnail>
+                                <span class="rz-table__cell--ellipsis">
+                                    {{ item.title }}
+                                </span>
+                            </a>
+                        </td>
+                        <td>{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
+                        <td>{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
+                        <td>
+                            {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+                            {{ rz_node_badge.all(item.node, { display_label: false }) }}
+                        </td>
+                        <td>
+                            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                            {%- for tag in item.node.tags -%}
+                                {{ rz_badge.item({
+                                    ilabel: tag.name,
+                                })}}
+                            {%- endfor -%}
+                        </td>
+                        {% if actions_available %}
+                            <td>
+                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': itemEditUrl,
+                                    'delete_href': workflow_can(item.node, 'delete') ? path('nodesDeletePage', { nodeId: item.node.id }) : null,
+                                } %}
+                                    {% block other_actions %}
+                                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
+                                        {{ rz_table_action.item({
+                                            icon: 'uk-icon-rz-node-tree-mini',
+                                            attributes: {
+                                                href: path('nodesTreePage', { nodeId: item.node.id }),
+                                                title: 'see.nodetree'|trans,
+                                            }
+                                        }) }}
+                                        {% if workflow_can(item.node, 'undelete') %}
+                                            {{ rz_table_action.item({
+                                                icon: 'uk-icon-rz-untrash',
+                                                attributes: {
+                                                    href: path('nodesUndeletePage', { nodeId: item.node.id }),
+                                                    title: 'undelete'|trans,
+                                                }
+                                            })}}
+                                        {% endif %}
+                                    {% endblock %}
+                                {% endembed %}
+                            </td>
+                        {% endif %}
                     </tr>
                 {%- else -%}
                     <tr>
                         <td colspan="8">{% trans %}no_article{% endtrans %}</td>
                     </tr>
-                {%- endfor -%}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 {%- endblock -%}
