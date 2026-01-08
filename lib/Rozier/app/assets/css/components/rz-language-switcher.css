@@ -1,6 +1,6 @@
 .rz-language-switcher {
 	display: flex;
-    justify-content: center;
+	justify-content: center;
 	align-items: center;
 	list-style: none;
 	margin: var(--spacing-4xs) 0;
