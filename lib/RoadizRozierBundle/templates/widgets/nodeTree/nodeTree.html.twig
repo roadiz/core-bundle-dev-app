@@ -8,38 +8,29 @@
                     <a class="see-all-root-tree"
                        data-uk-tooltip="{animation:true}"
                        title="{% trans %}see_all{% endtrans %}"
-                       href="{{ path('nodesMainTreePage', { translationId: nodeTree.translation.id }) }}"><i class="uk-icon-search"></i></a>
+                       href="{{ path('nodesMainTreePage', { translationId: nodeTree.translation.id }) }}">
+                       <i class="rz-icon-ri--search-line"></i>
+                    </a>
                 </h4>
-                {% if not nodeTree.rootNode %}
-                    <a href="{{ path('nodesAddPage', { translationId: nodeTree.translation.id }) }}"
-                       data-uk-tooltip="{animation:true}"
-                       title="{% trans %}add.a.node{% endtrans %}"
-                       class="uk-button tree-btn-add"
-                       id="nodetree-btn-add"><i class="uk-icon-rz-plus-simple"></i></a>
-                {% else %}
-                    <a href="{{ path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }) }}"
-                       data-uk-tooltip="{animation:true}"
-                       title="{% trans %}add.child.node{% endtrans %}"
-                       class="uk-button tree-btn-add"
-                       id="nodetree-btn-add"><i class="uk-icon-rz-plus-simple"></i></a>
-                {% endif %}
+
+                {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+                {{ rz_button.root({
+                    icon: 'rz-icon-ri--add-line',
+                    label: not nodeTree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
+                    attributes: {
+                        href: not nodeTree.rootNode ?
+                            path('nodesAddPage', { translationId: nodeTree.translation.id })
+                            : path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }),
+                    }
+                }) }}
             </div>
         {% endif %}
         {% if mainNodeTree %}
         <div class="tree-scroll-cont">
             <div class="tree-scroll">
             {% endif %}
-                {% if nodeTree.availableTranslations and nodeTree.availableTranslations|length > 1 %}
-                <ul class="nodetree-langs{% if nodeTree.availableTranslations|length <= 5 %} few-langs{% endif %}">
-                    {%- for lang in nodeTree.availableTranslations -%}
-                    <li class="{% if lang.id == nodeTree.translation.id %}active{% endif %}">
-                        <button type="button"
-                           {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}
-                           data-children-parent-node="{{ nodeTree.rootNode.id }}"
-                           data-translation-id="{{ lang.id }}">{{ lang.preferredLocale|capitalize }}</button>
-                    </li>
-                    {%- endfor -%}
-                </ul>
+                {% if nodeTree and nodeTree.availableTranslations and nodeTree.availableTranslations|length > 1 %}
+                    {% include '@RoadizRozier/widgets/nodeTree/language_switcher.html.twig' %}
                 {% endif %}
 
                 {% set rootTreeClasses = [

@@ -1,4 +1,4 @@
-.rz-app > .rz-trees-section {
+.rz-app > .rz-aside {
 	--rz-tress-section-margin-top: var(--spacing-6xs);
 	--rz-tress-section-top: calc(var(--rz-app-header-height) + var(--rz-tress-section-margin-top));
 
@@ -18,7 +18,7 @@
 	}
 }
 
-.rz-trees-section {
+.rz-aside {
 	box-sizing: border-box;
 	border-radius: var(--radius-md, 12px);
 	border: 1px solid var(--line-on-light-secondary, #DADADA);
@@ -28,5 +28,28 @@
 	@media (--screen-sm-min) {
 		width: min(344 / 1440 * 100vw, 344px);
 
+	}
+}
+
+.rz-aside__head {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs);
+	height: var(--rz-app-trees-section-head-height);
+}
+
+.rz-aside__title {
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-form-label-font-size);
+	line-height: var(--text-form-label-line-height);
+	letter-spacing: var(--text-form-label-letter-spacing);
+	font-weight: var(--text-form-label-font-weight);
+}
+
+.tree-head {
+	position: relative;
+
+	> * {
+		margin-block: 0;
 	}
 }

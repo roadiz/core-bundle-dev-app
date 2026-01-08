@@ -45,11 +45,9 @@
                     } only %}
                 </header>
                 {% if treePanelEnabled %}
-                <section class="rz-trees-section">
-                    <div id="main-trees-container">
-                        {% include '@RoadizRozier/panels/tree_panel.html.twig' %}
-                    </div>
-                </section>
+                <aside class="rz-aside" id="main-trees-container">
+                    {% include '@RoadizRozier/panels/tree_panel.html.twig' %}
+                </aside>
                 {% endif %}
                 <!-- Add your site or application content here -->
                 <main id="rz-page" class="rz-page" data-uk-observe>

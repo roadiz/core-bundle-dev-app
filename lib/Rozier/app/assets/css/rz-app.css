@@ -12,10 +12,10 @@
 
 	@media (--screen-sm-min) {
 		--rz-app-trees-section-head-height: 54px;
-		--rz-app-header-width: 64px;
 		--rz-app-header-height: initial;
+		--rz-app-header-width: 64px;
 
-		grid-template-columns: var(--rz-app-header-width) auto 1fr;
+		grid-template-columns: var(--rz-app-header-width) minmax(auto, 328px) 1fr;
 		grid-template-rows: 1fr;
 	}
 

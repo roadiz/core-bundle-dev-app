@@ -1,0 +1,27 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+{% if nodeTree and nodeTree.availableTranslations and nodeTree.availableTranslations|length > 1 %}
+    <ul
+        class="rz-language-switcher">
+        {%- for lang in nodeTree.availableTranslations -%}
+            <li>
+                {% set is_selected = lang.id == nodeTree.translation.id %}
+                {% set btn_attrs = {
+                    type: 'button',
+                    'data-children-parent-node': nodeTree.rootNode.id,
+                    'data-translation-id': lang.id,
+                } %}
+                {% if nodeTree.tag %}
+                    {% set btn_attrs = btn_attrs|merge({'data-filter-tag': nodeTree.tag.id}) %}
+                {% endif %}
+                {{ rz_button.root({
+                    label: lang.preferredLocale|capitalize,
+                    emphasis: 'tertiary',
+                    size: 'xs',
+                    selected: is_selected,
+                    attributes: btn_attrs,
+                }) }}
+            </li>
+        {%- endfor -%}
+    </ul>
+{% endif %}
