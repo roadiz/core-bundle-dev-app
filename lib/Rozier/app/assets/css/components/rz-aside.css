@@ -1,11 +1,11 @@
 .rz-app > .rz-aside {
-	--rz-tress-section-margin-top: var(--spacing-6xs);
-	--rz-tress-section-top: calc(var(--rz-app-header-height) + var(--rz-tress-section-margin-top));
+	--rz-aside-margin-top: var(--spacing-6xs);
+	--rz-aside-top: calc(var(--rz-app-header-height) + var(--rz-aside-margin-top));
 
 	position: sticky;
-	top: var(--rz-tress-section-top);
-	height: calc(100vh - var(--rz-app-trees-section-head-height));
-	margin-top: var(--rz-tress-section-margin-top);
+	top: var(--rz-aside-top);
+	height: calc(100vh - var(--rz-aside-head-height));
+	margin-top: var(--rz-aside-margin-top);
 	margin-inline: var(--spacing-4xs);
 	overflow: auto;
 
@@ -35,7 +35,7 @@
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-4xs);
-	height: var(--rz-app-trees-section-head-height);
+	height: var(--rz-aside-head-height);
 }
 
 .rz-aside__title {

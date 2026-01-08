@@ -5,7 +5,7 @@
         <h2 class="rz-aside__title">{% trans %}aside.title{% endtrans %}</h2>
     </div>
 
-    {% if is_granted('ROLE_ACCESS_NODES')%}
+    {% if is_granted('ROLE_ACCESS_NODES') %}
         <div
             class="tree-tab-content"
             aria-labelledby="tree-menu-tab-nodes"
@@ -17,7 +17,7 @@
             </nav>
         </div>
     {% endif %}
-    {% if is_granted('ROLE_ACCESS_TAGS')%}
+    {% if is_granted('ROLE_ACCESS_TAGS') %}
         <div
             class="tree-tab-content"
             aria-labelledby="tree-menu-tab-tags"
