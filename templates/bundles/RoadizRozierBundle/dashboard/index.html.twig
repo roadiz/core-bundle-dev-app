@@ -1,4 +1,5 @@
 {% extends "@!RoadizRozier/dashboard/index.html.twig" %}
+{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
 
 {%- block header -%}
     {% include '@RoadizRozier/admin/head.html.twig' with {
@@ -57,12 +58,24 @@
 
 
         {% if clientsTag is not null %}
-            <div class="rz-dashboard__panel uk-panel uk-panel-box">
-                <h3 class="uk-panel-title uk-text-center">{% trans %}roadiz.dashboard.clients{% endtrans %}</h3>
-                <p style="font-size: 3em;"><strong>{{ clients|length }}</strong></p>
-                <a class="uk-button uk-button-small" href="{{ path('tagsTreePage', {tagId: clientsTag.id}) }}">{% trans %}see_all{% endtrans %}</a>
-            </div>
+            {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                icon: 'rz-icon-ri--price-tag-3-line',
+                title: 'roadiz.dashboard.clients'|trans,
+                button: {
+                    size: 'sm',
+                    label: 'see_all'|trans,
+                    icon: 'rz-icon-ri--arrow-right-line',
+                    attributes: {
+                        href: path('appArticlesListPage')
+                    }
+                },
+                type: 'card',
+            } %}
+                {% block content %}
+                    <div class="text-h1-md">{{ clients|length }}</div>
+                {% endblock %}
+            {% endembed %}
+
         {% endif %}
     </div>
-
 {%- endblock -%}

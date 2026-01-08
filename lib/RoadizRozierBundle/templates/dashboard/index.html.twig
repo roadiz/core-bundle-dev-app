@@ -30,56 +30,45 @@
             </div>
         {% endif %}
 
-        {% if latestLogs %}
-            <div class="rz-dashboard__row">
+        <div class="rz-dashboard__row">
+            {% if latestLogs %}
                 {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
-                    icon: 'rz-icon-ri--computer-line',
+                    icon: 'rz-icon-ri--command-line',
                     title: 'latest.node-sources.updates'|trans,
-                } %}
+                    latestLogs: latestLogs
+                } only %}
                     {% block content %}
-                    <ul class="latest-source-list">
-                    {%- for log in latestLogs -%}
-                        <li class="latest-source">
-                            {% set entityPath = log_entity_edit_path(log) %}
-                            {% if entityPath %}
-                            <a href="{{ entityPath }}">
-                            {% endif %}
-                                {% set thumbnail = log.additionalData.entity_thumbnail_src %}
-                                <figure>
-                                    {% if thumbnail %}
-                                        <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
-                                    {% else %}
-                                        <span class="no-thumb"></span>
-                                    {% endif %}
-                                    {% if log.additionalData.user_picture_url %}
-                                        <img width="60"
-                                            height="60"
-                                            class="user-image"
-                                            src="{{ log.additionalData.user_picture_url }}"
-                                            alt="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                            title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                            data-uk-tooltip="{animation:true}"/>
-                                    {% elseif log.username %}
-                                        <span class="user-image"
-                                            title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                            data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
-                                    {% endif %}
-                                </figure>
-                                <p class="source-title">{{ log.additionalData.entity_title }}</p>
-                                <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
-                            {% if entityPath %}
-                            </a>
-                            {% endif %}
-                        </li>
-                    {%- endfor -%}
-                    </ul>
+                        {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                            {% block tbody_content %}
+                                {% for log in latestLogs %}
+                                    {% set entityPath = log_entity_edit_path(log) %}
+                                    {% set thumbnail = log.additionalData.entity_thumbnail_src %}
+                                    <tr>
+                                        <td>
+                                            <figure>
+                                                {% if thumbnail %}
+                                                    <img class="source-image" width="50px" height="50px" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
+                                                {% else %}
+                                                    <span class="no-thumb"></span>
+                                                {% endif %}
+                                            </figure>
+                                        </td>
+                                        <td><a href="{{ entityPath }}">{{ log.additionalData.entity_title }}</a></td>
+                                        <td>{{ log.additionalData.entity_title }}</td>
+                                        <td>{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="2">{{ '{0} no.item|{1} 1.item|]1,Inf] %count%.items'|transchoice(0)|raw }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endblock %}
+                        {% endembed %}
                     {% endblock %}
                 {% endembed %}
-            </div>
-        {% endif %}
+            {% endif %}
 
-        {% if bookmarks|length %}
-            <div class="rz-dashboard__row">
+            {% if bookmarks|length %}
                 {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
                     id: 'dashboard-bookmarks',
                     type: 'card',
@@ -94,8 +83,8 @@
                         </ul>
                     {% endblock %}
                 {% endembed %}
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 </article>
 {%- endblock -%}
