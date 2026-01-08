@@ -3,8 +3,8 @@ import { resolve } from 'path'
 import { defineConfig, normalizePath } from 'vite'
 import devManifest from './vite-plugins/dev-manifest'
 import initCollections from './vite-plugins/iconify/iconify'
-import availableRemixIcons from './vite-plugins/iconify/collections/ri'
-import availableBxlIcons from './vite-plugins/iconify/collections/bxl'
+import remixIconNames from './vite-plugins/iconify/collections/ri'
+import bxlIconNames from './vite-plugins/iconify/collections/bxl'
 
 export default defineConfig(({ mode }) => {
     return {
@@ -54,11 +54,11 @@ export default defineConfig(({ mode }) => {
             initCollections([
                 {
                     prefix: 'ri', // Specific iconify module need to be added `@iconify-json/${prefix}`
-                    icons: availableRemixIcons,
+                    icons: remixIconNames,
                 },
                 {
                     prefix: 'bxl',
-                    icons: availableBxlIcons,
+                    icons: bxlIconNames,
                 },
                 {
                     prefix: 'rz',
