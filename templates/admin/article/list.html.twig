@@ -82,7 +82,7 @@
                         {% if selection_available %}
                             <td>
                                 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: node.id }) }}
+                                {{ rz_bulk.select_input({ value: item.id }) }}
                             </td>
                         {% endif %}
                         <td>
@@ -146,7 +146,5 @@
                 {% endfor %}
             {% endblock %}
         {% endembed %}
-    </article>
-    <article class="">
     </article>
 {%- endblock -%}

@@ -54,7 +54,7 @@
                                             </figure>
                                         </td>
                                         <td><a href="{{ entityPath }}">{{ log.additionalData.entity_title }}</a></td>
-                                        <td>{{ log.additionalData.entity_title }}</td>
+                                        <td>{{ log.additionalData.user_public_name|default(log.username) }}</td>
                                         <td>{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
                                     </tr>
                                 {% else %}

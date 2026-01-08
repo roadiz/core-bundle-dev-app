@@ -56,7 +56,6 @@
             {% endblock %}
         {% endembed %}
 
-
         {% if clientsTag is not null %}
             {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
                 icon: 'rz-icon-ri--price-tag-3-line',
@@ -66,7 +65,7 @@
                     label: 'see_all'|trans,
                     icon: 'rz-icon-ri--arrow-right-line',
                     attributes: {
-                        href: path('appArticlesListPage')
+                        href: path('tagsTreePage', {tagId: clientsTag.id})
                     }
                 },
                 type: 'card',
