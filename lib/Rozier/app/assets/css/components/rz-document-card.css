@@ -1,0 +1,65 @@
+.rz-document-card {
+	display: inline-block;
+}
+
+.rz-document-card__asset {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	aspect-ratio: 200 / 132;
+	border-radius: var(--radius-xs);
+	background-color: var(--surface-light-tertiary, #F2F2F2);
+	overflow: hidden;
+
+	figure,
+	picture {
+		height: 100%;
+	}
+
+	img {
+		height: 100%;
+		width: auto;
+		object-fit: contain;
+	}
+}
+
+.rz-document-card__overflow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	inset: 0;
+}
+
+.rz-document-card__type {
+	position: absolute;
+	top: var(--spacing-6xs);
+	left: var(--spacing-6xs);
+	translate: 0 calc(-100% - var(--spacing-6xs));
+	transition: translate 0.2s;
+
+	.rz-document-card:hover & {
+		translate: 0 0;
+	}
+}
+
+.rz-document-card__controls {
+	position: absolute;
+	bottom: var(--spacing-6xs);
+	right: var(--spacing-6xs);
+	translate: 0 calc(100% + var(--spacing-6xs));
+	transition: translate 0.2s;
+
+	.rz-document-card:hover & {
+		translate: 0 0;
+	}
+}
+
+.rz-document-card__name {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+	overflow: hidden;
+	margin-top: 4px;
+}
