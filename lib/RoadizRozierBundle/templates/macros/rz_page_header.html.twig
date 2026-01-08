@@ -45,11 +45,12 @@
                     and parent.url is defined
                     and parent.url != ''
                     and parent.label is defined
-                    and parent.label != ''
-                    and parent.type == 'listing' %}
+                    and parent.label != '' %}
                     <li class="rz-breadcrumb__list-item">
                         <a class="rz-breadcrumb__item" href="{{ parent.url }}">
-                        <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                            {% if parent.type == 'listing' %}
+                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                            {% endif %}
                          {{- parent.label -}}
                         </a>
                     </li>

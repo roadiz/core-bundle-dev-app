@@ -35,6 +35,12 @@
         {% endif %}
     {% endblock %}
 
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+
     {% block badges %}
         {% if filters is defined and filters.itemCount %}
             {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
