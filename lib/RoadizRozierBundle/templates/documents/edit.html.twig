@@ -1,14 +1,17 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
+{% set document_title = "edit.document.%name%"|trans({'%name%': document})|truncate_title %}
+
+{% block title %}{{ document_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global manage-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         document: document,
-        title: "edit.document.%name%"|trans({'%name%': document})|truncate_title,
+        title: document_title,
         current: 'edit',
         with_nav_bar: true,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-document-edit">

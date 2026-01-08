@@ -1,4 +1,18 @@
-{% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set breadcrumb = {
+        label: 'document-breadcrumb',
+        parent: [{
+            label: 'documents.homepage'|trans,
+            type: 'listing',
+            url: path('documentsHomePage'),
+        }],
+        current: title
+    } %}
+{% endif %}
+
+{% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+    breadcrumb: breadcrumb,
+} %}
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             <div class="rz-page-header__item--right">
@@ -10,6 +24,12 @@
                     translation.id
                 ) }}
             </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
         {% endif %}
     {% endblock %}
 
