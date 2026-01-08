@@ -48,7 +48,7 @@ class DocumentTranslationType extends AbstractType
         $resolver->setDefaults([
             'data_class' => DocumentTranslation::class,
             'attr' => [
-                'class' => 'rz-form__field-list'
+                'class' => 'rz-form__field-list',
             ],
         ]);
 

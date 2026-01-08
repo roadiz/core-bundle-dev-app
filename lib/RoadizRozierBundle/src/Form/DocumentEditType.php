@@ -143,7 +143,7 @@ final class DocumentEditType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'no-field-group' => true,
-                ]
+                ],
             ]);
         }
 
@@ -153,7 +153,7 @@ final class DocumentEditType extends AbstractType
             'required' => false,
             'attr' => [
                 'no-field-group' => true,
-            ]
+            ],
         ]);
 
         if ($this->security->isGranted('ROLE_ACCESS_DOCUMENTS_CREATION_DATE')) {
@@ -180,7 +180,7 @@ final class DocumentEditType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Document::class,
             'attr' => [
-                'class' => 'rz-form__field-list'
+                'class' => 'rz-form__field-list',
             ],
         ]);
 

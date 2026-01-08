@@ -21,41 +21,44 @@
                     <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_only_external{% endtrans %}</p>
                 {% endif %}
 
-                {% if document.pdf %}
-                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_pdf{% endtrans %}</p>
-                {% endif %}
-
                 <div class="rz-document-edit">
-                    <div class="rz-document-edit__first-column">
+                    <div class="rz-document-edit__first-column{% if document.private %} rz-document-edit__first-column--private{% endif %}">
                         {% if not document.private %}
-                            {% if (document.image or document.svg or document.video or document.audio) and document.isEmbed == false%}
-
-                                <figure>
-                                    {{ document|display({
-                                        'width': document.imageWidth,
-                                        'height': document.imageHeight,
-                                    }) }}
-                                </figure>
-                                {% if document.mimeType == 'image/gif' %}
-                                    <figure>{{ document|display({noProcess:true}) }}</figure>
+                            {% if (document.image or document.svg or document.video or document.audio or document.pdf) and document.isEmbed == false %}
+                                {% set options = {
+                                    'width': document.imageWidth,
+                                    'height': document.imageHeight,
+                                } %}
+                                {% if document.pdf %}
+                                    {% set figureStyle = {
+                                        style: "aspect-ratio: 750/700;"
+                                    } %}
+                                    {% set options = options|merge({'embed': true}) %}
                                 {% endif %}
+                                {% if document.mimeType == 'image/gif' %}
+                                    {% set options = options|merge({noProcess:true}) %}
+                                {% endif %}
+                                <figure {% for attr, value in figureStyle %} {{ attr }}="{{ value }}" {% endfor %}>
+                                    {{ document|display(options) }}
+                                </figure>
                             {% endif %}
 
                             {% if document.isEmbed %}
-                                <figure>
+                                <figure style="aspect-ratio: {{ document.imageWidth }}/{{ document.imageHeight }};">
                                     {{ document|display({
-                                        embed: false,
+                                        embed: true,
                                         autoplay: false,
                                         controls: true,
-                                        fullscreen: true
+                                        fullscreen: true,
                                     }) }}
                                 </figure>
                             {% endif %}
                         {% else %}
-                            <p class="uk-alert uk-alert-warning">
-                                <i class="uk-icon-warning"></i>
-                                {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
-                            </p>
+                            <div class="rz-message rz-message--error rz-message--filled">
+                                <p class="rz-message__text">
+                                    {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
+                                </p>
+                            </div>
                         {% endif %}
                     </div>
                     <div class="rz-document-edit__second-column rz-form__field-list">
@@ -66,6 +69,33 @@
                             bordered: true,
                         } %}
                             {% block tbody_content %}
+                                {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+                                {% if not document.private and document.filename %}
+                                    <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url}}</td></tr>
+                                    <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url({absolute:true}) }}</td></tr>
+                                    <tr><th>{% trans %}document.unprocessed_url{% endtrans %}</th><td>{{ document|url({noProcess:true}) }}</td></tr>
+                                {% endif %}
+                                {% if document.isEmbed and document|embedFinder %}
+                                    <tr><th>{% trans %}document.source_url{% endtrans %}</th><td>{{ (document|embedFinder).source }}</td></tr>
+                                {% endif %}
+                                {% if document.filesize > 0 %}
+                                    <tr><th>{% trans %}document.filesize{% endtrans %}</th><td>{{ document.filesize|formatBytes }}</td></tr>
+                                {% endif %}
+                                {% set infos = {} %}
+                                {% if document.isProcessable or document.svg %}
+                                    {% set infos = infos|merge({
+                                        'width': document.imageWidth ~ 'px',
+                                        'height': document.imageHeight ~ 'px'
+                                    }) %}
+                                {% endif %}
+                                {% if document.mediaDuration > 0 %}
+                                    {% set infos = infos|merge({
+                                        'duration': document.mediaDuration ~ ' sec'
+                                    }) %}
+                                {% endif %}
+                                {% for key, info in infos %}
+                                    <tr><th>{{ ('document.' ~ key)|trans }}</th><td>{{ info }}</td></tr>
+                                {% endfor %}
                                 <tr>
                                     <th>{% trans %}created.at{% endtrans %}</th>
                                     <td>{{ document.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
@@ -89,7 +119,16 @@
                                 {% if rawDocument and rawDocument.Local %}
                                     <tr>
                                         <th>{% trans %}document.raw_document{% endtrans %}</th>
-                                        <td><p>{{ rawDocument|path }}</p><p><a href="{{ path('documentsDownloadPage', { documentId: rawDocument.id}) }}" class="uk-button uk-button-small rz-no-ajax-link"><i class="uk-icon-cloud-download"></i> {% trans %}download.raw.document{% endtrans %}</a></p></td>
+                                        <td>
+                                            {{ rz_button.root({
+                                                label: 'download.raw.document'|trans,
+                                                icon: 'rz-icon-ri--download-line',
+                                                emphasis: 'tertiary',
+                                                attributes: {
+                                                    href: path('documentsDownloadPage', { documentId: rawDocument.id }),
+                                                },
+                                            }) }}
+                                        </td>
                                     </tr>
                                 {% endif %}
                                 {% if document.original %}
@@ -116,7 +155,6 @@
             <div class="rz-form__field-list">
                 {{ form_rest(form) }}
             </div>
-        {{ form_end(form, { render_rest: false }) }}
         {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
         {{ actions_menu.saveItem('#edit-document-form') }}
         {{ form_end(form, { render_rest: false }) }}
