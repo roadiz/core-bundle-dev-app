@@ -5,7 +5,8 @@
 {% block content %}
 <section class="content-global add-item">
     {% include '@RoadizRozier/attributes/head.html.twig' with {
-        title: 'add.a.attribute'|trans
+        title: 'add.a.attribute'|trans,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-add">
