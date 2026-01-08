@@ -10,6 +10,7 @@
 	transition: background-color 0.3s;
 	color: var(--workspace-content, #18191B);
 	cursor: pointer;
+	justify-content: flex-start;
 
 	&:where(a) {
 		text-decoration: none;

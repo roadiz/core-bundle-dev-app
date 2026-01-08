@@ -42,13 +42,11 @@
         joinFolderForm: joinFolderForm,
     } %}
 
-
-
     {% block content_body %}
     <article class="content">
         {% block pre_content_body %}{% endblock %}
 
-        <div class="documents-list">
+        <div class="rz-layout-grid">
             {% for document in documents %}
                 {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
                     document: document,
