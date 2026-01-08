@@ -4,13 +4,9 @@
 
 {% block content %}
 <section class="content-global delete-item">
-    <header class="content-header header-document header-document-preview">
-        <h1 class="content-title document-delete-title">{{ "trigger.webhook.%name%"|trans({'%name%': item}) }}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('webhooksHomePage') }}"
-           title="{% trans %}back_to.webhooks{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: "trigger.webhook.%name%"|trans({'%name%': item}),
+    } only %}
     <article class="content content-trigger content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, {
