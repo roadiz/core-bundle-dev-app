@@ -5,7 +5,8 @@
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-        title: 'add.a.customForm'|trans
+        title: 'add.a.customForm'|trans,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content">

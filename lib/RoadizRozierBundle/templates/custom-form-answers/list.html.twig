@@ -14,7 +14,8 @@
                 label: 'export'|trans,
                 href: path('customFormsExportPage', { id: customForm.id }),
                 icon: 'rz-icon-ri--download-line'
-            }]
+            }],
+            with_breadcrumb: true,
         } only %}
         {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
             filters: filters,
