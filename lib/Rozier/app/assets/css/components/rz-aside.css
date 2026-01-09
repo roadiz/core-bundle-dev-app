@@ -53,10 +53,8 @@
 	margin-left: auto;
 }
 
-.tree-head {
-	position: relative;
-
-	> * {
-		margin-block: 0;
+.rz-aside__body {
+	> *:not(:first-child) {
+		margin-top: var(--spacing-2xs);
 	}
 }

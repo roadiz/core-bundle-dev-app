@@ -1,5 +1,5 @@
 <aside class="rz-aside" id="main-trees">
-    <div id="tree-container">
+    <div class="rz-aside__body" id="tree-container">
         {% if is_granted('ROLE_ACCESS_NODES') %}
             {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
                 root_classes: ['rz-aside__body', 'rz-aside__body--node'],
