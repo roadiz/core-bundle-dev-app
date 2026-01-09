@@ -1,0 +1,61 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+<li class="rz-repeatable__item">
+    <div class="rz-repeatable__item__header">
+        {% set _icon = icon|default('rz-icon-ri--list-unordered') %}
+        <span class="{{ _icon }}"></span>
+        <span class="rz-repeatable__item__title">{{ label|default('') }} {{ loop.index }}</span>
+        <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--arrow-up-line',
+                size: 'sm',
+                attributes: {
+                    type: 'button',
+                    'command': '--move-up',
+                    'commandfor': repeatable_id,
+                    'tooltip-text': 'move.up'|trans,
+                    'aria-label': 'collection.move_up_item'|trans,
+                },
+            }) }}
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--arrow-down-line',
+                size: 'sm',
+                attributes: {
+                    type: 'button',
+                    'command': '--move-down',
+                    'commandfor': repeatable_id,
+                    'tooltip-text': 'move.down'|trans,
+                    'aria-label': 'collection.move_down_item'|trans,
+                },
+            }) }}
+        </div>
+        {{ rz_button.root({
+            icon: 'rz-icon-ri--delete-bin-7-line',
+            size: 'sm',
+            color: 'danger',
+            emphasis: 'primary',
+            attributes: {
+                type: 'button',
+                'command': '--remove',
+                'commandfor': repeatable_id,
+                'tooltip-text': 'remove.item'|trans,
+                'aria-label': 'collection.delete_item'|trans,
+            },
+        }) }}
+    </div>
+    <div data-form class="rz-repeatable__item__body">
+        {% block inner_body %}
+        {% endblock %}
+    </div>
+    <div class="rz-repeatable__insert-zone">
+        {{ rz_button.root({
+            icon: 'rz-icon-ri--add-line',
+            attributes: {
+                type: 'button',
+                'command': '--add',
+                'commandfor': repeatable_id,
+                'tooltip-text': 'insert.zone'|trans,
+                'aria-label': 'collection.insert_item'|trans,
+            },
+        }) }}
+    </div>
+</li>

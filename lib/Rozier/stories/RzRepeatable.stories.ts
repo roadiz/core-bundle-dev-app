@@ -184,7 +184,7 @@ function rzFormCollectionItemRenderer(
 
     if (items.length) {
         const body = document.createElement('div')
-        body.classList.add(`${COMPONENT_CLASS_NAME}__item__body`)
+        body.classList.add(`${COMPONENT_CLASS_NAME}__body`)
         wrapper.appendChild(body)
 
         for (const fieldArgs of items) {
