@@ -1,0 +1,38 @@
+
+<div class="rz-tree-wrapper tree-widget {{ root_classes|join(' ') }}">
+    {% set tree_wrapper_classes = ['rz-tree', 'root-tree'] %}
+
+    {% if not tree %}
+        <div>Loader</div>
+        <div class="rz-visually-hidden {{tree_wrapper_classes|join(' ')}}" aria-live="polite" role="status">
+            {% trans %}loading{% endtrans %}
+        </div>
+    {% else %}
+
+		{% if has_header is defined and has_header %}
+			<div class="rz-aside__head">
+				<span class="{{ icon|default('rz-icon-ri--node-tree') }}"></span>
+				<h2 class="rz-aside__title">
+					{{ title|default('rz_aside.title'|trans) }}
+					{% block after_title %}{% endblock %}
+				</h2>
+
+				{% if head_button is defined %}
+					{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+					{{ rz_button.root(head_button|merge({ size: 'sm', class: 'rz-aside__button' })) }}
+				{% endif %}
+			</div>
+		{% endif %}
+
+		{% if tree and tree.availableTranslations and tree.availableTranslations|length > 1 %}
+            {% include '@RoadizRozier/widgets/aside/language_switcher.html.twig' with {
+				tree: tree
+			} %}
+        {% endif %}
+
+        <nav class="{{ tree_wrapper_classes|join(' ') }}">
+			{% block tree_content %}
+			{% endblock %}
+        </nav>
+    {% endif %}
+</div>

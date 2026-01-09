@@ -1,20 +1,20 @@
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
-{% if nodeTree and nodeTree.availableTranslations and nodeTree.availableTranslations|length > 1 %}
+{% if tree and tree.availableTranslations and tree.availableTranslations|length > 1 %}
     <ul
         class="rz-language-switcher">
-        {%- for lang in nodeTree.availableTranslations -%}
+        {%- for lang in tree.availableTranslations -%}
             <li>
-                {% set is_selected = lang.id == nodeTree.translation.id %}
+                {% set is_selected = lang.id == tree.translation.id %}
                 {% set btn_attrs = {
                     type: 'button',
                     'data-translation-id': lang.id,
                 } %}
-                {% if nodeTree.rootNode %}
-                    {% set btn_attrs = btn_attrs|merge({'data-children-parent-node': nodeTree.rootNode.id }) %}
+                {% if tree.rootNode %}
+                    {% set btn_attrs = btn_attrs|merge({'data-children-parent-node': tree.rootNode.id }) %}
                 {% endif %}
-                {% if nodeTree.tag %}
-                    {% set btn_attrs = btn_attrs|merge({'data-filter-tag': nodeTree.tag.id}) %}
+                {% if tree.tag %}
+                    {% set btn_attrs = btn_attrs|merge({'data-filter-tag': tree.tag.id}) %}
                 {% endif %}
 
                 {{ rz_button.root({

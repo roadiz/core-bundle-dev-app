@@ -8,6 +8,7 @@
 	margin-top: var(--rz-aside-margin-top);
 	margin-inline: var(--spacing-4xs);
 	overflow: auto;
+	width: 100%;
 
 	@media (--screen-sm-min) {
 		top: var(--rz-app-padding-block);
@@ -39,11 +40,17 @@
 }
 
 .rz-aside__title {
+	display: flex;
+	align-items: center;
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-form-label-font-size);
 	line-height: var(--text-form-label-line-height);
 	letter-spacing: var(--text-form-label-letter-spacing);
 	font-weight: var(--text-form-label-font-weight);
+}
+
+.rz-aside__button {
+	margin-left: auto;
 }
 
 .tree-head {
