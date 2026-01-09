@@ -40,9 +40,8 @@
                 } only %}
             </header>
 
-            {% set treePanelEnabled = (is_granted('ROLE_ACCESS_NODES') or is_granted('ROLE_ACCESS_DOCUMENTS') or is_granted('ROLE_ACCESS_TAGS')) %}
-            {% if treePanelEnabled %}
-                {% include '@RoadizRozier/widgets/aside/root.html.twig' %}
+            {% if is_granted('ROLE_ACCESS_NODES') or is_granted('ROLE_ACCESS_DOCUMENTS') or is_granted('ROLE_ACCESS_TAGS') %}
+                {% include '@RoadizRozier/widgets/rz_aside.html.twig' %}
             {% endif %}
             <!-- Add your site or application content here -->
             <main id="rz-page" class="rz-page" data-uk-observe>
