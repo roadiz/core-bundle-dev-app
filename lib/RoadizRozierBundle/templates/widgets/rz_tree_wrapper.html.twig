@@ -27,7 +27,7 @@
 
 		{% if tree and tree.availableTranslations and tree.availableTranslations|length > 1 %}
 			<ul
-				class="rz-language-switcher">
+				class="rz-language-switcher nodetree-langs">
 				{%- for lang in tree.availableTranslations -%}
 					<li>
 						{% set is_selected = lang.id == tree.translation.id %}
