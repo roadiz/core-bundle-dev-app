@@ -132,7 +132,7 @@
         <h1 class="rz-page-header__title rz-page-header__item">
             {{ title }}
         </h1>
-        {% if with_info_badge is defined and with_info_badge %}
+        {% if with_info_badge is defined and with_info_badge and node != null %}
             <div class="rz-page-header__item">
                 {{ rz_badge.item({
                     size: 'sm',
