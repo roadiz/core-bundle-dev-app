@@ -230,14 +230,11 @@
 {% endblock dynamic_widget %}
 
 {%- block collection_widget -%}
-{% if prototype is defined %}
-    {% set attr = attr|merge({'data-prototype': form_row(prototype)}) %}
-    {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
-{% endif %}
-{% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
-{% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
-{% set attr = attr|merge({'data-name-prefix': full_name}) %}
-{{ block('form_widget') }}
+    {% include '@RoadizRozier/widgets/repeatable.html.twig' with {
+        widget_attributes: block('widget_attributes'),
+        data_prototype: form_row(prototype, { attr: { 'no-field-group': true } }),
+        stored_items_form: form.vars.value is not empty ? form.children : null,
+    } %}
 {%- endblock collection_widget -%}
 
 {% block tags_widget %}
@@ -584,15 +581,16 @@
 {%- endblock choice_widget_collapsed %}
 
 {% block form_row -%}
-    {%- if attr['no-field-group'] == true -%}
+    {%- if (attr['no-field-group'] == true) or (form.vars.label == false) -%}
         {{- form_widget(form) -}}
     {%- else -%}
         {% set rowClasses = [
             'rz-form-field',
             'form-col-' ~ form.vars.block_prefixes[1],
             'form-col-' ~ form.vars.name|replace({'_': '-'}),
-            'rz-form-field--type-' ~ form.vars.block_prefixes[1]
+            'rz-form-field--type-' ~ form.vars.block_prefixes[1],
         ] %}
+
         {% if required %}
             {% set rowClasses = rowClasses|merge(['rz-form-field--required']) %}
         {% endif %}
@@ -604,8 +602,9 @@
                 attr.class ~ '-wrapper'
             ]) %}
         {% endif %}
-        <rz-form-field {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
-             data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
+        <rz-form-field
+            {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
+            data-field-group-canonical="{{ attr['data-field-group-canonical'] }}"{% endif %}
             class="{{ rowClasses|join(' ') }}">
             {% if form.vars.block_prefixes[1] != 'separator' %}
                 {{- form_label(form) -}}
