@@ -5,10 +5,17 @@
     {% set tree_wrapper_classes = ['rz-tree', 'root-tree'] %}
 
     {% if not tree %}
-        <div>Loader</div>
-        <div class="rz-visually-hidden {{tree_wrapper_classes|join(' ')}}" aria-live="polite" role="status">
-            {% trans %}loading{% endtrans %}
-        </div>
+		{{ rz_button.root({
+			tagName: 'div',
+			label: 'loading'|trans,
+			emphasis: 'secondary',
+			size: 'md',
+			iconClass: 'rz-spinner',
+			attributes: {
+				'aria-live': 'polite',
+				'role': 'status',
+			}
+		}) }}
     {% else %}
 
 		{% if has_header is defined and has_header %}

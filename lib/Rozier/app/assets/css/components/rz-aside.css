@@ -42,6 +42,8 @@
 .rz-aside__title {
 	display: flex;
 	align-items: center;
+	margin-block: 0;
+	gap: var(--spacing-6xs);
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-form-label-font-size);
 	line-height: var(--text-form-label-line-height);

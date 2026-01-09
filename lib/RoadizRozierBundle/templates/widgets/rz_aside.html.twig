@@ -10,7 +10,7 @@
                 root_classes: ['rz-aside__body', 'rz-aside__body--tag'],
             } %}
         {% endif %}
-        {% if is_granted('ROLE_ACCESS_DOCUMENTS')%}
+        {% if is_granted('ROLE_ACCESS_DOCUMENTS') %}
             {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
                 root_classes: ['rz-aside__body', 'rz-aside__body--folder'],
             } %}
