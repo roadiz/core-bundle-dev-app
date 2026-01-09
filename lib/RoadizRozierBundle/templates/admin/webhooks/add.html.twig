@@ -1,11 +1,21 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% set title = "add.a.webhook"|trans %}
 
-{% block title %}{% trans %}add.a.webhook{% endtrans %} | {{ parent() }}{% endblock %}
+{% block title %}{{ title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global add-item">
     {% include '@RoadizRozier/admin/head.html.twig' with {
-        title: "add.a.webhook"|trans,
+        title: title,
+        breadcrumb: {
+            label: 'webhooks-breadcrumb',
+            parent: [{
+                label: 'webhooks.homepage'|trans,
+                type: 'listing',
+                url: path('webhooksHomePage'),
+            }],
+            current: title,
+        },
     } only %}
 
     <article class="content content-add">

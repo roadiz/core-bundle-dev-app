@@ -4,9 +4,17 @@
 
 {% block content %}
 <section class="content-global edit-item">
-
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: "edit.webhook.%name%"|trans({'%name%': item}),
+        breadcrumb: {
+            label: 'webhooks-breadcrumb',
+            parent: [{
+                label: 'webhooks.homepage'|trans,
+                type: 'listing',
+                url: path('webhooksHomePage'),
+            }],
+            current: item.description,
+        },
     } only %}
 
     <article class="content content-edit">
