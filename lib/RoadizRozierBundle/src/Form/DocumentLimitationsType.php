@@ -42,6 +42,9 @@ class DocumentLimitationsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Document::class,
+            'attr' => [
+                'class' => 'rz-form__field-list',
+            ],
         ]);
 
         $resolver->setRequired('referer');
