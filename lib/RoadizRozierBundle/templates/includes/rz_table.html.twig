@@ -2,7 +2,7 @@
 {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
 
-{% set classes = ["rz-table"] %}
+{% set classes = ["rz-table"]|merge(attributes.class is defined ? [attributes.class] : []) %}
 {% if bordered is defined and bordered %}
 	{% set classes = classes|merge(['rz-table--bordered']) %}
 {% endif %}
@@ -23,8 +23,7 @@
 {% set _has_thead_cells = _thead_cells|trim is not empty %}
 {% set has_thead_content = _has_thead_cells or selection_available %}
 <table
-    class="{{ classes|join(' ') }}"
-    {{ el_attr.print(attributes|default({})) }}
+    {{ el_attr.print(attributes|default({})|merge({ class: classes|join(' ') })) }}
 >
 	{% block thead %}
 		{% if has_thead_content %}

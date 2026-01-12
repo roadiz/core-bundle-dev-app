@@ -118,6 +118,7 @@
 	direction: rtl;
 }
 
+.rz-table--td-ellipsis td,
 .rz-table__cell--ellipsis {
 	max-width: var(--rz-table-cell-max-width, 20ch);
 	text-overflow: ellipsis;

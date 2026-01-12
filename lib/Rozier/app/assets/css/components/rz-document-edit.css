@@ -6,8 +6,11 @@
 
 	@media (--screen-sm-min) {
 		display: grid;
-		grid-template-columns: 4fr 6fr;
+		grid-template-columns: 5fr 5fr;
 		column-gap: var(--spacing-md);
+	}
+	@media (--screen-lg-min) {
+		grid-template-columns: 4fr 6fr;
 	}
 }
 
