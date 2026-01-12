@@ -45,11 +45,17 @@
                                     {% set thumbnail = log.additionalData.entity_thumbnail_src %}
                                     <tr>
                                         <td>
-                                            <figure>
+                                            {% set empty_class = thumbnail ? null : 'rz-entity-thumbnail--empty' %}
+                                            <figure class="rz-entity-thumbnail rz-entity-thumbnail--medium {{ empty_class }}">
                                                 {% if thumbnail %}
-                                                    <img class="source-image" width="50px" height="50px" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
+                                                    <img
+                                                        class="rz-entity-thumbnail__image"
+                                                        width="68px"
+                                                        height="52px"
+                                                        src="{{ thumbnail }}"
+                                                        alt="{{ log.additionalData.entity_title }}">
                                                 {% else %}
-                                                    <span class="no-thumb"></span>
+                                                    <span class="rz-entity-thumbnail__placeholder"></span>
                                                 {% endif %}
                                             </figure>
                                         </td>
