@@ -1,3 +1,23 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [{
+        label: 'node-type.homepage'|trans,
+        type: 'listing',
+        url: path('nodeTypesHomePage'),
+    }] %}
+    {% for parent in breadcrumb_parents %}
+        {% set parents = parents|merge([{
+            label: parent.displayName,
+            type: parent.type,
+            url: parent.url,
+        }]) %}
+    {% endfor %}
+    {% set breadcrumb = {
+        label: 'node-types-breadcrumb',
+        parent: parents,
+        current: item.displayName,
+    } %}
+{% endif %}
+
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
     {% block buttons %}
         {% if buttons is defined and buttons %}
@@ -33,6 +53,12 @@
                     {% endblock %}
                 {% endembed %}
             </rz-popover>
+        {% endif %}
+    {% endblock %}
+
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
         {% endif %}
     {% endblock %}
 

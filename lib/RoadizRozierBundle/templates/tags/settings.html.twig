@@ -9,10 +9,11 @@
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/tags/head.html.twig' with {
-        title: "edit.tag.%name%.settings"|trans({'%name%': tag.getTagName }),
+        title: tag.getTranslatedTags.first.getName,
         with_nav_bar: true,
         tag: tag,
         current: 'settings',
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-tags-settings">

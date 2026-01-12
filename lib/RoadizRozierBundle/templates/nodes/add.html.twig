@@ -11,6 +11,22 @@
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         title: title,
         subtitle: subtitle,
+        breadcrumb: {
+            label: 'nodes-breadcrumb'|trans,
+            parent: [
+                {
+                    label: 'nodes.homepage'|trans,
+                    type: 'listing',
+                    url: path('nodesHomePage'),
+                },
+                (parentNode is defined and parentNode.nodeName) ? {
+                    label: parentNode.nodeName,
+                    type: 'node',
+                    url: path('nodesEditPage', {'nodeId': parentNode.id}),
+                } : null
+            ],
+            current: title,
+        },
     } only %}
 
     <article class="content">

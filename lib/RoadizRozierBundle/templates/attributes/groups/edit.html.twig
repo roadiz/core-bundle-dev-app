@@ -6,6 +6,14 @@
 <section class="content-global edit-item">
     {% include '@RoadizRozier/attributes/head.html.twig' with {
         title: "edit.attribute.%name%"|trans({'%name%': item.name}),
+        with_breadcrumb: true,
+        breadcrumb_parents: [
+            {
+                displayName: 'attribute_groups'|trans,
+                type: 'attribute_groups_listing',
+                url: path('attributeGroupsHomePage')
+            },
+        ],
     } only %}
 
     <article class="content content-edit">

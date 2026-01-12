@@ -4,14 +4,18 @@
 
 {% block content %}
 <section class="content-global edit-item">
-
-    <header class="content-header header-item header-item-add">
-        <h1 class="content-title item-add-title">{{ "edit.webhook.%name%"|trans({'%name%': item}) }}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('webhooksHomePage') }}"
-           title="{% trans %}back_to.webhooks{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: "edit.webhook.%name%"|trans({'%name%': item}),
+        breadcrumb: {
+            label: 'webhooks-breadcrumb',
+            parent: [{
+                label: 'webhooks.homepage'|trans,
+                type: 'listing',
+                url: path('webhooksHomePage'),
+            }],
+            current: item.description,
+        },
+    } only %}
 
     <article class="content content-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

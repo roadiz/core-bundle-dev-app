@@ -9,7 +9,8 @@
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/redirections/head.html.twig' with {
-        title: "edit.redirection"|trans
+        title: "edit.redirection"|trans,
+        with_breadcrumb: true,
     } only %}
 
     <article>

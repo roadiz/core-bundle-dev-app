@@ -12,6 +12,15 @@
         {% include '@RoadizRozier/node-types/head.html.twig' with {
             title: headerTitle,
             subtitle: nodeType ? nodeType.displayName : null,
+            with_breadcrumb: true,
+            item: {displayName: headerTitle},
+            breadcrumb_parents: [
+                {
+                    displayName: 'nodeTypeDecorator'|trans,
+                    type: 'listing',
+                    url: path('nodeTypeDecoratorsListPage')
+                },
+            ],
         } only %}
         <article class="content">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}

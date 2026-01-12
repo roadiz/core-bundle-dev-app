@@ -6,6 +6,12 @@
 <section class="content-global">
     {% include '@RoadizRozier/custom-forms/head.html.twig' with {
         title: 'add.a.customFormField'|trans,
+        with_breadcrumb: true,
+        breadcrumb_parents: [{
+            displayName: customForm.displayName|truncate_title(30),
+            type: 'customFormFields',
+            url: path('customFormFieldsListPage', {customFormId: customForm.id})
+        }],
     } only %}
 
     <article class="content">

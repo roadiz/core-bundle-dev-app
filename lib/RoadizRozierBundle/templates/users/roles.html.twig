@@ -12,7 +12,8 @@
         title: "edit.user.%name%.roles"|trans({'%name%': user.username })|truncate_title(40),
         with_nav_bar: true,
         user: user,
-        current: 'roles'
+        current: 'roles',
+        with_breadcrumb: true,
     } only %}
     <article class="content content-user-roles">
 
