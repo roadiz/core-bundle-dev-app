@@ -30,37 +30,36 @@
 					{{ rz_button.root(head_button|merge({ size: 'sm', class: 'rz-aside__button' })) }}
 				{% endif %}
 			</div>
+
+			{% if tree and tree.availableTranslations and tree.availableTranslations|length > 1 %}
+				<ul
+					class="rz-language-switcher nodetree-langs">
+					{%- for lang in tree.availableTranslations -%}
+						<li>
+							{% set is_selected = lang.id == tree.translation.id %}
+							{% set btn_attrs = {
+								type: 'button',
+								'data-translation-id': lang.id,
+							} %}
+							{% if tree.rootNode %}
+								{% set btn_attrs = btn_attrs|merge({'data-children-parent-node': tree.rootNode.id }) %}
+							{% endif %}
+							{% if tree.tag %}
+								{% set btn_attrs = btn_attrs|merge({'data-filter-tag': tree.tag.id}) %}
+							{% endif %}
+
+							{{ rz_button.root({
+								label: lang.preferredLocale|capitalize,
+								emphasis: 'tertiary',
+								size: 'xs',
+								selected: is_selected,
+								attributes: btn_attrs,
+							}) }}
+						</li>
+					{%- endfor -%}
+				</ul>
+			{% endif %}
 		{% endif %}
-
-		{% if tree and tree.availableTranslations and tree.availableTranslations|length > 1 %}
-			<ul
-				class="rz-language-switcher nodetree-langs">
-				{%- for lang in tree.availableTranslations -%}
-					<li>
-						{% set is_selected = lang.id == tree.translation.id %}
-						{% set btn_attrs = {
-							type: 'button',
-							'data-translation-id': lang.id,
-						} %}
-						{% if tree.rootNode %}
-							{% set btn_attrs = btn_attrs|merge({'data-children-parent-node': tree.rootNode.id }) %}
-						{% endif %}
-						{% if tree.tag %}
-							{% set btn_attrs = btn_attrs|merge({'data-filter-tag': tree.tag.id}) %}
-						{% endif %}
-
-						{{ rz_button.root({
-							label: lang.preferredLocale|capitalize,
-							emphasis: 'tertiary',
-							size: 'xs',
-							selected: is_selected,
-							attributes: btn_attrs,
-						}) }}
-					</li>
-				{%- endfor -%}
-			</ul>
-        {% endif %}
-
         <nav class="{{ tree_wrapper_classes|join(' ') }}">
 			{% block tree_content %}
 			{% endblock %}
