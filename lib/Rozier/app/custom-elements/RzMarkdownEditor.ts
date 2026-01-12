@@ -9,7 +9,8 @@ import type {
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm'
 import 'codemirror/mode/markdown/markdown'
-import 'assets/css/vendor/codemirror.css'
+// already load in main.js
+// import 'assets/css/vendor/codemirror.css'
 
 interface TranslationResponse {
     originalText: string
@@ -95,6 +96,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         }
 
         this.editor = CodeMirror.fromTextArea(this.textarea, editorConfig)
+        console.log(this.editor)
 
         this.editor.addKeyMap({
             'Ctrl-B': (cm: Editor) => {
@@ -512,7 +514,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         } else {
             this.usePreview = true
             this.buttonPreview?.forEach((button) => {
-                button.classList.add('uk-active', 'active')
+                button.classList.add('active', 'rz-button--selected')
             })
             this.preview.classList.add('active')
             this.forceEditorUpdate()
@@ -537,7 +539,7 @@ export default class RzMarkdownEditor extends HTMLElement {
         window.removeEventListener('keyup', this.closePreview)
         this.usePreview = false
         this.buttonPreview?.forEach((button) => {
-            button.classList.remove('uk-active', 'active')
+            button.classList.remove('active', 'rz-button--selected')
         })
         this.preview.classList.remove('active')
     }
