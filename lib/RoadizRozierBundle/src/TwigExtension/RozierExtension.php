@@ -76,7 +76,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
-            new TwigFunction('getAvailableTranslation', $this->getAllAvailableTranslations(...)),
+            new TwigFunction('getAvailableTranslations', $this->getAllAvailableTranslations(...)),
         ];
     }
 
