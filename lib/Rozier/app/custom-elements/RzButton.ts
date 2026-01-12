@@ -1,8 +1,4 @@
-import {
-    Tooltip,
-    ATTRIBUTES_OPTIONS,
-    ATTRIBUTES_OPTIONS_MAP,
-} from '~/utils/Tooltip'
+import { Tooltip, ATTRIBUTES_OPTIONS, getTooltipContent } from '~/utils/Tooltip'
 
 export class RzButton extends HTMLButtonElement {
     tooltip: Tooltip | null = null
@@ -20,7 +16,7 @@ export class RzButton extends HTMLButtonElement {
     }
 
     connectedCallback() {
-        if (this.hasAttribute(ATTRIBUTES_OPTIONS_MAP.text)) {
+        if (getTooltipContent(this)) {
             this.tooltip = new Tooltip(this)
         }
     }

@@ -24,11 +24,10 @@
         {# Delete URL Alias #}
         {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
             {% block other_actions %}
-                {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
                 {% form_theme redirection.deleteForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(redirection.deleteForm) }}
                     {{ form_widget(redirection.deleteForm) }}
-                    {{ rz_table_action.item({
+                    {{ _self.button({
                         icon: 'rz-button__icon rz-icon-ri--delete-bin-7-line',
                         color: 'danger',
                         attributes: {

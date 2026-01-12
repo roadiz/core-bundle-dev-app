@@ -59,8 +59,7 @@
 							'delete_href': path('customFormsDeletePage', { id: item.getId }),
 						} %}
 							{% block other_actions %}
-								{% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-custom-form-fields',
 									attributes: {
 										href: path('customFormFieldsListPage', { customFormId: item.getId }),
@@ -68,7 +67,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-custom-form-answers',
 									attributes: {
 										href: path('customFormAnswersHomePage', { customFormId: item.getId }),
@@ -76,7 +75,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-visibility',
 									attributes: {
 										href: path('customFormSendAction', { customFormId: item.getId }),
@@ -84,7 +83,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-duplicate',
 									attributes: {
 										href: path('customFormsDuplicatePage', { id: item.getId }),
@@ -92,7 +91,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-download',
 									attributes: {
 										href: path('customFormsExportPage', { id: item.getId }),

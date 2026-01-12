@@ -126,8 +126,7 @@
 							} %}
 								{% block other_actions %}
 									{% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
-										{% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-										{{ rz_table_action.item({
+										{{ _self.button({
 											icon: 'uk-icon-rz-sudo',
 											attributes: {
 												href: path('adminHomePage') ~ '?_su=' ~ item.username|url_encode,

@@ -29,22 +29,16 @@
         {{ actions_menu.saveItem('#edit-node-form') }}
         {{ form_end(form) }}
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            bordered: true,
+        {% embed '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
+            item: node,
         } only %}
-            {% block tbody_content %}
-                <tr>
-                    <th>{% trans %}created.at{% endtrans %}</th>
-                    <td>{{ node.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans %}updated.at{% endtrans %}</th>
-                    <td>{{ node.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans %}position{% endtrans %}</th>
-                    <td>{{ node.position }}</td>
-                </tr>
+            {% block others_row %}
+                {% if node.position is defined %}
+                    <tr>
+                        <th>{% trans %}position{% endtrans %}</th>
+                        <td>{{ node.position }}</td>
+                    </tr>
+                {% endif %}
             {% endblock %}
         {% endembed %}
         </article>
@@ -52,7 +46,6 @@
         {% if node.isHidingChildren %}
              <article>
                 <h2 id="add-node-translation">{% trans %}stack.types{% endtrans %}</h2>
-
 
                 {% form_theme stackTypesForm '@RoadizRozier/horizontalForms.html.twig' %}
                 {{ form_start(stackTypesForm) }}
@@ -71,7 +64,8 @@
                 {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
                     selection_available: false,
                     actions_available: true,
-                } %}
+                    node: node,
+                } only %}
                     {% block thead_cells %}
                         <th>{% trans %}nodeType{% endtrans %}</th>
                     {% endblock %}
@@ -89,8 +83,7 @@
                                                         action="{{ path('nodesRemoveStackTypePage', {nodeId:node.id, typeName:nodeType.name}) }}"
                                                         method="POST"
                                                     >
-                                                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                                        {{ rz_table_action.item({
+                                                        {{ _self.button({
                                                             icon: 'rz-icon-ri--delete-bin-7-line',
                                                             color: 'danger',
                                                             attributes: {

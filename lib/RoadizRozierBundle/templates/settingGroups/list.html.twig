@@ -61,8 +61,7 @@
                                     'delete_href': path('settingGroupsDeletePage', { id: item.id }),
                                 } %}
                                     {% block other_actions %}
-                                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                        {{ rz_table_action.item({
+                                        {{ _self.button({
                                             icon: 'rz-icon-ri--settings-4-line',
                                             attributes: {
                                                 href: path('settingGroupsSettingsPage', { settingGroupId: item.id }),

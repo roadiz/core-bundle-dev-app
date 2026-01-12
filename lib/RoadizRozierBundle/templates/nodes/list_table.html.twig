@@ -1,15 +1,21 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+    nodes: nodes,
+    selection_available: selection_available,
+    actions_available: actions_available,
+} only %}
     {% block thead_cells %}
         <th>
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                 'field': 'nodeName',
                 label: 'nodeName'|trans,
+                column_ordering_class: column_ordering_class,
             } %}
         </th>
         <th>
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                 'field': 'nodeTypeName',
                 label: 'node.type'|trans,
+                column_ordering_class: column_ordering_class,
             } %}
         </th>
         <th>
@@ -19,6 +25,7 @@
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                 'field': 'updatedAt',
                 label: 'last.modification'|trans,
+                column_ordering_class: column_ordering_class,
             } %}
         </th>
     {% endblock %}
@@ -60,8 +67,7 @@
                             'delete_href': workflow_can(node, 'delete') ? path('nodesDeletePage', { nodeId: node.id }) : null,
                         } %}
                             {% block other_actions %}
-                                {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                {{ rz_table_action.item({
+                                {{ _self.button({
                                     icon: 'uk-icon-rz-node-tree-mini',
                                     attributes: {
                                         href: path('nodesTreePage', { nodeId: node.id }),
@@ -69,7 +75,7 @@
                                     }
                                 }) }}
                                 {% if workflow_can(node, 'undelete') %}
-                                    {{ rz_table_action.item({
+                                    {{ _self.button({
                                         icon: 'uk-icon-rz-untrash',
                                         attributes: {
                                             href: path('nodesUndeletePage', { nodeId: node.id }),

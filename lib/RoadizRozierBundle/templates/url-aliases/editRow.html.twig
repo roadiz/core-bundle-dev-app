@@ -26,8 +26,7 @@
                     {% form_theme urlAlias.deleteForm '@RoadizRozier/forms.html.twig' %}
                     {{ form_start(urlAlias.deleteForm) }}
                         {{ form_widget(urlAlias.deleteForm) }}
-                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                        {{ rz_table_action.item({
+                        {{ _self.button({
                             icon: 'rz-icon-ri--delete-bin-7-line',
                             color: 'danger',
                             attributes: {

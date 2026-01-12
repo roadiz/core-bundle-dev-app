@@ -102,8 +102,7 @@
                                 } %}
                                     {% block other_actions %}
                                         {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
-                                            {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                            {{ rz_table_action.item({
+                                            {{ _self.button({
                                                 icon: 'rz-icon-ri--repeat-2-line',
                                                 attributes: {
                                                     href: path('nodesResetAttributesPage', {

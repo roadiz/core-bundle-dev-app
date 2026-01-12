@@ -2,7 +2,14 @@
 {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
 
-{% set classes = "rz-table " ~ (bordered is defined and bordered ? "rz-table--bordered " : "") ~ (class|default("")) %}
+{% set classes = ["rz-table"] %}
+{% if bordered is defined and bordered %}
+	{% set classes = classes|merge(['rz-table--bordered']) %}
+{% endif %}
+{% if margin_top is defined and margin_top %}
+	{% set classes = classes|merge(['rz-table--margin-top-' ~ margin_top]) %}
+{% endif %}
+
 {% set column_ordering_class = 'rz-table__ordering-link' %}
 {% set _tbody_attributes = tbody_attributes|default({}) %}
 {% if sortable %}
@@ -16,7 +23,7 @@
 {% set _has_thead_cells = _thead_cells|trim is not empty %}
 {% set has_thead_content = _has_thead_cells or selection_available %}
 <table
-    class="{{ classes }}"
+    class="{{ classes|join(' ') }}"
     {{ el_attr.print(attributes|default({})) }}
 >
 	{% block thead %}
@@ -42,6 +49,15 @@
     </tbody>
 </table>
 
+
+{% macro selection_input(selection_available, value) %}
+	{% if selection_available %}
+		<td>
+			{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+			{{ rz_bulk.select_input({ value: value }) }}
+		</td>
+	{% endif %}
+{% endmacro %}
 
 
 {% macro colored_row_attrs(options = {}, attrs = {}) %}

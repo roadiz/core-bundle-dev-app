@@ -58,7 +58,7 @@
                         {% endif %}
 
                         <tr
-                             {{ _self.colored_row_attrs({'color': type.getColor }) }}
+                             {{ _self.colored_row_attrs({'color': type.color }) }}
                         >
                             <td>
                                 <a href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) }}">
@@ -86,15 +86,14 @@
                                 <td>
                                     {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
-                                            {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                            {{ rz_table_action.item({
+                                            {{ _self.button({
                                                 icon: 'uk-icon-rz-node-type-field',
                                                 attributes: {
                                                     href: path('nodeTypeFieldsListPage', { nodeTypeName: type.name }),
                                                     title: 'manage.nodeTypeFields'|trans,
                                                 }
                                             }) }}
-                                            {{ rz_table_action.item({
+                                            {{ _self.button({
                                                 icon: 'rz-icon-ri--add-line',
                                                 attributes: {
                                                     href: path('nodeTypeDecoratorsAddPage', {'nodeTypeName': type.name}),

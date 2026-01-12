@@ -37,6 +37,10 @@
 		letter-spacing: var(--text-list-md-letter-spacing);
 		font-weight: var(--text-list-md-font-weight);
 	}
+
+	&.rz-table--margin-top-xs {
+		margin-top: var(--spacing-xs);
+	}
 }
 
 .rz-table {
