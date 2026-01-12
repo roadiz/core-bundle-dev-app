@@ -125,11 +125,24 @@
 	font-weight: 700;
 }
 
+.rz-table__row--colored {
+	> *:first-child::before {
+		position: absolute;
+		content: '';
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 3PX;
+		border-radius: var(--rz-table-td-border-radius-value) 0 0 var(--rz-table-td-border-radius-value);
+		background-color: var(--rz-table-row-color, var(--rz-table-td-background-color));
+	}
+}
+
 .rz-table__color {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
-	width: 3px;
-	background-color: var(--rz-accent-color);
+	width: 3PX;
+	background-color: var(--rz-table-row-color);
 }

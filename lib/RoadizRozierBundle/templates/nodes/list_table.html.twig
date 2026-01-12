@@ -25,7 +25,9 @@
 
     {% block tbody_content %}
         {% for node in nodes %}
-            <tr style="--rz-accent-color: {{ getNodeType(node).color }};">
+            <tr
+                {{ _self.colored_row_attrs({'color': getNodeType(node).color }) }}
+            >
                 {% if selection_available %}
                     <td>
                         {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
@@ -33,8 +35,7 @@
                     </td>
                 {% endif %}
                 <td class="nodes-list-item-link">
-                    <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
-                    <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">
+                    <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}" class="rz-table__cell--flex">
                         <rz-entity-thumbnail
                             class="mobile-hidden uk-visible-large"
                             entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
@@ -42,7 +43,7 @@
                         >
                         </rz-entity-thumbnail>
                         <span class="rz-table__cell--ellipsis">
-                        {{ node.nodeSources.first.title|default(node.nodeName) }}
+                            {{ node.nodeSources.first.title|default(node.nodeName) }}
                         </span>
                     </a>
                 </td>

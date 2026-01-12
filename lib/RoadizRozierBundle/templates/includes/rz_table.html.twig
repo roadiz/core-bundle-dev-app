@@ -41,3 +41,21 @@
         {% block tbody_content %}{% endblock %}
     </tbody>
 </table>
+
+
+
+{% macro colored_row_attrs(options = {}, attrs = {}) %}
+	{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+	{% if not options.color or options.color is empty %}
+		{{ el_attrs.print(attrs) }}
+	{% else %}
+		{% set aria_label = options.entity and options.entity is defined ? { 'aria-label': options.entity } : {} %}
+		{% set color_style = options.color and options.color is not empty ? {'style': '--rz-table-row-color: ' ~ options.color ~ ';'} : {} %}
+		{% set classes = { class: 'rz-table__row--colored ' ~ attrs.class|default('') } %}
+
+		{% set merged_attrs = attrs|merge(classes)|merge(aria_label)|merge(color_style) %}
+
+		{{ el_attrs.print(merged_attrs) }}
+	{% endif %}
+{% endmacro %}

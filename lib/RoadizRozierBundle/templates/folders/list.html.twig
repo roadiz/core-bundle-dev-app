@@ -34,7 +34,9 @@
 
             {% block tbody_content %}
                 {% for folder in folders %}
-                    <tr>
+                    <tr
+                        {{ _self.colored_row_attrs({'color': folder.color }) }}
+                    >
                         {% if selection_available %}
                             <td>
                                 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}

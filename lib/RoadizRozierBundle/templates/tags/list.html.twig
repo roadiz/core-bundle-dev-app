@@ -55,7 +55,9 @@
                         : path('tagsEditPage', { tagId: tag.id })
                     %}
                     {% set can_delete = is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                    <tr>
+                    <tr
+                        {{ _self.colored_row_attrs({'color': tag.color }) }}
+                    >
                         {% if selection_available and can_delete %}
                             <td>
                                 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}

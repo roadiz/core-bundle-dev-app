@@ -57,10 +57,11 @@
                             {% set classes = classes|merge(['hiding-children']) %}
                         {% endif %}
 
-                        <tr style="--rz-accent-color:{{ type.getColor }};" class="{{ classes|join(' ') }}">
+                        <tr
+                             {{ _self.colored_row_attrs({'color': type.getColor }) }}
+                        >
                             <td>
                                 <a href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) }}">
-                                    <span class="rz-table__color"></span>
                                     {{ type.getName }}
                                 </a>
                             </td>

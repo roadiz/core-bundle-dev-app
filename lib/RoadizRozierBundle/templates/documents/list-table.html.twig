@@ -64,7 +64,9 @@
 
             {% block tbody_content %}
                 {% for document in documents %}
-                    <tr>
+                    <tr
+                     {{ _self.colored_row_attrs({'color': document.imageAverageColor }) }}
+                    >
                         {% if selection_available %}
                         <td>
 					        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}

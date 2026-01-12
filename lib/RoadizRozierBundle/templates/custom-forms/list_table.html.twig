@@ -30,7 +30,9 @@
 	{% block tbody_content %}
         {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
 		{% for item in items %}
-			<tr style="--rz-accent-color: {{ item.color }};">
+			<tr
+				{{ _self.colored_row_attrs({'color': item.color }) }}
+			>
 				{% if selection_available %}
 				<td>
 					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
@@ -38,7 +40,6 @@
 				</td>
 				{% endif %}
 				<td>
-					<span class="rz-table__color" style="background-color:{{ item.color|raw }};"></span>
 					{{ rz_link.root({
 						label: item.displayName,
 						attributes: {
