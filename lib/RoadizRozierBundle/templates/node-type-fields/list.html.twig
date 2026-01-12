@@ -5,7 +5,9 @@
 {% block content %}
     <section class="content-global content-nav-and-filters">
         {% include '@RoadizRozier/node-types/head.html.twig' with {
-            title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName})
+            title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName}),
+            with_breadcrumb: true,
+            item: nodeType,
         } only %}
 
         <article>

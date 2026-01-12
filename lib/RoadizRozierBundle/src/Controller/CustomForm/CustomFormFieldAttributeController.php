@@ -32,7 +32,7 @@ final class CustomFormFieldAttributeController extends AbstractController
         return $this->render('@RoadizRozier/custom-form-field-attributes/list.html.twig', [
             'fields' => $answers,
             'answer' => $customFormAnswer,
-            'customFormId' => $customFormAnswer->getCustomForm()->getId(),
+            'customForm' => $customFormAnswer->getCustomForm(),
         ]);
     }
 

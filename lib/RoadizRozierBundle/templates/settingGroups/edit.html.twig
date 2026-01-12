@@ -10,7 +10,8 @@
 <section class="content-global">
 
     {% include '@RoadizRozier/settingGroups/head.html.twig' with {
-        title: "edit.settingGroup.%name%"|trans({'%name%': item.name})|truncate_title
+        title: "edit.settingGroup.%name%"|trans({'%name%': item.name})|truncate_title,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-settingGroup-edit">

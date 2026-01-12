@@ -41,12 +41,26 @@
     <nav class="rz-breadcrumb" aria-label="{{ breadcrumb.label }}">
         <ol class="rz-breadcrumb__list">
             {% for parent in breadcrumb.parent %}
+                {% if parent.type is defined
+                    and parent.url is defined
+                    and parent.url != ''
+                    and parent.label is defined
+                    and parent.label != '' %}
+                    <li class="rz-breadcrumb__list-item">
+                        <a class="rz-breadcrumb__item" href="{{ parent.url }}">
+                            {% if parent.type == 'listing' %}
+                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                            {% endif %}
+                         {{- parent.label -}}
+                        </a>
+                    </li>
+                {% endif %}
                 {% if is_granted('READ', parent) %}
                     {% set breadcrumbsItem = getBreadcrumbsItem(parent) %}
                     <li class="rz-breadcrumb__list-item">
                         <a class="rz-breadcrumb__item" href="{{ breadcrumbsItem.url }}">
-                            {%- if breadcrumbsItem.isHome -%}
-                                <span class="rz-button__icon rz-icon-ri--home-2-line"></span>
+                            {%- if breadcrumbsItem.home -%}
+                                <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
                             {%- endif -%}
                             {{- breadcrumbsItem.label|truncate_title -}}
                         </a>

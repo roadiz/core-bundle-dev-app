@@ -9,12 +9,13 @@
 {% block content %}
 <section class="content-global edit-tag">
     {% include '@RoadizRozier/tags/head.html.twig' with {
-        title: "edit.tag.%name%"|trans({'%name%': tag.getTagName })|truncate_title,
+        title: tag.getTranslatedTags.first.getName,
         with_nav_bar: true,
         tag: tag,
         current: 'edit',
         available_translations, available_translations,
-        translation: translation
+        translation: translation,
+        with_breadcrumb: true,
     } only %}
 
     <tag-edit-page class="content content-tag-edit">

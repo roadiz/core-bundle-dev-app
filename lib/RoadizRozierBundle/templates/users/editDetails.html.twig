@@ -12,7 +12,8 @@
         title: "edit.user_details.%name%"|trans({'%name%': item.username })|truncate_title(40),
         with_nav_bar: true,
         user: item,
-        current: 'edit_details'
+        current: 'edit_details',
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-edit">
