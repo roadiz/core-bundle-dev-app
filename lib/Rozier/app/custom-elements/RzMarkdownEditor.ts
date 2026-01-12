@@ -96,7 +96,6 @@ export default class RzMarkdownEditor extends HTMLElement {
         }
 
         this.editor = CodeMirror.fromTextArea(this.textarea, editorConfig)
-        console.log(this.editor)
 
         this.editor.addKeyMap({
             'Ctrl-B': (cm: Editor) => {
