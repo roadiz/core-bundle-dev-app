@@ -1,13 +1,7 @@
 [is="rz-select"],
-rz-select,
 .rz-select {
 	--rz-select-arrow-size: 16px;
 	--rz-select-padding-right: 8px;
-	--rz-input-padding:
-		8px
-		calc(var(--rz-select-arrow-size) + var(--rz-select-padding-right) + var(--rz-select-icon-padding-left, 8px))
-		8px
-		12px;
 
 	appearance: none;
 	cursor: pointer;
@@ -24,7 +18,8 @@ rz-select,
 	width: var(--rz-input-width, 100%);
 	border: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));
 	border-radius: var(--radius-xs, 6px);
-	padding: var(--rz-input-padding, 11px 12px 10px 12px);
+	padding: 11PX calc(var(--rz-select-arrow-size) + var(--rz-select-padding-right) + var(--rz-select-icon-padding-left, 8px)) 10PX 12PX;
+	min-height: 36px;
 	background-color: var(--form-basic-bg, #F8F8F8);
 	transition: border-color 0.2s, color 0.2s;
 	outline: none;

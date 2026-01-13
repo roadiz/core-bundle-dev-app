@@ -2,7 +2,7 @@
 {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
 
-{% set classes = ["rz-table"]|merge(attributes.class is defined ? [attributes.class] : []) %}
+{% set classes = ["rz-table"]|merge(attr.class is defined ? [attr.class] : []) %}
 {% if bordered is defined and bordered %}
 	{% set classes = classes|merge(['rz-table--bordered']) %}
 {% endif %}
@@ -12,10 +12,20 @@
 
 {% set column_ordering_class = 'rz-table__ordering-link' %}
 {% set _tbody_attributes = tbody_attributes|default({}) %}
-{% if sortable %}
+
+{% if sortable.enabled is defined and sortable.enabled is same as(true) %}
+	{% set options = { animation: 0 } %}
+
+	{% if sortable.handle_class is defined %}
+		{% set options = options|merge({ handleClass: sortable.handle_class }) %}
+	{% endif %}
+	{% if sortable.drag_custom_class is defined %}
+		{% set options = options|merge({ dragCustomClass: sortable.drag_custom_class }) %}
+	{% endif %}
+
 	{% set _tbody_attributes = _tbody_attributes|merge({
 		'class': (_tbody_attributes.class|default('') ~ ' uk-sortable')|trim,
-		'data-uk-sortable': '{animation:0, dragCustomClass:\'setting-row rz-node-type-field-dragged\', handleClass:\'attribute-value-col\'}',
+		'data-uk-sortable': options,
 	}) %}
 {% endif %}
 
@@ -23,7 +33,7 @@
 {% set _has_thead_cells = _thead_cells|trim is not empty %}
 {% set has_thead_content = _has_thead_cells or selection_available %}
 <table
-    {{ el_attr.print(attributes|default({})|merge({ class: classes|join(' ') })) }}
+    {{ el_attr.print(attr|default({})|merge({ class: classes|join(' ') })) }}
 >
 	{% block thead %}
 		{% if has_thead_content %}
@@ -46,6 +56,9 @@
     <tbody {{ el_attr.print(_tbody_attributes) }}>
         {% block tbody_content %}{% endblock %}
     </tbody>
+	<tfoot>
+        {% block tfoot_content %}{% endblock %}
+    </tfoot>
 </table>
 
 
@@ -67,7 +80,7 @@
 	{% else %}
 		{% set aria_label = options.entity and options.entity is defined ? { 'aria-label': options.entity } : {} %}
 		{% set color_style = options.color and options.color is not empty ? {'style': '--rz-table-row-color: ' ~ options.color ~ ';'} : {} %}
-		{% set classes = { class: 'rz-table__row--colored ' ~ attrs.class|default('') } %}
+		{% set classes = { class: attrs.class|default('') ~ ' rz-table__row--colored' } %}
 
 		{% set merged_attrs = attrs|merge(classes)|merge(aria_label)|merge(color_style) %}
 

@@ -512,7 +512,23 @@
     {%- else -%}
         {% set form_method = "POST" %}
     {%- endif -%}
-    <form class="rz-form" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+
+    {% set classes = ['rz-form'] %}
+    {% if attr.class is defined %}
+        {% set classes = classes|merge([attr.class]) %}
+    {% endif %}
+    <form
+        class="{{ classes|join(' ') }}"
+        name="{{ form.vars.name }}"
+        method="{{ form_method|lower }}"
+        action="{{ action }}"
+        {% for attrname, attrvalue in attr %}
+            {{ attrname }}="{{ attrvalue }}"
+        {% endfor %}
+        {% if multipart %}
+            enctype="multipart/form-data"
+        {% endif %}
+    >
     {%- if form_method != method -%}
         <input type="hidden" name="_method" value="{{ method }}" />
     {%- endif -%}
@@ -601,9 +617,7 @@
             {% set rowClasses = rowClasses|merge(['rz-form-field--error']) %}
         {% endif %}
         {% if attr.class %}
-            {% set rowClasses = rowClasses|merge([
-                attr.class ~ '-wrapper'
-            ]) %}
+            {% set rowClasses = rowClasses|merge([attr.class]) %}
         {% endif %}
         <rz-form-field
             {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"

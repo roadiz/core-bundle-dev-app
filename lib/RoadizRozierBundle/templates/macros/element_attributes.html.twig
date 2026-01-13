@@ -3,6 +3,8 @@
     {% for attrname, attrvalue in attrs %}
         {% if attrvalue and attrvalue is same as(true) %}
             {{ attrname }}
+        {% elseif attrvalue is iterable %}
+            {{ attrname }}="{{ attrvalue|json_encode()|e('html_attr') }}"
         {% else %}
             {{ attrname }}="{{ attrvalue }}"
         {% endif %}
