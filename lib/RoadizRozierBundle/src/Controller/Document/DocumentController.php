@@ -147,7 +147,7 @@ final class DocumentController extends AbstractController
             return $this->redirectToRoute('documentsHomePage');
         }
 
-        $title = $this->translator->trans("delete.documents");
+        $title = $this->translator->trans('delete.documents');
 
         $items = [];
         foreach ($documents as $document) {

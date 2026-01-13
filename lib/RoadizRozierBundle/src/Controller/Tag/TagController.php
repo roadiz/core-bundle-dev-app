@@ -306,7 +306,7 @@ final class TagController extends AbstractController
             $assignation['referer'] = $request->get('deleteForm')['referer'];
         }
 
-        $title = $this->translator->trans("delete.tags");
+        $title = $this->translator->trans('delete.tags');
 
         $items = [];
         foreach ($tags as $tag) {
