@@ -321,8 +321,6 @@ final class TagController extends AbstractController
             'form' => $form->createView(),
             'items' => $items,
         ]);
-
-        return $this->render('@RoadizRozier/tags/bulkDelete.html.twig', $assignation);
     }
 
     #[Route(

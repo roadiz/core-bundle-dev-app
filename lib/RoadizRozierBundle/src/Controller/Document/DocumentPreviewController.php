@@ -26,7 +26,7 @@ final class DocumentPreviewController extends AbstractController
         $assignation['thumbnailFormat'] = [
             'width' => 750,
             'controls' => true,
-            'srcs²et' => [
+            'srcset' => [
                 [
                     'format' => [
                         'width' => 480,
