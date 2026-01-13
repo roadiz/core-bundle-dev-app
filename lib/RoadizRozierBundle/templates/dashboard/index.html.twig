@@ -77,12 +77,11 @@
             {% if bookmarks|length %}
                 {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
                     id: 'dashboard-bookmarks',
-                    type: 'card',
                     icon: 'rz-icon-ri--computer-line',
                     title: 'bookmarks.links'|trans,
                 } %}
                     {% block content %}
-                        <ul class="uk-list uk-list-striped">
+                        <ul class="rz-dashboard__body-bg">
                             {% for bookmark in bookmarks %}
                                 <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
                             {% endfor %}
