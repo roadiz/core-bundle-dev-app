@@ -129,13 +129,17 @@ function listRenderer(items: Item[]) {
 }
 
 function treeRenderer(args: Args) {
+    const root = document.createElement('rz-tree')
+    root.classList.add(COMPONENT_CLASS_NAME)
+
     const tree = listRenderer(args.items)
-    tree.classList.add(`${COMPONENT_CLASS_NAME}__list--root`)
+    root.appendChild(tree)
 
     if (args.iconColor) {
-        tree.style.setProperty('--rz-tree-icon-color', args.iconColor)
+        root.style.setProperty('--rz-tree-icon-color', args.iconColor)
     }
-    return tree
+
+    return root
 }
 
 export const Default: Story = {

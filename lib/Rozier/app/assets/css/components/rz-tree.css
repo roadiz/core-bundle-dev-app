@@ -1,8 +1,10 @@
-.rz-tree__list {
+.rz-tree {
 	--rz-tree-indent-width: 24px;
 	--rz-tree-icon-width: 16px;
 	--rz-tree-item-height: 28px;
+}
 
+.rz-tree__list {
 	list-style: none;
 	padding-left: initial;
 }
