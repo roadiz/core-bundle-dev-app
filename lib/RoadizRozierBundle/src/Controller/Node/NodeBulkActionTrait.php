@@ -77,8 +77,10 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkDeleteForm(
@@ -104,7 +106,16 @@ trait NodeBulkActionTrait
             $assignation['referer'] = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkDelete.html.twig', $assignation);
+        $title = new UnicodeString($this->translator->trans('delete.nodes'));
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl((!empty($assignation['referer']) ? 'nodesHomePage' : $assignation['referer'])),
+            'alertMessage' => 'are_you_sure.delete.these.nodes',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     /**

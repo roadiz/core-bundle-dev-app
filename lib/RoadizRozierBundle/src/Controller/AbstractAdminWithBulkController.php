@@ -6,6 +6,7 @@ namespace RZ\Roadiz\RozierBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -29,6 +30,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 {
     public function __construct(
         protected readonly FormFactoryInterface $formFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
         ManagerRegistry $managerRegistry,
@@ -202,7 +204,25 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             }
         }
 
-        $this->assignation[$bulkFormName] = $bulkForm->createView();
+        $this->assignation['form'] = $bulkForm->createView();
+        $title = $this->translator->trans('delete.bulk.%namespace%', ['%namespace%' => $this->getNamespace()]);
+        $this->assignation['title'] = $this->translator->trans($title);
+        $this->assignation['headPath'] = '@RoadizRozier/admin/head.html.twig';
+        $this->assignation['cancelPath'] = $this->generateUrl($this->getDefaultRouteName());
+        $this->assignation['alertMessage'] = $this->translator->trans(
+            'are_you_sure.delete.these.%namespace%',
+            [
+                '%namespace%' => $this->translator->trans($this->getNamespace()),
+            ]
+        );
+        $items = [];
+        foreach ($this->assignation['items'] as $item) {
+            $items[] = $this->explorerItemFactory->createForEntity($item, [
+                'classname' => $this->getEntityName($item),
+                'displayable' => true,
+            ])->toArray();
+        }
+        $this->assignation['items'] = $items;
 
         return $this->render(
             $templatePath,
@@ -222,7 +242,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_delete.html.twig',
+            '@RoadizRozier/admin/delete.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item
