@@ -13,9 +13,9 @@ export type Args = {
     iconColor?: string
 }
 
-const COMPONENT_CLASS_NAME = 'rz-node-tree'
+const COMPONENT_CLASS_NAME = 'rz-tree'
 const meta: Meta<Args> = {
-    title: 'Components/NodeTree',
+    title: 'Components/Tree',
     tags: ['autodocs'],
     args: {
         iconColor: '',
@@ -52,7 +52,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzNodeTreeItemRenderer(item: Item) {
+function rzTreeItemRenderer(item: Item) {
     const hasChildren = item.children && item.children.length > 0
     const tag = item.href ? 'a' : 'div'
     const itemEl = document.createElement(tag)
@@ -98,14 +98,14 @@ function rzNodeTreeItemRenderer(item: Item) {
     return itemEl
 }
 
-function rzNodeTreeListItemRenderer(item: Item) {
-    const ITEM_LIST_CLASS = 'rz-node-tree-list-item'
+function rzTreeListItemRenderer(item: Item) {
+    const ITEM_LIST_CLASS = 'rz-tree-list-item'
 
     const li = document.createElement('li', { is: ITEM_LIST_CLASS })
     li.setAttribute('is', ITEM_LIST_CLASS)
     li.classList.add(`${COMPONENT_CLASS_NAME}__list-item`)
 
-    const itemEl = rzNodeTreeItemRenderer(item)
+    const itemEl = rzTreeItemRenderer(item)
     li.appendChild(itemEl)
 
     if (item.children) {
@@ -121,25 +121,25 @@ function listRenderer(items: Item[]) {
     list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
     items.forEach((item) => {
-        const itemEl = rzNodeTreeListItemRenderer(item)
+        const itemEl = rzTreeListItemRenderer(item)
         list.appendChild(itemEl)
     })
 
     return list
 }
 
-function nodeTreeRenderer(args: Args) {
+function treeRenderer(args: Args) {
     const tree = listRenderer(args.items)
     tree.classList.add(`${COMPONENT_CLASS_NAME}__list--root`)
 
     if (args.iconColor) {
-        tree.style.setProperty('--rz-node-tree-icon-color', args.iconColor)
+        tree.style.setProperty('--rz-tree-icon-color', args.iconColor)
     }
     return tree
 }
 
 export const Default: Story = {
     render: (args) => {
-        return nodeTreeRenderer(args)
+        return treeRenderer(args)
     },
 }

@@ -1,5 +1,5 @@
-export default class RzNodeTreeListItem extends HTMLLIElement {
-    EXPAND_BUTTON_CLASS_NAME = 'rz-node-tree__expand-button'
+export default class RzTreeListItem extends HTMLLIElement {
+    EXPAND_BUTTON_CLASS_NAME = 'rz-tree__expand-button'
     expandButton: HTMLButtonElement | null = null
 
     constructor() {
