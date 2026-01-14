@@ -62,8 +62,6 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $assignation = [];
-
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
@@ -99,11 +97,8 @@ trait NodeBulkActionTrait
             }
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
         if (!empty($request->get('deleteForm')['referer'])) {
-            $assignation['referer'] = $request->get('deleteForm')['referer'];
+            $referer = $request->get('deleteForm')['referer'];
         }
 
         $title = new UnicodeString($this->translator->trans('delete.nodes'));
@@ -111,7 +106,7 @@ trait NodeBulkActionTrait
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
-            'cancelPath' => $this->generateUrl(empty($assignation['referer']) ? 'nodesHomePage' : $assignation['referer']),
+            'cancelPath' => $this->generateUrl(($referer) ? 'nodesHomePage' : $referer),
             'alertMessage' => 'are_you_sure.delete.these.nodes',
             'form' => $form->createView(),
             'items' => $items,
