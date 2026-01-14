@@ -1,10 +1,11 @@
 
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
 
 <div class="rz-tree-wrapper tree-widget {{ root_classes|join(' ') }}">
     {% set tree_wrapper_classes = ['rz-tree', 'root-tree'] %}
 
     {% if not tree %}
+		{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 		{{ rz_button.root({
 			tagName: 'div',
 			label: 'loading'|trans,
@@ -21,22 +22,30 @@
 		{% if has_header is defined and has_header %}
 			<div class="rz-aside__head">
 				<span class="{{ icon|default('rz-icon-ri--node-tree') }}"></span>
+
 				<h2 class="rz-aside__title">
 					{{ title|default('rz_aside.title'|trans) }}
 					{% block after_title %}{% endblock %}
 				</h2>
 
-				{% if head_button is defined %}
-					{{ rz_button.root(head_button|merge({ size: 'sm', class: 'rz-aside__button' })) }}
-				{% endif %}
+				{% block head_button %}{% endblock %}
 			</div>
 		{% endif %}
 
-		{% block language_switcher %}{% endblock %}
+		{% if display_translations %}
+			{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
+				tree: tree,
+				classes: ['rz-aside__langs', tree_type|default('node') ~ '-tree-langs'],
+			} only %}
+		{% endif %}
 
         <nav class="{{ tree_wrapper_classes|join(' ') }}">
-			{% block tree_content %}
-			{% endblock %}
+			{% block tree_content %}{% endblock %}
         </nav>
     {% endif %}
 </div>
+
+{% macro button(options) %}
+	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+	{{ rz_button.root(options|merge({ size: 'sm', class: 'rz-aside__button' })) }}
+{% endmacro %}

@@ -1,26 +1,30 @@
 
-{% set head_button = null %}
-{% if nodeTree is defined %}
-    {% set head_button = {
-        icon: 'rz-icon-ri--add-line',
-        label: not nodeTree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
-        attributes: {
-            href: not nodeTree.rootNode ?
-                path('nodesAddPage', { translationId: nodeTree.translation.id })
-                : path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }),
-        }
-    } %}
-{% endif %}
 
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
     root_classes: root_classes|default([])|merge(['rz-node-tree', 'nodetree-widget']),
     has_header: mainNodeTree,
     display_translations: mainNodeTree,
     title: 'aside.node_tree.title'|trans,
-    head_button: head_button,
     tree: nodeTree,
-	mainNodeTree: mainNodeTree
+	mainNodeTree: mainNodeTree,
+    linkedTypes: linkedTypes,
+    tree_type: 'node',
 } only %}
+
+    {% block head_button %}
+        {% if tree is defined %}
+            {{ _self.button({
+                icon: 'rz-icon-ri--add-line',
+                label: not tree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
+                attributes: {
+                    href: not tree.rootNode ?
+                        path('nodesAddPage', { translationId: tree.translation.id })
+                        : path('nodesAddChildPage', { nodeId : tree.rootNode.id }),
+                }
+            }) }}
+        {% endif %}
+    {% endblock %}
+
     {% block after_title %}
         <a
             class="see-all-root-tree"
@@ -31,15 +35,6 @@
             <span class="rz-icon-ri--search-line"></span>
         </a>
     {% endblock %}
-
-	{% block language_switcher %}
-        {% if mainNodeTree %}
-            {% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
-                tree: tree,
-                classes: ['rz-aside__langs', 'nodetree-langs'],
-            } only %}
-        {% endif %}
-	{% endblock %}
 
     {% block tree_content %}
 		{% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {

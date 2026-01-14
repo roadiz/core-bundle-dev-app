@@ -75,7 +75,7 @@ final class AjaxTagTreeController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
-            'tagTree' => $this->twig->render('@RoadizRozier/widgets/tagTree/rz_aside_tag_tree.html.twig', $assignation),
+            'tagTree' => $this->twig->render('@RoadizRozier/widgets/tagTree/rz_tag_tree_wrapper.html.twig', $assignation),
         ]);
     }
 }
