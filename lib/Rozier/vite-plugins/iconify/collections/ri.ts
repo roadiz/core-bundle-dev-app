@@ -82,6 +82,7 @@ export default [
     'key-2-line',
     'layout-4-line',
     'layout-grid-line',
+    'lightbulb-line',
     'link',
     'links-line',
     'list-check-3',
