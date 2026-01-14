@@ -1,8 +1,4 @@
-
-
-
 {% set type_prefix = tree_type|default('node') %}
-
 {% set root_classes = ['rz-tree-wrapper', 'tree-widget', type_prefix ~ '-tree-widget'] %}
 <div class="{{ root_classes|join(' ') }}">
     {% if not tree %}
