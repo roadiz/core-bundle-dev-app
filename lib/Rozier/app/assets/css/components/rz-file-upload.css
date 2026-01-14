@@ -18,9 +18,15 @@ rz-file-upload,
     background-color: var(--surface-light-secondary, #F8F8F8);
     cursor: var(--rz-file-upload-cursor);
 
+    rz-drawer &,
+    .rz-drawer &,
     .rz-drawer + & {
-        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
         margin-top: var(--rz-file-upload-margin-top, -4px);
+    }
+
+    &[hidden] {
+        display: none;
     }
 }
 
