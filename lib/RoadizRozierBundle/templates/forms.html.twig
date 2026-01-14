@@ -517,11 +517,17 @@
     {% if attr.class is defined %}
         {% set classes = classes|merge([attr.class]) %}
     {% endif %}
+
+    {% set form_id = attr.id|default(form.vars.id) %}
+
     <form
         class="{{ classes|join(' ') }}"
         name="{{ form.vars.name }}"
         method="{{ form_method|lower }}"
         action="{{ action }}"
+        {% if form_id %}
+            id="{{ form_id }}"
+        {% endif %}
         {% for attrname, attrvalue in attr %}
             {{ attrname }}="{{ attrvalue }}"
         {% endfor %}
