@@ -1,20 +1,16 @@
 {%- if nodeTree -%}
     {% set nodes = nodeTree.nodes %}
-    {% set rootTreeClasses = [
-        'nodetree',
-        'root-tree',
-        'rz-tree',
-    ] %}
+    {% set root_classes = [] %}
     {% if nodeTree.canReorder %}
-        {% set rootTreeClasses = rootTreeClasses|merge(['uk-nestable']) %}
+        {% set root_classes = root_classes|merge(['uk-nestable']) %}
     {% endif %}
     {% if not mainNodeTree and not nodeTree.isStackTree %}
-        {% set rootTreeClasses = rootTreeClasses|merge(['children-node-widget']) %}
+        {% set root_classes = root_classes|merge(['children-node-widget']) %}
     {% elseif nodeTree.isStackTree %}
-        {% set rootTreeClasses = rootTreeClasses|merge(['stack-tree-widget']) %}
+        {% set root_classes = root_classes|merge(['stack-tree-widget']) %}
     {% endif %}
 
-    <ul class="{{ rootTreeClasses|join(' ') }}"
+    <ul class="{{ root_classes|join(' ') }}"
         data-uk-nestable="{'group':'nodeTree', handleClass:'uk-nestable-handle'}"
         data-parent-node-id="{{ nodeTree.rootNode.id }}"
         data-translation-id="{{ nodeTree.translation.id }}"
