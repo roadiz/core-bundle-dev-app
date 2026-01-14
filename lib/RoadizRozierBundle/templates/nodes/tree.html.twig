@@ -54,8 +54,8 @@
             </div>
         {% endif %}
         {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-            "nodeTree":specificNodeTree,
-            "node":specificNodeTree.getRootNode,
+            nodeTree: specificNodeTree,
+            node: specificNodeTree.getRootNode,
         } only %}
     </article>
     {% if node %}

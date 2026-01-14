@@ -1,21 +1,21 @@
 .rz-app {
 	--rz-app-padding-block: var(--spacing-4xs);
-	--rz-app-trees-section-head-height: 50px;
 	--rz-app-header-height: 52px;
+	--rz-aside-head-height: 50px;
 
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: var(--rz-app-header-height) var(--rz-app-trees-section-head-height) 1fr;
+	grid-template-rows: var(--rz-app-header-height) var(--rz-aside-head-height) 1fr;
 	align-items: flex-start;
 	background-color: var(--surface-light-tertiary, #F2F2F2);
 
 	@media (--screen-sm-min) {
-		--rz-app-trees-section-head-height: 54px;
-		--rz-app-header-width: 64px;
+		--rz-aside-head-height: 54px;
 		--rz-app-header-height: initial;
+		--rz-app-header-width: 64px;
 
-		grid-template-columns: var(--rz-app-header-width) auto 1fr;
+		grid-template-columns: var(--rz-app-header-width) minmax(auto, 328px) 1fr;
 		grid-template-rows: 1fr;
 	}
 
