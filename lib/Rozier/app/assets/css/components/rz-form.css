@@ -7,6 +7,10 @@
 	align-items: var(--rz-form-align-items);
 }
 
+.rz-form--start {
+	align-items: flex-start;
+}
+
 .rz-form--horizontal,
 .rz-form__field-list {
 	display: grid;

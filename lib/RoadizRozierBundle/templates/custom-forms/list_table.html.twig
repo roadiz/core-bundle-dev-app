@@ -1,5 +1,3 @@
-{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
-
 {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
 	{% block thead_cells %}
 		<th>
@@ -30,8 +28,11 @@
 	{% endblock %}
 
 	{% block tbody_content %}
+        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
 		{% for item in items %}
-			<tr style="--rz-accent-color: {{ item.color }};">
+			<tr
+				{{ _self.colored_row_attrs({'color': item.color }) }}
+			>
 				{% if selection_available %}
 				<td>
 					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
@@ -39,7 +40,6 @@
 				</td>
 				{% endif %}
 				<td>
-					<span class="rz-table__color" style="background-color:{{ item.color|raw }};"></span>
 					{{ rz_link.root({
 						label: item.displayName,
 						attributes: {
@@ -59,8 +59,7 @@
 							'delete_href': path('customFormsDeletePage', { id: item.getId }),
 						} %}
 							{% block other_actions %}
-								{% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-custom-form-fields',
 									attributes: {
 										href: path('customFormFieldsListPage', { customFormId: item.getId }),
@@ -68,7 +67,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-custom-form-answers',
 									attributes: {
 										href: path('customFormAnswersHomePage', { customFormId: item.getId }),
@@ -76,7 +75,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-visibility',
 									attributes: {
 										href: path('customFormSendAction', { customFormId: item.getId }),
@@ -84,7 +83,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-duplicate',
 									attributes: {
 										href: path('customFormsDuplicatePage', { id: item.getId }),
@@ -92,7 +91,7 @@
 									}
 								}) }}
 
-								{{ rz_table_action.item({
+								{{ _self.button({
 									icon: 'uk-icon-rz-download',
 									attributes: {
 										href: path('customFormsExportPage', { id: item.getId }),

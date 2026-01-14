@@ -9,7 +9,8 @@
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/settings/head.html.twig' with {
-        title: 'add.a.setting'|trans
+        title: 'add.a.setting'|trans,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-setting-add">

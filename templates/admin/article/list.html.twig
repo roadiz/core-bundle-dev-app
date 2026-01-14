@@ -4,10 +4,12 @@
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: 'articles'|trans,
         filters: filters,
-        buttons : [
+        buttons: [
             {
                 label: 'articles.add'|trans,
-                href: path('appArticlesAddPage'),
+                attributes : {
+                    href: path('appArticlesAddPage'),
+                },
                 icon: 'rz-icon-ri--add-line',
             }
         ]
@@ -86,7 +88,7 @@
                             </td>
                         {% endif %}
                         <td>
-                            <a href="{{ itemEditUrl }}">
+                            <a href="{{ itemEditUrl }}" class="rz-table__cell--flex">
                                 <rz-entity-thumbnail
                                     entity-class="App\GeneratedEntity\NSArticle"
                                     entity-id="{{ item.id }}"
@@ -117,8 +119,7 @@
                                     'delete_href': workflow_can(item.node, 'delete') ? path('nodesDeletePage', { nodeId: item.node.id }) : null,
                                 } %}
                                     {% block other_actions %}
-                                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                        {{ rz_table_action.item({
+                                        {{ _self.button({
                                             icon: 'uk-icon-rz-node-tree-mini',
                                             attributes: {
                                                 href: path('nodesTreePage', { nodeId: item.node.id }),
@@ -126,7 +127,7 @@
                                             }
                                         }) }}
                                         {% if workflow_can(item.node, 'undelete') %}
-                                            {{ rz_table_action.item({
+                                            {{ _self.button({
                                                 icon: 'uk-icon-rz-untrash',
                                                 attributes: {
                                                     href: path('nodesUndeletePage', { nodeId: item.node.id }),

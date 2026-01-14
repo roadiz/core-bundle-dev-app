@@ -1,7 +1,10 @@
 rz-markdown-editor,
 .rz-markdown-editor {
+	--r-markdown-editor-border-radius: var(--radius-xs, 6px);
+	--codemirror-padding: var(--spacing-2xs, 12px) var(--spacing-md, 24px) var(--spacing-md, 24px) var(--spacing-2xs, 12px);
+
 	display: var(--rz-markdown-editor-display, inline-block);
-	border-radius: var(--radius-xs, 6px);
+	border-radius: var(--r-markdown-editor-border-radius);
 	border: 1px solid var(--rz-markdown-editor-border-color, var(--form-basic-border, #DADADA));
 	background-color: var(--form-basic-bg, #F8F8F8);
 	transition: color 0.3s, border-color 0.3s;
@@ -25,15 +28,14 @@ rz-markdown-editor,
 	padding: var(--spacing-5xs, 6px);
 	justify-content: flex-end;
 	gap: 6px;
-	border-radius: inherit;
+	border-radius: var(--r-markdown-editor-border-radius) var(--r-markdown-editor-border-radius) 0 0;
 	border-bottom: 1px solid var(--line-on-light-primary, #EAEAEA);
 	background-color: var(--surface-light-primary, #FFF);
 }
 
-
 .rz-markdown-editor__textarea {
 	display: flex;
-	padding: var(--spacing-2xs, 12px) var(--spacing-md, 24px) var(--spacing-md, 24px) var(--spacing-2xs, 12px);
+	padding: var(--codemirror-padding);
 	box-sizing: border-box;
 	width: 100%;
 	border: none;

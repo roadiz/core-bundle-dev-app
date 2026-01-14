@@ -35,6 +35,12 @@
         {% endif %}
     {% endblock %}
 
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+
     {% block badges %}
         {% if filters is defined and filters.itemCount %}
             {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
@@ -52,6 +58,14 @@
         <h1 class="rz-page-header__title rz-page-header__item">
             {{ title }}
         </h1>
+    {% endblock %}
+
+    {% block subtitle %}
+        {% if subtitle is defined and subtitle %}
+            <div class="rz-page-header__item">
+                {{ subtitle }}
+            </div>
+        {% endif %}
     {% endblock %}
 
     {% block nav_bar %}

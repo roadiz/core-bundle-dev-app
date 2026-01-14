@@ -20,14 +20,16 @@
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         translation: translation,
+        available_translations: available_translations,
         title: title,
         current: 'tree',
-        translationRoute: 'nodesTreePage',
+        route: 'nodesTreePage',
         filters: specificNodeTree.filters,
         stackTypesButton: true,
         with_info_badge: true,
         with_status_badge: true,
         with_nav_bar: true,
+        source: source,
     } only %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
@@ -52,8 +54,8 @@
             </div>
         {% endif %}
         {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-            "nodeTree":specificNodeTree,
-            "node":specificNodeTree.getRootNode,
+            nodeTree: specificNodeTree,
+            node: specificNodeTree.getRootNode,
         } only %}
     </article>
     {% if node %}

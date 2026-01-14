@@ -5,13 +5,15 @@
 {% block content %}
     <section class="bulk-layout content-global content-nav-and-filters">
         {% include '@RoadizRozier/node-types/head.html.twig' with {
-            title: 'nodeTypes'|trans,
+            title: 'nodeTypeDecorator'|trans,
             filters: filters,
             popover: {
                 title: 'add.a.nodeTypeDecorator'|trans,
                 icon: 'rz-icon-ri--arrow-drop-down-line',
                 items: nodeTypes,
             },
+            with_breadcrumb: true,
+            item: {displayName: 'nodeTypeDecorator'|trans},
         } only %}
 
         {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {

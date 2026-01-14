@@ -16,72 +16,58 @@
             with_info_badge: true,
             with_status_badge: true,
             with_nav_bar: true,
+            source: source,
+            route: 'nodesEditAttributesPage',
         } only %}
 
         <article>
-            {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
-
-            {{ rz_button.root({
-                icon: 'rz-icon-ri--add-large-line',
-                label: 'add.a.attribute'|trans,
-                attributes: {
-                    href: path('attributesAddPage', {
-                        referer: path('nodesEditAttributesPage', { nodeId: node.id, translationId: translation.id })
-                    }),
-                }
-            }) }}
-
-            <hr/>
-
-            {% if addAttributeForm %}
-                {% form_theme addAttributeForm '@RoadizRozier/horizontalForms.html.twig' %}
-                {{ form_start(addAttributeForm, {
-                    'attr': {
-                        'id': 'add-node-attribute-form',
-                        'class': 'rz-form--align-end'
-                    }
-                }) }}
-                    {{ form_widget(addAttributeForm) }}
-                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
-                    {{ rz_button.root({
-                        icon: 'rz-icon-ri--add-large-line',
-                        emphasis: 'primary',
-                        label: 'add.a.node.attribute'|trans,
-                        attributes: {
-                            type: 'submit',
-                        }
-                    }) }}
-                {{ form_end(addAttributeForm) }}
-            {% endif %}
-
-            <hr/>
-
             {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                sortable: not order_by_weight,
-                class: 'attribute-value-forms',
+                sortable: {
+                    enabled: not order_by_weight,
+                    handle_class: 'rz-table__handle',
+                    drag_custom_class: 'setting-row',
+                },
+                attr: {
+                    class: 'attribute-value-forms'
+                },
+                actions_available: true,
             } %}
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+
+                {% block thead_cells %}
+                    <th>{{'name'|trans}}</th>
+                    <th>{{'group.name'|trans}}</th>
+                    <th>{{'attributes.values'|trans}}</th>
+                {% endblock %}
+
                 {% block tbody_content %}
                     {% for attribute_value_translation_form in attribute_value_translation_forms %}
                         {% set attributeValue = attribute_value_translation_form.vars.data.attributeValue %}
                         <tr
-                            class="setting-row"
                             data-position="{{ attributeValue.position }}"
                             data-id="{{ attributeValue.id }}"
-                            style="--rz-accent-color: {{ attributeValue.attribute.color|default('transparent') }};"
+                            {{ _self.colored_row_attrs({'color': attributeValue.attribute.color }, { class: 'setting-row'}) }}
                         >
-                            <th>
-                                <span class="rz-table__color"></span>
-                                <strong>{{- attribute_value_translation_form.vars.data|attribute_label -}}</strong>
+                            <th class="rz-table__handle">
+                                {{- attribute_value_translation_form.vars.data|attribute_label -}}
                             </th>
                             <td>
                                 {% set _groupLabel = attributeValue.attribute.group|attribute_group_label %}
-                                {{- _groupLabel is not empty ? _groupLabel : attributeValue.attribute.group.name -}}
+
+                                {% if _groupLabel is not empty  %}
+                                    {{ _groupLabel }}
+                                {% elseif attributeValue.attribute.group.name is defined %}
+                                    {{ attributeValue.attribute.group.name }}
+                                {% else %}
+                                    <span class="rz-table__cell--muted">
+                                    {{ 'attributes.no_group'|trans }}
+                                    </span>
+                                {% endif %}
                             </td>
                             <td>
-                                {% form_theme attribute_value_translation_form '@RoadizRozier/horizontalForms.html.twig' %}
+                                {% form_theme attribute_value_translation_form '@RoadizRozier/forms.html.twig' %}
                                 {{ form_start(attribute_value_translation_form) }}
-                                    {{ form_widget(attribute_value_translation_form) }}
-                                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                                    {{ form_widget(attribute_value_translation_form, {'attr': { 'class': 'rz-form__field-list rz-form__field-list--horizontal' }}) }}
                                     {{ rz_button.root({
                                         icon: 'rz-icon-ri--edit-line',
                                         label: 'edit'|trans,
@@ -102,8 +88,7 @@
                                 } %}
                                     {% block other_actions %}
                                         {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
-                                            {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                            {{ rz_table_action.item({
+                                            {{ _self.button({
                                                 icon: 'rz-icon-ri--repeat-2-line',
                                                 attributes: {
                                                     href: path('nodesResetAttributesPage', {
@@ -121,9 +106,55 @@
                         </tr>
                     {% endfor %}
                 {% endblock %}
-            {% endembed %}
 
+                {% block tfoot_content %}
+                    {% if addAttributeForm %}
+                            <tr>
+                                {% form_theme addAttributeForm '@RoadizRozier/forms.html.twig' %}
+                                {% set form_id = 'add-node-attribute-form' %}
+                                {% set attr_field = addAttributeForm.attribute %}
+                                {% set label = field_label(attr_field) %}
+                                {% set id = field_id(attr_field) %}
+
+                                <th class="rz-table__cell--bold" scope="row">
+                                    <label for="{{ id }}">{{ label }}</label>
+                                </th>
+                                <td colspan="2">
+                                    {{ form_start(addAttributeForm, { attr: { id: form_id } }) }}
+                                        {{ form_row(attr_field, { attr: { class: 'rz-form-field--head-hidden' }}) }}
+                                        {{ form_rest(addAttributeForm) }}
+                                    {{ form_end(addAttributeForm) }}
+                                </td>
+                                <td class="rz-table__cell--align-right">
+                                    {{ rz_button.root({
+                                        icon: 'rz-icon-ri--add-line',
+                                        emphasis: 'primary',
+                                        size: 'md',
+                                        attributes: {
+                                            type: 'submit',
+                                            form: form_id,
+                                            title: 'add.a.node.attribute'|trans,
+                                        }
+                                    }) }}
+                                </td>
+                            </tr>
+                    {% endif %}
+                {% endblock %}
+
+            {% endembed %}
         </article>
+
+        <hr />
+        {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+        {{ rz_button.root({
+            icon: 'rz-icon-ri--add-large-line',
+            label: 'add.a.attribute'|trans,
+            attributes: {
+                href: path('attributesAddPage', {
+                    referer: path('nodesEditAttributesPage', { nodeId: node.id, translationId: translation.id })
+                }),
+            }
+        }) }}
 
         {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
     </section>

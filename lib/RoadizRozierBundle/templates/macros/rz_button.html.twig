@@ -34,6 +34,7 @@
             element_class: element_class,
             label: label,
             icon: icon,
+            iconClass: options.iconClass|default(null),
         }) }}
     </{{ tagName }}>
 {% endmacro %}
@@ -46,7 +47,8 @@
     {% if label is defined and label %}
         <span class="{{element_class ~ '__label'}}">{{- label|trans -}}</span>
     {% endif %}
-    {% if icon is defined and icon %}
-        <span class="{{element_class ~ '__icon ' ~ icon }}"></span>
+    {% if (icon is defined and icon) or (options.iconClass is defined and options.iconClass) %}
+        {% set icon_classes = [element_class ~ '__icon', icon, options.iconClass]|filter(v => v is defined and v)|join(' ') %}
+        <span class="{{ icon_classes }}"></span>
     {% endif %}
 {% endmacro %}

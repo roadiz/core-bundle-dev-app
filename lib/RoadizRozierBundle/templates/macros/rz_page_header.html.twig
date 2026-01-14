@@ -1,6 +1,6 @@
 <div class="rz-page-header">
     {% if block('breadcrumb')|trim is not empty or block('buttons')|trim is not empty %}
-        <div class="rz-page-header__row">
+        <div class="rz-page-header__row rz-page-header__row--border">
             {% block breadcrumb %}
             {% endblock %}
             {% block buttons %}
@@ -41,12 +41,26 @@
     <nav class="rz-breadcrumb" aria-label="{{ breadcrumb.label }}">
         <ol class="rz-breadcrumb__list">
             {% for parent in breadcrumb.parent %}
+                {% if parent.type is defined
+                    and parent.url is defined
+                    and parent.url != ''
+                    and parent.label is defined
+                    and parent.label != '' %}
+                    <li class="rz-breadcrumb__list-item">
+                        <a class="rz-breadcrumb__item" href="{{ parent.url }}">
+                            {% if parent.type == 'listing' %}
+                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                            {% endif %}
+                         {{- parent.label -}}
+                        </a>
+                    </li>
+                {% endif %}
                 {% if is_granted('READ', parent) %}
                     {% set breadcrumbsItem = getBreadcrumbsItem(parent) %}
                     <li class="rz-breadcrumb__list-item">
                         <a class="rz-breadcrumb__item" href="{{ breadcrumbsItem.url }}">
-                            {%- if breadcrumbsItem.isHome -%}
-                                <span class="rz-button__icon rz-icon-ri--home-2-line"></span>
+                            {%- if breadcrumbsItem.home -%}
+                                <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
                             {%- endif -%}
                             {{- breadcrumbsItem.label|truncate_title -}}
                         </a>
@@ -84,31 +98,12 @@
     {% endif %}
 {% endmacro %}
 
-{% macro button(label, href, icon, style, tag) %}
-    {%- set buttonStyle = style|default('primary') -%}
-    {%- set buttonTag = tag|default(href is defined ? 'a' : 'button') -%}
-    {%- if buttonTag == 'a' -%}
-        <a class="rz-button rz-button--{{ buttonStyle }}"{% if href is defined %} href="{{ href }}"{% endif %}>
-            <span class="rz-button__label">{{ label }}</span>
-            {%- if icon is defined and icon -%}
-            <span class="rz-button__icon {{ icon }}"></span>
-            {%- endif -%}
-        </a>
-    {%- else -%}
-        <button class="rz-button rz-button--{{ buttonStyle }}" type="button">
-            <span class="rz-button__label">{{ label }}</span>
-            {%- if icon is defined and icon -%}
-            <span class="rz-button__icon {{ icon }}"></span>
-            {%- endif -%}
-        </button>
-    {%- endif -%}
-{%- endmacro %}
-
 {% macro button_group(buttons) %}
     {%- if buttons and buttons|length > 0 -%}
+        {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
         <div class="rz-page-header__item--right{% if buttons|length > 1 %} rz-button-group rz-button-group--gap-md{% endif %}">
             {%- for btn in buttons -%}
-                {{ _self.button(btn.label, btn.href|default(null), btn.icon|default(null), btn.style|default('primary'), btn.tag|default(null)) }}
+                {{ rz_button.root(btn|merge({emphasis : 'primary'})) }}
             {%- endfor -%}
         </div>
     {%- endif -%}

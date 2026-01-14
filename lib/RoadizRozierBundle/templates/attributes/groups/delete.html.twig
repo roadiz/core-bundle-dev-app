@@ -1,7 +1,7 @@
 {% include '@RoadizRozier/admin/delete.html.twig' with {
     'title': "delete.attribute_group.%name%"|trans({'%name%': item.getName()}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
-    'cancelPath': path('attributesHomePage'),
+    'cancelPath': path('attributeGroupsHomePage'),
     'alertMessage': 'are_you_sure.delete.attribute_group'|trans,
     'form': form,
 } %}

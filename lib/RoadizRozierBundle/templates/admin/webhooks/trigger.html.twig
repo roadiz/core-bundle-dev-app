@@ -1,29 +1,53 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
-{% block title %}{{ "trigger.webhook.%name%"|trans({'%name%': item}) }} | {{ parent() }}{% endblock %}
+{% set title = "trigger.webhook.%name%"|trans({'%name%': item}) %}
+
+{% block title %}{{ title|truncate_title }}{% endblock %}
 
 {% block content %}
-<section class="content-global delete-item">
-    <header class="content-header header-document header-document-preview">
-        <h1 class="content-title document-delete-title">{{ "trigger.webhook.%name%"|trans({'%name%': item}) }}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('webhooksHomePage') }}"
-           title="{% trans %}back_to.webhooks{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
-    <article class="content content-trigger content-no-action-menu">
-        {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, {
-            'attr': {
-                'class': 'uk-form uk-form-stacked'
-            }
-        }) }}{{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <legend class="uk-alert uk-alert-warning"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.trigger.webhook{% endtrans %}</legend>
-                <a href="{{ path('webhooksHomePage') }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                <button class="uk-button uk-button-warning" type="submit"><i class="uk-icon-space-shuttle"></i> {% trans %}webhook.trigger{% endtrans %}</button>
-            </fieldset>
-        {{ form_end(form) }}
-    </article>
-</section>
+    <section class="content-global">
+        {% include '@RoadizRozier/translations/head.html.twig' with {
+            title: title,
+        } only %}
+
+        <article class="content content-delete content-no-action-menu">
+            {% form_theme form '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(form, {
+                'attr': {
+                    'class': 'rz-form'
+                }
+            }) }}
+            {{ form_widget(form) }}
+            <div class="rz-message rz-message--warning rz-form-field__message">
+                <p class="rz-message__text">
+                    {% trans %}are_you_sure.trigger.webhook{% endtrans %}
+                </p>
+            </div>
+            <div class="rz-button-group rz-button-group--gap-md">
+                {{
+                    rz_button.root({
+                        tagName: 'a',
+                        attributes: {
+                            href: path('webhooksHomePage'),
+                        },
+                        emphasis: 'secondary',
+                        label: 'cancel',
+                        icon: 'rz-icon-ri--corner-down-left-line',
+                    })
+                }}
+                {{
+                    rz_button.root({
+                        attributes: {
+                            type: 'submit',
+                        },
+                        emphasis: 'primary',
+                        label: delete_label|default('delete'),
+                        icon: delete_icon|default('rz-icon-ri--space-ship-line'),
+                    })
+                }}
+            </div>
+            {{ form_end(form) }}
+        </article>
+    </section>
 {% endblock %}

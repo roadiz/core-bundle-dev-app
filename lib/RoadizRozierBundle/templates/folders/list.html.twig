@@ -9,7 +9,9 @@
         filters: filters,
         buttons: [{
             label: 'add.a.folder'|trans,
-            href: path('foldersAddPage'),
+            attributes: {
+                href: path('foldersAddPage'),
+            },
             icon: 'rz-icon-ri--add-line'
         }]
     } only %}
@@ -22,19 +24,24 @@
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             selection_available: false,
             actions_available: true,
-        } %}
+            folders: folders,
+        } only %}
             {% block thead_cells %}
                 <th>
                     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                         'field': 'name',
+                        'filters': filters,
                         'label': 'name'|trans,
+                        'column_ordering_class': column_ordering_class,
                     } %}
                 </th>
             {% endblock %}
 
             {% block tbody_content %}
                 {% for folder in folders %}
-                    <tr>
+                    <tr
+                        {{ _self.colored_row_attrs({'color': folder.color }) }}
+                    >
                         {% if selection_available %}
                             <td>
                                 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
@@ -51,8 +58,7 @@
                                     'delete_href': path('foldersDeletePage', { folderId: folder.id }),
                                 } %}
                                     {% block other_actions %}
-                                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                        {{ rz_table_action.item({
+                                        {{ _self.button({
                                             icon: 'uk-icon-rz-download',
                                             attributes: {
                                                 href: path('foldersDownloadPage', { folderId: folder.id }),

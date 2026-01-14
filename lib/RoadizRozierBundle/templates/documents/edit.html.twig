@@ -1,14 +1,17 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
+{% set document_title = "edit.document.%name%"|trans({'%name%': document})|truncate_title %}
+
+{% block title %}{{ document_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global manage-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         document: document,
-        title: "edit.document.%name%"|trans({'%name%': document})|truncate_title,
+        title: document_title,
         current: 'edit',
         with_nav_bar: true,
+        with_breadcrumb: true,
     } only %}
 
     <article>
@@ -67,6 +70,10 @@
                         {{ form_row(form.newDocument) }}
                         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
                             bordered: true,
+                            attributes: {
+                                class: 'rz-table--td-ellipsis',
+                                style: '--rz-table-cell-max-width: 30ch',
+                            }
                         } %}
                             {% block tbody_content %}
                                 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
@@ -76,7 +83,11 @@
                                     <tr><th>{% trans %}document.unprocessed_url{% endtrans %}</th><td>{{ document|url({noProcess:true}) }}</td></tr>
                                 {% endif %}
                                 {% if document.isEmbed and document|embedFinder %}
-                                    <tr><th>{% trans %}document.source_url{% endtrans %}</th><td>{{ (document|embedFinder).source }}</td></tr>
+                                    <tr>
+                                        <th>{% trans %}document.source_url{% endtrans %}</th>
+                                        {% set content = (document|embedFinder).source %}
+                                        <td class="rz-table__cell--ellipsis" title="{{ content }}">{{ content }}</td>
+                                    </tr>
                                 {% endif %}
                                 {% if document.filesize > 0 %}
                                     <tr><th>{% trans %}document.filesize{% endtrans %}</th><td>{{ document.filesize|formatBytes }}</td></tr>

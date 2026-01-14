@@ -1,15 +1,21 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+    nodes: nodes,
+    selection_available: selection_available,
+    actions_available: actions_available,
+} only %}
     {% block thead_cells %}
         <th>
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                 'field': 'nodeName',
                 label: 'nodeName'|trans,
+                column_ordering_class: column_ordering_class,
             } %}
         </th>
         <th>
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                 'field': 'nodeTypeName',
                 label: 'node.type'|trans,
+                column_ordering_class: column_ordering_class,
             } %}
         </th>
         <th>
@@ -19,13 +25,16 @@
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                 'field': 'updatedAt',
                 label: 'last.modification'|trans,
+                column_ordering_class: column_ordering_class,
             } %}
         </th>
     {% endblock %}
 
     {% block tbody_content %}
         {% for node in nodes %}
-            <tr style="--rz-accent-color: {{ getNodeType(node).color }};">
+            <tr
+                {{ _self.colored_row_attrs({'color': getNodeType(node).color }) }}
+            >
                 {% if selection_available %}
                     <td>
                         {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
@@ -33,8 +42,7 @@
                     </td>
                 {% endif %}
                 <td class="nodes-list-item-link">
-                    <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
-                    <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">
+                    <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}" class="rz-table__cell--flex">
                         <rz-entity-thumbnail
                             class="mobile-hidden uk-visible-large"
                             entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
@@ -42,7 +50,7 @@
                         >
                         </rz-entity-thumbnail>
                         <span class="rz-table__cell--ellipsis">
-                        {{ node.nodeSources.first.title|default(node.nodeName) }}
+                            {{ node.nodeSources.first.title|default(node.nodeName) }}
                         </span>
                     </a>
                 </td>
@@ -59,8 +67,7 @@
                             'delete_href': workflow_can(node, 'delete') ? path('nodesDeletePage', { nodeId: node.id }) : null,
                         } %}
                             {% block other_actions %}
-                                {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                {{ rz_table_action.item({
+                                {{ _self.button({
                                     icon: 'uk-icon-rz-node-tree-mini',
                                     attributes: {
                                         href: path('nodesTreePage', { nodeId: node.id }),
@@ -68,7 +75,7 @@
                                     }
                                 }) }}
                                 {% if workflow_can(node, 'undelete') %}
-                                    {{ rz_table_action.item({
+                                    {{ _self.button({
                                         icon: 'uk-icon-rz-untrash',
                                         attributes: {
                                             href: path('nodesUndeletePage', { nodeId: node.id }),

@@ -14,6 +14,10 @@ References:
 	width: 1px;
 }
 
+figure {
+	margin: initial;
+}
+
 /*
 ** Temporaly fix layout when legacy style removed
 ** Remove when legacy styles will be refactored

@@ -12,9 +12,12 @@
             type: customForm,
             buttons: [{
                 label: 'add.a.customFormField'|trans,
-                href: path('customFormFieldsAddPage', {customFormId: customForm.id}),
+                attributes: {
+                    href: path('customFormFieldsAddPage', {customFormId: customForm.id}),
+                },
                 icon: 'rz-icon-ri--add-line'
-            }]
+            }],
+            with_breadcrumb: true,
         } only %}
         <article>
             {% embed '@RoadizRozier/includes/rz_table.html.twig' with {

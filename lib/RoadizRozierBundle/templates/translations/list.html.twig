@@ -14,7 +14,9 @@
         filters: filters,
         buttons: [{
             label: 'add.a.translation'|trans,
-            href: path('translationsAddPage'),
+            attributes: {
+                href: path('translationsAddPage'),
+            },
             icon: 'rz-icon-ri--add-line'
         }]
     } only %}
@@ -61,7 +63,11 @@
             {% block tbody_content %}
                 {% for t in translations %}
                     <tr>
-                        <td><a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">{{ t.translation.getName }}</a></td>
+                        <td>
+                            <a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">
+                                {{ t.translation.getName }}
+                            </a>
+                        </td>
                         <td>{{ t.translation.locale }}</td>
                         <td>{{ t.translation.overrideLocale }}</td>
                         <td>
@@ -90,15 +96,14 @@
                                         {% if is_not_default is same as(true) %}
                                             {% form_theme t.defaultForm '@RoadizRozier/forms.html.twig' %}
                                             <form class="rz-form" action="#" method="post">
-                                                {{ form_widget(t.defaultForm) }}
-                                                <button
-                                                    class="uk-button uk-button-content uk-button-small"
-                                                    title="{% trans %}set.default{% endtrans %}"
-                                                    type="submit"
-                                                    data-uk-tooltip="{animation:true}"
-                                                >
-                                                    <i class="uk-icon-rz-star"></i>
-                                                </button>
+                                                {{ form_widget(t.defaultForm, { attr: { style: 'display: none;' }}) }}
+                                                {{ _self.button({
+                                                    icon: 'rz-icon-ri--star-line',
+                                                    attributes: {
+                                                        type: 'submit',
+                                                        title: 'set.default'|trans,
+                                                    }
+                                                }) }}
                                             </form>
                                         {% endif %}
                                     {% endblock %}

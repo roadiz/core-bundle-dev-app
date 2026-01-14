@@ -102,7 +102,10 @@ final class AttributeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
-        $resolver->setDefault('data_class', Attribute::class);
+        $resolver->setDefaults([
+            'data_class' => Attribute::class,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
     }
 
     #[\Override]

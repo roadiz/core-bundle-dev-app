@@ -12,7 +12,8 @@
         title: "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title(40),
         with_nav_bar: true,
         user: user,
-        current: 'groups'
+        current: 'groups',
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-user-groups">

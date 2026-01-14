@@ -5,14 +5,18 @@
 {% block content %}
     <section class="content-global content-nav-and-filters">
         {% include '@RoadizRozier/node-types/head.html.twig' with {
-            title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName})
+            title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName}),
+            with_breadcrumb: true,
+            item: nodeType,
         } only %}
 
         <article>
             {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
                 selection_available: false,
                 actions_available: true,
-            } %}
+                fields: fields,
+                nodeType: nodeType,
+            } only %}
                 {% block thead_cells %}
                     <th>{% trans %}name{% endtrans %}</th>
                     <th class="mobile-hidden">{% trans %}label{% endtrans %}</th>
@@ -44,8 +48,7 @@
                                 <td>
                                     {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
-                                            {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                            {{ rz_table_action.item({
+                                            {{ _self.button({
                                                 icon: 'rz-icon-ri--edit-line',
                                                 attributes: {
                                                     href: path('nodeTypeDecoratorsAddPage', {'nodeTypeName': nodeType.name, 'nodeTypeFieldName': field.name }),
