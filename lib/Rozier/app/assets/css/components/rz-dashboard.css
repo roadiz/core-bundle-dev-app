@@ -59,3 +59,11 @@
         margin: 0;
     }
 }
+
+.rz-dashboard__text {
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-overtitle-md-font-size);
+    line-height: var(--text-overtitle-md-line-height);
+    letter-spacing: var(--text-overtitle-md-letter-spacing);
+    font-weight: var(--text-overtitle-md-font-weight);
+}

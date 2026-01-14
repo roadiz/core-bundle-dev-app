@@ -11,23 +11,23 @@
   --text-h1-sm-letter-spacing: 0px;
   --text-h1-sm-font-weight: 600;
 
+  /* overtitle-md */
+  --text-overtitle-md-font-size: 13px;
+  --text-overtitle-md-line-height: 110%;
+  --text-overtitle-md-letter-spacing: -0.2px;
+  --text-overtitle-md-font-weight: 500;
+
   /* overtitle-sm */
-  --text-overtitle-sm-font-size: 13px;
+  --text-overtitle-sm-font-size: 11px;
   --text-overtitle-sm-line-height: 110%;
   --text-overtitle-sm-letter-spacing: -0.26px;
   --text-overtitle-sm-font-weight: 500;
 
   /* overtitle-xs */
-  --text-overtitle-xs-font-size: 11px;
+  --text-overtitle-xs-font-size: 9px;
   --text-overtitle-xs-line-height: 110%;
   --text-overtitle-xs-letter-spacing: -0.22px;
   --text-overtitle-xs-font-weight: 500;
-
-  /* overtitle-md */
-  --text-overtitle-md-font-size: 10px;
-  --text-overtitle-md-line-height: 110%;
-  --text-overtitle-md-letter-spacing: 0.2px;
-  --text-overtitle-md-font-weight: 500;
 
   /* label-md */
   --text-label-md-font-size: 14px;

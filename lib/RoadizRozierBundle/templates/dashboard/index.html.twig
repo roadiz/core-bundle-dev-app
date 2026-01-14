@@ -83,7 +83,16 @@
                     {% block content %}
                         <ul class="rz-dashboard__body-bg">
                             {% for bookmark in bookmarks %}
-                                <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
+                                <li>
+                                    <a
+                                        class="rz-dashboard__text"
+                                        target="_blank"
+                                        rel="nofollow noopener"
+                                        href="{{ bookmark.url }}"
+                                    >
+                                        {{ bookmark.label }}
+                                    </a>
+                                </li>
                             {% endfor %}
                         </ul>
                     {% endblock %}

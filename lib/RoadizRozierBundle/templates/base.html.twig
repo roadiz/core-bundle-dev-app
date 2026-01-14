@@ -53,9 +53,17 @@
                     {% block content %}{% endblock %}
                 </div>
                 <div id="canvasloader-container"></div>
-                <div id="back-top-button"
-                        title="{% trans %}back_to.top{% endtrans %}"
-                        data-uk-tooltip="{animation:true,pos:'top'}"><i class="uk-icon-rz-backtop"></i></div>
+
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    class: 'rz-back-to-top-button',
+                    icon: 'rz-icon-ri--arrow-up-line',
+                    size: 'xs',
+                    attributes: {
+                        id: 'back-top-button',
+                        title: 'back_to.top'|trans,
+                    }
+                }) }}
                 {# This is a debug panel placeholder… do not remove it. #}
             </main>
         </div>

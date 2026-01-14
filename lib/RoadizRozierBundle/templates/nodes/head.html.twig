@@ -15,12 +15,12 @@
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             {% if not route %}
-                {% set basePath = 'nodesEditSourcePage' %}
+                {% set route = 'nodesEditSourcePage' %}
             {% endif %}
             <div class="rz-page-header__item--right">
                 {{ _self.translations_bar(
                     available_translations,
-                    basePath,
+                    route,
                     node,
                     'nodeId',
                     translation.id,

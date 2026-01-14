@@ -112,7 +112,7 @@
         ) }}
     {%- endif -%}
 
-    <rz-drawer 
+    <rz-drawer
         {{ drawer_attributes|join(' ')|raw }}
         class="rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} rz-form-field__body"
         {% if entity %}accept-entity="{{ entity }}"{% endif %}

@@ -76,7 +76,7 @@
                                     <figure>{{- setting.document|display({height:30}) -}}</figure>
                                 {% endif %}
                                 {% form_theme setting.form '@RoadizRozier/horizontalForms.html.twig' %}
-                                {{ form_start(setting.form) }}
+                                {{ form_start(setting.form, { attr: { class: 'rz-form-field--head-hidden'}}) }}
                                     {{ form_widget(setting.form) }}
                                     {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
                                     {{ rz_button.root({
