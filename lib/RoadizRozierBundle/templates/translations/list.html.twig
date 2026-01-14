@@ -14,7 +14,9 @@
         filters: filters,
         buttons: [{
             label: 'add.a.translation'|trans,
-            href: path('translationsAddPage'),
+            attributes: {
+                href: path('translationsAddPage'),
+            },
             icon: 'rz-icon-ri--add-line'
         }]
     } only %}

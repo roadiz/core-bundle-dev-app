@@ -13,7 +13,9 @@
             filters: filters,
             buttons: [{
                 label: 'add.a.redirection'|trans,
-                href: path('redirectionsAddPage'),
+                attributes: {
+                    href: path('redirectionsAddPage'),
+                },
                 icon: 'rz-icon-ri--add-line'
             }]
         } only %}

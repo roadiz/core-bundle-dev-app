@@ -9,7 +9,9 @@
         filters: filters,
         buttons: [{
             label: 'add.a.webhook'|trans,
-            href: path('webhooksAddPage'),
+            attributes: {
+                href: path('webhooksAddPage'),
+            },
             icon: 'rz-icon-ri--add-line'
         }]
     } only %}

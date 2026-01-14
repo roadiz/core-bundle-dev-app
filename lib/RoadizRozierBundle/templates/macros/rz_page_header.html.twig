@@ -98,31 +98,12 @@
     {% endif %}
 {% endmacro %}
 
-{% macro button(label, href, icon, style, tag) %}
-    {%- set buttonStyle = style|default('primary') -%}
-    {%- set buttonTag = tag|default(href is defined ? 'a' : 'button') -%}
-    {%- if buttonTag == 'a' -%}
-        <a class="rz-button rz-button--{{ buttonStyle }}"{% if href is defined %} href="{{ href }}"{% endif %}>
-            <span class="rz-button__label">{{ label }}</span>
-            {%- if icon is defined and icon -%}
-            <span class="rz-button__icon {{ icon }}"></span>
-            {%- endif -%}
-        </a>
-    {%- else -%}
-        <button class="rz-button rz-button--{{ buttonStyle }}" type="button">
-            <span class="rz-button__label">{{ label }}</span>
-            {%- if icon is defined and icon -%}
-            <span class="rz-button__icon {{ icon }}"></span>
-            {%- endif -%}
-        </button>
-    {%- endif -%}
-{%- endmacro %}
-
 {% macro button_group(buttons) %}
     {%- if buttons and buttons|length > 0 -%}
+        {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
         <div class="rz-page-header__item--right{% if buttons|length > 1 %} rz-button-group rz-button-group--gap-md{% endif %}">
             {%- for btn in buttons -%}
-                {{ _self.button(btn.label, btn.href|default(null), btn.icon|default(null), btn.style|default('primary'), btn.tag|default(null)) }}
+                {{ rz_button.root(btn|merge({emphasis : 'primary'})) }}
             {%- endfor -%}
         </div>
     {%- endif -%}

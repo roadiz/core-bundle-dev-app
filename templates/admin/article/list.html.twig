@@ -4,10 +4,12 @@
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: 'articles'|trans,
         filters: filters,
-        buttons : [
+        buttons: [
             {
                 label: 'articles.add'|trans,
-                href: path('appArticlesAddPage'),
+                attributes : {
+                    href: path('appArticlesAddPage'),
+                },
                 icon: 'rz-icon-ri--add-line',
             }
         ]

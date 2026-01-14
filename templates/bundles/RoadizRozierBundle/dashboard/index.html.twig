@@ -7,10 +7,12 @@
         with_nav_bar: true,
         nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
         nav_bar_context: {'current':'dashboard'},
-        buttons : [
+        buttons: [
             {
                 label: 'articles.add'|trans,
-                href: path('appArticlesAddPage'),
+                attributes : {
+                    href: path('appArticlesAddPage'),
+                },
                 icon: 'rz-icon-ri--add-line',
             }
         ],
