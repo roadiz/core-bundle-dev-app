@@ -1,10 +1,7 @@
-
-
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    root_classes: root_classes|default([])|merge(['rz-node-tree', 'nodetree-widget']),
     has_header: mainNodeTree,
-    display_translations: mainNodeTree,
     title: 'aside.node_tree.title'|trans,
+    display_translations: mainNodeTree,
     tree: nodeTree,
 	mainNodeTree: mainNodeTree,
     linkedTypes: linkedTypes,
