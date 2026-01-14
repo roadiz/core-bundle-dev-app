@@ -1,5 +1,5 @@
 .rz-app > .rz-page {
-	min-height: var(--rz-app-trees-section-head-height);
+	min-height: var(--rz-aside-head-height);
 	margin-block: var(--rz-app-padding-block);
 	margin-inline: var(--spacing-4xs);
 	z-index: 1;

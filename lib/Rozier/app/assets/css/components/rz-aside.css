@@ -1,0 +1,62 @@
+.rz-app > .rz-aside {
+	--rz-aside-margin-top: var(--spacing-6xs);
+	--rz-aside-top: calc(var(--rz-app-header-height) + var(--rz-aside-margin-top));
+
+	position: sticky;
+	top: var(--rz-aside-top);
+	height: calc(100vh - var(--rz-aside-head-height));
+	margin-top: var(--rz-aside-margin-top);
+	margin-inline: var(--spacing-4xs);
+	overflow: auto;
+	width: 100%;
+
+	@media (--screen-sm-min) {
+		top: var(--rz-app-padding-block);
+    	align-self: stretch;
+		margin-block: var(--rz-app-padding-block);
+		height: calc(100vh - var(--rz-app-padding-block) * 2);
+		margin-inline: 0 var(--spacing-7xs);
+	}
+}
+
+.rz-aside {
+	box-sizing: border-box;
+	border-radius: var(--radius-md, 12px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	background-color: var(--surface-light-primary, #FFF);
+	padding-inline: var(--spacing-4xs);
+
+	@media (--screen-sm-min) {
+		width: min(344 / 1440 * 100vw, 344px);
+
+	}
+}
+
+.rz-aside__head {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs);
+	height: var(--rz-aside-head-height);
+}
+
+.rz-aside__title {
+	display: flex;
+	align-items: center;
+	margin-block: 0;
+	gap: var(--spacing-6xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-form-label-font-size);
+	line-height: var(--text-form-label-line-height);
+	letter-spacing: var(--text-form-label-letter-spacing);
+	font-weight: var(--text-form-label-font-weight);
+}
+
+.rz-aside__button {
+	margin-left: auto;
+}
+
+.rz-aside__body {
+	> *:not(:first-child) {
+		margin-top: var(--spacing-2xs);
+	}
+}
