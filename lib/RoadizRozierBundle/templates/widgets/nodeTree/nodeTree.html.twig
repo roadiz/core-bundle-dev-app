@@ -1,34 +1,36 @@
-{% set nodes = nodeTree.nodes %}
-{% set rootTreeClasses = [
-    'nodetree',
-    'root-tree',
-    'rz-tree',
-] %}
-{% if nodeTree.canReorder %}
-    {% set rootTreeClasses = rootTreeClasses|merge(['uk-nestable']) %}
-{% endif %}
-{% if not mainNodeTree and not nodeTree.isStackTree %}
-    {% set rootTreeClasses = rootTreeClasses|merge(['children-node-widget']) %}
-{% elseif nodeTree.isStackTree %}
-    {% set rootTreeClasses = rootTreeClasses|merge(['stack-tree-widget']) %}
-{% endif %}
+{%- if nodeTree -%}
+    {% set nodes = nodeTree.nodes %}
+    {% set rootTreeClasses = [
+        'nodetree',
+        'root-tree',
+        'rz-tree',
+    ] %}
+    {% if nodeTree.canReorder %}
+        {% set rootTreeClasses = rootTreeClasses|merge(['uk-nestable']) %}
+    {% endif %}
+    {% if not mainNodeTree and not nodeTree.isStackTree %}
+        {% set rootTreeClasses = rootTreeClasses|merge(['children-node-widget']) %}
+    {% elseif nodeTree.isStackTree %}
+        {% set rootTreeClasses = rootTreeClasses|merge(['stack-tree-widget']) %}
+    {% endif %}
 
-<ul class="{{ rootTreeClasses|join(' ') }}"
-    data-uk-nestable="{'group':'nodeTree', handleClass:'uk-nestable-handle'}"
-    data-parent-node-id="{{ nodeTree.rootNode.id }}"
-    data-translation-id="{{ nodeTree.translation.id }}"
-    {% if linkedTypes %}data-linked-types="{{ linkedTypes|map(t => t.name)|json_encode }}"{% endif %}
-    data-page="{{ nodeTree.filters.currentPage }}"
-    {% if nodeTree.isStackTree %}data-stack-tree="1"{% endif %}
-    {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}>
-    {% for cnode in nodes %}
-        {% include '@RoadizRozier/widgets/nodeTree/singleNode.html.twig' with {
-            "node": cnode,
-            "parent": nodeTree.rootNode,
-            "nodeTree": nodeTree,
-            "mainNodeTree": mainNodeTree,
-            "level": 0,
-            'canReorder': nodeTree.canReorder,
-        } only %}
-    {% endfor %}
-</ul>
+    <ul class="{{ rootTreeClasses|join(' ') }}"
+        data-uk-nestable="{'group':'nodeTree', handleClass:'uk-nestable-handle'}"
+        data-parent-node-id="{{ nodeTree.rootNode.id }}"
+        data-translation-id="{{ nodeTree.translation.id }}"
+        {% if linkedTypes %}data-linked-types="{{ linkedTypes|map(t => t.name)|json_encode }}"{% endif %}
+        data-page="{{ nodeTree.filters.currentPage }}"
+        {% if nodeTree.isStackTree %}data-stack-tree="1"{% endif %}
+        {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}>
+        {% for cnode in nodes %}
+            {% include '@RoadizRozier/widgets/nodeTree/singleNode.html.twig' with {
+                "node": cnode,
+                "parent": nodeTree.rootNode,
+                "nodeTree": nodeTree,
+                "mainNodeTree": mainNodeTree,
+                "level": 0,
+                'canReorder': nodeTree.canReorder,
+            } only %}
+        {% endfor %}
+    </ul>
+{%- endif -%}

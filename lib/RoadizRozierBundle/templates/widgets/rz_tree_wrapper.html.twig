@@ -1,9 +1,10 @@
 
 
 
-<div class="rz-tree-wrapper tree-widget {{ root_classes|join(' ') }}">
-    {% set tree_wrapper_classes = ['rz-tree', 'root-tree'] %}
+{% set type_prefix = tree_type|default('node') %}
 
+{% set root_classes = ['rz-tree-wrapper', 'tree-widget', type_prefix ~ '-tree-widget'] %}
+<div class="{{ root_classes|join(' ') }}">
     {% if not tree %}
 		{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 		{{ rz_button.root({
@@ -35,10 +36,11 @@
 		{% if display_translations %}
 			{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
 				tree: tree,
-				classes: ['rz-aside__langs', tree_type|default('node') ~ '-tree-langs'],
+				classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
 			} only %}
 		{% endif %}
 
+    	{% set tree_wrapper_classes = ['rz-tree', 'root-tree', type_prefix ~ '-tree'] %}
         <nav class="{{ tree_wrapper_classes|join(' ') }}">
 			{% block tree_content %}{% endblock %}
         </nav>
