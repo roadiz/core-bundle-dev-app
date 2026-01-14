@@ -1,70 +1,34 @@
-
-{% set head_button = null %}
-{% if nodeTree is defined %}
-    {% set head_button = {
-        icon: 'rz-icon-ri--add-line',
-        label: not nodeTree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
-        attributes: {
-            href: not nodeTree.rootNode ?
-                path('nodesAddPage', { translationId: nodeTree.translation.id })
-                : path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }),
-        }
-    } %}
+{% set nodes = nodeTree.nodes %}
+{% set rootTreeClasses = [
+    'nodetree',
+    'root-tree',
+    'rz-tree',
+] %}
+{% if nodeTree.canReorder %}
+    {% set rootTreeClasses = rootTreeClasses|merge(['uk-nestable']) %}
+{% endif %}
+{% if not mainNodeTree and not nodeTree.isStackTree %}
+    {% set rootTreeClasses = rootTreeClasses|merge(['children-node-widget']) %}
+{% elseif nodeTree.isStackTree %}
+    {% set rootTreeClasses = rootTreeClasses|merge(['stack-tree-widget']) %}
 {% endif %}
 
-{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    root_classes: root_classes|default([])|merge(['rz-node-tree', 'nodetree-widget']),
-    title: 'nodeTree'|trans,
-    has_header: mainNodeTree,
-    head_button: head_button,
-    tree: nodeTree,
-} %}
-    {% block after_title %}
-        <a
-            class="see-all-root-tree"
-            data-uk-tooltip="{animation:true}"
-            title="{% trans %}see_all{% endtrans %}"
-            href="{{ path('nodesMainTreePage', { translationId: nodeTree.translation.id }) }}"
-        >
-            <span class="rz-icon-ri--search-line"></span>
-        </a>
-    {% endblock %}
-
-    {% block tree_content %}
-        {% set nodes = nodeTree.nodes %}
-        {% set rootTreeClasses = [
-            'nodetree',
-            'root-tree',
-            'rz-tree',
-        ] %}
-        {% if nodeTree.canReorder %}
-            {% set rootTreeClasses = rootTreeClasses|merge(['uk-nestable']) %}
-        {% endif %}
-        {% if not mainNodeTree and not nodeTree.isStackTree %}
-            {% set rootTreeClasses = rootTreeClasses|merge(['children-node-widget']) %}
-        {% elseif nodeTree.isStackTree %}
-            {% set rootTreeClasses = rootTreeClasses|merge(['stack-tree-widget']) %}
-        {% endif %}
-
-        <ul class="{{ rootTreeClasses|join(' ') }}"
-            data-uk-nestable="{'group':'nodeTree', handleClass:'uk-nestable-handle'}"
-            data-parent-node-id="{{ nodeTree.rootNode.id }}"
-            data-translation-id="{{ nodeTree.translation.id }}"
-            {% if linkedTypes %}data-linked-types="{{ linkedTypes|map(t => t.name)|json_encode }}"{% endif %}
-            data-page="{{ nodeTree.filters.currentPage }}"
-            {% if nodeTree.isStackTree %}data-stack-tree="1"{% endif %}
-            {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}>
-            {% for cnode in nodes %}
-                {% include '@RoadizRozier/widgets/nodeTree/singleNode.html.twig' with {
-                    "node":cnode,
-                    "parent":nodeTree.rootNode,
-                    "nodeTree":nodeTree,
-                    "mainNodeTree":mainNodeTree,
-                    "level": 0,
-                    'canReorder': nodeTree.canReorder,
-                } only %}
-            {% endfor %}
-        </ul>
-    {% endblock %}
-
-{% endembed %}
+<ul class="{{ rootTreeClasses|join(' ') }}"
+    data-uk-nestable="{'group':'nodeTree', handleClass:'uk-nestable-handle'}"
+    data-parent-node-id="{{ nodeTree.rootNode.id }}"
+    data-translation-id="{{ nodeTree.translation.id }}"
+    {% if linkedTypes %}data-linked-types="{{ linkedTypes|map(t => t.name)|json_encode }}"{% endif %}
+    data-page="{{ nodeTree.filters.currentPage }}"
+    {% if nodeTree.isStackTree %}data-stack-tree="1"{% endif %}
+    {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}>
+    {% for cnode in nodes %}
+        {% include '@RoadizRozier/widgets/nodeTree/singleNode.html.twig' with {
+            "node": cnode,
+            "parent": nodeTree.rootNode,
+            "nodeTree": nodeTree,
+            "mainNodeTree": mainNodeTree,
+            "level": 0,
+            'canReorder': nodeTree.canReorder,
+        } only %}
+    {% endfor %}
+</ul>

@@ -1,36 +1,11 @@
-{% set head_button = null %}
 
-{% if folderTree is defined %}
-    {% set head_button = {
-        icon: 'rz-icon-ri--add-line',
-        label: folderTree.getRootFolder == null ? 'add.a.folder'|trans : 'add.child.folder'|trans,
-        id: 'foldertree-btn-add',
-        attributes: {
-            href: folderTree.getRootFolder == null ?
-                path('foldersAddPage')
-                : path('foldersAddChildPage', { folderId : folderTree.rootFolder.id }),
-        }
-    } %}
-{% endif %}
-
-{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    root_classes: root_classes|default([])|merge(['rz-folder-tree', 'foldertree-widget']),
-    title: 'folderTree'|trans,
-    has_header: mainFolderTree,
-    head_button: head_button,
-    tree: folderTree,
-} %}
-    {% block tree_content %}
-        <ul class="foldertree root-tree uk-nestable uk-nestable-folder"
-            data-uk-nestable="{'group':'folderTree'}"
-            data-parent-folder-id="{{ folder.getId }}">
-            {% for cfolder in folderTree.folders %}
-                {% include '@RoadizRozier/widgets/folderTree/singleFolder.html.twig' with {
-                    "folder":cfolder,
-                    "folderTree":folderTree
-                } only %}
-            {% endfor %}
-        </ul>
-    {% endblock %}
-
-{% endembed %}
+<ul class="foldertree root-tree uk-nestable uk-nestable-folder"
+    data-uk-nestable="{'group':'folderTree'}"
+    data-parent-folder-id="{{ folder.getId }}">
+    {% for cfolder in folderTree.folders %}
+        {% include '@RoadizRozier/widgets/folderTree/singleFolder.html.twig' with {
+            "folder":cfolder,
+            "folderTree":folderTree
+        } only %}
+    {% endfor %}
+</ul>

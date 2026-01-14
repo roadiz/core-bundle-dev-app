@@ -1,0 +1,52 @@
+
+{% set head_button = null %}
+{% if nodeTree is defined %}
+    {% set head_button = {
+        icon: 'rz-icon-ri--add-line',
+        label: not nodeTree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
+        attributes: {
+            href: not nodeTree.rootNode ?
+                path('nodesAddPage', { translationId: nodeTree.translation.id })
+                : path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }),
+        }
+    } %}
+{% endif %}
+
+{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
+    root_classes: root_classes|default([])|merge(['rz-node-tree', 'nodetree-widget']),
+    has_header: mainNodeTree,
+    display_translations: mainNodeTree,
+    title: 'aside.node_tree.title'|trans,
+    head_button: head_button,
+    tree: nodeTree,
+	mainNodeTree: mainNodeTree
+} only %}
+    {% block after_title %}
+        <a
+            class="see-all-root-tree"
+            data-uk-tooltip="{animation:true}"
+            title="{% trans %}see_all{% endtrans %}"
+            href="{{ path('nodesMainTreePage', { translationId: tree.translation.id }) }}"
+        >
+            <span class="rz-icon-ri--search-line"></span>
+        </a>
+    {% endblock %}
+
+	{% block language_switcher %}
+        {% if mainNodeTree %}
+            {% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
+                tree: tree,
+                classes: ['rz-aside__langs', 'nodetree-langs'],
+            } only %}
+        {% endif %}
+	{% endblock %}
+
+    {% block tree_content %}
+		{% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+			nodeTree: tree,
+			mainNodeTree: mainNodeTree,
+			linkedTypes: linkedTypes,
+		} %}
+    {% endblock %}
+
+{% endembed %}

@@ -68,7 +68,7 @@ final class AjaxFolderTreeController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
-            'folderTree' => $this->twig->render('@RoadizRozier/widgets/folderTree/folderTree.html.twig', $assignation),
+            'folderTree' => $this->twig->render('@RoadizRozier/widgets/folderTree/rz_aside_folder_tree.html.twig', $assignation),
         ]);
     }
 }

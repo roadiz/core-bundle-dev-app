@@ -1,37 +1,13 @@
-{% set head_button = null %}
-{% if tagTree is defined %}
-    {% set head_button = {
-        icon: 'rz-icon-ri--add-line',
-        label: tagTree.getRootTag == null ? 'add.a.tag'|trans : 'add.child.tag'|trans,
-        attributes: {
-            href: tagTree.getRootTag == null ?
-                path('tagsAddPage')
-                : path('tagsAddChildPage', { tagId : tagTree.rootTag.id }),
-        }
-    } %}
-{% endif %}
-
-{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    root_classes: root_classes|default([])|merge(['rz-tag-tree', 'tagtree-widget']),
-    title: 'tagTree'|trans,
-    has_header: mainTagTree,
-    head_button: head_button,
-    tree: tagTree,
-} %}
-    {% block tree_content %}
-        <ul
-            class="tagtree root-tree uk-nestable uk-nestable-tag"
-            {% if tagTree.canReorder %}data-uk-nestable="{'group':'tagTree'}"{% endif %}
-            data-parent-tag-id="{{ tag.getId }}"
-        >
-            {% for ctag in tagTree.getTags %}
-                {% include '@RoadizRozier/widgets/tagTree/singleTag.html.twig' with {
-                    "tag":ctag,
-                    "tagTree":tagTree,
-                    'canReorder': tagTree.canReorder,
-                } only %}
-            {% endfor %}
-        </ul>
-    {% endblock %}
-
-{% endembed %}
+<ul
+    class="tagtree root-tree uk-nestable uk-nestable-tag"
+    {% if tagTree.canReorder %}data-uk-nestable="{'group':'tagTree'}"{% endif %}
+    data-parent-tag-id="{{ tag.getId }}"
+>
+    {% for ctag in tagTree.getTags %}
+        {% include '@RoadizRozier/widgets/tagTree/singleTag.html.twig' with {
+            "tag":ctag,
+            "tagTree":tagTree,
+            'canReorder': tagTree.canReorder,
+        } only %}
+    {% endfor %}
+</ul>

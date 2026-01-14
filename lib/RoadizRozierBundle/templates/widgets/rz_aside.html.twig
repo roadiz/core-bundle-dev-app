@@ -1,17 +1,17 @@
 <aside class="rz-aside" id="main-trees">
     <div class="rz-aside__body" id="tree-container">
         {% if is_granted('ROLE_ACCESS_NODES') %}
-            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+            {% include '@RoadizRozier/widgets/nodeTree/rz_aside_node_tree.html.twig' with {
                 root_classes: ['rz-aside__body', 'rz-aside__body--node'],
             } %}
         {% endif %}
         {% if is_granted('ROLE_ACCESS_TAGS') %}
-            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
+            {% include '@RoadizRozier/widgets/tagTree/rz_aside_tag_tree.html.twig' with {
                 root_classes: ['rz-aside__body', 'rz-aside__body--tag'],
             } %}
         {% endif %}
         {% if is_granted('ROLE_ACCESS_DOCUMENTS') %}
-            {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
+            {% include '@RoadizRozier/widgets/folderTree/rz_aside_folder_tree.html.twig' with {
                 root_classes: ['rz-aside__body', 'rz-aside__body--folder'],
             } %}
         {% endif %}
