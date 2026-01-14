@@ -60,6 +60,14 @@
         </h1>
     {% endblock %}
 
+    {% block subtitle %}
+        {% if subtitle is defined and subtitle %}
+            <div class="rz-page-header__item">
+                {{ subtitle }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
     {% block nav_bar %}
         {% if with_nav_bar is defined and with_nav_bar and nav_bar_template is defined %}
             {% include nav_bar_template with nav_bar_context|default({}) %}

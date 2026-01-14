@@ -44,6 +44,9 @@ final class AttributeGroupType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', AttributeGroup::class);
+        $resolver->setDefaults([
+            'data_class' => AttributeGroup::class,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
     }
 }
