@@ -41,7 +41,7 @@ final class AttributeValueTranslationType extends AbstractType
                 ],
             ];
             match ($attributeValueTranslation->getAttributeValue()->getType()) {
-                AttributeInterface::INTEGER_T => $builder->add('value', IntegerType::class, $defaultOptions),
+                AttributeInterface::INTEGER_T,
                 AttributeInterface::DECIMAL_T => $builder->add('value', NumberType::class, $defaultOptions),
                 AttributeInterface::DATE_T => $builder->add('value', DateType::class, array_merge($defaultOptions, [
                     'placeholder' => [
