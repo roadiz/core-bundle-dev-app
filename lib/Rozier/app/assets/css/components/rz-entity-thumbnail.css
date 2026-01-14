@@ -2,12 +2,16 @@
 rz-entity-thumbnail {
     display: inline-block;
     position: relative;
+    background-color: var(--surface-light-primary, #FFF);
+    border-radius: var(--radius-2xs);
 }
 
 .rz-entity-thumbnail {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: var(--radius-2xs);
+    overflow: hidden;
 }
 
 .rz-entity-thumbnail .uk-thumbnail {
@@ -21,8 +25,8 @@ rz-entity-thumbnail {
 }
 
 .rz-entity-thumbnail--medium {
-    width: 42px;
-    height: 42px;
+    width: 68px;
+    height: 52px;
 }
 
 .rz-entity-thumbnail--large {
@@ -71,12 +75,18 @@ rz-entity-thumbnail {
 }
 
 /* Error state */
-.rz-entity-thumbnail--error .rz-entity-thumbnail__placeholder {
-    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-    color: #c62828;
+.rz-entity-thumbnail--error {
+    .rz-entity-thumbnail__placeholder {
+        background: var(--status-error-container, #FFD3DA);
+        color: var(--status-error-on-container, #A92A3E);
+    }
 }
 
-.rz-entity-thumbnail--empty .rz-entity-thumbnail__placeholder::before {
-    color: var(--global-text-lighter-color);
-    opacity: 0.5;
+.rz-entity-thumbnail--empty {
+    background-color: var(--surface-light-primary, #FFF);
+
+    .rz-entity-thumbnail__placeholder::before {
+        color: var(--global-text-lighter-color);
+        opacity: 0.5;
+    }
 }

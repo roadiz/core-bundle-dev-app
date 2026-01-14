@@ -15,21 +15,23 @@
     <article class="content content-no-action-menu">
         {% if usages|length %}
             <h3>{% trans %}nodes{% endtrans %}</h3>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                usages: usages,
+                actions_available: true,
+            } only %}
                 {% block thead_cells %}
                     <th>{% trans %}title{% endtrans %}</th>
                     <th>{% trans %}usage.fieldName{% endtrans %}</th>
                 {% endblock %}
                 {% block tbody_content %}
                     {% for usage in usages %}
+
                         {% set source = usage.nodeSource %}
-                        {% set field = usage.fieldName %}
+                        {% set edit_href = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id }) %}
                         <tr>
                             <td>
-                                <a href="{{ path('nodesEditSourcePage', {
-                                    nodeId: source.node.id,
-                                    translationId: source.translation.id
-                                }) }}">
+                                <a href="{{ edit_href }}">
                                     {% if source.title %}
                                         {{ source.title }}
                                     {% else %}
@@ -37,7 +39,14 @@
                                     {% endif %}
                                 </a>
                             </td>
-                            <td>{{ field }}</td>
+                            <td>{{ usage.fieldName }}</td>
+                            {% if actions_available %}
+                                <td>
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': edit_href,
+                                    } %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% endblock %}

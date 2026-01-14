@@ -50,6 +50,10 @@ rz-form-field,
     flex-wrap: wrap;
     align-items: center;
     padding-block: var(--rz-form-field-head-padding-block);
+
+    .rz-form-field--head-hidden & {
+        display: none;
+    }
 }
 
 .rz-form-field__head__icon {
@@ -92,6 +96,10 @@ rz-form-field,
 .rz-form-field__body {
     margin-top: var(--rz-form-field-body-margin-top, var(--spacing-4xs));
     flex-grow: var(--rz-form-field-body-flex-grow, 1);
+
+    .rz-form-field--head-hidden & {
+        margin-top: 0;
+    }
 }
 
 .rz-form-field__message {

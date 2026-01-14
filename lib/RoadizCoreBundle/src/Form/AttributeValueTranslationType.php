@@ -57,7 +57,9 @@ final class AttributeValueTranslationType extends AbstractType
                     'constraints' => [],
                 ])),
                 AttributeInterface::COLOUR_T => $builder->add('value', ColorType::class, $defaultOptions),
-                AttributeInterface::COUNTRY_T => $builder->add('value', CountryType::class, $defaultOptions),
+                AttributeInterface::COUNTRY_T => $builder->add('value', CountryType::class, array_merge($defaultOptions, [
+                    'placeholder' => 'select.country_placeholder',
+                ])),
                 AttributeInterface::DATETIME_T => $builder->add('value', DateTimeType::class, array_merge($defaultOptions, [
                     'placeholder' => [
                         'hour' => 'hour',

@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
@@ -32,6 +33,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly TranslationRepository $translationRepository,
     ) {
     }
 
@@ -74,6 +76,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
+            new TwigFunction('getAvailableTranslations', $this->getAllAvailableTranslations(...)),
         ];
     }
 
@@ -144,5 +147,10 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         }
 
         throw new \RuntimeException('Unexpected object type');
+    }
+
+    public function getAllAvailableTranslations(): array
+    {
+        return $this->translationRepository->findAllAvailable();
     }
 }

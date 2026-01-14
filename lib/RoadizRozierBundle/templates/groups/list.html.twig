@@ -29,19 +29,23 @@
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
+        items: items
     }  only %}
-    <article class="content content-no-action-menu">
+
+    <article>
         <div class="content-table-cont">
          {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             selection_available: false,
             actions_available: true,
-        } %}
+            items: items,
+        } only %}
             {% block thead_cells %}
                 <th>
                     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                         'field': 'name',
                         'filters': filters,
                         'label': 'name'|trans,
+                        'column_ordering_class': column_ordering_class,
                     } only %}
                 </th>
                 <th class="mobile-hidden">{% trans %}roles{% endtrans %}</th>
@@ -70,8 +74,7 @@
                                             'delete_href': is_granted(item) ? path('groupsDeletePage', { id: item.id }) : null,
                                         } %}
                                             {% block other_actions %}
-                                                {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                                {{ rz_table_action.item({
+                                                {{ _self.button({
                                                     icon: 'uk-icon-rz-download',
                                                     attributes: {
                                                         href: path('groupsExportPage', { id: item.id }),

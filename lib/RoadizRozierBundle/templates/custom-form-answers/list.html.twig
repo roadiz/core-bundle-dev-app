@@ -31,6 +31,7 @@
                             'field': 'ip',
                             'filters': filters,
                             'label': 'ip.address'|trans,
+                            'column_ordering_class': column_ordering_class,
                         } only %}
                     </th>
                     <th class="mobile-hidden">
@@ -41,6 +42,7 @@
                             'field': 'submittedAt',
                             'filters': filters,
                             'label': 'submitted.date'|trans,
+                            'column_ordering_class': column_ordering_class,
                         } only %}
                     </th>
                 {% endblock %}
@@ -56,8 +58,7 @@
                                     'delete_href': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
                                 } %}
                                     {% block other_actions %}
-                                        {% import '@RoadizRozier/macros/rz_table_action.html.twig' as rz_table_action %}
-                                        {{ rz_table_action.item({
+                                        {{ _self.button({
                                             icon: 'uk-icon-rz-node-type-field',
                                             attributes: {
                                                 href: path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }),

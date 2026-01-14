@@ -20,7 +20,7 @@
 
 .rz-dashboard__panel--card {
     border-radius: var(--radius-xs);
-    background: var(--surface-light-secondary, #F8F8F8);
+    background-color: var(--surface-light-secondary, #F8F8F8);
     padding: var(--spacing-2xs);
     min-height: 105px;
 }
@@ -48,4 +48,14 @@
 
 .rz-dashboard__header__button {
     margin-left: auto;
+}
+
+.rz-dashboard__body-bg {
+    background-color: var(--surface-light-secondary, #F8F8F8);
+    border-radius: var(--radius-xs);
+    padding-block: var(--spacing-xs);
+
+    &:where(ul) {
+        margin: 0;
+    }
 }

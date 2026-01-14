@@ -164,7 +164,10 @@
         </div>
         <div class="rz-button-group rz-button-group--collapsed rz-button-group--md">
             {% if attr.allow_preview %}
-                <button data-markdowneditor-button="preview" type="button" class="rz-button rz-button-group__button markdown-editor-button-preview">
+                <button
+                    data-markdowneditor-button="preview"
+                    type="button"
+                    class="rz-button rz-button-group__button rz-button--secondary markdown-editor-button-preview">
                     <span class="rz-button__icon rz-icon-ri--eye-line"></span>
                 </button>
             {% endif %}
@@ -509,7 +512,29 @@
     {%- else -%}
         {% set form_method = "POST" %}
     {%- endif -%}
-    <form class="rz-form" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+
+    {% set classes = ['rz-form'] %}
+    {% if attr.class is defined %}
+        {% set classes = classes|merge([attr.class]) %}
+    {% endif %}
+
+    {% set form_id = attr.id|default(form.vars.id) %}
+
+    <form
+        class="{{ classes|join(' ') }}"
+        name="{{ form.vars.name }}"
+        method="{{ form_method|lower }}"
+        action="{{ action }}"
+        {% if form_id %}
+            id="{{ form_id }}"
+        {% endif %}
+        {% for attrname, attrvalue in attr %}
+            {{ attrname }}="{{ attrvalue }}"
+        {% endfor %}
+        {% if multipart %}
+            enctype="multipart/form-data"
+        {% endif %}
+    >
     {%- if form_method != method -%}
         <input type="hidden" name="_method" value="{{ method }}" />
     {%- endif -%}
@@ -598,9 +623,7 @@
             {% set rowClasses = rowClasses|merge(['rz-form-field--error']) %}
         {% endif %}
         {% if attr.class %}
-            {% set rowClasses = rowClasses|merge([
-                attr.class ~ '-wrapper'
-            ]) %}
+            {% set rowClasses = rowClasses|merge([attr.class]) %}
         {% endif %}
         <rz-form-field
             {% if attr['data-field-group'] %}data-field-group="{{ attr['data-field-group']|trans }}"
