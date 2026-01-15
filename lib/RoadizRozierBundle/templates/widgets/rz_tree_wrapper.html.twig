@@ -1,6 +1,9 @@
 {% set type_prefix = tree_type|default('node') %}
 {% set root_classes = ['rz-tree-wrapper', 'tree-widget', type_prefix ~ '-tree-widget'] %}
-<div class="{{ root_classes|join(' ') }}">
+<div
+	class="{{ root_classes|join(' ') }}"
+	data-tree-wrapper-type="{{ tree_type|default('node') }}"
+>
     {% if not tree %}
 		{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 		{{ rz_button.root({

@@ -3,6 +3,7 @@ Generated with (figma plugin)[https://www.figma.com/community/plugin/12604727718
 and reformatted with Copilot
 */
 
+/* TODO: Rename to title-xs / title-sm / title-md */
 .text-h1-sm {
   font-family: var(--font-family-os-title);
   font-size: var(--text-h1-sm-font-size);

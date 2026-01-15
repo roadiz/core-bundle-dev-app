@@ -1,4 +1,4 @@
-<aside class="rz-aside" id="main-trees">
+<rz-aside class="rz-aside" id="main-trees">
     <div class="rz-aside__body" id="tree-container">
         {% if is_granted('ROLE_ACCESS_NODES') %}
             {% include '@RoadizRozier/widgets/nodeTree/rz_node_tree_wrapper.html.twig' with {
@@ -16,4 +16,4 @@
             } %}
         {% endif %}
     </div>
-</aside>
+</rz-aside>
