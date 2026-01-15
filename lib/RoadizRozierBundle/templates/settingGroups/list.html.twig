@@ -13,7 +13,9 @@
             filters: filters,
             buttons: [{
                 label: 'add.a.settingGroup'|trans,
-                href: path('settingGroupsAddPage'),
+                attributes: {
+                    href: path('settingGroupsAddPage'),
+                },
                 icon: 'rz-icon-ri--add-line'
             }]
         } only %}

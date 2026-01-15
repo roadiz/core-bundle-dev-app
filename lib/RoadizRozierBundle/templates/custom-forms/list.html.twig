@@ -9,7 +9,9 @@
         filters: filters,
         buttons: [{
             label: 'add.a.customForm'|trans,
-            href: path('customFormsAddPage'),
+            attributes: {
+                href: path('customFormsAddPage'),
+            },
             icon: 'rz-icon-ri--add-line',
         }]
     } only %}

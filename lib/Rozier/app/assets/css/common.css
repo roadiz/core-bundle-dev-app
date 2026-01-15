@@ -1,3 +1,7 @@
+body {
+	margin: 0;
+}
+
 /*
 This class hides an element visually while keeping it accessible to screen readers.
 References:

@@ -10,22 +10,31 @@
             buttons: [
                 {
                     label: 'add.a.attribute'|trans,
-                    href: path('attributesAddPage'),
+                    attributes: {
+                        href: path('attributesAddPage'),
+                    },
                     icon: 'rz-icon-ri--add-line'
                 },
                 {
                     label: 'attribute_groups'|trans,
-                    href: path('attributeGroupsHomePage'),
+                    attributes: {
+                        href: path('attributeGroupsHomePage'),
+                    },
                     icon: 'rz-icon-ri--folder-2-line'
                 },
                 {
                     label: 'export.all'|trans,
-                    href: path('attributesExportPage'),
-                    icon: 'rz-icon-ri--download-line'
+                    attributes: {
+                        href: path('attributesExportPage'),
+                    },
+                    icon: 'rz-icon-ri--download-line',
+                    class: 'rz-no-ajax-link',
                 },
                 {
                     label: 'import'|trans,
-                    href: path('attributesImportPage'),
+                    attributes: {
+                        href: path('attributesImportPage'),
+                    },
                     icon: 'rz-icon-ri--upload-line'
                 },
             ]
