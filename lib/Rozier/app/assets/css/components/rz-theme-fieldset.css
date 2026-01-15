@@ -1,9 +1,8 @@
-[is="rz-theme-fieldset"],
-.rz-theme-fieldset {
+/* Use :where to let rz-dropdown overide properties */
+:where([is="rz-theme-fieldset"], .rz-theme-fieldset) {
 	border: none;
 	margin: 0;
 	padding: 0;
-	align-items: center;
 	gap: var(--spacing-4xs);
 
 	&:not([popover]),
@@ -12,13 +11,13 @@
 	}
 }
 
-.rz-theme-fieldset__item {
+:where(.rz-theme-fieldset__item) {
 	position: relative;
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-6xs);
 	cursor: pointer;
-	background-color: none;
+	background-color: initial;
 	color: var(--button-basic-medium-content-on-light, #18191B);
 	border: 1px solid var(--button-basic-medium-border-on-light, #DADADA);
 	border-radius: var(--radius-xs);

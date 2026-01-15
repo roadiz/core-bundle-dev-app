@@ -12,7 +12,7 @@ const meta: Meta<Args> = {
     title: 'Components/ThemeSwitcher',
     tags: ['autodocs'],
     args: {
-        legend: 'Choose an app color scheme',
+        legend: 'Choose the app color scheme',
     },
 }
 
@@ -44,33 +44,62 @@ function radioRenderer(options: {
     return label
 }
 
+const radioElements = [
+    {
+        label: 'System',
+        icon: 'rz-icon-ri--computer-line',
+        value: 'light dark',
+        checked: true,
+    },
+    { label: 'Light', icon: 'rz-icon-ri--sun-line', value: 'light' },
+    { label: 'Dark', icon: 'rz-icon-ri--moon-line', value: 'dark' },
+].map((options) => {
+    return radioRenderer(options)
+})
+
 function rzThemeSwitcherRenderer(args: Args) {
     const target = rzButtonRenderer({
         is: 'rz-button',
         iconClass: 'rz-icon-ri--color-filter-line',
         attributes: {
-            'aria-label': 'Choose app color scheme',
+            'aria-label': 'Ouvrir le sélecteur de thème',
         },
     })
 
     const popoverElement = rzElement({
         tag: 'fieldset',
         is: 'rz-theme-fieldset',
-        innerHTML: `<legend class="rz-visually-hidden">${args.legend}</legend>`,
+        innerHTML: `
+            <legend class="rz-visually-hidden">${args.legend}</legend>
+                ${radioElements
+                    .map((el) => {
+                        return el.outerHTML
+                    })
+                    .join('')}
+        `,
     })
 
-    ;[
-        {
-            label: 'System',
-            icon: 'rz-icon-ri--computer-line',
-            value: 'light dark',
-            checked: true,
-        },
-        { label: 'Light', icon: 'rz-icon-ri--sun-line', value: 'light' },
-        { label: 'Dark', icon: 'rz-icon-ri--moon-line', value: 'dark' },
-    ].forEach((options) => {
-        popoverElement.appendChild(radioRenderer(options))
-    })
+    // const popoverElement = rzElement({
+    //     tag: 'fieldset',
+    //     is: 'rz-theme-fieldset',
+    //     attributes: {
+    //         class: 'rz-dropdown',
+    //     },
+    //     innerHTML: `
+    //         <div class="rz-dropdown__head">
+    //             <div class="rz-dropdown__title">Select a theme</div>
+    //         </div>
+    //         <legend class="rz-visually-hidden">${args.legend}</legend>
+    //         <div class="rz-dropdown__list">
+    //             ${radioElements
+    //                 .map((el) => {
+    //                     el.classList.add('rz-dropdown__item')
+    //                     return el.outerHTML
+    //                 })
+    //                 .join('')}
+    //         </div>
+    //     `,
+    // })
 
     const { popover } = rzPopoverRenderer({
         targetElement: { element: target },

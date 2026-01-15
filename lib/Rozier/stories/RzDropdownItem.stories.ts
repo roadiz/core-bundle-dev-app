@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { BadgeArgs } from './RzBadge.stories'
+import { type RzBadgeOptions } from '~/utils/component-renderer/rzBadge'
 import {
     rzDropdownItemRenderer,
     DEFAULT_ITEM,
@@ -9,7 +9,7 @@ export type Args = {
     iconClass?: string
     label?: string
     description?: string
-    badge?: BadgeArgs
+    badge?: RzBadgeOptions
     rightIconClass?: string
     tag?: string
     attributes?: Record<string, string>

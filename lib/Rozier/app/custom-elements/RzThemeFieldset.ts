@@ -10,7 +10,17 @@ export default class RzThemeFieldset extends HTMLFieldSetElement {
     onInputChange(event: Event) {
         const input = event.target as HTMLInputElement
         if (!input.value) return
-        document.documentElement.style.colorScheme = input.value
+        document.documentElement.setAttribute('data-theme', input.value)
+
+        let meta = document.querySelector<HTMLMetaElement>(
+            'meta[name="theme-color"]',
+        )
+        if (!meta) {
+            meta = document.createElement('meta')
+            meta.name = 'theme-color'
+            document.head.appendChild(meta)
+        }
+        meta.content = input.value
     }
 
     connectedCallback() {
