@@ -107,7 +107,7 @@ trait NodeBulkActionTrait
         return $this->render('@RoadizRozier/admin/delete.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
-            'cancelPath' => $this->generateUrl((null === $referer) ? $referer : 'nodesHomePage'),
+            'cancelPath' => $this->generateUrl($referer ?? 'nodesHomePage'),
             'alertMessage' => 'are_you_sure.delete.these.nodes',
             'form' => $form->createView(),
             'items' => $items,
