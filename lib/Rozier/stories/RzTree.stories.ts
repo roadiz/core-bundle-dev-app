@@ -19,33 +19,6 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     args: {
         iconColor: '',
-        items: [
-            {
-                label: 'Menu 1',
-                iconClass: 'rz-icon-ri--home-2-fill',
-                children: [
-                    { label: 'item 1.1' },
-                    { label: 'item 1.2' },
-                    {
-                        label: 'item 1.3',
-                        children: [
-                            { label: 'item 1.3.1' },
-                            {
-                                label: 'item 1.3.2',
-                                children: [{ label: 'item 1.3.2.1' }],
-                            },
-                        ],
-                    },
-                    { label: 'item 1.4' },
-                ],
-            },
-            { label: 'Page 1' },
-            { label: 'Page 2' },
-            {
-                label: 'Menu 2',
-                children: [{ label: 'item 2.1' }, { label: 'item 2.2' }],
-            },
-        ],
     },
 }
 
@@ -58,19 +31,23 @@ function rzTreeItemRenderer(item: Item) {
     const itemEl = document.createElement(tag)
     itemEl.classList.add(`${COMPONENT_CLASS_NAME}__item`)
 
+    const innerEl = document.createElement('div')
+    innerEl.classList.add(`${COMPONENT_CLASS_NAME}__item__inner`)
+    itemEl.appendChild(innerEl)
+
     const dragIcon = document.createElement('span')
     dragIcon.classList.add('rz-icon-ri--draggable')
-    itemEl.appendChild(dragIcon)
+    innerEl.appendChild(dragIcon)
 
     const typeIcon = document.createElement('span')
     typeIcon.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
     typeIcon.classList.add(item.iconClass || 'rz-icon-ri--folder-fill')
-    itemEl.appendChild(typeIcon)
+    innerEl.appendChild(typeIcon)
 
     const label = document.createElement('span')
     label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
     label.textContent = item.label
-    itemEl.appendChild(label)
+    innerEl.appendChild(label)
 
     if (hasChildren) {
         const expandButton = rzButtonRenderer({
@@ -85,7 +62,7 @@ function rzTreeItemRenderer(item: Item) {
         })
         expandButton.classList.add(`${COMPONENT_CLASS_NAME}__expand-button`)
 
-        itemEl.appendChild(expandButton)
+        innerEl.appendChild(expandButton)
     }
 
     const moreButton = rzButtonRenderer({
@@ -93,7 +70,7 @@ function rzTreeItemRenderer(item: Item) {
         emphasis: 'tertiary',
         size: 'xs',
     })
-    itemEl.appendChild(moreButton)
+    innerEl.appendChild(moreButton)
 
     return itemEl
 }
@@ -143,7 +120,89 @@ function treeRenderer(args: Args) {
 }
 
 export const Default: Story = {
+    args: {
+        items: [
+            {
+                label: 'Menu 1',
+                iconClass: 'rz-icon-ri--home-2-fill',
+                children: [
+                    { label: 'item 1.1' },
+                    { label: 'item 1.2' },
+                    {
+                        label: 'item 1.3',
+                        children: [
+                            { label: 'item 1.3.1' },
+                            {
+                                label: 'item 1.3.2',
+                                children: [{ label: 'item 1.3.2.1' }],
+                            },
+                        ],
+                    },
+                    { label: 'item 1.4' },
+                ],
+            },
+            { label: 'Page 1' },
+            { label: 'Page 2' },
+            {
+                label: 'Menu 2',
+                children: [{ label: 'item 2.1' }, { label: 'item 2.2' }],
+            },
+            {
+                label: 'Menu 3',
+                iconClass: 'rz-icon-ri--home-2-fill',
+                children: [
+                    { label: 'item 1.1' },
+                    { label: 'item 1.2' },
+                    {
+                        label: 'item 1.3',
+                        children: [
+                            { label: 'item 1.3.1' },
+                            {
+                                label: 'item 1.3.2',
+                                children: [{ label: 'item 1.3.2.1' }],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
     render: (args) => {
         return treeRenderer(args)
+    },
+}
+
+export const Large: Story = {
+    args: {
+        items: [
+            {
+                label: 'Menu 1',
+                iconClass: 'rz-icon-ri--home-2-fill',
+                children: [
+                    { label: 'item 1.1' },
+                    {
+                        label: 'item 1.3',
+                        children: [
+                            { label: 'item 1.3.1' },
+                            {
+                                label: 'item 1.3.2',
+                                children: [{ label: 'item 1.3.2.1' }],
+                            },
+                        ],
+                    },
+                    { label: 'item 1.4' },
+                ],
+            },
+            { label: 'Page 2' },
+            {
+                label: 'Menu 2',
+                children: [{ label: 'item 2.1' }, { label: 'item 2.2' }],
+            },
+        ],
+    },
+    render: (args) => {
+        const tree = treeRenderer(args)
+        tree.classList.add(`${COMPONENT_CLASS_NAME}--large`)
+        return tree
     },
 }

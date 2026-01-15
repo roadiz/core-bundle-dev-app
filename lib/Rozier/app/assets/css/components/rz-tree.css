@@ -1,7 +1,11 @@
 .rz-tree {
 	--rz-tree-indent-width: 24px;
-	--rz-tree-icon-width: 16px;
 	--rz-tree-item-height: 28px;
+	--rz-tree-icon-width: 16px;
+}
+
+.rz-tree--large {
+	--rz-tree-item-height: 50px;
 }
 
 .rz-tree__list {
@@ -10,7 +14,7 @@
 }
 
 
-.rz-tree__list-item:has(> .rz-tree__item > .rz-tree__expand-button[aria-expanded="false"]) > .rz-tree__list,
+.rz-tree__list-item:has(> .rz-tree__item > .rz-tree__item__inner > .rz-tree__expand-button[aria-expanded="false"]) > .rz-tree__list,
 .rz-tree__list--hidden {
 	display: none;
 }
@@ -23,18 +27,23 @@
 	* There is a technique with limited compatibility: https://kizu.dev/self-modifying-variables/
 	*/
 	--rz-tree-depth: 1;
+
 	& & {
 		--rz-tree-depth: 2;
 	}
+
 	& & & {
 		--rz-tree-depth: 3;
 	}
+
 	& & & & {
 		--rz-tree-depth: 4;
 	}
+
 	& & & & & {
 		--rz-tree-depth: 5;
 	}
+	
 	& & & & & & {
 		--rz-tree-depth: 6;
 	}
@@ -42,22 +51,40 @@
 
 
 .rz-tree__item {
-	box-sizing: border-box;
-	display: flex;
-	align-items: center;
-	padding-inline: var(--spacing-6xs);
-	width: 100%;
-	background-color: transparent;
 	border-radius: var(--radius-2xs, 4px);
-	padding-left: calc(var(--rz-tree-depth) * var(--rz-tree-indent-width));
 	transition: background-color 0.3s;
-	height: var(--rz-tree-item-height);
+	padding: var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding-left, 0);
+
+	.rz-tree--large & {
+		--rz-tree-item-padding: 1PX;
+		--rz-tree-item-padding-left: 4PX;
+
+		background: var(--surface-light-ternary, #EAEAEA);
+	}
 
 	&:where(button) {
 		border: none;
 		text-align: initial;
 		padding-block: initial;
 	}
+
+	@media (hover: hover) {
+		&:hover {
+			background: var(--surface-dark-ternary, #4E4E4E);
+		}
+	}
+}
+
+.rz-tree__item__inner {
+	display: flex;
+	align-items: center;
+	height: var(--rz-tree-item-height);
+	padding-inline: calc(var(--rz-tree-depth) * var(--rz-tree-indent-width) - var(--rz-tree-item-padding-left, 0px)) var(--spacing-6xs);
+	box-sizing: border-box;
+	border-radius: inherit;
+	background: var(--surface-light-primary, #FFF);
+
+	
 
 	.rz-tree__list-item .rz-tree__list-item &::before,
 	.rz-tree__list-item .rz-tree__list-item &::after {
@@ -91,23 +118,18 @@
 			calc(var(--rz-tree-depth) * var(--rz-tree-indent-width) + var(--rz-tree-icon-width) * 0.5 - 100%)
 			calc(var(--rz-tree-item-height) * -0.5);
 	}
-
-	@media (hover: hover) {
-		&:hover {
-			background-color: var(--node-bg-on-light-hover, #F2F2F2);
-		}
-	}
 }
 
 .rz-tree__item .rz-icon-ri--draggable {
 	position: absolute;
-	left: 4px;
+	left: calc(4px + var(--rz-tree-item-padding-left, 0px));
 	flex-shrink: 0;
 	font-size: 16px;
 	opacity: 0;
 	transition: opacity 0.3s;
 
-	.rz-tree__list:not(.rz-tree__list--sub) > .rz-tree__list-item > .rz-tree__item & {
+	.rz-tree__list:not(.rz-tree__list--sub) > .rz-tree__list-item > .rz-tree__item &,
+	.rz-tree--large & {
 		opacity: 1;
 	}
 
