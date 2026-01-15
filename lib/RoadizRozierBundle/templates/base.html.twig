@@ -44,7 +44,7 @@
                 {% include '@RoadizRozier/widgets/rz_aside.html.twig' %}
             {% endif %}
             <!-- Add your site or application content here -->
-            <main id="rz-page" class="rz-page" data-uk-observe>
+            <main is="rz-page" id="rz-page" class="rz-page" data-uk-observe>
                 <div id="main-content-overlay"></div>
                 <div id="main-content-scrollable" data-ajax-root>
                     {% block permanentComponents %}
@@ -60,8 +60,9 @@
                     icon: 'rz-icon-ri--arrow-up-line',
                     size: 'xs',
                     attributes: {
-                        id: 'back-top-button',
                         title: 'back_to.top'|trans,
+                        'command': '--scroll-top',
+                        'commandfor': 'rz-page',
                     }
                 }) }}
                 {# This is a debug panel placeholder… do not remove it. #}
