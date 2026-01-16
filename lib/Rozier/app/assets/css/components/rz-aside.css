@@ -28,8 +28,15 @@
 
 	@media (--screen-sm-min) {
 		width: min(344 / 1440 * 100vw, 344px);
-
 	}
+
+	a {
+		color: inherit;
+	}
+}
+
+.rz-aside__loader {
+	margin-top: var(--spacing-xs);
 }
 
 .rz-aside__head {

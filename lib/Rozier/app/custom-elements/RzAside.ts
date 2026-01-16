@@ -1,3 +1,6 @@
+import { RzTreeWrapper } from './RzTreeWrapper'
+import { fadeOut, fadeIn } from '~/utils/animation'
+
 const ROUTE_TYPE_PATTERNS = {
     tag: ['/rz-admin/tags'],
     folder: ['/rz-admin/documents', '/rz-admin/folders'],
@@ -12,20 +15,29 @@ export class RzAside extends HTMLElement {
         this.onPageChange = this.onPageChange.bind(this)
     }
 
-    displayCurrentTree() {
+    async displayCurrentTree() {
         const activeType = this.getActiveMainTreeType()
-        const treeWrappers = this.querySelectorAll<HTMLElement>(
-            '[data-tree-wrapper-type]',
-        )
+        const treeWrappers =
+            this.querySelectorAll<RzTreeWrapper>('rz-tree-wrapper')
 
-        console.log('displayCurrentTree', treeWrappers, activeType)
+        // Ensure all custom elements are defined before manipulating them
+        await customElements.whenDefined('rz-tree-wrapper')
 
-        treeWrappers.forEach((wrapper) => {
-            const elementType = wrapper.getAttribute('data-tree-wrapper-type')
-            if (elementType === activeType) {
-                wrapper.style.display = 'block'
+        treeWrappers.forEach(async (treeWrapper) => {
+            if (treeWrapper.getAttribute('type') === activeType) {
+                console.log('Show tree', treeWrapper)
+                await treeWrapper.refreshTree?.()
+
+                const loaderEl = this.querySelectorAll('[data-loader-element]')
+                loaderEl.forEach(async (el) => {
+                    await fadeOut(el)
+                    el.remove()
+                })
+                treeWrapper.removeAttribute('hidden')
+                await fadeIn(treeWrapper)
             } else {
-                wrapper.style.display = 'none'
+                await fadeOut(treeWrapper)
+                treeWrapper.setAttribute('hidden', 'true')
             }
         })
     }
@@ -46,14 +58,14 @@ export class RzAside extends HTMLElement {
         return null
     }
 
-    onPageChange(event: Event) {
-        this.displayCurrentTree()
+    async onPageChange(event: Event) {
+        await this.displayCurrentTree()
         console.log('page changed', event, this.getActiveMainTreeType())
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         console.log('rz aside connected')
-        this.displayCurrentTree()
+        await this.displayCurrentTree()
         window.addEventListener('pagechange', this.onPageChange)
     }
 

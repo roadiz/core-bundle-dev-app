@@ -1,52 +1,40 @@
 {% set type_prefix = tree_type|default('node') %}
 {% set root_classes = ['rz-tree-wrapper', 'tree-widget', type_prefix ~ '-tree-widget'] %}
-<div
+
+<rz-tree-wrapper
 	class="{{ root_classes|join(' ') }}"
-	data-tree-wrapper-type="{{ tree_type|default('node') }}"
+	type="{{ type_prefix }}"
+	status="{{ tree is defined ? 'loaded' : 'idle' }}"
+	hidden
 >
-    {% if not tree %}
-		{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
-		{{ rz_button.root({
-			tagName: 'div',
-			label: 'loading'|trans,
-			emphasis: 'secondary',
-			size: 'md',
-			iconClass: 'rz-spinner',
-			attributes: {
-				'aria-live': 'polite',
-				'role': 'status',
-			}
-		}) }}
-    {% else %}
+	<div class="rz-aside__head">
+		<span class="{{ icon|default('rz-icon-ri--node-tree') }}"></span>
 
-		{% if has_header is defined and has_header %}
-			<div class="rz-aside__head">
-				<span class="{{ icon|default('rz-icon-ri--node-tree') }}"></span>
+		<h2 class="rz-aside__title">
+			{{ title|default('rz_aside.title'|trans) }}
+			{% block after_title %}{% endblock %}
+		</h2>
 
-				<h2 class="rz-aside__title">
-					{{ title|default('rz_aside.title'|trans) }}
-					{% block after_title %}{% endblock %}
-				</h2>
+		{% block head_button %}{% endblock %}
+	</div>
 
-				{% block head_button %}{% endblock %}
-			</div>
-		{% endif %}
+	{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
+		tree: tree,
+		classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
+	} only %}
 
-		{% if display_translations %}
-			{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
-				tree: tree,
-				classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
-			} only %}
-		{% endif %}
+	{% set tree_wrapper_classes = ['rz-tree', 'root-tree', type_prefix ~ '-tree'] %}
+	{% block tree_content %}
+		<div class="{{ tree_wrapper_classes|join(' ') }}" data-tree-placeholder></div>
+	{% endblock %}
+</rz-tree-wrapper>
 
-    	{% set tree_wrapper_classes = ['rz-tree', 'root-tree', type_prefix ~ '-tree'] %}
-        <nav class="{{ tree_wrapper_classes|join(' ') }}">
-			{% block tree_content %}{% endblock %}
-        </nav>
-    {% endif %}
-</div>
-
-{% macro button(options) %}
+{% macro add_button(options = {}) %}
 	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
-	{{ rz_button.root(options|merge({ size: 'sm', class: 'rz-aside__button' })) }}
+	{{ rz_button.root(options|merge({
+		size: 'sm',
+		class: 'rz-aside__button',
+		icon: 'rz-icon-ri--add-line',
+		label: 'add'|trans,
+	})) }}
 {% endmacro %}

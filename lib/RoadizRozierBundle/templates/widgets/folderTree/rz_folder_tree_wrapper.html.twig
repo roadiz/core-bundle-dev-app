@@ -1,32 +1,34 @@
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    has_header: mainFolderTree,
-    title: 'folderTree'|trans,
-    display_translations: mainFolderTree,
+    title: 'aside.folder_tree.title'|trans,
     tree: folderTree,
     mainFolderTree: mainFolderTree,
     tree_type: 'folder',
 } only %}
-
     {% block head_button %}
-        {% if tree is defined %}
-            {{ _self.button({
-                icon: 'rz-icon-ri--add-line',
-                label: folderTree.getRootFolder == null ? 'add.a.folder'|trans : 'add.child.folder'|trans,
-                id: 'foldertree-btn-add',
-                attributes: {
-                    href: folderTree.getRootFolder == null ?
-                        path('foldersAddPage')
-                        : path('foldersAddChildPage', { folderId : folderTree.rootFolder.id }),
-                }
-            }) }}
+        {% set href = null %}
+        {% if folderTree is defined and folderTree.getRootFolder == null  %}
+            {% set href = path('foldersAddPage') %}
+        {% elseif folderTree is defined %}
+            {% set href = path('foldersAddChildPage', { folderId : folderTree.rootFolder.id }) %}
         {% endif %}
+
+        {{ _self.add_button({
+            label: folderTree is defined and folderTree.getRootFolder == null ? 'add.a.folder'|trans : 'add.child.folder'|trans,
+            id: 'foldertree-btn-add',
+            attributes: {
+                href: href
+            }
+        }) }}
     {% endblock %}
 
     {% block tree_content %}
-        {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
-            folderTree: tree,
-            mainFolderTree: mainFolderTree,
-        } only %}
+        {% if folderTree is defined  %}
+            {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
+                folderTree: tree,
+                mainFolderTree: mainFolderTree,
+            } only %}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
     {% endblock %}
-
 {% endembed %}

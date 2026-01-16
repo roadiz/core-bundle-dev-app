@@ -1,25 +1,29 @@
+{% set button_label = null %}
+{% set button_href = null %}
+
+{% if nodeTree is defined %}
+    {% set button_label = nodeTree is defined and not nodeTree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans %}
+
+    {% if nodeTree.rootNode %}
+        {% set button_label = path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }) %}
+    {% elseif nodeTree.translation is defined and not nodeTree.rootNode %}
+        {% set button_label = path('nodesAddPage', { translationId: nodeTree.translation.id }) %}
+    {% endif %}
+
+{% endif %}
+
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    has_header: mainNodeTree,
     title: 'aside.node_tree.title'|trans,
-    display_translations: mainNodeTree,
     tree: nodeTree,
 	mainNodeTree: mainNodeTree,
     linkedTypes: linkedTypes,
     tree_type: 'node',
 } only %}
-
     {% block head_button %}
-        {% if tree is defined %}
-            {{ _self.button({
-                icon: 'rz-icon-ri--add-line',
-                label: not tree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
-                attributes: {
-                    href: not tree.rootNode ?
-                        path('nodesAddPage', { translationId: tree.translation.id })
-                        : path('nodesAddChildPage', { nodeId : tree.rootNode.id }),
-                }
-            }) }}
-        {% endif %}
+        {{ _self.add_button({
+            label: button_label,
+            attributes: { href: button_href }
+        }) }}
     {% endblock %}
 
     {% block after_title %}
@@ -33,12 +37,16 @@
         </a>
     {% endblock %}
 
-    {% block tree_content %}
-		{% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-			nodeTree: tree,
-			mainNodeTree: mainNodeTree,
-			linkedTypes: linkedTypes,
-		} %}
-    {% endblock %}
+    {%- block tree_content -%}
+        {% if nodeTree is defined  %}
+            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                nodeTree: tree,
+                mainNodeTree: mainNodeTree,
+                linkedTypes: linkedTypes,
+            } only %}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {%- endblock -%}
 
 {% endembed %}

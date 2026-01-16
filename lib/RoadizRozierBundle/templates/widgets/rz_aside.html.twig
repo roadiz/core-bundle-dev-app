@@ -1,19 +1,33 @@
-<rz-aside class="rz-aside" id="main-trees">
-    <div class="rz-aside__body" id="tree-container">
-        {% if is_granted('ROLE_ACCESS_NODES') %}
-            {% include '@RoadizRozier/widgets/nodeTree/rz_node_tree_wrapper.html.twig' with {
-                root_classes: ['rz-aside__body', 'rz-aside__body--node'],
-            } %}
-        {% endif %}
-        {% if is_granted('ROLE_ACCESS_TAGS') %}
-            {% include '@RoadizRozier/widgets/tagTree/rz_tag_tree_wrapper.html.twig' with {
-                root_classes: ['rz-aside__body', 'rz-aside__body--tag'],
-            } %}
-        {% endif %}
-        {% if is_granted('ROLE_ACCESS_DOCUMENTS') %}
-            {% include '@RoadizRozier/widgets/folderTree/rz_folder_tree_wrapper.html.twig' with {
-                root_classes: ['rz-aside__body', 'rz-aside__body--folder'],
-            } %}
-        {% endif %}
-    </div>
-</rz-aside>
+<aside is="rz-aside" class="rz-aside" id="main-trees">
+    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+    {{ rz_button.root({
+        tagName: 'div',
+        label: 'loading'|trans,
+        emphasis: 'secondary',
+        size: 'md',
+        iconClass: 'rz-spinner',
+        class: 'rz-aside__loader',
+        attributes: {
+            'aria-live': 'polite',
+            'role': 'status',
+            'data-loader-element': ''
+        }
+    }) }}
+    {% if is_granted('ROLE_ACCESS_NODES') %}
+        {% include '@RoadizRozier/widgets/nodeTree/rz_node_tree_wrapper.html.twig' with {
+            root_classes: ['rz-aside__body'],
+        } %}
+    {% endif %}
+
+    {% if is_granted('ROLE_ACCESS_TAGS') %}
+        {% include '@RoadizRozier/widgets/tagTree/rz_tag_tree_wrapper.html.twig' with {
+            root_classes: ['rz-aside__body'],
+        } %}
+    {% endif %}
+
+    {% if is_granted('ROLE_ACCESS_DOCUMENTS') %}
+        {% include '@RoadizRozier/widgets/folderTree/rz_folder_tree_wrapper.html.twig' with {
+            root_classes: ['rz-aside__body'],
+        } %}
+    {% endif %}
+</aside>

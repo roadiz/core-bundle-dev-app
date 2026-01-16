@@ -1,31 +1,37 @@
+{% set button_label = null %}
+{% set button_href = path('tagsAddPage') %}
+
+{% if tagTree is defined %}
+    {% set button_label = tagTree.getRootTag == null ? 'add.a.tag'|trans : 'add.child.tag'|trans %}
+
+    {% if tagTree.getRootTag is defined and tagTree.rootTag.id is defined %}
+        {% set button_href =  path('tagsAddChildPage', { tagId : tagTree.rootTag.id }) %}
+    {% endif %}
+{% endif %}
+
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
-    has_header: mainTagTree,
     title: 'tagTree'|trans,
-    display_translations: mainTagTree,
     tree: tagTree,
     mainTagTree: mainTagTree,
     tree_type: 'tag',
 } only %}
 
     {% block head_button %}
-        {% if tree is defined %}
-            {{ _self.button({
-                icon: 'rz-icon-ri--add-line',
-                label: tagTree.getRootTag == null ? 'add.a.tag'|trans : 'add.child.tag'|trans,
-                attributes: {
-                    href: tagTree.getRootTag == null ?
-                        path('tagsAddPage')
-                        : path('tagsAddChildPage', { tagId : tagTree.rootTag.id }),
-                }
-            }) }}
-        {% endif %}
+        {{ _self.add_button({
+            label: button_label,
+            attributes: { href: button_href }
+        }) }}
     {% endblock %}
 
     {% block tree_content %}
-        {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
-            tagTree: tree,
-            mainTagTree: mainTagTree,
-        } only %}
+        {% if tagTree is defined  %}
+            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
+                tagTree: tree,
+                mainTagTree: mainTagTree,
+            } only %}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
     {% endblock %}
 
 {% endembed %}
