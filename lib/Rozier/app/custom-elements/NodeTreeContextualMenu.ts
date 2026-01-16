@@ -115,7 +115,6 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
         // TODO: add loading indicator
-
         const contextualMenuDom = await fetch(this.contextualMenuPath, {
             headers: {
                 // Required to prevent using this route as referer when login again
