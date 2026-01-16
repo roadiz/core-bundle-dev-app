@@ -1,4 +1,172 @@
-<nav class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
+ {% import "@RoadizRozier/macros/rz_dropdown_menu.html.twig" as rz_dropdown_menu %}
+<div class="rz-dropdown">
+    <div class="rz-dropdown__head">
+        <div class="rz-dropdown__title">{% trans %}actions{% endtrans %} | {{ node.nodeName|truncate_title(18) }}</div>
+        <div class="rz-dropdown__info-list">
+            {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
+            {{ rz_node_badge.status(node, { display_label: false }) }}
+            {{ rz_node_badge.parameters(node, { display_label: false }) }}
+        </div>
+    </div>
+
+    {% if is_granted('CREATE', node) or is_granted('EDIT_SETTING', node) %}
+        <menu class="rz-dropdown__list">
+            {% if is_granted('CREATE', node) %}
+                {{ rz_dropdown_menu.item({
+                    label: 'add.a.child.node'|trans,
+                    leftIcon: 'rz-icon-ri--add-line',
+                    href: path('nodesAddChildPage', { nodeId: node.id }),
+                }) }}
+            {%- endif -%}
+            {% if is_granted('EDIT_SETTING', node) %}
+                {{ rz_dropdown_menu.item({
+                        label: 'edit.node'|trans,
+                        leftIcon: 'rz-icon-ri--edit-line',
+                        href: path('nodesEditPage', { nodeId:node.id }),
+                    }) }}
+
+                {%- if not node.Locked -%}
+                    {{ rz_dropdown_menu.item({
+                        label: 'move.node.to.first.position'|trans,
+                        class: 'move-node-first-position',
+                        leftIcon: 'rz-icon-ri--arrow-up-line',
+                        attributes: {
+                            'type': 'button',
+                            'command': '--move-first',
+                            'commandfor': 'placeholder-contextual-menu-id',
+                        }
+                    }) }}
+                    {{ rz_dropdown_menu.item({
+                        label: 'move.node.to.last.position'|trans,
+                        leftIcon: 'rz-icon-ri--arrow-down-line',
+                        attributes: {
+                            'type': 'button',
+                            'command': '--move-last',
+                            'commandfor': 'placeholder-contextual-menu-id',
+                        }
+                    }) }}
+                {%- endif -%}
+            {%- endif -%}
+        </menu>
+    {%- endif -%}
+
+     {% if is_granted('DUPLICATE', node) %}
+        <menu class="rz-dropdown__list">
+            {{ rz_dropdown_menu.item({
+                label: 'node.copy'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--copy',
+                    'commandfor': 'placeholder-contextual-menu-id',
+                }
+            }) }}
+            {{ rz_dropdown_menu.item({
+                label: 'node.paste_inside'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--paste-inside',
+                    'commandfor': 'placeholder-contextual-menu-id',
+                    disabled: 'true',
+                }
+            }) }}
+            {{ rz_dropdown_menu.item({
+                label: 'node.paste_after'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--paste-after',
+                    'commandfor': 'placeholder-contextual-menu-id',
+                    disabled: 'true',
+                }
+            }) }}
+            {{ rz_dropdown_menu.item({
+                label: 'node.duplicate'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--duplicate',
+                    'commandfor': 'placeholder-contextual-menu-id',
+                    'type': 'button',
+                }
+            }) }}
+        </menu>
+    {%- endif -%}
+
+     {% if not node.locked and is_granted('EDIT_STATUS', node)%}
+        <menu class="rz-dropdown__list">
+            {% if node.visible %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.hide'|trans,
+                    leftIcon: 'rz-icon-ri--eye-off-line',
+                    class: "hide-node",
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'placeholder-contextual-menu-id',
+                        'data-status': "visible",
+                        'data-value': "0",
+                        'type': "button",
+                    }
+                }) }}
+            {% else %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.show'|trans,
+                    leftIcon: 'rz-icon-ri--eye-line',
+                    class: "show-node",
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'placeholder-contextual-menu-id',
+                        'data-status': "visible",
+                        'data-value': "1",
+                        'type': "button",
+                    }
+                }) }}
+            {% endif %}
+            {% if not node.published and workflow_can(node, 'publish') %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.publish'|trans,
+                    leftIcon: 'rz-icon-rz--status-published-line',
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'placeholder-contextual-menu-id',
+                        'data-status': "status",
+                        'data-value': "publish",
+                        'type': "button",
+                    }
+                }) }}
+            {% elseif node.published and workflow_can(node, 'reject') %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.unpublish'|trans,
+                    leftIcon: 'rz-icon-rz--status-draft-line',
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'placeholder-contextual-menu-id',
+                        'data-status': "status",
+                        'data-value': "reject",
+                        'type': "button",
+                    }
+                }) }}
+            {% endif %}
+        </menu>
+
+        {% if workflow_can(node, 'delete') %}
+            <menu class="rz-dropdown__list">
+                {% set refererUrl = node.parent ? getBreadcrumbsItem(node.parent).url : null %}
+                {{ rz_dropdown_menu.item({
+                    label: 'delete.node'|trans,
+                    leftIcon: 'rz-icon-ri--delete-bin-7-line',
+                    href: path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }),
+                    attributes: {
+                        'aria-label': "delete.node.%name%"|trans({'%name%': node.nodeName}),
+                    }
+                }) }}
+            </menu>
+        {% endif %}
+    {% endif %}
+</div>
+
+{# <nav class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
     <div class="vertical-nodetype">
         {% if node.Locked %} <i class="uk-icon-lock"></i>{% endif %}
         {% if not node.Visible %} <i class="uk-icon-eye-slash"></i>{% endif %}
@@ -114,4 +282,4 @@
             </div>
         {% endif %}
     </div>
-</nav>
+</nav>#}

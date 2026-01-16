@@ -1,4 +1,25 @@
+import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
+
+// TODO: children tree view not updated after move actions
+
 export default class NodeTreeContextualMenu extends HTMLElement {
+    popoverInstance: Popover | null = null
+
+    static get observedAttributes() {
+        return [...ATTRIBUTES_OPTIONS]
+    }
+
+    attributeChangedCallback() {
+        this.popoverInstance?.updateOptions()
+    }
+
+    constructor() {
+        super()
+
+        this.onCommand = this.onCommand.bind(this)
+        this.onPopoverOpen = this.onPopoverOpen.bind(this)
+    }
+
     get nodeId() {
         return this.getAttribute('data-node-id')
             ? parseInt(this.getAttribute('data-node-id'))
@@ -35,123 +56,139 @@ export default class NodeTreeContextualMenu extends HTMLElement {
             : null
     }
 
-    connectedCallback() {
-        const button = this.querySelector('.tree-contextualmenu-button')
-        const route = this.contextualMenuPath
+    get targetButton() {
+        return this.querySelector('[popovertarget]')
+    }
 
-        if (!button || !route) {
+    get contextualMenuPopover(): HTMLElement {
+        return this.querySelector('[data-contextual-menu-popover]')
+    }
+
+    get isContextualMenuPopoverFetched() {
+        return (
+            this.contextualMenuPopover.getAttribute('data-fetched') === 'true'
+        )
+    }
+
+    connectedCallback() {
+        if (!this.contextualMenuPath) {
+            console.warn(
+                'NodeTreeContextualMenu: missing data-contextual-menu-path',
+            )
             return
         }
 
-        this.onClick = this.onClick.bind(this)
-        this.moveNodeToPosition = this.moveNodeToPosition.bind(this)
+        if (!this.contextualMenuPopover) {
+            const popoverPlaceholder = document.createElement('div')
+            popoverPlaceholder.id =
+                this.targetButton.getAttribute('popovertarget') || ''
+            popoverPlaceholder.setAttribute('popover', '')
+            popoverPlaceholder.setAttribute('data-contextual-menu-popover', '')
+            this.appendChild(popoverPlaceholder)
+        }
 
-        button.addEventListener('click', async () => {
-            const contextualMenuNav = this.querySelector('nav.uk-dropdown')
+        this.addEventListener('command', this.onCommand)
 
-            /*
-             * Fetch contextual menu DOM if not already present
-             */
-            if (!contextualMenuNav) {
-                window.dispatchEvent(new CustomEvent('requestLoaderShow'))
-                const contextualMenuDom = await fetch(route, {
-                    headers: {
-                        // Required to prevent using this route as referer when login again
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                })
-                this.insertAdjacentHTML(
-                    'beforeend',
-                    await contextualMenuDom.text(),
-                )
-                window.dispatchEvent(new CustomEvent('requestLoaderHide'))
-            }
-
-            const pasteButtons = this.querySelectorAll('.paste-node')
-            pasteButtons.forEach((pasteButton) => {
-                if (pasteButton && !Number.isInteger(this.copiedNodeId)) {
-                    pasteButton.setAttribute('disabled', 'disabled')
-                }
-                if (pasteButton && Number.isInteger(this.copiedNodeId)) {
-                    pasteButton.removeAttribute('disabled')
-                    pasteButton.removeEventListener('click', this.onClick)
-                    pasteButton.addEventListener('click', this.onClick)
-                }
-            })
-
-            const copyButton = this.querySelector('.copy-node')
-            if (copyButton) {
-                copyButton.removeEventListener('click', this.onClick)
-                copyButton.addEventListener('click', this.onClick)
-            }
-
-            const actions = this.querySelectorAll(
-                '.node-actions a, .node-actions button, .duplicate-node',
-            )
-            actions.forEach((action) => {
-                action.removeEventListener('click', this.onClick)
-                action.addEventListener('click', this.onClick)
-            })
-
-            const nodeMoveFirstLink = this.querySelector(
-                '.move-node-first-position',
-            )
-            if (nodeMoveFirstLink) {
-                nodeMoveFirstLink.addEventListener('click', (e) =>
-                    this.moveNodeToPosition('first', e),
-                )
-            }
-
-            const nodeMoveLastLink = this.querySelector(
-                '.move-node-last-position',
-            )
-            if (nodeMoveLastLink) {
-                nodeMoveLastLink.addEventListener('click', (e) =>
-                    this.moveNodeToPosition('last', e),
-                )
-            }
+        this.popoverInstance = new Popover(this, {
+            popoverElement: this.contextualMenuPopover,
+            onOpen: this.onPopoverOpen,
         })
     }
 
-    async onClick(event) {
-        event.preventDefault()
+    disconnectedCallback() {
+        this.popoverInstance?.destroy()
+        this.popoverInstance = null
 
-        const element = event.currentTarget
+        this.removeEventListener('command', this.onCommand)
+    }
 
-        const statusName = element.getAttribute('data-status')
-        const statusValue = element.getAttribute('data-value')
-        const action = element.getAttribute('data-action')
-
-        window.dispatchEvent(new CustomEvent('requestLoaderShow'))
-
-        if (action === 'duplicate') {
-            await this.duplicateNode()
-            return
-        }
-
-        if (action === 'copy') {
-            this.copyNode()
-            return
-        }
-
-        if (action === 'paste_inside') {
-            await this.pasteInsideNode()
-            return
-        }
-
-        if (action === 'paste_after') {
-            await this.pasteAfterNode()
-            return
-        }
-
-        if (statusName !== '' && statusValue !== '') {
-            // Change node status
-            await this.changeStatus(statusName, statusValue)
-            return
+    onPopoverOpen() {
+        if (!this.isContextualMenuPopoverFetched) {
+            this.replacePopoverContent()
         }
     }
 
-    async changeStatus(statusName, statusValue) {
+    /*
+     * Fetch contextual menu DOM if not already present
+     */
+    async replacePopoverContent() {
+        window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+
+        // TODO: add loading indicator
+
+        const contextualMenuDom = await fetch(this.contextualMenuPath, {
+            headers: {
+                // Required to prevent using this route as referer when login again
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+
+        this.contextualMenuPopover.innerHTML = await contextualMenuDom.text()
+        this.contextualMenuPopover.setAttribute('data-fetched', 'true')
+
+        // contextualMenu.html.twig hasn't access to generated instance ID
+        this.contextualMenuPopover
+            .querySelectorAll('button[command]')
+            .forEach((button) => {
+                button.setAttribute('commandfor', this.id)
+
+                const isPasteBtn =
+                    button.getAttribute('command') === '--paste-inside' ||
+                    button.getAttribute('command') === '--paste-after'
+
+                if (isPasteBtn) {
+                    if (Number.isInteger(this.copiedNodeId)) {
+                        button.removeAttribute('disabled')
+                        button.setAttribute(
+                            'title',
+                            'Stored node id: ' + this.copiedNodeId,
+                        )
+                    } else {
+                        button.setAttribute('disabled', 'disabled')
+                    }
+                }
+            })
+
+        window.dispatchEvent(new CustomEvent('requestLoaderHide'))
+    }
+
+    async onCommand(event: CommandEvent) {
+        event.preventDefault()
+
+        window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+
+        switch (event.command) {
+            case '--duplicate':
+                await this.duplicateNode()
+                break
+            case '--copy':
+                this.copyNode()
+                break
+            case '--paste-inside':
+                await this.pasteInsideNode()
+                break
+            case '--paste-after':
+                await this.pasteAfterNode()
+                break
+            case '--update-status':
+                await this.changeStatus(event)
+                break
+            case '--move-first':
+                await this.moveNodeToPosition('first', event)
+                break
+            case '--move-last':
+                await this.moveNodeToPosition('last', event)
+                break
+        }
+    }
+
+    async changeStatus(event: CommandEvent) {
+        const target = event.source as HTMLElement | undefined
+        const statusName = target?.getAttribute('data-status')
+        const statusValue = target?.getAttribute('data-value')
+
+        if (!statusName || !statusValue) return
+
         try {
             await this.postNodeUpdate(this.statusPath, {
                 csrfToken: window.RozierConfig.ajaxToken,
@@ -160,6 +197,13 @@ export default class NodeTreeContextualMenu extends HTMLElement {
                 statusValue: statusValue,
             })
         } finally {
+            // Force to reload contextual menu content to update action buttons
+            this.contextualMenuPopover.setAttribute(
+                'data-fetched',
+                'need-update',
+            )
+
+            await this.replacePopoverContent()
             window.dispatchEvent(new CustomEvent('requestLoaderHide'))
         }
     }
@@ -252,11 +296,12 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         }
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        let element = event.currentTarget.closest('.nodetree-element')
+        const element = event.currentTarget.closest('.nodetree-element')
+
         let parentNodeId = parseInt(
             element.closest('ul').getAttribute('data-parent-node-id'),
         )
-        let postData = {
+        const postData = {
             csrfToken: window.RozierConfig.ajaxToken,
             id: this.nodeId,
         }
