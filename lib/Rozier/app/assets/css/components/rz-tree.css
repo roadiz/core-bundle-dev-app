@@ -126,13 +126,12 @@
 	opacity: 0;
 	transition: opacity 0.3s;
 
-	.rz-tree__list:not(.rz-tree__list--sub) > .rz-tree__list-item > .rz-tree__item &,
 	.rz-tree--child-nodes & {
 		opacity: 1;
 	}
 
 	@media(hover: hover) {
-		.rz-tree__item:hover & {
+		.rz-tree__item__node__inner:hover & {
 			opacity: 1;
 		}
 	}
