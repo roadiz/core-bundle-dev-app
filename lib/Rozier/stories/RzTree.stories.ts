@@ -5,6 +5,7 @@ type Item = {
     label: string
     iconClass?: string
     href?: string
+    expanded?: boolean
     children?: Item[]
 }
 
@@ -25,42 +26,44 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzTreeItemRenderer(item: Item) {
+function itemNodeRenderer(item: Item) {
     const hasChildren = item.children && item.children.length > 0
     const tag = item.href ? 'a' : 'div'
-    const itemEl = document.createElement(tag)
-    itemEl.classList.add(`${COMPONENT_CLASS_NAME}__item`)
+
+    const node = document.createElement(tag)
+    node.setAttribute('role', 'treeitem')
+    node.setAttribute('aria-expanded', item.expanded ? 'true' : 'false')
+    node.classList.add(`${COMPONENT_CLASS_NAME}__item__node`)
 
     const innerEl = document.createElement('div')
-    innerEl.classList.add(`${COMPONENT_CLASS_NAME}__item__inner`)
-    itemEl.appendChild(innerEl)
+    innerEl.classList.add(`${COMPONENT_CLASS_NAME}__item__node__inner`)
+    node.appendChild(innerEl)
 
-    const dragIcon = document.createElement('span')
-    dragIcon.classList.add('rz-icon-ri--draggable')
-    innerEl.appendChild(dragIcon)
+    const handle = document.createElement('span')
+    handle.classList.add(`${COMPONENT_CLASS_NAME}__item__handle`)
+    handle.classList.add('rz-icon-ri--draggable')
+    innerEl.appendChild(handle)
 
-    const typeIcon = document.createElement('span')
-    typeIcon.classList.add(`${COMPONENT_CLASS_NAME}__icon`)
-    typeIcon.classList.add(item.iconClass || 'rz-icon-ri--folder-fill')
-    innerEl.appendChild(typeIcon)
+    const icon = document.createElement('span')
+    icon.classList.add(`${COMPONENT_CLASS_NAME}__item__icon`)
+    icon.classList.add(item.iconClass || 'rz-icon-ri--folder-fill')
+    innerEl.appendChild(icon)
 
     const label = document.createElement('span')
-    label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
+    label.classList.add(`${COMPONENT_CLASS_NAME}__item__label`)
     label.textContent = item.label
     innerEl.appendChild(label)
 
     if (hasChildren) {
         const expandButton = rzButtonRenderer({
-            tag: 'button',
+            tag: 'span',
             iconClass: 'rz-icon-ri--arrow-down-s-line',
             emphasis: 'tertiary',
             size: 'xs',
-            attributes: {
-                'aria-expanded': 'true',
-                'aria-label': 'Expand/Collapse node children',
-            },
         })
-        expandButton.classList.add(`${COMPONENT_CLASS_NAME}__expand-button`)
+        expandButton.classList.add(
+            `${COMPONENT_CLASS_NAME}__item__expand-button`,
+        )
 
         innerEl.appendChild(expandButton)
     }
@@ -72,51 +75,58 @@ function rzTreeItemRenderer(item: Item) {
     })
     innerEl.appendChild(moreButton)
 
-    return itemEl
+    return node
 }
 
-function rzTreeListItemRenderer(item: Item) {
-    const ITEM_LIST_CLASS = 'rz-tree-list-item'
+function itemRenderer(item: Item) {
+    const ITEM_LIST_CLASS = 'rz-tree-item'
 
     const li = document.createElement('li', { is: ITEM_LIST_CLASS })
     li.setAttribute('is', ITEM_LIST_CLASS)
-    li.classList.add(`${COMPONENT_CLASS_NAME}__list-item`)
+    li.classList.add(`${COMPONENT_CLASS_NAME}__item`)
 
-    const itemEl = rzTreeItemRenderer(item)
-    li.appendChild(itemEl)
+    const content = itemNodeRenderer(item)
+    li.appendChild(content)
 
     if (item.children) {
-        const childrenList = listRenderer(item.children)
-        childrenList.classList.add(`${COMPONENT_CLASS_NAME}__list--sub`)
-        li.appendChild(childrenList)
+        li.classList.add(`${COMPONENT_CLASS_NAME}__item--parent`)
+
+        const list = listRenderer(item.children)
+        list.setAttribute('role', 'group')
+        li.appendChild(list)
+    } else {
+        li.classList.add(`${COMPONENT_CLASS_NAME}__item--end`)
     }
+
     return li
 }
 
 function listRenderer(items: Item[]) {
-    const list = document.createElement('ul')
-    list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
+    const element = document.createElement('ul')
+
+    element.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
     items.forEach((item) => {
-        const itemEl = rzTreeListItemRenderer(item)
-        list.appendChild(itemEl)
+        const itemEl = itemRenderer(item)
+        element.appendChild(itemEl)
     })
 
-    return list
+    return element
 }
 
-function treeRenderer(args: Args) {
-    const root = document.createElement('rz-tree')
-    root.classList.add(COMPONENT_CLASS_NAME)
+function rootRenderer(args: Args) {
+    const element = document.createElement('rz-tree')
+    element.classList.add(COMPONENT_CLASS_NAME)
 
-    const tree = listRenderer(args.items)
-    root.appendChild(tree)
+    const list = listRenderer(args.items)
+    list.setAttribute('role', 'tree')
+    element.appendChild(list)
 
     if (args.iconColor) {
-        root.style.setProperty('--rz-tree-icon-color', args.iconColor)
+        element.style.setProperty('--rz-tree-icon-color', args.iconColor)
     }
 
-    return root
+    return element
 }
 
 export const Default: Story = {
@@ -125,11 +135,13 @@ export const Default: Story = {
             {
                 label: 'Menu 1',
                 iconClass: 'rz-icon-ri--home-2-fill',
+                expanded: true,
                 children: [
                     { label: 'item 1.1' },
                     { label: 'item 1.2' },
                     {
                         label: 'item 1.3',
+                        expanded: true,
                         children: [
                             { label: 'item 1.3.1' },
                             {
@@ -168,7 +180,7 @@ export const Default: Story = {
         ],
     },
     render: (args) => {
-        return treeRenderer(args)
+        return rootRenderer(args)
     },
 }
 
@@ -178,10 +190,12 @@ export const ChildNodes: Story = {
             {
                 label: 'Menu 1',
                 iconClass: 'rz-icon-ri--home-2-fill',
+                expanded: true,
                 children: [
                     { label: 'item 1.1' },
                     {
                         label: 'item 1.3',
+                        expanded: true,
                         children: [
                             { label: 'item 1.3.1' },
                             {
@@ -196,12 +210,13 @@ export const ChildNodes: Story = {
             { label: 'Page 2' },
             {
                 label: 'Menu 2',
+                expanded: true,
                 children: [{ label: 'item 2.1' }, { label: 'item 2.2' }],
             },
         ],
     },
     render: (args) => {
-        const tree = treeRenderer(args)
+        const tree = rootRenderer(args)
         tree.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
         return tree
     },

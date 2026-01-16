@@ -14,13 +14,11 @@
 	padding-left: initial;
 }
 
-
-.rz-tree__list-item:has(> .rz-tree__item > .rz-tree__item__inner > .rz-tree__expand-button[aria-expanded="false"]) > .rz-tree__list,
-.rz-tree__list--hidden {
+.rz-tree__item__node[aria-expanded="false"] + .rz-tree__list {
 	display: none;
 }
 
-.rz-tree__list-item {
+.rz-tree__item {
 	position: relative;
 
 	/*
@@ -50,8 +48,7 @@
 	}
 }
 
-
-.rz-tree__item {
+.rz-tree__item__node {
 	border-radius: var(--radius-2xs, 4px);
 	transition: background-color 0.3s;
 	padding: var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding-left, 0);
@@ -76,7 +73,7 @@
 	}
 }
 
-.rz-tree__item__inner {
+.rz-tree__item__node__inner {
 	display: flex;
 	align-items: center;
 	height: var(--rz-tree-item-height);
@@ -87,15 +84,15 @@
 
 	
 
-	.rz-tree__list-item .rz-tree__list-item &::before,
-	.rz-tree__list-item .rz-tree__list-item &::after {
+	.rz-tree__item .rz-tree__item &::before,
+	.rz-tree__item .rz-tree__item &::after {
 		position: absolute;
 		content: '';
 		top: 0;
 	}
 
 	/* Last nested item  */
-	.rz-tree__list-item:last-of-type &::after {
+	.rz-tree__item:last-of-type &::after {
 		display: none;
 	}
 
@@ -121,7 +118,7 @@
 	}
 }
 
-.rz-tree__item .rz-icon-ri--draggable {
+.rz-tree__item__handle {
 	position: absolute;
 	left: calc(4px + var(--rz-tree-item-padding-left, 0px));
 	flex-shrink: 0;
@@ -141,14 +138,14 @@
 	}
 }
 
-.rz-tree__icon {
+.rz-tree__item__icon {
 	font-size: 12px;
 	width: var(--rz-tree-icon-width);
 	color: var(--rz-tree-icon-color, var(--node-border-on-light, #9A9A9A));
 	z-index: 2;
 }
 
-.rz-tree__label {
+.rz-tree__item__label {
 	flex-grow: 1;
 	padding-inline: var(--spacing-6xs) var(--spacing-md);
 
@@ -159,13 +156,12 @@
 	font-weight: var(--text-label-sm-font-weight);
 }
 
-.rz-tree__expand-button {
+.rz-tree__item__expand-button {
 	.rz-button__icon {
 		transform-origin: center;
 	}
 }
 
-.rz-tree__expand-button[aria-expanded="true"] .rz-button__icon,
-.rz-tree__expand-button--active .rz-button__icon {
+.rz-tree__item__node[aria-expanded="true"] .rz-button__icon {
 	rotate: 180deg;
 }
