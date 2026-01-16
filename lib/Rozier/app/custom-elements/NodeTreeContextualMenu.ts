@@ -1,6 +1,6 @@
 import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
 
-// TODO: children tree view not updated after move actions
+// TODO: children tree view is not updated when postNodeUpdate is called
 
 export default class NodeTreeContextualMenu extends HTMLElement {
     popoverInstance: Popover | null = null
