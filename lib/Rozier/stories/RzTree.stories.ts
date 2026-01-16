@@ -172,7 +172,7 @@ export const Default: Story = {
     },
 }
 
-export const Large: Story = {
+export const ChildNodes: Story = {
     args: {
         items: [
             {
@@ -202,7 +202,7 @@ export const Large: Story = {
     },
     render: (args) => {
         const tree = treeRenderer(args)
-        tree.classList.add(`${COMPONENT_CLASS_NAME}--large`)
+        tree.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
         return tree
     },
 }
