@@ -4,8 +4,12 @@ import { defineLazyElement } from '~/utils/custom-element/defineLazyElement'
 import customElementList from '~/custom-elements'
 import prettier from 'prettier/standalone'
 import prettierPluginHtml from 'prettier/plugins/html'
+import { initialize, mswLoader } from 'msw-storybook-addon'
 import '@ungap/custom-elements' // Polyfill for Safari (not implementing the customized built-in elements)
 import 'assets/css/main.css'
+
+// Initialize MSW
+initialize()
 ;(function () {
     // Auto-register custom elements
     for (const name in customElementList) {
@@ -51,6 +55,7 @@ const preview: Preview = {
         ...customTheme.initialGlobals,
     },
     decorators: [...customTheme.decorators],
+    loaders: [mswLoader], // Enable MSW loader for all stories
 }
 
 export default preview
