@@ -51,13 +51,13 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         $linkedTypes = [];
         $assignation = [];
 
-        switch ($request->get('_action')) {
+        switch ($request->query->get('_action')) {
             /*
              * Inner node edit for nodeTree
              */
             case 'requestNodeTree':
-                if ($request->get('parentNodeId') > 0) {
-                    $node = $this->notPublishedNodeRepository->find((int) $request->get('parentNodeId'));
+                if ($request->query->get('parentNodeId') > 0) {
+                    $node = $this->notPublishedNodeRepository->find((int) $request->query->get('parentNodeId'));
                 } elseif (null !== $this->getUser()) {
                     $node = $this->nodeChrootResolver->getChroot($this->getUser());
                 } else {
@@ -67,12 +67,12 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 $nodeTree = $this->treeWidgetFactory->createNodeTree($node, $translation);
 
                 if (
-                    $request->get('tagId')
-                    && $request->get('tagId') > 0
+                    $request->query->get('tagId')
+                    && $request->query->get('tagId') > 0
                 ) {
                     $filterTag = $this->managerRegistry
                         ->getRepository(Tag::class)
-                        ->find((int) $request->get('tagId'));
+                        ->find((int) $request->query->get('tagId'));
 
                     $nodeTree->setTag($filterTag);
                 }
@@ -80,7 +80,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 /*
                  * Filter view with only listed node-types
                  */
-                $linkedTypesNames = $request->get('linkedTypes', []);
+                $linkedTypesNames = $request->query->get('linkedTypes', []);
                 if (is_array($linkedTypesNames) && count($linkedTypesNames) > 0) {
                     /*
                      * Linked types must be NodeType entities, not only string
@@ -93,9 +93,9 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                     ]);
                 }
 
-                $assignation['mainNodeTree'] = false;
+                $assignation['mainTree'] = false;
 
-                if (true === (bool) $request->get('stackTree')) {
+                if (true === (bool) $request->query->get('stackTree')) {
                     $nodeTree->setStackTree(true);
                 }
                 break;
@@ -109,11 +109,12 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 }
 
                 $nodeTree = $this->treeWidgetFactory->createRootNodeTree($parent, $translation);
-                $assignation['mainNodeTree'] = true;
+                $assignation['mainTree'] = true;
                 break;
         }
 
-        $assignation['nodeTree'] = $nodeTree;
+        $assignation['tree'] = $nodeTree;
+        $assignation['tree_type'] = 'node';
         // Need to expose linkedTypes to add data-attributes on widget again
         $assignation['linkedTypes'] = $linkedTypes;
 
@@ -121,7 +122,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
             'statusCode' => '200',
             'status' => 'success',
             'linkedTypes' => $linkedTypes,
-            'nodeTree' => trim($this->twig->render('@RoadizRozier/widgets/nodeTree/rz_node_tree_wrapper.html.twig', $assignation)),
+            'nodeTree' => trim($this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation)),
         ]);
     }
 }
