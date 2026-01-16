@@ -295,10 +295,10 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         }
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        const element = event.currentTarget.closest('.nodetree-element')
+        const nodeTreeElement = event.currentTarget.closest('.nodetree-element')
 
         let parentNodeId = parseInt(
-            element.closest('ul').getAttribute('data-parent-node-id'),
+            nodeTreeElement.closest('ul').getAttribute('data-parent-node-id'),
         )
         const postData = {
             csrfToken: window.RozierConfig.ajaxToken,
@@ -309,9 +309,9 @@ export default class NodeTreeContextualMenu extends HTMLElement {
          * Force to first position
          */
         if (typeof position !== 'undefined' && position === 'first') {
-            postData.firstPosition = true
+            Object.assign(postData, { firstPosition: true })
         } else if (typeof position !== 'undefined' && position === 'last') {
-            postData.lastPosition = true
+            Object.assign(postData, { lastPosition: true })
         }
 
         /*
@@ -322,7 +322,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
             parentNodeId = null
         }
 
-        postData.newParentId = parentNodeId
+        Object.assign(postData, { newParentId: parentNodeId })
 
         try {
             await this.postNodeUpdate(this.editPositionPath, postData)
