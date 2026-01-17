@@ -7,8 +7,6 @@
 	height: calc(100vh - var(--rz-aside-head-height));
 	margin-top: var(--rz-aside-margin-top);
 	margin-inline: var(--spacing-4xs);
-	overflow: auto;
-	width: 100%;
 
 	@media (--screen-sm-min) {
 		top: var(--rz-app-padding-block);
@@ -24,12 +22,16 @@
 	border-radius: var(--radius-md, 12px);
 	border: 1px solid var(--line-on-light-secondary, #DADADA);
 	background-color: var(--surface-light-primary, #FFF);
-	padding-inline: var(--spacing-4xs);
 
 	@media (--screen-sm-min) {
-		width: min(344 / 1440 * 100vw, 344px);
-
+		width: min(344 / 1440 * 100vw, auto);
 	}
+}
+
+.rz-aside__body {
+	overflow-y: auto;
+	height: 100%;
+	padding-inline: var(--spacing-4xs);
 }
 
 .rz-aside__head {
