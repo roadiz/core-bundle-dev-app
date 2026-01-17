@@ -2,6 +2,9 @@ import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
 
 // TODO: children tree view is not updated when postNodeUpdate is called
 
+type Position = 'first' | 'last'
+type UpdatePayloadDict = Record<string, string | number | boolean | null>
+
 export default class NodeTreeContextualMenu extends HTMLElement {
     popoverInstance: Popover | null = null
 
@@ -21,9 +24,8 @@ export default class NodeTreeContextualMenu extends HTMLElement {
     }
 
     get nodeId() {
-        return this.getAttribute('data-node-id')
-            ? parseInt(this.getAttribute('data-node-id'))
-            : null
+        const attr = this.getAttribute('data-node-id')
+        return attr ? parseInt(attr) : null
     }
 
     get contextualMenuPath() {
@@ -51,22 +53,21 @@ export default class NodeTreeContextualMenu extends HTMLElement {
     }
 
     get copiedNodeId() {
-        return window.sessionStorage.getItem('rozier_copied_node_id')
-            ? parseInt(window.sessionStorage.getItem('rozier_copied_node_id'))
-            : null
+        const stored = window.sessionStorage.getItem('rozier_copied_node_id')
+        return stored ? parseInt(stored) : null
     }
 
-    get targetButton() {
-        return this.querySelector('[popovertarget]')
+    get targetButton(): HTMLElement | null {
+        return this.querySelector('[popovertarget]') as HTMLElement | null
     }
 
-    get contextualMenuPopover(): HTMLElement {
+    get contextualMenuPopover(): HTMLElement | null {
         return this.querySelector('[data-contextual-menu-popover]')
     }
 
     get isContextualMenuPopoverFetched() {
         return (
-            this.contextualMenuPopover.getAttribute('data-fetched') === 'true'
+            this.contextualMenuPopover?.getAttribute('data-fetched') === 'true'
         )
     }
 
@@ -81,7 +82,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         if (!this.contextualMenuPopover) {
             const popoverPlaceholder = document.createElement('div')
             popoverPlaceholder.id =
-                this.targetButton.getAttribute('popovertarget') || ''
+                this.targetButton?.getAttribute('popovertarget') || ''
             popoverPlaceholder.setAttribute('popover', '')
             popoverPlaceholder.setAttribute('data-contextual-menu-popover', '')
             this.appendChild(popoverPlaceholder)
@@ -90,12 +91,12 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         this.addEventListener('command', this.onCommand)
 
         this.popoverInstance = new Popover(this, {
-            popoverElement: this.contextualMenuPopover,
+            popoverElement: this.contextualMenuPopover!,
             onOpen: this.onPopoverOpen,
         })
     }
 
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         this.popoverInstance?.destroy()
         this.popoverInstance = null
 
@@ -122,13 +123,12 @@ export default class NodeTreeContextualMenu extends HTMLElement {
             },
         })
 
-        this.contextualMenuPopover.innerHTML = await contextualMenuDom.text()
-        this.contextualMenuPopover.setAttribute('data-fetched', 'true')
+        this.contextualMenuPopover!.innerHTML = await contextualMenuDom.text()
+        this.contextualMenuPopover!.setAttribute('data-fetched', 'true')
 
         // contextualMenu.html.twig hasn't access to generated instance ID
-        this.contextualMenuPopover
-            .querySelectorAll('button[command]')
-            .forEach((button) => {
+        this.contextualMenuPopover!.querySelectorAll('button[command]').forEach(
+            (button) => {
                 button.setAttribute('commandfor', this.id)
 
                 const isPasteBtn =
@@ -146,7 +146,8 @@ export default class NodeTreeContextualMenu extends HTMLElement {
                         button.setAttribute('disabled', 'disabled')
                     }
                 }
-            })
+            },
+        )
 
         window.dispatchEvent(new CustomEvent('requestLoaderHide'))
     }
@@ -197,7 +198,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
             })
         } finally {
             // Force to reload contextual menu content to update action buttons
-            this.contextualMenuPopover.setAttribute(
+            this.contextualMenuPopover!.setAttribute(
                 'data-fetched',
                 'need-update',
             )
@@ -207,9 +208,6 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         }
     }
 
-    /**
-     * Copy a node ID in SessionStorage for further paste action.
-     */
     copyNode() {
         window.sessionStorage.setItem(
             'rozier_copied_node_id',
@@ -226,33 +224,22 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         window.dispatchEvent(new CustomEvent('requestLoaderHide'))
     }
 
-    /**
-     * Paste a node ID from SessionStorage.
-     */
     async pasteInsideNode() {
         await this.pasteNode('parentNodeId')
     }
 
-    /**
-     * Paste a node ID from SessionStorage.
-     */
     async pasteAfterNode() {
         await this.pasteNode('prevNodeId')
     }
 
-    /**
-     * Paste a node ID from SessionStorage.
-     *
-     * @param {'prevNodeId'|'parentNodeId'} propName
-     */
-    async pasteNode(propName = 'parentNodeId') {
+    async pasteNode(propName: 'prevNodeId' | 'parentNodeId' = 'parentNodeId') {
         if (!Number.isSafeInteger(this.copiedNodeId)) {
             return
         }
         if (!Number.isSafeInteger(this.nodeId)) {
             return
         }
-        const payload = {
+        const payload: UpdatePayloadDict = {
             csrfToken: window.RozierConfig.ajaxToken,
             nodeId: this.copiedNodeId,
         }
@@ -266,9 +253,6 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         }
     }
 
-    /**
-     * Duplicate a node in the same parent.
-     */
     async duplicateNode() {
         if (!Number.isSafeInteger(this.nodeId)) {
             return
@@ -283,41 +267,37 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         }
     }
 
-    /**
-     * Move a node to the position.
-     *
-     * @param {String} position
-     * @param {Event} event
-     */
-    async moveNodeToPosition(position, event) {
+    async moveNodeToPosition(
+        position: Position | undefined,
+        event: CommandEvent,
+    ) {
         if (!Number.isSafeInteger(this.nodeId)) {
             return
         }
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        const nodeTreeElement = event.currentTarget.closest('.nodetree-element')
+        const nodeTreeElement = (event.currentTarget as HTMLElement).closest(
+            '.nodetree-element',
+        )
 
         let parentNodeId = parseInt(
-            nodeTreeElement.closest('ul').getAttribute('data-parent-node-id'),
+            nodeTreeElement!
+                .closest('ul')!
+                .getAttribute('data-parent-node-id') || '',
         )
-        const postData = {
+        const postData: UpdatePayloadDict = {
             csrfToken: window.RozierConfig.ajaxToken,
             id: this.nodeId,
         }
 
-        /*
-         * Force to first position
-         */
+        // Force to first position
         if (typeof position !== 'undefined' && position === 'first') {
             Object.assign(postData, { firstPosition: true })
         } else if (typeof position !== 'undefined' && position === 'last') {
             Object.assign(postData, { lastPosition: true })
         }
 
-        /*
-         * When dropping to root
-         * set parentNodeId to NULL
-         */
+        // When dropping to root set parentNodeId to NULL
         if (isNaN(parentNodeId)) {
             parentNodeId = null
         }
@@ -331,7 +311,8 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         }
     }
 
-    async postNodeUpdate(url, postData) {
+    async postNodeUpdate(url: string | null, postData: UpdatePayloadDict) {
+        if (!url) return
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -340,7 +321,15 @@ export default class NodeTreeContextualMenu extends HTMLElement {
                     // Required to prevent using this route as referer when login again
                     'X-Requested-With': 'XMLHttpRequest',
                 },
-                body: new URLSearchParams(postData),
+                body: new URLSearchParams(
+                    Object.entries(postData).reduce(
+                        (acc, [key, value]) => {
+                            acc[key] = value === null ? '' : String(value)
+                            return acc
+                        },
+                        {} as Record<string, string>,
+                    ),
+                ),
             })
             if (!response.ok) {
                 const data = await response.json()
