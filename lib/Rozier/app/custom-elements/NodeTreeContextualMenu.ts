@@ -1,7 +1,5 @@
 import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
 
-// TODO: children tree view is not updated when postNodeUpdate is called
-
 type Position = 'first' | 'last'
 type UpdatePayloadDict = Record<string, string | number | boolean | null>
 
@@ -67,7 +65,9 @@ export default class NodeTreeContextualMenu extends HTMLElement {
 
     get isContextualMenuPopoverFetched() {
         return (
-            this.contextualMenuPopover?.getAttribute('data-fetched') === 'true'
+            this.contextualMenuPopover?.getAttribute(
+                'data-popover-content-state',
+            ) === 'fetched'
         )
     }
 
@@ -84,6 +84,10 @@ export default class NodeTreeContextualMenu extends HTMLElement {
             popoverPlaceholder.id =
                 this.targetButton?.getAttribute('popovertarget') || ''
             popoverPlaceholder.setAttribute('popover', '')
+            popoverPlaceholder.setAttribute(
+                'data-popover-content-state',
+                'idle',
+            )
             popoverPlaceholder.setAttribute('data-contextual-menu-popover', '')
             this.appendChild(popoverPlaceholder)
         }
@@ -124,7 +128,10 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         })
 
         this.contextualMenuPopover!.innerHTML = await contextualMenuDom.text()
-        this.contextualMenuPopover!.setAttribute('data-fetched', 'true')
+        this.contextualMenuPopover!.setAttribute(
+            'data-popover-content-state',
+            'fetched',
+        )
 
         // contextualMenu.html.twig hasn't access to generated instance ID
         this.contextualMenuPopover!.querySelectorAll('button[command]').forEach(
@@ -199,7 +206,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         } finally {
             // Force to reload contextual menu content to update action buttons
             this.contextualMenuPopover!.setAttribute(
-                'data-fetched',
+                'data-popover-content-state',
                 'need-update',
             )
 
