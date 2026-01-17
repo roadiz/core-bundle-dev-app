@@ -16,7 +16,9 @@
 {%- endblock -%}
 
 {% block content %}
-<rz-bulk-section>
+
+{# StackNodeTree need "stack-tree" this class #}
+<rz-bulk-section class="stack-tree">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         translation: translation,
@@ -42,7 +44,8 @@
         statusNodesForm: statusNodesForm,
     } only %}
 
-    <article class="content content-node-tree">
+
+    <article>
         {% if availableTags %}
             <div class="available-nodetree-tags uk-visible-large">
                 <a href="?" class="uk-badge{% if not filterTag %} active{% endif %}">{{- 'see_all'|trans -}}</a>
@@ -53,10 +56,14 @@
                 {% endfor %}
             </div>
         {% endif %}
-        {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-            nodeTree: specificNodeTree,
-            node: specificNodeTree.getRootNode,
-        } only %}
+
+        {# StackNodeTree need "nodetree-widget" #}
+        <div class="tree-widget nodetree-widget">
+            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                nodeTree: specificNodeTree,
+                node: specificNodeTree.getRootNode,
+            } only %}
+        </div>
     </article>
     {% if node %}
         {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
