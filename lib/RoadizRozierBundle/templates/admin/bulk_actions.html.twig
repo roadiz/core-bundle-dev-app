@@ -37,7 +37,7 @@
             {% if bulkDeleteForm %}
                 {% form_theme bulkDeleteForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkDeleteForm) }}
-                {{ form_widget(bulkDeleteForm) }}
+                {{ form_widget(bulkDeleteForm, { attr: { style: 'display: none;' }}) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',
