@@ -140,7 +140,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 
         {% block nodetree_contextual_menu %}
             {% set contextual_id = 'node-contextual-menu-' ~ node.id %}
-            <node-tree-contextual-menu
+            <rz-node-tree-contextual-menu
                 class="rz-node-contextual-menu"
                 data-contextual-menu-path="{{ path('nodeContextualMenu', {
                     node: node.id,

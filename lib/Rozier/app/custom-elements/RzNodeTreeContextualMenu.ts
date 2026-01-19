@@ -3,7 +3,7 @@ import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
 type Position = 'first' | 'last'
 type UpdatePayloadDict = Record<string, string | number | boolean | null>
 
-export default class NodeTreeContextualMenu extends HTMLElement {
+export default class RzNodeTreeContextualMenu extends HTMLElement {
     popoverInstance: Popover | null = null
 
     static get observedAttributes() {
@@ -26,7 +26,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         return attr ? parseInt(attr) : null
     }
 
-    get contextualMenuPath() {
+    get nodePathFetch() {
         return this.getAttribute('data-contextual-menu-path')
     }
 
@@ -59,27 +59,26 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         return this.querySelector('[popovertarget]') as HTMLElement | null
     }
 
-    get contextualMenuPopover(): HTMLElement | null {
+    get popoverElement(): HTMLElement | null {
         return this.querySelector('[data-contextual-menu-popover]')
     }
 
-    get isContextualMenuPopoverFetched() {
+    get isPopoverFetched() {
         return (
-            this.contextualMenuPopover?.getAttribute(
-                'data-popover-content-state',
-            ) === 'fetched'
+            this.popoverElement?.getAttribute('data-popover-content-state') ===
+            'fetched'
         )
     }
 
     connectedCallback() {
-        if (!this.contextualMenuPath) {
+        if (!this.nodePathFetch) {
             console.warn(
                 'NodeTreeContextualMenu: missing data-contextual-menu-path',
             )
             return
         }
 
-        if (!this.contextualMenuPopover) {
+        if (!this.popoverElement) {
             const popoverPlaceholder = document.createElement('div')
             popoverPlaceholder.id =
                 this.targetButton?.getAttribute('popovertarget') || ''
@@ -95,7 +94,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         this.addEventListener('command', this.onCommand)
 
         this.popoverInstance = new Popover(this, {
-            popoverElement: this.contextualMenuPopover!,
+            popoverElement: this.popoverElement!,
             onOpen: this.onPopoverOpen,
         })
     }
@@ -108,7 +107,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
     }
 
     onPopoverOpen() {
-        if (!this.isContextualMenuPopoverFetched) {
+        if (!this.isPopoverFetched) {
             this.replacePopoverContent()
         }
     }
@@ -120,21 +119,21 @@ export default class NodeTreeContextualMenu extends HTMLElement {
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
         // TODO: add loading indicator
-        const contextualMenuDom = await fetch(this.contextualMenuPath, {
+        const response = await fetch(this.nodePathFetch, {
             headers: {
                 // Required to prevent using this route as referer when login again
                 'X-Requested-With': 'XMLHttpRequest',
             },
         })
 
-        this.contextualMenuPopover!.innerHTML = await contextualMenuDom.text()
-        this.contextualMenuPopover!.setAttribute(
+        this.popoverElement!.innerHTML = await response.text()
+        this.popoverElement!.setAttribute(
             'data-popover-content-state',
             'fetched',
         )
 
         // contextualMenu.html.twig hasn't access to generated instance ID
-        this.contextualMenuPopover!.querySelectorAll('button[command]').forEach(
+        this.popoverElement!.querySelectorAll('button[command]').forEach(
             (button) => {
                 button.setAttribute('commandfor', this.id)
 
@@ -205,7 +204,7 @@ export default class NodeTreeContextualMenu extends HTMLElement {
             })
         } finally {
             // Force to reload contextual menu content to update action buttons
-            this.contextualMenuPopover!.setAttribute(
+            this.popoverElement!.setAttribute(
                 'data-popover-content-state',
                 'need-update',
             )
