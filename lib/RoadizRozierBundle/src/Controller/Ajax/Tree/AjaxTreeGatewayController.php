@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace RZ\Roadiz\RozierBundle\Controller\Ajax\Tree;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,10 +13,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(
-path: '/rz-admin/ajax/tree',
-name: 'treeAjaxGateway',
-methods: ['GET'],
-format: 'json'
+    path: '/rz-admin/ajax/tree',
+    name: 'treeAjaxGateway',
+    methods: ['GET'],
+    format: 'json'
 )]
 final class AjaxTreeGatewayController extends AbstractAjaxController
 {
@@ -49,15 +50,15 @@ final class AjaxTreeGatewayController extends AbstractAjaxController
             'message' => 'You do not have the required permissions to access this tree.',
         ];
 
-        if ($this->isGranted('ROLE_ACCESS_NODES') && $treeType === 'nodes') {
+        if ($this->isGranted('ROLE_ACCESS_NODES') && 'nodes' === $treeType) {
             return $this->nodeTreeController->getTreeAction($request);
         }
 
-        if ($this->isGranted('ROLE_ACCESS_TAGS') && $treeType === 'tags') {
+        if ($this->isGranted('ROLE_ACCESS_TAGS') && 'tags' === $treeType) {
             return $this->tagTreeController->getTreeAction($request);
         }
 
-        if ($this->isGranted('ROLE_ACCESS_DOCUMENTS') && $treeType === 'folders') {
+        if ($this->isGranted('ROLE_ACCESS_DOCUMENTS') && 'folders' === $treeType) {
             return $this->folderTreeController->getTreeAction($request);
         }
 
