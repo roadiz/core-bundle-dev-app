@@ -33,7 +33,7 @@
                         attributes: {
                             'type': 'button',
                             'command': '--move-first',
-                            'commandfor': 'placeholder-contextual-menu-id',
+                            'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         }
                     }) }}
                     {{ rz_dropdown_menu.item({
@@ -42,7 +42,7 @@
                         attributes: {
                             'type': 'button',
                             'command': '--move-last',
-                            'commandfor': 'placeholder-contextual-menu-id',
+                            'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         }
                     }) }}
                 {%- endif -%}
@@ -58,7 +58,7 @@
                 attributes: {
                     'type': 'button',
                     'command': '--copy',
-                    'commandfor': 'placeholder-contextual-menu-id',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
                 }
             }) }}
             {{ rz_dropdown_menu.item({
@@ -67,7 +67,7 @@
                 attributes: {
                     'type': 'button',
                     'command': '--paste-inside',
-                    'commandfor': 'placeholder-contextual-menu-id',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
                     disabled: 'true',
                 }
             }) }}
@@ -77,7 +77,7 @@
                 attributes: {
                     'type': 'button',
                     'command': '--paste-after',
-                    'commandfor': 'placeholder-contextual-menu-id',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
                     disabled: 'true',
                 }
             }) }}
@@ -87,7 +87,7 @@
                 attributes: {
                     'type': 'button',
                     'command': '--duplicate',
-                    'commandfor': 'placeholder-contextual-menu-id',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
                 }
             }) }}
         </menu>
@@ -102,7 +102,7 @@
                     class: "hide-node",
                     attributes: {
                         'command': '--update-status',
-                        'commandfor': 'placeholder-contextual-menu-id',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         'data-status': "visible",
                         'data-value': "0",
                         'type': "button",
@@ -115,7 +115,7 @@
                     class: "show-node",
                     attributes: {
                         'command': '--update-status',
-                        'commandfor': 'placeholder-contextual-menu-id',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         'data-status': "visible",
                         'data-value': "1",
                         'type': "button",
@@ -128,7 +128,7 @@
                     leftIcon: 'rz-icon-rz--status-published-line',
                     attributes: {
                         'command': '--update-status',
-                        'commandfor': 'placeholder-contextual-menu-id',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         'data-status': "status",
                         'data-value': "publish",
                         'type': "button",
@@ -140,7 +140,7 @@
                     leftIcon: 'rz-icon-rz--status-draft-line',
                     attributes: {
                         'command': '--update-status',
-                        'commandfor': 'placeholder-contextual-menu-id',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         'data-status': "status",
                         'data-value': "reject",
                         'type': "button",
