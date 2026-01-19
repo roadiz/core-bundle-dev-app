@@ -12,13 +12,12 @@
 {% block content_body %}
 
     <article class="content content-no-action-menu">
+        {% block bulk_form %}{% endblock %}
 
         {% include '@RoadizRozier/users/list_table.html.twig' with {
             no_sort: true,
             actions_available: false,
             selection_available: false,
         } %}
-
-        {% block bulk_form %}{% endblock %}
     </article>
 {% endblock %}
