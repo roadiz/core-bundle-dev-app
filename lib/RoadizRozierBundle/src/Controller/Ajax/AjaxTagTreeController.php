@@ -63,7 +63,7 @@ final class AjaxTagTreeController extends AbstractAjaxController
                 /*
                  * Main panel tree tagTree
                  */
-            case 'requestMainTagTree':
+            case 'requestMainTree':
                 $parent = null;
                 $tagTree = $this->treeWidgetFactory->createTagTree($parent, $translation);
                 $assignation['mainTree'] = true;
@@ -76,6 +76,7 @@ final class AjaxTagTreeController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
+            'tree_type' => $assignation['tree_type'],
             'tagTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
         ]);
     }

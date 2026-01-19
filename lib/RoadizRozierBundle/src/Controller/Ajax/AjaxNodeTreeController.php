@@ -102,7 +102,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 /*
                  * Main panel tree nodeTree
                  */
-            case 'requestMainNodeTree':
+            case 'requestMainTree':
                 $parent = null;
                 if (null !== $this->getUser()) {
                     $parent = $this->nodeChrootResolver->getChroot($this->getUser());
@@ -121,6 +121,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
+            'tree_type' => $assignation['tree_type'],
             'linkedTypes' => $linkedTypes,
             'nodeTree' => trim($this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation)),
         ]);

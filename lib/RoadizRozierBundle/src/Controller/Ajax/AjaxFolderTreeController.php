@@ -56,7 +56,7 @@ final class AjaxFolderTreeController extends AbstractAjaxController
 
                 $assignation['mainTree'] = false;
                 break;
-            case 'requestMainFolderTree':
+            case 'requestMainTree':
                 $parent = null;
                 $folderTree = $this->treeWidgetFactory->createFolderTree($parent, $translation);
                 $assignation['mainTree'] = true;
@@ -69,6 +69,7 @@ final class AjaxFolderTreeController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
+            'tree_type' => $assignation['tree_type'],
             'folderTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
         ]);
     }

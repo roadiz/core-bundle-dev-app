@@ -1,10 +1,10 @@
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
     has_header: mainTree,
     title: tree_type == 'node'
-    ? 'aside.node_tree.title'|trans
-    : tree_type == 'tag'
-    ? 'tagTree'|trans
-    : 'folderTree'|trans,
+        ? 'aside.node_tree.title'|trans
+        : tree_type == 'tag'
+        ? 'tagTree'|trans
+        : 'folderTree'|trans,
     display_translations: mainTree,
     tree: tree,
     tree_type: tree_type,
