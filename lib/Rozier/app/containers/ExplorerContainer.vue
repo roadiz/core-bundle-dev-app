@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-left">
         <div
-            class="widget-explorer"
+            class="rz-explorer"
             :class="[
                 {
                     'filter-explorer-open': isFilterExplorerOpen,
@@ -11,45 +11,43 @@
             ]"
             v-if="isOpen"
         >
-            <div class="widget-explorer-wrapper">
-                <div class="widget-explorer-header">
-                    <filter-explorer-button
+            <div class="rz-explorer__inner">
+                <div class="rz-explorer__header">
+                    <button
                         v-if="isFilterEnable"
-                        :entity="entity"
-                        :icon="filterExplorerIcon"
-                        :filter-explorer-selected-items="filterExplorerSelectedItems"
-                        :is-filter-explorer-open="isFilterExplorerOpen"
-                        :on-click="filterExplorerToggle"
+                        type="button"
+                        @click.prevent="filterExplorerToggle"
+                        class="rz-button"
+                        :class="[{
+                            'rz-button--pill': filterExplorerSelectedItems,
+                        }]"
                     >
-                    </filter-explorer-button>
+                        <span class="rz-button__icon" :class="filterExplorerIcon"></span>
+                    </button>
 
-                    <div class="widget-explorer-search">
-                        <form action="#" method="POST" class="explorer-search uk-form" v-on:submit.prevent>
-                            <div class="uk-form-icon">
-                                <i class="uk-icon-search"></i>
-                                <input
-                                    id="search-input"
-                                    type="search"
-                                    name="searchTerms"
-                                    v-model="searchTerms"
-                                    autocomplete="off"
-                                    @keyup.enter.stop.prevent="manualUpdate"
-                                    :placeholder="searchPlaceHolder"
-                                />
-                            </div>
-                        </form>
-                    </div>
-                    <div class="widget-explorer-close" @click.prevent="explorerClose">
-                        <i class="uk-icon-rz-close-explorer"></i>
-                    </div>
+                    <form action="#" method="POST" class="rz-explorer__search" v-on:submit.prevent>
+                        <input
+                            id="search-input"
+                            type="search"
+                            class="rz-input"
+                            name="searchTerms"
+                            v-model="searchTerms"
+                            autocomplete="off"
+                            @keyup.enter.stop.prevent="manualUpdate"
+                            :placeholder="searchPlaceHolder"
+                        />
+                    </form>
+                    <button class="rz-button rz-button--primary" @click.prevent="explorerClose">
+                        <span class="rz-button__icon uk-icon-rz-close-explorer"></span>
+                    </button>
                 </div>
 
                 <div class="spinner light" v-if="isLoading"></div>
 
                 <transition name="fade">
-                    <ul class="uk-sortable" v-if="!isLoading">
+                    <div class="uk-sortable rz-explorer__main" v-if="!isLoading">
                         <draggable v-model="items" :options="{ group: { name: entity, put: false } }">
-                            <transition-group tag="div" class="sortable-inner">
+                            <transition-group tag="ul" class="sortable-inner" :class="listClass">
                                 <component
                                     v-bind:is="currentListingView"
                                     v-for="(item, index) in items"
@@ -62,20 +60,31 @@
                                 </component>
                             </transition-group>
                         </draggable>
-                    </ul>
+                    </div>
                 </transition>
 
-                <load-more-button
-                    v-if="filters"
-                    :next-page="filters.nextPage"
-                    :load-more-items="explorerLoadMore"
-                    :is-loading-more="isLoadingMore"
-                    :more-items-text="moreItems ? translations[moreItems] : ''"
-                >
-                </load-more-button>
+                <transition name="fade">
+                    <div
+                        v-if="filters && filters.nextPage && filters.nextPage > 1"
+                        class="rz-explorer__load-more rz-button rz-button--primary"
+                        @click.prevent="explorerLoadMore"
+                    >
+                        <template v-if="!isLoadingMore">
+                            <i class="rz-button__label rz-icon-ri--add-line"></i>
+                            <span class="rz-button__label">{{ moreItems ? translations[moreItems] : '' }}</span>
+                        </template>
+                        <template v-else>
+                            <transition name="fade">
+                                <div class="rz-spinner"></div>
+                            </transition>
+                        </template>
+                    </div>
+                </transition>
 
-                <explorer-items-infos v-if="filters" :length="items.length" :item-count="filters.itemCount">
-                </explorer-items-infos>
+
+                <transition name="fade" v-if="filters && items.length && filters.itemCount">
+                    <div class="rz-explorer__pagination" >{{ items.length }} / {{ filters.itemCount }}</div>
+                </transition>
 
                 <component :is="widgetView"></component>
             </div>
@@ -88,9 +97,6 @@ import { mapActions, mapState } from 'vuex'
 import { debounce } from 'lodash'
 
 // Components
-import LoadMoreButton from '../components/LoadMoreButton.vue'
-import ExplorerItemsInfos from '../components/ExplorerItemsInfos.vue'
-import FilterExplorerButton from '../components/FilterExplorerButton.vue'
 import draggable from 'vuedraggable'
 
 export default {
@@ -128,8 +134,19 @@ export default {
                 }
             }, 450),
         },
+        listClass() {
+            const base = 'rz-explorer__list'
+            const list = [base]
+
+            if(this.entity === 'file' || this.entity === 'document') {
+                 list.push(`${base}--2-columns`)
+            }
+
+            return list
+        },
     },
     mounted() {
+        console.log('ExplorerContainer mounted', this)
         document.addEventListener('show-explorer', this.onShowExplorer)
     },
     unmounted() {
@@ -164,9 +181,6 @@ export default {
         },
     },
     components: {
-        LoadMoreButton,
-        ExplorerItemsInfos,
-        FilterExplorerButton,
         draggable,
     },
 }
