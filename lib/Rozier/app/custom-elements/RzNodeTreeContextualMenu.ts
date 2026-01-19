@@ -286,11 +286,12 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             '.nodetree-element',
         )
 
-        let parentNodeId = parseInt(
-            nodeTreeElement!
-                .closest('ul')!
-                .getAttribute('data-parent-node-id') || '',
+        const parentNodeId = parseInt(
+            nodeTreeElement
+                .closest('ul')
+                ?.getAttribute('data-parent-node-id') || '',
         )
+
         const postData: UpdatePayloadDict = {
             csrfToken: window.RozierConfig.ajaxToken,
             id: this.nodeId,
@@ -303,12 +304,9 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             Object.assign(postData, { lastPosition: true })
         }
 
-        // When dropping to root set parentNodeId to NULL
-        if (isNaN(parentNodeId)) {
-            parentNodeId = null
+        if (typeof parentNodeId === 'number') {
+            Object.assign(postData, { newParentId: parentNodeId })
         }
-
-        Object.assign(postData, { newParentId: parentNodeId })
 
         try {
             await this.postNodeUpdate(this.editPositionPath, postData)
