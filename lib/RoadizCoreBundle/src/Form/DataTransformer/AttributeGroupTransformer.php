@@ -25,7 +25,7 @@ final readonly class AttributeGroupTransformer implements DataTransformerInterfa
             return '';
         }
 
-        return $value->getId();
+        return $value->getId() ?? throw new TransformationFailedException('AttributeGroup has no ID.');
     }
 
     #[\Override]

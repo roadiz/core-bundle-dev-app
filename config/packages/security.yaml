@@ -43,10 +43,10 @@ security:
             # Do not reload user from database, trust JWT roles in order to restrict PreviewUsers
             # Only drawback is when you want to disable / block / expire a user, you'll have to
             # wait for JWT token to expire.
-            #provider: jwt
+            provider: jwt
             # If you really want to reload user from database, uncomment this line, but Preview JWT
             # will be reloaded as full user and not as PreviewUser.
-            provider: all_users
+            #provider: all_users
             jwt: ~
             login_link:
                 check_route: public_login_link_check

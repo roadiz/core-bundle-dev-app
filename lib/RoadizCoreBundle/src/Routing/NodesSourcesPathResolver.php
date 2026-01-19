@@ -117,8 +117,9 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
         return array_values(array_filter($tokens));
     }
 
-    private function getHome(TranslationInterface $translation): NodesSources
+    private function getHome(?TranslationInterface $translation): NodesSources
     {
+        $translation ??= $this->translationRepository->findDefault() ?? throw new ResourceNotFoundException('No default translation found.');
         $nodeSource = $this->nodesSourcesRepository->findOneBy([
             'node.home' => true,
             'translation' => $translation,

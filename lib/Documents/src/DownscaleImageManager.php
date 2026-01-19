@@ -41,7 +41,7 @@ final readonly class DownscaleImageManager
         $documentPath = $document->getMountPath();
         $processedImage = $this->getProcessedImage($documentPath);
 
-        if (null === $processedImage) {
+        if (null === $documentPath || null === $processedImage) {
             return;
         }
 
@@ -69,7 +69,7 @@ final readonly class DownscaleImageManager
 
         $processedImage = $this->getProcessedImage($documentPath);
 
-        if (null === $processedImage) {
+        if (null === $documentPath || null === $processedImage) {
             return;
         }
 
@@ -195,8 +195,13 @@ final readonly class DownscaleImageManager
      */
     private function writeNewProcessedImage(DocumentInterface $document, ImageInterface $image): void
     {
+        $mountPath = $document->getMountPath();
+        if (null === $mountPath) {
+            return;
+        }
+
         $this->documentsStorage->write(
-            $document->getMountPath(),
+            $mountPath,
             $image->encode(new AutoEncoder(quality: 100))->toString()
         );
     }
@@ -247,7 +252,10 @@ final readonly class DownscaleImageManager
      */
     private function overwriteExistingProcessedImage(DocumentInterface $document, ImageInterface $image): DocumentInterface
     {
-        $this->documentsStorage->delete($document->getMountPath());
+        if (null === $mountPath = $document->getMountPath()) {
+            return $document;
+        }
+        $this->documentsStorage->delete($mountPath);
         $this->writeNewProcessedImage($document, $image);
         $this->updateDocumentImageSize($document, $image);
         $this->updateDocumentFileHash($document);
@@ -269,6 +277,8 @@ final readonly class DownscaleImageManager
 
     /**
      * Check if a document is valid for processing.
+     *
+     * @phpstan-assert-if-true DocumentInterface $document
      */
     private function isValidDocument(?DocumentInterface $document): bool
     {

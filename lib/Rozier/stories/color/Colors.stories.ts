@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../../app/assets/css/main.css'
 import { getRootCssVarsByGroups } from './getCssVars'
 
 const meta: Meta = {
-    title: 'Colors',
+    title: 'Integration/Colors',
 }
 
 export default meta
@@ -43,7 +42,7 @@ export const Colors: Story = {
             .join('')
 
         return `
-            <div style="color: black;" class="story-container">
+            <div style="color: black; max-width: 1000px; margin-inline: auto;">
                 ${colorGroupNodes}
             </div>
         `

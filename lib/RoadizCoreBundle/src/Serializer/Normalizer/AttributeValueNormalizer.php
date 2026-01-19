@@ -24,13 +24,13 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
 
             $normalized['type'] = $data->getType();
-            $normalized['code'] = $data->getAttribute()->getCode();
-            $normalized['color'] = $data->getAttribute()->getColor();
-            $normalized['weight'] = $data->getAttribute()->getWeight();
+            $normalized['code'] = $data->getAttribute()?->getCode();
+            $normalized['color'] = $data->getAttribute()?->getColor();
+            $normalized['weight'] = $data->getAttribute()?->getWeight();
 
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
                 $translatedData = $data->getAttributeValueTranslation($context['translation']);
-                $normalized['label'] = $data->getAttribute()->getLabelOrCode($context['translation']);
+                $normalized['label'] = $data->getAttribute()?->getLabelOrCode($context['translation']);
                 if (
                     $translatedData instanceof AttributeValueTranslationInterface
                     && null !== $translatedData->getValue()
@@ -48,7 +48,10 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
             if (\in_array('attribute_documents', $serializationGroups, true)) {
                 $documentsContext = $context;
                 $documentsContext['groups'] = ['document_display'];
-                $normalized['documents'] = array_map(fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext), $data->getAttribute()->getDocuments()->toArray());
+                $normalized['documents'] = array_map(
+                    fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext),
+                    $data->getAttribute()?->getDocuments()->toArray() ?? []
+                );
             }
             $this->stopwatch->stop('normalizeAttributeValue');
         }

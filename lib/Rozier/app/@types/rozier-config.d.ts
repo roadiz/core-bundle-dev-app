@@ -98,44 +98,43 @@ export interface RozierConfig {
         }
     }
     routes?: {
-        ping?: string
-        splashRequest?: string
-        loginPage?: string
-        nodeAjaxEdit?: string
-        tagAjaxEdit?: string
-        folderAjaxEdit?: string
-        nodeTypesFieldAjaxList?: string
-        customFormsFieldAjaxEdit?: string
-        documentsUploadPage?: string
+        ajaxSessionMessages?: string
+        attributeValuePositionAjax?: string
+        customFormFieldPositionAjax?: string
+        customFormsAjaxByArray?: string
+        customFormsAjaxExplorer?: string
+        documentsAjaxByArray?: string
+        documentsAjaxExplorer?: string
         documentsBulkDeletePage?: string
         documentsBulkDownloadPage?: string
-        documentsAjaxExplorer?: string
-        documentsAjaxByArray?: string
-        customFormsAjaxByArray?: string
+        documentsUploadPage?: string
+        foldersAjaxExplorer?: string
+        foldersAjaxSearch?: string
+        foldersPositionAjax?: string
+        foldersTreeAjax?: string
+        joinsAjaxByArray?: string
+        joinsAjaxExplorer?: string
+        loginPage?: string
         nodeTypesAjaxByArray?: string
         nodeTypesAjaxExplorer?: string
-        joinsAjaxByArray?: string
         nodesAjaxByArray?: string
-        tagsAjaxExplorer?: string
-        tagsAjaxByArray?: string
-        tagsAjaxExplorerList?: string
-        tagsAjaxCreate?: string
-        foldersAjaxExplorer?: string
         nodesAjaxExplorer?: string
-        joinsAjaxExplorer?: string
-        providerAjaxExplorer?: string
-        providerAjaxByArray?: string
-        customFormsAjaxExplorer?: string
-        searchAjax?: string
+        nodesGenerateAndAddNodeAction?: string
+        nodesPositionAjax?: string
         nodesStatusesAjax?: string
         nodesTreeAjax?: string
-        tagsTreeAjax?: string
-        foldersTreeAjax?: string
-        nodesQuickAddAjax?: string
+        ping?: string
+        providerAjaxByArray?: string
+        providerAjaxExplorer?: string
+        searchAjax?: string
+        splashRequest?: string
         tagAjaxSearch?: string
-        foldersAjaxSearch?: string
-        ajaxSessionMessages?: string
-        attributeValueAjaxEdit?: string
+        tagPositionAjax?: string
+        tagsAjaxByArray?: string
+        tagsAjaxCreate?: string
+        tagsAjaxExplorer?: string
+        tagsAjaxExplorerList?: string
+        tagsTreeAjax?: string
     }
 }
 

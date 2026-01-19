@@ -55,7 +55,7 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
     private function getParentsIds(?Node $parent): \Generator
     {
         while (null !== $parent) {
-            yield $parent->getId();
+            yield $parent->getId() ?? throw new \RuntimeException('Parent node has no ID.');
             $parent = $parent->getParent();
         }
     }

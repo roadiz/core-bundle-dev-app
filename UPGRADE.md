@@ -2,9 +2,22 @@
 
 ## ⚠ Breaking changes
 
+- NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
 - Removed `Node::sterile` property and `Node::isSterile()` method.
 - Removed deprecated `Node` status constants in favor of `NodeStatus` enum
 - Custom forms and contact form now return a constraint violation list in JSON format: `roadiz_core.useConstraintViolationList: true`. This requires to configure `roadiz_core.customFormPostOperationName` with your custom form operation name if you want to use this feature.
+- Interface **setter** methods now return `static` instead of `self` to allow proper fluent interface in subclasses. Make sure to update your class methods signatures if you implement any of the following interfaces:
+  - AttributeValueInterface
+  - AttributeValueTranslationInterface
+  - BlocksAwareWebResponseInterface
+  - ContextualizedDocumentInterface
+  - DateTimedInterface
+  - EntityListManagerInterface
+  - LeafInterface
+  - PositionedInterface
+  - RealmsAwareWebResponseInterface
+- Removed obsolete `roadiz/fonts-bundle`
+- Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
 
 # Upgrade to 2.6
 

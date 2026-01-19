@@ -21,9 +21,9 @@
                   action="#"
                   method="post"
                   enctype="multipart/form-data">
-                  <rz-file-upload 
+                  <rz-file-upload
                     {% if folder.id %}
-                        url="{{ path('documentsUploadPage', {_format: 'json'}) ~ '/' ~ folder.id }}"
+                        url="{{ path('documentsUploadPage', {_format: 'json', folderId: folder.id}) }}"
                         style="--rz-accent-color: {{ folder.color }};"
                     {% endif %}
                   >

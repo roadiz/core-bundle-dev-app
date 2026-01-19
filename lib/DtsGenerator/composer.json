@@ -3,8 +3,8 @@
     "description": "Roadiz sub-package which generates Typescript interfaces skeleton based on your schema",
     "type": "library",
     "require": {
-        "roadiz/nodetype-contracts": "^3.0.0",
-        "symfony/http-foundation": "7.3.*"
+        "roadiz/nodetype-contracts": "^3.1.1",
+        "symfony/http-foundation": "7.4.*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.5.3",

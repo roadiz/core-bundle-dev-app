@@ -26,6 +26,10 @@ final readonly class WebResponseDecorator implements OpenApiFactoryInterface
 
         $operation = $pathItem->getGet();
 
+        if (null === $operation) {
+            return $openApi;
+        }
+
         $openApi->getPaths()->addPath('/api/web_response_by_path', $pathItem->withGet(
             $operation->withParameters([
                 // override completely parameters

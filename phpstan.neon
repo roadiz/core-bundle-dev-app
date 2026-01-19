@@ -1,5 +1,5 @@
 parameters:
-    level: 7
+    level: 8
     paths:
         - lib/DocGenerator/src
         - lib/Documents/src
@@ -11,7 +11,6 @@ parameters:
         - lib/OpenId/src
         - lib/Random/src
         - lib/RoadizCoreBundle/src
-        - lib/RoadizFontBundle/src
         - lib/RoadizRozierBundle/src
         - lib/RoadizUserBundle/src
         - lib/RoadizTwoFactorBundle/src
@@ -39,6 +38,8 @@ parameters:
         - '#does not have a field named \$node\.id#'
         - '#does not have a field named \$node\.parent#'
         - '#does not have a field named \$translation#'
+        # False positive on repeatable attributes
+        - '#Attribute class ([a-zA-Z\\\:\$]+) is not repeatable but is already present above the (class|property|method|parameter or property)\.#'
         # PHPStan Doctrine does not support ResolveTargetEntityListener
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>?\|null but database expects ([a-zA-Z\\\&\>\<]+)\|null#'
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>? but database expects ([a-zA-Z\\\&\>\<]+)#'

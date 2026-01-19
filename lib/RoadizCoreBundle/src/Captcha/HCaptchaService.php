@@ -17,7 +17,7 @@ final readonly class HCaptchaService implements CaptchaServiceInterface
         protected ?string $publicKey,
         #[\SensitiveParameter]
         protected ?string $privateKey,
-        protected ?string $verifyUrl = 'https://api.hcaptcha.com/siteverify',
+        protected string $verifyUrl = 'https://api.hcaptcha.com/siteverify',
     ) {
     }
 

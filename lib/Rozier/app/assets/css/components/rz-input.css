@@ -1,0 +1,190 @@
+.rz-input:not(:where([type="checkbox"], [type="radio"], [type="range"], [type="file"])) {
+	border: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));
+	border-radius: var(--radius-xs, 6px);
+	padding: var(--rz-input-padding, 11px 12px 10px 12px);
+	background-color: var(--form-basic-bg, #F8F8F8);
+	transition: border-color 0.2s, color 0.2s;
+	outline: none;
+	color: var(--rz-input-color, var(--form-basic-input-text, #383838));
+
+	font-family: var(--font-family-os-text);
+	font-size: var(--text-form-input-text-font-size);
+	line-height: var(--text-form-input-text-line-height);
+	letter-spacing: var(--text-form-input-text-letter-spacing);
+	font-weight: var(--text-form-input-text-font-weight);
+
+	&::placeholder {
+		font-family: var(--font-family-os-text);
+		font-size: var(--text-form-placeholder-font-size);
+		line-height: var(--text-form-placeholder-line-height);
+		letter-spacing: var(--text-form-placeholder-letter-spacing);
+		font-weight: var(--text-form-placeholder-font-weight);
+		color: var(--form-basic-placeholder, #9A9A9A);
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			--rz-input-border-color: var(--form-basic-border-hover, #383838);
+		}
+	}
+}
+
+.rz-input:focus-visible,
+.rz-input--focus {
+	--rz-input-border-color: var(--form-basic-border-hover, #383838) !important;
+}
+
+/* Style updated afterward in Figma, now it is the same as default state*/
+/* .rz-input:not(:placeholder-shown)[value],
+.rz-input--filled {
+	--rz-input-border-color: var(--form-basic-border-focus, #9A9A9A);
+} */
+
+.rz-input:not(:placeholder-shown):not(:focus-visible):invalid,
+.rz-input--error {
+	--rz-input-color: var(--status-error, #E54457);
+	--rz-input-border-color: var(--status-error, #E54457);
+}
+
+.rz-input[type="radio"],
+.rz-input[type="checkbox"] {
+	appearance: none;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	background-color: var(--form-checkbox-radio-bg, #FFF);
+	margin: 0;
+	border-radius: var(--radius-xs, 6px);
+	color: var(--form-checkbox-radio-content, #18191B);
+	transition: background-color 0.2s;
+
+	&::before {
+		content: '';
+		display: inline-block;
+		width: 18px;
+		height: 18px;
+		background-color: currentColor;
+		-webkit-mask-image: var(--svg);
+		mask-image: var(--svg);
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-size: 100% 100%;
+		mask-size: 100% 100%;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			background-color: var(--form-checkbox-radio-bg-hover, #F2F2F2);
+		}
+	}
+}
+
+.rz-input[type="checkbox"] {
+	--svg: url('assets/img/icons/ri/checkbox-blank-line.svg');
+
+	&:checked{
+		--svg: url('assets/img/icons/ri/checkbox-line.svg');
+	}
+}
+
+.rz-input[type="radio"] {
+	--svg: url('assets/img/icons/ri/checkbox-blank-circle-line.svg');
+
+	&:checked{
+		--svg: url('assets/img/icons/ri/radio-button-line.svg');
+	}
+}
+
+.rz-input[type="color"] {
+	--rz-input-padding: var(--radius-xs, 6px);
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	column-gap: var(--radius-xs, 6px);
+	min-width: fit-content;
+	box-sizing: content-box;
+	height: 24px;
+
+	&::after {
+		content: attr(value);
+		white-space: pre;
+		min-width: 7ch;
+		display: inline;
+		color: var(--form-basic-placeholder, #9A9A9A);
+		font-family: var(--font-family-os-text);
+		font-size: var(--text-form-placeholder-font-size);
+		line-height: var(--text-form-placeholder-line-height);
+		letter-spacing: var(--text-form-placeholder-letter-spacing);
+		font-weight: var(--text-form-placeholder-font-weight);
+		margin-right: var(--spacing-4xs, 8px);
+	}
+
+	/*
+	Show placeholder attribute or static fallback if no value is set
+	Use attr(value, attr(placeholder, '#000000')) not working on safari
+	*/
+	&:not([value])[placeholder]::after {
+		content: attr(placeholder)
+	}
+
+	&:not([value]):not([placeholder])::after {
+		content: '#000000';
+	}
+
+	&[value]::after {
+		color: var(--form-basic-input-text, #383838);
+	}
+
+	&::-webkit-color-swatch,
+	&::-webkit-color-swatch-wrapper {
+		height: 24px;
+		width: 24px;
+		padding: 0;
+		border: none;
+		border-radius: 3px;
+		display: inline-block;
+		line-height: 0;
+	}
+}
+
+.rz-input[type="file"] {
+	font-family: var(--font-family-os-text);
+	font-size: var(--text-form-placeholder-font-size);
+	line-height: var(--text-form-placeholder-line-height);
+	letter-spacing: var(--text-form-placeholder-letter-spacing);
+	font-weight: var(--text-form-placeholder-font-weight);
+
+	&::file-selector-button {
+		border: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));
+		border-radius: var(--radius-xs, 6px);
+		padding: var(--rz-input-padding, 11px 12px 10px 12px);
+		background-color: var(--form-basic-bg, #F8F8F8);
+		margin-right: 8px;
+		cursor: pointer;
+		transition: border-color 0.2s;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			--rz-input-border-color: var(--form-basic-border-hover, #383838);
+		}
+	}
+}
+
+.rz-input[type="search"] {
+	--rz-input-padding: 11px 12px 10px calc(8px + 16px + 6px);
+
+	/* Can't use pseudo element in input[type="search"] */
+	background: url("assets/img/icons/ri/search-line.svg") no-repeat center left 8px;
+
+	&::-webkit-search-cancel-button {
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		background: url("assets/img/icons/ri/close-line.svg") no-repeat center right;
+	}
+}

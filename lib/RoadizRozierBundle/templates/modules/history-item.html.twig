@@ -22,6 +22,7 @@
                 {% set userPath = '#' %}
             {% endif %}
             <a href="{{ userPath }}">
+                {# Still use log user picture url, in the case when user does not exist anymore #}
                 {% if log.additionalData.user_picture_url %}
                     <img width="60"
                          height="60"
@@ -50,22 +51,29 @@
             {% if log.additionalData.entity_title %}
                 <div class="history-log-source table-cell">
                     {% set entityPath = log_entity_edit_path(log) %}
-                    {% if entityPath %}
+                    {%- if entityPath -%}
                     <a href="{{ entityPath }}">
-                    {% endif %}
-                        {% set thumbnail = log.additionalData.entity_thumbnail_src %}
-                        {% if thumbnail %}
-                            <figure title="{{ log.additionalData.entity_title }}" data-uk-tooltip="{animation:true}" >
-                                <img src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
-                            </figure>
-                        {% else %}
-                            <span class="no-thumb"
-                                  title="{{ log.additionalData.entity_title }}"
-                                  data-uk-tooltip="{animation:true}"></span>
-                        {% endif %}
-                    {% if entityPath %}
+                    {%- endif -%}
+                    {%- set thumbnail = log.additionalData.entity_thumbnail_src -%}
+                    {%- if thumbnail -%}
+                        <figure title="{{ log.additionalData.entity_title }}" data-uk-tooltip="{animation:true}" >
+                            <img loading="lazy" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
+                        </figure>
+                    {%- elseif log.entityClass and log.entityId -%}
+                        <rz-entity-thumbnail
+                            size="medium"
+                            title="{{ log.additionalData.entity_title }}"
+                            entity-class="{{ log.entityClass }}"
+                            entity-id="{{ log.entityId }}"
+                        ></rz-entity-thumbnail>
+                    {%- else -%}
+                        <span class="no-thumb"
+                              title="{{ log.additionalData.entity_title }}"
+                              data-uk-tooltip="{animation:true}"></span>
+                    {%- endif -%}
+                    {%- if entityPath -%}
                     </a>
-                    {% endif %}
+                    {%- endif -%}
                 </div>
             {% endif %}
             <div class="table-cell">

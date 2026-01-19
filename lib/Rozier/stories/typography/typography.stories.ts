@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import '../../app/assets/css/text.css'
 
 type nodeAttribute = {
     tag: string
@@ -222,7 +221,7 @@ function elementRenderer(attribute: nodeAttribute) {
 export const Primary: Story = {
     render: () => {
         const container = document.createElement('div')
-        container.classList.add('story-container')
+        container.style = 'max-width: 1000px; margin-inline: auto;'
 
         Object.entries(nodeList).forEach((entry) => {
             const nodeData = entry[1]

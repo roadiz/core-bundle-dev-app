@@ -10,6 +10,7 @@ use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Printer;
 use Nette\PhpGenerator\PsrPrinter;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
@@ -40,6 +41,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         private readonly NodeTypeInterface $nodeType,
         private readonly NodeTypeResolverInterface $nodeTypeResolver,
         private readonly DefaultValuesResolverInterface $defaultValuesResolver,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         array $options = [],
     ) {
         $resolver = new OptionsResolver();
@@ -49,7 +51,11 @@ final class EntityGenerator implements EntityGeneratorInterface
         $this->options = $resolver->resolve($options);
 
         foreach ($this->nodeType->getFields() as $field) {
-            $this->fieldGenerators[] = $this->getFieldGenerator($field);
+            $generator = $this->getFieldGenerator($field);
+            if (null === $generator) {
+                continue;
+            }
+            $this->fieldGenerators[] = $generator;
         }
         $this->fieldGenerators = array_filter($this->fieldGenerators);
         $this->printer = new PsrPrinter();
@@ -72,7 +78,6 @@ final class EntityGenerator implements EntityGeneratorInterface
             'custom_form_class',
             'custom_form_proxy_class',
             'repository_class',
-            'namespace',
             'use_native_json',
             'use_api_platform_filters',
             'use_document_dto',
@@ -85,7 +90,6 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setAllowedTypes('custom_form_class', 'string');
         $resolver->setAllowedTypes('custom_form_proxy_class', 'string');
         $resolver->setAllowedTypes('repository_class', 'string');
-        $resolver->setAllowedTypes('namespace', 'string');
         $resolver->setAllowedTypes('use_native_json', 'bool');
         $resolver->setAllowedTypes('use_api_platform_filters', 'bool');
         $resolver->setAllowedTypes('use_document_dto', 'bool');
@@ -102,7 +106,6 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setNormalizer('custom_form_class', $normalizeClassName);
         $resolver->setNormalizer('custom_form_proxy_class', $normalizeClassName);
         $resolver->setNormalizer('repository_class', $normalizeClassName);
-        $resolver->setNormalizer('namespace', $normalizeClassName);
     }
 
     private function getFieldGenerator(NodeTypeFieldInterface $field): ?AbstractFieldGenerator
@@ -138,7 +141,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             return new ManyToManyFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isNodes()) {
-            return new NodesFieldGenerator($this->nodeTypeResolver, $field, $this->defaultValuesResolver, $this->options);
+            return new NodesFieldGenerator($this->nodeTypeResolver, $this->nodeTypeClassLocator, $field, $this->defaultValuesResolver, $this->options);
         }
         if (!$field->isVirtual()) {
             return new NonVirtualFieldGenerator($field, $this->defaultValuesResolver, $this->options);
@@ -156,7 +159,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $file->addComment('IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.');
 
         $namespace = $file
-            ->addNamespace(trim((string) $this->options['namespace'], '\\'))
+            ->addNamespace(trim($this->nodeTypeClassLocator->getClassNamespace(), '\\'))
             ->addUse(\ApiPlatform\Metadata\ApiFilter::class)
             ->addUse(\ApiPlatform\Metadata\ApiProperty::class)
             ->addUse(\ApiPlatform\Serializer\Filter\PropertyFilter::class)
@@ -172,7 +175,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addUse('Symfony\Component\Validator\Constraints', 'Assert')
         ;
 
-        $classType = $namespace->addClass($this->nodeType->getSourceEntityClassName())
+        $classType = $namespace->addClass($this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType))
             ->setExtends($this->options['parent_class'])
             ->addComment($this->nodeType->getName().' node-source entity.')
             ->addComment($this->nodeType->getDescription() ?? '');
@@ -321,7 +324,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $classType->addMethod('__toString')
             ->setReturnType('string')
             ->addAttribute(\Override::class)
-            ->setBody('return \'['.$this->nodeType->getSourceEntityClassName().'] \' . parent::__toString();')
+            ->setBody('return \'['.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType).'] \' . parent::__toString();')
         ;
 
         return $this;

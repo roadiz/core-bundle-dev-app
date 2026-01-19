@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Api\TreeWalker;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Cache\CacheItemPoolInterface;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use RZ\Roadiz\CoreBundle\NodeType\NodeTypeResolver;
@@ -25,6 +26,7 @@ final readonly class NodeSourceWalkerContextFactory implements WalkerContextFact
         private CacheItemPoolInterface $cacheAdapter,
         private NodeTypeResolver $nodeTypeResolver,
         private PreviewResolverInterface $previewResolver,
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
     }
 
@@ -39,7 +41,8 @@ final readonly class NodeSourceWalkerContextFactory implements WalkerContextFact
             $this->managerRegistry,
             $this->cacheAdapter,
             $this->nodeTypeResolver,
-            $this->previewResolver
+            $this->previewResolver,
+            $this->nodeTypeClassLocator,
         );
     }
 }

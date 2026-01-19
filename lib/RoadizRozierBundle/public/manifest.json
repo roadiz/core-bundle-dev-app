@@ -76,7 +76,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-BBfVhLSu.js",
+    "file": "NodeSourceEditPage-CtbNjRmz.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -87,13 +87,22 @@
     ]
   },
   "app/custom-elements/NodeTreeContextualMenu.js": {
-    "file": "NodeTreeContextualMenu-ByIxLf_N.js",
+    "file": "NodeTreeContextualMenu-Bcd4AsCr.js",
     "name": "NodeTreeContextualMenu",
     "src": "app/custom-elements/NodeTreeContextualMenu.js",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzEntityThumbnail.ts": {
+    "file": "RzEntityThumbnail-ChGiX1nH.js",
+    "name": "RzEntityThumbnail",
+    "src": "app/custom-elements/RzEntityThumbnail.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js"
+    ]
+  },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-DBRHuJHf.js",
+    "file": "RzFileUpload-DkceYfu3.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -102,6 +111,12 @@
       "app/main.js",
       "_vue-BqDQd3Vv.js"
     ]
+  },
+  "app/custom-elements/RzInput.ts": {
+    "file": "RzInput-Xmz3Fd5k.js",
+    "name": "RzInput",
+    "src": "app/custom-elements/RzInput.ts",
+    "isDynamicEntry": true
   },
   "app/custom-elements/RzInputColor.js": {
     "file": "RzInputColor-DfOgbOC9.js",
@@ -115,6 +130,24 @@
     "src": "app/custom-elements/RzSaveButton.js",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzSelect.ts": {
+    "file": "RzSelect-rM-RoCWg.js",
+    "name": "RzSelect",
+    "src": "app/custom-elements/RzSelect.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzSwitch.ts": {
+    "file": "RzSwitch-VhhKfMCc.js",
+    "name": "RzSwitch",
+    "src": "app/custom-elements/RzSwitch.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzWorkspaceItemButton.ts": {
+    "file": "RzWorkspaceItemButton-D7WOOsdI.js",
+    "name": "RzWorkspaceItemButton",
+    "src": "app/custom-elements/RzWorkspaceItemButton.ts",
+    "isDynamicEntry": true
+  },
   "app/custom-elements/TagAutocomplete.js": {
     "file": "TagAutocomplete-DDko2VyZ.js",
     "name": "TagAutocomplete",
@@ -122,7 +155,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-CLet85pq.js",
+    "file": "TagEditPage-BAfWdvyd.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -133,7 +166,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-1j0VXzuG.js",
+    "file": "main-DJSGvSWY.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -149,18 +182,23 @@
       "app/custom-elements/MainTrees.js",
       "app/custom-elements/NodeSourceEditPage.js",
       "app/custom-elements/NodeTreeContextualMenu.js",
+      "app/custom-elements/RzEntityThumbnail.ts",
       "app/custom-elements/RzFileUpload.ts",
+      "app/custom-elements/RzInput.ts",
       "app/custom-elements/RzInputColor.js",
       "app/custom-elements/RzSaveButton.js",
+      "app/custom-elements/RzSelect.ts",
+      "app/custom-elements/RzSwitch.ts",
+      "app/custom-elements/RzWorkspaceItemButton.ts",
       "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "main-tVJEtgqt.css"
+      "main-CXP0G_nu.css"
     ]
   },
   "app/shared.js": {
-    "file": "shared-SagsygOs.js",
+    "file": "shared-UCLy_iMT.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -168,7 +206,7 @@
       "_jquery-Cs7-jZ1a.js"
     ],
     "css": [
-      "shared-OVSkAK7f.css"
+      "shared-Dx6DglSP.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",

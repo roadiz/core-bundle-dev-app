@@ -10,7 +10,7 @@ use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-final class DocumentDto implements BaseDocumentInterface
+final class DocumentDto implements \Stringable, BaseDocumentInterface
 {
     use BaseDocumentTrait;
 
@@ -79,7 +79,7 @@ final class DocumentDto implements BaseDocumentInterface
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getImageAverageColor(): string
     {
-        return $this->imageAverageColor;
+        return $this->imageAverageColor ?? '#ffffff';
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]

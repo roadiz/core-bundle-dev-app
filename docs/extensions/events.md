@@ -92,6 +92,7 @@ Each realm event object contains the current `RealmNode` data transfer object. Y
 - `RZ\Roadiz\CoreBundle\Event\User\UserJoinedGroupEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserLeavedGroupEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserPasswordChangedEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserUsernameChangedEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`
 
 Each folder event object contains the current `User` entity. You will get it using `$event->getUser()`.

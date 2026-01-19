@@ -48,6 +48,9 @@ final readonly class TagFactory
         }
 
         $manager = $this->managerRegistry->getManagerForClass(Tag::class);
+        if (null === $manager) {
+            throw new \RuntimeException('No entity manager found for Tag class.');
+        }
 
         $tag = new Tag();
         $tag->setTagName($name);

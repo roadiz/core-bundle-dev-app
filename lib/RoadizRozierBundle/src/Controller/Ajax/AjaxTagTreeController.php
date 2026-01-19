@@ -10,6 +10,7 @@ use RZ\Roadiz\RozierBundle\Widget\TagTreeWidget;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -26,6 +27,12 @@ final class AjaxTagTreeController extends AbstractAjaxController
         parent::__construct($managerRegistry, $serializer, $translator);
     }
 
+    #[Route(
+        path: '/rz-admin/ajax/tags/tree',
+        name: 'tagsTreeAjax',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function getTreeAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');

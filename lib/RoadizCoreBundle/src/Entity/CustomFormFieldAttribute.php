@@ -63,6 +63,10 @@ class CustomFormFieldAttribute implements \Stringable, PersistableInterface
      */
     public function getValue(): ?string
     {
+        if (null === $this->value) {
+            return null;
+        }
+
         if ($this->getCustomFormField()->isDocuments()) {
             return implode(', ', $this->getDocuments()->map(fn (Document $document) => $document->getRelativePath())->toArray());
         }
@@ -79,7 +83,7 @@ class CustomFormFieldAttribute implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setValue(?string $value): CustomFormFieldAttribute
+    public function setValue(?string $value): static
     {
         $this->value = $value;
 

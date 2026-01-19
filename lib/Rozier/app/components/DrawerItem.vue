@@ -15,7 +15,7 @@
             ></figure>
             <figure class="thumbnail" v-else-if="thumbnailUrl && isThumbnailProcessable">
                 <picture>
-                    <source :srcset="thumbnailUrl + '.webp'" type="image/webp" />
+                    <source v-if="!thumbnailUrl.endsWith('.webp')" :srcset="thumbnailUrl + '.webp'" type="image/webp" />
                     <img :src="thumbnailUrl" :alt="name" />
                 </picture>
             </figure>

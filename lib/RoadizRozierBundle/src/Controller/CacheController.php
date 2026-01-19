@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -30,6 +31,11 @@ final class CacheController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/rz-admin/cache/delete-doctrine-cache',
+        name: 'deleteDoctrineCache',
+        methods: ['GET', 'POST'],
+    )]
     public function deleteDoctrineCache(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE');
@@ -63,6 +69,11 @@ final class CacheController extends AbstractController
         ]);
     }
 
+    #[Route(
+        path: '/rz-admin/cache/delete-assets-cache',
+        name: 'deleteAssetsCache',
+        methods: ['GET', 'POST'],
+    )]
     public function deleteAssetsCache(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE');

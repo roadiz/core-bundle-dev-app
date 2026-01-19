@@ -30,7 +30,7 @@
         "scheb/2fa-google-authenticator": "^7.5",
         "scheb/2fa-totp": "^7.5",
         "scheb/2fa-trusted-device": "^7.5",
-        "symfony/framework-bundle": "7.3.*"
+        "symfony/framework-bundle": "7.4.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
@@ -42,7 +42,7 @@
         "roadiz/entity-generator": "2.7.x-dev",
         "roadiz/jwt": "2.7.x-dev",
         "roadiz/random": "2.7.x-dev",
-        "symfony/stopwatch": "7.3.*"
+        "symfony/stopwatch": "7.4.*"
     },
     "config": {
         "optimize-autoloader": true,

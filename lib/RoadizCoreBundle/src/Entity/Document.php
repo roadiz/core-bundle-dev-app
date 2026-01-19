@@ -75,7 +75,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]),
     ApiFilter(CopyrightValidFilter::class)
 ]
-class Document implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface, DateTimedInterface, PersistableInterface
+class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface, DateTimedInterface, PersistableInterface
 {
     use SequentialIdTrait;
     use DateTimedTrait;
@@ -247,7 +247,6 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     private Collection $downscaledDocuments;
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Assert\Length(max: 12)]
     private ?string $folder = null;
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Ignore]

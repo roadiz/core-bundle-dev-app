@@ -2,6 +2,59 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.25...v2.6.26) - 2025-11-21
+
+### Bug Fixes
+
+- **(cache)** fixed autowire syntax for cache clearer - ([cf7fd1f](https://github.com/roadiz/core-bundle-dev-app/commit/cf7fd1fd1f084179134f36f14d26954ae5c72f3a))
+
+## [2.6.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.24...v2.6.25) - 2025-11-20
+
+### Bug Fixes
+
+- **(documents)** Update realIdPattern to capture query strings - ([fbb302a](https://github.com/roadiz/core-bundle-dev-app/commit/fbb302aaf702bd9a6f3b81ecab854e1a23626b10))
+
+## [2.6.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.23...v2.6.24) - 2025-10-31
+
+### Bug Fixes
+
+- **(routes)** update role requirements to include digits - ([e26ba12](https://github.com/roadiz/core-bundle-dev-app/commit/e26ba12314180eeac2eb768eca31168047fa0ba2))
+
+## [2.6.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.22...v2.6.23) - 2025-10-28
+
+### Bug Fixes
+
+- Remove length assertion from folder property - ([2866d03](https://github.com/roadiz/core-bundle-dev-app/commit/2866d031bdd59c8a162eb775252e48d90d2a221d))
+
+## [2.6.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.21...v2.6.22) - 2025-10-27
+
+### Bug Fixes
+
+- **(document-handlers)** implement shared locking mechanism for async operations with Symfony Lock - ([86a884c](https://github.com/roadiz/core-bundle-dev-app/commit/86a884c030b2ef101304823023111be94ddd45b8))
+
+## [2.6.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.20...v2.6.21) - 2025-10-23
+
+### Bug Fixes
+
+- **(AbstractAdminController)** ensure proper access control in edit and delete actions passing subject - ([f35ca6b](https://github.com/roadiz/core-bundle-dev-app/commit/f35ca6b9367acde4583bbdd62130a53868cdbdbd))
+- **(tags)** add default translation to tag retrieval ([#259](https://github.com/roadiz/core-bundle-dev-app/issues/259)) - ([2fdc8fd](https://github.com/roadiz/core-bundle-dev-app/commit/2fdc8fd13f9d17b9d5e1b8ac909f70cb5af75621))
+
+## [2.6.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.19...v2.6.20) - 2025-10-21
+
+### Documentation
+
+- **(deploy)** update branch for deployment trigger - ([4e47172](https://github.com/roadiz/core-bundle-dev-app/commit/4e471721bbe5a640f41b3d0987f2c79f0628be46))
+
+## [2.6.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.18...v2.6.19) - 2025-10-21
+
+### Bug Fixes
+
+- Use order by `nodeTypeName` instead of `nt.name`. The relation doesn't exist anymore. - ([6f2cdbb](https://github.com/roadiz/core-bundle-dev-app/commit/6f2cdbb616afdacddb7fc85940a2c7bd703f1e6f))
+
+### Documentation
+
+- Update index.md with new features grid - ([b57ca98](https://github.com/roadiz/core-bundle-dev-app/commit/b57ca98a2a49e59fc0e5a804625eebb12f06c524))
+
 ## [2.6.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.17...v2.6.18) - 2025-10-09
 
 ### Bug Fixes

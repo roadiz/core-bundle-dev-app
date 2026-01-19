@@ -7,7 +7,13 @@ export default [
     'arrow-drop-right-line',
     'arrow-drop-up-line',
     'arrow-right-s-line',
+    'check-line',
+    'checkbox-blank-line',
+    'checkbox-line',
+    'checkbox-blank-circle-line',
+    'radio-button-line',
     'close-large-line',
     'close-line',
     'computer-line',
+    'search-line',
 ]

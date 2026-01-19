@@ -1,19 +1,8 @@
 <td class="mobile-hidden uk-visible-xlarge">
-    {% if item.pictureUrl and item.pictureUrl != '#' %}
-        <img width="45" height="45"
-             data-uk-tooltip="{animation:true}"
-             title="{{- item.identifier|default(item.username) -}}"
-             class="uk-thumbnail gravatar user-image"
-             src="{{ item.pictureUrl }}"
-             alt="{{ item.identifier }}" />
-    {% else %}
-        <span
-            data-uk-tooltip="{animation:true}"
-            title="{{- item.identifier|default(item.username) -}}"
-            class="uk-thumbnail gravatar user-image">
-            <i class="uk-icon uk-icon-rz-user"></i>
-        </span>
-    {% endif %}
+    <rz-entity-thumbnail
+        entity-class="RZ\Roadiz\CoreBundle\Entity\User"
+        entity-id="{{ item.id }}"
+    ></rz-entity-thumbnail>
 </td>
 <td>
     {% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
@@ -68,7 +57,7 @@
                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
             {% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
                 <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                   href="{{ path('adminHomePage') }}?_su={{ item.username }}"
+                   href="{{ path('adminHomePage') }}?_su={{ item.username|url_encode }}"
                    title="{% trans %}start.test.user.right{% endtrans %}"
                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-sudo"></i></a>
             {% endif %}

@@ -7,7 +7,11 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default defineConfig([
     {
-        ignores: ['**/vendor/**', '**/*.min.js'],
+        ignores: [
+            '**/vendor/**',
+            '**/*.min.js',
+            './vite-plugins/iconify/collections/*.ts',
+        ],
     },
     {
         files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],

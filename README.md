@@ -14,7 +14,6 @@ This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and 
 - OpenId
 - Random
 - RoadizCoreBundle
-- RoadizFontBundle
 - RoadizRozierBundle
 - RoadizTwoFactorBundle
 - RoadizUserBundle
@@ -95,6 +94,18 @@ After setup, users will be redirected to Authentik for authentication and automa
 
 See how to configure it in [Documention](https://docs.roadiz.io/developer/first-steps/manual_config.html#openid-sso-authentication)
 
+## Create new bundle
+
+If you want to create a new bundle in the monorepo, you need to update deptrac configuration to include your new bundle in the analysis.
+Edit `deptrac.yaml` file and create a new layer for your bundle, then add it to the appropriate rules.
+
+More info about deptrac configuration can be found in [Deptrac documentation](https://deptrac.github.io/deptrac/concepts/).
+
+Then, run deptrac analysis to make sure your new bundle respects the architecture rules.
+```shell
+make check-architecture
+```
+
 ## Run documentation website
 
 ```shell
@@ -124,6 +135,18 @@ Do not forget to build final assets for production before shipping a new Roadiz 
 
 ```shell
 docker compose run --rm node pnpm build
+```
+
+### Without Docker
+
+If you want to run the frontend development server without Docker, follow these steps.
+Make sure you have Node.js installed (with the right version, you can use `n auto`).
+
+```shell
+cd lib/Rozier
+corepack install
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 ## Documentation development

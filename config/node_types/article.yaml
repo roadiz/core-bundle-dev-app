@@ -14,6 +14,11 @@ fields:
         label: 'Your content'
         type: markdown
     -
+        name: images
+        universal: true
+        label: Images
+        type: documents
+    -
         name: realm_b_secret
         serializationGroups:
             - realm_b

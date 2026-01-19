@@ -1,14 +1,14 @@
 ARG UID=1000
 ARG GID=${UID}
 
-ARG PHP_VERSION=8.4.12
-ARG VARNISH_VERSION=7.6.1
-ARG NGINX_VERSION=1.27.5
-ARG MYSQL_VERSION=8.0.42
-ARG MARIADB_VERSION=10.11.9
-ARG COMPOSER_VERSION=2.8.1
+ARG PHP_VERSION=8.5.0
+ARG MYSQL_VERSION=8.4.7
+ARG NGINX_VERSION=1.28.0
+ARG MARIADB_VERSION=11.8.3
+ARG VARNISH_VERSION=7.7.3
+ARG COMPOSER_VERSION=2.9.2
 ARG NODE_VERSION=22.19.0
-ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
+ARG PHP_EXTENSION_REDIS_VERSION=6.3.0
 
 ###########
 # MySQL   #
@@ -201,6 +201,26 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY --link --chmod=755 docker/frankenphp/docker-php-entrypoint-dev /usr/local/bin/docker-php-entrypoint
 COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/zz-app.ini
 COPY --link docker/frankenphp/Caddyfile.dev /etc/frankenphp/Caddyfile
+
+CMD ["--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]
+
+USER php
+
+VOLUME /app
+
+#######################
+# Php - franken - Prod #
+#######################
+
+FROM php-franken AS php-prod-franken
+
+ENV XDEBUG_MODE=off
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY --link --chmod=755 docker/frankenphp/docker-php-entrypoint-dev /usr/local/bin/docker-php-entrypoint
+COPY --link docker/frankenphp/conf.d/app.prod.ini ${PHP_INI_DIR}/conf.d/zz-app.ini
+COPY --link docker/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 
 CMD ["--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]
 

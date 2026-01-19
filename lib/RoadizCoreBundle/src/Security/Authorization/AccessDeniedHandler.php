@@ -35,7 +35,7 @@ final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
     #[\Override]
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
-        $this->logger->error('User tried to access: '.$request->getUri());
+        $this->logger?->error('User tried to access: '.$request->getUri());
 
         $returnJson = $request->isXmlHttpRequest()
             || 'json' === $request->getRequestFormat()

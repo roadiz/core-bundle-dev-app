@@ -14,6 +14,7 @@ final class UserVoter extends Voter
 {
     public const string EDIT = 'USER_EDIT';
     public const string EDIT_DETAIL = 'USER_EDIT_DETAIL';
+    public const string VIEW_HISTORY = 'USER_VIEW_HISTORY';
 
     public function __construct(
         private readonly AccessDecisionManagerInterface $accessDecisionManager,
@@ -25,7 +26,7 @@ final class UserVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::EDIT_DETAIL], true)
+        return in_array($attribute, [self::EDIT, self::EDIT_DETAIL, self::VIEW_HISTORY], true)
             && $subject instanceof UserInterface;
     }
 
@@ -35,6 +36,7 @@ final class UserVoter extends Voter
         return in_array($attribute, [
             self::EDIT,
             self::EDIT_DETAIL,
+            self::VIEW_HISTORY,
         ], true);
     }
 
@@ -69,15 +71,38 @@ final class UserVoter extends Voter
 
         $isOwnUser = $this->isOwnUser($subject, $token);
         if ($isOwnUser) {
-            $vote?->addReason('User is acting on own user account.');
+            $vote?->addReason('User is acting on its own account.');
         }
 
         return match ($attribute) {
             self::EDIT => $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS']) || $isOwnUser,
-            self::EDIT_DETAIL => ($this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS']) || $isOwnUser)
-                && $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS_DETAIL']),
+            self::VIEW_HISTORY => $this->canViewHistory($isOwnUser, $token, $vote),
+            self::EDIT_DETAIL => $this->canEditDetail($isOwnUser, $token, $vote),
             default => false,
         };
+    }
+
+    protected function canEditDetail(bool $isOwnUser, TokenInterface $token, ?Vote $vote = null): bool
+    {
+        if (!$this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS_DETAIL'])) {
+            $vote?->addReason('Users must have ROLE_ACCESS_USERS_DETAIL to edit details, even if it is their own account.');
+
+            return false;
+        }
+
+        return $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS']) || $isOwnUser;
+    }
+
+    protected function canViewHistory(bool $isOwnUser, TokenInterface $token, ?Vote $vote = null): bool
+    {
+        if ($isOwnUser) {
+            $vote?->addReason('Users can see their own history.');
+
+            return true;
+        }
+
+        return $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_LOGS'])
+            && $this->accessDecisionManager->decide($token, ['ROLE_ACCESS_USERS']);
     }
 
     protected function isSubjectUserAdmin(UserInterface $subject): bool

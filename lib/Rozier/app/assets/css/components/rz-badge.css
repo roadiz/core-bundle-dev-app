@@ -29,22 +29,22 @@
 	--rz-badge-label-padding-inline: 4px;
 }
 
-.rz-badge--status-information {
+.rz-badge--information {
 	--rz-badge-background-color: var(--status-information-container, #EAE6FF);
 	--rz-badge-border-color: var(--status-information, #755CE3);
 	--rz-badge-color: var(--status-information-on-container, #3219A0);
 }
-.rz-badge--status-success {
+.rz-badge--success {
 	--rz-badge-background-color: var(--status-success-container, #D5FFEC);
 	--rz-badge-border-color: var(--status-success, #16A867);
 	--rz-badge-color: var(--status-success-on-container, #298059);
 }
-.rz-badge--status-warning {
+.rz-badge--warning {
 	--rz-badge-background-color: var(--status-warning-container, #FFDACB);
 	--rz-badge-border-color: var(--status-warning, #F4956C);
 	--rz-badge-color: var(--status-warning-on-container, #D35824);
 }
-.rz-badge--status-error {
+.rz-badge--error {
 	--rz-badge-background-color: var(--status-error-container, #FFD3DA);
 	--rz-badge-border-color: var(--status-error, #E54457);
 	--rz-badge-color: var(--status-error-on-container, #A92A3E);

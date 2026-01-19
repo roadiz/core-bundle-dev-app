@@ -2,33 +2,13 @@
     nodeId: item.node.id,
     translationId: item.translation.id,
 }) %}
-{% set mainDocument = first_displayable_image(item) %}
-{% if mainDocument %}
-    <td class="thumbnail mobile-hidden uk-visible-xlarge">
-        <a href="{{ itemEditUrl }}">
-            {% if mainDocument.shortType == 'video' %}
-                {{ mainDocument|display({
-                    'class': 'uk-thumbnail user-image',
-                    'fit': '45x45',
-                    'autoplay': true,
-                    'muted': true,
-                    'playsinline': true,
-                    'loop': true,
-                    'picture': true,
-                }) }}
-            {% else %}
-                {{ mainDocument|display({
-                    'class': 'uk-thumbnail user-image',
-                    'fit': '45x45',
-                    'picture': true,
-                }) }}
-            {% endif %}
-        </a>
-    </td>
-    <td><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
-{% else %}
-    <td colspan="2"><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
-{% endif %}
+<td class="thumbnail mobile-hidden uk-visible-xlarge">
+    <rz-entity-thumbnail
+        entity-class="App\GeneratedEntity\NSArticle"
+        entity-id="{{ item.id }}"
+    ></rz-entity-thumbnail>
+</td>
+<td><a href="{{ itemEditUrl }}">{{- item.title -}}</a></td>
 <td class="uk-visible-xlarge">{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
 <td class="uk-visible-xlarge">{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
 <td class="uk-visible-xlarge">
@@ -58,6 +38,15 @@
         </div>
     {% endif %}
     <div class="uk-button-group">
+        <a class="uk-button uk-button-content uk-button-small preview-url-link"
+           target="_blank"
+           data-uk-tooltip="{animation:true}"
+           title="{% trans %}preview.page{% endtrans %}"
+           href="{{ path('nodesSourcesPreviewRedirect', {
+               'nodeSourceId': item.id,
+           }) }}">
+            <i class="uk-icon-rz-visibility"></i>
+        </a>
         {% if is_granted('EDIT_CONTENT', item) %}
             <a href="{{ itemEditUrl }}"
                data-uk-tooltip="{animation:true}"

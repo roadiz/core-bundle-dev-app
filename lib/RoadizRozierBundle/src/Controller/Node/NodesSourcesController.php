@@ -5,26 +5,22 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
-use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
-use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
-use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
-use RZ\Roadiz\CoreBundle\TwigExtension\JwtExtension;
 use RZ\Roadiz\RozierBundle\Controller\VersionedControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,8 +31,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -50,18 +46,14 @@ final class NodesSourcesController extends AbstractController
 
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly JwtExtension $jwtExtension,
         private readonly FormErrorSerializer $formErrorSerializer,
         private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
         private readonly LogTrail $logTrail,
-        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
-        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
-        private readonly ?string $customPublicScheme,
-        private readonly ?string $customPreviewScheme,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
     }
 
@@ -77,40 +69,49 @@ final class NodesSourcesController extends AbstractController
         return $this->formFactory->createNamedBuilder($name, FormType::class, $data, $options);
     }
 
-    /**
-     * Return an edition form for requested node.
-     */
-    public function editSourceAction(Request $request, int $nodeId, int $translationId): Response
-    {
-        /** @var Translation|null $translation */
-        $translation = $this->translationRepository->find($translationId);
+    #[Route(
+        path: '/rz-admin/nodes/source/edit/{nodeSourceId}',
+        name: 'nodesForwardSourcePage',
+        requirements: [
+            'nodeSourceId' => '[0-9]+',
+        ],
+    )]
+    public function redirectEditSourceAction(
+        Request $request,
+        #[MapEntity(expr: 'repository.find(nodeSourceId)')]
+        NodesSources $nodesSources,
+    ): Response {
+        return $this->redirectToRoute(
+            'nodesEditSourcePage',
+            [
+                'nodeId' => $nodesSources->getNode()->getId(),
+                'translationId' => $nodesSources->getTranslation()->getId(),
+            ]
+        );
+    }
 
-        if (null === $translation) {
-            throw new ResourceNotFoundException('Translation does not exist');
-        }
-        /*
-         * Here we need to directly select nodeSource
-         * if not doctrine will grab a cache tag because of NodeTreeWidget
-         * that is initialized before calling route method.
-         */
-        /** @var Node|null $gNode */
-        $gNode = $this->allStatusesNodeRepository->find($nodeId);
-        if (null === $gNode) {
-            throw new ResourceNotFoundException('Node does not exist');
-        }
-
-        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $gNode);
-
-        /** @var NodesSources|null $source */
-        $source = $this->allStatusesNodesSourcesRepository->findOneBy(['translation' => $translation, 'node' => $gNode]);
-
-        if (null === $source) {
-            throw new ResourceNotFoundException('Node source does not exist');
-        }
-
-        $this->managerRegistry->getManager()->refresh($source);
-
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/source/{translationId}',
+        name: 'nodesEditSourcePage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+        ],
+    )]
+    public function editSourceAction(
+        Request $request,
+        #[MapEntity(
+            // Need to disable status filtering to get node sources in any status because we
+            // use repository findOneBy method which is affected by status filtering.
+            expr: 'repository.setDisplayingAllNodesStatuses(true).findOneBy({"translation": translationId, "node": nodeId})',
+            evictCache: true,
+            message: 'Node source does not exist',
+        )]
+        NodesSources $source,
+    ): Response {
         $node = $source->getNode();
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $source->getNode());
+
         $assignation = [];
         /*
          * Versioning
@@ -129,7 +130,7 @@ final class NodesSourcesController extends AbstractController
             NodeSourceType::class,
             $source,
             [
-                'class' => $nodeType->getSourceEntityFullQualifiedClassName(),
+                'class' => $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType),
                 'nodeType' => $nodeType,
                 'withVirtual' => true,
                 'withTitle' => true,
@@ -150,49 +151,8 @@ final class NodesSourcesController extends AbstractController
                     return $this->getPostUpdateRedirection($source);
                 }
 
-                $jwtToken = $this->jwtExtension->createPreviewJwt();
-
-                if ($this->customPreviewScheme) {
-                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->customPreviewScheme,
-                        'token' => $jwtToken,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } elseif ($this->customPublicScheme) {
-                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->customPublicScheme,
-                        '_preview' => 1,
-                        'token' => $jwtToken,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } else {
-                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        '_preview' => 1,
-                        'token' => $jwtToken,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ]);
-                }
-
-                if ($this->customPublicScheme) {
-                    $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->customPublicScheme,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } else {
-                    $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $source,
-                        NodeRouter::NO_CACHE_PARAMETER => true,
-                    ]);
-                }
-
                 return new JsonResponse([
                     'status' => 'success',
-                    'public_url' => $source->getNode()->isPublished() ? $publicUrl : null,
-                    'preview_url' => $previewUrl,
                     'errors' => [],
                 ], Response::HTTP_OK);
             }
@@ -215,11 +175,11 @@ final class NodesSourcesController extends AbstractController
             }
         }
 
-        $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($gNode);
+        $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($node);
 
         return $this->render('@RoadizRozier/nodes/editSource.html.twig', [
             ...$assignation,
-            'translation' => $translation,
+            'translation' => $source->getTranslation(),
             'node' => $node,
             'source' => $source,
             'form' => $form->createView(),
@@ -233,13 +193,18 @@ final class NodesSourcesController extends AbstractController
      *
      * @throws RuntimeError
      */
-    public function removeAction(Request $request, int $nodeSourceId): Response
-    {
-        /** @var NodesSources|null $ns */
-        $ns = $this->allStatusesNodesSourcesRepository->find($nodeSourceId);
-        if (null === $ns) {
-            throw new ResourceNotFoundException('Node source does not exist');
-        }
+    #[Route(
+        path: '/rz-admin/nodes/source/delete/{nodeSourceId}',
+        name: 'nodesDeleteSourcePage',
+        requirements: [
+            'nodeSourceId' => '[0-9]+',
+        ],
+    )]
+    public function removeAction(
+        Request $request,
+        #[MapEntity(expr: 'repository.find(nodeSourceId)', message: 'Node source does not exist')]
+        NodesSources $ns,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::DELETE, $ns);
         $node = $ns->getNode();
         $manager = $this->managerRegistry->getManager();
@@ -259,7 +224,7 @@ final class NodesSourcesController extends AbstractController
 
         $builder = $this->createFormBuilder()
                         ->add('nodeId', HiddenType::class, [
-                            'data' => $nodeSourceId,
+                            'data' => $ns->getId(),
                             'constraints' => [
                                 new NotNull(),
                                 new NotBlank(),
@@ -325,10 +290,10 @@ final class NodesSourcesController extends AbstractController
     }
 
     #[\Override]
-    protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
+    protected function getPostUpdateRedirection(PersistableInterface $entity): Response
     {
         if (!$entity instanceof NodesSources) {
-            return null;
+            throw new \InvalidArgumentException('Entity must be an instance of NodesSources');
         }
 
         /** @var Translation $translation */

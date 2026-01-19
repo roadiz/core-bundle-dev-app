@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Security\EventSubscriber;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Security\Authenticator\Token\JWTPostAuthenticationToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -25,12 +26,14 @@ final readonly class LoginSuccessEventSubscriber implements EventSubscriberInter
 
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
-        if ('api' === $event->getFirewallName()) {
+        $token = $event->getAuthenticatedToken();
+        if ($token instanceof JWTPostAuthenticationToken) {
             // Do not log every time a JWT is validated (each request)
             return;
         }
+
         $this->logger->info($this->translator->trans('User logged in successfully.'), [
-            'username' => $event->getRequest()->get('_username'),
+            'username' => $token->getUserIdentifier(),
             'ip' => $event->getRequest()->getClientIp(),
             'firewall' => $event->getFirewallName(),
         ]);

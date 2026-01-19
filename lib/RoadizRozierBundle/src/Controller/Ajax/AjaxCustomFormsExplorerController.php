@@ -8,10 +8,17 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 final class AjaxCustomFormsExplorerController extends AbstractAjaxExplorerController
 {
+    #[Route(
+        path: '/rz-admin/ajax/custom-forms/explore',
+        name: 'customFormsAjaxExplorerPage',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
@@ -45,6 +52,12 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxExplorerContro
     /**
      * Get a CustomForm list from an array of id.
      */
+    #[Route(
+        path: '/rz-admin/ajax/custom-forms/list',
+        name: 'customFormsAjaxByArray',
+        methods: ['GET'],
+        format: 'json'
+    )]
     public function listAction(Request $request): Response
     {
         if (!$request->query->has('ids')) {

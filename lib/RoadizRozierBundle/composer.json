@@ -21,7 +21,9 @@
         "php": ">=8.3",
         "roadiz/core-bundle": "2.7.x-dev",
         "roadiz/openid": "2.7.x-dev",
-        "symfony/framework-bundle": "7.3.*",
+        "roadiz/doc-generator": "2.7.x-dev",
+        "roadiz/dts-generator": "2.7.x-dev",
+        "symfony/framework-bundle": "7.4.*",
         "deeplcom/deepl-php": "^1.12"
     },
     "require-dev": {

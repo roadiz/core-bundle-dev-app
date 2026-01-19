@@ -39,7 +39,7 @@ final readonly class GroupNormalizer implements DenormalizerInterface
             $group = new Group();
             $group->setName($name);
             if ($context[self::PERSIST_NEW_ENTITIES] ?? false) {
-                $this->managerRegistry->getManagerForClass(Group::class)->persist($group);
+                $this->managerRegistry->getManagerForClass(Group::class)?->persist($group);
             }
         }
 
