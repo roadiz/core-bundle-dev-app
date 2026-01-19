@@ -108,6 +108,10 @@ class CustomFormController extends AbstractAdminWithBulkController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->managerRegistry->getManagerForClass(CustomForm::class);
+
+            if (null === $entityManager) {
+                throw new \RuntimeException(sprintf('No EntityManager found for class %s.', CustomForm::class));
+            }
             /*
              * Events are dispatched before entity manager is flushed
              * to be able to throw exceptions before it is persisted.
