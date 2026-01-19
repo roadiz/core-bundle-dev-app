@@ -129,7 +129,7 @@
         class="{{ classes }}"
         id="{{ targetId }}"
         popover
-         {{ el_attrs.print(attributes|default({})) }}
+        {{ el_attrs.print(attributes|default({})) }}
     >
         {% block head %}
             {% if title is defined and title %}
