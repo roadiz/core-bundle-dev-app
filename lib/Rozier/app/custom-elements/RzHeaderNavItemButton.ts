@@ -3,15 +3,31 @@ export default class RzHeaderNavItemButton extends HTMLButtonElement {
 
     constructor() {
         super()
+
+        this.expand = this.expand.bind(this)
+        this.collapse = this.collapse.bind(this)
+        this.onClick = this.onClick.bind(this)
+    }
+
+    expand() {
+        this.setAttribute('aria-expanded', 'true')
+        this.classList.add(`${this.COMPONENT_CLASS_NAME}--active`)
+    }
+
+    collapse() {
+        this.setAttribute('aria-expanded', 'false')
+        this.classList.remove(`${this.COMPONENT_CLASS_NAME}--active`)
     }
 
     onClick(event: Event) {
         const el = event.currentTarget
         if (!el || !(el instanceof HTMLButtonElement)) return
 
-        const expanded = el.getAttribute('aria-expanded') === 'true'
-        el.setAttribute('aria-expanded', expanded ? 'false' : 'true')
-        el.classList.toggle(`${this.COMPONENT_CLASS_NAME}--active`, !expanded)
+        if (el.getAttribute('aria-expanded') === 'true') {
+            this.collapse()
+        } else {
+            this.expand()
+        }
     }
 
     connectedCallback() {

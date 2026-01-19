@@ -6,7 +6,9 @@
 	padding: var(--spacing-6xs);
 	gap: var(--spacing-5xs);
 	border-radius: var(--radius-sm);
-	background-color: var(--surface-dark-primary, #18191B);
+	/* background-color: var(--surface-dark-primary, #18191B); */
+	/* Design system don't work with dark theme */
+	background-color: var(--color-black-100);
 	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
 
 	li {

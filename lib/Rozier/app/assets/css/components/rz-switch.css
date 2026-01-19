@@ -44,6 +44,14 @@
 		mask-position: center;
 		opacity: 0;
 	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+ 	&:disabled:after {
+		background-color:  var(--button-basic-high-on-light-bg-hover, #4E4E4E);
+	}
 }
 
 .rz-switch:checked {

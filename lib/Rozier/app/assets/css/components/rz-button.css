@@ -8,7 +8,7 @@
 	--rz-button-border-width: 1PX;
 
 	box-sizing: border-box;
-	display: inline-flex;
+	display: var(--rz-button-display, inline-flex);
 	align-items: center;
 	justify-content: center;
 	text-decoration: none;
