@@ -62,8 +62,6 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $assignation = [];
-
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
@@ -77,8 +75,10 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkDeleteForm(
@@ -97,14 +97,22 @@ trait NodeBulkActionTrait
             }
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
+        $referer = null;
         if (!empty($request->get('deleteForm')['referer'])) {
-            $assignation['referer'] = $request->get('deleteForm')['referer'];
+            $referer = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkDelete.html.twig', $assignation);
+        $title = new UnicodeString($this->translator->trans('delete.nodes'));
+        $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
+
+        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $cancelPath,
+            'alertMessage' => 'are_you_sure.delete.these.nodes',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     /**
