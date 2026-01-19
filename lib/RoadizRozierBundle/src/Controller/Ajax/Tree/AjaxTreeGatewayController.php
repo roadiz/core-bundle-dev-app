@@ -45,30 +45,22 @@ final class AjaxTreeGatewayController extends AbstractAjaxController
         };
 
         $data = [
-            'statusCode' => 200,
-            'status' => 'success',
+            'status' => 'error',
+            'message' => 'You do not have the required permissions to access this tree.',
         ];
 
         if ($this->isGranted('ROLE_ACCESS_NODES') && $treeType === 'nodes') {
-            $response = $this->nodeTreeController->getTreeAction($request);
-            $data += $this->extractTree($response);
+            return $this->nodeTreeController->getTreeAction($request);
         }
 
         if ($this->isGranted('ROLE_ACCESS_TAGS') && $treeType === 'tags') {
-            $response = $this->tagTreeController->getTreeAction($request);
-            $data += $this->extractTree($response);
+            return $this->tagTreeController->getTreeAction($request);
         }
 
         if ($this->isGranted('ROLE_ACCESS_DOCUMENTS') && $treeType === 'folders') {
-            $response = $this->folderTreeController->getTreeAction($request);
-            $data += $this->extractTree($response);
+            return $this->folderTreeController->getTreeAction($request);
         }
 
         return $this->createSerializedResponse($data);
-    }
-
-    private function extractTree(JsonResponse $response): array
-    {
-        return json_decode($response->getContent(), true) ?? [];
     }
 }
