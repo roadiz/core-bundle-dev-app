@@ -5,9 +5,6 @@ namespace RZ\Roadiz\RozierBundle\Controller\Ajax\Tree;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
-use RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxFolderTreeController;
-use RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodeTreeController;
-use RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagTreeController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -39,11 +36,11 @@ final class AjaxTreeGatewayController extends AbstractAjaxController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $entity = $request->query->get('url');
+        $requestUrl = $request->query->get('url');
 
-        $entity = match (true) {
-            str_contains($entity ?? '', 'rz-admin/tags') => 'tags',
-            str_contains($entity ?? '', 'rz-admin/folders') || str_contains($entity ?? '', 'rz-admin/documents') => 'folders',
+        $treeType = match (true) {
+            str_contains($requestUrl ?? '', 'rz-admin/tags') => 'tags',
+            str_contains($requestUrl ?? '', 'rz-admin/folders') || str_contains($requestUrl ?? '', 'rz-admin/documents') => 'folders',
             default => 'nodes',
         };
 
@@ -52,17 +49,17 @@ final class AjaxTreeGatewayController extends AbstractAjaxController
             'status' => 'success',
         ];
 
-        if ($this->isGranted('ROLE_ACCESS_NODES') && $entity === 'nodes') {
+        if ($this->isGranted('ROLE_ACCESS_NODES') && $treeType === 'nodes') {
             $response = $this->nodeTreeController->getTreeAction($request);
             $data += $this->extractTree($response);
         }
 
-        if ($this->isGranted('ROLE_ACCESS_TAGS') && $entity === 'tags') {
+        if ($this->isGranted('ROLE_ACCESS_TAGS') && $treeType === 'tags') {
             $response = $this->tagTreeController->getTreeAction($request);
             $data += $this->extractTree($response);
         }
 
-        if ($this->isGranted('ROLE_ACCESS_DOCUMENTS') && $entity === 'folders') {
+        if ($this->isGranted('ROLE_ACCESS_DOCUMENTS') && $treeType === 'folders') {
             $response = $this->folderTreeController->getTreeAction($request);
             $data += $this->extractTree($response);
         }

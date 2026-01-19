@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
+namespace RZ\Roadiz\RozierBundle\Controller\Ajax\Tree;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Tag;
-use RZ\Roadiz\RozierBundle\Widget\TagTreeWidget;
+use RZ\Roadiz\CoreBundle\Entity\Folder;
+use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
+use RZ\Roadiz\RozierBundle\Widget\FolderTreeWidget;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-final class AjaxTagTreeController extends AbstractAjaxController
+final class AjaxFolderTreeController extends AbstractAjaxController
 {
     public function __construct(
         private readonly TreeWidgetFactory $treeWidgetFactory,
@@ -28,56 +29,49 @@ final class AjaxTagTreeController extends AbstractAjaxController
     }
 
     #[Route(
-        path: '/rz-admin/ajax/tags/tree',
-        name: 'tagsTreeAjax',
+        path: '/rz-admin/ajax/folders/tree',
+        name: 'foldersTreeAjax',
         methods: ['GET'],
         format: 'json'
     )]
     public function getTreeAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
         $translation = $this->getTranslation($request);
 
-        /** @var TagTreeWidget|null $tagTree */
-        $tagTree = null;
+        /** @var FolderTreeWidget|null $folderTree */
+        $folderTree = null;
         $assignation = [];
 
         switch ($request->query->get('_action')) {
-            /*
-             * Inner tag edit for tagTree
-             */
-            case 'requestTagTree':
-                if ($request->query->get('parentTagId') > 0) {
-                    $tag = $this->managerRegistry
-                        ->getRepository(Tag::class)
-                        ->find((int) $request->query->get('parentTagId'));
+            case 'requestFolderTree':
+                if ($request->query->get('parentFolderId') > 0) {
+                    $folder = $this->managerRegistry
+                        ->getRepository(Folder::class)
+                        ->find((int) $request->query->get('parentFolderId'));
                 } else {
-                    $tag = null;
+                    $folder = null;
                 }
 
-                $tagTree = $this->treeWidgetFactory->createTagTree($tag, $translation);
+                $folderTree = $this->treeWidgetFactory->createFolderTree($folder, $translation);
 
                 $assignation['mainTree'] = false;
-
                 break;
-                /*
-                 * Main panel tree tagTree
-                 */
             case 'requestMainTree':
                 $parent = null;
-                $tagTree = $this->treeWidgetFactory->createTagTree($parent, $translation);
+                $folderTree = $this->treeWidgetFactory->createFolderTree($parent, $translation);
                 $assignation['mainTree'] = true;
                 break;
         }
 
-        $assignation['tree'] = $tagTree;
-        $assignation['tree_type'] = 'tag';
+        $assignation['tree'] = $folderTree;
+        $assignation['tree_type'] = 'folder';
 
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
             'tree_type' => $assignation['tree_type'],
-            'tagTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
+            'folderTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
         ]);
     }
 }
