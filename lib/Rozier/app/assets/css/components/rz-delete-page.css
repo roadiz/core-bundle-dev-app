@@ -1,0 +1,10 @@
+.rz-delete-page__body {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+	min-height: 92px;
+	padding: var(--spacing-2xs, 12px);
+	gap: 12px var(--spacing-2xs, 12px);
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--form-basic-border, #DADADA);
+	background: var(--surface-light-secondary, #F8F8F8);
+}
