@@ -119,7 +119,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
      * @param callable(string): FormInterface                $createBulkFormWithIds
      * @param callable(TEntity, FormInterface): void         $alterItemCallable
      * @param (callable(TEntity): (Event|Event[]|null))|null $onEachItemEventCallable
-     * @param array<string, string>                          $templateOptions additional options for the template (action_label, action_icon, action_color, messageType)
+     * @param array<string, string>                          $templateOptions         additional options for the template (action_label, action_icon, action_color, messageType)
      *
      * @throws \Twig\Error\RuntimeError
      */
