@@ -313,7 +313,7 @@ final class TagController extends AbstractController
             $items[] = $this->explorerItemFactory->createForEntity($tag)->toArray();
         }
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/admin/head.html.twig',
             'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
@@ -503,7 +503,7 @@ final class TagController extends AbstractController
             ['%name%' => $tag->getTagName()]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/tags/head.html.twig',
             'cancelPath' => $this->generateUrl('tagsHomePage'),

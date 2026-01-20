@@ -1,9 +1,9 @@
-{% include '@RoadizRozier/admin/delete.html.twig' with {
+{% include '@RoadizRozier/admin/bulk_action.html.twig' with {
     'title': "purge.cache"|trans,
     'headPath': '@RoadizRozier/admin/head.html.twig',
     'cancelPath': path('adminHomePage'),
-    'delete_label': 'clear'|trans,
-    'delete_icon': 'rz-icon-ri--flashlight-line',
+    'action_label': 'clear'|trans,
+    'action_icon': 'rz-icon-ri--flashlight-line',
     'alertMessage': 'are_you_sure.purge.cache'|trans,
     'form': form,
 } %}

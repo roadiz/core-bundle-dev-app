@@ -119,6 +119,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
      * @param callable(string): FormInterface                $createBulkFormWithIds
      * @param callable(TEntity, FormInterface): void         $alterItemCallable
      * @param (callable(TEntity): (Event|Event[]|null))|null $onEachItemEventCallable
+     * @param array<string, string>                          $templateOptions additional options for the template (action_label, action_icon, action_color, messageType)
      *
      * @throws \Twig\Error\RuntimeError
      */
@@ -133,6 +134,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         callable $alterItemCallable,
         string $bulkFormName,
         ?callable $onEachItemEventCallable = null,
+        array $templateOptions = [],
     ): Response {
         $this->denyAccessUnlessGranted($requiredRole);
         $bulkForm->handleRequest($request);
@@ -205,15 +207,30 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         }
 
         $this->assignation[$bulkFormName] = $bulkForm->createView();
-        $this->assignation['title'] = $this->translator->trans('delete.bulk.'.$this->getNamespace());
+        $this->assignation['title'] = $templateOptions['title'] ?? $this->translator->trans('delete.bulk.'.$this->getNamespace());
         $this->assignation['headPath'] = '@RoadizRozier/admin/head.html.twig';
         $this->assignation['cancelPath'] = $this->generateUrl($this->getDefaultRouteName());
-        $this->assignation['alertMessage'] = $this->translator->trans(
+        $this->assignation['alertMessage'] = $templateOptions['alertMessage'] ?? $this->translator->trans(
             'are_you_sure.delete.these.%namespace%',
             [
                 '%namespace%' => $this->translator->trans($this->getNamespace()),
             ]
         );
+
+        // Pass additional template options for bulk_action.html.twig
+        if (isset($templateOptions['action_label'])) {
+            $this->assignation['action_label'] = $templateOptions['action_label'];
+        }
+        if (isset($templateOptions['action_icon'])) {
+            $this->assignation['action_icon'] = $templateOptions['action_icon'];
+        }
+        if (isset($templateOptions['action_color'])) {
+            $this->assignation['action_color'] = $templateOptions['action_color'];
+        }
+        if (isset($templateOptions['messageType'])) {
+            $this->assignation['messageType'] = $templateOptions['messageType'];
+        }
+
         $items = [];
         foreach ($this->assignation['items'] as $item) {
             $items[] = $this->explorerItemFactory->createForEntity($item, [
@@ -241,7 +258,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/delete.html.twig',
+            '@RoadizRozier/admin/bulk_action.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item

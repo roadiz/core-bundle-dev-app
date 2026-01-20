@@ -92,7 +92,7 @@ final class CustomFormAnswerController extends AbstractController
             ['%name%' => $customFormAnswer->getCustomForm()->getDisplayName()]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/custom-forms/head.html.twig',
             'cancelPath' => $this->generateUrl('customFormAnswersHomePage', [
