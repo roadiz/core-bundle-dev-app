@@ -48,6 +48,12 @@
 	}
 }
 
+/* Classe names added by SortableJS */
+/* .rz-tree__item--chosen {
+} */
+/* .rz-tree__item--drag {
+} */
+
 .rz-tree__item__node {
 	border-radius: var(--radius-2xs, 4px);
 	transition: background-color 0.3s;
@@ -82,8 +88,6 @@
 	border-radius: inherit;
 	background: var(--surface-light-primary, #FFF);
 
-	
-
 	.rz-tree__item .rz-tree__item &::before,
 	.rz-tree__item .rz-tree__item &::after {
 		position: absolute;
@@ -92,7 +96,13 @@
 	}
 
 	/* Last nested item  */
-	.rz-tree__item:last-of-type &::after {
+	.rz-tree__item:last-of-type .rz-tree__item--drag > .rz-tree__item__node &::after {
+		display: none;
+	}
+
+	/* Dragged item */
+	.rz-tree__item--drag > .rz-tree__item__node > &:before,
+	.rz-tree__item--drag > .rz-tree__item__node > &:after {
 		display: none;
 	}
 

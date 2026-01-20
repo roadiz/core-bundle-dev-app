@@ -35,6 +35,8 @@ export default class RzTreeItem extends HTMLElement {
                     group: this.group,
                     animation: 150,
                     handle: '.rz-tree__item__handle',
+                    chosenClass: 'rz-tree__item--chosen',
+                    dragClass: 'rz-tree__item--drag',
                 }),
             )
         }
