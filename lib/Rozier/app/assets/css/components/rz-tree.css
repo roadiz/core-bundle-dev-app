@@ -48,13 +48,22 @@
 	}
 }
 
-/* Classe names added by SortableJS */
+/* Classe name added by SortableJS */
 /* .rz-tree__item--chosen {
 } */
-/* .rz-tree__item--drag {
+
+/* Classe name added by SortableJS */
+.rz-tree__item--drag {
+	background: var(--surface-light-ternary, #EAEAEA);
+}
+
+/* Classe name added by SortableJS */
+/* .rz-tree__item--ghost {
 } */
 
 .rz-tree__item__node {
+	--rz-tree-item-hover-background: var(--surface-light-ternary, #EAEAEA);
+
 	border-radius: var(--radius-2xs, 4px);
 	transition: background-color 0.3s;
 	padding: var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding-left, 0);
@@ -62,6 +71,7 @@
 	.rz-tree--child-nodes & {
 		--rz-tree-item-padding: 1PX;
 		--rz-tree-item-padding-left: 4PX;
+		--rz-tree-item-hover-background: var(--surface-dark-ternary, #4E4E4E);
 
 		background: var(--surface-light-ternary, #EAEAEA);
 	}
@@ -73,8 +83,9 @@
 	}
 
 	@media (hover: hover) {
-		&:hover {
-			background: var(--surface-dark-ternary, #4E4E4E);
+		/* hover disabled if a drag occurs */
+		.rz-tree:not(:has(.rz-tree__item--ghost)) &:hover {
+			background: var(--rz-tree-item-hover-background);
 		}
 	}
 }
@@ -86,7 +97,14 @@
 	padding-inline: calc(var(--rz-tree-depth) * var(--rz-tree-indent-width) - var(--rz-tree-item-padding-left, 0px)) var(--spacing-6xs);
 	box-sizing: border-box;
 	border-radius: inherit;
-	background: var(--surface-light-primary, #FFF);
+	
+	.rz-tree--child-nodes & {
+		background: var(--surface-light-primary, #FFF);
+	}
+
+	.rz-tree__item--ghost & {
+		background: var(--node-bg-on-light-selected-hover, #EAEAEA);
+	}
 
 	.rz-tree__item .rz-tree__item &::before,
 	.rz-tree__item .rz-tree__item &::after {
@@ -96,7 +114,7 @@
 	}
 
 	/* Last nested item  */
-	.rz-tree__item:last-of-type .rz-tree__item--drag > .rz-tree__item__node &::after {
+	.rz-tree__item:last-of-type > .rz-tree__item__node &::after {
 		display: none;
 	}
 
@@ -141,7 +159,8 @@
 	}
 
 	@media(hover: hover) {
-		.rz-tree__item__node__inner:hover & {
+		/* hover disabled if a drag occurs */
+		.rz-tree:not(:has(.rz-tree__item--ghost)) .rz-tree__item__node__inner:hover & {
 			opacity: 1;
 		}
 	}

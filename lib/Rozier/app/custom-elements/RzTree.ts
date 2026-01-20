@@ -37,6 +37,7 @@ export default class RzTreeItem extends HTMLElement {
                     handle: '.rz-tree__item__handle',
                     chosenClass: 'rz-tree__item--chosen',
                     dragClass: 'rz-tree__item--drag',
+                    ghostClass: 'rz-tree__item--ghost',
                 }),
             )
         }
