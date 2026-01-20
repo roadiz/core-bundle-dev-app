@@ -40,55 +40,11 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-// Mock data for successful thumbnail responses
-// Using same Unsplash image URLs to keep bandwidth low and enable caching
-const mockDocumentThumbnail = {
-    url: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=200&h=150&fit=crop',
-    alt: 'Sample document thumbnail',
-    title: 'Sample Document',
-    width: 200,
-    height: 150,
-}
-
-const mockUserThumbnail = {
-    url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop',
-    alt: 'User avatar',
-    title: 'Test User',
-    width: 150,
-    height: 150,
-}
-
 /**
  * Default entity thumbnail component showing a medium-sized thumbnail.
+ * Uses global MSW handler from preview.ts
  */
 export const Default: Story = {
-    parameters: {
-        msw: {
-            handlers: [
-                http.get(ENTITY_THUMBNAIL_ENDPOINT, ({ request }) => {
-                    const url = new URL(request.url)
-                    const entityClass = url.searchParams.get('class')
-                    const entityId = url.searchParams.get('id')
-
-                    if (
-                        entityClass ===
-                            'RZ\\Roadiz\\CoreBundle\\Entity\\Document' &&
-                        entityId === '42'
-                    ) {
-                        return HttpResponse.json(mockDocumentThumbnail)
-                    }
-
-                    return HttpResponse.json({
-                        url: null,
-                        alt: null,
-                        title: null,
-                        width: null,
-                        height: null,
-                    })
-                }),
-            ],
-        },
-    },
     render: rzEntityThumbnailRenderer,
 }
 
@@ -98,15 +54,6 @@ export const Default: Story = {
 export const Small: Story = {
     args: {
         size: 'small',
-    },
-    parameters: {
-        msw: {
-            handlers: [
-                http.get(ENTITY_THUMBNAIL_ENDPOINT, () => {
-                    return HttpResponse.json(mockDocumentThumbnail)
-                }),
-            ],
-        },
     },
     render: rzEntityThumbnailRenderer,
 }
@@ -118,34 +65,17 @@ export const Large: Story = {
     args: {
         size: 'large',
     },
-    parameters: {
-        msw: {
-            handlers: [
-                http.get(ENTITY_THUMBNAIL_ENDPOINT, () => {
-                    return HttpResponse.json(mockDocumentThumbnail)
-                }),
-            ],
-        },
-    },
     render: rzEntityThumbnailRenderer,
 }
 
 /**
  * User entity thumbnail (uses email as ID).
+ * Uses global MSW handler which detects User class.
  */
 export const UserEntity: Story = {
     args: {
         entityClass: 'RZ\\Roadiz\\CoreBundle\\Entity\\User',
         entityId: 'test@test.test',
-    },
-    parameters: {
-        msw: {
-            handlers: [
-                http.get(ENTITY_THUMBNAIL_ENDPOINT, () => {
-                    return HttpResponse.json(mockUserThumbnail)
-                }),
-            ],
-        },
     },
     render: rzEntityThumbnailRenderer,
 }
@@ -154,15 +84,6 @@ export const UserEntity: Story = {
  * Multiple thumbnails in different sizes side by side.
  */
 export const MultipleSizes: Story = {
-    parameters: {
-        msw: {
-            handlers: [
-                http.get(ENTITY_THUMBNAIL_ENDPOINT, () => {
-                    return HttpResponse.json(mockDocumentThumbnail)
-                }),
-            ],
-        },
-    },
     render: (args) => {
         const container = document.createElement('div')
         container.style.display = 'flex'
@@ -209,7 +130,13 @@ export const SlowLoading: Story = {
             handlers: [
                 http.get(ENTITY_THUMBNAIL_ENDPOINT, async () => {
                     await delay(2000) // 2 second delay
-                    return HttpResponse.json(mockDocumentThumbnail)
+                    return HttpResponse.json({
+                        url: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=200&h=150&fit=crop',
+                        alt: 'Sample document thumbnail',
+                        title: 'Sample Document',
+                        width: 200,
+                        height: 150,
+                    })
                 }),
             ],
         },

@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
+import { rzEntityThumbnailRenderer } from '~/utils/storybook/renderer/rzEntityThumbnail'
 
 type Item = {
     label: string
     iconClass?: string
+    icon?: HTMLElement
     href?: string
     expanded?: boolean
     children?: Item[]
@@ -46,10 +48,16 @@ function itemNodeRenderer(item: Item) {
     handle.classList.add('rz-icon-ri--draggable')
     innerEl.appendChild(handle)
 
-    const icon = document.createElement('span')
-    icon.classList.add(`${COMPONENT_CLASS_NAME}__item__icon`)
-    icon.classList.add(item.iconClass || 'rz-icon-ri--folder-fill')
-    innerEl.appendChild(icon)
+    // Icon slot - use custom element if provided, otherwise use icon class
+    if (item.icon) {
+        item.icon.classList.add(`${COMPONENT_CLASS_NAME}__item__icon`)
+        innerEl.appendChild(item.icon)
+    } else if (item.iconClass) {
+        const icon = document.createElement('span')
+        icon.classList.add(`${COMPONENT_CLASS_NAME}__item__icon`)
+        icon.classList.add(item.iconClass)
+        innerEl.appendChild(icon)
+    }
 
     const label = document.createElement('span')
     label.classList.add(`${COMPONENT_CLASS_NAME}__item__label`)
@@ -380,5 +388,79 @@ export const WithContextualMenu: Story = {
     },
     render: (args) => {
         return rootRenderer(args)
+    },
+}
+
+/**
+ * Creates an entity thumbnail element for use as an icon
+ */
+function createEntityThumbnail(
+    entityId: string = '42',
+    size: 'small' | 'medium' | 'large' = 'small',
+): HTMLElement {
+    return rzEntityThumbnailRenderer({
+        entityClass: 'RZ\\Roadiz\\CoreBundle\\Entity\\Document',
+        entityId,
+        size,
+    })
+}
+
+export const WithEntityThumbnail: Story = {
+    args: {
+        items: [
+            {
+                label: 'Gallery',
+                icon: createEntityThumbnail('1'),
+                expanded: true,
+                children: [
+                    {
+                        label: 'Photo 1',
+                        icon: createEntityThumbnail('2'),
+                    },
+                    {
+                        label: 'Photo 2',
+                        icon: createEntityThumbnail('3'),
+                    },
+                    {
+                        label: 'Album',
+                        icon: createEntityThumbnail('4'),
+                        expanded: true,
+                        children: [
+                            {
+                                label: 'Photo 3',
+                                icon: createEntityThumbnail('5'),
+                            },
+                            {
+                                label: 'Photo 4',
+                                icon: createEntityThumbnail('6'),
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                label: 'Documents',
+                icon: createEntityThumbnail('7'),
+                children: [
+                    {
+                        label: 'Report.pdf',
+                        icon: createEntityThumbnail('8'),
+                    },
+                    {
+                        label: 'Invoice.pdf',
+                        icon: createEntityThumbnail('9'),
+                    },
+                ],
+            },
+            {
+                label: 'Video',
+                icon: createEntityThumbnail('10'),
+            },
+        ],
+    },
+    render: (args) => {
+        const tree = rootRenderer(args)
+        tree.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
+        return tree
     },
 }
