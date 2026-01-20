@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
 
 type Item = {
     label: string
@@ -7,6 +8,7 @@ type Item = {
     href?: string
     expanded?: boolean
     children?: Item[]
+    actions?: HTMLElement[]
 }
 
 export type Args = {
@@ -68,12 +70,13 @@ function itemNodeRenderer(item: Item) {
         innerEl.appendChild(expandButton)
     }
 
-    const moreButton = rzButtonRenderer({
-        iconClass: 'rz-icon-ri--more-line',
-        emphasis: 'tertiary',
-        size: 'xs',
-    })
-    innerEl.appendChild(moreButton)
+    // Actions slot - populated from item.actions
+    if (item.actions && item.actions.length > 0) {
+        const actionsSlot = document.createElement('div')
+        actionsSlot.classList.add(`${COMPONENT_CLASS_NAME}__item__actions`)
+        item.actions.forEach((action) => actionsSlot.appendChild(action))
+        innerEl.appendChild(actionsSlot)
+    }
 
     return node
 }
@@ -219,5 +222,163 @@ export const ChildNodes: Story = {
         const tree = rootRenderer(args)
         tree.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
         return tree
+    },
+}
+
+/**
+ * Generates a unique ID for contextual menu instances
+ */
+let contextualMenuCounter = 0
+function generateContextualMenuId() {
+    return `node-contextual-menu-${++contextualMenuCounter}`
+}
+
+/**
+ * Creates a RzNodeTreeContextualMenu element with a popover trigger button
+ */
+function createContextualMenuAction(): HTMLElement {
+    const contextualId = generateContextualMenuId()
+    const popoverId = `${contextualId}-popover`
+
+    // Create the contextual menu wrapper element
+    const contextualMenu = document.createElement(
+        'rz-node-tree-contextual-menu',
+    )
+    contextualMenu.classList.add('rz-node-contextual-menu')
+    contextualMenu.setAttribute('id', contextualId)
+    contextualMenu.setAttribute('popover-placement', 'bottom-end')
+    // These paths won't work in Storybook but are included for demonstration
+    contextualMenu.setAttribute('data-node-id', '1')
+    contextualMenu.setAttribute('data-contextual-menu-path', '#')
+    contextualMenu.setAttribute('data-node-status-path', '#')
+    contextualMenu.setAttribute('data-node-duplicate-path', '#')
+    contextualMenu.setAttribute('data-node-paste-path', '#')
+    contextualMenu.setAttribute(
+        'data-node-copied-trans',
+        'Node copied to clipboard',
+    )
+    contextualMenu.setAttribute('data-node-edit-position-path', '#')
+
+    // Create the trigger button
+    const triggerButton = rzButtonRenderer({
+        iconClass: 'rz-icon-ri--more-line',
+        emphasis: 'tertiary',
+        size: 'xs',
+        attributes: {
+            'aria-label': 'Show actions',
+            popovertarget: popoverId,
+            type: 'button',
+        },
+    })
+    contextualMenu.appendChild(triggerButton)
+
+    // Create the popover placeholder (content is fetched on open)
+    const popoverPlaceholder = document.createElement('div')
+    popoverPlaceholder.id = popoverId
+    popoverPlaceholder.setAttribute('popover', '')
+    popoverPlaceholder.setAttribute('data-popover-content-state', 'idle')
+    popoverPlaceholder.setAttribute('data-contextual-menu-popover', '')
+
+    // Use rzDropdownRenderer for popover content
+    const dropdown = rzDropdownRenderer(
+        {
+            title: 'Actions',
+            items: [
+                [
+                    {
+                        tag: 'button',
+                        iconClass: 'rz-icon-ri--file-copy-line',
+                        label: 'Duplicate',
+                        attributes: { command: '--duplicate' },
+                    },
+                    {
+                        tag: 'button',
+                        iconClass: 'rz-icon-ri--clipboard-line',
+                        label: 'Copy',
+                        attributes: { command: '--copy' },
+                    },
+                ],
+                [
+                    {
+                        tag: 'button',
+                        iconClass: 'rz-icon-ri--arrow-up-line',
+                        label: 'Move to first',
+                        attributes: { command: '--move-first' },
+                    },
+                    {
+                        tag: 'button',
+                        iconClass: 'rz-icon-ri--arrow-down-line',
+                        label: 'Move to last',
+                        attributes: { command: '--move-last' },
+                    },
+                ],
+            ],
+        },
+        popoverPlaceholder,
+    )
+    dropdown.classList.add('rz-dropdown')
+
+    popoverPlaceholder.setAttribute('data-popover-content-state', 'fetched')
+    contextualMenu.appendChild(popoverPlaceholder)
+
+    return contextualMenu
+}
+
+export const WithContextualMenu: Story = {
+    args: {
+        items: [
+            {
+                label: 'Home',
+                iconClass: 'rz-icon-ri--home-2-fill',
+                expanded: true,
+                actions: [createContextualMenuAction()],
+                children: [
+                    {
+                        label: 'About us',
+                        actions: [createContextualMenuAction()],
+                    },
+                    {
+                        label: 'Contact',
+                        actions: [createContextualMenuAction()],
+                    },
+                    {
+                        label: 'Services',
+                        expanded: true,
+                        actions: [createContextualMenuAction()],
+                        children: [
+                            {
+                                label: 'Web development',
+                                actions: [createContextualMenuAction()],
+                            },
+                            {
+                                label: 'Mobile apps',
+                                actions: [createContextualMenuAction()],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                label: 'Blog',
+                actions: [createContextualMenuAction()],
+            },
+            {
+                label: 'Products',
+                actions: [createContextualMenuAction()],
+                children: [
+                    {
+                        label: 'Product A',
+                        actions: [createContextualMenuAction()],
+                    },
+                    {
+                        label: 'Product B',
+                        actions: [createContextualMenuAction()],
+                    },
+                ],
+            },
+        ],
+    },
+    render: (args) => {
+        return rootRenderer(args)
     },
 }
