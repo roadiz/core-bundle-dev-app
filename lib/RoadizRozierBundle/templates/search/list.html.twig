@@ -35,19 +35,21 @@
             {% endif %}
 
             {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
-            {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
-                delete_form_data: deleteNodesForm|default(null),
-                delete_form_action: path('nodesBulkDeletePage'),
-                delete_form_method: 'post',
-                tagNodesForm: tagNodesForm,
-                statusNodesForm: statusNodesForm,
-            } only %}
+            {% if nodes is defined %}
+                {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+                    delete_form_data: deleteNodesForm|default(null),
+                    delete_form_action: path('nodesBulkDeletePage'),
+                    delete_form_method: 'post',
+                    tagNodesForm: tagNodesForm,
+                    statusNodesForm: statusNodesForm,
+                } only %}
 
-            {% include '@RoadizRozier/nodes/list_table.html.twig' with {
-                sortable: false,
-                selection_available: true,
-                actions_available: true,
-            } %}
+                {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+                    sortable: false,
+                    selection_available: true,
+                    actions_available: true,
+                } %}
+            {% endif %}
         </article>
     </rz-bulk-section>
 {% endblock %}
