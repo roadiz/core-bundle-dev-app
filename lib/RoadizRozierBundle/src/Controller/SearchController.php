@@ -502,6 +502,9 @@ final class SearchController extends AbstractController
         /** @var FormBuilder $builder */
         $builder = $this->createFormBuilder([], ['method' => 'get']);
 
+        $builder->add(
+            $this->createTextSearchForm($builder, $prefix.'nodeName', 'nodeName')
+        );
         $builder->add($prefix.'status', NodeStatesType::class, [
             'label' => 'node.status',
             'required' => false,
@@ -519,35 +522,38 @@ final class SearchController extends AbstractController
                 'label' => 'visible',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
         );
-        $builder->add(
-            $this->createTextSearchForm($builder, $prefix.'nodeName', 'nodeName')
-        );
+
         $builder->add($prefix.'parent', TextType::class, [
             'label' => 'node.id.parent',
             'required' => false,
-        ])
-            ->add($prefix.'createdAt', CompareDatetimeType::class, [
+        ]);
+
+        $builder->add($prefix.'createdAt', CompareDatetimeType::class, [
                 'label' => 'created.at',
                 'inherit_data' => false,
                 'required' => false,
@@ -590,7 +596,7 @@ final class SearchController extends AbstractController
             'inherit_data' => true,
             'mapped' => false,
             'attr' => [
-                'class' => 'rz-fieldset',
+                'class' => 'rz-form__field-list rz-form__field-list--horizontal',
             ],
         ])
             ->add($formName, TextType::class, [

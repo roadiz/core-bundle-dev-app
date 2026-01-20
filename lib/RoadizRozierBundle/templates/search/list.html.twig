@@ -1,27 +1,19 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
+{% set title_label = nodeType ? ('search'|trans ~ ' - ' ~ nodeType.displayName) : 'search'|trans %}
+
 {%- block title -%}
-    {% if nodeType %}
-        {% trans %}search{% endtrans %} - {{ nodeType.displayName }}
-    {% else %}
-        {% trans %}search{% endtrans %}
-    {% endif %}
-    |
-    {{ parent() -}}
+    {{ title_label}} | {{ parent() -}}
 {%- endblock -%}
 
 {% block content %}
     <rz-bulk-section>
-        <header class="content-header header-node header-nodes-list">
-            {% if nodeType %}
-                <h1 class="content-title">{% trans %}search{% endtrans %} - {{ nodeType.displayName }}</h1>
-            {% else %}
-                <h1 class="content-title">{% trans %}search{% endtrans %}</h1>
-            {% endif %}
-            {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        </header>
+        {% include '@RoadizRozier/admin/head.html.twig' with {
+            title: title_label,
+            filters: filters,
+        } only %}
 
-        <article class="content content-no-action-menu">
+        <article>
             {% if nodeTypeForm %}
                 {% form_theme nodeTypeForm '@RoadizRozier/forms.html.twig' %}
                 <form class="rz-form" id="search-node-type-form" action="#" method="get">
@@ -35,6 +27,7 @@
             {% endif %}
 
             {% if form %}
+                <hr />
                 {% form_theme form '@RoadizRozier/forms.html.twig' %}
                 <form class="rz-form" id="search-node-form" action="#" method="get">
                         {{ form_widget(form, { 'attr': {'class': 'rz-form__field-list'} }) }}
