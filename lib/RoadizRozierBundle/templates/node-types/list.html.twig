@@ -10,18 +10,26 @@
             buttons: [
                 {
                     label: 'manage.decorators'|trans,
-                    href: path('nodeTypeDecoratorsListPage'),
+                    attributes: {
+                        href: path('nodeTypeDecoratorsListPage'),
+                    },
                     icon: 'rz-icon-ri--paint-brush-line',
                 },
                 {
                     label: 'export.documentation'|trans,
-                    href: path('nodesTypesExportDocumentationPage'),
+                    attributes: {
+                        href: path('nodesTypesExportDocumentationPage'),
+                    },
                     icon: 'rz-icon-ri--download-cloud-2-line',
+                    class: 'rz-no-ajax-link'
                 },
                 {
                     label: 'export.typescript_declaration'|trans,
-                    href: path('nodesTypesExportTypeScriptPage'),
+                    attributes: {
+                        href: path('nodesTypesExportTypeScriptPage'),
+                    },
                     icon: 'rz-icon-ri--download-cloud-2-line',
+                    class: 'rz-no-ajax-link'
                 }
             ]
         } only %}

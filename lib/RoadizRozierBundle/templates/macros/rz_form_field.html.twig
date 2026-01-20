@@ -11,7 +11,11 @@
     {% if icon is defined and icon %}
         <span class="rz-form-field__head__icon {{ icon }}"></span>
     {% endif %}
-    <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+    <label
+        class="rz-form-field__head__label"
+        {% for attrname, attrvalue in label_attr %}
+            {{ attrname }}="{{ attrvalue }}"
+        {% endfor %}>
     {{- label|trans -}}
     </label>
     {% if attr['data-universal'] %}

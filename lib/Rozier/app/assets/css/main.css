@@ -30,7 +30,7 @@
 @import './components/rz-brand.css';
 @import './components/rz-dialog.css';
 @import './components/rz-page.css';
-@import './components/rz-trees-section.css';
+@import './components/rz-aside.css';
 @import './components/rz-button.css';
 @import './components/rz-dashboard.css';
 @import './components/rz-file-upload.css';
@@ -53,6 +53,12 @@
 @import './components/rz-filters-bar.css';
 @import './components/rz-table.css';
 @import './components/rz-tree.css';
+@import './components/rz-language-switcher.css';
+@import './components/rz-node-contextual-menu.css';
+@import './components/rz-explorer.css';
+@import './components/rz-delete-page.css';
+@import './components/rz-history.css';
+
 
 
 /* Components: Form */
@@ -69,3 +75,10 @@
 /* Form widgets */
 @import './components/rz-children-nodes.css';
 @import './components/rz-drawer.css';
+
+
+/* standalone element */
+.rz-back-to-top-button {
+	margin-block: var(--spacing-4xs);
+	float: right;
+}

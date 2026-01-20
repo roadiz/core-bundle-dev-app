@@ -62,4 +62,9 @@
 	align-items: center;
 	overflow: hidden;
 	margin-top: var(--spacing-6xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-card-sm-font-size);
+	line-height: var(--text-card-sm-line-height);
+	letter-spacing: var(--text-card-sm-letter-spacing);
+	font-weight: var(--text-card-sm-font-weight);
 }

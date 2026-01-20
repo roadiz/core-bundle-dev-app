@@ -1,0 +1,31 @@
+{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
+    has_header: mainTagTree,
+    title: 'tagTree'|trans,
+    display_translations: mainTagTree,
+    tree: tagTree,
+    mainTagTree: mainTagTree,
+    tree_type: 'tag',
+} only %}
+
+    {% block head_button %}
+        {% if tree is defined %}
+            {{ _self.button({
+                icon: 'rz-icon-ri--add-line',
+                label: tagTree.getRootTag == null ? 'add.a.tag'|trans : 'add.child.tag'|trans,
+                attributes: {
+                    href: tagTree.getRootTag == null ?
+                        path('tagsAddPage')
+                        : path('tagsAddChildPage', { tagId : tagTree.rootTag.id }),
+                }
+            }) }}
+        {% endif %}
+    {% endblock %}
+
+    {% block tree_content %}
+        {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
+            tagTree: tree,
+            mainTagTree: mainTagTree,
+        } only %}
+    {% endblock %}
+
+{% endembed %}

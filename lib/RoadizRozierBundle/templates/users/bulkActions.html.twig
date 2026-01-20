@@ -3,9 +3,9 @@
 
 	{% block other_actions %}
         {% if bulkEnableForm %}
-            {% form_theme bulkEnableForm '@RoadizRozier/horizontalForms.html.twig' %}
+            {% form_theme bulkEnableForm '@RoadizRozier/forms.html.twig' %}
             {{ form_start(bulkEnableForm) }}
-                {{ form_widget(bulkEnableForm) }}
+                {{ form_widget(bulkEnableForm, { attr: { style: 'display: none;' }}) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',
@@ -17,10 +17,11 @@
                 }) }}
             {{ form_end(bulkEnableForm) }}
         {% endif %}
+
         {% if bulkDisableForm %}
-            {% form_theme bulkDisableForm '@RoadizRozier/horizontalForms.html.twig' %}
+            {% form_theme bulkDisableForm '@RoadizRozier/forms.html.twig' %}
             {{ form_start(bulkDisableForm) }}
-                {{ form_widget(bulkDisableForm) }}
+                {{ form_widget(bulkDisableForm, { attr: { style: 'display: none;' }}) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',

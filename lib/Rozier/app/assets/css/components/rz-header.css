@@ -20,7 +20,7 @@
 	flex-direction: column;
 	gap: var(--spacing-4xs);
 	padding-inline: var(--spacing-2xs);
-	transition: width 0.8s;
+	transition: width 0.65s cubic-bezier(0.03, 0.37, 0.45, 0.94);
 	width: 100%;
 	overflow: hidden;
 	background-color: var(--surface-light-tertiary, #F2F2F2);

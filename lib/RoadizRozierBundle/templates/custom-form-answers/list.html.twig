@@ -12,7 +12,9 @@
             type: customForm,
             buttons: [{
                 label: 'export'|trans,
-                href: path('customFormsExportPage', { id: customForm.id }),
+                attributes: {
+                    href: path('customFormsExportPage', { id: customForm.id }),
+                },
                 icon: 'rz-icon-ri--download-line'
             }],
             with_breadcrumb: true,

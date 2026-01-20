@@ -3,7 +3,7 @@
         {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
         {% block other_actions %}
             {% if bulkPublishForm %}
-                {% form_theme bulkPublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {% form_theme bulkPublishForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkPublishForm) }}
                 {{ form_widget(bulkPublishForm) }}
                 {{ rz_button.root({
@@ -18,7 +18,7 @@
                 {{ form_end(bulkPublishForm) }}
             {% endif %}
             {% if bulkUnpublishForm %}
-                {% form_theme bulkUnpublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {% form_theme bulkUnpublishForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkUnpublishForm) }}
                 {{ form_widget(bulkUnpublishForm) }}
                 {{ rz_button.root({
@@ -35,9 +35,9 @@
         {% endblock %}
         {% block delete_form %}
             {% if bulkDeleteForm %}
-                {% form_theme bulkDeleteForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {% form_theme bulkDeleteForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkDeleteForm) }}
-                {{ form_widget(bulkDeleteForm) }}
+                {{ form_widget(bulkDeleteForm, { attr: { style: 'display: none;' }}) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',

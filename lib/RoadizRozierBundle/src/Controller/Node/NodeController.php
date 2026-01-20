@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodePathChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUndeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Model\NodeCreationDto;
@@ -86,6 +87,7 @@ final class NodeController extends AbstractController
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbsItemFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {

@@ -54,7 +54,7 @@
         {% if document.id %}
             {{ _self.item(
                 label: 'download.document',
-                class: 'rz-button--tertiary',
+                class: 'rz-button--tertiary rz-no-ajax-link',
                 href: path('documentsDownloadPage', { documentId: document.id}),
                 icon: 'rz-icon-ri--download-line'
             ) }}

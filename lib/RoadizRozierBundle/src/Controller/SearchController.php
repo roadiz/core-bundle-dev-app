@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\CompareDatetimeType;
 use RZ\Roadiz\CoreBundle\Form\CompareDateType;
 use RZ\Roadiz\CoreBundle\Form\ExtendedBooleanType;
@@ -67,6 +68,7 @@ final class SearchController extends AbstractController
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly array $csvEncoderOptions,
     ) {
     }

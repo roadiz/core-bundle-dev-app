@@ -9,7 +9,9 @@
         filters: filters,
         buttons: [{
             label: 'add.a.realm'|trans,
-            href: path('realmsAddPage'),
+            attributes: {
+                href: path('realmsAddPage'),
+            },
             icon: 'rz-icon-ri--add-line'
         }]
     } only %}

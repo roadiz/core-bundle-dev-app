@@ -66,6 +66,7 @@
 		--rz-reference-img-aspect-ratio: 110 / 94;
 	}
 
+
 	@media (hover: hover) {
 		&:hover::after {
 			background-color: var(--rz-card-border-color-hover, var(--reference-border-hover, #9A9A9A));
@@ -81,6 +82,11 @@
 	line-height: var(--text-overtitle-md-line-height);
 	letter-spacing: var(--text-overtitle-md-letter-spacing);
 	font-weight: var(--text-overtitle-md-font-weight);
+
+	.rz-card:not(:has(.rz-card__img)) & {
+		grid-column: 1 / -1;
+		padding-right: 10px;
+	}
 }
 
 .rz-card__title {
@@ -88,7 +94,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
-	-webkit-line-clamp: var(--rz-card-title-line-clamp, 3);
+	-webkit-line-clamp: var(--rz-card-title-line-clamp, 2);
 	-webkit-box-orient: vertical;
 
 	margin-top: var(--spacing-6xs);
@@ -101,6 +107,11 @@
 
 	&:first-child {
 		margin-top: var(--spacing-3xs);
+	}
+
+	.rz-card:not(:has(.rz-card__img)) & {
+		grid-column: 1 / -1;
+		padding-right: 10px;
 	}
 }
 

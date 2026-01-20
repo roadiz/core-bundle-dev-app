@@ -203,7 +203,7 @@ Theme could be manually set using color-scheme with 'light' or 'dark' value
     --status-warning: var(--color-basic-orange);
     --status-warning-container: light-dark(var(--color-basic-light-orange), var(--color-basic-xlight-orange));
     --status-warning-on-container: var(--color-basic-dark-orange);
-    --surface-dark-primary: var(--color-black-100);
+    --surface-dark-primary: light-dark(var(--color-black-100), var(--color-white-100));
     --surface-dark-secondary: var(--color-gray-950);
     --surface-dark-tertiary: var(--color-gray-900);
     --surface-light-primary: light-dark(var(--color-white-100), var(--color-black-100));

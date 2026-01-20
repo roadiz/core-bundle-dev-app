@@ -14,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,7 +40,7 @@ final class AttributeValueTranslationType extends AbstractType
                 ],
             ];
             match ($attributeValueTranslation->getAttributeValue()->getType()) {
-                AttributeInterface::INTEGER_T => $builder->add('value', IntegerType::class, $defaultOptions),
+                AttributeInterface::INTEGER_T,
                 AttributeInterface::DECIMAL_T => $builder->add('value', NumberType::class, $defaultOptions),
                 AttributeInterface::DATE_T => $builder->add('value', DateType::class, array_merge($defaultOptions, [
                     'placeholder' => [

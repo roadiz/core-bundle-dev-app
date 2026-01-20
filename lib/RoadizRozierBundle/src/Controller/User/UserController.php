@@ -7,6 +7,7 @@ namespace RZ\Roadiz\RozierBundle\Controller\User;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\UserVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -26,6 +27,7 @@ class UserController extends AbstractAdminWithBulkController
 {
     public function __construct(
         FormFactoryInterface $formFactory,
+        ExplorerItemFactoryInterface $explorerItemFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
         ManagerRegistry $managerRegistry,
@@ -34,7 +36,7 @@ class UserController extends AbstractAdminWithBulkController
         EventDispatcherInterface $eventDispatcher,
         private readonly bool $useGravatar,
     ) {
-        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
+        parent::__construct($formFactory, $explorerItemFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     #[\Override]

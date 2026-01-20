@@ -9,15 +9,18 @@
             filters: filters,
             buttons: [{
                 label: 'add.a.user'|trans,
-                href: path('usersAddPage'),
+                attributes: {
+                    href: path('usersAddPage'),
+                },
                 icon: 'rz-icon-ri--add-line',
             }],
         } only %}
 
         {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
-        filters: filters,
-        display_select_all_button: false,
+            filters: filters,
+            display_select_all_button: false,
         }  only %}
+
         {% include '@RoadizRozier/users/bulkActions.html.twig' with {
             delete_form_data: bulkDeleteForm|default(null),
             delete_form_action: path('usersBulkDeletePage'),

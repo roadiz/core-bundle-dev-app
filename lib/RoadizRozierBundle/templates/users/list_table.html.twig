@@ -65,7 +65,7 @@
 				</td>
 				<td>
 					{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
-						<a href="{{ path('usersEditPage', { id: item.getId }) }}">
+						<a href="{{ path('usersEditPage', { id: item.id }) }}">
 							{{- item.username|u.truncate(30) -}}
 						</a>
 					{% else %}
@@ -89,15 +89,17 @@
 					{% set color_status = item.enabled ? 'success' : 'danger' %}
 					{% set icon_status = item.enabled ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
 
-					{{ rz_badge.item({
-						color: color_status,
-						icon: icon_status,
-						attributes: {
-							title: label_status|trans,
-						}
-					}) }}
+					{% if item.enabled is defined %}
+						{{ rz_badge.item({
+							color: color_status,
+							icon: icon_status,
+							attributes: {
+								title: label_status|trans,
+							}
+						}) }}
+					{% endif %}
 
-					{% if not item.accountNonLocked %}
+					{% if item.accountNonLocked is defined and not item.accountNonLocked %}
 						{{ rz_badge.item({
 							color: 'warning',
 							icon: 'rz-icon-ri--lock-2-line',
@@ -107,10 +109,12 @@
 						}) }}
 					{% endif %}
 
-					{% if not item.credentialsNonExpired or not item.accountNonExpired %}
+					{% if
+						(item.credentialsNonExpired is defined and not item.credentialsNonExpired)
+					 or (item.accountNonExpired is defined and not item.accountNonExpired) %}
 						{{ rz_badge.item({
 							color: 'danger',
-							icon: 'uk-icon-hourglass-end',
+							icon: 'rz-icon-rz--status-pending-line',
 							attributes: {
 								title: 'user.expired'|trans,
 							}

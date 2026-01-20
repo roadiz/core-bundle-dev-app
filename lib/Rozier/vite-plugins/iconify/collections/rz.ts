@@ -12,6 +12,7 @@ export default [
     'status-draft-line',
     'status-lock-line',
     'status-no-index-line',
+    'status-pending-fill',
     'status-pending-line',
     'status-published-fill',
     'status-published-line',
