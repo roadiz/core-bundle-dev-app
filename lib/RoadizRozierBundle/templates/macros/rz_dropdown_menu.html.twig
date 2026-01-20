@@ -68,7 +68,6 @@
             <{{ tag }} class="rz-dropdown__item {{ class }} {{ selected ? 'rz-dropdown__item--selected' : '' }}"
                 {% if title %} title="{{- title|trans -}}" {% endif %}
                 {% if tag == 'a' %}
-                    target="_blank"
                     href="{{ href }}"
                 {% endif %}
 
@@ -130,10 +129,13 @@
         class="{{ classes }}"
         id="{{ targetId }}"
         popover
+        {{ el_attrs.print(attributes|default({})) }}
     >
-        {% if title is defined and title %}
-            {{ _self.head(title, items) }}
-        {% endif %}
+        {% block head %}
+            {% if title is defined and title %}
+                {{ _self.head(title, items) }}
+            {% endif %}
+        {% endblock %}
         {% if (tagList is not defined or tagList is empty) %}
             {% set tagList = 'menu' %}
         {% endif %}
