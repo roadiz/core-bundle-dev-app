@@ -59,8 +59,6 @@
 @import './components/rz-delete-page.css';
 @import './components/rz-history.css';
 
-
-
 /* Components: Form */
 @import './components/rz-repeatable.css';
 @import './components/rz-textarea.css';
@@ -72,9 +70,11 @@
 @import './components/rz-fieldset.css';
 @import './components/rz-markdown-editor.css';
 @import './components/rz-color-input.css';
+
 /* Form widgets */
 @import './components/rz-children-nodes.css';
 @import './components/rz-drawer.css';
+@import './components/rz-geolocation.css';
 
 
 /* standalone element */

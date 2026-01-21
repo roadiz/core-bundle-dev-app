@@ -1,0 +1,107 @@
+
+rz-geolocation,
+.rz-geolocation__textarea {
+	--rz-geolocation-background-color: var(--surface-light-primary, #FFF);
+
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--form-basic-border, #DADADA);
+	background-color: var(--rz-geolocation-background-color);
+	box-sizing: border-box;
+	height: 291px;
+	overflow: hidden;
+}
+
+
+rz-geolocation {
+	display: none;
+
+	&[data-initialized="true"] {
+		display: flex;
+	}
+}
+
+
+.rz-geolocation__textarea {
+	color: transparent;
+	background-color: var(--rz-geolocation-background-color);
+	background: linear-gradient(110deg,
+		var(--rz-geolocation-background-color) 10%,
+		color-mix(in hsl, var(--surface-dark-primary), transparent 85%) 30%,
+		var(--rz-geolocation-background-color) 50%
+	);
+	background-size: 200% 100%;
+	animation: 1.3s shine cubic-bezier(0.35, 0.09, 0.52, 1) infinite;
+
+	/* when leaflet is loaded */
+	rz-geolocation[data-initialized="true"] ~ & {
+		display: none;
+	}
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.rz-geolocation__map {
+	width: 100%;
+	height: 100%;
+}
+
+.rz-geolocation__pin-list {
+	width: 362px;
+	height: 100%;
+	background-color: var(--rz-geolocation-background-color);
+	padding: var(--spacing-4xs);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-6xs);
+	overflow-y: auto
+}
+
+.rz-geolocation__pin-item {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs);
+	padding-block: var(--spacing-4xs);
+}
+
+.rz-geolocation__pin__icon {
+	flex-shrink: 0;
+}
+
+.rz-geolocation__pin__content {
+	display: flex;
+    flex-direction: column;
+    max-width: 70%;
+}
+
+.rz-geolocation__pin__name {
+  font-family: var(--font-family-os-label);
+  font-size: var(--text-card-md-font-size);
+  line-height: var(--text-card-md-line-height);
+  letter-spacing: var(--text-card-md-letter-spacing);
+  font-weight: var(--text-card-md-font-weight);
+}
+
+.rz-geolocation__pin__subtitle {
+	color: var(--content-on_light-secondary, #646464);
+	margin-top: var(--spacing-6xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-card-sm-font-size);
+	line-height: var(--text-card-sm-line-height);
+	letter-spacing: var(--text-card-sm-letter-spacing);
+	font-weight: var(--text-card-sm-font-weight);
+}
+
+.rz-geolocation__pin__name,
+.rz-geolocation__pin__subtitle {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.rz-geolocation__pin__button {
+	margin-left: auto;
+}

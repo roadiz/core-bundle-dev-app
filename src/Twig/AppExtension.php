@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
 
 final class AppExtension extends AbstractExtension implements GlobalsInterface
 {
@@ -54,6 +55,24 @@ final class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         return [
             'menus' => $this->getMenus(),
+        ];
+    }
+
+    #[\Override]
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('json_decode', function (?string $json, bool $assoc = true) {
+                if ($json === null || $json === '') {
+                    return null;
+                }
+                try {
+                    $decoded = \json_decode($json, $assoc, 512, JSON_THROW_ON_ERROR);
+                    return $decoded;
+                } catch (\JsonException) {
+                    return null;
+                }
+            }),
         ];
     }
 }
