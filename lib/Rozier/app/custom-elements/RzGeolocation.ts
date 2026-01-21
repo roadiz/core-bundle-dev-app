@@ -220,10 +220,10 @@ export default class RzGeolocation extends HTMLElement {
         const icon = new Icon({
             iconUrl,
             shadowUrl,
-            iconSize: [22],
-            shadowSize: [25],
-            iconAnchor: [11],
-            shadowAnchor: [2],
+            iconSize: [22, 30],
+            shadowSize: [25, 22],
+            iconAnchor: [11, 30],
+            shadowAnchor: [2, 22],
         })
 
         const _name =
