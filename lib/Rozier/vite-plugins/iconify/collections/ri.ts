@@ -33,6 +33,7 @@ export default [
     'computer-line',
     'corner-down-left-line',
     'crop-line',
+    'crosshair-line',
     'dashboard-line',
     'dashboard-line',
     'delete-bin-7-line',
