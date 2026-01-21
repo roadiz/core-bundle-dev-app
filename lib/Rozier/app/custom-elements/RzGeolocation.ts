@@ -5,13 +5,12 @@ import {
     Map,
     Marker,
     TileLayer,
+    LatLngBounds,
     LeafletMouseEvent,
 } from 'leaflet'
 import GeoCodingService from '~/services/GeoCodingService'
 import iconUrl from '~/assets/img/marker.png'
-import iconRetinaUrl from '~/assets/img/marker@2x.png'
 import shadowUrl from '~/assets/img/marker_shadow.png'
-import shadowRetinaUrl from '~/assets/img/marker_shadow@2x.png'
 
 type LegacyLocation = {
     lat: number
@@ -33,13 +32,12 @@ type FeaturePoint = {
 type GeocodeInput = LegacyLocation | FeaturePoint | LatLng
 type MapLocationInput = LegacyLocation | FeaturePoint
 
-export const DEFAULT_LOCATION: LegacyLocation = {
-    lat: 45.769785,
-    lng: 4.833967,
-    zoom: 14,
-}
-
 export default class RzGeolocation extends HTMLElement {
+    defaultLocation: LegacyLocation = {
+        lat: 45.769785,
+        lng: 4.833967,
+        zoom: 14,
+    }
     private map: Map | null = null
     private markers: Marker[] = []
     private resizeObserver: ResizeObserver | null = null
@@ -57,8 +55,11 @@ export default class RzGeolocation extends HTMLElement {
     }
 
     get searchInput() {
+        const inputId = this.getAttribute('search-input-id')
+        if (!inputId) return null
+
         return this.fieldWrapper?.querySelector(
-            `input#${this.getAttribute('search-input-id')}`,
+            `input#${inputId}`,
         ) as HTMLInputElement | null
     }
 
@@ -73,10 +74,6 @@ export default class RzGeolocation extends HTMLElement {
         const isMultiple = val === 'true' || val === '1' || val === 'yes'
 
         return isMultiple
-    }
-
-    get multiple() {
-        return this.isMultiple
     }
 
     constructor() {
@@ -110,6 +107,7 @@ export default class RzGeolocation extends HTMLElement {
             return
         }
 
+        // Create map container
         this.mapContainer = document.createElement('div')
         this.mapContainer.className = 'rz-geolocation__map'
         this.appendChild(this.mapContainer)
@@ -117,34 +115,43 @@ export default class RzGeolocation extends HTMLElement {
         // Initialize Leaflet map
         const defaultConfig =
             (window.RozierConfig?.defaultMapLocation as LegacyLocation) ||
-            DEFAULT_LOCATION
+            this.defaultLocation
         const center = this.createLatLng(defaultConfig)
+        const zoom =
+            defaultConfig.zoom ||
+            defaultConfig?.alt ||
+            this.defaultLocation.zoom
 
-        this.map = this.createMap(this.mapContainer, {
-            center,
-            zoom:
-                defaultConfig.zoom ||
-                defaultConfig?.alt ||
-                DEFAULT_LOCATION.zoom,
-        })
+        this.map = this.createMap(this.mapContainer, { center, zoom })
 
-        // Init default markers from textarea value with normalization
-        this.normalizeInitialValue()
+        // Initialize default markers
+        this.initMarkersFromTextarea()
 
         // Event listeners
         this.addEventListener('command', this.onCommand)
         this.searchInput?.addEventListener('change', this.updateFromSearch)
         this.map?.on('click', this.onMapClick)
         this.resizeObserver = new ResizeObserver(() => {
-            this.map?.invalidateSize({ animate: false, pan: false })
-            const lastMarker = this.markers[this.markers.length - 1]
-            if (lastMarker) {
-                this.map?.panTo(lastMarker.getLatLng(), {
+            if (!this.map) return
+
+            this.map.invalidateSize({ animate: false, pan: false })
+
+            // Set map view to markers
+            if (this.markers.length > 1) {
+                const bounds = new LatLngBounds()
+                for (const marker of this.markers) {
+                    bounds.extend(marker.getLatLng())
+                }
+                this.map.fitBounds(bounds, {
                     animate: false,
                     pan: false,
                 })
-            } else {
-                this.map?.panTo(center, { animate: false, pan: false })
+            } else if (this.markers.length === 1) {
+                const latLng = this.markers[0].getLatLng()
+                this.map.panTo(latLng, {
+                    animate: false,
+                    pan: false,
+                })
             }
         })
         this.resizeObserver.observe(this)
@@ -170,34 +177,30 @@ export default class RzGeolocation extends HTMLElement {
         return map
     }
 
-    private normalizeInitialValue() {
+    private initMarkersFromTextarea() {
         const raw = this.textarea?.value?.trim()
         if (!raw) return
 
-        try {
-            const parsed = JSON.parse(raw)
-            const featureCollection: FeaturePoint[] = []
-            if (
-                parsed.type === 'FeatureCollection' &&
-                Array.isArray(parsed.features)
-            ) {
-                featureCollection.push(...parsed.features)
-            } else if (parsed.type === 'Feature') {
-                featureCollection.push(parsed)
-            }
-
-            featureCollection.forEach((feature, index) => {
-                // These markers has been already rendered from SSR
-                // I need to map the itemId to actual dom elements
-                const item = this.pinList?.children.item(index)
-                console.log(item)
-                const marker = this.createMarker(feature, undefined, item?.id)
-                this.bindMarker(marker)
-                this.markers.push(marker)
-            })
-        } catch (e) {
-            console.warn('Invalid geolocation JSON, ignoring', e)
+        const parsed = JSON.parse(raw)
+        const featureCollection: FeaturePoint[] = []
+        if (
+            parsed.type === 'FeatureCollection' &&
+            Array.isArray(parsed.features)
+        ) {
+            featureCollection.push(...parsed.features)
+        } else if (parsed.type === 'Feature') {
+            featureCollection.push(parsed)
         }
+
+        featureCollection.forEach((feature, index) => {
+            // These markers has been already rendered from SSR
+            // map these element with actual dom element data
+            const item = this.itemDetailList?.children.item(index)
+            const marker = this.createMarker(feature, undefined, item?.id)
+            this.markers.push(marker)
+
+            this.bindMarker(marker)
+        })
     }
 
     private formatLatLngLabel(latLng: LatLng) {
@@ -215,13 +218,11 @@ export default class RzGeolocation extends HTMLElement {
 
         const icon = new Icon({
             iconUrl,
-            iconRetinaUrl,
             shadowUrl,
-            shadowRetinaUrl,
-            iconSize: [22, 30],
-            shadowSize: [25, 22],
-            iconAnchor: [11, 30],
-            shadowAnchor: [2, 22],
+            iconSize: [22],
+            shadowSize: [25],
+            iconAnchor: [11],
+            shadowAnchor: [2],
         })
 
         const _name =
@@ -238,29 +239,27 @@ export default class RzGeolocation extends HTMLElement {
             itemId: itemId || this.generateItemId(),
         }).addTo(this.map)
 
-        console.log('marker', marker)
-        this.map.flyTo(latLng, latLng.alt)
         return marker
     }
 
     private onMapClick(event: LeafletMouseEvent) {
-        console.log('event', event)
+        if (!this.map) return
         const marker = this.createMarker(event.latlng)
 
         this.bindMarker(marker)
 
         if (this.isMultiple) {
             this.markers.push(marker)
+            this.updateItemDetailList()
         } else {
             // Single-pin mode: keep only one marker
             // Remove previous marker from map
             const prev = this.markers.pop()
-            if (prev && this.map) prev.removeFrom(this.map)
+            if (prev) prev.removeFrom(this.map)
             this.markers = [marker]
         }
 
         this.syncTextareaData()
-        this.updatePinList()
     }
 
     onCommand(event: CommandEvent) {
@@ -282,12 +281,11 @@ export default class RzGeolocation extends HTMLElement {
     }
 
     targetMarker(event: CommandEvent) {
-        const itemId = event.source.getAttribute('data-item-id')
+        const itemId = event.source.getAttribute('data-item-detail-id')
         const itemIndex = this.markers.findIndex(
             (m) => m.options.itemId === itemId,
         )
         const marker = this.markers[itemIndex]
-        console.log('target:', marker)
         this.map.flyTo(marker.getLatLng(), marker.getLatLng().alt)
     }
 
@@ -296,15 +294,16 @@ export default class RzGeolocation extends HTMLElement {
         if (!address?.trim().length) return
 
         const response = await GeoCodingService.geoCode(address)
-
         const { lat, lon } = response || {}
-        if (!response || !lat || !lon) {
-            console.warn('Geocoding response is null or undefined')
-            this.searchInput?.classList.add('rz-input--error')
 
+        if (!response || !lat || !lon) {
+            this.searchInput?.classList.add('rz-input--error')
+            this.searchInput?.setCustomValidity('Place not found')
             return
+        } else {
+            this.searchInput?.classList.remove('rz-input--error')
+            this.searchInput?.setCustomValidity('')
         }
-        this.searchInput?.classList.remove('rz-input--error')
 
         const latLng = new LatLng(
             lat === 'string' ? parseFloat(lat) : lat,
@@ -322,15 +321,17 @@ export default class RzGeolocation extends HTMLElement {
             this.markers = [marker]
         }
 
+        this.map.flyTo(latLng, latLng.alt)
+
         this.syncTextareaData()
-        this.updatePinList()
+        this.updateItemDetailList()
     }
 
     private onDeleteAll(event: Event) {
         event.preventDefault()
 
         if (this.map) {
-            this.markers.forEach((m) => m.removeFrom(this.map as Map))
+            this.markers.forEach((m) => m.removeFrom(this.map))
         }
 
         if (this.searchInput?.value) {
@@ -343,35 +344,37 @@ export default class RzGeolocation extends HTMLElement {
 
         this.markers = []
 
-        this.updatePinList()
+        this.updateItemDetailList()
     }
 
     private onDelete(event: CommandEvent) {
         event.preventDefault()
 
-        const itemId = event.source.getAttribute('data-item-id')
-        const itemIndex = this.markers.findIndex(
-            (m) => m.options.itemId === itemId,
-        )
-        console.log('onDelete', { itemId, itemIndex })
+        let itemIndex = -1
 
-        if (itemIndex < 0) {
-            console.warn('Pin not found for deletion', { itemId })
+        if (this.isMultiple) {
+            const itemId = event.source.getAttribute('data-item-detail-id')
+            itemIndex = this.markers.findIndex(
+                (m) => m.options.itemId === itemId,
+            )
+        } else {
+            itemIndex = 0
+
+            if (this.searchInput) {
+                this.searchInput.value = ''
+            }
+        }
+
+        if (itemIndex === -1) {
+            console.warn('Pin not found for deletion')
             return
         }
 
-        console.log('remove id', itemId, this.markers[itemIndex])
-        this.markers[itemIndex].removeFrom(this.map as Map)
+        this.markers[itemIndex].removeFrom(this.map)
         this.markers.splice(itemIndex, 1)
 
-        console.log(
-            'this.markers',
-            this.markers,
-            this.markers.map((m) => m.options.itemId),
-        )
-
         this.syncTextareaData()
-        this.updatePinList()
+        this.updateItemDetailList()
     }
 
     private bindMarker(marker: Marker) {
@@ -407,7 +410,7 @@ export default class RzGeolocation extends HTMLElement {
 
         if (!featureCollection.length) {
             this.textarea.value = ''
-        } else if (this.multiple) {
+        } else if (this.isMultiple) {
             this.textarea.value = JSON.stringify({
                 type: 'FeatureCollection',
                 features: featureCollection,
@@ -436,42 +439,43 @@ export default class RzGeolocation extends HTMLElement {
         throw new Error('Cannot create LatLng object from data')
     }
 
-    // Update template elements
-    get pinList() {
-        return this.querySelector('[data-pin-list]') as HTMLElement | null
+    get itemDetailList() {
+        return this.querySelector(
+            '[data-item-detail-list]',
+        ) as HTMLElement | null
     }
 
-    get pinItemTemplate() {
+    get itemDetailSkeleton() {
         const templateEl = this.fieldWrapper.querySelector(
-            'template[data-pin-item]',
+            'template[data-item-detail]',
         ) as HTMLTemplateElement | null
         return templateEl?.content?.firstElementChild as HTMLElement | null
     }
 
     private generateItemId() {
-        const prefix = this.getAttribute('item-id-prefix') || ''
+        const prefix = this.getAttribute('item-detail-id-prefix') || ''
         this.idCounter += 1
         return `${prefix}${this.idSeed}-${this.idCounter}`
     }
 
-    private updatePinList() {
-        const templateRoot = this.pinItemTemplate
-        if (!this.pinList || !this.isMultiple || !templateRoot) return
+    private updateItemDetailList() {
+        const templateRoot = this.itemDetailSkeleton
+        if (!this.itemDetailList || !this.isMultiple || !templateRoot) return
 
-        this.pinList.innerHTML = ''
+        this.itemDetailList.innerHTML = ''
         this.markers.forEach((marker) => {
-            const newPin = this.insertPin(marker)
-            this.pinList.appendChild(newPin)
+            const newPin = this.getItemDetail(marker)
+            this.itemDetailList.appendChild(newPin)
         })
     }
 
-    private insertPin(marker: Marker) {
-        const clone = document.importNode(this.pinItemTemplate, true)
+    private getItemDetail(marker: Marker) {
+        const clone = document.importNode(this.itemDetailSkeleton, true)
         const elId = (marker.options.itemId as string) || ''
         clone.id = elId
 
         const nameEl = clone.querySelector(
-            '[data-pin-name]',
+            '[data-item-detail-name]',
         ) as HTMLElement | null
         if (nameEl) {
             const content = marker.options.name || ''
@@ -480,19 +484,19 @@ export default class RzGeolocation extends HTMLElement {
         }
 
         const contentEl = clone.querySelector(
-            '[data-pin-content]',
+            '[data-item-detail-content]',
         ) as HTMLElement | null
         if (contentEl) {
             contentEl.textContent = this.formatLatLngLabel(marker.getLatLng())
         }
 
         const commandButtons = clone.querySelectorAll(
-            '.rz-geolocation__pin__button[data-item-id]',
+            '.rz-geolocation__item__button[data-item-detail-id]',
         ) as NodeListOf<HTMLElement> | null
         if (commandButtons.length) {
             commandButtons.forEach((button) => {
                 button.setAttribute('commandfor', this.id)
-                button.setAttribute('data-item-id', elId)
+                button.setAttribute('data-item-detail-id', elId)
             })
         }
 

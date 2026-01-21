@@ -76,7 +76,7 @@
                 attributes: {
                     type: 'button',
                     id: field_id ~ '-delete',
-                    title: 'delete.location'|trans,
+                    title: is_multiple ? 'delete.all_locations'|trans : 'delete.locations'|trans,
                     commandfor: geolocation_id,
                     command: is_multiple ? '--delete-all-marker' : '--delete-marker',
                 }
@@ -90,11 +90,11 @@
         ) }}
     {%- endif -%}
 
-    <template data-pin-item>
+    <template data-item-detail>
         {{ _self.pin(pin.name, pin.content) }}
     </template>
 
-    {% set item_id_prefix = field_id ~ '-item-' %}
+    {% set item_detail_id_prefix = field_id ~ '-item-' %}
     <rz-geolocation
         wrapper-id="{{ wrapper_id }}"
         class="rz-form-field__body"
@@ -102,10 +102,10 @@
         textarea-id="{{ field_id }}"
         search-input-id="{{ search_id }}"
         multiple="{{ is_multiple ? 'true' : 'false' }}"
-        item-id-prefix="{{ item_id_prefix }}"
+        item-detail-id-prefix="{{ item_detail_id_prefix }}"
     >
         {% if is_multiple %}
-            <div class="rz-geolocation__pin-list" data-pin-list>
+            <div class="rz-geolocation__item-list" data-item-detail-list>
                 {% if geo is iterable and geo.type is defined and geo.type == 'FeatureCollection' and geo.features is defined %}
                     {% for feature in geo.features %}
                         {% set name = feature.properties.name|default('') %}
@@ -113,7 +113,7 @@
                         {% if coords|length >= 2 %}
                             {% set lon = coords[0] %}
                             {% set lat = coords[1] %}
-                            {{ _self.pin(item_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, geolocation_id) }}
+                            {{ _self.pin(item_detail_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, geolocation_id) }}
                         {% endif %}
                     {% endfor %}
                 {% endif %}
@@ -121,7 +121,6 @@
         {% endif %}
     </rz-geolocation>
 
-    {{ dump(vars.value) }}
     <textarea
         class="rz-geolocation__textarea rz-form-field__body"
         id="{{ field_id }}"
@@ -131,36 +130,36 @@
 
 
 {% macro pin(el_id, name, content, geolocation_id) %}
-    <div class="rz-geolocation__pin-item" id={{ el_id }}>
-        <span class="rz-geolocation__pin__icon rz-icon-ri--map-pin-line"></span>
-        <div class="rz-geolocation__pin__content">
+    <div class="rz-geolocation__item" id={{ el_id }}>
+        <span class="rz-geolocation__item__icon rz-icon-ri--map-pin-line"></span>
+        <div class="rz-geolocation__item__content">
             {% set name_output = name|default('') %}
-            <span class="rz-geolocation__pin__name" data-pin-name title="{{ name_output }}">{{ name_output }}</span>
-            <span class="rz-geolocation__pin__subtitle" data-pin-content>{{content}}</span>
+            <span class="rz-geolocation__item__name" data-item-detail-name title="{{ name_output }}">{{ name_output }}</span>
+            <span class="rz-geolocation__item__subtitle" data-item-detail-content>{{content}}</span>
         </div>
         {{ rz_button.root({
-            size: 'sm',
+            size: 'xs',
             emphasis: 'tertiary',
-            icon: 'rz-icon-ri--add-line',
-            class: 'rz-geolocation__pin__button',
+            icon: 'rz-icon-ri--crosshair-line',
+            class: 'rz-geolocation__item__button',
             attributes: {
                 type: 'button',
                 commandfor: geolocation_id,
                 command: '--target-marker',
-                'data-item-id': el_id,
+                'data-item-detail-id': el_id,
             }
         }) }}
         {{ rz_button.root({
-            size: 'sm',
+            size: 'xs',
             color: 'danger',
             emphasis: 'tertiary',
             icon: 'rz-icon-ri--delete-bin-7-line',
-            class: 'rz-geolocation__pin__button',
+            class: 'rz-geolocation__item__button',
             attributes: {
                 type: 'button',
                 commandfor: geolocation_id,
                 command: '--delete-marker',
-                'data-item-id': el_id,
+                'data-item-detail-id': el_id,
             }
         }) }}
 
