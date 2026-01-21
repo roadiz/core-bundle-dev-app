@@ -78,7 +78,7 @@
                     id: field_id ~ '-delete',
                     title: 'delete.location'|trans,
                     commandfor: geolocation_id,
-                    command: is_multiple ? '--delete-all-pin' : '--delete-pin',
+                    command: is_multiple ? '--delete-all-marker' : '--delete-marker',
                 }
             }) }}
         </div>
@@ -90,11 +90,11 @@
         ) }}
     {%- endif -%}
 
-    {# {{ dump(vars, is_multiple)}} #}
     <template data-pin-item>
         {{ _self.pin(pin.name, pin.content) }}
     </template>
 
+    {% set item_id_prefix = field_id ~ '-item-' %}
     <rz-geolocation
         wrapper-id="{{ wrapper_id }}"
         class="rz-form-field__body"
@@ -102,6 +102,7 @@
         textarea-id="{{ field_id }}"
         search-input-id="{{ search_id }}"
         multiple="{{ is_multiple ? 'true' : 'false' }}"
+        item-id-prefix="{{ item_id_prefix }}"
     >
         {% if is_multiple %}
             <div class="rz-geolocation__pin-list" data-pin-list>
@@ -112,7 +113,7 @@
                         {% if coords|length >= 2 %}
                             {% set lon = coords[0] %}
                             {% set lat = coords[1] %}
-                            {{ _self.pin(loop.index, name, lat ~ ', ' ~ lon, geolocation_id) }}
+                            {{ _self.pin(item_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, geolocation_id) }}
                         {% endif %}
                     {% endfor %}
                 {% endif %}
@@ -120,7 +121,7 @@
         {% endif %}
     </rz-geolocation>
 
-    {# {{ dump(vars) }} #}
+    {{ dump(vars.value) }}
     <textarea
         class="rz-geolocation__textarea rz-form-field__body"
         id="{{ field_id }}"
@@ -139,6 +140,18 @@
         </div>
         {{ rz_button.root({
             size: 'sm',
+            emphasis: 'tertiary',
+            icon: 'rz-icon-ri--add-line',
+            class: 'rz-geolocation__pin__button',
+            attributes: {
+                type: 'button',
+                commandfor: geolocation_id,
+                command: '--target-marker',
+                'data-item-id': el_id,
+            }
+        }) }}
+        {{ rz_button.root({
+            size: 'sm',
             color: 'danger',
             emphasis: 'tertiary',
             icon: 'rz-icon-ri--delete-bin-7-line',
@@ -146,10 +159,10 @@
             attributes: {
                 type: 'button',
                 commandfor: geolocation_id,
-                command: '--delete-pin',
-                'data-pin-wrapper-id': el_id,
-                'data-pin-name': name,
+                command: '--delete-marker',
+                'data-item-id': el_id,
             }
         }) }}
+
     </div>
 {% endmacro %}

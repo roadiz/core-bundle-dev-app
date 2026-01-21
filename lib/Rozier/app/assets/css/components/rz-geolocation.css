@@ -7,7 +7,7 @@ rz-geolocation,
 	border: 1px solid var(--form-basic-border, #DADADA);
 	background-color: var(--rz-geolocation-background-color);
 	box-sizing: border-box;
-	height: 291px;
+	height: 391px;
 	overflow: hidden;
 }
 
@@ -45,12 +45,13 @@ rz-geolocation {
 }
 
 .rz-geolocation__map {
-	width: 100%;
+	flex-grow: 1;
 	height: 100%;
 }
 
 .rz-geolocation__pin-list {
-	width: 362px;
+	width: min(50%, 400px);
+	max-width: 400px;
 	height: 100%;
 	background-color: var(--rz-geolocation-background-color);
 	padding: var(--spacing-4xs);
@@ -65,6 +66,10 @@ rz-geolocation {
 	align-items: center;
 	gap: var(--spacing-4xs);
 	padding-block: var(--spacing-4xs);
+
+	&:last-child {
+		padding-bottom: var(--spacing-md);
+	}
 }
 
 .rz-geolocation__pin__icon {
@@ -75,6 +80,7 @@ rz-geolocation {
 	display: flex;
     flex-direction: column;
     max-width: 70%;
+	flex-grow: 1;
 }
 
 .rz-geolocation__pin__name {
@@ -102,6 +108,9 @@ rz-geolocation {
 	overflow: hidden;
 }
 
-.rz-geolocation__pin__button {
-	margin-left: auto;
+ .rz-geolocation__pin__button {
+
+	.rz-geolocation__pin__content + & {
+		margin-left: auto;
+	}
 }
