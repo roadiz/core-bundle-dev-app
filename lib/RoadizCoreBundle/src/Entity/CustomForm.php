@@ -94,6 +94,31 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     ]
     private ?\DateTime $closeDate = null;
 
+    #[
+        ORM\Column(name: 'webhook_enabled', type: 'boolean', nullable: false, options: ['default' => false]),
+        SymfonySerializer\Groups(['custom_form:export'])
+    ]
+    private bool $webhookEnabled = false;
+
+    #[
+        ORM\Column(name: 'webhook_provider', type: 'string', length: 50, nullable: true),
+        SymfonySerializer\Groups(['custom_form:export']),
+        Assert\Length(max: 50)
+    ]
+    private ?string $webhookProvider = null;
+
+    #[
+        ORM\Column(name: 'webhook_field_mapping', type: 'json', nullable: true),
+        SymfonySerializer\Groups(['custom_form:export'])
+    ]
+    private ?array $webhookFieldMapping = null;
+
+    #[
+        ORM\Column(name: 'webhook_extra_config', type: 'json', nullable: true),
+        SymfonySerializer\Groups(['custom_form:export'])
+    ]
+    private ?array $webhookExtraConfig = null;
+
     /**
      * @var Collection<int, CustomFormField>
      */
@@ -348,6 +373,54 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     public function setRetentionTime(?string $retentionTime): CustomForm
     {
         $this->retentionTime = $retentionTime;
+
+        return $this;
+    }
+
+    public function isWebhookEnabled(): bool
+    {
+        return $this->webhookEnabled;
+    }
+
+    public function setWebhookEnabled(bool $webhookEnabled): CustomForm
+    {
+        $this->webhookEnabled = $webhookEnabled;
+
+        return $this;
+    }
+
+    public function getWebhookProvider(): ?string
+    {
+        return $this->webhookProvider;
+    }
+
+    public function setWebhookProvider(?string $webhookProvider): CustomForm
+    {
+        $this->webhookProvider = $webhookProvider;
+
+        return $this;
+    }
+
+    public function getWebhookFieldMapping(): ?array
+    {
+        return $this->webhookFieldMapping;
+    }
+
+    public function setWebhookFieldMapping(?array $webhookFieldMapping): CustomForm
+    {
+        $this->webhookFieldMapping = $webhookFieldMapping;
+
+        return $this;
+    }
+
+    public function getWebhookExtraConfig(): ?array
+    {
+        return $this->webhookExtraConfig;
+    }
+
+    public function setWebhookExtraConfig(?array $webhookExtraConfig): CustomForm
+    {
+        $this->webhookExtraConfig = $webhookExtraConfig;
 
         return $this;
     }

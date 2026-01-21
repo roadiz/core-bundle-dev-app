@@ -21,8 +21,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class CustomFormType extends AbstractType
 {
-    public function __construct(private readonly Security $security)
-    {
+    public function __construct(
+        private readonly Security $security,
+    ) {
     }
 
     #[\Override]
