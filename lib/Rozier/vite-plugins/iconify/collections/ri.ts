@@ -92,6 +92,7 @@ export default [
     'lock-password-line',
     'logout-box-line',
     'mail-send-line',
+    'map-pin-line',
     'markdown-line',
     'menu-line',
     'moon-line',
