@@ -91,7 +91,7 @@
     {%- endif -%}
 
     <template data-item-detail>
-        {{ _self.pin(pin.name, pin.content) }}
+        {{ _self.item_detail() }}
     </template>
 
     {% set item_detail_id_prefix = field_id ~ '-item-' %}
@@ -113,7 +113,7 @@
                         {% if coords|length >= 2 %}
                             {% set lon = coords[0] %}
                             {% set lat = coords[1] %}
-                            {{ _self.pin(item_detail_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, geolocation_id) }}
+                            {{ _self.item_detail(item_detail_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, geolocation_id) }}
                         {% endif %}
                     {% endfor %}
                 {% endif %}
@@ -129,8 +129,8 @@
 </rz-form-field>
 
 
-{% macro pin(el_id, name, content, geolocation_id) %}
-    <div class="rz-geolocation__item" id={{ el_id }}>
+{% macro item_detail(item_id, name, content, component_id) %}
+    <div class="rz-geolocation__item" id={{ item_id }}>
         <span class="rz-geolocation__item__icon rz-icon-ri--map-pin-line"></span>
         <div class="rz-geolocation__item__content">
             {% set name_output = name|default('') %}
@@ -144,9 +144,9 @@
             class: 'rz-geolocation__item__button',
             attributes: {
                 type: 'button',
-                commandfor: geolocation_id,
+                commandfor: component_id,
                 command: '--target-marker',
-                'data-item-detail-id': el_id,
+                'data-item-detail-id': item_id,
             }
         }) }}
         {{ rz_button.root({
@@ -157,9 +157,9 @@
             class: 'rz-geolocation__item__button',
             attributes: {
                 type: 'button',
-                commandfor: geolocation_id,
+                commandfor: component_id,
                 command: '--delete-marker',
-                'data-item-detail-id': el_id,
+                'data-item-detail-id': item_id,
             }
         }) }}
 
