@@ -287,6 +287,8 @@ export default class RzGeolocation extends HTMLElement {
             (m) => m.options.itemId === itemId,
         )
         const marker = this.markers[itemIndex]
+        if (!marker) return
+
         this.map.flyTo(marker.getLatLng(), marker.getLatLng().alt)
     }
 
