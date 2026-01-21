@@ -168,8 +168,9 @@ export default class RzGeolocation extends HTMLElement {
             mapOptions.center,
             mapOptions.zoom,
         )
-        const title = window.RozierConfig?.leafletMapTileUrl || 'OpenStreetMap'
-        const osmLayer = new TileLayer(title, {
+        const tileUrl =
+            window.RozierConfig?.leafletMapTileUrl || 'OpenStreetMap'
+        const osmLayer = new TileLayer(tileUrl, {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 18,
         })
