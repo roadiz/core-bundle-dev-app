@@ -306,8 +306,8 @@ export default class RzGeolocation extends HTMLElement {
         }
 
         const latLng = new LatLng(
-            lat === 'string' ? parseFloat(lat) : lat,
-            lon === 'string' ? parseFloat(lon) : lon,
+            typeof lat === 'string' ? parseFloat(lat) : lat,
+            typeof lon === 'string' ? parseFloat(lon) : lon,
         )
 
         const marker = this.createMarker(latLng, response.display_name)
