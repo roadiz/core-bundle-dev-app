@@ -19,7 +19,7 @@
 
 {% set field_id = (form.field_id|default(vars.id)) %}
 {% set wrapper_id = field_id ~ '-wrapper' %}
-{% set geolocation_id = field_id ~ '-geolocation' %}
+{% set component_id = field_id ~ '-component' %}
 {% set search_id = field_id ~ '-search-value' %}
 
 {% set rowClasses = [''] %}
@@ -63,7 +63,7 @@
                     type: 'button',
                     id: field_id ~ '-search',
                     title: 'search.location'|trans,
-                    commandfor: geolocation_id,
+                    commandfor: component_id,
                     command: '--search-location',
                 }
             }) }}
@@ -77,7 +77,7 @@
                     type: 'button',
                     id: field_id ~ '-delete',
                     title: is_multiple ? 'delete.all_locations'|trans : 'delete.locations'|trans,
-                    commandfor: geolocation_id,
+                    commandfor: component_id,
                     command: is_multiple ? '--delete-all-marker' : '--delete-marker',
                 }
             }) }}
@@ -98,7 +98,7 @@
     <rz-geolocation
         wrapper-id="{{ wrapper_id }}"
         class="rz-form-field__body"
-        id="{{ geolocation_id }}"
+        id="{{ component_id }}"
         textarea-id="{{ field_id }}"
         search-input-id="{{ search_id }}"
         multiple="{{ is_multiple ? 'true' : 'false' }}"
@@ -113,7 +113,7 @@
                         {% if coords|length >= 2 %}
                             {% set lon = coords[0] %}
                             {% set lat = coords[1] %}
-                            {{ _self.item_detail(item_detail_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, geolocation_id) }}
+                            {{ _self.item_detail(item_detail_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, component_id) }}
                         {% endif %}
                     {% endfor %}
                 {% endif %}
