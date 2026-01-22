@@ -46,6 +46,7 @@ final class AttributeTranslationType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'rz-collection-form-type',
+                    'no-field-group' => true,
                 ],
             ])
         ;
