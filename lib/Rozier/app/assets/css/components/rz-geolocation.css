@@ -109,8 +109,7 @@ rz-geolocation {
 	overflow: hidden;
 }
 
- .rz-geolocation__item__button {
-
+.rz-geolocation__item__button {
 	.rz-geolocation__item__content + & {
 		margin-left: auto;
 	}
