@@ -38,7 +38,10 @@ export class RzRepeatable extends HTMLElement {
         if (!itemToDuplicate) return
         const newItem = document.importNode(itemToDuplicate, true)
 
-        if (item) {
+        // Insert after current item or append to the end of the list
+        // In nested repeatable contexts, checking list length prevent item to refer as parent repeatable
+        const addAfterItem = item && this.list?.childElementCount > 0
+        if (addAfterItem) {
             item.after(newItem)
         } else {
             this.list?.prepend(newItem)
@@ -128,6 +131,7 @@ export class RzRepeatable extends HTMLElement {
             this.itemClass = this.getAttribute('item-class')
         }
 
+        console.log('connectedCallback', this.list)
         this.addEventListener('command', this.onCommand)
     }
 
