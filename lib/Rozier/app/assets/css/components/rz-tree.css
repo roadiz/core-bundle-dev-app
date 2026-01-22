@@ -167,21 +167,25 @@
 }
 
 .rz-tree__item__icon {
-	font-size: 12px;
 	width: var(--rz-tree-icon-width);
-	color: var(--rz-tree-icon-color, var(--node-border-on-light, #9A9A9A));
 	z-index: 2;
+	font-size: var(--rz-tree-icon-width);
+	color: var(--rz-tree-icon-color, var(--node-border-on-light, #9A9A9A));
 }
 
 .rz-tree__item__label {
 	flex-grow: 1;
-	padding-inline: var(--spacing-6xs) var(--spacing-md);
+	padding-inline: calc(var(--rz-tree-icon-width) + var(--spacing-6xs)) var(--spacing-md);
 
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-label-sm-font-size);
 	line-height: var(--text-label-sm-line-height);
 	letter-spacing: var(--text-label-sm-letter-spacing);
 	font-weight: var(--text-label-sm-font-weight);
+
+	.rz-tree__item__icon + & {
+		padding-left: var(--spacing-6xs);
+	}
 }
 
 .rz-tree__item__expand-button {

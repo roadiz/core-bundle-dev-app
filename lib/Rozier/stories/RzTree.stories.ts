@@ -148,41 +148,94 @@ export const Default: Story = {
                 iconClass: 'rz-icon-ri--home-2-fill',
                 expanded: true,
                 children: [
-                    { label: 'item 1.1' },
-                    { label: 'item 1.2' },
+                    {
+                        label: 'item 1.1',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
+                    },
+                    {
+                        label: 'item 1.2',
+                        iconClass: 'rz-icon-rz--status-published-fill',
+                    },
                     {
                         label: 'item 1.3',
                         expanded: true,
+                        iconClass: 'rz-icon-rz--status-published-fill',
                         children: [
-                            { label: 'item 1.3.1' },
+                            {
+                                label: 'item 1.3.1',
+                                iconClass: 'rz-icon-rz--status-draft-fill',
+                            },
                             {
                                 label: 'item 1.3.2',
-                                children: [{ label: 'item 1.3.2.1' }],
+                                iconClass: 'rz-icon-rz--status-published-fill',
+                                children: [
+                                    {
+                                        label: 'item 1.3.2.1',
+                                        iconClass:
+                                            'rz-icon-rz--status-draft-fill',
+                                    },
+                                ],
                             },
                         ],
                     },
-                    { label: 'item 1.4' },
+                    {
+                        label: 'item 1.4',
+                        iconClass: 'rz-icon-rz--status-published-fill',
+                    },
                 ],
             },
-            { label: 'Page 1' },
-            { label: 'Page 2' },
+            {
+                label: 'Page 1',
+                iconClass: 'rz-icon-rz--status-published-fill',
+            },
+            {
+                label: 'Page 2',
+                iconClass: 'rz-icon-rz--status-published-fill',
+            },
             {
                 label: 'Menu 2',
-                children: [{ label: 'item 2.1' }, { label: 'item 2.2' }],
+                iconClass: 'rz-icon-rz--status-draft-fill',
+                children: [
+                    {
+                        label: 'item 2.1',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
+                    },
+                    {
+                        label: 'item 2.2',
+                        iconClass: 'rz-icon-rz--status-published-fill',
+                    },
+                ],
             },
             {
                 label: 'Menu 3',
-                iconClass: 'rz-icon-ri--home-2-fill',
+                iconClass: 'rz-icon-rz--status-draft-fill',
                 children: [
-                    { label: 'item 1.1' },
-                    { label: 'item 1.2' },
+                    {
+                        label: 'item 1.1',
+                        iconClass: 'rz-icon-rz--status-published-fill',
+                    },
+                    {
+                        label: 'item 1.2',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
+                    },
                     {
                         label: 'item 1.3',
+                        iconClass: 'rz-icon-rz--status-published-fill',
                         children: [
-                            { label: 'item 1.3.1' },
+                            {
+                                label: 'item 1.3.1',
+                                iconClass: 'rz-icon-rz--status-draft-fill',
+                            },
                             {
                                 label: 'item 1.3.2',
-                                children: [{ label: 'item 1.3.2.1' }],
+                                iconClass: 'rz-icon-rz--status-published-fill',
+                                children: [
+                                    {
+                                        label: 'item 1.3.2.1',
+                                        iconClass:
+                                            'rz-icon-rz--status-draft-fill',
+                                    },
+                                ],
                             },
                         ],
                     },
@@ -200,29 +253,56 @@ export const ChildNodes: Story = {
         items: [
             {
                 label: 'Menu 1',
-                iconClass: 'rz-icon-ri--home-2-fill',
+                iconClass: 'rz-icon-rz--status-published-fill',
                 expanded: true,
                 children: [
-                    { label: 'item 1.1' },
+                    {
+                        label: 'item 1.1',
+                        iconClass: 'rz-icon-rz--status-published-fill',
+                    },
                     {
                         label: 'item 1.3',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
                         expanded: true,
                         children: [
-                            { label: 'item 1.3.1' },
+                            {
+                                label: 'item 1.3.1',
+                                iconClass: 'rz-icon-rz--status-published-fill',
+                            },
                             {
                                 label: 'item 1.3.2',
-                                children: [{ label: 'item 1.3.2.1' }],
+                                iconClass: 'rz-icon-rz--status-draft-fill',
+                                children: [
+                                    {
+                                        label: 'item 1.3.2.1',
+                                        iconClass:
+                                            'rz-icon-rz--status-published-fill',
+                                    },
+                                ],
                             },
                         ],
                     },
-                    { label: 'item 1.4' },
+                    {
+                        label: 'item 1.4',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
+                    },
                 ],
             },
-            { label: 'Page 2' },
+            { label: 'Page 2', iconClass: 'rz-icon-rz--status-published-fill' },
             {
                 label: 'Menu 2',
+                iconClass: 'rz-icon-rz--status-draft-fill',
                 expanded: true,
-                children: [{ label: 'item 2.1' }, { label: 'item 2.2' }],
+                children: [
+                    {
+                        label: 'item 2.1',
+                        iconClass: 'rz-icon-rz--status-published-fill',
+                    },
+                    {
+                        label: 'item 2.2',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
+                    },
+                ],
             },
         ],
     },
@@ -343,23 +423,28 @@ export const WithContextualMenu: Story = {
                 children: [
                     {
                         label: 'About us',
+                        iconClass: 'rz-icon-rz--status-published-fill',
                         actions: [createContextualMenuAction()],
                     },
                     {
                         label: 'Contact',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
                         actions: [createContextualMenuAction()],
                     },
                     {
                         label: 'Services',
+                        iconClass: 'rz-icon-rz--status-published-fill',
                         expanded: true,
                         actions: [createContextualMenuAction()],
                         children: [
                             {
                                 label: 'Web development',
+                                iconClass: 'rz-icon-rz--status-draft-fill',
                                 actions: [createContextualMenuAction()],
                             },
                             {
                                 label: 'Mobile apps',
+                                iconClass: 'rz-icon-rz--status-published-fill',
                                 actions: [createContextualMenuAction()],
                             },
                         ],
@@ -368,18 +453,22 @@ export const WithContextualMenu: Story = {
             },
             {
                 label: 'Blog',
+                iconClass: 'rz-icon-rz--status-draft-fill',
                 actions: [createContextualMenuAction()],
             },
             {
                 label: 'Products',
+                iconClass: 'rz-icon-rz--status-published-fill',
                 actions: [createContextualMenuAction()],
                 children: [
                     {
                         label: 'Product A',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
                         actions: [createContextualMenuAction()],
                     },
                     {
                         label: 'Product B',
+                        iconClass: 'rz-icon-rz--status-published-fill',
                         actions: [createContextualMenuAction()],
                     },
                 ],
