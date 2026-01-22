@@ -24,21 +24,20 @@
 					type: 'button',
 					'command': '--add',
 					'commandfor': repeatable_id,
+					'data-insert-index': '0',
 				},
 			}) }}
 		</div>
+
+		<template data-item="">
+			{% embed "@RoadizRozier/macros/rz_repeatable.html.twig" %}
+				{% block inner_body %}
+					{{ data_prototype|raw }}
+				{% endblock %}
+			{% endembed %}
+		</template>
+
 		<div class="rz-form-field__body rz-repeatable__body">
-			<div class="rz-repeatable__insert-zone">
-				{{ rz_button.root({
-					icon: 'rz-icon-ri--add-line',
-					attributes: {
-						type: 'button',
-						'tooltip-text': 'insert.zone'|trans,
-						'command': '--add',
-						'commandfor': repeatable_id,
-					},
-				}) }}
-			</div>
 			<ol data-list="" class="rz-repeatable__list">
 				{% if stored_items_form is not null %}
                     {% for item in stored_items_form %}
@@ -50,14 +49,18 @@
                     {% endfor %}
 				{% endif %}
 			</ol>
+			<div class="rz-repeatable__insert-zone">
+				{{ rz_button.root({
+					icon: 'rz-icon-ri--add-line',
+					attributes: {
+						type: 'button',
+						'command': '--add',
+						'commandfor': repeatable_id,
+						'tooltip-text': 'insert.zone'|trans,
+						'aria-label': 'collection.insert_item'|trans,
+					},
+				}) }}
+			</div>
 		</div>
 	{% endif %}
-
-	<template data-item="">
-        {% embed "@RoadizRozier/macros/rz_repeatable.html.twig" %}
-            {% block inner_body %}
-                {{ data_prototype|raw }}
-            {% endblock %}
-        {% endembed %}
-	</template>
 </rz-repeatable>

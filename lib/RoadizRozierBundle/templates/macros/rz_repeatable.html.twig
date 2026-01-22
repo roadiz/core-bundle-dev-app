@@ -4,7 +4,7 @@
         {% set _icon = icon|default('rz-icon-ri--list-unordered') %}
         <span class="{{ _icon }}"></span>
         {% if label is defined and label is not empty %}
-            <span class="rz-repeatable__item__title">{{ label|trans }} {{ loop.index }}</span>
+            <span class="rz-repeatable__item__title">{{ label|trans }}</span>
         {% endif %}
         <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
             {{ rz_button.root({
@@ -47,17 +47,5 @@
     <div data-form class="rz-repeatable__item__body">
         {% block inner_body %}
         {% endblock %}
-    </div>
-    <div class="rz-repeatable__insert-zone">
-        {{ rz_button.root({
-            icon: 'rz-icon-ri--add-line',
-            attributes: {
-                type: 'button',
-                'command': '--add',
-                'commandfor': repeatable_id,
-                'tooltip-text': 'insert.zone'|trans,
-                'aria-label': 'collection.insert_item'|trans,
-            },
-        }) }}
     </div>
 </li>
