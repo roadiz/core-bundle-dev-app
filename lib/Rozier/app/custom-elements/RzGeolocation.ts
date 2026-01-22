@@ -1,5 +1,4 @@
 import {
-    GeoJSON,
     Icon,
     LatLng,
     Map,
@@ -22,15 +21,11 @@ type LegacyLocation = {
 
 type FeaturePoint = {
     type: 'Feature'
-    properties?: { name?: string; zoom?: number | string }
+    properties?: { name?: string; zoom?: number | string; alt?: number }
     geometry: { type: 'Point'; coordinates: [number, number] }
-    name?: string
-    zoom?: number
-    alt?: number
 }
 
 type GeocodeInput = LegacyLocation | FeaturePoint | LatLng
-type MapLocationInput = LegacyLocation | FeaturePoint
 
 export default class RzGeolocation extends HTMLElement {
     defaultLocation: LegacyLocation = {
@@ -39,7 +34,7 @@ export default class RzGeolocation extends HTMLElement {
         zoom: 14,
     }
     private map: Map | null = null
-    private markers: Marker[] = []
+    private markers: Marker<{ name?: string; itemDetailId?: string }>[] = []
     private resizeObserver: ResizeObserver | null = null
     private mapContainer: HTMLDivElement | null = null
     private idSeed: string = Date.now().toString(36)
@@ -138,19 +133,16 @@ export default class RzGeolocation extends HTMLElement {
 
             // Set map view to markers
             if (this.markers.length > 1) {
-                const bounds = new LatLngBounds()
-                for (const marker of this.markers) {
-                    bounds.extend(marker.getLatLng())
-                }
+                const bounds = new LatLngBounds(
+                    this.markers.map((m) => m.getLatLng()),
+                )
                 this.map.fitBounds(bounds, {
                     animate: false,
-                    pan: false,
                 })
             } else if (this.markers.length === 1) {
                 const latLng = this.markers[0].getLatLng()
                 this.map.panTo(latLng, {
                     animate: false,
-                    pan: false,
                 })
             }
         })
@@ -211,7 +203,7 @@ export default class RzGeolocation extends HTMLElement {
     private createMarker(
         geocode: GeocodeInput,
         name?: string,
-        itemId?: string,
+        itemDetailId?: string,
     ) {
         if (!this.map) return
         const latLng =
@@ -230,16 +222,14 @@ export default class RzGeolocation extends HTMLElement {
             name ||
             geocode.options?.name ||
             geocode.properties?.name ||
-            geocode?.name ||
             this.formatLatLngLabel(latLng)
 
         const marker = new Marker(latLng, {
             name: _name,
             icon,
             draggable: true,
-            itemId: itemId || this.generateItemId(),
+            itemDetailId: itemDetailId || this.generateItemDetailId(),
         }).addTo(this.map)
-
         return marker
     }
 
@@ -282,9 +272,9 @@ export default class RzGeolocation extends HTMLElement {
     }
 
     targetMarker(event: CommandEvent) {
-        const itemId = event.source.getAttribute('data-item-detail-id')
+        const itemDetailId = event.source.getAttribute('data-item-detail-id')
         const itemIndex = this.markers.findIndex(
-            (m) => m.options.itemId === itemId,
+            (m) => m.options?.itemDetailId === itemDetailId,
         )
         const marker = this.markers[itemIndex]
         if (!marker) return
@@ -356,9 +346,11 @@ export default class RzGeolocation extends HTMLElement {
         let itemIndex = -1
 
         if (this.isMultiple) {
-            const itemId = event.source.getAttribute('data-item-detail-id')
+            const itemDetailId = event.source.getAttribute(
+                'data-item-detail-id',
+            )
             itemIndex = this.markers.findIndex(
-                (m) => m.options.itemId === itemId,
+                (m) => m.options.itemDetailId === itemDetailId,
             )
         } else {
             itemIndex = 0
@@ -394,17 +386,13 @@ export default class RzGeolocation extends HTMLElement {
         const featureCollection = [] as FeaturePoint[]
 
         this.markers.forEach((marker) => {
-            const latLng = marker.getLatLng()
-
+            const defaultData = marker.toGeoJSON()
             const feature: FeaturePoint = {
+                ...defaultData,
                 type: 'Feature',
                 properties: {
                     name: marker?.options?.name,
-                    zoom: latLng.alt || this.map.getZoom(),
-                },
-                geometry: {
-                    type: 'Point',
-                    coordinates: GeoJSON.latLngToCoords(latLng),
+                    zoom: this.map.getZoom(),
                 },
             }
 
@@ -423,9 +411,9 @@ export default class RzGeolocation extends HTMLElement {
         }
     }
 
-    private createLatLng(data: MapLocationInput): LatLng {
+    private createLatLng(data: GeocodeInput): LatLng {
         if ('lat' in data && 'lng' in data) {
-            return new LatLng(data.lat, data.lng, data.zoom ?? data.alt)
+            return new LatLng(data.lat, data.lng, data?.zoom ?? data?.alt)
         }
         if (data.type === 'Feature') {
             const zoomValue = data.properties?.zoom
@@ -455,7 +443,7 @@ export default class RzGeolocation extends HTMLElement {
         return templateEl?.content?.firstElementChild as HTMLElement | null
     }
 
-    private generateItemId() {
+    private generateItemDetailId() {
         const prefix = this.getAttribute('item-detail-id-prefix') || ''
         this.idCounter += 1
         return `${prefix}${this.idSeed}-${this.idCounter}`
@@ -474,14 +462,14 @@ export default class RzGeolocation extends HTMLElement {
 
     private getItemDetail(marker: Marker) {
         const clone = document.importNode(this.itemDetailSkeleton, true)
-        const elId = (marker.options.itemId as string) || ''
+        const elId = (marker.options?.itemDetailId as string) || ''
         clone.id = elId
 
         const nameEl = clone.querySelector(
             '[data-item-detail-name]',
         ) as HTMLElement | null
         if (nameEl) {
-            const content = marker.options.name || ''
+            const content = marker.options?.name || ''
             nameEl.setAttribute('title', content)
             nameEl.textContent = content
         }
