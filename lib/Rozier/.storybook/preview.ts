@@ -48,12 +48,11 @@ const globalHandlers = [
 
 // Initialize MSW
 initialize()
-;(function () {
-    // Auto-register custom elements
-    for (const name in customElementList) {
-        defineLazyElement(name, customElementList[name])
-    }
-})()
+
+// Auto-register custom elements
+for (const name in customElementList) {
+    defineLazyElement(name, customElementList[name])
+}
 
 const preview: Preview = {
     parameters: {

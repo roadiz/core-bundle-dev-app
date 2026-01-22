@@ -1,0 +1,26 @@
+.rz-node-icon {
+    --rz-node-icon-shape: url('assets/img/icons/rz/status-published-fill.svg');
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mask: var(--rz-node-icon-shape) no-repeat;
+    mask-size: cover;
+    background: var(--rz-node-icon-background);
+    color: var(--rz-node-icon-color);
+}
+
+.rz-node-icon--draft {
+    --rz-node-icon-shape: url('assets/img/icons/rz/status-draft-fill.svg');
+}
+
+.rz-node-icon__thumbnail {
+    width: 100%;
+    height: 100%;
+}
+
+.rz-node-icon__border {
+    position: absolute;
+    inset: 0;
+}

@@ -168,6 +168,7 @@
 
 .rz-tree__item__icon {
 	width: var(--rz-tree-icon-width);
+	height: var(--rz-tree-icon-width);
 	z-index: 2;
 	font-size: var(--rz-tree-icon-width);
 	color: var(--rz-tree-icon-color, var(--node-border-on-light, #9A9A9A));

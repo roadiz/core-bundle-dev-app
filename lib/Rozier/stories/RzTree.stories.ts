@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
-import { rzEntityThumbnailRenderer } from '~/utils/storybook/renderer/rzEntityThumbnail'
+import { rzNodeIconRenderer } from '~/utils/storybook/renderer/rzNodeIcon'
 
 type Item = {
     label: string
@@ -480,70 +480,64 @@ export const WithContextualMenu: Story = {
     },
 }
 
-/**
- * Creates an entity thumbnail element for use as an icon
- */
-function createEntityThumbnail(
-    entityId: string = '42',
-    size: 'small' | 'medium' | 'large' = 'small',
-): HTMLElement {
-    return rzEntityThumbnailRenderer({
-        entityClass: 'RZ\\Roadiz\\CoreBundle\\Entity\\Document',
-        entityId,
-        size,
-    })
-}
-
-export const WithEntityThumbnail: Story = {
+export const WithThumbnail: Story = {
     args: {
         items: [
             {
                 label: 'Gallery',
-                icon: createEntityThumbnail('1'),
+                icon: rzNodeIconRenderer({
+                    nodeId: '2',
+                    status: 'published',
+                    size: 'medium',
+                    color: 'blue',
+                }),
                 expanded: true,
                 children: [
                     {
                         label: 'Photo 1',
-                        icon: createEntityThumbnail('2'),
+                        icon: rzNodeIconRenderer({
+                            nodeId: '2',
+                            size: 'medium',
+                            status: 'draft',
+                            color: 'salmon',
+                        }),
                     },
                     {
                         label: 'Photo 2',
-                        icon: createEntityThumbnail('3'),
+                        icon: rzNodeIconRenderer({
+                            nodeId: '3',
+                            size: 'medium',
+                            status: 'published',
+                        }),
                     },
                     {
                         label: 'Album',
-                        icon: createEntityThumbnail('4'),
+                        icon: rzNodeIconRenderer({
+                            nodeId: '4',
+                            size: 'medium',
+                            status: 'draft',
+                        }),
                         expanded: true,
                         children: [
                             {
                                 label: 'Photo 3',
-                                icon: createEntityThumbnail('5'),
+                                icon: rzNodeIconRenderer({
+                                    nodeId: '5',
+                                    size: 'medium',
+                                    status: 'published',
+                                }),
                             },
                             {
                                 label: 'Photo 4',
-                                icon: createEntityThumbnail('6'),
+                                icon: rzNodeIconRenderer({
+                                    nodeId: '6',
+                                    size: 'medium',
+                                    status: 'published',
+                                }),
                             },
                         ],
                     },
                 ],
-            },
-            {
-                label: 'Documents',
-                icon: createEntityThumbnail('7'),
-                children: [
-                    {
-                        label: 'Report.pdf',
-                        icon: createEntityThumbnail('8'),
-                    },
-                    {
-                        label: 'Invoice.pdf',
-                        icon: createEntityThumbnail('9'),
-                    },
-                ],
-            },
-            {
-                label: 'Video',
-                icon: createEntityThumbnail('10'),
             },
         ],
     },

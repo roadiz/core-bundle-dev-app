@@ -100,7 +100,7 @@ export const MultipleSizes: Story = {
             const thumbnail = document.createElement('rz-entity-thumbnail')
             thumbnail.setAttribute('entity-class', args.entityClass)
             thumbnail.setAttribute('entity-id', args.entityId)
-            thumbnail.setAttribute('size', size)
+            thumbnail.classList.add(`rz-entity-thumbnail--${size}`)
             container.appendChild(thumbnail)
         })
 

@@ -7,7 +7,7 @@ export function rzEntityThumbnailRenderer(args: Args) {
     thumbnail.setAttribute('entity-id', args.entityId)
 
     if (args.size) {
-        thumbnail.setAttribute('size', args.size)
+        thumbnail.classList.add(`rz-entity-thumbnail--${args.size}`)
     }
 
     return thumbnail
