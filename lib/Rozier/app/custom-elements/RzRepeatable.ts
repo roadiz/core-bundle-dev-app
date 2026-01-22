@@ -90,9 +90,14 @@ export class RzRepeatable extends HTMLElement {
         )
 
         items.forEach((item, itemIndex) => {
-            const inputs = item.querySelectorAll(
-                `input[name^="${this.inputBaseName}"], select[name^="${this.inputBaseName}"], textarea[name^="${this.inputBaseName}"]`,
-            )
+            const inputs = Array.from(
+                item.querySelectorAll(
+                    `input[name^="${this.inputBaseName}"], select[name^="${this.inputBaseName}"], textarea[name^="${this.inputBaseName}"]`,
+                ),
+            ).filter((el) => {
+                // Avoid selecting inputs from nested repeatables
+                return el.closest('rz-repeatable') === this
+            })
 
             inputs.forEach((input) => {
                 const name = input.getAttribute('name')
@@ -131,7 +136,6 @@ export class RzRepeatable extends HTMLElement {
             this.itemClass = this.getAttribute('item-class')
         }
 
-        console.log('connectedCallback', this.list)
         this.addEventListener('command', this.onCommand)
     }
 

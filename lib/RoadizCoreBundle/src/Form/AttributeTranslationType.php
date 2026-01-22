@@ -25,12 +25,12 @@ final class AttributeTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextType::class, [
+            'label' => 'name',
             'empty_data' => '',
-            'label' => false,
             'required' => false,
         ])
             ->add('translation', TranslationsType::class, [
-                'label' => false,
+                'label' => 'translation',
                 'required' => true,
                 'constraints' => [
                     new NotNull(),

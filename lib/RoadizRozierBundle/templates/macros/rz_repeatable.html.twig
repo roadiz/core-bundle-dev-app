@@ -3,7 +3,9 @@
     <div class="rz-repeatable__item__header">
         {% set _icon = icon|default('rz-icon-ri--list-unordered') %}
         <span class="{{ _icon }}"></span>
-        <span class="rz-repeatable__item__title">{{ label|default('') }} {{ loop.index }}</span>
+        {% if label is defined and label is not empty %}
+            <span class="rz-repeatable__item__title">{{ label|trans }} {{ loop.index }}</span>
+        {% endif %}
         <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
             {{ rz_button.root({
                 icon: 'rz-icon-ri--arrow-up-line',

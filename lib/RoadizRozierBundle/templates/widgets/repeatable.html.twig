@@ -2,7 +2,6 @@
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
 {% set repeatable_id = id ~ '_repeatable'|default(random() ~ '_repeatable') %}
-
 <rz-repeatable
 	input-index-placeholder="{{ prototype.vars.name }}"
 	input-base-name="{{ full_name }}"
@@ -40,7 +39,7 @@
 					},
 				}) }}
 			</div>
-			<ul data-list="" class="rz-repeatable__list">
+			<ol data-list="" class="rz-repeatable__list">
 				{% if stored_items_form is not null %}
                     {% for item in stored_items_form %}
                         {% embed "@RoadizRozier/macros/rz_repeatable.html.twig" %}
@@ -50,7 +49,7 @@
                         {% endembed %}
                     {% endfor %}
 				{% endif %}
-			</ul>
+			</ol>
 		</div>
 	{% endif %}
 
