@@ -155,11 +155,24 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         return $this->translationRepository->findAllAvailable();
     }
 
-    public function jsonDecode(string $json)
+    /**
+     * Decode a JSON string into an associative array.
+     *
+     * @param string|null $json
+     *
+     * @return array|null
+     *
+     * @throws \JsonException When the JSON is invalid
+     */
+    public function jsonDecode(?string $json): ?array
     {
-        if (null === $json || '' === $json) {
+        if (null === $json) {
             return null;
         }
-        return json_decode($json, true);
+        $json = trim($json);
+        if ($json === '') {
+            return null;
+        }
+        return \json_decode(json: $json, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }
