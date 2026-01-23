@@ -30,6 +30,7 @@
 
 ## Other changes
 
+- Roadiz can integrate with external translation services to automatically translate Markdown fields.
 - Switched to attributes for mapping Routes in Roadiz Core and Rozier bundles
 - Fluent setters on key interfaces return `static` to support subclassing.
 - Back-office sidebar bookmarks are now configurable via `roadiz_rozier.bookmarks`

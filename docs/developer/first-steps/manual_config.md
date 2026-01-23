@@ -390,6 +390,8 @@ roadiz_rozier:
   fields.
   :::
 
+See [Translate Assistant extensions](/extensions/translate-assistant) if you want to add another provider.
+
 ## Bookmark links
 
 Roadiz 2.7 adds a bookmark system for the back-office sidebar. Configure a list of bookmarks with a label and URL; entries render in the order provided.
