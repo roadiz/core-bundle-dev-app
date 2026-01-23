@@ -2,6 +2,27 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.26...2.7.0) - 2026-01-23
+
+### ⚠ Breaking changes
+
+- Upgrade Symfony dependencies to version 7.4.*, remove obsolete roadiz/font-bundle ([#327](https://github.com/roadiz/core-bundle-dev-app/issues/327))
+
+### Bug Fixes
+
+- **(auth)** do not log user login if token is JWTPostAuthenticationToken - ([20c2793](https://github.com/roadiz/core-bundle-dev-app/commit/20c2793e202e54ffd6ac6d0df40bb98f9afd417a))
+- update return type annotation for getValueType - ([8b58a79](https://github.com/roadiz/core-bundle-dev-app/commit/8b58a79cb5a81c08368357f7f758d871832e4126))
+
+### Documentation
+
+- add documentation for optional Roadiz bundles ([#329](https://github.com/roadiz/core-bundle-dev-app/issues/329)) - ([4600c4a](https://github.com/roadiz/core-bundle-dev-app/commit/4600c4ae7ddfd3446f7eb7eec5e6a77c24720cd7))
+
+### Features
+
+- **(nodes_sources)** add isPublished method for serialization - ([5572359](https://github.com/roadiz/core-bundle-dev-app/commit/5572359f53f9945df07d6eac6bde023f6c8131b2))
+- Add webhook system for CustomForms to dispatch data to external CRM systems ([#308](https://github.com/roadiz/core-bundle-dev-app/issues/308)) - ([37e5702](https://github.com/roadiz/core-bundle-dev-app/commit/37e5702cf6f736b6fcf5929b1fea807d1c829376))
+-  [**breaking**]upgrade Symfony dependencies to version 7.4.*, remove obsolete roadiz/font-bundle ([#327](https://github.com/roadiz/core-bundle-dev-app/issues/327)) - ([70eff97](https://github.com/roadiz/core-bundle-dev-app/commit/70eff974d0e6632656a1d4159203c14ded2bd18e))
+
 ## [2.6.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.25...v2.6.26) - 2025-11-21
 
 ### Bug Fixes

@@ -19,10 +19,10 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-        "roadiz/core-bundle": "2.7.x-dev",
-        "roadiz/openid": "2.7.x-dev",
-        "roadiz/doc-generator": "2.7.x-dev",
-        "roadiz/dts-generator": "2.7.x-dev",
+        "roadiz/core-bundle": "2.7.*",
+        "roadiz/openid": "2.7.*",
+        "roadiz/doc-generator": "2.7.*",
+        "roadiz/dts-generator": "2.7.*",
         "symfony/framework-bundle": "7.4.*",
         "deeplcom/deepl-php": "^1.12"
     },
@@ -52,8 +52,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.6.x-dev",
-            "dev-develop": "2.7.x-dev"
+            "dev-main": "2.7.x-dev",
+            "dev-develop": "2.8.x-dev"
         }
     },
     "scripts": {

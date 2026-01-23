@@ -27,10 +27,10 @@
         "ext-mbstring": "*",
         "doctrine/orm": "~2.20.0",
         "nelmio/solarium-bundle": "^5.1",
-        "roadiz/core-bundle": "2.7.x-dev",
-        "roadiz/documents": "2.7.x-dev",
-        "roadiz/models": "2.7.x-dev",
-        "roadiz/markdown": "2.7.x-dev",
+        "roadiz/core-bundle": "2.7.*",
+        "roadiz/documents": "2.7.*",
+        "roadiz/models": "2.7.*",
+        "roadiz/markdown": "2.7.*",
         "solarium/solarium": "^6.3.6",
         "symfony/cache": "7.4.*",
         "symfony/console": "7.4.*",
@@ -81,8 +81,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.6.x-dev",
-            "dev-develop": "2.7.x-dev"
+            "dev-main": "2.7.x-dev",
+            "dev-develop": "2.8.x-dev"
         }
     }
 }
