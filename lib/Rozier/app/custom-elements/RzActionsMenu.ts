@@ -1,15 +1,17 @@
 type AnchorPosition = 'left' | 'right' | 'top' | 'bottom'
+
+const DRAG_DELAY = 400
+const EDGE_SWITCH_THRESHOLD = 24
+
 export default class RzActionsMenu extends HTMLElement {
     private pointerId: number | null = null
     private startX = 0
     private startY = 0
     private anchor: AnchorPosition | null = null
     private longPressTimer: number | null = null
-    private readonly dragDelay = 400
     private isDragging = false
     private grabOffsetX = 0
     private grabOffsetY = 0
-    private readonly edgeSwitchThreshold = 12
     private dragRAF: number | null = null
     private pendingX = 0
     private pendingY = 0
@@ -88,7 +90,7 @@ export default class RzActionsMenu extends HTMLElement {
         // Defer actual dragging until a long press is detected
         this.longPressTimer = window.setTimeout(() => {
             this.startDragging()
-        }, this.dragDelay)
+        }, DRAG_DELAY)
 
         this.addEventListener('pointerup', this.onPointerUp)
         this.addEventListener('pointercancel', this.onPointerUp)
@@ -286,7 +288,7 @@ export default class RzActionsMenu extends HTMLElement {
         if (this.anchor) {
             const currentDist = dist[this.anchor]
             // Switch only if the candidate is sufficiently closer than current
-            if (currentDist - min > this.edgeSwitchThreshold) {
+            if (currentDist - min > EDGE_SWITCH_THRESHOLD) {
                 return candidate
             }
             return this.anchor
