@@ -33,7 +33,18 @@
     {{ _self.item(label, 'rz-button--primary rz-button--danger', href, 'rz-icon-ri--delete-bin-7-line') }}
 {% endmacro %}
 
-<div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">
+{% set classes = ['rz-actions-menu'] %}
+{% if vertical %}
+    {% set classes = classes|merge(['rz-actions-menu--vertical']) %}
+{% endif %}
+{% if class is defined and class %}
+    {% set classes = classes|merge([class]) %}
+{% endif %}
+
+<rz-actions-menu
+    class="{{ classes|join(' ') }}"
+    anchor-offset="8"
+>
     {% block items %}
     {% endblock %}
-</div>
+</rz-actions-menu>

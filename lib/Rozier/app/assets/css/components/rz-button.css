@@ -186,6 +186,7 @@
 	color: var(--rz-button-tertiary-color, var(--button-basic-low-content-on-light, #18191B));
 	border: var(--rz-button-tertiary-border, none);
 
+	&[aria-expanded="true"],
 	&.rz-button--selected {
 		--rz-button-tertiary-color: var(--button-basic-low-content-on-light-selected, #18191B);
 		--rz-button-tertiary-background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);

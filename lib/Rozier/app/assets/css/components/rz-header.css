@@ -1,6 +1,6 @@
 .rz-app > .rz-header {
 	position: sticky;
-	z-index: 100;
+	z-index: 1;
 	top: 0;
 
 	.rz-header__head {

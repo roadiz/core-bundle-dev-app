@@ -14,7 +14,7 @@
     {% if node %}
         {% set canPublish = workflow_can(node, 'publish') %}
         {% if not node.isDeleted %}
-            <rz-popover popover-placement="left-start" popover-offset="18px">
+            <rz-popover popover-placement="left-center" popover-offset="10px">
                 <button popovertarget="action-menu"
                         class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
                         aria-label="{% trans %}actions{% endtrans %}"
