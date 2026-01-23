@@ -1,26 +1,25 @@
 .rz-node-icon {
-    --rz-node-icon-shape: url('assets/img/icons/rz/status-published-fill.svg');
-
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    mask: var(--rz-node-icon-shape) no-repeat;
-    mask-size: cover;
-    background: var(--rz-node-icon-background);
-    color: var(--rz-node-icon-color);
+    clip-path: circle(50% at 50% 50%);
+    background: var(--rz-node-icon-background, var(--node-border-on-light, #9A9A9A));
 }
 
 .rz-node-icon--draft {
-    --rz-node-icon-shape: url('assets/img/icons/rz/status-draft-fill.svg');
+    clip-path: none;
+    mask: url('assets/img/node-draft-outer.svg') no-repeat center / cover;
 }
 
 .rz-node-icon__thumbnail {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: 2PX;
+    clip-path: inherit;
+
+    .rz-node-icon--draft & {
+        clip-path: none;
+        mask: url('assets/img/node-draft-inner.svg') no-repeat center / cover;
+    }
 }
 
-.rz-node-icon__border {
-    position: absolute;
-    inset: 0;
-}

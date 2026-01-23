@@ -23,13 +23,6 @@ export function rzNodeIconRenderer(args: Args) {
         element.appendChild(thumbnail)
     }
 
-    const border = document.createElement('div')
-    border.classList.add(
-        `${CLASS_NAME}__border`,
-        `rz-icon-rz--status-${args.status}-line`,
-    )
-    element.appendChild(border)
-
     if (args.status) {
         element.classList.add(`${CLASS_NAME}--${args.status}`)
     }
