@@ -1,5 +1,21 @@
 # Upgrade to 2.7
 
+## OpenID Authentication
+
+Roadiz continues to use its custom OpenID Connect implementation (`roadiz/openid` package) for web application SSO, rather than Symfony's native OIDC support. This decision is intentional because:
+
+- Symfony's native OIDC (`OidcTokenHandler`) is designed for **stateless API authentication** with Bearer tokens
+- Roadiz requires the **OAuth2 Authorization Code Flow** for web-based SSO with session management
+- The Roadiz implementation provides UI integration, callback handling, and hybrid user support
+
+For a detailed explanation, see:
+- [OpenID vs Native Symfony OIDC Comparison](docs/developer/security/openid-native-comparison.md)
+- [OpenID Bundle Migration Guide](lib/OpenId/MIGRATION_GUIDE.md)
+
+**No migration is required.** The existing OpenID configuration remains unchanged.
+
+---
+
 ## ⚠ Breaking changes
 
 - NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.

@@ -2,6 +2,15 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## Unreleased
+
+### Documentation
+
+- **OpenID Authentication**: Documented the decision to maintain Roadiz's custom OpenID Connect implementation rather than migrating to Symfony's native OIDC support. The two systems serve different use cases:
+  - Symfony's native OIDC is designed for stateless API authentication with Bearer tokens
+  - Roadiz OpenID implements the OAuth2 Authorization Code Flow for web application SSO
+  - See [OpenID vs Native Symfony OIDC Comparison](docs/developer/security/openid-native-comparison.md) for details
+
 ## [2.6.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.25...v2.6.26) - 2025-11-21
 
 ### Bug Fixes
