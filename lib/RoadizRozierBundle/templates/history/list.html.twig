@@ -30,15 +30,12 @@
         display_select_all_button: false,
     }  only %}
 
-    <article class="content content-no-action-menu content-manage-history">
-        <div class="history-logs">
-            {% for log in logs %}
-                {% include '@RoadizRozier/modules/history-item.html.twig' with {
-                    'levels': levels,
-                    'log': log
-                } only %}
-            {% endfor %}
-        </div>
+    <article>
+        {% include '@RoadizRozier/history/list_table.html.twig' with {
+            levels: levels,
+            log_list: logs
+        } only %}
     </article>
+
 </section>
 {% endblock %}

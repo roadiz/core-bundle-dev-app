@@ -1,8 +1,8 @@
-{% include '@RoadizRozier/admin/delete.html.twig' with {
+{% include '@RoadizRozier/admin/bulk_action.html.twig' with {
     'title': "unlink.user.%name%"|trans({'%name%': user.userName}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
     'cancelPath': path('groupsEditUsersPage', { id: item.id }),
     'alertMessage': 'are_you_sure.remove.user.from.group'|trans,
-    'delete_label': 'unlink'|trans,
+    'action_label': 'unlink'|trans,
     'form': form,
 } %}

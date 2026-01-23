@@ -5,7 +5,7 @@
             {% if bulkPublishForm %}
                 {% form_theme bulkPublishForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkPublishForm) }}
-                {{ form_widget(bulkPublishForm) }}
+                {{ form_widget(bulkPublishForm, { attr: { style: 'display: none;' } }) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',
@@ -20,7 +20,7 @@
             {% if bulkUnpublishForm %}
                 {% form_theme bulkUnpublishForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkUnpublishForm) }}
-                {{ form_widget(bulkUnpublishForm) }}
+                {{ form_widget(bulkUnpublishForm , { attr: { style: 'display: none;' }}) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',
@@ -37,7 +37,7 @@
             {% if bulkDeleteForm %}
                 {% form_theme bulkDeleteForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkDeleteForm) }}
-                {{ form_widget(bulkDeleteForm) }}
+                {{ form_widget(bulkDeleteForm, { attr: { style: 'display: none;' }}) }}
                 {{ rz_button.root({
                     attributes: {
                         type: 'submit',

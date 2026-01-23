@@ -146,7 +146,6 @@ export default {
         },
     },
     mounted() {
-        console.log('ExplorerContainer mounted', this)
         document.addEventListener('show-explorer', this.onShowExplorer)
     },
     unmounted() {

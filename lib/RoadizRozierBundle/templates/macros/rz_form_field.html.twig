@@ -19,9 +19,16 @@
     {{- label|trans -}}
     </label>
     {% if attr['data-universal'] %}
-        <div class="rz-badge rz-badge--xs rz-form-field__head__badge">
-            <span class="rz-badge__icon rz-icon-ri--earth-line"></span>
-        </div>
+        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+        {{ rz_badge.item({
+            size: 'xs',
+            color: 'default',
+            icon: 'rz-icon-ri--earth-line',
+            class: 'rz-form-field__head__badge',
+            attributes: {
+                title: 'universal'|trans,
+            }
+        }) }}
     {% endif %}
     {% if attr['data-max-length'] or attr['data-min-length'] -%}
         {% set has_error = false %}

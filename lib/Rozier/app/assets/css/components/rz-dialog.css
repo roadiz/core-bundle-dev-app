@@ -1,3 +1,4 @@
+[is="rz-dialog"],
 .rz-dialog {
 	box-sizing: border-box;
 	min-width: var(--rz-dialog-min-width, 300px);
@@ -81,6 +82,7 @@
 .rz-dialog__body {
 	box-sizing: border-box;
 
+	&:where(.rz-dialog__body--padding),
 	&:not(:has( > *)) {
 		padding: var(--spacing-xs);
 	}

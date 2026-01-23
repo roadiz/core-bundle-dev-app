@@ -1,0 +1,186 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+	actions_available: true,
+} %}
+	{% block thead_cells %}
+		<th>{{ 'date'|trans }}</th>
+		<th>{{ 'user'|trans }}</th>
+		<th>{{ 'entity'|trans }}</th>
+		<th>{{ 'message'|trans }}</th>
+	{% endblock %}
+
+	{% block tbody_content %}
+		{% for log in log_list %}
+			{% set classes = html_classes('history-log-item', {
+				'has-source': log.additionalData.entity_title,
+				'has-user': log.additionalData.user_id or log.username,
+			}) %}
+
+			{% set entityPath = log_entity_edit_path(log) %}
+			{% set userPath = null %}
+
+			{% if log.additionalData.user_id %}
+				{% if is_granted('ROLE_ACCESS_USERS') and log.additionalData.user_id %}
+					{% set userPath = path("usersEditPage", { id: log.additionalData.user_id }) %}
+				{% elseif is_granted('ROLE_ACCESS_LOGS') and log.additionalData.user_id %}
+					{% set userPath = path('historyUserPage', { userId: log.additionalData.user_id }) %}
+				{% else %}
+					{% set userPath = '#' %}
+				{% endif %}
+			{% endif %}
+
+			<tr class="{{ classes|join(' ') }}">
+				<td>{{ log.datetime|format_datetime('short', 'short', locale=app.request.locale) }}</td>
+				<td>
+					{% if log.additionalData.user_id %}
+						{% set user_title = log.additionalData.user_public_name|default(log.username) %}
+
+						<a is="rz-link" href="{{ userPath }}" title="{{ user_title }}">
+							{# Still use log user picture url, in the case when user does not exist anymore #}
+							{% if log.additionalData.user_picture_url %}
+								<img
+									class="rz-history__img-wrapper"
+									src="{{ log.additionalData.user_picture_url }}"
+									alt="{{ user_title }}"
+								/>
+							{% else %}
+								<span class="rz-history__img-wrapper">
+									<span class="rz-icon-ri--user-6-line"></span>
+								</span>
+							{% endif %}
+						</a>
+					{% elseif log.username %}
+						<span class="rz-history__img-wrapper">
+							<span class="rz-icon-ri--user-6-line"></span>
+						</span>
+					{% endif %}
+				</td>
+				<td class="rz-history__img-wrapper">
+					{% if log.additionalData.entity_title %}
+						{% set entity_title = log.additionalData.entity_title %}
+
+						{%- if entityPath -%}
+						<a is="rz-link" href="{{ entityPath }}" title="{{ entity_title }}">
+						{%- endif -%}
+
+						{%- set thumbnail = log.additionalData.entity_thumbnail_src -%}
+						{%- if thumbnail -%}
+							<img loading="lazy" src="{{ thumbnail }}" alt="{{ entity_title }}">
+						{%- elseif log.entityClass and log.entityId -%}
+							<rz-entity-thumbnail
+								size="medium"
+								entity-class="{{ log.entityClass }}"
+								entity-id="{{ log.entityId }}"
+							></rz-entity-thumbnail>
+						{%- else -%}
+							<span class="no-thumb"></span>
+						{%- endif -%}
+
+						{%- if entityPath -%}
+						</a>
+						{%- endif -%}
+					{% endif %}
+				</td>
+				<td>
+					{% if log.channel and log.channel != 'roadiz' and log.channel != 'app' %}
+                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+						{{ rz_badge.item({
+							label: log.channel|trans,
+						}) }}
+					{% endif %}
+					{% if log.level and log.level >= 300 %}
+                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+						{{ rz_badge.item({
+							label: levels[log.level]|trans,
+							color: log.level >= 400 ? 'danger' : log.level >= 300 ? 'warning' : null,
+						}) }}
+					{% endif %}
+					<span>{{ log.message|u.truncate(90, '[…]') -}}</span>
+				</td>
+				<td>
+					{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+						{% block other_actions %}
+						{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+						{% set dialog_id = 'history-dialog-details-' ~ loop.index ~ '-' ~ log.id %}
+						<dialog
+							is="rz-dialog"
+							id="{{ dialog_id }}"
+							modal="true"
+							closedby="any"
+						>
+								<header class="rz-dialog__header">
+								<span class="rz-dialog__icon rz-icon-ri--history-line"></span>
+								<h1 class="rz-dialog__title">{{ 'history.details.title'|trans }}</h1>
+								{{ rz_button.root({
+									icon: 'rz-icon-ri--close-line',
+									emphasis: 'tertiary',
+									size: 'sm',
+									class: 'rz-dialog__close',
+									attributes: {
+										'aria-label': 'Close dialog',
+										autofocus: '',
+										closetarget: '',
+									}
+								}) }}
+							</header>
+							<div class="rz-dialog__body rz-dialog__body--padding">
+								<p>{{ log.message }}</p>
+								<dl>
+									{% if log.username %}
+										<dt>{{ 'username'|trans }}</dt>
+										<dd>{{ log.username }}</dd>
+									{% endif %}
+									{% for key, data in log.additionalData %}
+										{% if data and data is not iterable %}
+											<dt>{{ key|trans }}</dt>
+											<dd>{{ data|u.truncate(140, '[…]') }}</dd>
+										{% endif %}
+									{% endfor %}
+								</dl>
+							</div>
+
+							{% if entityPath or userPath %}
+								<footer class="rz-dialog__footer rz-dialog__footer--justify-end">
+									{{ rz_button.root({
+										icon: 'rz-icon-ri--arrow-right-s-line',
+										label: 'entity'|trans,
+										emphasis: 'secondary',
+										size: 'lg',
+										attributes: {
+											href: entityPath,
+										}
+									}) }}
+									{{ rz_button.root({
+											icon: 'rz-icon-ri--arrow-right-s-line',
+										label: 'user'|trans,
+										emphasis: 'secondary',
+										size: 'lg',
+										attributes: {
+											href: userPath,
+										}
+									}) }}
+								</footer>
+							{% endif %}
+						</dialog>
+						{{ _self.button({
+							icon: 'rz-icon-ri--eye-line',
+							attributes: {
+								title: 'view.details'|trans,
+								type: 'button',
+								opentarget: dialog_id
+							}
+						}) }}
+					{% endblock %}
+				{% endembed %}
+				</td>
+			</tr>
+		{% else %}
+			<tr>
+				{% set col_span = 4 %}
+				{% if actions_available %}
+					{% set col_span = col_span + 1 %}
+				{% endif %}
+				<td colspan="{{col_span}}">{{ 'no.result.found'|trans }}</td>
+			</tr>
+		{% endfor %}
+	{% endblock %}
+{% endembed %}

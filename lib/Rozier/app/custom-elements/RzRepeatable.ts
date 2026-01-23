@@ -14,6 +14,14 @@ export class RzRepeatable extends HTMLElement {
         this.onCommand = this.onCommand.bind(this)
     }
 
+    // Avoid selecting button in nested repeatables
+    private filterInnerNestedItems(selector: string) {
+        const elements = Array.from(this.querySelectorAll(selector))
+        return elements.filter((el) => {
+            return el.closest('rz-repeatable') === this
+        })
+    }
+
     moveItem(element: HTMLElement, direction: number) {
         if (direction === -1 && element.previousElementSibling) {
             element.previousElementSibling.before(element)
@@ -22,6 +30,7 @@ export class RzRepeatable extends HTMLElement {
         }
 
         this.updateAllInputAttributes()
+        this.updateMoveButtonsState()
     }
 
     removeItem(item: HTMLElement | undefined) {
@@ -30,29 +39,33 @@ export class RzRepeatable extends HTMLElement {
         const isLastItem = !item?.nextElementSibling
         if (!isLastItem) {
             this.updateAllInputAttributes()
+            this.updateMoveButtonsState()
         }
     }
 
-    addItem(item: HTMLElement | undefined) {
+    addItem(index: string | null) {
         const itemToDuplicate = this.itemTemplate.content.firstElementChild
         if (!itemToDuplicate) return
-        const newItem = document.importNode(itemToDuplicate, true)
 
-        if (item) {
-            item.after(newItem)
+        const newItem = document.importNode(itemToDuplicate, true)
+        if (index) {
+            const referenceNode = this.list?.children.item(parseInt(index, 10))
+            this.list?.insertBefore(newItem, referenceNode || null)
         } else {
-            this.list?.prepend(newItem)
+            this.list?.appendChild(newItem)
         }
 
         this.updateAllInputAttributes()
+        this.updateMoveButtonsState()
     }
 
     onCommand(event: CommandEvent) {
-        const item = event.source.closest(`.${this.itemClass}`) as HTMLElement
+        const button = event.source
+        const item = button.closest(`.${this.itemClass}`) as HTMLElement
 
         switch (event.command) {
             case '--add':
-                this.addItem(item)
+                this.addItem(button.getAttribute('data-insert-index'))
                 break
             case '--remove':
                 this.removeItem(item)
@@ -68,6 +81,15 @@ export class RzRepeatable extends HTMLElement {
 
     private escapeRegExp(str: string): string {
         return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }
+
+    get itemElements() {
+        return Array.from(
+            this.list?.querySelectorAll(`.${this.itemClass}`) || [],
+        ).filter((el) => {
+            // Avoid selecting items from nested repeatables
+            return el.closest('rz-repeatable') === this
+        })
     }
 
     updateAllInputAttributes() {
@@ -87,9 +109,14 @@ export class RzRepeatable extends HTMLElement {
         )
 
         items.forEach((item, itemIndex) => {
-            const inputs = item.querySelectorAll(
-                `input[name^="${this.inputBaseName}"], select[name^="${this.inputBaseName}"], textarea[name^="${this.inputBaseName}"]`,
-            )
+            const inputs = Array.from(
+                item.querySelectorAll(
+                    `input[name^="${this.inputBaseName}"], select[name^="${this.inputBaseName}"], textarea[name^="${this.inputBaseName}"]`,
+                ),
+            ).filter((el) => {
+                // Avoid selecting inputs from nested repeatables
+                return el.closest('rz-repeatable') === this
+            })
 
             inputs.forEach((input) => {
                 const name = input.getAttribute('name')
@@ -116,6 +143,35 @@ export class RzRepeatable extends HTMLElement {
         })
     }
 
+    updateMoveButtonsState() {
+        const buttons = Array.from(
+            this.querySelectorAll(
+                `button[command="--move-up"], button[command="--move-down"]`,
+            ),
+        ).filter((el) => {
+            return el.closest('rz-repeatable') === this
+        })
+
+        buttons.forEach((button) => {
+            const item = button.closest(`.${this.itemClass}`)
+            if (!item) return
+
+            const isFirstItem = !item.previousElementSibling
+            const isLastItem = !item.nextElementSibling
+
+            if (button.getAttribute('command') === '--move-up' && isFirstItem) {
+                button.setAttribute('disabled', 'true')
+            } else if (
+                button.getAttribute('command') === '--move-down' &&
+                isLastItem
+            ) {
+                button.setAttribute('disabled', 'true')
+            } else {
+                button.removeAttribute('disabled')
+            }
+        })
+    }
+
     connectedCallback() {
         this.list = this.querySelector('[data-list]')
         this.itemTemplate = this.querySelector('template[data-item]')
@@ -128,6 +184,7 @@ export class RzRepeatable extends HTMLElement {
             this.itemClass = this.getAttribute('item-class')
         }
 
+        this.updateMoveButtonsState()
         this.addEventListener('command', this.onCommand)
     }
 

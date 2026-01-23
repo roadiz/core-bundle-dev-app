@@ -1,6 +1,6 @@
 {%- if nodeTree -%}
     {% set nodes = nodeTree.nodes %}
-    {% set root_classes = [] %}
+    {% set root_classes = ['root-tree', 'node-tree'] %}
     {% if nodeTree.canReorder %}
         {% set root_classes = root_classes|merge(['uk-nestable']) %}
     {% endif %}

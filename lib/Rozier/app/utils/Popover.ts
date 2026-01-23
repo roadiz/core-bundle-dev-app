@@ -37,6 +37,9 @@ export type PopoverOptions = {
     offset?: string | number
     shift?: string | number
     autoInit?: boolean
+    onToggle?: (isOpen: boolean) => void
+    onOpen?: () => void
+    onClose?: () => void
 }
 
 export class Popover {
@@ -46,6 +49,9 @@ export class Popover {
     placement: Placement = 'bottom-start'
     offset: number = 0
     shift: number = 0
+    onToggle: ((isOpen: boolean) => void) | undefined
+    onOpen: (() => void) | undefined
+    onClose: (() => void) | undefined
 
     isFloating = false
     private cleanupAutoUpdate: (() => void) | null = null
@@ -56,6 +62,10 @@ export class Popover {
             options?.targetElement ||
             context.querySelector('[popovertarget]') ||
             context
+
+        this.onToggle = options?.onToggle
+        this.onOpen = options?.onOpen
+        this.onClose = options?.onClose
 
         this.popoverElement =
             options?.popoverElement || context.querySelector('[popover]')
@@ -94,19 +104,24 @@ export class Popover {
         if (!this.targetElement || !this.popoverElement) return
         this.isFloating = true
 
+        this.targetElement.setAttribute('aria-expanded', 'true')
+
         this.cleanupAutoUpdate = autoUpdate(
             this.targetElement,
             this.popoverElement,
             () => this.updatePosition(),
         )
+        this.onOpen?.()
     }
 
     close() {
         if (!this.isFloating) return
         this.isFloating = false
 
+        this.targetElement.setAttribute('aria-expanded', 'false')
         this.cleanupAutoUpdate?.()
         this.cleanupAutoUpdate = null
+        this.onClose?.()
     }
 
     toggle() {
@@ -115,6 +130,7 @@ export class Popover {
         } else {
             this.open()
         }
+        this.onToggle?.(this.isFloating)
     }
 
     getOptions() {
