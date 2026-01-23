@@ -392,7 +392,9 @@ roadiz_rozier:
 
 ## Bookmark links
 
-You can add custom bookmark links in the back-office sidebar by adding the following configuration to `config/packages/roadiz_rozier.yaml`:
+Roadiz 2.7 adds a bookmark system for the back-office sidebar. Configure a list of bookmarks with a label and URL; entries render in the order provided.
+
+You can add custom bookmark links by adding the following configuration to `config/packages/roadiz_rozier.yaml`:
 
 ```yaml
 roadiz_rozier:

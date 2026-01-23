@@ -119,6 +119,7 @@ export default ({ mode }) => {
                                 { text: 'Extension examples', link: '/extensions/extending_roadiz' },
                                 { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry' },
                                 { text: 'Extending Solr indexation', link: '/extensions/extending_solr' },
+                                { text: 'Entity thumbnails', link: '/extensions/entity-thumbnail' },
                                 { text: 'Custom forms webhooks', link: '/extensions/webhook-system' },
                             ]
                         },

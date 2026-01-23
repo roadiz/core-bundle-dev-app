@@ -32,6 +32,7 @@
 
 - Switched to attributes for mapping Routes in Roadiz Core and Rozier bundles
 - Fluent setters on key interfaces return `static` to support subclassing.
+- Back-office sidebar bookmarks are now configurable via `roadiz_rozier.bookmarks`
 - Project admin logo is now configurable in `config/packages/roadiz_core.yaml`
 ```yaml
 roadiz_core:
