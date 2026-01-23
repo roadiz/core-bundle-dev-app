@@ -396,7 +396,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/delete.html.twig',
+            '@RoadizRozier/admin/bulk_action.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item

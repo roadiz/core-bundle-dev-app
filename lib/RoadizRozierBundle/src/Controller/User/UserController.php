@@ -268,6 +268,8 @@ class UserController extends AbstractAdminWithBulkController
 
     public function bulkEnableAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
+
         return $this->bulkAction(
             $request,
             $this->getRequiredRole(),
@@ -276,7 +278,7 @@ class UserController extends AbstractAdminWithBulkController
             fn (string $ids) => $this->createEnableBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_enable.html.twig',
+            '@RoadizRozier/admin/bulk_action.html.twig',
             '%namespace%.%item%.was_enabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {
@@ -284,12 +286,23 @@ class UserController extends AbstractAdminWithBulkController
                 }
                 $item->setEnabled(true);
             },
-            'bulkEnableForm'
+            'bulkEnableForm',
+            null,
+            [
+                'title' => $this->translator->trans('enable.bulk.'.$this->getNamespace()),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_enable.'.$this->getNamespace()),
+                'action_label' => 'bulk.enable',
+                'action_icon' => 'rz-icon-ri--check-line',
+                'action_color' => 'success',
+                'messageType' => 'warning',
+            ]
         );
     }
 
     public function bulkDisableAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
+
         return $this->bulkAction(
             $request,
             $this->getRequiredRole(),
@@ -298,7 +311,7 @@ class UserController extends AbstractAdminWithBulkController
             fn (string $ids) => $this->createDisableBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_disable.html.twig',
+            '@RoadizRozier/admin/bulk_action.html.twig',
             '%namespace%.%item%.was_disabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {
@@ -306,7 +319,16 @@ class UserController extends AbstractAdminWithBulkController
                 }
                 $item->setEnabled(false);
             },
-            'bulkDisableForm'
+            'bulkDisableForm',
+            null,
+            [
+                'title' => $this->translator->trans('disable.bulk.'.$this->getNamespace()),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_disable.'.$this->getNamespace()),
+                'action_label' => 'bulk.disable',
+                'action_icon' => 'rz-icon-ri--close-line',
+                'action_color' => 'danger',
+                'messageType' => 'error',
+            ]
         );
     }
 }

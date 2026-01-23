@@ -82,14 +82,14 @@
 				</td>
 				<td>
 					{% if log.channel and log.channel != 'roadiz' and log.channel != 'app' %}
-						{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-						{{ _self.badge({
+                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+						{{ rz_badge.item({
 							label: log.channel|trans,
 						}) }}
 					{% endif %}
 					{% if log.level and log.level >= 300 %}
-						{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-						{{ _self.badge({
+                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+						{{ rz_badge.item({
 							label: levels[log.level]|trans,
 							color: log.level >= 400 ? 'danger' : log.level >= 300 ? 'warning' : null,
 						}) }}

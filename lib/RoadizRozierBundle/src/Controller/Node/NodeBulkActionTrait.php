@@ -105,7 +105,7 @@ trait NodeBulkActionTrait
         $title = new UnicodeString($this->translator->trans('delete.nodes'));
         $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $cancelPath,
