@@ -95,7 +95,7 @@ export default class RzActionsMenu extends HTMLElement {
     }
 
     private startDragging() {
-        if (this.pointerId == null || this.isDragging) return
+        if (this.pointerId === null || this.isDragging === true) return
 
         this.isDragging = true
         this.setPointerCapture(this.pointerId)
@@ -127,12 +127,12 @@ export default class RzActionsMenu extends HTMLElement {
     }
 
     private onPointerMove = (e: PointerEvent) => {
-        if (this.pointerId == null || e.pointerId !== this.pointerId) return
+        if (this.pointerId === null || e.pointerId !== this.pointerId) return
         if (!this.isDragging) return
 
         this.pendingX = e.clientX
         this.pendingY = e.clientY
-        if (this.dragRAF == null) {
+        if (this.dragRAF === null) {
             this.dragRAF = window.requestAnimationFrame(this.applyDragFrame)
         }
     }
@@ -171,7 +171,7 @@ export default class RzActionsMenu extends HTMLElement {
 
     private setInnerPopoversPlacement() {
         const popovers = this.querySelectorAll('rz-popover')
-        if (!popovers) return
+        if (!popovers.length) return
 
         popovers.forEach((popover) => {
             if (this.anchor === 'left') {
@@ -187,11 +187,11 @@ export default class RzActionsMenu extends HTMLElement {
     }
 
     private onPointerUp = (e: PointerEvent) => {
-        if (this.pointerId == null || e.pointerId !== this.pointerId) return
+        if (this.pointerId === null || e.pointerId !== this.pointerId) return
 
         // If long press hasn't triggered yet, cancel drag start
         if (!this.isDragging) {
-            if (this.longPressTimer != null) {
+            if (this.longPressTimer !== null) {
                 window.clearTimeout(this.longPressTimer)
                 this.longPressTimer = null
             }
@@ -200,7 +200,7 @@ export default class RzActionsMenu extends HTMLElement {
             this.removeEventListener('pointermove', this.onPointerMove)
         }
 
-        if (this.dragRAF != null) {
+        if (this.dragRAF !== null) {
             window.cancelAnimationFrame(this.dragRAF)
             this.dragRAF = null
         }
