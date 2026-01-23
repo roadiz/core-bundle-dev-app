@@ -64,6 +64,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return [
             new TwigFilter('truncate_title', $this->truncateTitle(...)),
+            new TwigFilter('json_decode', $this->jsonDecode(...)),
         ];
     }
 
@@ -152,5 +153,13 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getAllAvailableTranslations(): array
     {
         return $this->translationRepository->findAllAvailable();
+    }
+
+    public function jsonDecode(string $json)
+    {
+        if (null === $json || '' === $json) {
+            return null;
+        }
+        return json_decode($json, true);
     }
 }
