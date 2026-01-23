@@ -22,11 +22,9 @@
 {% set component_id = field_id ~ '-component' %}
 {% set search_id = field_id ~ '-search-value' %}
 
-{% set rowClasses = [''] %}
-
 {% set is_multiple = vars.attr['data-multiple'] is defined and vars.attr['data-multiple']|lower in ['true', '1', 'yes'] %}
 <rz-form-field
-    class="{{ rowClasses|join(' ') }}"
+    class="rz-geolocation-field"
     id="{{ wrapper_id }}"
     {{ field_attributes|join(' ')|raw }}
 >
@@ -122,7 +120,7 @@
     </rz-geolocation>
 
     <textarea
-        class="rz-geolocation__textarea rz-form-field__body"
+        class="rz-geolocation-field__textarea rz-form-field__body"
         id="{{ field_id }}"
         name="{{ vars.full_name }}"
     >{{ vars.value }}</textarea>

@@ -1,6 +1,6 @@
 
 rz-geolocation,
-.rz-geolocation__textarea {
+.rz-geolocation-field__textarea {
 	--rz-geolocation-background-color: var(--surface-light-primary, #FFF);
 
 	border-radius: var(--radius-xs, 6px);
@@ -18,10 +18,15 @@ rz-geolocation {
 	&[data-initialized="true"] {
 		display: flex;
 	}
+
+	.rz-geolocation__map {
+		flex-grow: 1;
+		height: 100%;
+	}
 }
 
 
-.rz-geolocation__textarea {
+.rz-geolocation-field__textarea {
 	color: transparent;
 	background-color: var(--rz-geolocation-background-color);
 	background: linear-gradient(110deg,
@@ -42,11 +47,6 @@ rz-geolocation {
   to {
     background-position-x: -200%;
   }
-}
-
-.rz-geolocation__map {
-	flex-grow: 1;
-	height: 100%;
 }
 
 .rz-geolocation__item-list {

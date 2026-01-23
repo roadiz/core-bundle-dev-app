@@ -204,7 +204,7 @@
 
 {%- block textarea_widget -%}
     {% if attr.class is defined and 'rz-geolocation-field' in attr.class %}
-        {% include '@RoadizRozier/widgets/rz_geolocation.html.twig' with {
+        {% include '@RoadizRozier/widgets/rz_geolocation_field.html.twig' with {
             form: form,
             vars: form.vars,
             widget_attributes: block('widget_attributes'),
