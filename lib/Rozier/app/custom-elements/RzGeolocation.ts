@@ -282,12 +282,26 @@ export default class RzGeolocation extends HTMLElement {
         this.map.flyTo(marker.getLatLng(), marker.getLatLng().alt)
     }
 
+    setButtonSearchLoading(isLoading: boolean) {
+        const searchButton = this.fieldWrapper?.querySelector(
+            'button[command="--search-location"]',
+        )
+        if (isLoading) {
+            searchButton?.classList.add('rz-button--loading')
+        } else {
+            searchButton?.classList.remove('rz-button--loading')
+        }
+    }
+
     async updateFromSearch() {
         const address = this.searchInput?.value
         if (!address?.trim().length) return
 
+        this.setButtonSearchLoading(true)
         const response = await GeoCodingService.geoCode(address)
         const { lat, lon } = response || {}
+
+        this.setButtonSearchLoading(false)
 
         if (!response || !lat || !lon) {
             this.searchInput?.classList.add('rz-input--error')
