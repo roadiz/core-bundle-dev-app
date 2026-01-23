@@ -162,7 +162,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
      *
      * @return array|null
      *
-     * @throws \JsonException When the JSON is invalid
+     * @throws \JsonException when the JSON is invalid
      */
     public function jsonDecode(?string $json): ?array
     {
@@ -170,9 +170,10 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             return null;
         }
         $json = trim($json);
-        if ($json === '') {
+        if ('' === $json) {
             return null;
         }
+
         return \json_decode(json: $json, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }
