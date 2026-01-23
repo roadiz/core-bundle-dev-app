@@ -63,11 +63,12 @@ final class AppExtension extends AbstractExtension implements GlobalsInterface
     {
         return [
             new TwigFilter('json_decode', function (?string $json, bool $assoc = true) {
-                if ($json === null || $json === '') {
+                if (null === $json || '' === $json) {
                     return null;
                 }
                 try {
                     $decoded = \json_decode($json, $assoc, 512, JSON_THROW_ON_ERROR);
+
                     return $decoded;
                 } catch (\JsonException) {
                     return null;

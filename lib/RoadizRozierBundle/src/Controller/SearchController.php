@@ -554,10 +554,10 @@ final class SearchController extends AbstractController
         ]);
 
         $builder->add($prefix.'createdAt', CompareDatetimeType::class, [
-                'label' => 'created.at',
-                'inherit_data' => false,
-                'required' => false,
-            ])
+            'label' => 'created.at',
+            'inherit_data' => false,
+            'required' => false,
+        ])
             ->add($prefix.'updatedAt', CompareDatetimeType::class, [
                 'label' => 'updated.at',
                 'inherit_data' => false,
