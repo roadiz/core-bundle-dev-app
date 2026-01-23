@@ -89,6 +89,7 @@ export default [
     'list-check-3',
     'list-check',
     'list-unordered',
+    'loader-line',
     'lock-2-line',
     'lock-password-line',
     'logout-box-line',
