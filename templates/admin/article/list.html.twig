@@ -108,7 +108,7 @@
                             {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
                             {%- for tag in item.node.tags -%}
                                 {{ rz_badge.item({
-                                    ilabel: tag.name,
+                                    label: tag.name,
                                 })}}
                             {%- endfor -%}
                         </td>
