@@ -87,6 +87,7 @@ final class AttributeType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'rz-collection-form-type',
+                    'no-field-group' => true,
                 ],
             ])
             ->add('attributeDocuments', AttributeDocumentType::class, [
@@ -94,6 +95,9 @@ final class AttributeType extends AbstractType
                 'help' => 'attributes.form_help.documents',
                 'required' => false,
                 'attribute' => $builder->getForm()->getData(),
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
         ;
     }

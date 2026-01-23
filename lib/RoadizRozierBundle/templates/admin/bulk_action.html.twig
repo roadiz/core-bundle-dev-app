@@ -18,7 +18,7 @@
                 }
             }) }}
             {{ form_widget(form) }}
-            <div class="rz-message rz-message--error rz-form-field__message">
+            <div class="rz-message rz-message--{{ messageType|default('error') }} rz-form-field__message">
                 <p class="rz-message__text">
                     {{ alertMessage|trans }}
                 </p>
@@ -41,21 +41,23 @@
                             type: 'submit',
                         },
                         emphasis: 'primary',
-                        color: 'danger',
-                        label: delete_label|default('delete'),
-                        icon: delete_icon|default('rz-icon-ri--delete-bin-7-line'),
+                        color: action_color|default('danger'),
+                        label: action_label|default('delete'),
+                        icon: action_icon|default('rz-icon-ri--delete-bin-7-line'),
                     })
                 }}
             </div>
             {{ form_end(form) }}
 
-            {% import '@RoadizRozier/macros/rz_card.html.twig' as card %}
+            {% if items is defined and items|length > 0 %}
+                {% import '@RoadizRozier/macros/rz_card.html.twig' as card %}
 
-            <ul class="rz-delete-page__body rz-layout-grid">
-                {% for item in items %}
-                    {{ card.render(item, thumbnailFormat) }}
-                {% endfor %}
-            </ul>
+                <ul class="rz-delete-page__body rz-layout-grid">
+                    {% for item in items %}
+                        {{ card.render(item, thumbnailFormat) }}
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </article>
     </section>
 {% endblock %}

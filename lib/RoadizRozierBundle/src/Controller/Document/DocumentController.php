@@ -96,7 +96,7 @@ final class DocumentController extends AbstractController
             ['%name%' => $document->getFilename()]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),
@@ -154,7 +154,7 @@ final class DocumentController extends AbstractController
             $items[] = $this->explorerItemFactory->createForEntity($document)->toArray();
         }
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),

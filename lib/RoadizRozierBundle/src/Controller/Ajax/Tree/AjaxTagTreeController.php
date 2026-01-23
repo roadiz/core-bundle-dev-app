@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
+namespace RZ\Roadiz\RozierBundle\Controller\Ajax\Tree;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use RZ\Roadiz\RozierBundle\Widget\TagTreeWidget;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,40 +43,42 @@ final class AjaxTagTreeController extends AbstractAjaxController
         $tagTree = null;
         $assignation = [];
 
-        switch ($request->get('_action')) {
+        switch ($request->query->get('_action')) {
             /*
              * Inner tag edit for tagTree
              */
             case 'requestTagTree':
-                if ($request->get('parentTagId') > 0) {
+                if ($request->query->get('parentTagId') > 0) {
                     $tag = $this->managerRegistry
                         ->getRepository(Tag::class)
-                        ->find((int) $request->get('parentTagId'));
+                        ->find((int) $request->query->get('parentTagId'));
                 } else {
                     $tag = null;
                 }
 
                 $tagTree = $this->treeWidgetFactory->createTagTree($tag, $translation);
 
-                $assignation['mainTagTree'] = false;
+                $assignation['mainTree'] = false;
 
                 break;
                 /*
                  * Main panel tree tagTree
                  */
-            case 'requestMainTagTree':
+            case 'requestMainTree':
                 $parent = null;
                 $tagTree = $this->treeWidgetFactory->createTagTree($parent, $translation);
-                $assignation['mainTagTree'] = true;
+                $assignation['mainTree'] = true;
                 break;
         }
 
-        $assignation['tagTree'] = $tagTree;
+        $assignation['tree'] = $tagTree;
+        $assignation['tree_type'] = 'tag';
 
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
-            'tagTree' => $this->twig->render('@RoadizRozier/widgets/tagTree/rz_tag_tree_wrapper.html.twig', $assignation),
+            'tree_type' => $assignation['tree_type'],
+            'tagTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
         ]);
     }
 }
