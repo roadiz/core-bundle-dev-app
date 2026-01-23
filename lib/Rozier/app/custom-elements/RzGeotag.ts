@@ -1,7 +1,9 @@
 import type { LatLng, Map, Marker, LeafletMouseEvent } from 'leaflet'
 import type { Point, Feature, FeatureCollection } from 'geojson'
-import GeoCodingService from '~/services/GeoCodingService'
-import type { NominatimSearchResult } from '~/services/GeoCodingService'
+import {
+    nominatimFetch,
+    type NominatimSearchResult,
+} from '~/utils/nominatimFetch'
 import iconUrl from '~/assets/img/marker.png'
 import shadowUrl from '~/assets/img/marker_shadow.png'
 
@@ -351,7 +353,7 @@ export default class RzGeotag extends HTMLElement {
         if (!address?.trim().length) return
 
         this.updateButtonSearchState(true)
-        const response = await GeoCodingService.geoCode(address)
+        const response = await nominatimFetch(address)
         const { lat, lon } = response || {}
 
         this.updateButtonSearchState(false)
