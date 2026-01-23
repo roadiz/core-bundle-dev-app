@@ -234,7 +234,9 @@ export default class RzGeolocation extends HTMLElement {
         this.bindMarker(marker)
         this.updateItemDetailList()
         this.syncTextareaData()
-        this.map.flyTo(marker.getLatLng(), marker.getLatLng().alt)
+
+        const latLng = marker.getLatLng()
+        if (latLng) this.map.flyTo(latLng, latLng.alt)
     }
 
     private createMarker(data: GeocodeInput, props?: MarkerProps) {
@@ -322,9 +324,8 @@ export default class RzGeolocation extends HTMLElement {
         })
 
         const marker = this.markers[itemIndex]
-        if (!marker) return
-
         const latLng = marker.getLatLng()
+        if (!marker || !latLng) return
         this.map.flyTo(latLng, this.map.getZoom())
     }
 
