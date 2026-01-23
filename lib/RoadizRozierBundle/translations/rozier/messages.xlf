@@ -1116,6 +1116,8 @@
             <trans-unit xml:space="preserve" id="custom-form.fields"><source>custom-form.fields</source><note>In custom form nav bar.</note></trans-unit>
             <trans-unit xml:space="preserve" id="custom-form.answers"><source>custom-form.answers</source><note>In custom form nav bar.</note></trans-unit>
             <trans-unit xml:space="preserve" id="markdown.preview"><source>markdown.preview</source><note>For markdown.preview button label</note></trans-unit>
+            <trans-unit xml:space="preserve" id="markdown.translate_assistant_translate"><source>markdown.translate_assistant_translate</source><note>For markdown.translate_assistant_translate button label</note></trans-unit>
+            <trans-unit xml:space="preserve" id="markdown.translate_assistant_rephrase"><source>markdown.translate_assistant_rephrase</source><note>For markdown.translate_assistant_rephrase button label</note></trans-unit>
 
 
             <trans-unit xml:space="preserve" id="document.relative_url"><source>document.relative_url</source></trans-unit>
