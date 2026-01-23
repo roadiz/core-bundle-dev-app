@@ -203,8 +203,8 @@
 {% endblock markdown_widget %}
 
 {%- block textarea_widget -%}
-    {% if attr.class is defined and 'rz-geolocation-field' in attr.class %}
-        {% include '@RoadizRozier/widgets/rz_geolocation_field.html.twig' with {
+    {% if attr.class is defined and 'rz-geotag-field' in attr.class %}
+        {% include '@RoadizRozier/widgets/rz_geotag_field.html.twig' with {
             form: form,
             vars: form.vars,
             widget_attributes: block('widget_attributes'),

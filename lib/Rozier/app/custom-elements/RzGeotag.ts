@@ -36,7 +36,7 @@ type GeocodeInput =
     | LatLng
     | NominatimSearchResult
 
-export default class RzGeolocation extends HTMLElement {
+export default class RzGeotag extends HTMLElement {
     defaultLocation: LegacyLocation = {
         lat: 45.769785,
         lng: 4.833967,
@@ -54,10 +54,6 @@ export default class RzGeolocation extends HTMLElement {
         return this.closest(`#${selector}`) as HTMLElement | null
     }
 
-    get textareaId() {
-        return this.getAttribute('textarea-id') || ''
-    }
-
     get searchInput() {
         const inputId = this.getAttribute('search-input-id')
         if (!inputId) return null
@@ -68,9 +64,7 @@ export default class RzGeolocation extends HTMLElement {
     }
 
     get textarea() {
-        return this.fieldWrapper?.querySelector(
-            `#${this.textareaId}`,
-        ) as HTMLTextAreaElement | null
+        return this.querySelector(`textarea`) as HTMLTextAreaElement | null
     }
 
     get isMultiple() {
@@ -92,10 +86,8 @@ export default class RzGeolocation extends HTMLElement {
 
     connectedCallback() {
         if (this.dataset.initialized === 'true') return
-        this.dataset.initialized = 'false'
 
         this.init()
-
         this.dataset.initialized = 'true'
     }
 
@@ -123,15 +115,13 @@ export default class RzGeolocation extends HTMLElement {
 
     init() {
         if (!this.textarea) {
-            console.error(
-                `<rz-geolocation> cannot find textarea #${this.textareaId}`,
-            )
+            console.error(`<rz-geotag> cannot find textarea`)
             return
         }
 
         // Create map container
         this.mapContainer = document.createElement('div')
-        this.mapContainer.className = 'rz-geolocation__map'
+        this.mapContainer.className = 'rz-geotag__map'
         this.appendChild(this.mapContainer)
 
         // Initialize Leaflet map
@@ -497,7 +487,7 @@ export default class RzGeolocation extends HTMLElement {
         }
 
         const commandButtons = clone.querySelectorAll(
-            '.rz-geolocation__item__button[data-item-detail-id]',
+            '.rz-geotag__item__button[data-item-detail-id]',
         ) as NodeListOf<HTMLElement> | null
         if (commandButtons.length) {
             commandButtons.forEach((button) => {

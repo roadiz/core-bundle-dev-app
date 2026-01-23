@@ -24,7 +24,6 @@
 
 {% set is_multiple = vars.attr['data-multiple'] is defined and vars.attr['data-multiple']|lower in ['true', '1', 'yes'] %}
 <rz-form-field
-    class="rz-geolocation-field"
     id="{{ wrapper_id }}"
     {{ field_attributes|join(' ')|raw }}
 >
@@ -93,17 +92,23 @@
     </template>
 
     {% set item_detail_id_prefix = field_id ~ '-item-' %}
-    <rz-geolocation
+    <rz-geotag
         wrapper-id="{{ wrapper_id }}"
         class="rz-form-field__body"
         id="{{ component_id }}"
-        textarea-id="{{ field_id }}"
         search-input-id="{{ search_id }}"
         multiple="{{ is_multiple ? 'true' : 'false' }}"
         item-detail-id-prefix="{{ item_detail_id_prefix }}"
     >
+        <textarea
+            class="rz-geotag__textarea"
+            id="{{ field_id }}"
+            name="{{ vars.full_name }}"
+        >
+            {{ vars.value }}
+        </textarea>
         {% if is_multiple %}
-            <div class="rz-geolocation__item-list" data-item-detail-list>
+            <div class="rz-geotag__item-list" data-item-detail-list>
                 {% if geo is iterable and geo.type is defined and geo.type == 'FeatureCollection' and geo.features is defined %}
                     {% for feature in geo.features %}
                         {% set name = feature.properties.name|default('') %}
@@ -117,29 +122,23 @@
                 {% endif %}
             </div>
         {% endif %}
-    </rz-geolocation>
-
-    <textarea
-        class="rz-geolocation-field__textarea rz-form-field__body"
-        id="{{ field_id }}"
-        name="{{ vars.full_name }}"
-    >{{ vars.value }}</textarea>
+    </rz-geotag>
 </rz-form-field>
 
 
 {% macro item_detail(item_id, name, content, component_id) %}
-    <div class="rz-geolocation__item" id={{ item_id }}>
-        <span class="rz-geolocation__item__icon rz-icon-ri--map-pin-line"></span>
-        <div class="rz-geolocation__item__content">
+    <div class="rz-geotag__item" id={{ item_id }}>
+        <span class="rz-geotag__item__icon rz-icon-ri--map-pin-line"></span>
+        <div class="rz-geotag__item__content">
             {% set name_output = name|default('') %}
-            <span class="rz-geolocation__item__name" data-item-detail-name title="{{ name_output }}">{{ name_output }}</span>
-            <span class="rz-geolocation__item__subtitle" data-item-detail-content>{{content}}</span>
+            <span class="rz-geotag__item__name" data-item-detail-name title="{{ name_output }}">{{ name_output }}</span>
+            <span class="rz-geotag__item__subtitle" data-item-detail-content>{{content}}</span>
         </div>
         {{ rz_button.root({
             size: 'xs',
             emphasis: 'tertiary',
             icon: 'rz-icon-ri--crosshair-line',
-            class: 'rz-geolocation__item__button',
+            class: 'rz-geotag__item__button',
             attributes: {
                 type: 'button',
                 commandfor: component_id,
@@ -152,7 +151,7 @@
             color: 'danger',
             emphasis: 'tertiary',
             icon: 'rz-icon-ri--delete-bin-7-line',
-            class: 'rz-geolocation__item__button',
+            class: 'rz-geotag__item__button',
             attributes: {
                 type: 'button',
                 commandfor: component_id,

@@ -270,7 +270,7 @@ final class NodeSourceType extends AbstractType
             case FieldType::GEOTAG_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'class' => 'rz-geolocation-field',
+                        'class' => 'rz-geotag-field',
                         'no-field-group' => true,
                     ],
                 ]);
@@ -278,7 +278,7 @@ final class NodeSourceType extends AbstractType
             case FieldType::MULTI_GEOTAG_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'class' => 'rz-geolocation-field',
+                        'class' => 'rz-geotag-field',
                         'data-multiple' => true,
                         'no-field-group' => true,
                     ],

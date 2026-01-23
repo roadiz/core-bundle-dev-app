@@ -74,7 +74,7 @@
 /* Form widgets */
 @import './components/rz-children-nodes.css';
 @import './components/rz-drawer.css';
-@import './components/rz-geolocation-field.css';
+@import './components/rz-geotag.css';
 
 
 /* standalone element */

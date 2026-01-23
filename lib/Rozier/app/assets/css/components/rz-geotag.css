@@ -1,44 +1,37 @@
 
-rz-geolocation,
-.rz-geolocation-field__textarea {
-	--rz-geolocation-background-color: var(--surface-light-primary, #FFF);
+rz-geotag {
+	--rz-geotag-background-color: var(--surface-light-primary, #FFF);
 
+	display: flex;
 	border-radius: var(--radius-xs, 6px);
 	border: 1px solid var(--form-basic-border, #DADADA);
-	background-color: var(--rz-geolocation-background-color);
+	background-color: var(--rz-geotag-background-color);
 	box-sizing: border-box;
 	height: 391px;
 	overflow: hidden;
-}
 
-
-rz-geolocation {
-	display: none;
-
-	&[data-initialized="true"] {
-		display: flex;
-	}
-
-	.rz-geolocation__map {
+	.rz-geotag__map {
 		flex-grow: 1;
 		height: 100%;
 	}
 }
 
-
-.rz-geolocation-field__textarea {
+.rz-geotag__textarea {
 	color: transparent;
-	background-color: var(--rz-geolocation-background-color);
+	background-color: var(--rz-geotag-background-color);
 	background: linear-gradient(110deg,
-		var(--rz-geolocation-background-color) 10%,
+		var(--rz-geotag-background-color) 10%,
 		color-mix(in hsl, var(--surface-dark-primary), transparent 85%) 30%,
-		var(--rz-geolocation-background-color) 50%
+		var(--rz-geotag-background-color) 50%
 	);
+	border: none;
+	width: 100%;
+	height: 100%;
 	background-size: 200% 100%;
 	animation: 1.3s shine cubic-bezier(0.35, 0.09, 0.52, 1) infinite;
 
 	/* when leaflet is loaded */
-	rz-geolocation[data-initialized="true"] ~ & {
+	rz-geotag[data-initialized="true"] & {
 		display: none;
 	}
 }
@@ -49,12 +42,12 @@ rz-geolocation {
   }
 }
 
-.rz-geolocation__item-list {
+.rz-geotag__item-list {
 	box-sizing: border-box;
 	width: min(50%, 362px);
 	max-width: 362px;
 	height: 100%;
-	background-color: var(--rz-geolocation-background-color);
+	background-color: var(--rz-geotag-background-color);
 	padding: var(--spacing-4xs);
 	display: flex;
 	flex-direction: column;
@@ -62,7 +55,7 @@ rz-geolocation {
 	overflow-y: auto
 }
 
-.rz-geolocation__item {
+.rz-geotag__item {
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-4xs);
@@ -73,18 +66,18 @@ rz-geolocation {
 	}
 }
 
-.rz-geolocation__item__icon {
+.rz-geotag__item__icon {
 	flex-shrink: 0;
 }
 
-.rz-geolocation__item__content {
+.rz-geotag__item__content {
 	display: flex;
     flex-direction: column;
     max-width: 70%;
 	flex-grow: 1;
 }
 
-.rz-geolocation__item__name {
+.rz-geotag__item__name {
   font-family: var(--font-family-os-label);
   font-size: var(--text-card-md-font-size);
   line-height: var(--text-card-md-line-height);
@@ -92,7 +85,7 @@ rz-geolocation {
   font-weight: var(--text-card-md-font-weight);
 }
 
-.rz-geolocation__item__subtitle {
+.rz-geotag__item__subtitle {
 	color: var(--content-on_light-secondary, #646464);
 	margin-top: var(--spacing-6xs);
 	font-family: var(--font-family-os-label);
@@ -102,15 +95,15 @@ rz-geolocation {
 	font-weight: var(--text-card-sm-font-weight);
 }
 
-.rz-geolocation__item__name,
-.rz-geolocation__item__subtitle {
+.rz-geotag__item__name,
+.rz-geotag__item__subtitle {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
-.rz-geolocation__item__button {
-	.rz-geolocation__item__content + & {
+.rz-geotag__item__button {
+	.rz-geotag__item__content + & {
 		margin-left: auto;
 	}
 }
