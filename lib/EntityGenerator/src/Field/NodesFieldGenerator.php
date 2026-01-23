@@ -88,7 +88,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         if (!empty($this->field->getDefaultValues())) {
             $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
             $nodeTypes = array_map(
-                fn ($nodeTypeName) => $this->nodeTypeResolver->get($nodeTypeName),
+                $this->nodeTypeResolver->get(...),
                 $defaultValuesParsed
             );
             $nodeSourceClasses = array_map(

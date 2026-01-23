@@ -17,7 +17,7 @@
         "ext-openssl": "*"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
+        "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2"
     },
     "autoload": {

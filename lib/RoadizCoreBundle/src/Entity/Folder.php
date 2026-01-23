@@ -31,8 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @implements LeafInterface<Folder>
  */
-#[
-    ORM\Entity(repositoryClass: FolderRepository::class),
+#[ORM\Entity(repositoryClass: FolderRepository::class),
     ORM\HasLifecycleCallbacks,
     ORM\Table(name: 'folders'),
     ORM\Index(columns: ['visible']),
@@ -50,8 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'position',
         'createdAt',
         'updatedAt',
-    ])
-]
+    ])]
 class Folder implements DateTimedInterface, FolderInterface, LeafInterface, PersistableInterface
 {
     use SequentialIdTrait;

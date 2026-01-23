@@ -46,10 +46,9 @@ final class UsersDisableCommand extends UsersCommand
             $io->success('User “'.$name.'” disabled.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not disabled.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not disabled.');
+
+        return 1;
     }
 }

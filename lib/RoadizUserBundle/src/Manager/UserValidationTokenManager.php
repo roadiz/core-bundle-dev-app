@@ -71,7 +71,7 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
     {
         $user = $userValidationToken->getUser();
 
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             return;
         }
 

@@ -25,28 +25,27 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
          * SQL field won't be shared between all node types.
          */
         if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
-            return array_map('trim', $field->getDefaultValuesAsArray());
-        } else {
-            /*
-             * With single table inheritance, we need to get all default values
-             * from all fields of all node types.
-             */
-            $defaultValues = [];
-            $nodeTypeFields = [];
-            $nodeTypes = $this->nodeTypesBag->all();
-            foreach ($nodeTypes as $nodeType) {
-                $nodeTypeFields = [
-                    ...$nodeTypeFields,
-                    ...$nodeType->getFields()->filter(fn (NodeTypeFieldInterface $nodeTypeField) => $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType())->toArray(),
-                ];
-            }
-            foreach ($nodeTypeFields as $nodeTypeField) {
-                $values = array_filter(array_map('trim', $nodeTypeField->getDefaultValuesAsArray()));
-                $defaultValues = array_merge($defaultValues, $values);
-            }
-
-            return $defaultValues;
+            return array_map(trim(...), $field->getDefaultValuesAsArray());
         }
+        /*
+         * With single table inheritance, we need to get all default values
+         * from all fields of all node types.
+         */
+        $defaultValues = [];
+        $nodeTypeFields = [];
+        $nodeTypes = $this->nodeTypesBag->all();
+        foreach ($nodeTypes as $nodeType) {
+            $nodeTypeFields = [
+                ...$nodeTypeFields,
+                ...$nodeType->getFields()->filter(fn (NodeTypeFieldInterface $nodeTypeField) => $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType())->toArray(),
+            ];
+        }
+        foreach ($nodeTypeFields as $nodeTypeField) {
+            $values = array_filter(array_map(trim(...), $nodeTypeField->getDefaultValuesAsArray()));
+            $defaultValues = array_merge($defaultValues, $values);
+        }
+
+        return $defaultValues;
     }
 
     #[\Override]

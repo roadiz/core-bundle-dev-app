@@ -17,15 +17,15 @@ final class UserExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getId(): int|string
+    public function getId(): int
     {
         return $this->user->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
-        return $this->user->getEmail();
+        return $this->user->getEmail() ?? '';
     }
 
     #[\Override]
@@ -50,7 +50,7 @@ final class UserExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    protected function getEditItemPath(): ?string
+    protected function getEditItemPath(): string
     {
         return $this->urlGenerator->generate('usersEditPage', [
             'id' => $this->user->getId(),

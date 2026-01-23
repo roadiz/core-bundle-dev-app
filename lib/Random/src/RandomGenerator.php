@@ -20,7 +20,7 @@ class RandomGenerator
         // try OpenSSL
         $bytes = \openssl_random_pseudo_bytes($nbBytes, $strong);
 
-        if (false !== $bytes && true === $strong) {
+        if (true === $strong) {
             return $bytes;
         }
 

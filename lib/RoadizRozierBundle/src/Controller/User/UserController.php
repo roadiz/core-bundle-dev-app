@@ -160,7 +160,7 @@ class UserController extends AbstractAdminWithBulkController
 
         /** @var mixed|object|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
-        if (!($item instanceof PersistableInterface)) {
+        if (!$item instanceof PersistableInterface) {
             throw $this->createNotFoundException();
         }
 
@@ -217,17 +217,12 @@ class UserController extends AbstractAdminWithBulkController
     {
         parent::additionalAssignation($request);
 
-        if (null !== $this->getBulkEnableRouteName()) {
-            $bulkEnableForm = $this->createEnableBulkForm(true);
-            $this->assignation['bulkEnableForm'] = $bulkEnableForm->createView();
-            $this->assignation['hasBulkActions'] = true;
-        }
+        $bulkEnableForm = $this->createEnableBulkForm(true);
+        $this->assignation['bulkEnableForm'] = $bulkEnableForm->createView();
+        $this->assignation['hasBulkActions'] = true;
 
-        if (null !== $this->getBulkDisableRouteName()) {
-            $bulkDisableForm = $this->createDisableBulkForm(true);
-            $this->assignation['bulkDisableForm'] = $bulkDisableForm->createView();
-            $this->assignation['hasBulkActions'] = true;
-        }
+        $bulkDisableForm = $this->createDisableBulkForm(true);
+        $this->assignation['bulkDisableForm'] = $bulkDisableForm->createView();
     }
 
     /*

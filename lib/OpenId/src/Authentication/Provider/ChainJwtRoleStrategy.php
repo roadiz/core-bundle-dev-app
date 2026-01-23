@@ -12,7 +12,7 @@ final readonly class ChainJwtRoleStrategy implements JwtRoleStrategy
     public function __construct(private array $strategies)
     {
         foreach ($this->strategies as $strategy) {
-            if (!($strategy instanceof JwtRoleStrategy)) {
+            if (!$strategy instanceof JwtRoleStrategy) {
                 throw new \InvalidArgumentException('Strategy must implement '.JwtRoleStrategy::class);
             }
         }

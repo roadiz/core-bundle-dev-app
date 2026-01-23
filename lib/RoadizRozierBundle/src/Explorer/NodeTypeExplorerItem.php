@@ -17,18 +17,18 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getId(): string|int
+    public function getId(): string
     {
         return $this->nodeType->getName();
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
         return $this->nodeType->getName();
     }
 
-    public function getNodeTypeName(): ?string
+    public function getNodeTypeName(): string
     {
         return $this->nodeType->getName();
     }
@@ -46,7 +46,7 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    protected function getEditItemPath(): ?string
+    protected function getEditItemPath(): string
     {
         return $this->urlGenerator->generate('nodeTypesEditPage', [
             'nodeTypeName' => $this->nodeType->getName(),

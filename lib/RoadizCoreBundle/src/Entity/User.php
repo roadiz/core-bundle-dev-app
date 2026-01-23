@@ -21,8 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: UserRepository::class),
+#[ORM\Entity(repositoryClass: UserRepository::class),
     ORM\Table(name: 'users'),
     ORM\Index(columns: ['username'], name: 'idx_users_username'),
     ORM\Index(columns: ['email'], name: 'idx_users_email'),
@@ -38,8 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\HasLifecycleCallbacks,
     UniqueEntity('email'),
     UniqueEntity('username'),
-    ApiFilter(PropertyFilter::class),
-]
+    ApiFilter(PropertyFilter::class),]
 class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     /**
@@ -186,9 +184,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             return $this->getFirstName().' '.$this->getLastName();
         } elseif ('' != $this->getFirstName()) {
             return $this->getFirstName();
-        } else {
-            return $this->getUsername();
         }
+
+        return $this->getUsername();
     }
 
     #[Serializer\SerializedName('identifier')]
@@ -590,15 +588,13 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         if (null === $this->roles) {
             $this->roles = $this->getUserRoles();
 
-            if (null !== $this->getGroups()) {
-                foreach ($this->getGroups() as $group) {
-                    if ($group instanceof Group) {
-                        // User roles > Groups roles
-                        $this->roles = [
-                            ...$this->roles,
-                            ...$group->getRoles(),
-                        ];
-                    }
+            foreach ($this->getGroups() as $group) {
+                if ($group instanceof Group) {
+                    // User roles > Groups roles
+                    $this->roles = [
+                        ...$this->roles,
+                        ...$group->getRoles(),
+                    ];
                 }
             }
 

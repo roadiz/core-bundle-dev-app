@@ -133,7 +133,7 @@ final readonly class UniqueNodeGenerator
         $nodeType = null;
 
         $nodeTypeName = $nodeCreationDto->nodeTypeName;
-        if (is_string($nodeTypeName) && !empty($nodeTypeName)) {
+        if ('' !== $nodeTypeName) {
             $nodeType = $this->nodeTypesBag->get($nodeTypeName);
         }
 

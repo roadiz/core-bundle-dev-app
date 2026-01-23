@@ -11,10 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @deprecated since 2.6, use composition with PersistableInterface and SequentialIdTrait or UuidTrait instead.
  */
-#[
-    ORM\MappedSuperclass,
-    ORM\Table
-]
+#[ORM\MappedSuperclass,
+    ORM\Table]
 abstract class AbstractEntity implements PersistableInterface
 {
     use SequentialIdTrait;

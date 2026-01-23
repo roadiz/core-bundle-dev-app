@@ -30,7 +30,7 @@ final class ValidateUserNotification extends Notification implements EmailNotifi
     }
 
     #[\Override]
-    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
         $email = new NotificationEmail();
         $email

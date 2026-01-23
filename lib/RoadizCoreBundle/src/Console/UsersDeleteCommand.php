@@ -46,10 +46,9 @@ final class UsersDeleteCommand extends UsersCommand
             $io->success('User “'.$name.'” deleted.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not deleted.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not deleted.');
+
+        return 1;
     }
 }

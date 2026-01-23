@@ -105,13 +105,18 @@ abstract class AbstractImageRenderer extends AbstractRenderer
             throw new \RuntimeException('Color is not a valid hexadecimal RGB format');
         }
         [$r, $g, $b] = $hexColorArray;
+        $width = max(1, $width);
+        $height = max(1, $height);
+        $red = max(0, min(255, $r ?? 0));
+        $green = max(0, min(255, $g ?? 0));
+        $blue = max(0, min(255, $b ?? 0));
         $im = \imagecreatetruecolor($width, $height);
         if ($im) {
             \imagefill(
                 $im,
                 0,
                 0,
-                \imagecolorallocate($im, $r ?? 0, $g ?? 0, $b ?? 0) ?: 0
+                \imagecolorallocate($im, $red, $green, $blue) ?: 0
             );
             \ob_start();
             \imagejpeg($im, null, 30);
@@ -126,9 +131,9 @@ abstract class AbstractImageRenderer extends AbstractRenderer
 
     protected function getImageRatio(array &$options): ?float
     {
-        /** @var \ArrayAccess<string, string|null> $options */
+        /** @var array<string, string|int|float|null> $options */
         $compositing = $options['crop'] ?? $options['fit'] ?? '';
-        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, (string) $compositing, $matches)) {
             return ((float) $matches['width']) / ((float) $matches['height']);
         }
 
@@ -137,9 +142,9 @@ abstract class AbstractImageRenderer extends AbstractRenderer
 
     protected function getImageWidth(array &$options): int
     {
-        /** @var \ArrayAccess<string, string|null> $options */
+        /** @var array<string, string|int|float|null> $options */
         $compositing = $options['fit'] ?? '';
-        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, (string) $compositing, $matches)) {
             return (int) $matches['width'];
         } elseif (null !== $options['ratio'] && 0 !== $options['height'] && 0 !== $options['ratio']) {
             return (int) (intval($options['height']) * floatval($options['ratio']));
@@ -150,9 +155,9 @@ abstract class AbstractImageRenderer extends AbstractRenderer
 
     protected function getImageHeight(array &$options): int
     {
-        /** @var \ArrayAccess<string, string|null> $options */
+        /** @var array<string, string|int|float|null> $options */
         $compositing = $options['fit'] ?? '';
-        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, (string) $compositing, $matches)) {
             return (int) $matches['height'];
         } elseif (null !== $options['ratio'] && 0 !== $options['width'] && 0 !== $options['ratio']) {
             return (int) (intval($options['width']) / floatval($options['ratio']));
@@ -176,7 +181,7 @@ abstract class AbstractImageRenderer extends AbstractRenderer
             $assignation['height'] = $options['height'] = $this->getImageHeight($options);
         }
 
-        if (!($document instanceof AdvancedDocumentInterface)) {
+        if (!$document instanceof AdvancedDocumentInterface) {
             return;
         }
 

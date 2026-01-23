@@ -36,7 +36,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
     {
         $answer = $this->customFormAnswerRepository->find($message->getCustomFormAnswerId());
 
-        if (!($answer instanceof CustomFormAnswer)) {
+        if (!$answer instanceof CustomFormAnswer) {
             throw new UnrecoverableMessageHandlingException('CustomFormAnswer not found');
         }
 
@@ -78,7 +78,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
     private function getCustomFormReceivers(CustomFormAnswer $answer): array
     {
         $receiver = array_filter(
-            array_map('trim', explode(',', $answer->getCustomForm()->getEmail() ?? ''))
+            array_map(trim(...), explode(',', $answer->getCustomForm()->getEmail() ?? ''))
         );
 
         return array_map(fn (string $email) => new Recipient(email: $email), $receiver);

@@ -216,7 +216,7 @@ class DocumentPublicListController extends AbstractController
             !empty($data['documentsId'])
             && !empty($data['folderPaths'])
         ) {
-            $documentsIds = json_decode($data['documentsId'], true, flags: JSON_THROW_ON_ERROR);
+            $documentsIds = json_decode((string) $data['documentsId'], true, flags: JSON_THROW_ON_ERROR);
 
             $documents = $this->managerRegistry
                 ->getRepository(Document::class)
@@ -272,7 +272,7 @@ class DocumentPublicListController extends AbstractController
             !empty($data['documentsId'])
             && !empty($data['folderPaths'])
         ) {
-            $documentsIds = json_decode($data['documentsId'], true, flags: JSON_THROW_ON_ERROR);
+            $documentsIds = json_decode((string) $data['documentsId'], true, flags: JSON_THROW_ON_ERROR);
 
             $documents = $this->managerRegistry
                 ->getRepository(Document::class)

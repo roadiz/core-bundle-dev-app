@@ -30,7 +30,7 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
         if (is_array($normalized) && null !== $data->getDefaultValues()) {
             $defaultValueParsed = Yaml::parse($data->getDefaultValues());
             if (is_string($defaultValueParsed)) {
-                $defaultValueParsed = array_map('trim', explode(',', $defaultValueParsed));
+                $defaultValueParsed = array_map(trim(...), explode(',', $defaultValueParsed));
             }
             $normalized['defaultValues'] = $defaultValueParsed;
         }

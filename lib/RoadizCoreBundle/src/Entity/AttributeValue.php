@@ -19,8 +19,7 @@ use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\AttributeValueRepository;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 
-#[
-    ORM\Entity(repositoryClass: AttributeValueRepository::class),
+#[ORM\Entity(repositoryClass: AttributeValueRepository::class),
     ORM\Table(name: 'attribute_values'),
     ORM\Index(columns: ['attribute_id', 'node_id']),
     ORM\Index(columns: ['node_id', 'position'], name: 'idx_attribute_value_node_position'),
@@ -29,16 +28,14 @@ use Symfony\Component\Serializer\Attribute as SymfonySerializer;
     ApiFilter(PropertyFilter::class),
     ApiFilter(BaseFilter\OrderFilter::class, properties: [
         'position',
-    ]),
-]
+    ]),]
 class AttributeValue implements AttributeValueInterface
 {
     use SequentialIdTrait;
     use PositionedTrait;
     use AttributeValueTrait;
 
-    #[
-        ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'attributeValues'),
+    #[ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'attributeValues'),
         ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
         SymfonySerializer\Groups(['attribute_node']),
         SymfonySerializer\MaxDepth(1),
@@ -50,8 +47,7 @@ class AttributeValue implements AttributeValueInterface
         ]),
         ApiFilter(BaseFilter\BooleanFilter::class, properties: [
             'node.visible',
-        ])
-    ]
+        ])]
     protected Node $node;
 
     #[ORM\ManyToOne(targetEntity: Realm::class)]
