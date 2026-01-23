@@ -111,6 +111,9 @@ importers:
       '@types/codemirror':
         specifier: ^5.60.17
         version: 5.60.17
+      '@types/geojson':
+        specifier: ^7946.0.16
+        version: 7946.0.16
       '@types/leaflet':
         specifier: ^1.9.21
         version: 1.9.21
