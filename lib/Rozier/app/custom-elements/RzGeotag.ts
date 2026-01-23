@@ -1,12 +1,4 @@
-import {
-    Icon,
-    LatLng,
-    Map,
-    Marker,
-    TileLayer,
-    LatLngBounds,
-    LeafletMouseEvent,
-} from 'leaflet'
+import type { LatLng, Map, Marker, LeafletMouseEvent } from 'leaflet'
 import type { Point, Feature, FeatureCollection } from 'geojson'
 import GeoCodingService from '~/services/GeoCodingService'
 import type { NominatimSearchResult } from '~/services/GeoCodingService'
@@ -42,8 +34,13 @@ export default class RzGeotag extends HTMLElement {
         lng: 4.833967,
         zoom: 14,
     }
+    private leaflet: typeof import('leaflet') | null = null
+
     private map: Map | null = null
-    private markers: Marker<{ name?: string; itemDetailId?: string }>[] = []
+    private markers: Marker<{
+        name?: string
+        itemDetailId?: string
+    }>[] = []
     private resizeObserver: ResizeObserver | null = null
     private mapContainer: HTMLDivElement | null = null
     private idSeed: string = Date.now().toString(36)
@@ -77,6 +74,8 @@ export default class RzGeotag extends HTMLElement {
     constructor() {
         super()
 
+        this.dataset.initialized = 'false'
+
         this.onTargetMarker = this.onTargetMarker.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
         this.onDelete = this.onDelete.bind(this)
@@ -87,8 +86,15 @@ export default class RzGeotag extends HTMLElement {
     connectedCallback() {
         if (this.dataset.initialized === 'true') return
 
-        this.init()
-        this.dataset.initialized = 'true'
+        import('leaflet')
+            .then((Leaflet) => {
+                this.leaflet = Leaflet
+                this.init()
+                this.dataset.initialized = 'true'
+            })
+            .catch((err) => {
+                console.error('Failed to load Leaflet dynamically', err)
+            })
     }
 
     disconnectedCallback() {
@@ -100,7 +106,7 @@ export default class RzGeotag extends HTMLElement {
             (window.RozierConfig?.defaultMapLocation as LegacyLocation) ||
             this.defaultLocation
 
-        const center = new LatLng(
+        const center = new this.leaflet.LatLng(
             defaultConfig.lat,
             defaultConfig.lng,
             defaultConfig?.zoom ?? defaultConfig?.alt,
@@ -142,7 +148,7 @@ export default class RzGeotag extends HTMLElement {
 
             // Set map view to markers
             if (this.markers.length > 1) {
-                const bounds = new LatLngBounds(
+                const bounds = new this.leaflet.LatLngBounds(
                     this.markers.map((m) => m.getLatLng()),
                 )
                 this.map.fitBounds(bounds, {
@@ -165,13 +171,13 @@ export default class RzGeotag extends HTMLElement {
         if (!container) {
             throw new Error('Missing map container')
         }
-        const map = new Map(container).setView(
+        const map = new this.leaflet.Map(container).setView(
             mapOptions.center,
             mapOptions.zoom,
         )
         const tileUrl =
             window.RozierConfig?.leafletMapTileUrl || 'OpenStreetMap'
-        const osmLayer = new TileLayer(tileUrl, {
+        const osmLayer = new this.leaflet.TileLayer(tileUrl, {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 18,
         })
@@ -234,20 +240,28 @@ export default class RzGeotag extends HTMLElement {
 
         let latLng: LatLng | null = null
         let name = props?.name || ''
-        if (data instanceof LatLng) {
+
+        if (data instanceof this.leaflet.LatLng) {
             latLng = data
         } else if ('display_name' in data) {
-            latLng = new LatLng(parseFloat(data.lat), parseFloat(data.lon))
+            latLng = new this.leaflet.LatLng(
+                parseFloat(data.lat),
+                parseFloat(data.lon),
+            )
             name = data.display_name
         } else if ('lat' in data && 'lng' in data) {
-            latLng = new LatLng(data.lat, data.lng, data?.zoom ?? data?.alt)
+            latLng = new this.leaflet.LatLng(
+                data.lat,
+                data.lng,
+                data?.zoom ?? data?.alt,
+            )
         } else if ('type' in data && data.type === 'Feature') {
             const zoomValue = data.properties?.zoom
             const zoom =
                 typeof zoomValue === 'string'
                     ? parseInt(zoomValue, 10)
                     : (zoomValue ?? 7)
-            latLng = new LatLng(
+            latLng = new this.leaflet.LatLng(
                 data.geometry.coordinates[1],
                 data.geometry.coordinates[0],
                 zoom,
@@ -255,8 +269,8 @@ export default class RzGeotag extends HTMLElement {
             name = data.properties?.name || ''
         }
 
-        const marker = new Marker(latLng, {
-            icon: new Icon({
+        const marker = new this.leaflet.Marker(latLng, {
+            icon: new this.leaflet.Icon({
                 iconUrl,
                 shadowUrl,
                 iconSize: [22, 30],
