@@ -12,7 +12,6 @@ use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
-use Twig\TwigFilter;
 
 final class AppExtension extends AbstractExtension implements GlobalsInterface
 {
