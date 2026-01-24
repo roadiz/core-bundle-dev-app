@@ -123,7 +123,7 @@ configured captcha service:
 
 Roadiz supports cache invalidation for both external (e.g., *Varnish*) and internal (*Symfony* AppCache) reverse
 proxies.
-When the back-office cache is cleared, Roadiz sends a `BAN` request. For node-source updates, a `PURGE` request is sent
+When the back office cache is cleared, Roadiz sends a `BAN` request. For node-source updates, a `PURGE` request is sent.
 using the first reachable node-source URL.
 
 ### Varnish Configuration
@@ -394,7 +394,7 @@ See [Translate Assistant extensions](/extensions/translate-assistant) if you wan
 
 ## Bookmark links
 
-Roadiz 2.7 adds a bookmark system for the back-office sidebar. Configure a list of bookmarks with a label and URL; entries render in the order provided.
+Roadiz 2.7 adds a bookmark system for the back office sidebar. Configure a list of bookmarks with a label and URL; entries render in the order provided.
 
 You can add custom bookmark links by adding the following configuration to `config/packages/roadiz_rozier.yaml`:
 

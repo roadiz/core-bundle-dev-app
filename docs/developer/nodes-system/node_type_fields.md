@@ -43,7 +43,7 @@ Geographic coordinates are stored in JSON format in your database using the [Geo
 - A **single point** will be stored as a GeoJSON *feature* to hold additional properties such as *zoom*.
 - **Multiple points** will be stored as a GeoJSON *feature collection*.
 
-By default, Roadiz back-office uses the *Leaflet* library with *Open Street Map* for tiles rendering and basic geo-coding features.
+By default, the Roadiz back office uses the *Leaflet* library with *Open Street Map* for tile rendering and basic geocoding features.
 
 ## Markdown options
 
@@ -174,7 +174,7 @@ Imagine that you want to link your page with an *Instagram* post. You’ll have 
 classname: App\Provider\ExternalApiProvider
 ```
 
-This provider will implement `getItems`, `getItemsById`, and other methods from `ExplorerProviderInterface` to display your *Instagram* posts in the Roadiz explorer widget and find your selected items back. Each *Instagram* post will be wrapped in a `RZ\Roadiz\RozierBundle\Explorer\AbstractExplorerItem` that maps your custom data to the right fields to be shown in the Roadiz back-office.
+This provider will implement `getItems`, `getItemsById`, and other methods from `ExplorerProviderInterface` to display your *Instagram* posts in the Roadiz explorer widget and find your selected items back. Each *Instagram* post will be wrapped in a `RZ\Roadiz\RozierBundle\Explorer\AbstractExplorerItem` that maps your custom data to the right fields to be shown in the Roadiz back office.
 
 You’ll find an implementation example in Roadiz with `RZ\Roadiz\RozierBundle\Explorer\SettingsProvider` and `RZ\Roadiz\RozierBundle\Explorer\SettingExplorerItem`. These classes do not fetch data from an API but from your database using `EntityListManager`.
 

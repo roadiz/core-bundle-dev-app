@@ -27,14 +27,14 @@ security:
 ```
 
 ## Built-in roles
-Roadiz comes with a set of built-in roles that can be used to manage access control in your back-office.
+Roadiz comes with a set of built-in roles that can be used to manage access control in your back office.
 These roles are defined in the `config/packages/security.yaml` file.
 
 | Role name                              | Description                                                          |
 |:---------------------------------------|:---------------------------------------------------------------------|
 | `ROLE_SUPERADMIN`                      | Inherits all roles in application                                    |
-| `ROLE_BACKEND_USER`                    | Only grants access to backoffice and its user account                |
-| `ROLE_ACCESS_VERSIONS`                 | Grants tags, documents and nodes-sources versionning                 |
+| `ROLE_BACKEND_USER`                    | Only grants access to the back office and its user account           |
+| `ROLE_ACCESS_VERSIONS`                 | Grants tags, documents, and nodes-sources versioning                 |
 | `ROLE_ACCESS_ATTRIBUTES`               | Grants attributes creation and updates                               |
 | `ROLE_ACCESS_ATTRIBUTES_DELETE`        | Grants attributes deletion                                           |
 | `ROLE_ACCESS_CUSTOMFORMS`              | Grants custom-forms creation, updates and answers management         |

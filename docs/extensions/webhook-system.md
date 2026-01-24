@@ -8,12 +8,12 @@ When a CustomForm is submitted, the webhook system can automatically send the fo
 
 ## Features
 
-- **Multiple Providers**: Built-in support for popular CRM systems
-- **Field Mapping**: Map CustomForm fields to provider-specific fields
-- **Async Processing**: Webhooks are dispatched asynchronously via Symfony Messenger
-- **Idempotency**: Each webhook dispatch uses the CustomFormAnswer ID to ensure idempotent processing
-- **Retry Logic**: Failed webhooks are automatically retried via Symfony Messenger's retry mechanism
-- **Extensible**: Easy to add custom webhook providers at project level
+- **Multiple Providers**: Built-in support for popular CRM systems.
+- **Field Mapping**: Map CustomForm fields to provider-specific fields.
+- **Async Processing**: Webhooks are dispatched asynchronously via Symfony Messenger.
+- **Idempotency**: Each webhook dispatch uses the CustomFormAnswer ID to ensure idempotent processing.
+- **Retry Logic**: Failed webhooks are automatically retried via Symfony Messenger's retry mechanism.
+- **Extensible**: Easy to add custom webhook providers at project level.
 
 ## Supported providers
 
@@ -26,7 +26,7 @@ When a CustomForm is submitted, the webhook system can automatically send the fo
 5. **Generic HTTP** - `generic_http`
 
 We recommend using the Generic HTTP provider for testing purposes only, as it allows sending webhooks to any HTTP endpoint and will store authorization data in the database.
-Implement you own provider for production use cases.
+Implement your own provider for production use cases.
 
 ## Configuration
 

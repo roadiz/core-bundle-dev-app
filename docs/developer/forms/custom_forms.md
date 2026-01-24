@@ -109,7 +109,7 @@ If post is successful, API will respond an empty `202 Accepted` response
 
 ![image](./img/custom_form_post_response.webp){.align-center}
 
-Then you will be able to see all your form submits in Roadiz backoffice :
+Then you will be able to see all your form submissions in the Roadiz back office:
 
 ![image](./img/custom_form_entry.webp){.align-left}
 
