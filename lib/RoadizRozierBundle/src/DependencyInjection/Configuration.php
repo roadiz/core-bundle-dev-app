@@ -87,7 +87,7 @@ final class Configuration implements ConfigurationInterface
         return $builder;
     }
 
-    protected function addOpenIdNode(): NodeDefinition
+    private function addOpenIdNode(): NodeDefinition
     {
         $builder = new TreeBuilder('open_id');
         $node = $builder->getRootNode();
@@ -172,7 +172,7 @@ EOD
         return $node;
     }
 
-    protected function addCsvNode(): NodeDefinition
+    private function addCsvNode(): NodeDefinition
     {
         $builder = new TreeBuilder('csv_encoder_options');
         $node = $builder->getRootNode();
@@ -202,7 +202,7 @@ EOD
         return $node;
     }
 
-    protected function addTranslateAssistantNode(): NodeDefinition
+    private function addTranslateAssistantNode(): NodeDefinition
     {
         $builder = new TreeBuilder('translate_assistant');
         $node = $builder->getRootNode();

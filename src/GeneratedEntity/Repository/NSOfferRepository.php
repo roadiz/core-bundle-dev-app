@@ -27,7 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSOffer[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method NSOffer|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSOffer|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
- * @method NSOffer[] findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method NSOffer[]      findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
 class NSOfferRepository extends NodesSourcesRepository

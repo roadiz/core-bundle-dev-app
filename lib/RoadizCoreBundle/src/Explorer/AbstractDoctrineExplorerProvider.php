@@ -80,7 +80,7 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
     #[\Override]
     public function getItemsById(array $ids = []): array
     {
-        if (is_array($ids) && count($ids) > 0) {
+        if (count($ids) > 0) {
             $entities = $this->managerRegistry->getRepository($this->getProvidedClassname())->findBy([
                 'id' => $ids,
             ]);

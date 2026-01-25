@@ -93,9 +93,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get children from a NULL node-source.');
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         if ($displayNotPublished) {
@@ -115,9 +115,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get next sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -137,9 +137,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get previous sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -159,9 +159,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get last sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -181,9 +181,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get first sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -203,9 +203,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get parent from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         return $ns->getParent();
@@ -222,9 +222,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get parents from a NULL node-source.');
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         if ($displayNotPublished) {
@@ -248,9 +248,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get tags from a NULL node-source.');
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         return $this->tagRepository->findByNodesSources($ns);

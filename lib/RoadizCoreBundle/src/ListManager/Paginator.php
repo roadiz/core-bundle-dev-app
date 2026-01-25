@@ -132,7 +132,7 @@ class Paginator
             }
         }
 
-        return $this->totalCount;
+        return $this->totalCount ?? 0;
     }
 
     /**
@@ -152,15 +152,15 @@ class Paginator
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
-        } else {
-            return $this->getRepository()
-                ->findBy(
-                    $this->criteria,
-                    $order,
-                    $this->getItemsPerPage(),
-                    $this->getItemsPerPage() * ($page - 1)
-                );
         }
+
+        return $this->getRepository()
+            ->findBy(
+                $this->criteria,
+                $order,
+                $this->getItemsPerPage(),
+                $this->getItemsPerPage() * ($page - 1)
+            );
     }
 
     /**
@@ -240,7 +240,7 @@ class Paginator
     protected function getSearchableFields(): array
     {
         $metadata = $this->em->getClassMetadata($this->entityName);
-        if (!($metadata instanceof ClassMetadataInfo)) {
+        if (!$metadata instanceof ClassMetadataInfo) {
             throw new \RuntimeException('Entity has no metadata.');
         }
 

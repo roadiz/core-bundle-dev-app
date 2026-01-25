@@ -31,17 +31,16 @@ class NodeTypeFieldsType extends AbstractType
         $resolver->setNormalizer('choices', function (Options $options) {
             if (null !== $options['nodeType']) {
                 return $options['nodeType']->getFields();
-            } else {
-                $nodeTypeFields = [];
-                foreach ($this->nodeTypesBag->all() as $nodeType) {
-                    $nodeTypeFields = [
-                        ...$nodeTypeFields,
-                        ...$nodeType->getFields()->toArray(),
-                    ];
-                }
-
-                return $nodeTypeFields;
             }
+            $nodeTypeFields = [];
+            foreach ($this->nodeTypesBag->all() as $nodeType) {
+                $nodeTypeFields = [
+                    ...$nodeTypeFields,
+                    ...$nodeType->getFields()->toArray(),
+                ];
+            }
+
+            return $nodeTypeFields;
         });
     }
 

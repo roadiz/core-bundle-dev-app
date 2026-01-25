@@ -89,7 +89,5 @@ final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterf
         $queryBuilder
             ->andWhere($queryBuilder->expr()->eq($existingNodeJoin->getAlias().'.status', ':status'))
             ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
     }
 }

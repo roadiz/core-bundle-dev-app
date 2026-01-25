@@ -16,7 +16,7 @@ final class SearchEnginePaginator implements PaginatorInterface, \IteratorAggreg
     {
     }
 
-    protected function handleOnce(): void
+    private function handleOnce(): void
     {
         if (false === $this->handled) {
             $this->listManager->handle();
@@ -29,7 +29,7 @@ final class SearchEnginePaginator implements PaginatorInterface, \IteratorAggreg
     {
         $this->handleOnce();
 
-        return $this->listManager->getItemCount();
+        return max(0, $this->listManager->getItemCount());
     }
 
     #[\Override]

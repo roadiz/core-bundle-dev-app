@@ -32,7 +32,7 @@ final class LoginLinkNotification extends Notification implements EmailNotificat
     }
 
     #[\Override]
-    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
         $email = new NotificationEmail();
         $email

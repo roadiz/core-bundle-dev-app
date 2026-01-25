@@ -91,7 +91,7 @@ final class NodeTypeFieldSerializationType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return FormType::class;
     }

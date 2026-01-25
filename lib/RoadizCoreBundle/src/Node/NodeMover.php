@@ -125,7 +125,7 @@ final readonly class NodeMover
     /**
      * Warning: this method DOES NOT flush entity manager.
      */
-    protected function redirect(NodesSources $nodeSource, string $previousPath, bool $permanently = true): NodesSources
+    private function redirect(NodesSources $nodeSource, string $previousPath, bool $permanently = true): NodesSources
     {
         if (empty($previousPath) || '/' === $previousPath) {
             $this->logger->warning('Cannot redirect empty or root path: '.$nodeSource->getTitle());

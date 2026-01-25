@@ -158,21 +158,20 @@ final class NodeAttributeController extends AbstractController
                         'nodeId' => $node->getId(),
                         'translationId' => $translation->getId(),
                     ]);
-                } else {
-                    $errors = $this->formErrorSerializer->getErrorsAsArray($attributeValueTranslationForm);
-                    /*
-                     * Handle errors when Ajax POST requests
-                     */
-                    if ($isJson) {
-                        return new JsonResponse([
-                            'status' => 'fail',
-                            'errors' => $errors,
-                            'message' => $this->translator->trans('form_has_errors.check_you_fields'),
-                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
-                    }
-                    foreach ($errors as $error) {
-                        $this->logTrail->publishErrorMessage($request, $error);
-                    }
+                }
+                $errors = $this->formErrorSerializer->getErrorsAsArray($attributeValueTranslationForm);
+                /*
+                 * Handle errors when Ajax POST requests
+                 */
+                if ($isJson) {
+                    return new JsonResponse([
+                        'status' => 'fail',
+                        'errors' => $errors,
+                        'message' => $this->translator->trans('form_has_errors.check_you_fields'),
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                foreach ($errors as $error) {
+                    $this->logTrail->publishErrorMessage($request, $error);
                 }
             }
 

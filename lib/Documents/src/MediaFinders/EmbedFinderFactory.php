@@ -27,7 +27,7 @@ class EmbedFinderFactory
 
     public function createForPlatform(?string $mediaPlatform, ?string $embedId): ?EmbedFinderInterface
     {
-        if (null !== $embedId && $this->supports($mediaPlatform)) {
+        if (null !== $embedId && null !== $mediaPlatform && $this->supports($mediaPlatform)) {
             /**
              * @var class-string<EmbedFinderInterface> $class
              */
@@ -43,10 +43,6 @@ class EmbedFinderFactory
     {
         if (null === $embedUrl) {
             throw new \InvalidArgumentException('"embedUrl" is required');
-        }
-        // Throws a BadRequestHttpException if the embedUrl is not a string
-        if (!is_string($embedUrl)) {
-            throw new \InvalidArgumentException('"embedUrl" must be a string');
         }
         // Throws a BadRequestHttpException if the embedUrl is not a valid URL
         if (!filter_var($embedUrl, FILTER_VALIDATE_URL)) {

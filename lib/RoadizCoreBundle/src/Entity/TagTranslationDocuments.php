@@ -16,13 +16,11 @@ use Symfony\Component\Serializer\Attribute as SymfonySerializer;
  * Describes a complex ManyToMany relation
  * between TagTranslation and Documents.
  */
-#[
-    ORM\Entity(repositoryClass: TagTranslationDocumentsRepository::class),
+#[ORM\Entity(repositoryClass: TagTranslationDocumentsRepository::class),
     ORM\Table(name: 'tags_translations_documents'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
-    ORM\Index(columns: ['tag_translation_id', 'position'], name: 'tagtranslation_position')
-]
+    ORM\Index(columns: ['tag_translation_id', 'position'], name: 'tagtranslation_position')]
 class TagTranslationDocuments implements PositionedInterface, PersistableInterface
 {
     use SequentialIdTrait;

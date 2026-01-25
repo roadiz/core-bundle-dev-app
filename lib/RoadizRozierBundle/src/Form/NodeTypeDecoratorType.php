@@ -79,9 +79,9 @@ final class NodeTypeDecoratorType extends AbstractType
             return CheckboxType::class;
         } elseif (NodeTypeDecoratorProperty::NODE_TYPE_COLOR === $property) {
             return ColorType::class;
-        } else {
-            return TextType::class;
         }
+
+        return TextType::class;
     }
 
     private function getValueOption(NodeTypeDecorator $nodeTypeDecorator): array
@@ -93,12 +93,12 @@ final class NodeTypeDecoratorType extends AbstractType
                 'required' => false,
                 'html5' => true,
             ];
-        } else {
-            return [
-                'label' => 'nodeTypeDecorator.value',
-                'required' => false,
-            ];
         }
+
+        return [
+            'label' => 'nodeTypeDecorator.value',
+            'required' => false,
+        ];
     }
 
     private function getExplodedPath(string $path): array

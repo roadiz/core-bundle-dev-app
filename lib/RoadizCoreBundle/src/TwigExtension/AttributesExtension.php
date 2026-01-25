@@ -108,9 +108,6 @@ final class AttributesExtension extends AbstractExtension
         if (null === $attributable) {
             throw new SyntaxError('Cannot call get_attributes on NULL');
         }
-        if (!$attributable instanceof AttributableInterface) {
-            throw new SyntaxError('get_attributes only accepts entities that implement AttributableInterface');
-        }
         $attributeValueTranslations = [];
 
         if ($hideNotTranslated) {
@@ -163,8 +160,10 @@ final class AttributesExtension extends AbstractExtension
      */
     public function getNodeSourceGroupedAttributeValues(?NodesSources $nodesSources, bool $hideNotTranslated = false): array
     {
+        $defaultGroupKey = 'default';
+        /** @var array<string, array{group: AttributeGroupInterface|null, attributeValues: array<AttributeValueTranslationInterface>}> $groups */
         $groups = [
-            INF => [
+            $defaultGroupKey => [
                 'group' => null,
                 'attributeValues' => [],
             ],
@@ -174,19 +173,20 @@ final class AttributesExtension extends AbstractExtension
         foreach ($attributeValueTranslations as $attributeValueTranslation) {
             $group = $attributeValueTranslation->getAttributeValue()->getAttribute()?->getGroup();
             if (null !== $group) {
-                if (!isset($groups[$group->getCanonicalName()])) {
-                    $groups[$group->getCanonicalName()] = [
+                $groupKey = $group->getCanonicalName() ?? sprintf('group-%s', (string) $group->getId());
+                if (!isset($groups[$groupKey])) {
+                    $groups[$groupKey] = [
                         'group' => $group,
                         'attributeValues' => [],
                     ];
                 }
-                $groups[$group->getCanonicalName()]['attributeValues'][] = $attributeValueTranslation;
+                $groups[$groupKey]['attributeValues'][] = $attributeValueTranslation;
             } else {
-                $groups[INF]['attributeValues'][] = $attributeValueTranslation;
+                $groups[$defaultGroupKey]['attributeValues'][] = $attributeValueTranslation;
             }
         }
 
-        return array_filter($groups, fn (array $group) => count($group['attributeValues']) > 0);
+        return array_filter($groups, static fn (array $group): bool => [] !== $group['attributeValues']);
     }
 
     public function getAttributeLabelOrCode(mixed $mixed, ?TranslationInterface $translation = null): ?string

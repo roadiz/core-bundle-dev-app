@@ -15,12 +15,10 @@ use Symfony\Component\Serializer\Attribute as Serializer;
  */
 trait PositionedTrait
 {
-    #[
-        ORM\Column(type: 'float'),
+    #[ORM\Column(type: 'float'),
         Serializer\Groups(['position']),
         ApiFilter(RangeFilter::class),
-        ApiFilter(NumericFilter::class)
-    ]
+        ApiFilter(NumericFilter::class)]
     protected float $position = 0.0;
 
     public function getPosition(): float

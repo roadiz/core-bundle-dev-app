@@ -21,13 +21,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * It stores their name and description.
  */
-#[
-    ORM\Entity(repositoryClass: TagTranslationRepository::class),
+#[ORM\Entity(repositoryClass: TagTranslationRepository::class),
     ORM\Table(name: 'tags_translations'),
     ORM\UniqueConstraint(columns: ['tag_id', 'translation_id']),
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
-    UniqueEntity(fields: ['tag', 'translation'])
-]
+    UniqueEntity(fields: ['tag', 'translation'])]
 class TagTranslation implements PersistableInterface
 {
     use SequentialIdTrait;

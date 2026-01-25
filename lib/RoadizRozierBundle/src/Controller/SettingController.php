@@ -159,11 +159,11 @@ final class SettingController extends AbstractController
                             'settingGroupsSettingsPage',
                             ['settingGroupId' => $settingGroup->getId()]
                         );
-                    } else {
-                        return $this->redirectToRoute(
-                            'settingsHomePage'
-                        );
                     }
+
+                    return $this->redirectToRoute(
+                        'settingsHomePage'
+                    );
                 } catch (\RuntimeException $e) {
                     $form->addError(new FormError($e->getMessage()));
                 }

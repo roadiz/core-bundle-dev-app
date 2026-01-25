@@ -54,7 +54,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
         return (string) $this->document;
     }
@@ -82,7 +82,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     #[\Override]
     protected function getEditItemPath(): ?string
     {
-        if (!($this->document instanceof PersistableInterface)) {
+        if (!$this->document instanceof PersistableInterface) {
             return null;
         }
 

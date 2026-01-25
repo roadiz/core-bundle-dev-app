@@ -96,7 +96,7 @@ For example, you can change any normalization context options according to your 
 To achieve this, Roadiz call a dedicated controller for `/web_response_by_path` endpoint (`RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController`)
 and will look for a `********_get_by_path` operation name in your app to override ApiPlatform `_api_operation` and `_api_operation_name` request parameters.
 
-If you manage your node-types from your back-office, new node-types web-response endpoints will be appended automatically to the `config/api_resources/web_response.yaml` folder.
+If you manage your node-types from your back office, new node-types web-response endpoints will be appended automatically to the `config/api_resources/web_response.yaml` folder.
 Only reachable node-types will be exposed.
 
 Example of a `WebResponse` resource configuration in your `config/api_resources/web_response.yaml` configuration file containing two operations for `blogpost` and `page` node-types :

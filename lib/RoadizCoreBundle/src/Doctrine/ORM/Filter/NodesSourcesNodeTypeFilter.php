@@ -28,7 +28,7 @@ final readonly class NodesSourcesNodeTypeFilter implements EventSubscriberInterf
         ];
     }
 
-    protected function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
+    private function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
     {
         return $event->supports()
             && 'node.nodeType' === $event->getProperty()

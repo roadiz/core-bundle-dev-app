@@ -450,7 +450,7 @@ final class NodeController extends AbstractController
         )]
         ?Node $parentNode = null,
     ): Response {
-        /** @var Translation|null $translation */
+        /** @var TranslationInterface $translation */
         $translation = $this->getDefaultTranslation();
         $nodeTypesCount = $this->nodeTypesBag->count();
 

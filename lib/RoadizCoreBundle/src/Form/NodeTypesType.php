@@ -50,9 +50,9 @@ final class NodeTypesType extends AbstractType
                 }
                 if ($nodeType->isReachable()) {
                     return 'reachable';
-                } else {
-                    return 'not_reachable';
                 }
+
+                return 'not_reachable';
             }
 
             return null;
@@ -72,7 +72,7 @@ final class NodeTypesType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return ChoiceType::class;
     }

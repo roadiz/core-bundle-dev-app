@@ -55,7 +55,7 @@ final readonly class UserValidationTokenProcessor implements ProcessorInterface
             throw new AccessDeniedHttpException('Token does not belong to current account');
         }
 
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             throw new UnprocessableEntityHttpException('User is not a valid user.');
         }
 
