@@ -24,8 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * It supports plain_password (in query string), role-based and user-based authentication.
  * All behaviours except for serializationGroups are only applied when using API WebResponse.
  */
-#[
-    ORM\Entity(repositoryClass: RealmRepository::class),
+#[ORM\Entity(repositoryClass: RealmRepository::class),
     ORM\Table(name: 'realms'),
     ORM\Index(columns: ['type'], name: 'realms_type'),
     ORM\Index(columns: ['behaviour'], name: 'realms_behaviour'),
@@ -35,8 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'type' => 'exact',
         'behaviour' => 'exact',
         'name' => 'exact',
-    ])
-]
+    ])]
 class Realm implements RealmInterface
 {
     use SequentialIdTrait;
@@ -148,10 +146,8 @@ class Realm implements RealmInterface
 
     /**
      * @param Collection<int, RealmNode> $realmNodes
-     *
-     * @return Realm
      */
-    public function setRealmNodes(Collection $realmNodes)
+    public function setRealmNodes(Collection $realmNodes): Realm
     {
         $this->realmNodes = $realmNodes;
 
@@ -169,10 +165,8 @@ class Realm implements RealmInterface
 
     /**
      * @param Collection<int, User> $users
-     *
-     * @return Realm
      */
-    public function setUsers(Collection $users)
+    public function setUsers(Collection $users): Realm
     {
         $this->users = $users;
 

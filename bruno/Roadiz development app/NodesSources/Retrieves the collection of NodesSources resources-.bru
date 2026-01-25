@@ -5,12 +5,14 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/nodes_sources
+  url: {{baseUrl}}/api/nodes_sources?node.nodeName=articles&translation.locale=en
   body: none
   auth: inherit
 }
 
 params:query {
+  node.nodeName: articles
+  translation.locale: en
   ~node.nodeType.publishable: 1
   ~publishable: 1
   ~reachable: 1

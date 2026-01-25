@@ -17,11 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A group gather User and Roles.
  */
-#[
-    ORM\Entity(repositoryClass: GroupRepository::class),
+#[ORM\Entity(repositoryClass: GroupRepository::class),
     ORM\Table(name: 'usergroups'),
-    UniqueEntity(fields: ['name'])
-]
+    UniqueEntity(fields: ['name'])]
 class Group implements PersistableInterface, \Stringable
 {
     use SequentialIdTrait;
@@ -59,7 +57,7 @@ class Group implements PersistableInterface, \Stringable
     /**
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 

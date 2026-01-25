@@ -17,11 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Settings entity are a simple key-value configuration system.
  */
-#[
-    ORM\Entity(repositoryClass: SettingGroupRepository::class),
+#[ORM\Entity(repositoryClass: SettingGroupRepository::class),
     ORM\Table(name: 'settings_groups'),
-    UniqueEntity(fields: ['name'])
-]
+    UniqueEntity(fields: ['name'])]
 class SettingGroup implements PersistableInterface, \Stringable
 {
     use SequentialIdTrait;
@@ -55,9 +53,9 @@ class SettingGroup implements PersistableInterface, \Stringable
     }
 
     /**
-     * @return SettingGroup
+     * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): SettingGroup
     {
         $this->name = $name;
 
@@ -70,9 +68,9 @@ class SettingGroup implements PersistableInterface, \Stringable
     }
 
     /**
-     * @return SettingGroup
+     * @return $this
      */
-    public function setInMenu(bool $newinMenu)
+    public function setInMenu(bool $newinMenu): SettingGroup
     {
         $this->inMenu = $newinMenu;
 
@@ -80,9 +78,9 @@ class SettingGroup implements PersistableInterface, \Stringable
     }
 
     /**
-     * @return SettingGroup
+     * @return $this
      */
-    public function addSetting(Setting $setting)
+    public function addSetting(Setting $setting): SettingGroup
     {
         if (!$this->getSettings()->contains($setting)) {
             $this->settings->add($setting);
@@ -102,9 +100,9 @@ class SettingGroup implements PersistableInterface, \Stringable
     /**
      * @param Collection<int, Setting> $settings
      *
-     * @return SettingGroup
+     * @return $this
      */
-    public function addSettings(Collection $settings)
+    public function addSettings(Collection $settings): SettingGroup
     {
         foreach ($settings as $setting) {
             if (!$this->getSettings()->contains($setting)) {

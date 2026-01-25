@@ -16,50 +16,44 @@ use Symfony\Component\Serializer\Attribute as SymfonySerializer;
  * Describes a complex ManyToMany relation
  * between Attribute and Documents.
  */
-#[
-    ORM\Entity(repositoryClass: AttributeDocumentsRepository::class),
+#[ORM\Entity(repositoryClass: AttributeDocumentsRepository::class),
     ORM\Table(name: 'attributes_documents'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
-    ORM\Index(columns: ['attribute_id', 'position'])
-]
+    ORM\Index(columns: ['attribute_id', 'position'])]
 class AttributeDocuments implements PositionedInterface, PersistableInterface
 {
     use SequentialIdTrait;
     use PositionedTrait;
 
     public function __construct(
-        #[
-            ORM\ManyToOne(
-                targetEntity: Attribute::class,
-                cascade: ['persist', 'merge'],
-                fetch: 'EAGER',
-                inversedBy: 'attributeDocuments'
-            ),
+        #[ORM\ManyToOne(
+            targetEntity: Attribute::class,
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'attributeDocuments'
+        ),
             ORM\JoinColumn(
                 name: 'attribute_id',
                 referencedColumnName: 'id',
                 nullable: false,
                 onDelete: 'CASCADE'
             ),
-            SymfonySerializer\Ignore()
-        ]
+            SymfonySerializer\Ignore()]
         protected Attribute $attribute,
-        #[
-            ORM\ManyToOne(
-                targetEntity: Document::class,
-                cascade: ['persist', 'merge'],
-                fetch: 'EAGER',
-                inversedBy: 'attributeDocuments'
-            ),
+        #[ORM\ManyToOne(
+            targetEntity: Document::class,
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'attributeDocuments'
+        ),
             ORM\JoinColumn(
                 name: 'document_id',
                 referencedColumnName: 'id',
                 nullable: false,
                 onDelete: 'CASCADE'
             ),
-            SymfonySerializer\Groups(['attribute']),
-        ]
+            SymfonySerializer\Groups(['attribute']),]
         protected Document $document,
     ) {
     }

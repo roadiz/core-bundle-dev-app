@@ -274,8 +274,9 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $pattern  Search pattern
-     * @param array  $criteria Additional criteria
+     * @param non-empty-string                      $pattern  Search pattern
+     * @param array<non-empty-string, mixed>        $criteria Additional criteria
+     * @param array<non-empty-string, 'ASC'|'DESC'> $orders
      *
      * @return array<TEntityClass>
      *
@@ -298,7 +299,7 @@ abstract class EntityRepository extends ServiceEntityRepository
                 (\str_starts_with($key, 'node.') || \str_starts_with($key, static::NODE_ALIAS.'.'))
                 && $this->hasJoinedNode($qb, $alias)
             ) {
-                $key = preg_replace('#^node\.#', static::NODE_ALIAS.'.', $key);
+                $key = preg_replace('#^node\.#', static::NODE_ALIAS.'.', $key) ?? $key;
                 $qb->addOrderBy($key, $value);
             } elseif (
                 \str_starts_with($key, static::NODESSOURCES_ALIAS.'.')
@@ -330,9 +331,9 @@ abstract class EntityRepository extends ServiceEntityRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**

@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class MarkdownType extends AbstractType
 {
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return TextareaType::class;
     }
@@ -66,6 +66,9 @@ final class MarkdownType extends AbstractType
         $view->vars['attr']['allow_link'] = $options['allow_link'];
         $view->vars['attr']['allow_hr'] = $options['allow_hr'];
         $view->vars['attr']['allow_preview'] = $options['allow_preview'];
+        $view->vars['attr']['allow_translate_assistant_translate'] = $options['allow_translate_assistant_translate'];
+        $view->vars['attr']['allow_translate_assistant_rephrase'] = $options['allow_translate_assistant_rephrase'];
+        $view->vars['attr']['locale'] = $options['locale'];
     }
 
     #[\Override]
@@ -90,6 +93,9 @@ final class MarkdownType extends AbstractType
             'allow_link' => true,
             'allow_hr' => true,
             'allow_preview' => true,
+            'allow_translate_assistant_translate' => true,
+            'allow_translate_assistant_rephrase' => false,
+            'locale' => null,
         ]);
 
         $resolver->setAllowedTypes('allow_h1', ['boolean']);
@@ -109,5 +115,8 @@ final class MarkdownType extends AbstractType
         $resolver->setAllowedTypes('allow_link', ['boolean']);
         $resolver->setAllowedTypes('allow_hr', ['boolean']);
         $resolver->setAllowedTypes('allow_preview', ['boolean']);
+        $resolver->setAllowedTypes('allow_translate_assistant_translate', ['boolean']);
+        $resolver->setAllowedTypes('allow_translate_assistant_rephrase', ['boolean']);
+        $resolver->setAllowedTypes('locale', ['string', 'null']);
     }
 }

@@ -4,18 +4,30 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 
-use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
+use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\CoreBundle\Repository\AttributeValueRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use RZ\Roadiz\RozierBundle\Model\PositionDto;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxAttributeValuesController extends AbstractAjaxController
 {
-    protected static array $validMethods = [
-        Request::METHOD_POST,
-    ];
+    use UpdatePositionTrait;
+
+    public function __construct(
+        private readonly AttributeValueRepository $attributeValueRepository,
+        ManagerRegistry $managerRegistry,
+        SerializerInterface $serializer,
+        TranslatorInterface $translator,
+    ) {
+        parent::__construct($managerRegistry, $serializer, $translator);
+    }
 
     /**
      * Handle AJAX edition requests for NodeTypeFields
@@ -23,89 +35,42 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, int $attributeValueId): Response
-    {
-        /*
-         * Validate
-         */
-        $this->validateRequest($request, 'POST', false);
+    #[Route(
+        path: '/rz-admin/ajax/attribute-values/edit/position',
+        name: 'attributeValuePositionAjax',
+        methods: ['POST'],
+        format: 'json',
+    )]
+    public function editPositionAction(
+        #[MapRequestPayload]
+        PositionDto $positionDto,
+    ): Response {
+        $this->validateCsrfToken($positionDto->csrfToken);
 
-        /** @var AttributeValue|null $attributeValue */
-        $attributeValue = $this->managerRegistry
-            ->getRepository(AttributeValue::class)
-            ->find($attributeValueId);
-
+        $attributeValue = $this->attributeValueRepository->find($positionDto->id);
         if (null === $attributeValue) {
-            throw $this->createNotFoundException($this->translator->trans('attribute_value.%attributeValueId%.not_exists', ['%attributeValueId%' => $attributeValueId]));
+            throw new NotFoundHttpException('AttributeValue does not exist');
         }
 
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $attributeValue->getAttributable());
 
-        $responseArray = [];
-        /*
-         * Get the right update method against "_action" parameter
-         */
-        switch ($request->get('_action')) {
-            case 'updatePosition':
-                $responseArray = $this->updatePosition($request->request->all(), $attributeValue);
-                break;
-        }
+        $this->updatePosition($positionDto, $attributeValue, $this->attributeValueRepository);
+
+        $this->managerRegistry->getManager()->flush();
 
         return new JsonResponse(
-            $responseArray,
+            [
+                'statusCode' => '200',
+                'status' => 'success',
+                'responseText' => $this->translator->trans(
+                    'attribute_value_translation.%name%.updated_from_node.%nodeName%',
+                    [
+                        '%name%' => $attributeValue->getAttribute()?->getLabelOrCode(),
+                        '%nodeName%' => $attributeValue->getAttributable()->getNodeName(),
+                    ]
+                ),
+            ],
             Response::HTTP_PARTIAL_CONTENT
         );
-    }
-
-    protected function updatePosition(array $parameters, AttributeValue $attributeValue): array
-    {
-        $attributable = $attributeValue->getAttributable();
-        $details = [
-            '%name%' => $attributeValue->getAttribute()->getLabelOrCode(),
-            '%nodeName%' => $attributable->getNodeName(),
-        ];
-
-        if (!empty($parameters['afterAttributeValueId']) && is_numeric($parameters['afterAttributeValueId'])) {
-            /** @var AttributeValue|null $afterAttributeValue */
-            $afterAttributeValue = $this->managerRegistry
-                ->getRepository(AttributeValue::class)
-                ->find((int) $parameters['afterAttributeValueId']);
-            if (null === $afterAttributeValue) {
-                throw new BadRequestHttpException('afterAttributeValueId does not exist');
-            }
-            $attributeValue->setPosition($afterAttributeValue->getPosition() + 0.5);
-            $this->managerRegistry->getManager()->flush();
-
-            return [
-                'statusCode' => '200',
-                'status' => 'success',
-                'responseText' => $this->translator->trans(
-                    'attribute_value_translation.%name%.updated_from_node.%nodeName%',
-                    $details
-                ),
-            ];
-        }
-        if (!empty($parameters['beforeAttributeValueId']) && is_numeric($parameters['beforeAttributeValueId'])) {
-            /** @var AttributeValue|null $beforeAttributeValue */
-            $beforeAttributeValue = $this->managerRegistry
-                ->getRepository(AttributeValue::class)
-                ->find((int) $parameters['beforeAttributeValueId']);
-            if (null === $beforeAttributeValue) {
-                throw new BadRequestHttpException('beforeAttributeValueId does not exist');
-            }
-            $attributeValue->setPosition($beforeAttributeValue->getPosition() - 0.5);
-            $this->managerRegistry->getManager()->flush();
-
-            return [
-                'statusCode' => '200',
-                'status' => 'success',
-                'responseText' => $this->translator->trans(
-                    'attribute_value_translation.%name%.updated_from_node.%nodeName%',
-                    $details
-                ),
-            ];
-        }
-
-        throw new BadRequestHttpException('Cannot update position for AttributeValue. Missing parameters.');
     }
 }

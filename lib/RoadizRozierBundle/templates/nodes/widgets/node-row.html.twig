@@ -1,7 +1,14 @@
 <tr style="--rz-accent-color: {{ getNodeType(node).color }};">
     <td class="nodes-list-item-link">
         <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
-        <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">{{ node.nodeSources.first.title|default(node.nodeName) }}</a>
+        <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">
+            <rz-entity-thumbnail
+                class="mobile-hidden uk-visible-large"
+                entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
+                entity-id="{{ node.id }}"
+            ></rz-entity-thumbnail>
+            {{ node.nodeSources.first.title|default(node.nodeName) }}
+        </a>
     </td>
     <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
     <td class="mobile-hidden uk-visible-large">
@@ -28,6 +35,16 @@
         {% if node.isLocked %}
             <div class="uk-button-status uk-button-locked" title="{% trans %}locked{% endtrans %}" data-uk-tooltip="{animation:true}">
                 <i class="uk-icon-lock"></i>
+            </div><!-- uk-badge-notification -->
+        {% endif %}
+        {% if node.isHidingChildren %}
+            <div class="uk-button-status uk-button-hiding-children" title="{% trans %}hiding-children{% endtrans %}" data-uk-tooltip="{animation:true}">
+                <i class="uk-icon-sitemap"></i>
+            </div><!-- uk-badge-notification -->
+        {% endif %}
+        {% if node.isShadow %}
+            <div class="uk-button-status uk-button-shadow" title="{% trans %}node.shadow{% endtrans %}" data-uk-tooltip="{animation:true}">
+                <i class="uk-icon-flag-o"></i>
             </div><!-- uk-badge-notification -->
         {% endif %}
         {% if node.isArchived %}

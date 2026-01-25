@@ -23,113 +23,106 @@ use Symfony\Component\Validator\Constraints as Assert;
  * CustomForms describe each node structure family,
  * They are mandatory before creating any Node.
  */
-#[
-    ORM\Entity(repositoryClass: CustomFormRepository::class),
+#[ORM\Entity(repositoryClass: CustomFormRepository::class),
     ORM\Table(name: 'custom_forms'),
     ORM\HasLifecycleCallbacks,
     UniqueEntity(fields: ['name']),
     ORM\Index(columns: ['created_at'], name: 'custom_form_created_at'),
-    ORM\Index(columns: ['updated_at'], name: 'custom_form_updated_at'),
-]
+    ORM\Index(columns: ['updated_at'], name: 'custom_form_updated_at'),]
 class CustomForm implements DateTimedInterface, PersistableInterface
 {
     use SequentialIdTrait;
     use DateTimedTrait;
 
-    #[
-        ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
+    #[ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
         Assert\Length(max: 7),
-        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
-    ]
+        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),]
     protected ?string $color = '#000000';
 
-    #[
-        ORM\Column(type: 'string', length: 250, unique: true),
+    #[ORM\Column(type: 'string', length: 250, unique: true),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
-        Assert\Length(max: 250),
-    ]
+        Assert\Length(max: 250),]
     private string $name = 'Untitled';
 
-    #[
-        ORM\Column(name: 'display_name', type: 'string', length: 250),
+    #[ORM\Column(name: 'display_name', type: 'string', length: 250),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
-        Assert\Length(max: 250),
-    ]
+        Assert\Length(max: 250),]
     private string $displayName = 'Untitled';
 
-    #[
-        ORM\Column(type: 'text', nullable: true),
-        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
-    ]
+    #[ORM\Column(type: 'text', nullable: true),
+        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),]
     private ?string $description = null;
 
-    #[
-        ORM\Column(type: 'text', nullable: true),
+    #[ORM\Column(type: 'text', nullable: true),
         SymfonySerializer\Groups(['custom_form:export']),
-        Assert\NotBlank(),
-    ]
+        Assert\NotBlank(),]
     private ?string $email = null;
 
-    #[
-        ORM\Column(type: 'string', length: 15, nullable: true),
+    #[ORM\Column(type: 'string', length: 15, nullable: true),
         SymfonySerializer\Groups(['custom_form:export']),
-        Assert\Length(max: 15),
-    ]
+        Assert\Length(max: 15),]
     private ?string $retentionTime = null;
 
-    #[
-        ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
-        SymfonySerializer\Ignore()
-    ]
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
+        SymfonySerializer\Ignore()]
     private bool $open = true;
 
-    #[
-        ApiFilter(RoadizFilter\ArchiveFilter::class),
+    #[ApiFilter(RoadizFilter\ArchiveFilter::class),
         ORM\Column(name: 'close_date', type: 'datetime', nullable: true),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private ?\DateTime $closeDate = null;
+
+    #[ORM\Column(name: 'webhook_enabled', type: 'boolean', nullable: false, options: ['default' => false]),
+        SymfonySerializer\Groups(['custom_form:export'])]
+    private bool $webhookEnabled = false;
+
+    #[ORM\Column(name: 'webhook_provider', type: 'string', length: 50, nullable: true),
+        SymfonySerializer\Groups(['custom_form:export']),
+        Assert\Length(max: 50)]
+    private ?string $webhookProvider = null;
+
+    #[ORM\Column(name: 'webhook_field_mapping', type: 'json', nullable: true),
+        SymfonySerializer\Groups(['custom_form:export'])]
+    private ?array $webhookFieldMapping = null;
+
+    #[ORM\Column(name: 'webhook_extra_config', type: 'json', nullable: true),
+        SymfonySerializer\Groups(['custom_form:export'])]
+    private ?array $webhookExtraConfig = null;
 
     /**
      * @var Collection<int, CustomFormField>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'customForm',
-            targetEntity: CustomFormField::class,
-            cascade: ['ALL'],
-            orphanRemoval: true
-        ),
+    #[ORM\OneToMany(
+        mappedBy: 'customForm',
+        targetEntity: CustomFormField::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    ),
         ORM\OrderBy(['position' => 'ASC']),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private Collection $fields;
 
     /**
      * @var Collection<int, CustomFormAnswer>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'customForm',
-            targetEntity: CustomFormAnswer::class,
-            cascade: ['ALL'],
-            orphanRemoval: true
-        ),
-        SymfonySerializer\Ignore
-    ]
+    #[ORM\OneToMany(
+        mappedBy: 'customForm',
+        targetEntity: CustomFormAnswer::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    ),
+        SymfonySerializer\Ignore]
     private Collection $customFormAnswers;
 
     /**
      * @var Collection<int, NodesCustomForms>
      */
-    #[
-        ORM\OneToMany(mappedBy: 'customForm', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY'),
-        SymfonySerializer\Ignore
-    ]
+    #[ORM\OneToMany(mappedBy: 'customForm', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY'),
+        SymfonySerializer\Ignore]
     private Collection $nodes;
 
     public function __construct()
@@ -148,7 +141,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setDisplayName(?string $displayName): CustomForm
+    public function setDisplayName(?string $displayName): static
     {
         $this->displayName = $displayName ?? '';
         $this->setName($displayName ?? '');
@@ -164,7 +157,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setDescription(?string $description): CustomForm
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
@@ -179,7 +172,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setEmail(?string $email): CustomForm
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -189,7 +182,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setOpen(bool $open): CustomForm
+    public function setOpen(bool $open): static
     {
         $this->open = $open;
 
@@ -204,7 +197,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setCloseDate(?\DateTime $closeDate): CustomForm
+    public function setCloseDate(?\DateTime $closeDate): static
     {
         $this->closeDate = $closeDate;
 
@@ -226,7 +219,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * Gets the value of color.
      */
-    public function getColor(): string
+    public function getColor(): ?string
     {
         return $this->color;
     }
@@ -236,7 +229,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
      *
      * @return $this
      */
-    public function setColor(?string $color): CustomForm
+    public function setColor(?string $color): static
     {
         $this->color = $color;
 
@@ -319,7 +312,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     /**
      * @return $this
      */
-    public function setName(string $name): CustomForm
+    public function setName(string $name): static
     {
         $this->name = StringHandler::slugify($name);
 
@@ -348,6 +341,54 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     public function setRetentionTime(?string $retentionTime): CustomForm
     {
         $this->retentionTime = $retentionTime;
+
+        return $this;
+    }
+
+    public function isWebhookEnabled(): bool
+    {
+        return $this->webhookEnabled;
+    }
+
+    public function setWebhookEnabled(bool $webhookEnabled): CustomForm
+    {
+        $this->webhookEnabled = $webhookEnabled;
+
+        return $this;
+    }
+
+    public function getWebhookProvider(): ?string
+    {
+        return $this->webhookProvider;
+    }
+
+    public function setWebhookProvider(?string $webhookProvider): CustomForm
+    {
+        $this->webhookProvider = $webhookProvider;
+
+        return $this;
+    }
+
+    public function getWebhookFieldMapping(): ?array
+    {
+        return $this->webhookFieldMapping;
+    }
+
+    public function setWebhookFieldMapping(?array $webhookFieldMapping): CustomForm
+    {
+        $this->webhookFieldMapping = $webhookFieldMapping;
+
+        return $this;
+    }
+
+    public function getWebhookExtraConfig(): ?array
+    {
+        return $this->webhookExtraConfig;
+    }
+
+    public function setWebhookExtraConfig(?array $webhookExtraConfig): CustomForm
+    {
+        $this->webhookExtraConfig = $webhookExtraConfig;
 
         return $this;
     }

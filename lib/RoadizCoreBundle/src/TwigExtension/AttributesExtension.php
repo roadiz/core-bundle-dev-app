@@ -63,38 +63,38 @@ final class AttributesExtension extends AbstractExtension
 
     public function isDateTime(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isDateTime();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isDateTime() ?? false;
     }
 
     public function isDate(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isDate();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isDate() ?? false;
     }
 
     public function isCountry(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isCountry();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isCountry() ?? false;
     }
 
     public function isBoolean(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isBoolean();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isBoolean() ?? false;
     }
 
     public function isEnum(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isEnum();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isEnum() ?? false;
     }
 
     public function isPercent(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isPercent();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isPercent() ?? false;
     }
 
     public function isNumber(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isInteger()
-            || $attributeValueTranslation->getAttributeValue()->getAttribute()->isDecimal();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()?->isInteger()
+            || $attributeValueTranslation->getAttributeValue()->getAttribute()?->isDecimal();
     }
 
     /**
@@ -107,9 +107,6 @@ final class AttributesExtension extends AbstractExtension
     ): array {
         if (null === $attributable) {
             throw new SyntaxError('Cannot call get_attributes on NULL');
-        }
-        if (!$attributable instanceof AttributableInterface) {
-            throw new SyntaxError('get_attributes only accepts entities that implement AttributableInterface');
         }
         $attributeValueTranslations = [];
 
@@ -163,8 +160,10 @@ final class AttributesExtension extends AbstractExtension
      */
     public function getNodeSourceGroupedAttributeValues(?NodesSources $nodesSources, bool $hideNotTranslated = false): array
     {
+        $defaultGroupKey = 'default';
+        /** @var array<string, array{group: AttributeGroupInterface|null, attributeValues: array<AttributeValueTranslationInterface>}> $groups */
         $groups = [
-            INF => [
+            $defaultGroupKey => [
                 'group' => null,
                 'attributeValues' => [],
             ],
@@ -172,21 +171,22 @@ final class AttributesExtension extends AbstractExtension
         $attributeValueTranslations = $this->getNodeSourceAttributeValues($nodesSources, $hideNotTranslated);
         /** @var AttributeValueTranslationInterface $attributeValueTranslation */
         foreach ($attributeValueTranslations as $attributeValueTranslation) {
-            $group = $attributeValueTranslation->getAttributeValue()->getAttribute()->getGroup();
+            $group = $attributeValueTranslation->getAttributeValue()->getAttribute()?->getGroup();
             if (null !== $group) {
-                if (!isset($groups[$group->getCanonicalName()])) {
-                    $groups[$group->getCanonicalName()] = [
+                $groupKey = $group->getCanonicalName() ?? sprintf('group-%s', (string) $group->getId());
+                if (!isset($groups[$groupKey])) {
+                    $groups[$groupKey] = [
                         'group' => $group,
                         'attributeValues' => [],
                     ];
                 }
-                $groups[$group->getCanonicalName()]['attributeValues'][] = $attributeValueTranslation;
+                $groups[$groupKey]['attributeValues'][] = $attributeValueTranslation;
             } else {
-                $groups[INF]['attributeValues'][] = $attributeValueTranslation;
+                $groups[$defaultGroupKey]['attributeValues'][] = $attributeValueTranslation;
             }
         }
 
-        return array_filter($groups, fn (array $group) => count($group['attributeValues']) > 0);
+        return array_filter($groups, static fn (array $group): bool => [] !== $group['attributeValues']);
     }
 
     public function getAttributeLabelOrCode(mixed $mixed, ?TranslationInterface $translation = null): ?string
@@ -199,14 +199,14 @@ final class AttributesExtension extends AbstractExtension
             return $mixed->getLabelOrCode($translation);
         }
         if ($mixed instanceof AttributeValueInterface) {
-            return $mixed->getAttribute()->getLabelOrCode($translation);
+            return $mixed->getAttribute()?->getLabelOrCode($translation);
         }
         if ($mixed instanceof AttributeValueTranslationInterface) {
             if (null === $translation) {
                 $translation = $mixed->getTranslation();
             }
 
-            return $mixed->getAttributeValue()->getAttribute()->getLabelOrCode($translation);
+            return $mixed->getAttributeValue()->getAttribute()?->getLabelOrCode($translation);
         }
 
         return null;
@@ -217,18 +217,18 @@ final class AttributesExtension extends AbstractExtension
         if (null === $mixed) {
             return null;
         }
-        if ($mixed instanceof AttributeGroupInterface) {
+        if ($mixed instanceof AttributeGroupInterface && null !== $translation) {
             return $mixed->getTranslatedName($translation);
         }
-        if ($mixed instanceof AttributeInterface && null !== $mixed->getGroup()) {
+        if ($mixed instanceof AttributeInterface && null !== $mixed->getGroup() && null !== $translation) {
             return $mixed->getGroup()->getTranslatedName($translation);
         }
-        if ($mixed instanceof AttributeValueInterface && null !== $mixed->getAttribute()->getGroup()) {
+        if ($mixed instanceof AttributeValueInterface && null !== $mixed->getAttribute()?->getGroup() && null !== $translation) {
             return $mixed->getAttribute()->getGroup()->getTranslatedName($translation);
         }
-        if ($mixed instanceof AttributeValueTranslationInterface && null !== $mixed->getAttribute()->getGroup()) {
+        if ($mixed instanceof AttributeValueTranslationInterface && null !== $mixed->getAttribute()?->getGroup()) {
             if (null === $translation) {
-                $translation = $mixed->getTranslation();
+                $translation = $mixed->getTranslation() ?? throw new \RuntimeException('Translation cannot be null');
             }
 
             return $mixed->getAttribute()->getGroup()->getTranslatedName($translation);

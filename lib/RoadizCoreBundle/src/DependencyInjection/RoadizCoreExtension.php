@@ -15,7 +15,6 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
@@ -72,6 +71,11 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
         $container->setParameter('roadiz_core.force_locale', $config['forceLocale']);
         $container->setParameter('roadiz_core.force_locale_with_url_aliases', $config['forceLocaleWithUrlAliases']);
+        $container->setParameter('roadiz_core.use_constraint_violation_list', $config['useConstraintViolationList']);
+        $container->setParameter('roadiz_core.custom_form_post_operation_name', $config['customFormPostOperationName']);
+        $container->setParameter('roadiz_core.project_logo_url', $config['projectLogoUrl']);
+        $container->setParameter('roadiz_core.generated_class_namespace', $config['generatedClassNamespace']);
+        $container->setParameter('roadiz_core.generated_repository_namespace', $config['generatedRepositoryNamespace']);
 
         /*
          * Assets config
@@ -205,7 +209,6 @@ class RoadizCoreExtension extends Extension
             'custom_form_class' => CustomForm::class,
             'custom_form_proxy_class' => NodesCustomForms::class,
             'translation_class' => Translation::class,
-            'namespace' => NodeType::getGeneratedEntitiesNamespace(),
             'use_native_json' => $config['useNativeJsonColumnType'],
             'use_document_dto' => $config['useDocumentDto'],
             'use_api_platform_filters' => true,

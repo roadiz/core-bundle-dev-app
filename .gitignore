@@ -169,3 +169,9 @@ fabric.properties
 /compose.override.yaml
 /siege.txt
 /auth.json
+/lib/Rozier/.pnpm-store/
+
+###> deptrac/deptrac ###
+/.deptrac.cache
+###< deptrac/deptrac ###
+/phpstan_report.txt

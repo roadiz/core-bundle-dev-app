@@ -132,6 +132,7 @@ final class NodeTreeWidget extends AbstractWidget
         $criteria = array_merge($additionalCriteria, [
             'parent' => $parent?->getId() ?? null,
             'translation' => $this->translation,
+            'shadow' => false,
         ]);
 
         if (null !== $this->tag) {
@@ -272,12 +273,15 @@ final class NodeTreeWidget extends AbstractWidget
         ], null, null, $this->getTranslation());
     }
 
+    /**
+     * @deprecated Use <rz-entity-thumbnail> HTML custom element instead
+     */
     public function getOneDisplayableDocument(NodeTreeDto $node): ?DocumentDto
     {
         return $this->managerRegistry
             ->getRepository(Document::class)
             ->findOneDisplayableDtoByNodeSource(
-                $node->getNodeSource()->getId(),
+                $node->getNodeSource()->getId() ?? throw new \RuntimeException('NodeSource ID is null.')
             );
     }
 

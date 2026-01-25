@@ -1,0 +1,35 @@
+<th class="thumbnail mobile-hidden uk-visible-xlarge"></th>
+<th>
+    {% trans %}article.title{% endtrans %}
+    {% if not no_sort %}
+        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+            'field': 'title',
+            'filters': filters,
+        } only %}
+    {% endif %}
+</th>
+<th class="uk-visible-xlarge">
+    {% trans %}article.published_at{% endtrans %}
+    {% if not no_sort %}
+        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+            'field': 'publishedAt',
+            'filters': filters,
+        } only %}
+    {% endif %}
+</th>
+<th class="uk-visible-xlarge">
+    {% trans %}article.created_at{% endtrans %}
+    {% if not no_sort %}
+        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+            'field': 'node.createdAt',
+            'filters': filters,
+        } only %}
+    {% endif %}
+</th>
+<th class="uk-visible-xlarge">
+    {% trans %}article.status{% endtrans %}
+</th>
+<th class="uk-visible-xlarge">
+    {% trans %}article.tags{% endtrans %}
+</th>
+<th class="table-actions-row table-actions-row-2">{% trans %}actions{% endtrans %}</th>

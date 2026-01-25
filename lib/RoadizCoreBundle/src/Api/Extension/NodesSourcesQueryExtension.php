@@ -73,6 +73,11 @@ final readonly class NodesSourcesQueryExtension implements QueryItemExtensionInt
             Join::INNER_JOIN
         );
 
+        // Always exclude shadow nodes
+        $queryBuilder
+            ->andWhere($queryBuilder->expr()->eq($alias.'.shadow', ':shadow'))
+            ->setParameter(':shadow', false);
+
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte($alias.'.status', ':status'))

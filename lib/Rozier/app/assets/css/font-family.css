@@ -1,0 +1,19 @@
+.font-title {
+	font-family: var(--font-family-os-title);
+}
+
+.font-text {
+	font-family: var(--font-family-os-text);
+}
+
+.font-label {
+	font-family: var(--font-family-os-label);
+}
+
+.font-markdown {
+	font-family: var(--font-family-os-markdown);
+}
+
+.font-code {
+	font-family: var(--font-family-os-code);
+}

@@ -80,4 +80,22 @@ final class UserRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findOneByUserIdentifier(string $userIdentifier): ?User
+    {
+        if (empty($userIdentifier)) {
+            return null;
+        }
+
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->eq('u.username', ':username'),
+                $qb->expr()->eq('u.email', ':username'),
+            ))
+            ->setMaxResults(1)
+            ->setParameter('username', $userIdentifier);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

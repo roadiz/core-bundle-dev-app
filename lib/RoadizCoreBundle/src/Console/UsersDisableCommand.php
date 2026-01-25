@@ -42,14 +42,13 @@ final class UsersDisableCommand extends UsersCommand
             )
         ) {
             $user->setEnabled(false);
-            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $this->managerRegistry->getManagerForClass(User::class)?->flush();
             $io->success('User “'.$name.'” disabled.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not disabled.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not disabled.');
+
+        return 1;
     }
 }

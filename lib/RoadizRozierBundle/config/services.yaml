@@ -44,6 +44,11 @@ services:
     RZ\Roadiz\RozierBundle\RozierServiceRegistry:
         public: true
 
+    RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface:
+        class: RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactory
+        autowire: true
+        autoconfigure: true
+
     roadiz_rozier.twig_loader:
         class: Twig\Loader\FilesystemLoader
         calls:
@@ -71,4 +76,16 @@ services:
 
     RZ\Roadiz\RozierBundle\Controller\PingController:
         arguments: ['@?profiler']
+
+    #
+    # Entity Thumbnail Providers
+    #
+    RZ\Roadiz\RozierBundle\EntityThumbnail\Provider\:
+        resource: '../src/EntityThumbnail/Provider/'
+        autowire: true
+        autoconfigure: true
+        tags: ['roadiz.entity_thumbnail_provider']
+
+    RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailProviderInterface:
+        class: RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailService
 

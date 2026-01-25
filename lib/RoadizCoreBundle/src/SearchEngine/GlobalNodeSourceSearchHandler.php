@@ -19,7 +19,7 @@ final readonly class GlobalNodeSourceSearchHandler
     ) {
     }
 
-    protected function getRepository(): NodesSourcesRepository
+    private function getRepository(): NodesSourcesRepository
     {
         return $this->allStatusesNodesSourcesRepository;
     }
@@ -33,6 +33,10 @@ final readonly class GlobalNodeSourceSearchHandler
         ?Translation $translation = null,
     ): array {
         $safeSearchTerms = strip_tags($searchTerm);
+
+        if (empty($safeSearchTerms)) {
+            return [];
+        }
 
         /**
          * First try with Search engine.

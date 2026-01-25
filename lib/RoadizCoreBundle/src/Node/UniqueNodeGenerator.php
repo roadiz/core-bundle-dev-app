@@ -7,12 +7,14 @@ namespace RZ\Roadiz\CoreBundle\Node;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Model\NodeCreationDto;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
@@ -32,6 +34,7 @@ final readonly class UniqueNodeGenerator
         private TagRepository $tagRepository,
         private Security $security,
         private NodeTypes $nodeTypesBag,
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
     }
 
@@ -66,7 +69,7 @@ final readonly class UniqueNodeGenerator
         }
 
         /** @var class-string<NodesSources> $sourceClass */ // phpstan hint
-        $sourceClass = NodeType::getGeneratedEntitiesNamespace().'\\'.$nodeType->getSourceEntityClassName();
+        $sourceClass = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
 
         $source = new $sourceClass($node, $translation);
         $source->setTitle($name);
@@ -90,23 +93,33 @@ final readonly class UniqueNodeGenerator
      *
      * @throws ORMException
      * @throws OptimisticLockException
+     *
+     * @deprecated Use generateFromDto() method instead
      */
     public function generateFromRequest(Request $request): NodesSources
     {
-        $pushToTop = false;
+        $nodeCreationDto = new NodeCreationDto(
+            csrfToken: $request->get('csrfToken', ''),
+            nodeTypeName: (string) $request->get('nodeTypeName', ''),
+            parentNodeId: $request->get('parentNodeId') > 0 ? (int) $request->get('parentNodeId') : null,
+            translationId: $request->get('translationId') > 0 ? (int) $request->get('translationId') : 0,
+            tagId: $request->get('tagId') > 0 ? (int) $request->get('tagId') : null,
+            pushTop: 1 == $request->get('pushTop'),
+        );
 
-        if (1 == $request->get('pushTop')) {
-            $pushToTop = true;
-        }
+        return $this->generateFromDto($nodeCreationDto);
+    }
 
-        if ($request->get('tagId') > 0) {
-            $tag = $this->tagRepository->find((int) $request->get('tagId'));
+    public function generateFromDto(NodeCreationDto $nodeCreationDto): NodesSources
+    {
+        if ($nodeCreationDto->tagId > 0) {
+            $tag = $this->tagRepository->find($nodeCreationDto->tagId);
         } else {
             $tag = null;
         }
 
-        if ($request->get('parentNodeId') > 0) {
-            $parent = $this->allStatusesNodeRepository->find((int) $request->get('parentNodeId'));
+        if ($nodeCreationDto->parentNodeId > 0) {
+            $parent = $this->allStatusesNodeRepository->find($nodeCreationDto->parentNodeId);
             if (null === $parent || !$this->security->isGranted(NodeVoter::CREATE, $parent)) {
                 throw new BadRequestHttpException('Parent node does not exist.');
             }
@@ -119,8 +132,8 @@ final readonly class UniqueNodeGenerator
 
         $nodeType = null;
 
-        $nodeTypeName = $request->get('nodeTypeName');
-        if (is_string($nodeTypeName) && !empty($nodeTypeName)) {
+        $nodeTypeName = $nodeCreationDto->nodeTypeName;
+        if ('' !== $nodeTypeName) {
             $nodeType = $this->nodeTypesBag->get($nodeTypeName);
         }
 
@@ -128,8 +141,8 @@ final readonly class UniqueNodeGenerator
             throw new BadRequestHttpException('Node-type does not exist.');
         }
 
-        if ($request->get('translationId') > 0) {
-            $translation = $this->translationRepository->find((int) $request->get('translationId'));
+        if ($nodeCreationDto->translationId > 0) {
+            $translation = $this->translationRepository->find($nodeCreationDto->translationId);
         } elseif (null !== $parent && false !== $parentNodeSource = $parent->getNodeSources()->first()) {
             /*
              * If parent has only on translation, use parent translation instead of default one.
@@ -139,12 +152,16 @@ final readonly class UniqueNodeGenerator
             $translation = $this->translationRepository->findDefault();
         }
 
+        if (null === $translation) {
+            throw new BadRequestHttpException('Translation does not exist.');
+        }
+
         return $this->generate(
             $nodeType,
             $translation,
             $parent,
             $tag,
-            $pushToTop
+            $nodeCreationDto->pushTop
         );
     }
 }

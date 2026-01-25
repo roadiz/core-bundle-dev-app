@@ -42,14 +42,13 @@ final class UsersUnexpireCommand extends UsersCommand
             )
         ) {
             $user->setExpiresAt(null);
-            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $this->managerRegistry->getManagerForClass(User::class)?->flush();
             $io->success('User “'.$name.'” unexpired.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not updated.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not updated.');
+
+        return 1;
     }
 }

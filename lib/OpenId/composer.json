@@ -19,19 +19,19 @@
         "lcobucci/jwt": "^5.3",
         "lcobucci/clock": "^3.0",
         "psr/cache": ">=1.0.1",
-        "roadiz/jwt": "2.6.*",
-        "roadiz/models": "2.6.*",
-        "roadiz/random": "2.6.*",
+        "roadiz/jwt": "2.7.*",
+        "roadiz/models": "2.7.*",
+        "roadiz/random": "2.7.*",
         "symfony/event-dispatcher-contracts": "^3.5.1",
-        "symfony/http-client": "7.3.*",
-        "symfony/http-foundation": "7.3.*",
-        "symfony/routing": "7.3.*",
-        "symfony/security-core": "7.3.*",
-        "symfony/security-csrf": "7.3.*",
-        "symfony/security-http": "7.3.*"
+        "symfony/http-client": "7.4.*",
+        "symfony/http-foundation": "7.4.*",
+        "symfony/routing": "7.4.*",
+        "symfony/security-core": "7.4.*",
+        "symfony/security-csrf": "7.4.*",
+        "symfony/security-http": "7.4.*"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
+        "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2"
     },
     "autoload": {
@@ -46,8 +46,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.6.x-dev",
-            "dev-develop": "2.7.x-dev"
+            "dev-main": "2.7.x-dev",
+            "dev-develop": "2.8.x-dev"
         }
     }
 }

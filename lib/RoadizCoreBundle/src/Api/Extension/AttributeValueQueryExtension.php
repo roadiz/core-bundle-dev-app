@@ -68,6 +68,11 @@ final readonly class AttributeValueQueryExtension implements QueryItemExtensionI
             $joinAlias = $existingNodeJoin->getAlias();
         }
 
+        // Always exclude shadow nodes
+        $queryBuilder
+            ->andWhere($queryBuilder->expr()->eq($joinAlias.'.shadow', ':shadow'))
+            ->setParameter(':shadow', false);
+
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte($joinAlias.'.status', ':status'))
@@ -79,7 +84,5 @@ final readonly class AttributeValueQueryExtension implements QueryItemExtensionI
         $queryBuilder
             ->andWhere($queryBuilder->expr()->eq($joinAlias.'.status', ':status'))
             ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
     }
 }

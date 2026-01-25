@@ -1,158 +1,130 @@
-{# Override vendor/roadiz/rozier/src/Resources/views/nodes/actionsMenu.html.twig #}
 <nav data-roadiz-rozier-bundle data-action-menu class="actions-menu uk-navbar">
-    {% if node and not readOnly and is_granted('DELETE', node) %}
-        {# Delete current node #}
-        {% if workflow_can(node, 'undelete') %}
-            <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesUndeletePage', { nodeId: node.getId}) }}">
-                <span class="icon-container"><i class="uk-icon-rz-untrash"></i></span>
-                <span class="label"><span class="label-text">{% trans %}undelete{% endtrans %}</span></span>
-            </a>
+    {% if node %}
+        {% set canPublish = workflow_can(node, 'publish') %}
+        {% if not readOnly and is_granted('DELETE', node) %}
+            {% set canDelete = workflow_can(node, 'delete') %}
+            {# Delete current node #}
+            {% if workflow_can(node, 'undelete') %}
+                <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesUndeletePage', { nodeId: node.getId}) }}">
+                    <span class="icon-container"><i class="uk-icon-rz-untrash"></i></span>
+                    <span class="label"><span class="label-text">{% trans %}undelete{% endtrans %}</span></span>
+                </a>
+            {% endif %}
+            {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
+                <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeletePage', {
+                    nodeId: node.getId,
+                    referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
+                }) }}">
+                    <span class="icon-container"><i class="uk-icon-rz-trash"></i></span>
+                    <span class="label"><span class="label-text">{% trans %}delete.node{% endtrans %}</span></span>
+                </a>
+            {% endif %}
+            {% if canDelete and node.nodeSources|length > 1 and source %}
+                <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeleteSourcePage', { nodeSourceId: source.id}) }}">
+                    <span class="icon-container"><i class="uk-icon-flag"></i></span>
+                    <span class="label"><span class="label-text">{% trans %}delete.translation{% endtrans %}</span></span>
+                </a>
+            {% endif %}
         {% endif %}
-        {% if workflow_can(node, 'delete') and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
-            <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeletePage', {
-                nodeId: node.getId,
-                referer: node.parent and translation ? path('nodesEditSourcePage', {
-                    nodeId: node.parent.id,
-                    translationId: translation.id
-                }) : null
-            }) }}">
-                <span class="icon-container"><i class="uk-icon-rz-trash"></i></span>
-                <span class="label"><span class="label-text">{% trans %}delete.node{% endtrans %}</span></span>
-            </a>
-        {% endif %}
-        {% if workflow_can(node, 'delete') and node.nodeSources|length > 1 and source %}
-            <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeleteSourcePage', { nodeSourceId: source.id}) }}">
-                <span class="icon-container"><i class="uk-icon-flag"></i></span>
-                <span class="label"><span class="label-text">{% trans %}delete.translation{% endtrans %}</span></span>
-            </a>
-        {% endif %}
-    {% endif %}
 
-    {% if versions and versions|length > 1 %}
-        <div role="button" tabindex="0" class="node-actions with-subnav mobile-hidden">
-            <header><i class="uk-icon-code-fork"></i><span class="label"><span class="label-text">{% trans %}versions{% endtrans %}</span></span></header>
-            <nav class="versions-nav">
-                <a class="uk-button{% if not currentVersion %} uk-active{% endif %}" href="{{ path('nodesEditSourcePage', {
-                    nodeId: node.id,
-                    translationId: translation.id
-                }) }}">{% trans %}versions.working_copy{% endtrans %}</a>
-                {% for version in versions %}
-                    {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
-                        {% include '@RoadizRozier/widgets/versionItem.html.twig' with {
-                            version: version,
-                            currentVersion: currentVersion,
-                            url: path('nodesEditSourcePage', {
-                                nodeId: node.id,
-                                translationId: translation.id,
-                                version: version.version
-                            })
-                        } only %}
-                    {% endif %}
-                {% endfor %}
-            </nav>
-        </div>
-    {% endif %}
+        {% if versions and versions|length > 1 %}
+            <div role="button" tabindex="0" class="node-actions with-subnav mobile-hidden">
+                <header><i class="uk-icon-code-fork"></i><span class="label"><span class="label-text">{% trans %}versions{% endtrans %}</span></span></header>
+                <nav class="versions-nav">
+                    <a class="uk-button{% if not currentVersion %} uk-active{% endif %}" href="{{ path('nodesEditSourcePage', {
+                        nodeId: node.id,
+                        translationId: translation.id
+                    }) }}">{% trans %}versions.working_copy{% endtrans %}</a>
+                    {% for version in versions %}
+                        {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
+                            {% include '@RoadizRozier/widgets/versionItem.html.twig' with {
+                                version: version,
+                                currentVersion: currentVersion,
+                                url: path('nodesEditSourcePage', {
+                                    nodeId: node.id,
+                                    translationId: translation.id,
+                                    version: version.version
+                                })
+                            } only %}
+                        {% endif %}
+                    {% endfor %}
+                </nav>
+            </div>
+        {% endif %}
 
-    {% if node and not node.isDeleted %}
-        {#
-        # Node actions
-        #}
-        <div role="button" tabindex="0" class="node-actions with-subnav">
-            <header><i class="uk-icon-rz-actions"></i><span class="label"><span class="label-text">{% trans %}actions{% endtrans %}</span></span></header>
-            <nav>
-                {% block node_public_urls %}
-                    {# Only add preview/see button for Reachable node-types #}
-                    {% if source and source.Reachable %}
-                        {% if custom_public_scheme %}
-                            {% set publicUrl = url(source, {
-                                'canonicalScheme': custom_public_scheme,
-                                '_no_cache': 1
-                            }) %}
-                        {% else %}
-                            {% set publicUrl = path(source, {
-                                '_no_cache': 1
-                            }) %}
-                        {% endif %}
-                        {% if node.published and publicUrl%}
-                            <a class="uk-button public-url-link"
-                               target="_blank"
-                               href="{{ publicUrl }}">
-                                <i class="uk-icon-rz-visibility"></i>
-                                <span class="label">{% trans %}see.page{% endtrans %}</span>
-                            </a>
-                        {% endif %}
-                        {% if node.published or node.draft or node.pending %}
-                            {% if custom_preview_scheme %}
-                                {% set previewUrl = url(source, {
-                                    'canonicalScheme': custom_preview_scheme,
-                                    'token': createPreviewJwt(),
-                                    '_no_cache': 1
-                                }) %}
-                            {% elseif custom_public_scheme %}
-                                {% set previewUrl = url(source, {
-                                    'canonicalScheme': custom_public_scheme,
-                                    '_preview': 1,
-                                    'token': createPreviewJwt(),
-                                    '_no_cache': 1
-                                }) %}
-                            {% else %}
-                                {% set previewUrl = path(source, {
-                                    '_preview': 1,
-                                    'token': createPreviewJwt(),
-                                    '_no_cache': 1
-                                }) %}
+        {% if not node.isDeleted %}
+            {#
+            # Node actions
+            #}
+            <div role="button" tabindex="0" class="node-actions with-subnav">
+                <header><i class="uk-icon-rz-actions"></i><span class="label"><span class="label-text">{% trans %}actions{% endtrans %}</span></span></header>
+                <nav>
+                    {% block node_public_urls %}
+                        {# Only add preview/see button for Reachable node-types #}
+                        {% if source and source.Reachable %}
+                            {% if node.published %}
+                                <a class="uk-button public-url-link"
+                                   target="_blank"
+                                   href="{{ path('nodesSourcesPublicRedirect', {
+                                       'nodeSourceId': source.id,
+                                   }) }}">
+                                    <i class="uk-icon-rz-visibility"></i>
+                                    <span class="label">{% trans %}see.page{% endtrans %}</span>
+                                </a>
                             {% endif %}
-                            <a class="uk-button preview-url-link"
-                               target="_blank"
-                               href="{{ previewUrl }}">
-                                <i class="uk-icon-rz-visibility"></i>
-                                <span class="label">{% trans %}preview.page{% endtrans %}</span>
+                            {% if node.published or node.draft or node.pending %}
+                                <a class="uk-button preview-url-link"
+                                   target="_blank"
+                                   href="{{ path('nodesSourcesPreviewRedirect', {
+                                       'nodeSourceId': source.id,
+                                   }) }}">
+                                    <i class="uk-icon-rz-visibility"></i>
+                                    <span class="label">{% trans %}preview.page{% endtrans %}</span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endblock %}
+
+                    {% if not node.isLocked %}
+                        {% if is_granted('DUPLICATE', node) %}
+                            <a
+                                class="uk-button rz-no-ajax-link"
+                                href="{{ path('nodesDuplicatePage', { nodeId:node.getId }) }}"
+                            >
+                                <i class="uk-icon-rz-duplicate"></i><span class="label">{% trans %}duplicate{% endtrans %}</span>
                             </a>
                         {% endif %}
+                        {% if is_granted('EDIT_SETTING', node) %}
+                            <a
+                                class="uk-button"
+                                href="{{ path('nodesTranstypePage', { nodeId:node.getId }) }}"
+                            ><i class="uk-icon-bolt"></i><span class="label">{% trans %}transtype{% endtrans %}</span></a>
+                        {% endif %}
                     {% endif %}
-                {% endblock %}
 
-                {% if not node.isLocked %}
-                    {% if is_granted('DUPLICATE', node) %}
+                    {% if canPublish %}
+                        <a class="uk-button publish-all-node" title="{% trans %}publish_node_offspring{% endtrans %}" href="{{ path('nodesPublishAllAction', {nodeId : node.id}) }}"><i class="uk-icon-rz-published-mini"></i><span class="label">{% trans %}publish_node_offspring{% endtrans %}</span></a>
+                    {% endif %}
+
+                    {% block node_add_child %}
                         <a
-                            class="uk-button rz-no-ajax-link"
-                            href="{{ path('nodesDuplicatePage', { nodeId:node.getId }) }}"
-                        >
-                            <i class="uk-icon-rz-duplicate"></i><span class="label">{% trans %}duplicate{% endtrans %}</span>
-                        </a>
-                    {% endif %}
-                    {% if is_granted('EDIT_SETTING', node) %}
-                    <a
-                        class="uk-button"
-                        href="{{ path('nodesTranstypePage', { nodeId:node.getId }) }}"
-                    ><i class="uk-icon-bolt"></i><span class="label">{% trans %}transtype{% endtrans %}</span></a>
-                    {% endif %}
-                {% endif %}
-
-                {% if workflow_can(node, 'publish') %}
-                    <a class="uk-button publish-all-node" title="{% trans %}publish_node_offspring{% endtrans %}" href="{{ path('nodesPublishAllAction', {nodeId : node.id}) }}"><i class="uk-icon-rz-published-mini"></i><span class="label">{% trans %}publish_node_offspring{% endtrans %}</span></a>
-                {% endif %}
-
-                {% block node_add_child %}
-                    <a
-                        class="uk-button"
-                        href="{{ path('nodesAddChildPage', { nodeId:node.getId }) }}"
-                    ><i class="uk-icon-rz-plus"></i><span class="label">{% trans %}add.child{% endtrans %}</span></a>
-                {% endblock %}
-                {% block node_export %}
-                    {% if node.hidingChildren and translation %}
-                        <a
-                            class="uk-button rz-no-ajax-link"
-                            href="{{ path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}) }}"
-                        >
-                            <i class="uk-icon-file-excel-o"></i>
-                            <span class="label">{{ 'export_format.csv.%language%'|trans({'%language%':translation.name }) }}</span>
-                        </a>
-                    {% endif %}
-                {% endblock %}
-            </nav>
-        </div>
-        {% if node %}
+                            class="uk-button"
+                            href="{{ path('nodesAddChildPage', { nodeId: node.getId }) }}"
+                        ><i class="uk-icon-rz-plus"></i><span class="label">{% trans %}add.child{% endtrans %}</span></a>
+                    {% endblock %}
+                    {% block node_export %}
+                        {% if node.hidingChildren and translation %}
+                            <a
+                                class="uk-button rz-no-ajax-link"
+                                href="{{ path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}) }}"
+                            >
+                                <i class="uk-icon-file-excel-o"></i>
+                                <span class="label">{{ 'export_format.csv.%language%'|trans({'%language%':translation.name }) }}</span>
+                            </a>
+                        {% endif %}
+                    {% endblock %}
+                </nav>
+            </div>
             {#
             # Node statuses
             #}
@@ -202,7 +174,7 @@
                                    {% if node.isPending %}checked{% endif %} />
                         </li>
                     {% endif %}
-                    {% if workflow_can(node, 'publish') or node.isPublished %}
+                    {% if canPublish or node.isPublished %}
                         <li class="node-statuses-item node-published">
                             <i class="uk-icon-rz-published"></i>
                             <span class="label">{% trans %}published{% endtrans %}</span>

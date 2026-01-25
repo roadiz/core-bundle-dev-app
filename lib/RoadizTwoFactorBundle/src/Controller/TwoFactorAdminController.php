@@ -9,7 +9,6 @@ use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
 use RZ\Roadiz\TwoFactorBundle\Form\TwoFactorCodeActivationType;
 use RZ\Roadiz\TwoFactorBundle\Security\Provider\AuthenticatorTwoFactorProvider;
 use RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface;
-use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
@@ -22,10 +21,11 @@ final class TwoFactorAdminController extends AbstractController
     public function __construct(
         private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
         private readonly AuthenticatorTwoFactorProvider $authenticatorTwoFactorProvider,
+        private readonly TokenStorageInterface $tokenStorage,
     ) {
     }
 
-    public function twoFactorAdminAction(Request $request, TokenStorageInterface $tokenStorage): Response
+    public function twoFactorAdminAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
@@ -33,8 +33,8 @@ final class TwoFactorAdminController extends AbstractController
             throw $this->createAccessDeniedException('You cannot impersonate to access this page.');
         }
 
-        $user = $tokenStorage->getToken()->getUser();
-        if (!($user instanceof User)) {
+        $user = $this->tokenStorage->getToken()?->getUser();
+        if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
         $assignation = [];
@@ -51,7 +51,7 @@ final class TwoFactorAdminController extends AbstractController
             $assignation['form'] = $form->createView();
         } elseif (!$twoFactorUser->isTotpAuthenticationEnabled()) {
             // Only display QR code if user has started 2FA activation
-            $assignation['displayQrCodeTotp'] = $twoFactorUser instanceof TwoFactorInterface;
+            $assignation['displayQrCodeTotp'] = true;
             $form = $this->createForm(TwoFactorCodeActivationType::class);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -77,12 +77,12 @@ final class TwoFactorAdminController extends AbstractController
         return $this->render('@RoadizTwoFactor/admin/two_factor.html.twig', $assignation);
     }
 
-    public function twoFactorDisableAction(Request $request, TokenStorageInterface $tokenStorage): Response
+    public function twoFactorDisableAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
-        $user = $tokenStorage->getToken()->getUser();
-        if (!($user instanceof User)) {
+        $user = $this->tokenStorage->getToken()?->getUser();
+        if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);

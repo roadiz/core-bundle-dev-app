@@ -19,11 +19,19 @@
             <form class="uk-form uk-margin-remove uk-display-inline-block" method="get">
                 {% block filter_pagination_form %}
                     {% if filters.search %}<input type="hidden" name="search" value="{{ filters.search }}" />{% endif %}
-                    {% if filters.previousPageQuery %}<a class="uk-button uk-button-filter" href="?{{ filters.previousPageQuery }}"><i class="uk-icon-rz-prev-page"></i></a>{% endif %}
+                    {% if filters.previousPageQuery %}
+                        <a rel="previous"
+                           class="uk-button uk-button-filter"
+                           href="?{{ filters.previousPageQuery }}"><i class="uk-icon-rz-prev-page"></i></a>
+                    {% endif %}
                     <span class="filter-form-text pageTitle">{% trans %}page{% endtrans %}</span>
                     <input class="uk-form-width-mini" id="uk-form-filter-input-page" type="text" name="page"  value="{{ filters.currentPage }}" />
                     <span class="filter-form-text pageCount">/ {{ filters.pageCount }}</span>
-                    {% if filters.nextPageQuery %}<a class="uk-button uk-button-filter" href="?{{ filters.nextPageQuery }}"><i class="uk-icon-rz-next-page"></i></a>{% endif %}
+                    {% if filters.nextPageQuery %}
+                        <a rel="next"
+                           class="uk-button uk-button-filter"
+                           href="?{{ filters.nextPageQuery }}"><i class="uk-icon-rz-next-page"></i></a>
+                    {% endif %}
                 {% endblock %}
             </form>
         </div>

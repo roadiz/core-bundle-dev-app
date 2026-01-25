@@ -64,7 +64,7 @@ final class NodeHandler extends AbstractHandler
     /**
      * @return $this
      */
-    public function setNode(Node $node): self
+    public function setNode(Node $node): static
     {
         $this->node = $node;
 
@@ -78,7 +78,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function cleanCustomFormsFromField(NodeTypeFieldInterface $field, bool $flush = true): self
+    public function cleanCustomFormsFromField(NodeTypeFieldInterface $field, bool $flush = true): static
     {
         $nodesCustomForms = $this->objectManager
             ->getRepository(NodesCustomForms::class)
@@ -150,9 +150,9 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function cleanNodesFromField(NodeTypeFieldInterface $field, bool $flush = true): self
+    public function cleanNodesFromField(NodeTypeFieldInterface $field, bool $flush = true): static
     {
-        $this->node->clearBNodesForField($field);
+        $this->getNode()->clearBNodesForField($field);
 
         if (true === $flush) {
             $this->objectManager->flush();
@@ -168,11 +168,11 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function addNodeForField(Node $node, NodeTypeFieldInterface $field, bool $flush = true, ?float $position = null): self
+    public function addNodeForField(Node $node, NodeTypeFieldInterface $field, bool $flush = true, ?float $position = null): static
     {
         $ntn = new NodesToNodes($this->getNode(), $node, $field);
 
-        if (!$this->node->hasBNode($ntn)) {
+        if (!$this->getNode()->hasBNode($ntn)) {
             if (null === $position) {
                 $latestPosition = $this->objectManager
                     ->getRepository(NodesToNodes::class)
@@ -181,7 +181,7 @@ final class NodeHandler extends AbstractHandler
             } else {
                 $ntn->setPosition($position);
             }
-            $this->node->addBNode($ntn);
+            $this->getNode()->addBNode($ntn);
             $this->objectManager->persist($ntn);
             if (true === $flush) {
                 $this->objectManager->flush();
@@ -196,7 +196,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren(): self
+    private function removeChildren(): static
     {
         /** @var Node $node */
         foreach ($this->getNode()->getChildren() as $node) {
@@ -213,7 +213,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeAssociations(): self
+    public function removeAssociations(): static
     {
         /** @var NodesSources $ns */
         foreach ($this->getNode()->getNodeSources() as $ns) {
@@ -231,7 +231,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations(): self
+    public function removeWithChildrenAndAssociations(): static
     {
         $this->removeChildren();
         $this->removeAssociations();
@@ -252,7 +252,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function softRemoveWithChildren(): self
+    public function softRemoveWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'delete')) {
@@ -276,7 +276,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function softUnremoveWithChildren(): self
+    public function softUnremoveWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'undelete')) {
@@ -300,7 +300,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function publishWithChildren(): self
+    public function publishWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'publish')) {
@@ -324,7 +324,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function archiveWithChildren(): self
+    public function archiveWithChildren(): static
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'archive')) {
@@ -350,9 +350,9 @@ final class NodeHandler extends AbstractHandler
             return true;
         }
 
-        $parents = $this->getParents();
+        $parents = $this->getRepository()->findAllAncestors($this->getNode());
         foreach ($parents as $parent) {
-            if ($parent->getId() === $relative->getId()) {
+            if ($parent['node'] === $relative->getId()) {
                 return true;
             }
         }
@@ -364,6 +364,8 @@ final class NodeHandler extends AbstractHandler
      * Return every node’s parents.
      *
      * @return array<Node>
+     *
+     * @deprecated use NodeRepository::findAllNodeParentsBy() instead
      */
     public function getParents(?TokenStorageInterface $tokenStorage = null): array
     {
@@ -371,7 +373,7 @@ final class NodeHandler extends AbstractHandler
         $parent = $this->getNode()->getParent();
         $chroot = null;
 
-        if (null !== $tokenStorage) {
+        if (null !== $tokenStorage && null !== $tokenStorage->getToken()) {
             $user = $tokenStorage->getToken()->getUser();
             /** @var Node|null $chroot */
             $chroot = $this->chrootResolver->getChroot($user);
@@ -395,16 +397,14 @@ final class NodeHandler extends AbstractHandler
     #[\Override]
     public function cleanPositions(bool $setPositions = true): float
     {
-        if (null !== $this->getNode()->getParent()) {
+        if (null !== $parent = $this->getNode()->getParent()) {
             $parentHandler = $this->createSelf();
-            /** @var Node|null $parent */
-            $parent = $this->getNode()->getParent();
             $parentHandler->setNode($parent);
 
             return $parentHandler->cleanChildrenPositions($setPositions);
-        } else {
-            return $this->cleanRootNodesPositions($setPositions);
         }
+
+        return $this->cleanRootNodesPositions($setPositions);
     }
 
     /**

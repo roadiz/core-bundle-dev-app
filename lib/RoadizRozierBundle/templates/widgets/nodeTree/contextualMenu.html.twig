@@ -9,7 +9,7 @@
             {% if- is_granted('CREATE', node) -%}
                 <a
                    title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
-                   href="{{ path('nodesAddChildPage', { nodeId:node.id }) }}">
+                   href="{{ path('nodesAddChildPage', { nodeId: node.id }) }}">
                     <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.node{% endtrans %}
                 </a>
             {%- endif -%}
@@ -35,6 +35,26 @@
             {%- endif -%}
             {% if is_granted('DUPLICATE', node) %}
                 <button
+                    data-action="copy"
+                    class="copy-node"
+                    type="button"
+                    title="{% trans %}node.copy{% endtrans %}"
+                ><i class="uk-icon-rz-copy"></i> {% trans %}node.copy{% endtrans %}</button>
+                <button
+                    data-action="paste_inside"
+                    class="paste-node"
+                    type="button"
+                    disabled
+                    title="{% trans %}node.paste_inside{% endtrans %}"
+                ><i class="uk-icon-paste"></i> {% trans %}node.paste_inside{% endtrans %}</button>
+                <button
+                    data-action="paste_after"
+                    class="paste-node"
+                    type="button"
+                    disabled
+                    title="{% trans %}node.paste_after{% endtrans %}"
+                ><i class="uk-icon-paste"></i> {% trans %}node.paste_after{% endtrans %}</button>
+                <button
                     data-action="duplicate"
                     class="duplicate-node"
                     type="button"
@@ -43,13 +63,7 @@
             {%- endif -%}
 
             {% if workflow_can(node, 'delete') %}
-                {% set refererUrl = null %}
-                {% if node.parentId %}
-                    {% set refererUrl = path('nodesEditSourcePage', {
-                        nodeId: node.parentId,
-                        translationId: translation.id
-                    }) %}
-                {% endif %}
+                {% set refererUrl = node.parent ? getBreadcrumbsItem(node.parent).url : null %}
                 <a title="{{ "delete.node.%name%"|trans({'%name%': node.nodeName}) }}"
                    href="{{ path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }) }}">
                     <i class="uk-icon-rz-trash-o"></i> {% trans %}delete.node{% endtrans %}

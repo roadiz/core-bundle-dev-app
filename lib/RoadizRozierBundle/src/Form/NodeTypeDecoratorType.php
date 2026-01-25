@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodeTypeDecoratorType extends AbstractType
@@ -66,6 +67,9 @@ final class NodeTypeDecoratorType extends AbstractType
         ]);
     }
 
+    /**
+     * @return class-string<FormTypeInterface>
+     */
     private function getValueType(NodeTypeDecorator $nodeTypeDecorator): string
     {
         $property = $nodeTypeDecorator->getProperty();
@@ -75,9 +79,9 @@ final class NodeTypeDecoratorType extends AbstractType
             return CheckboxType::class;
         } elseif (NodeTypeDecoratorProperty::NODE_TYPE_COLOR === $property) {
             return ColorType::class;
-        } else {
-            return TextType::class;
         }
+
+        return TextType::class;
     }
 
     private function getValueOption(NodeTypeDecorator $nodeTypeDecorator): array
@@ -89,18 +93,23 @@ final class NodeTypeDecoratorType extends AbstractType
                 'required' => false,
                 'html5' => true,
             ];
-        } else {
-            return [
-                'label' => 'nodeTypeDecorator.value',
-                'required' => false,
-            ];
         }
+
+        return [
+            'label' => 'nodeTypeDecorator.value',
+            'required' => false,
+        ];
     }
 
     private function getExplodedPath(string $path): array
     {
         $pathExploded = explode('.', $path);
         $nodeType = $this->decoratedNodeTypes->get($pathExploded[0]);
+
+        if (null === $nodeType) {
+            throw new \RuntimeException('Cannot find NodeType for NodeTypeDecorator path '.$path);
+        }
+
         $field = $nodeType->getFieldByName($pathExploded[1]);
 
         return [

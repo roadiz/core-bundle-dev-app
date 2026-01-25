@@ -41,7 +41,7 @@ final class ColorType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return TextType::class;
     }

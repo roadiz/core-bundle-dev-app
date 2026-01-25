@@ -8,10 +8,10 @@
                     <a class="see-all-root-tree"
                        data-uk-tooltip="{animation:true}"
                        title="{% trans %}see_all{% endtrans %}"
-                       href="{{ path('nodesMainTreePage', {translationId: nodeTree.translation.id}) }}"><i class="uk-icon-search"></i></a>
+                       href="{{ path('nodesMainTreePage', { translationId: nodeTree.translation.id }) }}"><i class="uk-icon-search"></i></a>
                 </h4>
                 {% if not nodeTree.rootNode %}
-                    <a href="{{ path('nodesAddChildPage') }}"
+                    <a href="{{ path('nodesAddPage', { translationId: nodeTree.translation.id }) }}"
                        data-uk-tooltip="{animation:true}"
                        title="{% trans %}add.a.node{% endtrans %}"
                        class="uk-button tree-btn-add"
@@ -33,11 +33,10 @@
                 <ul class="nodetree-langs{% if nodeTree.availableTranslations|length <= 5 %} few-langs{% endif %}">
                     {%- for lang in nodeTree.availableTranslations -%}
                     <li class="{% if lang.id == nodeTree.translation.id %}active{% endif %}">
-                        <a href="#"
-                           class="rz-no-ajax-link"
+                        <button type="button"
                            {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}
                            data-children-parent-node="{{ nodeTree.rootNode.id }}"
-                           data-translation-id="{{ lang.id }}">{{ lang.preferredLocale|capitalize }}</a>
+                           data-translation-id="{{ lang.id }}">{{ lang.preferredLocale|capitalize }}</button>
                     </li>
                     {%- endfor -%}
                 </ul>

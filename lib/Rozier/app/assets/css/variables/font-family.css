@@ -1,0 +1,11 @@
+
+/* This means _first_ use the system sans-serif, then if that
+   doesn’t map to anything (or isn’t supported), use the
+   browser’s default sans-serif, which may be user configured */
+:root {
+	--font-family-os-title: ui-sans-serif, system-ui, sans-serif;
+	--font-family-os-label: ui-sans-serif, system-ui, sans-serif;
+	--font-family-os-text: ui-sans-serif, system-ui, sans-serif;
+	--font-family-os-code: ui-monospace;
+	--font-family-os-markdown: ui-monospace;
+}

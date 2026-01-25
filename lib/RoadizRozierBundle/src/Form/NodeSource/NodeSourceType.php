@@ -209,7 +209,7 @@ final class NodeSourceType extends AbstractType
             case FieldType::NODES_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'data-nodetypes' => json_encode(array_map('trim', $field->getDefaultValuesAsArray())),
+                        'data-nodetypes' => json_encode(array_map(trim(...), $field->getDefaultValuesAsArray())),
                     ],
                     '_locale' => $nodeSource->getTranslation()->getLocale(),
                 ]);
@@ -284,6 +284,7 @@ final class NodeSourceType extends AbstractType
                     'attr' => [
                         'class' => 'markdown_textarea',
                     ],
+                    'locale' => $nodeSource->getTranslation()->getLocale(),
                 ], $additionalOptions);
                 break;
             case FieldType::CHILDREN_T:
@@ -302,7 +303,7 @@ final class NodeSourceType extends AbstractType
                 $defaultValuesAsArray = $field->getDefaultValuesAsArray();
                 if (count($defaultValuesAsArray) > 0) {
                     $countries = $defaultValuesAsArray;
-                    $countries = array_map('trim', $countries);
+                    $countries = array_map(trim(...), $countries);
                     $options = array_merge_recursive($options, [
                         'preferred_choices' => $countries,
                     ]);

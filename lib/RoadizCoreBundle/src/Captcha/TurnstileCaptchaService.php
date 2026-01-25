@@ -14,10 +14,10 @@ final readonly class TurnstileCaptchaService implements CaptchaServiceInterface
 {
     public function __construct(
         private HttpClientInterface $client,
-        protected ?string $publicKey,
+        private ?string $publicKey,
         #[\SensitiveParameter]
-        protected ?string $privateKey,
-        protected ?string $verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        private ?string $privateKey,
+        private string $verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
     ) {
     }
 

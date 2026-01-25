@@ -61,7 +61,6 @@ export default ({ mode }) => {
                         { text: 'Requirements', link: '/developer/first-steps/requirements' },
                         { text: 'Installation', link: '/developer/first-steps/installation' },
                         { text: 'Configuration', link: '/developer/first-steps/manual_config' },
-                        { text: 'Solr search engine', link: '/developer/first-steps/use_apache_solr' },
                         { text: 'Upgrading', link: '/developer/first-steps/upgrading' },
                         { text: 'Security', link: '/developer/security/security' },
                         {
@@ -100,7 +99,31 @@ export default ({ mode }) => {
                                 { text: 'Custom forms', link: '/developer/forms/custom_forms' },
                             ]
                         },
+                        { text: 'Solr search engine', link: '/developer/first-steps/use_apache_solr' },
                         { text: 'Infrastructure', link: '/developer/infrastructure/infrastructure' },
+                        {
+                            text: 'Optional bundles',
+                            collapsed: true,
+                            items: [
+                                { text: 'Introduction', link: '/developer/optional-bundles/' },
+                                { text: 'Solr Bundle', link: '/developer/optional-bundles/solr-bundle' },
+                                { text: 'Two-Factor Authentication Bundle', link: '/developer/optional-bundles/two-factor-bundle' },
+                                { text: 'User Bundle', link: '/developer/optional-bundles/user-bundle' },
+                            ]
+                        },
+                        {
+                            text: 'Extending Roadiz',
+                            collapsed: false,
+                            items: [
+                                { text: 'Roadiz events', link: '/extensions/events' },
+                                { text: 'Extension examples', link: '/extensions/extending_roadiz' },
+                                { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry' },
+                                { text: 'Extending Solr indexation', link: '/extensions/extending_solr' },
+                                { text: 'Entity thumbnails', link: '/extensions/entity-thumbnail' },
+                                { text: 'Translate Assistant', link: '/extensions/translate-assistant' },
+                                { text: 'Custom forms webhooks', link: '/extensions/webhook-system' },
+                            ]
+                        },
                         { text: 'Contributing', link: '/developer/contributing/contributing' },
                         { text: 'Troubleshooting', link: '/developer/troubleshooting/troubleshooting' },
                     ]
@@ -120,15 +143,6 @@ export default ({ mode }) => {
                         { text: 'Formulaires personnalisés', link: '/user/formulaires_personnalises' },
                         { text: 'États (publié, dépublié, caché)', link: '/user/etats' },
                         { text: 'Visualisation et Prévisualisation', link: '/user/visualisation_et_previsualisation' },
-                    ]
-                },
-                {
-                    text: 'Extensions',
-                    collapsed: false,
-                    items: [
-                        { text: 'Roadiz events', link: '/extensions/events' },
-                        { text: 'Extending Roadiz', link: '/extensions/extending_roadiz' },
-                        { text: 'Extending Solr', link: '/extensions/extending_solr' },
                     ]
                 }
             ],

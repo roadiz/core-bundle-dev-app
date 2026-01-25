@@ -36,7 +36,11 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
             $item = $object->getItem();
             if ($item instanceof NodesSources) {
                 $context['translation'] = $item->getTranslation();
-            } elseif (method_exists($item, 'getLocale') && is_string($item->getLocale())) {
+            } elseif (
+                null !== $item
+                && method_exists($item, 'getLocale')
+                && is_string($item->getLocale())
+            ) {
                 $context['translation'] = $this->getTranslationFromLocale($item->getLocale());
             }
         } elseif ($object instanceof NodesSources) {
@@ -61,9 +65,9 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
 
         if ($this->previewResolver->isPreview()) {
             return $repository->findOneByLocaleOrOverrideLocale($locale);
-        } else {
-            return $repository->findOneAvailableByLocaleOrOverrideLocale($locale);
         }
+
+        return $repository->findOneAvailableByLocaleOrOverrideLocale($locale);
     }
 
     private function getTranslationFromRequest(): ?TranslationInterface

@@ -121,11 +121,10 @@ class NodeVoter extends Voter
                 $vote?->addReason('Chroot itself is not allowed for this attribute, access denied.');
 
                 return false;
-            } else {
-                $vote?->addReason('Chroot itself is allowed for this attribute, access granted.');
-
-                return true;
             }
+            $vote?->addReason('Chroot itself is allowed for this attribute, access granted.');
+
+            return true;
         }
 
         /*

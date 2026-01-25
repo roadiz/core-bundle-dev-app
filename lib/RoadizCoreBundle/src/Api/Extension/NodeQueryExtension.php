@@ -43,6 +43,11 @@ final readonly class NodeQueryExtension implements QueryItemExtensionInterface, 
             return;
         }
 
+        // Always exclude shadow nodes
+        $queryBuilder
+            ->andWhere($queryBuilder->expr()->eq('o.shadow', ':shadow'))
+            ->setParameter(':shadow', false);
+
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte('o.status', ':status'))
@@ -63,8 +68,6 @@ final readonly class NodeQueryExtension implements QueryItemExtensionInterface, 
             ->andWhere($queryBuilder->expr()->eq('o.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
             ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
     }
 
     #[\Override]

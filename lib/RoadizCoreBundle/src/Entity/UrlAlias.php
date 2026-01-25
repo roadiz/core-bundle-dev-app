@@ -16,10 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * UrlAliases are used to translate Nodes URLs.
  */
-#[
-    ORM\Entity(repositoryClass: UrlAliasRepository::class),
-    ORM\Table(name: 'url_aliases')
-]
+#[ORM\Entity(repositoryClass: UrlAliasRepository::class),
+    ORM\Table(name: 'url_aliases')]
 class UrlAlias implements PersistableInterface, \Stringable
 {
     use SequentialIdTrait;
@@ -45,7 +43,7 @@ class UrlAlias implements PersistableInterface, \Stringable
     /**
      * @return $this
      */
-    public function setAlias(string $alias): UrlAlias
+    public function setAlias(string $alias): static
     {
         $this->alias = StringHandler::slugify($alias);
 

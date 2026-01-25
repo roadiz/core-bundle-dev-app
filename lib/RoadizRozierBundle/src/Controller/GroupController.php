@@ -149,7 +149,7 @@ final class GroupController extends AbstractAdminController
         /** @var Group|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
 
-        if (!($item instanceof Group)) {
+        if (!$item instanceof Group) {
             throw $this->createNotFoundException();
         }
 
@@ -195,7 +195,7 @@ final class GroupController extends AbstractAdminController
         /** @var Group|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
 
-        if (!($item instanceof Group)) {
+        if (!$item instanceof Group) {
             throw $this->createNotFoundException();
         }
 
@@ -243,7 +243,7 @@ final class GroupController extends AbstractAdminController
         /** @var User|null $user */
         $user = $this->em()->find(User::class, $userId);
 
-        if (!($item instanceof Group)) {
+        if (!$item instanceof Group) {
             throw $this->createNotFoundException();
         }
 

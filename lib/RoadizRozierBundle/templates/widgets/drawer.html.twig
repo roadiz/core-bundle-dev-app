@@ -138,13 +138,11 @@
                 </ul>
             </div>
             {% if enableDropzone %}
-                <dropzone v-if="drawer.isDropzoneEnable"
-                          id="dropzone{{ random() }}"
-                          :language="dropzoneLanguage"
-                          url="{{ path('documentsUploadPage', {_format: 'json'}) }}"
-                          v-on:vdropzone-error="showError"
-                          v-on:vdropzone-success="showSuccess">
-                </dropzone>
+                <rz-file-upload 
+                    v-if="drawer.isDropzoneEnable"
+                    @error="showError"
+                    @success="showSuccess">
+                </rz-file-upload>
             {% endif %}
         </div>
     </drawer-container>

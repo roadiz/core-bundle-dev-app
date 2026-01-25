@@ -87,7 +87,7 @@ abstract class AbstractSolarium
 
         if (true === $this->index()) {
             // add the documents and a commit command to the update query
-            $update->addDocument($this->getDocument());
+            $update->addDocument($this->getDocument() ?? throw new \RuntimeException('No Solr document available.'));
             $update->addCommit();
 
             return $this->getSolr()->update($update);
@@ -127,7 +127,7 @@ abstract class AbstractSolarium
         $this->createEmptyDocument($update);
         $this->index();
         // add the document to the update query
-        $update->addDocument($this->document);
+        $update->addDocument($this->document ?? throw new \RuntimeException('No Solr document available.'));
     }
 
     /**
@@ -141,9 +141,9 @@ abstract class AbstractSolarium
             $update->addDeleteById($this->document->id);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -248,12 +248,11 @@ abstract class AbstractSolarium
 
         if (0 === $resultset->getNumFound()) {
             return false;
-        } else {
-            foreach ($resultset as $document) {
-                $this->document = $document;
+        }
+        foreach ($resultset as $document) {
+            $this->document = $document;
 
-                return true;
-            }
+            return true;
         }
 
         return false;

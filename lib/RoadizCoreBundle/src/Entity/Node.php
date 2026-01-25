@@ -40,19 +40,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Node entities are the central feature of Roadiz,
  * it describes a document-like object which can be inherited
  * with *NodesSources* to create complex data structures.
+ *
+ * @implements LeafInterface<Node>
  */
-#[
-    ORM\Entity(repositoryClass: NodeRepository::class),
+#[ORM\Entity(repositoryClass: NodeRepository::class),
     ORM\Table(name: 'nodes'),
     ORM\Index(columns: ['visible']),
     ORM\Index(columns: ['status']),
     ORM\Index(columns: ['locked']),
-    ORM\Index(columns: ['sterile']),
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['created_at']),
     ORM\Index(columns: ['updated_at']),
     ORM\Index(columns: ['hide_children']),
     ORM\Index(columns: ['home']),
+    ORM\Index(columns: ['shadow'], name: 'node_shadow'),
     ORM\Index(columns: ['node_name', 'status']),
     ORM\Index(columns: ['visible', 'status']),
     ORM\Index(columns: ['visible', 'status', 'parent_node_id'], name: 'node_visible_status_parent'),
@@ -76,25 +77,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(PropertyFilter::class),
-    ApiFilter(TagGroupFilter::class)
-]
+    ApiFilter(TagGroupFilter::class)]
 class Node implements DateTimedInterface, LeafInterface, AttributableInterface, Loggable, NodeInterface, \Stringable
 {
     use SequentialIdTrait;
     use DateTimedTrait;
     use LeafTrait;
     use AttributableTrait;
-
-    /** @deprecated Use NodeStatus enum */
-    public const int DRAFT = 10;
-    /** @deprecated Use NodeStatus enum */
-    public const int PENDING = 20;
-    /** @deprecated Use NodeStatus enum */
-    public const int PUBLISHED = 30;
-    /** @deprecated Use NodeStatus enum */
-    public const int ARCHIVED = 40;
-    /** @deprecated Use NodeStatus enum */
-    public const int DELETED = 50;
 
     #[SymfonySerializer\Ignore]
     public static array $orderingFields = [
@@ -124,6 +113,13 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     #[ORM\Column(name: 'home', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Ignore]
     private bool $home = false;
+
+    /**
+     * @var bool A shadow node is a node hidden from back-office node-trees and not publicly available. It is used to create a shadow root for nodes.
+     */
+    #[ORM\Column(name: 'shadow', type: 'boolean', nullable: false, options: ['default' => false])]
+    #[SymfonySerializer\Ignore]
+    private bool $shadow = false;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
@@ -175,15 +171,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         example: 'false',
     )]
     private bool $hideChildren = false;
-
-    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    #[SymfonySerializer\Groups(['node'])]
-    #[Gedmo\Versioned]
-    #[ApiProperty(
-        description: 'Can this node hold other nodes inside?',
-        example: 'false',
-    )]
-    private bool $sterile = false;
 
     #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
     #[SymfonySerializer\Groups(['node', 'node_listing'])]
@@ -340,7 +327,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
      */
     public static function getStatusLabel(int|string $status): string
     {
-        $status = NodeStatus::tryFrom((int) $status);
+        $status = NodeStatus::tryFrom((int) $status) ?? throw new \InvalidArgumentException('Invalid status '.$status);
 
         return $status->getLabel();
     }
@@ -360,7 +347,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     /**
      * @return $this
      */
-    public function setDynamicNodeName(bool $dynamicNodeName): Node
+    public function setDynamicNodeName(bool $dynamicNodeName): static
     {
         $this->dynamicNodeName = (bool) $dynamicNodeName;
 
@@ -375,9 +362,27 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     /**
      * @return $this
      */
-    public function setHome(bool $home): Node
+    public function setHome(bool $home): static
     {
         $this->home = $home;
+
+        return $this;
+    }
+
+    public function isShadow(): bool
+    {
+        return $this->shadow;
+    }
+
+    public function setShadow(bool $shadow): static
+    {
+        $this->shadow = $shadow;
+
+        if (true === $shadow) {
+            // A shadow node requires a static name and must be locked
+            $this->setDynamicNodeName(false);
+            $this->setLocked(true);
+        }
 
         return $this;
     }
@@ -394,7 +399,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
      *
      * @internal you should use node Workflow to perform change on status
      */
-    public function setStatus(int|string|NodeStatus $status): Node
+    public function setStatus(int|string|NodeStatus $status): static
     {
         if ($status instanceof NodeStatus) {
             $this->status = $status;
@@ -405,7 +410,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         return $this;
     }
 
-    public function setStatusAsString(string $name): Node
+    public function setStatusAsString(string $name): static
     {
         $this->status = NodeStatus::fromName($name);
 
@@ -422,7 +427,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         return $this->ttl ?? 0;
     }
 
-    public function setTtl(?int $ttl): Node
+    public function setTtl(?int $ttl): static
     {
         $this->ttl = $ttl;
 
@@ -498,21 +503,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     public function setHidingChildren(bool $hideChildren): static
     {
         $this->hideChildren = $hideChildren;
-
-        return $this;
-    }
-
-    public function isSterile(): bool
-    {
-        return $this->sterile;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setSterile(bool $sterile): static
-    {
-        $this->sterile = $sterile;
 
         return $this;
     }
@@ -674,6 +664,10 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
             fn (int $key, StackType $stackType) => $stackType->getNodeTypeName() === $nodeType->getName()
         );
 
+        if (null === $stackType) {
+            return $this;
+        }
+
         $this->stackTypes->removeElement($stackType);
 
         return $this;
@@ -809,7 +803,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         return $this;
     }
 
-    public function clearBNodesForField(NodeTypeFieldInterface $field): Node
+    public function clearBNodesForField(NodeTypeFieldInterface $field): static
     {
         $toRemoveCollection = $this->getBNodes()->filter(fn (NodesToNodes $element) => $element->getFieldName() === $field->getName());
         /** @var NodesToNodes $toRemove */
@@ -851,7 +845,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         return $this->nodeTypeName;
     }
 
-    public function setNodeTypeName(string $nodeType): Node
+    public function setNodeTypeName(string $nodeType): static
     {
         $this->nodeTypeName = $nodeType;
 
@@ -866,7 +860,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     /**
      * @return $this
      */
-    public function setVisible(bool $visible): Node
+    public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
 

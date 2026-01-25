@@ -368,7 +368,7 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
      *
      * @return $this
      */
-    public function setKey(?string $key): self
+    public function setKey(?string $key): static
     {
         $this->key = $key;
 

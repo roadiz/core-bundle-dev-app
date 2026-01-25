@@ -116,10 +116,6 @@
                 <source>reset_your_password</source>
                 <target state="final">重置您的密码</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
-                <source>you.need.to.fill.this.required.field</source>
-                <target state="final">您需要填写此必填字段。</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
                 <target state="final">* 必填字段</target>

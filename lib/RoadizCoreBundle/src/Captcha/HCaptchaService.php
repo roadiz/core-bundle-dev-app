@@ -14,10 +14,10 @@ final readonly class HCaptchaService implements CaptchaServiceInterface
 {
     public function __construct(
         private HttpClientInterface $client,
-        protected ?string $publicKey,
+        private ?string $publicKey,
         #[\SensitiveParameter]
-        protected ?string $privateKey,
-        protected ?string $verifyUrl = 'https://api.hcaptcha.com/siteverify',
+        private ?string $privateKey,
+        private string $verifyUrl = 'https://api.hcaptcha.com/siteverify',
     ) {
     }
 

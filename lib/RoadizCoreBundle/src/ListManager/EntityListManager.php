@@ -116,7 +116,7 @@ class EntityListManager extends AbstractEntityListManager
         ) {
             $search = $this->request->query->get('search');
             if (\is_string($search) && '' !== $search) {
-                $this->paginator->setSearchPattern($search);
+                $this->paginator?->setSearchPattern($search);
             }
         }
     }
@@ -142,7 +142,7 @@ class EntityListManager extends AbstractEntityListManager
             $this->paginator = new NodePaginator(
                 $this->entityManager,
                 $this->entityName,
-                $this->itemPerPage,
+                $this->getItemPerPage(),
                 $this->filteringArray
             );
             $this->paginator->setTranslation($this->translation);
@@ -155,14 +155,14 @@ class EntityListManager extends AbstractEntityListManager
                 $this->entityManager,
                 // @phpstan-ignore-next-line
                 $this->entityName,
-                $this->itemPerPage,
+                $this->getItemPerPage(),
                 $this->filteringArray
             );
         } else {
             $this->paginator = new Paginator(
                 $this->entityManager,
                 $this->entityName,
-                $this->itemPerPage,
+                $this->getItemPerPage(),
                 $this->filteringArray
             );
         }
@@ -208,19 +208,18 @@ class EntityListManager extends AbstractEntityListManager
         if (true === $this->pagination && null !== $this->paginator) {
             $this->paginator->setItemsPerPage($this->getItemPerPage());
 
-            return $this->paginator->findByAtPage($this->orderingArray, $this->currentPage);
-        } else {
-            $repository = $this->entityManager->getRepository($this->entityName);
-            if ($repository instanceof StatusAwareRepository) {
-                $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
-                $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
-            }
-
-            return $repository->findBy(
-                $this->filteringArray,
-                $this->orderingArray,
-                $this->itemPerPage
-            );
+            return $this->paginator->findByAtPage($this->orderingArray, $this->getPage());
         }
+        $repository = $this->entityManager->getRepository($this->entityName);
+        if ($repository instanceof StatusAwareRepository) {
+            $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
+            $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+        }
+
+        return $repository->findBy(
+            $this->filteringArray,
+            $this->orderingArray,
+            $this->itemPerPage
+        );
     }
 }

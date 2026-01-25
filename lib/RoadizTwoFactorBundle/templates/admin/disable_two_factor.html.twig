@@ -19,7 +19,8 @@
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
                 <legend class="uk-alert uk-alert-danger"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.disable.two_factor{% endtrans %}</legend>
-                {% apply spaceless %}
+
+                <div class="uk-button-group">
                     <a href="{{ path('2fa_admin_two_factor') }}"
                        class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
                     <button class="uk-button uk-button-danger" type="submit">
@@ -28,7 +29,7 @@
                                 {%- trans -%}disable_two_factor{%- endtrans -%}
                         </span></span>
                     </button>
-                {% endapply %}
+                </div>
             </fieldset>
             {{ form_end(form) }}
         {% endif %}

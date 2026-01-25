@@ -1,7 +1,3 @@
----
-title: Extending Roadiz
----
-
 # Extending Roadiz examples
 
 ## Override node-source paths
@@ -43,7 +39,7 @@ final class NSBlogPostPathSubscriber implements EventSubscriberInterface
 }
 ```
 
-## Create a new back-office entry
+## Create a new back office entry
 
 At first, create a controller into your sources folder, for example `src/Controller/Admin/AdminController`.
 
@@ -97,7 +93,7 @@ Now let\'s have a look to your twig template file `templates/admin/test.html.twi
     </header>
 
     <article class="content content-test">
-        <p>This page is created from MyTheme to show you how to extend backoffice features.</p>
+        <p>This page is created from MyTheme to show you how to extend back office features.</p>
     </article>
 </section>
 {% endblock %}
@@ -127,7 +123,7 @@ adminTestPage:
 
 ### Inject your own entries in back-stage
 
-The last thing to do is to add your new admin entry in the back-office menu.
+The last thing to do is to add your new admin entry in the back office menu.
 
 Go to your `config/packages/roadiz_rozier.yaml` and add your own `entries`:
 
@@ -168,5 +164,5 @@ Adding roles in `roadiz_rozier.entries` service will only restrict buttons displ
 
 To really protect your controllers from unwanted users add `$this->validateAccessForRole('ROLE_ACCESS_MY_FEATURE');` at the first line of your back-ofice controller's actions.
 
-This will kick non-granted users from your custom back-office parts. Give a look at Rozier theme controllers to see how we use it.
+This will kick non-granted users from your custom back office parts. Take a look at Rozier theme controllers to see how we use it.
 :::

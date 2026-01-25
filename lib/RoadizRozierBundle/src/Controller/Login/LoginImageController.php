@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller\Login;
 
 use RZ\Roadiz\CoreBundle\Bag\Settings;
-use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
 final class LoginImageController extends AbstractController
@@ -24,6 +24,11 @@ final class LoginImageController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/css/login/image',
+        name: 'loginImagePage',
+        methods: ['GET'],
+    )]
     public function imageAction(Request $request): Response
     {
         $response = new JsonResponse();
@@ -32,8 +37,7 @@ final class LoginImageController extends AbstractController
 
         if (null !== $document = $this->settingsBag->getDocument('login_image')) {
             if (
-                $document instanceof Document
-                && !$document->isPrivate()
+                !$document->isPrivate()
                 && $document->isProcessable()
             ) {
                 $this->documentUrlGenerator->setDocument($document);

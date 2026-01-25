@@ -116,10 +116,6 @@
                 <source>reset_your_password</source>
                 <target state="final">Reiniciar su contraseña</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
-                <source>you.need.to.fill.this.required.field</source>
-                <target state="final">Usted debe llenar este campo obligatorio</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
                 <target state="final">* campos obligatorios</target>

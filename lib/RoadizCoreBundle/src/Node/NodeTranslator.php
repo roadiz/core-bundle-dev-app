@@ -47,33 +47,34 @@ final readonly class NodeTranslator
         /** @var NodesSources|null $existing */
         $existing = $this->allStatusesNodesSourcesRepository->findOneByNodeAndTranslation($node, $destinationTranslation);
 
-        if (null === $existing) {
-            /** @var NodesSources|false $baseSource */
-            $baseSource =
-                $node->getNodeSourcesByTranslation($sourceTranslation)->first() ?:
-                    $node->getNodeSources()->filter(fn (NodesSources $nodesSources) => $nodesSources->getTranslation()->isDefaultTranslation())->first() ?:
-                        $node->getNodeSources()->first();
-
-            if (!($baseSource instanceof NodesSources)) {
-                throw new \RuntimeException('Cannot translate a Node without any NodesSources');
-            }
-            $source = clone $baseSource;
-            $this->managerRegistry->getManager()->persist($source);
-
-            foreach ($source->getDocumentsByFields() as $document) {
-                $this->managerRegistry->getManager()->persist($document);
-            }
-            $source->setTranslation($destinationTranslation);
-            $source->setNode($node);
-
-            /*
-             * Dispatch event
-             */
-            $this->dispatcher->dispatch(new NodesSourcesCreatedEvent($source));
-
-            return $source;
-        } else {
+        if (null !== $existing) {
             return $existing;
         }
+
+        /** @var NodesSources|false $baseSource */
+        $baseSource =
+            (null !== $sourceTranslation && $node->getNodeSourcesByTranslation($sourceTranslation)->first())
+                ? ($node->getNodeSourcesByTranslation($sourceTranslation)->first())
+                : ($node->getNodeSources()->filter(fn (NodesSources $nodesSources) => $nodesSources->getTranslation()->isDefaultTranslation())->first() ?:
+                    $node->getNodeSources()->first());
+
+        if (!$baseSource instanceof NodesSources) {
+            throw new \RuntimeException('Cannot translate a Node without any NodesSources');
+        }
+        $source = clone $baseSource;
+        $this->managerRegistry->getManager()->persist($source);
+
+        foreach ($source->getDocumentsByFields() as $document) {
+            $this->managerRegistry->getManager()->persist($document);
+        }
+        $source->setTranslation($destinationTranslation);
+        $source->setNode($node);
+
+        /*
+         * Dispatch event
+         */
+        $this->dispatcher->dispatch(new NodesSourcesCreatedEvent($source));
+
+        return $source;
     }
 }

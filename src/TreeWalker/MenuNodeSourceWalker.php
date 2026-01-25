@@ -25,7 +25,7 @@ final class MenuNodeSourceWalker extends AbstractCycleAwareWalker
                 $nodeType = $context->getNodeTypesBag()->get('Menu');
                 if ($nodeType instanceof NodeTypeInterface) {
                     $this->addDefinition(
-                        $nodeType->getSourceEntityFullQualifiedClassName(),
+                        $context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType),
                         $this->createDefinitionForNodeType($nodeType)
                     );
                 }

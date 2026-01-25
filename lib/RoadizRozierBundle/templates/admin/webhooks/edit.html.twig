@@ -18,7 +18,7 @@
         {{ form_start(form, { attr: { id: "edit-webhook-form" }}) }}
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
-                <button data-action-save="#edit-webhook-form" class="uk-button uk-button-success rz-action-save" type="submit">
+                <button is="rz-save-button" data-action-save="#edit-webhook-form" class="uk-button uk-button-success" type="submit">
                     <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
                     <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
                 </button>

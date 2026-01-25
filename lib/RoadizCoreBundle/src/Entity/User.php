@@ -21,8 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: UserRepository::class),
+#[ORM\Entity(repositoryClass: UserRepository::class),
     ORM\Table(name: 'users'),
     ORM\Index(columns: ['username'], name: 'idx_users_username'),
     ORM\Index(columns: ['email'], name: 'idx_users_email'),
@@ -38,8 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\HasLifecycleCallbacks,
     UniqueEntity('email'),
     UniqueEntity('username'),
-    ApiFilter(PropertyFilter::class),
-]
+    ApiFilter(PropertyFilter::class),]
 class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     /**
@@ -186,9 +184,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             return $this->getFirstName().' '.$this->getLastName();
         } elseif ('' != $this->getFirstName()) {
             return $this->getFirstName();
-        } else {
-            return $this->getUsername();
         }
+
+        return $this->getUsername();
     }
 
     #[Serializer\SerializedName('identifier')]
@@ -207,7 +205,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * @return $this
      */
-    public function setUsername(string $username): User
+    public function setUsername(string $username): static
     {
         $this->username = $username;
 
@@ -222,7 +220,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * @return $this
      */
-    public function setPictureUrl(?string $pictureUrl): User
+    public function setPictureUrl(?string $pictureUrl): static
     {
         $this->pictureUrl = $pictureUrl;
 
@@ -248,7 +246,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @internal do not use directly, use UserLifeCycleSubscriber
      */
-    public function setPassword(string $password): User
+    public function setPassword(string $password): static
     {
         $this->password = $password;
 
@@ -304,7 +302,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @return $this
      */
-    public function setConfirmationToken(?string $confirmationToken): User
+    public function setConfirmationToken(?string $confirmationToken): static
     {
         $this->confirmationToken = $confirmationToken;
 
@@ -335,7 +333,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @return $this
      */
-    public function setPasswordRequestedAt(?\DateTime $date = null): User
+    public function setPasswordRequestedAt(?\DateTime $date = null): static
     {
         $this->passwordRequestedAt = $date;
 
@@ -369,7 +367,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @return $this
      */
-    public function addGroup(Group $group): User
+    public function addGroup(Group $group): static
     {
         if (!$this->getGroups()->contains($group)) {
             $this->getGroups()->add($group);
@@ -379,7 +377,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this;
     }
 
-    public function getGroups(): ?Collection
+    public function getGroups(): Collection
     {
         return $this->groups;
     }
@@ -389,7 +387,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @return $this
      */
-    public function removeGroup(Group $group): User
+    public function removeGroup(Group $group): static
     {
         if ($this->getGroups()->contains($group)) {
             $this->getGroups()->removeElement($group);
@@ -590,15 +588,13 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         if (null === $this->roles) {
             $this->roles = $this->getUserRoles();
 
-            if (null !== $this->getGroups()) {
-                foreach ($this->getGroups() as $group) {
-                    if ($group instanceof Group) {
-                        // User roles > Groups roles
-                        $this->roles = [
-                            ...$this->roles,
-                            ...$group->getRoles(),
-                        ];
-                    }
+            foreach ($this->getGroups() as $group) {
+                if ($group instanceof Group) {
+                    // User roles > Groups roles
+                    $this->roles = [
+                        ...$this->roles,
+                        ...$group->getRoles(),
+                    ];
                 }
             }
 

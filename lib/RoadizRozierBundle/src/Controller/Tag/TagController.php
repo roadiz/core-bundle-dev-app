@@ -26,6 +26,7 @@ use RZ\Roadiz\RozierBundle\Form\TagTranslationType;
 use RZ\Roadiz\RozierBundle\Form\TagType;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use RZ\Roadiz\Utils\StringHandler;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -37,6 +38,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -74,6 +76,11 @@ final class TagController extends AbstractController
         return $this->formFactory->createNamedBuilder($name, FormType::class, $data, $options);
     }
 
+    #[Route(
+        path: '/rz-admin/tags',
+        name: 'tagsHomePage',
+        methods: ['GET'],
+    )]
     public function indexAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -99,36 +106,38 @@ final class TagController extends AbstractController
     /**
      * Return an edition form for current translated tag.
      */
-    public function editTranslatedAction(Request $request, int $tagId, ?int $translationId = null): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/edit/{tagId}',
+        name: 'tagsEditPage',
+        requirements: ['tagId' => '\d+'],
+        defaults: ['translationId' => null],
+    )]
+    #[Route(
+        path: '/rz-admin/tags/edit/{tagId}/translation/{translationId}',
+        name: 'tagsEditTranslatedPage',
+        requirements: ['tagId' => '\d+', 'translationId' => '\d+'],
+    )]
+    public function editTranslatedAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(tagId)',
+            evictCache: true,
+        )]
+        Tag $tag,
+        #[MapEntity(
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
+        )]
+        Translation $translation,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
-
-        if (null === $translationId) {
-            /** @var Translation|null $translation */
-            $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        } else {
-            /** @var Translation|null $translation */
-            $translation = $this->managerRegistry->getRepository(Translation::class)->find($translationId);
-        }
-
-        if (null === $translation) {
-            throw new ResourceNotFoundException();
-        }
         /*
          * Here we need to directly select tagTranslation
          * if not doctrine will grab a cache tag because of TagTreeWidget
          * that is initialized before calling route method.
          */
-        /** @var Tag|null $tag */
-        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
-
         /** @var TagTranslation|null $tagTranslation */
         $tagTranslation = $this->managerRegistry->getRepository(TagTranslation::class)
             ->findOneBy(['translation' => $translation, 'tag' => $tag]);
-
-        if (null === $tag) {
-            throw new ResourceNotFoundException();
-        }
 
         if (null === $tagTranslation) {
             /*
@@ -244,6 +253,10 @@ final class TagController extends AbstractController
         return null !== $entity;
     }
 
+    #[Route(
+        path: '/rz-admin/tags/bulk-delete',
+        name: 'tagsBulkDeletePage'
+    )]
     public function bulkDeleteAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS_DELETE');
@@ -278,9 +291,9 @@ final class TagController extends AbstractController
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('tagsHomePage');
             }
+
+            return $this->redirectToRoute('tagsHomePage');
         }
 
         $assignation = [];
@@ -294,6 +307,10 @@ final class TagController extends AbstractController
         return $this->render('@RoadizRozier/tags/bulkDelete.html.twig', $assignation);
     }
 
+    #[Route(
+        path: '/rz-admin/tags/add',
+        name: 'tagsAddPage'
+    )]
     public function addAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -324,18 +341,22 @@ final class TagController extends AbstractController
         ]);
     }
 
-    public function editSettingsAction(Request $request, int $tagId): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/edit/{tagId}/settings',
+        name: 'tagsSettingsPage',
+        requirements: ['tagId' => '\d+'],
+    )]
+    public function editSettingsAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(tagId)',
+            evictCache: true,
+        )]
+        Tag $tag,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
         $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-
-        /** @var Tag|null $tag */
-        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
-
-        if (null === $tag) {
-            throw new ResourceNotFoundException();
-        }
 
         $form = $this->createForm(TagType::class, $tag, [
             'tagName' => $tag->getTagName(),
@@ -387,26 +408,25 @@ final class TagController extends AbstractController
         ]);
     }
 
-    public function treeAction(Request $request, int $tagId, ?int $translationId = null): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/tree/{tagId}',
+        name: 'tagsTreePage',
+        requirements: ['tagId' => '\d+'],
+        defaults: ['translationId' => null],
+    )]
+    public function treeAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(tagId)',
+            evictCache: true,
+        )]
+        Tag $tag,
+        #[MapEntity(
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
+        )]
+        Translation $translation,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
-
-        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
-        if (null === $tag) {
-            throw new ResourceNotFoundException();
-        }
-
-        $this->managerRegistry->getManager()->refresh($tag);
-
-        if (null !== $translationId) {
-            $translation = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findOneBy(['id' => $translationId]);
-        } else {
-            $translation = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findDefault();
-        }
 
         $widget = $this->treeWidgetFactory->createTagTree($tag, $translation);
 
@@ -420,17 +440,22 @@ final class TagController extends AbstractController
     /**
      * Return a deletion form for requested tag.
      */
-    public function deleteAction(Request $request, int $tagId): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/delete/{tagId}',
+        name: 'tagsDeletePage',
+        requirements: ['tagId' => '\d+'],
+    )]
+    public function deleteAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(tagId)',
+            evictCache: true,
+        )]
+        Tag $tag,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS_DELETE');
 
-        /** @var Tag $tag */
-        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
-
-        if (
-            null === $tag
-            || $tag->isLocked()
-        ) {
+        if ($tag->isLocked()) {
             throw new ResourceNotFoundException();
         }
 
@@ -463,25 +488,28 @@ final class TagController extends AbstractController
         ]);
     }
 
-    public function addChildAction(Request $request, int $tagId, ?int $translationId = null): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/add-child/{tagId}',
+        name: 'tagsAddChildPage',
+        requirements: ['tagId' => '\d+'],
+        defaults: ['translationId' => null],
+    )]
+    public function addChildAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(tagId)',
+            evictCache: true,
+        )]
+        Tag $parentTag,
+        #[MapEntity(
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
+        )]
+        Translation $translation,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-
-        if (null !== $translationId) {
-            $translation = $this->managerRegistry->getRepository(Translation::class)->find($translationId);
-        }
-        $parentTag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
         $tag = new Tag();
         $tag->setParent($parentTag);
-
-        if (
-            null === $translation
-            || null === $parentTag
-        ) {
-            throw new ResourceNotFoundException();
-        }
 
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -510,15 +538,20 @@ final class TagController extends AbstractController
         ]);
     }
 
-    public function editNodesAction(Request $request, int $tagId): Response
-    {
+    #[Route(
+        path: '/rz-admin/tags/edit/{tagId}/nodes',
+        name: 'tagsEditNodesPage',
+        requirements: ['tagId' => '\d+'],
+    )]
+    public function editNodesAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(tagId)',
+            evictCache: true,
+        )]
+        Tag $tag,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
-
-        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
-
-        if (null === $tag) {
-            throw new ResourceNotFoundException();
-        }
 
         $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
 
@@ -649,10 +682,10 @@ final class TagController extends AbstractController
     }
 
     #[\Override]
-    protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
+    protected function getPostUpdateRedirection(PersistableInterface $entity): Response
     {
         if (!$entity instanceof TagTranslation) {
-            return null;
+            throw new \InvalidArgumentException('Entity must be an instance of TagTranslation.');
         }
 
         $translation = $entity->getTranslation();

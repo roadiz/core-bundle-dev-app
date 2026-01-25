@@ -42,14 +42,13 @@ final class UsersUnlockCommand extends UsersCommand
             )
         ) {
             $user->setLocked(false);
-            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $this->managerRegistry->getManagerForClass(User::class)?->flush();
             $io->success('User “'.$name.'” unlocked.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not unlocked.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not unlocked.');
+
+        return 1;
     }
 }

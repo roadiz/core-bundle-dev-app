@@ -29,13 +29,11 @@ final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
 
     /**
      * Handles access denied failure redirecting to home page.
-     *
-     * @return Response|null may return null
      */
     #[\Override]
-    public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
+    public function handle(Request $request, AccessDeniedException $accessDeniedException): Response
     {
-        $this->logger->error('User tried to access: '.$request->getUri());
+        $this->logger?->error('User tried to access: '.$request->getUri());
 
         $returnJson = $request->isXmlHttpRequest()
             || 'json' === $request->getRequestFormat()
@@ -54,15 +52,14 @@ final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
                 ],
                 Response::HTTP_FORBIDDEN
             );
-        } else {
-            if ('' !== $this->redirectRoute) {
-                $redirectUrl = $this->urlGenerator->generate($this->redirectRoute, $this->redirectParameters);
-            } else {
-                $redirectUrl = $request->getBaseUrl();
-            }
-
-            // Forbidden code should be set on final response, not the redirection!
-            return new RedirectResponse($redirectUrl, Response::HTTP_FOUND);
         }
+        if ('' !== $this->redirectRoute) {
+            $redirectUrl = $this->urlGenerator->generate($this->redirectRoute, $this->redirectParameters);
+        } else {
+            $redirectUrl = $request->getBaseUrl();
+        }
+
+        // Forbidden code should be set on final response, not the redirection!
+        return new RedirectResponse($redirectUrl, Response::HTTP_FOUND);
     }
 }

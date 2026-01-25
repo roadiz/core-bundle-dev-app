@@ -1,0 +1,26 @@
+.rz-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.rz-dashboard__row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-md);
+}
+
+.rz-dashboard__panel {
+    flex: 1;
+}
+
+.rz-dashboard__panel--double {
+    flex: 2;
+}
+
+@media (--screen-sm-max) {
+    .rz-dashboard__row {
+        flex-direction: column;
+    }
+}
+

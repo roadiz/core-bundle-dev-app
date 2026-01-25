@@ -17,7 +17,7 @@
         "ext-openssl": "*"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
+        "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2"
     },
     "autoload": {
@@ -27,8 +27,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.6.x-dev",
-            "dev-develop": "2.7.x-dev"
+            "dev-main": "2.7.x-dev",
+            "dev-develop": "2.8.x-dev"
         }
     }
 }

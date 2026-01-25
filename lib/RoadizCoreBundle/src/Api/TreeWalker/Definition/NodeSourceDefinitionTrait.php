@@ -23,14 +23,14 @@ trait NodeSourceDefinitionTrait
         NodesSources $parent,
         bool $onlyVisible = true,
     ): QueryBuilder {
-        if (!($this->context instanceof NodeSourceWalkerContext)) {
+        if (!$this->context instanceof NodeSourceWalkerContext) {
             throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 
         $nodeTypes = $this->getNodeTypes($this->context->getNodeTypesBag());
         if (1 === count($nodeTypes)) {
             $nodeType = array_shift($nodeTypes);
-            $entityName = $nodeType->getSourceEntityFullQualifiedClassName();
+            $entityName = $this->context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType);
         } else {
             $entityName = NodesSources::class;
         }
@@ -58,7 +58,7 @@ trait NodeSourceDefinitionTrait
         if (NodesSources::class === $entityName) {
             $qb->andWhere($qb->expr()->orX(
                 ...array_map(
-                    fn (NodeType $nodeType) => $qb->expr()->isInstanceOf($alias, $nodeType->getSourceEntityFullQualifiedClassName()),
+                    fn (NodeType $nodeType) => $qb->expr()->isInstanceOf($alias, $this->context->getNodeTypeClassLocator()->getSourceEntityFullQualifiedClassName($nodeType)),
                     $nodeTypes
                 )
             ));

@@ -13,36 +13,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeGroupTrait
 {
-    #[
-        ORM\Column(name: 'canonical_name', type: 'string', length: 255, unique: true, nullable: false),
+    #[ORM\Column(name: 'canonical_name', type: 'string', length: 255, unique: true, nullable: false),
         Serializer\Groups(['attribute_group', 'attribute:export', 'attribute:import', 'attribute', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\Length(max: 255),
-        Assert\NotBlank()
-    ]
+        Assert\NotBlank()]
     protected string $canonicalName = '';
 
     /**
      * @var Collection<int, AttributeInterface>
      */
-    #[
-        ORM\OneToMany(mappedBy: 'group', targetEntity: AttributeInterface::class),
-        Serializer\Ignore(),
-    ]
+    #[ORM\OneToMany(mappedBy: 'group', targetEntity: AttributeInterface::class),
+        Serializer\Ignore(),]
     protected Collection $attributes;
 
     /**
      * @var Collection<int, AttributeGroupTranslationInterface>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'attributeGroup',
-            targetEntity: AttributeGroupTranslationInterface::class,
-            cascade: ['all'],
-            orphanRemoval: true
-        ),
-        Serializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),
-    ]
+    #[ORM\OneToMany(
+        mappedBy: 'attributeGroup',
+        targetEntity: AttributeGroupTranslationInterface::class,
+        cascade: ['all'],
+        orphanRemoval: true
+    ),
+        Serializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),]
     protected Collection $attributeGroupTranslations;
 
     public function getName(): ?string
@@ -80,7 +74,7 @@ trait AttributeGroupTrait
     {
         if (0 === $this->getAttributeGroupTranslations()->count()) {
             $this->getAttributeGroupTranslations()->add(
-                $this->createAttributeGroupTranslation()->setName($name)
+                $this->createAttributeGroupTranslation()->setName($name ?? '')
             );
         }
 
@@ -97,7 +91,7 @@ trait AttributeGroupTrait
     /**
      * @return $this
      */
-    public function setCanonicalName(?string $canonicalName): self
+    public function setCanonicalName(?string $canonicalName): static
     {
         $this->canonicalName = StringHandler::slugify($canonicalName ?? '');
 
@@ -112,7 +106,7 @@ trait AttributeGroupTrait
     /**
      * @return $this
      */
-    public function setAttributes(Collection $attributes): self
+    public function setAttributes(Collection $attributes): static
     {
         $this->attributes = $attributes;
 
@@ -127,7 +121,7 @@ trait AttributeGroupTrait
     /**
      * @return $this
      */
-    public function setAttributeGroupTranslations(Collection $attributeGroupTranslations): self
+    public function setAttributeGroupTranslations(Collection $attributeGroupTranslations): static
     {
         $this->attributeGroupTranslations = $attributeGroupTranslations;
         /** @var AttributeGroupTranslationInterface $attributeGroupTranslation */
@@ -141,7 +135,7 @@ trait AttributeGroupTrait
     /**
      * @return $this
      */
-    public function addAttributeGroupTranslation(AttributeGroupTranslationInterface $attributeGroupTranslation): self
+    public function addAttributeGroupTranslation(AttributeGroupTranslationInterface $attributeGroupTranslation): static
     {
         if (!$this->getAttributeGroupTranslations()->contains($attributeGroupTranslation)) {
             $this->getAttributeGroupTranslations()->add($attributeGroupTranslation);
@@ -154,7 +148,7 @@ trait AttributeGroupTrait
     /**
      * @return $this
      */
-    public function removeAttributeGroupTranslation(AttributeGroupTranslationInterface $attributeGroupTranslation): self
+    public function removeAttributeGroupTranslation(AttributeGroupTranslationInterface $attributeGroupTranslation): static
     {
         if ($this->getAttributeGroupTranslations()->contains($attributeGroupTranslation)) {
             $this->getAttributeGroupTranslations()->removeElement($attributeGroupTranslation);

@@ -24,6 +24,7 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceSeoType;
 use RZ\Roadiz\RozierBundle\Form\RedirectionType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\FormError;
@@ -31,6 +32,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -47,24 +49,33 @@ final class SeoController extends AbstractController
     ) {
     }
 
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/seo/{translationId}',
+        name: 'nodesEditSEOPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+        ],
+        defaults: [
+            'translationId' => null,
+        ],
+    )]
     public function editAliasesAction(
         Request $request,
-        Node $nodeId,
-        ?Translation $translationId = null,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        #[MapEntity(
+            expr: 'translationId ? repository.find(translationId) : repository.findDefault()',
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
     ): Response {
-        if (null === $translationId) {
-            $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        } else {
-            $translation = $translationId;
-        }
-
-        if (null === $translation) {
-            throw new ResourceNotFoundException();
-        }
-
-        $node = $nodeId;
         /** @var NodesSources|false $source */
-        $source = $nodeId->getNodeSourcesByTranslation($translation)->first();
+        $source = $node->getNodeSourcesByTranslation($translation)->first();
 
         if (false === $source) {
             throw new ResourceNotFoundException();
@@ -97,7 +108,7 @@ final class SeoController extends AbstractController
         $seoForm = $this->createForm(NodeSourceSeoType::class, $source);
         $seoForm->handleRequest($request);
         if ($seoForm->isSubmitted() && $seoForm->isValid()) {
-            $this->managerRegistry->getManagerForClass(NodesSources::class)->flush();
+            $this->managerRegistry->getManagerForClass(NodesSources::class)?->flush();
             $msg = $this->translator->trans('node.seo.updated');
             $this->logTrail->publishConfirmMessage($request, $msg, $source);
             /*
@@ -107,7 +118,7 @@ final class SeoController extends AbstractController
 
             return $this->redirectToRoute(
                 'nodesEditSEOPage',
-                ['nodeId' => $node->getId(), 'translationId' => $translationId]
+                ['nodeId' => $node->getId(), 'translationId' => $translation->getId()]
             );
         }
 
@@ -159,7 +170,7 @@ final class SeoController extends AbstractController
 
                 return $this->redirect($this->generateUrl(
                     'nodesEditSEOPage',
-                    ['nodeId' => $node->getId(), 'translationId' => $translationId]
+                    ['nodeId' => $node->getId(), 'translationId' => $translation->getId()]
                 ).'#manage-aliases');
             } catch (EntityAlreadyExistsException|NoTranslationAvailableException $e) {
                 $addAliasForm->addError(new FormError($e->getMessage()));
@@ -183,16 +194,15 @@ final class SeoController extends AbstractController
 
         if (null !== $nodeSource) {
             $alias->setNodeSource($nodeSource);
-            $entityManager->persist($alias);
-            $entityManager->flush();
+            $entityManager?->persist($alias);
+            $entityManager?->flush();
 
             return $alias;
-        } else {
-            $msg = $this->translator->trans('url_alias.no_translation.%translation%', [
-                '%translation%' => $translation->getName(),
-            ]);
-            throw new NoTranslationAvailableException($msg);
         }
+        $msg = $this->translator->trans('url_alias.no_translation.%translation%', [
+            '%translation%' => $translation->getName(),
+        ]);
+        throw new NoTranslationAvailableException($msg);
     }
 
     private function handleSingleUrlAlias(
@@ -211,7 +221,7 @@ final class SeoController extends AbstractController
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
-                $entityManager->flush();
+                $entityManager?->flush();
                 $msg = $this->translator->trans(
                     'url_alias.%alias%.updated',
                     ['%alias%' => $alias->getAlias()]
@@ -241,8 +251,8 @@ final class SeoController extends AbstractController
         // Match delete
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $entityManager->remove($alias);
-            $entityManager->flush();
+            $entityManager?->remove($alias);
+            $entityManager?->flush();
             $msg = $this->translator->trans('url_alias.%alias%.deleted', ['%alias%' => $alias->getAlias()]);
             $this->logTrail->publishConfirmMessage($request, $msg, $alias->getNodeSource());
 
@@ -297,17 +307,17 @@ final class SeoController extends AbstractController
 
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
-            $entityManager->persist($redirection);
-            $entityManager->flush();
+            $entityManager?->persist($redirection);
+            $entityManager?->flush();
             $this->eventDispatcher->dispatch(new PostCreatedRedirectionEvent($redirection));
 
             /** @var Translation $translation */
-            $translation = $redirection->getRedirectNodeSource()->getTranslation();
+            $translation = $redirection->getRedirectNodeSource()?->getTranslation();
 
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
-                    'nodeId' => $redirection->getRedirectNodeSource()->getNode()->getId(),
+                    'nodeId' => $redirection->getRedirectNodeSource()?->getNode()->getId(),
                     'translationId' => $translation->getId(),
                 ]
             ).'#manage-redirections');
@@ -336,18 +346,18 @@ final class SeoController extends AbstractController
         );
 
         /** @var Translation $translation */
-        $translation = $redirection->getRedirectNodeSource()->getTranslation();
+        $translation = $redirection->getRedirectNodeSource()?->getTranslation();
         $deleteForm = $this->formFactory->createNamed('delete_redirection_'.$redirection->getId());
 
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $entityManager->flush();
+            $entityManager?->flush();
             $this->eventDispatcher->dispatch(new PostUpdatedRedirectionEvent($redirection));
 
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
-                    'nodeId' => $redirection->getRedirectNodeSource()->getNode()->getId(),
+                    'nodeId' => $redirection->getRedirectNodeSource()?->getNode()->getId(),
                     'translationId' => $translation->getId(),
                 ]
             ).'#manage-redirections');
@@ -356,14 +366,14 @@ final class SeoController extends AbstractController
         // Match delete
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $entityManager->remove($redirection);
-            $entityManager->flush();
+            $entityManager?->remove($redirection);
+            $entityManager?->flush();
             $this->eventDispatcher->dispatch(new PostCreatedRedirectionEvent($redirection));
 
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
-                    'nodeId' => $redirection->getRedirectNodeSource()->getNode()->getId(),
+                    'nodeId' => $redirection->getRedirectNodeSource()?->getNode()->getId(),
                     'translationId' => $translation->getId(),
                 ]
             ).'#manage-redirections');

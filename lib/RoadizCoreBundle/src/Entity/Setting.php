@@ -18,14 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Settings entity are a simple key-value configuration system.
  */
-#[
-    ORM\Entity(repositoryClass: SettingRepository::class),
+#[ORM\Entity(repositoryClass: SettingRepository::class),
     ORM\Table(name: 'settings'),
     ORM\Index(columns: ['type']),
     ORM\Index(columns: ['name']),
     ORM\Index(columns: ['visible']),
-    UniqueEntity(fields: ['name']),
-]
+    UniqueEntity(fields: ['name']),]
 class Setting implements PersistableInterface
 {
     use SequentialIdTrait;
@@ -104,13 +102,13 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setName(?string $name): self
+    public function setName(?string $name): static
     {
         $this->name = trim(\mb_strtolower($name ?? ''));
         $this->name = (new UnicodeString($this->name))
             ->ascii()
             ->toString();
-        $this->name = preg_replace('#([^a-z])#', '_', $this->name);
+        $this->name = preg_replace('#([^a-z])#', '_', $this->name) ?? $this->name;
 
         return $this;
     }
@@ -157,7 +155,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setValue(mixed $value): self
+    public function setValue(mixed $value): static
     {
         if (null === $value) {
             $this->value = null;
@@ -178,7 +176,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setVisible(bool $visible): self
+    public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
 
@@ -193,7 +191,7 @@ class Setting implements PersistableInterface
     /**
      * @return $this
      */
-    public function setSettingGroup(?SettingGroup $settingGroup): self
+    public function setSettingGroup(?SettingGroup $settingGroup): static
     {
         $this->settingGroup = $settingGroup;
 

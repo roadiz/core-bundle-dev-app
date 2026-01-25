@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\ORM\Filter;
 
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\FilterNodesSourcesQueryBuilderCriteriaEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApplyEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
@@ -11,8 +12,13 @@ use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
+final readonly class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
 {
+    public function __construct(
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+    ) {
+    }
+
     #[\Override]
     public static function getSubscribedEvents(): array
     {
@@ -22,7 +28,7 @@ final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
         ];
     }
 
-    protected function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
+    private function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
     {
         return $event->supports()
             && 'node.nodeType' === $event->getProperty()
@@ -36,38 +42,44 @@ final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
 
     public function onNodesSourcesQueryBuilderBuild(QueryBuilderNodesSourcesBuildEvent $event): void
     {
-        if ($this->supports($event)) {
-            // Prevent other query builder filters to execute
-            $event->stopPropagation();
-            $qb = $event->getQueryBuilder();
-            $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
-            $value = $event->getValue();
+        if (!$this->supports($event)) {
+            return;
+        }
+        // Prevent other query builder filters to execute
+        $event->stopPropagation();
+        $qb = $event->getQueryBuilder();
+        $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
+        $rootAlias = $simpleQB->getRootAlias();
+        $value = $event->getValue();
 
-            if ($value instanceof NodeType) {
-                $qb->andWhere($qb->expr()->isInstanceOf(
-                    $simpleQB->getRootAlias(),
-                    $value->getSourceEntityFullQualifiedClassName()
-                ));
-            } elseif (is_array($value)) {
-                $nodeTypes = [];
-                foreach ($value as $nodeType) {
-                    if ($nodeType instanceof NodeType) {
-                        $nodeTypes[] = $nodeType;
-                    }
-                }
-                $nodeTypes = array_unique($nodeTypes);
+        if (null === $rootAlias) {
+            return;
+        }
 
-                if (count($nodeTypes) > 0) {
-                    $orX = $qb->expr()->orX();
-                    /** @var NodeType $nodeType */
-                    foreach ($nodeTypes as $nodeType) {
-                        $orX->add($qb->expr()->isInstanceOf(
-                            $simpleQB->getRootAlias(),
-                            $nodeType->getSourceEntityFullQualifiedClassName()
-                        ));
-                    }
-                    $qb->andWhere($orX);
+        if ($value instanceof NodeType) {
+            $qb->andWhere($qb->expr()->isInstanceOf(
+                $rootAlias,
+                $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($value)
+            ));
+        } elseif (is_array($value)) {
+            $nodeTypes = [];
+            foreach ($value as $nodeType) {
+                if ($nodeType instanceof NodeType) {
+                    $nodeTypes[] = $nodeType;
                 }
+            }
+            $nodeTypes = array_unique($nodeTypes);
+
+            if (count($nodeTypes) > 0) {
+                $orX = $qb->expr()->orX();
+                /** @var NodeType $nodeType */
+                foreach ($nodeTypes as $nodeType) {
+                    $orX->add($qb->expr()->isInstanceOf(
+                        $rootAlias,
+                        $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
+                    ));
+                }
+                $qb->andWhere($orX);
             }
         }
     }

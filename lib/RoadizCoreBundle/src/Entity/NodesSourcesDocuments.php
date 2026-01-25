@@ -20,14 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Describes a complex ManyToMany relation
  * between NodesSources, Documents and NodeTypeFields.
  */
-#[
-    ORM\Entity(repositoryClass: NodesSourcesDocumentsRepository::class),
+#[ORM\Entity(repositoryClass: NodesSourcesDocumentsRepository::class),
     ORM\Table(name: 'nodes_sources_documents'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['ns_id', 'field_name'], name: 'nsdoc_field'),
-    ORM\Index(columns: ['ns_id', 'field_name', 'position'], name: 'nsdoc_field_position')
-]
+    ORM\Index(columns: ['ns_id', 'field_name', 'position'], name: 'nsdoc_field_position')]
 class NodesSourcesDocuments implements PositionedInterface, PersistableInterface, ContextualizedDocumentInterface
 {
     use SequentialIdTrait;
@@ -81,15 +79,20 @@ class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
      * Sets the value of nodeSource.
      *
      * @param NodesSources $nodeSource the node source
+     *
+     * @return $this
      */
-    public function setNodeSource(NodesSources $nodeSource): NodesSourcesDocuments
+    public function setNodeSource(NodesSources $nodeSource): static
     {
         $this->nodeSource = $nodeSource;
 
         return $this;
     }
 
-    public function copyFrom(NodesSourcesDocuments $source): NodesSourcesDocuments
+    /**
+     * @return $this
+     */
+    public function copyFrom(NodesSourcesDocuments $source): static
     {
         $this->setDocument($source->getDocument());
         $this->setHotspot($source->getHotspot());

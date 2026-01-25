@@ -13,8 +13,7 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 
 trait AttributeValueTrait
 {
-    #[
-        ORM\ManyToOne(targetEntity: AttributeInterface::class, fetch: 'EAGER', inversedBy: 'attributeValues'),
+    #[ORM\ManyToOne(targetEntity: AttributeInterface::class, fetch: 'EAGER', inversedBy: 'attributeValues'),
         ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
         Serializer\Groups(['attribute', 'node', 'nodes_sources']),
         ApiFilter(BaseFilter\SearchFilter::class, properties: [
@@ -35,21 +34,19 @@ trait AttributeValueTrait
         ]),
         ApiFilter(BaseFilter\OrderFilter::class, properties: [
             'attribute.weight' => 'DESC',
-        ])
-    ]
+        ])]
     protected AttributeInterface $attribute;
 
     /**
      * @var Collection<int, AttributeValueTranslationInterface>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'attributeValue',
-            targetEntity: AttributeValueTranslationInterface::class,
-            cascade: ['persist', 'remove'],
-            fetch: 'EAGER',
-            orphanRemoval: true
-        ),
+    #[ORM\OneToMany(
+        mappedBy: 'attributeValue',
+        targetEntity: AttributeValueTranslationInterface::class,
+        cascade: ['persist', 'remove'],
+        fetch: 'EAGER',
+        orphanRemoval: true
+    ),
         Serializer\Groups(['attribute', 'node', 'nodes_sources']),
         ApiFilter(BaseFilter\SearchFilter::class, properties: [
             'attributeValueTranslations.value' => 'partial',
@@ -59,8 +56,7 @@ trait AttributeValueTrait
         ]),
         ApiFilter(BaseFilter\ExistsFilter::class, properties: [
             'attributeValueTranslations.value',
-        ]),
-    ]
+        ]),]
     protected Collection $attributeValueTranslations;
 
     public function getAttribute(): ?AttributeInterface
@@ -68,7 +64,10 @@ trait AttributeValueTrait
         return $this->attribute;
     }
 
-    public function setAttribute(AttributeInterface $attribute): self
+    /**
+     * @return $this
+     */
+    public function setAttribute(AttributeInterface $attribute): static
     {
         $this->attribute = $attribute;
 
@@ -77,7 +76,7 @@ trait AttributeValueTrait
 
     public function getType(): int
     {
-        return $this->getAttribute()->getType();
+        return $this->getAttribute()?->getType() ?? throw new \RuntimeException('Attribute is not set on AttributeValue.');
     }
 
     /**
@@ -91,7 +90,7 @@ trait AttributeValueTrait
     /**
      * @return $this
      */
-    public function setAttributeValueTranslations(Collection $attributeValueTranslations): self
+    public function setAttributeValueTranslations(Collection $attributeValueTranslations): static
     {
         $this->attributeValueTranslations = $attributeValueTranslations;
         /** @var AttributeValueTranslationInterface $attributeValueTranslation */

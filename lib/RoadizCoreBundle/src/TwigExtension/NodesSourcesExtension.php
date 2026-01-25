@@ -7,15 +7,19 @@ namespace RZ\Roadiz\CoreBundle\TwigExtension;
 use Doctrine\ORM\NonUniqueResultException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Model\DocumentDto;
+use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use Twig\Error\RuntimeError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Twig\TwigTest;
 
 /**
@@ -28,6 +32,8 @@ final class NodesSourcesExtension extends AbstractExtension
         private readonly NodesSourcesRepository $nodesSourcesRepository,
         private readonly NotPublishedNodesSourcesRepository $notPublishedNodesSourcesRepository,
         private readonly TagRepository $tagRepository,
+        private readonly DocumentRepository $documentRepository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private readonly bool $throwExceptions = false,
     ) {
     }
@@ -48,13 +54,30 @@ final class NodesSourcesExtension extends AbstractExtension
     }
 
     #[\Override]
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('first_displayable_image', $this->getFirstDisplayableImage(...)),
+        ];
+    }
+
+    public function getFirstDisplayableImage(?NodesSources $nodesSources): ?DocumentDto
+    {
+        return null !== $nodesSources ? $this->documentRepository
+            ->findOneDisplayableDtoByNodeSource(
+                $nodesSources,
+            ) : null;
+    }
+
+    #[\Override]
     public function getTests(): array
     {
         $tests = [];
 
         foreach ($this->nodeTypesBag->all() as $nodeType) {
-            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeType->getSourceEntityFullQualifiedClassName());
-            $tests[] = new TwigTest($nodeType->getSourceEntityClassName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeType->getSourceEntityFullQualifiedClassName());
+            $nodeTypeClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
+            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeTypeClassName);
+            $tests[] = new TwigTest($this->nodeTypeClassLocator->getSourceEntityClassName($nodeType), fn ($mixed) => null !== $mixed && $mixed::class === $nodeTypeClassName);
         }
 
         return $tests;
@@ -70,9 +93,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get children from a NULL node-source.');
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         if ($displayNotPublished) {
@@ -92,9 +115,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get next sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -114,9 +137,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get previous sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -136,9 +159,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get last sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -158,9 +181,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get first sibling from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         if ($displayNotPublished) {
@@ -180,9 +203,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get parent from a NULL node-source.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         return $ns->getParent();
@@ -199,9 +222,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get parents from a NULL node-source.');
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         if ($displayNotPublished) {
@@ -225,9 +248,9 @@ final class NodesSourcesExtension extends AbstractExtension
         if (null === $ns) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Cannot get tags from a NULL node-source.');
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         return $this->tagRepository->findByNodesSources($ns);

@@ -11,9 +11,9 @@ use ApiPlatform\OpenApi\Model\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesTags;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
@@ -115,6 +115,10 @@ final class NodesTagsFilter extends AbstractFilter
 
     private function alterQueryBuilder(QueryBuilder $queryBuilder, array $parameters): void
     {
+        if (null === $this->managerRegistry) {
+            return;
+        }
+
         $ntgQb = $this->managerRegistry
             ->getRepository(NodesTags::class)
             ->createQueryBuilder('ntg');
@@ -125,7 +129,7 @@ final class NodesTagsFilter extends AbstractFilter
 
         if ($this->previewResolver->isPreview()) {
             $ntgQb->andWhere($ntgQb->expr()->lte('n.status', ':status'));
-            $queryBuilder->setParameter(':status', Node::PUBLISHED);
+            $queryBuilder->setParameter(':status', NodeStatus::PUBLISHED);
         } else {
             $ntgQb
                 ->innerJoin('n.nodeSources', 'ns')
@@ -133,7 +137,7 @@ final class NodesTagsFilter extends AbstractFilter
                 ->andWhere($ntgQb->expr()->eq('n.status', ':status'));
             $queryBuilder
                 ->setParameter(':lte_published_at', new \DateTime())
-                ->setParameter(':status', Node::PUBLISHED);
+                ->setParameter(':status', NodeStatus::PUBLISHED);
         }
 
         if (true === $parameters['withoutNodes']) {

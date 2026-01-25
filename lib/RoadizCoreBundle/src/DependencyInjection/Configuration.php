@@ -13,8 +13,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public const INHERITANCE_TYPE_JOINED = 'joined';
-    public const INHERITANCE_TYPE_SINGLE_TABLE = 'single_table';
+    public const string INHERITANCE_TYPE_JOINED = 'joined';
+    public const string INHERITANCE_TYPE_SINGLE_TABLE = 'single_table';
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
@@ -84,6 +84,19 @@ class Configuration implements ConfigurationInterface
             ->booleanNode('useGravatar')
                 ->defaultTrue()
             ->end()
+            ->booleanNode('useConstraintViolationList')
+                ->defaultTrue()
+                ->info(<<<EOT
+Use 422 constraint violation list response for contact-forms and custom-forms errors.
+Make sure you have exposed "api_custom_forms_item_post" API operation for custom-forms and "api_contact_form_post" API operation for contact-forms.
+EOT)
+            ->end()
+            ->scalarNode('customFormPostOperationName')
+                ->defaultValue('api_custom_forms_item_post')
+                ->info(<<<EOT
+Exposed API operation name for custom-forms POST
+EOT)
+            ->end()
             ->booleanNode('useEmailReplyTo')
                 ->defaultTrue()
                 ->info('Use custom-form answers email as reply-to email address when possible.')
@@ -120,6 +133,16 @@ When enabled, this option will suffix each name for unreachable nodes (blocks) w
 their node-type to avoid name conflicts with reachable nodes (pages).
 EOT)
             ->end()
+            ->scalarNode('projectLogoUrl')
+                ->defaultNull()
+                ->info('URL to display static project logo in back-office and email templates.')
+            ->end()
+            ->scalarNode('generatedClassNamespace')->defaultValue(
+                'App\\GeneratedEntity'
+            )->info('Relative path to Roadiz folder for generated entity')->end()
+            ->scalarNode('generatedRepositoryNamespace')->defaultValue(
+                'App\\GeneratedEntity\\Repository'
+            )->info('Relative path to Roadiz folder for generated entity repositories')->end()
             ->append($this->addSolrNode())
             ->append($this->addInheritanceNode())
             ->append($this->addReverseProxyCacheNode())
@@ -130,10 +153,7 @@ EOT)
         return $builder;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addInheritanceNode()
+    protected function addInheritanceNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('inheritance');
         $node = $builder->getRootNode();
@@ -161,10 +181,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addMediasNode()
+    protected function addMediasNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('medias');
         $node = $builder->getRootNode();
@@ -182,10 +199,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addCaptchaNode()
+    protected function addCaptchaNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('captcha');
         $node = $builder->getRootNode();
@@ -199,10 +213,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addSolrNode()
+    protected function addSolrNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('solr');
         $node = $builder
@@ -239,10 +250,7 @@ EOD
         return $node;
     }
 
-    /**
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    protected function addReverseProxyCacheNode()
+    protected function addReverseProxyCacheNode(): ArrayNodeDefinition|NodeDefinition
     {
         $builder = new TreeBuilder('reverseProxyCache');
         $node = $builder->getRootNode();

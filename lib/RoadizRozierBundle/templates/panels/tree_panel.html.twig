@@ -15,7 +15,7 @@
 <div id="search-button" class="mobile-button"><i class="uk-icon-search"></i></div>
 {% include '@RoadizRozier/widgets/nodesSourcesSearch.html.twig' %}
 <div id="tree-button" class="mobile-button"><i class="uk-icon-rz-node-tree"></i></div>
-<main-trees id="tree-wrapper">
+<main-trees v-pre id="tree-wrapper">
     {% if tabCount >= 1 %}
     <nav id="tree-menu" role="tablist">
         {% if is_granted('ROLE_ACCESS_NODES')%}

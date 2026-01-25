@@ -10,14 +10,14 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
-use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Attribute\Route;
 use Twig\Error\RuntimeError;
 
 #[AsController]
@@ -25,7 +25,6 @@ final class HistoryController extends AbstractController
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly LogRepository $logRepository,
     ) {
     }
@@ -33,14 +32,25 @@ final class HistoryController extends AbstractController
     /**
      * @throws RuntimeError
      */
-    public function historyAction(Request $request, int $nodeId): Response
-    {
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-
-        if (null === $node) {
-            throw new ResourceNotFoundException();
-        }
+    #[Route(
+        path: '/rz-admin/nodes/history/{nodeId}/{page}',
+        name: 'nodesHistoryPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'page' => '[0-9]+',
+        ],
+        defaults: [
+            'page' => 1,
+        ],
+    )]
+    public function historyAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::READ_LOGS, $node);
 
         $qb = $this->logRepository->getAllRelatedToNodeQueryBuilder($node);

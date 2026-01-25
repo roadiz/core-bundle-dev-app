@@ -6,6 +6,7 @@ namespace RZ\Roadiz\RozierBundle\Controller\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -22,6 +23,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Model\NodeCreationDto;
 use RZ\Roadiz\CoreBundle\Node\Exception\SameNodeUrlException;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
@@ -32,23 +34,29 @@ use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
+use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use RZ\Roadiz\RozierBundle\Controller\NodeControllerTrait;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Error\RuntimeError;
 
 #[AsController]
 final class NodeController extends AbstractController
@@ -77,6 +85,7 @@ final class NodeController extends AbstractController
         private readonly FormFactoryInterface $formFactory,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
+        private readonly BreadcrumbsItemFactoryInterface $breadcrumbsItemFactory,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {
@@ -91,7 +100,7 @@ final class NodeController extends AbstractController
     #[\Override]
     protected function em(): ObjectManager
     {
-        return $this->managerRegistry->getManagerForClass(Node::class);
+        return $this->managerRegistry->getManagerForClass(Node::class) ?? throw new \RuntimeException('No object manager found for Node class.');
     }
 
     #[\Override]
@@ -103,10 +112,39 @@ final class NodeController extends AbstractController
         return $this->formFactory->createNamedBuilder(name: $name, data: $data, options: $options);
     }
 
+    #[Route(
+        path: '/rz-admin/nodes',
+        name: 'nodesHomePage',
+    )]
+    #[Route(
+        path: '/rz-admin/nodes/drafts',
+        name: 'nodesHomeDraftPage',
+        defaults: ['filter' => 'draft'],
+    )]
+    #[Route(
+        path: '/rz-admin/nodes/pending',
+        name: 'nodesHomePendingPage',
+        defaults: ['filter' => 'pending'],
+    )]
+    #[Route(
+        path: '/rz-admin/nodes/archived',
+        name: 'nodesHomeArchivedPage',
+        defaults: ['filter' => 'archived'],
+    )]
+    #[Route(
+        path: '/rz-admin/nodes/deleted',
+        name: 'nodesHomeDeletedPage',
+        defaults: ['filter' => 'deleted'],
+    )]
+    #[Route(
+        path: '/rz-admin/nodes/shadow',
+        name: 'nodesHomeShadowPage',
+        defaults: ['filter' => 'shadow'],
+    )]
     public function indexAction(Request $request, ?string $filter = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-        $translation = $this->translationRepository->findDefault();
+        $translation = $this->getDefaultTranslation();
 
         /** @var User|null $user */
         $user = $this->getUser();
@@ -136,6 +174,12 @@ final class NodeController extends AbstractController
                 $assignation['mainFilter'] = $filter;
                 $arrayFilter = [
                     'status' => NodeStatus::DELETED,
+                ];
+                break;
+            case 'shadow':
+                $assignation['mainFilter'] = $filter;
+                $arrayFilter = [
+                    'shadow' => true,
                 ];
                 break;
             default:
@@ -192,16 +236,21 @@ final class NodeController extends AbstractController
         return $this->render('@RoadizRozier/nodes/list.html.twig', $assignation);
     }
 
-    public function editAction(Request $request, int $nodeId, ?int $translationId = null): Response
-    {
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}',
+        name: 'nodesEditPage',
+        requirements: ['nodeId' => '[0-9]+'],
+    )]
+    public function editAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
         $assignation = [];
-
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-        if (null === $node) {
-            throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
-        }
-
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
         $this->managerRegistry->getManager()->refresh($node);
 
@@ -266,7 +315,7 @@ final class NodeController extends AbstractController
             }
         }
 
-        $translation = $this->translationRepository->findDefault();
+        $translation = $this->getDefaultTranslation();
         $source = $node->getNodeSourcesByTranslation($translation)->first() ?: null;
 
         if (null === $source) {
@@ -281,13 +330,23 @@ final class NodeController extends AbstractController
         return $this->render('@RoadizRozier/nodes/edit.html.twig', $assignation);
     }
 
-    public function removeStackTypeAction(Request $request, int $nodeId, string $typeName): Response
-    {
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-        if (null === $node) {
-            throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
-        }
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/stacktype/{typeName}/remove',
+        name: 'nodesRemoveStackTypePage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'typeName' => '[a-zA-Z]+',
+        ],
+    )]
+    public function removeStackTypeAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        string $typeName,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
         $type = $this->nodeTypesBag->get($typeName);
@@ -310,19 +369,20 @@ final class NodeController extends AbstractController
         return $this->redirectToRoute('nodesEditPage', ['nodeId' => $node->getId()]);
     }
 
-    public function addAction(Request $request, ?int $translationId = null): Response
-    {
+    #[Route(
+        path: '/rz-admin/nodes/add/{translationId}',
+        name: 'nodesAddPage',
+        requirements: ['translationId' => '[0-9]+'],
+    )]
+    public function addAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(translationId)',
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
-        /** @var Translation|null $translation */
-        $translation = $this->translationRepository->findDefault();
-
-        if (null !== $translationId) {
-            $translation = $this->translationRepository->find($translationId);
-        }
-        if (null === $translation) {
-            throw new ResourceNotFoundException(sprintf('Translation #%s does not exist.', $translationId));
-        }
 
         $node = new Node();
 
@@ -376,30 +436,29 @@ final class NodeController extends AbstractController
         ]);
     }
 
-    public function addChildAction(Request $request, ?int $nodeId = null, ?int $translationId = null): Response
-    {
-        /** @var Translation|null $translation */
-        $translation = $this->translationRepository->findDefault();
+    #[Route(
+        path: '/rz-admin/nodes/add-child/{nodeId}',
+        name: 'nodesAddChildPage',
+        requirements: ['nodeId' => '[0-9]+'],
+        defaults: ['nodeId' => null],
+    )]
+    public function addChildAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Parent node does not exist'
+        )]
+        ?Node $parentNode = null,
+    ): Response {
+        /** @var TranslationInterface $translation */
+        $translation = $this->getDefaultTranslation();
         $nodeTypesCount = $this->nodeTypesBag->count();
-
-        if (null !== $translationId) {
-            /** @var Translation|null $translation */
-            $translation = $this->translationRepository->find($translationId);
-        }
 
         if (null === $translation) {
             throw new ResourceNotFoundException('Translation does not exist');
         }
 
-        if (null !== $nodeId && $nodeId > 0) {
-            /** @var Node|null $parentNode */
-            $parentNode = $this->allStatusesNodeRepository->find($nodeId);
-            if (null === $parentNode) {
-                throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
-            }
-            $this->denyAccessUnlessGranted(NodeVoter::CREATE, $parentNode);
-        } else {
-            $parentNode = null;
+        if (null === $parentNode) {
             $this->denyAccessUnlessGranted(NodeVoter::CREATE_AT_ROOT);
         }
 
@@ -446,26 +505,31 @@ final class NodeController extends AbstractController
         ]);
     }
 
-    public function deleteAction(Request $request, int $nodeId): Response
-    {
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-
-        if (null === $node) {
-            throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
-        }
-
+    #[Route(
+        path: '/rz-admin/nodes/delete/{nodeId}',
+        name: 'nodesDeletePage',
+        requirements: ['nodeId' => '[0-9]+'],
+        defaults: ['nodeId' => null],
+    )]
+    public function deleteAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'delete')) {
-            $this->logTrail->publishErrorMessage($request, sprintf('Node #%s cannot be deleted.', $nodeId), $node);
+            $this->logTrail->publishErrorMessage($request, sprintf('Node #%s cannot be deleted.', $node->getId()), $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->translationRepository->findDefault()->getId(),
+                    'translationId' => $this->getDefaultTranslation()->getId(),
                 ]
             );
         }
@@ -502,11 +566,18 @@ final class NodeController extends AbstractController
                 return $this->redirect($referrer);
             }
             if (null !== $parent) {
+                $breadcrumbsItem = $this->breadcrumbsItemFactory->createBreadcrumbsItem($parent);
+                if (null !== $breadcrumbsItem) {
+                    return $this->redirect(
+                        $breadcrumbsItem->url ?? throw new UnprocessableEntityHttpException('Cannot determine parent node URL.')
+                    );
+                }
+
                 return $this->redirectToRoute(
                     'nodesEditSourcePage',
                     [
                         'nodeId' => $parent->getId(),
-                        'translationId' => $this->translationRepository->findDefault()->getId(),
+                        'translationId' => $this->getDefaultTranslation()->getId(),
                     ]
                 );
             }
@@ -520,6 +591,10 @@ final class NodeController extends AbstractController
         ]);
     }
 
+    #[Route(
+        path: '/rz-admin/nodes/empty-trash',
+        name: 'nodesEmptyTrashPage',
+    )]
     public function emptyTrashAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted(NodeVoter::EMPTY_TRASH);
@@ -557,26 +632,31 @@ final class NodeController extends AbstractController
         ]);
     }
 
-    public function undeleteAction(Request $request, int $nodeId): Response
-    {
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-
-        if (null === $node) {
-            throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
-        }
-
+    #[Route(
+        path: '/rz-admin/nodes/undelete/{nodeId}',
+        name: 'nodesUndeletePage',
+        requirements: ['nodeId' => '[0-9]+'],
+        defaults: ['nodeId' => null],
+    )]
+    public function undeleteAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'undelete')) {
-            $this->logTrail->publishErrorMessage($request, sprintf('Node #%s cannot be undeleted.', $nodeId), $node);
+            $this->logTrail->publishErrorMessage($request, sprintf('Node #%s cannot be undeleted.', $node->getId()), $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->translationRepository->findDefault()->getId(),
+                    'translationId' => $this->getDefaultTranslation()->getId(),
                 ]
             );
         }
@@ -608,52 +688,74 @@ final class NodeController extends AbstractController
         ]);
     }
 
-    public function generateAndAddNodeAction(Request $request): RedirectResponse
-    {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+    #[Route(
+        path: '/rz-admin/nodes/create',
+        name: 'nodesGenerateAndAddNodeAction',
+        methods: ['POST'],
+        format: 'json',
+    )]
+    public function generateAndAddNodeAction(
+        Request $request,
+        #[MapRequestPayload]
+        NodeCreationDto $nodeCreationDto,
+    ): Response {
+        // Authorization is checked within UniqueNodeGenerator::generateFromDto, so no need to check here.
+        if (!$this->isCsrfTokenValid(AbstractAjaxController::AJAX_TOKEN_INTENTION, $nodeCreationDto->csrfToken)) {
+            throw new BadRequestHttpException('Bad CSRF token');
+        }
 
         try {
-            $source = $this->uniqueNodeGenerator->generateFromRequest($request);
-            /** @var Translation $translation */
-            $translation = $source->getTranslation();
+            $source = $this->uniqueNodeGenerator->generateFromDto($nodeCreationDto);
 
             $this->eventDispatcher->dispatch(new NodeCreatedEvent($source->getNode()));
 
-            return $this->redirectToRoute(
-                'nodesEditSourcePage',
+            $msg = $this->translator->trans(
+                'added.node.%name%',
                 [
-                    'nodeId' => $source->getNode()->getId(),
-                    'translationId' => $translation->getId(),
+                    '%name%' => $source->getTitle(),
                 ]
             );
-        } catch (\Exception) {
-            $msg = $this->translator->trans('node.noCreation.alreadyExists');
-            throw new ResourceNotFoundException($msg);
+            $this->logTrail->publishConfirmMessage($request, $msg, $source);
+
+            return new JsonResponse(
+                [
+                    'statusCode' => Response::HTTP_CREATED,
+                    'status' => 'success',
+                    'responseText' => $msg,
+                ],
+                Response::HTTP_CREATED,
+            );
+        } catch (\Exception $e) {
+            $msg = $this->translator->trans($e->getMessage());
+            $this->logTrail->publishErrorMessage($request, $msg);
+            throw new UnprocessableEntityHttpException($msg);
         }
     }
 
-    /**
-     * @throws RuntimeError
-     */
-    public function publishAllAction(Request $request, int $nodeId): Response
-    {
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-
-        if (null === $node) {
-            throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
-        }
+    #[Route(
+        path: '/rz-admin/nodes/publish-all/{nodeId}',
+        name: 'nodesPublishAllAction',
+        requirements: ['nodeId' => '[0-9]+'],
+    )]
+    public function publishAllAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+    ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'publish')) {
-            $this->logTrail->publishErrorMessage($request, sprintf('Node #%s cannot be published.', $nodeId), $node);
+            $this->logTrail->publishErrorMessage($request, sprintf('Node #%s cannot be published.', $node->getId()), $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->translationRepository->findDefault()->getId(),
+                    'translationId' => $this->getDefaultTranslation()->getId(),
                 ]
             );
         }
@@ -670,7 +772,7 @@ final class NodeController extends AbstractController
             $this->logTrail->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute('nodesEditSourcePage', [
-                'nodeId' => $nodeId,
+                'nodeId' => $node->getId(),
                 'translationId' => $node->getNodeSources()->first() ?
                     $node->getNodeSources()->first()->getTranslation()->getId() :
                     null,
@@ -681,5 +783,10 @@ final class NodeController extends AbstractController
             'node' => $node,
             'form' => $form->createView(),
         ]);
+    }
+
+    protected function getDefaultTranslation(): TranslationInterface
+    {
+        return $this->translationRepository->findDefault() ?? throw new ResourceNotFoundException('Default translation does not exist');
     }
 }

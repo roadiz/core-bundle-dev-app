@@ -43,10 +43,10 @@ security:
             # Do not reload user from database, trust JWT roles in order to restrict PreviewUsers
             # Only drawback is when you want to disable / block / expire a user, you'll have to
             # wait for JWT token to expire.
-            #provider: jwt
+            provider: jwt
             # If you really want to reload user from database, uncomment this line, but Preview JWT
             # will be reloaded as full user and not as PreviewUser.
-            provider: all_users
+            #provider: all_users
             jwt: ~
             login_link:
                 check_route: public_login_link_check
@@ -120,52 +120,6 @@ security:
         - { path: "^/api/users", methods: [ GET, PUT, PATCH, POST ], roles: ROLE_USER }
         - { path: ^/api, roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         # - { path: ^/profile, roles: ROLE_USER }
-
-    role_hierarchy:
-        ROLE_PASSWORDLESS_USER:
-            - ROLE_PUBLIC_USER
-        ROLE_EMAIL_VALIDATED:
-            - ROLE_PUBLIC_USER
-        ROLE_PUBLIC_USER:
-            - ROLE_USER
-        ROLE_BACKEND_USER:
-            - ROLE_USER
-            - ROLE_ACCESS_USERS_DETAIL
-        ROLE_SUPERADMIN:
-            - ROLE_ACCESS_ATTRIBUTES
-            - ROLE_ACCESS_ATTRIBUTES_DELETE
-            - ROLE_ACCESS_CUSTOMFORMS
-            - ROLE_ACCESS_CUSTOMFORMS_DELETE
-            - ROLE_ACCESS_CUSTOMFORMS_RETENTION
-            - ROLE_ACCESS_DOCTRINE_CACHE_DELETE
-            - ROLE_ACCESS_DOCUMENTS
-            - ROLE_ACCESS_DOCUMENTS_CREATION_DATE
-            - ROLE_ACCESS_DOCUMENTS_DELETE
-            - ROLE_ACCESS_DOCUMENTS_LIMITATIONS
-            - ROLE_ACCESS_FONTS
-            - ROLE_ACCESS_GROUPS
-            - ROLE_ACCESS_LOGS
-            - ROLE_ACCESS_NODES
-            - ROLE_ACCESS_NODES_DELETE
-            - ROLE_ACCESS_NODES_SETTING
-            - ROLE_ACCESS_NODES_STATUS
-            - ROLE_ACCESS_NODETYPES
-            - ROLE_ACCESS_NODE_ATTRIBUTES
-            - ROLE_ACCESS_REALMS
-            - ROLE_ACCESS_REALM_NODES
-            - ROLE_ACCESS_REDIRECTIONS
-            - ROLE_ACCESS_SETTINGS
-            - ROLE_ACCESS_TAGS
-            - ROLE_ACCESS_TAGS_DELETE
-            - ROLE_ACCESS_TRANSLATIONS
-            - ROLE_ACCESS_USERS
-            - ROLE_ACCESS_USERS_DELETE
-            - ROLE_ACCESS_USERS_DETAIL
-            - ROLE_ACCESS_VERSIONS
-            - ROLE_ACCESS_WEBHOOKS
-            - ROLE_ALLOWED_TO_SWITCH
-            - ROLE_BACKEND_USER
-            - ROLE_PUBLIC_USER
 
 when@test:
     security:

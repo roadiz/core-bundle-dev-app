@@ -19,8 +19,7 @@ use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Range;
 
-#[
-    ORM\Entity(repositoryClass: AttributeRepository::class),
+#[ORM\Entity(repositoryClass: AttributeRepository::class),
     ORM\Table(name: 'attributes'),
     ORM\Index(columns: ['code']),
     ORM\Index(columns: ['type']),
@@ -29,8 +28,7 @@ use Symfony\Component\Validator\Constraints\Range;
     ORM\Index(columns: ['color']),
     ORM\Index(columns: ['group_id']),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity(fields: ['code']),
-]
+    UniqueEntity(fields: ['code']),]
 class Attribute implements AttributeInterface
 {
     use SequentialIdTrait;
@@ -39,16 +37,14 @@ class Attribute implements AttributeInterface
     /**
      * @var Collection<int, AttributeDocuments>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'attribute',
-            targetEntity: AttributeDocuments::class,
-            cascade: ['persist', 'merge'],
-            orphanRemoval: true
-        ),
+    #[ORM\OneToMany(
+        mappedBy: 'attribute',
+        targetEntity: AttributeDocuments::class,
+        cascade: ['persist', 'merge'],
+        orphanRemoval: true
+    ),
         ORM\OrderBy(['position' => 'ASC']),
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     protected Collection $attributeDocuments;
 
     #[ORM\ManyToOne(targetEntity: Realm::class)]
@@ -65,13 +61,11 @@ class Attribute implements AttributeInterface
     /**
      * @var int absolute weight for sorting attributes in filtered lists
      */
-    #[
-        ORM\Column(type: 'integer', nullable: false, options: ['default' => 0]),
+    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0]),
         SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
         ApiFilter(OrderFilter::class),
         Range(min: 0, max: 9999),
-        NotNull,
-    ]
+        NotNull,]
     protected int $weight = 0;
 
     public function __construct()

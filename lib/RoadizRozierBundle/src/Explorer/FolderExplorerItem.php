@@ -17,20 +17,23 @@ final class FolderExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getId(): int|string
+    public function getId(): int
     {
         return $this->folder->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
         /** @var Folder|null $parent */
         $parent = $this->folder->getParent();
         if (null !== $parent) {
-            return $parent->getTranslatedFolders()->first() ?
-                $parent->getTranslatedFolders()->first()->getName() :
-                $parent->getName();
+            $translated = $parent->getTranslatedFolders()->first();
+            if ($translated) {
+                return $translated->getName() ?? '';
+            }
+
+            return $parent->getName() ?? '';
         }
 
         return '';
@@ -39,9 +42,9 @@ final class FolderExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getDisplayable(): string
     {
-        return $this->folder->getTranslatedFolders()->first() ?
-            $this->folder->getTranslatedFolders()->first()->getName() :
-            $this->folder->getName();
+        return ($this->folder->getTranslatedFolders()->first()) ?
+            ($this->folder->getTranslatedFolders()->first()->getName()) :
+            ($this->folder->getName() ?? throw new \RuntimeException('Folder name cannot be null'));
     }
 
     #[\Override]
@@ -51,7 +54,7 @@ final class FolderExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    protected function getEditItemPath(): ?string
+    protected function getEditItemPath(): string
     {
         return $this->urlGenerator->generate('foldersEditPage', [
             'folderId' => $this->folder->getId(),

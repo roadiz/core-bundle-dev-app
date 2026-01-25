@@ -18,12 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * It stores their name.
  */
-#[
-    ORM\Entity(repositoryClass: FolderTranslationRepository::class),
+#[ORM\Entity(repositoryClass: FolderTranslationRepository::class),
     ORM\Table(name: 'folders_translations'),
     ORM\UniqueConstraint(columns: ['folder_id', 'translation_id']),
-    UniqueEntity(fields: ['folder', 'translation'])
-]
+    UniqueEntity(fields: ['folder', 'translation'])]
 class FolderTranslation implements PersistableInterface
 {
     use SequentialIdTrait;
@@ -48,13 +46,13 @@ class FolderTranslation implements PersistableInterface
 
     public function getName(): string
     {
-        return $this->name ?? '';
+        return $this->name;
     }
 
     /**
      * @return $this
      */
-    public function setName(string $name): FolderTranslation
+    public function setName(string $name): static
     {
         $this->name = $name;
 

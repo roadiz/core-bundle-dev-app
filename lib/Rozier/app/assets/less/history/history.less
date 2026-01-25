@@ -1,0 +1,196 @@
+/*------------------------------------*\
+   HISTORY
+\*------------------------------------*/
+
+.history-log-item {
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+    display: block;
+    align-items: stretch;
+    width:100%;
+    border-top: 1px solid #cccccc;
+    background: var(--contrasted-bg);
+
+    @media (min-width: @screen-sm-min) {
+        display: flex;
+    }
+
+    &:last-child {
+        border-bottom:1px solid #cccccc;
+    }
+
+    .table {
+        display: inline-block;
+        height: auto;
+
+        @media (min-width: @screen-sm-min) {
+            display: table;
+        }
+    }
+
+    .table-cell {
+        display: inline-block;
+        height:auto;
+
+        @media (min-width: @screen-sm-min) {
+            display: table-cell;
+            vertical-align:middle;
+        }
+    }
+
+    .history-log-date {
+        width: 100%;
+        padding: 0 10px;
+        font-size: var(--default-font-size);
+        line-height: 30px;
+        background: #eee;
+        color:#232323;
+        .box-sizing();
+
+        @media (min-width: @screen-sm-min) {
+            display: flex;
+            align-items: center;
+            width: 20%;
+            padding: 10px 20px;
+        }
+    }
+
+    .history-log-user {
+        position: absolute;
+        display: block;
+        top: 2px;
+        right: 5px;
+        width: 24px;
+        height: 24px;
+        .box-sizing();
+
+        @media (min-width: @screen-sm-min) {
+            position: relative;
+            vertical-align: top;
+            margin-left: -20px;
+            top: auto;
+            right: auto;
+            width: 40px;
+            height: 40px;
+        }
+
+        a {
+            display: block;
+            text-decoration: none;
+        }
+
+        .user-image {
+            top:0;
+            margin-top:0;
+            width: 24px;
+            height: 24px;
+
+            position: relative;
+            vertical-align: middle;
+            box-shadow: none;
+
+            @media (min-width: @screen-sm-min) {
+                top: 10px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .user-image-default{
+            background: #c9c9c9;
+            text-align: center;
+            border-radius: 100%;
+
+            .uk-icon-rz-users {
+                font-size: var(--default-font-size);
+                line-height: 24px;
+                color: #969696;
+
+                @media (min-width: @screen-sm-min) {
+                    font-size: 24px;
+                    line-height: 40px;
+                }
+            }
+        }
+    }
+
+    .history-log-source {
+        figure,
+        .rz-entity-thumbnail--empty,
+        .no-thumb {
+            display: block;
+            margin: 0px 20px 0 0;
+            background-color: #CCC;
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
+        }
+
+        img,
+        .no-thumb {
+            max-width: none;
+            border-radius: 30px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    .history-log-message-details {
+        display: none;
+    }
+
+
+    .history-log-message {
+        height: auto;
+        padding: 5px 10px;
+        word-break: break-word;
+        display: flex;
+        align-items: center;
+        font-size: var(--default-font-size);
+        line-height: 18px;
+        color: #4c4c4c;
+        .box-sizing();
+
+        @media (min-width: @screen-sm-min) {
+            padding: 10px 20px;
+            width: 80%;
+        }
+
+        .table-cell {
+            &:active,
+            &:focus {
+                .history-log-message-details {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &.has-user,
+    &.has-source {
+        min-height: 60px;
+    }
+
+    &.has-user .history-log-date,
+    &.has-source .history-log-date {
+        padding-right: 35px;
+    }
+
+    &.has-source {
+        .history-log-message {
+            padding-left: 3px;
+        }
+    }
+
+    &:nth-child(2n){
+        background: @grey-verylight;
+
+        .history-log-date{
+            background: #e5e5e5;
+        }
+    }
+}

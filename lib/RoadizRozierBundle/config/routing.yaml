@@ -1,43 +1,21 @@
-# Home page
-adminHomePage:
-    path:     /rz-admin
-    controller: RZ\Roadiz\RozierBundle\Controller\DashboardController::indexAction
+# enable attribute routing for this bundle
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: RZ\Roadiz\RozierBundle\Controller
+    type: attribute
 
-loginRoutes:
-    prefix: /rz-admin
-    resource: "routing/login.yml"
-
-ajaxSessionMessages:
-    path:     /rz-admin/session/messages
-    methods: [GET]
-    controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxSessionMessages::getMessagesAction
-
-#Ping
-ping:
-    path:     /rz-admin/ping
-    methods: [GET]
-    controller: RZ\Roadiz\RozierBundle\Controller\PingController::pingAction
-
-# CACHES
-deleteDoctrineCache:
-    path:     /rz-admin/cache/delete-doctrine-cache
-    controller: RZ\Roadiz\RozierBundle\Controller\CacheController::deleteDoctrineCache
-deleteAssetsCache:
-    path:     /rz-admin/cache/delete-assets-cache
-    controller: RZ\Roadiz\RozierBundle\Controller\CacheController::deleteAssetsCache
+# enable attribute routing for TranslateAssistant sub-bundle
+translateAssistant:
+    resource:
+        path: ../src/TranslateAssistant/
+        namespace: RZ\Roadiz\RozierBundle\TranslateAssistant
+    type: attribute
 
 # NODES
-nodesHomePage:
-    path:     /rz-admin/nodes
-    controller: RZ\Roadiz\RozierBundle\Controller\Node\NodeController::indexAction
 nodesRoutes:
     resource: "routing/nodes.yml"
     prefix: /rz-admin/nodes
-
-## Ajax
-ajaxRequestsRoutes:
-    resource: "routing/ajax.yml"
-    prefix: /rz-admin/ajax
 
 # Node TYPES
 nodeTypesHomePage:
@@ -73,15 +51,6 @@ settingGroupsHomePage:
 settingGroupsRoutes:
     resource: "routing/setting-groups.yml"
     prefix: /rz-admin/setting-groups
-
-
-# TAGS
-tagsHomePage:
-    path:     /rz-admin/tags
-    controller: RZ\Roadiz\RozierBundle\Controller\Tag\TagController::indexAction
-tagsRoutes:
-    resource: "routing/tags.yml"
-    prefix: /rz-admin/tags
 
 # USERS
 usersHomePage:
@@ -161,16 +130,6 @@ groupsRoutes:
     resource: "routing/groups.yml"
     prefix: /rz-admin/groups
 
-
-#LOGS
-historyHomePage:
-    path:     /rz-admin/history
-    controller: RZ\Roadiz\RozierBundle\Controller\HistoryController::indexAction
-historyUserPage:
-    path:     /rz-admin/history/user/{userId}
-    requirements: { userId : "[0-9]+" }
-    controller: RZ\Roadiz\RozierBundle\Controller\HistoryController::userAction
-
 # Custom Form
 customFormsHomePage:
     path:     /rz-admin/custom-forms
@@ -190,28 +149,9 @@ customFormFieldsRoutes:
     prefix: /rz-admin/custom-forms/fields
 
 
-# SEARCH
-searchNodePage:
-    path:     /rz-admin/search
-    controller: RZ\Roadiz\RozierBundle\Controller\SearchController::searchNodeAction
-searchNodeSourcePage:
-    path:     /rz-admin/search/{nodeTypeName}
-    controller: RZ\Roadiz\RozierBundle\Controller\SearchController::searchNodeSourceAction
-    requirements: { nodeTypeName : "[a-zA-Z]+" }
-
 webhooksHomePage:
     path:     /rz-admin/webhooks
     controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::defaultAction
 webhooksRoutes:
     resource: "routing/webhooks.yml"
     prefix: /rz-admin/webhooks
-
-
-#
-# CSS to style with main color
-# NOT SECURED ROUTES
-#
-loginImagePage:
-    path: /css/login/image
-    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginImageController::imageAction
-

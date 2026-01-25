@@ -152,7 +152,7 @@ final readonly class CustomFormHelper
      * @throws FilesystemException
      * @throws \Exception
      */
-    protected function handleUploadedFile(
+    private function handleUploadedFile(
         UploadedFile $file,
         CustomFormFieldAttribute $fieldAttr,
     ): ?DocumentInterface {
@@ -167,12 +167,12 @@ final readonly class CustomFormHelper
         return $document;
     }
 
-    protected function getDocumentFolderForCustomForm(): ?Folder
+    private function getDocumentFolderForCustomForm(): ?Folder
     {
         return $this->em->getRepository(Folder::class)
             ->findOrCreateByPath(
                 'custom_forms/'.
-                $this->customForm->getCreatedAt()->format('Ymd').'_'.
+                $this->customForm->getCreatedAt()?->format('Ymd').'_'.
                 \mb_substr($this->customForm->getDisplayName(), 0, 30)
             );
     }
@@ -183,13 +183,13 @@ final readonly class CustomFormHelper
             return $rawValue->format('Y-m-d H:i:s');
         } elseif (is_array($rawValue)) {
             $values = $rawValue;
-            $values = array_map('trim', $values);
-            $values = array_map('strip_tags', $values);
+            $values = array_map(trim(...), $values);
+            $values = array_map(strip_tags(...), $values);
 
             return implode(static::ARRAY_SEPARATOR, $values);
-        } else {
-            return strip_tags((string) $rawValue);
         }
+
+        return strip_tags((string) $rawValue);
     }
 
     private function getAttribute(CustomFormAnswer $answer, CustomFormField $field): ?CustomFormFieldAttribute

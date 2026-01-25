@@ -20,7 +20,7 @@ final readonly class NodeTypeTransformer implements DataTransformerInterface
      * @param NodeType|null $value
      */
     #[\Override]
-    public function transform(mixed $value): int|string
+    public function transform(mixed $value): string
     {
         if (!$value instanceof NodeType) {
             return '';

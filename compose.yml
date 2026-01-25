@@ -101,6 +101,7 @@ services:
             APP_DEBUG: 1
             PHP_CS_FIXER_IGNORE_ENV: 1
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+            DATABASE_URL: ${DATABASE_URL} # Required for make test command to change DB connection in tests
             UID: ${UID}
             DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
 
@@ -146,6 +147,35 @@ services:
     mailer:
         hostname: mailer
         image: axllent/mailpit
+
+    # Development frontend assets HMR server
+    node: &node_template
+        build:
+            target: node-dev
+            args:
+                UID: ${UID:-1000}
+        ports:
+            - 5173:5173
+        volumes:
+            - ./lib/Rozier:/app
+            - ./lib/RoadizRozierBundle/public:/RoadizRozierBundle/public
+
+    storybook:
+        <<: *node_template
+        ports:
+            - 6006:6006
+        command: ["pnpm", "storybook"]
+
+    # Development frontend assets HMR server
+    vitepress:
+        build:
+            target: vitepress-dev
+            args:
+                UID: ${UID:-1000}
+        ports:
+            - 5174:5174
+        volumes:
+            - ./docs:/app
 
 networks:
     # If you need to use port forwarding, fixing default gateway can be useful

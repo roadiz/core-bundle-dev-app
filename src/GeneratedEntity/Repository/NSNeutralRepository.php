@@ -27,7 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSNeutral[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method NSNeutral|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSNeutral|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
- * @method NSNeutral[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method NSNeutral[]      findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
 class NSNeutralRepository extends NodesSourcesRepository

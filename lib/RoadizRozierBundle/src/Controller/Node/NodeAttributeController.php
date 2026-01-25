@@ -17,11 +17,11 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueTranslationType;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueType;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
-use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -45,25 +46,12 @@ final class NodeAttributeController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly NodeTypes $nodeTypesBag,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
-        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
     ) {
     }
 
-    /**
-     * @return array{Node, Translation, NodesSources}
-     */
-    private function getNodeAndTranslation(int $nodeId, int $translationId): array
+    private function getNodesSources(Node $node, Translation $translation): NodesSources
     {
-        /** @var Translation|null $translation */
-        $translation = $this->translationRepository->find($translationId);
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-
-        if (null === $translation || null === $node) {
-            throw $this->createNotFoundException('Node-source does not exist');
-        }
-
         /** @var NodesSources|null $nodeSource */
         $nodeSource = $this->allStatusesNodesSourcesRepository->findOneBy(['translation' => $translation, 'node' => $node]);
 
@@ -73,12 +61,31 @@ final class NodeAttributeController extends AbstractController
 
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $node);
 
-        return [$node, $translation, $nodeSource];
+        return $nodeSource;
     }
 
-    public function editAction(Request $request, int $nodeId, int $translationId): Response
-    {
-        [$node, $translation, $nodeSource] = $this->getNodeAndTranslation($nodeId, $translationId);
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/source/{translationId}/attributes',
+        name: 'nodesEditAttributesPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+        ],
+    )]
+    public function editAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        #[MapEntity(
+            expr: 'repository.find(translationId)',
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
+    ): Response {
+        $nodeSource = $this->getNodesSources($node, $translation);
 
         if (!$this->isAttributable($node)) {
             throw $this->createNotFoundException('Node type is not attributable');
@@ -134,7 +141,7 @@ final class NodeAttributeController extends AbstractController
                     $msg = $this->translator->trans(
                         'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                         [
-                            '%name%' => $attributeValue->getAttribute()->getLabelOrCode($translation),
+                            '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
                             '%nodeName%' => $nodeSource->getTitle(),
                         ]
                     );
@@ -151,21 +158,20 @@ final class NodeAttributeController extends AbstractController
                         'nodeId' => $node->getId(),
                         'translationId' => $translation->getId(),
                     ]);
-                } else {
-                    $errors = $this->formErrorSerializer->getErrorsAsArray($attributeValueTranslationForm);
-                    /*
-                     * Handle errors when Ajax POST requests
-                     */
-                    if ($isJson) {
-                        return new JsonResponse([
-                            'status' => 'fail',
-                            'errors' => $errors,
-                            'message' => $this->translator->trans('form_has_errors.check_you_fields'),
-                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
-                    }
-                    foreach ($errors as $error) {
-                        $this->logTrail->publishErrorMessage($request, $error);
-                    }
+                }
+                $errors = $this->formErrorSerializer->getErrorsAsArray($attributeValueTranslationForm);
+                /*
+                 * Handle errors when Ajax POST requests
+                 */
+                if ($isJson) {
+                    return new JsonResponse([
+                        'status' => 'fail',
+                        'errors' => $errors,
+                        'message' => $this->translator->trans('form_has_errors.check_you_fields'),
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                foreach ($errors as $error) {
+                    $this->logTrail->publishErrorMessage($request, $error);
                 }
             }
 
@@ -229,7 +235,7 @@ final class NodeAttributeController extends AbstractController
                 $msg = $this->translator->trans(
                     'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                     [
-                        '%name%' => $attributeValue->getAttribute()->getLabelOrCode($translation),
+                        '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );
@@ -246,36 +252,53 @@ final class NodeAttributeController extends AbstractController
         return null;
     }
 
-    public function deleteAction(Request $request, int $nodeId, int $translationId, int $attributeValueId): Response
-    {
-        /** @var AttributeValue|null $item */
-        $item = $this->managerRegistry
-            ->getRepository(AttributeValue::class)
-            ->find($attributeValueId);
-        if (null === $item) {
-            throw $this->createNotFoundException('AttributeValue does not exist.');
-        }
-
-        [$node, $translation, $nodeSource] = $this->getNodeAndTranslation($nodeId, $translationId);
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/source/{translationId}/attributes/{attributeValueId}/delete',
+        name: 'nodesDeleteAttributesPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+            'attributeValueId' => '[0-9]+',
+        ],
+    )]
+    public function deleteAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        #[MapEntity(
+            expr: 'repository.find(translationId)',
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
+        #[MapEntity(
+            expr: 'repository.find(attributeValueId)',
+            message: 'AttributeValue does not exist'
+        )]
+        AttributeValue $attributeValue,
+    ): Response {
+        $nodeSource = $this->getNodesSources($node, $translation);
 
         $form = $this->createForm(FormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->managerRegistry->getManager()->remove($item);
+                $this->managerRegistry->getManager()->remove($attributeValue);
                 $this->managerRegistry->getManager()->flush();
 
                 $msg = $this->translator->trans(
                     'attribute.%name%.deleted_from_node.%nodeName%',
                     [
-                        '%name%' => $item->getAttribute()->getLabelOrCode($translation),
+                        '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );
-                $this->logTrail->publishConfirmMessage($request, $msg, $item);
+                $this->logTrail->publishConfirmMessage($request, $msg, $attributeValue);
             } catch (\RuntimeException $e) {
-                $this->logTrail->publishErrorMessage($request, $e->getMessage(), $item);
+                $this->logTrail->publishErrorMessage($request, $e->getMessage(), $attributeValue);
             }
 
             return $this->redirectToRoute('nodesEditAttributesPage', [
@@ -285,7 +308,7 @@ final class NodeAttributeController extends AbstractController
         }
 
         return $this->render('@RoadizRozier/nodes/attributes/delete.html.twig', [
-            'item' => $item,
+            'item' => $attributeValue,
             'source' => $nodeSource,
             'translation' => $translation,
             'node' => $node,
@@ -293,39 +316,64 @@ final class NodeAttributeController extends AbstractController
         ]);
     }
 
-    public function resetAction(Request $request, int $nodeId, int $translationId, int $attributeValueId): Response
-    {
-        /** @var AttributeValueTranslation|null $item */
-        $item = $this->managerRegistry
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/source/{translationId}/attributes/{attributeValueId}/reset',
+        name: 'nodesResetAttributesPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+            'attributeValueId' => '[0-9]+',
+        ],
+    )]
+    public function resetAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        #[MapEntity(
+            expr: 'repository.find(translationId)',
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
+        #[MapEntity(
+            expr: 'repository.find(attributeValueId)',
+            message: 'AttributeValue does not exist'
+        )]
+        AttributeValue $attributeValue,
+    ): Response {
+        /** @var AttributeValueTranslation|null $attributeValueTranslation */
+        $attributeValueTranslation = $this->managerRegistry
             ->getRepository(AttributeValueTranslation::class)
             ->findOneBy([
-                'attributeValue' => $attributeValueId,
-                'translation' => $translationId,
+                'attributeValue' => $attributeValue,
+                'translation' => $translation,
             ]);
-        if (null === $item) {
+        if (null === $attributeValueTranslation) {
             throw $this->createNotFoundException('AttributeValueTranslation does not exist.');
         }
 
-        [$node, $translation, $nodeSource] = $this->getNodeAndTranslation($nodeId, $translationId);
+        $nodeSource = $this->getNodesSources($node, $translation);
 
         $form = $this->createForm(FormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->managerRegistry->getManager()->remove($item);
+                $this->managerRegistry->getManager()->remove($attributeValueTranslation);
                 $this->managerRegistry->getManager()->flush();
 
                 $msg = $this->translator->trans(
                     'attribute.%name%.reset_for_node.%nodeName%',
                     [
-                        '%name%' => $item->getAttribute()->getLabelOrCode($translation),
+                        '%name%' => $attributeValueTranslation->getAttribute()->getLabelOrCode($translation),
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );
-                $this->logTrail->publishConfirmMessage($request, $msg, $item);
+                $this->logTrail->publishConfirmMessage($request, $msg, $attributeValueTranslation);
             } catch (\RuntimeException $e) {
-                $this->logTrail->publishErrorMessage($request, $e->getMessage(), $item);
+                $this->logTrail->publishErrorMessage($request, $e->getMessage(), $attributeValueTranslation);
             }
 
             return $this->redirectToRoute('nodesEditAttributesPage', [
@@ -335,7 +383,7 @@ final class NodeAttributeController extends AbstractController
         }
 
         return $this->render('@RoadizRozier/nodes/attributes/reset.html.twig', [
-            'item' => $item,
+            'item' => $attributeValueTranslation,
             'source' => $nodeSource,
             'translation' => $translation,
             'node' => $node,

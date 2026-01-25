@@ -13,52 +13,42 @@ use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: CustomFormAnswerRepository::class),
+#[ORM\Entity(repositoryClass: CustomFormAnswerRepository::class),
     ORM\Table(name: 'custom_form_answers'),
     ORM\Index(columns: ['ip']),
     ORM\Index(columns: ['submitted_at']),
-    ORM\Index(columns: ['custom_form_id', 'submitted_at'], name: 'answer_customform_submitted_at')
-]
+    ORM\Index(columns: ['custom_form_id', 'submitted_at'], name: 'answer_customform_submitted_at')]
 class CustomFormAnswer implements \Stringable, PersistableInterface
 {
     use SequentialIdTrait;
 
-    #[
-        ORM\Column(name: 'ip', type: 'string', length: 46, nullable: false),
+    #[ORM\Column(name: 'ip', type: 'string', length: 46, nullable: false),
         SymfonySerializer\Groups(['custom_form_answer']),
-        Assert\Length(max: 46)
-    ]
+        Assert\Length(max: 46)]
     private string $ip = '';
 
-    #[
-        ORM\Column(name: 'submitted_at', type: 'datetime', nullable: false),
-        SymfonySerializer\Groups(['custom_form_answer'])
-    ]
+    #[ORM\Column(name: 'submitted_at', type: 'datetime', nullable: false),
+        SymfonySerializer\Groups(['custom_form_answer'])]
     private \DateTime $submittedAt;
 
     /**
      * @var Collection<int, CustomFormFieldAttribute>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'customFormAnswer',
-            targetEntity: CustomFormFieldAttribute::class,
-            cascade: ['ALL'],
-            orphanRemoval: true
-        ),
-        SymfonySerializer\Groups(['custom_form_answer'])
-    ]
+    #[ORM\OneToMany(
+        mappedBy: 'customFormAnswer',
+        targetEntity: CustomFormFieldAttribute::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    ),
+        SymfonySerializer\Groups(['custom_form_answer'])]
     private Collection $answerFields;
 
-    #[
-        ORM\ManyToOne(
-            targetEntity: CustomForm::class,
-            inversedBy: 'customFormAnswers'
-        ),
+    #[ORM\ManyToOne(
+        targetEntity: CustomForm::class,
+        inversedBy: 'customFormAnswers'
+    ),
         ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     private CustomForm $customForm;
 
     public function __construct()
@@ -70,7 +60,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function addAnswerField(CustomFormFieldAttribute $field): CustomFormAnswer
+    public function addAnswerField(CustomFormFieldAttribute $field): static
     {
         if (!$this->getAnswerFields()->contains($field)) {
             $this->getAnswerFields()->add($field);
@@ -90,7 +80,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function removeAnswerField(CustomFormFieldAttribute $field): CustomFormAnswer
+    public function removeAnswerField(CustomFormFieldAttribute $field): static
     {
         if ($this->getAnswerFields()->contains($field)) {
             $this->getAnswerFields()->removeElement($field);
@@ -107,7 +97,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setCustomForm(CustomForm $customForm): CustomFormAnswer
+    public function setCustomForm(CustomForm $customForm): static
     {
         $this->customForm = $customForm;
 
@@ -128,7 +118,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setIp(string $ip): CustomFormAnswer
+    public function setIp(string $ip): static
     {
         $this->ip = $ip;
 
@@ -143,7 +133,7 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
     /**
      * @return $this
      */
-    public function setSubmittedAt(\DateTime $submittedAt): CustomFormAnswer
+    public function setSubmittedAt(\DateTime $submittedAt): static
     {
         $this->submittedAt = $submittedAt;
 

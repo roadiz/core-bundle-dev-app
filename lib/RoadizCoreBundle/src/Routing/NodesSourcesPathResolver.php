@@ -117,8 +117,9 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
         return array_values(array_filter($tokens));
     }
 
-    private function getHome(TranslationInterface $translation): NodesSources
+    private function getHome(?TranslationInterface $translation): NodesSources
     {
+        $translation ??= $this->translationRepository->findDefault() ?? throw new ResourceNotFoundException('No default translation found.');
         $nodeSource = $this->nodesSourcesRepository->findOneBy([
             'node.home' => true,
             'translation' => $translation,
@@ -148,7 +149,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
             $firstToken = $tokens[0];
             $locale = \mb_strtolower(strip_tags((string) $firstToken));
             // First token is for language and should not exceed 11 chars, i.e. tzm-Latn-DZ
-            if (null !== $locale && '' != $locale && \mb_strlen($locale) <= 11) {
+            if ('' != $locale && \mb_strlen($locale) <= 11) {
                 $translation = $this->translationRepository->$findOneByMethod($locale);
                 if (null !== $translation) {
                     return $translation;

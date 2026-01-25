@@ -10,7 +10,7 @@ use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
-final class DocumentDto implements BaseDocumentInterface
+final class DocumentDto implements \Stringable, BaseDocumentInterface
 {
     use BaseDocumentTrait;
 
@@ -79,7 +79,7 @@ final class DocumentDto implements BaseDocumentInterface
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getImageAverageColor(): string
     {
-        return $this->imageAverageColor;
+        return $this->imageAverageColor ?? '#ffffff';
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
@@ -123,14 +123,12 @@ final class DocumentDto implements BaseDocumentInterface
         return $this->documentTranslationExternalUrl;
     }
 
-    #[
-        Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SerializedName('alt'),
         ApiProperty(
             description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="").',
             writable: false,
-        )
-    ]
+        )]
     #[\Override]
     public function getAlternativeText(): ?string
     {
@@ -144,9 +142,9 @@ final class DocumentDto implements BaseDocumentInterface
     {
         if (!empty($this->nodeSourceDocumentImageCropAlignment)) {
             return $this->nodeSourceDocumentImageCropAlignment;
-        } else {
-            return !empty($this->documentImageCropAlignment) ? $this->documentImageCropAlignment : null;
         }
+
+        return !empty($this->documentImageCropAlignment) ? $this->documentImageCropAlignment : null;
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
@@ -154,9 +152,9 @@ final class DocumentDto implements BaseDocumentInterface
     {
         if (null !== $this->nodeSourceDocumentHotspot) {
             return $this->nodeSourceDocumentHotspot;
-        } else {
-            return $this->documentHotspot;
         }
+
+        return $this->documentHotspot;
     }
 
     /*

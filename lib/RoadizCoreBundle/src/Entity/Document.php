@@ -37,8 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Documents entity represent a file on server with datetime and naming.
  */
-#[
-    ORM\Entity(repositoryClass: DocumentRepository::class),
+#[ORM\Entity(repositoryClass: DocumentRepository::class),
     ORM\Table(name: 'documents'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['created_at'], name: 'document_created_at'),
@@ -73,9 +72,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         'copyrightValidSince' => 'include_null_before',
         'copyrightValidUntil' => 'include_null_after',
     ]),
-    ApiFilter(CopyrightValidFilter::class)
-]
-class Document implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface, DateTimedInterface, PersistableInterface
+    ApiFilter(CopyrightValidFilter::class)]
+class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface, DateTimedInterface, PersistableInterface
 {
     use SequentialIdTrait;
     use DateTimedTrait;
@@ -148,10 +146,8 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     #[SymfonySerializer\Ignore]
     protected ?DocumentInterface $rawDocument = null;
 
-    #[
-        SymfonySerializer\Ignore,
-        ORM\Column(name: 'raw', type: 'boolean', nullable: false, options: ['default' => false])
-    ]
+    #[SymfonySerializer\Ignore,
+        ORM\Column(name: 'raw', type: 'boolean', nullable: false, options: ['default' => false])]
     protected bool $raw = false;
 
     #[ORM\Column(name: 'embedId', type: 'string', length: 250, unique: false, nullable: true)]
@@ -584,14 +580,12 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
         return $this;
     }
 
-    #[
-        SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SymfonySerializer\SerializedName('alt'),
         ApiProperty(
             description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="").',
             writable: false,
-        )
-    ]
+        )]
     #[\Override]
     public function getAlternativeText(): ?string
     {

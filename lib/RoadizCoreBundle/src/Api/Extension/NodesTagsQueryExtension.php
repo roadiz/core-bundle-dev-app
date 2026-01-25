@@ -73,6 +73,11 @@ final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterf
             return;
         }
 
+        // Always exclude shadow nodes
+        $queryBuilder
+            ->andWhere($queryBuilder->expr()->eq($existingNodeJoin->getAlias().'.shadow', ':shadow'))
+            ->setParameter(':shadow', false);
+
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte($existingNodeJoin->getAlias().'.status', ':status'))
@@ -84,7 +89,5 @@ final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterf
         $queryBuilder
             ->andWhere($queryBuilder->expr()->eq($existingNodeJoin->getAlias().'.status', ':status'))
             ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
     }
 }

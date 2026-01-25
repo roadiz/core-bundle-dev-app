@@ -24,8 +24,8 @@
         {{ form_start(form, { attr: { id: 'edit-settingGroup-form'}}) }}
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
-                <button data-action-save="#edit-settingGroup-form"
-                        class="uk-button uk-button-success rz-action-save"
+                <button is="rz-save-button" data-action-save="#edit-settingGroup-form"
+                        class="uk-button uk-button-success"
                         type="submit">
                     <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
                     <span class="label"><span class="label-text">{% trans %}save.settingGroup{% endtrans %}</span></span>

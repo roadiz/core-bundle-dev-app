@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -42,6 +44,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Workflow\Registry;
@@ -63,138 +66,16 @@ final class SearchController extends AbstractController
         private readonly Registry $workflowRegistry,
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private readonly array $csvEncoderOptions,
     ) {
     }
 
-    protected function isBlank(mixed $var): bool
-    {
-        return empty($var) && !is_numeric($var);
-    }
-
-    protected function notBlank(mixed $var): bool
-    {
-        return !$this->isBlank($var);
-    }
-
-    protected function appendDateTimeCriteria(array &$data, string $fieldName): array
-    {
-        $date = $data[$fieldName]['compareDatetime'];
-        if ($date instanceof \DateTime) {
-            $date = $date->format('Y-m-d H:i:s');
-        }
-        $data[$fieldName] = [
-            $data[$fieldName]['compareOp'],
-            $date,
-        ];
-
-        return $data;
-    }
-
-    protected function processCriteria(
-        array $data,
-        bool &$pagination,
-        ?int &$itemPerPage,
-        string $prefix = '',
-    ): array {
-        if (!empty($data[$prefix.'nodeName'])) {
-            if (!isset($data[$prefix.'nodeName_exact']) || true !== $data[$prefix.'nodeName_exact']) {
-                $data[$prefix.'nodeName'] = ['LIKE', '%'.$data[$prefix.'nodeName'].'%'];
-            }
-        }
-
-        if (key_exists($prefix.'nodeName_exact', $data)) {
-            unset($data[$prefix.'nodeName_exact']);
-        }
-
-        if (isset($data[$prefix.'parent']) && !$this->isBlank($data[$prefix.'parent'])) {
-            if ('null' == $data[$prefix.'parent'] || 0 == $data[$prefix.'parent']) {
-                $data[$prefix.'parent'] = null;
-            }
-        }
-
-        if (isset($data[$prefix.'visible'])) {
-            $data[$prefix.'visible'] = (bool) $data[$prefix.'visible'];
-        }
-
-        if (isset($data[$prefix.'createdAt'])) {
-            $this->appendDateTimeCriteria($data, $prefix.'createdAt');
-        }
-
-        if (isset($data[$prefix.'updatedAt'])) {
-            $this->appendDateTimeCriteria($data, $prefix.'updatedAt');
-        }
-
-        if (isset($data[$prefix.'limitResult'])) {
-            $pagination = false;
-            $itemPerPage = (int) $data[$prefix.'limitResult'];
-            unset($data[$prefix.'limitResult']);
-        }
-
-        /*
-         * no need to prefix tags
-         */
-        if (isset($data['tags'])) {
-            $data['tags'] = array_map('trim', explode(',', (string) $data['tags']));
-            foreach ($data['tags'] as $key => $value) {
-                $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
-            }
-            array_filter($data['tags']);
-        }
-
-        return $data;
-    }
-
-    protected function processCriteriaNodeType(array $data, NodeType $nodeType): array
-    {
-        $fields = $nodeType->getFields();
-        foreach ($data as $key => $value) {
-            if ('title' === $key) {
-                $data['title'] = ['LIKE', '%'.$value.'%'];
-                if (isset($data[$key.'_exact'])) {
-                    if (true === $data[$key.'_exact']) {
-                        $data['title'] = $value;
-                    }
-                }
-            } elseif ('publishedAt' === $key) {
-                $this->appendDateTimeCriteria($data, 'publishedAt');
-            } else {
-                /** @var NodeTypeField $field */
-                foreach ($fields as $field) {
-                    if ($key == $field->getName()) {
-                        if (
-                            FieldType::MARKDOWN_T === $field->getType()
-                            || FieldType::STRING_T === $field->getType()
-                            || FieldType::YAML_T === $field->getType()
-                            || FieldType::JSON_T === $field->getType()
-                            || FieldType::TEXT_T === $field->getType()
-                            || FieldType::EMAIL_T === $field->getType()
-                            || FieldType::CSS_T === $field->getType()
-                        ) {
-                            $data[$field->getVarName()] = ['LIKE', '%'.$value.'%'];
-                            if (isset($data[$key.'_exact']) && true === $data[$key.'_exact']) {
-                                $data[$field->getVarName()] = $value;
-                            }
-                        } elseif (FieldType::BOOLEAN_T === $field->getType()) {
-                            $data[$field->getVarName()] = (bool) $value;
-                        } elseif (FieldType::MULTIPLE_T === $field->getType()) {
-                            $data[$field->getVarName()] = implode(',', $value);
-                        } elseif (FieldType::DATETIME_T === $field->getType()) {
-                            $this->appendDateTimeCriteria($data, $key);
-                        } elseif (FieldType::DATE_T === $field->getType()) {
-                            $this->appendDateTimeCriteria($data, $key);
-                        }
-                    }
-                }
-            }
-            if (key_exists($key.'_exact', $data)) {
-                unset($data[$key.'_exact']);
-            }
-        }
-
-        return $data;
-    }
-
+    #[Route(
+        path: '/rz-admin/search',
+        name: 'searchNodePage',
+        methods: ['GET', 'POST'],
+    )]
     public function searchNodeAction(Request $request): Response
     {
         $builder = $this->buildSimpleForm('');
@@ -269,9 +150,20 @@ final class SearchController extends AbstractController
         return $this->render('@RoadizRozier/search/list.html.twig', $assignation);
     }
 
+    #[Route(
+        path: '/rz-admin/search/{nodeTypeName}',
+        name: 'searchNodeSourcePage',
+        requirements: ['nodeTypeName' => '[a-zA-Z]+'],
+        methods: ['GET', 'POST'],
+    )]
     public function searchNodeSourceAction(Request $request, string $nodeTypeName): Response
     {
         $nodeType = $this->nodeTypesBag->get($nodeTypeName);
+
+        if (null === $nodeType) {
+            throw $this->createNotFoundException('Node type '.$nodeTypeName.' does not exist.');
+        }
+
         $assignation = [];
         $pagination = true;
         $itemPerPage = null;
@@ -326,6 +218,134 @@ final class SearchController extends AbstractController
         return $this->render('@RoadizRozier/search/list.html.twig', $assignation);
     }
 
+    protected function isBlank(mixed $var): bool
+    {
+        return empty($var) && !is_numeric($var);
+    }
+
+    protected function notBlank(mixed $var): bool
+    {
+        return !$this->isBlank($var);
+    }
+
+    protected function appendDateTimeCriteria(array &$data, string $fieldName): array
+    {
+        $date = $data[$fieldName]['compareDatetime'];
+        if ($date instanceof \DateTime) {
+            $date = $date->format('Y-m-d H:i:s');
+        }
+        $data[$fieldName] = [
+            $data[$fieldName]['compareOp'],
+            $date,
+        ];
+
+        return $data;
+    }
+
+    protected function processCriteria(
+        array $data,
+        bool &$pagination,
+        ?int &$itemPerPage,
+        string $prefix = '',
+    ): array {
+        if (!empty($data[$prefix.'nodeName'])) {
+            if (!isset($data[$prefix.'nodeName_exact']) || true !== $data[$prefix.'nodeName_exact']) {
+                $data[$prefix.'nodeName'] = ['LIKE', '%'.$data[$prefix.'nodeName'].'%'];
+            }
+        }
+
+        if (key_exists($prefix.'nodeName_exact', $data)) {
+            unset($data[$prefix.'nodeName_exact']);
+        }
+
+        if (isset($data[$prefix.'parent']) && !$this->isBlank($data[$prefix.'parent'])) {
+            if ('null' == $data[$prefix.'parent'] || 0 == $data[$prefix.'parent']) {
+                $data[$prefix.'parent'] = null;
+            }
+        }
+
+        if (isset($data[$prefix.'visible'])) {
+            $data[$prefix.'visible'] = (bool) $data[$prefix.'visible'];
+        }
+
+        if (isset($data[$prefix.'createdAt'])) {
+            $this->appendDateTimeCriteria($data, $prefix.'createdAt');
+        }
+
+        if (isset($data[$prefix.'updatedAt'])) {
+            $this->appendDateTimeCriteria($data, $prefix.'updatedAt');
+        }
+
+        if (isset($data[$prefix.'limitResult'])) {
+            $pagination = false;
+            $itemPerPage = (int) $data[$prefix.'limitResult'];
+            unset($data[$prefix.'limitResult']);
+        }
+
+        /*
+         * no need to prefix tags
+         */
+        if (isset($data['tags'])) {
+            $data['tags'] = array_map(trim(...), explode(',', (string) $data['tags']));
+            foreach ($data['tags'] as $key => $value) {
+                $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
+            }
+            array_filter($data['tags']);
+        }
+
+        return $data;
+    }
+
+    protected function processCriteriaNodeType(array $data, NodeType $nodeType): array
+    {
+        $fields = $nodeType->getFields();
+        foreach ($data as $key => $value) {
+            if ('title' === $key) {
+                $data['title'] = ['LIKE', '%'.$value.'%'];
+                if (isset($data[$key.'_exact'])) {
+                    if (true === $data[$key.'_exact']) {
+                        $data['title'] = $value;
+                    }
+                }
+            } elseif ('publishedAt' === $key) {
+                $this->appendDateTimeCriteria($data, 'publishedAt');
+            } else {
+                /** @var NodeTypeField $field */
+                foreach ($fields as $field) {
+                    if ($key == $field->getName()) {
+                        if (
+                            FieldType::MARKDOWN_T === $field->getType()
+                            || FieldType::STRING_T === $field->getType()
+                            || FieldType::YAML_T === $field->getType()
+                            || FieldType::JSON_T === $field->getType()
+                            || FieldType::TEXT_T === $field->getType()
+                            || FieldType::EMAIL_T === $field->getType()
+                            || FieldType::CSS_T === $field->getType()
+                        ) {
+                            $data[$field->getVarName()] = ['LIKE', '%'.$value.'%'];
+                            if (isset($data[$key.'_exact']) && true === $data[$key.'_exact']) {
+                                $data[$field->getVarName()] = $value;
+                            }
+                        } elseif (FieldType::BOOLEAN_T === $field->getType()) {
+                            $data[$field->getVarName()] = (bool) $value;
+                        } elseif (FieldType::MULTIPLE_T === $field->getType()) {
+                            $data[$field->getVarName()] = implode(',', $value);
+                        } elseif (FieldType::DATETIME_T === $field->getType()) {
+                            $this->appendDateTimeCriteria($data, $key);
+                        } elseif (FieldType::DATE_T === $field->getType()) {
+                            $this->appendDateTimeCriteria($data, $key);
+                        }
+                    }
+                }
+            }
+            if (key_exists($key.'_exact', $data)) {
+                unset($data[$key.'_exact']);
+            }
+        }
+
+        return $data;
+    }
+
     /**
      * Build node-type selection form.
      */
@@ -373,14 +393,14 @@ final class SearchController extends AbstractController
         if ($nodeTypeForm->isSubmitted() && $nodeTypeForm->isValid()) {
             if (empty($nodeTypeForm->getData()['nodetype'])) {
                 return $this->redirectToRoute('searchNodePage');
-            } else {
-                return $this->redirectToRoute(
-                    'searchNodeSourcePage',
-                    [
-                        'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
-                    ]
-                );
             }
+
+            return $this->redirectToRoute(
+                'searchNodeSourcePage',
+                [
+                    'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
+                ]
+            );
         }
 
         return null;
@@ -415,9 +435,11 @@ final class SearchController extends AbstractController
         }
         $data = $this->processCriteria($data, $pagination, $itemPerPage, 'node.');
         $data = $this->processCriteriaNodeType($data, $nodeType);
+        /** @var class-string<NodesSources> $entityClassName */
+        $entityClassName = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
 
         $listManager = $this->entityListManagerFactory->createEntityListManager(
-            $nodeType->getSourceEntityFullQualifiedClassName(),
+            $entityClassName,
             $data
         );
         $listManager->setDisplayingNotPublishedNodes(true);
@@ -494,11 +516,11 @@ final class SearchController extends AbstractController
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
             ])
-            ->add($prefix.'sterile', ExtendedBooleanType::class, [
-                'label' => 'sterile-status',
-            ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
+            ])
+            ->add($prefix.'shadow', ExtendedBooleanType::class, [
+                'label' => 'node.shadow',
             ])
         );
         $builder->add(
@@ -612,7 +634,7 @@ final class SearchController extends AbstractController
 
             if (FieldType::ENUM_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
-                $choices = array_map('trim', $choices);
+                $choices = array_map(trim(...), $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
                 $option['placeholder'] = 'ignore';
@@ -624,7 +646,7 @@ final class SearchController extends AbstractController
                 $option['choices'] = $choices;
             } elseif (FieldType::MULTIPLE_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
-                $choices = array_map('trim', $choices);
+                $choices = array_map(trim(...), $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
                 $option['choices'] = $choices;

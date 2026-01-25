@@ -27,7 +27,9 @@ final class DefaultNodeSourceController extends AbstractController
         $request->attributes->set('_translation', $nodeSource->getTranslation());
         $request->attributes->set('_locale', $nodeSource->getTranslation()->getPreferredLocale());
         $iri = $this->iriConverter->getIriFromResource($nodeSource);
-        $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [$iri => $iri]);
+        if (null !== $iri) {
+            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [$iri => $iri]);
+        }
 
         $data = $this->webResponseDataTransformer->transform($nodeSource, WebResponseInterface::class);
 

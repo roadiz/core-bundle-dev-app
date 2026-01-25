@@ -16,90 +16,70 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
-#[
-    ORM\MappedSuperclass,
+#[ORM\MappedSuperclass,
     ORM\Table,
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['group_name']),
-    ORM\Index(columns: ['group_name_canonical'])
-]
+    ORM\Index(columns: ['group_name_canonical'])]
 abstract class AbstractField implements PositionedInterface, PersistableInterface
 {
     use SequentialIdTrait;
     use PositionedTrait;
     use FieldTypeTrait;
 
-    #[
-        ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
-        Serializer\Groups(['node_type', 'node_type:import', 'setting']),
-    ]
+        Serializer\Groups(['node_type', 'node_type:import', 'setting']),]
     protected ?string $groupName = null;
 
-    #[
-        ORM\Column(name: 'group_name_canonical', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'group_name_canonical', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['node_type', 'setting']),
-        Assert\Length(max: 250),
-    ]
+        Assert\Length(max: 250),]
     protected ?string $groupNameCanonical = null;
 
-    #[
-        ORM\Column(type: 'string', length: 250),
+    #[ORM\Column(type: 'string', length: 250),
         Serializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
-        Assert\NotNull()
-    ]
+        Assert\NotNull()]
     protected string $name;
 
-    #[
-        ORM\Column(type: 'string', length: 250),
+    #[ORM\Column(type: 'string', length: 250),
         Serializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
-        Assert\NotNull()
-    ]
+        Assert\NotNull()]
     // @phpstan-ignore-next-line
     protected ?string $label = null;
 
-    #[
-        ORM\Column(type: 'string', length: 250, nullable: true),
+    #[ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Groups(['node_type', 'node_type:import', 'setting']),
-        Assert\Length(max: 250),
-    ]
+        Assert\Length(max: 250),]
     protected ?string $placeholder = null;
 
-    #[
-        ORM\Column(type: 'text', nullable: true),
-        Serializer\Groups(['node_type', 'node_type:import', 'setting']),
-    ]
+    #[ORM\Column(type: 'text', nullable: true),
+        Serializer\Groups(['node_type', 'node_type:import', 'setting']),]
     protected ?string $description = null;
 
-    #[
-        ORM\Column(name: 'default_values', type: 'text', nullable: true),
-        Serializer\Groups(['node_type', 'setting']),
-    ]
+    #[ORM\Column(name: 'default_values', type: 'text', nullable: true),
+        Serializer\Groups(['node_type', 'setting']),]
     protected ?string $defaultValues = null;
 
-    #[
-        ORM\Column(
-            type: Types::SMALLINT,
-            nullable: false,
-            enumType: FieldType::class,
-            options: ['default' => FieldType::STRING_T]
-        ),
-        Serializer\Groups(['node_type', 'setting']),
-    ]
+    #[ORM\Column(
+        type: Types::SMALLINT,
+        nullable: false,
+        enumType: FieldType::class,
+        options: ['default' => FieldType::STRING_T]
+    ),
+        Serializer\Groups(['node_type', 'setting']),]
     protected FieldType $type = FieldType::STRING_T;
 
     /**
      * If current field data should be expanded (for choices and country types).
      */
-    #[
-        ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
-        Serializer\Groups(['node_type', 'node_type:import', 'setting']),
-    ]
+    #[ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
+        Serializer\Groups(['node_type', 'node_type:import', 'setting']),]
     protected bool $expanded = false;
 
     public function __construct()
@@ -127,7 +107,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
     /**
      * @return $this
      */
-    public function setName(?string $name): AbstractField
+    public function setName(?string $name): static
     {
         $this->name = StringHandler::variablize($name ?? '');
 
@@ -158,7 +138,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
     /**
      * @return $this
      */
-    public function setLabel(?string $label): AbstractField
+    public function setLabel(?string $label): static
     {
         $this->label = $label ?? '';
 
@@ -173,7 +153,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
     /**
      * @return $this
      */
-    public function setPlaceholder(?string $placeholder): AbstractField
+    public function setPlaceholder(?string $placeholder): static
     {
         $this->placeholder = $placeholder;
 
@@ -188,7 +168,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
     /**
      * @return $this
      */
-    public function setDescription(?string $description): AbstractField
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
@@ -203,7 +183,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
     /**
      * @return $this
      */
-    public function setDefaultValues(?string $defaultValues): AbstractField
+    public function setDefaultValues(?string $defaultValues): static
     {
         $this->defaultValues = $defaultValues;
 
@@ -232,7 +212,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
      *
      * @return $this
      */
-    public function setGroupName(?string $groupName): AbstractField
+    public function setGroupName(?string $groupName): static
     {
         if (null === $groupName) {
             $this->groupName = null;
@@ -258,7 +238,7 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
     /**
      * @return $this
      */
-    public function setExpanded(bool $expanded): AbstractField
+    public function setExpanded(bool $expanded): static
     {
         $this->expanded = $expanded;
 

@@ -1,0 +1,22 @@
+:root {
+	--spacing-7xs: 2px;
+	--spacing-6xs: 4px;
+	--spacing-5xs: 6px;
+	--spacing-4xs: 8px;
+	--spacing-3xs: 10px;
+	--spacing-2xs: 12px;
+	--spacing-xs: 16px;
+	--spacing-sm: 20px;
+	--spacing-md: 24px;
+	--spacing-lg: 32px;
+	--spacing-xl: 40px;
+	--spacing-2xl: 48px;
+	--spacing-3xl: 56px;
+	--spacing-4xl: 64px;
+	--spacing-5xl: 72px;
+	--spacing-6xl: 80px;
+	--spacing-7xl: 88px;
+	--spacing-8xl: 96px;
+	--spacing-9xl: 120px;
+	--spacing-10xl: 144px;
+}

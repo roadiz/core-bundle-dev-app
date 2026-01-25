@@ -22,7 +22,7 @@
                 <a href="{{ path('usersEditGroupsPage', { userId: user.getId }) }}">{% trans %}user.groups{% endtrans %}</a>
             </li>
         {% endif %}
-        {% if is_granted('ROLE_ACCESS_LOGS') %}
+        {% if is_granted('USER_VIEW_HISTORY', user) %}
             <li class="{% if current == 'history' %}uk-active{% endif %}">
                 <a href="{{ path('historyUserPage', { userId: user.getId }) }}">{% trans %}user.history{% endtrans %}</a>
             </li>

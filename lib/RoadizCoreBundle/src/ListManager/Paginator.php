@@ -23,6 +23,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class Paginator
 {
     protected ?int $itemCount = null;
+    /**
+     * @var non-empty-string|null
+     */
     protected ?string $searchPattern = null;
     protected ?int $totalCount = null;
     protected bool $displayNotPublishedNodes;
@@ -78,12 +81,17 @@ class Paginator
         return $this;
     }
 
+    /**
+     * @return non-empty-string|null
+     */
     public function getSearchPattern(): ?string
     {
         return $this->searchPattern;
     }
 
     /**
+     * @param non-empty-string|null $searchPattern
+     *
      * @return $this
      */
     public function setSearchPattern(?string $searchPattern): Paginator
@@ -124,7 +132,7 @@ class Paginator
             }
         }
 
-        return $this->totalCount;
+        return $this->totalCount ?? 0;
     }
 
     /**
@@ -144,15 +152,15 @@ class Paginator
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
-        } else {
-            return $this->getRepository()
-                ->findBy(
-                    $this->criteria,
-                    $order,
-                    $this->getItemsPerPage(),
-                    $this->getItemsPerPage() * ($page - 1)
-                );
         }
+
+        return $this->getRepository()
+            ->findBy(
+                $this->criteria,
+                $order,
+                $this->getItemsPerPage(),
+                $this->getItemsPerPage() * ($page - 1)
+            );
     }
 
     /**
@@ -164,6 +172,10 @@ class Paginator
      */
     public function searchByAtPage(array $order = [], int $page = 1): array
     {
+        if (empty($this->searchPattern)) {
+            return [];
+        }
+
         $repository = $this->getRepository();
         if ($repository instanceof EntityRepository) {
             // @phpstan-ignore-next-line
@@ -228,7 +240,7 @@ class Paginator
     protected function getSearchableFields(): array
     {
         $metadata = $this->em->getClassMetadata($this->entityName);
-        if (!($metadata instanceof ClassMetadataInfo)) {
+        if (!$metadata instanceof ClassMetadataInfo) {
             throw new \RuntimeException('Entity has no metadata.');
         }
 

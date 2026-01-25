@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Cache\Clearer;
 
 final class OPCacheClearer implements ClearerInterface
 {
-    protected string $output;
+    private string $output;
 
     #[\Override]
     public function clear(): bool
@@ -23,9 +23,8 @@ final class OPCacheClearer implements ClearerInterface
             $this->output = 'PHP OPCache has been reset.';
 
             return true;
-        } else {
-            $this->output = 'PHP OPCache is disabled.';
         }
+        $this->output = 'PHP OPCache is disabled.';
 
         return false;
     }

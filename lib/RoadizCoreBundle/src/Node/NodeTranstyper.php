@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -23,8 +24,12 @@ use RZ\Roadiz\CoreBundle\Entity\UrlAlias;
 
 final readonly class NodeTranstyper
 {
-    public function __construct(private ManagerRegistry $managerRegistry, private NodeTypes $nodeTypesBag, private LoggerInterface $logger = new NullLogger())
-    {
+    public function __construct(
+        private ManagerRegistry $managerRegistry,
+        private NodeTypes $nodeTypesBag,
+        private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+        private LoggerInterface $logger = new NullLogger(),
+    ) {
     }
 
     private function getManager(): ObjectManager
@@ -81,7 +86,7 @@ final readonly class NodeTranstyper
         $this->logger->debug('Get matching fields');
 
         /** @var class-string<NodesSources> $sourceClass */
-        $sourceClass = $destinationNodeType->getSourceEntityFullQualifiedClassName();
+        $sourceClass = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($destinationNodeType);
 
         /*
          * Testing if new nodeSource class is available
@@ -127,7 +132,7 @@ final readonly class NodeTranstyper
         return $node;
     }
 
-    protected function removeOldSources(Node $node, array &$sources): void
+    private function removeOldSources(Node $node, array &$sources): void
     {
         /** @var NodesSources $existingSource */
         foreach ($sources as $existingSource) {
@@ -145,7 +150,7 @@ final readonly class NodeTranstyper
      *
      * @param class-string<NodesSources> $sourceClass
      */
-    protected function doTranstypeSingleSource(
+    private function doTranstypeSingleSource(
         Node $node,
         NodesSources $existingSource,
         TranslationInterface $translation,
@@ -221,9 +226,9 @@ final readonly class NodeTranstyper
      *
      * @throws \InvalidArgumentException if mock fails due to Source class not existing
      */
-    protected function mockTranstype(NodeTypeInterface $nodeType): void
+    private function mockTranstype(NodeTypeInterface $nodeType): void
     {
-        $sourceClass = $nodeType->getSourceEntityFullQualifiedClassName();
+        $sourceClass = $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType);
         if (!class_exists($sourceClass)) {
             throw new \InvalidArgumentException($sourceClass.' node-source class does not exist.');
         }

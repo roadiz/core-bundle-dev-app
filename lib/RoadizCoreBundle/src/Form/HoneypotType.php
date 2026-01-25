@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class HoneypotType extends AbstractType
 {
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return TextType::class;
     }
@@ -54,7 +54,7 @@ final class HoneypotType extends AbstractType
             if (!$data) {
                 return;
             }
-            $form->getParent()->addError(new FormError('form_has_errors.check_you_fields'));
+            $form->getParent()?->addError(new FormError('form_has_errors.check_you_fields'));
         });
     }
 }

@@ -25,7 +25,7 @@ final readonly class UserProvider implements UserProviderInterface
         return $this->loadUserByUsernameOrEmail($username);
     }
 
-    protected function loadUserByUsernameOrEmail(string $identifier): UserInterface
+    private function loadUserByUsernameOrEmail(string $identifier): UserInterface
     {
         /** @var User|null $user */
         $user = $this->managerRegistry
@@ -41,9 +41,8 @@ final readonly class UserProvider implements UserProviderInterface
 
         if (null !== $user) {
             return $user;
-        } else {
-            throw new UserNotFoundException();
         }
+        throw new UserNotFoundException();
     }
 
     #[\Override]
@@ -60,15 +59,16 @@ final readonly class UserProvider implements UserProviderInterface
      * object can just be merged into some internal array of users / identity
      * map.
      *
-     * @return User
-     *
      * @throws UnsupportedUserException
      */
     #[\Override]
-    public function refreshUser(UserInterface $user): UserInterface
+    public function refreshUser(UserInterface $user): User
     {
         if ($user instanceof User) {
             $manager = $this->managerRegistry->getManagerForClass(User::class);
+            if (null === $manager) {
+                throw new \RuntimeException('No manager found for User class.');
+            }
             /** @var User|null $refreshUser */
             $refreshUser = $manager->find(User::class, (int) $user->getId());
             if (
@@ -79,9 +79,8 @@ final readonly class UserProvider implements UserProviderInterface
             ) {
                 // Always refresh User from database: too much related entities to rely only on token.
                 return $refreshUser;
-            } else {
-                throw new UserNotFoundException('Token user does not exist anymore, authenticate again…');
             }
+            throw new UserNotFoundException('Token user does not exist anymore, authenticate again…');
         }
         throw new UnsupportedUserException();
     }

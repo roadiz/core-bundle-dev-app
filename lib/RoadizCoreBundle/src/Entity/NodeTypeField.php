@@ -19,88 +19,58 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[RoadizAssert\NodeTypeField]
 final class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
 {
-    #[
-        Serializer\Groups(['node_type', 'node_type:import', 'setting']),
+    #[Serializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 50),
         RoadizAssert\NonSqlReservedWord(),
-        RoadizAssert\SimpleLatinString()
-    ]
+        RoadizAssert\SimpleLatinString()]
     protected string $name;
 
     /**
      * If current field data should be the same over translations or not.
      */
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $universal = false;
 
     /**
      * Exclude current field from full-text search engines.
      */
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $excludeFromSearch = false;
 
-    #[
-        Serializer\Ignore
-    ]
+    #[Serializer\Ignore]
     private NodeTypeInterface $nodeType;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private ?string $serializationExclusionExpression = null;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private ?array $serializationGroups = null;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private ?array $normalizationContext = null;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private ?int $serializationMaxDepth = null;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $excludedFromSerialization = false;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private ?int $minLength = null;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private ?int $maxLength = null;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $indexed = false;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $visible = true;
 
-    #[
-        Serializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $required = false;
 
-    #[
-        Serializer\Groups(['node_type'])
-    ]
+    #[Serializer\Groups(['node_type'])]
     #[\Override]
     public function getNodeTypeName(): string
     {
@@ -320,7 +290,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     }
 
     #[Serializer\Ignore]
-    public function getNormalizationContextGroups(): ?array
+    public function getNormalizationContextGroups(): array
     {
         return $this->normalizationContext['groups'] ?? [];
     }

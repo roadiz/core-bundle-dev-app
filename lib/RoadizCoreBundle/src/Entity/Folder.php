@@ -28,9 +28,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Folders entity represent a directory on server with datetime and naming.
+ *
+ * @implements LeafInterface<Folder>
  */
-#[
-    ORM\Entity(repositoryClass: FolderRepository::class),
+#[ORM\Entity(repositoryClass: FolderRepository::class),
     ORM\HasLifecycleCallbacks,
     ORM\Table(name: 'folders'),
     ORM\Index(columns: ['visible']),
@@ -48,8 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'position',
         'createdAt',
         'updatedAt',
-    ])
-]
+    ])]
 class Folder implements DateTimedInterface, FolderInterface, LeafInterface, PersistableInterface
 {
     use SequentialIdTrait;

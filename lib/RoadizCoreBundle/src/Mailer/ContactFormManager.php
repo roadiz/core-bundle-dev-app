@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Mailer;
 
+use ApiPlatform\Metadata\Exception\OperationNotFoundException;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Validator\Exception\ValidationException;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Exception\BadFormRequestException;
 use RZ\Roadiz\CoreBundle\Form\CaptchaType;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializerInterface;
@@ -79,6 +84,9 @@ final class ContactFormManager
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializerInterface $formErrorSerializer,
         private readonly CaptchaServiceInterface $captchaService,
+        private readonly ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+        private readonly LoggerInterface $logger,
+        private readonly bool $useConstraintViolationList,
     ) {
         $this->options = [
             'attr' => [
@@ -107,7 +115,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function disableCsrfProtection(): self
+    public function disableCsrfProtection(): static
     {
         $this->options['csrf_protection'] = false;
 
@@ -116,7 +124,7 @@ final class ContactFormManager
 
     public function getForm(): FormInterface
     {
-        return $this->form;
+        return $this->form ?? $this->getFormBuilder()->getForm();
     }
 
     /**
@@ -128,7 +136,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function setEmailStrictMode(bool $emailStrictMode = true): self
+    public function setEmailStrictMode(bool $emailStrictMode = true): static
     {
         $this->emailStrictMode = $emailStrictMode;
 
@@ -145,7 +153,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function withDefaultFields(bool $useHoneypot = true): self
+    public function withDefaultFields(bool $useHoneypot = true): static
     {
         $this->getFormBuilder()->add('email', EmailType::class, [
             'label' => 'your.email',
@@ -188,7 +196,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function withHoneypot(string $honeypotName = 'eml'): self
+    public function withHoneypot(string $honeypotName = 'eml'): static
     {
         $this->getFormBuilder()->add($honeypotName, HoneypotType::class);
 
@@ -200,7 +208,7 @@ final class ContactFormManager
      *
      * @return $this
      */
-    public function withUserConsent(string $consentDescription = 'contact_form.user_consent'): self
+    public function withUserConsent(string $consentDescription = 'contact_form.user_consent'): static
     {
         $this->getFormBuilder()->add('consent', CheckboxType::class, [
             'label' => $consentDescription,
@@ -249,7 +257,7 @@ final class ContactFormManager
         $this->form = $this->getFormBuilder()->getForm();
         $this->form->handleRequest($request);
         $returnJson = $request->isXmlHttpRequest()
-            || 'json' === $request->getRequestFormat()
+            || in_array($request->getRequestFormat(), ['json', 'jsonld'], true)
             || (1 === count($request->getAcceptableContentTypes()) && 'application/json' === $request->getAcceptableContentTypes()[0])
             || ($request->attributes->has('_format') && 'json' === $request->attributes->get('_format'));
 
@@ -266,19 +274,18 @@ final class ContactFormManager
                         ...$this->getRecipients(),
                     );
                     if ($returnJson) {
-                        return new JsonResponse([], Response::HTTP_ACCEPTED);
-                    } else {
-                        if ($request->hasPreviousSession()) {
-                            /** @var Session $session */
-                            $session = $request->getSession();
-                            $session->getFlashBag()
-                                ->add('confirm', $this->translator->trans('form.successfully.sent'));
-                        }
-
-                        $this->redirectUrl ??= $request->getUri();
-
-                        return new RedirectResponse($this->redirectUrl);
+                        return new JsonResponse(null, Response::HTTP_ACCEPTED);
                     }
+                    if ($request->hasPreviousSession()) {
+                        /** @var Session $session */
+                        $session = $request->getSession();
+                        $session->getFlashBag()
+                            ->add('confirm', $this->translator->trans('form.successfully.sent'));
+                    }
+
+                    $this->redirectUrl ??= $request->getUri();
+
+                    return new RedirectResponse($this->redirectUrl);
                 } catch (BadFormRequestException $e) {
                     if (null !== $e->getFieldErrored() && $this->form->has($e->getFieldErrored())) {
                         $this->form->get($e->getFieldErrored())->addError(new FormError($e->getMessage()));
@@ -290,6 +297,20 @@ final class ContactFormManager
                 }
             }
             if ($returnJson) {
+                if ($this->useConstraintViolationList) {
+                    try {
+                        $this->resourceMetadataCollectionFactory->create(
+                            CustomForm::class
+                        )->getOperation('api_contact_form_post');
+                        $request->attributes->set('_api_operation_name', 'api_contact_form_post');
+                        $request->attributes->set('_api_resource_class', CustomForm::class);
+                        throw new ValidationException($this->formErrorSerializer->getErrorsAsConstraintViolationList($this->form));
+                    } catch (OperationNotFoundException) {
+                        // Do not use 422 response if api_contact_form_post operation does not exist
+                        $this->logger->warning('Operation "api_contact_form_post" not found, falling back to legacy errors-as-array response.');
+                    }
+                }
+
                 /*
                  * If form has errors during AJAX
                  * request we sent them.
@@ -318,16 +339,16 @@ final class ContactFormManager
     /**
      * @return array<RecipientInterface>
      */
-    protected function getRecipients(): array
+    private function getRecipients(): array
     {
         if (!empty($this->recipients)) {
             return $this->recipients;
         } elseif ($this->notifier instanceof Notifier) {
             return $this->notifier->getAdminRecipients();
-        } else {
-            // Fallback to the parent method if Notifier is not used
-            return [];
         }
+
+        // Fallback to the parent method if Notifier is not used
+        return [];
     }
 
     /**
@@ -352,7 +373,7 @@ final class ContactFormManager
      *
      * @throws BadFormRequestException
      */
-    protected function handleFiles(): array
+    private function handleFiles(): array
     {
         $uploadedFiles = [];
         $request = $this->requestStack->getMainRequest();
@@ -402,7 +423,7 @@ final class ContactFormManager
      *
      * @throws BadFormRequestException
      */
-    protected function addUploadedFile(array &$uploadedFiles, string $name, UploadedFile $uploadedFile): ContactFormManager
+    private function addUploadedFile(array &$uploadedFiles, string $name, UploadedFile $uploadedFile): static
     {
         if (
             !$uploadedFile->isValid()
@@ -410,14 +431,13 @@ final class ContactFormManager
             || $uploadedFile->getSize() > $this->maxFileSize
         ) {
             throw new BadFormRequestException($this->translator->trans('file.not.accepted'), Response::HTTP_FORBIDDEN, 'danger', $name);
-        } else {
-            $uploadedFiles[$name] = $uploadedFile;
         }
+        $uploadedFiles[$name] = $uploadedFile;
 
         return $this;
     }
 
-    protected function findEmailData(array $formData): ?string
+    private function findEmailData(array $formData): ?string
     {
         foreach ($formData as $key => $value) {
             if (
@@ -439,10 +459,11 @@ final class ContactFormManager
      *
      * @throws \Exception
      */
-    protected function createNotificationFromForm(FormInterface $form, array $uploadedFiles): ContactFormNotification
+    private function createNotificationFromForm(FormInterface $form, array $uploadedFiles): ContactFormNotification
     {
         $formData = $form->getData();
         $fields = $this->flattenFormData($form, []);
+        $request = $this->requestStack->getMainRequest();
 
         /*
          * Sender email
@@ -470,10 +491,12 @@ final class ContactFormManager
         /*
          * IP
          */
-        $fields[] = [
-            'name' => $this->translator->trans('ip.address'),
-            'value' => $this->requestStack->getMainRequest()->getClientIp(),
-        ];
+        if (null !== $request) {
+            $fields[] = [
+                'name' => $this->translator->trans('ip.address'),
+                'value' => $request->getClientIp(),
+            ];
+        }
 
         return new ContactFormNotification(
             [
@@ -481,7 +504,7 @@ final class ContactFormManager
                 'title' => $this->getEmailTitle(),
                 'fields' => $fields,
             ],
-            $this->requestStack->getMainRequest()->getLocale(),
+            $request?->getLocale() ?? 'en',
             $uploadedFiles,
             $emailData ? new Address($emailData) : null,
             $this->getSubject(),
@@ -497,7 +520,7 @@ final class ContactFormManager
         );
     }
 
-    public function getEmailTitle(): ?string
+    public function getEmailTitle(): string
     {
         return $this->emailTitle ?? $this->getSubject();
     }
@@ -528,7 +551,7 @@ final class ContactFormManager
         return $this;
     }
 
-    protected function isFieldPrivate(FormInterface $form): bool
+    private function isFieldPrivate(FormInterface $form): bool
     {
         $key = $form->getName();
         $privateFieldNames = [
@@ -536,12 +559,11 @@ final class ContactFormManager
         ];
 
         return
-            is_string($key)
-            && ('_' === \mb_substr($key, 0, 1) || \in_array($key, $privateFieldNames))
+            '_' === \mb_substr($key, 0, 1) || \in_array($key, $privateFieldNames)
         ;
     }
 
-    protected function flattenFormData(FormInterface $form, array $fields): array
+    private function flattenFormData(FormInterface $form, array $fields): array
     {
         /** @var FormInterface $formItem */
         foreach ($form as $formItem) {
@@ -645,7 +667,7 @@ final class ContactFormManager
     /**
      * @return $this
      */
-    public function setOptions(array $options): self
+    public function setOptions(array $options): static
     {
         $this->options = $options;
 

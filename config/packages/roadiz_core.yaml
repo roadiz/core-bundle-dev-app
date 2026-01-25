@@ -11,6 +11,8 @@ roadiz_core:
     helpExternalUrl: 'https://docs.roadiz.io'
     customPublicScheme: '%env(string:APP_CUSTOM_PUBLIC_SCHEME)%'
     customPreviewScheme: '%env(string:APP_CUSTOM_PREVIEW_SCHEME)%'
+    useConstraintViolationList: true
+    customFormPostOperationName: 'api_custom_forms_item_post'
     medias:
         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
         soundcloud_client_id: '%env(string:APP_SOUNDCLOUD_CLIENT_ID)%'
@@ -22,6 +24,9 @@ roadiz_core:
         verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
     inheritance:
         type: single_table
+    projectLogoUrl: '%env(string:APP_PROJECT_LOGO_URL)%'
+    generatedClassNamespace: '%env(string:APP_GENERATED_CLASS_NAMESPACE)%'
+    generatedRepositoryNamespace: '%env(string:APP_GENERATED_REPOSITORY_NAMESPACE)%'
 #    reverseProxyCache:
 #        # Test Varnish invalidation on dev too
 #        frontend:

@@ -11,25 +11,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeGroupTranslationTrait
 {
-    #[
-        ORM\ManyToOne(targetEntity: TranslationInterface::class),
+    #[ORM\ManyToOne(targetEntity: TranslationInterface::class),
         ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Groups(['attribute_group', 'attribute', 'attribute:export', 'node', 'nodes_sources']),
-    ]
+        Serializer\Groups(['attribute_group', 'attribute', 'attribute:export', 'node', 'nodes_sources']),]
     protected TranslationInterface $translation;
 
-    #[
-        ORM\Column(type: 'string', length: 255, unique: false, nullable: false),
+    #[ORM\Column(type: 'string', length: 255, unique: false, nullable: false),
         Serializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),
-        Assert\Length(max: 255)
-    ]
+        Assert\Length(max: 255)]
     protected string $name = '';
 
-    #[
-        ORM\ManyToOne(targetEntity: AttributeGroupInterface::class, cascade: ['persist'], inversedBy: 'attributeGroupTranslations'),
+    #[ORM\ManyToOne(targetEntity: AttributeGroupInterface::class, cascade: ['persist'], inversedBy: 'attributeGroupTranslations'),
         ORM\JoinColumn(name: 'attribute_group_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Ignore
-    ]
+        Serializer\Ignore]
     protected AttributeGroupInterface $attributeGroup;
 
     public function getName(): string
@@ -40,7 +34,7 @@ trait AttributeGroupTranslationTrait
     /**
      * @return $this
      */
-    public function setName(string $value): self
+    public function setName(string $value): static
     {
         $this->name = $value;
 
@@ -50,7 +44,7 @@ trait AttributeGroupTranslationTrait
     /**
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation): self
+    public function setTranslation(TranslationInterface $translation): static
     {
         $this->translation = $translation;
 
@@ -70,7 +64,7 @@ trait AttributeGroupTranslationTrait
     /**
      * @return $this
      */
-    public function setAttributeGroup(AttributeGroupInterface $attributeGroup): self
+    public function setAttributeGroup(AttributeGroupInterface $attributeGroup): static
     {
         $this->attributeGroup = $attributeGroup;
 

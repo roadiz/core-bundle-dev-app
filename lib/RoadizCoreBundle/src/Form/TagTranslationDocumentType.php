@@ -29,7 +29,7 @@ final class TagTranslationDocumentType extends AbstractType
             $this->onPostSubmit(...)
         );
         $builder->addModelTransformer(new TagTranslationDocumentsTransformer(
-            $this->managerRegistry->getManagerForClass(TagTranslationDocuments::class),
+            $this->managerRegistry->getManagerForClass(TagTranslationDocuments::class) ?? throw new \RuntimeException('No manager found for TagTranslationDocuments class.'),
             $options['tagTranslation']
         ));
     }
@@ -55,7 +55,7 @@ final class TagTranslationDocumentType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return CollectionType::class;
     }

@@ -21,8 +21,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class CustomFormType extends AbstractType
 {
-    public function __construct(private readonly Security $security)
-    {
+    public function __construct(
+        private readonly Security $security,
+    ) {
     }
 
     #[\Override]
@@ -43,7 +44,7 @@ final class CustomFormType extends AbstractType
                 'constraints' => [
                     new Callback(function ($value, ExecutionContextInterface $context) {
                         $emails = array_filter(
-                            array_map('trim', explode(',', $value ?? ''))
+                            array_map(trim(...), explode(',', $value ?? ''))
                         );
                         foreach ($emails as $email) {
                             if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {

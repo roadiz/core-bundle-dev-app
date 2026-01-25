@@ -467,6 +467,10 @@
         <source>node.isHome</source>
         <target state="final">Utiliser ce nœud comme page d'accueil</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.shadow" approved="yes">
+        <source>node.shadow</source>
+        <target state="final">Racine cachée</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="116" approved="yes">
         <source>choose.tag</source>
         <target state="final">Choisir les étiquettes</target>
@@ -1255,6 +1259,19 @@
         <source>duplicate</source>
         <target state="final">Dupliquer</target>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="duplicate.node.%name%">
+        <source>duplicate.node.%name%</source>
+        <target state="final">Dupliquer le nœud %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicate.node">
+        <source>duplicate.node</source>
+        <target state="final">Dupliquer un nœud</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.duplicate.node">
+        <source>are_you_sure.duplicate.node</source>
+        <target state="final">Êtes-vous sûr(e) de vouloir dupliquer ce nœud ainsi que tout sa descendance ?</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="315" approved="yes">
         <source>add.child</source>
         <target state="final">Ajouter un enfant</target>
@@ -1278,10 +1295,6 @@
       <trans-unit xml:space="preserve" id="320" approved="yes">
         <source>lock-status</source>
         <target state="final">Verrouillé</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="321" approved="yes">
-        <source>sterile-status</source>
-        <target state="final">Stérile</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="322" approved="yes">
         <source>archive-status</source>
@@ -1826,6 +1839,14 @@
         <source>document.embedId</source>
         <target state="final">Identifiant du média</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl" approved="yes">
+        <source>document.embedUrl</source>
+        <target state="final">URL du média</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.embedUrl.help" approved="yes">
+        <source>document.embedUrl.help</source>
+        <target state="final">Entrez l’URL d’une vidéo à intégrer (YouTube, Vimeo, etc.)</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="%field%.is.reserved.word" approved="yes">
         <source>%field%.is.reserved.word</source>
         <target state="final">Le nom «%field%» est un mot réservé.</target>
@@ -2042,6 +2063,10 @@
         <source>deleted.nodes</source>
         <target state="final">Supprimés</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="shadow.nodes" approved="yes">
+        <source>shadow.nodes</source>
+        <target state="final">Racines cachées</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="node.draft" approved="yes">
         <source>node.draft</source>
         <target state="final">Brouillon</target>
@@ -2070,10 +2095,6 @@
         <source>node.locked</source>
         <target state="final">Verrouillé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile" approved="yes">
-        <source>node.sterile</source>
-        <target state="final">Stérile (aucun enfant autorisé)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="node.isHome.help" approved="yes">
         <source>node.isHome.help</source>
         <target state="final">Indique si ce nœud est la page d’accueil de votre site. Cela changera son chemin en « / ».</target>
@@ -2089,10 +2110,6 @@
       <trans-unit xml:space="preserve" id="node.locked.help" approved="yes">
         <source>node.locked.help</source>
         <target state="final">Un nœud verrouillé ne peut pas être déplacé, renommé ou supprimé.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile.help" approved="yes">
-        <source>node.sterile.help</source>
-        <target state="final">Un nœud stérile ne peut pas avoir d’enfants.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
@@ -2508,6 +2525,10 @@
       <trans-unit xml:space="preserve" id="duplicated.node.%name%" approved="yes">
         <source>duplicated.node.%name%</source>
         <target state="final">Le nœud «%name%» a bien été dupliqué</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="copied.node.%name%">
+        <source>copied.node.%name%</source>
+        <target state="final">Le nœud «%name%» a bien été copié-collé</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="edit.customForm.%name%" approved="yes">
         <source>edit.customForm.%name%</source>
@@ -3664,6 +3685,22 @@
         <source>node.duplicate</source>
         <target state="final">Dupliquer</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.copy" approved="yes">
+        <source>node.copy</source>
+        <target state="final">Copier</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.paste_inside" approved="yes">
+        <source>node.paste_inside</source>
+        <target state="final">Coller à l'intérieur</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.paste_after" approved="yes">
+        <source>node.paste_after</source>
+        <target state="final">Coller après</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.copied_to_clipboard" approved="yes">
+        <source>node.copied_to_clipboard</source>
+        <target state="final">Le nœud a été copié dans le presse-papier</target>
+      </trans-unit>
       <!-- Some constraints messages -->
       <trans-unit xml:space="preserve" id="string.should.only.contain.latin.characters" approved="yes">
         <source>string.should.only.contain.latin.characters</source>
@@ -4198,6 +4235,16 @@
         <source>markdown.preview</source>
         <target state="final">Aperçu du Markdown</target>
         <note>For markdown.preview button label</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="markdown.translate_assistant_translate">
+        <source>markdown.translate_assistant_translate</source>
+        <target state="final">Traduire</target>
+        <note>For markdown.translate_assistant_translate button label</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="markdown.translate_assistant_rephrase">
+        <source>markdown.translate_assistant_rephrase</source>
+        <target state="final">Reformuler</target>
+        <note>For markdown.translate_assistant_rephrase button label</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.relative_url" approved="yes">
         <source>document.relative_url</source>
@@ -4801,6 +4848,33 @@
         <target state="final">Filtrer</target>
         <note>Button label for a generic filtering action.</note>
       </trans-unit>
+
+      <trans-unit xml:space="preserve" id="filter.by_tag">
+        <source>filter.by_tag</source>
+        <target state="final">Filtrer par étiquette</target>
+        <note>Select label for a filtering by tag.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="filter.by_tag.all">
+        <source>filter.by_tag.all</source>
+        <target state="final">-- Toutes les étiquettes --</target>
+        <note>Placeholder label for resetting filter by tag.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="filter.reset">
+        <source>filter.reset</source>
+        <target state="final">Réinitialiser</target>
+        <note>Button label for resetting filters.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item.not_published">
+        <source>item.not_published</source>
+        <target state="final">Non-publié</target>
+        <note>Icon label for unpublished items.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item.published">
+        <source>item.published</source>
+        <target state="final">Publié</target>
+        <note>Icon label for published items.</note>
+      </trans-unit>
+
       <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created" approved="yes">
         <source>%namespace%.%item%.was_created</source>
         <target state="final">%namespace% "%item%" a été créé.</target>
@@ -4986,6 +5060,11 @@
       <trans-unit xml:space="preserve" id="color_input.placeholder" approved="yes">
         <source>color_input.placeholder</source>
         <target state="final">Aucune couleur</target>
+      </trans-unit>
+
+      <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
+        <source>bookmarks.links</source>
+        <target state="final">Liens utiles</target>
       </trans-unit>
     </body>
   </file>

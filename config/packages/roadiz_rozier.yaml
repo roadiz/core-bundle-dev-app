@@ -4,7 +4,10 @@ parameters:
     env(OPEN_ID_HOSTED_DOMAIN): ''
     env(OPEN_ID_CLIENT_ID): ''
     env(OPEN_ID_CLIENT_SECRET): ''
+    env(DEEPL_API_KEY): ''
 roadiz_rozier:
+    translate_assistant:
+        deepl_api_key: '%env(string:DEEPL_API_KEY)%'
     csv_encoder_options:
         csv_delimiter: ';'
     open_id:
@@ -31,11 +34,25 @@ roadiz_rozier:
             - ROLE_BACKEND_USER
             - ROLE_SUPERADMIN
 
+    bookmarks:
+        - label: 'Documentation'
+          url: 'https://docs.roadiz.io/'
+        - label: 'Github'
+          url: 'https://github.com/roadiz'
+        - label: '%env(string:APP_EXAMPLE_BOOKMARK_LABEL)%'
+          url: '%env(string:APP_EXAMPLE_BOOKMARK_URL)%'
+
     entries:
         dashboard:
             name: dashboard
             route: adminHomePage
             icon: uk-icon-rz-dashboard
+
+        articles:
+            name: articles
+            route: appArticlesListPage
+            icon: uk-icon-paper-plane
+            roles: ~
 
         nodes:
             name: nodes
@@ -67,6 +84,11 @@ roadiz_rozier:
                     name: 'deleted.nodes'
                     route: nodesHomeDeletedPage
                     icon: uk-icon-rz-deleted-nodes
+                    roles: ~
+                shadow_nodes:
+                    name: 'shadow.nodes'
+                    route: nodesHomeShadowPage
+                    icon: uk-icon-flag-o
                     roles: ~
                 search_nodes:
                     name: 'search.nodes'
@@ -115,7 +137,6 @@ roadiz_rozier:
                 - 'ROLE_ACCESS_NODETYPES'
                 - 'ROLE_ACCESS_ATTRIBUTES'
                 - 'ROLE_ACCESS_TRANSLATIONS'
-                - 'ROLE_ACCESS_FONTS'
                 - 'ROLE_ACCESS_REDIRECTIONS'
                 - 'ROLE_ACCESS_WEBHOOKS'
                 - 'ROLE_ACCESS_REALMS'
@@ -135,11 +156,6 @@ roadiz_rozier:
                     route: translationsHomePage
                     icon: uk-icon-rz-translate
                     roles: ['ROLE_ACCESS_TRANSLATIONS']
-                manage_fonts:
-                    name: 'manage.fonts'
-                    route: fontsHomePage
-                    icon: 'uk-icon-rz-fontes'
-                    roles: ['ROLE_ACCESS_FONTS']
                 manage_redirections:
                     name: 'manage.redirections'
                     route: redirectionsHomePage

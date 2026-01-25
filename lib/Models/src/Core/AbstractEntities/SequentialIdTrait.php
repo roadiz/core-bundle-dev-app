@@ -9,12 +9,10 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 
 trait SequentialIdTrait
 {
-    #[
-        ORM\Id,
+    #[ORM\Id,
         ORM\Column(type: 'integer'),
         ORM\GeneratedValue,
-        Serializer\Groups(['id'])
-    ]
+        Serializer\Groups(['id'])]
     protected ?int $id = null;
 
     public function getId(): ?int

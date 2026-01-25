@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler(handles: DocumentExifMessage::class)]
 final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
@@ -36,6 +37,12 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
     #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
+        $mountPath = $document->getMountPath();
+
+        if (null === $mountPath) {
+            return;
+        }
+
         if (!$document instanceof Document) {
             return;
         }
@@ -46,7 +53,7 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
             return;
         }
 
-        $fileStream = $this->documentsStorage->readStream($document->getMountPath());
+        $fileStream = $this->documentsStorage->readStream($mountPath);
         $exif = @\exif_read_data($fileStream, 'FILE,COMPUTED,ANY_TAG,EXIF,COMMENT');
 
         if (false === $exif) {
@@ -66,10 +73,11 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
                 'document' => (string) $document,
             ]
         );
-        $manager = $this->managerRegistry->getManagerForClass(DocumentTranslation::class);
+        $manager = $this->managerRegistry
+            ->getManagerForClass(DocumentTranslation::class) ?? throw new UnrecoverableMessageHandlingException('No manager found for DocumentTranslation entity.');
         $defaultTranslation = $this->managerRegistry
             ->getRepository(Translation::class)
-            ->findDefault();
+            ->findDefault() ?? throw new UnrecoverableMessageHandlingException('No default translation found.');
 
         $documentTranslation = new DocumentTranslation();
         $documentTranslation->setCopyright($copyright)
@@ -85,7 +93,7 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
         foreach ($exif as $key => $section) {
             if (is_array($section)) {
                 foreach ($section as $skey => $value) {
-                    if ('copyright' === \mb_strtolower($skey)) {
+                    if ('copyright' === \mb_strtolower((string) $skey)) {
                         return $value;
                     }
                 }
@@ -98,21 +106,20 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
     private function getDescription(array $exif): ?string
     {
         foreach ($exif as $key => $section) {
-            if (is_string($section) && 'imagedescription' === \mb_strtolower($key)) {
+            if (is_string($section) && 'imagedescription' === \mb_strtolower((string) $key)) {
                 return $section;
             } elseif (is_array($section)) {
-                if ('comment' == \mb_strtolower($key)) {
+                if ('comment' == \mb_strtolower((string) $key)) {
                     $comment = '';
                     foreach ($section as $value) {
                         $comment .= $value.PHP_EOL;
                     }
 
                     return $comment;
-                } else {
-                    foreach ($section as $skey => $value) {
-                        if ('comment' == \mb_strtolower($skey)) {
-                            return $value;
-                        }
+                }
+                foreach ($section as $skey => $value) {
+                    if ('comment' == \mb_strtolower((string) $skey)) {
+                        return $value;
                     }
                 }
             }

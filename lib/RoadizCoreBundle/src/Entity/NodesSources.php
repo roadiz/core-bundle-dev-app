@@ -31,8 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * NodesSources store Node content according to a translation and a NodeType.
  */
-#[
-    ORM\Entity(repositoryClass: NodesSourcesRepository::class),
+#[ORM\Entity(repositoryClass: NodesSourcesRepository::class),
     ORM\Table(name: 'nodes_sources'),
     ORM\Index(columns: ['discr']),
     ORM\Index(columns: ['title']),
@@ -57,8 +56,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(RoadizFilter\LocaleFilter::class),
-    ApiFilter(RoadizFilter\TagGroupFilter::class),
-]
+    ApiFilter(RoadizFilter\TagGroupFilter::class),]
 class NodesSources implements PersistableInterface, Loggable, \Stringable
 {
     use SequentialIdTrait;
@@ -238,7 +236,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function addUrlAlias(UrlAlias $urlAlias): NodesSources
+    public function addUrlAlias(UrlAlias $urlAlias): static
     {
         if (!$this->urlAliases->contains($urlAlias)) {
             $this->urlAliases->add($urlAlias);
@@ -275,10 +273,13 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     #[SymfonySerializer\Ignore]
     public function getOneDisplayableDocument(): ?DocumentInterface
     {
-        return $this->getDocumentsByFields()->filter(fn (NodesSourcesDocuments $nsd) => null !== $nsd->getDocument()
-            && !$nsd->getDocument()->isPrivate()
-            && ($nsd->getDocument()->isImage() || $nsd->getDocument()->isSvg())
-            && $nsd->getDocument()->isProcessable())->map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument())->first() ?: null;
+        return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd): bool {
+            $document = $nsd->getDocument();
+
+            return !$document->isPrivate()
+                && ($document->isImage() || $document->isSvg())
+                && $document->isProcessable();
+        })->map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument())->first() ?: null;
     }
 
     /**
@@ -310,7 +311,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
      *
      * @return $this
      */
-    public function addDocumentsByFields(NodesSourcesDocuments $nodesSourcesDocuments): NodesSources
+    public function addDocumentsByFields(NodesSourcesDocuments $nodesSourcesDocuments): static
     {
         if (!$this->getDocumentsByFields()->contains($nodesSourcesDocuments)) {
             $this->getDocumentsByFields()->add($nodesSourcesDocuments);
@@ -392,7 +393,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setMetaTitle(?string $metaTitle): NodesSources
+    public function setMetaTitle(?string $metaTitle): static
     {
         $this->metaTitle = null !== $metaTitle ? trim($metaTitle) : '';
 
@@ -407,7 +408,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setMetaDescription(?string $metaDescription): NodesSources
+    public function setMetaDescription(?string $metaDescription): static
     {
         $this->metaDescription = null !== $metaDescription ? trim($metaDescription) : '';
 
@@ -459,9 +460,9 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
             $nodeSources = $parent->getNodeSourcesByTranslation($this->translation)->first();
 
             return $nodeSources ?: null;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     #[\Override]
@@ -478,7 +479,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setTitle(?string $title): NodesSources
+    public function setTitle(?string $title): static
     {
         $this->title = null !== $title ? trim($title) : null;
 
@@ -493,7 +494,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation): NodesSources
+    public function setTranslation(TranslationInterface $translation): static
     {
         $this->translation = $translation;
 
@@ -512,6 +513,14 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     public function getNodeTypeColor(): string
     {
         return '#000000';
+    }
+
+    #[SymfonySerializer\Groups(['nodes_sources_published'])]
+    public function isPublished(): bool
+    {
+        return $this->getNode()->isPublished()
+            && null !== $this->getPublishedAt()
+            && $this->getPublishedAt() <= new \DateTime();
     }
 
     /**
@@ -535,7 +544,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
      *
      * @return $this
      */
-    public function withNodesSources(NodesSources $nodesSources): self
+    public function withNodesSources(NodesSources $nodesSources): static
     {
         $this->setTitle($nodesSources->getTitle());
         $this->setPublishedAt($nodesSources->getPublishedAt());

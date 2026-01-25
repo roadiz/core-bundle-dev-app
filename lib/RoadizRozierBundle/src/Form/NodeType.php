@@ -27,6 +27,11 @@ class NodeType extends AbstractType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Node|null $node */
+        $node = $builder->getData();
+        $isReachable = null !== $node && $this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable();
+        $isShadow = null !== $node && $node->isShadow();
+
         $builder->add('nodeName', TextType::class, [
             'label' => 'nodeName',
             'empty_data' => '',
@@ -36,17 +41,15 @@ class NodeType extends AbstractType
                 'label' => 'node.dynamicNodeName',
                 'required' => false,
                 'help' => 'dynamic_node_name_will_follow_any_title_change_on_default_translation',
+                'disabled' => $isShadow,
             ])
         ;
-
-        /** @var Node|null $node */
-        $node = $builder->getData();
-        $isReachable = null !== $node && $this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable();
         if ($isReachable) {
             $builder->add('home', CheckboxType::class, [
                 'label' => 'node.isHome',
                 'help' => 'node.isHome.help',
                 'required' => false,
+                'disabled' => $isShadow,
             ]);
         }
 
@@ -65,10 +68,11 @@ class NodeType extends AbstractType
                 'label' => 'node.locked',
                 'help' => 'node.locked.help',
                 'required' => false,
+                'disabled' => $isShadow,
             ]);
-            $builder->add('sterile', CheckboxType::class, [
-                'label' => 'node.sterile',
-                'help' => 'node.sterile.help',
+            $builder->add('shadow', CheckboxType::class, [
+                'label' => 'node.shadow',
+                'help' => 'node.shadow.help',
                 'required' => false,
             ]);
         }
@@ -90,6 +94,7 @@ class NodeType extends AbstractType
             $builder->add('ttl', IntegerType::class, [
                 'label' => 'node.ttl',
                 'help' => 'node_time_to_live_cache_on_front_controller',
+                'disabled' => $isShadow,
             ]);
         }
     }

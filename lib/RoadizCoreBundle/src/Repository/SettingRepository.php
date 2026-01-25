@@ -72,6 +72,6 @@ final class SettingRepository extends EntityRepository
         $query = $builder->getQuery();
         $query->enableResultCache(3600, 'RZSettingAll');
 
-        return array_map('current', $query->getScalarResult());
+        return array_map(current(...), $query->getScalarResult());
     }
 }

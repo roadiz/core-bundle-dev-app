@@ -19,50 +19,34 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class NodeType implements NodeTypeInterface, \Stringable
 {
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
-        Assert\Length(max: 7),
-    ]
-    protected ?string $color = '#000000';
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
+        Assert\Length(max: 7),]
+    private ?string $color = '#000000';
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Assert\NotNull(),
         Assert\NotBlank(),
         RoadizAssert\SimpleLatinString(),
         // Limit discriminator column to 30 characters for indexing optimization
-        Assert\Length(max: 30)
-    ]
+        Assert\Length(max: 30)]
     private string $name = '';
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Assert\NotNull(),
         Assert\NotBlank(),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     private string $displayName = '';
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private ?string $description = null;
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),]
     private bool $visible = true;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $publishable = false;
 
     /**
      * @var bool define if this node-type produces nodes that will have attributes
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $attributable = false;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $sortingAttributesByWeight = false;
     /**
      * Define if this node-type produces nodes that will be
@@ -70,45 +54,31 @@ final class NodeType implements NodeTypeInterface, \Stringable
      *
      * Typically, if a node has a URL.
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $reachable = true;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $hidingNodes = false;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $hidingNonReachableNodes = false;
     /**
      * @var Collection<int, NodeTypeField>
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private Collection $fields;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),
         Assert\GreaterThanOrEqual(value: 0),
-        Assert\NotNull
-    ]
+        Assert\NotNull]
     // @phpstan-ignore-next-line
     private ?int $defaultTtl = 0;
     /**
      * Define if this node-type title will be indexed during its parent indexation.
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $searchable = true;
     /**
      * Define if this node type is allowed in the first position in node-type selector on node creation.
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $highlighted = false;
 
     public function __construct()
@@ -132,7 +102,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     /**
      * @return $this
      */
-    public function setDisplayName(?string $displayName): NodeType
+    public function setDisplayName(?string $displayName): static
     {
         $this->displayName = $displayName ?? '';
 
@@ -148,7 +118,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     /**
      * @return $this
      */
-    public function setDescription(?string $description = null): NodeType
+    public function setDescription(?string $description = null): static
     {
         $this->description = $description;
 
@@ -164,7 +134,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     /**
      * @return $this
      */
-    public function setVisible(bool $visible): NodeType
+    public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
 
@@ -210,7 +180,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     /**
      * @return $this
      */
-    public function setHidingNodes(bool $hidingNodes): NodeType
+    public function setHidingNodes(bool $hidingNodes): static
     {
         $this->hidingNodes = $hidingNodes;
 
@@ -243,7 +213,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
      *
      * @return $this
      */
-    public function setColor(?string $color): NodeType
+    public function setColor(?string $color): static
     {
         $this->color = $color;
 
@@ -315,7 +285,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     /**
      * @return $this
      */
-    public function setName(?string $name): NodeType
+    public function setName(?string $name): static
     {
         $this->name = StringHandler::classify($name ?? '');
 
@@ -343,6 +313,8 @@ final class NodeType implements NodeTypeInterface, \Stringable
 
     /**
      * @return class-string<NodesSources>
+     *
+     * @deprecated use NodeTypeClassLocator service instead
      */
     #[SymfonySerializer\Ignore]
     #[\Override]
@@ -352,6 +324,9 @@ final class NodeType implements NodeTypeInterface, \Stringable
         return static::getGeneratedEntitiesNamespace().'\\'.$this->getSourceEntityClassName();
     }
 
+    /**
+     * @deprecated use NodeTypeClassLocator service instead
+     */
     #[SymfonySerializer\Ignore]
     public static function getGeneratedEntitiesNamespace(): string
     {
@@ -360,6 +335,8 @@ final class NodeType implements NodeTypeInterface, \Stringable
 
     /**
      * Get node-source entity class name without its namespace.
+     *
+     * @deprecated use NodeTypeClassLocator service instead
      */
     #[SymfonySerializer\Ignore]
     #[\Override]

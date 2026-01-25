@@ -76,10 +76,10 @@
                         </td>
                         <td class="table-actions-row">
                             <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success mobile-hidden"
-                                   href="#"
+                                <button class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success mobile-hidden"
+                                   type="button"
                                    title="{% trans %}save{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></a>
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></button>
                                 <a class="uk-button uk-button-content uk-button-small"
                                    href="{{ path('settingsEditPage', { settingId: setting.setting.getId }) }}"
                                    title="{% trans %}edit{% endtrans %}"

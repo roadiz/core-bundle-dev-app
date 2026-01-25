@@ -202,6 +202,61 @@
                 <target></target>
                 <note></note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="custom-form.webhook">
+                <source>custom-form.webhook</source>
+                <target></target>
+                <note>Navigation title for webhook configuration</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.section">
+                <source>customForm.webhook.section</source>
+                <target></target>
+                <note>Section title for webhook configuration</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.enabled">
+                <source>customForm.webhook.enabled</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.enabled.help">
+                <source>customForm.webhook.enabled.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.provider">
+                <source>customForm.webhook.provider</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.provider.help">
+                <source>customForm.webhook.provider.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.provider.placeholder">
+                <source>customForm.webhook.provider.placeholder</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping">
+                <source>customForm.webhook.fieldMapping</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.fieldMapping.help">
+                <source>customForm.webhook.fieldMapping.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig">
+                <source>customForm.webhook.extraConfig</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.webhook.extraConfig.help">
+                <source>customForm.webhook.extraConfig.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
         </body>
     </file>
 </xliff>

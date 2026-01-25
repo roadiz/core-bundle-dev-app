@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Bag;
 
 use Doctrine\DBAL\Driver\Exception;
 use RZ\Roadiz\Bag\LazyParameterBag;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeDecoratorRepository;
@@ -18,6 +19,7 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
         private readonly NodeTypeDecoratorRepository $repository,
+        private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
         parent::__construct();
     }
@@ -36,7 +38,7 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
             } catch (Exception) {
             }
             $this->parameters[$decoratedNodeType->getName()] = $decoratedNodeType;
-            $this->parameters[$decoratedNodeType->getSourceEntityFullQualifiedClassName()] = $decoratedNodeType;
+            $this->parameters[$this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($decoratedNodeType)] = $decoratedNodeType;
         }
 
         $this->ready = true;
@@ -100,9 +102,9 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
         usort($nodeTypes, function (NodeType $a, NodeType $b) use ($sort) {
             if ('DESC' !== $sort) {
                 return strcmp($a->getName(), $b->getName());
-            } else {
-                return strcmp($b->getName(), $a->getName());
             }
+
+            return strcmp($b->getName(), $a->getName());
         });
 
         return $nodeTypes;

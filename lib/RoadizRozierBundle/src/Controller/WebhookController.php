@@ -43,7 +43,7 @@ final class WebhookController extends AbstractAdminWithBulkController
         /** @var Webhook|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
 
-        if (!($item instanceof PersistableInterface)) {
+        if (!$item instanceof PersistableInterface) {
             throw $this->createNotFoundException();
         }
 
@@ -151,7 +151,7 @@ final class WebhookController extends AbstractAdminWithBulkController
     }
 
     #[\Override]
-    protected function getBulkDeleteRouteName(): ?string
+    protected function getBulkDeleteRouteName(): string
     {
         return 'webhooksBulkDeletePage';
     }

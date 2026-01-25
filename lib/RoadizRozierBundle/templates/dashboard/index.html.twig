@@ -1,4 +1,4 @@
-{% extends '@RoadizRozier/layout.html.twig' %}
+{% extends "@RoadizRozier/admin/base.html.twig" %}
 
 {% if app.user %}
     {% set displayName = app.user.firstName|default(app.user.nickname|default(app.user.givenName|default(app.user.name|default(app.user.userIdentifier)))) %}
@@ -8,58 +8,76 @@
 
 {% block title %}{% trans %}dashboard{% endtrans %} | {{ parent() }}{% endblock %}
 
-{% block content %}
-<section class="content-global">
-    <header class="content-header dashboard-header">
-        <h1 class="content-title dashboard-title">{{ "hello.%name%"|trans({'%name%': displayName}) }}</h1>
-        {% include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'dashboard'} %}
-    </header>
+{%- block content_title -%}{{ "hello.%name%"|trans({'%name%': displayName}) }}{%- endblock -%}
 
-    <article class="content content-dashboard">
+{%- block content_header_nav -%}
+    {%- include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'dashboard'} -%}
+{%- endblock -%}
+
+{%- block content_body -%}
+<article class="content">
+    <div class="rz-dashboard">
+        {%- block dashboard_panels -%}{%- endblock -%}
         {% if bags.settings.get('dashboard_iframe') %}
-            <div class="dashboard-iframe">
-                {{- bags.settings.get('dashboard_iframe')|striptags(['iframe','script'])|raw -}}
+            <div class="rz-dashboard__row">
+                <div class="rz-dashboard__panel uk-panel uk-panel-box dashboard-iframe">
+                    {{- bags.settings.get('dashboard_iframe')|striptags(['iframe','script'])|raw -}}
+                </div>
             </div>
         {% endif %}
         {% if latestLogs %}
-        <div id="latest-sources">
-            <h3>{% trans %}latest.node-sources.updates{% endtrans %}</h3>
-            {%- for log in latestLogs -%}
-                <div class="latest-source">
-                    {% set entityPath = log_entity_edit_path(log) %}
-                    {% if entityPath %}
-                    <a href="{{ entityPath }}">
-                    {% endif %}
-                        {% set thumbnail = log.additionalData.entity_thumbnail_src %}
-                        <figure>
-                            {% if thumbnail %}
-                                <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
-                            {% else %}
-                                <span class="no-thumb"></span>
-                            {% endif %}
-                            {% if log.additionalData.user_picture_url %}
-                                <img width="60"
-                                     height="60"
-                                     class="user-image"
-                                     src="{{ log.additionalData.user_picture_url }}"
-                                     alt="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                     title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                     data-uk-tooltip="{animation:true}"/>
-                            {% elseif log.username %}
-                                <span class="user-image"
-                                      title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                      data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
-                            {% endif %}
-                        </figure>
-                        <p class="source-title">{{ log.additionalData.entity_title }}</p>
-                        <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
-                    {% if entityPath %}
-                    </a>
-                    {% endif %}
-                </div>
-            {%- endfor -%}
+        <div class="rz-dashboard__row">
+            <div class="rz-dashboard__panel rz-dashboard__panel--double uk-panel uk-panel-box" id="latest-sources">
+                <h3 class="uk-panel-title uk-text-center">{% trans %}latest.node-sources.updates{% endtrans %}</h3>
+                <ul class="latest-source-list">
+                {%- for log in latestLogs -%}
+                    <li class="latest-source">
+                        {% set entityPath = log_entity_edit_path(log) %}
+                        {% if entityPath %}
+                        <a href="{{ entityPath }}">
+                        {% endif %}
+                            {% set thumbnail = log.additionalData.entity_thumbnail_src %}
+                            <figure>
+                                {% if thumbnail %}
+                                    <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
+                                {% else %}
+                                    <span class="no-thumb"></span>
+                                {% endif %}
+                                {% if log.additionalData.user_picture_url %}
+                                    <img width="60"
+                                         height="60"
+                                         class="user-image"
+                                         src="{{ log.additionalData.user_picture_url }}"
+                                         alt="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                         title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                         data-uk-tooltip="{animation:true}"/>
+                                {% elseif log.username %}
+                                    <span class="user-image"
+                                          title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                          data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
+                                {% endif %}
+                            </figure>
+                            <p class="source-title">{{ log.additionalData.entity_title }}</p>
+                            <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
+                        {% if entityPath %}
+                        </a>
+                        {% endif %}
+                    </li>
+                {%- endfor -%}
+                </ul>
+            </div>
+            {% if bookmarks|length %}
+            <div class="rz-dashboard__panel uk-panel uk-panel-box" id="dashboard-bookmarks">
+                <h3 class="uk-panel-title uk-text-center">{% trans %}bookmarks.links{% endtrans %}</h3>
+                <ul class="uk-list uk-list-striped">
+                    {% for bookmark in bookmarks %}
+                        <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
         {% endif %}
-    </article>
-</section>
-{% endblock %}
+    </div>
+</article>
+{%- endblock -%}

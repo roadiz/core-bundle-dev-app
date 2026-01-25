@@ -24,8 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Translations describe language locales to be used by Nodes,
  * Tags, UrlAliases and Documents.
  */
-#[
-    ORM\Entity(repositoryClass: TranslationRepository::class),
+#[ORM\Entity(repositoryClass: TranslationRepository::class),
     ORM\Table(name: 'translations'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['available']),
@@ -53,9 +52,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(BaseFilter\SearchFilter::class, properties: [
         'locale' => 'exact',
         'name' => 'exact',
-    ])
-]
-class Translation implements TranslationInterface
+    ])]
+class Translation implements \Stringable, TranslationInterface
 {
     use SequentialIdTrait;
     use DateTimedTrait;
@@ -663,7 +661,7 @@ class Translation implements TranslationInterface
      * @return $this
      */
     #[\Override]
-    public function setName(?string $name): Translation
+    public function setName(?string $name): static
     {
         $this->name = $name ?? '';
 
@@ -680,7 +678,7 @@ class Translation implements TranslationInterface
      * @return $this
      */
     #[\Override]
-    public function setLocale(string $locale): Translation
+    public function setLocale(string $locale): static
     {
         $this->locale = $locale;
 
@@ -697,7 +695,7 @@ class Translation implements TranslationInterface
      * @return $this
      */
     #[\Override]
-    public function setAvailable(bool $available): Translation
+    public function setAvailable(bool $available): static
     {
         $this->available = $available;
 
@@ -714,7 +712,7 @@ class Translation implements TranslationInterface
      * @return $this
      */
     #[\Override]
-    public function setDefaultTranslation(bool $defaultTranslation): Translation
+    public function setDefaultTranslation(bool $defaultTranslation): static
     {
         $this->defaultTranslation = $defaultTranslation;
 

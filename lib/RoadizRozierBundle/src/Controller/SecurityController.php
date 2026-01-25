@@ -72,7 +72,7 @@ class SecurityController extends AbstractController
             $email = $request->getPayload()->get('email');
             $user = $userRepository->findOneBy(['email' => $email]);
 
-            if (!($user instanceof UserInterface)) {
+            if (!$user instanceof UserInterface) {
                 // Do not reveal whether a user account exists or not
                 return $this->redirectToRoute('roadiz_rozier_login_link_sent');
             }
@@ -94,7 +94,7 @@ class SecurityController extends AbstractController
         return $this->render('@RoadizRozier/security/login_link_sent.html.twig');
     }
 
-    #[Route(path: '/rz-admin/logout', name: 'roadiz_rozier_logout')]
+    #[Route(path: '/rz-admin/logout', name: 'logoutPage')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

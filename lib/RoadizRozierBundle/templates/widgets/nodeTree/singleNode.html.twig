@@ -67,18 +67,12 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                 title="{{ type.displayName }}"
                 data-uk-tooltip="{animation:true}"{%- endif -%}>
                 {% if not mainNodeTree and not nodeTree.isStackTree %}
-                    {% set thumbnail = nodeTree.getOneDisplayableDocument(node) %}
-                    {% if thumbnail %}
-                        <figure class="nodetree-element-img">
-                            {{ thumbnail|display({
-                                width: 60,
-                                crop: '1:1',
-                                align: thumbnail.imageCropAlignment,
-                                hotspot: thumbnail.hotspotAsString,
-                                quality: 50
-                            }) }}
-                        </figure>
-                    {% endif %}
+                    <rz-entity-thumbnail
+                        class="nodetree-element-img"
+                        size="small"
+                        entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
+                        entity-id="{{ node.id }}"
+                    ></rz-entity-thumbnail>
                 {% endif %}
 
                 {% if node.isHidingChildren and not node.isHome %}
@@ -152,8 +146,12 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                     node: node.id,
                     translation: nodeTree.translation.id
                 }) }}"
+                data-node-id="{{ node.id }}"
                 data-node-status-path="{{ path('nodesStatusesAjax') }}"
-                data-node-edit-path="{{ path('nodeAjaxEdit', { nodeId: node.id }) }}"
+                data-node-duplicate-path="{{ path('nodesDuplicateAjax') }}"
+                data-node-paste-path="{{ path('nodesPasteAjax') }}"
+                data-node-copied-trans="{{ 'node.copied_to_clipboard'|trans }}"
+                data-node-edit-position-path="{{ path('nodesPositionAjax') }}"
             >
                 <button
                    type="button"

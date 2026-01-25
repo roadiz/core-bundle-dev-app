@@ -7,7 +7,7 @@
 
     <header class="content-header header-node header-node-add">
         <h1 class="content-title">{% trans %}add.a.node{% endtrans %}</h1>
-        {% if parentNode %}<h2><em>{% trans %}In{% endtrans %}</em> {{ parentNode.getNodeName }}</h2>{% endif %}
+        {% if parentNode %}<h2><em>{% trans %}In{% endtrans %}</em> {{ parentnode.nodeName }}</h2>{% endif %}
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
     </header>
 
@@ -20,8 +20,8 @@
             }
         }) }}{{ form_widget(form) }}
         <fieldset data-uk-margin>
-            <button data-action-save="#add-node-form"
-                    class="uk-button uk-button-success rz-action-save" type="submit">
+            <button is="rz-save-button" data-action-save="#add-node-form"
+                    class="uk-button uk-button-success" type="submit">
                 <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
                 <span class="label"><span class="label-text">{% trans %}add.a.node{% endtrans %}</span></span>
             </button>

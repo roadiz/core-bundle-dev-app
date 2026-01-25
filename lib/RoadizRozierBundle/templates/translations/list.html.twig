@@ -50,8 +50,8 @@
                     {% for t in translations %}
                     <tr>
                         <td><a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">{{ t.translation.getName }}</a></td>
-                        <td>{{ t.translation.getLocale }}</td>
-                        <td>{{ t.translation.getOverrideLocale }}</td>
+                        <td>{{ t.translation.locale }}</td>
+                        <td>{{ t.translation.overrideLocale }}</td>
                         <td>
                         {% if t.translation.isAvailable == false %}<div class="uk-badge uk-badge-warning">{% trans %}not_available{% endtrans %}</div>{% endif %}
                         {% if t.translation.isDefaultTranslation == true %}

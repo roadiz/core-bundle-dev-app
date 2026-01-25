@@ -12,9 +12,10 @@ use RZ\Roadiz\CoreBundle\SearchEngine\GlobalNodeSourceSearchHandler;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -36,16 +37,21 @@ final class AjaxSearchController extends AbstractAjaxController
     /**
      * Handle AJAX edition requests for Node such as coming from node-tree widgets.
      */
-    public function searchAction(Request $request): JsonResponse
-    {
+    #[Route('/rz-admin/ajax/search', name: 'searchAjax', methods: ['GET'], format: 'json')]
+    public function searchAction(
+        #[MapQueryParameter]
+        string $searchTerms = '',
+    ): JsonResponse {
         $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
 
-        if (!$request->query->has('searchTerms') || '' == $request->query->get('searchTerms')) {
+        $searchTerms = strip_tags($searchTerms);
+
+        if (empty($searchTerms)) {
             throw new BadRequestHttpException('searchTerms parameter is missing.');
         }
 
         $nodesSources = $this->globalNodeSourceSearchHandler->getNodeSourcesBySearchTerm(
-            $request->get('searchTerms'),
+            $searchTerms,
             self::RESULT_COUNT
         );
 
@@ -61,7 +67,6 @@ final class AjaxSearchController extends AbstractAjaxController
         $data = [];
 
         foreach ($nodesSources as $source) {
-            $uniqueKey = null;
             if ($source instanceof NodesSources) {
                 $uniqueKey = 'n_'.$source->getNode()->getId();
                 if (!$this->security->isGranted(NodeVoter::READ, $source)) {
@@ -69,6 +74,8 @@ final class AjaxSearchController extends AbstractAjaxController
                 }
             } elseif ($source instanceof PersistableInterface) {
                 $uniqueKey = 'p_'.$source->getId();
+            } else {
+                continue;
             }
             if (key_exists($uniqueKey, $data)) {
                 continue;

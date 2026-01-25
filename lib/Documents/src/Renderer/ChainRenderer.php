@@ -19,7 +19,7 @@ class ChainRenderer implements RendererInterface
          * @var RendererInterface $renderer
          */
         foreach ($renderers as $renderer) {
-            if (!($renderer instanceof RendererInterface)) {
+            if (!$renderer instanceof RendererInterface) {
                 throw new \InvalidArgumentException('Document Renderer must implement RendererInterface');
             }
         }
@@ -29,7 +29,7 @@ class ChainRenderer implements RendererInterface
     /**
      * @return $this
      */
-    public function addRenderer(RendererInterface $renderer): ChainRenderer
+    public function addRenderer(RendererInterface $renderer): static
     {
         $this->renderers[] = $renderer;
 

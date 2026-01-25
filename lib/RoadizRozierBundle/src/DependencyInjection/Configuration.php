@@ -64,15 +64,30 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                     ->end()
                 ->end() // entries
+                ->arrayNode('bookmarks')
+                    ->defaultValue([])
+                    ->info('Rozier backoffice bookmark items.')
+                    ->prototype('array')
+                    ->children()
+                        ->scalarNode('label')
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('url')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                    ->end()
+                ->end() // bookmarks
             ->end()
             ->append($this->addOpenIdNode())
             ->append($this->addCsvNode())
+            ->append($this->addTranslateAssistantNode())
         ;
 
         return $builder;
     }
 
-    protected function addOpenIdNode(): NodeDefinition
+    private function addOpenIdNode(): NodeDefinition
     {
         $builder = new TreeBuilder('open_id');
         $node = $builder->getRootNode();
@@ -157,7 +172,7 @@ EOD
         return $node;
     }
 
-    protected function addCsvNode(): NodeDefinition
+    private function addCsvNode(): NodeDefinition
     {
         $builder = new TreeBuilder('csv_encoder_options');
         $node = $builder->getRootNode();
@@ -181,6 +196,20 @@ EOD
                 ->end()
                 ->booleanNode('output_utf8_bom')
                     ->defaultFalse()
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    private function addTranslateAssistantNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('translate_assistant');
+        $node = $builder->getRootNode();
+        $builder->getRootNode()
+            ->children()
+                ->scalarNode('deepl_api_key')
+                    ->cannotBeEmpty()
                 ->end()
             ->end();
 

@@ -1,0 +1,59 @@
+
+.rz-switch {
+	--rz-switch-width: 44px;
+	--rz-switch-inner-width: 18px;
+	--rz-switch-padding-inline: 3px;
+
+	display: flex;
+	width: var(--rz-switch-width);
+	height: 24px;
+	padding: var(--rz-switch-padding-inline) 3px;
+	align-items: center;
+	border-radius: 14px;
+	background-color: var(--toggle-bg, #BCBCBC);
+	cursor: pointer;
+	transition: background-color 0.2s;
+	border: none;
+
+	&::after,
+	&::before {
+		position: absolute;
+		content: '';
+		width: var(--rz-switch-inner-width);
+		aspect-ratio: 1;
+		transition: translate 0.2s, opacity 0.2s;
+	}
+
+	&::before {
+		border-radius: 50vmax;
+		background-color: var(--toggle-bg-cursor-inactive, #F8F8F8);
+	}
+
+	/* https://icon-sets.iconify.design/ri/?icon-filter=check-line&keyword=remix */
+	&::after {
+		display: inline-block;
+		background-color: currentColor;
+		-webkit-mask-image: url('assets/img/icons/ri/check-line.svg');
+		mask-image: url('assets/img/icons/ri/check-line.svg');
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		-webkit-mask-size: 14px 14px;
+		mask-size: 14px 14px;
+		mask-position: center;
+		opacity: 0;
+	}
+}
+
+.rz-switch--checked {
+	color: var(--status-success, #16A867);
+	background-color: var(--status-success, #16A867);
+
+	&::before,
+	&::after {
+		translate: calc(var(--rz-switch-width) - var(--rz-switch-padding-inline) * 2 - var(--rz-switch-inner-width));
+	}
+
+	&::after {
+		opacity: 1;
+	}
+}

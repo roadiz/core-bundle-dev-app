@@ -34,7 +34,6 @@ final class DocumentEmbedController extends AbstractController
 {
     public function __construct(
         private readonly EmbedFinderFactory $embedFinderFactory,
-        private readonly array $documentPlatforms,
         private readonly LoggerInterface $logger,
         private readonly RandomImageFinder $randomImageFinder,
         private readonly DocumentFactory $documentFactory,
@@ -59,9 +58,7 @@ final class DocumentEmbedController extends AbstractController
             $folder = $this->managerRegistry->getRepository(Folder::class)->find($folderId);
         }
 
-        $form = $this->createForm(DocumentEmbedType::class, null, [
-            'document_platforms' => $this->documentPlatforms,
-        ]);
+        $form = $this->createForm(DocumentEmbedType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -94,7 +91,7 @@ final class DocumentEmbedController extends AbstractController
                 return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
             } catch (ClientExceptionInterface $e) {
                 $this->logger->error($e->getMessage());
-                if (null !== $e->getResponse() && in_array($e->getResponse()->getStatusCode(), [401, 403, 404])) {
+                if (in_array($e->getResponse()->getStatusCode(), [401, 403, 404])) {
                     $form->addError(new FormError(
                         $this->translator->trans('document.media_not_found_or_private')
                     ));
@@ -123,6 +120,9 @@ final class DocumentEmbedController extends AbstractController
 
         try {
             $document = $this->randomDocument($folderId);
+            if (null === $document) {
+                throw new \RuntimeException('document.random_not_found');
+            }
 
             $msg = $this->translator->trans('document.%name%.uploaded', [
                 '%name%' => (new UnicodeString((string) $document))->truncate(50, '...')->toString(),
@@ -154,11 +154,8 @@ final class DocumentEmbedController extends AbstractController
             if ($document instanceof DocumentInterface) {
                 return $document;
             }
-            if (is_array($document) && isset($document[0])) {
-                return $document[0];
-            }
 
-            return null;
+            return $document[0] ?? null;
         }
         throw new \RuntimeException('Random image finder must be instance of '.EmbedFinderInterface::class);
     }
@@ -170,14 +167,10 @@ final class DocumentEmbedController extends AbstractController
      */
     private function embedDocument(array $data, ?int $folderId = null): DocumentInterface|array
     {
-        $handlers = $this->documentPlatforms;
-
         if (
-            isset($data['embedId'])
-            && isset($data['embedPlatform'])
-            && in_array($data['embedPlatform'], array_keys($handlers))
+            isset($data['embedUrl'])
         ) {
-            $finder = $this->embedFinderFactory->createForPlatform($data['embedPlatform'], $data['embedId']);
+            $finder = $this->embedFinderFactory->createForUrl($data['embedUrl']);
             if (null === $finder) {
                 throw new \RuntimeException('No embed finder found for platform '.$data['embedPlatform']);
             }
@@ -189,9 +182,8 @@ final class DocumentEmbedController extends AbstractController
             }
 
             return $this->createDocumentFromFinder($finder, $folderId);
-        } else {
-            throw new \RuntimeException('bad.request', 1);
         }
+        throw new \RuntimeException('bad.request', 1);
     }
 
     /**
@@ -206,7 +198,9 @@ final class DocumentEmbedController extends AbstractController
         if (null !== $folderId && $folderId > 0) {
             /** @var Folder|null $folder */
             $folder = $this->managerRegistry->getRepository(Folder::class)->find($folderId);
-
+            if (null === $folder) {
+                throw new \RuntimeException('Folder not found');
+            }
             if (is_iterable($document)) {
                 /** @var DocumentInterface $singleDocument */
                 foreach ($document as $singleDocument) {

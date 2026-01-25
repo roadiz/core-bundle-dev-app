@@ -11,6 +11,9 @@
             <trans-unit xml:space="preserve" id="node.nodeName.help">
                 <source>node.nodeName.help</source>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="node.shadow.help">
+                <source>node.shadow.help</source>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="tag.tagName.help">
                 <source>tag.tagName.help</source>
             </trans-unit>

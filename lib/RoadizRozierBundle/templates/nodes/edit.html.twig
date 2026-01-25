@@ -1,7 +1,7 @@
 {% if source and source.title %}
 {% set currentTitle = source.title %}
 {% else %}
-{% set currentTitle = node.getNodeName %}
+{% set currentTitle = node.nodeName %}
 {% endif %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
@@ -26,7 +26,7 @@
         {{ form_start(form, { attr: {id: 'edit-node-form'}}) }}
         {{ form_widget(form) }}
         <fieldset data-uk-margin>
-            <button data-action-save="#edit-node-form" class="uk-button uk-button-success rz-action-save" type="submit">
+            <button is="rz-save-button" data-action-save="#edit-node-form" class="uk-button uk-button-success" type="submit">
                 <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
                 <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
             </button>

@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.6.26'
+    roadiz_core.cms_version: '2.7.0'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -16,6 +16,17 @@ parameters:
     env(OPEN_ID_CLIENT_SECRET): ~
     env(OPEN_ID_HOSTED_DOMAIN): ~
     env(OPEN_ID_DISCOVERY_URL): ~
+    #
+    # Custom form webhook built-in providers
+    #
+    env(APP_BREVO_WEBHOOK_KEY): ~
+    env(APP_MAILCHIMP_WEBHOOK_KEY): ~
+    env(APP_HUBSPOT_WEBHOOK_KEY): ~
+    # See https://accounts.zoho.com/oauth/serverinfo
+    env(APP_ZOHO_CRM_WEBHOOK_ACCOUNT_URL): 'https://accounts.zoho.eu'
+    env(APP_ZOHO_CRM_WEBHOOK_SO_ID): ~
+    env(APP_ZOHO_CRM_WEBHOOK_CLIENT_ID): ~
+    env(APP_ZOHO_CRM_WEBHOOK_CLIENT_SECRET): ~
 
 services:
     # default configuration for services in *this* file
@@ -53,6 +64,11 @@ services:
             $customPreviewScheme: '%roadiz_core.custom_preview_scheme%'
             $leafletMapTileUrl: '%roadiz_core.leaflet_map_tile_url%'
             $mapsDefaultLocation: '%roadiz_core.maps_default_location%'
+            $useConstraintViolationList: '%roadiz_core.use_constraint_violation_list%'
+            $customFormPostOperationName: '%roadiz_core.custom_form_post_operation_name%'
+            $projectLogoUrl: '%roadiz_core.project_logo_url%'
+            $generatedClassNamespace: '%roadiz_core.generated_class_namespace%'
+            $generatedRepositoryNamespace: '%roadiz_core.generated_repository_namespace%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
@@ -75,13 +91,6 @@ services:
         # Recreate handlers for each usage
         shared: false
         public: true
-
-    RZ\Roadiz\CoreBundle\Xlsx\:
-        resource: '../src/Xlsx/'
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use CSV serialization instead.'
-            package: roadiz/core-bundle
-            version: '2.3.19'
 
     RZ\Roadiz\CoreBundle\Document\MediaFinder\YoutubeEmbedFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'youtube' } ]
@@ -366,6 +375,9 @@ services:
         alias: RZ\Roadiz\CoreBundle\Bag\NodeTypes
         public: true
 
+    RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface:
+        class: RZ\Roadiz\CoreBundle\NodeType\NodeTypeClassLocator
+
     RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface:
         class: RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver
 
@@ -373,6 +385,7 @@ services:
         arguments:
             - '@RZ\Roadiz\CoreBundle\Bag\NodeTypes'
             - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
+            - '@RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface'
             - '%roadiz_core.entity_generator_factory.options%'
 
     gedmo.mapping.driver.attribute:
@@ -594,3 +607,32 @@ services:
 
     RZ\TreeWalker\WalkerContextInterface:
         factory: [ '@RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContextFactory', 'createWalkerContext' ]
+
+    #
+    # CustomForm Webhook Providers
+    #
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\BrevoWebhookProvider:
+        arguments:
+            $apiKey: '%env(APP_BREVO_WEBHOOK_KEY)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\MailchimpWebhookProvider:
+        arguments:
+            $apiKey: '%env(APP_MAILCHIMP_WEBHOOK_KEY)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\HubspotWebhookProvider:
+        arguments:
+            $apiKey: '%env(APP_HUBSPOT_WEBHOOK_KEY)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\ZohoCrmWebhookProvider:
+        arguments:
+            $accountUrl: '%env(APP_ZOHO_CRM_WEBHOOK_ACCOUNT_URL)%'
+            $soId: '%env(APP_ZOHO_CRM_WEBHOOK_SO_ID)%'
+            $clientId: '%env(APP_ZOHO_CRM_WEBHOOK_CLIENT_ID)%'
+            $clientSecret: '%env(APP_ZOHO_CRM_WEBHOOK_CLIENT_SECRET)%'
+        tags: ['roadiz_core.custom_form_webhook_provider']
+
+    RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider\GenericHttpWebhookProvider:
+        tags: ['roadiz_core.custom_form_webhook_provider']

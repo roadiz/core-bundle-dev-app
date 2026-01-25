@@ -15,12 +15,10 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: DocumentTranslationRepository::class),
+#[ORM\Entity(repositoryClass: DocumentTranslationRepository::class),
     ORM\Table(name: 'documents_translations'),
     ORM\UniqueConstraint(columns: ['document_id', 'translation_id']),
-    Gedmo\Loggable(logEntryClass: UserLogEntry::class)
-]
+    Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 class DocumentTranslation implements Loggable, PersistableInterface
 {
     use SequentialIdTrait;
@@ -64,7 +62,7 @@ class DocumentTranslation implements Loggable, PersistableInterface
     /**
      * @return $this
      */
-    public function setName(?string $name): DocumentTranslation
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
@@ -91,7 +89,7 @@ class DocumentTranslation implements Loggable, PersistableInterface
     /**
      * @return $this
      */
-    public function setCopyright(?string $copyright): DocumentTranslation
+    public function setCopyright(?string $copyright): static
     {
         $this->copyright = $copyright;
 
@@ -118,7 +116,7 @@ class DocumentTranslation implements Loggable, PersistableInterface
     /**
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation): DocumentTranslation
+    public function setTranslation(TranslationInterface $translation): static
     {
         $this->translation = $translation;
 
@@ -133,7 +131,7 @@ class DocumentTranslation implements Loggable, PersistableInterface
     /**
      * @return $this
      */
-    public function setDocument(DocumentInterface $document): DocumentTranslation
+    public function setDocument(DocumentInterface $document): static
     {
         $this->document = $document;
 

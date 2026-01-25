@@ -39,43 +39,46 @@ final readonly class UniversalDataDuplicator
          * Only if source is default translation.
          * Non-default translation source should not contain universal fields.
          */
-        if ($source->getTranslation()->isDefaultTranslation() || !$this->hasDefaultTranslation($source)) {
-            $fields = $this->nodeTypesBag->get($source->getNodeTypeName())->getFields();
-            /** @var NodeTypeField[] $universalFields */
-            $universalFields = $fields->filter(fn (NodeTypeField $field) => $field->isUniversal());
+        if ($this->hasDefaultTranslation($source) && !$source->getTranslation()->isDefaultTranslation()) {
+            return false;
+        }
 
-            if (count($universalFields) > 0) {
-                $otherSources = $this->allStatusesNodesSourcesRepository->findBy([
-                    'node' => $source->getNode(),
-                    'id' => ['!=', $source->getId()],
-                ]);
+        $fields = $this->nodeTypesBag->get($source->getNodeTypeName())?->getFields()
+            ?? throw new \InvalidArgumentException('NodeType '.$source->getNodeTypeName().' does not exist.');
+        /** @var NodeTypeField[] $universalFields */
+        $universalFields = $fields->filter(fn (NodeTypeField $field) => $field->isUniversal());
 
-                foreach ($universalFields as $universalField) {
-                    /** @var NodesSources $otherSource */
-                    foreach ($otherSources as $otherSource) {
-                        if (!$universalField->isVirtual()) {
+        if (0 === count($universalFields)) {
+            return false;
+        }
+
+        $otherSources = $this->allStatusesNodesSourcesRepository->findBy([
+            'node' => $source->getNode(),
+            'id' => ['!=', $source->getId()],
+        ]);
+
+        foreach ($universalFields as $universalField) {
+            /** @var NodesSources $otherSource */
+            foreach ($otherSources as $otherSource) {
+                if (!$universalField->isVirtual()) {
+                    $this->duplicateNonVirtualField($source, $otherSource, $universalField);
+                } else {
+                    switch ($universalField->getType()) {
+                        case FieldType::DOCUMENTS_T:
+                            $this->duplicateDocumentsField($source, $otherSource, $universalField);
+                            break;
+                        case FieldType::MULTI_PROVIDER_T:
+                        case FieldType::SINGLE_PROVIDER_T:
+                        case FieldType::MANY_TO_ONE_T:
+                        case FieldType::MANY_TO_MANY_T:
                             $this->duplicateNonVirtualField($source, $otherSource, $universalField);
-                        } else {
-                            switch ($universalField->getType()) {
-                                case FieldType::DOCUMENTS_T:
-                                    $this->duplicateDocumentsField($source, $otherSource, $universalField);
-                                    break;
-                                case FieldType::MULTI_PROVIDER_T:
-                                case FieldType::SINGLE_PROVIDER_T:
-                                case FieldType::MANY_TO_ONE_T:
-                                case FieldType::MANY_TO_MANY_T:
-                                    $this->duplicateNonVirtualField($source, $otherSource, $universalField);
-                                    break;
-                            }
-                        }
+                            break;
                     }
                 }
-
-                return true;
             }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -97,7 +100,7 @@ final readonly class UniversalDataDuplicator
         return 1 === $sourceCount;
     }
 
-    protected function duplicateNonVirtualField(
+    private function duplicateNonVirtualField(
         NodesSources $universalSource,
         NodesSources $destSource,
         NodeTypeFieldInterface $field,
@@ -108,7 +111,7 @@ final readonly class UniversalDataDuplicator
         $destSource->$setter($universalSource->$getter());
     }
 
-    protected function duplicateDocumentsField(
+    private function duplicateDocumentsField(
         NodesSources $universalSource,
         NodesSources $destSource,
         NodeTypeFieldInterface $field,

@@ -10,15 +10,15 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeTranstyper;
-use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\TranstypeType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Error\RuntimeError;
@@ -33,7 +33,6 @@ final class TranstypeController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
-        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
@@ -41,17 +40,22 @@ final class TranstypeController extends AbstractController
      * @throws RuntimeError
      * @throws \Exception
      */
-    public function transtypeAction(Request $request, int $nodeId): Response
-    {
-        /** @var Node|null $node */
-        $node = $this->allStatusesNodeRepository->find($nodeId);
-        $manager = $this->managerRegistry->getManagerForClass(Node::class);
-        $manager->refresh($node);
-
-        if (null === $node) {
-            throw new ResourceNotFoundException();
-        }
-
+    #[Route(
+        path: '/rz-admin/nodes/edit/{nodeId}/transtype',
+        name: 'nodesTranstypePage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+        ],
+    )]
+    public function transtypeAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'Node does not exist',
+        )]
+        Node $node,
+    ): Response {
         /*
          * Transtype is only available for higher rank users
          */
@@ -66,11 +70,18 @@ final class TranstypeController extends AbstractController
             $data = $form->getData();
 
             $newNodeType = $this->nodeTypesBag->get($data['nodeTypeName']);
+            if (null === $newNodeType) {
+                throw new \RuntimeException('Selected node type does not exist.');
+            }
 
             /*
              * Trans-typing SHOULD be executed in one single transaction
              * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/transactions-and-concurrency.html
              */
+            $manager = $this->managerRegistry->getManagerForClass(Node::class);
+            if (null === $manager) {
+                throw new \RuntimeException('No entity manager found for Node class.');
+            }
             $manager->getConnection()->beginTransaction(); // suspend auto-commit
             try {
                 $this->nodeTranstyper->transtype($node, $newNodeType);

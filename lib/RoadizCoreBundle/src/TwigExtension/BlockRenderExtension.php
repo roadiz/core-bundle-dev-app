@@ -32,7 +32,7 @@ final class BlockRenderExtension extends AbstractExtension
     /**
      * @throws RuntimeError
      */
-    public function blockRender(?NodesSources $nodeSource = null, string $themeName = 'DefaultTheme', array $assignation = []): string
+    public function blockRender(?NodesSources $nodeSource = null, string $themeName = 'DefaultTheme', array $assignation = []): ?string
     {
         if (null !== $nodeSource) {
             if (!empty($themeName)) {
@@ -50,9 +50,8 @@ final class BlockRenderExtension extends AbstractExtension
                     return $this->handler->render($controllerReference, 'inline', [
                         'ignore_errors' => false,
                     ]);
-                } else {
-                    throw new RuntimeError($class.'::blockAction() action does not exist.');
                 }
+                throw new RuntimeError($class.'::blockAction() action does not exist.');
             } else {
                 throw new RuntimeError('Invalid name formatting for your theme.');
             }

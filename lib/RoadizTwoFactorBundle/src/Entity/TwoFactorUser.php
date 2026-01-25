@@ -15,11 +15,9 @@ use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TotpTwoFactorInterfac
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: TwoFactorUserRepository::class),
+#[ORM\Entity(repositoryClass: TwoFactorUserRepository::class),
     ORM\Table(name: 'two_factor_users'),
-    ORM\UniqueConstraint(columns: ['user_id']),
-]
+    ORM\UniqueConstraint(columns: ['user_id']),]
 class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface, GoogleAuthenticatorTwoFactorInterface
 {
     #[ORM\OneToOne(targetEntity: User::class)]
@@ -140,6 +138,10 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     #[\Override]
     public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
     {
+        if (null === $this->secret) {
+            throw new \RuntimeException('Secret cannot be null');
+        }
+
         // You could persist the other configuration options in the user entity to make it individual per user.
         return new TotpConfiguration($this->secret, $this->getAlgorithm(), $this->getPeriod(), $this->getDigits());
     }
@@ -178,7 +180,7 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     public function isBackupCode(string $code): bool
     {
         // Loop over all backup codes and check if the code is valid
-        foreach ($this->backupCodes as $backupCode) {
+        foreach ($this->backupCodes ?? [] as $backupCode) {
             if (password_verify($code, (string) $backupCode)) {
                 return true;
             }
@@ -194,10 +196,10 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     public function invalidateBackupCode(string $code): void
     {
         // Loop over all backup codes and check if the code is valid to invalidate it
-        foreach ($this->backupCodes as $key => $backupCode) {
+        foreach ($this->backupCodes ?? [] as $key => $backupCode) {
             if (password_verify($code, (string) $backupCode)) {
                 unset($this->backupCodes[$key]);
-                $this->backupCodes = array_values($this->backupCodes);
+                $this->backupCodes = array_values($this->backupCodes ?? []);
             }
         }
     }

@@ -14,8 +14,7 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: LogRepository::class),
+#[ORM\Entity(repositoryClass: LogRepository::class),
     ORM\Table(name: 'log'),
     ORM\Index(columns: ['datetime']),
     ORM\Index(columns: ['entity_class']),
@@ -29,8 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['level']),
     ORM\Index(columns: ['username']),
     ORM\Index(columns: ['channel']),
-    ORM\HasLifecycleCallbacks
-]
+    ORM\HasLifecycleCallbacks]
 class Log implements PersistableInterface
 {
     use SequentialIdTrait;
@@ -113,10 +111,7 @@ class Log implements PersistableInterface
         return $this->username;
     }
 
-    /**
-     * @return Log
-     */
-    public function setUsername(?string $username)
+    public function setUsername(?string $username): Log
     {
         $this->username = $username;
 
