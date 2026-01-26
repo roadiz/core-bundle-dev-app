@@ -24,7 +24,7 @@ final readonly class PreviewBarSubscriber implements EventSubscriberInterface
         ];
     }
 
-    protected function supports(ResponseEvent $event): bool
+    private function supports(ResponseEvent $event): bool
     {
         $response = $event->getResponse();
         if (

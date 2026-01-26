@@ -20,9 +20,9 @@ final readonly class TranslationTransformer implements DataTransformerInterface
      * @param Translation|null $value
      */
     #[\Override]
-    public function transform(mixed $value): int|string|null
+    public function transform(mixed $value): ?int
     {
-        if (!($value instanceof PersistableInterface)) {
+        if (!$value instanceof PersistableInterface) {
             return null;
         }
 

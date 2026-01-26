@@ -82,7 +82,7 @@ final readonly class JsonManifestResolver
     {
         $entrypoint = $this->getEntrypoint($name);
         if (null !== $entrypoint && isset($entrypoint['css']) && is_array($entrypoint['css'])) {
-            return array_map(fn ($cssFile) => $this->getBundlePrefixedPath($cssFile), $entrypoint['css']);
+            return array_map($this->getBundlePrefixedPath(...), $entrypoint['css']);
         }
 
         return [];
@@ -116,7 +116,7 @@ final readonly class JsonManifestResolver
                 return [$this->getBundlePrefixedPath($entrypoint['file'])];
             }
             if (is_array($entrypoint['file'])) {
-                return array_map(fn ($file) => $this->getBundlePrefixedPath($file), $entrypoint['file']);
+                return array_map($this->getBundlePrefixedPath(...), $entrypoint['file']);
             }
         }
 

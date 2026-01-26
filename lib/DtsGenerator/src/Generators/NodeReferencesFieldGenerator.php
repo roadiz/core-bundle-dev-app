@@ -57,7 +57,7 @@ final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
             return 'RoadizNodesSources';
         }
 
-        return implode(' | ', array_map(fn (NodeTypeInterface $nodeType) => $this->nodeTypeClassLocator->getSourceEntityClassName($nodeType), $nodeTypes));
+        return implode(' | ', array_map($this->nodeTypeClassLocator->getSourceEntityClassName(...), $nodeTypes));
     }
 
     #[\Override]

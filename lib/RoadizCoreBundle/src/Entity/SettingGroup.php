@@ -17,11 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Settings entity are a simple key-value configuration system.
  */
-#[
-    ORM\Entity(repositoryClass: SettingGroupRepository::class),
+#[ORM\Entity(repositoryClass: SettingGroupRepository::class),
     ORM\Table(name: 'settings_groups'),
-    UniqueEntity(fields: ['name'])
-]
+    UniqueEntity(fields: ['name'])]
 class SettingGroup implements PersistableInterface, \Stringable
 {
     use SequentialIdTrait;

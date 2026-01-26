@@ -18,7 +18,7 @@ final readonly class NodeTypeResolver
     /**
      * @return array<string>
      */
-    protected function getNodeTypeList(NodeTypeFieldInterface $field): array
+    private function getNodeTypeList(NodeTypeFieldInterface $field): array
     {
         return array_filter($field->getDefaultValuesAsArray());
     }

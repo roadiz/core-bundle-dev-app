@@ -57,9 +57,10 @@ abstract class AbstractRenderer implements RendererInterface
 
         foreach ($sourcesDocs as $source) {
             $sourceMountPath = $source->getMountPath();
-            if (null !== $sourceMountPath) {
-                $sources[$source->getMimeType()] = [
-                    'mime' => $source->getMimeType(),
+            $sourceMimeType = $source->getMimeType();
+            if (null !== $sourceMountPath && null !== $sourceMimeType) {
+                $sources[$sourceMimeType] = [
+                    'mime' => $sourceMimeType,
                     'url' => $this->documentsStorage->publicUrl($sourceMountPath),
                 ];
             }
@@ -69,9 +70,10 @@ abstract class AbstractRenderer implements RendererInterface
         if (0 === count($sources)) {
             // If exotic extension, fallbacks using original file
             $documentMountPath = $document->getMountPath();
-            if (null !== $documentMountPath) {
-                $sources[$document->getMimeType()] = [
-                    'mime' => $document->getMimeType(),
+            $documentMimeType = $document->getMimeType();
+            if (null !== $documentMountPath && null !== $documentMimeType) {
+                $sources[$documentMimeType] = [
+                    'mime' => $documentMimeType,
                     'url' => $this->documentsStorage->publicUrl($documentMountPath),
                 ];
             }

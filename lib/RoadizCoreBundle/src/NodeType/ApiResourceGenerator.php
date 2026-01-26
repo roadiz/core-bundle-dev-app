@@ -78,9 +78,9 @@ final readonly class ApiResourceGenerator
             \clearstatcache(true, $resourcePath);
 
             return $resourcePath;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public function remove(NodeTypeInterface $nodeType): void
@@ -124,12 +124,12 @@ final readonly class ApiResourceGenerator
                 ->toString();
     }
 
-    protected function getWebResponseResourcePath(): string
+    private function getWebResponseResourcePath(): string
     {
         return $this->apiResourcesDir.'/web_response.yml';
     }
 
-    protected function getResourceName(string $nodeTypeName): string
+    private function getResourceName(string $nodeTypeName): string
     {
         return (new UnicodeString($nodeTypeName))
                 ->snake()
@@ -137,14 +137,14 @@ final readonly class ApiResourceGenerator
                 ->toString();
     }
 
-    protected function getResourceUriPrefix(NodeTypeInterface $nodeType): string
+    private function getResourceUriPrefix(NodeTypeInterface $nodeType): string
     {
         $pluralNodeTypeName = InflectorFactory::create()->build()->pluralize($nodeType->getName());
 
         return '/'.$this->getResourceName($pluralNodeTypeName);
     }
 
-    protected function getApiResourceDefinition(NodeTypeInterface $nodeType): array
+    private function getApiResourceDefinition(NodeTypeInterface $nodeType): array
     {
         $fqcn = (new UnicodeString($this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)))
             ->trimStart('\\')
@@ -164,7 +164,7 @@ final readonly class ApiResourceGenerator
         ];
     }
 
-    protected function addWebResponseResourceOperation(NodeTypeInterface $nodeType, string $webResponseResourcePath): array
+    private function addWebResponseResourceOperation(NodeTypeInterface $nodeType, string $webResponseResourcePath): array
     {
         $getByPathOperationName = $this->apiResourceOperationNameGenerator->generateGetByPath(
             $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
@@ -240,7 +240,7 @@ final readonly class ApiResourceGenerator
         return $webResponseResource;
     }
 
-    protected function removeWebResponseResourceOperation(NodeTypeInterface $nodeType, string $webResponseResourcePath): array
+    private function removeWebResponseResourceOperation(NodeTypeInterface $nodeType, string $webResponseResourcePath): array
     {
         $getByPathOperationName = $this->apiResourceOperationNameGenerator->generateGetByPath(
             $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($nodeType)
@@ -266,7 +266,7 @@ final readonly class ApiResourceGenerator
         return $webResponseResource;
     }
 
-    protected function getCollectionOperations(NodeTypeInterface $nodeType): array
+    private function getCollectionOperations(NodeTypeInterface $nodeType): array
     {
         if (!$nodeType->isReachable()) {
             return [];
@@ -333,7 +333,7 @@ final readonly class ApiResourceGenerator
         return $operations;
     }
 
-    protected function getItemOperationSerializationGroups(NodeTypeInterface $nodeType): array
+    private function getItemOperationSerializationGroups(NodeTypeInterface $nodeType): array
     {
         return [
             'nodes_sources',
@@ -348,7 +348,7 @@ final readonly class ApiResourceGenerator
         ];
     }
 
-    protected function getItemOperations(NodeTypeInterface $nodeType): array
+    private function getItemOperations(NodeTypeInterface $nodeType): array
     {
         if (!$nodeType->isReachable()) {
             return [];
@@ -371,7 +371,7 @@ final readonly class ApiResourceGenerator
         ];
     }
 
-    protected function getGroupedFieldsSerializationGroups(NodeTypeInterface $nodeType): array
+    private function getGroupedFieldsSerializationGroups(NodeTypeInterface $nodeType): array
     {
         $groups = [];
         foreach ($nodeType->getFields() as $field) {

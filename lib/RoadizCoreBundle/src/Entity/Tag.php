@@ -31,8 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @implements LeafInterface<Tag>
  */
-#[
-    ORM\Entity(repositoryClass: TagRepository::class),
+#[ORM\Entity(repositoryClass: TagRepository::class),
     ORM\HasLifecycleCallbacks,
     ORM\Table(name: 'tags'),
     ORM\Index(columns: ['visible']),
@@ -52,8 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'position',
         'createdAt',
         'updatedAt',
-    ])
-]
+    ])]
 class Tag implements DateTimedInterface, LeafInterface, PersistableInterface, \Stringable
 {
     use SequentialIdTrait;

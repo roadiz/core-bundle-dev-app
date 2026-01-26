@@ -266,7 +266,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
-                if (\str_contains($key, 'node.')) {
+                if (\str_contains((string) $key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS.'.'.$simpleKey, $value);
                 } else {
@@ -390,9 +390,9 @@ class NodesSourcesRepository extends StatusAwareRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**
@@ -472,7 +472,7 @@ class NodesSourcesRepository extends StatusAwareRepository
 
             if (!$event->isPropagationStopped()) {
                 $baseKey = $simpleQB->getParameterKey($key);
-                if (\str_contains($key, 'node.')) {
+                if (\str_contains((string) $key, 'node.')) {
                     $this->joinNodeOnce($qb, $alias);
                     $prefix = static::NODE_ALIAS.'.';
                     $simpleKey = str_replace('node.', '', $key);

@@ -43,8 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @implements LeafInterface<Node>
  */
-#[
-    ORM\Entity(repositoryClass: NodeRepository::class),
+#[ORM\Entity(repositoryClass: NodeRepository::class),
     ORM\Table(name: 'nodes'),
     ORM\Index(columns: ['visible']),
     ORM\Index(columns: ['status']),
@@ -78,8 +77,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(PropertyFilter::class),
-    ApiFilter(TagGroupFilter::class)
-]
+    ApiFilter(TagGroupFilter::class)]
 class Node implements DateTimedInterface, LeafInterface, AttributableInterface, Loggable, NodeInterface, \Stringable
 {
     use SequentialIdTrait;

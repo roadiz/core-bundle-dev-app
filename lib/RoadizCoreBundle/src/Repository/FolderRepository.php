@@ -166,7 +166,7 @@ final class FolderRepository extends EntityRepository
             ->where($qb->expr()->eq('f.parent', ':parent'))
             ->setParameter(':parent', $folder);
 
-        return array_map('current', $qb->getQuery()->getScalarResult());
+        return array_map(current(...), $qb->getQuery()->getScalarResult());
     }
 
     /**

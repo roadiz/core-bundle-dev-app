@@ -97,7 +97,7 @@ There are two parameters that you must take care of in your themes and your cont
 - **Visibility**
 - **Publication date and time**
 
-For example, *publication date and time* won’t be necessary in plain text pages and non-timestampable contents. But we decided to add it directly in `NodesSources` entity to be able to filter and order with this field in the Roadiz back office. This would not be possible if you manually created your own `publishedAt` as a node-type field.
+For example, *publication date and time* won’t be necessary in plain text pages and non-timestampable contents. But we decided to add it directly to the `NodesSources` entity to be able to filter and order with this field in the Roadiz back office. This would not be possible if you manually created your own `publishedAt` as a node-type field.
 
 ::: warning
 Pay attention that *publication date and time* (`publishedAt`) and visibility (`node.visible`) **do not prevent** your node-source from being viewed if you do not explicitly forbid access to its controller. This field is not deeply set into Roadiz security mechanics.

@@ -41,15 +41,15 @@ final readonly class NodeRedirectionSubscriber implements EventSubscriberInterfa
         string $eventName,
         EventDispatcherInterface $dispatcher,
     ): void {
+        $node = $event->getNode();
         if (
             'prod' === $this->kernelEnvironment
             && !$this->previewResolver->isPreview()
-            && null !== $event->getNode()
-            && $event->getNode()->isPublished()
-            && $this->nodeTypesBag->get($event->getNode()->getNodeTypeName())?->isReachable()
+            && $node->isPublished()
+            && $this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable()
             && count($event->getPaths()) > 0
         ) {
-            $this->nodeMover->redirectAll($event->getNode(), $event->getPaths());
+            $this->nodeMover->redirectAll($node, $event->getPaths());
             $dispatcher->dispatch(new CachePurgeRequestEvent());
         }
     }

@@ -9,9 +9,7 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 
 trait DocumentTrait
 {
-    #[
-        Serializer\Ignore
-    ]
+    #[Serializer\Ignore]
     public function getMountFolderPath(): ?string
     {
         $folder = $this->getFolder();
@@ -20,9 +18,9 @@ trait DocumentTrait
         }
         if ($this->isPrivate()) {
             return 'private://'.$folder;
-        } else {
-            return 'public://'.$folder;
         }
+
+        return 'public://'.$folder;
     }
 
     protected function initDocumentTrait(): void

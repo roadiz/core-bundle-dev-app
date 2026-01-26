@@ -57,7 +57,7 @@ final readonly class PurgeReverseProxyCacheMessageHandler
     /**
      * @return HttpRequestMessageInterface[]
      */
-    protected function createPurgeRequests(string $path = '/'): array
+    private function createPurgeRequests(string $path = '/'): array
     {
         $requests = [];
         foreach ($this->reverseProxyCacheLocator->getFrontends() as $frontend) {
@@ -78,7 +78,7 @@ final readonly class PurgeReverseProxyCacheMessageHandler
         return $requests;
     }
 
-    protected function sendRequest(HttpRequestMessageInterface $requestMessage): void
+    private function sendRequest(HttpRequestMessageInterface $requestMessage): void
     {
         try {
             $this->bus->dispatch(new Envelope($requestMessage));

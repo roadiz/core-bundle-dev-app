@@ -242,9 +242,9 @@ final class TagRepository extends EntityRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**
@@ -622,19 +622,19 @@ EOT,
                 // Dots are forbidden in field definitions
                 $baseKey = $simpleQB->getParameterKey($key);
 
-                if (\str_contains($key, 'translation.')) {
+                if (\str_contains((string) $key, 'translation.')) {
                     /*
                      * Search in translation fields
                      */
                     $prefix = static::TRANSLATION_ALIAS.'.';
                     $key = str_replace('translation.', '', $key);
-                } elseif (\str_contains($key, 'nodes.')) {
+                } elseif (\str_contains((string) $key, 'nodes.')) {
                     /*
                      * Search in node fields
                      */
                     $prefix = static::NODE_ALIAS.'.';
                     $key = str_replace('nodes.', '', $key);
-                } elseif (\str_contains($key, 'translatedTag.')) {
+                } elseif (\str_contains((string) $key, 'translatedTag.')) {
                     /*
                      * Search in translatedTags fields
                      */
@@ -760,7 +760,7 @@ EOT,
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findByNodesSources(NodesSources $nodesSources): array|Paginator
+    public function findByNodesSources(NodesSources $nodesSources): array
     {
         // @phpstan-ignore-next-line
         return $this->findBy([

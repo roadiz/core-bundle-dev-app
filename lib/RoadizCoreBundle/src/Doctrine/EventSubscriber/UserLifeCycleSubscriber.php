@@ -87,7 +87,7 @@ final readonly class UserLifeCycleSubscriber
     /**
      * @return bool returns true if password has been updated, false otherwise
      */
-    protected function setPassword(User $user, ?string $plainPassword): bool
+    private function setPassword(User $user, ?string $plainPassword): bool
     {
         if (null === $plainPassword) {
             return false;

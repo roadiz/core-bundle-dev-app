@@ -179,9 +179,9 @@ final class CustomFormController extends AbstractController
 
         if ($mixed instanceof Response) {
             return $mixed;
-        } else {
-            return $this->render('@RoadizCore/customForm/customForm.html.twig', $mixed);
         }
+
+        return $this->render('@RoadizCore/customForm/customForm.html.twig', $mixed);
     }
 
     public function sentAction(Request $request, int $customFormId): Response

@@ -13,16 +13,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: RealmNodeRepository::class),
+#[ORM\Entity(repositoryClass: RealmNodeRepository::class),
     ORM\Table(name: 'realms_nodes'),
     ORM\Index(columns: ['inheritance_type'], name: 'realms_nodes_inheritance_type'),
     ORM\Index(columns: ['realm_id'], name: 'realms_nodes_realm'),
     ORM\Index(columns: ['node_id'], name: 'realms_nodes_node'),
     ORM\Index(columns: ['node_id', 'inheritance_type'], name: 'realms_nodes_node_inheritance_type'),
     ORM\UniqueConstraint(name: 'realms_nodes_unique', columns: ['node_id', 'realm_id']),
-    UniqueEntity(fields: ['node', 'realm'])
-]
+    UniqueEntity(fields: ['node', 'realm'])]
 class RealmNode implements PersistableInterface
 {
     use SequentialIdTrait;

@@ -34,7 +34,7 @@ final readonly class PreviewModeSubscriber implements EventSubscriberInterface
         ];
     }
 
-    protected function supports(): bool
+    private function supports(): bool
     {
         return $this->previewResolver->isPreview();
     }
