@@ -12,7 +12,7 @@
 	{% endif %}
 	{% if edit_href %}
 		{{ _self.button({
-			icon: 'rz-icon-ri--edit-line',
+			icon: edit_icon|default('rz-icon-ri--edit-line'),
 			attributes: {
 				href: edit_href,
 				title: edit_title|default('edit'|trans),

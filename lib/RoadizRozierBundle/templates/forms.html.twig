@@ -619,7 +619,7 @@
     {%- else -%}
 
         {% set field_name = form.vars.name|default(form.vars.block_prefixes[1])|replace({'_': '-'}) %}
-        {% set classes = html_classes('rz-form-field', attr.class|default(''), {
+        {% set classes = html_classes('rz-form-field', form.vars.wrapper_class|default(''), {
             ('rz-form-field--' ~ field_name): field_name is not empty,
             'rz-form-field--required': required,
             'rz-form-field--error': errors|length > 0,

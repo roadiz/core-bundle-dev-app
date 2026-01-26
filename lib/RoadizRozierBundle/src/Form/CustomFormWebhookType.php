@@ -69,7 +69,6 @@ final class CustomFormWebhookType extends AbstractType
             'label' => 'customForm.webhook.section',
             'data_class' => CustomForm::class,
             'custom_form' => null,
-            'attr' => ['tag' => 'fieldset'],
         ]);
 
         $resolver->setAllowedTypes('custom_form', ['null', CustomForm::class]);
