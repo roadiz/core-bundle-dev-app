@@ -23,6 +23,7 @@ type MarkerProps = {
 
 type FeaturePoint = Feature<Point, MarkerProps>
 type TextareaData = FeatureCollection<Point, MarkerProps> | FeaturePoint
+type MarkerExtended = Marker<MarkerProps>
 
 type GeocodeInput =
     | LegacyLocation
@@ -39,10 +40,7 @@ export default class RzGeotag extends HTMLElement {
     private leaflet: typeof import('leaflet') | null = null
 
     private map: Map | null = null
-    private markers: Marker<{
-        name?: string
-        itemDetailId?: string
-    }>[] = []
+    private markers: MarkerExtended[] = []
     private resizeObserver: ResizeObserver | null = null
     private mapContainer: HTMLDivElement | null = null
     private idSeed: string = Date.now().toString(36)
@@ -271,7 +269,7 @@ export default class RzGeotag extends HTMLElement {
             name = data.properties?.name || ''
         }
 
-        const marker = new this.leaflet.Marker(latLng, {
+        const marker = new this.leaflet.Marker<MarkerProps>(latLng, {
             icon: new this.leaflet.Icon({
                 iconUrl,
                 shadowUrl,
