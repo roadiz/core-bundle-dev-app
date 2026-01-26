@@ -5,7 +5,8 @@
 {% block content %}
 <section>
     {% include '@RoadizRozier/realms/head.html.twig' with {
-        title: "edit.realm.%name%"|trans({'%name%': item.name})
+        title: "edit.realm.%name%"|trans({'%name%': item.name}),
+        with_breadcrumb: true,
     } only %}
 
     <article>
