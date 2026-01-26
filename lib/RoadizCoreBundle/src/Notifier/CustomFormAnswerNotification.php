@@ -36,7 +36,7 @@ final class CustomFormAnswerNotification extends Notification implements EmailNo
     }
 
     #[\Override]
-    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
         $email = new NotificationEmail();
         $email

@@ -38,26 +38,25 @@ class NodePaginator extends Paginator
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
-        } else {
-            /** @var NodeRepository $repository */
-            $repository = $this->getRepository();
-            if ($repository instanceof NodeRepository) {
-                return $repository->findBy(
-                    $this->criteria,
-                    $order,
-                    $this->getItemsPerPage(),
-                    $this->getItemsPerPage() * ($page - 1),
-                    $this->getTranslation()
-                );
-            }
-
+        }
+        /** @var NodeRepository $repository */
+        $repository = $this->getRepository();
+        if ($repository instanceof NodeRepository) {
             return $repository->findBy(
                 $this->criteria,
                 $order,
                 $this->getItemsPerPage(),
-                $this->getItemsPerPage() * ($page - 1)
+                $this->getItemsPerPage() * ($page - 1),
+                $this->getTranslation()
             );
         }
+
+        return $repository->findBy(
+            $this->criteria,
+            $order,
+            $this->getItemsPerPage(),
+            $this->getItemsPerPage() * ($page - 1)
+        );
     }
 
     #[\Override]

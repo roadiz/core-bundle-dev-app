@@ -44,6 +44,6 @@ final class SettingGroupRepository extends EntityRepository
     {
         $query = $this->_em->createQuery('SELECT s.name FROM RZ\Roadiz\CoreBundle\Entity\SettingGroup s');
 
-        return array_map('current', $query->getScalarResult());
+        return array_map(current(...), $query->getScalarResult());
     }
 }

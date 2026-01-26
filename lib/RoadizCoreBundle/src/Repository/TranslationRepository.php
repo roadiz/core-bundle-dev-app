@@ -120,7 +120,7 @@ final class TranslationRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->enableResultCache(120, 'RZTranslationGetAvailableLocales');
 
-        return array_map('current', $query->getScalarResult());
+        return array_map(current(...), $query->getScalarResult());
     }
 
     /**
@@ -137,7 +137,7 @@ final class TranslationRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->enableResultCache(120, 'RZTranslationGetAllLocales');
 
-        return array_map('current', $query->getScalarResult());
+        return array_map(current(...), $query->getScalarResult());
     }
 
     /**
@@ -159,7 +159,7 @@ final class TranslationRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->enableResultCache(120, 'RZTranslationGetAvailableOverrideLocales');
 
-        return array_map('current', $query->getScalarResult());
+        return array_map(current(...), $query->getScalarResult());
     }
 
     /**
@@ -179,7 +179,7 @@ final class TranslationRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->enableResultCache(120, 'RZTranslationGetAllOverrideLocales');
 
-        return array_map('current', $query->getScalarResult());
+        return array_map(current(...), $query->getScalarResult());
     }
 
     /**
@@ -429,7 +429,7 @@ final class TranslationRepository extends EntityRepository
             ->setParameter('node', $node)
             ->setCacheable(true);
 
-        return array_map('current', $qb->getQuery()->getScalarResult());
+        return array_map(current(...), $qb->getQuery()->getScalarResult());
     }
 
     public function findUnavailableTranslationIdForNode(Node $node): array
@@ -440,6 +440,6 @@ final class TranslationRepository extends EntityRepository
             ->setParameter('translationsId', $this->findAvailableTranslationIdForNode($node))
             ->setCacheable(true);
 
-        return array_map('current', $qb->getQuery()->getScalarResult());
+        return array_map(current(...), $qb->getQuery()->getScalarResult());
     }
 }

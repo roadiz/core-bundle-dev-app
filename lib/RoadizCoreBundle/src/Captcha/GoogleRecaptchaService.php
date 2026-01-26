@@ -14,10 +14,10 @@ final readonly class GoogleRecaptchaService implements CaptchaServiceInterface
 {
     public function __construct(
         private HttpClientInterface $client,
-        protected ?string $publicKey,
+        private ?string $publicKey,
         #[\SensitiveParameter]
-        protected ?string $privateKey,
-        protected string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify',
+        private ?string $privateKey,
+        private string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify',
     ) {
     }
 

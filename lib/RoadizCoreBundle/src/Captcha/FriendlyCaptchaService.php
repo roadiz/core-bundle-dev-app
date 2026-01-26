@@ -14,10 +14,10 @@ final readonly class FriendlyCaptchaService implements CaptchaServiceInterface
 {
     public function __construct(
         private HttpClientInterface $client,
-        protected ?string $publicKey,
+        private ?string $publicKey,
         #[\SensitiveParameter]
-        protected ?string $privateKey,
-        protected string $verifyUrl = 'https://global.frcapi.com/api/v2/captcha/siteverify',
+        private ?string $privateKey,
+        private string $verifyUrl = 'https://global.frcapi.com/api/v2/captcha/siteverify',
     ) {
     }
 

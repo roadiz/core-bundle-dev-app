@@ -16,16 +16,14 @@ use RZ\Roadiz\CoreBundle\Repository\NodesToNodesRepository;
  * Describes a complex ManyToMany relation
  * between two Nodes and NodeTypeFields.
  */
-#[
-    ORM\Entity(repositoryClass: NodesToNodesRepository::class),
+#[ORM\Entity(repositoryClass: NodesToNodesRepository::class),
     ORM\Table(name: 'nodes_to_nodes'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['node_a_id', 'field_name'], name: 'node_a_field'),
     ORM\Index(columns: ['node_a_id', 'field_name', 'position'], name: 'node_a_field_position'),
     ORM\Index(columns: ['node_b_id', 'field_name'], name: 'node_b_field'),
-    ORM\Index(columns: ['node_b_id', 'field_name', 'position'], name: 'node_b_field_position')
-]
+    ORM\Index(columns: ['node_b_id', 'field_name', 'position'], name: 'node_b_field_position')]
 class NodesToNodes implements PositionedInterface, PersistableInterface
 {
     use SequentialIdTrait;

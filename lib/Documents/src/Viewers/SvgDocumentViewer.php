@@ -39,12 +39,12 @@ final class SvgDocumentViewer
     {
         if (false === $this->asObject) {
             return $this->getInlineSvg();
-        } else {
-            return $this->getObjectSvg();
         }
+
+        return $this->getObjectSvg();
     }
 
-    protected function getAllowedAttributes(): array
+    private function getAllowedAttributes(): array
     {
         $attributes = [];
         foreach ($this->attributes as $key => $value) {
@@ -63,7 +63,7 @@ final class SvgDocumentViewer
     /**
      * @throws FilesystemException
      */
-    protected function getInlineSvg(): string
+    private function getInlineSvg(): string
     {
         $mountPath = $this->document->getMountPath();
 
@@ -95,7 +95,7 @@ final class SvgDocumentViewer
     /**
      * @throws \Exception
      */
-    protected function injectAttributes(string $svg): string
+    private function injectAttributes(string $svg): string
     {
         $attributes = $this->getAllowedAttributes();
         if (count($attributes) > 0) {
@@ -133,7 +133,7 @@ final class SvgDocumentViewer
     /**
      * @deprecated use SvgRenderer to render HTML object
      */
-    protected function getObjectSvg(): string
+    private function getObjectSvg(): string
     {
         $mountPath = $this->document->getMountPath();
 

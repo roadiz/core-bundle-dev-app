@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class CssType extends AbstractType
 {
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return TextareaType::class;
     }

@@ -6,6 +6,11 @@ set listItems = [
             'label': 'custom-form.parameters',
             'href': path('customFormsEditPage', { id: type.id }),
         },
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'webhook',
+            'label': 'custom-form.webhook',
+            'href': path('customFormsEditWebhookPage', { customForm: type.id }),
+        } : null,
         {
             'name': 'usage',
             'label': 'custom-form.usage',
@@ -33,6 +38,7 @@ set listItems = [
     ]
 ]
 %}
+
 {% set custom_entries_content %}
     {% block additional_entries %}{% endblock %}
 {% endset %}

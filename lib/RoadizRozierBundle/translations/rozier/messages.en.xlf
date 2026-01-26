@@ -4236,6 +4236,16 @@
         <target state="final">Markdown preview</target>
         <note>For markdown.preview button label</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="markdown.translate_assistant_translate">
+        <source>markdown.translate_assistant_translate</source>
+        <target state="final">Translate</target>
+        <note>For markdown.translate_assistant_translate button label</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="markdown.translate_assistant_rephrase">
+        <source>markdown.translate_assistant_rephrase</source>
+        <target state="final">Rephrase</target>
+        <note>For markdown.translate_assistant_rephrase button label</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="document.relative_url" approved="yes">
         <source>document.relative_url</source>
         <target state="final">Relative URL</target>

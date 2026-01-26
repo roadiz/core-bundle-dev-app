@@ -41,15 +41,15 @@
         "rezozero/intervention-request-bundle": "^5.1",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/doc-generator": "2.7.x-dev",
-        "roadiz/documents": "2.7.x-dev",
-        "roadiz/dts-generator": "2.7.x-dev",
-        "roadiz/entity-generator": "2.7.x-dev",
-        "roadiz/jwt": "2.7.x-dev",
-        "roadiz/markdown": "2.7.x-dev",
-        "roadiz/models": "2.7.x-dev",
+        "roadiz/doc-generator": "2.7.*",
+        "roadiz/documents": "2.7.*",
+        "roadiz/dts-generator": "2.7.*",
+        "roadiz/entity-generator": "2.7.*",
+        "roadiz/jwt": "2.7.*",
+        "roadiz/markdown": "2.7.*",
+        "roadiz/models": "2.7.*",
         "roadiz/nodetype-contracts": "^3.1.1",
-        "roadiz/random": "2.7.x-dev",
+        "roadiz/random": "2.7.*",
         "scienta/doctrine-json-functions": "^4.2",
         "symfony-cmf/routing-bundle": "^3.1.0",
         "symfony/asset": "7.4.*",
@@ -97,9 +97,9 @@
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
-        "phpstan/phpstan": "^1.5.3",
+        "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2",
-        "phpstan/phpstan-doctrine": "^1.3",
+        "phpstan/phpstan-doctrine": "^2.0.13",
         "phpunit/phpunit": "^9.6",
         "symfony/browser-kit": "7.4.*",
         "symfony/phpunit-bridge": "^7.0",
@@ -138,8 +138,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.6.x-dev",
-            "dev-develop": "2.7.x-dev"
+            "dev-main": "2.7.x-dev",
+            "dev-develop": "2.8.x-dev"
         }
     }
 }

@@ -1,14 +1,14 @@
-# Implement a backoffice entry to list all content for a specific NodeType and a shadow container node
+# Implement a back office entry to list all content for a specific NodeType and a shadow container node
 
 ::: info
-**Since version 2.7**: `AbstractSingleNodeTypeController` is available to simplify the creation of custom backoffice entries for specific NodeTypes.
+**Since version 2.7**: `AbstractSingleNodeTypeController` is available to simplify the creation of custom back office entries for specific NodeTypes.
 :::
 
-This guide explains how to create a custom backoffice entry in Roadiz to list all nodes-sources for a specific NodeType, using the `NSArticle` example as a reference. Ensure your `NSArticle` node-type entity exists in `src/GeneratedEntity/NSArticle.php` and is mapped to your `Article` NodeType.
+This guide explains how to create a custom back office entry in Roadiz to list all node sources for a specific NodeType, using the `NSArticle` example as a reference. Ensure your `NSArticle` node-type entity exists in `src/GeneratedEntity/NSArticle.php` and is mapped to your `Article` NodeType.
 
 ## Define a shadow container node
 
-The `shadowContainer` is a concept used to organize and group nodes of a specific NodeType under a parent node in the content tree. This container is a real node in the database and acts as a logical root for listing, filtering, and managing related nodes in the backoffice, but this node is hidden from node-tree and cannot be accessed from API. By overriding the `getShadowRootNodeName()` method in your controller, you define the name of this container, allowing Roadiz to display all nodes of your NodeType (e.g., articles) as if they belong to a dedicated section, and create new nodes inside it, improving navigation and clarity in the admin interface.
+The `shadowContainer` is a concept used to organize and group nodes of a specific NodeType under a parent node in the content tree. This container is a real node in the database and acts as a logical root for listing, filtering, and managing related nodes in the back office, but this node is hidden from the node tree and cannot be accessed from the API. By overriding the `getShadowRootNodeName()` method in your controller, you define the name of this container, allowing Roadiz to display all nodes of your NodeType (e.g., articles) as if they belong to a dedicated section, and create new nodes inside it, improving navigation and clarity in the admin interface.
 
 ## Create a DTO for your NodeType
 
@@ -130,7 +130,7 @@ final class CreateArticleType extends AbstractType
 
 ## Create a custom admin Controller
 
-Now you can create a custom controller by extending `AbstractSingleNodeTypeController`. This base controller provides the necessary methods to handle listing, adding, and populating nodes-sources for your NodeType. Place your controller in the `App\Controller\Admin` namespace to clarify that it is for backoffice use. For example, in `src/Controller/Admin/ArticleController.php`.
+Now you can create a custom controller by extending `AbstractSingleNodeTypeController`. This base controller provides the necessary methods to handle listing, adding, and populating node sources for your NodeType. Place your controller in the `App\Controller\Admin` namespace to clarify that it is for back office use. For example, in `src/Controller/Admin/ArticleController.php`.
 
 ::: info
 `AbstractSingleNodeTypeController` declares 2 generic types: `<TEntity, TInputDto>`, this will help your IDE to understand which entity and DTO you are using in your controller.
@@ -246,7 +246,7 @@ admin_article_add:
 
 ## Create Twig Templates
 
-Create Twig templates in `templates/admin/article/` to support your backoffice entry:
+Create Twig templates in `templates/admin/article/` to support your back office entry:
 
 - `list.html.twig`: Lists all nodes-sources for your NodeType.
 - `add.html.twig`: Displays a form to add a new node-source.
@@ -276,7 +276,7 @@ There is no `edit.html.twig` template required, as `AbstractSingleNodeTypeContro
 
 ## Add a Backoffice Entry in `roadiz_rozier.yaml`
 
-To make your custom backoffice entry visible in the Roadiz admin menu, add an entry to the `entries` section of your `config/packages/roadiz_rozier.yaml` file. For example, to add an entry for your articles list:
+To make your custom back office entry visible in the Roadiz admin menu, add an entry to the `entries` section of your `config/packages/roadiz_rozier.yaml` file. For example, to add an entry for your articles list:
 
 ```yaml
 roadiz_rozier:
@@ -299,7 +299,7 @@ roadiz_rozier:
 You can add subentries for more granular navigation, following the structure used for `nodes` in the example above.
 :::
 
-This completes the process for adding a custom backoffice entry, including making it visible in the Roadiz admin menu via `roadiz_rozier.yaml`.
+This completes the process for adding a custom back office entry, including making it visible in the Roadiz admin menu via `roadiz_rozier.yaml`.
 
 ---
 
@@ -309,9 +309,9 @@ You can repeat this process for any NodeType by creating a corresponding entity,
 
 ## Test Your Backoffice Entry
 
-Visit `/rz-admin/articles` in your backoffice to see the list of all `NSArticle` nodes-sources and manage them using your custom forms and templates. Editing actions will redirect to the classic Roadiz edit nodes-sources page.
+Visit `/rz-admin/articles` in your back office to see the list of all `NSArticle` node sources and manage them using your custom forms and templates. Editing actions will redirect to the classic Roadiz edit node sources page.
 
-![Custom backoffice listing page](./images/custom_backoffice_articles_list.png)
+![Custom back office listing page](./images/custom_backoffice_articles_list.png)
 
 ## Enable bulk actions (optional)
 

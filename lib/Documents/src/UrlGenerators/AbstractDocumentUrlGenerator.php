@@ -83,9 +83,9 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
             $publicUrl = $this->documentsStorage->publicUrl($mountPath);
             if ($absolute && \str_starts_with($publicUrl, '/')) {
                 return $this->urlHelper->getAbsoluteUrl($publicUrl);
-            } else {
-                return $publicUrl;
             }
+
+            return $publicUrl;
         }
 
         return $this->getProcessedDocumentUrlByArray($absolute);

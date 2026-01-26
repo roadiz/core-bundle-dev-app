@@ -46,7 +46,7 @@ final class TagsType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return CollectionType::class;
     }

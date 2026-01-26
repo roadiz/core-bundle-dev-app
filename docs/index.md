@@ -16,8 +16,8 @@ hero:
 
 ## A modern CMS
 
-_Roadiz_ is a polymorphic and headless CMS based on a node system that can handle many types of services.  
-It is built on **Symfony** framework, **Doctrine ORM**, **API Platform**, and **Composer** to ensure maximum performance and security.
+_Roadiz_ is a polymorphic and headless CMS based on a node system that can handle many types of services.
+It is built on the **Symfony** framework, **Doctrine ORM**, **API Platform**, and **Composer** to ensure maximum performance and security.
 
 _Roadiz_'s node system allows you to create your data schema and organize your content exactly how you want. It is designed to remove technical constraints when building tailor-made website architectures and layouts.
 
@@ -25,11 +25,11 @@ Imagine you need to display your graphic design portfolio and also sell some t-s
 
 ## Philosophy
 
-When exploring _Roadiz_'s back-office interface, you'll notice there is no Rich Text Editor (also called *WYSIWYG* editor). We chose to promote **Markdown** syntax to focus on content hierarchy and quality rather than content styling. Our goal is to preserve and respect the work of web designers and graphic designers.
+When exploring _Roadiz_'s back office interface, you'll notice there is no Rich Text Editor (also called a *WYSIWYG* editor). We chose to promote **Markdown** syntax to focus on content hierarchy and quality rather than content styling. Our goal is to preserve and respect the work of web designers and graphic designers.
 
 _Roadiz_ is built by web designers, for web designers. It allows you to quickly create website prototypes using **Twig** templates or develop complex headless websites powered by **API Platform**.
 
-_Roadiz_ is designed to be a great tool for both designers and developers to build strong web experiences together. But we also thought about editors! The Roadiz back-office theme, *Rozier*, offers a great writing and administration experience for all back-end users.
+_Roadiz_ is designed to be a great tool for both designers and developers to build strong web experiences together. But we also thought about editors! The Roadiz back office theme, *Rozier*, offers a great writing and administration experience for all back-end users.
 
 ## Features grid
 
@@ -44,7 +44,7 @@ The Roadiz content system is its functional core, adapting to a wide variety of 
 | **Customizable content types**       | Create any type of content structure (e.g., articles, products) by defining specific fields. This approach removes the limitation of a standard page template. |
 | **Native multi-language management** | The platform includes native management of translations for all content, with an interface allowing for easy navigation between languages for seamless editing. |
 | **Versioning and changes history**   | A versioning system with every save ensures the persistence of modifications. It's possible to view the change history and restore a previous version at any time. |
-| **Markdown-oriented content editor** | A modern editor based on Markdown syntax enables efficient management of the semantic hierarchy of texts (headings, lists) in line with the Headless philosophy. |
+| **Markdown-oriented content editor** | A modern editor based on Markdown syntax enables efficient management of the semantic hierarchy of texts (headings, lists) in line with the headless philosophy. |
 | **Taxonomy (tags)**                  | A keyword-based taxonomy system allows for organizing and creating cross-relationships between content, ideal for blogs, portfolios, or catalogs. |
 | **AI Assisted translation**          | Native compatibility with the _DeepL API_ allows you to enable translation assistance for all Markdown fields if you have an API key. |
 
@@ -97,7 +97,7 @@ The system allows for precise definition of access rights thanks to a robust per
 | **Symfony-Based security**              | The platform relies on the robust and proven security system of the Symfony framework. |
 | **Secure realm definition**             | Create secure Realms to configure specific authentication types (e.g., password, logged-in user) and apply them to parts of the node tree. |
 | **Centralized authentication (OpenID)** | Native compatibility with OpenID Connect facilitates integration with centralized authentication systems (SSO) for administrators. |
-| **Two-Factor authentication (2FA)**     | Enable 2FA for administrator accounts to add an extra layer of security for back-office access. |
+| **Two-Factor authentication (2FA)**     | Enable 2FA for administrator accounts to add an extra layer of security for back office access. |
 
 ### Extensibility and customization
 
@@ -119,4 +119,4 @@ Roadiz is designed to integrate seamlessly with modern development methodologies
 | **Modern development workflow**             | The project structure is designed for a workflow based on Git, CI/CD, and deployment via Docker containers. |
 | **Configuration via environment variables** | The entire application configuration can be managed through environment variables, essential for containerized deployments. |
 | **Externalized media storage**              | The ability to use external file storage (like _Amazon S3_) decouples media from the application instance, reinforcing the stateless approach. |
-| **_Headless_ decoupling**                     | The architecture allows for the complete separation of the back-office from the front-end application(s), offering maximum flexibility. |
+| **_Headless_ decoupling**                     | The architecture allows for the complete separation of the back office from the front-end application(s), offering maximum flexibility. |

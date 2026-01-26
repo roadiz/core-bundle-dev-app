@@ -153,10 +153,8 @@ trait BaseDocumentTrait
         'image/heif',
     ];
 
-    #[
-        Serializer\Groups(['document_mount']),
-        Serializer\SerializedName('mountPath'),
-    ]
+    #[Serializer\Groups(['document_mount']),
+        Serializer\SerializedName('mountPath'),]
     public function getMountPath(): ?string
     {
         if (null === $relativePath = $this->getRelativePath()) {
@@ -164,25 +162,24 @@ trait BaseDocumentTrait
         }
         if ($this->isPrivate()) {
             return 'private://'.$relativePath;
-        } else {
-            return 'public://'.$relativePath;
         }
+
+        return 'public://'.$relativePath;
     }
 
     /**
      * Get short type name for current document Mime type.
      */
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        Serializer\SerializedName('type'),
-    ]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('type'),]
     public function getShortType(): string
     {
-        if (null !== $this->getMimeType() && isset(static::$mimeToIcon[$this->getMimeType()])) {
-            return static::$mimeToIcon[$this->getMimeType()];
-        } else {
-            return 'unknown';
+        $mimeType = (string) $this->getMimeType();
+        if ('' !== $mimeType && isset(static::$mimeToIcon[$mimeType])) {
+            return static::$mimeToIcon[$mimeType];
         }
+
+        return 'unknown';
     }
 
     /**
@@ -251,32 +248,26 @@ trait BaseDocumentTrait
         return 'image/webp' === $this->getMimeType();
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        Serializer\SerializedName('relativePath'),
-    ]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('relativePath'),]
     public function getRelativePath(): ?string
     {
         return $this->isLocal() ? $this->getFolder().'/'.$this->getFilename() : null;
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('processable'),
         ApiProperty(
             description: 'Document can be processed as an image for resampling and other image operations.',
             writable: false,
-        )
-    ]
+        )]
     public function isProcessable(): bool
     {
         return !$this->isPrivate() && $this->isImage() && in_array($this->getMimeType(), static::$processableMimeTypes, true);
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        Serializer\SerializedName('alt'),
-    ]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('alt'),]
     public function getAlternativeText(): ?string
     {
         return null;

@@ -30,7 +30,7 @@ final class BackupCodesAdminController extends AbstractController
         }
 
         $user = $this->tokenStorage->getToken()?->getUser();
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);

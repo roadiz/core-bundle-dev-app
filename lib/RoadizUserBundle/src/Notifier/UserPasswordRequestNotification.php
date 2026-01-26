@@ -30,7 +30,7 @@ final class UserPasswordRequestNotification extends Notification implements Emai
     }
 
     #[\Override]
-    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
         $email = new NotificationEmail();
         $email

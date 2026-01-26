@@ -135,7 +135,7 @@ If the QR code for Google Authenticator is not displaying:
 
 If a user loses access to their authenticator:
 1. They can use their backup codes to log in
-2. As an administrator, you can disable 2FA for the user from the back office
+2. As an administrator, you can disable 2FA for the user from the back office.
 3. The user can then re-enable 2FA with a new authenticator device
 
 ## More Information

@@ -296,16 +296,16 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
                 $exactQuery,
                 $fuzzyiedQuery
             );
-        } else {
-            return sprintf(
-                '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s)',
-                $exactQuery,
-                $fuzzyiedQuery,
-                $wildcardQuery,
-                $exactQuery,
-                $fuzzyiedQuery
-            );
         }
+
+        return sprintf(
+            '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s)',
+            $exactQuery,
+            $fuzzyiedQuery,
+            $wildcardQuery,
+            $exactQuery,
+            $fuzzyiedQuery
+        );
     }
 
     protected function buildHighlightingQuery(string $q): string

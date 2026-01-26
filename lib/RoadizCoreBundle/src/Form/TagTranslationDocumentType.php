@@ -55,7 +55,7 @@ final class TagTranslationDocumentType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return CollectionType::class;
     }

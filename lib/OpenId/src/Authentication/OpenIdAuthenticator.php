@@ -61,7 +61,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     }
 
     #[\Override]
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return null !== $this->discovery
             && $this->discovery->isValid()
@@ -144,7 +144,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             throw new OpenIdAuthenticationException('JWT is missing from response.');
         }
 
-        if (!\is_string($this->usernameClaim) || empty($this->usernameClaim)) {
+        if ('' === $this->usernameClaim) {
             throw new OpenIdAuthenticationException('Username claim is not a valid string.');
         }
 
@@ -156,7 +156,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
 
         $jwt = $configuration->parser()->parse($jsonResponse['id_token']);
 
-        if (!($jwt instanceof Plain)) {
+        if (!$jwt instanceof Plain) {
             throw new OpenIdAuthenticationException('JWT token must be instance of '.Plain::class);
         }
 
@@ -233,7 +233,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     }
 
     #[\Override]
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
@@ -243,7 +243,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     }
 
     #[\Override]
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         if ($request->hasSession()) {
             $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);

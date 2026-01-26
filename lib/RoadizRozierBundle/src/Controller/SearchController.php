@@ -288,7 +288,7 @@ final class SearchController extends AbstractController
          * no need to prefix tags
          */
         if (isset($data['tags'])) {
-            $data['tags'] = array_map('trim', explode(',', (string) $data['tags']));
+            $data['tags'] = array_map(trim(...), explode(',', (string) $data['tags']));
             foreach ($data['tags'] as $key => $value) {
                 $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
             }
@@ -398,14 +398,14 @@ final class SearchController extends AbstractController
         if ($nodeTypeForm->isSubmitted() && $nodeTypeForm->isValid()) {
             if (empty($nodeTypeForm->getData()['nodetype'])) {
                 return $this->redirectToRoute('searchNodePage');
-            } else {
-                return $this->redirectToRoute(
-                    'searchNodeSourcePage',
-                    [
-                        'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
-                    ]
-                );
             }
+
+            return $this->redirectToRoute(
+                'searchNodeSourcePage',
+                [
+                    'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
+                ]
+            );
         }
 
         return null;
@@ -657,7 +657,7 @@ final class SearchController extends AbstractController
 
             if (FieldType::ENUM_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
-                $choices = array_map('trim', $choices);
+                $choices = array_map(trim(...), $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
                 $option['placeholder'] = 'ignore';
@@ -670,7 +670,7 @@ final class SearchController extends AbstractController
                 $option['choices'] = $choices;
             } elseif (FieldType::MULTIPLE_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
-                $choices = array_map('trim', $choices);
+                $choices = array_map(trim(...), $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
                 $option['choices'] = $choices;

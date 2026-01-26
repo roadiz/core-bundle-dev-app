@@ -83,7 +83,7 @@ final class NodeTreeType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return HiddenType::class;
     }
