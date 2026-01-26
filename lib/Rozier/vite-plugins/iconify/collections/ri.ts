@@ -32,6 +32,7 @@ export default [
     'compass-3-line',
     'computer-line',
     'corner-down-left-line',
+    'refresh-line',
     'crop-line',
     'crosshair-line',
     'dashboard-line',

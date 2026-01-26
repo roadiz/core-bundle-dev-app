@@ -22,12 +22,15 @@ rz-markdown-editor,
 }
 
 .rz-markdown-editor__controls {
+	position: sticky;
+	top: 0;
 	display: flex;
 	flex-wrap: wrap;
 	min-height: 36px;
 	padding: var(--spacing-5xs, 6px);
 	justify-content: flex-end;
 	gap: 6px;
+	z-index: 1;
 	border-radius: var(--r-markdown-editor-border-radius) var(--r-markdown-editor-border-radius) 0 0;
 	border-bottom: 1px solid var(--line-on-light-primary, #EAEAEA);
 	background-color: var(--surface-light-primary, #FFF);
@@ -47,6 +50,7 @@ rz-markdown-editor,
 	letter-spacing: var(--text-form-markdown-letter-spacing);
 	font-weight: var(--text-form-markdown-font-weight);
 	outline: none;
+    field-sizing: content; /* Height fill value content */
 
 	&::placeholder {
 		--rz-markdown-editor-textarea-color: var(--form-basic-placeholder, #9A9A9A);

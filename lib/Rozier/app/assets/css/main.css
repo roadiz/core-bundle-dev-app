@@ -58,6 +58,7 @@
 @import './components/rz-explorer.css';
 @import './components/rz-delete-page.css';
 @import './components/rz-history.css';
+@import './components/rz-toast.css';
 
 /* Components: Form */
 @import './components/rz-repeatable.css';
