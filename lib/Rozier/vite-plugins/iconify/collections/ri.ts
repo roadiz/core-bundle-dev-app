@@ -134,4 +134,5 @@ export default [
     'vimeo-fill',
     'youtube-fill',
     'zoom-in-line',
+    'prohibited-line'
 ]

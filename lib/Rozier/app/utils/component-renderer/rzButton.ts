@@ -5,7 +5,7 @@ const COMPONENT_CLASS_NAME = 'rz-button'
 
 export const EMPHASIS = ['tertiary', 'secondary', 'primary'] as const
 export const SIZES = ['xs', 'sm', 'md', 'lg'] as const
-export const COLORS = ['success', 'danger'] as const
+export const COLORS = ['success', 'danger', 'warning'] as const
 
 export type RzButtonOptions = RzElement & {
     label?: string
