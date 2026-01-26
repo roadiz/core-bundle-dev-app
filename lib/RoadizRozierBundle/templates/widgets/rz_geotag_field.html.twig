@@ -127,7 +127,7 @@
 
 
 {% macro item_detail(item_id, name, content, component_id) %}
-    <div class="rz-geotag__item" id={{ item_id }}>
+    <div class="rz-geotag__item" id="{{ item_id }}">
         <span class="rz-geotag__item__icon rz-icon-ri--map-pin-line"></span>
         <div class="rz-geotag__item__content">
             {% set name_output = name|default('') %}
