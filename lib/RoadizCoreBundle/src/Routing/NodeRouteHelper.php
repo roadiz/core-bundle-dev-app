@@ -66,7 +66,7 @@ final class NodeRouteHelper
     /**
      * @phpstan-assert-if-true class-string<object&callable> $controllerClassName
      */
-    protected function isCallable(string $controllerClassName): bool
+    private function isCallable(string $controllerClassName): bool
     {
         if (\class_exists($controllerClassName)) {
             $reflection = new \ReflectionClass($controllerClassName);
@@ -79,7 +79,7 @@ final class NodeRouteHelper
         return false;
     }
 
-    protected function getControllerNamespace(): string
+    private function getControllerNamespace(): string
     {
         return $this->defaultControllerNamespace;
     }

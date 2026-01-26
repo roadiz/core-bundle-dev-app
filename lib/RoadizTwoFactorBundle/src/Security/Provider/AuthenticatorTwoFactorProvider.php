@@ -26,7 +26,7 @@ final readonly class AuthenticatorTwoFactorProvider implements TwoFactorProvider
     public function beginAuthentication(AuthenticationContextInterface $context): bool
     {
         $user = $context->getUser();
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             return false;
         }
 
@@ -61,7 +61,7 @@ final readonly class AuthenticatorTwoFactorProvider implements TwoFactorProvider
             $user = $this->getTwoFactorFromUser($user);
         }
 
-        if (!($user instanceof TwoFactorInterface)) {
+        if (!$user instanceof TwoFactorInterface) {
             return false;
         }
 

@@ -176,9 +176,9 @@ abstract class PrefixAwareRepository extends EntityRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**
@@ -236,7 +236,7 @@ abstract class PrefixAwareRepository extends EntityRepository
         $qb = $this->createSearchBy($pattern, $qb, $criteria, $alias);
 
         // Add ordering
-        if (null !== $orders) {
+        if ([] !== $orders) {
             foreach ($orders as $key => $value) {
                 $realKey = $this->getRealKey($qb, $key);
                 $qb->addOrderBy($realKey['prefix'].$realKey['key'], $value);
@@ -264,9 +264,9 @@ abstract class PrefixAwareRepository extends EntityRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     #[\Override]

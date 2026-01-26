@@ -26,7 +26,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
         $alt = $this->configuration['classname'];
         if (!empty($this->configuration['alt_displayable'])) {

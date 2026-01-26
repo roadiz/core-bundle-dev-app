@@ -18,14 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Settings entity are a simple key-value configuration system.
  */
-#[
-    ORM\Entity(repositoryClass: SettingRepository::class),
+#[ORM\Entity(repositoryClass: SettingRepository::class),
     ORM\Table(name: 'settings'),
     ORM\Index(columns: ['type']),
     ORM\Index(columns: ['name']),
     ORM\Index(columns: ['visible']),
-    UniqueEntity(fields: ['name']),
-]
+    UniqueEntity(fields: ['name']),]
 class Setting implements PersistableInterface
 {
     use SequentialIdTrait;

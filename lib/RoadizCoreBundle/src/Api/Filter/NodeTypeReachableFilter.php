@@ -73,7 +73,7 @@ final class NodeTypeReachableFilter extends AbstractFilter
          * For all nodeSources, we need to join node to get nodeTypeName.
          */
         $nodeTypeClasses = array_map(
-            fn (NodeTypeInterface $type) => $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName($type),
+            $this->nodeTypeClassLocator->getSourceEntityFullQualifiedClassName(...),
             $this->nodeTypesBag->allReachable($reachable)
         );
 

@@ -17,14 +17,12 @@ use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
  *
  * @deprecated Use composition instead, use PositionedTrait and DateTimedTrait
  */
-#[
-    ORM\MappedSuperclass,
+#[ORM\MappedSuperclass,
     ORM\HasLifecycleCallbacks,
     ORM\Table,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['created_at']),
-    ORM\Index(columns: ['updated_at'])
-]
+    ORM\Index(columns: ['updated_at'])]
 abstract class AbstractDateTimedPositioned implements PositionedInterface, DateTimedInterface, PersistableInterface
 {
     use SequentialIdTrait;

@@ -49,7 +49,7 @@ final readonly class AutomaticWebhookSubscriber implements EventSubscriberInterf
         ];
     }
 
-    protected function isEventRelatedToNode(mixed $event): bool
+    private function isEventRelatedToNode(mixed $event): bool
     {
         return $event instanceof Event
             || $event instanceof NodeVisibilityChangedEvent

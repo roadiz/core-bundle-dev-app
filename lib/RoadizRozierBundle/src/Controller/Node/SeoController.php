@@ -198,12 +198,11 @@ final class SeoController extends AbstractController
             $entityManager?->flush();
 
             return $alias;
-        } else {
-            $msg = $this->translator->trans('url_alias.no_translation.%translation%', [
-                '%translation%' => $translation->getName(),
-            ]);
-            throw new NoTranslationAvailableException($msg);
         }
+        $msg = $this->translator->trans('url_alias.no_translation.%translation%', [
+            '%translation%' => $translation->getName(),
+        ]);
+        throw new NoTranslationAvailableException($msg);
     }
 
     private function handleSingleUrlAlias(

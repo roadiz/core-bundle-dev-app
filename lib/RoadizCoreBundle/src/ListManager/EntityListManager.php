@@ -209,18 +209,17 @@ class EntityListManager extends AbstractEntityListManager
             $this->paginator->setItemsPerPage($this->getItemPerPage());
 
             return $this->paginator->findByAtPage($this->orderingArray, $this->getPage());
-        } else {
-            $repository = $this->entityManager->getRepository($this->entityName);
-            if ($repository instanceof StatusAwareRepository) {
-                $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
-                $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
-            }
-
-            return $repository->findBy(
-                $this->filteringArray,
-                $this->orderingArray,
-                $this->itemPerPage
-            );
         }
+        $repository = $this->entityManager->getRepository($this->entityName);
+        if ($repository instanceof StatusAwareRepository) {
+            $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
+            $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+        }
+
+        return $repository->findBy(
+            $this->filteringArray,
+            $this->orderingArray,
+            $this->itemPerPage
+        );
     }
 }

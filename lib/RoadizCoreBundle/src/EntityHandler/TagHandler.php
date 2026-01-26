@@ -95,9 +95,9 @@ final class TagHandler extends AbstractHandler
             $tagHandler->setTag($parent);
 
             return $tagHandler->cleanChildrenPositions($setPositions);
-        } else {
-            return $this->cleanRootTagsPositions($setPositions);
         }
+
+        return $this->cleanRootTagsPositions($setPositions);
     }
 
     /**

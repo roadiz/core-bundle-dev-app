@@ -38,12 +38,12 @@ final class QrCodeController extends AbstractController
         }
 
         $user = $this->tokenStorage->getToken()?->getUser();
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);
 
-        if (!($twoFactorUser instanceof TwoFactorInterface)) {
+        if (!$twoFactorUser instanceof TwoFactorInterface) {
             throw $this->createNotFoundException('Cannot display QR code');
         }
 

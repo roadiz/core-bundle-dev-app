@@ -1,30 +1,11 @@
-# Upgrade to 2.7
+# Upgrade to 2.8
 
-## ⚠ Breaking changes
-
-- NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
-- Removed `Node::sterile` property and `Node::isSterile()` method.
-- Removed deprecated `Node` status constants in favor of `NodeStatus` enum
-- Custom forms and contact form now return a constraint violation list in JSON format: `roadiz_core.useConstraintViolationList: true`. This requires to configure `roadiz_core.customFormPostOperationName` with your custom form operation name if you want to use this feature.
-- Interface **setter** methods now return `static` instead of `self` to allow proper fluent interface in subclasses. Make sure to update your class methods signatures if you implement any of the following interfaces:
-  - AttributeValueInterface
-  - AttributeValueTranslationInterface
-  - BlocksAwareWebResponseInterface
-  - ContextualizedDocumentInterface
-  - DateTimedInterface
-  - EntityListManagerInterface
-  - LeafInterface
-  - PositionedInterface
-  - RealmsAwareWebResponseInterface
-- Removed obsolete `roadiz/fonts-bundle`
-- Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
-
-## Twig changes
-For twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update 
+## ⚠ Twig Breaking changes
+For twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
 - `content_title`
 - `content_count_filters`
 - `content_header_nav`
-blocks to use new `header` block instead.
+  blocks to use new `header` block instead.
 
 example:
 ```twig
@@ -52,6 +33,49 @@ example:
     display_select_all_button: true,
 } only %}
 ```
+
+# Upgrade to 2.7
+
+## ⚠ Breaking changes
+
+- Upgrade Symfony dependencies to 7.4
+- NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
+- Removed `Node::sterile` property and `Node::isSterile()` method.
+- Removed deprecated `Node` status constants in favor of `NodeStatus` enum
+- Custom forms and contact form now return a constraint violation list in JSON format: `roadiz_core.useConstraintViolationList: true`. This requires to configure `roadiz_core.customFormPostOperationName` with your custom form operation name if you want to use this feature.
+- Interface **setter** methods now return `static` instead of `self` to allow proper fluent interface in subclasses. Make sure to update your class methods signatures if you implement any of the following interfaces:
+  - AttributeValueInterface
+  - AttributeValueTranslationInterface
+  - BlocksAwareWebResponseInterface
+  - ContextualizedDocumentInterface
+  - DateTimedInterface
+  - EntityListManagerInterface
+  - LeafInterface
+  - PositionedInterface
+  - RealmsAwareWebResponseInterface
+- Removed obsolete `roadiz/fonts-bundle`
+- Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
+
+## New custom-form webhook system
+
+- When a CustomForm is submitted, Roadiz can now dispatch the submission to external systems (CRMs or any HTTP endpoint) automatically.
+- Webhooks are async: submissions emit a CustomFormAnswerSubmittedEvent, which queues a CustomFormWebhookMessage and processes it via Symfony Messenger.
+- Built-in providers include Brevo, Mailchimp, HubSpot, Zoho CRM, and a generic HTTP option; you can also plug in custom providers.
+- Field mapping and provider settings are configured per form in the admin UI; this controls how form fields map to provider-specific fields.
+- The system is idempotent per CustomFormAnswer ID and uses Messenger retry policies on failure
+
+## Other changes
+
+- Roadiz can integrate with external translation services to automatically translate Markdown fields.
+- Switched to attributes for mapping Routes in Roadiz Core and Rozier bundles
+- Fluent setters on key interfaces return `static` to support subclassing.
+- Back-office sidebar bookmarks are now configurable via `roadiz_rozier.bookmarks`
+- Project admin logo is now configurable in `config/packages/roadiz_core.yaml`
+```yaml
+roadiz_core:
+    projectLogoUrl: '%env(string:APP_PROJECT_LOGO_URL)%'
+```
+- New `RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailProviderInterface` system to get a thumbnail URL for any Roadiz entity.
 
 # Upgrade to 2.6
 

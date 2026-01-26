@@ -114,7 +114,7 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
             $tempDoc = $this->documentRepository->find((int) $documentDto['document']);
 
             if (null !== $tempDoc) {
-                $hotspot = (isset($documentDto['hotspot'])) ? \json_decode($documentDto['hotspot'], true, flags: JSON_THROW_ON_ERROR) : null;
+                $hotspot = (isset($documentDto['hotspot'])) ? \json_decode((string) $documentDto['hotspot'], true, flags: JSON_THROW_ON_ERROR) : null;
                 $imageCropAlignment = $documentDto['imageCropAlignment'] ?? null;
                 $this->nodesSourcesHandler->addDocumentForField(
                     $tempDoc,

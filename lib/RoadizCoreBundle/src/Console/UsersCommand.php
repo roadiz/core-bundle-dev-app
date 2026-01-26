@@ -106,7 +106,7 @@ class UsersCommand extends Command
             ->getRepository(User::class)
             ->findOneBy(['username' => $name]);
 
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             throw new InvalidArgumentException('User “'.$name.'” does not exist.');
         }
 

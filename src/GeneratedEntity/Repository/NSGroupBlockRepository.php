@@ -27,7 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSGroupBlock[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method NSGroupBlock|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSGroupBlock|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
- * @method NSGroupBlock[] findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method NSGroupBlock[]      findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
 class NSGroupBlockRepository extends NodesSourcesRepository

@@ -21,7 +21,7 @@ final class NodeStatesType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return EnumType::class;
     }

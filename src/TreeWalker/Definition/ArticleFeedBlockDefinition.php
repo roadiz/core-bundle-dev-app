@@ -27,7 +27,7 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
      */
     public function __invoke(NodesSources $source, WalkerInterface $walker): array
     {
-        if (!($this->context instanceof NodeSourceWalkerContext)) {
+        if (!$this->context instanceof NodeSourceWalkerContext) {
             throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 
@@ -49,8 +49,9 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
             $criteria['id'] = ['!=', $root->getId()];
         }
 
-        if (null !== $source->getNode() && \count($source->getNode()->getTags()) > 0) {
-            $criteria['tags'] = $source->getNode()->getTags();
+        $node = $source->getNode();
+        if (\count($node->getTags()) > 0) {
+            $criteria['tags'] = $node->getTags();
             $criteria['tagExclusive'] = true;
         }
 
