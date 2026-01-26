@@ -1,0 +1,164 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+
+
+{% set field_attributes_whitelist = [
+    'data-field-group',
+    'data-field-group-canonical',
+    'data-dev-name',
+] %}
+{% set field_attributes = [] %}
+
+{% for key, value in form.vars.attr %}
+    {% if key in field_attributes_whitelist %}
+        {% set field_attributes = field_attributes|merge([
+            key ~ '="' ~ value|escape ~ '"'
+        ]) %}
+    {% endif %}
+{% endfor %}
+
+{% set field_id = (form.field_id|default(vars.id)) %}
+{% set wrapper_id = field_id ~ '-wrapper' %}
+{% set component_id = field_id ~ '-component' %}
+{% set search_id = field_id ~ '-search-value' %}
+
+{% set is_multiple = vars.attr['data-multiple'] is defined and vars.attr['data-multiple']|lower in ['true', '1', 'yes'] %}
+<rz-form-field
+    id="{{ wrapper_id }}"
+    {{ field_attributes|join(' ')|raw }}
+>
+    <div class="rz-form-field__head">
+        {{ rz_form_field.inner_head(
+            vars.label,
+            { for: field_id },
+            form,
+            'rz-icon-ri--compass-3-line',
+            vars.attr,
+            0
+        ) }}
+        <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
+            {# Decode vars.value as JSON (assoc array) for clean access #}
+            {% set geo = (vars.value is defined and vars.value) ? (vars.value|json_decode) : null %}
+            {% set default_search_value = '' %}
+            {% if geo is iterable and geo.type is defined and geo.type == 'Feature' %}
+                {% set default_search_value = geo.properties.name|default('') %}
+            {% endif %}
+            <input
+                is="rz-input"
+                name="location_search"
+                id="{{ search_id }}"
+                type="search"
+                value="{{ default_search_value }}"
+                placeholder="{{ 'search.location.placeholder'|trans }}"
+                form=""
+            >
+            {{ rz_button.root({
+                size: 'sm',
+                icon: 'rz-icon-ri--search-line',
+                class: 'rz-form-field__head__button',
+                attributes: {
+                    type: 'button',
+                    id: field_id ~ '-search',
+                    title: 'search.location'|trans,
+                    commandfor: component_id,
+                    command: '--search-location',
+                }
+            }) }}
+            {{ rz_button.root({
+                size: 'sm',
+                color: 'danger',
+                emphasis: 'tertiary',
+                icon: 'rz-icon-ri--delete-bin-7-line',
+                class: 'rz-form-field__head__button',
+                attributes: {
+                    type: 'button',
+                    id: field_id ~ '-delete',
+                    title: is_multiple ? 'delete.all_locations'|trans : 'delete.locations'|trans,
+                    commandfor: component_id,
+                    command: is_multiple ? '--delete-all-marker' : '--delete-marker',
+                }
+            }) }}
+        </div>
+    </div>
+
+    {%- if form.vars.help ?? false -%}
+        {{ rz_form_field.help(
+            form: form,
+        ) }}
+    {%- endif -%}
+
+    <template data-item-detail>
+        {{ _self.item_detail() }}
+    </template>
+
+    {% set item_detail_id_prefix = field_id ~ '-item-' %}
+    <rz-geotag
+        wrapper-id="{{ wrapper_id }}"
+        class="rz-form-field__body"
+        id="{{ component_id }}"
+        search-input-id="{{ search_id }}"
+        multiple="{{ is_multiple ? 'true' : 'false' }}"
+        item-detail-id-prefix="{{ item_detail_id_prefix }}"
+    >
+        <textarea
+            class="rz-geotag__textarea"
+            id="{{ field_id }}"
+            name="{{ vars.full_name }}"
+        >
+            {{ vars.value }}
+        </textarea>
+        {% if is_multiple %}
+            <div class="rz-geotag__item-list" data-item-detail-list>
+                {% if geo is iterable and geo.type is defined and geo.type == 'FeatureCollection' and geo.features is defined %}
+                    {% for feature in geo.features %}
+                        {% set name = feature.properties.name|default('') %}
+                        {% set coords = feature.geometry.coordinates|default([]) %}
+                        {% if coords|length >= 2 %}
+                            {% set lon = coords[0] %}
+                            {% set lat = coords[1] %}
+                            {{ _self.item_detail(item_detail_id_prefix ~ (loop.index - 1), name, lat ~ ', ' ~ lon, component_id) }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </rz-geotag>
+</rz-form-field>
+
+
+{% macro item_detail(item_id, name, content, component_id) %}
+    <div class="rz-geotag__item" id="{{ item_id }}">
+        <span class="rz-geotag__item__icon rz-icon-ri--map-pin-line"></span>
+        <div class="rz-geotag__item__content">
+            {% set name_output = name|default('') %}
+            <span class="rz-geotag__item__name" data-item-detail-name title="{{ name_output }}">{{ name_output }}</span>
+            <span class="rz-geotag__item__subtitle" data-item-detail-content>{{content}}</span>
+        </div>
+        {{ rz_button.root({
+            size: 'xs',
+            emphasis: 'tertiary',
+            icon: 'rz-icon-ri--crosshair-line',
+            class: 'rz-geotag__item__button',
+            attributes: {
+                type: 'button',
+                commandfor: component_id,
+                command: '--target-marker',
+                'data-item-detail-id': item_id,
+            }
+        }) }}
+        {{ rz_button.root({
+            size: 'xs',
+            color: 'danger',
+            emphasis: 'tertiary',
+            icon: 'rz-icon-ri--delete-bin-7-line',
+            class: 'rz-geotag__item__button',
+            attributes: {
+                type: 'button',
+                commandfor: component_id,
+                command: '--delete-marker',
+                'data-item-detail-id': item_id,
+            }
+        }) }}
+
+    </div>
+{% endmacro %}
