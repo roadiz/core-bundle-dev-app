@@ -420,11 +420,13 @@ export default class RzGeotag extends HTMLElement {
         this.updateItemDetailList()
     }
 
-    private bindMarker(marker: Marker) {
+    private bindMarker(marker: MarkerExtended) {
         marker.on('dragend', () => {
             if (!this.map) return
+
             const latLng = marker.getLatLng()
             this.map.panTo(latLng)
+            this.syncTextareaData()
         })
     }
 
