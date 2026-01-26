@@ -22,8 +22,8 @@
         "php": ">=8.3",
         "api-platform/symfony": "^4.1.18",
         "doctrine/orm": "~2.20.0",
-        "roadiz/core-bundle": "2.7.*",
-        "roadiz/models": "2.7.*",
+        "roadiz/core-bundle": "2.8.x-dev",
+        "roadiz/models": "2.8.x-dev",
         "symfony/framework-bundle": "7.4.*",
         "symfony/lock": "7.4.*",
         "symfony/rate-limiter": "7.4.*"
@@ -33,10 +33,10 @@
         "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2",
         "phpstan/phpstan-doctrine": "^2.0.13",
-        "roadiz/doc-generator": "2.7.*",
-        "roadiz/entity-generator": "2.7.*",
-        "roadiz/jwt": "2.7.*",
-        "roadiz/random": "2.7.*"
+        "roadiz/doc-generator": "2.8.x-dev",
+        "roadiz/entity-generator": "2.8.x-dev",
+        "roadiz/jwt": "2.8.x-dev",
+        "roadiz/random": "2.8.x-dev"
     },
     "config": {
         "optimize-autoloader": true,
