@@ -333,7 +333,7 @@ export default class RzGeotag extends HTMLElement {
         this.map.flyTo(latLng, this.map.getZoom())
     }
 
-    updateButtonSearchState(isLoading: boolean) {
+    setLoadingOnSearchBtn(isLoading: boolean) {
         const btn = this.fieldWrapper?.querySelector(
             'button[command="--search-location"]',
         ) as HTMLButtonElement | null
@@ -350,11 +350,11 @@ export default class RzGeotag extends HTMLElement {
         const address = this.searchInput?.value
         if (!address?.trim().length) return
 
-        this.updateButtonSearchState(true)
+        this.setLoadingOnSearchBtn(true)
         const response = await nominatimFetch(address)
         const { lat, lon } = response || {}
 
-        this.updateButtonSearchState(false)
+        this.setLoadingOnSearchBtn(false)
         if (!response || !lat || !lon) {
             this.searchInput?.classList.add('rz-input--error')
             this.searchInput?.setCustomValidity('Place not found')
