@@ -161,12 +161,34 @@ export class RzDrawer extends HTMLElement {
         document.removeEventListener('add-drawer-item', this.onAddDrawerItem)
     }
 
+    getFiltersFromAttributes() {
+        const providerClass = this.getAttribute('provider-class')
+        const locale = this.getAttribute('locale')
+        const providerOptionsAttribute = this.getAttribute('provider-options')
+        const providerOptions = providerOptionsAttribute
+            ? JSON.parse(decodeURIComponent(providerOptionsAttribute))
+            : null
+        const nodeTypes = this.getAttribute('data-nodetypes')
+        const nodeTypeField = this.getAttribute('data-nodetypefield')
+        const nodeTypeName = this.getAttribute('data-nodetypename')
+
+        return {
+            nodeTypes,
+            nodeTypeField,
+            providerClass,
+            providerOptions,
+            nodeTypeName,
+            _locale: locale,
+        }
+    }
+
     openExplorer() {
         document.dispatchEvent(
             new CustomEvent('show-explorer', {
                 detail: {
                     id: this.getAttribute('id'),
                     acceptEntity: this.getAttribute('accept-entity'),
+                    filters: this.getFiltersFromAttributes(),
                 },
             }),
         )
@@ -214,25 +236,7 @@ export class RzDrawer extends HTMLElement {
             return item
         })
 
-        // Get filters
-        const providerClass = this.getAttribute('provider-class')
-        const locale = this.getAttribute('locale')
-        const providerOptions = JSON.parse(
-            decodeURIComponent(this.getAttribute('provider-options')),
-        )
-        const nodeTypes = this.getAttribute('data-nodetypes')
-        const nodeTypeField = this.getAttribute('data-nodetypefield')
-        const nodeTypeName = this.getAttribute('data-nodetypename')
-
-        // Merge filters into one object
-        const filters = {
-            nodeTypes,
-            nodeTypeField,
-            providerClass,
-            providerOptions,
-            nodeTypeName,
-            _locale: locale,
-        }
+        const filters = this.getFiltersFromAttributes()
 
         // Fetch items from API
         const response: { items?: RzDrawerItem[] } = await getItemsByIds(
