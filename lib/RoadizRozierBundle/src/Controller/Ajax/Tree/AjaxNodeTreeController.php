@@ -82,7 +82,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                  * Filter view with only listed node-types
                  */
                 $linkedTypesNames = $request->query->all('linkedTypes');
-                if (is_array($linkedTypesNames) && count($linkedTypesNames) > 0) {
+                if (count($linkedTypesNames) > 0) {
                     /*
                      * Linked types must be NodeType entities, not only string
                      * to expose name and displayName to ajax responses.
