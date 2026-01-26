@@ -4,7 +4,7 @@ import {
     RZ_TOAST_LIST_ID,
 } from '~/utils/component-renderer/rzToast'
 
-const DEFAULT_TIMEOUT = 200000
+const DEFAULT_TIMEOUT = 3000
 
 type ToastItem = {
     id: number
