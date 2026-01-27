@@ -175,10 +175,10 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             /*
              * Search in translation fields
              */
-            if (str_contains($key, 'translation.')) {
+            if (str_contains((string) $key, 'translation.')) {
                 $prefix = 't.';
                 $key = str_replace('translation.', '', $key);
-            } elseif (str_contains($key, 'documentTranslations.')) {
+            } elseif (str_contains((string) $key, 'documentTranslations.')) {
                 /*
                  * Search in translation fields
                  */
@@ -428,10 +428,10 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
+            return array_values((new Paginator($query))->getIterator()->getArrayCopy());
         }
+
+        return array_values($query->getResult());
     }
 
     /**

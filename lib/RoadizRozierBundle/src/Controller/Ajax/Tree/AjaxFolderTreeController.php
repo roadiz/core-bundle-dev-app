@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
+namespace RZ\Roadiz\RozierBundle\Controller\Ajax\Tree;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
+use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use RZ\Roadiz\RozierBundle\Widget\FolderTreeWidget;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,33 +43,35 @@ final class AjaxFolderTreeController extends AbstractAjaxController
         $folderTree = null;
         $assignation = [];
 
-        switch ($request->get('_action')) {
+        switch ($request->query->get('_action')) {
             case 'requestFolderTree':
-                if ($request->get('parentFolderId') > 0) {
+                if ($request->query->get('parentFolderId') > 0) {
                     $folder = $this->managerRegistry
                         ->getRepository(Folder::class)
-                        ->find((int) $request->get('parentFolderId'));
+                        ->find((int) $request->query->get('parentFolderId'));
                 } else {
                     $folder = null;
                 }
 
                 $folderTree = $this->treeWidgetFactory->createFolderTree($folder, $translation);
 
-                $assignation['mainFolderTree'] = false;
+                $assignation['mainTree'] = false;
                 break;
-            case 'requestMainFolderTree':
+            case 'requestMainTree':
                 $parent = null;
                 $folderTree = $this->treeWidgetFactory->createFolderTree($parent, $translation);
-                $assignation['mainFolderTree'] = true;
+                $assignation['mainTree'] = true;
                 break;
         }
 
-        $assignation['folderTree'] = $folderTree;
+        $assignation['tree'] = $folderTree;
+        $assignation['tree_type'] = 'folder';
 
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
-            'folderTree' => $this->twig->render('@RoadizRozier/widgets/folderTree/rz_folder_tree_wrapper.html.twig', $assignation),
+            'tree_type' => $assignation['tree_type'],
+            'folderTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
         ]);
     }
 }

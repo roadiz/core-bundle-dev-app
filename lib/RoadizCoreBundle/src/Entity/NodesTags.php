@@ -12,23 +12,20 @@ use RZ\Roadiz\Core\AbstractEntities\UuidTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesTagsRepository;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 
-#[
-    ORM\Entity(repositoryClass: NodesTagsRepository::class),
+#[ORM\Entity(repositoryClass: NodesTagsRepository::class),
     ORM\Table(name: 'nodes_tags'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['node_id', 'position'], name: 'nodes_tags_node_id_position'),
     ORM\Index(columns: ['tag_id', 'position'], name: 'nodes_tags_tag_id_position'),
     ORM\Index(columns: ['position'], name: 'nodes_tags_position'),
     ORM\Index(columns: ['tag_id'], name: 'nodes_tags_tag_id'),
-    ORM\Index(columns: ['node_id'], name: 'nodes_tags_node_id'),
-]
+    ORM\Index(columns: ['node_id'], name: 'nodes_tags_node_id'),]
 class NodesTags implements PositionedInterface, PersistableInterface
 {
     use UuidTrait;
     use PositionedTrait;
 
-    #[
-        ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'nodesTags'),
+    #[ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'nodesTags'),
         ORM\JoinColumn(
             name: 'node_id',
             referencedColumnName: 'id',
@@ -36,12 +33,10 @@ class NodesTags implements PositionedInterface, PersistableInterface
             nullable: false,
             onDelete: 'CASCADE'
         ),
-        SymfonySerializer\Ignore,
-    ]
+        SymfonySerializer\Ignore,]
     private Node $node;
 
-    #[
-        ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'nodesTags'),
+    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'nodesTags'),
         ORM\JoinColumn(
             name: 'tag_id',
             referencedColumnName: 'id',
@@ -49,14 +44,11 @@ class NodesTags implements PositionedInterface, PersistableInterface
             nullable: false,
             onDelete: 'CASCADE'
         ),
-        SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),
-    ]
+        SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),]
     private Tag $tag;
 
-    #[
-        ORM\Column(type: 'float', nullable: false, options: ['default' => 1]),
-        SymfonySerializer\Ignore,
-    ]
+    #[ORM\Column(type: 'float', nullable: false, options: ['default' => 1]),
+        SymfonySerializer\Ignore,]
     protected float $position = 0.0;
 
     public function getNode(): Node

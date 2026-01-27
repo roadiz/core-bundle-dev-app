@@ -2,7 +2,7 @@ rz-form-field,
 .rz-form-field {
     display: flex;
     flex-direction: var(--rz-form-field-flex-direction, column);
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 .rz-form-field--align-start {
@@ -21,6 +21,7 @@ rz-form-field,
     margin-left: auto;
 }
 
+.rz-fieldset--minify .rz-form-field,
 .rz-form-field--horizontal {
     --rz-form-field-flex-direction: row;
 

@@ -57,7 +57,6 @@ final class EntityGenerator implements EntityGeneratorInterface
             }
             $this->fieldGenerators[] = $generator;
         }
-        $this->fieldGenerators = array_filter($this->fieldGenerators);
         $this->printer = new PsrPrinter();
     }
 

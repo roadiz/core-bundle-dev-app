@@ -9,10 +9,10 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 
 final class ResourceInfo
 {
-    protected ?PersistableInterface $resource = null;
-    protected ?TranslationInterface $translation = null;
-    protected ?string $format = null;
-    protected ?string $locale = null;
+    private ?PersistableInterface $resource = null;
+    private ?TranslationInterface $translation = null;
+    private ?string $format = null;
+    private ?string $locale = null;
 
     public function getResource(): ?PersistableInterface
     {

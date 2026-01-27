@@ -207,7 +207,7 @@ final class NodeSourceType extends AbstractType
             case FieldType::NODES_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'data-nodetypes' => json_encode(array_map('trim', $field->getDefaultValuesAsArray())),
+                        'data-nodetypes' => json_encode(array_map(trim(...), $field->getDefaultValuesAsArray())),
                     ],
                     '_locale' => $nodeSource->getTranslation()->getLocale(),
                 ]);
@@ -271,13 +271,16 @@ final class NodeSourceType extends AbstractType
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'class' => 'rz-geotag-field',
+                        'no-field-group' => true,
                     ],
                 ]);
                 break;
             case FieldType::MULTI_GEOTAG_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'class' => 'rz-multi-geotag-field',
+                        'class' => 'rz-geotag-field',
+                        'data-multiple' => true,
+                        'no-field-group' => true,
                     ],
                 ]);
                 break;
@@ -306,7 +309,7 @@ final class NodeSourceType extends AbstractType
                 $defaultValuesAsArray = $field->getDefaultValuesAsArray();
                 if (count($defaultValuesAsArray) > 0) {
                     $countries = $defaultValuesAsArray;
-                    $countries = array_map('trim', $countries);
+                    $countries = array_map(trim(...), $countries);
                     $options = array_merge_recursive($options, [
                         'preferred_choices' => $countries,
                     ]);

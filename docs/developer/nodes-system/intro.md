@@ -68,7 +68,7 @@ bin/console generate:nsentities
 
 Once a **node-type** is created, its definition is stored in the database inside  
 the `node_types` and `node_type_fields` tables.  
-This data is mainly used to build **node-source edition forms** in the back office  
+This data is mainly used to build **node-source edition forms** in the back office.
 and to generate a custom database table.
 
 ### Inheritance Mapping

@@ -10,11 +10,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Table(name: 'user_validation_tokens'),
+#[ORM\Table(name: 'user_validation_tokens'),
     UniqueEntity('token'),
-    ORM\Entity(repositoryClass: UserValidationTokenRepository::class)
-]
+    ORM\Entity(repositoryClass: UserValidationTokenRepository::class)]
 class UserValidationToken
 {
     #[ORM\Column(name: 'id', type: 'integer')]

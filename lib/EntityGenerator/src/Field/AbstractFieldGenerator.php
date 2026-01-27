@@ -127,7 +127,7 @@ abstract class AbstractFieldGenerator
             }
             $defaultValues = $this->field->getDefaultValuesAsArray();
             if ($this->field->isEnum() && count($defaultValues) > 0) {
-                $enumValues = array_filter(array_map('trim', $defaultValues));
+                $enumValues = array_filter(array_map(trim(...), $defaultValues));
                 $openapiContext = array_filter([
                     'type' => 'string',
                     'enum' => $enumValues,

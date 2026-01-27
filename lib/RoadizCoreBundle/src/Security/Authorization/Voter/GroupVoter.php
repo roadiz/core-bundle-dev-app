@@ -38,7 +38,7 @@ class GroupVoter extends RoleVoter
         $user = $token->getUser();
 
         foreach ($attributes as $attribute) {
-            if (!($attribute instanceof Group)) {
+            if (!$attribute instanceof Group) {
                 return VoterInterface::ACCESS_ABSTAIN;
             }
 

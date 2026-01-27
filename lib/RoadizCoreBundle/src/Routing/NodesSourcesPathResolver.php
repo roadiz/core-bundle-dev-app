@@ -149,7 +149,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
             $firstToken = $tokens[0];
             $locale = \mb_strtolower(strip_tags((string) $firstToken));
             // First token is for language and should not exceed 11 chars, i.e. tzm-Latn-DZ
-            if (null !== $locale && '' != $locale && \mb_strlen($locale) <= 11) {
+            if ('' != $locale && \mb_strlen($locale) <= 11) {
                 $translation = $this->translationRepository->$findOneByMethod($locale);
                 if (null !== $translation) {
                     return $translation;

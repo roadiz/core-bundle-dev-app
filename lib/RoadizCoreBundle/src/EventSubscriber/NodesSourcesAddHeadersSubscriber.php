@@ -76,11 +76,13 @@ final readonly class NodesSourcesAddHeadersSubscriber implements EventSubscriber
             return;
         }
 
-        if (null !== ($maxAge = $resourceCacheHeaders['max_age'] ?? $data->getNode()->getTtl()) && !$response->headers->hasCacheControlDirective('max-age')) {
+        if (!$response->headers->hasCacheControlDirective('max-age')) {
+            $maxAge = $resourceCacheHeaders['max_age'] ?? $data->getNode()->getTtl();
             $response->setMaxAge($maxAge * 60);
         }
         // Cache-Control "s-maxage" is only relevant is resource is not marked as "private"
-        if (false !== $public && null !== ($sharedMaxAge = $resourceCacheHeaders['shared_max_age'] ?? $data->getNode()->getTtl()) && !$response->headers->hasCacheControlDirective('s-maxage')) {
+        if (false !== $public && !$response->headers->hasCacheControlDirective('s-maxage')) {
+            $sharedMaxAge = $resourceCacheHeaders['shared_max_age'] ?? $data->getNode()->getTtl();
             $response->setSharedMaxAge($sharedMaxAge * 60);
         }
     }

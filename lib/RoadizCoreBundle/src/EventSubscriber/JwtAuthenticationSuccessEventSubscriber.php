@@ -29,7 +29,7 @@ final readonly class JwtAuthenticationSuccessEventSubscriber implements EventSub
     {
         $user = $event->getUser();
 
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             return;
         }
 

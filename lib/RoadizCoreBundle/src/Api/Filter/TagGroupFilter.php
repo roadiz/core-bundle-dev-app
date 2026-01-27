@@ -58,7 +58,7 @@ final class TagGroupFilter extends AbstractFilter
             if (!\is_array($group)) {
                 $group = explode(',', (string) $group);
             }
-            $normalizedValue[] = array_filter(array_map('trim', $group));
+            $normalizedValue[] = array_filter(array_map(trim(...), $group));
         }
 
         if (Node::class !== $resourceClass) {

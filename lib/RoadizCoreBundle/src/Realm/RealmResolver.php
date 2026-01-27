@@ -70,7 +70,7 @@ final readonly class RealmResolver implements RealmResolverInterface
         $cacheItem = $this->cache->getItem('granted_realms_'.$this->getUserCacheKey());
         if (!$cacheItem->isHit()) {
             $allRealms = $this->managerRegistry->getRepository(Realm::class)->findBy([]);
-            $cacheItem->set(array_values(array_filter($allRealms, fn (RealmInterface $realm) => $this->isGranted($realm))));
+            $cacheItem->set(array_values(array_filter($allRealms, $this->isGranted(...))));
             $cacheItem->expiresAfter(new \DateInterval('PT1H'));
             $this->cache->save($cacheItem);
         }

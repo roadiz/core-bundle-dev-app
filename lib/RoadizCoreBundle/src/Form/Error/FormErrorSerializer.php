@@ -61,7 +61,7 @@ final readonly class FormErrorSerializer implements FormErrorSerializerInterface
         return $errors;
     }
 
-    protected function getConstraintViolations(FormInterface $form): \Generator
+    private function getConstraintViolations(FormInterface $form): \Generator
     {
         /** @var FormError $error */
         foreach ($form->getErrors(true, true) as $error) {
@@ -101,7 +101,7 @@ final readonly class FormErrorSerializer implements FormErrorSerializerInterface
         }
     }
 
-    protected function getPropertyPath(FormInterface $form): string
+    private function getPropertyPath(FormInterface $form): string
     {
         $parts = [
             $form->getName(),

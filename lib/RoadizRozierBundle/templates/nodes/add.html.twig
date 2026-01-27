@@ -36,14 +36,10 @@
                 'id': 'add-node-form',
                 'class': 'uk-form uk-form-stacked'
             }
-        }) }}{{ form_widget(form) }}
-        <fieldset data-uk-margin>
-            <button is="rz-save-button" data-action-save="#add-node-form"
-                    class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
-                <span class="label"><span class="label-text">{% trans %}add.a.node{% endtrans %}</span></span>
-            </button>
-        </fieldset>
+        }) }}
+        {{ form_widget(form) }}
+        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem('#add-node-form') }}
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}

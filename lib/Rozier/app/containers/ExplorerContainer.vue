@@ -104,6 +104,7 @@ export default {
         return {
             searchPlaceHolder: '',
             drawerId: '',
+            drawerFilters: null,
         }
     },
     computed: {
@@ -174,8 +175,12 @@ export default {
         onShowExplorer(event) {
             if (event.detail?.acceptEntity) {
                 this.drawerId = event.detail.id || ''
+                this.drawerFilters = event.detail.filters || null
 
-                this.$store.dispatch('explorerOpen', { entity: event.detail.acceptEntity})
+                this.$store.dispatch('explorerOpen', {
+                    entity: event.detail.acceptEntity,
+                    preFilters: this.drawerFilters,
+                })
             }
         },
     },

@@ -37,7 +37,7 @@ final readonly class LogTrail
      * Publish a message in Session flash bag and
      * logger interface.
      */
-    protected function publishMessage(
+    private function publishMessage(
         ?Request $request,
         string $msg,
         string $level = 'confirm',

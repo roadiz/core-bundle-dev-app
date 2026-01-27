@@ -19,13 +19,13 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getId(): string|int
+    public function getId(): int
     {
         return $this->customForm->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
         return strip_tags($this->translator->trans(
             '{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields',
@@ -48,7 +48,7 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    protected function getEditItemPath(): ?string
+    protected function getEditItemPath(): string
     {
         return $this->urlGenerator->generate('customFormsEditPage', [
             'id' => $this->customForm->getId(),

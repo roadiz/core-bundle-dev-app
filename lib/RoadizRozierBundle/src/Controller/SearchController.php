@@ -288,7 +288,7 @@ final class SearchController extends AbstractController
          * no need to prefix tags
          */
         if (isset($data['tags'])) {
-            $data['tags'] = array_map('trim', explode(',', (string) $data['tags']));
+            $data['tags'] = array_map(trim(...), explode(',', (string) $data['tags']));
             foreach ($data['tags'] as $key => $value) {
                 $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
             }
@@ -398,14 +398,14 @@ final class SearchController extends AbstractController
         if ($nodeTypeForm->isSubmitted() && $nodeTypeForm->isValid()) {
             if (empty($nodeTypeForm->getData()['nodetype'])) {
                 return $this->redirectToRoute('searchNodePage');
-            } else {
-                return $this->redirectToRoute(
-                    'searchNodeSourcePage',
-                    [
-                        'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
-                    ]
-                );
             }
+
+            return $this->redirectToRoute(
+                'searchNodeSourcePage',
+                [
+                    'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
+                ]
+            );
         }
 
         return null;
@@ -502,6 +502,9 @@ final class SearchController extends AbstractController
         /** @var FormBuilder $builder */
         $builder = $this->createFormBuilder([], ['method' => 'get']);
 
+        $builder->add(
+            $this->createTextSearchForm($builder, $prefix.'nodeName', 'nodeName')
+        );
         $builder->add($prefix.'status', NodeStatesType::class, [
             'label' => 'node.status',
             'required' => false,
@@ -519,39 +522,42 @@ final class SearchController extends AbstractController
                 'label' => 'visible',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
             ->add($prefix.'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
             ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
             ->add($prefix.'shadow', ExtendedBooleanType::class, [
                 'label' => 'node.shadow',
                 'attr' => [
                     'no-field-group' => true,
+                    'class' => 'rz-fieldset--minify',
                 ],
             ])
         );
-        $builder->add(
-            $this->createTextSearchForm($builder, $prefix.'nodeName', 'nodeName')
-        );
+
         $builder->add($prefix.'parent', TextType::class, [
             'label' => 'node.id.parent',
             'required' => false,
+        ]);
+
+        $builder->add($prefix.'createdAt', CompareDatetimeType::class, [
+            'label' => 'created.at',
+            'inherit_data' => false,
+            'required' => false,
         ])
-            ->add($prefix.'createdAt', CompareDatetimeType::class, [
-                'label' => 'created.at',
-                'inherit_data' => false,
-                'required' => false,
-            ])
             ->add($prefix.'updatedAt', CompareDatetimeType::class, [
                 'label' => 'updated.at',
                 'inherit_data' => false,
@@ -590,7 +596,7 @@ final class SearchController extends AbstractController
             'inherit_data' => true,
             'mapped' => false,
             'attr' => [
-                'class' => 'rz-fieldset',
+                'class' => 'rz-form__field-list rz-form__field-list--horizontal',
             ],
         ])
             ->add($formName, TextType::class, [
@@ -651,7 +657,7 @@ final class SearchController extends AbstractController
 
             if (FieldType::ENUM_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
-                $choices = array_map('trim', $choices);
+                $choices = array_map(trim(...), $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
                 $option['placeholder'] = 'ignore';
@@ -664,7 +670,7 @@ final class SearchController extends AbstractController
                 $option['choices'] = $choices;
             } elseif (FieldType::MULTIPLE_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
-                $choices = array_map('trim', $choices);
+                $choices = array_map(trim(...), $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
                 $option['choices'] = $choices;

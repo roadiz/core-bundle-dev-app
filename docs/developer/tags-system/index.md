@@ -11,7 +11,7 @@ But if you didn't understand here is a schema :
 ![image](./tags.svg){.align-center}
 
 You can see that tags can gather heterogeneous nodes coming from different types (pages and projects).
-Tags can be used to display a category-navigation on your theme or to simply tidy your backoffice node database.
+Tags can be used to display a category navigation on your theme or to simply tidy your back office node database.
 
 Did you notice that `Tags` are related to `Nodes` entities, not `NodesSources`?
 We thought that it would be easier to manage that way not to forget to tag a specific node translation.

@@ -13,13 +13,11 @@ use RZ\Roadiz\CoreBundle\Model\AttributeGroupTranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\AttributeGroupRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[
-    ORM\Entity(repositoryClass: AttributeGroupRepository::class),
+#[ORM\Entity(repositoryClass: AttributeGroupRepository::class),
     ORM\Table(name: 'attribute_groups'),
     ORM\Index(columns: ['canonical_name']),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity(fields: ['canonicalName'])
-]
+    UniqueEntity(fields: ['canonicalName'])]
 class AttributeGroup implements AttributeGroupInterface
 {
     use SequentialIdTrait;

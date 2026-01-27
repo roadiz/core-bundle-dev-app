@@ -92,9 +92,9 @@ trait NodeBulkActionTrait
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $referer = null;
@@ -105,7 +105,7 @@ trait NodeBulkActionTrait
         $title = new UnicodeString($this->translator->trans('delete.nodes'));
         $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $cancelPath,
@@ -157,9 +157,9 @@ trait NodeBulkActionTrait
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $assignation['nodes'] = $nodes;
@@ -227,7 +227,7 @@ trait NodeBulkActionTrait
     private function bulkStatusNodes(array $data): string
     {
         if (!empty($data['nodesIds'])) {
-            $nodesIds = \json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
+            $nodesIds = \json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -305,7 +305,7 @@ trait NodeBulkActionTrait
             !empty($data['tagsPaths'])
             && !empty($data['nodesIds'])
         ) {
-            $nodesIds = json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
+            $nodesIds = json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -344,7 +344,7 @@ trait NodeBulkActionTrait
             !empty($data['tagsPaths'])
             && !empty($data['nodesIds'])
         ) {
-            $nodesIds = \json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
+            $nodesIds = \json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */

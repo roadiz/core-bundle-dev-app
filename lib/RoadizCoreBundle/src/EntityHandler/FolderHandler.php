@@ -83,9 +83,9 @@ final class FolderHandler extends AbstractHandler
             $parentHandler->setFolder($parent);
 
             return $parentHandler->cleanChildrenPositions($setPositions);
-        } else {
-            return $this->cleanRootFoldersPositions($setPositions);
         }
+
+        return $this->cleanRootFoldersPositions($setPositions);
     }
 
     /**

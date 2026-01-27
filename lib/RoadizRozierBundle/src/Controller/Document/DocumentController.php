@@ -96,7 +96,7 @@ final class DocumentController extends AbstractController
             ['%name%' => $document->getFilename()]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),
@@ -154,7 +154,7 @@ final class DocumentController extends AbstractController
             $items[] = $this->explorerItemFactory->createForEntity($document)->toArray();
         }
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),
@@ -248,19 +248,18 @@ final class DocumentController extends AbstractController
                             'success' => true,
                             'document' => $documentModel->toArray(),
                         ], Response::HTTP_CREATED);
-                    } else {
-                        return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
                     }
-                } else {
-                    $msg = $this->translator->trans('document.cannot_persist');
-                    $this->logTrail->publishErrorMessage($request, $msg, $document);
 
-                    if ('json' === $_format || $request->isXmlHttpRequest()) {
-                        throw $this->createNotFoundException($msg);
-                    } else {
-                        return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
-                    }
+                    return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
                 }
+                $msg = $this->translator->trans('document.cannot_persist');
+                $this->logTrail->publishErrorMessage($request, $msg, $document);
+
+                if ('json' === $_format || $request->isXmlHttpRequest()) {
+                    throw $this->createNotFoundException($msg);
+                }
+
+                return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
             } elseif ('json' === $_format || $request->isXmlHttpRequest()) {
                 /*
                  * Bad form submitted

@@ -31,8 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * NodesSources store Node content according to a translation and a NodeType.
  */
-#[
-    ORM\Entity(repositoryClass: NodesSourcesRepository::class),
+#[ORM\Entity(repositoryClass: NodesSourcesRepository::class),
     ORM\Table(name: 'nodes_sources'),
     ORM\Index(columns: ['discr']),
     ORM\Index(columns: ['title']),
@@ -57,8 +56,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(RoadizFilter\LocaleFilter::class),
-    ApiFilter(RoadizFilter\TagGroupFilter::class),
-]
+    ApiFilter(RoadizFilter\TagGroupFilter::class),]
 class NodesSources implements PersistableInterface, Loggable, \Stringable
 {
     use SequentialIdTrait;
@@ -275,10 +273,13 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     #[SymfonySerializer\Ignore]
     public function getOneDisplayableDocument(): ?DocumentInterface
     {
-        return $this->getDocumentsByFields()->filter(fn (NodesSourcesDocuments $nsd) => null !== $nsd->getDocument()
-            && !$nsd->getDocument()->isPrivate()
-            && ($nsd->getDocument()->isImage() || $nsd->getDocument()->isSvg())
-            && $nsd->getDocument()->isProcessable())->map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument())->first() ?: null;
+        return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd): bool {
+            $document = $nsd->getDocument();
+
+            return !$document->isPrivate()
+                && ($document->isImage() || $document->isSvg())
+                && $document->isProcessable();
+        })->map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument())->first() ?: null;
     }
 
     /**
@@ -459,9 +460,9 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
             $nodeSources = $parent->getNodeSourcesByTranslation($this->translation)->first();
 
             return $nodeSources ?: null;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     #[\Override]

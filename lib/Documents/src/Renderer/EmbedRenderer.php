@@ -24,9 +24,9 @@ class EmbedRenderer implements RendererInterface
             && true === $options['embed']
         ) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     #[\Override]

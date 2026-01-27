@@ -452,7 +452,7 @@ final class NodeController extends AbstractController
         )]
         ?Node $parentNode = null,
     ): Response {
-        /** @var Translation|null $translation */
+        /** @var TranslationInterface $translation */
         $translation = $this->getDefaultTranslation();
         $nodeTypesCount = $this->nodeTypesBag->count();
 
@@ -592,7 +592,7 @@ final class NodeController extends AbstractController
             ['%name%' => $node->getNodeName()]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),

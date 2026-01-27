@@ -1,6 +1,6 @@
 # Gérer les médias
 
-Vous pouvez gérer les divers médias via l’icône **Documents** dans la barre d’outils. Vous pouvez soit téléverser, intégrer des documents externes, et même jeter un coup d’œil aux documents inutilisés de votre site Web. 
+Vous pouvez gérer les divers médias via l’icône **Documents** dans la barre d’outils. Vous pouvez téléverser, intégrer des documents externes, et même jeter un coup d’œil aux documents inutilisés de votre site Web.
 
 ![Capture d’écran 2023-03-28 à 12.23.13.webp](gerer_les_medias/Capture_decran_2023-03-28_a_12.23.13.webp)
 
@@ -8,7 +8,7 @@ Vous pouvez gérer les divers médias via l’icône **Documents** dans la barre
 
 ### Téléverser
 
-Pour déposer un fichier dans votre CMS, cliquez sur le bouton téléverser ; un espace de téléversement s’ouvrira ; vous pouvez cliquer sur la zone grise pour activer un onglet qui vous permet de sélectionner le média stocké sur votre machine. Le document téléversé se retrouvera automatiquement en première position de votre onglet Documents : 
+Pour déposer un fichier dans votre CMS, cliquez sur le bouton téléverser ; un espace de téléversement s’ouvrira ; vous pouvez cliquer sur la zone grise pour activer un onglet qui vous permet de sélectionner le média stocké sur votre machine. Le document téléversé se retrouvera automatiquement en première position de votre onglet Documents :
 
 <video controls>
     <source src="/user/gerer_les_medias/Enregistrement_de_lecran_2023-03-28_a_13.42.16.webm" type="video/webm">
@@ -21,9 +21,9 @@ Vous pouvez également importer un média depuis une plateforme. C’est notamme
 
 ![Capture d’écran 2022-02-24 à 16.57.54.webp](gerer_les_medias/Capture_decran_2022-02-24_a_16.57.54.webp)
 
-Une liste de plateformes est disponible dans votre CMS ; attention, uniquement les plateformes compatibles avec 
-votre projet sont paramétrées en front-office, selon le cahier de charges défini). Saisissez l’URL du média et 
-sélectionnez la plateforme correspondante, puis sauvegardez (Bouton Intégrer). Le média sera placé en première position de vos Documents :
+Une liste de plateformes est disponible dans votre CMS ; attention, uniquement les plateformes compatibles avec
+votre projet sont paramétrées en front-office, selon le cahier des charges défini. Saisissez l’URL du média et
+sélectionnez la plateforme correspondante, puis sauvegardez (bouton Intégrer). Le média sera placé en première position de vos Documents :
 
 <video controls>
     <source src="/user/gerer_les_medias/Enregistrement_de_lecran_2023-03-28_a_13.44.42.webm" type="video/webm">
@@ -39,7 +39,7 @@ votre site à partir de la base libre de *Unsplash*.
 
 ## Documents non-utilisés
 
-En cliquant sur **Document inutilisé***,* vous pourrez vérifier la liste de toutes les sources non-référencées sur votre site, 
+En cliquant sur **Documents inutilisés**, vous pourrez vérifier la liste de toutes les sources non référencées sur votre site,
 ce qui vous permettra par la suite de nettoyer votre base de données et de supprimer ainsi des fichiers inutiles.
 
 ![Capture d’écran 2022-02-24 à 18.30.13.webp](gerer_les_medias/Capture_decran_2022-02-24_a_18.30.13.webp)
@@ -50,26 +50,26 @@ Le fonctionnement d’intégration d’une image pour un header de page ou un bl
 
 Pour remplir un champ avec une image, vous pouvez 
 
-- soit Téléverser une image (qui n’est pas encore dans votre back-office)
+- soit téléverser une image (qui n’est pas encore dans votre back-office)
 - soit sélectionner une image stockée dans votre CMS, téléversée précédemment
 
 ![Capture d’écran 2022-02-23 à 18.14.48.webp](gerer_les_medias/Capture_decran_2022-02-23_a_18.14.48.webp)
 
 ### Téléverser
 
-Cliquez sur le bouton téléverser pour ouvrir la zone active de upload 
+Cliquez sur le bouton téléverser pour ouvrir la zone active d’upload.
 
 ![Capture d’écran 2022-02-23 à 18.14.55.webp](gerer_les_medias/Capture_decran_2022-02-23_a_18.14.55.webp)
 
-Déposez les fichiers à téléverser ou cliquez pour ouvrir l’explorateur (cf. la vidéo tuto [Gérer les fichiers (images, vidéos, documents) - SUPP](https://www.notion.so/G-rer-les-fichiers-images-vid-os-documents-SUPP-a23dd67b881245fa88dd8998b5de05c6?pvs=21) ).
+Déposez les fichiers à téléverser ou cliquez pour ouvrir l’explorateur (cf. la vidéo tuto [Gérer les fichiers (images, vidéos, documents) - SUPP](https://www.notion.so/G-rer-les-fichiers-images-vid-os-documents-SUPP-a23dd67b881245fa88dd8998b5de05c6?pvs=21)).
 
 ### Explorateur
 
-Cliquez sur le bouton Explorateur 
+Cliquez sur le bouton Explorateur.
 
 ![Capture d’écran 2022-02-23 à 18.18.41.webp](gerer_les_medias/Capture_decran_2022-02-23_a_18.18.41.webp)
 
-Sélectionnez le ou les fichiers souhaités en cliquant dessus
+Sélectionnez le ou les fichiers souhaités en cliquant dessus.
 
 ![Capture d’écran 2022-02-23 à 18.20.00.webp](gerer_les_medias/Capture_decran_2022-02-23_a_18.20.00.webp)
 
@@ -84,7 +84,7 @@ De manière générale, privilégiez le format jpeg. Utilisez la meilleure quali
 Pour les fichiers qui nécessitent une transparence (logos, images sur fond coloré, infographies), utilisez le format png transparent ou svg. Sinon, privilégiez le format jpeg.
 
 ::: danger
-Ne pas utiliser les fichiers source type .psd, .ai ou .tiff, il ne seront pas affichés sur le site.
+Ne pas utiliser les fichiers source type .psd, .ai ou .tiff, ils ne seront pas affichés sur le site.
 :::
 
 ### Édition
@@ -93,7 +93,7 @@ L’onglet édition est l’onglet par défaut sur lequel vous arrivez dans votr
 
 ![Capture d’écran 2022-02-24 à 18.11.04.webp](gerer_les_medias/Capture_decran_2022-02-24_a_18.11.04.webp)
 
-Tout en bas de la page vous trouverez l’URL publique et le chemin absolu du fichier. 
+Tout en bas de la page vous trouverez l’URL publique et le chemin absolu du fichier.
 
 ![Capture d’écran 2022-02-24 à 18.13.42.webp](gerer_les_medias/Capture_decran_2022-02-24_a_18.13.42.webp)
 
@@ -118,9 +118,9 @@ De même, cet onglet vous permet de récupérer les informations relatives au fi
 
 ![Capture d’écran 2023-04-05 à 15.11.09.webp](gerer_les_medias/Capture_decran_2023-04-05_a_15.11.09.webp)
 
-Important : c’est à cet endroit que vous pouvez récupérer l’URL absolu de votre fichier. Cet URL peut être partagé ou intégré dans un lien hypertexte.
+Important : c’est à cet endroit que vous pouvez récupérer l’URL absolue de votre fichier. Cette URL peut être partagée ou intégrée dans un lien hypertexte.
 
-Pour les images, privilégiez l’URL non-modifié.
+Pour les images, privilégiez l’URL non modifiée.
 
 Depuis cet onglet vous pouvez également télécharger votre fichier sur votre machine : 
 
@@ -128,7 +128,7 @@ Depuis cet onglet vous pouvez également télécharger votre fichier sur votre m
 
 ### Utilisation
 
-L’onglet Utilisation vous permet de voir dans quels blocs ou endroits du site est utilisé ce fichier ; en cliquant sur la ligne correspondante, vous serez redigiré automatiquement vers le nœud/bloc qui contient votre fichier :
+L’onglet Utilisation vous permet de voir dans quels blocs ou endroits du site est utilisé ce fichier ; en cliquant sur la ligne correspondante, vous serez redirigé automatiquement vers le nœud/bloc qui contient votre fichier :
 
 ![Capture d’écran 2022-02-24 à 17.37.30.webp](gerer_les_medias/Capture_decran_2022-02-24_a_17.37.30.webp)
 
@@ -148,7 +148,7 @@ Une fois le ratio défini, sélectionnez la zone souhaitée et appuyez sur le bo
 
 ![Capture d’écran 2022-02-24 à 17.43.44.webp](gerer_les_medias/Capture_decran_2022-02-24_a_17.43.44.webp)
 
-Le back-office vous proposera d’appliquer et écraser le fichier ; attention, cela veut dire que le changement sera opéré sur tous les endroits du site ou l’image est utilisée :
+Le back-office vous proposera d’appliquer et écraser le fichier ; attention, cela veut dire que le changement sera opéré sur tous les endroits du site où l’image est utilisée :
 
 ![Capture d’écran 2022-02-24 à 17.44.18.webp](gerer_les_medias/Capture_decran_2022-02-24_a_17.44.18.webp)
 
@@ -168,16 +168,16 @@ D’autres boutons vous permettent d’effectuer des changements sur l’image :
 
 ## Vidéos
 
-Votre CMS vous permet d’afficher les vidéos mp4 ainsi que les vidéos lues depuis les plateformes de streaming, type **Youtube ou Viméo**.
+Votre CMS vous permet d’afficher les vidéos mp4 ainsi que les vidéos lues depuis les plateformes de streaming, type **YouTube** ou **Vimeo**.
 
 À noter que pour respecter les bonnes pratiques web, les fichiers mp4 sont à utiliser avec parcimonie : en effet, le poids d’une vidéo peut jouer sur l’expérience utilisateur ; si une vidéo dépasse 2 Mo, elle est considérée comme trop lourde ; la page sera donc chargée avec beaucoup de difficultés, surtout en cas de mauvaise connexion Internet. 
 
 Pour des vidéos longues, privilégiez les plateformes de streaming.
 
-Pour les vidéos courtes (type boucle vidéo, sans son), vous pouvez téléverser le fichier directement dans le back-office. 
+Pour les vidéos courtes (type boucle vidéo, sans son), vous pouvez téléverser le fichier directement dans le back-office.
 
 ::: warning
-💡 L’utilisation de fichiers vidéo directement dans le backoffice nécessite des connaissances en encodage vidéo et une bonne configuration des codecs compatibles pour le web : tels que H.264 et/ou VP8 dans les conteneurs MP4 et/ou WebM.
+💡 L’utilisation de fichiers vidéo directement dans le back-office nécessite des connaissances en encodage vidéo et une bonne configuration des codecs compatibles pour le web : tels que H.264 et/ou VP8 dans les conteneurs MP4 et/ou WebM.
 :::
 
 ### Édition
@@ -190,15 +190,15 @@ Dans l’onglet édition, vous trouverez un champ nommé Vignettes :
 
 ![Capture d’écran 2022-02-24 à 18.00.33.webp](gerer_les_medias/Capture_decran_2022-02-24_a_18.00.33.webp)
 
-Par défaut, le back-office prendra une image d’arrêt sur votre vidéo, ou la vignette définie dans Youtube ou Viméo. Néanmoins elle peut être personnalisée. Vous pouvez donc déposer dans ce champ une image qui sera affichée en vignette sur votre vidéo sur votre site.
+Par défaut, le back-office prendra une image d’arrêt sur votre vidéo, ou la vignette définie dans YouTube ou Vimeo. Néanmoins, elle peut être personnalisée. Vous pouvez donc déposer dans ce champ une image qui sera affichée en vignette sur votre vidéo sur votre site.
 
 Il en est de même pour les fichiers mp4.
 
 #### Gestion d’une vignette vidéo : pas à pas
 
-Si vous disposez d’une image qui correspondrait à la vignette de vidéo, vous pouvez la téléverser dans le back-office et l’utiliser. Si vous n’avez pas d’image prévue pour la vignette, vous pouvez effectuer une capture d’écran (image d’arrêt) qui servira de vignette. 
+Si vous disposez d’une image qui correspondrait à la vignette de vidéo, vous pouvez la téléverser dans le back-office et l’utiliser. Si vous n’avez pas d’image prévue pour la vignette, vous pouvez effectuer une capture d’écran (image d’arrêt) qui servira de vignette.
 
-Exemple : depuis Youtube, assurez-vous de toujours afficher la meilleure qualité d’image et effectuez la capture :
+Exemple : depuis YouTube, assurez-vous de toujours afficher la meilleure qualité d’image et effectuez la capture :
 
 ![Capture d’écran 2022-02-24 à 18.05.37.webp](gerer_les_medias/Capture_decran_2022-02-24_a_18.05.37.webp)
 
@@ -243,17 +243,17 @@ Idem sur la vue générale de votre rubrique Documents :
 
 ### Autres onglets de gestion
 
-Pour les onglets Méta-données, Aperçu, Utilisation et Ajuster, consultez le chapitre ci-dessus (il s’agit du même fonctionnement pour les images et pour les vidéos). 
+Pour les onglets Méta-données, Aperçu, Utilisation et Ajuster, consultez le chapitre ci-dessus (il s’agit du même fonctionnement pour les images et pour les vidéos).
 
 ## Documents PDF
 
-Pour la gestion des documents pdf, consultez le tuto de la rubrique Image (même fonctionnement). 
+Pour la gestion des documents PDF, consultez le tutoriel de la rubrique Image (même fonctionnement).
 
 ## Pictos
 
 Pour intégrer des pictos dans des champs prévus à cet effet, privilégiez le format **svg**, ou bien **png** transparent.
 
-Certains pictos sont entrées dans le code et ne sont pas administrables, c’est notamment le cas des pictos réseaux sociaux (généralement placés dans le footer). 
+Certains pictos sont entrés dans le code et ne sont pas administrables, c’est notamment le cas des pictos réseaux sociaux (généralement placés dans le footer).
 
 ![Capture d’écran 2022-02-24 à 16.53.53.webp](gerer_les_medias/Capture_decran_2022-02-24_a_16.53.53.webp)
 

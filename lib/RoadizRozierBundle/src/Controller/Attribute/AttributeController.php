@@ -50,7 +50,7 @@ final class AttributeController extends AbstractAdminWithBulkController
     }
 
     #[\Override]
-    protected function getBulkDeleteRouteName(): ?string
+    protected function getBulkDeleteRouteName(): string
     {
         return 'attributesBulkDeletePage';
     }
