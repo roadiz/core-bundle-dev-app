@@ -60,8 +60,6 @@
 @import './components/rz-history.css';
 @import './components/rz-toast.css';
 
-
-
 /* Components: Form */
 @import './components/rz-repeatable.css';
 @import './components/rz-textarea.css';
@@ -73,9 +71,11 @@
 @import './components/rz-fieldset.css';
 @import './components/rz-markdown-editor.css';
 @import './components/rz-color-input.css';
+
 /* Form widgets */
 @import './components/rz-children-nodes.css';
 @import './components/rz-drawer.css';
+@import './components/rz-geotag.css';
 
 
 /* standalone element */

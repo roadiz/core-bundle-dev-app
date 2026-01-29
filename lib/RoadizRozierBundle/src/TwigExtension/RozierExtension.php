@@ -64,6 +64,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return [
             new TwigFilter('truncate_title', $this->truncateTitle(...)),
+            new TwigFilter('json_decode', $this->jsonDecode(...)),
         ];
     }
 
@@ -152,5 +153,23 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getAllAvailableTranslations(): array
     {
         return $this->translationRepository->findAllAvailable();
+    }
+
+    /**
+     * Decode a JSON string into an associative array.
+     *
+     * @throws \JsonException when the JSON is invalid
+     */
+    public function jsonDecode(?string $json): ?array
+    {
+        if (null === $json) {
+            return null;
+        }
+        $json = trim($json);
+        if ('' === $json) {
+            return null;
+        }
+
+        return \json_decode(json: $json, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }

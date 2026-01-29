@@ -72,7 +72,6 @@ final class CustomFormWebhookType extends AbstractType
             'data_class' => CustomForm::class,
             'custom_form' => null,
             'attr' => [
-                'tag' => 'fieldset',
                 'class' => 'rz-form-field__body',
             ],
         ]);
