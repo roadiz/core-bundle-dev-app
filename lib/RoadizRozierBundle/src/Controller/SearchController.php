@@ -314,7 +314,6 @@ final class SearchController extends AbstractController
             } else {
                 /** @var NodeTypeField $field */
                 foreach ($fields as $field) {
-                    dump($field);
                     if ($key == $field->getName()) {
                         if (
                             FieldType::MARKDOWN_T === $field->getType()
