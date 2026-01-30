@@ -63,6 +63,7 @@
             {% endblock %}
 
             {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
                 {% for document in documents %}
                     <tr
                      {{ _self.colored_row_attrs({'color': document.imageAverageColor }) }}
@@ -86,7 +87,10 @@
                                     }) }}
                                 {% endif %}
                                 {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
-                                    <div class="document-platform-icon"><i class="uk-icon-file-{{ document.shortType }}-o"></i></div>
+                                    {{ rz_badge.item({
+                                        icon: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
+                                        size: 'md',
+                                    })}}
                                 {% endif %}
                             </figure>
                         </td>
@@ -98,12 +102,11 @@
                         </td>
                         <td class="mobile-hidden">{{ document.mimeType }}</td>
                         <td>
-                            {% if document.filesize > 0 %}<i class="uk-icon-eye"></i> {{ document.filesize|formatBytes }}{% endif %}
+                            {% if document.filesize > 0 %}<span class="rz-icon-ri--eye-line"></span> {{ document.filesize|formatBytes }}{% endif %}
                             {% if document.rawDocument %}
                                 {% if document.rawDocument.filesize > 0 %}
-                                    <br><i data-uk-tooltip="{animation:true}"
-                                        title="{{ 'original.document'|trans }}"
-                                        class="uk-icon-camera-retro"></i> {{ document.rawDocument.filesize|formatBytes }}
+                                    <br>
+                                    <span class="rz-icon-ri--camera-line" title="{{ 'original.document'|trans }}"></span> {{ document.rawDocument.filesize|formatBytes }}
                                 {% endif %}
                             {% endif %}
                         </td>
@@ -117,7 +120,7 @@
                                 {% endif %}
                                 {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
                                 {{ rz_badge.item({
-                                    icon: 'uk-icon-rz-' ~ iconName,
+                                    icon: 'rz-icon-ri--' ~ iconName ~ '-fill',
                                     attributes: {
                                         title: document.embedPlatform|trans|capitalize,
                                     }
@@ -132,7 +135,7 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr><td class="uk-text-center" colspan="9">{% trans %}no_document{% endtrans %}</td></tr>
+                    <tr class ><td class="rz-message__text" colspan="10">{% trans %}no_document{% endtrans %}</td></tr>
                 {% endfor %}
             {% endblock %}
         {% endembed %}

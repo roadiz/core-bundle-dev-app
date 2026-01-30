@@ -34,6 +34,35 @@ example:
 } only %}
 ```
 
+## ⚠ Rozier menu icons changed
+
+All backoffice menu icon classes now use the new UI icon set.
+If your project overrides menu entries in `config/packages/roadiz_rozier.yaml` and still uses old `uk-icon-*` classes, those icons will no longer display.
+
+Update your menu entries to use `rz-icon-ri--<name>` classes (or `rz-icon-rz--<name>`for Roadiz-specific icons).
+Icon names was based on Remix Icon names: https://remixicon.com/
+
+Example migration:
+
+```diff
+ # config/packages/roadiz_rozier.yaml
+ roadiz_rozier:
+     entries:
+         dashboard:
+-            icon: uk-icon-rz-dashboard
++            icon: rz-icon-ri--dashboard-line
+         nodes:
+-            icon: uk-icon-rz-global-nodes
++            icon: rz-icon-ri--command-line
+             subentries:
+                 all_nodes:
+-                    icon: uk-icon-rz-all-nodes
++                    icon: rz-icon-rz--status-container-line
+                 draft_nodes:
+-                    icon: uk-icon-rz-draft-nodes
++                    icon: rz-icon-rz--status-draft-line
+```
+
 # Upgrade to 2.7
 
 ## ⚠ Breaking changes
