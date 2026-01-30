@@ -447,21 +447,21 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-    <div
-        class="rz-form-field children-nodes-widget"
+    {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+    <rz-form-field
+        class="rz-form-field"
         data-translation-id="{{ nodeTree.translation.id }}"
-        data-children-nodes-widget {{ block('widget_attributes') }}
+        data-field-group="{{ form.vars.attr['data-field-group'] }}"
+        data-field-group-canonical="{{ form.vars.attr['data-field-group-canonical'] }}"
+        data-dev-name="{{ form.vars.attr['data-dev-name'] }}"
     >
-        {% if label is empty -%}
-            {% set label = name|humanize %}
-        {%- endif -%}
-        <nav class="drawer-widget-nav children-nodes-nav">
-            <div class="drawer-widget-nav__head">
-                <div class="drawer-widget-nav__title"><i class="uk-icon-rz-node-tree"></i></div>
-                <div class="drawer-widget-nav__title label">{{ label|trans }}</div>
-            </div>
-            <div class="drawer-widget-nav__content">
-                {% if linkedTypes|length %}
+        <div class="rz-form-field__head">
+            {{ rz_form_field.inner_head(form.vars.label, {}, form, 'rz-icon-ri--stack-line', form.vars.attr,) }}
+            {% if label is empty -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+            {% if linkedTypes|length %}
+                <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                     {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
                     {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
                             id: popover_id,
@@ -497,9 +497,14 @@
                             {% endembed %}
                         {% endblock %}
                     {% endembed %}
-                {% endif %}
-            </div>
-        </nav>
+                </div>
+            {% endif %}
+        </div>
+        {%- if form.vars.help ?? false -%}
+            {{ rz_form_field.help(
+                form: form,
+            ) }}
+        {%- endif -%}
         <rz-tree
             class="rz-tree rz-tree--child-nodes children-nodes-tree"
             group="nodeTree"
@@ -515,7 +520,7 @@
                 "linkedTypes": linkedTypes,
             } only %}
         </rz-tree>
-    </div>
+    </rz-form-field>
 {% endblock childrennodes_widget %}
 {#
  # Override default form rendering
