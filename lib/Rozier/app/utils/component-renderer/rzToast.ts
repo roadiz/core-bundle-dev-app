@@ -56,7 +56,7 @@ export function rzToastRenderer(options: ToastDetail) {
     })
     iconWrap.classList.add('rz-toast__icon')
 
-    const titleElement = document.createElement('span')
+    const titleElement = document.createElement('h3')
     titleElement.className = 'rz-toast__title'
     titleElement.textContent = title || STATUS_CONFIG[status].title
 
@@ -77,7 +77,7 @@ export function rzToastRenderer(options: ToastDetail) {
     toast.appendChild(iconWrap)
     toast.appendChild(titleElement)
 
-    const content = document.createElement('div')
+    const content = document.createElement('p')
     content.className = 'rz-toast__content'
     content.innerHTML = message
 
