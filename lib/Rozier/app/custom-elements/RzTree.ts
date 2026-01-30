@@ -123,7 +123,6 @@ export default class RzTree extends HTMLElement {
             const item = this.querySelector(
                 `.rz-tree__item[data-entity-id="${itemId}"]`,
             )
-            console.log('syncCollapsedState', this, item, itemId)
             if (!item) return
 
             const btn = item.querySelector('.rz-tree__item__expand-button')
@@ -153,7 +152,7 @@ export default class RzTree extends HTMLElement {
 
     getExpandedIds() {
         let state: string[] | null = null
-        if (!window.localStorage) return
+        if (!window.localStorage) return []
 
         const rawState = window.localStorage.getItem(this.expandedStateKey)
         if (rawState) {
@@ -247,7 +246,6 @@ export default class RzTree extends HTMLElement {
         } else if (parentId) {
             postData.newParentId = parentId
         }
-        console.log(parentId, postData)
 
         const nextId = this.getSiblingId(element.nextElementSibling)
         if (nextId !== null) {

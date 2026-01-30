@@ -1,5 +1,4 @@
 {% set tTag = tag.getTranslatedTagsByTranslation(tagTree.translation).first|default(tag.getTranslatedTags().first) %}
-{% set tTag = tag.getTranslatedTagsByTranslation(tagTree.translation).first|default(tag.getTranslatedTags().first) %}
 {% if tTag %}
 {% set tagName = tTag.name|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
     {% set editUrl = path('tagsEditTranslatedPage', { tagId:tag.getId, translationId:tTag.getTranslation.getId }) %}
