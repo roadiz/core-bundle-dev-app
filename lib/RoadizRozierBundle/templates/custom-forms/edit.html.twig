@@ -5,7 +5,7 @@
 {% block content %}
     <section>
         {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-            title: item.displayName|truncate_title,
+            title: item.displayName,
             current: 'customForm',
             type: item,
             with_nav_bar: true,

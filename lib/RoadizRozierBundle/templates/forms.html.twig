@@ -447,68 +447,80 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-<div
-    class="rz-form-field children-nodes-widget"
-    data-translation-id="{{ nodeTree.translation.id }}"
-    data-children-nodes-widget {{ block('widget_attributes') }}
->
-    {% if label is empty -%}
-        {% set label = name|humanize %}
-    {%- endif -%}
-    <nav class="drawer-widget-nav children-nodes-nav">
-        <div class="drawer-widget-nav__head">
-            <div class="drawer-widget-nav__title"><i class="uk-icon-rz-node-tree"></i></div>
-            <div class="drawer-widget-nav__title label">{{ label|trans }}</div>
-        </div>
-        <div class="drawer-widget-nav__content">
+    {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+    <rz-form-field
+        class="rz-form-field"
+        data-translation-id="{{ nodeTree.translation.id }}"
+        data-field-group="{{ form.vars.attr['data-field-group'] }}"
+        data-field-group-canonical="{{ form.vars.attr['data-field-group-canonical'] }}"
+        data-dev-name="{{ form.vars.attr['data-dev-name'] }}"
+    >
+        <div class="rz-form-field__head">
+            {{ rz_form_field.inner_head(form.vars.label, {}, form, 'rz-icon-ri--stack-line', form.vars.attr,) }}
+            {% if label is empty -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
             {% if linkedTypes|length %}
-                {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
-                {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
-                        id: popover_id,
-                        placement: 'bottom-end',
-                        offset: '12',
-                        target_options: {
-                            attributes: {
-                                'aria-label': 'add.node'|trans,
-                            },
-                            label: 'Add'|trans,
-                            icon: 'rz-icon-ri--add-line',
-                        }
-                } %}
-                    {% block popover %}
-                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
-                                targetId: popover_id,
-                                class: 'children-nodes-quick-creation',
-                            } %}
-                            {% block items %}
-                                {% for linkedType in linkedTypes %}
-                                    {{ _self.item({
-                                        label: linkedType.displayName,
-                                        rightIcon: 'rz-icon-ri--add-line',
-                                        attributes: {
-                                            type: 'button',
-                                            'data-children-node-type': linkedType.name,
-                                            'data-children-parent-node': nodeTree.rootNode.id,
-                                            'data-translation-id': nodeTree.translation.id,
-                                        }
-                                    }) }}
-                                {% endfor %}
-                            {% endblock %}
-                        {% endembed %}
-                    {% endblock %}
-                {% endembed %}
+                <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
+                    {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
+                    {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
+                            id: popover_id,
+                            placement: 'bottom-end',
+                            offset: '12',
+                            target_options: {
+                                attributes: {
+                                    'aria-label': 'add.node'|trans,
+                                },
+                                label: 'Add'|trans,
+                                icon: 'rz-icon-ri--add-line',
+                            }
+                    } %}
+                        {% block popover %}
+                            {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                                    targetId: popover_id,
+                                    class: 'children-nodes-quick-creation',
+                                } %}
+                                {% block items %}
+                                    {% for linkedType in linkedTypes %}
+                                        {{ _self.item({
+                                            label: linkedType.displayName,
+                                            rightIcon: 'rz-icon-ri--add-line',
+                                            attributes: {
+                                                type: 'button',
+                                                'data-children-node-type': linkedType.name,
+                                                'data-children-parent-node': nodeTree.rootNode.id,
+                                                'data-translation-id': nodeTree.translation.id,
+                                            }
+                                        }) }}
+                                    {% endfor %}
+                                {% endblock %}
+                            {% endembed %}
+                        {% endblock %}
+                    {% endembed %}
+                </div>
             {% endif %}
         </div>
-    </nav>
-    <div class="children-nodes-tree">
-        {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-        "nodeTree": nodeTree,
-        "node": nodeTree.getRootNode,
-        'mainNodeTree': false,
-        "linkedTypes": linkedTypes
-        } only %}
-    </div>
-</div>
+        {%- if form.vars.help ?? false -%}
+            {{ rz_form_field.help(
+                form: form,
+            ) }}
+        {%- endif -%}
+        <rz-tree
+            class="rz-tree rz-tree--child-nodes rz-form-field__body"
+            group="nodeTree"
+            data-entity-type="node"
+            data-is-sortable="{{ nodeTree.canReorder ? 'true' : 'false' }}"
+            data-tree-id="{{ nodeTree.id }}"
+            id="form-children-{{ nodeTree.id ?? form.vars.unique_block_prefix }}"
+        >
+            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                "nodeTree": nodeTree,
+                "node": nodeTree.getRootNode,
+                'mainNodeTree': false,
+                "linkedTypes": linkedTypes,
+            } only %}
+        </rz-tree>
+    </rz-form-field>
 {% endblock childrennodes_widget %}
 {#
  # Override default form rendering
@@ -619,7 +631,7 @@
     {%- else -%}
 
         {% set field_name = form.vars.name|default(form.vars.block_prefixes[1])|replace({'_': '-'}) %}
-        {% set classes = html_classes('rz-form-field', attr.class|default(''), {
+        {% set classes = html_classes('rz-form-field', form.vars.wrapper_class|default(''), {
             ('rz-form-field--' ~ field_name): field_name is not empty,
             'rz-form-field--required': required,
             'rz-form-field--error': errors|length > 0,

@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -35,13 +36,11 @@ final class AjaxTreeGatewayController extends AbstractAjaxController
         );
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request, #[MapQueryParameter] ?string $url): JsonResponse
     {
-        $requestUrl = $request->query->get('url');
-
         $treeType = match (true) {
-            str_contains($requestUrl ?? '', 'rz-admin/tags') => 'tags',
-            str_contains($requestUrl ?? '', 'rz-admin/folders') || str_contains($requestUrl ?? '', 'rz-admin/documents') => 'folders',
+            str_contains($url ?? '', 'rz-admin/tags') => 'tags',
+            str_contains($url ?? '', 'rz-admin/folders') || str_contains($url ?? '', 'rz-admin/documents') => 'folders',
             default => 'nodes',
         };
 

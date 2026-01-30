@@ -26,7 +26,7 @@
     {% include '@RoadizRozier/documents/head.html.twig' with {
         title: title,
         displayPrivateDocuments: displayPrivateDocuments,
-        displayButtonAction: true,
+        displayButtonAction: (displayButtonAction is defined) ? displayButtonAction : true,
         folder: folder,
         with_nav_bar: with_nav_bar,
         current: current,

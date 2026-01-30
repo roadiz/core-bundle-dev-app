@@ -15,7 +15,7 @@
 		--rz-app-header-height: initial;
 		--rz-app-header-width: 64px;
 
-		grid-template-columns: var(--rz-app-header-width) minmax(auto, 328px) 1fr;
+		grid-template-columns: var(--rz-app-header-width) minmax(auto, 328px) minmax(0, 1fr);
 		grid-template-rows: 1fr;
 	}
 

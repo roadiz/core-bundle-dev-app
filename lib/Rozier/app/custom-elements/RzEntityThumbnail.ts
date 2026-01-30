@@ -10,7 +10,6 @@ import RoadizElement from '~/utils/custom-element/RoadizElement'
 export default class RzEntityThumbnail extends RoadizElement {
     private entityClass: string | null = null
     private entityId: string | null = null
-    private size: 'small' | 'medium' | 'large' = 'medium'
     private loading = true
     private error: string | null = null
     private thumbnailData: {
@@ -31,15 +30,6 @@ export default class RzEntityThumbnail extends RoadizElement {
     connectedCallback() {
         this.entityClass = this.getAttribute('entity-class')
         this.entityId = this.getAttribute('entity-id')
-        const sizeAttr = this.getAttribute('size')
-
-        if (
-            sizeAttr === 'small' ||
-            sizeAttr === 'medium' ||
-            sizeAttr === 'large'
-        ) {
-            this.size = sizeAttr
-        }
 
         // Defer fetching until element is visible; show placeholder (not loading spinner yet)
         this.loading = false
@@ -117,46 +107,22 @@ export default class RzEntityThumbnail extends RoadizElement {
             this.render()
         }
     }
-
-    private getSizeClass(): string {
-        switch (this.size) {
-            case 'small':
-                return 'rz-entity-thumbnail--small'
-            case 'large':
-                return 'rz-entity-thumbnail--large'
-            default:
-                return 'rz-entity-thumbnail--medium'
-        }
-    }
-
     private render() {
-        const sizeClass = this.getSizeClass()
+        this.classList.toggle('rz-entity-thumbnail--loading', this.loading)
 
         if (this.loading) {
-            this.innerHTML = `
-                <div class="rz-entity-thumbnail ${sizeClass} rz-entity-thumbnail--loading">
-                    <div class="rz-entity-thumbnail__spinner"></div>
-                </div>
-            `
+            this.innerHTML = `<div class="rz-entity-thumbnail__spinner"></div>`
             return
         }
 
         if (this.error) {
-            this.innerHTML = `
-                <div class="rz-entity-thumbnail ${sizeClass} rz-entity-thumbnail--error">
-                    <div class="rz-entity-thumbnail__placeholder">!</div>
-                </div>
-            `
+            this.innerHTML = `<div class="rz-entity-thumbnail__placeholder">!</div>`
             this.setAttribute('title', this.error)
             return
         }
 
         if (!this.thumbnailData || !this.thumbnailData.url) {
-            this.innerHTML = `
-                <div class="rz-entity-thumbnail ${sizeClass} rz-entity-thumbnail--empty">
-                    <div class="rz-entity-thumbnail__placeholder"></div>
-                </div>
-            `
+            this.innerHTML = `<div class="rz-entity-thumbnail__placeholder"></div>`
             if (this.thumbnailData?.title) {
                 this.setAttribute('title', this.thumbnailData.title)
             }
@@ -166,18 +132,15 @@ export default class RzEntityThumbnail extends RoadizElement {
         const alt = this.thumbnailData.alt || ''
         const title = this.thumbnailData.title || ''
 
-        this.innerHTML = `
-            <figure class="rz-entity-thumbnail ${sizeClass}">
-                <img
-                    data-uk-tooltip="{animation:true}"
-                    class="uk-thumbnail rz-entity-thumbnail__image"
-                    src="${this.thumbnailData.url}"
-                    alt="${alt}"
-                    width="${this.thumbnailData.width || ''}"
-                    height="${this.thumbnailData.height || ''}"
-                    loading="lazy"
-                />
-            </figure>
+        this.innerHTML = `<img
+            data-uk-tooltip="{animation:true}"
+            class="uk-thumbnail rz-entity-thumbnail__image"
+            src="${this.thumbnailData.url}"
+            alt="${alt}"
+            width="${this.thumbnailData.width || ''}"
+            height="${this.thumbnailData.height || ''}"
+            loading="lazy"
+            />
         `
 
         if (title) {

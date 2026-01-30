@@ -11,7 +11,6 @@
         var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-xs)))
         var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-md)));
     padding: var(--rz-fieldset-padding-top) var(--rz-fieldset-padding-inline) var(--rz-fieldset-padding-bottom);
-    margin: 0;
     border: none;
 
     &::after {
@@ -22,6 +21,10 @@
         border-radius: var(--radius-xs, 6px);
         border: 1px solid var(--line-on-light-secondary, #DADADA);
     }
+}
+
+:where(.rz-fieldset) {
+    margin: 0;
 }
 
 .rz-fieldset--horizontal {
