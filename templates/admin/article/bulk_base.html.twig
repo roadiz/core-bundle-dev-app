@@ -20,13 +20,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '/admin/article/row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="7">{% trans %}no_article{% endtrans %}</td></tr>
-                {% endfor %}
+                {{ dump(items) }}
+{#                {% for item in items %}#}
+{#                    <tr>#}
+{#                        {% include '/admin/article/row.html.twig' %}#}
+{#                    </tr>#}
+{#                {% else %}#}
+{#                    <tr><td colspan="7">{% trans %}no_article{% endtrans %}</td></tr>#}
+{#                {% endfor %}#}
                 </tbody>
             </table>
         </div>

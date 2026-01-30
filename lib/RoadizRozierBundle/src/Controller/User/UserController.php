@@ -273,7 +273,7 @@ class UserController extends AbstractAdminWithBulkController
             fn (string $ids) => $this->createEnableBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/bulk_action.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_enabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {
@@ -306,7 +306,7 @@ class UserController extends AbstractAdminWithBulkController
             fn (string $ids) => $this->createDisableBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/bulk_action.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_disabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {

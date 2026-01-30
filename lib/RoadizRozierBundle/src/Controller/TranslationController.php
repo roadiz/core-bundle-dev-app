@@ -190,7 +190,7 @@ final class TranslationController extends AbstractController
             ['%name%' => $translation->getName()]
         );
 
-        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/translations/head.html.twig',
             'cancelPath' => $this->generateUrl('translationsHomePage'),
