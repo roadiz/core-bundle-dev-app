@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global">
+<section>
     {% include '@RoadizRozier/tags/head.html.twig' with {
         title: "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title(40),
         filters: filters,
@@ -18,7 +18,15 @@
     } only %}
 
     <article class="content content-tags-tree">
-        {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with { "tagTree":specificTagTree, "tag":specificTagTree.getRootTag } only %}
+        <rz-tree
+            class="rz-tree"
+            group="tagTree"
+            data-entity-type="tag"
+            data-is-sortable="{{ specificTagTree.canReorder ? 'true' : 'false' }}"
+            id="children-stack-{{ specificTagTree.id ?? node.id }}"
+        >
+            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with { "tagTree":specificTagTree, "tag":specificTagTree.getRootTag } only %}
+        </rz-tree>
     </article>
 
     {% include '@RoadizRozier/tags/actionsMenu.html.twig' %}

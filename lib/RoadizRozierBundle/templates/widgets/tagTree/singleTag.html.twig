@@ -1,64 +1,116 @@
 {% set tTag = tag.getTranslatedTagsByTranslation(tagTree.translation).first|default(tag.getTranslatedTags().first) %}
 {% if tTag %}
-{% set name = tTag.name|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
-{% set editUrl = path('tagsEditTranslatedPage', { tagId:tag.getId, translationId:tTag.getTranslation.getId }) %}
+{% set tagName = tTag.name|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
+    {% set editUrl = path('tagsEditTranslatedPage', { tagId:tag.getId, translationId:tTag.getTranslation.getId }) %}
 {% else %}
-{% set name = "tag_" ~ tag.getId %}
+{% set tagName = "tag_" ~ tag.getId %}
 {% set editUrl = path('tagsEditPage', { tagId:tag.id }) %}
 {% endif %}
 
 {% set children = tagTree.childrenTags(tag) %}
+{% set classes = ['rz-tree__item'] %}
+{% if children|length > 0 %}
+    {% set classes = classes|merge(['rz-tree__item--parent']) %}
+{% endif %}
+{% if tag.isLocked %}
+    {% set classes = classes|merge(['rz-tree__item--locked']) %}
+{% endif %}
 
-<li data-tag-id="{{ tag.id }}"
-    style="--rz-accent-color: {{ tag.color }};"
-    class="uk-nestable-item uk-nestable-list-item-tag tagtree-element{% if tag.children.count > 0 %} has-children{% endif %}">
-    <div class="tree-element-inner uk-nestable-panel uk-nestable-item-tag {% if not tag.isVisible %} hidden-tag{% endif %}{% if tag.isLocked %} locked-tag{% endif %}">
-        <div class="{% if canReorder %}uk-nestable-handle {% endif %}uk-nestable-handle-tag">
-            <i class="{% if tag.children.count > 0 %}uk-icon-rz-tags{% else %}uk-icon-rz-tag-tree{% endif %}"></i>
-        </div>
-        <div class="tree-element-name tagtree-element-name"{% if tagTree.translation is rtl %} dir="rtl"{% endif %}>
-            <a href="{{ path('tagsEditNodesPage', { tagId:tag.id }) }}">{{- name -}}</a>
-        </div>
-        <div class="tree-contextualmenu tagtree-contextualmenu uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
-            <button tabindex="-1" class="tree-contextualmenu-button uk-button uk-button-mini"><i class="uk-icon-caret-down"></i></button>
-            <nav class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
-                <div class="uk-nav uk-nav-dropdown uk-dropdown-flip">
-                    <p>
-                        <a title="{{ "edit.tag.%name%"|trans({'%name%': tag.tagName}) }}" href="{{ editUrl }}">
-                            <i class="uk-icon-pencil"></i> {% trans %}edit.tag{% endtrans %}
-                        </a>
-                    </p>
-                    <p>
-                        <a title="{{ "add.tag.%name%.child"|trans({'%name%': tag.tagName}) }}" href="{{ path('tagsAddChildPage', { tagId:tag.getId }) }}">
-                            <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.tag{% endtrans %}
-                        </a>
-                    </p>
-                    {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.Locked %}
-                        <p>
-                            <a title="{{ "delete.tag.%name%"|trans({'%name%': tag.tagName}) }}" href="{{ path('tagsDeletePage', { tagId:tag.getId }) }}">
-                                <i class="uk-icon-trash-o"></i> {% trans %}delete.tag{% endtrans %}
-                            </a>
-                        </p>
-                    {% endif %}
-                </div>
-            </nav>
-        </div>
-        {% if children|length > 0 %}
-        <div class="minus" data-nestable-action="toggle"></div>
-        {% endif %}
+{% set innerClasses = ['rz-tree__item__node'] %}
+{% if not tag.isVisible %}
+    {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
+{% endif %}
+
+<li
+    data-tag-id="{{ tag.id }}"
+    data-entity-id="{{ tag.id }}"
+    style="--rz-node-icon-background: {{ tag.color }}"
+    class="{{ classes|join(' ') }}"
+>
+    <div
+        class="{{ innerClasses|join(' ') }}"
+        role="treeitem"
+    >
+        {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
+            item: tag,
+            has_children: children|length > 0,
+            icon_class: 'rz-icon-ri--price-tag-3-fill',
+            can_reorder: canReorder and not tag.isLocked,
+            has_selection: false,
+            tagTree: tagTree,
+            tagName: tagName,
+        } only %}
+            {% block label %}
+                <a href="{{ path('tagsEditNodesPage', { tagId:item.id }) }}">{{- tagName -}}</a>
+            {% endblock %}
+
+            {% block contextual_menu %}
+                <rz-popover popover-placement="bottom-start" popover-offset="8">
+                    {% set popover_id = "tag-contextual-menu-" ~ item.id %}
+                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--more-line',
+                        size: 'sm',
+                        emphasis: 'tertiary',
+                        class: 'tree-contextualmenu-button',
+                        attributes: {
+                            'aria-label': 'show.actions'|trans,
+                            type: 'button',
+                            popovertarget: popover_id,
+                        }
+                    })}}
+                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                            targetId: popover_id,
+                            tagList: 'ul',
+                        } %}
+                            {% block items %}
+                                {{ _self.item({
+                                    label: 'edit.tag'|trans,
+                                    href: editUrl,
+                                    rightIcon: 'rz-icon-ri--edit-line',
+                                    attributes: {
+                                        title: "edit.tag.%name%"|trans({'%name%': tagName })
+                                    }
+                                }) }}
+                                {{ _self.item({
+                                    label: 'add.a.child.tag'|trans,
+                                    href: path('tagsAddChildPage', { tagId:item.id }),
+                                    rightIcon: 'rz-icon-ri--add-line',
+                                    attributes: {
+                                        title: "add.tag.%name%.child"|trans({'%name%': tagName})
+                                    }
+                                }) }}
+                                {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not item.locked %}
+                                    {{ _self.item({
+                                        label: 'delete.tag'|trans,
+                                        href: path('tagsDeletePage', { tagId:item.id }) ,
+                                        rightIcon: 'rz-icon-ri--delete-bin-7-line',
+                                        attributes: {
+                                            title: "delete.tag.%name%"|trans({'%name%': tagName })
+                                        }
+                                    }) }}
+                                {% endif %}
+                            {% endblock %}
+                        {% endembed %}
+                </rz-popover>
+            {% endblock %}
+        {% endembed %}
     </div>
-    <ul class="uk-nestable-list uk-nestable-list-tag" data-parent-tag-id="{{ tag.getId }}">
-    {#
-     # For drag&drop ease, we don't create nested lists
-     # We will have to check after OR inside drag status
-     #}
-    {% for subNode in children %}
-        {% include '@RoadizRozier/widgets/tagTree/singleTag.html.twig' with {
-            "tag":subNode,
-            "parent":tag,
-            "tagTree":tagTree,
-            'canReorder': (tag.childrenOrder == 'position'),
-        } %}
-    {% endfor %}
-    </ul>
+
+    {% if children|length > 0 %}
+        <ul
+            class="rz-tree__list"
+            data-parent-id="{{ tag.id }}"
+            role="group"
+        >
+            {% for subNode in children %}
+                {% include '@RoadizRozier/widgets/tagTree/singleTag.html.twig' with {
+                    "tag":subNode,
+                    "parent":tag,
+                    "tagTree":tagTree,
+                    'canReorder': (tag.childrenOrder == 'position'),
+                } %}
+            {% endfor %}
+        </ul>
+    {% endif %}
 </li>

@@ -28,7 +28,6 @@
 @import './components/rz-bulk-actions.css';
 @import './components/rz-login.css';
 @import './components/rz-brand.css';
-@import './components/rz-node-tree.css';
 @import './components/rz-dialog.css';
 @import './components/rz-page.css';
 @import './components/rz-aside.css';
@@ -53,11 +52,13 @@
 @import './components/rz-breadcrumb.css';
 @import './components/rz-filters-bar.css';
 @import './components/rz-table.css';
+@import './components/rz-tree.css';
 @import './components/rz-language-switcher.css';
 @import './components/rz-node-contextual-menu.css';
 @import './components/rz-explorer.css';
 @import './components/rz-delete-page.css';
 @import './components/rz-history.css';
+@import './components/rz-node-icon.css';
 @import './components/rz-toast.css';
 
 /* Components: Form */
