@@ -211,6 +211,22 @@ export const Default: Story = {
                 iconClass: 'rz-icon-rz--status-draft-fill',
                 children: [
                     {
+                        label: 'item 3.1',
+                        iconClass: 'rz-icon-rz--status-draft-fill',
+                        children: [
+                            {
+                                label: 'item 3.1.1',
+                                iconClass: 'rz-icon-rz--status-draft-fill',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                label: 'Menu 4',
+                iconClass: 'rz-icon-rz--status-draft-fill',
+                children: [
+                    {
                         label: 'item 1.1',
                         iconClass: 'rz-icon-rz--status-published-fill',
                     },

@@ -500,14 +500,14 @@
             {% endif %}
         </div>
     </nav>
-    <div class="children-nodes-tree">
+    <rz-tree class="rz-tree rz-tree--child-nodes children-nodes-tree">
         {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
         "nodeTree": nodeTree,
         "node": nodeTree.getRootNode,
         'mainNodeTree': false,
-        "linkedTypes": linkedTypes
+        "linkedTypes": linkedTypes,
         } only %}
-    </div>
+    </rz-tree>
 </div>
 {% endblock childrennodes_widget %}
 {#

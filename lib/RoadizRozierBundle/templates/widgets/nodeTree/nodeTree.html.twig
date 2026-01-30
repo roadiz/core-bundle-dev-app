@@ -1,6 +1,6 @@
 {%- if nodeTree -%}
     {% set nodes = nodeTree.nodes %}
-    {% set root_classes = ['root-tree', 'node-tree'] %}
+    {% set root_classes = ['root-tree', 'node-tree', 'rz-tree__list'] %}
     {% if nodeTree.canReorder %}
         {% set root_classes = root_classes|merge(['uk-nestable']) %}
     {% endif %}
@@ -17,7 +17,9 @@
         {% if linkedTypes %}data-linked-types="{{ linkedTypes|map(t => t.name)|json_encode }}"{% endif %}
         data-page="{{ nodeTree.filters.currentPage }}"
         {% if nodeTree.isStackTree %}data-stack-tree="1"{% endif %}
-        {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}>
+        {% if nodeTree.tag %}data-filter-tag="{{ nodeTree.tag.id }}"{% endif %}
+        role="tree"
+    >
         {% for cnode in nodes %}
             {% include '@RoadizRozier/widgets/nodeTree/singleNode.html.twig' with {
                 "node": cnode,

@@ -34,6 +34,7 @@ export default class RzTreeItem extends HTMLElement {
                 new Sortable(sortableLists[i], {
                     group: this.group,
                     animation: 150,
+                    filter: '.rz-tree__item--locked',
                     handle: '.rz-tree__item__handle',
                     chosenClass: 'rz-tree__item--chosen',
                     dragClass: 'rz-tree__item--drag',

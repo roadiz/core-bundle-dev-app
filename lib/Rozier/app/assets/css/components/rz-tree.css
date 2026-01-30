@@ -42,11 +42,13 @@
 	& & & & & {
 		--rz-tree-depth: 5;
 	}
-	
+
 	& & & & & & {
 		--rz-tree-depth: 6;
 	}
 }
+
+
 
 /* Classe name added by SortableJS */
 /* .rz-tree__item--chosen {
@@ -62,7 +64,7 @@
 } */
 
 .rz-tree__item__node {
-	--rz-tree-item-hover-background: var(--surface-light-ternary, #EAEAEA);
+	--rz-tree-item-hover-background: var(--node-bg-on-light-hover, #F2F2F2);
 
 	border-radius: var(--radius-2xs, 4px);
 	transition: background-color 0.3s;
@@ -97,7 +99,8 @@
 	padding-inline: calc(var(--rz-tree-depth) * var(--rz-tree-indent-width) - var(--rz-tree-item-padding-left, 0px)) var(--spacing-6xs);
 	box-sizing: border-box;
 	border-radius: inherit;
-	
+	width: 100%;
+
 	.rz-tree--child-nodes & {
 		background: var(--surface-light-primary, #FFF);
 	}
@@ -154,6 +157,10 @@
 	opacity: 0;
 	transition: opacity 0.3s;
 
+	&:not(.rz-tree__item__handle-locked) {
+		cursor: move;
+	}
+
 	.rz-tree--child-nodes & {
 		opacity: 1;
 	}
@@ -170,6 +177,7 @@
 	width: var(--rz-tree-icon-width);
 	height: var(--rz-tree-icon-width);
 	z-index: 2;
+	flex-shrink: 0;
 	font-size: var(--rz-tree-icon-width);
 	color: var(--rz-tree-icon-color, var(--node-border-on-light, #9A9A9A));
 }
@@ -183,9 +191,16 @@
 	line-height: var(--text-label-sm-line-height);
 	letter-spacing: var(--text-label-sm-letter-spacing);
 	font-weight: var(--text-label-sm-font-weight);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 
 	.rz-tree__item__icon + & {
 		padding-left: var(--spacing-6xs);
+	}
+
+	.rz-tree__item__node--not-visible & {
+		text-decoration: line-through;
 	}
 }
 

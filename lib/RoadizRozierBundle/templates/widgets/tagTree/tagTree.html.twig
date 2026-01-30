@@ -1,7 +1,6 @@
 {%- if tagTree -%}
     <ul
-        class="uk-nestable uk-nestable-tag"
-        {% if tagTree.canReorder %}data-uk-nestable="{'group':'tagTree'}"{% endif %}
+        class="rz-tree__list root-tree"
         data-parent-tag-id="{{ tag.getId }}"
     >
         {% for ctag in tagTree.getTags %}

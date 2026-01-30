@@ -58,12 +58,12 @@
         {% endif %}
 
         {# StackNodeTree need "nodetree-widget" #}
-        <div class="tree-widget nodetree-widget">
+        <rz-tree class="rz-tree tree-widget nodetree-widget">
             {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
                 nodeTree: specificNodeTree,
                 node: specificNodeTree.getRootNode,
             } only %}
-        </div>
+        </rz-tree>
     </article>
     {% if node %}
         {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
