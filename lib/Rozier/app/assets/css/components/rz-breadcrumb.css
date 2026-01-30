@@ -30,6 +30,14 @@
 			background-image: url("assets/img/icons/arrow-drop-right-line.svg");
 		}
 	}
+
+	[data-theme="light"] &::before {
+		background-image: url("assets/img/icons/ri/arrow-drop-right-line.svg");
+	}
+
+	[data-theme="dark"] &::before {
+		background-image: url("assets/img/icons/arrow-drop-right-line.svg");
+	}
 }
 
 .rz-breadcrumb__item {
