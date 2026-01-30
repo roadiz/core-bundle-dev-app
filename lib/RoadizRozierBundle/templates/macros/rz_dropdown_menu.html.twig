@@ -61,11 +61,19 @@
     {% set tag = options.tag|default('button') %}
     {% set attributes = options.attributes|default({}) %}
 
+    {% set item_classes = ['rz-dropdown__item'] %}
+    {% if class %}
+        {% set item_classes = item_classes|merge([class]) %}
+    {% endif %}
+    {% if selected %}
+        {% set item_classes = item_classes|merge(['rz-dropdown__item--selected']) %}
+    {% endif %}
+
     <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
         {% if href %}
             {% set tag = 'a' %}
         {% endif %}
-            <{{ tag }} class="rz-dropdown__item {{ class }} {{ selected ? 'rz-dropdown__item--selected' : '' }}"
+            <{{ tag }} class="{{ item_classes|join(' ') }}"
                 {% if title %} title="{{- title|trans -}}" {% endif %}
                 {% if tag == 'a' %}
                     href="{{ href }}"
@@ -119,13 +127,11 @@
 {% endmacro %}
 
 {% block wrapper %}
-    {%
-        set classes = html_classes('rz-dropdown', class|default(''), {
+    {% set classes = html_classes('rz-dropdown', class|default(''), {
             'rz-dropdown--reverse': reverse,
-        })
-    %}
-
-    <div
+    }) %}
+    {% set tag = tag|default('div') %}
+    <{{tag}}
         class="{{ classes }}"
         id="{{ targetId }}"
         popover
@@ -146,5 +152,5 @@
 
         {% block additional_menu %}
         {% endblock %}
-    </div>
+    </{{ tag }}>
 {% endblock %}

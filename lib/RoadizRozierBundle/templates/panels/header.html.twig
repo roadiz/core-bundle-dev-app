@@ -1,7 +1,10 @@
 {% import "@RoadizRozier/macros/rz_header.html.twig" as header %}
 
 <div class="rz-header__head">
-    <rz-popover popover-placement="bottom-start" popover-offset="8">
+    <rz-popover
+        popover-placement="bottom-start"
+        popover-offset="8"
+    >
         <button
             class="rz-brand"
             aria-label="Open quick access navigation"
@@ -32,6 +35,7 @@
         <span class="rz-icon-ri--menu-line"></span>
         <input name="burger-menu" id="burger-menu" type="checkbox"/>
     </div>
+    {% include '@RoadizRozier/includes/rz_color_scheme_switcher.html.twig' with { class: 'rz-header__color-switcher'} %}
     <div class="rz-header__head__item rz-header__head__item--end rz-badge rz-badge--sm">
         <span class="rz-badge__label">{{ cms_prefix }} {{ cms_version }}</span>
     </div>
