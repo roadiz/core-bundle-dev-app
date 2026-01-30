@@ -49,6 +49,8 @@
             {% endblock %}
 
             {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
                 {% for tag in tags %}
                     {% set translated_tag = tag.getTranslatedTags.first %}
                     {% set tag_href = translated_tag ?
@@ -59,19 +61,28 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': tag.color }) }}
                     >
-                        {% if selection_available and can_delete %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: tag.id }) }}
+                                {% if selection_available %}
+                                    {% if can_delete %}
+                                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                                        {{ rz_bulk.select_input({ value: tag.id }) }}
+                                    {% else %}
+                                        {{ rz_badge.item({
+                                            icon: 'rz-icon-ri--lock-2-line',
+                                            attributes: {
+                                                title: 'locked'|trans,
+                                            }
+                                        }) }}
+                                    {% endif %}
+                                {% endif %}
                             </td>
-                        {% endif %}
                         <td>
                             <a href="{{ tag_href }}">{{ tag.id }}</a>
                         </td>
                         <td>
                             <a href="{{ tag_href }}">{{ translated_tag.getName|default('tag_' ~ tag.id) }}</a>
                             {% if not translated_tag %}
-                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
                                 {{ rz_badge.item({
                                     icon: 'rz-icon-ri--error-warning-line',
                                     color: 'warning',
