@@ -51,12 +51,12 @@
 
 .rz-header__head {
 	display: grid;
-	grid-template-columns: auto auto auto 1fr;
+	grid-template-columns: auto auto 1fr auto;
 	align-items: center;
 	gap: var(--spacing-6xs) var(--spacing-3xs);
 
 	@media (--screen-sm-min) {
-		grid-template-columns: auto 1fr;
+		grid-template-columns: auto 1fr auto;
 	}
 }
 
@@ -111,6 +111,8 @@
 		display: none;
 	}
 }
+
+/* .rz-header__color-switcher {} */
 
 .rz-header__head__item {
 	white-space: nowrap;

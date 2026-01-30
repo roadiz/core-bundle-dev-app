@@ -191,6 +191,14 @@
 		background-image: url("assets/img/icons/search-line-on-dark.svg");
 	}
 
+	[data-theme="light"] & {
+		background-image: url("assets/img/icons/ri/search-line.svg");
+	}
+
+	[data-theme="dark"] & {
+		background-image: url("assets/img/icons/search-line-on-dark.svg");
+	}
+
 	&::-webkit-search-cancel-button {
 		appearance: none;
 		width: 16px;

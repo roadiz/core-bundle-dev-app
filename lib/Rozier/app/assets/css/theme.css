@@ -3,6 +3,14 @@ Color-scheme is based on user prefers-color-scheme, using light-dark() function
 Theme could be manually set using color-scheme with 'light' or 'dark' value
 */
 
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
 :root {
     color-scheme: light dark;
 

@@ -1,0 +1,55 @@
+{% set popover_id = "color-theme-switcher" %}
+{% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
+	id: popover_id,
+	target_options: {
+		size: 'sm',
+		icon: 'rz-icon-ri--color-filter-line',
+		attributes: {
+			'aria-label': 'show.color.theme'|trans,
+		},
+	},
+	attributes: {
+		class: class|default(''),
+	}
+} %}
+	{% block popover %}
+		{% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+			targetId: popover_id,
+			tag: 'rz-color-scheme-switcher'
+		} %}
+			{% block items %}
+				{{ _self.item({
+					selected: true,
+					label: 'color.system'|trans,
+					rightIcon: 'rz-icon-ri--computer-line',
+					attributes: {
+						type: 'button',
+						'data-value': 'system',
+						command: '--update-color-scheme',
+						commandfor: popover_id,
+					}
+				}) }}
+				{{ _self.item({
+					label: 'color.light'|trans,
+					rightIcon: 'rz-icon-ri--sun-line',
+					attributes: {
+						type: 'button',
+						'data-value': 'light',
+						command: '--update-color-scheme',
+						commandfor: popover_id,
+					}
+				}) }}
+				{{ _self.item({
+					label: 'color.dark'|trans,
+					rightIcon: 'rz-icon-ri--moon-line',
+					attributes: {
+						type: 'button',
+						'data-value': 'dark',
+						command: '--update-color-scheme',
+						commandfor: popover_id,
+					}
+				}) }}
+			{% endblock %}
+		{% endembed %}
+	{% endblock %}
+{% endembed %}

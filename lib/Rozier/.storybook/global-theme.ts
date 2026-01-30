@@ -37,7 +37,7 @@ export default {
                 context.canvasElement.ownerDocument.querySelector('html')
 
             if (html) {
-                html.style.colorScheme = context.globals.theme
+                html.setAttribute('data-theme', context.globals.theme)
             }
 
             return story(context)
