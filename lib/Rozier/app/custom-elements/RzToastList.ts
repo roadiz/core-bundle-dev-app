@@ -19,7 +19,6 @@ export default class RzToastList extends HTMLElement {
     constructor() {
         super()
 
-        console.log('rz-toast-list initialized')
         this.onPushToast = this.onPushToast.bind(this)
         this.onCommand = this.onCommand.bind(this)
     }
@@ -48,12 +47,6 @@ export default class RzToastList extends HTMLElement {
     connectedCallback() {
         if (!this.id) {
             this.id = this.elementId
-        }
-
-        this.setAttribute('role', 'region')
-        this.setAttribute('aria-atomic', 'false')
-        if (!this.hasAttribute('aria-live')) {
-            this.setAttribute('aria-live', 'polite')
         }
 
         this.addEventListener('command', this.onCommand)
@@ -101,8 +94,6 @@ export default class RzToastList extends HTMLElement {
     private onPushToast(event: Event) {
         const toastEvent = event as CustomEvent<ToastDetail>
         const detail = toastEvent.detail
-
-        console.log('rz-toast-list received pushToast event', event, detail)
 
         this.pushToast({
             message: detail.message,

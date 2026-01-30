@@ -4,7 +4,7 @@ import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 export type ToastStatus = 'success' | 'warning' | 'danger'
 
 export type ToastDetail = {
-    message: string
+    message: string // Accepts HTML content
     id?: number
     title?: string
     iconClass?: string
@@ -77,7 +77,7 @@ export function rzToastRenderer(options: ToastDetail) {
 
     const content = document.createElement('div')
     content.className = 'rz-toast__content'
-    content.textContent = message
+    content.innerHTML = message
 
     toast.appendChild(content)
 
