@@ -1,4 +1,5 @@
 import RzHeaderNavItemButton from './RzHeaderNavItemButton'
+import { RzPopover } from './RzPopover'
 
 export class RzHHeader extends HTMLElement {
     constructor() {
@@ -15,12 +16,23 @@ export class RzHHeader extends HTMLElement {
 
     onMouseLeave() {
         this.closeAllCollapsibles()
+        this.closePopoverElements()
     }
 
     onKeyUp(event: KeyboardEvent) {
         if (event.key === 'Escape' || event.key === 'Esc') {
             this.closeAllCollapsibles()
+            this.closePopoverElements()
         }
+    }
+
+    closePopoverElements() {
+        const popoverElements = this.querySelectorAll<RzPopover>('rz-popover')
+        popoverElements.forEach((popover) => {
+            const el = popover.popoverInstance?.popoverElement
+            if (!el) return
+            el.hidePopover()
+        })
     }
 
     closeAllCollapsibles() {
