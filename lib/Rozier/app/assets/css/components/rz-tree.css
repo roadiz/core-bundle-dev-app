@@ -7,11 +7,18 @@
 .rz-tree--child-nodes {
 	--rz-tree-item-height: 50px;
 	--rz-tree-icon-width: 36px;
+
+	padding: var(--spacing-2xs);
+	min-height: 92px;
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--form-basic-border, #DADADA);
+	background: var(--surface-light-secondary, #F8F8F8);
 }
 
 .rz-tree__list {
 	list-style: none;
 	padding-left: initial;
+	margin-block: 0;
 
 	.rz-tree__item__node:has(> .rz-tree__item__node__inner > .rz-tree__item__expand-button[aria-expanded="false"]) + & {
 		display: none;
