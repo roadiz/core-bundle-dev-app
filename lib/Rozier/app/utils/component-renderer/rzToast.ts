@@ -76,7 +76,6 @@ export function rzToastRenderer(options: ToastDetail) {
 
     toast.appendChild(iconWrap)
     toast.appendChild(titleElement)
-    toast.appendChild(closeButton)
 
     const content = document.createElement('div')
     content.className = 'rz-toast__content'
