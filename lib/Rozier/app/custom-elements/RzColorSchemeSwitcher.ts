@@ -35,16 +35,6 @@ export default class RzColorSchemeSwitcher extends HTMLElement {
     updateColorScheme(value: string | undefined) {
         if (!value) return
         document.documentElement.setAttribute('data-theme', value)
-
-        let meta = document.querySelector<HTMLMetaElement>(
-            'meta[name="theme-color"]',
-        )
-        if (!meta) {
-            meta = document.createElement('meta')
-            meta.name = 'theme-color'
-            document.head.appendChild(meta)
-        }
-        meta.content = value
     }
 
     connectedCallback() {
