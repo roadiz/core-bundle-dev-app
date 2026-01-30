@@ -50,6 +50,9 @@ export function rzToastRenderer(options: ToastDetail) {
         iconClass: iconClass || STATUS_CONFIG[status].iconClass,
         size: 'sm',
         color: status,
+        attributes: {
+            'aria-hidden': 'true',
+        },
     })
     iconWrap.classList.add('rz-toast__icon')
 

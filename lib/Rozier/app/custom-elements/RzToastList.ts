@@ -4,7 +4,7 @@ import {
     RZ_TOAST_LIST_ID,
 } from '~/utils/component-renderer/rzToast'
 
-const DEFAULT_TIMEOUT = 3000
+const DEFAULT_TIMEOUT = 5000
 
 type ToastItem = {
     id: number
@@ -96,9 +96,8 @@ export default class RzToastList extends HTMLElement {
         const detail = toastEvent.detail
 
         this.pushToast({
-            message: detail.message,
+            ...detail,
             status: detail.status || 'success',
-            timeout: detail.timeout,
         })
     }
 
