@@ -1,6 +1,6 @@
 .rz-repeatable__body {
-	counter-set: first-level;
-	counter-set: second-level;
+	counter-set: root-level;
+	counter-set: sub-level;
 
 	border-radius: var(--radius-xs, 6px);
 	border: 1px solid var(--form-basic-border, #DADADA);
@@ -11,11 +11,6 @@
 	align-items: center;
 	justify-content: center;
 	padding-block: var(--spacing-6xs);
-
-	/* Hide the first insert zone when at least one item exists */
-	/* .rz-repeatable__body:has(.rz-repeatable__item) > & {
-		display: none;
-	} */
 
 	&::before,
 	&::after {
@@ -35,12 +30,12 @@
 	margin: initial;
 }
 
-rz-repeatable:has(rz-repeatable) .rz-repeatable__item {
-	counter-increment: first-level;
-}
+.rz-repeatable__item {
+	counter-increment: root-level;
 
-rz-repeatable:not(:has(rz-repeatable)) .rz-repeatable__item {
-	counter-increment: second-level;
+	rz-repeatable rz-repeatable & {
+		counter-increment: sub-level;
+	}
 }
 
 .rz-repeatable__item--align-end {
@@ -54,7 +49,7 @@ rz-repeatable:not(:has(rz-repeatable)) .rz-repeatable__item {
 	align-items: center;
 	background-color: var(--surface-light-secondary, #F8F8F8);
 	padding: var(--spacing-4xs) var(--spacing-2xs);
-	border-radius: var(--radius-xs, 6px);
+	border-radius: var(--radius-xs) var(--radius-xs) 0 0 ;
 	gap: var(--spacing-6xs);
 }
 
@@ -71,10 +66,10 @@ rz-repeatable:not(:has(rz-repeatable)) .rz-repeatable__item {
 	font-weight: var(--text-form-label-font-weight);
 
 	&::before {
-		content: counter(first-level) ' ';
+		content: counter(root-level) ' ';
 	}
 
 	.rz-repeatable__list .rz-repeatable__list &::before {
-		content: counter(first-level) '.' counter(second-level) ' ';
+		content: counter(root-level) '.' counter(sub-level) ' ';
 	}
 }
