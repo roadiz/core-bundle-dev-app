@@ -124,6 +124,7 @@
             {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
             <div class="rz-page-header__item">
                 {{ rz_node_badge.status(node) }}
+                {{ rz_node_badge.parameters(node, { display_label:  false }) }}
             </div>
         {% endif %}
     {% endblock %}
