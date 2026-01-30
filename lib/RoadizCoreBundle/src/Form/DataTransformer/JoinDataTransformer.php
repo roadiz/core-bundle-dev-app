@@ -65,8 +65,12 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
             /*
              * Need to preserve order in POST data
              */
-            usort($unorderedEntities, fn (PersistableInterface $a, PersistableInterface $b) => array_search($a->getId(), $value) -
-                array_search($b->getId(), $value));
+            usort($unorderedEntities, function (PersistableInterface $a, PersistableInterface $b) use ($value): int {
+                $aPosition = array_search($a->getId(), $value, true);
+                $bPosition = array_search($b->getId(), $value, true);
+
+                return ((int) $aPosition) <=> ((int) $bPosition);
+            });
 
             return $unorderedEntities;
         }

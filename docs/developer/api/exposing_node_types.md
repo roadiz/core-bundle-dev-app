@@ -61,6 +61,6 @@ To automatically generate your resources YAML configuration files, execute the f
 bin/console generate:api-resources
 ```
 
-If you manage your node-types from your back-office, new node-types configuration files will be generated automatically in the `./config/api_resources` folder.
+If you manage your node-types from your back office, new node-types configuration files will be generated automatically in the `./config/api_resources` folder.
 
 If you manage your node-types by importing `.json` files, do not forget to execute `bin/console app:migrate` to generate both entities and api-resources.

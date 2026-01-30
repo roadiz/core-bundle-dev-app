@@ -21,15 +21,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSArticle>
- *
- * @method NSArticle|null find($id, $lockMode = null, $lockVersion = null)
- * @method NSArticle|null findOneBy(array $criteria, array $orderBy = null)
- * @method NSArticle[]    findAll()
- * @method NSArticle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method NSArticle|null findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
- * @method NSArticle|null findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
- * @method NSArticle[]    findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
- * @method int            countBy(mixed $criteria)
+ * @method NSArticle|null   find($id, $lockMode = null, $lockVersion = null)
+ * @method NSArticle|null   findOneBy(array $criteria, array $orderBy = null)
+ * @method NSArticle[]      findAll()
+ * @method NSArticle[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method NSArticle|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
+ * @method NSArticle|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
+ * @method NSArticle[]      findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
+ * @method int countBy(mixed $criteria)
  */
 class NSArticleRepository extends NodesSourcesRepository
 {

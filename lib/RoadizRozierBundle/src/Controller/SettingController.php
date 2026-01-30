@@ -159,11 +159,11 @@ final class SettingController extends AbstractController
                             'settingGroupsSettingsPage',
                             ['settingGroupId' => $settingGroup->getId()]
                         );
-                    } else {
-                        return $this->redirectToRoute(
-                            'settingsHomePage'
-                        );
                     }
+
+                    return $this->redirectToRoute(
+                        'settingsHomePage'
+                    );
                 } catch (\RuntimeException $e) {
                     $form->addError(new FormError($e->getMessage()));
                 }
@@ -326,7 +326,7 @@ final class SettingController extends AbstractController
             ['%name%' => $setting->getName()]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/settings/head.html.twig',
             'cancelPath' => $this->generateUrl('settingsHomePage'),

@@ -51,14 +51,11 @@ final readonly class TagArrayTransformer implements DataTransformerInterface
 
         if (is_array($value)) {
             $ids = $value;
-        }
-        if (is_string($value)) {
+        } elseif (is_string($value)) {
             $ids = explode(',', $value);
-        }
-        if (is_numeric($value)) {
+        } elseif (is_numeric($value)) {
             $ids = [(int) $value];
-        }
-        if (!isset($ids) || !is_array($ids)) {
+        } else {
             throw new TransformationFailedException('Expected an array of tag IDs.');
         }
 

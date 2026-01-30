@@ -35,7 +35,7 @@ final class ResetPasswordNotification extends Notification implements EmailNotif
     }
 
     #[\Override]
-    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
         if (is_string($this->resetLinkRoute)) {
             $resetLink = $this->urlGenerator->generate(

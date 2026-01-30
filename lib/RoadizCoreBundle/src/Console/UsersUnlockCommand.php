@@ -46,10 +46,9 @@ final class UsersUnlockCommand extends UsersCommand
             $io->success('User “'.$name.'” unlocked.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not unlocked.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not unlocked.');
+
+        return 1;
     }
 }

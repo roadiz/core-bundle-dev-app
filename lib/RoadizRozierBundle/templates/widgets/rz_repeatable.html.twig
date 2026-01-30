@@ -1,0 +1,66 @@
+{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+{% set repeatable_id = id ~ '_repeatable'|default(random() ~ '_repeatable') %}
+<rz-repeatable
+	input-index-placeholder="{{ prototype.vars.name }}"
+	input-base-name="{{ full_name }}"
+	id-base-name="{{ id }}"
+	id="{{ repeatable_id }}"
+>
+	{% if label is not same as(false) -%}
+		{% if label is empty -%}
+			{% set label = name|humanize %}
+		{%- endif -%}
+		<div class="rz-form-field__head">
+			{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
+
+			{{ rz_button.root({
+				label: 'repeatable.add'|trans,
+				icon: 'rz-icon-ri--add-line',
+				size: 'sm',
+				class: 'rz-form-field__head__end',
+				attributes: {
+					type: 'button',
+					'command': '--add',
+					'commandfor': repeatable_id,
+					'data-insert-index': '0',
+				},
+			}) }}
+		</div>
+
+		<template data-item="">
+			{% embed "@RoadizRozier/macros/rz_repeatable.html.twig" %}
+				{% block inner_body %}
+					{{ data_prototype|raw }}
+				{% endblock %}
+			{% endembed %}
+		</template>
+
+		<div class="rz-form-field__body rz-repeatable__body">
+			<ol data-list="" class="rz-repeatable__list">
+				{% if stored_items_form is not null %}
+                    {% for item in stored_items_form %}
+                        {% embed "@RoadizRozier/macros/rz_repeatable.html.twig" %}
+                            {% block inner_body %}
+                                {{ form_widget(item) }}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endfor %}
+				{% endif %}
+			</ol>
+			<div class="rz-repeatable__insert-zone">
+				{{ rz_button.root({
+					icon: 'rz-icon-ri--add-line',
+					attributes: {
+						type: 'button',
+						'command': '--add',
+						'commandfor': repeatable_id,
+						'tooltip-text': 'insert.zone'|trans,
+						'aria-label': 'collection.insert_item'|trans,
+					},
+				}) }}
+			</div>
+		</div>
+	{% endif %}
+</rz-repeatable>

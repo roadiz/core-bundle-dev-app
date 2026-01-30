@@ -1,0 +1,27 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{{ item.displayName|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <section>
+        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+            title: item.displayName,
+            current: 'webhook',
+            type: item,
+            with_nav_bar: true,
+            with_breadcrumb: true,
+        } only %}
+
+        {% form_theme form '@RoadizRozier/forms.html.twig' %}
+        {{ form_start(form) }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#' ~ field_id(form)) }}
+        {{ form_end(form) }}
+
+        {% include '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
+            item: item,
+        } only %}
+
+        {% include '@RoadizRozier/custom-forms/actionsMenu.html.twig' %}
+    </section>
+{% endblock %}

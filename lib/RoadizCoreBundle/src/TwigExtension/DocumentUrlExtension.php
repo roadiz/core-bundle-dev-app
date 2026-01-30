@@ -45,9 +45,9 @@ final class DocumentUrlExtension extends AbstractExtension
         if (null === $mixed) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Twig “url” filter must be used with a not null object');
-            } else {
-                return '';
             }
+
+            return '';
         }
 
         if ($mixed instanceof DocumentInterface) {

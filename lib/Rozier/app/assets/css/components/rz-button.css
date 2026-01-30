@@ -8,7 +8,7 @@
 	--rz-button-border-width: 1PX;
 
 	box-sizing: border-box;
-	display: inline-flex;
+	display: var(--rz-button-display, inline-flex);
 	align-items: center;
 	justify-content: center;
 	text-decoration: none;
@@ -289,4 +289,20 @@
 .rz-button__icon {
 	margin: var(--rz-button-icon-margin);
 	font-size: var(--rz-button-icon-font-size, 16px);
+
+	.rz-button--loading & {
+		background-color: transparent;
+		border: 2px solid currentColor;
+		border-bottom-color: transparent;
+		border-radius: 50%;
+		box-sizing: border-box;
+		animation: rotation 1s linear infinite;
+		mask-image: none;
+	}
+}
+
+@keyframes rotation {
+    to {
+        transform: rotate(360deg);
+    }
 }

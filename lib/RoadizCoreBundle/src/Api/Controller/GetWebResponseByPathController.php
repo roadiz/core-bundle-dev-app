@@ -165,6 +165,9 @@ final class GetWebResponseByPathController extends AbstractController
     {
         if (null !== $request) {
             $iri = $this->iriConverter->getIriFromResource($resource);
+            if (null === $iri) {
+                return;
+            }
             $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [$iri => $iri]);
         }
     }

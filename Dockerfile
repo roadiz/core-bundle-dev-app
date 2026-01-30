@@ -1,9 +1,9 @@
 ARG UID=1000
 ARG GID=${UID}
 
-ARG PHP_VERSION=8.5.0
+ARG PHP_VERSION=8.5.1
 ARG MYSQL_VERSION=8.4.7
-ARG NGINX_VERSION=1.28.0
+ARG NGINX_VERSION=1.28.1
 ARG MARIADB_VERSION=11.8.3
 ARG VARNISH_VERSION=7.7.3
 ARG COMPOSER_VERSION=2.9.2
@@ -64,7 +64,7 @@ COPY --link --chmod=644 docker/varnish/default.vcl /etc/varnish/
 # PHP #
 #######
 
-FROM php:${PHP_VERSION}-fpm-bookworm AS php
+FROM php:${PHP_VERSION}-fpm-trixie AS php
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
@@ -83,14 +83,12 @@ apt-get --quiet --yes --purge --autoremove upgrade
 # Packages - System
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     less \
-    sudo \
     ffmpeg
 rm -rf /var/lib/apt/lists/*
 
 # User
 addgroup --gid ${UID} php
 adduser --home /home/php --shell /bin/bash --uid ${GID} --gecos php --ingroup php --disabled-password php
-echo "php ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/php
 
 # App
 install --verbose --owner php --group php --mode 0755 --directory /app
@@ -124,7 +122,7 @@ WORKDIR /app
 # PHP - FRANKENPHP #
 ####################
 
-FROM dunglas/frankenphp:php${PHP_VERSION}-bookworm AS php-franken
+FROM dunglas/frankenphp:php${PHP_VERSION}-trixie AS php-franken
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com, eliot@rezo-zero.com"
 
@@ -146,7 +144,6 @@ apt-get --quiet --yes --purge --autoremove upgrade
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     acl \
     less \
-    sudo \
     git \
     ffmpeg
 rm -rf /var/lib/apt/lists/*
@@ -154,7 +151,6 @@ rm -rf /var/lib/apt/lists/*
 # User
 addgroup --gid ${UID} php
 adduser --home /home/php --shell /bin/bash --uid ${GID} --gecos php --ingroup php --disabled-password php
-echo "php ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/php
 
 # App
 install --verbose --owner php --group php --mode 0755 --directory /app
@@ -250,7 +246,7 @@ USER php
 # Nginx #
 #########
 
-FROM nginx:${NGINX_VERSION}-bookworm AS nginx
+FROM nginx:${NGINX_VERSION}-trixie AS nginx
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
@@ -264,14 +260,12 @@ RUN <<EOF
 apt-get --quiet update
 apt-get --quiet --yes --purge --autoremove upgrade
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
-    less \
-    sudo
+    less
 rm -rf /var/lib/apt/lists/*
 
 # User
 groupmod --gid ${GID} nginx
 usermod --uid ${UID} nginx
-echo "nginx ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nginx
 
 # App
 install --verbose --owner nginx --group nginx --mode 0755 --directory /app
@@ -295,7 +289,7 @@ COPY --link docker/nginx/conf.d/default.dev.conf /etc/nginx/conf.d/default.conf
 # Node      #
 #############
 
-FROM node:${NODE_VERSION}-bookworm-slim AS node
+FROM node:${NODE_VERSION}-trixie-slim AS node
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com eliot@rezo-zero.com"
 
@@ -319,15 +313,13 @@ apt-get --quiet --yes --purge --autoremove upgrade
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     curl \
     less \
-    git \
-    sudo
+    git
 rm -rf /var/lib/apt/lists/*
 
 # User
 groupmod --gid ${GID} node
 usermod --uid ${UID} node
 chown --verbose --recursive node:node /home/node
-echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
 
 # App
 install --verbose --owner node --group node --mode 0755 --directory /app

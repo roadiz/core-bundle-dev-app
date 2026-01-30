@@ -1,0 +1,37 @@
+meta {
+  name: Available APIs
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_domain}}/crm/v8/__apis
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: Authorization
+  value: Zoho-oauthtoken {{access_token}}
+  placement: header
+}
+
+body:json {
+  {
+    "data": [
+      {
+        "Contact_Source": "Roadiz development workflow",
+        "Company": "Roadiz",
+        "Last_Name": "Ambroise",
+        "First_Name": "Maupate",
+        "Email": "ambroise@roadiz.io",
+        "Country": "FR"
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

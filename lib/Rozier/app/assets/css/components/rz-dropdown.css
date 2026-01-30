@@ -19,6 +19,7 @@
 }
 
 /* Default element with popover attribute is hidden by default */
+[popover]:popover-open .rz-dropdown,
 .rz-dropdown--open,
 .rz-dropdown:popover-open {
 	--rz-dropdown-display: flex;
@@ -148,8 +149,13 @@
 		background-color: initial;
 	}
 
+	&:where(button):disabled {
+		color: var(--button-basic-low-content-on-light-disabled, #9A9A9A);
+		cursor: initial;
+	}
+
 	@media (hover: hover) {
-		&:hover {
+		&:not(:disabled):hover {
 			background-color: var(--button-basic-low-bg-on-light-hover, #F2F2F2);
 		}
 	}

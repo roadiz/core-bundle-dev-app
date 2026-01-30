@@ -1,4 +1,7 @@
 .rz-repeatable__body {
+	counter-set: first-level;
+	counter-set: second-level;
+
 	border-radius: var(--radius-xs, 6px);
 	border: 1px solid var(--form-basic-border, #DADADA);
 }
@@ -10,9 +13,9 @@
 	padding-block: var(--spacing-6xs);
 
 	/* Hide the first insert zone when at least one item exists */
-	.rz-repeatable__body:has(.rz-repeatable__item) > & {
+	/* .rz-repeatable__body:has(.rz-repeatable__item) > & {
 		display: none;
-	}
+	} */
 
 	&::before,
 	&::after {
@@ -22,8 +25,6 @@
 	}
 }
 
-
-
 .rz-repeatable__list {
 	display: flex;
 	flex-direction: column;
@@ -32,14 +33,21 @@
 	list-style: none;
 	padding: initial;
 	margin: initial;
-
 }
 
-/* .rz-repeatable__item {} */
+rz-repeatable:has(rz-repeatable) .rz-repeatable__item {
+	counter-increment: first-level;
+}
+
+rz-repeatable:not(:has(rz-repeatable)) .rz-repeatable__item {
+	counter-increment: second-level;
+}
 
 .rz-repeatable__item--align-end {
 	margin-left: auto;
 }
+
+
 
 .rz-repeatable__item__header {
 	display: flex;
@@ -55,9 +63,18 @@
 }
 
 .rz-repeatable__item__title {
+	position: relative;
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-form-label-font-size);
 	line-height: var(--text-form-label-line-height);
 	letter-spacing: var(--text-form-label-letter-spacing);
 	font-weight: var(--text-form-label-font-weight);
+
+	&::before {
+		content: counter(first-level) ' ';
+	}
+
+	.rz-repeatable__list .rz-repeatable__list &::before {
+		content: counter(first-level) '.' counter(second-level) ' ';
+	}
 }

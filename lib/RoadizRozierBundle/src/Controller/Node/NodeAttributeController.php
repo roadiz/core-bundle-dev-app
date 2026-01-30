@@ -158,21 +158,20 @@ final class NodeAttributeController extends AbstractController
                         'nodeId' => $node->getId(),
                         'translationId' => $translation->getId(),
                     ]);
-                } else {
-                    $errors = $this->formErrorSerializer->getErrorsAsArray($attributeValueTranslationForm);
-                    /*
-                     * Handle errors when Ajax POST requests
-                     */
-                    if ($isJson) {
-                        return new JsonResponse([
-                            'status' => 'fail',
-                            'errors' => $errors,
-                            'message' => $this->translator->trans('form_has_errors.check_you_fields'),
-                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
-                    }
-                    foreach ($errors as $error) {
-                        $this->logTrail->publishErrorMessage($request, $error);
-                    }
+                }
+                $errors = $this->formErrorSerializer->getErrorsAsArray($attributeValueTranslationForm);
+                /*
+                 * Handle errors when Ajax POST requests
+                 */
+                if ($isJson) {
+                    return new JsonResponse([
+                        'status' => 'fail',
+                        'errors' => $errors,
+                        'message' => $this->translator->trans('form_has_errors.check_you_fields'),
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                foreach ($errors as $error) {
+                    $this->logTrail->publishErrorMessage($request, $error);
                 }
             }
 
@@ -316,7 +315,7 @@ final class NodeAttributeController extends AbstractController
             ]
         );
 
-        return $this->render('@RoadizRozier/admin/delete.html.twig', [
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesEditAttributesPage', [

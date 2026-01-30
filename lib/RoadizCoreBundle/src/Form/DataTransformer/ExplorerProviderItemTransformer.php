@@ -13,9 +13,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 final readonly class ExplorerProviderItemTransformer implements DataTransformerInterface
 {
     public function __construct(
-        protected ExplorerProviderInterface $explorerProvider,
-        protected bool $multiple = true,
-        protected bool $useCollection = false,
+        private ExplorerProviderInterface $explorerProvider,
+        private bool $multiple = true,
+        private bool $useCollection = false,
     ) {
     }
 
@@ -43,7 +43,7 @@ final readonly class ExplorerProviderItemTransformer implements DataTransformerI
                 }
             }
 
-            return array_filter($idArray);
+            return $idArray;
         }
 
         return '';

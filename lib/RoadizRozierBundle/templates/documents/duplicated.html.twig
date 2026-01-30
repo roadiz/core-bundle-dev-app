@@ -1,9 +1,3 @@
 {% extends "@RoadizRozier/documents/list-table.html.twig" %}
 
-{% block title %}{% trans %}duplicated_documents{% endtrans %} | {{ parent() }}{% endblock %}
-
-{% block content_title %}
-    <h1 class="content-title">{% trans %}duplicated_documents{% endtrans %}</h1>
-{% endblock %}
-
-{% block header_action_menu %}{% endblock %}
+{% block title %}{{ pageTitle|trans }}  | {{ parent() }}{% endblock %}

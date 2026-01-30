@@ -62,7 +62,7 @@ class OpenIdAccount implements UserInterface, EquatableInterface
         #[Ignore]
         protected Token $jwtToken,
     ) {
-        if (!($this->jwtToken instanceof Token\Plain)) {
+        if (!$this->jwtToken instanceof Token\Plain) {
             throw new \InvalidArgumentException('Token must be an instance of '.Token\Plain::class);
         }
         /*
@@ -120,13 +120,12 @@ class OpenIdAccount implements UserInterface, EquatableInterface
 
     public function getUsername(): string
     {
-        return $this->email ?? '';
+        return $this->email;
     }
 
     #[\Override]
     public function eraseCredentials(): void
     {
-        return;
     }
 
     public function getEmail(): ?string

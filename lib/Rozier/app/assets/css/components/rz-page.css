@@ -16,6 +16,7 @@
 	background-color: var(--surface-light-primary, #FFF);
 	padding-inline: var(--spacing-4xs);
 	transition: translate 0.4s;
+	box-sizing: border-box;
 
 	@media (--screen-sm-min) {
 		padding-inline: var(--spacing-2xs);

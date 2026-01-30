@@ -1,8 +1,7 @@
 {%- if tagTree -%}
     <ul
-        class="uk-nestable uk-nestable-tag"
-        {% if tagTree.canReorder %}data-uk-nestable="{'group':'tagTree'}"{% endif %}
-        data-parent-tag-id="{{ tag.getId }}"
+        class="rz-tree__list"
+        {% if tag.getId %}data-parent-id="{{ tag.getId }}"{% endif %}
     >
         {% for ctag in tagTree.getTags %}
             {% include '@RoadizRozier/widgets/tagTree/singleTag.html.twig' with {

@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class YamlType extends AbstractType
 {
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return TextareaType::class;
     }

@@ -11,14 +11,12 @@ use RZ\Roadiz\CoreBundle\Model\AttributeTranslationTrait;
 use RZ\Roadiz\CoreBundle\Repository\AttributeTranslationRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[
-    ORM\Entity(repositoryClass: AttributeTranslationRepository::class),
+#[ORM\Entity(repositoryClass: AttributeTranslationRepository::class),
     ORM\Table(name: 'attribute_translations'),
     ORM\Index(columns: ['label']),
     ORM\UniqueConstraint(columns: ['attribute_id', 'translation_id']),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity(fields: ['attribute', 'translation'], errorPath: 'translation')
-]
+    UniqueEntity(fields: ['attribute', 'translation'], errorPath: 'translation')]
 class AttributeTranslation implements AttributeTranslationInterface
 {
     use SequentialIdTrait;

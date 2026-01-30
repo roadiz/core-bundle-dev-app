@@ -25,7 +25,7 @@ final readonly class UserProvider implements UserProviderInterface
         return $this->loadUserByUsernameOrEmail($username);
     }
 
-    protected function loadUserByUsernameOrEmail(string $identifier): UserInterface
+    private function loadUserByUsernameOrEmail(string $identifier): UserInterface
     {
         /** @var User|null $user */
         $user = $this->managerRegistry
@@ -41,9 +41,8 @@ final readonly class UserProvider implements UserProviderInterface
 
         if (null !== $user) {
             return $user;
-        } else {
-            throw new UserNotFoundException();
         }
+        throw new UserNotFoundException();
     }
 
     #[\Override]
@@ -80,9 +79,8 @@ final readonly class UserProvider implements UserProviderInterface
             ) {
                 // Always refresh User from database: too much related entities to rely only on token.
                 return $refreshUser;
-            } else {
-                throw new UserNotFoundException('Token user does not exist anymore, authenticate again…');
             }
+            throw new UserNotFoundException('Token user does not exist anymore, authenticate again…');
         }
         throw new UnsupportedUserException();
     }

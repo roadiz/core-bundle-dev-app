@@ -120,6 +120,9 @@ export default ({ mode }) => {
                                 { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry.md' },
                                 { text: 'Add additional entries into navbar', link: '/extensions/additional_entries_navbar.md' },
                                 { text: 'Extending Solr indexation', link: '/extensions/extending_solr' },
+                                { text: 'Entity thumbnails', link: '/extensions/entity-thumbnail' },
+                                { text: 'Translate Assistant', link: '/extensions/translate-assistant' },
+                                { text: 'Custom forms webhooks', link: '/extensions/webhook-system' },
                             ]
                         },
                         { text: 'Contributing', link: '/developer/contributing/contributing' },

@@ -47,15 +47,15 @@ class NodeTreeDtoPaginator extends Paginator
                 $this->getItemsPerPage(),
                 $this->getItemsPerPage() * ($page - 1)
             );
-        } else {
-            return $repository->findByAsNodeTreeDto(
-                $this->criteria,
-                $order,
-                $this->getItemsPerPage(),
-                $this->getItemsPerPage() * ($page - 1),
-                $this->getTranslation()
-            );
         }
+
+        return $repository->findByAsNodeTreeDto(
+            $this->criteria,
+            $order,
+            $this->getItemsPerPage(),
+            $this->getItemsPerPage() * ($page - 1),
+            $this->getTranslation()
+        );
     }
 
     #[\Override]

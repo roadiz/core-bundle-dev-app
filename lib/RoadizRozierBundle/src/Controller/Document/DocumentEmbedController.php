@@ -91,7 +91,7 @@ final class DocumentEmbedController extends AbstractController
                 return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
             } catch (ClientExceptionInterface $e) {
                 $this->logger->error($e->getMessage());
-                if (null !== $e->getResponse() && in_array($e->getResponse()->getStatusCode(), [401, 403, 404])) {
+                if (in_array($e->getResponse()->getStatusCode(), [401, 403, 404])) {
                     $form->addError(new FormError(
                         $this->translator->trans('document.media_not_found_or_private')
                     ));
@@ -154,11 +154,8 @@ final class DocumentEmbedController extends AbstractController
             if ($document instanceof DocumentInterface) {
                 return $document;
             }
-            if (is_array($document) && isset($document[0])) {
-                return $document[0];
-            }
 
-            return null;
+            return $document[0] ?? null;
         }
         throw new \RuntimeException('Random image finder must be instance of '.EmbedFinderInterface::class);
     }
@@ -185,9 +182,8 @@ final class DocumentEmbedController extends AbstractController
             }
 
             return $this->createDocumentFromFinder($finder, $folderId);
-        } else {
-            throw new \RuntimeException('bad.request', 1);
         }
+        throw new \RuntimeException('bad.request', 1);
     }
 
     /**

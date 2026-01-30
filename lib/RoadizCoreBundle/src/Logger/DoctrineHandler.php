@@ -129,62 +129,60 @@ final class DoctrineHandler extends AbstractProcessingHandler
             $data = $record->extra;
             $context = $record->context;
 
-            if (\is_array($context)) {
-                foreach ($context as $key => $value) {
-                    if ($value instanceof Node) {
-                        $this->populateForNode($value, $log, $data);
-                    } elseif ($value instanceof NodesSources) {
-                        $this->populateForNodesSources($value, $log, $data);
-                    } elseif ('entity' === $key && $value instanceof PersistableInterface) {
-                        $log->setEntityClass($value::class);
-                        $log->setEntityId($value->getId());
+            foreach ($context as $key => $value) {
+                if ($value instanceof Node) {
+                    $this->populateForNode($value, $log, $data);
+                } elseif ($value instanceof NodesSources) {
+                    $this->populateForNodesSources($value, $log, $data);
+                } elseif ('entity' === $key && $value instanceof PersistableInterface) {
+                    $log->setEntityClass($value::class);
+                    $log->setEntityId($value->getId());
 
-                        $texteable = ['getTitle', 'getName', '__toString'];
-                        foreach ($texteable as $method) {
-                            if (method_exists($value, $method)) {
-                                $data = array_merge(
-                                    $data,
-                                    [
-                                        'entity_title' => $value->{$method}(),
-                                    ]
-                                );
-                                break;
-                            }
+                    $texteable = ['getTitle', 'getName', '__toString'];
+                    foreach ($texteable as $method) {
+                        if (method_exists($value, $method)) {
+                            $data = array_merge(
+                                $data,
+                                [
+                                    'entity_title' => $value->{$method}(),
+                                ]
+                            );
+                            break;
                         }
                     }
-                    if ($value instanceof \Exception) {
-                        $data = array_merge(
-                            $data,
-                            [
-                                'exception_class' => $value::class,
-                                'message' => $value->getMessage(),
-                            ]
-                        );
-                    }
-                    if ($value instanceof Request) {
-                        $data = array_merge(
-                            $data,
-                            [
-                                'uri' => $value->getUri(),
-                                'schemeHost' => $value->getSchemeAndHttpHost(),
-                            ]
-                        );
-                    }
-                    if ('request' === $key && \is_array($value)) {
-                        $data = array_merge(
-                            $data,
-                            $value
-                        );
-                    }
-                    if (\is_string($value) && !empty($value) && !\is_numeric($key)) {
-                        $data = array_merge(
-                            $data,
-                            [$key => $value]
-                        );
-                    }
-                    if (\is_string($value) && !empty($value) && \in_array($key, ['user', 'username'])) {
-                        $log->setUsername($value);
-                    }
+                }
+                if ($value instanceof \Exception) {
+                    $data = array_merge(
+                        $data,
+                        [
+                            'exception_class' => $value::class,
+                            'message' => $value->getMessage(),
+                        ]
+                    );
+                }
+                if ($value instanceof Request) {
+                    $data = array_merge(
+                        $data,
+                        [
+                            'uri' => $value->getUri(),
+                            'schemeHost' => $value->getSchemeAndHttpHost(),
+                        ]
+                    );
+                }
+                if ('request' === $key && \is_array($value)) {
+                    $data = array_merge(
+                        $data,
+                        $value
+                    );
+                }
+                if (\is_string($value) && !empty($value) && !\is_numeric($key)) {
+                    $data = array_merge(
+                        $data,
+                        [$key => $value]
+                    );
+                }
+                if (\is_string($value) && !empty($value) && \in_array($key, ['user', 'username'])) {
+                    $log->setUsername($value);
                 }
             }
 

@@ -5,7 +5,7 @@
 {% block content %}
     <section>
         {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-            title: customForm.displayName|truncate_title,
+            title: customForm.displayName,
             current: 'usage',
             type: customForm,
             with_nav_bar: true,
@@ -13,9 +13,9 @@
         } only %}
 
         <article>
-            <h3>{% trans %}nodes{% endtrans %}</h3>
-
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                actions_available: true,
+            } %}
                 {% block thead_cells %}
                     <th>{% trans %}title{% endtrans %}</th>
                     <th>{% trans %}usage.fieldName{% endtrans %}</th>
@@ -31,6 +31,15 @@
                                 <a href="{{ nodeHref }}">{{ nodeName }}</a>
                             </td>
                             <td>{{ usage.fieldName }}</td>
+                            {% if actions_available %}
+                                <td>
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': nodeHref,
+                                        'edit_icon': 'rz-icon-ri--eye-line',
+                                        'edit_title': 'view.node'|trans,
+                                    } only %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% endblock %}

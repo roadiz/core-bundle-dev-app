@@ -63,7 +63,7 @@ final class SettingDocumentType extends AbstractType
     }
 
     #[\Override]
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return FileType::class;
     }

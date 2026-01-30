@@ -290,9 +290,9 @@ class NodeRepository extends StatusAwareRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**
@@ -458,7 +458,7 @@ EOT,
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
-                if (str_starts_with($key, self::NODESSOURCES_ALIAS.'.')) {
+                if (str_starts_with((string) $key, self::NODESSOURCES_ALIAS.'.')) {
                     $qb->addOrderBy($key, $value);
                 } else {
                     $qb->addOrderBy(self::NODE_ALIAS.'.'.$key, $value);

@@ -1,0 +1,51 @@
+
+<div
+    class="rz-tree__item__node__inner"
+>
+    {% if can_reorder %}
+        <span class="rz-tree__item__handle rz-icon-ri--draggable"></span>
+    {% else %}
+        <span class="rz-tree__item__handle rz-tree__item__handle-locked rz-icon-ri--lock-2-line"></span>
+    {% endif %}
+
+
+    <div class="rz-node-icon rz-tree__item__icon {{ icon_class }}">
+        {% block icon_content %}{% endblock %}
+    </div>
+
+    <div
+        class="rz-tree__item__label"
+        {% if item.translation is rtl %} dir="rtl"{% endif %}
+    >
+        {% block label %}{% endblock %}
+    </div>
+
+
+    {% block before_actions %}{% endblock %}
+
+    {% if has_children %}
+        {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+        {{
+            rz_button.root({
+                emphasis: 'tertiary',
+                size: 'xs',
+                icon: 'rz-icon-ri--arrow-down-s-line',
+                class: 'rz-tree__item__expand-button',
+                attributes: {
+                    type: 'button',
+                    command: '--toggle-children',
+                    'aria-expanded': 'false',
+                }
+            })
+        }}
+    {% endif %}
+
+    {% block contextual_menu %}{% endblock %}
+
+    {% if has_selection %}
+        <div class="nodetree-bulk-selection">
+            {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+            {{ rz_bulk.select_input({ value: item.id }) }}
+        </div>
+    {% endif %}
+</div>

@@ -93,7 +93,7 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
         foreach ($exif as $key => $section) {
             if (is_array($section)) {
                 foreach ($section as $skey => $value) {
-                    if ('copyright' === \mb_strtolower($skey)) {
+                    if ('copyright' === \mb_strtolower((string) $skey)) {
                         return $value;
                     }
                 }
@@ -106,21 +106,20 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
     private function getDescription(array $exif): ?string
     {
         foreach ($exif as $key => $section) {
-            if (is_string($section) && 'imagedescription' === \mb_strtolower($key)) {
+            if (is_string($section) && 'imagedescription' === \mb_strtolower((string) $key)) {
                 return $section;
             } elseif (is_array($section)) {
-                if ('comment' == \mb_strtolower($key)) {
+                if ('comment' == \mb_strtolower((string) $key)) {
                     $comment = '';
                     foreach ($section as $value) {
                         $comment .= $value.PHP_EOL;
                     }
 
                     return $comment;
-                } else {
-                    foreach ($section as $skey => $value) {
-                        if ('comment' == \mb_strtolower($skey)) {
-                            return $value;
-                        }
+                }
+                foreach ($section as $skey => $value) {
+                    if ('comment' == \mb_strtolower((string) $skey)) {
+                        return $value;
                     }
                 }
             }

@@ -40,6 +40,7 @@ parameters:
         - '#does not have a field named \$translation#'
         # False positive on repeatable attributes
         - '#Attribute class ([a-zA-Z\\\:\$]+) is not repeatable but is already present above the (class|property|method|parameter or property)\.#'
+        - '#Instanceof between ([a-zA-Z\\\:\$]+) and RZ\\Roadiz\\Core\\AbstractEntities\\PositionedInterface will always evaluate to true\.#'
         # PHPStan Doctrine does not support ResolveTargetEntityListener
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>?\|null but database expects ([a-zA-Z\\\&\>\<]+)\|null#'
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>? but database expects ([a-zA-Z\\\&\>\<]+)#'

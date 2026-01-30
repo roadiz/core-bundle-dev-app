@@ -75,10 +75,9 @@ final class UsersPasswordCommand extends UsersCommand
             $io->success('A new password was regenerated for '.$name.': '.$user->getPlainPassword());
 
             return 0;
-        } else {
-            $io->warning('User password was not changed.');
-
-            return 1;
         }
+        $io->warning('User password was not changed.');
+
+        return 1;
     }
 }

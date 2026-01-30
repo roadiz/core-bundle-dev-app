@@ -62,8 +62,6 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $assignation = [];
-
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
@@ -77,8 +75,10 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkDeleteForm(
@@ -92,19 +92,27 @@ trait NodeBulkActionTrait
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
+        $referer = null;
         if (!empty($request->get('deleteForm')['referer'])) {
-            $assignation['referer'] = $request->get('deleteForm')['referer'];
+            $referer = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkDelete.html.twig', $assignation);
+        $title = new UnicodeString($this->translator->trans('delete.nodes'));
+        $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
+
+        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $cancelPath,
+            'alertMessage' => 'are_you_sure.delete.these.nodes',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     /**
@@ -149,9 +157,9 @@ trait NodeBulkActionTrait
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $assignation['nodes'] = $nodes;
@@ -219,7 +227,7 @@ trait NodeBulkActionTrait
     private function bulkStatusNodes(array $data): string
     {
         if (!empty($data['nodesIds'])) {
-            $nodesIds = \json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
+            $nodesIds = \json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -297,7 +305,7 @@ trait NodeBulkActionTrait
             !empty($data['tagsPaths'])
             && !empty($data['nodesIds'])
         ) {
-            $nodesIds = json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
+            $nodesIds = json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -336,7 +344,7 @@ trait NodeBulkActionTrait
             !empty($data['tagsPaths'])
             && !empty($data['nodesIds'])
         ) {
-            $nodesIds = \json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
+            $nodesIds = \json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */

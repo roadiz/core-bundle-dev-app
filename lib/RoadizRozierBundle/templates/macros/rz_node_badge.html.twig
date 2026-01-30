@@ -46,7 +46,7 @@
     {% elseif type == 'pending' %}
         {% set type_options = {
             label: 'pending.validation'|trans,
-            icon: 'rz-icon-rz--status-pending-line',
+            icon: 'rz-icon-rz--status-pending-fill',
             color: 'warning',
         } %}
     {% elseif type == 'draft' %}
@@ -109,21 +109,21 @@
     {{ _self.item(status, options.display_label) }}
 {% endmacro %}
 
-{% macro parameters(node, options = { display_label: true }) %}
+{% macro parameters(node, options = { display_label: true }, badgeOptions = {}) %}
     {% if node.isVisible == false %}
-        {{ _self.item('hidden', options.display_label) }}
+        {{ _self.item('hidden', options.display_label, badgeOptions) }}
     {% endif %}
 
     {% if node.isHidingChildren == true %}
-        {{ _self.item('hiding-children', options.display_label) }}
+        {{ _self.item('hiding-children', options.display_label, badgeOptions) }}
     {% endif %}
 
     {% if node.isShadow == true %}
-        {{ _self.item('shadow', options.display_label) }}
+        {{ _self.item('shadow', options.display_label, badgeOptions) }}
     {% endif %}
 
     {% if node.isLocked == true %}
-        {{ _self.item('locked', options.display_label) }}
+        {{ _self.item('locked', options.display_label, badgeOptions) }}
     {% endif %}
 {% endmacro %}
 

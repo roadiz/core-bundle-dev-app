@@ -168,7 +168,7 @@ abstract class AbstractAdminController extends AbstractController
     {
         /** @var TEntity|null $item */
         $item = $this->getRepository()->find($id);
-        if (!($item instanceof PersistableInterface)) {
+        if (!$item instanceof PersistableInterface) {
             throw $this->createNotFoundException();
         }
 
@@ -223,7 +223,7 @@ abstract class AbstractAdminController extends AbstractController
         /** @var TEntity|null $item */
         $item = $this->getRepository()->find($id);
 
-        if (!($item instanceof PersistableInterface)) {
+        if (!$item instanceof PersistableInterface) {
             throw $this->createNotFoundException();
         }
 

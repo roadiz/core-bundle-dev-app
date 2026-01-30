@@ -5,19 +5,15 @@
 {% block content %}
 <section class="content-global">
     {% include '@RoadizRozier/realms/head.html.twig' with {
-        title: 'add.a.realm'|trans
+        title: 'add.a.realm'|trans,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, {
-            'attr': {
-                'id': 'edit-realm-form',
-                'class': 'rz-form'
-            }
-        }) }}{{ form_widget(form) }}
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#edit-realm-form') }}
+        {{ form_start(form) }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#' ~ field_id(form)) }}
         {{ form_end(form) }}
         {% block content_body_after %}{% endblock %}
     </article>

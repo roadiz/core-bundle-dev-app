@@ -102,9 +102,9 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
         usort($nodeTypes, function (NodeType $a, NodeType $b) use ($sort) {
             if ('DESC' !== $sort) {
                 return strcmp($a->getName(), $b->getName());
-            } else {
-                return strcmp($b->getName(), $a->getName());
             }
+
+            return strcmp($b->getName(), $a->getName());
         });
 
         return $nodeTypes;

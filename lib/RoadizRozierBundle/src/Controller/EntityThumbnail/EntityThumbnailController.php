@@ -45,7 +45,7 @@ final class EntityThumbnailController extends AbstractController
             throw new BadRequestHttpException('Both "class" and "id" parameters are required');
         }
 
-        if (!is_string($entityId) && !(is_int($entityId) && $entityId > 0)) {
+        if (!is_string($entityId)) {
             throw new BadRequestHttpException('"id" parameters must be a valid identifier');
         }
 

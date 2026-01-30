@@ -31,7 +31,7 @@ final readonly class OpenIdJwtConfigurationFactory implements JwtConfigurationFa
     /**
      * @return Constraint[]
      */
-    protected function getValidationConstraints(): array
+    private function getValidationConstraints(): array
     {
         $validators = [
             new LooseValidAt(SystemClock::fromSystemTimezone()),
