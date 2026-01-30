@@ -1,10 +1,13 @@
 {%- if folderTree -%}
-    <ul class="rz-tree__list root-tree"
-        data-parent-folder-id="{{ folder.getId }}">
+    <ul
+        class="rz-tree__list"
+        {% if folder.getId %}data-parent-id="{{ folder.getId }}"{% endif %}
+    >
         {% for cfolder in folderTree.folders %}
             {% include '@RoadizRozier/widgets/folderTree/singleFolder.html.twig' with {
                 "folder": cfolder,
-                "folderTree": folderTree
+                "folderTree": folderTree,
+                "canReorder": true,
             } only %}
         {% endfor %}
     </ul>

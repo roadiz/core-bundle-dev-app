@@ -36,8 +36,15 @@
 			} only %}
 		{% endif %}
 
-    	{% set tree_wrapper_classes = ['rz-tree', 'root-tree', type_prefix ~ '-tree'] %}
-        <rz-tree class="{{ tree_wrapper_classes|join(' ') }}">
+		{% set tree_wrapper_classes = ['rz-tree', 'root-tree', type_prefix ~ '-tree'] %}
+		{% set tree_id =  tree.id ?? tree.parentNode.id ?? tree.rootTag.id ?? tree.rootFolder.id ?? 'root' %}
+	    <rz-tree
+	        class="{{ tree_wrapper_classes|join(' ') }}"
+	        group="{{ type_prefix }}Tree"
+	        data-entity-type="{{ type_prefix }}"
+	        data-is-sortable="{{ tree.canReorder ? 'true' : 'false' }}"
+	        id="{{ type_prefix ~ '-' ~ tree_id }}"
+	    >
 			{% block tree_content %}{% endblock %}
         </rz-tree>
     {% endif %}

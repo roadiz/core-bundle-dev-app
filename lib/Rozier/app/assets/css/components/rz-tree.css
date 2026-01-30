@@ -12,10 +12,10 @@
 .rz-tree__list {
 	list-style: none;
 	padding-left: initial;
-}
 
-.rz-tree__item__node[aria-expanded="false"] + .rz-tree__list {
-	display: none;
+	.rz-tree__item__node:has(> .rz-tree__item__node__inner > .rz-tree__item__expand-button[aria-expanded="false"]) + & {
+		display: none;
+	}
 }
 
 .rz-tree__item {
@@ -208,8 +208,8 @@
 	.rz-button__icon {
 		transform-origin: center;
 	}
-}
 
-.rz-tree__item__node[aria-expanded="true"] .rz-button__icon {
-	rotate: 180deg;
+	&[aria-expanded="true"] .rz-button__icon {
+		rotate: 180deg;
+	}
 }

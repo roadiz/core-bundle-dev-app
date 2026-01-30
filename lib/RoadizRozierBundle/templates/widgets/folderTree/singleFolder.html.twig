@@ -1,10 +1,9 @@
 
 
 {% set subFolders = folderTree.childrenFolders(folder) %}
-{% set classes = [
-    'rz-tree__item',
-    'foldertree-element',
-] %}
+{% set folderName = folder.translatedFoldersByTranslation(folderTree.translation).first.name|default(folder.translatedFolders.first.name)|default(folder.folderName)|replace({'${':'--'}) %}
+
+{% set classes = ['rz-tree__item'] %}
 {% if subFolders|length > 0 %}
     {% set classes = classes|merge(['rz-tree__item--parent']) %}
 {% endif %}
@@ -12,26 +11,17 @@
     {% set classes = classes|merge(['rz-tree__item--locked']) %}
 {% endif %}
 
-{% set innerClasses = [
-    'rz-tree__item__node',
-    'tree-element-inner',
-] %}
-
+{% set innerClasses = ['rz-tree__item__node'] %}
 {% if not folder.isVisible %}
     {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
 {% endif %}
-
-{% set folderName = folder.translatedFoldersByTranslation(folderTree.translation).first.name|default(folder.translatedFolders.first.name)|default(folder.folderName)|replace({'${':'--'}) %}
-
 <li
-    data-folder-id="{{ folder.id }}"
+    data-entity-id="{{ folder.id }}"
     style="--rz-node-icon-background: {{ folder.color }}"
     class="{{ classes|join(' ') }}"
-    is="rz-tree-item"
 >
     <div
         class="{{ innerClasses|join(' ') }}"
-        aria-expanded="false"
         role="treeitem"
     >
         {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
@@ -103,6 +93,7 @@
     {% if subFolders|length > 0 %}
         <ul
             class="rz-tree__list"
+            data-parent-id="{{ folder.id }}"
             data-parent-folder-id="{{ folder.id }}"
             role="group"
         >

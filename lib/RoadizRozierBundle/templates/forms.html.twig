@@ -447,68 +447,75 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-<div
-    class="rz-form-field children-nodes-widget"
-    data-translation-id="{{ nodeTree.translation.id }}"
-    data-children-nodes-widget {{ block('widget_attributes') }}
->
-    {% if label is empty -%}
-        {% set label = name|humanize %}
-    {%- endif -%}
-    <nav class="drawer-widget-nav children-nodes-nav">
-        <div class="drawer-widget-nav__head">
-            <div class="drawer-widget-nav__title"><i class="uk-icon-rz-node-tree"></i></div>
-            <div class="drawer-widget-nav__title label">{{ label|trans }}</div>
-        </div>
-        <div class="drawer-widget-nav__content">
-            {% if linkedTypes|length %}
-                {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
-                {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
-                        id: popover_id,
-                        placement: 'bottom-end',
-                        offset: '12',
-                        target_options: {
-                            attributes: {
-                                'aria-label': 'add.node'|trans,
-                            },
-                            label: 'Add'|trans,
-                            icon: 'rz-icon-ri--add-line',
-                        }
-                } %}
-                    {% block popover %}
-                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
-                                targetId: popover_id,
-                                class: 'children-nodes-quick-creation',
-                            } %}
-                            {% block items %}
-                                {% for linkedType in linkedTypes %}
-                                    {{ _self.item({
-                                        label: linkedType.displayName,
-                                        rightIcon: 'rz-icon-ri--add-line',
-                                        attributes: {
-                                            type: 'button',
-                                            'data-children-node-type': linkedType.name,
-                                            'data-children-parent-node': nodeTree.rootNode.id,
-                                            'data-translation-id': nodeTree.translation.id,
-                                        }
-                                    }) }}
-                                {% endfor %}
-                            {% endblock %}
-                        {% endembed %}
-                    {% endblock %}
-                {% endembed %}
-            {% endif %}
-        </div>
-    </nav>
-    <rz-tree class="rz-tree rz-tree--child-nodes children-nodes-tree">
-        {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-        "nodeTree": nodeTree,
-        "node": nodeTree.getRootNode,
-        'mainNodeTree': false,
-        "linkedTypes": linkedTypes,
-        } only %}
-    </rz-tree>
-</div>
+    <div
+        class="rz-form-field children-nodes-widget"
+        data-translation-id="{{ nodeTree.translation.id }}"
+        data-children-nodes-widget {{ block('widget_attributes') }}
+    >
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <nav class="drawer-widget-nav children-nodes-nav">
+            <div class="drawer-widget-nav__head">
+                <div class="drawer-widget-nav__title"><i class="uk-icon-rz-node-tree"></i></div>
+                <div class="drawer-widget-nav__title label">{{ label|trans }}</div>
+            </div>
+            <div class="drawer-widget-nav__content">
+                {% if linkedTypes|length %}
+                    {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
+                    {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
+                            id: popover_id,
+                            placement: 'bottom-end',
+                            offset: '12',
+                            target_options: {
+                                attributes: {
+                                    'aria-label': 'add.node'|trans,
+                                },
+                                label: 'Add'|trans,
+                                icon: 'rz-icon-ri--add-line',
+                            }
+                    } %}
+                        {% block popover %}
+                            {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                                    targetId: popover_id,
+                                    class: 'children-nodes-quick-creation',
+                                } %}
+                                {% block items %}
+                                    {% for linkedType in linkedTypes %}
+                                        {{ _self.item({
+                                            label: linkedType.displayName,
+                                            rightIcon: 'rz-icon-ri--add-line',
+                                            attributes: {
+                                                type: 'button',
+                                                'data-children-node-type': linkedType.name,
+                                                'data-children-parent-node': nodeTree.rootNode.id,
+                                                'data-translation-id': nodeTree.translation.id,
+                                            }
+                                        }) }}
+                                    {% endfor %}
+                                {% endblock %}
+                            {% endembed %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
+            </div>
+        </nav>
+        <rz-tree
+            class="rz-tree rz-tree--child-nodes children-nodes-tree"
+            group="nodeTree"
+            data-entity-type="node"
+            data-is-sortable="{{ nodeTree.canReorder ? 'true' : 'false' }}"
+            data-tree-id="{{ nodeTree.id }}"
+            id="form-children-{{ nodeTree.id ?? form.vars.unique_block_prefix }}"
+        >
+            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                "nodeTree": nodeTree,
+                "node": nodeTree.getRootNode,
+                'mainNodeTree': false,
+                "linkedTypes": linkedTypes,
+            } only %}
+        </rz-tree>
+    </div>
 {% endblock childrennodes_widget %}
 {#
  # Override default form rendering

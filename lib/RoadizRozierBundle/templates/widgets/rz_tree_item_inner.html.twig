@@ -23,13 +23,6 @@
 
     {% block before_actions %}{% endblock %}
 
-    {% if has_selection %}
-        <div class="nodetree-bulk-selection">
-            {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-            {{ rz_bulk.select_input({ value: item.id }) }}
-        </div>
-    {% endif %}
-
     {% if has_children %}
         {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
         {{
@@ -40,10 +33,19 @@
                 class: 'rz-tree__item__expand-button',
                 attributes: {
                     type: 'button',
+                    command: '--toggle-children',
+                    'aria-expanded': 'false',
                 }
             })
         }}
     {% endif %}
 
     {% block contextual_menu %}{% endblock %}
+
+    {% if has_selection %}
+        <div class="nodetree-bulk-selection">
+            {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+            {{ rz_bulk.select_input({ value: item.id }) }}
+        </div>
+    {% endif %}
 </div>

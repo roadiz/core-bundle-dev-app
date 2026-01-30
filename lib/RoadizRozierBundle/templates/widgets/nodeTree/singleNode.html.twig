@@ -3,10 +3,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 #}
 {% set type = getNodeType(node) %}
 
-{% set classes = [
-    'rz-tree__item',
-    'nodetree-element',
-] %}
+{% set classes = ['rz-tree__item'] %}
 {% if is_last %}
     {% set classes = classes|merge(['rz-tree__item--end']) %}
 {% endif %}
@@ -33,6 +30,10 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
     {% set classes = classes|merge(['has-tag']) %}
 {% endif %}
 
+{% if node.isLocked %}
+    {% set classes = classes|merge(['rz-tree__item--locked']) %}
+{% endif %}
+
 {# {% if node.isHome and node.isHidingChildren %}{% set innerClasses = innerClasses|merge(['home-stack']) %}{% endif %}
 {% if node.isHome %}{% set innerClasses = innerClasses|merge(['home-node']) %}{% endif %}
 {% if node.isHidingChildren %}{% set innerClasses = innerClasses|merge(['stack-node']) %}{% endif %}
@@ -47,25 +48,20 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
     {% endif %}
 {% endif %} #}
 
-{% set innerClasses = [
-    'rz-tree__item__node',
-    'tree-element-inner',
-] %}
-
+{% set innerClasses = ['rz-tree__item__node'] %}
 {% if not node.isVisible %}
     {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
 {% endif %}
-<li
-    style="--rz-node-icon-background: {{ type.color }};"
-    data-node-id="{{ node.id }}"
-    class="{{ classes|join(' ') }}"
-    is="rz-tree-item"
-    {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
-    {% if not node.isVisible %}data-visible="false"{% endif %}
+
+    <li
+        style="--rz-node-icon-background: {{ type.color }};"
+        data-entity-id="{{ node.id }}"
+        class="{{ classes|join(' ') }}"
+        {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
+        {% if not node.isVisible %}data-visible="false"{% endif %}
 >
     <div
         class="{{ innerClasses|join(' ') }}"
-        aria-expanded="false"
         role="treeitem"
     >
         {% set icon_class = node.isPublished ? 'rz-icon-rz--status-published-fill' : 'rz-icon-rz--status-draft-fill' %}
@@ -83,10 +79,11 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
             icon_class: icon_class,
             can_reorder: canReorder and not node.isLocked,
             has_selection: nodeTree.isStackTree,
-            nodeTree: nodeTree
+            nodeTree: nodeTree,
+            isMainTree: isMainTree
         } only %}
             {% block icon_content %}
-                {%- if not mainNodeTree and not nodeTree.isStackTree -%}
+                {%- if not isMainTree and not nodeTree.isStackTree -%}
                     <rz-entity-thumbnail
                         class="nodetree-element-img rz-node-icon__thumbnail"
                         entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
@@ -147,7 +144,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 
 
             {% block contextual_menu %}
-                {% set contextual_id = 'node-contextual-menu-' ~ item.id %}
+                {% set contextual_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ item.id %}
                 <rz-node-tree-contextual-menu
                     class="rz-node-contextual-menu"
                     data-contextual-menu-path="{{ path('nodeContextualMenu', {
@@ -181,9 +178,6 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
     </div>
 
     {% set subListClasses = ['rz-tree__list'] %}
-    {% if not mainNodeTree and not nodeTree.isStackTree %}
-        {% set subListClasses = subListClasses|merge(['children-node-widget-list']) %}
-    {% endif %}
     {% if node.isHidingChildren or type.isHidingNodes or not children or children|length == 0 %}
         {% set subListClasses = subListClasses|merge(['empty']) %}
     {% endif %}
@@ -191,7 +185,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
     {%- if children and children|length > 0 -%}
         <ul
             class="{{ subListClasses|join(' ') }}"
-            data-parent-node-id="{{ node.id }}"
+            data-parent-id="{{ node.id }}"
             role="group"
         >
             {#
@@ -203,7 +197,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                     "node":subNode,
                     "parent":node,
                     "nodeTree":nodeTree,
-                    "mainNodeTree":mainNodeTree,
+                    "isMainTree": isMainTree,
                     "level": level + 1,
                     'canReorder': (node.childrenOrder == 'position'),
                     'is_last': loop.last,

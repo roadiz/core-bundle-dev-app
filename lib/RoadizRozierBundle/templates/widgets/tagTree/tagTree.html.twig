@@ -1,7 +1,7 @@
 {%- if tagTree -%}
     <ul
-        class="rz-tree__list root-tree"
-        data-parent-tag-id="{{ tag.getId }}"
+        class="rz-tree__list"
+        {% if tag.getId %}data-parent-id="{{ tag.getId }}"{% endif %}
     >
         {% for ctag in tagTree.getTags %}
             {% include '@RoadizRozier/widgets/tagTree/singleTag.html.twig' with {
