@@ -1,0 +1,102 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+{% macro layout_fields(value) %}
+	<div class="rz-filters-bar__group rz-filters-bar__group--divider">
+		{% set selected_class = "rz-button--selected" %}
+		{% set isGrid = value == 'grid' or value is empty %}
+		{% set isList = not isGrid %}
+		<label
+			data-layout-button
+			data-layout-button-selected-class="{{ selected_class }}"
+			class="rz-button rz-button--secondary {% if isGrid %}{{ selected_class }}{% endif %}"
+			aria-label="Grid view"
+		>
+			<input
+				id="listing-layout-grid"
+				{% if isGrid %}checked{% endif %}
+				type="radio"
+				name="layout"
+				value="grid"
+			/>
+			<span aria-hidden="true" class="rz-icon-ri--layout-grid-line"></span>
+		</label>
+		<label
+			data-layout-button
+			data-layout-button-selected-class="{{ selected_class }}"
+			class="rz-button rz-button--secondary {% if isList %}{{ selected_class }}{% endif %}"
+			aria-label="List view"
+		>
+			<input
+				id="listing-layout-list"
+				{% if isList %}checked{% endif %}
+				type="radio"
+				name="layout"
+				value="list"
+			/>
+			<span aria-hidden="true" class="rz-icon-ri--list-check"></span>
+		</label>
+	</div>
+{% endmacro %}
+
+{% macro pagination(filters = {}) %}
+    {% set pageCount = filters.pageCount %}
+    {% set currentPage = filters.currentPage %}
+    {% set previousPageQuery = filters.previousPageQuery %}
+    {% set nextPageQuery = filters.nextPageQuery %}
+
+    <form method="get" class="rz-filters-bar__group">
+        <span class="text-form-label">
+            {% trans %}page{% endtrans %}
+        </span>
+        <input
+            is="rz-input"
+            class="rz-input"
+            type="number"
+            name="page"
+            min="1"
+            max="{{ pageCount }}"
+            value="{{ currentPage }}"
+            data-submit-on-change
+        />
+        <span class="text-form-label">/ {{ pageCount }}</span>
+        {{ _self.pagination_link("rz-icon-ri--arrow-left-s-line", previousPageQuery) }}
+        {{ _self.pagination_link("rz-icon-ri--arrow-right-s-line", nextPageQuery) }}
+    </form>
+{% endmacro %}
+
+{% macro pagination_link(icon, pageQuery) %}
+    {% if pageQuery and pageQuery is not empty %}
+        <a
+            class="rz-button rz-button--secondary rz-button--sm"
+            href="?{{ pageQuery }}"
+        >
+            <span class="rz-button__icon {{ icon }}"></span>
+        </a>
+    {% else %}
+        <span class="rz-button rz-button--secondary rz-button--sm rz-button--disabled">
+            <span class="rz-button__icon {{ icon }}"></span>
+        </span>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro item_per_page(value) %}
+    {% set enabledCounts = [10,20,50,100,200] %}
+    <form method="get">
+        {# Current page should be reset to avoid displaying empty results pages because items per page is higher than items count #}
+        <input type="hidden" name="page" value="1" />
+
+        <select
+            data-submit-on-change
+            class="rz-select item-per-page"
+            name="item_per_page"
+        >
+            {% if value not in enabledCounts %}
+                <option selected value="{{ value }}">{{ '%count%.items'|trans({'%count%':value})|raw }}</option>
+            {% endif %}
+            {% for index in enabledCounts %}
+                <option {% if value == index %}selected{% endif %} value="{{ index }}">{{ '%count%.items'|trans({'%count%':index})|raw }}</option>
+            {% endfor %}
+        </select>
+    </form>
+{%- endmacro %}

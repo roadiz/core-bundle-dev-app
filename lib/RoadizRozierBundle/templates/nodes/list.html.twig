@@ -2,60 +2,33 @@
 
 {% set mainTitle = mainFilter ~ '.nodes' %}
 
-{% block title %}{{ mainTitle|trans()|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ mainTitle|trans()|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
-
-    <header class="content-header header-node header-nodes-list">
-        <h1 class="content-title">
-            {{ mainTitle|trans()|u.truncate(25, '[…]', true) }}
-        </h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        {# Add node control #}
-        {% if nodeTypes|length %}
-        <div class="content-header-action-menu">
-            {% if mainFilter == 'deleted' %}
-            <a class="uk-button rz-no-ajax-link" href="{{ path('nodesEmptyTrashPage') }}"><i class="uk-icon-trash-o"></i> {% trans %}empty.node.trash{% endtrans %}</a>
-            {% else %}
-            <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
-                <button class="uk-button">
-                <i class="uk-icon-rz-download"></i> {% trans %}export.all.nodes{% endtrans %} <i class="uk-icon-caret-down"></i>
-                </button>
-                <div class="uk-dropdown uk-dropdown-flip uk-dropdown-small">
-                    <ul class="uk-nav uk-nav-dropdown">
-                        {% for translationItem in availableTranslations %}
-                            <li><a class="rz-no-ajax-link" href="{{ path('nodesExportAllCsvPage', {translationId:translationItem.id}) }}"><i class="uk-icon-file-excel-o"></i> {{ 'export_format.csv.%language%'|trans({'%language%':translationItem.name }) }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-
-                <a class="uk-button rz-no-ajax-link" href="{{ path('nodesAddPage', { translationId:translation.getId }) }}"><i class="uk-icon-rz-plus"></i> {% trans %}create.a.node{% endtrans %} </a>
-            {% endif %}
-        </div>
-        {% endif %}
-    </header>
+<rz-bulk-section>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        title: mainTitle|trans()|truncate_title,
+        filters: filters,
+        availableTranslations: availableTranslations,
+        translation: translation,
+        nodeTypes: nodeTypes,
+        mainFilter: mainFilter,
+    } only %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+        delete_form_data: deleteNodesForm|default(null),
+        delete_form_action: path('nodesBulkDeletePage'),
+        delete_form_method: 'post',
+        tagNodesForm: tagNodesForm,
+        statusNodesForm: statusNodesForm,
+    } only %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="nodes content-table uk-table">
-                <thead>
-                {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' with {
-                    'filters': filters
-                } only %}
-                </thead>
-                <tbody>
-                    {% for node in nodes %}
-                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
-                            'node': node
-                        } only %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <article>
+        {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+            selection_available: true,
+            actions_available: true,
+        } %}
     </article>
-</section>
+</rz-bulk-section>
 {% endblock %}

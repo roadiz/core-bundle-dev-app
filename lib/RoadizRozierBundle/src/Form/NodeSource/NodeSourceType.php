@@ -29,7 +29,6 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -153,11 +152,10 @@ final class NodeSourceType extends AbstractType
             FieldType::CUSTOM_FORMS_T => NodeSourceCustomFormType::class,
             FieldType::DATETIME_T => DateTimeType::class,
             FieldType::DATE_T => DateType::class,
-            FieldType::DECIMAL_T => NumberType::class,
+            FieldType::DECIMAL_T, FieldType::INTEGER_T => NumberType::class,
             FieldType::DOCUMENTS_T => NodeSourceDocumentType::class,
             FieldType::EMAIL_T => EmailType::class,
             FieldType::GEOTAG_T, FieldType::MULTI_GEOTAG_T => GeoJsonType::class,
-            FieldType::INTEGER_T => IntegerType::class,
             FieldType::JSON_T => JsonType::class,
             FieldType::MANY_TO_MANY_T, FieldType::MANY_TO_ONE_T => NodeSourceJoinType::class,
             FieldType::MARKDOWN_T => MarkdownType::class,
@@ -216,11 +214,7 @@ final class NodeSourceType extends AbstractType
                 break;
             case FieldType::DATETIME_T:
                 $options = array_merge_recursive($options, [
-                    'date_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'attr' => [
-                        'class' => 'rz-datetime-field',
-                    ],
+                    'html5' => true,
                     'placeholder' => [
                         'hour' => 'hour',
                         'minute' => 'minute',
@@ -229,19 +223,28 @@ final class NodeSourceType extends AbstractType
                 break;
             case FieldType::DATE_T:
                 $options = array_merge_recursive($options, [
-                    'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
-                    'attr' => [
-                        'class' => 'rz-date-field',
-                    ],
+                    'html5' => true,
                     'placeholder' => '',
                 ]);
                 break;
             case FieldType::DECIMAL_T:
+                $options = array_merge_recursive($options, [
+                    'constraints' => [
+                        new Type('numeric'),
+                    ],
+                    'html5' => true,
+                    'scale' => 4,
+                ]);
+                break;
             case FieldType::INTEGER_T:
                 $options = array_merge_recursive($options, [
                     'constraints' => [
                         new Type('numeric'),
+                    ],
+                    'html5' => true,
+                    'scale' => 0,
+                    'attr' => [
+                        'step' => 1,
                     ],
                 ]);
                 break;
@@ -268,13 +271,16 @@ final class NodeSourceType extends AbstractType
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'class' => 'rz-geotag-field',
+                        'no-field-group' => true,
                     ],
                 ]);
                 break;
             case FieldType::MULTI_GEOTAG_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'class' => 'rz-multi-geotag-field',
+                        'class' => 'rz-geotag-field',
+                        'data-multiple' => true,
+                        'no-field-group' => true,
                     ],
                 ]);
                 break;
@@ -316,6 +322,7 @@ final class NodeSourceType extends AbstractType
                     'allow_delete' => true,
                     'attr' => [
                         'class' => 'rz-collection-form-type',
+                        'no-field-group' => true,
                     ],
                     'entry_options' => [
                         'label' => false,
@@ -348,7 +355,7 @@ final class NodeSourceType extends AbstractType
         $devName = '{{ nodeSource.'.$field->getVarName().' }}';
         $options = [
             'label' => $label,
-            'required' => false,
+            'required' => $field->isRequired(),
             'attr' => [
                 'data-field-group' => (null !== $field->getGroupName() && '' != $field->getGroupName()) ?
                     $field->getGroupName() :

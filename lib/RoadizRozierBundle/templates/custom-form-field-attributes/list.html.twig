@@ -4,7 +4,7 @@
 
 {% macro column(type, request) %}
 <tr>
-    <td class="uk-text-bold">{{ type.customFormField.label|trans }}</td>
+    <td class="rz-table__cell--bold">{{ type.customFormField.label|trans }}</td>
     {% if type.customFormField.isCountry  %}
         <td>{{ type.value|country_iso(request.locale) }}</td>
     {% elseif type.customFormField.isDate %}
@@ -26,37 +26,47 @@
 {% block title %}{% trans %}customFormFieldAttribute{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    <header class="content-header header-node-types header-node-types-list">
-        <h1 class="content-title nodes-node-types-title">{% trans %}customFormFieldAttribute{% endtrans %}</h1>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('customFormAnswersHomePage', {'customFormId': customFormId}) }}" title="{% trans %}back_to.customFormAnswers{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i> </a>
-    </header>
+<section>
+    {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+        title: 'customFormFieldAttribute'|trans,
+        with_breadcrumb: true,
+        breadcrumb_parents: [{
+            displayName: customForm.displayName|truncate_title(30),
+            type: 'customFormFields',
+            url: path('customFormAnswersHomePage', {customFormId: customForm.id})
+        }],
+    } only %}
 
-    <article class="content content-no-action-menu content-node-types-list">
+    <article>
+        {% set table_classes = "rz-table rz-table--bordered" %}
         <div class="data-uk-margin metadata-list">
-            <table class="uk-table-condensed uk-table">
+            <table class="{{ table_classes }}">
                 {% for groupName, answers in fields %}
                     {% if answers is iterable %}
                         </table>
-                        <div class="data-uk-margin">
-                            <h3>{{ groupName|trans }}</h3>
-                            <table class="uk-table uk-table-condensed">
-                                {% for type in answers %}
-                                    {{ macro.column(type, app.request) }}
-                                {% endfor %}
-                            </table>
-                        </div>
-                        <table class="uk-table-condensed uk-table">
+
+                        <hr />
+
+                        <h3>{{ groupName|trans }}</h3>
+                        <table class="{{ table_classes }}">
+                            {% for type in answers %}
+                                {{ macro.column(type, app.request) }}
+                            {% endfor %}
+                        </table>
+
+                        <hr />
+
+                        <table class="{{ table_classes }}">
                     {% else %}
                         {{ macro.column(answers, app.request) }}
                     {% endif %}
                 {% endfor %}
                 <tr>
-                    <td class="uk-text-bold">{{ 'ip.address'|trans }}</td>
+                    <td class="rz-table__cell--bold">{{ 'ip.address'|trans }}</td>
                     <td>{{ answer.ip }}</td>
                 </tr>
                 <tr>
-                    <td class="uk-text-bold">{{ 'submitted.date'|trans }}</td>
+                    <td class="rz-table__cell--bold">{{ 'submitted.date'|trans }}</td>
                     <td>{{ answer.submittedAt|format_datetime('full', 'medium', locale=app.request.locale) }}</td>
                 </tr>
             </table>

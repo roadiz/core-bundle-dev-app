@@ -1,0 +1,27 @@
+.rz-brand {
+	box-sizing: border-box;
+	display: flex;
+	min-width: 44px;
+	min-height: 44px;
+	padding: var(--spacing-4xs);
+	justify-content: center;
+	align-items: center;
+	border: none;
+	border-radius: var(--radius-xs, 6px);
+	color: var(--rz-brand-color, var(--content-on-dark-secondary, inherit));
+	background-color: var(--rz-brand-background-color, var(--brand-primary, #2050F5));
+
+	font-family: var(--font-family-os-title);
+	font-size: var(--text-h1-sm-font-size);
+	line-height: var(--text-h1-sm-line-height);
+	letter-spacing: var(--text-h1-sm-letter-spacing);
+	font-weight: var(--text-h1-sm-font-weight);
+
+	&:where(button) {
+		cursor: pointer;
+	}
+
+	[class*="rz-icon-"] {
+		font-size: 20px;
+	}
+}

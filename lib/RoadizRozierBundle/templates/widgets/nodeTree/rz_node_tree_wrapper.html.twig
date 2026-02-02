@@ -1,0 +1,44 @@
+{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
+    has_header: mainNodeTree,
+    title: 'aside.node_tree.title'|trans,
+    display_translations: mainNodeTree,
+    tree: nodeTree,
+	mainNodeTree: mainNodeTree,
+    linkedTypes: linkedTypes,
+    tree_type: 'node',
+} only %}
+
+    {% block head_button %}
+        {% if tree is defined %}
+            {{ _self.button({
+                icon: 'rz-icon-ri--add-line',
+                label: not tree.rootNode ? 'add.a.node'|trans : 'add.child.node'|trans,
+                attributes: {
+                    href: not tree.rootNode ?
+                        path('nodesAddPage', { translationId: tree.translation.id })
+                        : path('nodesAddChildPage', { nodeId : tree.rootNode.id }),
+                }
+            }) }}
+        {% endif %}
+    {% endblock %}
+
+    {% block after_title %}
+        <a
+            class="see-all-root-tree"
+            data-uk-tooltip="{animation:true}"
+            title="{% trans %}see_all{% endtrans %}"
+            href="{{ path('nodesMainTreePage', { translationId: tree.translation.id }) }}"
+        >
+            <span class="rz-icon-ri--search-line"></span>
+        </a>
+    {% endblock %}
+
+    {% block tree_content %}
+		{% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+			nodeTree: tree,
+			mainNodeTree: mainNodeTree,
+			linkedTypes: linkedTypes,
+		} %}
+    {% endblock %}
+
+{% endembed %}

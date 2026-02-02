@@ -1,0 +1,29 @@
+{% macro header(icon, title, button) %}
+	<div class="rz-dashboard__panel__header">
+		{% if icon %}
+			<span class="{{ icon }}"></span>
+		{% endif %}
+
+		{% if title %}
+			<h3 class="rz-dashboard__panel__title">{{ title }}</h3>
+		{% endif %}
+
+		{% if button %}
+		    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+			{{ rz_button.root(button|merge({ class: 'rz-dashboard__header__button'})) }}
+		{% endif %}
+	</div>
+{% endmacro %}
+
+{% set type_class = 'rz-dashboard__panel--' ~ type|default('default') %}
+
+<div
+	class="rz-dashboard__panel {{ type_class }}"
+	{% if id %}id="{{ id }}"{% endif %}
+>
+	{% block header %}
+		{{ _self.header(icon, title, button) }}
+	{% endblock %}
+
+	{% block content %}{% endblock %}
+</div>

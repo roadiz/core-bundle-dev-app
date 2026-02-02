@@ -4,50 +4,65 @@
 
 {% block content %}
     <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/node-types/head.html.twig' with {
+            title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName}),
+            with_breadcrumb: true,
+            item: nodeType,
+        } only %}
 
-        <header class="content-header header-node-type-fields header-node-type-fields-list">
-            <h1 class="content-title">{{ "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName}) }}</h1>
-            <a class="content-header-nav-back uk-navbar-content" href="{{ path('nodeTypesHomePage') }}" title="{% trans %}back_to.nodeTypes{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i> </a>
-        </header>
+        <article>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                selection_available: false,
+                actions_available: true,
+                fields: fields,
+                nodeType: nodeType,
+            } only %}
+                {% block thead_cells %}
+                    <th>{% trans %}name{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}label{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}status{% endtrans %}</th>
+                {% endblock %}
 
-        <article class="content content-no-action-menu">
-            <div class="content-table-cont">
-                <table class="node-type-fields content-table uk-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans %}name{% endtrans %}</th>
-                        <th class="mobile-hidden">{% trans %}label{% endtrans %}</th>
-                        <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
-                        <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
-                        <th class="mobile-hidden">{% trans %}status{% endtrans %}</th>
-                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody class="uk-sortable">
+                {% block tbody_content %}
                     {% for field in fields %}
-                        <tr class="node-type-field-row" data-position="{{ field.position }}">
-                            <td class="node-type-field-col-1">{{- field.name -}}</td>
+                        <tr data-position="{{ field.position }}">
+                            <td>{{- field.name -}}</td>
                             <td class="mobile-hidden">{{ field.label }}</td>
                             <td class="mobile-hidden">{{ field.typeName|trans }}</td>
                             <td class="mobile-hidden">{{ field.groupName|trans }}</td>
                             <td class="mobile-hidden">
-                                {% if not field.Visible %}<i title="{{ 'invisible'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-eye-slash"></i>{% endif %}
-                                {% if field.Universal %}<i title="{{ 'universal'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-flag"></i>{% endif %}
-                                {% if field.Indexed %}<i title="{{ 'indexed'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-filter"></i>{% endif %}
+                                {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
+                                {% if not field.visible %}
+                                    {{ rz_node_badge.item('hidden', false) }}
+                                {% endif %}
+                                {% if field.universal %}
+                                    {{ rz_node_badge.item('universal', false) }}
+                                {% endif %}
+                                {% if field.indexed %}
+                                    {{ rz_node_badge.item('indexed', false) }}
+                                {% endif %}
                             </td>
-                            <td class="table-actions-row">
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': nodeType.name, 'nodeTypeFieldName': field.name }) }}"
-                                   title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}">
-                                    <i class="uk-icon-pencil"></i>
-                                </a>
-                            </td>
+                            {% if actions_available %}
+                                <td>
+                                    {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+                                        {% block other_actions %}
+                                            {{ _self.button({
+                                                icon: 'rz-icon-ri--edit-line',
+                                                attributes: {
+                                                    href: path('nodeTypeDecoratorsAddPage', {'nodeTypeName': nodeType.name, 'nodeTypeFieldName': field.name }),
+                                                    title: 'add.a.nodeTypeDecorator'|trans,
+                                                }
+                                            }) }}
+                                        {% endblock %}
+                                    {% endembed %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endblock %}
+            {% endembed %}
         </article>
     </section>
 {% endblock %}

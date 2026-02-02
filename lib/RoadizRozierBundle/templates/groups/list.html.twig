@@ -4,69 +4,91 @@
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
+    {% include '@RoadizRozier/groups/head.html.twig' with {
+        title: 'groups'|trans,
+        filters: filters,
+        buttons: [
+            {
+                label: 'add.a.group'|trans,
+                attributes: {
+                    href: path('groupsAddPage'),
+                },
+                icon: 'rz-icon-ri--add-line',
+            },
+            {
+                label: 'import.group'|trans,
+                attributes: {
+                    href: path('groupsImportPage'),
+                },
+                icon: 'rz-icon-ri-upload-line',
+            },
+            {
+                label: 'export.all.groups'|trans,
+                attributes: {
+                    href: path('groupsExportAllPage'),
+                },
+                icon: 'rz-icon-ri-download-line',
+            },
+        ]
+    } only %}
 
-    <header class="content-header header-group header-group-list">
-        <h1 class="content-title group-list-title">{% trans %}groups{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('groupsAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.group{% endtrans %}</a>
-            <a class="uk-button" href="{{ path('groupsImportPage') }}"><i class="uk-icon-rz-upload"></i> {% trans %}import.group{% endtrans %}</a>
-            <a class="uk-button rz-no-ajax-link" href="{{ path('groupsExportAllPage') }}"><i class="uk-icon-rz-download"></i> {% trans %}export.all.groups{% endtrans %}</a>
-        </div>
-    </header>
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+        items: items
+    }  only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-    <article class="content content-no-action-menu">
+    <article>
         <div class="content-table-cont">
-            <table class="groups content-table uk-table">
-                <thead>
-                    <tr>
-                        <th>
-                            {% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden">{% trans %}roles{% endtrans %}</th>
-                        <th class="mobile-hidden">{% trans %}users{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                        {% if is_granted(item) %}
-                            <tr>
+         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+            items: items,
+        } only %}
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'name',
+                        'filters': filters,
+                        'label': 'name'|trans,
+                        'column_ordering_class': column_ordering_class,
+                    } only %}
+                </th>
+                <th class="mobile-hidden">{% trans %}roles{% endtrans %}</th>
+                <th class="mobile-hidden">{% trans %}users{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for item in items %}
+                    {% if is_granted(item) %}
+                        <tr>
+                            <td>
+                                {% if not item.required %}<a href="{{ path('groupsEditPage', { id: item.id }) }}">{{ item.name }}</a>{% else %}
+                                    {{ item.name }}{% endif %}
+                            </td>
+                            <td class="mobile-hidden">
+                                {% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
+                            </td>
+                            <td class="mobile-hidden">
+                                {% transchoice item.users|length %}{0} no.user|{1} 1.user|]1,Inf] %count%.users{% endtranschoice %}
+                            </td>
+                            {% if actions_available %}
                                 <td>
-                                    {% if not item.required %}<a href="{{ path('groupsEditPage', { id: item.id }) }}">{{ item.name }}</a>{% else %}
-                                        {{ item.name }}{% endif %}
-                                </td>
-                                <td class="mobile-hidden">
-                                    {% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
-                                </td>
-                                <td class="mobile-hidden">
-                                    {% transchoice item.users|length %}{0} no.user|{1} 1.user|]1,Inf] %count%.users{% endtranschoice %}
-                                </td>
-                                <td class="table-actions-row">
                                     {% if not item.required %}
-                                        <div class="uk-button-group">
-                                            {% if is_granted(item) %}
-                                                <a class="uk-button uk-button-content uk-button-small"
-                                                   href="{{ path('groupsEditPage', { id: item.id }) }}"
-                                                   title="{% trans %}edit{% endtrans %}"
-                                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                            {% endif %}
-                                            <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                                               href="{{ path('groupsExportPage', { id: item.id }) }}"
-                                               title="{% trans %}export{% endtrans %}"
-                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
-                                            {% if is_granted(item) %}
-                                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                                   href="{{ path('groupsDeletePage', { id: item.id }) }}"
-                                                   title="{% trans %}delete{% endtrans %}"
-                                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                            {% endif %}
-                                        </div>
+                                        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                            'edit_href': is_granted(item) ? path('groupsEditPage', { id: item.id }) : null,
+                                            'delete_href': is_granted(item) ? path('groupsDeletePage', { id: item.id }) : null,
+                                        } %}
+                                            {% block other_actions %}
+                                                {{ _self.button({
+                                                    icon: 'uk-icon-rz-download',
+                                                    attributes: {
+                                                        href: path('groupsExportPage', { id: item.id }),
+                                                        title: 'export'|trans,
+                                                    }
+                                                }) }}
+                                            {% endblock %}
+                                        {% endembed %}
                                     {% else %}
                                         <div class="uk-badge uk-badge-table">
                                             <span class="uk-icon-rz-lock"></span>
@@ -74,12 +96,12 @@
                                         </div>
                                     {% endif %}
                                 </td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 </section>
 {% endblock %}

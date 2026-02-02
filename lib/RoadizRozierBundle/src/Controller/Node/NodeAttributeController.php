@@ -307,11 +307,22 @@ final class NodeAttributeController extends AbstractController
             ]);
         }
 
-        return $this->render('@RoadizRozier/nodes/attributes/delete.html.twig', [
-            'item' => $attributeValue,
-            'source' => $nodeSource,
-            'translation' => $translation,
-            'node' => $node,
+        $title = $this->translator->trans(
+            'delete.attribute.%name%.for_node.%nodeName%',
+            [
+                '%name%' => $attributeValue->getAttribute()?->getLabelOrCode($translation),
+                '%nodeName%' => $node->getNodeName(),
+            ]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesEditAttributesPage', [
+                'nodeId' => $node->getId(),
+                'translationId' => $translation->getId(),
+            ]),
+            'alertMessage' => 'are_you_sure.delete_value.attribute',
             'form' => $form->createView(),
         ]);
     }

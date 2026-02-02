@@ -1,0 +1,58 @@
+{% set type_prefix = tree_type|default('node') %}
+{% set root_classes = ['rz-tree-wrapper', 'tree-widget', type_prefix ~ '-tree-widget'] %}
+<div class="{{ root_classes|join(' ') }}">
+    {% if not tree %}
+		{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+		{{ rz_button.root({
+			tagName: 'div',
+			label: 'loading'|trans,
+			emphasis: 'secondary',
+			size: 'md',
+			iconClass: 'rz-spinner',
+			class: 'rz-aside__loading-button',
+			attributes: {
+				'aria-live': 'polite',
+				'role': 'status',
+			}
+		}) }}
+    {% else %}
+
+		{% if has_header is defined and has_header %}
+			<div class="rz-aside__head">
+				<span class="{{ icon|default('rz-icon-ri--node-tree') }}"></span>
+
+				<h2 class="rz-aside__title">
+					{{ title|default('rz_aside.title'|trans) }}
+					{% block after_title %}{% endblock %}
+				</h2>
+
+				{% block head_button %}{% endblock %}
+			</div>
+		{% endif %}
+
+		{% if display_translations %}
+			{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
+				tree: tree,
+				type_prefix: type_prefix,
+				classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
+			} only %}
+		{% endif %}
+
+		{% set tree_wrapper_classes = ['rz-tree', 'rz-tree--' ~ type_prefix ] %}
+		{% set tree_id =  tree.id ?? tree.parentNode.id ?? tree.rootTag.id ?? tree.rootFolder.id ?? 'root' %}
+	    <rz-tree
+	        class="{{ tree_wrapper_classes|join(' ') }}"
+	        group="{{ type_prefix }}Tree"
+	        data-entity-type="{{ type_prefix }}"
+	        data-is-sortable="{{ tree.canReorder ? 'true' : 'false' }}"
+	        id="{{ type_prefix ~ '-' ~ tree_id }}"
+	    >
+			{% block tree_content %}{% endblock %}
+        </rz-tree>
+    {% endif %}
+</div>
+
+{% macro button(options) %}
+	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+	{{ rz_button.root(options|merge({ size: 'sm', class: 'rz-aside__button' })) }}
+{% endmacro %}

@@ -1,13 +1,12 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global content-node-remove-tag">
-
-    <header class="content-header header-node header-node-remove-tag">
-         <h1 class="content-title node-remove-tag-title">{{ "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|u.truncate(25, '[…]', true) }}</h1>
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        title: "unlink.tag.%name%"|trans({'%name%': tag.getTranslatedTags.first.getName})|truncate_title,
+    } only %}
 
     <article class="content content-delete content-remove-tag">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

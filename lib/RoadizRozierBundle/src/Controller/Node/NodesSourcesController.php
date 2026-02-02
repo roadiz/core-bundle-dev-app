@@ -261,8 +261,14 @@ final class NodesSourcesController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/nodes/deleteSource.html.twig', [
-            'nodeSource' => $ns,
+        $title = $this->translator->trans('delete.translation');
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'subtitle' => $ns->getTitle().' - '.$ns->getTranslation()->getName(),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $ns->getNode()->getId()]),
+            'alertMessage' => 'are_you_sure.delete.nodeSource',
             'form' => $form->createView(),
         ]);
     }

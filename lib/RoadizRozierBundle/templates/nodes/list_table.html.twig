@@ -1,0 +1,93 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+    nodes: nodes,
+    selection_available: selection_available,
+    actions_available: actions_available,
+} only %}
+    {% block thead_cells %}
+        <th>
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'nodeName',
+                label: 'nodeName'|trans,
+                column_ordering_class: column_ordering_class,
+            } %}
+        </th>
+        <th>
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'nodeTypeName',
+                label: 'node.type'|trans,
+                column_ordering_class: column_ordering_class,
+            } %}
+        </th>
+        <th>
+            {% trans %}node.status{% endtrans %}
+        </th>
+        <th>
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'updatedAt',
+                label: 'last.modification'|trans,
+                column_ordering_class: column_ordering_class,
+            } %}
+        </th>
+    {% endblock %}
+
+    {% block tbody_content %}
+        {% for node in nodes %}
+            <tr
+                {{ _self.colored_row_attrs({'color': getNodeType(node).color }) }}
+            >
+                {% if selection_available %}
+                    <td>
+                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                        {{ rz_bulk.select_input({ value: node.id }) }}
+                    </td>
+                {% endif %}
+                <td class="nodes-list-item-link">
+                    <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}" class="rz-table__cell--flex">
+                        <rz-entity-thumbnail
+                            class="mobile-hidden uk-visible-large"
+                            entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
+                            entity-id="{{ node.id }}"
+                        >
+                        </rz-entity-thumbnail>
+                        <span class="rz-table__cell--ellipsis">
+                            {{ node.nodeSources.first.title|default(node.nodeName) }}
+                        </span>
+                    </a>
+                </td>
+                <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
+                <td class="mobile-hidden uk-visible-large">
+                    {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+                    {{ rz_node_badge.all(node, { display_label: false }) }}
+                </td>
+                <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
+                {% if actions_available %}
+                    <td>
+                        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            'edit_href': path('nodesEditPage', { nodeId: node.id }),
+                            'delete_href': workflow_can(node, 'delete') ? path('nodesDeletePage', { nodeId: node.id }) : null,
+                        } %}
+                            {% block other_actions %}
+                                {{ _self.button({
+                                    icon: 'uk-icon-rz-node-tree-mini',
+                                    attributes: {
+                                        href: path('nodesTreePage', { nodeId: node.id }),
+                                        title: 'see.nodetree'|trans,
+                                    }
+                                }) }}
+                                {% if workflow_can(node, 'undelete') %}
+                                    {{ _self.button({
+                                        icon: 'uk-icon-rz-untrash',
+                                        attributes: {
+                                            href: path('nodesUndeletePage', { nodeId: node.id }),
+                                            title: 'undelete'|trans,
+                                        }
+                                    })}}
+                                {% endif %}
+                            {% endblock %}
+                        {% endembed %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

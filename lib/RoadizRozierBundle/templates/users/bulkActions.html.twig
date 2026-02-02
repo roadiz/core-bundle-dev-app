@@ -1,0 +1,40 @@
+{% embed "@RoadizRozier/widgets/rz_bulk_actions.html.twig" %}
+	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+	{% block other_actions %}
+        {% if bulkEnableForm %}
+            {% form_theme bulkEnableForm '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(bulkEnableForm) }}
+                {{ form_widget(bulkEnableForm, { attr: { style: 'display: none;' }}) }}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: "bulk.enable"|trans,
+                    },
+                    emphasis: 'primary',
+                    color: 'success',
+                    icon: 'rz-icon-ri--check-line',
+                }) }}
+            {{ form_end(bulkEnableForm) }}
+        {% endif %}
+
+        {% if bulkDisableForm %}
+            {% form_theme bulkDisableForm '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(bulkDisableForm) }}
+                {{ form_widget(bulkDisableForm, { attr: { style: 'display: none;' }}) }}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: "bulk.disable"|trans,
+                        'data-tab-controls': users_panel_id,
+                        'data-tab-panel-active-class': 'rz-bulk-actions__group--visible',
+                        'data-tab-active-class': 'rz-button--selected',
+                    },
+                    color: 'success',
+                    emphasis: 'primary',
+                    icon: 'rz-icon-ri--close-line',
+                }) }}
+            {{ form_end(bulkDisableForm) }}
+        {% endif %}
+	{% endblock %}
+{% endembed %}

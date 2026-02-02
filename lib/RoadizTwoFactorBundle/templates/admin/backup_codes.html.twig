@@ -1,12 +1,9 @@
 {% extends "@RoadizRozier/admin/base.html.twig" %}
 
-{%- block content_title -%}{% trans %}two_factor_backup_codes{% endtrans %}{%- endblock -%}
-
-{%- block content_header_nav -%}
-    <a class="content-header-nav-back uk-navbar-content"
-       href="{{ path('2fa_admin_two_factor') }}"
-       title="{% trans %}back_to.two_factor{% endtrans %}"
-       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'two_factor_backup_codes'|trans,
+    } only %}
 {%- endblock -%}
 
 {%- block content_body -%}

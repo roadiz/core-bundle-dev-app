@@ -1,34 +1,58 @@
-<nav data-action-menu class="actions-menu uk-navbar">
-    {% if versions and versions|length > 1 %}
-        <div role="button" tabindex="0" class="node-actions with-subnav mobile-hidden">
-            <header><i class="uk-icon-code-fork"></i><span class="label"><span class="label-text">{% trans %}versions{% endtrans %}</span></span></header>
-            <nav class="versions-nav">
-                <a class="uk-button{% if not currentVersion %} uk-active{% endif %}" href="{{ path('tagsEditTranslatedPage', {
-                    tagId: tag.id,
-                    translationId: translation.id
-                }) }}">{% trans %}versions.working_copy{% endtrans %}</a>
-                {% for version in versions %}
-                    {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
-                        {% include '@RoadizRozier/widgets/versionItem.html.twig' with {
-                            version: version,
-                            currentVersion: currentVersion,
-                            url: path('tagsEditTranslatedPage', {
-                                tagId: tag.id,
-                                translationId: translation.id,
-                                version: version.version
-                            })
-                        } only %}
-                    {% endif %}
-                {% endfor %}
-            </nav>
-        </div>
-    {% endif %}
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+    vertical: true,
+    class: 'actions-menu',
+    versions: versions,
+    currentVersion: currentVersion,
+    tag: tag,
+    translation: translation,
+    readOnly: readOnly,
+    loop: loop,
+    max_versions_showed: max_versions_showed
+} only %}
+    {% block items %}
+        {% if versions and versions|length > 1 %}
+            <rz-popover popover-placement="left-start" popover-offset="18px">
+                <button popovertarget="version-menu"
+                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
+                        aria-label="{% trans %}versions{% endtrans %}">
+                    <span class="rz-button__icon rz-icon-ri--git-fork-line"></span>
+                </button>
 
-    {# Delete current node #}
-    {% if tag.id and (is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked and not readOnly) %}
-    <a class="uk-button uk-button-danger" href="{{ path('tagsDeletePage', { tagId: tag.getId}) }}">
-        <span class="icon-container"><i class="uk-icon-rz-trash-o"></i></span>
-        <span class="label"><span class="label-text">{% trans %}delete{% endtrans %}</span></span>
-    </a>
-    {% endif %}
-</nav>
+                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                    title: 'versions',
+                    reverse: true,
+                    targetId: 'version-menu'
+                } %}
+                    {% block items %}
+                        {{ _self.item({
+                            label: 'versions.working_copy',
+                            href: path('tagsEditTranslatedPage', {
+                                tagId: tag.id,
+                                translationId: translation.id
+                            }),
+                            selected: not currentVersion,
+                        }) }}
+                        {% for version in versions %}
+                            {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
+                                {{ _self.item({
+                                    label: version.loggedAt|format_datetime('short', 'short', locale=app.request.locale),
+                                    description: version.username,
+                                    href: path('tagsEditTranslatedPage', {
+                                        tagId: tag.id,
+                                        translationId: translation.id,
+                                        version: version.version
+                                    }),
+                                    selected: currentVersion and currentVersion.id == version.id,
+                                }) }}
+                            {% endif %}
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            </rz-popover>
+        {% endif %}
+
+        {% if tag.id and (is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked and not readOnly) %}
+            {{ _self.deleteItem(href: path('tagsDeletePage', { tagId: tag.getId })) }}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

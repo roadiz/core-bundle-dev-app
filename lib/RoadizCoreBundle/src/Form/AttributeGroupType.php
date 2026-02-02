@@ -30,7 +30,8 @@ final class AttributeGroupType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
-                        'class' => 'uk-form uk-form-horizontal',
+                        'class' => 'rz-fieldset--horizontal rz-fieldset',
+                        'no-field-group' => true,
                     ],
                 ],
                 'attr' => [
@@ -43,6 +44,9 @@ final class AttributeGroupType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', AttributeGroup::class);
+        $resolver->setDefaults([
+            'data_class' => AttributeGroup::class,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
     }
 }

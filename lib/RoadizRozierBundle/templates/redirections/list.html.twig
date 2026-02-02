@@ -7,41 +7,34 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="bulk-layout content-global content-nav-and-filters">
-    <header class="content-header header-redirection header-redirection-list">
-        <h1 class="content-title redirection-title">{% trans %}manage.redirections{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <nav>
-                <a class="uk-button"
-                   href="{{ path('redirectionsAddPage') }}">
-                    <i class="uk-icon-rz-plus"></i> {% trans %}add.a.redirection{% endtrans %}
-                </a>
-            </nav>
-        </div>
-    </header>
+    <rz-bulk-section>
+        {% include '@RoadizRozier/redirections/head.html.twig' with {
+            title: 'manage.redirections'|trans,
+            filters: filters,
+            buttons: [{
+                label: 'add.a.redirection'|trans,
+                attributes: {
+                    href: path('redirectionsAddPage'),
+                },
+                icon: 'rz-icon-ri--add-line'
+            }]
+        } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-    {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
-    <article class="content content-no-action-menu content-node-types-list">
-        <div class="content-table-cont">
-            <table class="content-table redirections uk-table">
-                <thead>
-                    <tr>
-                        {% include '@RoadizRozier/redirections/redirection_row_header.html.twig' %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/redirections/redirection_row.html.twig' %}
-                    </tr>
-                    {% else %}
-                        <tr><td colspan="5">{% trans %}no_redirections{% endtrans %}</td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
-</section>
+        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+            filters: filters,
+            display_select_all_button: true,
+        }  only %}
+
+        {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+
+        <article>
+            {% include '@RoadizRozier/redirections/list_table.html.twig' with {
+                items: items,
+                filters: filters,
+                actions_available: true,
+                selection_available: hasBulkActions,
+            } only %}
+        </article>
+
+    </rz-bulk-section>
 {% endblock %}

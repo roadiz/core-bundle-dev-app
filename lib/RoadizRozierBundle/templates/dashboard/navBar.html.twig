@@ -1,12 +1,26 @@
-<nav class="navbar-navigation dashboard-navigation uk-navbar">
-    <ul class="uk-navbar-nav">
-        <li class="uk-navbar-item{% if current == 'dashboard' %} uk-active{% endif %}">
-            <a class="uk-navbar-link" href="{{ path('adminHomePage') }}">{% trans %}dashboard{% endtrans %}</a>
-        </li>
-        {%- if is_granted('ROLE_ACCESS_LOGS') -%}
-            <li class="uk-navbar-item{% if current == 'history' %} uk-active{% endif %}" >
-                <a class="uk-navbar-link" href="{{ path('historyHomePage') }}">{% trans %}history{% endtrans %}</a>
-            </li>
-        {%- endif -%}
-    </ul>
-</nav>
+{%
+    set listItems = [
+    [
+        {
+            'name': 'dashboard',
+            'label': 'dashboard',
+            'href': path('adminHomePage'),
+        },
+        is_granted('ROLE_ACCESS_LOGS') ? {
+            'name': 'history',
+            'label': 'history',
+            'href': path('historyHomePage'),
+        } : null,
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}
+

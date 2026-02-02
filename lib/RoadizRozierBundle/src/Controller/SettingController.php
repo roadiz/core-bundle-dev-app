@@ -321,8 +321,16 @@ final class SettingController extends AbstractController
             }
         }
 
-        return $this->render('@RoadizRozier/settings/delete.html.twig', [
-            'setting' => $setting,
+        $title = $this->translator->trans(
+            'delete.setting.%name%',
+            ['%name%' => $setting->getName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/settings/head.html.twig',
+            'cancelPath' => $this->generateUrl('settingsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.setting',
             'form' => $form->createView(),
         ]);
     }

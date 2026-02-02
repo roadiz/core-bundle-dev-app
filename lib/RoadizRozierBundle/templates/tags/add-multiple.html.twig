@@ -1,4 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
 {%- block title -%}
     {% trans %}add.multiple.tags{% endtrans %}
@@ -8,22 +9,31 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-tags header-tags-add">
-        <h1 class="content-title nodes-list-title">{% trans %}add.multiple.tags{% endtrans %}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"tag": tag, "current": 'add-multiple'} only %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: 'add.multiple.tags'|trans,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'add-multiple',
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-tags-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'add-tag-form'}}) }}
         {{ form_widget(form) }}
-        <fieldset data-uk-margin>
-            <button data-action-save="#add-tag-form"
-                    class="uk-button uk-button-primary "
-                    type="submit"><i class="uk-icon-rz-plus"></i> {% trans %}add_all{% endtrans %}</button>
-        </fieldset>
+        <div class="rz-form-field rz-form-field--align-start">
+            {{
+                rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        'data-action-save': '#add-tag-form',
+                    },
+                    emphasis: 'primary',
+                    label: 'add_all',
+                    icon: 'rz-icon-ri--add-line',
+                })
+            }}
+        </div>
         {{ form_end(form) }}
     </article>
 

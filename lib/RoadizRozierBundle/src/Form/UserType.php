@@ -58,7 +58,7 @@ class UserType extends AbstractType
             'username' => '',
             'data_class' => User::class,
             'attr' => [
-                'class' => 'uk-form user-form',
+                'class' => 'rz-form user-form',
             ],
         ]);
     }

@@ -1,0 +1,117 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+	{% block thead_cells %}
+		<th>
+			{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+				'field': 'displayName',
+				'filters': filters,
+				'label': 'customForm.displayName'|trans,
+				'column_ordering_class': column_ordering_class,
+			} only %}
+		</th>
+		<th>
+			{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+				'field': 'createdAt',
+				'filters': filters,
+				'label': 'createdAt'|trans,
+				'column_ordering_class': column_ordering_class,
+			} only %}
+		</th>
+		<th></th>
+		<th>
+			{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+				'field': 'closeDate',
+				'filters': filters,
+				'label': 'customForm.closeDate'|trans,
+				'column_ordering_class': column_ordering_class,
+			} only %}
+		</th>
+	{% endblock %}
+
+	{% block tbody_content %}
+        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+		{% for item in items %}
+			<tr
+				{{ _self.colored_row_attrs({'color': item.color }) }}
+			>
+				{% if selection_available %}
+				<td>
+					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+					{{ rz_bulk.select_input({ value: item.id }) }}
+				</td>
+				{% endif %}
+				<td>
+					{{ rz_link.root({
+						label: item.displayName,
+						attributes: {
+							href: path('customFormsEditPage', { id: item.getId }),
+						},
+					}) }}
+				</td>
+				<td>{{ item.createdAt|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
+				<td>{{ item.closeDate|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
+				<td>
+					<div class="rz-badge">{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers{% endtranschoice %}</div>
+				</td>
+				{% if actions_available %}
+					<td>
+						{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+							'edit_href': path('customFormsEditPage', { id: item.getId }),
+							'delete_href': path('customFormsDeletePage', { id: item.getId }),
+						} %}
+							{% block other_actions %}
+								{{ _self.button({
+									icon: 'uk-icon-rz-custom-form-fields',
+									attributes: {
+										href: path('customFormFieldsListPage', { customFormId: item.getId }),
+										title: 'manage.customFormFields'|trans,
+									}
+								}) }}
+
+								{{ _self.button({
+									icon: 'uk-icon-rz-custom-form-answers',
+									attributes: {
+										href: path('customFormAnswersHomePage', { customFormId: item.getId }),
+										title: 'customForm.answers'|trans,
+									}
+								}) }}
+
+								{{ _self.button({
+									icon: 'uk-icon-rz-visibility',
+									attributes: {
+										href: path('customFormSendAction', { customFormId: item.getId }),
+										title: 'customForm.show'|trans,
+									}
+								}) }}
+
+								{{ _self.button({
+									icon: 'uk-icon-rz-duplicate',
+									attributes: {
+										href: path('customFormsDuplicatePage', { id: item.getId }),
+										title: 'customForm.duplicate'|trans,
+									}
+								}) }}
+
+								{{ _self.button({
+									icon: 'uk-icon-rz-download',
+									attributes: {
+										href: path('customFormsExportPage', { id: item.getId }),
+										title: 'export'|trans,
+									}
+								}) }}
+							{% endblock %}
+						{% endembed %}
+					</td>
+				{% endif %}
+			</tr>
+		{% else %}
+			{% set colspan = 3 %}
+			{% if actions_available %}
+				{% set colspan = colspan + 1 %}
+			{% endif %}
+			{% if selection_available %}
+				{% set colspan = colspan + 1 %}
+			{% endif %}
+			<tr><td colspan="{{ colspan }}">{% trans %}no_custom_forms{% endtrans %}</td></tr>
+		{% endfor %}
+	{% endblock %}
+{% endembed %}

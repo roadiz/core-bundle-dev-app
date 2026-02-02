@@ -1,52 +1,49 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ customForm.displayName|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global manage-custom-form">
+    <section>
+        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+            title: customForm.displayName,
+            current: 'usage',
+            type: customForm,
+            with_nav_bar: true,
+            with_breadcrumb: true,
+        } only %}
 
-        <header class="content-header header-custom-form header-custom-form-edit">
-            <h1 class="content-title custom-form-edit-title">{{ customForm.displayName|u.truncate(25, '[…]', true) }}</h1>
-            {% include '@RoadizRozier/custom-forms/navBar.html.twig' with {
-                type: customForm,
-                current:'usage'
+        <article>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                actions_available: true,
             } %}
-        </header>
-        {# usages #}
+                {% block thead_cells %}
+                    <th>{% trans %}title{% endtrans %}</th>
+                    <th>{% trans %}usage.fieldName{% endtrans %}</th>
+                {% endblock %}
 
-        <article class="content content-no-action-menu">
-                <div class="content-table-cont">
-                    <h3>{% trans %}nodes{% endtrans %}</h3>
-                    <table class="content-table uk-table">
-                        <thead>
+                {% block tbody_content %}
+                    {% for usage in usages %}
+                    {% set source = usage.node.nodeSources.first %}
+                    {% set nodeHref = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id}) %}
+                    {% set nodeName = source.title ? source.title : source.node.nodeName %}
                         <tr>
-                            <th>{% trans %}title{% endtrans %}</th>
-                            <th>{% trans %}usage.fieldName{% endtrans %}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for usage in usages %}
-                            {% set source = usage.node.nodeSources.first %}
-                            {% set field = usage.fieldName %}
-                            <tr>
+                            <td>
+                                <a href="{{ nodeHref }}">{{ nodeName }}</a>
+                            </td>
+                            <td>{{ usage.fieldName }}</td>
+                            {% if actions_available %}
                                 <td>
-                                    <a href="{{ path('nodesEditSourcePage', {
-                                        nodeId: source.node.id,
-                                        translationId: source.translation.id
-                                    }) }}">
-                                        {% if source.title %}
-                                            {{ source.title }}
-                                        {% else %}
-                                            {{ source.node.nodeName }}
-                                        {% endif %}
-                                    </a>
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': nodeHref,
+                                        'edit_icon': 'rz-icon-ri--eye-line',
+                                        'edit_title': 'view.node'|trans,
+                                    } only %}
                                 </td>
-                                <td>{{ field }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
         </article>
     </section>
 {% endblock %}

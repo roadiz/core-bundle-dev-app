@@ -70,7 +70,7 @@ class TagType extends AbstractType
             'tagName' => '',
             'data_class' => Tag::class,
             'attr' => [
-                'class' => 'uk-form tag-form',
+                'class' => 'rz-form tag-form',
             ],
         ]);
 

@@ -1,0 +1,15 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [
+        {
+            label: 'settingGroups.homepage'|trans,
+            type: 'listing',
+            url: path('settingGroupsHomePage'),
+        }
+    ] %}
+    {% set breadcrumb = {
+        label: 'settingGroup-breadcrumb',
+        parent: parents,
+        current: title
+    } %}
+{% endif %}
+{% include "@RoadizRozier/admin/head.html.twig" %}

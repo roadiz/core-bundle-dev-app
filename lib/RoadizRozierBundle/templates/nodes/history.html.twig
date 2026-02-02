@@ -4,25 +4,27 @@
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
-    <header class="content-header content-header-filters manage-history-header">
-        <h1 class="content-title manage-history-title">{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "history.for.%name%"|trans({"%name%":node.nodeName}),
+        current: 'history',
+        filters: filters,
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
+    } only %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+    }  only %}
 
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {current:'history'} %}
-    </header>
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-
-    <article class="content content-no-action-menu content-manage-history">
-        <div class="history-logs">
-            {% for log in entries %}
-                {% include '@RoadizRozier/modules/history-item.html.twig' with {
-                    'levels': levels,
-                    'log': log
-                } only %}
-            {% endfor %}
-        </div>
+    <article>
+        {% include '@RoadizRozier/history/list_table.html.twig' with {
+            levels: levels,
+            log_list: entries
+        } only %}
     </article>
+
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
 </section>
 {% endblock %}

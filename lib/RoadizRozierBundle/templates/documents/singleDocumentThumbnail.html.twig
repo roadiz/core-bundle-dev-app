@@ -1,45 +1,86 @@
-<div class="document-item" data-uk-tooltip="{animation:true, pos:'bottom'}" title="{{ document.filename }}">
-    <div class="document-border"></div>
-    <figure class="document-image">
-        {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
-            {{ document|display(thumbnailFormat|merge({
-                align: document.imageCropAlignment,
-                hotspot: document.hotspotAsString,
-            })) }}
-        {% endif %}
-        {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
-            <div class="document-platform-icon"><i class="uk-icon-file-{{ document.shortType }}-o"></i></div>
-        {% endif %}
-    </figure>
-    <div class="document-name">{{ document|centralTruncate(18, -4) }}</div>
-    <div class="document-overflow">
-        {% if controls %}
-        <div class="bulk-selection">
-            <input class="document-checkbox" type="checkbox" name="bulk-selection[]" value="{{ document.id }}" />
-        </div>
-        <div class="document-links">
-            <a class="uk-button uk-button-small document-link"
-               href="{{ path('documentsEditPage', { documentId: document.id }) }}"><i class="uk-icon-rz-pencil"></i></a>
-            <a class="uk-button uk-button-small uk-button-danger document-link"
-               href="{{ path('documentsDeletePage', { documentId: document.id }) }}"><i class="uk-icon-trash-o"></i></a>
-        </div>
-        {% endif %}
-        {% if document.isEmbed %}
-            {% set iconName = (document|embedFinder).shortType|default(document.embedPlatform) %}
-            {% if document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
-                {% set iconName = 'documents' %}
-            {% endif %}
-            <div class="document-mime-type">{{ document.embedPlatform }}</div>
-            {% if document.private %}
-                <div class="document-platform-icon"><i class="uk-icon-lock"></i></div>
+{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
+<div class="rz-document-card">
+    <div class="rz-document-card__asset">
+        {% set document_is_displayable = document.isImage or document.isSvg or document.hasThumbnails %}
+
+        {% if not document.private %}
+            {% if document_is_displayable %}
+                {{ document|display(thumbnailFormat|merge({
+                    align: document.imageCropAlignment,
+                    hotspot: document.hotspotAsString,
+                })) }}
             {% else %}
-                <div class="document-platform-icon"><i class="uk-icon-{{ iconName }}"></i></div>
+                <div class="rz-document-card__placeholder">
+                   {% trans %}no.media.preview{% endtrans %}
+                </div>
             {% endif %}
-        {% else %}
-            <div class="document-mime-type">{{ document.shortMimeType|u.truncate(13, '…') }}</div>
+        {% endif %}
+
+        <div class="rz-document-card__overflow">
+            {% set type = document.isEmbed ? document.embedPlatform : document.shortMimeType|u.truncate(13, '…') %}
+
+            {{ rz_badge.item({
+                label: type,
+                class: 'rz-document-card__type',
+            }) }}
+
+            {% set icon_centered = '' %}
+
             {% if document.private %}
-                <div class="document-platform-icon"><i class="uk-icon-lock"></i></div>
+                {% set icon_centered = 'rz-icon-ri--lock-2-line' %}
+            {% elseif document.pdf %}
+                {% set icon_centered = 'rz-icon-ri--file-pdf-2-line' %}
+            {% elseif document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
+                {% set icon_centered = 'rz-icon-ri--file-4-line' %}
+            {% elseif document.embedPlatform %}
+                {% set icon_centered = 'rz-icon-rz--social-' ~ document.embedPlatform %}
             {% endif %}
+
+            {% if icon_centered %}
+                {{ rz_badge.item({
+                    icon: icon_centered,
+                    size: 'md',
+                    class: 'rz-document-card__icon-centered',
+                }) }}
+            {% endif %}
+
+            {% if controls %}
+                <div class="rz-document-card__controls rz-button-group rz-button-group--sm">
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--edit-line',
+                        emphasis: 'primary',
+                        attributes: {
+                            title: 'edit.document'|trans,
+                            href: path('documentsEditPage', { documentId: document.id })
+                        }
+                    }) }}
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--delete-bin-7-line',
+                        emphasis: 'primary',
+                        color: 'danger',
+                        attributes: {
+                            title: 'delete'|trans,
+                            href: path('documentsDeletePage', { documentId: document.id })
+                        }
+                    }) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="rz-document-card__name">
+        {% if controls %}
+            {% set input_id = 'bulk-selection-' ~ document.id %}
+            {{ rz_bulk.select_input({
+                value: document.id,
+                id: input_id,
+            }) }}
+            <label class="rz-document-card__bulk-label" for="{{ input_id }}">{{ document|centralTruncate(18, -4) }}</label>
+        {% else %}
+            {{ document|centralTruncate(18, -4) }}
         {% endif %}
     </div>
 </div>

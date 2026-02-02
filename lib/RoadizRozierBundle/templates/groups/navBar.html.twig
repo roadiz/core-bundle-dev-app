@@ -1,13 +1,30 @@
-<nav class="group-navbar-navigation navbar-navigation uk-navbar">
-	<ul class="uk-navbar-nav">
-		<li class="{% if current == 'edit' %}uk-active{% endif %}" >
-			<a href="{{ path('groupsEditPage', { id: item.id }) }}">{% trans %}group.edit{% endtrans %}</a>
-		</li>
-		<li class="{% if current == 'roles' %}uk-active{% endif %}">
-			<a href="{{ path('groupsEditRolesPage', { id: item.id }) }}">{% trans %}group.roles{% endtrans %}</a>
-		</li>
-		<li class="{% if current == 'users' %}uk-active{% endif %}">
-			<a href="{{ path('groupsEditUsersPage', { id: item.id }) }}">{% trans %}group.users{% endtrans %}</a>
-		</li>
-	</ul>
-</nav>
+{%
+    set listItems = [
+    [
+        {
+            'name': 'edit',
+            'label': 'group.edit',
+            'href': path('groupsEditPage', { id: item.id }),
+        },
+        {
+            'name': 'roles',
+            'label': 'group.roles',
+            'href': path('groupsEditRolesPage', { id: item.id }),
+        },
+        {
+            'name': 'users',
+            'label': 'group.users',
+            'href': path('groupsEditUsersPage', { id: item.id }),
+        }
+    ],
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

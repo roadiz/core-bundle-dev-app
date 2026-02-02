@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
@@ -17,8 +18,10 @@ use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\Vite\JsonManifestResolver;
+use Symfony\Component\String\UnicodeString;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 final class RozierExtension extends AbstractExtension implements GlobalsInterface
@@ -30,6 +33,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly TranslationRepository $translationRepository,
     ) {
     }
 
@@ -56,6 +60,15 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     }
 
     #[\Override]
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('truncate_title', $this->truncateTitle(...)),
+            new TwigFilter('json_decode', $this->jsonDecode(...)),
+        ];
+    }
+
+    #[\Override]
     public function getFunctions(): array
     {
         return [
@@ -64,7 +77,22 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
+            new TwigFunction('getAvailableTranslations', $this->getAllAvailableTranslations(...)),
         ];
+    }
+
+    /**
+     * Truncate a title string to a maximum length with an ellipsis suffix.
+     *
+     * @param string $title  The title string to truncate
+     * @param int    $length Maximum length of the truncated string (default: 25)
+     * @param string $suffix Suffix to append when truncated (default: '[…]')
+     *
+     * @return string The truncated title
+     */
+    public function truncateTitle(string $title, int $length = 25, string $suffix = '[…]'): string
+    {
+        return (new UnicodeString($title))->truncate($length, $suffix, true)->toString();
     }
 
     public function getBreadcrumbsItem(?object $item): ?BreadcrumbsItem
@@ -120,5 +148,28 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         }
 
         throw new \RuntimeException('Unexpected object type');
+    }
+
+    public function getAllAvailableTranslations(): array
+    {
+        return $this->translationRepository->findAllAvailable();
+    }
+
+    /**
+     * Decode a JSON string into an associative array.
+     *
+     * @throws \JsonException when the JSON is invalid
+     */
+    public function jsonDecode(?string $json): ?array
+    {
+        if (null === $json) {
+            return null;
+        }
+        $json = trim($json);
+        if ('' === $json) {
+            return null;
+        }
+
+        return \json_decode(json: $json, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }

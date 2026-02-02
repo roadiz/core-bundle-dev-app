@@ -1,38 +1,37 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global manage-document">
-
-    <header class="content-header header-document header-document-edit">
-        <h1 class="content-title document-edit-title">{{ "document.%name%.usage"|trans({'%name%': document})|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/documents/navBar.html.twig' with {'document':document, current:'usage'} %}
-        {% include '@RoadizRozier/documents/backLink.html.twig' %}
-    </header>
-    {# usages #}
+    {% include '@RoadizRozier/documents/head.html.twig' with {
+        document: document,
+        title: "document.%name%.usage"|trans({'%name%': document})|truncate_title,
+        current: 'usage',
+        with_nav_bar: true,
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-no-action-menu">
         {% if usages|length %}
-            <div class="content-table-cont">
-                <h3>{% trans %}nodes{% endtrans %}</h3>
-                <table class="content-table uk-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans %}title{% endtrans %}</th>
-                        <th>{% trans %}usage.fieldName{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <h3>{% trans %}nodes{% endtrans %}</h3>
+
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                usages: usages,
+                actions_available: true,
+            } only %}
+                {% block thead_cells %}
+                    <th>{% trans %}title{% endtrans %}</th>
+                    <th>{% trans %}usage.fieldName{% endtrans %}</th>
+                {% endblock %}
+                {% block tbody_content %}
                     {% for usage in usages %}
+
                         {% set source = usage.nodeSource %}
-                        {% set field = usage.fieldName %}
+                        {% set edit_href = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id }) %}
                         <tr>
                             <td>
-                                <a href="{{ path('nodesEditSourcePage', {
-                                    nodeId: source.node.id,
-                                    translationId: source.translation.id
-                                }) }}">
+                                <a href="{{ edit_href }}">
                                     {% if source.title %}
                                         {{ source.title }}
                                     {% else %}
@@ -40,31 +39,36 @@
                                     {% endif %}
                                 </a>
                             </td>
-                            <td>{{ field }}</td>
+                            <td>{{ usage.fieldName }}</td>
+                            {% if actions_available %}
+                                <td>
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': edit_href,
+                                    } %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endblock %}
+            {% endembed %}
             <hr>
         {% endif %}
+
         {% if attributes|length %}
-            <div class="content-table-cont">
-                <h3>{% trans %}attributes{% endtrans %}</h3>
-                <table class="content-table uk-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans %}attributes.code{% endtrans %}</th>
-                        <th>{% trans %}attributes.group{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <h3>{% trans %}attributes{% endtrans %}</h3>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                {% block thead_cells %}
+                    <th>{% trans %}attributes.code{% endtrans %}</th>
+                    <th>{% trans %}attributes.group{% endtrans %}</th>
+                {% endblock %}
+
+                {% block tbody_content %}
                     {% for attribute in attributes %}
                         <tr style="--rz-accent-color: {{ attribute.color }};">
                             <td class="name">
                                 <a href="{{ path('attributesEditPage', { id: attribute.id }) }}">
                                     <span class="color"
-                                          style="background-color:{{ attribute.color|default('transparent') }};"></span>
+                                        style="background-color:{{ attribute.color|default('transparent') }};"></span>
                                     {{ attribute.attributeTranslations.first.label|default(attribute.code) -}}
                                 </a>
                             </td>
@@ -73,35 +77,32 @@
                                 {%- endif -%}</td>
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endblock %}
+            {% endembed %}
             <hr>
         {% endif %}
+
         {% if tags|length %}
-            <div class="content-table-cont">
-                <h3>{% trans %}tags{% endtrans %}</h3>
-                <table class="content-table uk-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans %}tagName{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <h3>{% trans %}tags{% endtrans %}</h3>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                {% block thead_cells %}
+                    <th>{% trans %}tagName{% endtrans %}</th>
+                {% endblock %}
+
+                {% block tbody_content %}
                     {% for tag in tags %}
                         <tr style="--rz-accent-color: {{ tag.color }};">
                             <td class="name">
                                 <a href="{{ path('tagsEditPage', { tagId: tag.id }) }}">
                                     <span class="color"
-                                          style="background-color:{{ tag.color|default('transparent') }};"></span>
+                                        style="background-color:{{ tag.color|default('transparent') }};"></span>
                                     {{ tag.tagTranslations.first.label|default(tag.tagName) -}}
                                 </a>
                             </td>
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endblock %}
+            {% endembed %}
         {% endif %}
     </article>
 

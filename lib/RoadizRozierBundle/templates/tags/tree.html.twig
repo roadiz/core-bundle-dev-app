@@ -1,22 +1,32 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|u.truncate(25, '[…]', true) }}
+    {{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global">
-
-    <header class="content-header header-tags header-tags-tree">
-        <h1 class="content-title tags-tree-title">{{ "tag.%name%.tree"|trans({'%name%': tag.getTagName })|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"current": 'tree', "tag":tag} only %}
-    </header>
+<section>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title(40),
+        filters: filters,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'tree',
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-tags-tree">
-        {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with { "tagTree":specificTagTree, "tag":specificTagTree.getRootTag } only %}
+        <rz-tree
+            class="rz-tree"
+            group="tagTree"
+            data-entity-type="tag"
+            data-is-sortable="{{ specificTagTree.canReorder ? 'true' : 'false' }}"
+            id="children-stack-{{ specificTagTree.id ?? node.id }}"
+        >
+            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with { "tagTree":specificTagTree, "tag":specificTagTree.getRootTag } only %}
+        </rz-tree>
     </article>
 
     {% include '@RoadizRozier/tags/actionsMenu.html.twig' %}

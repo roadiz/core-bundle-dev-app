@@ -1,0 +1,82 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [{
+        label: 'node-type.homepage'|trans,
+        type: 'listing',
+        url: path('nodeTypesHomePage'),
+    }] %}
+    {% for parent in breadcrumb_parents %}
+        {% set parents = parents|merge([{
+            label: parent.displayName,
+            type: parent.type,
+            url: parent.url,
+        }]) %}
+    {% endfor %}
+    {% set breadcrumb = {
+        label: 'node-types-breadcrumb',
+        parent: parents,
+        current: item.displayName,
+    } %}
+{% endif %}
+
+{% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+    {% block buttons %}
+        {% if buttons is defined and buttons %}
+            {{ _self.button_group(buttons) }}
+        {% endif %}
+        {% if popover is defined and popover %}
+            <rz-popover popover-placement="bottom-end"
+                        popover-offset="10" popover-shift="10"
+                        class="rz-page-header__item--right"
+            >
+                <button popovertarget="nodeType-menu"
+                        class="rz-button rz-button--primary"
+                        aria-label="{{ popover.title|trans }}">
+                    <span class="rz-button__label">{{ popover.title|trans }}</span>
+                    <span class="rz-button__icon {{ popover.icon }}"></span>
+                </button>
+
+                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                    targetId: 'nodeType-menu',
+                    tagList: 'ul',
+                    items: popover.items,
+                } only %}
+                    {% block items %}
+                        {% for item in items %}
+                            {{ _self.item({
+                                label: item.getDisplayName,
+                                href: path('nodeTypeDecoratorsAddPage', {
+                                    nodeTypeName: item.getName
+                                }),
+                                rightIcon: 'rz-icon-ri--arrow-right-s-line'
+                            }) }}
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            </rz-popover>
+        {% endif %}
+    {% endblock %}
+
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+
+    {% block badges %}
+        {% if filters is defined and filters.itemCount %}
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            <div class="rz-page-header__item">
+                {{ rz_badge.item({
+                    label: '%count%.items'|transchoice(filters.itemCount)|raw,
+                    size: 'sm',
+                }) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block title %}
+        <h1 class="rz-page-header__title rz-page-header__item">
+            {{ title }}
+        </h1>
+    {% endblock %}
+{% endembed %}

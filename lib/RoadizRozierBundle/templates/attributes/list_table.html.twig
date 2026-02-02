@@ -1,0 +1,84 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+	{% block thead_cells %}
+		<th colspan="2">
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'code',
+					'filters': filters,
+					'label': 'attributes.code'|trans,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+				{% trans %}attributes.code{% endtrans %}
+			{% endif %}
+		</th>
+		<th>{% trans %}attributes.group{% endtrans %}</th>
+		<th>{% trans %}attributes.form.type{% endtrans %}</th>
+		<th>{% trans %}attributes.attribute_values{% endtrans %}</th>
+		<th>
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'weight',
+					'filters': filters,
+					'label': 'attributes.weight'|trans,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+				{% trans %}attributes.weight{% endtrans %}
+			{% endif %}
+		</th>
+	{% endblock %}
+	{% block tbody_content %}
+		{% for item in items %}
+			<tr
+				{{ _self.colored_row_attrs({'color': item.color }) }}
+			>
+				{{ _self.selection_input(selection_available, item.id) }}
+				<td class="name">
+					<a href="{{ path('attributesEditPage', { id: item.id }) }}">
+						<span class="color" style="background-color:{{ item.color|default('transparent') }};"></span>
+						{{ item.code -}}
+					</a>
+				</td>
+
+				<td>{{ item.attributeTranslations.first.label -}}</td>
+
+				<td>
+					{%- if item.group -%}
+						{{- item.group.name -}}
+					{%- endif -%}
+				</td>
+
+				<td>{{- item.typeLabel|trans -}}</td>
+
+				<td>
+					{%- if item.attributeValues|length > 0 -%}
+						<span
+							data-uk-tooltip="{animation:true}"
+							title="{% trans %}attributes.usage{% endtrans %}"
+							class="rz-badge"
+						>
+							{{- item.attributeValues|length -}}
+						</span>
+					{%- endif -%}
+				</td>
+
+				<td>
+					{{- item.weight -}}
+				</td>
+
+				{% if actions_available %}
+					<td>
+						{% set delete_href = is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ? path('attributesDeletePage', { id: item.id }) : null %}
+						{% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+							'edit_href': path('attributesEditPage', { id: item.id }),
+							'delete_href': delete_href,
+						} %}
+					</td>
+				{% endif %}
+			</tr>
+		{% else %}
+			<tr><td colspan="4">{% trans %}no_attributes{% endtrans %}</td></tr>
+		{% endfor %}
+	{% endblock %}
+{% endembed %}

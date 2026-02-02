@@ -9,24 +9,17 @@
 {% block content %}
 <section class="content-global">
 
-<header class="content-header header-settingGroup header-settingGroup-add">
-       <h1 class="content-title settingGroup-list-title">{% trans %}add.a.settingGroup{% endtrans %}</h1>
-       <a class="content-header-nav-back uk-navbar-content"
-          href="{{ path('settingGroupsHomePage') }}"
-          title="{% trans %}back_to.settingGroups{% endtrans %}"
-          data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/settingGroups/head.html.twig' with {
+        title: 'add.a.settingGroup'|trans,
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-settingGroup-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: 'add-settingGroup-form'}}) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button is="rz-save-button" data-action-save="#add-settingGroup-form" class="uk-button uk-button-success" type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-                </button>
-            </fieldset>
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#add-settingGroup-form') }}
         {{ form_end(form) }}
     </article>
 

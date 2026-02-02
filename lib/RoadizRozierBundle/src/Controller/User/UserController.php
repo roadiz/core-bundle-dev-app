@@ -7,6 +7,7 @@ namespace RZ\Roadiz\RozierBundle\Controller\User;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\UserVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -26,6 +27,7 @@ class UserController extends AbstractAdminWithBulkController
 {
     public function __construct(
         FormFactoryInterface $formFactory,
+        ExplorerItemFactoryInterface $explorerItemFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
         ManagerRegistry $managerRegistry,
@@ -34,7 +36,7 @@ class UserController extends AbstractAdminWithBulkController
         EventDispatcherInterface $eventDispatcher,
         private readonly bool $useGravatar,
     ) {
-        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
+        parent::__construct($formFactory, $explorerItemFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     #[\Override]
@@ -261,6 +263,8 @@ class UserController extends AbstractAdminWithBulkController
 
     public function bulkEnableAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
+
         return $this->bulkAction(
             $request,
             $this->getRequiredRole(),
@@ -269,7 +273,7 @@ class UserController extends AbstractAdminWithBulkController
             fn (string $ids) => $this->createEnableBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_enable.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_enabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {
@@ -277,12 +281,23 @@ class UserController extends AbstractAdminWithBulkController
                 }
                 $item->setEnabled(true);
             },
-            'bulkEnableForm'
+            'bulkEnableForm',
+            null,
+            [
+                'title' => $this->translator->trans('enable.bulk.'.$this->getNamespace()),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_enable.'.$this->getNamespace()),
+                'action_label' => 'bulk.enable',
+                'action_icon' => 'rz-icon-ri--check-line',
+                'action_color' => 'success',
+                'messageType' => 'warning',
+            ]
         );
     }
 
     public function bulkDisableAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
+
         return $this->bulkAction(
             $request,
             $this->getRequiredRole(),
@@ -291,7 +306,7 @@ class UserController extends AbstractAdminWithBulkController
             fn (string $ids) => $this->createDisableBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_disable.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_disabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {
@@ -299,7 +314,16 @@ class UserController extends AbstractAdminWithBulkController
                 }
                 $item->setEnabled(false);
             },
-            'bulkDisableForm'
+            'bulkDisableForm',
+            null,
+            [
+                'title' => $this->translator->trans('disable.bulk.'.$this->getNamespace()),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_disable.'.$this->getNamespace()),
+                'action_label' => 'bulk.disable',
+                'action_icon' => 'rz-icon-ri--close-line',
+                'action_color' => 'danger',
+                'messageType' => 'error',
+            ]
         );
     }
 }

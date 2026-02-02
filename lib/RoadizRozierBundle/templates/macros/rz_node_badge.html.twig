@@ -1,0 +1,134 @@
+{% macro item(type = 'unknown', display_label = true, badgeOptions = {}) %}
+    {% set default_options = { size: 'sm'}|merge(badgeOptions) %}
+
+    {% if type == 'deleted' %}
+        {% set type_options = {
+            label: 'deleted'|trans,
+            icon: 'rz-icon-rz--status-deleted-fill',
+            color: 'danger',
+        } %}
+    {% elseif type == 'hidden' %}
+        {% set type_options = {
+            label: 'hidden'|trans,
+            icon: 'rz-icon-ri--eye-off-line',
+        } %}
+    {% elseif type == 'locked' %}
+        {% set type_options = {
+            label: 'locked'|trans,
+            icon: 'rz-icon-ri--lock-2-line',
+        } %}
+    {% elseif type == 'archived' %}
+        {% set type_options = {
+            label: 'archived'|trans,
+            icon: 'rz-icon-rz--status-archived-fill',
+        } %}
+    {% elseif type == 'hiding-children' %}
+        {% set type_options = {
+            label: 'hiding-children'|trans,
+            icon: 'rz-icon-rz--status-container-line',
+        } %}
+    {% elseif type == 'hiding-nodes' %}
+        {% set type_options = {
+            label: 'nodeType.hiding_nodes'|trans,
+            icon: 'rz-icon-rz--status-container-line',
+        } %}
+    {% elseif type == 'highlighted' %}
+        {% set type_options = {
+            label: 'nodeType.highlighted'|trans,
+            icon: 'rz-icon-ri--lightbulb-line',
+        } %}
+    {% elseif type == 'published' %}
+        {% set type_options = {
+            label: 'published'|trans,
+            icon: 'rz-icon-rz--status-published-fill',
+            color: 'success',
+        } %}
+    {% elseif type == 'pending' %}
+        {% set type_options = {
+            label: 'pending.validation'|trans,
+            icon: 'rz-icon-rz--status-pending-fill',
+            color: 'warning',
+        } %}
+    {% elseif type == 'draft' %}
+        {% set type_options = {
+            label: 'draft'|trans,
+            icon: 'rz-icon-rz--status-draft-fill',
+            color: 'warning',
+        } %}
+    {% elseif type == 'shadow' %}
+        {% set type_options = {
+            label: 'shadow'|trans,
+            icon: 'rz-icon-rz--status-shadow-container-line',
+            color: 'information',
+        } %}
+    {% elseif type == 'universal' %}
+        {% set type_options = {
+            label: 'universal'|trans,
+            icon: 'rz-icon-ri--earth-line',
+        } %}
+    {% elseif type == 'indexed' %}
+        {% set type_options = {
+            label: 'indexed'|trans,
+            icon: 'rz-icon-ri--search-line',
+        } %}
+    {% else %}
+        {% set type_options = {
+            label: type|trans,
+            icon: 'rz-icon-rz--status-unknown-fill',
+        } %}
+    {% endif %}
+
+    {% if display_label is same as(false) %}
+        {% set type_options = type_options|merge(
+            {
+                attributes: { 'tooltip-text': type_options.label }|merge(default_options.attributes|default({})),
+                label: ''
+            }) %}
+    {% endif %}
+
+    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+    {{ rz_badge.item(default_options|merge(type_options)) }}
+{% endmacro %}
+
+
+{% macro status(node, options = { display_label: true }) %}
+    {% set status = 'unknown' %}
+
+    {% if node.isPublished == true %}
+        {% set status = 'published' %}
+    {% elseif node.isDeleted %}
+        {% set status = 'deleted' %}
+    {% elseif node.isDraft == true %}
+        {% set status = 'draft' %}
+    {% elseif node.isArchived == true %}
+        {% set status = 'archived' %}
+    {% elseif node.isPending == true %}
+        {% set status = 'pending' %}
+    {% endif %}
+
+    {{ _self.item(status, options.display_label) }}
+{% endmacro %}
+
+{% macro parameters(node, options = { display_label: true }, badgeOptions = {}) %}
+    {% if node.isVisible == false %}
+        {{ _self.item('hidden', options.display_label, badgeOptions) }}
+    {% endif %}
+
+    {% if node.isHidingChildren == true %}
+        {{ _self.item('hiding-children', options.display_label, badgeOptions) }}
+    {% endif %}
+
+    {% if node.isShadow == true %}
+        {{ _self.item('shadow', options.display_label, badgeOptions) }}
+    {% endif %}
+
+    {% if node.isLocked == true %}
+        {{ _self.item('locked', options.display_label, badgeOptions) }}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro all(node, options = { display_label: true }) %}
+    {{ _self.status(node, options) }}
+    {{ _self.parameters(node, options) }}
+{% endmacro %}

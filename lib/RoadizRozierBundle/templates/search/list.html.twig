@@ -1,69 +1,55 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
+{% set title_label = nodeType ? ('search'|trans ~ ' - ' ~ nodeType.displayName) : 'search'|trans %}
+
 {%- block title -%}
-    {% if nodeType %}
-        {% trans %}search{% endtrans %} - {{ nodeType.displayName }}
-    {% else %}
-        {% trans %}search{% endtrans %}
-    {% endif %}
-    |
-    {{ parent() -}}
+    {{ title_label}} | {{ parent() -}}
 {%- endblock -%}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters bulk-layout">
-        <header class="content-header header-node header-nodes-list">
-            {% if nodeType %}
-                <h1 class="content-title">{% trans %}search{% endtrans %} - {{ nodeType.displayName }}</h1>
-            {% else %}
-                <h1 class="content-title">{% trans %}search{% endtrans %}</h1>
-            {% endif %}
-            {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        </header>
+    <rz-bulk-section>
+        {% include '@RoadizRozier/admin/head.html.twig' with {
+            title: title_label,
+            filters: filters,
+        } only %}
 
-        <article class="content content-no-action-menu">
+        <article>
             {% if nodeTypeForm %}
                 {% form_theme nodeTypeForm '@RoadizRozier/forms.html.twig' %}
-                <form class="uk-form uk-form-stacked"
-                      id="search-node-type-form"
-                      action="#"
-                      method="get">
-                    {{ form_widget(nodeTypeForm) }}
-                    <div class="data-uk-margin">
-                        <button class="uk-button uk-button-primary" type="submit"><i class="uk-icon-filter"></i> {% trans %}select.nodetype{% endtrans %}</button>
+                <form class="rz-form" id="search-node-type-form" action="#" method="get">
+                        {{ form_widget(nodeTypeForm, { 'attr': {'class': 'rz-form__field-list'} }) }}
+                    <div class="rz-form-field rz-form-field--align-start">
+                        <button class="rz-button rz-button--primary rz-button--success" type="submit">
+                            <span class="rz-button__label">{% trans %}select.nodetype{% endtrans %}</span><span class="rz-button__icon rz-icon-ri--filter-line"></span>
+                        </button>
                     </div>
                 </form>
             {% endif %}
 
             {% if form %}
+                <hr />
                 {% form_theme form '@RoadizRozier/forms.html.twig' %}
-                <form class="uk-form uk-form-stacked"
-                      id="search-node-form"
-                      action="#"
-                      method="get">
-                    {{ form_widget(form) }}
+                <form class="rz-form" id="search-node-form" action="#" method="get">
+                        {{ form_widget(form, { 'attr': {'class': 'rz-form__field-list'} }) }}
                 </form>
             {% endif %}
 
             {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+            {% if nodes is defined %}
+                {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
+                    delete_form_data: deleteNodesForm|default(null),
+                    delete_form_action: path('nodesBulkDeletePage'),
+                    delete_form_method: 'post',
+                    tagNodesForm: tagNodesForm,
+                    statusNodesForm: statusNodesForm,
+                } only %}
 
-            <div class="data-uk-margin content-table-cont">
-                <table class="nodes content-table uk-table">
-                    <thead>
-                        {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' %}
-                    </thead>
-                    <tbody>
-                    {% for node in nodes %}
-                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
-                            'node': node
-                        } only %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% if filters.itemCount > filters.itemPerPage %}
-                {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+                {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+                    sortable: false,
+                    selection_available: true,
+                    actions_available: true,
+                } %}
             {% endif %}
         </article>
-    </section>
+    </rz-bulk-section>
 {% endblock %}

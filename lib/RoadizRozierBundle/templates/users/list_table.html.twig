@@ -1,0 +1,153 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+	{% block thead_cells %}
+		<th></th>
+		<th class="table-actions-userpicture-row mobile-hidden uk-visible-xlarge">
+			{% set label = 'user.username'|trans %}
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'username',
+					'filters': filters,
+					'label': label,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+				{{ label }}
+			{% endif %}
+		</th>
+		<th class="mobile-hidden">
+			{% set label = 'user.email'|trans %}
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'email',
+					'filters': filters,
+					'label': label,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+				{{ label }}
+			{% endif %}
+		</th>
+		<th class="mobile-hidden">
+			{% set label = 'user.lastLogin'|trans %}
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'lastLogin',
+					'filters': filters,
+					'label': label,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+				{{ label }}
+			{% endif %}
+		</th>
+		<th class="mobile-hidden uk-visible-xlarge">
+			{% trans %}user.roles{% endtrans %}
+		</th>
+		<th class="mobile-hidden uk-visible-large">
+			{% trans %}user.status{% endtrans %}
+		</th>
+	{% endblock %}
+
+	{% block tbody_content %}
+		{% for item in items %}
+			<tr>
+				{% if selection_available %}
+                    <td>
+                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                        {{ rz_bulk.select_input({ value: item.id }) }}
+                    </td>
+                {% endif %}
+				<td class="mobile-hidden uk-visible-xlarge">
+					<rz-entity-thumbnail
+						entity-class="RZ\Roadiz\CoreBundle\Entity\User"
+						entity-id="{{ item.id }}"
+					></rz-entity-thumbnail>
+				</td>
+				<td>
+					{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
+						<a href="{{ path('usersEditPage', { id: item.id }) }}">
+							{{- item.username|u.truncate(30) -}}
+						</a>
+					{% else %}
+						{{- item.username|u.truncate(30) -}}
+					{% endif %}
+				</td>
+				<td class="mobile-hidden">{{ item.email|u.truncate(30) }}</td>
+				<td class="mobile-hidden">
+					{% if item.lastLogin %}
+						{{ item.lastLogin|format_datetime }}
+					{% else %}
+						{% trans %}user.neverLoggedIn{% endtrans %}
+					{% endif %}
+				</td>
+				<td class="mobile-hidden uk-visible-xlarge">
+					{% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
+				</td>
+				<td class="mobile-hidden uk-visible-large user-status">
+					{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+					{% set label_status = item.enabled ? 'user.enabled' : 'user.disabled' %}
+					{% set color_status = item.enabled ? 'success' : 'danger' %}
+					{% set icon_status = item.enabled ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
+
+					{% if item.enabled is defined %}
+						{{ rz_badge.item({
+							color: color_status,
+							icon: icon_status,
+							attributes: {
+								title: label_status|trans,
+							}
+						}) }}
+					{% endif %}
+
+					{% if item.accountNonLocked is defined and not item.accountNonLocked %}
+						{{ rz_badge.item({
+							color: 'warning',
+							icon: 'rz-icon-ri--lock-2-line',
+							attributes: {
+								title: 'user.locked'|trans,
+							}
+						}) }}
+					{% endif %}
+
+					{% if
+						(item.credentialsNonExpired is defined and not item.credentialsNonExpired)
+					 or (item.accountNonExpired is defined and not item.accountNonExpired) %}
+						{{ rz_badge.item({
+							color: 'danger',
+							icon: 'rz-icon-rz--status-pending-line',
+							attributes: {
+								title: 'user.expired'|trans,
+							}
+						}) }}
+					{% endif %}
+				</td>
+				{% if actions_available %}
+                    <td>
+						{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
+							{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+								'edit_href': path('usersEditPage', { id: item.id }),
+								'delete_href': is_granted('ROLE_ACCESS_USERS_DELETE') ? path('usersDeletePage', { id: item.id }) : null,
+							} %}
+								{% block other_actions %}
+									{% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
+										{{ _self.button({
+											icon: 'uk-icon-rz-sudo',
+											attributes: {
+												href: path('adminHomePage') ~ '?_su=' ~ item.username|url_encode,
+												title: 'start.test.user.right'|trans,
+											}
+										}) }}
+									{% endif %}
+								{% endblock %}
+							{% endembed %}
+						{% endif %}
+                    </td>
+                {% endif %}
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="7">{% trans %}no_users{% endtrans %}</td>
+			</tr>
+		{% endfor %}
+	{% endblock %}
+{% endembed %}

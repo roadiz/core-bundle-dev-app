@@ -3,39 +3,32 @@
 {% block title %}{% trans %}webhooks{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
-    <header class="content-header header-item header-item-list">
-        <h1 class="content-title item-list-title">{% trans %}webhooks{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('webhooksAddPage') }}">
-                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.webhook{% endtrans %}
-            </a>
-        </div>
-    </header>
+<rz-bulk-section>
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'webhooks'|trans,
+        filters: filters,
+        buttons: [{
+            label: 'add.a.webhook'|trans,
+            attributes: {
+                href: path('webhooksAddPage'),
+            },
+            icon: 'rz-icon-ri--add-line'
+        }]
+    } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: true,
+    }  only %}
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table webhooks">
-                <thead>
-                <tr>
-                    {% include '@RoadizRozier/admin/webhooks/webhook_row_header.html.twig' %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    <tr>
-                        {% include '@RoadizRozier/admin/webhooks/webhook_row.html.twig' %}
-                    </tr>
-                {% else %}
-                    <tr><td colspan="6">{% trans %}no_webhooks{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <article>
+        {% include '@RoadizRozier/admin/webhooks/list_table.html.twig' with {
+            selection_available: hasBulkActions,
+            actions_available: true,
+            filters: filters,
+            items: items,
+        } only %}
     </article>
-</section>
+</rz-bulk-section>
 {% endblock %}

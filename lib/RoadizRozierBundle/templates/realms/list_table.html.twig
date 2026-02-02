@@ -1,0 +1,53 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+    {% block thead_cells %}
+        <th>
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'name',
+                'filters': filters,
+                'label': 'name'|trans,
+                'column_ordering_class': column_ordering_class,
+            } only %}
+        </th>
+        <th>
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'type',
+                'filters': filters,
+                'label': 'realm.type'|trans,
+                'column_ordering_class': column_ordering_class,
+            } only %}
+        </th>
+        <th>
+            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                'field': 'behaviour',
+                'filters': filters,
+                'label': 'realm.behaviour'|trans,
+                'column_ordering_class': column_ordering_class,
+            } only %}
+        </th>
+        <th>
+            {% trans %}realm.serializationGroup{% endtrans %}
+        </th>
+    {% endblock %}
+
+    {% block tbody_content %}
+        {% for item in items %}
+            <tr>
+                <td>
+                    <a href="{{ path('realmsEditPage', { id: item.id }) }}">{{ item.name }}</a>
+                </td>
+                <td>{{ ('realm.' ~ item.type)|trans }}</td>
+                <td>{{ ('realm.behaviour_' ~ item.behaviour)|trans }}</td>
+                <td>{{ item.serializationGroup }}</td>
+                {% if actions_available %}
+                    <td>
+                        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            'edit_href': path('realmsEditPage', { id: item.id }),
+                            'delete_href': path('realmsDeletePage', { id: item.id }),
+                        } %}
+                    {% endembed %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

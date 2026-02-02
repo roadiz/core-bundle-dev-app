@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{- "edit.settingGroup.%name%"|trans({'%name%': item.name })|u.truncate(25, '[…]', true) -}}
+    {{- "edit.settingGroup.%name%"|trans({'%name%': item.name })|truncate_title -}}
     |
     {{ parent() -}}
 {%- endblock -%}
@@ -9,28 +9,17 @@
 {% block content %}
 <section class="content-global">
 
-    <header class="content-header header-settingGroup header-settingGroup-add">
-       <h1 class="content-title settingGroup-list-title">
-           {{- "edit.settingGroup.%name%"|trans({'%name%': item.name })|u.truncate(25, '[…]', true) -}}
-       </h1>
-       <a class="content-header-nav-back uk-navbar-content"
-          href="{{ path('settingGroupsHomePage') }}"
-          title="{% trans %}back_to.settingGroups{% endtrans %}"
-          data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/settingGroups/head.html.twig' with {
+        title: "edit.settingGroup.%name%"|trans({'%name%': item.name})|truncate_title,
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-settingGroup-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: 'edit-settingGroup-form'}}) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button is="rz-save-button" data-action-save="#edit-settingGroup-form"
-                        class="uk-button uk-button-success"
-                        type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}save.settingGroup{% endtrans %}</span></span>
-                </button>
-            </fieldset>
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#edit-settingGroup-form') }}
         {{ form_end(form) }}
     </article>
 

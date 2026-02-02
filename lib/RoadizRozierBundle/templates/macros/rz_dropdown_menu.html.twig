@@ -1,0 +1,156 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+{% macro head(title, items) %}
+    <div class="rz-dropdown__head">
+        {% if title is defined and title %}
+            <div class="rz-dropdown__title">{{- title|trans -}}</div>
+        {% endif %}
+        {% if items is defined and items|length > 0 %}
+            <ul class="rz-dropdown__info-list">
+                {% for item in items %}
+                    <li class="rz-dropdown__info-item">
+                        {% if item.badge is defined and item.badge %}
+                            {% import "@RoadizRozier/macros/rz_badge.html.twig" as badge %}
+                            {{ badge.item({
+                                label: item.badge.label,
+                                icon: item.badge.icon,
+                                size: item.badge.size,
+                                color: item.badge.color
+                            }) }}
+                        {% endif %}
+                        {% if item.icon is defined and item.icon %}
+                            <span class="{{ item.icon }}"></span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{#
+    Renders a dropdown menu item with customizable content and behavior.
+
+    @param options {object} - Configuration object with the following properties:
+        - label {string} - The main text label for the item
+        - description {string} - Optional secondary description text
+        - title {string} - Optional tooltip text
+        - href {string} - Optional URL (converts item to link)
+        - class {string} - Optional CSS classes
+        - leftIcon {string} - Optional left icon class
+        - rightIcon {string} - Optional right icon class
+        - badgeLabel {string} - Optional badge text
+        - badgeIcon {string} - Optional badge icon class
+        - input {object} - Optional hidden input configuration {type, value, name, attr}
+        - selected {boolean} - Whether the item is selected (default: false)
+        - tag {string} - HTML tag to use (default: 'button', auto-set to 'a' if href provided)
+#}
+{% macro item(options = {}) %}
+    {# Set default values #}
+    {% set label = options.label|default(null) %}
+    {% set description = options.description|default(null) %}
+    {% set title = options.title|default(null) %}
+    {% set href = options.href|default(null) %}
+    {% set class = options.class|default('') %}
+    {% set leftIcon = options.leftIcon|default(null) %}
+    {% set rightIcon = options.rightIcon|default(null) %}
+    {% set badgeLabel = options.badgeLabel|default(null) %}
+    {% set badgeIcon = options.badgeIcon|default(null) %}
+    {% set input = options.input|default(null) %}
+    {% set selected = options.selected|default(false) %}
+    {% set tag = options.tag|default('button') %}
+    {% set attributes = options.attributes|default({}) %}
+
+    {% set item_classes = ['rz-dropdown__item'] %}
+    {% if class %}
+        {% set item_classes = item_classes|merge([class]) %}
+    {% endif %}
+    {% if selected %}
+        {% set item_classes = item_classes|merge(['rz-dropdown__item--selected']) %}
+    {% endif %}
+
+    <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
+        {% if href %}
+            {% set tag = 'a' %}
+        {% endif %}
+            <{{ tag }} class="{{ item_classes|join(' ') }}"
+                {% if title %} title="{{- title|trans -}}" {% endif %}
+                {% if tag == 'a' %}
+                    href="{{ href }}"
+                {% endif %}
+
+                {% for attrname, attrvalue in attributes %}
+                    {% if attrvalue and attrvalue is same as(true) %}
+                        {{ attrname }}
+                    {% else %}
+                        {{ attrname }}="{{ attrvalue }}"
+                    {% endif %}
+                {% endfor %}
+            >
+            {% if leftIcon %}
+                <span class="rz-dropdown__item__icon {{ leftIcon }}"></span>
+            {% endif %}
+            <div class="rz-dropdown__item__text-wrapper">
+                {% if label %}
+                    <span class="rz-dropdown__item__label">{{- label|trans -}}</span>
+                {% endif %}
+                {% if description %}
+                    <div class="rz-dropdown__item__description">
+                        {{- description|trans -}}
+                    </div>
+                {% endif %}
+            </div>
+            {% if badgeLabel or badgeIcon %}
+                <div class="rz-badge rz-badge--xs rz-dropdown__item__badge"{% if badgeLabel %} aria-label="{{- badgeLabel|trans -}}"{% endif %}>
+                    {% if badgeIcon %}
+                        <span class="rz-badge__icon {{ badgeIcon }}"></span>
+                    {% endif %}
+                    {% if badgeLabel %}
+                        <span class="rz-badge__label">{{- badgeLabel|trans -}}</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if rightIcon %}
+                <span class="rz-dropdown__item__icon {{ rightIcon }}"></span>
+            {% endif %}
+            {% if input %}
+                <input
+                    type="{{ input.type }}"
+                    value="{{ input.value|default('')}}"
+                    name="{{ input.name|default('')}}"
+                    hidden
+                    {{ el_attrs.print(input.attr|default({})) }}
+                >
+            {% endif %}
+        </{{ tag }}>
+    </li>
+{% endmacro %}
+
+{% block wrapper %}
+    {% set classes = html_classes('rz-dropdown', class|default(''), {
+            'rz-dropdown--reverse': reverse,
+    }) %}
+    {% set tag = tag|default('div') %}
+    <{{tag}}
+        class="{{ classes }}"
+        id="{{ targetId }}"
+        popover
+        {{ el_attrs.print(attributes|default({})) }}
+    >
+        {% block head %}
+            {% if title is defined and title %}
+                {{ _self.head(title, items) }}
+            {% endif %}
+        {% endblock %}
+        {% if (tagList is not defined or tagList is empty) %}
+            {% set tagList = 'menu' %}
+        {% endif %}
+        <{{ tagList }} class="rz-dropdown__list">
+            {% block items %}
+            {% endblock %}
+        </{{ tagList }}>
+
+        {% block additional_menu %}
+        {% endblock %}
+    </{{ tag }}>
+{% endblock %}

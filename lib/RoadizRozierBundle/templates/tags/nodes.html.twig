@@ -8,34 +8,29 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    <header class="content-header header-tags header-tags-nodes">
-        <h1 class="content-title tags-nodes-title">{{ tTag.getName }}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"tag": tag, "current": 'nodes'} only %}
-    </header>
+    <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/tags/head.html.twig' with {
+            title: tTag.getName,
+            filters: filters,
+            with_nav_bar: true,
+            tag: tag,
+            current: 'nodes',
+            available_translations: available_translations,
+            translation: translation,
+            with_breadcrumb: true,
+        } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+    }  only %}
 
-    <article class="content content-no-action-menu content-tags-nodes">
-        <div class="content-table-cont">
-            <table class="tags content-table uk-table">
-                <thead>
-                {% include '@RoadizRozier/nodes/widgets/node-header.html.twig' with {
-                    'filters': filters
-                } only %}
-                </thead>
-                <tbody>
-                    {% for node in nodes %}
-                        {% include '@RoadizRozier/nodes/widgets/node-row.html.twig' with {
-                            'node': node
-                        } only %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
-
-</section>
+        <article>
+            {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+                sortable: false,
+                selection_available: false,
+                actions_available: true,
+            } %}
+        </article>
+    </section>
 {% endblock %}

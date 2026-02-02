@@ -1,0 +1,36 @@
+{# Simple scope - uses generic head template #}
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [
+        {
+            label: 'attributes.homepage'|trans,
+            type: 'listing',
+            url: path('attributesHomePage'),
+        }
+    ] %}
+    {% for parent in breadcrumb_parents %}
+        {% set parents = parents|merge([{
+            label: parent.displayName,
+            type: parent.type,
+            url: parent.url,
+        }]) %}
+    {% endfor %}
+    {% set breadcrumb = {
+        label: 'attribute-breadcrumb',
+        parent: parents,
+        current: title
+    } %}
+{% endif %}
+{% include "@RoadizRozier/admin/head.html.twig" with {
+    translation_route: translation_route,
+    translation_params_key: translation_params_key,
+    translation_entity: tag,
+    available_translations: available_translations,
+    translation: translation,
+    title: title,
+    buttons: buttons,
+    filters: filters,
+    with_nav_bar: with_nav_bar,
+    nav_bar_template: nav_bar_template,
+    nav_bar_context: nav_bar_context,
+    breadcrumb: breadcrumb,
+} only %}

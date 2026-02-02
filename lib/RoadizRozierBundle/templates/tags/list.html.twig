@@ -7,97 +7,102 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters  bulk-layout">
-
-    <header class="content-header header-tags header-nodes-list">
-        <h1 class="content-title tags-list-title">{% trans %}tags{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <nav><a class="uk-button" href="{{ path('tagsAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.tag{% endtrans %}</a></nav>
-        </div>
-    </header>
+<rz-bulk-section>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: 'tags'|trans,
+        filters: filters,
+        buttons: [{
+            label: 'add.a.tag'|trans,
+            attributes: {
+                href: path('tagsAddPage'),
+            },
+            icon: 'rz-icon-ri--add-line',
+        }]
+    } only %}
 
     {% include '@RoadizRozier/tags/filtersBar.html.twig' with {
         filters: filters,
-        deleteTagsForm: deleteTagsForm
     } only %}
 
-    <article class="content content-no-action-menu content-tags-list">
-        <div class="content-table-cont">
-            <table class="tags content-table uk-table">
-                <thead>
-                    <tr>
-                        <th class="table-id-row">{% trans %}id{% endtrans %}</th>
-                        <th>
-                            {% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'tagName',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="table-actions-row table-actions-row-3">
-                            <div class="bulk-selection">
-                                <input class="checkbox" type="checkbox" name="bulk-selection-all" />
-                            </div>
-                            {% trans %}actions{% endtrans %}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tag in tags %}
-                        {% set ttag = tag.getTranslatedTags.first %}
-                        {% if ttag %}
-                        <tr>
-                            <td><a href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}">{{ tag.id }}</a></td>
-                            <td><a href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}">{{ ttag.getName }}</a></td>
+    {% include "@RoadizRozier/widgets/rz_bulk_actions.html.twig" with {
+        delete_form_data: deleteTagsForm,
+        delete_form_action: path('tagsBulkDeletePage'),
+        delete_form_method: 'GET',
+    } only %}
+
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            sortable: false,
+            selection_available: true,
+            actions_available: true,
+        } %}
+
+            {% block thead_cells %}
+                <th>{% trans %}id{% endtrans %}</th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'tagName',
+                        'filters': filters,
+                        'label': 'name'|trans
+                    } only %}
+                </th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
+                {% for tag in tags %}
+                    {% set translated_tag = tag.getTranslatedTags.first %}
+                    {% set tag_href = translated_tag ?
+                        path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translated_tag.translation.id })
+                        : path('tagsEditPage', { tagId: tag.id })
+                    %}
+                    {% set can_delete = is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
+                    <tr
+                        {{ _self.colored_row_attrs({'color': tag.color }) }}
+                    >
                             <td>
-                                {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                <div class="tagtree-bulk-selection">
-                                    <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
-                                </div>
-                                {% endif %}
-                                <div class="uk-button-group">
-                                    <a class="uk-button uk-button-content uk-button-small" href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}" title="{% trans %}edit.tag{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                    {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('tagsDeletePage', { tagId: tag.id }) }}" title="{% trans %}delete.tag{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                            <i class="uk-icon-rz-trash-o"></i>
-                                        </a>
+                                {% if selection_available %}
+                                    {% if can_delete %}
+                                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                                        {{ rz_bulk.select_input({ value: tag.id }) }}
+                                    {% else %}
+                                        {{ rz_badge.item({
+                                            icon: 'rz-icon-ri--lock-2-line',
+                                            attributes: {
+                                                title: 'locked'|trans,
+                                            }
+                                        }) }}
                                     {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td><a href="{{ path('tagsEditPage', { tagId: tag.id }) }}">{{ tag.id }}</a></td>
-                            <td><a href="{{ path('tagsEditPage', { tagId: tag.id }) }}">tag_{{ tag.id }} <span class="uk-badge uk-badge-warning">{% trans %}notranslation_available.tag{% endtrans %}</span></a></td>
-                            <td class="table-actions-row table-actions-row-3">
-                                {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                    <div class="bulk-selection">
-                                        <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
-                                    </div>
                                 {% endif %}
-                                <div class="uk-button-group">
-                                    <a class="uk-button uk-button-content uk-button-small"
-                                       href="{{ path('tagsEditPage', { tagId: tag.id }) }}"
-                                       title="{% trans %}edit.tag{% endtrans %}"
-                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                    {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                           href="{{ path('tagsDeletePage', { tagId: tag.id }) }}"
-                                           title="{% trans %}delete.tag{% endtrans %}"
-                                           data-uk-tooltip="{animation:true}">
-                                            <i class="uk-icon-rz-trash-o"></i>
-                                        </a>
-                                    {% endif %}
-                                </div>
                             </td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                        <td>
+                            <a href="{{ tag_href }}">{{ tag.id }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ tag_href }}">{{ translated_tag.getName|default('tag_' ~ tag.id) }}</a>
+                            {% if not translated_tag %}
+
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--error-warning-line',
+                                    color: 'warning',
+                                    attributes: {
+                                        title: 'notranslation_available.tag'|trans,
+                                    }
+                                }) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'edit_href': translated_tag ? path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translated_tag.translation.id }) : path('tagsEditPage', { tagId: tag.id }),
+                                'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
+                            } only %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 
-</section>
+</rz-bulk-section>
 {% endblock %}

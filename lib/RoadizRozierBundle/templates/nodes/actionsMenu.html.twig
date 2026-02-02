@@ -1,203 +1,237 @@
-<nav data-roadiz-rozier-bundle data-action-menu class="actions-menu uk-navbar">
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+    vertical: true,
+    class: 'actions-menu',
+    node: node,
+    source: source,
+    translation: translation,
+    versions: versions,
+    currentVersion: currentVersion,
+    loop: loop,
+    max_versions_showed: max_versions_showed,
+    readOnly: readOnly,
+} only %}
+    {% block items %}
     {% if node %}
         {% set canPublish = workflow_can(node, 'publish') %}
-        {% if not readOnly and is_granted('DELETE', node) %}
-            {% set canDelete = workflow_can(node, 'delete') %}
-            {# Delete current node #}
-            {% if workflow_can(node, 'undelete') %}
-                <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesUndeletePage', { nodeId: node.getId}) }}">
-                    <span class="icon-container"><i class="uk-icon-rz-untrash"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}undelete{% endtrans %}</span></span>
-                </a>
-            {% endif %}
-            {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
-                <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeletePage', {
-                    nodeId: node.getId,
-                    referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
-                }) }}">
-                    <span class="icon-container"><i class="uk-icon-rz-trash"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}delete.node{% endtrans %}</span></span>
-                </a>
-            {% endif %}
-            {% if canDelete and node.nodeSources|length > 1 and source %}
-                <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesDeleteSourcePage', { nodeSourceId: source.id}) }}">
-                    <span class="icon-container"><i class="uk-icon-flag"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}delete.translation{% endtrans %}</span></span>
-                </a>
-            {% endif %}
+        {% if not node.isDeleted %}
+            <rz-popover popover-placement="left-start" popover-offset="18px">
+                <button popovertarget="action-menu"
+                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
+                        aria-label="{% trans %}actions{% endtrans %}"
+                >
+                    <span class="rz-button__icon rz-icon-ri--settings-4-line"></span>
+                </button>
+                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                    title: 'actions',
+                    reverse: true,
+                    targetId: 'action-menu'
+                } %}
+                    {% block items %}
+                        {% if source and source.Reachable %}
+                            {% if node.published %}
+                                {{ _self.item({
+                                    label: 'see.page',
+                                    href: path('nodesSourcesPublicRedirect', {
+                                        'nodeSourceId': source.id,
+                                    }),
+                                    leftIcon: 'rz-icon-ri--eye-line',
+                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                }) }}
+                            {% endif %}
+                            {% if node.published or node.draft or node.pending %}
+                                {{ _self.item({
+                                    label: 'preview.page',
+                                    href: path('nodesSourcesPreviewRedirect', {
+                                        'nodeSourceId': source.id,
+                                    }),
+                                    leftIcon: 'rz-icon-ri--eye-line',
+                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                }) }}
+                            {% endif %}
+                        {% endif %}
+                        {% if not node.isLocked %}
+                            {% if is_granted('DUPLICATE', node) %}
+                                {{ _self.item({
+                                    label: 'duplicate',
+                                    href: path('nodesDuplicatePage', { nodeId: node.getId }),
+                                    leftIcon: 'rz-icon-ri--file-copy-2-line',
+                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                }) }}
+                            {% endif %}
+                            {% if is_granted('EDIT_SETTING', node) %}
+                                {{ _self.item({
+                                    label: 'transtype',
+                                    href: path('nodesTranstypePage', { nodeId: node.getId }),
+                                    leftIcon: 'rz-icon-ri--command-line',
+                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                }) }}
+                            {% endif %}
+                            {% if canPublish %}
+                                {{ _self.item({
+                                    label: 'publish_node_offspring',
+                                    href: path('nodesPublishAllAction', { nodeId: node.getId }),
+                                    leftIcon: 'rz-icon-ri--checkbox-line',
+                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                }) }}
+                            {% endif %}
+                        {% endif %}
+                        {{ _self.item({
+                            label: 'add.child',
+                            href: path('nodesAddChildPage', { nodeId: node.getId }),
+                            leftIcon: 'rz-icon-ri--add-line',
+                            rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                        }) }}
+                        {% if node.hidingChildren and translation %}
+                            {{ _self.item({
+                                label: 'export_format.csv.%language%'|trans({'%language%':translation.name }),
+                                href: path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}),
+                                leftIcon: 'rz-icon-ri--file-pdf-2-line',
+                                rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                            }) }}
+                        {% endif %}
+                    {% endblock %}
+                    {% block additional_menu %}
+                        <menu class="rz-dropdown__list node-statuses node-actions">
+                            {% if workflow_can(node, 'reject') or node.isDraft %}
+                                {{ _self.item({
+                                    label: 'draft',
+                                    leftIcon: 'rz-icon-rz--status-draft-fill',
+                                    rightIcon : (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                input: {
+                                    type: 'radio',
+                                    name: 'status',
+                                    value: 'reject',
+                                    attr: {'data-node-id': node.getId},
+                                },
+                                }) }}
+                            {% endif %}
+                            {% if workflow_can(node, 'unarchive') %}
+                                {{ _self.item({
+                                    label: 'draft',
+                                    leftIcon: 'rz-icon-rz--status-draft-fill',
+                                    rightIcon : (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                input: {
+                                    type: 'radio',
+                                    name: 'status',
+                                    value: 'unarchive',
+                                    attr: {'data-node-id': node.getId},
+                                },
+                                }) }}
+                            {% endif %}
+                            {% if workflow_can(node, 'review') or node.isPending %}
+                                {{ _self.item({
+                                    label: 'pending',
+                                    leftIcon: 'rz-icon-rz--status-pending-fill',
+                                    rightIcon : (node.isPending) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                input: {
+                                    type: 'radio',
+                                    name: 'status',
+                                    value: 'review',
+                                    attr: {'data-node-id': node.getId},
+                                },
+                                }) }}
+                            {% endif %}
+                            {% if canPublish or node.isPublished %}
+                                {{ _self.item({
+                                    label: 'published',
+                                    leftIcon: 'rz-icon-rz--status-published-fill',
+                                    rightIcon : (node.isPublished) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                input: {
+                                    type: 'radio',
+                                    name: 'status',
+                                    value: 'publish',
+                                    attr: {'data-node-id': node.getId},
+                                },
+                                }) }}
+                            {% endif %}
+                            {% if workflow_can(node, 'archive') or node.isArchived %}
+                                {{ _self.item({
+                                    label: 'archived',
+                                    leftIcon: 'rz-icon-rz--status-archived-fill',
+                                    rightIcon : (node.isArchived) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                input: {
+                                    type: 'radio',
+                                    name: 'status',
+                                    value: 'archive',
+                                    attr: {'data-node-id': node.getId},
+                                },
+                                }) }}
+                            {% endif %}
+                        </menu>
+                    {% endblock %}
+                {% endembed %}
+            </rz-popover>
         {% endif %}
 
         {% if versions and versions|length > 1 %}
-            <div role="button" tabindex="0" class="node-actions with-subnav mobile-hidden">
-                <header><i class="uk-icon-code-fork"></i><span class="label"><span class="label-text">{% trans %}versions{% endtrans %}</span></span></header>
-                <nav class="versions-nav">
-                    <a class="uk-button{% if not currentVersion %} uk-active{% endif %}" href="{{ path('nodesEditSourcePage', {
-                        nodeId: node.id,
-                        translationId: translation.id
-                    }) }}">{% trans %}versions.working_copy{% endtrans %}</a>
-                    {% for version in versions %}
-                        {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
-                            {% include '@RoadizRozier/widgets/versionItem.html.twig' with {
-                                version: version,
-                                currentVersion: currentVersion,
-                                url: path('nodesEditSourcePage', {
-                                    nodeId: node.id,
-                                    translationId: translation.id,
-                                    version: version.version
-                                })
-                            } only %}
-                        {% endif %}
-                    {% endfor %}
-                </nav>
-            </div>
+            <rz-popover popover-placement="left-start" popover-offset="18px">
+                <button popovertarget="version-menu"
+                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
+                        aria-label="{% trans %}versions{% endtrans %}">
+                    <span class="rz-button__icon rz-icon-ri--git-fork-line"></span>
+                </button>
+
+                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                    title: 'versions',
+                    reverse: true,
+                    targetId: 'version-menu'
+                } %}
+                    {% block items %}
+                        {{ _self.item({
+                            label: 'versions.working_copy',
+                            href: path('nodesEditSourcePage', {
+                                nodeId: node.id,
+                                translationId: translation.id
+                            }),
+                            selected: not currentVersion,
+                        }) }}
+                        {% for version in versions %}
+                            {% if loop.index0 > 0 and loop.index <= max_versions_showed %}
+                                {{ _self.item({
+                                    label: version.loggedAt|format_datetime('short', 'short', locale=app.request.locale),
+                                    description: version.username,
+                                    href: path('nodesEditSourcePage', {
+                                        nodeId: node.id,
+                                        translationId: translation.id,
+                                        version: version.version
+                                    }),
+                                    selected: currentVersion and currentVersion.id == version.id,
+                                }) }}
+                            {% endif %}
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            </rz-popover>
         {% endif %}
 
-        {% if not node.isDeleted %}
-            {#
-            # Node actions
-            #}
-            <div role="button" tabindex="0" class="node-actions with-subnav">
-                <header><i class="uk-icon-rz-actions"></i><span class="label"><span class="label-text">{% trans %}actions{% endtrans %}</span></span></header>
-                <nav>
-                    {% block node_public_urls %}
-                        {# Only add preview/see button for Reachable node-types #}
-                        {% if source and source.Reachable %}
-                            {% if node.published %}
-                                <a class="uk-button public-url-link"
-                                   target="_blank"
-                                   href="{{ path('nodesSourcesPublicRedirect', {
-                                       'nodeSourceId': source.id,
-                                   }) }}">
-                                    <i class="uk-icon-rz-visibility"></i>
-                                    <span class="label">{% trans %}see.page{% endtrans %}</span>
-                                </a>
-                            {% endif %}
-                            {% if node.published or node.draft or node.pending %}
-                                <a class="uk-button preview-url-link"
-                                   target="_blank"
-                                   href="{{ path('nodesSourcesPreviewRedirect', {
-                                       'nodeSourceId': source.id,
-                                   }) }}">
-                                    <i class="uk-icon-rz-visibility"></i>
-                                    <span class="label">{% trans %}preview.page{% endtrans %}</span>
-                                </a>
-                            {% endif %}
-                        {% endif %}
-                    {% endblock %}
+        {% if not readOnly and is_granted('DELETE', node) %}
+            {% set canDelete = workflow_can(node, 'delete') %}
 
-                    {% if not node.isLocked %}
-                        {% if is_granted('DUPLICATE', node) %}
-                            <a
-                                class="uk-button rz-no-ajax-link"
-                                href="{{ path('nodesDuplicatePage', { nodeId:node.getId }) }}"
-                            >
-                                <i class="uk-icon-rz-duplicate"></i><span class="label">{% trans %}duplicate{% endtrans %}</span>
-                            </a>
-                        {% endif %}
-                        {% if is_granted('EDIT_SETTING', node) %}
-                            <a
-                                class="uk-button"
-                                href="{{ path('nodesTranstypePage', { nodeId:node.getId }) }}"
-                            ><i class="uk-icon-bolt"></i><span class="label">{% trans %}transtype{% endtrans %}</span></a>
-                        {% endif %}
-                    {% endif %}
+            {% if workflow_can(node, 'undelete') %}
+                {{ _self.item(
+                    label: 'undelete',
+                    class: 'rz-button--primary rz-button--danger',
+                    href: path('nodesUndeletePage', { nodeId: node.getId}),
+                    icon: 'rz-icon-ri--device-recover-line'
+                ) }}
+            {% endif %}
 
-                    {% if canPublish %}
-                        <a class="uk-button publish-all-node" title="{% trans %}publish_node_offspring{% endtrans %}" href="{{ path('nodesPublishAllAction', {nodeId : node.id}) }}"><i class="uk-icon-rz-published-mini"></i><span class="label">{% trans %}publish_node_offspring{% endtrans %}</span></a>
-                    {% endif %}
+            {% if canDelete and node.nodeSources|length > 1 and source %}
+                {{ _self.item(
+                    label: 'delete.translation',
+                    class: 'rz-button--primary rz-button--danger',
+                    href: path('nodesDeleteSourcePage', { nodeSourceId: source.id}),
+                    icon: 'rz-icon-ri--flag-off-line'
+                ) }}
+            {% endif %}
 
-                    {% block node_add_child %}
-                        <a
-                            class="uk-button"
-                            href="{{ path('nodesAddChildPage', { nodeId: node.getId }) }}"
-                        ><i class="uk-icon-rz-plus"></i><span class="label">{% trans %}add.child{% endtrans %}</span></a>
-                    {% endblock %}
-                    {% block node_export %}
-                        {% if node.hidingChildren and translation %}
-                            <a
-                                class="uk-button rz-no-ajax-link"
-                                href="{{ path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}) }}"
-                            >
-                                <i class="uk-icon-file-excel-o"></i>
-                                <span class="label">{{ 'export_format.csv.%language%'|trans({'%language%':translation.name }) }}</span>
-                            </a>
-                        {% endif %}
-                    {% endblock %}
-                </nav>
-            </div>
-            {#
-            # Node statuses
-            #}
-            <div role="button" tabindex="0" class="node-statuses node-status with-subnav uk-form">
-                {% if node.isDraft %}
-                    {% set iconClass = 'uk-icon-rz-draft-nodes' %}
-                {% elseif node.isPending %}
-                    {% set iconClass = 'uk-icon-rz-pending-nodes' %}
-                {% elseif node.isPublished %}
-                    {% set iconClass = 'uk-icon-rz-published' %}
-                {% elseif node.isArchived %}
-                    {% set iconClass = 'uk-icon-rz-archive-mini' %}
-                {% endif %}
-
-                <header><i class="{{ iconClass }}"></i><span class="label"><span class="label-text">{% trans %}statuses{% endtrans %}</span></span></header>
-                <ul class="node-statuses-list">
-                    {% if workflow_can(node, 'reject') or node.isDraft %}
-                        <li class="node-statuses-item node-draft">
-                            <i class="uk-icon-rz-draft-nodes"></i>
-                            <span class="label">{% trans %}draft{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="reject"
-                                   {% if node.isDraft %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'unarchive') %}
-                        <li class="node-statuses-item node-draft">
-                            <i class="uk-icon-rz-draft-nodes"></i>
-                            <span class="label">{% trans %}draft{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="unarchive"
-                                   {% if node.isDraft %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'review') or node.isPending %}
-                        <li class="node-statuses-item node-pending">
-                            <i class="uk-icon-rz-pending-nodes"></i>
-                            <span class="label">{% trans %}pending{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="review"
-                                   {% if node.isPending %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if canPublish or node.isPublished %}
-                        <li class="node-statuses-item node-published">
-                            <i class="uk-icon-rz-published"></i>
-                            <span class="label">{% trans %}published{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="publish"
-                                   {% if node.isPublished %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                    {% if workflow_can(node, 'archive') or node.isArchived %}
-                        <li class="node-statuses-item node-archived">
-                            <i class="uk-icon-rz-archive-mini"></i>
-                            <span class="label">{% trans %}archived{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}"
-                                   type="radio"
-                                   name="status"
-                                   value="archive"
-                                   {% if node.isArchived %}checked{% endif %} />
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+            {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
+                {{ _self.deleteItem(
+                    label: 'delete.node',
+                    href: path('nodesDeletePage', {nodeId: node.getId, referer: node.parent ? getBreadcrumbsItem(node.parent).url : null})
+                ) }}
+            {% endif %}
         {% endif %}
     {% endif %}
-</nav>
+    {% endblock %}
+{% endembed %}

@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "remove.user.%name%.role.%role%"|trans({'%name%': user.username, '%role%': role})|u.truncate(25, '[…]', true) }}
+    {{ "remove.user.%name%.role.%role%"|trans({'%name%': user.username, '%role%': role})|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}

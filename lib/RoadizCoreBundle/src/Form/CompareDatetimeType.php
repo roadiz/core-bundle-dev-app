@@ -30,11 +30,7 @@ final class CompareDatetimeType extends AbstractType
         ->add('compareDatetime', DateTimeType::class, [
             'label' => false,
             'required' => false,
-            'date_widget' => 'single_text',
-            'date_format' => 'yyyy-MM-dd',
-            'attr' => [
-                'class' => 'rz-datetime-field',
-            ],
+            'html5' => true,
             'placeholder' => [
                 'hour' => 'hour',
                 'minute' => 'minute',
@@ -46,8 +42,6 @@ final class CompareDatetimeType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
-
-        $view->vars['attr']['class'] = 'rz-compare-datetype';
     }
 
     #[\Override]
@@ -56,6 +50,9 @@ final class CompareDatetimeType extends AbstractType
         $resolver->setDefaults([
             'inherit_data' => false,
             'required' => false,
+            'attr' => [
+                'class' => 'rz-form__field-list rz-form__field-list--horizontal',
+            ],
         ]);
     }
 

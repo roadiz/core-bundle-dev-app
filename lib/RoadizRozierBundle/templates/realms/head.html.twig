@@ -1,0 +1,26 @@
+{# Simple scope - uses generic head template #}
+
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [
+        {
+            label: 'realms.homepage'|trans,
+            type: 'listing',
+            url: path('realmsHomePage'),
+        }
+    ] %}
+    {% for parent in breadcrumb_parents %}
+        {% set parents = parents|merge([{
+            label: parent.displayName,
+            type: parent.type,
+            url: parent.url,
+        }]) %}
+    {% endfor %}
+    {% set breadcrumb = {
+        label: 'realms-breadcrumb',
+        parent: parents,
+        current: title
+    } %}
+{% endif %}
+
+
+{% include "@RoadizRozier/admin/head.html.twig" %}

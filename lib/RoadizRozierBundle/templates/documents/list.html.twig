@@ -3,7 +3,7 @@
 {%- block title -%}
     {%- if folder -%}
         {%- set folderName = folder.translatedFolders.first.name|default(folder.folderName) -%}
-        {{- folderName|u.truncate(25, '[…]', true) }}
+        {{- folderName|truncate_title }}
     {%- elseif orphans -%}
         {%- trans %}unused_documents{% endtrans %}
     {%- else -%}
@@ -13,38 +13,40 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters bulk-layout">
-	<header class="content-header header-document header-document-list">
-        {% block content_title %}
-            {% if folder %}
-                {% set folderName = folder.translatedFolders.first.name|default(folder.folderName) %}
-                <h1 class="content-title">{{ folderName|u.truncate(25, '[…]', true) }}{% if displayPrivateDocuments %} <i class="uk-icon uk-icon-lock"></i>{% endif %}</h1>
-                {% include '@RoadizRozier/folders/navBar.html.twig' with {'folder':folder, current: displayPrivateDocuments ? 'private_list' : 'list'} %}
-            {% else %}
-                <h1 class="content-title">{{ pageTitle|trans }}{% if displayPrivateDocuments %} <i class="uk-icon uk-icon-lock"></i>{% endif %}</h1>
-            {% endif %}
-        {% endblock %}
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        {% include '@RoadizRozier/documents/backLink.html.twig' %}
+<rz-bulk-section>
+    {% if folder %}
+        {% set folderName = folder.translatedFolders.first.name|default(folder.folderName) %}
+        {% set title = folderName|truncate_title %}
+        {% set with_nav_bar = true %}
+        {% set current = displayPrivateDocuments ? 'private_list' : 'list' %}
+    {% else %}
+        {% set title = pageTitle|trans %}
+        {% set with_nav_bar = false %}
+    {% endif %}
+    {% include '@RoadizRozier/documents/head.html.twig' with {
+        title: title,
+        displayPrivateDocuments: displayPrivateDocuments,
+        displayButtonAction: (displayButtonAction is defined) ? displayButtonAction : true,
+        folder: folder,
+        with_nav_bar: with_nav_bar,
+        current: current,
+        translation: translation,
+        filters: filters
+    } only %}
 
-        {% if not displayPrivateDocuments %}
-            <div class="content-header-action-menu">
-                {% block header_action_menu %}
-                    <a class="uk-button" href="{{ path('documentsUploadPage', {folderId: folder.id}) }}"><i class="uk-icon-rz-upload"></i> {% trans %}upload.document{% endtrans %}</a>
-                    <a class="uk-button" href="{{ path('documentsEmbedPage', {folderId: folder.id}) }}"><i class="uk-icon-rz-embed"></i> {% trans %}embed.document{% endtrans %}</a>
-                    <a class="uk-button rz-no-ajax-link" href="{{ path('documentsRandomPage', {folderId: folder.id}) }}"><i class="uk-icon-magic"></i> {% trans %}random.document{% endtrans %}</a>
-                {% endblock %}
-            </div>
-        {% endif %}
-    </header>
+    {% include '@RoadizRozier/documents/filtersBar.html.twig' with {
+        filters: filters,
+    } %}
 
-    {% include '@RoadizRozier/documents/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/documents/bulkActions.html.twig' with {
+        joinFolderForm: joinFolderForm,
+    } %}
 
     {% block content_body %}
     <article class="content">
         {% block pre_content_body %}{% endblock %}
 
-        <div class="documents-list">
+        <div class="rz-layout-grid">
             {% for document in documents %}
                 {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
                     document: document,
@@ -55,5 +57,5 @@
         </div>
 	</article>
     {% endblock %}
-</section>
+</rz-bulk-section>
 {% endblock %}

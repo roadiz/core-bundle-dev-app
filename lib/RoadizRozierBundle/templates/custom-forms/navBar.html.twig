@@ -1,27 +1,50 @@
-<nav class="node-navbar-navigation navbar-navigation uk-navbar">
-    <ul class="uk-navbar-nav">
-        <li class="uk-navbar-item{% if current == 'customForm' %} uk-active{% endif %}" >
-            <a class="uk-navbar-link" href="{{ path('customFormsEditPage', { id: type.id }) }}">{% trans %}custom-form.parameters{% endtrans %}</a>
-        </li>
-        {% if is_granted('ROLE_ACCESS_CUSTOMFORMS_WEBHOOKS') %}
-            <li class="uk-navbar-item{% if current == 'webhook' %} uk-active{% endif %}" >
-                <a class="uk-navbar-link" href="{{ path('customFormsEditWebhookPage', { customForm: type.id }) }}">{% trans %}custom-form.webhook{% endtrans %}</a>
-            </li>
-        {% endif %}
-        <li class="uk-navbar-item{% if current == 'usage' %} uk-active{% endif %}" >
-            <a class="uk-navbar-link" href="{{ path('customFormsUsagePage', { id: type.id }) }}">{% trans %}custom-form.usage{% endtrans %}</a>
-        </li>
-        <li class="uk-navbar-item{% if current == 'customFormFields' %} uk-active{% endif %}" >
-            <a class="uk-navbar-link" href="{{ path('customFormFieldsListPage', { customFormId: type.id }) }}">{% trans %}custom-form.fields{% endtrans %}</a>
-        </li>
-        <li class="uk-navbar-item{% if current == 'customFormAnswers' %} uk-active{% endif %}" >
-            <a class="uk-navbar-link" href="{{ path('customFormAnswersHomePage', { customFormId: type.id }) }}">{% trans %}custom-form.answers{% endtrans %}</a>
-        </li>
-        <li class="uk-navbar-item" >
-            <a class="uk-navbar-link"
-               title="{% trans %}customForm.show{% endtrans %}"
-               data-uk-tooltip="{animation:true}"
-               target="_blank" href="{{ path('customFormSendAction', { customFormId: type.id }) }}"><i class="uk-icon-rz-visibility"></i></a>
-        </li>
-    </ul>
-</nav>
+{%
+set listItems = [
+    [
+        {
+            'name': 'customForm',
+            'label': 'custom-form.parameters',
+            'href': path('customFormsEditPage', { id: type.id }),
+        },
+        is_granted('ROLE_ACCESS_USERS') ? {
+            'name': 'webhook',
+            'label': 'custom-form.webhook',
+            'href': path('customFormsEditWebhookPage', { customForm: type.id }),
+        } : null,
+        {
+            'name': 'usage',
+            'label': 'custom-form.usage',
+            'href': path('customFormsUsagePage', { id: type.id }),
+        },
+        {
+            'name': 'customFormFields',
+            'label': 'custom-form.fields',
+            'href': path('customFormFieldsListPage', { customFormId: type.id }),
+        },
+        {
+            'name': 'customFormAnswers',
+            'label': 'custom-form.answers',
+            'href': path('customFormAnswersHomePage', { customFormId: type.id }),
+        },
+    ],
+    [
+        {
+            'name': 'customForm.show',
+            'href': path('customFormSendAction', { customFormId: type.id }),
+            'icon': 'rz-icon-ri--eye-line',
+            'target': '_blank',
+            'iconOnly': true,
+        },
+    ]
+]
+%}
+
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

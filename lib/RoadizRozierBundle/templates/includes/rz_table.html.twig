@@ -1,0 +1,89 @@
+
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attr %}
+{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+
+{% set classes = ["rz-table"]|merge(attr.class is defined ? [attr.class] : []) %}
+{% if bordered is defined and bordered %}
+	{% set classes = classes|merge(['rz-table--bordered']) %}
+{% endif %}
+{% if margin_top is defined and margin_top %}
+	{% set classes = classes|merge(['rz-table--margin-top-' ~ margin_top]) %}
+{% endif %}
+
+{% set column_ordering_class = 'rz-table__ordering-link' %}
+{% set _tbody_attributes = tbody_attributes|default({}) %}
+
+{% if sortable.enabled is defined and sortable.enabled is same as(true) %}
+	{% set options = { animation: 0 } %}
+
+	{% if sortable.handle_class is defined %}
+		{% set options = options|merge({ handleClass: sortable.handle_class }) %}
+	{% endif %}
+	{% if sortable.drag_custom_class is defined %}
+		{% set options = options|merge({ dragCustomClass: sortable.drag_custom_class }) %}
+	{% endif %}
+
+	{% set _tbody_attributes = _tbody_attributes|merge({
+		'class': (_tbody_attributes.class|default('') ~ ' uk-sortable')|trim,
+		'data-uk-sortable': options,
+	}) %}
+{% endif %}
+
+{% set _thead_cells %}{% block thead_cells %}{% endblock %}{% endset %}
+{% set _has_thead_cells = _thead_cells|trim is not empty %}
+{% set has_thead_content = _has_thead_cells or selection_available %}
+<table
+    {{ el_attr.print(attr|default({})|merge({ class: classes|join(' ') })) }}
+>
+	{% block thead %}
+		{% if has_thead_content %}
+			<thead>
+				<tr>
+					{% if selection_available %}
+						<th>
+						{{ rz_bulk.select_all_input() }}
+						</th>
+					{% endif %}
+					{{ _thead_cells|raw }}
+					{% if actions_available %}
+						<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
+					{% endif %}
+				</tr>
+			</thead>
+		{% endif %}
+	{% endblock %}
+
+    <tbody {{ el_attr.print(_tbody_attributes) }}>
+        {% block tbody_content %}{% endblock %}
+    </tbody>
+	<tfoot>
+        {% block tfoot_content %}{% endblock %}
+    </tfoot>
+</table>
+
+
+{% macro selection_input(selection_available, value) %}
+	{% if selection_available %}
+		<td>
+			{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+			{{ rz_bulk.select_input({ value: value }) }}
+		</td>
+	{% endif %}
+{% endmacro %}
+
+
+{% macro colored_row_attrs(options = {}, attrs = {}) %}
+	{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+	{% if not options.color or options.color is empty %}
+		{{ el_attrs.print(attrs) }}
+	{% else %}
+		{% set aria_label = options.entity and options.entity is defined ? { 'aria-label': options.entity } : {} %}
+		{% set color_style = options.color and options.color is not empty ? {'style': '--rz-table-row-color: ' ~ options.color ~ ';'} : {} %}
+		{% set classes = { class: attrs.class|default('') ~ ' rz-table__row--colored' } %}
+
+		{% set merged_attrs = attrs|merge(classes)|merge(aria_label)|merge(color_style) %}
+
+		{{ el_attrs.print(merged_attrs) }}
+	{% endif %}
+{% endmacro %}
