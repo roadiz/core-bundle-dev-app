@@ -92,7 +92,7 @@ export class Popover {
 
     init() {
         this.updateOptions()
-        this.popoverElement.addEventListener('beforetoggle', this.toggle)
+        this.popoverElement?.addEventListener('beforetoggle', this.toggle)
     }
 
     destroy() {
