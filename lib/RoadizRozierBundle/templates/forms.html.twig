@@ -61,7 +61,17 @@
         {%- set required = false -%}
     {%- endif -%}
 
-    <input list="datalist-{{ form.vars.listName }}" type="{{ type }}" {{ block('widget_attributes') }}{% if value is not empty %} value="{{ value }}"{% endif %}>
+    {% set classses = ['rz-form-field__body'] %}
+    {% if form.vars.class %}
+        {% set classses = classses|merge([form.vars.class]) %}
+    {% endif %}
+    <input
+        is="rz-input"
+        list="datalist-{{ form.vars.listName }}"
+        type="{{ type }}" {{ block('widget_attributes') }}
+        class="{{ classses|join(' ') }}"
+        {% if value is not empty %} value="{{ value }}"{% endif %}
+    >
     {% if form.vars.list %}
         <datalist id="datalist-{{ form.vars.listName }}">
             {% for choice in form.vars.list %}
