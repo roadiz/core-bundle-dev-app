@@ -1,18 +1,29 @@
-import Lazyload from './Lazyload'
-import VueApp from './App'
+import Lazyload from '~/Lazyload'
+import VueApp from '~/App'
 
 /**
  * Rozier root entry
  */
 export default class Rozier {
+    windowWidth: number | null
+    windowHeight: number | null
+    resizeFirst: boolean
+    canvasLoader: CanvasLoader | null
+    lazyload: Lazyload
+    vueApp: VueApp
+    backTopBtn: HTMLElement | null
+
     constructor() {
         this.windowWidth = null
         this.windowHeight = null
         this.resizeFirst = true
 
         this.canvasLoader = null
-
         this.backTopBtn = null
+
+        this.lazyload = new Lazyload()
+        this.vueApp = new VueApp()
+
         this.resize = this.resize.bind(this)
     }
 
@@ -26,30 +37,30 @@ export default class Rozier {
 
         this.lazyload.generalBind()
         window.addEventListener('requestLoaderShow', () => {
-            this.canvasLoader.show()
+            this.canvasLoader?.show()
         })
         window.addEventListener('requestLoaderHide', () => {
-            this.canvasLoader.hide()
+            this.canvasLoader?.hide()
         })
     }
 
     getAsideElement() {
-        return document.querySelector('rz-aside')
+        return document.querySelector('rz-aside') as RzAsideElement | null
     }
 
     bindMainTrees() {
         this.getAsideElement()?.bindMainTrees?.()
     }
 
-    refreshMainNodeTree(translationId) {
+    refreshMainNodeTree(translationId?: number) {
         return this.getAsideElement()?.refreshMainNodeTree?.(translationId)
     }
 
-    refreshMainTagTree(translationId) {
+    refreshMainTagTree(translationId?: number) {
         return this.getAsideElement()?.refreshMainTagTree?.(translationId)
     }
 
-    refreshMainFolderTree(translationId) {
+    refreshMainFolderTree(translationId?: number) {
         return this.getAsideElement()?.refreshMainFolderTree?.(translationId)
     }
 
@@ -81,12 +92,11 @@ export default class Rozier {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                // Required to prevent using this route as referer when login again
                 'X-Requested-With': 'XMLHttpRequest',
                 Accept: 'application/json',
             },
         })
-        const data = await response.json()
+        const data = (await response.json()) as { messages?: unknown }
         if (!data.messages) {
             return []
         }
@@ -97,12 +107,11 @@ export default class Rozier {
      * Get messages.
      */
     async getMessages() {
-        const messages = await this.fetchSessionMessages()
-        if (
-            messages.confirm &&
-            Array.isArray(messages.confirm) &&
-            messages.confirm.length > 0
-        ) {
+        const messages = (await this.fetchSessionMessages()) as {
+            confirm?: string[]
+            error?: string[]
+        }
+        if (messages.confirm && messages.confirm.length > 0) {
             messages.confirm.forEach((message) => {
                 window.dispatchEvent(
                     new CustomEvent('pushToast', {
@@ -114,11 +123,7 @@ export default class Rozier {
                 )
             })
         }
-        if (
-            messages.error &&
-            Array.isArray(messages.error) &&
-            messages.error.length > 0
-        ) {
+        if (messages.error && messages.error.length > 0) {
             messages.error.forEach((message) => {
                 window.dispatchEvent(
                     new CustomEvent('pushToast', {
@@ -133,10 +138,9 @@ export default class Rozier {
     }
 
     resize() {
-        this.windowWidth = window.offsetWidth
-        this.windowHeight = window.offsetHeight
+        this.windowWidth = window.innerWidth
+        this.windowHeight = window.innerHeight
 
-        // Set resize first to false
         if (this.resizeFirst) this.resizeFirst = false
     }
 }

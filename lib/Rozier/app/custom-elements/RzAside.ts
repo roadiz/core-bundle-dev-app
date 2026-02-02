@@ -27,7 +27,7 @@ export default class RzAside extends RoadizElement {
     }
 
     private get rozier() {
-        return (window as Window & { Rozier?: any }).Rozier
+        return window.Rozier
     }
 
     connectedCallback() {

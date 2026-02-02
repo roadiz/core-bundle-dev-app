@@ -1,16 +1,46 @@
-import AttributeValuePosition from './components/attribute-values/AttributeValuePosition'
-import CustomFormFieldsPosition from './components/custom-form-fields/CustomFormFieldsPosition'
-import StackNodeTree from './widgets/StackNodeTree'
-import SettingsSaveButtons from './widgets/SettingsSaveButtons'
-import NodeStatuses from './widgets/NodeStatuses'
-import YamlEditor from './widgets/YamlEditor'
-import JsonEditor from './widgets/JsonEditor'
-import CssEditor from './widgets/CssEditor'
+import AttributeValuePosition from '~/components/attribute-values/AttributeValuePosition'
+import CustomFormFieldsPosition from '~/components/custom-form-fields/CustomFormFieldsPosition'
+import StackNodeTree from '~/widgets/StackNodeTree'
+import SettingsSaveButtons from '~/widgets/SettingsSaveButtons'
+import NodeStatuses from '~/widgets/NodeStatuses'
+import YamlEditor from '~/widgets/YamlEditor'
+import JsonEditor from '~/widgets/JsonEditor'
+import CssEditor from '~/widgets/CssEditor'
+
+type Unbindable = { unbind?: () => void } | null
+
+declare const $: {
+    (elements: NodeListOf<Element> | Element[]): {
+        collection(options: Record<string, unknown>): void
+    }
+}
+
+type JQuery = ArrayLike<HTMLElement> & {
+    0: HTMLElement
+}
 
 export default class Lazyload {
+    linksSelector: HTMLAnchorElement[]
+    currentRequest: AbortController | null
+    currentTimeout: number | null
+    inputLengthWatcher: Unbindable
+    documentUploader: Unbindable
+    geotagField: Unbindable
+    multiGeotagField: Unbindable
+    tagAutocomplete: Unbindable
+    attributeValuesPosition: Unbindable
+    customFormFieldsPosition: Unbindable
+    settingsSaveButtons: Unbindable
+    jsonEditors: JsonEditor[]
+    cssEditors: CssEditor[]
+    yamlEditors: YamlEditor[]
+    stackNodeTrees: StackNodeTree | null
+    nodeStatuses: NodeStatuses | null
+
     constructor() {
-        this.linksSelector = null
+        this.linksSelector = []
         this.currentRequest = null
+        this.currentTimeout = null
         this.inputLengthWatcher = null
         this.documentUploader = null
         this.geotagField = null
@@ -22,8 +52,9 @@ export default class Lazyload {
         this.jsonEditors = []
         this.cssEditors = []
         this.yamlEditors = []
+        this.stackNodeTrees = null
+        this.nodeStatuses = null
 
-        // Bind methods
         this.onPopState = this.onPopState.bind(this)
         this.onClick = this.onClick.bind(this)
 
@@ -32,15 +63,12 @@ export default class Lazyload {
         window.removeEventListener('popstate', this.onPopState)
         window.addEventListener('popstate', this.onPopState)
 
-        /*
-         * Start history with first hard loaded page
-         */
         window.history.pushState({}, document.title, window.location.href)
     }
 
     parseLinks() {
         this.linksSelector = Array.from(
-            document.querySelectorAll(
+            document.querySelectorAll<HTMLAnchorElement>(
                 'a:not([target=_blank]):not([download]):not([href="#"])',
             ),
         ).filter((link) => {
@@ -60,11 +88,11 @@ export default class Lazyload {
 
     /**
      * Bind links to load pages
-     * @param {MouseEvent} event
      */
-    onClick(event) {
-        const link = event.currentTarget
-        const href = link.getAttribute('href')
+    onClick(event: MouseEvent) {
+        const link = event.currentTarget as HTMLAnchorElement | null
+        const href = link?.getAttribute('href')
+        if (!href) return false
 
         event.preventDefault()
 
@@ -78,17 +106,16 @@ export default class Lazyload {
 
     /**
      * On pop state
-     * @param {Event} event
      */
-    onPopState(event) {
-        let state = null
+    onPopState(event: PopStateEvent | null) {
+        let state: Record<string, unknown> | null = null
 
-        if (event !== null && event.originalEvent) {
-            state = event.originalEvent.state
+        if (event !== null && 'state' in event) {
+            state = event.state as Record<string, unknown> | null
         }
 
         if (typeof state === 'undefined' || state === null) {
-            state = window.history.state
+            state = window.history.state as Record<string, unknown> | null
         }
 
         if (state !== null) {
@@ -99,41 +126,31 @@ export default class Lazyload {
 
     /**
      * Load content (ajax)
-     * @param {Object} state
-     * @param {Object} location
      */
-    loadContent(state, location) {
-        /*
-         * Delay loading if user is click like devil
-         */
+    loadContent(state: Record<string, unknown>, location: Location) {
         if (this.currentTimeout) {
             window.cancelAnimationFrame(this.currentTimeout)
         }
 
         this.currentTimeout = window.requestAnimationFrame(async () => {
-            /*
-             * Trigger event on window to notify open
-             * widgets to close.
-             */
-            let pageChangeEvent = new CustomEvent('pagechange')
-            window.dispatchEvent(pageChangeEvent)
+            window.dispatchEvent(new CustomEvent('pagechange'))
 
             try {
                 let url = ''
                 const path = location.href.split('?')[0]
                 const params = new URLSearchParams(location.href.split('?')[1])
-                if (state.headerData) {
-                    /**
-                     * @param {string} key
-                     * @param {string|number|Array<string|number>} value
-                     */
-                    for (let [key, value] of Object.entries(state.headerData)) {
+                const headerData = state.headerData as
+                    | Record<string, string | number | Array<string | number>>
+                    | undefined
+
+                if (headerData) {
+                    for (const [key, value] of Object.entries(headerData)) {
                         if (Array.isArray(value)) {
                             value.forEach((v, i) => {
-                                params.append(key + '[' + i + ']', v)
+                                params.append(`${key}[${i}]`, String(v))
                             })
                         } else {
-                            params.set(key, value)
+                            params.set(key, String(value))
                         }
                     }
                 }
@@ -153,16 +170,20 @@ export default class Lazyload {
                     throw response
                 }
                 const data = await response.text()
-                this.applyContent(data)
-                let pageLoadEvent = new CustomEvent('pageload', {
-                    detail: data,
-                })
-                window.dispatchEvent(pageLoadEvent)
+                await this.applyContent(data)
+                window.dispatchEvent(
+                    new CustomEvent('pageload', {
+                        detail: data,
+                    }),
+                )
             } catch (response) {
-                const data = await response.text()
+                const errorResponse = response as Response
+                const data = await errorResponse.text()
                 if (data) {
                     try {
-                        let exception = JSON.parse(data)
+                        const exception = JSON.parse(data) as {
+                            message?: string
+                        }
                         window.dispatchEvent(
                             new CustomEvent('pushToast', {
                                 detail: {
@@ -172,7 +193,6 @@ export default class Lazyload {
                             }),
                         )
                     } catch {
-                        // No valid JsonResponse, need to refresh page
                         window.location.href = location.href
                     }
                 } else {
@@ -192,36 +212,33 @@ export default class Lazyload {
     }
 
     refreshCodemirrorEditor() {
-        for (let editor of this.yamlEditors) {
+        for (const editor of this.yamlEditors) {
             editor.forceEditorUpdate()
         }
-        for (let editor of this.cssEditors) {
+        for (const editor of this.cssEditors) {
             editor.forceEditorUpdate()
         }
-        for (let editor of this.jsonEditors) {
+        for (const editor of this.jsonEditors) {
             editor.forceEditorUpdate()
         }
     }
 
     destroyCodemirrorEditor() {
-        for (let editor of this.yamlEditors) {
+        for (const editor of this.yamlEditors) {
             editor.destroy()
         }
-        for (let editor of this.cssEditors) {
+        for (const editor of this.cssEditors) {
             editor.destroy()
         }
-        for (let editor of this.jsonEditors) {
+        for (const editor of this.jsonEditors) {
             editor.destroy()
         }
     }
 
     /**
      * Apply content to main content.
-     *
-     * @param {string} data
-     * @return {void}
      */
-    async applyContent(data) {
+    async applyContent(data: string) {
         const container = document.querySelector('[data-ajax-root]')
         if (!container) {
             console.error('No [data-ajax-root] found in the document.')
@@ -231,10 +248,6 @@ export default class Lazyload {
         const tempData = document.createElement('div')
         tempData.setHTMLUnsafe(data)
 
-        /*
-         * If AJAX request data is an entire HTML page.
-         */
-        /** @var {HTMLElement} ajaxRoot */
         const ajaxRoot = tempData.querySelector('[data-ajax-root]')
         if (ajaxRoot) {
             container.setHTMLUnsafe(ajaxRoot.innerHTML)
@@ -244,16 +257,16 @@ export default class Lazyload {
 
         const metaTitle = tempData.querySelectorAll('title, meta[name="title"]')
         if (metaTitle.length) {
+            const titleElement = metaTitle[0] as HTMLElement
             document.title =
-                metaTitle[0].getAttribute('content') || metaTitle[0].innerText
+                titleElement.getAttribute('content') ||
+                titleElement.textContent ||
+                ''
         }
 
-        const pageShowEndEvent = new CustomEvent('pageshowend')
-        window.dispatchEvent(pageShowEndEvent)
+        window.dispatchEvent(new CustomEvent('pageshowend'))
 
         this.generalBind()
-
-        // TODO: Need to scroll to top
     }
 
     bindAjaxLink() {
@@ -261,16 +274,13 @@ export default class Lazyload {
 
         this.linksSelector.forEach((link) => {
             link.classList.add('rz-ajax-link')
-            // Remove existing listener from this specific link before adding a new one
             link.removeEventListener('click', this.onClick)
-            // Add the listener to this specific link
             link.addEventListener('click', this.onClick)
         })
     }
 
     /**
      * General bind on page load
-     * @return {[type]} [description]
      */
     generalBind() {
         this.generalUnbind([
@@ -294,59 +304,49 @@ export default class Lazyload {
         this.customFormFieldsPosition = new CustomFormFieldsPosition()
         this.settingsSaveButtons = new SettingsSaveButtons()
 
-        // Codemirror
         this.initJsonEditors()
         this.initCssEditors()
         this.initYamlEditors()
-        // this.initCollectionsForms()
 
-        // window.Rozier.initNestables()
-        window.Rozier.bindMainTrees()
-        window.Rozier.nodeStatuses = new NodeStatuses()
-
-        window.Rozier.getMessages()
+        window.Rozier?.bindMainTrees()
+        window.Rozier!.nodeStatuses = new NodeStatuses()
+        window.Rozier?.getMessages()
     }
 
-    generalUnbind(objects) {
+    generalUnbind(objects: Unbindable[]) {
         this.destroyCodemirrorEditor()
-        for (let object of objects) {
-            if (object) {
+        for (const object of objects) {
+            if (object?.unbind) {
                 object.unbind()
             }
         }
     }
 
-    initCollectionsForms(scope = null) {
-        let types = null
-        if (scope !== null) {
+    initCollectionsForms(scope?: HTMLElement | null) {
+        let types: NodeListOf<Element> | null = null
+        if (scope !== null && typeof scope !== 'undefined') {
             types = scope.querySelectorAll('.rz-collection-form-type')
         } else {
             types = document.querySelectorAll('.rz-collection-form-type')
         }
         if (types.length) {
-            // Jquery collection
             $(types).collection({
                 up: '<a tabindex="-1" class="uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-angle-up"></i></a>',
                 down: '<a tabindex="-1" class="uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-angle-down"></i></a>',
                 add: '<a tabindex="-1" class="uk-button-primary uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-plus"></i></a>',
                 remove: '<a tabindex="-1" class="uk-button-danger uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-minus"></i></a>',
-                /**
-                 * @param collection
-                 * @param {jQuery} element
-                 * @return {boolean}
-                 */
-                after_add: (collection, element) => {
-                    const el = element[0]
+                after_add: (_collection: unknown, element: JQuery) => {
+                    const el = element[0] as HTMLElement
                     this.initJsonEditors(el)
                     this.initCssEditors(el)
                     this.initYamlEditors(el)
                     this.initCollectionsForms(el)
 
-                    let vueComponents = el.querySelectorAll('[data-vuejs]')
-                    // Create each component
-                    vueComponents.forEach((el) => {
+                    const vueComponents = el.querySelectorAll('[data-vuejs]')
+                    vueComponents.forEach((vueEl) => {
+                        if (!window.Rozier) return
                         window.Rozier.vueApp.mainContentComponents.push(
-                            window.Rozier.vueApp.buildComponent(el),
+                            window.Rozier.vueApp.buildComponent(vueEl),
                         )
                     })
                     return true
@@ -355,12 +355,8 @@ export default class Lazyload {
         }
     }
 
-    /**
-     * @param {HTMLElement|undefined} scope
-     */
-    initJsonEditors(scope) {
-        // Init json-preview
-        let textareasJson = []
+    initJsonEditors(scope?: HTMLElement) {
+        let textareasJson: NodeListOf<HTMLTextAreaElement>
         if (scope) {
             textareasJson = scope.querySelectorAll(
                 'textarea[data-rz-jsoneditor]',
@@ -370,7 +366,7 @@ export default class Lazyload {
                 'textarea[data-rz-jsoneditor]',
             )
         }
-        let editorCount = textareasJson.length
+        const editorCount = textareasJson.length
         if (editorCount) {
             for (let i = 0; i < editorCount; i++) {
                 this.jsonEditors.push(new JsonEditor(textareasJson[i], i))
@@ -378,12 +374,8 @@ export default class Lazyload {
         }
     }
 
-    /**
-     * @param {HTMLElement|undefined} scope
-     */
-    initCssEditors(scope) {
-        // Init css-preview
-        let textareasCss = []
+    initCssEditors(scope?: HTMLElement) {
+        let textareasCss: NodeListOf<HTMLTextAreaElement>
         if (scope) {
             textareasCss = scope.querySelectorAll('textarea[data-rz-csseditor]')
         } else {
@@ -391,7 +383,7 @@ export default class Lazyload {
                 'textarea[data-rz-csseditor]',
             )
         }
-        let editorCount = textareasCss.length
+        const editorCount = textareasCss.length
 
         if (editorCount) {
             for (let i = 0; i < editorCount; i++) {
@@ -400,12 +392,8 @@ export default class Lazyload {
         }
     }
 
-    /**
-     * @param {HTMLElement|undefined} scope
-     */
-    initYamlEditors(scope) {
-        // Init yaml-preview
-        let textareasYaml = []
+    initYamlEditors(scope?: HTMLElement) {
+        let textareasYaml: NodeListOf<HTMLTextAreaElement>
         if (scope) {
             textareasYaml = scope.querySelectorAll(
                 'textarea[data-rz-yamleditor]',
@@ -415,7 +403,7 @@ export default class Lazyload {
                 'textarea[data-rz-yamleditor]',
             )
         }
-        let editorCount = textareasYaml.length
+        const editorCount = textareasYaml.length
 
         if (editorCount) {
             for (let i = 0; i < editorCount; i++) {
