@@ -55,10 +55,6 @@ export default class RzTable extends HTMLTableElement {
         return Number.isNaN(parsed) ? null : parsed
     }
 
-    private getSortableSiblingId(element: Element | null) {
-        return this.getSortableItemId(element)
-    }
-
     private async onSortableUpdate(event: Sortable.SortableEvent) {
         const row = event.item as HTMLElement | null
         const sortableUrl = this.sortableUrl
@@ -76,8 +72,8 @@ export default class RzTable extends HTMLTableElement {
             id: currentId.toString(),
         }
 
-        const prevId = this.getSortableSiblingId(row.previousElementSibling)
-        const nextId = this.getSortableSiblingId(row.nextElementSibling)
+        const prevId = this.getSortableItemId(row.previousElementSibling)
+        const nextId = this.getSortableItemId(row.nextElementSibling)
 
         if (prevId !== null) {
             payload.prevId = prevId.toString()
@@ -106,12 +102,17 @@ export default class RzTable extends HTMLTableElement {
                     },
                 }),
             )
-        } catch (response) {
-            const data = await (response as Response).json()
+        } catch (error) {
+            let message = 'An error occurred while updating positions.'
+            if (error instanceof Response) {
+                const data = await error.json()
+                message = data.title || ''
+            }
+
             window.dispatchEvent(
                 new CustomEvent('pushToast', {
                     detail: {
-                        message: data.title || '',
+                        message: message,
                         status: 'danger',
                     },
                 }),
