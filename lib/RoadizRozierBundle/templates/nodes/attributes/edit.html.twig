@@ -21,12 +21,11 @@
         } only %}
 
         <article>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                sortable: {
-                    enabled: not order_by_weight,
-                    handle_class: 'rz-table__handle',
-                    drag_custom_class: 'setting-row',
-                },
+                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                    sortable: {
+                        enabled: not order_by_weight,
+                        url: path('attributeValuePositionAjax'),
+                    },
                 attr: {
                     class: 'attribute-value-forms'
                 },
@@ -46,7 +45,7 @@
                         <tr
                             data-position="{{ attributeValue.position }}"
                             data-id="{{ attributeValue.id }}"
-                            {{ _self.colored_row_attrs({'color': attributeValue.attribute.color }, { class: 'setting-row'}) }}
+                            {{ _self.colored_row_attrs({'color': attributeValue.attribute.color }) }}
                         >
                             <th class="rz-table__handle">
                                 {{- attribute_value_translation_form.vars.data|attribute_label -}}
