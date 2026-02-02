@@ -331,27 +331,21 @@ export default class RzAside extends RoadizElement {
     async refreshMainNodeTree(translationId: number | undefined = undefined) {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.nodesTreeAjax || null,
-            {
-                translationId: translationId,
-            },
+            { translationId },
         )
     }
 
     async refreshMainTagTree(translationId: number | undefined = undefined) {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.tagsTreeAjax || null,
-            {
-                translationId: translationId,
-            },
+            { translationId },
         )
     }
 
     async refreshMainFolderTree(translationId: number | undefined = undefined) {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.foldersTreeAjax || null,
-            {
-                translationId: translationId,
-            },
+            { translationId },
         )
     }
 }
