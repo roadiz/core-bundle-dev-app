@@ -17,6 +17,7 @@ export default class RzTree extends HTMLElement {
     get group() {
         return this.getAttribute('group') || 'tree'
     }
+
     get positionRoute() {
         const attr = this.getAttribute('data-position-route')
         if (attr) return attr
@@ -35,15 +36,18 @@ export default class RzTree extends HTMLElement {
 
         return null
     }
+
     get entityType() {
         return this.getAttribute('data-entity-type')
     }
+
     get isSortable() {
         return (
             this.getAttribute('data-is-sortable') !== 'false' &&
             !!this.positionRoute
         )
     }
+
     get expandedStateKey() {
         const base = 'collapsed.rz_tree'
         const treeId = this.getAttribute('data-tree-id') || this.id || 'root'
@@ -60,7 +64,6 @@ export default class RzTree extends HTMLElement {
 
         this.syncCollapsedState()
         this.bindExpandButtons()
-        this.cleanNodeTree()
         this.addEventListener('command', this.onCommand)
     }
 
@@ -78,12 +81,6 @@ export default class RzTree extends HTMLElement {
                 this.onQuickAddNode(event)
                 break
         }
-    }
-
-    cleanNodeTree() {
-        this.querySelectorAll('.nodetree-langs').forEach((element) => {
-            element.remove()
-        })
     }
 
     get rootList() {
@@ -270,7 +267,6 @@ export default class RzTree extends HTMLElement {
                     this.innerHTML = data.nodeTree
                     this.rootNode = this.querySelector('[role="tree"]')
                     this.bindExpandButtons()
-                    this.cleanNodeTree()
                     await fadeIn(this)
                 }
 
@@ -380,7 +376,7 @@ export default class RzTree extends HTMLElement {
             if (!item) return
 
             const btn = item.querySelector('.rz-tree__item__expand-button')
-            btn.setAttribute('aria-expanded', 'true')
+            btn?.setAttribute('aria-expanded', 'true')
         })
     }
 

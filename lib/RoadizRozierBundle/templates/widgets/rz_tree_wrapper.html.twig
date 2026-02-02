@@ -9,6 +9,7 @@
 			emphasis: 'secondary',
 			size: 'md',
 			iconClass: 'rz-spinner',
+			class: 'rz-aside__loading-button',
 			attributes: {
 				'aria-live': 'polite',
 				'role': 'status',
@@ -32,6 +33,7 @@
 		{% if display_translations %}
 			{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
 				tree: tree,
+				type_prefix: type_prefix,
 				classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
 			} only %}
 		{% endif %}

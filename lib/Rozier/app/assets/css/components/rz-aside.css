@@ -34,6 +34,10 @@
 	padding-inline: var(--spacing-4xs);
 }
 
+.rz-aside__loading-button {
+	margin: var(--spacing-2xs) var(--spacing-6xs);
+}
+
 .rz-aside__head {
 	display: flex;
 	align-items: center;
