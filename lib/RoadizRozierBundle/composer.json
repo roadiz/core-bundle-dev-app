@@ -19,10 +19,10 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-        "roadiz/core-bundle": "2.7.*",
-        "roadiz/openid": "2.7.*",
-        "roadiz/doc-generator": "2.7.*",
-        "roadiz/dts-generator": "2.7.*",
+        "roadiz/core-bundle": "2.8.x-dev",
+        "roadiz/openid": "2.8.x-dev",
+        "roadiz/doc-generator": "2.8.x-dev",
+        "roadiz/dts-generator": "2.8.x-dev",
         "symfony/framework-bundle": "7.4.*",
         "deeplcom/deepl-php": "^1.12"
     },

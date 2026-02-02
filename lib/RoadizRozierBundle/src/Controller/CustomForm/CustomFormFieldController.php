@@ -200,7 +200,7 @@ final class CustomFormFieldController extends AbstractController
             ['%name%' => $field->getLabel()]
         );
 
-        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/custom-forms/head.html.twig',
             'cancelPath' => $this->generateUrl('customFormFieldsListPage', [

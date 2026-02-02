@@ -326,7 +326,7 @@ final class SettingController extends AbstractController
             ['%name%' => $setting->getName()]
         );
 
-        return $this->render('@RoadizRozier/admin/bulk_action.html.twig', [
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/settings/head.html.twig',
             'cancelPath' => $this->generateUrl('settingsHomePage'),

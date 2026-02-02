@@ -1,6 +1,6 @@
 {% block content %}
 
-{% include '@RoadizRozier/admin/bulk_action.html.twig' with {
+{% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     form: form,
     title: "reset.attribute.%name%.for_node.%nodeName%"|trans({
                 '%name%': item|attribute_label(translation),

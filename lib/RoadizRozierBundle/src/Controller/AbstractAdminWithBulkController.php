@@ -217,7 +217,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             ]
         );
 
-        // Pass additional template options for bulk_action.html.twig
+        // Pass additional template options for confirm_action.html.twig
         if (isset($templateOptions['action_label'])) {
             $this->assignation['action_label'] = $templateOptions['action_label'];
         }
@@ -258,7 +258,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/bulk_action.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item
@@ -286,7 +286,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createPublishBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_publish.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_published',
             /**
              * @param TEntity $item
@@ -294,7 +294,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             function (PersistableInterface $item) {
                 $this->setPublishedAt($item, new \DateTime('now'));
             },
-            'bulkPublishForm'
+            'bulkPublishForm',
+            templateOptions: [
+                'title' => $this->translator->trans($this->getNamespace().'.bulk_publish.title'),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_publish.'.$this->getNamespace()),
+                'action_label' => 'bulk.publish',
+                'action_icon' => 'rz-icon-ri--check-line',
+                'action_color' => 'success',
+                'messageType' => 'warning',
+            ]
         );
     }
 
@@ -310,7 +318,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createUnpublishBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_unpublish.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_unpublished',
             /**
              * @param TEntity $item
@@ -318,7 +326,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             function (PersistableInterface $item) {
                 $this->setPublishedAt($item, null);
             },
-            'bulkUnpublishForm'
+            'bulkUnpublishForm',
+            templateOptions: [
+                'title' => $this->translator->trans($this->getNamespace().'.bulk_unpublish.title'),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_unpublish.'.$this->getNamespace()),
+                'action_label' => 'bulk.unpublish',
+                'action_icon' => 'rz-icon-ri--close-large-line',
+                'action_color' => 'danger',
+                'messageType' => 'warning',
+            ]
         );
     }
 
