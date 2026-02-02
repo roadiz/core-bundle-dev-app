@@ -48,6 +48,8 @@
 
 .rz-header-nav-item__label {
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-label-sm-font-size);
 	line-height: var(--text-label-sm-line-height);
@@ -58,6 +60,7 @@
 .rz-header-nav-item__arrow {
 	color: var(--workspace-icon, #BCBCBC);
 	font-size: 20px;
+	flex-shrink: 0;
 	margin-left: auto;
 	transition: rotate 0.3s, color 0.3s;
 

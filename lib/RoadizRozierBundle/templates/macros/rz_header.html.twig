@@ -24,6 +24,7 @@
 
     <{{ tag }}
         class="{{ buttonClass }}"
+        title="{{ label }}"
         {% if href is defined and href %} href="{{ href }}"{% endif %}
         {% if tag == 'button' %}aria-expanded="false"{% endif %}
         {% if component %}
