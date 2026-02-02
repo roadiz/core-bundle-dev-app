@@ -1,11 +1,50 @@
 {
+  "_Popover-BrqRB6W9.js": {
+    "file": "Popover-BrqRB6W9.js",
+    "name": "Popover"
+  },
   "_RoadizElement-XU473doh.js": {
     "file": "RoadizElement-XU473doh.js",
     "name": "RoadizElement"
   },
-  "_jquery-Cs7-jZ1a.js": {
-    "file": "jquery-Cs7-jZ1a.js",
+  "_Tooltip-BaLNh5dg.js": {
+    "file": "Tooltip-BaLNh5dg.js",
+    "name": "Tooltip",
+    "imports": [
+      "_Popover-BrqRB6W9.js",
+      "app/main.js"
+    ]
+  },
+  "_jquery-DmndgEMa.js": {
+    "file": "jquery-DmndgEMa.js",
     "name": "jquery"
+  },
+  "_leaflet-src-B4LCaRnj.js": {
+    "file": "leaflet-src-B4LCaRnj.js",
+    "name": "leaflet-src",
+    "isDynamicEntry": true,
+    "imports": [
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "_plugins-DaBpnC88.js": {
+    "file": "plugins-DaBpnC88.js",
+    "name": "plugins"
+  },
+  "_rzBadge-ki2EcYlY.js": {
+    "file": "rzBadge-ki2EcYlY.js",
+    "name": "rzBadge"
+  },
+  "_rzCard-D6-3YQl5.js": {
+    "file": "rzCard-D6-3YQl5.js",
+    "name": "rzCard",
+    "imports": [
+      "_rzBadge-ki2EcYlY.js"
+    ]
+  },
+  "_sortable.core.esm-Bjnw44Mn.js": {
+    "file": "sortable.core.esm-Bjnw44Mn.js",
+    "name": "sortable.core.esm"
   },
   "_vue-BqDQd3Vv.js": {
     "file": "vue-BqDQd3Vv.js",
@@ -34,6 +73,10 @@
   "app/assets/fonts/rz-icons.woff2": {
     "file": "rz-icons-BSa7Mah2.woff2",
     "src": "app/assets/fonts/rz-icons.woff2"
+  },
+  "app/assets/img/login-page-background.png": {
+    "file": "login-page-background-DYwPeqRb.png",
+    "src": "app/assets/img/login-page-background.png"
   },
   "app/assets/img/spritemap@2x.png": {
     "file": "spritemap@2x-Bd7qNsVN.png",
@@ -69,31 +112,90 @@
     "src": "app/custom-elements/FolderAutocomplete.js",
     "isDynamicEntry": true
   },
-  "app/custom-elements/MainTrees.js": {
-    "file": "MainTrees-D5VLcSe6.js",
-    "name": "MainTrees",
-    "src": "app/custom-elements/MainTrees.js",
+  "app/custom-elements/RzAside.ts": {
+    "file": "RzAside-M2QJYIrt.js",
+    "name": "RzAside",
+    "src": "app/custom-elements/RzAside.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzBadge.ts": {
+    "file": "RzBadge-XgGOKtfL.js",
+    "name": "RzBadge",
+    "src": "app/custom-elements/RzBadge.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Tooltip-BaLNh5dg.js",
+      "_Popover-BrqRB6W9.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzBulkActions.ts": {
+    "file": "RzBulkActions-Bpf1w1n5.js",
+    "name": "RzBulkActions",
+    "src": "app/custom-elements/RzBulkActions.ts",
     "isDynamicEntry": true
   },
-  "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-CtbNjRmz.js",
-    "name": "NodeSourceEditPage",
-    "src": "app/custom-elements/NodeSourceEditPage.js",
+  "app/custom-elements/RzBulkSection.ts": {
+    "file": "RzBulkSection-CkaPl28x.js",
+    "name": "RzBulkSection",
+    "src": "app/custom-elements/RzBulkSection.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzButton.ts": {
+    "file": "RzButton-BlmU10Y9.js",
+    "name": "RzButton",
+    "src": "app/custom-elements/RzButton.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Tooltip-BaLNh5dg.js",
+      "_Popover-BrqRB6W9.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzColorInput.ts": {
+    "file": "RzColorInput-BmNg4dyY.js",
+    "name": "RzColorInput",
+    "src": "app/custom-elements/RzColorInput.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzColorSchemeSwitcher.ts": {
+    "file": "RzColorSchemeSwitcher-Bus6YJrm.js",
+    "name": "RzColorSchemeSwitcher",
+    "src": "app/custom-elements/RzColorSchemeSwitcher.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzDialog.ts": {
+    "file": "RzDialog-BRFv2yXq.js",
+    "name": "RzDialog",
+    "src": "app/custom-elements/RzDialog.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzDrawer.ts": {
+    "file": "RzDrawer-CH0s-xWJ.js",
+    "name": "RzDrawer",
+    "src": "app/custom-elements/RzDrawer.ts",
     "isDynamicEntry": true,
     "imports": [
       "app/main.js",
-      "_jquery-Cs7-jZ1a.js",
-      "_vue-BqDQd3Vv.js"
+      "_sortable.core.esm-Bjnw44Mn.js",
+      "_rzCard-D6-3YQl5.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js",
+      "_rzBadge-ki2EcYlY.js"
     ]
   },
-  "app/custom-elements/NodeTreeContextualMenu.js": {
-    "file": "NodeTreeContextualMenu-Bcd4AsCr.js",
-    "name": "NodeTreeContextualMenu",
-    "src": "app/custom-elements/NodeTreeContextualMenu.js",
-    "isDynamicEntry": true
-  },
   "app/custom-elements/RzEntityThumbnail.ts": {
-    "file": "RzEntityThumbnail-ChGiX1nH.js",
+    "file": "RzEntityThumbnail-DEpK8MMs.js",
     "name": "RzEntityThumbnail",
     "src": "app/custom-elements/RzEntityThumbnail.ts",
     "isDynamicEntry": true,
@@ -102,33 +204,138 @@
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-DkceYfu3.js",
+    "file": "RzFileUpload-CfUuECAa.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_jquery-Cs7-jZ1a.js",
+      "_jquery-DmndgEMa.js",
       "app/main.js",
       "_vue-BqDQd3Vv.js"
     ]
   },
+  "app/custom-elements/RzFiltersBar.ts": {
+    "file": "RzFiltersBar-BGU_YhxI.js",
+    "name": "RzFiltersBar",
+    "src": "app/custom-elements/RzFiltersBar.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzFormField.ts": {
+    "file": "RzFormField-Bpphh54m.js",
+    "name": "RzFormField",
+    "src": "app/custom-elements/RzFormField.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzGeotag.ts": {
+    "file": "RzGeotag-8ZTEYp3l.js",
+    "name": "RzGeotag",
+    "src": "app/custom-elements/RzGeotag.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ],
+    "dynamicImports": [
+      "_leaflet-src-B4LCaRnj.js"
+    ]
+  },
+  "app/custom-elements/RzHeader.ts": {
+    "file": "RzHeader-DFDFRBsi.js",
+    "name": "RzHeader",
+    "src": "app/custom-elements/RzHeader.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzHeaderNavItemButton.ts": {
+    "file": "RzHeaderNavItemButton-BItguDc1.js",
+    "name": "RzHeaderNavItemButton",
+    "src": "app/custom-elements/RzHeaderNavItemButton.ts",
+    "isDynamicEntry": true
+  },
   "app/custom-elements/RzInput.ts": {
-    "file": "RzInput-Xmz3Fd5k.js",
+    "file": "RzInput-DV8-tNpw.js",
     "name": "RzInput",
     "src": "app/custom-elements/RzInput.ts",
     "isDynamicEntry": true
   },
-  "app/custom-elements/RzInputColor.js": {
-    "file": "RzInputColor-DfOgbOC9.js",
-    "name": "RzInputColor",
-    "src": "app/custom-elements/RzInputColor.js",
+  "app/custom-elements/RzLink.ts": {
+    "file": "RzLink-Tse26UDW.js",
+    "name": "RzLink",
+    "src": "app/custom-elements/RzLink.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Tooltip-BaLNh5dg.js",
+      "_Popover-BrqRB6W9.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzMarkdownEditor.ts": {
+    "file": "RzMarkdownEditor-BTH_NCEk.js",
+    "name": "RzMarkdownEditor",
+    "src": "app/custom-elements/RzMarkdownEditor.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_plugins-DaBpnC88.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzNodeTreeContextualMenu.ts": {
+    "file": "RzNodeTreeContextualMenu-DNOPjvA8.js",
+    "name": "RzNodeTreeContextualMenu",
+    "src": "app/custom-elements/RzNodeTreeContextualMenu.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Popover-BrqRB6W9.js"
+    ]
+  },
+  "app/custom-elements/RzPage.ts": {
+    "file": "RzPage-mbfFyaM8.js",
+    "name": "RzPage",
+    "src": "app/custom-elements/RzPage.ts",
+    "isDynamicEntry": true
+  },
+  "app/custom-elements/RzPopover.ts": {
+    "file": "RzPopover-C2c8fQuj.js",
+    "name": "RzPopover",
+    "src": "app/custom-elements/RzPopover.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Popover-BrqRB6W9.js"
+    ]
+  },
+  "app/custom-elements/RzRepeatable.ts": {
+    "file": "RzRepeatable-3s1Yv9Ru.js",
+    "name": "RzRepeatable",
+    "src": "app/custom-elements/RzRepeatable.ts",
     "isDynamicEntry": true
   },
   "app/custom-elements/RzSaveButton.js": {
-    "file": "RzSaveButton-CxnLRuxS.js",
+    "file": "RzSaveButton-HtAW73EX.js",
     "name": "RzSaveButton",
     "src": "app/custom-elements/RzSaveButton.js",
     "isDynamicEntry": true
+  },
+  "app/custom-elements/RzSearch.ts": {
+    "file": "RzSearch-skumScvz.js",
+    "name": "RzSearch",
+    "src": "app/custom-elements/RzSearch.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_rzCard-D6-3YQl5.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js",
+      "_rzBadge-ki2EcYlY.js"
+    ]
   },
   "app/custom-elements/RzSelect.ts": {
     "file": "RzSelect-rM-RoCWg.js",
@@ -136,17 +343,45 @@
     "src": "app/custom-elements/RzSelect.ts",
     "isDynamicEntry": true
   },
-  "app/custom-elements/RzSwitch.ts": {
-    "file": "RzSwitch-VhhKfMCc.js",
-    "name": "RzSwitch",
-    "src": "app/custom-elements/RzSwitch.ts",
+  "app/custom-elements/RzTablist.ts": {
+    "file": "RzTablist-C2HjIKyZ.js",
+    "name": "RzTablist",
+    "src": "app/custom-elements/RzTablist.ts",
     "isDynamicEntry": true
   },
-  "app/custom-elements/RzWorkspaceItemButton.ts": {
-    "file": "RzWorkspaceItemButton-D7WOOsdI.js",
-    "name": "RzWorkspaceItemButton",
-    "src": "app/custom-elements/RzWorkspaceItemButton.ts",
-    "isDynamicEntry": true
+  "app/custom-elements/RzToastList.ts": {
+    "file": "RzToastList-Y-ZVvQuK.js",
+    "name": "RzToastList",
+    "src": "app/custom-elements/RzToastList.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rzBadge-ki2EcYlY.js"
+    ]
+  },
+  "app/custom-elements/RzTooltip.ts": {
+    "file": "RzTooltip-9rBdkE5t.js",
+    "name": "RzTooltip",
+    "src": "app/custom-elements/RzTooltip.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Tooltip-BaLNh5dg.js",
+      "_Popover-BrqRB6W9.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
+  },
+  "app/custom-elements/RzTree.ts": {
+    "file": "RzTree-CqGJTUqA.js",
+    "name": "RzTree",
+    "src": "app/custom-elements/RzTree.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_sortable.core.esm-Bjnw44Mn.js",
+      "app/main.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ]
   },
   "app/custom-elements/TagAutocomplete.js": {
     "file": "TagAutocomplete-DDko2VyZ.js",
@@ -155,69 +390,84 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-BAfWdvyd.js",
+    "file": "TagEditPage-DsDD6pUd.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
     "imports": [
-      "app/main.js",
-      "_jquery-Cs7-jZ1a.js",
-      "_vue-BqDQd3Vv.js"
+      "_plugins-DaBpnC88.js"
     ]
   },
   "app/main.js": {
-    "file": "main-DJSGvSWY.js",
+    "file": "main-CcgTb0a3.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
     "imports": [
-      "_jquery-Cs7-jZ1a.js",
-      "_vue-BqDQd3Vv.js"
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
     ],
     "dynamicImports": [
       "app/custom-elements/AdminMenuNav.js",
       "app/custom-elements/DocumentAlignmentWidget.js",
       "app/custom-elements/DocumentEditDialog.js",
       "app/custom-elements/FolderAutocomplete.js",
-      "app/custom-elements/MainTrees.js",
-      "app/custom-elements/NodeSourceEditPage.js",
-      "app/custom-elements/NodeTreeContextualMenu.js",
+      "app/custom-elements/RzAside.ts",
+      "app/custom-elements/RzBadge.ts",
+      "app/custom-elements/RzBulkActions.ts",
+      "app/custom-elements/RzBulkSection.ts",
+      "app/custom-elements/RzButton.ts",
+      "app/custom-elements/RzColorInput.ts",
+      "app/custom-elements/RzColorSchemeSwitcher.ts",
+      "app/custom-elements/RzDialog.ts",
+      "app/custom-elements/RzDrawer.ts",
       "app/custom-elements/RzEntityThumbnail.ts",
       "app/custom-elements/RzFileUpload.ts",
+      "app/custom-elements/RzFiltersBar.ts",
+      "app/custom-elements/RzFormField.ts",
+      "app/custom-elements/RzGeotag.ts",
+      "app/custom-elements/RzHeader.ts",
+      "app/custom-elements/RzHeaderNavItemButton.ts",
       "app/custom-elements/RzInput.ts",
-      "app/custom-elements/RzInputColor.js",
+      "app/custom-elements/RzLink.ts",
+      "app/custom-elements/RzMarkdownEditor.ts",
+      "app/custom-elements/RzNodeTreeContextualMenu.ts",
+      "app/custom-elements/RzPage.ts",
+      "app/custom-elements/RzPopover.ts",
+      "app/custom-elements/RzRepeatable.ts",
       "app/custom-elements/RzSaveButton.js",
+      "app/custom-elements/RzSearch.ts",
       "app/custom-elements/RzSelect.ts",
-      "app/custom-elements/RzSwitch.ts",
-      "app/custom-elements/RzWorkspaceItemButton.ts",
+      "app/custom-elements/RzTablist.ts",
+      "app/custom-elements/RzToastList.ts",
+      "app/custom-elements/RzTooltip.ts",
+      "app/custom-elements/RzTree.ts",
       "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "main-CXP0G_nu.css"
+      "main-DayRf6n9.css"
     ]
   },
   "app/shared.js": {
-    "file": "shared-UCLy_iMT.js",
+    "file": "shared-Bs6XB94d.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
     "imports": [
-      "_jquery-Cs7-jZ1a.js"
+      "_jquery-DmndgEMa.js"
     ],
     "css": [
-      "shared-Dx6DglSP.css"
+      "shared-B1QSfY73.css"
     ],
     "assets": [
-      "fontawesome-webfont-B-jkhYfk.woff2",
-      "fontawesome-webfont-CDK5bt4p.woff",
-      "fontawesome-webfont-CQDK8MU3.ttf",
       "fontawesome-webfont-Bsy9_7N6.woff2",
       "fontawesome-webfont-7YG-f3YT.woff",
       "fa-brands-400-CfPCoubI.woff2",
       "fa-brands-400-llyXKB-1.woff",
       "rz-icons-BSa7Mah2.woff2",
       "rz-icons-BOx9IpnW.woff",
+      "login-page-background-DYwPeqRb.png",
       "spritemap@2x-Bd7qNsVN.png"
     ]
   },
@@ -226,17 +476,5 @@
     "name": "simple",
     "src": "app/simple.js",
     "isEntry": true
-  },
-  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
-    "file": "fontawesome-webfont-CQDK8MU3.ttf",
-    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.ttf"
-  },
-  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff": {
-    "file": "fontawesome-webfont-CDK5bt4p.woff",
-    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff"
-  },
-  "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2": {
-    "file": "fontawesome-webfont-B-jkhYfk.woff2",
-    "src": "node_modules/.pnpm/uikit@2.27.4/node_modules/uikit/dist/fonts/fontawesome-webfont.woff2"
   }
 }
