@@ -21,13 +21,10 @@
         } only %}
 
         <article>
-                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                    sortable: {
-                        enabled: not order_by_weight,
-                        url: path('attributeValuePositionAjax'),
-                    },
-                attr: {
-                    class: 'attribute-value-forms'
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                sortable: {
+                    enabled: not order_by_weight,
+                    url: path('attributeValuePositionAjax'),
                 },
                 actions_available: true,
             } %}
