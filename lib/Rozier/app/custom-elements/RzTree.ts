@@ -288,28 +288,28 @@ export default class RzTree extends HTMLElement {
     async pushRequestError(error: unknown) {
         let message = 'An unexpected error occurred.'
 
-        if (error && typeof (error as Response).json === 'function') {
-            try {
+        try {
+            if (error && typeof (error as Response).json === 'function') {
                 const data = await (error as Response).json()
                 message = data?.error_message || data?.detail || message
-            } catch {}
-        } else if (
-            error &&
-            typeof (error as { responseText?: string }).responseText ===
-                'string'
-        ) {
-            try {
+            } else if (
+                error &&
+                typeof (error as { responseText?: string }).responseText ===
+                    'string'
+            ) {
                 const data = JSON.parse(
                     (error as { responseText: string }).responseText,
                 )
                 message = data?.error_message || message
-            } catch {}
-        } else if (error && typeof error === 'object') {
-            const errorData = error as {
-                error_message?: string
-                detail?: string
+            } else if (error && typeof error === 'object') {
+                const errorData = error as {
+                    error_message?: string
+                    detail?: string
+                }
+                message = errorData.error_message || errorData.detail || message
             }
-            message = errorData.error_message || errorData.detail || message
+        } catch (error) {
+            console.error('Error parsing error response', error)
         }
 
         window.dispatchEvent(
