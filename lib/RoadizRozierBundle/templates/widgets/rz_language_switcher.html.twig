@@ -3,7 +3,7 @@
 {% if translations and translations|length > 1 %}
 	{% set classes = classes|default([])|merge(['rz-language-switcher']) %}
 
-	<ul class="{{ classes|join(' ') }}">
+	<ul class="{{ classes|join(' ') }}" data-tree-type="{{ type_prefix }}">
 		{%- for translation in translations -%}
 			{{ _self.item(translation, tree) }}
 		{%- endfor -%}
