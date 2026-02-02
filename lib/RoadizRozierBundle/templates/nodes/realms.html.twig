@@ -3,84 +3,26 @@
 
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="content-global">
-        <header class="content-header header-node header-node-edit-seo">
-            {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-                "node": node,
-                "source": source,
-            } only %}
-            <h1 class="content-title node-edit-seo-title">
-                {{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
-                {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-            </h1>
-            {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-            {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'realm'} %}
-        </header>
+        {% include '@RoadizRozier/nodes/head.html.twig' with {
+            node: node,
+            title: "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title,
+            current: 'realm',
+            with_info_badge: true,
+            with_status_badge: true,
+            with_nav_bar: true,
+        } only %}
 
-        <article class="content content-node-edit-seo">
-            <div class="content-table-cont">
-                <table class="aliases content-table uk-table">
-                    <thead>
-                    <tr>
-                        <th>{% trans %}name{% endtrans %}</th>
-                        <th>{% trans %}realm.type{% endtrans %}</th>
-                        <th>{% trans %}realm.behaviour{% endtrans %}</th>
-                        <th>{% trans %}realm_node.inheritanceType{% endtrans %}</th>
-                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% set accessRealms = is_granted('ROLE_ACCESS_REALMS') %}
-                    {% for nodeRealm in nodeRealms %}
-                        <tr>
-                            <td>
-                                {% if nodeRealm.realm %}
-                                    {% if accessRealms %}
-                                        <a href="{{ path('realmsEditPage', { id: nodeRealm.realm.id }) }}">
-                                            {{ nodeRealm.realm.name }}
-                                        </a>
-                                    {% else %}
-                                        {{ nodeRealm.realm.name }}
-                                    {% endif %}
-                                {% else %}
-                                    {% trans %}node.no_realm{% endtrans %}
-                                {% endif %}
-                            </td>
-                            <td>{{ nodeRealm.realm.type ? ('realm.' ~ nodeRealm.realm.type)|trans : '' }}</td>
-                            <td>{{ nodeRealm.realm.behaviour ? ('realm.behaviour_' ~ nodeRealm.realm.behaviour)|trans : '' }}</td>
-                            <td>{{ ('realm_node.' ~ nodeRealm.inheritanceType)|trans }}</td>
-                            <td class="table-actions-row">
-                                <div class="uk-button-group">
-                                    {% if nodeRealm.realm and accessRealms %}
-                                        <a class="uk-button uk-button-content uk-button-small"
-                                           href="{{ path('realmsEditPage', {
-                                               id: nodeRealm.realm.id,
-                                           }) }}"
-                                           title="{% trans %}edit.realm{% endtrans %}"
-                                           data-uk-tooltip="{animation:true}">
-                                            <i class="uk-icon-user-secret"></i>
-                                        </a>
-                                    {% endif %}
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                       href="{{ path('nodesRealmsDeletePage', {
-                                           id: node.id,
-                                           realmNodeId: nodeRealm.id,
-                                       }) }}"
-                                       title="{% trans %}leave.realm{% endtrans %}"
-                                       data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-rz-trash-mini-o"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
-                <hr>
+        <article>
+            {% include '@RoadizRozier/nodes/realms_table.html.twig' with {
+                nodeRealms: nodeRealms,
+                node: node,
+	            actions_available: true,
+            } %}
+            <hr>
 
                 {% if form %}
                     <div>
@@ -88,9 +30,12 @@
                         {% form_theme form '@RoadizRozier/forms.html.twig' %}
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
-                        <button class="uk-button uk-button-primary" type="submit">
-                            <i class="uk-icon-rz-plus"></i> {% trans %}join.realm{% endtrans %}
-                        </button>
+                        <div class="rz-form-field rz-form-field--align-start">
+                            <button class="rz-button rz-button--primary" type="submit">
+                                <span class="rz-button__label">{% trans %}join.realm{% endtrans %}</span>
+                                <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                            </button>
+                        </div>
                         {{ form_end(form) }}
                     </div>
                 {% endif %}

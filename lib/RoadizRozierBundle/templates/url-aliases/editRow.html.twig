@@ -1,21 +1,46 @@
-<tr class="{% if loop.index0 is odd %}odd{% endif %}">
+{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+
+<tr>
     <td>
-        {# Update URL alias #}
-        {% form_theme urlAlias.editForm '@RoadizRozier/horizontalForms.html.twig' %}
-        {{ form_start(urlAlias.editForm, {
-            attr: { class: "uk-form uk-form-horizontal urlalias-form" }
-        }) }}
+        {% form_theme urlAlias.editForm '@RoadizRozier/forms.html.twig' %}
+
+        {{ form_start(urlAlias.editForm) }}
             {{ form_widget(urlAlias.editForm) }}
-            <button class="uk-button uk-button-primary" type="submit" value="{% trans %}edit{% endtrans %}"><i class="uk-icon-pencil"></i> {% trans %}edit{% endtrans %}</button>
         {{ form_end(urlAlias.editForm) }}
     </td>
-    <td>{{ urlAlias.alias.getNodeSource.getTranslation.getName }}</td>
     <td>
-        {# Delete URL Alias #}
-        {% form_theme urlAlias.deleteForm '@RoadizRozier/horizontalForms.html.twig' %}
-        {{ form_start(urlAlias.deleteForm) }}
-            {{ form_widget(urlAlias.deleteForm) }}
-            <button class="uk-button uk-button-danger" type="submit" value="{% trans %}delete{% endtrans %}"><i class="uk-icon-rz-trash-o"></i> {% trans %}delete{% endtrans %}</button>
-        {{ form_end(urlAlias.deleteForm) }}
+        {{ urlAlias.alias.getNodeSource.getTranslation.getName }}
     </td>
+    {% if actions_available %}
+        <td>
+            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+                {% block other_actions %}
+                    {# Submit editForm #}
+                    {{ _self.button({
+                        icon: 'rz-icon-ri--save-line',
+                        color: 'success',
+                        attributes: {
+                            type: 'submit',
+                            title: 'save'|trans,
+                            form: field_id(urlAlias.editForm),
+                        }
+                    }) }}
+
+                    {# Delete URL Alias #}
+                    {% form_theme urlAlias.deleteForm '@RoadizRozier/forms.html.twig' %}
+                    {{ form_start(urlAlias.deleteForm) }}
+                         {{ form_widget(urlAlias.deleteForm, { attr: { style: 'display: none;' }}) }}
+                        {{ _self.button({
+                            icon: 'rz-icon-ri--delete-bin-7-line',
+                            color: 'danger',
+                            attributes: {
+                                type: 'submit',
+                                title: 'delete'|trans,
+                            }
+                        }) }}
+                    {{ form_end(urlAlias.deleteForm) }}
+                {% endblock %}
+            {% endembed %}
+        </td>
+    {% endif %}
 </tr>

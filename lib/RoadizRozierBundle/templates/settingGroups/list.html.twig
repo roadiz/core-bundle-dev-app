@@ -7,64 +7,77 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
-    <header class="content-header header-settingGroup header-settingGroup-add">
-       <h1 class="content-title settingGroup-list-title">{% trans %}settingGroups{% endtrans %}</h1>
-       {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-       <div class="content-header-action-menu">
-            <nav>
-                <a class="uk-button"
-                   href="{{ path('settingGroupsAddPage') }}">
-                    <i class="uk-icon-rz-plus"></i> {% trans %}add.a.settingGroup{% endtrans %}
-                </a>
-            </nav>
-       </div>
-    </header>
+    <section class="content-global content-nav-and-filters">
+        {% include '@RoadizRozier/settingGroups/head.html.twig' with {
+            title: 'settingGroups'|trans,
+            filters: filters,
+            buttons: [{
+                label: 'add.a.settingGroup'|trans,
+                attributes: {
+                    href: path('settingGroupsAddPage'),
+                },
+                icon: 'rz-icon-ri--add-line'
+            }]
+        } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+            filters: filters,
+        }  only %}
 
-    <article class="content content-no-action-menu content-settingGroups-list">
-        <div class="content-table-cont">
-            <table class="content-table settingGroups uk-table">
-                <thead>
+        <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            actions_available: true,
+            selection_available: false,
+        } %}
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'name',
+                        'filters': filters,
+                        'label': 'name'|trans,
+                    } only %}
+                </th>
+                <th class="mobile-hidden">{% trans %}settingGroup.in.menu{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {%- for item in items -%}
+                    {% set edit_href = path('settingGroupsEditPage', { id: item.id }) %}
                     <tr>
-                        <th>
-                            {% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden">{% trans %}settingGroup.in.menu{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%- for item in items -%}
-                    <tr>
-                        <td><a href="{{ path('settingGroupsEditPage', { id: item.id }) }}">{{ item.getName }}</a></td>
-                        <td class="mobile-hidden">{% if item.isInMenu %}<div class="uk-badge uk-badge-table uk-badge-notification"><i class="uk-icon-rz-statuses"></i></div>{% endif %}</td>
-                        <td class="table-actions-row">
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('settingGroupsEditPage', { id: item.id }) }}"
-                                   title="{% trans %}edit{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('settingGroupsSettingsPage', { settingGroupId: item.id }) }}"
-                                   title="{% trans %}see.settings{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-settings-general"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('settingGroupsDeletePage', { id: item.id }) }}"
-                                   title="{% trans %}delete{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                            </div>
+                        <td><a href="{{ edit_href }}">{{ item.getName }}</a></td>
+                        <td class="mobile-hidden">
+                            {% if item.isInMenu %}
+                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--check-line',
+                                    attributes: {
+                                        title: 'settingGroup.in.menu'|trans,
+                                    }
+                                }) }}
+                            {% endif %}
                         </td>
+                        {% if actions_available %}
+                            <td>
+                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': edit_href,
+                                    'delete_href': path('settingGroupsDeletePage', { id: item.id }),
+                                } %}
+                                    {% block other_actions %}
+                                        {{ _self.button({
+                                            icon: 'rz-icon-ri--settings-4-line',
+                                            attributes: {
+                                                href: path('settingGroupsSettingsPage', { settingGroupId: item.id }),
+                                                title: 'see.settings'|trans,
+                                            }
+                                        }) }}
+                                    {% endblock %}
+                                {% endembed %}
+                            </td>
+                        {% endif %}
                     </tr>
-                    {%- endfor -%}
-                </tbody>
-            </table>
-        </div>
-    </article>
-</section>
+                {%- endfor -%}
+            {% endblock %}
+        {% endembed %}
+        </article>
+    </section>
 {% endblock %}

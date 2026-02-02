@@ -1,0 +1,39 @@
+{% macro item(label, class, href, icon, attr) %}
+    {% if href is defined and href %}
+        <a aria-label="{{ label|trans }}"
+           href="{{ href }}"
+           class="rz-button rz-button--md rz-button--on-dark {{ class is defined and class ? class : '' }}">
+            <span class="rz-button__icon {{ icon }}"></span>
+        </a>
+    {% else %}
+        <button aria-label="{{ label|trans }}"
+                {% for attrname, attrvalue in attr %}
+                    {{ attrname }}="{{ attrvalue }}"
+                {% endfor %}
+                class="rz-button rz-button--md rz-button--on-dark {{ class is defined and class ? class : '' }}">
+            <span class="rz-button__icon {{ icon }}"></span>
+        </button>
+    {% endif %}
+{% endmacro %}
+
+{% macro saveItem(dataActionSave, label = 'save') %}
+    {{ _self.item(
+        label: label,
+        class: 'rz-button--primary rz-button--success',
+        icon: 'rz-icon-ri--save-line',
+        attr: {
+            'is': 'rz-save-button',
+            'data-action-save': dataActionSave,
+            'type': 'submit'
+        }
+    ) }}
+{% endmacro %}
+
+{% macro deleteItem(label = 'delete', href) %}
+    {{ _self.item(label, 'rz-button--primary rz-button--danger', href, 'rz-icon-ri--delete-bin-7-line') }}
+{% endmacro %}
+
+<div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">
+    {% block items %}
+    {% endblock %}
+</div>

@@ -1,42 +1,42 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "edit.user.%name%.security"|trans({'%name%': user.username })|u.truncate(25, '[…]', true) }}
+    {{ "edit.user.%name%.security"|trans({'%name%': user.username })|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
 
 {% block content %}
 <section class="content-global edit-user">
-    <header class="content-header header-user header-user-edit">
-        <h1 class="content-title user-add-title">{{ "edit.user.%name%.security"|trans({'%name%': user.username })|u.truncate(25, '[…]', true) }}</h1>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('usersHomePage') }}" title="{% trans %}back_to.users{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-        {% include '@RoadizRozier/users/navBar.html.twig' with {'user':user, current:'security'} %}
-    </header>
+    {% include '@RoadizRozier/users/head.html.twig' with {
+        title: "edit.user.%name%.security"|trans({'%name%': user.username })|truncate_title(40),
+        with_nav_bar: true,
+        user: user,
+        current: 'security',
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-user-form'}}) }}
         {{ form_widget(form) }}
-        <fieldset data-uk-margin>
-            <button is="rz-save-button" data-action-save="#edit-user-form" class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
-        </fieldset>
+        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem('#edit-user-form') }}
         {{ form_end(form) }}
 
-        <div class="content-table-cont">
-            <table class="content-table users uk-table">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            bordered: true,
+        } %}
+            {% block tbody_content %}
                 {% if not user.isAccountNonExpired %}
-                <tr>
-                    <td colspan="2" class="uk-alert-danger">{% trans %}user.account.has-expired{% endtrans %}</td>
-                </tr>
+                    <tr>
+                        <td colspan="2" class="uk-alert-danger">{% trans %}user.account.has-expired{% endtrans %}</td>
+                    </tr>
                 {% endif %}
                 {% if not user.isCredentialsNonExpired %}
-                <tr>
-                    <td colspan="2" class="uk-alert-danger">{% trans %}user.crendentials.has-expired{% endtrans %}</td>
-                </tr>
+                    <tr>
+                        <td colspan="2" class="uk-alert-danger">{% trans %}user.crendentials.has-expired{% endtrans %}</td>
+                    </tr>
                 {% endif %}
                 <tr>
                     <td><strong>{% trans %}user.last-login{% endtrans %}</strong></td>
@@ -50,8 +50,8 @@
                         user.passwordRequestedAt|format_datetime('full', 'medium', locale=app.request.locale) :
                         'never.requested'|trans -}}</td>
                 </tr>
-            </table>
-        </div>
+            {% endblock %}
+        {% endembed %}
     </article>
 
     {% include '@RoadizRozier/users/actionsMenu.html.twig' %}

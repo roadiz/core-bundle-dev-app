@@ -6,6 +6,7 @@ namespace RZ\Roadiz\RozierBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -29,6 +30,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 {
     public function __construct(
         protected readonly FormFactoryInterface $formFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
         ManagerRegistry $managerRegistry,
@@ -117,6 +119,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
      * @param callable(string): FormInterface                $createBulkFormWithIds
      * @param callable(TEntity, FormInterface): void         $alterItemCallable
      * @param (callable(TEntity): (Event|Event[]|null))|null $onEachItemEventCallable
+     * @param array<string, string>                          $templateOptions         additional options for the template (action_label, action_icon, action_color, messageType)
      *
      * @throws \Twig\Error\RuntimeError
      */
@@ -131,6 +134,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         callable $alterItemCallable,
         string $bulkFormName,
         ?callable $onEachItemEventCallable = null,
+        array $templateOptions = [],
     ): Response {
         $this->denyAccessUnlessGranted($requiredRole);
         $bulkForm->handleRequest($request);
@@ -203,6 +207,38 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         }
 
         $this->assignation[$bulkFormName] = $bulkForm->createView();
+        $this->assignation['title'] = $templateOptions['title'] ?? $this->translator->trans('delete.bulk.'.$this->getNamespace());
+        $this->assignation['headPath'] = '@RoadizRozier/admin/head.html.twig';
+        $this->assignation['cancelPath'] = $this->generateUrl($this->getDefaultRouteName());
+        $this->assignation['alertMessage'] = $templateOptions['alertMessage'] ?? $this->translator->trans(
+            'are_you_sure.delete.these.%namespace%',
+            [
+                '%namespace%' => $this->translator->trans($this->getNamespace()),
+            ]
+        );
+
+        // Pass additional template options for confirm_action.html.twig
+        if (isset($templateOptions['action_label'])) {
+            $this->assignation['action_label'] = $templateOptions['action_label'];
+        }
+        if (isset($templateOptions['action_icon'])) {
+            $this->assignation['action_icon'] = $templateOptions['action_icon'];
+        }
+        if (isset($templateOptions['action_color'])) {
+            $this->assignation['action_color'] = $templateOptions['action_color'];
+        }
+        if (isset($templateOptions['messageType'])) {
+            $this->assignation['messageType'] = $templateOptions['messageType'];
+        }
+
+        $items = [];
+        foreach ($this->assignation['items'] as $item) {
+            $items[] = $this->explorerItemFactory->createForEntity($item, [
+                'classname' => $this->getEntityName($item),
+                'displayable' => true,
+            ])->toArray();
+        }
+        $this->assignation['items'] = $items;
 
         return $this->render(
             $templatePath,
@@ -222,7 +258,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_delete.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item
@@ -250,7 +286,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createPublishBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_publish.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_published',
             /**
              * @param TEntity $item
@@ -258,7 +294,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             function (PersistableInterface $item) {
                 $this->setPublishedAt($item, new \DateTime('now'));
             },
-            'bulkPublishForm'
+            'bulkPublishForm',
+            templateOptions: [
+                'title' => $this->translator->trans($this->getNamespace().'.bulk_publish.title'),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_publish.'.$this->getNamespace()),
+                'action_label' => 'bulk.publish',
+                'action_icon' => 'rz-icon-ri--check-line',
+                'action_color' => 'success',
+                'messageType' => 'warning',
+            ]
         );
     }
 
@@ -274,7 +318,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createUnpublishBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_unpublish.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_unpublished',
             /**
              * @param TEntity $item
@@ -282,7 +326,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             function (PersistableInterface $item) {
                 $this->setPublishedAt($item, null);
             },
-            'bulkUnpublishForm'
+            'bulkUnpublishForm',
+            templateOptions: [
+                'title' => $this->translator->trans($this->getNamespace().'.bulk_unpublish.title'),
+                'alertMessage' => $this->translator->trans('are_you_sure.bulk_unpublish.'.$this->getNamespace()),
+                'action_label' => 'bulk.unpublish',
+                'action_icon' => 'rz-icon-ri--close-large-line',
+                'action_color' => 'danger',
+                'messageType' => 'warning',
+            ]
         );
     }
 

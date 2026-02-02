@@ -1,20 +1,10 @@
-{#
-This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
-#}
-{% set source = node.nodeSource|default(node.nodeSources.first) %}
-{% if source.title %}
-    {% set name = source.title|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
-{% else %}
-    {% set name = node.nodeName|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
-{% endif %}
 {% set type = getNodeType(node) %}
 
-{% set classes = [
-    type|lower,
-    'nodetree-element'
-] %}
+{% set classes = ['rz-tree__item'] %}
+{% if is_last %}
+    {% set classes = classes|merge(['rz-tree__item--end']) %}
+{% endif %}
 
-{% set classes = classes|merge(['uk-nestable-item']) %}
 {% if not node.isHidingChildren and
     not type.isHidingNodes and
     not type.isHidingNonReachableNodes %}
@@ -30,164 +20,168 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 {% endif %}
 
 {% if children|length > 0 %}
-    {% set classes = classes|merge(['has-children']) %}
+    {% set classes = classes|merge(['rz-tree__item--parent']) %}
 {% endif %}
 
 {% if nodeTree.isStackTree and node.tags|length %}
     {% set classes = classes|merge(['has-tag']) %}
 {% endif %}
 
-{% set innerClasses = [
-'tree-element-inner',
-'uk-nestable-panel',
-] %}
-{% if node.isHome and node.isHidingChildren %}{% set innerClasses = innerClasses|merge(['home-stack']) %}{% endif %}
-{% if node.isHome %}{% set innerClasses = innerClasses|merge(['home-node']) %}{% endif %}
-{% if node.isHidingChildren %}{% set innerClasses = innerClasses|merge(['stack-node']) %}{% endif %}
-{% if not node.isVisible %}{% set innerClasses = innerClasses|merge(['hidden-node']) %}{% endif %}
-{% if not node.isPublished %}{% set innerClasses = innerClasses|merge(['unpublished-node']) %}{% endif %}
-{% if not node.isArchived %}{% set innerClasses = innerClasses|merge(['archived-node']) %}{% endif %}
-{% if not node.isLocked %}{% set innerClasses = innerClasses|merge(['locked-node']) %}{% endif %}
-{% if nodeTree.isStackTree and type.isPublishable and source.publishedAt %}
-    {% set innerClasses = innerClasses|merge(['datetime-publishable']) %}
-    {% if source.publishedAt > date() %}
-        {% set innerClasses = innerClasses|merge(['datetime-publishable-future']) %}
-    {% endif %}
+{% if node.isLocked %}
+    {% set classes = classes|merge(['rz-tree__item--locked']) %}
 {% endif %}
 
-<li style="--rz-accent-color: {{ type.color }};" data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
-    {% if not mainNodeTree and not nodeTree.isStackTree %}
-        <span class="nodetree-list-item-color"></span>
-    {% endif %}
-    <div class="{{ innerClasses|join(' ') }}">
-        {% block nodetree_handle %}
-            {# Disable nestable handling if node-tree prevents reordering on root level only #}
-            <div class="{% if canReorder %}uk-nestable-handle{% else %}non-nestable-handle{% endif %}"
-                {%- if not mainNodeTree and not nodeTree.isStackTree -%}
-                title="{{ type.displayName }}"
-                data-uk-tooltip="{animation:true}"{%- endif -%}>
-                {% if not mainNodeTree and not nodeTree.isStackTree %}
+{% set innerClasses = ['rz-tree__item__node'] %}
+{% if not node.isVisible %}
+    {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
+{% endif %}
+
+    <li
+        style="--rz-node-icon-background: {{ type.color }};"
+        data-entity-id="{{ node.id }}"
+        class="{{ classes|join(' ') }}"
+        {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
+        {% if not node.isVisible %}data-visible="false"{% endif %}
+>
+    <div
+        class="{{ innerClasses|join(' ') }}"
+        role="treeitem"
+    >
+        {% set icon_class = node.isPublished ? 'rz-icon-rz--status-published-fill' : 'rz-icon-rz--status-draft-fill' %}
+        {% set source = node.nodeSource|default(node.nodeSources.first) %}
+        {% if type.isPublishable and source.publishedAt %}
+            {% set icon_class = source.publishedAt > date() ? 'rz-icon-ri--history-line' : 'rz-icon-rz--status-published-fill' %}
+        {% endif %}
+        {% if node.isHome %}
+            {% set icon_class = node.isPublished ? 'rz-icon-ri--home-2-fill' : 'rz-icon-ri--home-draft-2-fill' %}
+        {% endif %}
+
+        {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
+            item: node,
+            has_children: children is defined and children|length > 0,
+            icon_class: icon_class,
+            can_reorder: canReorder and not node.isLocked,
+            has_selection: nodeTree.isStackTree,
+            nodeTree: nodeTree,
+            isMainTree: isMainTree
+        } only %}
+            {% block icon_content %}
+                {%- if not isMainTree and not nodeTree.isStackTree -%}
                     <rz-entity-thumbnail
-                        class="nodetree-element-img"
-                        size="small"
+                        class="nodetree-element-img rz-node-icon__thumbnail"
                         entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
-                        entity-id="{{ node.id }}"
+                        entity-id="{{ item.id }}"
                     ></rz-entity-thumbnail>
                 {% endif %}
+            {% endblock %}
 
-                {% if node.isHidingChildren and not node.isHome %}
-                    <i class="uk-icon-folder"></i>
-                    <span class="icon-stack-folder"></span>
-                    <span class="icon-stack-folder icon-stack-folder-final"></span>
-                {% endif %}
-                {% if node.isHome and not node.isHidingChildren and not node.published %}
-                    <i class="uk-icon-rz-home-unpublished"></i>
-                {% elseif node.isHome and not node.isHidingChildren %}
-                    <i class="uk-icon-rz-home"></i>
-                {% elseif node.isHome and node.isHidingChildren %}
-                    <i class="uk-icon-rz-building"></i>
-                {% endif %}
-                {% if nodeTree.isStackTree and type.isPublishable and source.publishedAt %}
-                    <div class="nodetree-published-at uk-badge">
-                        <i class="uk-icon-clock-o"></i> {{ source.publishedAt|format_date('short', locale=app.request.locale) }}
-                    </div>
-                {% endif %}
-            </div>
-        {% endblock %}
-
-        {% block nodetree_element_name %}
-            <div class="tree-element-name nodetree-element-name"{% if nodeTree.translation is rtl %} dir="rtl"{% endif %}>
-                {% if node.isHidingChildren %}
-                    <a href="{{ path('nodesTreePage', {
-                        nodeId: node.id,
-                        translationId: nodeTree.translation.id
-                    }) }}">{{- name -}}</a>
+            {% block label %}
+                {% set node_label = '' %}
+                {% set source = item.nodeSource|default(item.nodeSources.first) %}
+                {% if source.title %}
+                    {% set node_label = source.title|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
                 {% else %}
-                    <a href="{{ path('nodesEditSourcePage', {
-                        nodeId: node.id,
+                    {% set node_label = item.nodeName|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
+                {% endif %}
+
+                {% set node_href = null %}
+                {% if node.isHidingChildren %}
+                    {% set node_href = path('nodesTreePage', {
+                        nodeId: item.id,
+                        translationId: nodeTree.translation.id
+                    }) %}
+                {% else %}
+                    {% set node_href = path('nodesEditSourcePage', {
+                        nodeId: item.id,
                         translationId: nodeTree.translation.id,
                         referer: parent ? path('nodesEditSourcePage', {
                             nodeId: parent.id,
                             translationId: nodeTree.translation.id,
-                        }) : null
-                    }) }}">{{- name -}}</a>
+                        }) : null  })
+                    %}
                 {% endif %}
-            </div>
-        {% endblock %}
 
-        {% block nodetree_tags %}
-            {% if nodeTree.isStackTree %}
-                {% set tags = nodeTree.getTags(node) %}
-                {% if tags|length %}
-                    <div class="nodetree-tags">
-                        {% for tag in tags %}
-                            <a href="?tagId={{ tag.id }}" class="uk-badge"><i class="uk-icon-tag"></i> {{ tag.name|default(tag.tagName) -}}</a>
-                        {% endfor %}
-                    </div>
+                {% if node_href is not null %}
+                    <a href="{{ node_href }}" title="{{ node_label }}">{{- node_label -}}</a>
+                {% else %}
+                    {{- node_label -}}
                 {% endif %}
-            {% endif %}
-        {% endblock %}
+            {% endblock %}
 
-        {% block nodetree_custom %}{# Override this block from your theme or app #}{% endblock %}
 
-        {% block nodetree_selection %}
-            {% if nodeTree.isStackTree %}
-                <div class="nodetree-bulk-selection">
-                    <input class="node-checkbox" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
-                </div>
-            {% endif %}
-        {% endblock %}
+            {% block before_actions %}
+                {% if nodeTree.isStackTree %}
+                    {% set tags = nodeTree.getTags(item) %}
+                    {% if tags|length %}
+                        <div class="nodetree-tags">
+                            {% for tag in tags %}
+                                <a href="?tagId={{ tag.id }}" class="uk-badge">
+                                    <i class="uk-icon-tag"></i>
+                                    {{ tag.name|default(tag.tagName) -}}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endblock %}
 
-        {% block nodetree_contextual_menu %}
-            <node-tree-contextual-menu
-                class="tree-contextualmenu nodetree-contextualmenu uk-button-dropdown"
-                data-uk-dropdown="{mode:'click',boundary:'#root-tree'}"
-                data-contextual-menu-path="{{ path('nodeContextualMenu', {
-                    node: node.id,
-                    translation: nodeTree.translation.id
-                }) }}"
-                data-node-id="{{ node.id }}"
-                data-node-status-path="{{ path('nodesStatusesAjax') }}"
-                data-node-duplicate-path="{{ path('nodesDuplicateAjax') }}"
-                data-node-paste-path="{{ path('nodesPasteAjax') }}"
-                data-node-copied-trans="{{ 'node.copied_to_clipboard'|trans }}"
-                data-node-edit-position-path="{{ path('nodesPositionAjax') }}"
-            >
-                <button
-                   type="button"
-                   tabindex="-1"
-                   class="tree-contextualmenu-button uk-button uk-button-mini"><i class="uk-icon-caret-down"></i></button>
-            </node-tree-contextual-menu>
-        {% endblock %}
 
-        {% if children %}
-            <div class="minus" data-nestable-action="toggle"></div>
-        {% endif %}
+            {% block contextual_menu %}
+                {% set contextual_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ item.id %}
+                <rz-node-tree-contextual-menu
+                    class="rz-node-contextual-menu"
+                    data-contextual-menu-path="{{ path('nodeContextualMenu', {
+                        node: item.id,
+                        translation: nodeTree.translation.id
+                    }) }}"
+                    data-node-id="{{ item.id }}"
+                    data-node-status-path="{{ path('nodesStatusesAjax') }}"
+                    data-node-duplicate-path="{{ path('nodesDuplicateAjax') }}"
+                    data-node-paste-path="{{ path('nodesPasteAjax') }}"
+                    data-node-copied-trans="{{ 'node.copied_to_clipboard'|trans }}"
+                    data-node-edit-position-path="{{ path('nodesPositionAjax') }}"
+                    popover-placement="bottom-end"
+                    id="{{ contextual_id }}"
+                >
+                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--more-line',
+                        size: 'sm',
+                        emphasis: 'tertiary',
+                        class: 'tree-contextualmenu-button',
+                        attributes: {
+                            'aria-label': 'show.actions'|trans,
+                            popovertarget: contextual_id ~ '-popover',
+                            type: 'button',
+                        }
+                    })}}
+                </rz-node-tree-contextual-menu>
+            {% endblock %}
+        {% endembed %}
     </div>
 
-    {% set subListClasses = ['uk-nestable-list'] %}
-    {% if not mainNodeTree and not nodeTree.isStackTree %}
-        {% set subListClasses = subListClasses|merge(['children-node-widget-list']) %}
-    {% endif %}
-    {% if node.isHidingChildren or type.isHidingNodes or not children %}
+    {% set subListClasses = ['rz-tree__list'] %}
+    {% if node.isHidingChildren or type.isHidingNodes or not children or children|length == 0 %}
         {% set subListClasses = subListClasses|merge(['empty']) %}
     {% endif %}
-    {%- if children -%}
-    <ul class="{{ subListClasses|join(' ') }}" data-parent-node-id="{{ node.id }}">
-        {#
-         # For drag&drop ease, we don't create nested lists
-         # We will have to check after OR inside drag status
-         #}
+
+    {%- if children and children|length > 0 -%}
+        <ul
+            class="{{ subListClasses|join(' ') }}"
+            data-parent-id="{{ node.id }}"
+            role="group"
+        >
             {% for subNode in children %}
                 {% include '@RoadizRozier/widgets/nodeTree/singleNode.html.twig' with {
                     "node":subNode,
                     "parent":node,
                     "nodeTree":nodeTree,
-                    "mainNodeTree":mainNodeTree,
+                    "isMainTree": isMainTree,
                     "level": level + 1,
                     'canReorder': (node.childrenOrder == 'position'),
+                    'is_last': loop.last,
                 } only %}
             {% endfor %}
-    </ul>
+        </ul>
     {%- endif -%}
 </li>

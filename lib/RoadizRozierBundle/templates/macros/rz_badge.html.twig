@@ -1,0 +1,38 @@
+{% macro item(options = {} ) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-badge'%}
+    {% set label = options.label|default('') %}
+    {% set icon = options.icon|default('') %}
+    {% set size = options.size|default('') %}
+    {% set color = options.color|default('') %}
+    {% set attributes = options.attributes|default({}) %}
+
+    {% set classes = html_classes(element_class, attributes.class|default(options.class|default('')), {
+            (element_class ~ '--' ~ size): size,
+            (element_class ~ '--' ~ color): color,
+        })%}
+
+    {# If a link is provided, use an <a> tag instead of the default #}
+    {% set tagName = options.tagName|default('rz-badge') %}
+    {% if attributes.href is defined and attributes.href %}
+        {% set tagName = 'a' %}
+    {% endif %}
+
+    <{{ tagName }}
+        class="{{ classes }}"
+		{{ el_attrs.print(attributes) }}
+    >
+        {{ _self.inner_item(label, icon) }}
+    </{{ tagName }}>
+
+{% endmacro %}
+
+{% macro inner_item(label, icon) %}
+    {% if icon is defined and icon %}
+        <span class="rz-badge__icon {{ icon }}"></span>
+    {% endif %}
+    {% if label is defined and label %}
+        <span class="rz-badge__label">{{- label|trans -}}</span>
+    {% endif %}
+{% endmacro %}

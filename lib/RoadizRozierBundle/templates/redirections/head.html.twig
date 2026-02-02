@@ -1,0 +1,15 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [
+        {
+            label: 'redirections.homepage'|trans,
+            type: 'listing',
+            url: path('redirectionsHomePage'),
+        }
+    ] %}
+    {% set breadcrumb = {
+        label: 'redirection-breadcrumb',
+        parent: parents,
+        current: title
+    } %}
+{% endif %}
+{% include "@RoadizRozier/admin/head.html.twig" %}

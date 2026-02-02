@@ -3,14 +3,6 @@ Generated with (figma plugin)[https://www.figma.com/community/plugin/12604727718
 and reformatted with Copilot
 */
 
-.text-h1-md {
-  font-family: var(--font-family-os-title);
-  font-size: var(--text-h1-md-font-size);
-  line-height: var(--text-h1-md-line-height);
-  letter-spacing: var(--text-h1-md-letter-spacing);
-  font-weight: var(--text-h1-md-font-weight);
-}
-
 .text-h1-sm {
   font-family: var(--font-family-os-title);
   font-size: var(--text-h1-sm-font-size);
@@ -19,12 +11,12 @@ and reformatted with Copilot
   font-weight: var(--text-h1-sm-font-weight);
 }
 
-.text-overtitle-sm {
-  font-family: var(--font-family-os-label);
-  font-size: var(--text-overtitle-sm-font-size);
-  line-height: var(--text-overtitle-sm-line-height);
-  letter-spacing: var(--text-overtitle-sm-letter-spacing);
-  font-weight: var(--text-overtitle-sm-font-weight);
+.text-h1-md {
+  font-family: var(--font-family-os-title);
+  font-size: var(--text-h1-md-font-size);
+  line-height: var(--text-h1-md-line-height);
+  letter-spacing: var(--text-h1-md-letter-spacing);
+  font-weight: var(--text-h1-md-font-weight);
 }
 
 .text-overtitle-xs {
@@ -33,6 +25,14 @@ and reformatted with Copilot
   line-height: var(--text-overtitle-xs-line-height);
   letter-spacing: var(--text-overtitle-xs-letter-spacing);
   font-weight: var(--text-overtitle-xs-font-weight);
+}
+
+.text-overtitle-sm {
+  font-family: var(--font-family-os-label);
+  font-size: var(--text-overtitle-sm-font-size);
+  line-height: var(--text-overtitle-sm-line-height);
+  letter-spacing: var(--text-overtitle-sm-letter-spacing);
+  font-weight: var(--text-overtitle-sm-font-weight);
 }
 
 .text-overtitle-md {
@@ -313,4 +313,28 @@ and reformatted with Copilot
   line-height: var(--text-form-description-xs-line-height);
   letter-spacing: var(--text-form-description-xs-letter-spacing);
   font-weight: var(--text-form-description-xs-font-weight);
+}
+
+.text-body-md {
+  font-family: var(--font-family-os-text);
+  font-size: var(--text-body-md-font-size);
+  line-height: var(--text-body-md-line-height);
+  letter-spacing: var(--text-body-md-letter-spacing);
+  font-weight: var(--text-body-md-font-weight);
+}
+
+.text-body-sm {
+  font-family: var(--font-family-os-text);
+  font-size: var(--text-body-sm-font-size);
+  line-height: var(--text-body-sm-line-height);
+  letter-spacing: var(--text-body-sm-letter-spacing);
+  font-weight: var(--text-body-sm-font-weight);
+}
+
+.text-body-xs {
+  font-family: var(--font-family-os-text);
+  font-size: var(--text-body-xs-font-size);
+  line-height: var(--text-body-xs-line-height);
+  letter-spacing: var(--text-body-xs-letter-spacing);
+  font-weight: var(--text-body-xs-font-weight);
 }

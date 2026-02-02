@@ -1,37 +1,50 @@
-{% extends "@RoadizRozier/admin/base.html.twig" %}
+{% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
-{% block title %}{% trans %}disable_two_factor_authentication{% endtrans %} | {{ parent() }}{% endblock %}
+{% set title = 'disable_two_factor_authentication'|trans %}
 
-{%- block content_title -%}{% trans %}disable_two_factor_authentication{% endtrans %}{%- endblock -%}
+{% block title %}{{ title|truncate_title }}{% endblock %}
 
-{%- block content_header_nav -%}
-    <a class="content-header-nav-back uk-navbar-content"
-       href="{{ path('2fa_admin_two_factor') }}"
-       title="{% trans %}back_to.two_factor{% endtrans %}"
-       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-{%- endblock -%}
+{% block content %}
+    <section class="content-global delete-document">
+        {% include '@RoadizRozier/admin/head.html.twig' with {
+            title: title,
+        } only %}
 
-{%- block content_body -%}
-    <article class="content">
-        {% if form %}
+        <article class="content content-delete content-no-action-menu">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <legend class="uk-alert uk-alert-danger"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.disable.two_factor{% endtrans %}</legend>
-
-                <div class="uk-button-group">
-                    <a href="{{ path('2fa_admin_two_factor') }}"
-                       class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                    <button class="uk-button uk-button-danger" type="submit">
-                        <span class="icon-container"><i class="uk-icon-unlock"></i></span>
-                        <span class="label"><span class="label-text">
-                                {%- trans -%}disable_two_factor{%- endtrans -%}
-                        </span></span>
-                    </button>
-                </div>
-            </fieldset>
+            <div class="rz-message rz-message--error rz-form-field__message">
+                <p class="rz-message__text">
+                    {{ 'are_you_sure.disable.two_factor'|trans }}
+                </p>
+            </div>
+            <div class="rz-button-group rz-button-group--gap-md">
+                {{
+                rz_button.root({
+                    tagName: 'a',
+                    attributes: {
+                        href: path('2fa_admin_two_factor'),
+                    },
+                    emphasis: 'secondary',
+                    label: 'cancel',
+                    icon: 'rz-icon-ri--corner-down-left-line',
+                })
+                }}
+                {{
+                rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                    },
+                    emphasis: 'primary',
+                    color: 'danger',
+                    label: 'disable_two_factor'|trans,
+                })
+                }}
+            </div>
             {{ form_end(form) }}
-        {% endif %}
-    </article>
-{%- endblock -%}
+        </article>
+    </section>
+{% endblock %}
+

@@ -1,0 +1,100 @@
+{% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
+    has_header: mainTree,
+    title: tree_type == 'node'
+        ? 'aside.node_tree.title'|trans
+        : tree_type == 'tag'
+        ? 'tagTree'|trans
+        : 'folderTree'|trans,
+    display_translations: mainTree,
+    tree: tree,
+    tree_type: tree_type,
+} only %}
+    {# ===================== #}
+    {# HEADER BUTTON        #}
+    {# ===================== #}
+    {% block head_button %}
+        {% if tree is defined %}
+            {% if tree_type == 'node' %}
+                {{ _self.button({
+                    icon: 'rz-icon-ri--add-line',
+                    label: not tree.rootNode
+                    ? 'add.a.node'|trans
+                    : 'add.child.node'|trans,
+                    attributes: {
+                        href: not tree.rootNode
+                        ? path('nodesAddPage', { translationId: tree.translation.id })
+                        : path('nodesAddChildPage', { nodeId: tree.rootNode.id }),
+                    }
+                }) }}
+
+            {% elseif tree_type == 'tag' %}
+                {{ _self.button({
+                    icon: 'rz-icon-ri--add-line',
+                    label: tree.getRootTag == null
+                    ? 'add.a.tag'|trans
+                    : 'add.child.tag'|trans,
+                    attributes: {
+                        href: tree.getRootTag == null
+                        ? path('tagsAddPage')
+                        : path('tagsAddChildPage', { tagId: tree.rootTag.id }),
+                    }
+                }) }}
+
+            {% elseif tree_type == 'folder' %}
+                {{ _self.button({
+                    icon: 'rz-icon-ri--add-line',
+                    label: tree.getRootFolder == null
+                    ? 'add.a.folder'|trans
+                    : 'add.child.folder'|trans,
+                    id: 'foldertree-btn-add',
+                    attributes: {
+                        href: tree.getRootFolder == null
+                        ? path('foldersAddPage')
+                        : path('foldersAddChildPage', { folderId: tree.rootFolder.id }),
+                    }
+                }) }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+
+    {# ===================== #}
+    {# AFTER TITLE (node only) #}
+    {# ===================== #}
+    {% block after_title %}
+        {% if tree_type == 'node' and tree is defined %}
+            <a
+                class="see-all-root-tree"
+                data-uk-tooltip="{animation:true}"
+                title="{% trans %}see_all{% endtrans %}"
+                href="{{ path('nodesMainTreePage', { translationId: tree.translation.id }) }}"
+            >
+                <span class="rz-icon-ri--search-line"></span>
+            </a>
+        {% endif %}
+    {% endblock %}
+
+    {# ===================== #}
+    {# TREE CONTENT         #}
+    {# ===================== #}
+    {% block tree_content %}
+        {% if tree_type == 'node' %}
+            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                nodeTree: tree,
+                isMainTree: true,
+                linkedTypes: linkedTypes|default(null),
+            } %}
+
+        {% elseif tree_type == 'tag' %}
+            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
+                tagTree: tree,
+                isMainTree: true,
+            } %}
+
+        {% elseif tree_type == 'folder' %}
+            {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
+                folderTree: tree,
+                isMainTree: true,
+            } %}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

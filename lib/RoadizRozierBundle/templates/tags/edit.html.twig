@@ -1,20 +1,22 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "edit.tag.%name%"|trans({'%name%': tag.getTagName })|u.truncate(25, '[…]', true) }}
+    {{ "edit.tag.%name%"|trans({'%name%': tag.getTagName })|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
 
 {% block content %}
 <section class="content-global edit-tag">
-
-    <header class="content-header header-tag header-tag-edit">
-        <h1 class="content-title tag-edit-title">{{ "edit.tag.%name%"|trans({'%name%': tag.getTagName })|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/tags/navBack.html.twig' with {} only %}
-        {% include '@RoadizRozier/tags/navBar.html.twig' with {"tag": tag, "current": 'edit'} only %}
-        {% include '@RoadizRozier/tags/translationBar.html.twig' with {"tag": tag, "current":translation.getId } %}
-    </header>
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: tag.getTranslatedTags.first.getName,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'edit',
+        available_translations, available_translations,
+        translation: translation,
+        with_breadcrumb: true,
+    } only %}
 
     <tag-edit-page class="content content-tag-edit">
         {% if readOnly %}
@@ -47,12 +49,8 @@
         {{ form_start(form, { attr: {id: 'edit-tag-form'}}) }}
         {{ form_widget(form) }}
         {% if not readOnly %}
-        <fieldset data-uk-margin>
-            <button is="rz-save-button" data-action-save="#edit-tag-form" class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
-        </fieldset>
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#edit-tag-form') }}
         {% endif %}
         {{ form_end(form) }}
     </tag-edit-page>

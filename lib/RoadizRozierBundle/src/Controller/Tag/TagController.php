@@ -17,6 +17,7 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
@@ -60,6 +61,7 @@ final class TagController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly LogTrail $logTrail,
     ) {
     }
@@ -304,7 +306,21 @@ final class TagController extends AbstractController
             $assignation['referer'] = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/tags/bulkDelete.html.twig', $assignation);
+        $title = $this->translator->trans('delete.tags');
+
+        $items = [];
+        foreach ($tags as $tag) {
+            $items[] = $this->explorerItemFactory->createForEntity($tag)->toArray();
+        }
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.these.tags',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     #[Route(
@@ -482,8 +498,16 @@ final class TagController extends AbstractController
             return $this->redirectToRoute('tagsHomePage');
         }
 
-        return $this->render('@RoadizRozier/tags/delete.html.twig', [
-            'tag' => $tag,
+        $title = $this->translator->trans(
+            'delete.tag.%name%',
+            ['%name%' => $tag->getTagName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/tags/head.html.twig',
+            'cancelPath' => $this->generateUrl('tagsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.tag',
             'form' => $form->createView(),
         ]);
     }

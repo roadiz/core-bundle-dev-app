@@ -1,152 +1,133 @@
-{% set entityIds = [] %}
-{% set isSortable = isSortable|default('true') %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+{% set entity_ids = [] %}
+{% set is_sortable = isSortable|default('true') %}
+
 {% for entity in value %}
     {% if entity is ContextualizedDocumentInterface %}
-        {% set entityIds = entityIds|merge([{
+        {% set entity_ids = entity_ids|merge([{
             id: entity.id,
             document: entity.document.id,
             hotspot: entity.hotspot,
             imageCropAlignment: entity.imageCropAlignment
         }]) %}
     {% elseif entity.id is defined %}
-        {% set entityIds = entityIds|merge([entity.id]) %}
+        {% set entity_ids = entity_ids|merge([entity.id]) %}
     {% else %}
         {#
          # During **Form Errors**, entities are not transformed to ExplorerProviderItem.
          # We need to use directly data item as string.
          #}
-        {% set entityIds = entityIds|merge([entity]) %}
+        {% set entity_ids = entity_ids|merge([entity]) %}
     {% endif %}
 {% endfor %}
 
-{% set drawerAttributesWhitelist = [
+{% set field_attributes_whitelist = [
     'data-field-group',
     'data-field-group-canonical',
     'data-dev-name',
 ] %}
-{% set drawerAttributes = [] %}
+{% set field_attributes = [] %}
+
 {% for key, value in form.vars.attr %}
-    {% if key in drawerAttributesWhitelist %}
-        {% set drawerAttributes = drawerAttributes|merge([
+    {% if key in field_attributes_whitelist %}
+        {% set field_attributes = field_attributes|merge([
             key ~ '="' ~ value|escape ~ '"'
         ]) %}
     {% endif %}
 {% endfor %}
-<div class="uk-form-row form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
-    <drawer-container data-vuejs
-                      inline-template
-                      data-entity-name="{{ entityName }}"
-                      data-locale="{{ form.vars._locale }}"
-                      data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
-    >
-        <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
-             :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
-             v-if="drawer"
-             ref="drawer"
-            {{ widget_attributes|raw }}
-            {% if entity %}data-accept-entity="{{ entity }}"{% endif %}
-             data-entity-types="[]"
-             data-is-sortable="{{ isSortable }}"
-            {% if provider_class %}data-provider-class="{{ provider_class }}" {% endif %}
-            {% if provider_options %}data-provider-options="{{ provider_options|json_encode }}" {% endif %}
-             data-initial-items="{{ entityIds|json_encode }}">
-            {% if label is empty -%}
-                {% set label = name|humanize %}
-            {%- endif -%}
 
-            <nav class="drawer-widget-nav">
-                <div class="drawer-widget-nav__head">
-                    <div class="drawer-widget-nav__title"><i class="{{ icon }}"></i></div>
-                    <div class="drawer-widget-nav__title label">
-                        {{ label|trans }}
-                        {% if isSortable == 'false' %}
-                            <span class="uk-text-muted">{% trans %}drawer.sortable-not-enable{% endtrans %}</span>
-                        {% endif %}
-                        <span
-                            class="uk-text-muted"
-                            :class="{ 'uk-text-danger': items.length < this.drawer.minLength }"
-                        >
-                            <template v-if="this.drawer.maxLength < 9999">
-                                ${ items.length } / ${ this.drawer.maxLength }
-                            </template>
-                            <template v-if="this.drawer.minLength > 0">
-                                ({% trans %}min{% endtrans %}: ${ this.drawer.minLength })
-                            </template>
-                        </span>
-                        {% if attr['data-universal'] %}
-                            <i data-uk-tooltip="{animation:true}"
-                               title="{% trans %}universal{% endtrans %}"
-                               class="uk-icon uk-icon-flag universal-indicator"></i>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="drawer-widget-nav__content">
-                    <div class="drawer-widget-quick-creation uk-button-group">
-                        <rz-button :is-active="drawer.isActive"
-                                   :callback="onExplorerButtonClick">
-                            <i class="uk-icon-rz-explore"></i>
-                            <span class="uk-hidden-small">
-                            {%- trans -%}documents.toggle-explorer{%- endtrans -%}
-                        </span>
-                        </rz-button>
-                        {% if enableDropzone %}
-                            <rz-button :is-active="drawer.isDropzoneEnable"
-                                       :callback="onDropzoneButtonClick">
-                                <i class="uk-icon-rz-upload"></i>
-                                <span class="uk-hidden-small">
-                                {%- trans -%}documents.toggle-uploader{%- endtrans -%}
-                            </span>
-                            </rz-button>
-                        {% endif %}
-                    </div>
-                </div>
-            </nav>
+{% set drawer_attributes = [] %}
+{% set drawer_attributes_map = {} %}
 
-            <template v-if="drawer.errorMessage">
-                <p class="uk-text-danger">
-                    ${ drawer.errorMessage }
-                </p>
-            </template>
+{# Parse widget_attributes string into a map for easy access #}
+{% if widget_attributes is defined and widget_attributes is not empty %}
+    {% set attribute_pairs = widget_attributes|split(' ') %}
+    {% for pair in attribute_pairs %}
+        {% if '=' in pair %}
+            {% set parts = pair|split('=', 2) %}
+            {% set attr_key = parts[0]|trim %}
+            {% set attr_value = parts[1]|trim('"')|trim("'") %}
+            {% set drawer_attributes_map = drawer_attributes_map|merge({ (attr_key): attr_value }) %}
+            {% set drawer_attributes = drawer_attributes|merge([pair]) %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
-            <div class="drawer-widget-sortable-container">
-                <transition name="fade" v-if="drawer.isLoading">
-                    <div class="spinner"></div>
-                </transition>
-                <ul class="drawer-widget-sortable"
-                    data-input-name="{{ name }}">
-                    <draggable
-                        v-model="items"
-                        :options="getOptions()"
-                    >
-                        <transition-group>
-                            <component
-                                v-bind:is="drawer.currentListingView"
-                                v-for="(item, index) in items"
-                                :key="(item.document) ? item.document.id : item.id"
-                                :drawer-name="drawerName"
-                                :is-item-explorer="false"
-                                :add-item="addItem"
-                                :remove-item="removeItem"
-                                :index="index"
-                                :item="item"
-                                :entity-name="entityName"
-                                @edit="onEditItem"
-                            >
-                            </component>
-                        </transition-group>
-                    </draggable>
-                </ul>
-            </div>
-            {% if enableDropzone %}
-                <rz-file-upload 
-                    v-if="drawer.isDropzoneEnable"
-                    @error="showError"
-                    @success="showSuccess">
-                </rz-file-upload>
-            {% endif %}
-        </div>
-    </drawer-container>
-    {%- if form.vars.help ?? false -%}
-        <small id="{{ form.vars.id }}_help" class="form-row-desc uk-form-label-description drawer-widget-description">{{- form.vars.help|trans|inlineMarkdown -}}</small>
+{% set drawer_id = drawer_attributes_map['id']|default('drawer-' ~ random()) %}
+{% set file_upload_id = drawer_id ~ '-file-upload' %}
+
+
+{% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+
+<rz-form-field {{ field_attributes|join(' ')|raw }}>
+    {% if label is empty -%}
+        {% set label = name|humanize %}
     {%- endif -%}
-</div>
+    {% if label is not same as(false) -%}
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <div class="rz-form-field__head">
+            {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entity_ids|length) }}
+            <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
+                {% if enableDropzone %}
+                    {{ rz_button.root({
+                        size: 'sm',
+                        class: 'rz-button-group__button',
+                        label: 'documents.toggle-uploader',
+                        icon: 'rz-icon-ri--upload-line',
+                        attributes: {
+                            'type': 'button',
+                            'command': '--toggle-file-upload',
+                            'commandfor': drawer_id,
+                            'aria-expanded': 'false',
+                            'aria-controls': file_upload_id,
+                        }
+                    }) }}
+                {% endif %}
+                {{ rz_button.root({
+                    size: 'sm',
+                    class: 'rz-button-group__button',
+                    label: 'documents.toggle-explorer',
+                    icon: 'rz-icon-ri--add-line',
+                    attributes: {
+                        'type': 'button',
+                        'command': '--open-explorer',
+                        'commandfor': drawer_id,
+                    }
+                }) }}
+                <template v-if="drawer.errorMessage">
+                    <div class="rz-message rz-message--error rz-form-field__message">
+                        <p class="rz-message__text">{ drawer.errorMessage }}</p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    {% endif %}
+
+    {%- if form.vars.help ?? false -%}
+        {{ rz_form_field.help(
+            form: form,
+        ) }}
+    {%- endif -%}
+
+    <rz-drawer
+        {{ drawer_attributes|join(' ')|raw }}
+        class="rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} rz-form-field__body"
+        {% if entity %}accept-entity="{{ entity }}"{% endif %}
+        {% if is_sortable %}sortable="" {% endif %}
+        {% if provider_class %}provider-class="{{ provider_class }}" {% endif %}
+        {% if provider_options %}provider-options="{{ provider_options|json_encode }}" {% endif %}
+        entity-types="[]"
+        items="{{ entity_ids|json_encode }}"
+        entity-name="{{ entityName }}"
+        locale="{{ form.vars._locale }}"
+        document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
+    >
+        <ul class="rz-drawer__body" data-list></ul>
+        {% if enableDropzone %}
+            <rz-file-upload id="{{ file_upload_id }}" hidden></rz-file-upload>
+        {% endif %}
+    </rz-drawer>
+</rz-form-field>

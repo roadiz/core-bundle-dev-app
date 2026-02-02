@@ -51,7 +51,7 @@ class FolderType extends AbstractType
             'name' => '',
             'data_class' => Folder::class,
             'attr' => [
-                'class' => 'uk-form folder-form',
+                'class' => 'rz-form folder-form',
             ],
         ]);
     }

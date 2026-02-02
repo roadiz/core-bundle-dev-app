@@ -62,8 +62,6 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $assignation = [];
-
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
@@ -77,8 +75,10 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkDeleteForm(
@@ -86,7 +86,7 @@ trait NodeBulkActionTrait
             $nodesIds
         );
         $form->handleRequest($request);
-        if ($request->get('confirm') && $form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $msg = $this->bulkDeleteNodes($form->getData());
             $this->logTrail->publishConfirmMessage($request, $msg);
 
@@ -97,14 +97,22 @@ trait NodeBulkActionTrait
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
+        $referer = null;
         if (!empty($request->get('deleteForm')['referer'])) {
-            $assignation['referer'] = $request->get('deleteForm')['referer'];
+            $referer = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkDelete.html.twig', $assignation);
+        $title = new UnicodeString($this->translator->trans('delete.nodes'));
+        $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $cancelPath,
+            'alertMessage' => 'are_you_sure.delete.these.nodes',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     /**
@@ -267,19 +275,21 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitTag', SubmitType::class, [
-                'label' => 'link.tags',
+                'label' => null,
                 'attr' => [
-                    'class' => 'uk-button uk-button-primary',
-                    'title' => 'link.tags',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('link.tags'),
+                    'icon' => 'rz-icon-ri--add-line',
                 ],
             ])
             ->add('submitUntag', SubmitType::class, [
-                'label' => 'unlink.tags',
+                'label' => null,
                 'attr' => [
-                    'class' => 'uk-button',
-                    'title' => 'unlink.tags',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('unlink.tags'),
+                    'icon' => 'rz-icon-ri--subtract-line',
                 ],
             ])
         ;

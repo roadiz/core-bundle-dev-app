@@ -2,113 +2,146 @@
 
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-edit-seo">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-            "node": node,
-            "source": source,
-        } only %}
-        <h1 class="content-title node-edit-seo-title">
-            {{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
-           {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'seo'} %}
-        {% include '@RoadizRozier/nodes/translationSEOBar.html.twig' with {"current": translation.getId} %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "edit.node.%name%.seo"|trans({'%name%': currentTitle})|truncate_title,
+        translation: translation,
+        available_translations: available_translations,
+        current: 'seo',
+        app: app,
+        with_debug_badge: true,
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
+        source: source,
+        route: 'nodesEditSEOPage',
+    } only %}
 
     <article class="content content-node-edit-seo">
         {% if seoForm %}
-            <h2 class="content-subtitle">{% trans %}edit.node.seo{% endtrans %}</h2>
+            <h2 class="text-h1-sm">{% trans %}edit.node.seo{% endtrans %}</h2>
+
             {% form_theme seoForm '@RoadizRozier/forms.html.twig' %}
-            <form id="edit-seo-form" class="uk-form uk-form-stacked" action="#" method="post">
-                {{ form_widget(seoForm) }}
-                <fieldset data-uk-margin>
-                    <button is="rz-save-button" data-action-save="#edit-seo-form" class="uk-button uk-button-success" type="submit">
-                        <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                        <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-                    </button>
-                </fieldset>
-            </form>
+            {{ form_start(seoForm, { action: '#' }) }}
+                {{ form_widget(seoForm, {'attr': { 'class': 'rz-form__field-list' }}) }}
+                {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+                {{ actions_menu.saveItem('#' ~ field_id(seoForm)) }}
+            {{ form_end(seoForm) }}
             <hr />
         {% endif %}
 
-        <h2 id="manage-aliases" class="content-subtitle">{% trans %}urlAlias{% endtrans %}</h2>
-        <p class="form-row-desc">{% trans %}nodeSource.urlAlias.help{% endtrans %}</p>
+        <h2 id="manage-aliases" class="text-h1-sm">{% trans %}urlAlias{% endtrans %}</h2>
+        <p class="text-body-md">{% trans %}nodeSource.urlAlias.help{% endtrans %}</p>
 
-        <div class="content-table-cont">
-            <table class="aliases content-table uk-table">
-                <thead>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}urlAlias{% endtrans %}</th>
+                <th>{% trans %}translation{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for urlAlias in aliases %}
+                    {% include '@RoadizRozier/url-aliases/editRow.html.twig' with {
+                        'urlAlias': urlAlias
+                    } %}
+                {% else %}
                     <tr>
-                        <th>{% trans %}urlAlias{% endtrans %}</th>
-                        <th>{% trans %}translation{% endtrans %}</th>
-                        <th>{% trans %}actions{% endtrans %}</th>
+                        <td colspan="3">{% trans %}no_alias_found{% endtrans %}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% if form %}
+                {% endfor %}
+            {% endblock %}
+
+            {% block tfoot_content %}
+                {% if form %}
                         <tr>
-                            <td colspan="3">
-                                {% form_theme form '@RoadizRozier/horizontalForms.html.twig' %}
+                            <td>
+                                {% form_theme form '@RoadizRozier/forms.html.twig' %}
                                 {{ form_start(form) }}
-                                {{ form_widget(form) }}
-                                <button class="uk-button uk-button-primary" type="submit">
-                                    <i class="uk-icon-rz-plus"></i> {% trans %}add.urlAlias{% endtrans %}
-                                </button>
-                                {{ form_end(form) }}
+                                    {{ form_row(form.alias) }}
+                                {{ form_end(form, { render_rest: false }) }}
+                            </td>
+                            <td>
+                                {{ form_row(form.translation, { attr: { form: field_id(form) }}) }}
+                                {{ form_row(form._token, { attr: { form: field_id(form) }}) }}
+                            </td>
+                            <td class="rz-table__cell--align-right">
+                                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                                {{ rz_button.root({
+                                    icon: 'rz-icon-ri--add-large-line',
+                                    emphasis: 'primary',
+                                    label: 'add.urlAlias'|trans,
+                                    attributes: {
+                                        type: 'submit',
+                                        form: field_id(form),
+                                    }
+                                }) }}
                             </td>
                         </tr>
-                    {% endif %}
-                    {% for urlAlias in aliases %}
-                        {% include '@RoadizRozier/url-aliases/editRow.html.twig' with {
-                            'urlAlias': urlAlias
-                        } %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+
         <hr />
 
-        <h2 id="manage-redirections" class="content-subtitle">{% trans %}manage.redirections{% endtrans %}</h2>
-        <p class="form-row-desc">{% trans %}nodeSource.redirections.help{% endtrans %}</p>
+        <h2 id="manage-redirections" class="text-h1-sm">{% trans %}manage.redirections{% endtrans %}</h2>
+        <p class="text-body-md">{% trans %}nodeSource.redirections.help{% endtrans %}</p>
 
-        <div class="content-table-cont">
-            <table class="redirections content-table uk-table">
-                <thead>
-                <tr>
-                    <th>{% trans %}redirection.query{% endtrans %}</th>
-                    <th>{% trans %}redirection.redirect_uri{% endtrans %}</th>
-                    <th>{% trans %}translation{% endtrans %}</th>
-                    <th>{% trans %}actions{% endtrans %}</th>
-                </tr>
-                </thead>
-                <tbody>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            actions_available: true,
+            filters: filters,
+            redirections: redirections,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}redirection.query{% endtrans %}</th>
+                <th>{% trans %}redirection.redirect_uri{% endtrans %}</th>
+                <th>{% trans %}translation{% endtrans %}</th>
+            {% endblock %}
+            {% block tbody_content %}
+                {% for redirection in redirections %}
+                    {% include '@RoadizRozier/redirections/editRow.html.twig' with {
+                        redirection: redirection
+                    } %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">{% trans %}no_redirection_found{% endtrans %}</td>
+                    </tr>
+                {% endfor %}
+            {% endblock %}
+
+            {% block tfoot_content %}
                 {% if addRedirection %}
                     <tr>
-                        <td colspan="4">
-                            {% form_theme addRedirection '@RoadizRozier/horizontalForms.html.twig' %}
+                        <td>
+                            {% form_theme addRedirection '@RoadizRozier/forms.html.twig' %}
                             {{ form_start(addRedirection) }}
-                            {{ form_widget(addRedirection) }}
-                            <button class="uk-button uk-button-primary" type="submit">
-                                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.redirection{% endtrans %}
-                            </button>
+                                {{ form_widget(addRedirection) }}
                             {{ form_end(addRedirection) }}
+                        </td>
+                         <td></td>
+                         <td></td>
+                        <td class="rz-table__cell--align-right">
+                            {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                            {{ rz_button.root({
+                                icon: 'rz-icon-ri--add-large-line',
+                                emphasis: 'primary',
+                                label: 'add.a.redirection'|trans,
+                                attributes: {
+                                    type: 'submit',
+                                    form: field_id(addRedirection),
+                                }
+                            }) }}
                         </td>
                     </tr>
                 {% endif %}
-                {% for redirection in redirections %}
-                    {% include '@RoadizRozier/redirections/editRow.html.twig' with {
-                        'redirection': redirection
-                    } %}
-                {% else %}
-                    <tr><td colspan="4">{% trans %}no_redirection_found{% endtrans %}</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            {% endblock %}
+        {% endembed %}
     </article>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}

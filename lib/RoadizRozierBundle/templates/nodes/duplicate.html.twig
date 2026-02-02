@@ -1,14 +1,13 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "duplicate.node.%name%"|trans({'%name%': node.nodeName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "duplicate.node.%name%"|trans({'%name%': node.nodeName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="content-global">
-        <header class="content-header header-node header-node-delete">
-            <h1 class="content-title node-delete-title">{{ "duplicate.node"|trans }}</h1>
-            <p>{{ node.nodeName }}</p>
-            {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        </header>
+        {% include '@RoadizRozier/nodes/head.html.twig' with {
+            title: "duplicate.node"|trans,
+            subtitle: node.nodeName,
+        } only %}
         <article class="content content-no-action-menu">
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
             {{ form_start(form, {

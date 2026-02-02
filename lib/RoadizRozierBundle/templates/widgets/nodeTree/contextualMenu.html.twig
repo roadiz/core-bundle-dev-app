@@ -1,117 +1,166 @@
-<nav class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
-    <div class="vertical-nodetype">
-        {% if node.Locked %} <i class="uk-icon-lock"></i>{% endif %}
-        {% if not node.Visible %} <i class="uk-icon-eye-slash"></i>{% endif %}
+ {% import "@RoadizRozier/macros/rz_dropdown_menu.html.twig" as rz_dropdown_menu %}
+<div class="rz-dropdown">
+    <div class="rz-dropdown__head">
+        <div class="rz-dropdown__title">{% trans %}actions{% endtrans %} | {{ node.nodeName|truncate_title(18) }}</div>
+        <div class="rz-dropdown__info-list">
+            {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
+            {{ rz_node_badge.status(node, { display_label: false }) }}
+            {{ rz_node_badge.parameters(node, { display_label: false }) }}
+        </div>
     </div>
-    <div class="uk-nav uk-nav-dropdown">
-        <div class="wrapper">
-            <header class="uk-nav-header">{% trans %}actions{% endtrans %}</header>
-            {% if- is_granted('CREATE', node) -%}
-                <a
-                   title="{{ "add.node.%name%.child"|trans({'%name%': node.nodeName}) }}"
-                   href="{{ path('nodesAddChildPage', { nodeId: node.id }) }}">
-                    <i class="uk-icon-rz-plus"></i> {% trans %}add.a.child.node{% endtrans %}
-                </a>
+
+    {% if is_granted('CREATE', node) or is_granted('EDIT_SETTING', node) %}
+        <menu class="rz-dropdown__list">
+            {% if is_granted('CREATE', node) %}
+                {{ rz_dropdown_menu.item({
+                    label: 'add.a.child.node'|trans,
+                    leftIcon: 'rz-icon-ri--add-line',
+                    href: path('nodesAddChildPage', { nodeId: node.id }),
+                }) }}
             {%- endif -%}
             {% if is_granted('EDIT_SETTING', node) %}
-                <a title="{{ "edit.node.%name%"|trans({'%name%': node.nodeName}) }}"
-                   href="{{ path('nodesEditPage', { nodeId:node.id }) }}">
-                    <i class="uk-icon-rz-pencil"></i> {% trans %}edit.node{% endtrans %}
-                </a>
+                {{ rz_dropdown_menu.item({
+                        label: 'edit.node'|trans,
+                        leftIcon: 'rz-icon-ri--edit-line',
+                        href: path('nodesEditPage', { nodeId:node.id }),
+                    }) }}
+
                 {%- if not node.Locked -%}
-                    <button
-                        type="button"
-                        class="move-node-first-position smaller-text"
-                        title="{% trans %}move.node.to.first.position{% endtrans %}">
-                        <i class="uk-icon-arrow-up"></i> {% trans %}move.node.to.first.position{% endtrans %}
-                    </button>
-                    <button
-                        type="button"
-                        class="move-node-last-position smaller-text"
-                        title="{% trans %}move.node.to.last.position{% endtrans %}">
-                        <i class="uk-icon-arrow-down"></i> {% trans %}move.node.to.last.position{% endtrans %}
-                    </button>
+                    {{ rz_dropdown_menu.item({
+                        label: 'move.node.to.first.position'|trans,
+                        class: 'move-node-first-position',
+                        leftIcon: 'rz-icon-ri--arrow-up-line',
+                        attributes: {
+                            'type': 'button',
+                            'command': '--move-first',
+                            'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                        }
+                    }) }}
+                    {{ rz_dropdown_menu.item({
+                        label: 'move.node.to.last.position'|trans,
+                        leftIcon: 'rz-icon-ri--arrow-down-line',
+                        attributes: {
+                            'type': 'button',
+                            'command': '--move-last',
+                            'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                        }
+                    }) }}
                 {%- endif -%}
             {%- endif -%}
-            {% if is_granted('DUPLICATE', node) %}
-                <button
-                    data-action="copy"
-                    class="copy-node"
-                    type="button"
-                    title="{% trans %}node.copy{% endtrans %}"
-                ><i class="uk-icon-rz-copy"></i> {% trans %}node.copy{% endtrans %}</button>
-                <button
-                    data-action="paste_inside"
-                    class="paste-node"
-                    type="button"
-                    disabled
-                    title="{% trans %}node.paste_inside{% endtrans %}"
-                ><i class="uk-icon-paste"></i> {% trans %}node.paste_inside{% endtrans %}</button>
-                <button
-                    data-action="paste_after"
-                    class="paste-node"
-                    type="button"
-                    disabled
-                    title="{% trans %}node.paste_after{% endtrans %}"
-                ><i class="uk-icon-paste"></i> {% trans %}node.paste_after{% endtrans %}</button>
-                <button
-                    data-action="duplicate"
-                    class="duplicate-node"
-                    type="button"
-                    title="{% trans %}node.duplicate{% endtrans %}"
-                ><i class="uk-icon-rz-duplicate"></i> {% trans %}node.duplicate{% endtrans %}</button>
-            {%- endif -%}
+        </menu>
+    {%- endif -%}
 
-            {% if workflow_can(node, 'delete') %}
-                {% set refererUrl = node.parent ? getBreadcrumbsItem(node.parent).url : null %}
-                <a title="{{ "delete.node.%name%"|trans({'%name%': node.nodeName}) }}"
-                   href="{{ path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }) }}">
-                    <i class="uk-icon-rz-trash-o"></i> {% trans %}delete.node{% endtrans %}
-                </a>
+     {% if is_granted('DUPLICATE', node) %}
+        <menu class="rz-dropdown__list">
+            {{ rz_dropdown_menu.item({
+                label: 'node.copy'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--copy',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                }
+            }) }}
+            {{ rz_dropdown_menu.item({
+                label: 'node.paste_inside'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--paste-inside',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                    disabled: 'true',
+                }
+            }) }}
+            {{ rz_dropdown_menu.item({
+                label: 'node.paste_after'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--paste-after',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                    disabled: 'true',
+                }
+            }) }}
+            {{ rz_dropdown_menu.item({
+                label: 'node.duplicate'|trans,
+                leftIcon: 'rz-icon-ri--file-copy-line',
+                attributes: {
+                    'type': 'button',
+                    'command': '--duplicate',
+                    'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                }
+            }) }}
+        </menu>
+    {%- endif -%}
+
+     {% if not node.locked and is_granted('EDIT_STATUS', node)%}
+        <menu class="rz-dropdown__list">
+            {% if node.visible %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.hide'|trans,
+                    leftIcon: 'rz-icon-ri--eye-off-line',
+                    class: "hide-node",
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                        'data-status': "visible",
+                        'data-value': "0",
+                        'type': "button",
+                    }
+                }) }}
+            {% else %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.show'|trans,
+                    leftIcon: 'rz-icon-ri--eye-line',
+                    class: "show-node",
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                        'data-status': "visible",
+                        'data-value': "1",
+                        'type': "button",
+                    }
+                }) }}
             {% endif %}
-        </div>
-        {% if not node.locked and is_granted('EDIT_STATUS', node)%}
-            <div class="wrapper node-actions">
-                <header class="uk-nav-header">{% trans %}statuses{% endtrans %}</header>
-                {% if node.visible %}
-                    <button
-                        data-action="hide"
-                        data-status="visible"
-                        data-value="0"
-                        type="button"
-                        class="hide-node"
-                        title="{% trans %}node.hide{% endtrans %}"
-                    ><i class="uk-icon-eye-slash"></i> {% trans %}node.hide{% endtrans %}</button>
-                {% else %}
-                    <button
-                        data-action="show"
-                        data-status="visible"
-                        data-value="1"
-                        type="button"
-                        class="show-node"
-                        title="{% trans %}node.show{% endtrans %}"
-                    ><i class="uk-icon-rz-visibility-mini"></i> {% trans %}node.show{% endtrans %}</button>
-                {% endif %}
-                {% if not node.published and workflow_can(node, 'publish') %}
-                    <button
-                        data-action="publish"
-                        data-status="status"
-                        data-value="publish"
-                        type="button"
-                        class="publish-node"
-                        title="{% trans %}node.publish{% endtrans %}"
-                    ><i class="uk-icon-rz-published-mini"></i> {% trans %}node.publish{% endtrans %}</button>
-                {% elseif node.published and workflow_can(node, 'reject') %}
-                    <button
-                        data-action="reject"
-                        data-status="status"
-                        data-value="reject"
-                        type="button"
-                        class="unpublish-node"
-                        title="{% trans %}node.unpublish{% endtrans %}"
-                    ><i class="uk-icon-rz-draft-nodes"></i> {% trans %}node.unpublish{% endtrans %}</button>
-                {% endif %}
-            </div>
+            {% if not node.published and workflow_can(node, 'publish') %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.publish'|trans,
+                    leftIcon: 'rz-icon-rz--status-published-line',
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                        'data-status': "status",
+                        'data-value': "publish",
+                        'type': "button",
+                    }
+                }) }}
+            {% elseif node.published and workflow_can(node, 'reject') %}
+                {{ rz_dropdown_menu.item({
+                    label: 'node.unpublish'|trans,
+                    leftIcon: 'rz-icon-rz--status-draft-line',
+                    attributes: {
+                        'command': '--update-status',
+                        'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                        'data-status': "status",
+                        'data-value': "reject",
+                        'type': "button",
+                    }
+                }) }}
+            {% endif %}
+        </menu>
+
+        {% if workflow_can(node, 'delete') %}
+            <menu class="rz-dropdown__list">
+                {% set refererUrl = node.parent ? getBreadcrumbsItem(node.parent).url : null %}
+                {{ rz_dropdown_menu.item({
+                    label: 'delete.node'|trans,
+                    leftIcon: 'rz-icon-ri--delete-bin-7-line',
+                    href: path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }),
+                    attributes: {
+                        'aria-label': "delete.node.%name%"|trans({'%name%': node.nodeName}),
+                    }
+                }) }}
+            </menu>
         {% endif %}
-    </div>
-</nav>
+    {% endif %}
+</div>

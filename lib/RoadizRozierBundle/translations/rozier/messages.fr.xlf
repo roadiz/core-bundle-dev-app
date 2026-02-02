@@ -2928,48 +2928,48 @@
         <source>no_attributes</source>
         <target state="final">Aucun attribut</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.attributes</source>
+      <trans-unit id="are_you_sure.delete.these.attribute" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.attribute</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les attributs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>attributes.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.attribute" xml:space="preserve" approved="yes">
+        <source>delete.bulk.attribute</source>
         <target state="final">Supprimer des attributs</target>
       </trans-unit>
       <trans-unit id="no_webhooks" xml:space="preserve" approved="yes">
         <source>no_webhooks</source>
         <target state="final">Aucun webhook</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.webhooks</source>
+      <trans-unit id="are_you_sure.delete.these.webhook" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.webhook</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les webhooks sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>webhooks.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.webhook" xml:space="preserve" approved="yes">
+        <source>delete.bulk.webhook</source>
         <target state="final">Supprimer des webhooks</target>
       </trans-unit>
       <trans-unit id="no_redirections" xml:space="preserve" approved="yes">
         <source>no_redirections</source>
         <target state="final">Aucune redirection</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.redirections</source>
+      <trans-unit id="are_you_sure.delete.these.redirection" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.redirection</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer toutes les redirections sélectionnées ?</target>
       </trans-unit>
-      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>redirections.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.redirection" xml:space="preserve" approved="yes">
+        <source>delete.bulk.redirection</source>
         <target state="final">Supprimer des redirections</target>
       </trans-unit>
       <trans-unit id="no_custom_forms" xml:space="preserve" approved="yes">
         <source>no_custom_forms</source>
         <target state="final">Aucun formulaire personnalisé</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.custom_forms</source>
+      <trans-unit id="are_you_sure.delete.these.custom-form" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.custom-form</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les formulaires personnalisés sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>custom_forms.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.custom-form" xml:space="preserve" approved="yes">
+        <source>delete.bulk.custom-form</source>
         <target state="final">Supprimer des formulaires personnalisés</target>
       </trans-unit>
       <trans-unit id="no_users" xml:space="preserve" approved="yes">
@@ -2984,12 +2984,12 @@
         <source>bulk.disable</source>
         <target state="final">Tout désactiver</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.users</source>
+      <trans-unit id="are_you_sure.delete.these.User" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.User</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les comptes utilisateurs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="users.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>users.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.user" xml:space="preserve" approved="yes">
+        <source>delete.bulk.user</source>
         <target state="final">Supprimer les utilisateurs sélectionnés</target>
       </trans-unit>
       <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve" approved="yes">

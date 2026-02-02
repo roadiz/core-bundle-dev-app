@@ -29,7 +29,9 @@ final class NodeTypeDecoratorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('path', NodeTypeDecoratorPathType::class)
+            ->add('path', NodeTypeDecoratorPathType::class, [
+                'attr' => ['no-field-group' => 'true'],
+            ])
             ->add('property', EnumType::class, [
                 'class' => NodeTypeDecoratorProperty::class,
                 'choice_loader' => new CallbackChoiceLoader(function () use ($builder) {
@@ -62,7 +64,7 @@ final class NodeTypeDecoratorType extends AbstractType
             'name' => '',
             'data_class' => NodeTypeDecorator::class,
             'attr' => [
-                'class' => 'uk-form node-type-form',
+                'class' => 'rz-form node-type-form',
             ],
         ]);
     }

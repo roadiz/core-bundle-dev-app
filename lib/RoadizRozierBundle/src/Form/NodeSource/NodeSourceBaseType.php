@@ -39,11 +39,9 @@ final class NodeSourceBaseType extends AbstractType
                 'label' => 'publishedAt',
                 'required' => false,
                 'attr' => [
-                    'class' => 'rz-datetime-field',
                     'data-dev-name' => '{{ nodeSource.'.StringHandler::camelCase('publishedAt').' }}',
                 ],
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
+                'html5' => true,
                 'placeholder' => [
                     'hour' => 'hour',
                     'minute' => 'minute',
@@ -65,6 +63,9 @@ final class NodeSourceBaseType extends AbstractType
             'label' => false,
             'inherit_data' => true,
             'publishable' => false,
+            'attr' => [
+                'no-field-group' => true,
+            ],
         ]);
 
         $resolver->setRequired('translation');

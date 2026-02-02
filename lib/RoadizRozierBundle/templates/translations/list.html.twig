@@ -9,73 +9,111 @@
 {% block content %}
 <section class="content-global edit-translation content-nav-and-filters">
 
-    <header class="content-header header-translation header-translation-list">
-        <h1 class="content-title translation-add-title">{% trans %}translations{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('translationsAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.translation{% endtrans %}</a>
-        </div>
-    </header>
+    {% include '@RoadizRozier/translations/head.html.twig' with {
+        title: 'translations'|trans,
+        filters: filters,
+        buttons: [{
+            label: 'add.a.translation'|trans,
+            attributes: {
+                href: path('translationsAddPage'),
+            },
+            icon: 'rz-icon-ri--add-line'
+        }]
+    } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: false,
+    }  only %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="translations content-table uk-table">
-                <thead>
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: hasBulkActions,
+            actions_available: true,
+        } %}
+
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'name',
+                        'filters': filters,
+                        'label': 'name'|trans,
+                        'column_ordering_class': column_ordering_class,
+                    } only %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'locale',
+                        'filters': filters,
+                        'label': 'translation.locale'|trans,
+                        'column_ordering_class': column_ordering_class,
+                    } only %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'overrideLocale',
+                        'filters': filters,
+                        'label': 'overrideLocale'|trans,
+                        'column_ordering_class': column_ordering_class,
+                    } only %}
+                </th>
+                <th>{% trans %}status{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for t in translations %}
                     <tr>
-                        <th>{% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>{% trans %}translation.locale{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'locale',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>{% trans %}overrideLocale{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'overrideLocale',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>{% trans %}status{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for t in translations %}
-                    <tr>
-                        <td><a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">{{ t.translation.getName }}</a></td>
+                        <td>
+                            <a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">
+                                {{ t.translation.getName }}
+                            </a>
+                        </td>
                         <td>{{ t.translation.locale }}</td>
                         <td>{{ t.translation.overrideLocale }}</td>
                         <td>
-                        {% if t.translation.isAvailable == false %}<div class="uk-badge uk-badge-warning">{% trans %}not_available{% endtrans %}</div>{% endif %}
-                        {% if t.translation.isDefaultTranslation == true %}
-                        <div class="uk-badge uk-badge-table uk-badge-notification" title="{% trans %}default.translation{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-star"></i></div>
+                            {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
+                            {% if t.translation.isAvailable == false %}
+                                {{ rz_badge.item({ label: 'not_available'|trans })}}
+                            {% endif %}
+                            {% if t.translation.isDefaultTranslation == true %}
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--star-line',
+                                    attributes: {
+                                        'title': 'default.translation'|trans
+                                    }
+                                    }) }}
+                            {% endif %}
+                        </td>
+                        {% if actions_available %}
+                            {% set is_not_default = t.translation.isDefaultTranslation == false %}
+                            <td>
+                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': path('translationsEditPage', { translationId: t.translation.getId }),
+                                    'delete_href': is_not_default ? path('translationsDeletePage', { translationId: t.translation.getId }) : null,
+                                } %}
+                                    {% block other_actions %}
+                                        {% if is_not_default is same as(true) %}
+                                            {% form_theme t.defaultForm '@RoadizRozier/forms.html.twig' %}
+                                            <form class="rz-form" action="#" method="post">
+                                                {{ form_widget(t.defaultForm, { attr: { style: 'display: none;' }}) }}
+                                                {{ _self.button({
+                                                    icon: 'rz-icon-ri--star-line',
+                                                    attributes: {
+                                                        type: 'submit',
+                                                        title: 'set.default'|trans,
+                                                    }
+                                                }) }}
+                                            </form>
+                                        {% endif %}
+                                    {% endblock %}
+                                {% endembed %}
+                            </td>
                         {% endif %}
-                        </td>
-                        <td class="table-actions-row">
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small" title="{% trans %}edit{% endtrans %}" href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                {% if t.translation.isDefaultTranslation == false %}
-                                    {% form_theme t.defaultForm '@RoadizRozier/forms.html.twig' %}
-                                    <form class="uk-form-translation-default" action="#" method="post">
-                                        {{ form_widget(t.defaultForm) }}
-                                        <button class="uk-button uk-button-content uk-button-small" title="{% trans %}set.default{% endtrans %}" type="submit" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-star"></i></button>
-                                    </form>
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger" title="{% trans %}delete{% endtrans %}" href="{{ path('translationsDeletePage', { translationId: t.translation.getId }) }}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                {% endif %}
-                            </div>
-                        </td>
                     </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 </section>
 {% endblock %}

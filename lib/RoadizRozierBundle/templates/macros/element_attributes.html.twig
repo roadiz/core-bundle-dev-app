@@ -1,0 +1,12 @@
+{% macro print(attrs = {}) %}
+    {# Render HTML attributes: bare attribute for boolean true, key="value" otherwise #}
+    {% for attrname, attrvalue in attrs %}
+        {% if attrvalue and attrvalue is same as(true) %}
+            {{ attrname }}
+        {% elseif attrvalue is iterable %}
+            {{ attrname }}="{{ attrvalue|json_encode()|e('html_attr') }}"
+        {% else %}
+            {{ attrname }}="{{ attrvalue }}"
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

@@ -1,0 +1,176 @@
+.rz-card {
+	--rz-card-border-radius: var(--radius-xs);
+
+	box-sizing: border-box;
+	position: relative;
+	isolation: isolate; /* Allow negative z-index on pseudo element without being displayed behind parent element. */
+	overflow: hidden;
+	border-radius: var(--rz-card-border-radius);
+	min-height: var(--rz-card-min-height, 51px);
+
+	&:where(a) {
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
+/* When only image is present */
+.rz-card:has(.rz-card__asset):not(:has(.rz-card__title):has(.rz-card__overtitle))
+{
+	--rz-card-min-height: 96px;
+	min-width: 120px; /* To keep a size without a parent constraint */
+}
+
+.rz-card:has(.rz-card__title),
+.rz-card:has(.rz-card__overtitle) {
+	--rz-card-border-width: 1PX;
+	--rz-card-border-left-width: 6PX;
+
+	padding-left: calc(var(--rz-card-border-left-width) - var(--rz-card-border-width) + var(--spacing-3xs));
+	display: grid;
+	align-items: flex-start;
+	column-gap: var(--spacing-3xs);
+	grid-template-columns: 1fr minmax(0, 110px);
+	grid-template-rows: min-content 1fr;
+	grid-template-areas:
+		"overtitle asset"
+		"title     asset";
+
+	&::before,
+	&::after {
+		position: absolute;
+		content: '';
+		border-radius: inherit;
+		pointer-events: none;
+	}
+
+	/* Inner BG */
+	&::before {
+		inset: var(--rz-card-border-width)
+			var(--rz-card-border-width)
+			var(--rz-card-border-width)
+			var(--rz-card-border-left-width);
+		background-color: var(--reference-bg, #F2F2F2);
+		z-index: -1;
+	}
+
+	/* BG */
+	&::after {
+		inset: 0;
+		background-color: var(--rz-card-border-color, var(--reference-border, #DADADA));
+		z-index: -2;
+		transition: background-color 0.3s;
+	}
+
+	&:has(.rz-card__img) {
+		--rz-reference-img-aspect-ratio: 110 / 94;
+	}
+
+
+	@media (hover: hover) {
+		&:hover::after {
+			background-color: var(--rz-card-border-color-hover, var(--reference-border-hover, #9A9A9A));
+		}
+	}
+}
+
+.rz-card__overtitle {
+	grid-area: overtitle;
+	margin-top: var(--spacing-3xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-overtitle-md-font-size);
+	line-height: var(--text-overtitle-md-line-height);
+	letter-spacing: var(--text-overtitle-md-letter-spacing);
+	font-weight: var(--text-overtitle-md-font-weight);
+
+	.rz-card:not(:has(.rz-card__img)) & {
+		grid-column: 1 / -1;
+		padding-right: 10px;
+	}
+}
+
+.rz-card__title {
+	grid-area: title;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: var(--rz-card-title-line-clamp, 2);
+	-webkit-box-orient: vertical;
+
+	margin-top: var(--spacing-6xs);
+	margin-bottom: var(--spacing-3xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-title-md-font-size);
+	line-height: var(--text-title-md-line-height);
+	letter-spacing: var(--text-title-md-letter-spacing);
+	font-weight: var(--text-title-md-font-weight);
+
+	&:first-child {
+		margin-top: var(--spacing-3xs);
+	}
+
+	.rz-card:not(:has(.rz-card__img)) & {
+		grid-column: 1 / -1;
+		padding-right: 10px;
+	}
+}
+
+.rz-card__asset {
+	grid-area: asset;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(--rz-reference-img-width, 100%);
+	height: var(--rz-reference-img-height, 100%);
+	aspect-ratio: var(--rz-reference-img-aspect-ratio, 120 / 96); /* Default aspect ratio for a single image */
+	object-fit: cover;
+	overflow: hidden;
+	background-color: var(--reference-bg, #F2F2F2);
+	/* To smoother nesting border radius visually use: outerBorderRadius = innerBorderRadius + distance */
+	border-radius:
+		0
+		calc(var(--rz-card-border-radius) - var(--rz-card-border-width))
+		calc(var(--rz-card-border-radius) - var(--rz-card-border-width))
+		0;
+
+	/* Adapt for img inside picture */
+}
+
+.rz-card__asset img,
+.rz-card__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.rz-card__badge {
+	position: absolute;
+	transition: opacity 0.3s;
+
+	@media (hover: hover) {
+		.rz-card:hover & {
+			opacity: 0;
+		}
+	}
+}
+
+.rz-card__action {
+	position: absolute;
+	bottom: var(--spacing-6xs);
+	right: var(--spacing-6xs);
+	translate: calc(100% + var(--spacing-6xs)) 0;
+	transition: translate 0.3s;
+
+	@media (hover: hover) {
+		.rz-card:hover & {
+			translate: 0;
+		}
+	}
+}
+
+.rz-card__action--top {
+	bottom: initial;
+	top: var(--spacing-6xs);
+	right: var(--spacing-6xs);
+	translate: 0 calc((100% + var(--spacing-6xs)) * -1);
+}

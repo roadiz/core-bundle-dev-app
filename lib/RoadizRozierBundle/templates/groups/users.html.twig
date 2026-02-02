@@ -1,60 +1,52 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{- "edit.group.%name%.users"|trans({'%name%': item.getName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{- "edit.group.%name%.users"|trans({'%name%': item.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global edit-group">
+    {% include '@RoadizRozier/groups/head.html.twig' with {
+        title: 'edit.group.%name%.users'|trans({'%name%': item.name})|truncate_title(40),
+        item: item,
+        current: 'users',
+        with_nav_bar: true,
+        with_breadcrumb: true,
+    } only %}
 
-    <header class="content-header header-group header-group-users">
-        <h1 class="content-title group-add-title">
-            {{- "edit.group.%name%.users"|trans({'%name%': item.getName})|u.truncate(25, '[…]', true) -}}
-        </h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('groupsHomePage') }}"
-           title="{% trans %}back_to.groups{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-        {% include '@RoadizRozier/groups/navBar.html.twig' with {'item':item, current:'users'} %}
-    </header>
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}user{% endtrans %}</th>
+            {% endblock %}
 
-    <article class="content content-edit">
-        <div class="content-table-cont">
-            <table class="content-table groups-users uk-table">
-                <thead>
-                    <tr>
-                        <th>{% trans %}user{% endtrans %}</th>
-                        <th>{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in item.getUsers %}
-                    <tr>
-                        <td>{{ user.userName }}</td>
+            {% block tbody_content %}
+                {% for user in item.getUsers %}
+                <tr>
+                    <td>{{ user.userName }}</td>
+                    {% if actions_available %}
                         <td>
-                            <a class="uk-button uk-button-small uk-button-danger"
-                               href="{{ path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }) }}">
-                                <i class='uk-icon-trash-o'></i> {% trans %}unlink.user{% endtrans %}
-                            </a>
+                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'delete_href': path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }),
+                                'delete_title': 'unlink.user'|trans,
+                            } %}
+                            {% endembed %}
                         </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
 
         <hr />
-        <h2>{% trans %}add.a.user{% endtrans %}</h2>
+        <h2 class="text-h1-sm">{% trans %}add.a.user{% endtrans %}</h2>
 
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, {
-            'attr': {
-                'class': 'uk-form uk-form-stacked'
-            }
-        }) }}{{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button class="uk-button uk-button-primary" type="submit">
-                    <i class="uk-icon-rz-plus"></i> {% trans %}add.user{% endtrans %}
-                </button>
-            </fieldset>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem('#' ~ field_id(form)) }}
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/groups/actionsMenu.html.twig' %}

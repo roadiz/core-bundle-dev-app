@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
@@ -61,6 +62,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         protected readonly NodeWorkflow $workflow,
         protected readonly HandlerFactoryInterface $handlerFactory,
         FormFactoryInterface $formFactory,
+        ExplorerItemFactoryInterface $explorerItemFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
         ManagerRegistry $managerRegistry,
@@ -68,7 +70,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
         LogTrail $logTrail,
         EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
+        parent::__construct($formFactory, $explorerItemFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     /**
@@ -394,7 +396,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            $this->getTemplateFolder().'/bulk_delete.html.twig',
+            '@RoadizRozier/admin/confirm_action.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item

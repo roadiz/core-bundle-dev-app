@@ -8,27 +8,17 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-redirection-types header-redirection-types-add">
-        <h1 class="content-title">{% trans %}add.a.redirection{% endtrans %}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('redirectionsHomePage') }}"
-           title="{% trans %}back_to.redirections{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/redirections/head.html.twig' with {
+        title: 'add.a.redirection'|trans,
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: 'add-redirection-form'}}) }}
         {{ form_widget(form) }}
-        <fieldset data-uk-margin>
-            <button is="rz-save-button" data-action-save="#add-redirection-form"
-                    class="uk-button uk-button-success"
-                    type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
-        </fieldset>
+        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem('#add-redirection-form') }}
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/redirections/actionsMenu.html.twig' %}

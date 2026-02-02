@@ -1,147 +1,143 @@
 {% extends "@RoadizRozier/documents/list.html.twig" %}
 
-{% macro single_document(document) %}
-    <tr>
-        <td class="mobile-hidden">
-            <figure class="document-image">
-                {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
-                    {{ document|display({
-                        picture: true,
-                        align: document.imageCropAlignment,
-                        hotspot: document.hotspotAsString,
-                        width: 64,
-                        crop: '1:1',
-                        quality: 60
-                    }) }}
-                {% endif %}
-                {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
-                    <div class="document-platform-icon"><i class="uk-icon-file-{{ document.shortType }}-o"></i></div>
-                {% endif %}
-            </figure>
-        </td>
-        <td>
-            <a href="{{ path('documentsEditPage', { documentId: document.id }) }}">{{ document|centralTruncate(30, -4) }}</a>
-        </td>
-        <td class="mobile-hidden">
-            {{ document.createdAt|format_datetime('short', 'short') }}
-        </td>
-        <td class="mobile-hidden">{{ document.mimeType }}</td>
-        <td>
-            {% if document.filesize > 0 %}<i class="uk-icon-eye"></i> {{ document.filesize|formatBytes }}{% endif %}
-            {% if document.rawDocument %}
-                {% if document.rawDocument.filesize > 0 %}
-                    <br><i data-uk-tooltip="{animation:true}"
-                           title="{{ 'original.document'|trans }}"
-                           class="uk-icon-camera-retro"></i> {{ document.rawDocument.filesize|formatBytes }}
-                {% endif %}
-            {% endif %}
-        </td>
-        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
-        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageHeight > 0 %}{{ document.imageHeight }}px{% endif %}</td>
-        <td class="mobile-hidden uk-visible-xlarge">
-            {% if document.embedPlatform %}
-                {% set iconName = (document|embedFinder).shortType %}
-                {% if document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
-                    {% set iconName = 'documents' %}
-                {% endif %}
-                <span class="uk-button-status"
-                      data-uk-tooltip="{animation:true}"
-                      title="{{ document.embedPlatform|trans|capitalize }}"><i class="uk-icon-rz-{{ iconName }}"></i></span>
-            {% endif %}
-        </td>
-        <td class="table-actions-row table-actions-row-3">
-            <div class="bulk-selection">
-                <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ document.id }}" />
-            </div>
-            <div class="uk-button-group">
-                <a class="uk-button uk-button-content uk-button-small document-link"
-                   href="{{ path('documentsEditPage', { documentId: document.id }) }}"><i class="uk-icon-rz-pencil"></i></a>
-                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                   href="{{ path('documentsDeletePage', { documentId: document.id }) }}"><i class="uk-icon-trash-o"></i></a>
-            </div>
-        </td>
-    </tr>
-{% endmacro %}
-
 {% block content_body %}
     <article class="content content-no-action-menu">
         {% block pre_content_body %}{% endblock %}
-        <div class="content-table-cont">
-            <table class="uk-table content-table">
-                <thead>
-                <tr>
-                    <th class="mobile-hidden"></th>
-                    <th>
-                        {% trans %}document.filename{% endtrans %}
-                        {% if not no_sorting %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'filename',
-                                'filters': filters,
-                            } only %}
-                        {% endif %}
-                    </th>
-                    <th class="mobile-hidden">
-                        {% trans %}document.createdAt{% endtrans %}
-                        {% if not no_sorting %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'createdAt',
-                                'filters': filters,
-                            } only %}
-                        {% endif %}
-                    </th>
-                    <th class="mobile-hidden">
-                        {% trans %}document.mimeType{% endtrans %}
-                        {% if not no_sorting %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'mimeType',
-                                'filters': filters,
-                            } only %}
-                        {% endif %}
-                    </th>
-                    <th>
-                        {% trans %}document.filesize{% endtrans %}
-                        {% if not no_sorting %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'filesize',
-                                'filters': filters,
-                            } only %}
-                        {% endif %}
-                    </th>
-                    <th class="mobile-hidden uk-visible-xlarge">
-                        {% trans %}document.width{% endtrans %}
-                        {% if not no_sorting %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'imageWidth',
-                                'filters': filters,
-                            } only %}
-                        {% endif %}
-                    </th>
-                    <th class="mobile-hidden uk-visible-xlarge">
-                        {% trans %}document.height{% endtrans %}
-                        {% if not no_sorting %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'imageHeight',
-                                'filters': filters,
-                            } only %}
-                        {% endif %}
-                    </th>
-                    <th class="mobile-hidden uk-visible-xlarge"></th>
-                    <th class="table-actions-row table-actions-row-3">
-                        <div class="bulk-selection">
-                            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
-                        </div>
-                        {% trans %}actions{% endtrans %}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
+
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: true,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th class="mobile-hidden"></th>
+                <th>
+                    {% if not no_sorting %}
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'filename',
+                            'label': 'document.filename'|trans,
+                        } %}
+                    {% endif %}
+                </th>
+                <th class="mobile-hidden">
+                    {% if not no_sorting %}
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'createdAt',
+                            'label': 'document.createdAt'|trans,
+                        } %}
+                    {% endif %}
+                </th>
+                <th class="mobile-hidden">
+                    {% if not no_sorting %}
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'mimeType',
+                            'label': 'document.mimeType'|trans,
+                        } %}
+                    {% endif %}
+                </th>
+                <th>
+                    {% if not no_sorting %}
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'filesize',
+                            'label': 'document.filesize'|trans,
+                        } %}
+                    {% endif %}
+                </th>
+                <th class="mobile-hidden uk-visible-xlarge">
+                    {% if not no_sorting %}
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'imageWidth',
+                            'label': 'document.width'|trans,
+                        } %}
+                    {% endif %}
+                </th>
+                <th class="mobile-hidden uk-visible-xlarge">
+                    {% if not no_sorting %}
+                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                            'field': 'imageHeight',
+                            'filters': filters,
+                            'label': 'document.height'|trans
+                        } %}
+                    {% endif %}
+                </th>
+                <th class="mobile-hidden uk-visible-xlarge"></th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
                 {% for document in documents %}
-                    {{- _self.single_document(document, thumbnailFormat) -}}
+                    <tr
+                     {{ _self.colored_row_attrs({'color': document.imageAverageColor }) }}
+                    >
+                        {% if selection_available %}
+                        <td>
+					        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                            {{ rz_bulk.select_input({ value: document.id }) }}
+                        </td>
+                        {% endif %}
+                        <td class="mobile-hidden">
+                            <figure class="document-image">
+                                {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
+                                    {{ document|display({
+                                        picture: true,
+                                        align: document.imageCropAlignment,
+                                        hotspot: document.hotspotAsString,
+                                        width: 64,
+                                        crop: '1:1',
+                                        quality: 60
+                                    }) }}
+                                {% endif %}
+                                {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
+                                    {{ rz_badge.item({
+                                        icon: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
+                                        size: 'md',
+                                    })}}
+                                {% endif %}
+                            </figure>
+                        </td>
+                        <td>
+                            <a href="{{ path('documentsEditPage', { documentId: document.id }) }}">{{ document|centralTruncate(30, -4) }}</a>
+                        </td>
+                        <td class="mobile-hidden">
+                            {{ document.createdAt|format_datetime('short', 'short') }}
+                        </td>
+                        <td class="mobile-hidden">{{ document.mimeType }}</td>
+                        <td>
+                            {% if document.filesize > 0 %}<span class="rz-icon-ri--eye-line"></span> {{ document.filesize|formatBytes }}{% endif %}
+                            {% if document.rawDocument %}
+                                {% if document.rawDocument.filesize > 0 %}
+                                    <br>
+                                    <span class="rz-icon-ri--camera-line" title="{{ 'original.document'|trans }}"></span> {{ document.rawDocument.filesize|formatBytes }}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
+                        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageHeight > 0 %}{{ document.imageHeight }}px{% endif %}</td>
+                        <td class="mobile-hidden uk-visible-xlarge">
+                            {% if document.embedPlatform %}
+                                {% set iconName = (document|embedFinder).shortType %}
+                                {% if document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
+                                    {% set iconName = 'documents' %}
+                                {% endif %}
+                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--' ~ iconName ~ '-fill',
+                                    attributes: {
+                                        title: document.embedPlatform|trans|capitalize,
+                                    }
+                                }) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'edit_href': path('documentsEditPage', { documentId: document.id }),
+                                'delete_href': path('documentsDeletePage', { documentId: document.id }),
+                            } %}
+                        </td>
+                    </tr>
                 {% else %}
-                    <tr><td class="uk-text-center" colspan="9">{% trans %}no_document{% endtrans %}</td></tr>
+                    <tr class ><td class="rz-message__text" colspan="10">{% trans %}no_document{% endtrans %}</td></tr>
                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            {% endblock %}
+        {% endembed %}
     </article>
 {% endblock %}

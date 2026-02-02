@@ -1,0 +1,76 @@
+{#
+    Generic and reusable head template for simple scopes.
+
+    Variables:
+    - title (required): The page title
+    - buttons (optional): Array of button configurations
+    - filters (optional): Filter object with itemCount property
+    - with_nav_bar (optional): Boolean to show navigation bar
+    - nav_bar_template (optional): Path to navigation bar template
+    - nav_bar_context (optional): Context variables to pass to nav_bar template
+    - available_translations (optional): Array of available translations
+    - translation (optional): Current translation object
+    - translation_route (optional): Route name for translation switching
+    - translation_params_key (optional): Parameter key for translation route
+    - translation_entity (optional): Entity for translation route
+#}
+{% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+    {% block translation %}
+        {% if available_translations is defined and available_translations and translation is defined and translation.id and translation_route is defined %}
+            <div class="rz-page-header__item--right">
+                {{ _self.translations_bar(
+                    available_translations,
+                    translation_route,
+                    translation_entity,
+                    translation_params_key,
+                    translation.id
+                ) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block buttons %}
+        {% if buttons is defined and buttons %}
+            {{ _self.button_group(buttons) }}
+        {% endif %}
+    {% endblock %}
+
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+
+    {% block badges %}
+        {% if filters is defined and filters.itemCount %}
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            <div class="rz-page-header__item">
+                {{ rz_badge.item({
+                    label: '%count%.items'|transchoice(filters.itemCount)|raw,
+                    size: 'sm',
+                    color: 'default'
+                }) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block title %}
+        <h1 class="rz-page-header__title rz-page-header__item">
+            {{ title }}
+        </h1>
+    {% endblock %}
+
+    {% block subtitle %}
+        {% if subtitle is defined and subtitle %}
+            <div class="rz-page-header__item">
+                {{ subtitle }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block nav_bar %}
+        {% if with_nav_bar is defined and with_nav_bar and nav_bar_template is defined %}
+            {% include nav_bar_template with nav_bar_context|default({}) %}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

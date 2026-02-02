@@ -8,16 +8,20 @@
 
 {% block title %}{% trans %}dashboard{% endtrans %} | {{ parent() }}{% endblock %}
 
-{%- block content_title -%}{{ "hello.%name%"|trans({'%name%': displayName}) }}{%- endblock -%}
-
-{%- block content_header_nav -%}
-    {%- include '@RoadizRozier/dashboard/navBar.html.twig' with {'current':'dashboard'} -%}
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: "hello.%name%"|trans({'%name%': displayName}),
+        with_nav_bar: true,
+        nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
+        nav_bar_context: {'current':'dashboard'}
+    } only %}
 {%- endblock -%}
 
 {%- block content_body -%}
 <article class="content">
     <div class="rz-dashboard">
         {%- block dashboard_panels -%}{%- endblock -%}
+
         {% if bags.settings.get('dashboard_iframe') %}
             <div class="rz-dashboard__row">
                 <div class="rz-dashboard__panel uk-panel uk-panel-box dashboard-iframe">
@@ -25,59 +29,76 @@
                 </div>
             </div>
         {% endif %}
-        {% if latestLogs %}
+
         <div class="rz-dashboard__row">
-            <div class="rz-dashboard__panel rz-dashboard__panel--double uk-panel uk-panel-box" id="latest-sources">
-                <h3 class="uk-panel-title uk-text-center">{% trans %}latest.node-sources.updates{% endtrans %}</h3>
-                <ul class="latest-source-list">
-                {%- for log in latestLogs -%}
-                    <li class="latest-source">
-                        {% set entityPath = log_entity_edit_path(log) %}
-                        {% if entityPath %}
-                        <a href="{{ entityPath }}">
-                        {% endif %}
-                            {% set thumbnail = log.additionalData.entity_thumbnail_src %}
-                            <figure>
-                                {% if thumbnail %}
-                                    <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
+            {% if latestLogs %}
+                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                    icon: 'rz-icon-ri--command-line',
+                    title: 'latest.node-sources.updates'|trans,
+                    latestLogs: latestLogs
+                } only %}
+                    {% block content %}
+                        {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                            {% block tbody_content %}
+                                {% for log in latestLogs %}
+                                    {% set entityPath = log_entity_edit_path(log) %}
+                                    {% set thumbnail = log.additionalData.entity_thumbnail_src %}
+                                    <tr>
+                                        <td>
+                                            {% set empty_class = thumbnail ? null : 'rz-entity-thumbnail--empty' %}
+                                            <figure class="rz-entity-thumbnail rz-entity-thumbnail--medium {{ empty_class }}">
+                                                {% if thumbnail %}
+                                                    <img
+                                                        class="rz-entity-thumbnail__image"
+                                                        width="68px"
+                                                        height="52px"
+                                                        src="{{ thumbnail }}"
+                                                        alt="{{ log.additionalData.entity_title }}">
+                                                {% else %}
+                                                    <span class="rz-entity-thumbnail__placeholder"></span>
+                                                {% endif %}
+                                            </figure>
+                                        </td>
+                                        <td><a href="{{ entityPath }}">{{ log.additionalData.entity_title }}</a></td>
+                                        <td>{{ log.additionalData.user_public_name|default(log.username) }}</td>
+                                        <td>{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
+                                    </tr>
                                 {% else %}
-                                    <span class="no-thumb"></span>
-                                {% endif %}
-                                {% if log.additionalData.user_picture_url %}
-                                    <img width="60"
-                                         height="60"
-                                         class="user-image"
-                                         src="{{ log.additionalData.user_picture_url }}"
-                                         alt="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                         title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                         data-uk-tooltip="{animation:true}"/>
-                                {% elseif log.username %}
-                                    <span class="user-image"
-                                          title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                                          data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
-                                {% endif %}
-                            </figure>
-                            <p class="source-title">{{ log.additionalData.entity_title }}</p>
-                            <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
-                        {% if entityPath %}
-                        </a>
-                        {% endif %}
-                    </li>
-                {%- endfor -%}
-                </ul>
-            </div>
+                                    <tr>
+                                        <td colspan="2">{{ '{0} no.item|{1} 1.item|]1,Inf] %count%.items'|transchoice(0)|raw }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
             {% if bookmarks|length %}
-            <div class="rz-dashboard__panel uk-panel uk-panel-box" id="dashboard-bookmarks">
-                <h3 class="uk-panel-title uk-text-center">{% trans %}bookmarks.links{% endtrans %}</h3>
-                <ul class="uk-list uk-list-striped">
-                    {% for bookmark in bookmarks %}
-                        <li><a target="_blank" rel="nofollow noopener" href="{{ bookmark.url }}">{{ bookmark.label }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                    id: 'dashboard-bookmarks',
+                    icon: 'rz-icon-ri--computer-line',
+                    title: 'bookmarks.links'|trans,
+                } %}
+                    {% block content %}
+                        <ul class="rz-dashboard__body-bg">
+                            {% for bookmark in bookmarks %}
+                                <li>
+                                    <a
+                                        class="rz-dashboard__text"
+                                        target="_blank"
+                                        rel="nofollow noopener"
+                                        href="{{ bookmark.url }}"
+                                    >
+                                        {{ bookmark.label }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
         </div>
-        {% endif %}
     </div>
 </article>
 {%- endblock -%}

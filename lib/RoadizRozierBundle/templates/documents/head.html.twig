@@ -1,0 +1,85 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set breadcrumb = {
+        label: 'documents-breadcrumb',
+        parent: [{
+            label: 'documents.homepage'|trans,
+            type: 'listing',
+            url: path('documentsHomePage'),
+        }],
+        current: title
+    } %}
+{% endif %}
+
+{% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+    breadcrumb: breadcrumb,
+} %}
+    {% block translation %}
+        {% if available_translations is defined and available_translations and translation is defined and translation.id %}
+            <div class="rz-page-header__item--right">
+                {{ _self.translations_bar(
+                    available_translations,
+                    'documentsMetaPage',
+                    document,
+                    'documentId',
+                    translation.id
+                ) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {{ _self.breadcrumb(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+
+    {% block buttons %}
+        {% if not displayPrivateDocuments and displayButtonAction %}
+            <div class="rz-button-group--gap-md rz-page-header__item--right">
+                <a class="rz-button rz-button--primary rz-button-group__button"
+                   href="{{ path('documentsUploadPage', {folderId: folder.id}) }}">
+                    <span class="rz-button__label">{{ 'upload.document'|trans }}</span>
+                    <span class="rz-button__icon rz-icon-ri--upload-line"></span>
+                </a>
+                <a class="rz-button rz-button--primary rz-button-group__button"
+                   href="{{ path('documentsEmbedPage', {folderId: folder.id}) }}">
+                    <span class="rz-button__label">{{ 'embed.document'|trans }}</span>
+                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                </a>
+                <a class="rz-button rz-button--primary rz-button-group__button"
+                   href="{{ path('documentsRandomPage', {folderId: folder.id}) }}">
+                    <span class="rz-button__label">{{ 'random.document'|trans }}</span>
+                    <span class="rz-button__icon rz-icon-ri--star-line"></span>
+                </a>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block badges %}
+        {% if filters and filters.itemCount %}
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            <div class="rz-page-header__item">
+                {{ rz_badge.item({
+                    label: '%count%.items'|transchoice(filters.itemCount)|raw,
+                    size: 'sm',
+                }) }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block title %}
+        <h1 class="rz-page-header__title rz-page-header__item">
+            {{ title }}
+        </h1>
+    {% endblock %}
+
+    {% block nav_bar %}
+        {% if with_nav_bar is defined and with_nav_bar %}
+            {% if folder is defined and folder %}
+                {% include '@RoadizRozier/folders/navBar.html.twig' with {folder: folder, current: current, translation: translation} %}
+            {% else %}
+                {% include '@RoadizRozier/documents/navBar.html.twig' with {current: current} %}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

@@ -1,60 +1,62 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
-{% block title %}{{- "edit.group.%name%.roles"|trans({'%name%': item.getName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{- "edit.group.%name%.roles"|trans({'%name%': item.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global edit-group">
-    <header class="content-header header-group header-group-roles">
-        <h1 class="content-title group-add-title">
-            {{- "edit.group.%name%.roles"|trans({'%name%': item.getName})|u.truncate(25, '[…]', true) -}}
-        </h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('groupsHomePage') }}"
-           title="{% trans %}back_to.groups{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-        {% include '@RoadizRozier/groups/navBar.html.twig' with {'item':item, current:'roles'} %}
-    </header>
+    {% include '@RoadizRozier/groups/head.html.twig' with {
+        title: 'edit.group.%name%.roles'|trans({'%name%': item.name})|truncate_title(40),
+        item: item,
+        current: 'roles',
+        with_nav_bar: true,
+        with_breadcrumb: true,
+    } only %}
 
-    <article class="content content-edit">
-        <div class="content-table-cont">
-            <table class="content-table groups-roles uk-table">
-                <thead>
-                    <tr>
-                        <th>{% trans %}role{% endtrans %}</th>
-                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%- for role in item.roles -%}
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}role{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {%- for role in item.roles -%}
                     <tr>
                         <td>{{ role }}</td>
-                        <td class="table-actions-row">
-                            {% if is_granted(role) %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('groupsRemoveRolesPage', { id: item.id, role: role }) }}"
-                                   title="{% trans %}unlink.role{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                            {% endif %}
-                        </td>
+                        {% if actions_available %}
+                            <td>
+                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'delete_href': is_granted(role) ? path('groupsRemoveRolesPage', { id: item.id, role: role }) : null,
+                                    'delete_title': 'unlink.role'|trans,
+                                } %}
+                                {% endembed %}
+                            </td>
+                        {% endif %}
                     </tr>
-                    {%- endfor -%}
-                </tbody>
-            </table>
-        </div>
+                {%- endfor -%}
+            {% endblock %}
+        {% endembed %}
         <hr />
-        <h2>{% trans %}add.a.role{% endtrans %}</h2>
+        <h2 class="text-h1-sm">{% trans %}add.a.role{% endtrans %}</h2>
 
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, {
-            'attr': {
-                'class': 'uk-form uk-form-stacked'
-            }
-        }) }}{{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button class="uk-button uk-button-primary" type="submit">
-                    <i class="uk-icon-rz-plus"></i> {% trans %}add.role{% endtrans %}
-                </button>
-            </fieldset>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="rz-form-field rz-form-field--align-start">
+            {{
+            rz_button.root({
+                attributes: {
+                    type: 'submit',
+                },
+                emphasis: 'primary',
+                label: 'add.role',
+                icon: 'rz-icon-ri--add-line',
+            })
+            }}
+        </div>
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/groups/actionsMenu.html.twig' %}

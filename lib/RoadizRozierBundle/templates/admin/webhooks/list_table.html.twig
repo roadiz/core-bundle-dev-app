@@ -1,0 +1,79 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+	{% block thead_cells %}
+		<th>{% trans %}webhooks.description{% endtrans %}</th>
+		<th>
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'messageType',
+					'filters': filters,
+					'label': 'webhooks.messageType'|trans,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+			    {% trans %}webhooks.messageType{% endtrans %}
+			{% endif %}
+		</th>
+		<th>{% trans %}webhooks.automatic{% endtrans %}</th>
+		<th>
+			{% if not no_sort %}
+				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+					'field': 'lastTriggeredAt',
+					'filters': filters,
+					'label': 'webhooks.lastTriggeredAt'|trans,
+					'column_ordering_class': column_ordering_class,
+				} only %}
+			{% else %}
+				{% trans %}webhooks.lastTriggeredAt{% endtrans %}
+			{% endif %}
+		</th>
+	{% endblock %}
+
+	{% block tbody_content %}
+		{% for item in items %}
+			<tr>
+				{% if selection_available %}
+				<td>
+					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+					{{ rz_bulk.select_input({ value: item.id }) }}
+				</td>
+				{% endif %}
+				<td>{{- item.description|u.truncate(50) -}}</td>
+				<td title="{{ item.messageType }}" class="rz-table__cell--ellipsis rz-table__cell--rtl">
+					{{- item.messageType -}}
+				</td>
+				<td>
+					{% if item.Automatic %}
+						<span
+							data-uk-tooltip="{animation:true}"
+							title="{% trans %}webhooks.automatic.help{% endtrans %}"
+							class="uk-button-status"
+						>
+							<i class="uk-icon-flag-checkered"></i>
+						</span>
+					{% endif %}
+				</td>
+				<td>{{- item.lastTriggeredAt ? item.lastTriggeredAt|format_datetime(locale=app.request.locale) : 'never'|trans -}}</td>
+				{% if actions_available %}
+					<td>
+						{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+							'edit_href': path('webhooksEditPage', { id: item.id }),
+							'delete_href': path('webhooksDeletePage', { id: item.id }),
+						} %}
+							{% block other_actions %}
+								{{ _self.button({
+									icon: 'rz-icon-ri--space-ship-line',
+									attributes: {
+										href: path('webhooksTriggerPage', { id: item.id }),
+										title: 'webhook.trigger'|trans,
+									}
+								}) }}
+							{% endblock %}
+						{% endembed %}
+					</td>
+				{% endif %}
+			</tr>
+		{% else %}
+			<tr><td colspan="6">{% trans %}no_webhooks{% endtrans %}</td></tr>
+		{% endfor %}
+	{% endblock %}
+{% endembed %}

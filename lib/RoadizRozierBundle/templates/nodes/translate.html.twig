@@ -3,20 +3,18 @@
 
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-edit">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {"node": node} only %}
-        <h1 class="content-title node-edit-title">
-            {{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
-            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": null} %}
-        {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": null} %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title,
+        available_translations: available_translations,
+        current: null,
+        with_info_badge: true,
+        with_nav_bar: true,
+    } only %}
 
     <article class="content content-node-translate">
         <div class="content-table-cont">

@@ -4,69 +4,59 @@
 
 {% block content %}
 <section class="content-global content-nav-and-filters">
-    <header class="content-header header-item header-item-list">
-        <h1 class="content-title item-list-title">{% trans %}attribute_groups{% endtrans %}</h1>
-        {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-        <div class="content-header-action-menu">
-            <a class="uk-button" href="{{ path('attributeGroupsAddPage') }}">
-                <i class="uk-icon-rz-plus"></i> {% trans %}add.a.attribute_group{% endtrans %}
-            </a>
-        </div>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('attributesHomePage') }}" title="{% trans %}back_to.attributes{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/attributes/head.html.twig' with {
+        title: 'attribute_groups'|trans,
+        filters: filters,
+        buttons: [
+            {
+                label: 'add.a.attribute_group'|trans,
+                attributes: {
+                    href: path('attributeGroupsAddPage'),
+                },
+                icon: 'rz-icon-ri--add-line'
+            },
+        ],
+        with_breadcrumb: true,
+    } only %}
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+    }  only %}
 
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="items content-table uk-table">
-                <thead>
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: hasBulkActions,
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'canonicalName',
+                        'filters': filters,
+                        'label': 'attribute_group.form.canonicalName'|trans,
+                    } only %}
+                </th>
+                <th>
+                    {% trans %}attribute_groups.name{% endtrans %}
+                </th>
+            {% endblock %}
+            {% block tbody_content %}
+                {% for item in items %}
                     <tr>
-                        <th>
-                            {% trans %}attribute_group.form.canonicalName{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>
-                            {% trans %}attribute_groups.name{% endtrans %}
-                        </th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                    <tr>
+                        <td>{{- item.canonicalName -}}</td>
+                        <td>{{- item.name -}}</td>
+                        {% if actions_available %}
                         <td>
-                            <a href="{{ path('attributeGroupsEditPage', { id: item.id }) }}">
-                                {{- item.canonicalName -}}
-                            </a>
+                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'edit_href': path('attributeGroupsEditPage', { id: item.id }),
+                                'delete_href': is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ?  path('attributeGroupsDeletePage', { id: item.id }) : null,
+                            } %}
                         </td>
-                        <td>
-                            <a href="{{ path('attributeGroupsEditPage', { id: item.id }) }}">
-                                {{- item.name -}}
-                            </a>
-                        </td>
-                        <td class="table-actions-row">
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('attributeGroupsEditPage', { id: item.id }) }}"
-                                   title="{% trans %}edit{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                {% if is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') %}
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                       href="{{ path('attributeGroupsDeletePage', { id: item.id }) }}"
-                                       title="{% trans %}delete{% endtrans %}"
-                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
-                                {% endif %}
-                            </div>
-                        </td>
+                        {% endif %}
                     </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 </section>
 {% endblock %}

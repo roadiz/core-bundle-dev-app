@@ -155,9 +155,17 @@ final class FolderController extends AbstractController
             return $this->redirectToRoute('foldersHomePage');
         }
 
-        return $this->render('@RoadizRozier/folders/delete.html.twig', [
+        $title = $this->translator->trans(
+            'delete.folder.%name%',
+            ['%name%' => $folder->getFolderName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/folders/head.html.twig',
+            'cancelPath' => $this->generateUrl('foldersHomePage'),
+            'alertMessage' => 'are_you_sure.delete.folder',
             'form' => $form->createView(),
-            'folder' => $folder,
         ]);
     }
 

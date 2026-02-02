@@ -3,59 +3,36 @@
 {% block title %}{% trans %}users{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="bulk-layout content-global content-nav-and-filters">
-        <header class="content-header header-user header-user-list">
-            <h1 class="content-title user-add-title">{% trans %}users{% endtrans %}</h1>
-            {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-            <div class="content-header-action-menu">
-                <a class="uk-button" href="{{ path('usersAddPage') }}"><i class="uk-icon-rz-plus"></i> {% trans %}add.a.user{% endtrans %}</a>
-            </div>
-        </header>
+    <rz-bulk-section>
+        {% include '@RoadizRozier/users/head.html.twig' with {
+            title: 'users'|trans,
+            filters: filters,
+            buttons: [{
+                label: 'add.a.user'|trans,
+                attributes: {
+                    href: path('usersAddPage'),
+                },
+                icon: 'rz-icon-ri--add-line',
+            }],
+        } only %}
 
-        {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-        {% embed '@RoadizRozier/admin/bulk_actions.html.twig' %}
-            {% block other_actions %}
-                {% if bulkEnableForm %}
-                    {% form_theme bulkEnableForm '@RoadizRozier/horizontalForms.html.twig' %}
-                    {{ form_start(bulkEnableForm) }}
-                    {{ form_widget(bulkEnableForm) }}
-                    <button type="submit"
-                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
-                            title="{% trans %}bulk.enable{% endtrans %}"
-                            data-uk-tooltip="{animation:true}"><i class="uk-icon-check-circle-o"></i> </button>
-                    {{ form_end(bulkEnableForm) }}
-                {% endif %}
-                {% if bulkDisableForm %}
-                    {% form_theme bulkDisableForm '@RoadizRozier/horizontalForms.html.twig' %}
-                    {{ form_start(bulkDisableForm) }}
-                    {{ form_widget(bulkDisableForm) }}
-                    <button type="submit"
-                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
-                            title="{% trans %}bulk.disable{% endtrans %}"
-                            data-uk-tooltip="{animation:true}"><i class="uk-icon-times-circle-o"></i> </button>
-                    {{ form_end(bulkDisableForm) }}
-                {% endif %}
-            {% endblock %}
-        {% endembed %}
-        <article class="content content-no-action-menu">
-            <div class="content-table-cont">
-                <table class="content-table users uk-table">
-                    <thead>
-                    <tr>
-                        {% include '@RoadizRozier/users/user_row_header.html.twig' %}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in items %}
-                        <tr>
-                            {% include '@RoadizRozier/users/user_row.html.twig' %}
-                        </tr>
-                    {% else %}
-                        <tr><td colspan="7">{% trans %}no_users{% endtrans %}</td></tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+            filters: filters,
+            display_select_all_button: false,
+        }  only %}
+
+        {% include '@RoadizRozier/users/bulkActions.html.twig' with {
+            delete_form_data: bulkDeleteForm|default(null),
+            delete_form_action: path('usersBulkDeletePage'),
+            delete_form_method: 'GET',
+            bulkEnableForm: bulkEnableForm,
+            bulkDisableForm: bulkDisableForm,
+        } only %}
+        <article>
+            {% include '@RoadizRozier/users/list_table.html.twig' with {
+                selection_available: hasBulkActions,
+                actions_available: true,
+            } %}
         </article>
-    </section>
+    </rz-bulk-section>
 {% endblock %}

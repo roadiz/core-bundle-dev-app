@@ -167,6 +167,7 @@ fields:
     -
         name: contacts
         label: Contacts
+        description: Sub-title description
         defaultValues:
             entry_type: App\Form\ContactFormType
         type: collection

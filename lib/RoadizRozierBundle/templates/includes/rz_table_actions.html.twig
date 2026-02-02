@@ -1,0 +1,44 @@
+<div class="rz-button-group rz-button-group--sm rz-button-group--end">
+	{% if save_href %}
+		{{ _self.button({
+			icon: 'rz-icon-ri--save-line',
+			color: 'success',
+			class: save_class|default(null),
+			attributes: {
+				href: save_href,
+				title: save_title|default('save'|trans),
+			}
+		}) }}
+	{% endif %}
+	{% if edit_href %}
+		{{ _self.button({
+			icon: edit_icon|default('rz-icon-ri--edit-line'),
+			attributes: {
+				href: edit_href,
+				title: edit_title|default('edit'|trans),
+			}
+		}) }}
+	{% endif %}
+	{% block other_actions %}{% endblock %}
+	{% if delete_href %}
+		{{ _self.button({
+			icon: 'rz-icon-ri--delete-bin-7-line',
+			color: 'danger',
+			attributes: {
+				href: delete_href,
+				title: delete_title|default('delete'|trans),
+			}
+		}) }}
+	{% endif %}
+</div>
+
+{% macro button(options = {}) %}
+	{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+
+	{% set default_options = {
+		size: 'xs',
+		emphasis: 'tertiary',
+	} %}
+
+	{{ rz_button.root(options|merge(default_options)) }}
+{% endmacro %}

@@ -764,26 +764,26 @@
             <trans-unit id="bulk.unpublish" xml:space="preserve"><source>bulk.unpublish</source></trans-unit>
 
             <trans-unit id="no_attributes" xml:space="preserve"><source>no_attributes</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve"><source>are_you_sure.bulk_delete.attributes</source></trans-unit>
-            <trans-unit id="attributes.bulk_delete.title" xml:space="preserve"><source>attributes.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.attribute" xml:space="preserve"><source>are_you_sure.delete.these.attribute</source></trans-unit>
+            <trans-unit id="delete.bulk.attribute" xml:space="preserve"><source>delete.bulk.attribute</source></trans-unit>
 
             <trans-unit id="no_webhooks" xml:space="preserve"><source>no_webhooks</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve"><source>are_you_sure.bulk_delete.webhooks</source></trans-unit>
-            <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve"><source>webhooks.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.webhook" xml:space="preserve"><source>are_you_sure.delete.these.webhook</source></trans-unit>
+            <trans-unit id="delete.bulk.webhook" xml:space="preserve"><source>delete.bulk.webhook</source></trans-unit>
 
             <trans-unit id="no_redirections" xml:space="preserve"><source>no_redirections</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve"><source>are_you_sure.bulk_delete.redirections</source></trans-unit>
-            <trans-unit id="redirections.bulk_delete.title" xml:space="preserve"><source>redirections.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.redirection" xml:space="preserve"><source>are_you_sure.delete.these.redirection</source></trans-unit>
+            <trans-unit id="delete.bulk.redirection" xml:space="preserve"><source>delete.bulk.redirection</source></trans-unit>
 
             <trans-unit id="no_custom_forms" xml:space="preserve"><source>no_custom_forms</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve"><source>are_you_sure.bulk_delete.custom_forms</source></trans-unit>
-            <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve"><source>custom_forms.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.custom-form" xml:space="preserve"><source>are_you_sure.delete.these.custom-form</source></trans-unit>
+            <trans-unit id="delete.bulk.custom-form" xml:space="preserve"><source>delete.bulk.custom-form</source></trans-unit>
 
             <trans-unit id="no_users" xml:space="preserve"><source>no_users</source></trans-unit>
             <trans-unit id="bulk.enable" xml:space="preserve"><source>bulk.enable</source></trans-unit>
             <trans-unit id="bulk.disable" xml:space="preserve"><source>bulk.disable</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve"><source>are_you_sure.bulk_delete.users</source></trans-unit>
-            <trans-unit id="users.bulk_delete.title" xml:space="preserve"><source>users.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.User" xml:space="preserve"><source>are_you_sure.delete.these.User</source></trans-unit>
+            <trans-unit id="delete.bulk.user" xml:space="preserve"><source>delete.bulk.user</source></trans-unit>
             <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve"><source>are_you_sure.bulk_enable.users</source></trans-unit>
             <trans-unit id="users.bulk_enable.title" xml:space="preserve"><source>users.bulk_enable.title</source></trans-unit>
             <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve"><source>are_you_sure.bulk_disable.users</source></trans-unit>

@@ -1,66 +1,112 @@
 {% set currentTitle = source.title|default(node.nodeName) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
-
-{% block title %}{{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }} | {{ parent() }}{% endblock %}
+{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+{% import "@RoadizRozier/macros/rz_page_header.html.twig" as page_header %}
 
 {% block content %}
 <section class="content-global">
-    <header class="content-header header-node header-node-edit-source">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
-            "node": node,
-            "source": source,
-        } only %}
-        <h1 class="content-title node-edit-source-title"{% if source.translation.locale is rtl %} dir="rtl"{% endif %}>
-            {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
-            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false),
+        translation: translation,
+        available_translations: available_translations,
+        current: 'source',
+        app: app,
+        with_debug_badge: true,
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
+        source: source,
+    } only %}
 
-            {% if app.debug %}
-                <span class="uk-badge uk-badge-mini">NS #{{ source.id }}</span>
-            {% endif %}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-        {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'source'} %}
-        {% include '@RoadizRozier/nodes/translationBar.html.twig' with {"current": translation.getId} %}
-    </header>
-
-    <node-source-edit-page class="content content-node-edit-source">
-        {% if readOnly %}
-            <div class="uk-alert uk-alert-warning" data-uk-alert>
-                <a href="{{ path('nodesEditSourcePage', {
-                    nodeId: node.id,
-                    translationId: translation.id
-                }) }}" class="uk-alert-close uk-close"></a>
-                <h4>{% trans %}versions.viewing_a_previous_version{% endtrans %}</h4>
-                <p>{{ currentVersion.loggedAt|format_datetime('full', 'short', locale=app.request.locale) }} - {{ currentVersion.username }}</p>
-                {% if revertForm %}
-                    {{ form_start(revertForm, { attr: {id: 'revert-node-source-form'}}) }}
-                    {{ form_widget(revertForm) }}
-                    <div class="uk-button-group">
-                        <button class="uk-button uk-button-warning" type="submit">
-                            <span class="icon-container"><i class="uk-icon-rz-back-parent"></i></span>
-                            <span class="label"><span class="label-text">{% trans %}versions.revert_to_this_version{% endtrans %}</span></span>
-                        </button>
-                        <a class="uk-button" href="{{ path('nodesEditSourcePage', {
-                            nodeId: node.id,
-                            translationId: translation.id
-                        }) }}"><i class="uk-icon-rz-home"></i> {% trans %}versions.back_to_working_copy{% endtrans %}</a>
-                    </div>
-                    {{ form_end(revertForm) }}
-                {% endif %}
-            </div>
-        {% endif %}
+    <div class="content content-node-edit-source">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-node-source-form'}}) }}
-        {{ form_widget(form) }}
+            {% set groups = {} %}
+            {% for child in form %}
+                {% if child.vars.name != 'base' %}
+                    {% set gCanon = child.vars.attr['data-field-group-canonical']|default('default') %}
+                    {% set gLabel = child.vars.attr['data-field-group']|default('default') %}
+                    {% if groups[gCanon] is not defined %}
+                        {% set groups = groups|merge({
+                            (gCanon): {
+                                'label': gLabel,
+                                'fields': [child]
+                            }
+                        }) %}
+                    {% else %}
+                        {% set groups = groups|merge({
+                            (gCanon): {
+                                'label': groups[gCanon].label,
+                                'fields': groups[gCanon].fields|merge([child])
+                            }
+                        }) %}
+                    {% endif %}
+                {% else %}
+                    {{ form_row(child) }}
+                {% endif %}
+            {% endfor %}
+
+            {% set defaultGroup = groups['default']|default(null) %}
+            {% set orderedGroups = [] %}
+            {% for code, data in groups %}
+                {% if code != 'default' %}
+                    {% set orderedGroups = orderedGroups|merge([{ 'code': code, 'data': data }]) %}
+                {% endif %}
+            {% endfor %}
+            {% if defaultGroup %}
+                {% set orderedGroups = [{ 'code': 'default', 'data': defaultGroup }] |merge(orderedGroups) %}
+            {% endif %}
+
+            {% if orderedGroups|length > 1 %}
+            <rz-tablist class="rz-tablist">
+                {% for g in orderedGroups %}
+                    {% set code = g.code %}
+                    {% set data = g.data %}
+                    {% set safeCode = code|replace({' ':'-', '_':'-'})|lower %}
+                    {% set tabId = 'tab-' ~ safeCode %}
+                    {% set panelId = 'group-' ~ safeCode %}
+                    <button type="button" id="{{ tabId }}" role="tab"
+                            class="rz-tablist__item"
+                            aria-controls="{{ panelId }}"{% if loop.first %} aria-selected="true"{% endif %}>
+                        {% if code == 'default' %}
+                            <span class="rz-icon-ri--star-line"></span>
+                        {% else %}
+                            {{ data.label|trans }}
+                        {% endif %}
+                    </button>
+                {% endfor %}
+            </rz-tablist>
+            {% endif %}
+
+            {% for g in orderedGroups %}
+                {% set code = g.code %}
+                {% set data = g.data %}
+                {% set safeCode = code|replace({' ':'-', '_':'-'})|lower %}
+                {% set tabId = 'tab-' ~ safeCode %}
+                {% set panelId = 'group-' ~ safeCode %}
+                {% if orderedGroups|length > 1 %}
+                    <div role="tabpanel"
+                        aria-labelledby="{{ tabId }}"
+                        id="{{ panelId }}"
+                        class="rz-tabpanel rz-form__field-list"
+                        {% if not loop.first %}hidden{% endif %}
+                    >
+                {% endif %}
+                {% for fieldView in data.fields %}
+                    {{ form_row(fieldView) }}
+                {% endfor %}
+                {% if orderedGroups|length > 1 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
         {% if not readOnly %}
-            <button is="rz-save-button" data-action-save="#edit-node-source-form" class="uk-button uk-button-success" type="submit">
-                <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-            </button>
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#edit-node-source-form') }}
         {% endif %}
         {{ form_end(form) }}
-    </node-source-edit-page>
+    </div>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
 </section>

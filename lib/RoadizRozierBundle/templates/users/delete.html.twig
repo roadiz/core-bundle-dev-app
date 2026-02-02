@@ -1,28 +1,7 @@
-{% extends '@RoadizRozier/layout.html.twig' %}
-
-{%- block title -%}
-    {{ "delete.user.%name%"|trans({'%name%': item.username })|u.truncate(25, '[…]', true) }}
-    |
-    {{ parent() -}}
-{%- endblock -%}
-
-{% block content %}
-<section class="content-global delete-user">
-
-    <header class="content-header header-user header-user-edit">
-        <h1 class="content-title user-add-title">{{ "delete.user.%name%"|trans({'%name%': item.username })|u.truncate(25, '[…]', true) }}</h1>
-    </header>
-
-    <article class="content content-delete content-no-action-menu">
-        {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        <form class="uk-form uk-form-stacked" action="#" method="post">
-            {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <legend class="uk-alert uk-alert-danger"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.delete.user{% endtrans %}</legend>
-                <a href="{{ path('usersHomePage') }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                <button class="uk-button uk-button-danger" type="submit"><i class='uk-icon-trash-o'></i> {% trans %}delete{% endtrans %}</button>
-            </fieldset>
-        </form>
-    </article>
-</section>
-{% endblock %}
+{% include '@RoadizRozier/admin/confirm_action.html.twig' with {
+    'title': "delete.user.%name%"|trans({'%name%': item.username }),
+    'headPath': '@RoadizRozier/admin/head.html.twig',
+    'cancelPath': path('usersHomePage'),
+    'alertMessage': 'are_you_sure.delete.user'|trans,
+    'form': form,
+} only %}

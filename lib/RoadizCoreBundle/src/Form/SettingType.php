@@ -91,8 +91,11 @@ final class SettingType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', Setting::class);
-        $resolver->setDefault('shortEdit', false);
+        $resolver->setDefaults([
+            'data_class' => Setting::class,
+            'shortEdit' => false,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
         $resolver->setAllowedTypes('shortEdit', ['boolean']);
     }
 

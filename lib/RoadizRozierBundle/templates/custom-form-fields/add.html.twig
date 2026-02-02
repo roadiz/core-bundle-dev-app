@@ -4,22 +4,22 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-node-type-fields header-node-type-fields-add">
-        <h1 class="content-title">{% trans %}add.a.customFormField{% endtrans %}</h1>
-         <a class="content-header-nav-back uk-navbar-content" href="{{ path('customFormFieldsListPage', { customFormId: customForm.getId }) }}" title="{% trans %}back_to.customFormFields{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+        title: 'add.a.customFormField'|trans,
+        with_breadcrumb: true,
+        breadcrumb_parents: [{
+            displayName: customForm.displayName|truncate_title(30),
+            type: 'customFormFields',
+            url: path('customFormFieldsListPage', {customFormId: customForm.id})
+        }],
+    } only %}
 
     <article class="content">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{- form_start(form, { 'attr': { 'id': "add-node-type-field-form" }}) -}}
-            {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button is="rz-save-button" data-action-save="#add-node-type-field-form" class="uk-button uk-button-success" type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-                </button>
-            </fieldset>
+        {{- form_start(form, { 'attr': { 'id': "add-custom-form-field-form" }}) -}}
+        {{ form_widget(form) }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#add-custom-form-field-form') }}
         {{- form_end(form) -}}
     </article>
 

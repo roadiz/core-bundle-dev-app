@@ -185,8 +185,16 @@ final class TranslationController extends AbstractController
             )));
         }
 
-        return $this->render('@RoadizRozier/translations/delete.html.twig', [
-            'translation' => $translation,
+        $title = $this->translator->trans(
+            'delete.translation.%name%',
+            ['%name%' => $translation->getName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/translations/head.html.twig',
+            'cancelPath' => $this->generateUrl('translationsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.translation',
             'form' => $form->createView(),
         ]);
     }

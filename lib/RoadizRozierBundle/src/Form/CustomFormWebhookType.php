@@ -48,10 +48,12 @@ final class CustomFormWebhookType extends AbstractType
             ->add('webhookFieldMapping', CustomFormWebhookFieldMappingType::class, [
                 'custom_form' => $customForm,
                 'required' => false,
+                'attr' => ['class' => 'rz-form__field-list'],
             ])
             ->add('webhookExtraConfig', CustomFormWebhookExtraConfigType::class, [
                 'custom_form' => $customForm,
                 'required' => false,
+                'attr' => ['class' => 'rz-form__field-list'],
             ])
         ;
     }
@@ -69,7 +71,9 @@ final class CustomFormWebhookType extends AbstractType
             'label' => 'customForm.webhook.section',
             'data_class' => CustomForm::class,
             'custom_form' => null,
-            'attr' => ['tag' => 'fieldset'],
+            'attr' => [
+                'class' => 'rz-form-field__body',
+            ],
         ]);
 
         $resolver->setAllowedTypes('custom_form', ['null', CustomForm::class]);

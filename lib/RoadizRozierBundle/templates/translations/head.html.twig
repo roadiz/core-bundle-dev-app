@@ -1,0 +1,15 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set parents = [
+        {
+            label: 'translations.homepage'|trans,
+            type: 'listing',
+            url: path('translationsHomePage'),
+        }
+    ] %}
+    {% set breadcrumb = {
+        label: 'translation-breadcrumb',
+        parent: parents,
+        current: title
+    } %}
+{% endif %}
+{% include "@RoadizRozier/admin/head.html.twig" %}

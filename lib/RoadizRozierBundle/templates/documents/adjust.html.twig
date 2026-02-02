@@ -1,14 +1,16 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="content-global manage-document">
-        <header class="content-header header-document header-document-edit">
-            <h1 class="content-title document-edit-title">{{ "edit.document.%name%"|trans({'%name%': document})|u.truncate(25, '[…]', true) }}</h1>
-            {% include '@RoadizRozier/documents/navBar.html.twig' with {'document':document, current:'adjust'} %}
-            {% include '@RoadizRozier/documents/backLink.html.twig' %}
-        </header>
+        {% include '@RoadizRozier/documents/head.html.twig' with {
+            document: document,
+            title: "edit.document.%name%"|trans({'%name%': document})|truncate_title,
+            current: 'adjust',
+            with_nav_bar: true,
+            with_breadcrumb: true,
+        } only %}
 
         <article class="content content-document-edit">
             {% if document and document.image %}

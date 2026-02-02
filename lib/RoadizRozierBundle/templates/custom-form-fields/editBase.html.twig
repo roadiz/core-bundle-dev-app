@@ -1,14 +1,19 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global manage-custom-form-field">
-    <header class="content-header header-custom-form-fields header-custom-form-field-edit">
-         <h1 class="content-title custom-form-field-edit-title">{{ "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|u.truncate(25, '[…]', true) }}</h1>
-         <a class="content-header-nav-back uk-navbar-content" href="{{ path('customFormFieldsListPage', { customFormId: customForm.getId }) }}" title="{% trans %}back_to.customFormFields{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
-    {% block subcontent %}{% endblock %}
+    <section class="content-global manage-custom-form-field">
+        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+            title: "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|truncate_title(40),
+            with_breadcrumb: true,
+            breadcrumb_parents: [{
+                displayName: customForm.displayName|truncate_title(30),
+                type: 'customFormFields',
+                url: path('customFormFieldsListPage', {customFormId: customForm.id})
+            }],
+        } only %}
+        {% block subcontent %}{% endblock %}
     {% include '@RoadizRozier/custom-form-fields/actionsMenu.html.twig' %}
-</section>
+    </section>
 {% endblock %}

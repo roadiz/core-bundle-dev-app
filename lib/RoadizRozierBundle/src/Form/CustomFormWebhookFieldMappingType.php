@@ -63,7 +63,9 @@ final class CustomFormWebhookFieldMappingType extends AbstractType
         $resolver->setDefaults([
             'label' => 'customForm.webhook.fieldMapping',
             'custom_form' => null,
-            'attr' => ['tag' => 'fieldset'],
+            'attr' => [
+                'class' => 'rz-fieldset rz-form-field__body',
+            ],
         ]);
 
         $resolver->setAllowedTypes('custom_form', ['null', CustomForm::class]);
