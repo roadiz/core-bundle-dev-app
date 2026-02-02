@@ -487,6 +487,8 @@
                                             rightIcon: 'rz-icon-ri--add-line',
                                             attributes: {
                                                 type: 'button',
+                                                command: '--quick-add-child-node',
+                                                commandfor: 'form-children-' ~ (nodeTree.id ?? form.vars.unique_block_prefix),
                                                 'data-children-node-type': linkedType.name,
                                                 'data-children-parent-node': nodeTree.rootNode.id,
                                                 'data-translation-id': nodeTree.translation.id,

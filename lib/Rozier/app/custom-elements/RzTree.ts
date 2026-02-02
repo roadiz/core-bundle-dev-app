@@ -1,5 +1,7 @@
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
 
+import { fadeIn, fadeOut } from '../utils/animation'
+
 export default class RzTree extends HTMLElement {
     sortables: Sortable[]
     rootNode: HTMLElement | null = null
@@ -57,13 +59,8 @@ export default class RzTree extends HTMLElement {
         }
 
         this.syncCollapsedState()
-        this.querySelectorAll('.rz-tree__item__expand-button').forEach(
-            (btn) => {
-                if (btn.hasAttribute('commandfor')) return
-
-                btn.setAttribute('commandfor', this.id)
-            },
-        )
+        this.bindExpandButtons()
+        this.cleanNodeTree()
         this.addEventListener('command', this.onCommand)
     }
 
@@ -72,6 +69,260 @@ export default class RzTree extends HTMLElement {
         this.destroySortable()
     }
 
+    onCommand(event: CommandEvent) {
+        switch (event.command) {
+            case '--toggle-children':
+                this.onToggleChildren(event)
+                break
+            case '--quick-add-child-node':
+                this.onQuickAddNode(event)
+                break
+        }
+    }
+
+    cleanNodeTree() {
+        this.querySelectorAll('.nodetree-langs').forEach((element) => {
+            element.remove()
+        })
+    }
+
+    get rootList() {
+        return this.querySelector('.rz-tree__list') as HTMLElement | null
+    }
+
+    getRootLinkedTypes() {
+        const rootList = this.rootList
+        if (!rootList) return []
+
+        const linkedTypesRaw = rootList.getAttribute('data-linked-types')
+        if (!linkedTypesRaw) return []
+
+        try {
+            return JSON.parse(linkedTypesRaw) as string[]
+        } catch {
+            return []
+        }
+    }
+
+    getRootNodeId() {
+        const rootList = this.rootList
+        if (!rootList) return null
+
+        const rootNodeId = rootList.getAttribute('data-parent-id')
+        if (!rootNodeId) return null
+
+        const parsedId = parseInt(rootNodeId, 10)
+        return Number.isNaN(parsedId) ? null : parsedId
+    }
+
+    getRootTranslationId() {
+        const rootList = this.rootList
+        if (!rootList) return null
+
+        const translationId = rootList.getAttribute('data-translation-id')
+        if (!translationId) return null
+
+        const parsedId = parseInt(translationId, 10)
+        return Number.isNaN(parsedId) ? null : parsedId
+    }
+
+    async quickAddNode(
+        nodeTypeName: string,
+        parentNodeId: number,
+        translationId: number | null,
+    ) {
+        const response = await fetch(
+            window.RozierConfig.routes.nodesGenerateAndAddNodeAction,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    // Required to prevent using this route as referer when login again
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: new URLSearchParams({
+                    csrfToken: window.RozierConfig.ajaxToken,
+                    nodeTypeName: nodeTypeName,
+                    parentNodeId: parentNodeId.toString(),
+                    translationId: translationId
+                        ? translationId.toString()
+                        : '',
+                }),
+            },
+        )
+
+        if (!response.ok) {
+            throw response
+        }
+
+        return await response.json()
+    }
+
+    async onQuickAddNode(event: CommandEvent) {
+        event.preventDefault()
+        const button = event.source as HTMLElement | undefined
+        if (!button) return
+
+        const nodeTypeName = button.getAttribute('data-children-node-type')
+        const parentNodeId = parseInt(
+            button.getAttribute('data-children-parent-node') || '',
+            10,
+        )
+        const translationIdRaw = button.getAttribute('data-translation-id')
+        const translationId = translationIdRaw
+            ? parseInt(translationIdRaw, 10)
+            : null
+
+        if (!nodeTypeName || Number.isNaN(parentNodeId) || parentNodeId <= 0) {
+            return
+        }
+
+        try {
+            await this.quickAddNode(nodeTypeName, parentNodeId, translationId)
+            window.dispatchEvent(new CustomEvent('requestMainTreeRefresh'))
+            window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
+            await this.refreshNodeTree()
+        } catch (error) {
+            await this.pushRequestError(error)
+        }
+    }
+
+    async fetchNodeTree(
+        rootNodeId: number,
+        linkedTypes: string[],
+        translationId: number | null = null,
+    ) {
+        const params = new URLSearchParams({
+            _token: window.RozierConfig.ajaxToken,
+            _action: 'requestNodeTree',
+            parentNodeId: rootNodeId.toString(),
+            translationId: translationId ? translationId.toString() : '',
+        })
+        linkedTypes.forEach((type, i) => {
+            params.append(`linkedTypes[${i}]`, type)
+        })
+
+        const url =
+            window.RozierConfig.routes.nodesTreeAjax + '?' + params.toString()
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                // Required to prevent using this route as referer when login again
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+
+        if (!response.ok) {
+            throw response
+        }
+
+        return await response.json()
+    }
+
+    async refreshNodeTree() {
+        const rootNodeId = this.getRootNodeId()
+        if (!rootNodeId) {
+            console.log('No node-tree available.')
+            return
+        }
+
+        const linkedTypes = this.getRootLinkedTypes()
+        const translationId = this.getRootTranslationId()
+
+        window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+        try {
+            const data = await this.fetchNodeTree(
+                rootNodeId,
+                linkedTypes,
+                translationId,
+            )
+            if (typeof data.nodeTree !== 'undefined') {
+                const wrapper = document.createElement('div')
+                wrapper.innerHTML = data.nodeTree
+                const nextTree = wrapper.querySelector('rz-tree')
+
+                await fadeOut(this)
+
+                if (nextTree) {
+                    const currentClasses = this.getAttribute('class')
+                    if (currentClasses) {
+                        const nextClasses = nextTree.getAttribute('class') || ''
+                        const mergedClasses = new Set(
+                            `${nextClasses} ${currentClasses}`
+                                .trim()
+                                .split(/\s+/),
+                        )
+                        nextTree.setAttribute(
+                            'class',
+                            Array.from(mergedClasses).join(' '),
+                        )
+                    }
+
+                    Array.from(this.attributes).forEach((attr) => {
+                        if (attr.name === 'class') return
+                        nextTree.setAttribute(attr.name, attr.value)
+                    })
+
+                    this.replaceWith(nextTree)
+                    await fadeIn(nextTree)
+                } else {
+                    this.innerHTML = data.nodeTree
+                    this.rootNode = this.querySelector('[role="tree"]')
+                    this.bindExpandButtons()
+                    this.cleanNodeTree()
+                    await fadeIn(this)
+                }
+
+                window.dispatchEvent(new CustomEvent('requestNestablesInit'))
+                window.dispatchEvent(new CustomEvent('requestBindMainTrees'))
+                window.dispatchEvent(new CustomEvent('requestAjaxLinkBind'))
+            }
+        } catch (error) {
+            await this.pushRequestError(error)
+        } finally {
+            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
+        }
+    }
+
+    async pushRequestError(error: unknown) {
+        let message = 'An unexpected error occurred.'
+
+        if (error && typeof (error as Response).json === 'function') {
+            try {
+                const data = await (error as Response).json()
+                message = data?.error_message || data?.detail || message
+            } catch {}
+        } else if (
+            error &&
+            typeof (error as { responseText?: string }).responseText ===
+                'string'
+        ) {
+            try {
+                const data = JSON.parse(
+                    (error as { responseText: string }).responseText,
+                )
+                message = data?.error_message || message
+            } catch {}
+        } else if (error && typeof error === 'object') {
+            const errorData = error as {
+                error_message?: string
+                detail?: string
+            }
+            message = errorData.error_message || errorData.detail || message
+        }
+
+        window.dispatchEvent(
+            new CustomEvent('pushToast', {
+                detail: {
+                    message,
+                    status: 'danger',
+                },
+            }),
+        )
+    }
+
+    // Children visibility
     onToggleChildren(event: CommandEvent) {
         const btn = event.source as HTMLButtonElement | undefined
         const isExpanded = btn.getAttribute('aria-expanded') === 'true'
@@ -83,12 +334,15 @@ export default class RzTree extends HTMLElement {
         this.updateCollapsedState(item, newValue)
     }
 
-    onCommand(event: CommandEvent) {
-        switch (event.command) {
-            case '--toggle-children':
-                this.onToggleChildren(event)
-                break
-        }
+    bindExpandButtons() {
+        const buttons = this.querySelectorAll('.rz-tree__item__expand-button')
+        if (!buttons.length) return
+
+        buttons.forEach((btn) => {
+            if (btn.hasAttribute('commandfor')) return
+
+            btn.setAttribute('commandfor', this.id)
+        })
     }
 
     // SORTABLE
