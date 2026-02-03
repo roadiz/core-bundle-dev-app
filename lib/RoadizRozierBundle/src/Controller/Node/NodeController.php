@@ -804,7 +804,7 @@ final class NodeController extends AbstractController
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
             'alertMessage' => 'are_you_sure.publish.node.offspring',
             'form' => $form->createView(),
-            'items' => [],
+            'items' => [], // TODO: add children node_sources list
         ]);
     }
 
