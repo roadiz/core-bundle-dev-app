@@ -25,6 +25,7 @@ rz-filters-bar {
 
 .rz-filters-bar__group {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--spacing-6xs);
 
