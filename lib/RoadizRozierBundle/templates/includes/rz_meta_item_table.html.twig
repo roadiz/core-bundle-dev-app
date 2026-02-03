@@ -1,6 +1,7 @@
 {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
 	bordered: true,
 	margin_top: 'xs',
+	caption: table_caption|default('node_source.meta_table.caption'|trans),
 } %}
 	{% block tbody_content %}
 		<tr>

@@ -41,6 +41,10 @@
 	&.rz-table--margin-top-xs {
 		margin-top: var(--spacing-xs);
 	}
+
+	&.rz-table--margin-top-md {
+		margin-top: var(--spacing-md);
+	}
 }
 
 .rz-table {
