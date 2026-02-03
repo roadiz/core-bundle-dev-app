@@ -229,7 +229,7 @@ export class RzDrawer extends HTMLElement {
         // Format IDs
         const filteredIds = items.map((item) => {
             // If item is an object with a document property, extract it
-            if (typeof item === 'object' && 'document' in item) {
+            if (item && typeof item === 'object' && 'document' in item) {
                 return item.document
             }
 
