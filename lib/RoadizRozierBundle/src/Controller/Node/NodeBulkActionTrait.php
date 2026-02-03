@@ -86,7 +86,7 @@ trait NodeBulkActionTrait
             $nodesIds
         );
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->get('confirm') && $form->isSubmitted() && $form->isValid()) {
             $msg = $this->bulkDeleteNodes($form->getData());
             $this->logTrail->publishConfirmMessage($request, $msg);
 
@@ -194,6 +194,7 @@ trait NodeBulkActionTrait
             ]);
         }
 
+        $builder->setAction('?confirm=1');
         return $builder->getForm();
     }
 
