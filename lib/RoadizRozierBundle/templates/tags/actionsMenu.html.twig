@@ -11,24 +11,32 @@
 } only %}
     {% block items %}
         {% if versions and versions|length > 1 %}
-            <rz-popover popover-placement="left-start" popover-offset="18px">
-                <button popovertarget="version-menu"
-                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
-                        aria-label="{% trans %}versions{% endtrans %}">
-                    <span class="rz-button__icon rz-icon-ri--git-fork-line"></span>
-                </button>
-
+            {% set version_popover_id = 'version-popover-menu' %}
+            <rz-popover
+                popover-placement="left-start"
+                popover-offset="18px"
+            >
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    icon: 'rz-icon-ri--git-fork-line',
+                    emphasis: 'tertiary',
+                    onDark: true,
+                    attributes: {
+                        'title': 'versions'|trans,
+                        'popovertarget': version_popover_id,
+                    }
+                }) }}
                 {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
                     title: 'versions',
                     reverse: true,
-                    targetId: 'version-menu'
+                    targetId: version_popover_id,
                 } %}
                     {% block items %}
                         {{ _self.item({
                             label: 'versions.working_copy',
                             href: path('tagsEditTranslatedPage', {
                                 tagId: tag.id,
-                                translationId: translation.id
+                                translationId: translation.id,
                             }),
                             selected: not currentVersion,
                         }) }}
