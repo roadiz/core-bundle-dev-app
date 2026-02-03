@@ -1,4 +1,3 @@
-import AttributeValuePosition from '~/components/attribute-values/AttributeValuePosition'
 import CustomFormFieldsPosition from '~/components/custom-form-fields/CustomFormFieldsPosition'
 import StackNodeTree from '~/widgets/StackNodeTree'
 import SettingsSaveButtons from '~/widgets/SettingsSaveButtons'
@@ -28,7 +27,6 @@ export default class Lazyload {
     geotagField: Unbindable
     multiGeotagField: Unbindable
     tagAutocomplete: Unbindable
-    attributeValuesPosition: Unbindable
     customFormFieldsPosition: Unbindable
     settingsSaveButtons: Unbindable
     jsonEditors: JsonEditor[]
@@ -46,7 +44,6 @@ export default class Lazyload {
         this.geotagField = null
         this.multiGeotagField = null
         this.tagAutocomplete = null
-        this.attributeValuesPosition = null
         this.customFormFieldsPosition = null
         this.settingsSaveButtons = null
         this.jsonEditors = []
@@ -289,7 +286,6 @@ export default class Lazyload {
             this.multiGeotagField,
             this.stackNodeTrees,
             this.tagAutocomplete,
-            this.attributeValuesPosition,
             this.customFormFieldsPosition,
             this.settingsSaveButtons,
         ])
@@ -300,7 +296,6 @@ export default class Lazyload {
 
         this.stackNodeTrees = new StackNodeTree()
 
-        this.attributeValuesPosition = new AttributeValuePosition()
         this.customFormFieldsPosition = new CustomFormFieldsPosition()
         this.settingsSaveButtons = new SettingsSaveButtons()
 

@@ -12,20 +12,14 @@
 
 {% set column_ordering_class = 'rz-table__ordering-link' %}
 {% set _tbody_attributes = tbody_attributes|default({}) %}
+{% set _table_attributes = attr|default({}) %}
 
 {% if sortable.enabled is defined and sortable.enabled is same as(true) %}
-	{% set options = { animation: 0 } %}
-
-	{% if sortable.handle_class is defined %}
-		{% set options = options|merge({ handleClass: sortable.handle_class }) %}
-	{% endif %}
-	{% if sortable.drag_custom_class is defined %}
-		{% set options = options|merge({ dragCustomClass: sortable.drag_custom_class }) %}
-	{% endif %}
-
-	{% set _tbody_attributes = _tbody_attributes|merge({
-		'class': (_tbody_attributes.class|default('') ~ ' uk-sortable')|trim,
-		'data-uk-sortable': options,
+	{% set _table_attributes = _table_attributes|merge({
+		'data-sortable': 'true',
+		'data-sortable-url': sortable.url,
+		'data-sortable-handle': sortable.handle_class,
+		'data-sortable-drag-class': sortable.drag_custom_class,
 	}) %}
 {% endif %}
 
@@ -33,7 +27,8 @@
 {% set _has_thead_cells = _thead_cells|trim is not empty %}
 {% set has_thead_content = _has_thead_cells or selection_available %}
 <table
-    {{ el_attr.print(attr|default({})|merge({ class: classes|join(' ') })) }}
+	is="rz-table"
+	{{ el_attr.print(_table_attributes|merge({ class: classes|join(' ') })) }}
 >
 	{% block thead %}
 		{% if has_thead_content %}
@@ -58,7 +53,7 @@
     </tbody>
 	<tfoot>
         {% block tfoot_content %}{% endblock %}
-    </tfoot>
+	</tfoot>
 </table>
 
 
