@@ -1,7 +1,6 @@
 {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
 	{% block thead_cells %}
-		<th></th>
-		<th class="table-actions-userpicture-row mobile-hidden uk-visible-xlarge">
+		<th class="mobile-hidden uk-visible-xlarge">
 			{% set label = 'user.username'|trans %}
 			{% if not no_sort %}
 				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
@@ -57,13 +56,13 @@
                         {{ rz_bulk.select_input({ value: item.id }) }}
                     </td>
                 {% endif %}
-				<td class="mobile-hidden uk-visible-xlarge">
+				<td class="rz-table__cell--flex" >
 					<rz-entity-thumbnail
+						title="{{ item.username }}"
+						class="rz-entity-thumbnail--medium"
 						entity-class="RZ\Roadiz\CoreBundle\Entity\User"
 						entity-id="{{ item.id }}"
 					></rz-entity-thumbnail>
-				</td>
-				<td>
 					{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
 						<a href="{{ path('usersEditPage', { id: item.id }) }}">
 							{{- item.username|u.truncate(30) -}}
@@ -83,7 +82,7 @@
 				<td class="mobile-hidden uk-visible-xlarge">
 					{% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
 				</td>
-				<td class="mobile-hidden uk-visible-large user-status">
+				<td class="mobile-hidden uk-visible-large">
 					{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
 					{% set label_status = item.enabled ? 'user.enabled' : 'user.disabled' %}
 					{% set color_status = item.enabled ? 'success' : 'danger' %}
