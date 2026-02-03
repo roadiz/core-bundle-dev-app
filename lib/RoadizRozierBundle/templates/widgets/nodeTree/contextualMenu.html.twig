@@ -4,8 +4,8 @@
         <div class="rz-dropdown__title">{% trans %}actions{% endtrans %} | {{ node.nodeName|truncate_title(18) }}</div>
         <div class="rz-dropdown__info-list">
             {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
-            {{ rz_node_badge.status(node, { display_label: false }) }}
             {{ rz_node_badge.parameters(node, { display_label: false }) }}
+            {{ rz_node_badge.status(node, { display_label: false }) }}
         </div>
     </div>
 

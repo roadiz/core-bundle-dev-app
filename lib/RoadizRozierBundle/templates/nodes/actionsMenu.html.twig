@@ -12,15 +12,23 @@
 } only %}
     {% block items %}
     {% if node %}
+        {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
         {% set canPublish = workflow_can(node, 'publish') %}
         {% if not node.isDeleted %}
-            <rz-popover popover-placement="left-start" popover-offset="18px">
-                <button popovertarget="action-menu"
-                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
-                        aria-label="{% trans %}actions{% endtrans %}"
+            <rz-popover
+                popover-placement="left-start"
+                popover-offset="18px"
                 >
-                    <span class="rz-button__icon rz-icon-ri--settings-4-line"></span>
-                </button>
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--settings-4-line',
+                        emphasis: 'tertiary',
+                        onDark: true,
+                        attributes: {
+                            title: 'actions'|trans,
+                            popovertarget: 'action-menu',
+                            'popover-placement': 'left',
+                        }
+                    }) }}
                 {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
                     title: 'actions',
                     reverse: true,
@@ -164,13 +172,20 @@
         {% endif %}
 
         {% if versions and versions|length > 1 %}
-            <rz-popover popover-placement="left-start" popover-offset="18px">
-                <button popovertarget="version-menu"
-                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
-                        aria-label="{% trans %}versions{% endtrans %}">
-                    <span class="rz-button__icon rz-icon-ri--git-fork-line"></span>
-                </button>
-
+            <rz-popover
+                popover-placement="left-start"
+                popover-offset="18px"
+            >
+                {{ rz_button.root({
+                    icon: 'rz-icon-ri--git-fork-line',
+                    emphasis: 'tertiary',
+                    onDark: true,
+                    attributes: {
+                        title: 'versions'|trans,
+                        popovertarget: 'version-menu',
+                        'popover-placement': 'left',
+                    }
+                }) }}
                 {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
                     title: 'versions',
                     reverse: true,
@@ -209,26 +224,38 @@
 
             {% if workflow_can(node, 'undelete') %}
                 {{ _self.item(
-                    label: 'undelete',
                     class: 'rz-button--primary rz-button--danger',
                     href: path('nodesUndeletePage', { nodeId: node.getId}),
-                    icon: 'rz-icon-ri--device-recover-line'
+                    icon: 'rz-icon-ri--device-recover-line',
+                    attr: {
+                        title: 'undelete'|trans,
+                        'popover-placement': 'left',
+                    }
                 ) }}
             {% endif %}
 
             {% if canDelete and node.nodeSources|length > 1 and source %}
                 {{ _self.item(
-                    label: 'delete.translation',
                     class: 'rz-button--primary rz-button--danger',
-                    href: path('nodesDeleteSourcePage', { nodeSourceId: source.id}),
-                    icon: 'rz-icon-ri--flag-off-line'
+                    href: path('nodesDeleteSourcePage', { nodeSourceId: source.id }),
+                    icon: 'rz-icon-ri--flag-off-line',
+                    attr: {
+                        title: 'delete.translation'|trans,
+                        'popover-placement': 'left',
+                    }
                 ) }}
             {% endif %}
 
             {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
                 {{ _self.deleteItem(
-                    label: 'delete.node',
-                    href: path('nodesDeletePage', {nodeId: node.getId, referer: node.parent ? getBreadcrumbsItem(node.parent).url : null})
+                    href: path('nodesDeletePage', {
+                        nodeId: node.getId,
+                        referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
+                    }),
+                    attr: {
+                        title: 'delete.node'|trans,
+                        'popover-placement': 'left',
+                    },
                 ) }}
             {% endif %}
         {% endif %}

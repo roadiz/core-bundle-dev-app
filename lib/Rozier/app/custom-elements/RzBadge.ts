@@ -1,8 +1,4 @@
-import {
-    Tooltip,
-    ATTRIBUTES_OPTIONS,
-    ATTRIBUTES_OPTIONS_MAP,
-} from '~/utils/Tooltip'
+import { Tooltip, ATTRIBUTES_OPTIONS, getTooltipContent } from '~/utils/Tooltip'
 
 export class RzBadge extends HTMLElement {
     tooltip: Tooltip | null = null
@@ -16,20 +12,17 @@ export class RzBadge extends HTMLElement {
     }
 
     attributeChangedCallback() {
-        this.tooltip?.updateOptions()
+        this.tooltip?.update()
     }
 
     connectedCallback() {
-        if (
-            this.hasAttribute(ATTRIBUTES_OPTIONS_MAP.text) ||
-            this.hasAttribute('title')
-        ) {
+        if (getTooltipContent(this)) {
             this.tooltip = new Tooltip(this)
         }
     }
 
     disconnectedCallback() {
-        this.tooltip?.destroy()
+        this.tooltip?.disposeListeners()
         this.tooltip = null
     }
 }

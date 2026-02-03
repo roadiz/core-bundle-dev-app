@@ -12,7 +12,7 @@ export class RzButton extends HTMLButtonElement {
     }
 
     attributeChangedCallback() {
-        this.tooltip?.updateOptions()
+        this.tooltip?.update()
     }
 
     connectedCallback() {
@@ -22,7 +22,7 @@ export class RzButton extends HTMLButtonElement {
     }
 
     disconnectedCallback() {
-        this.tooltip?.destroy()
+        this.tooltip?.disposeListeners()
         this.tooltip = null
     }
 }
