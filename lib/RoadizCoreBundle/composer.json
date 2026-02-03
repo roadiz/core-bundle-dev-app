@@ -40,7 +40,7 @@
         "phpoffice/phpspreadsheet": "^1.15",
         "rezozero/intervention-request-bundle": "^5.1",
         "rezozero/liform-bundle": "^0.20.1",
-        "rezozero/tree-walker": "^1.5.0",
+        "rezozero/tree-walker": "^1.7.0",
         "roadiz/doc-generator": "2.8.x-dev",
         "roadiz/documents": "2.8.x-dev",
         "roadiz/dts-generator": "2.8.x-dev",

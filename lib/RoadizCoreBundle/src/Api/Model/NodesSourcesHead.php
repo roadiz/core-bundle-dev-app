@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Model;
 
+use ApiPlatform\Metadata\ApiResource;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
@@ -13,6 +14,7 @@ use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
+#[ApiResource(operations: [])]
 class NodesSourcesHead implements NodesSourcesHeadInterface
 {
     #[Serializer\Ignore]
