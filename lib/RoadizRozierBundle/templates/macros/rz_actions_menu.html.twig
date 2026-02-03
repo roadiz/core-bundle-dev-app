@@ -16,6 +16,10 @@
     {% endif %}
 {% endmacro %}
 
+{% macro saveFormButton(form) %}
+    {{ _self.saveItem('#' ~ field_id(form)) }}
+{% endmacro %}
+
 {% macro saveItem(dataActionSave, label = 'save') %}
     {{ _self.item(
         label: label,
