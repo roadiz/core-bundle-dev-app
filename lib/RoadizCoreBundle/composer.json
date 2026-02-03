@@ -87,6 +87,7 @@
         "symfony/yaml": "7.4.*",
         "twig/cssinliner-extra": "^3.21",
         "twig/extra-bundle": "^3.21",
+        "twig/html-extra": "^3.21",
         "twig/inky-extra": "^3.21",
         "twig/intl-extra": "^3.21",
         "twig/string-extra": "^3.21",
