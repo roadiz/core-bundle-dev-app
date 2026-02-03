@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\Model;
 
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsInterface;
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
-use RZ\TreeWalker\WalkerInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
+#[ApiResource(operations: [])]
 trait WebResponseTrait
 {
     #[ApiProperty(
@@ -39,7 +41,7 @@ trait WebResponseTrait
     )]
     public ?NodesSourcesHeadInterface $head = null;
     /**
-     * @var Collection<int, WalkerInterface>|null
+     * @var Collection<int, AutoChildrenNodeSourceWalker>|null
      */
     #[Serializer\Groups(['web_response'])]
     #[ApiProperty(
@@ -94,7 +96,7 @@ trait WebResponseTrait
     }
 
     /**
-     * @return WalkerInterface[]|null
+     * @return AutoChildrenNodeSourceWalker[]|null
      */
     public function getBlocks(): ?array
     {
@@ -102,7 +104,7 @@ trait WebResponseTrait
     }
 
     /**
-     * @param Collection<int, WalkerInterface>|null $blocks
+     * @param Collection<int, AutoChildrenNodeSourceWalker>|null $blocks
      *
      * @return $this
      */

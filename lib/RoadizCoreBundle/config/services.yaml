@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.7.0'
+    roadiz_core.cms_version: '2.7.1'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -261,6 +261,10 @@ services:
         # By default, .inner is passed as argument
         decorates: 'api_platform.jsonld.normalizer.item'
         decoration_priority: 5
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesTypeNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: -10
     # NodesTypes
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
         tags:
