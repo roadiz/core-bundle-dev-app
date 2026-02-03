@@ -1,3 +1,6 @@
+{% block others_row %}{% endblock %}
+{% set _others_row = block('others_row') %}
+
 {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
 	bordered: true,
 	margin_top: 'xs',
@@ -23,6 +26,6 @@
 			{% endif %}
 			</td>
 		</tr>
-		{% block others_row %}{% endblock %}
+		{{ _others_row|raw }}
 	{% endblock %}
 {% endembed %}
