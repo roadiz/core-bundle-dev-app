@@ -261,6 +261,10 @@ services:
         # By default, .inner is passed as argument
         decorates: 'api_platform.jsonld.normalizer.item'
         decoration_priority: 5
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesTypeNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: -10
     # NodesTypes
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
         tags:
