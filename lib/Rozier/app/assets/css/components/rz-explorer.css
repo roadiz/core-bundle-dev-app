@@ -54,7 +54,7 @@
 	gap: var(--spacing-xs);
 	padding: 10px 0;
 	margin: initial;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
 }
 
 .rz-explorer__pagination {

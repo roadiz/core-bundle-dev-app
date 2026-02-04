@@ -34,7 +34,7 @@
                             v-model="searchTerms"
                             autocomplete="off"
                             @keyup.enter.stop.prevent="manualUpdate"
-                            :placeholder="searchPlaceHolder"
+                            :placeholder="searchPlaceHolder || 'Search...'"
                         />
                     </form>
                     <button class="rz-button rz-button--primary" @click.prevent="explorerClose">
@@ -43,23 +43,20 @@
                 </div>
 
                 <div class="spinner light" v-if="isLoading"></div>
-
                 <transition name="fade">
-                    <div class="uk-sortable rz-explorer__main" v-if="!isLoading">
-                        <draggable v-model="items" :options="{ group: { name: entity, put: false } }">
-                            <transition-group tag="ul" class="sortable-inner" :class="listClass">
-                                <component
-                                    v-bind:is="currentListingView"
-                                    v-for="(item, index) in items"
-                                    :key="item.id"
-                                    :is-item-explorer="true"
-                                    :add-item="addItem"
-                                    :index="index"
-                                    :item="item"
-                                >
-                                </component>
-                            </transition-group>
-                        </draggable>
+                    <div class="rz-explorer__main" v-if="!isLoading">
+                        <transition-group tag="ul" :class="listClass">
+                            <component
+                                v-bind:is="currentListingView"
+                                v-for="(item, index) in items"
+                                :key="item.id + '-' + index"
+                                :is-item-explorer="true"
+                                :add-item="addItem"
+                                :index="index"
+                                :item="item"
+                            >
+                            </component>
+                        </transition-group>
                     </div>
                 </transition>
 
@@ -69,15 +66,9 @@
                         class="rz-explorer__load-more rz-button rz-button--primary"
                         @click.prevent="explorerLoadMore"
                     >
-                        <template v-if="!isLoadingMore">
-                            <i class="rz-button__label rz-icon-ri--add-line"></i>
                             <span class="rz-button__label">{{ moreItems ? translations[moreItems] : '' }}</span>
-                        </template>
-                        <template v-else>
-                            <transition name="fade">
-                                <div class="rz-spinner"></div>
-                            </transition>
-                        </template>
+                            <span v-if="!isLoadingMore" class="rz-button__icon rz-icon-ri--add-line"></span>
+                            <span v-else class="rz-button__icon rz-spinner"></span>
                     </div>
                 </transition>
 
