@@ -31,7 +31,7 @@
 
         {% embed '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
             item: node,
-        } %}
+        } only %}
             {% block others_row %}
                 {% if item.position is defined %}
                     <tr>
