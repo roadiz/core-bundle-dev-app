@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global edit-user">
+<section>
     {% include '@RoadizRozier/users/head.html.twig' with {
         title: "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title(40),
         with_nav_bar: true,
@@ -57,15 +57,20 @@
 
         <hr />
 
-        <h2 class="text-title-sm">{% trans %}add.a.group{% endtrans %}</h2>
+        <h2 class="text-h1-sm">{% trans %}add.a.group{% endtrans %}</h2>
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
             <div class="rz-form-field rz-form-field--align-start">
-                <button class="rz-button rz-button--primary" type="submit">
-                    <span class="rz-button__label">{% trans %}add.group{% endtrans %}</span>
-                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                </button>
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    size: 'md',
+                    label: 'add.group'|trans,
+                    icon: 'rz-icon-ri--add-line',
+                    attributes: {
+                        type: 'submit'
+                    }
+                }) }}
             </div>
         {{ form_end(form) }}
     </article>

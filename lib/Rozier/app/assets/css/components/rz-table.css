@@ -45,14 +45,9 @@
 	&.rz-table--margin-top-md {
 		margin-top: var(--spacing-md);
 	}
-
-	/* Make table horizontally scrollable when inside a container */
-	*:has( > &) {
-		overflow-x: auto;
-	}
 }
 
-.rz-table {
+.rz-table--default {
 	--rz-table-td-border-radius-value: var(--radius-xs);
 	--rz-table-td-height: 64px;
 	--rz-table-td-background-color: var(--surface-light-secondary, #F8F8F8);

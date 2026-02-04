@@ -3,9 +3,8 @@
 {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
 
 {% set classes = ["rz-table"]|merge(attr.class is defined ? [attr.class] : []) %}
-{% if bordered is defined and bordered %}
-	{% set classes = classes|merge(['rz-table--bordered']) %}
-{% endif %}
+{% set layout_class = bordered is defined and bordered ? 'rz-table--bordered' : 'rz-table--default' %}
+{% set classes = classes|merge([layout_class]) %}
 {% if margin_top is defined and margin_top %}
 	{% set classes = classes|merge(['rz-table--margin-top-' ~ margin_top]) %}
 {% endif %}
