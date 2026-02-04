@@ -1,22 +1,30 @@
-{% macro item(label, class, href, icon, attr) %}
+{% macro item(label, class, href, icon, attr ) %}
     {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
-    {% set aria_label = attr['aria-label']|default(label) %}
+
+    {% set attrs = attr|merge({
+        class: "rz-button rz-button--md rz-button--on-dark" ~ (class ? ' ' ~ class : '') ~ (attr.class ? ' ' ~ attr.class : ''),
+    }) %}
+
+    {% if href is defined and href %}
+        {% set attrs = attrs|merge({'href': href,  is: attr.is|default('rz-link') }) %}
+    {% else %}
+        {% set attrs = attrs|merge({ is: attr.is|default('rz-button') }) %}
+    {% endif %}
+
+    {% set aria_label = attr['aria-label']|default(label)|trans %}
+    {% if aria_label %}
+        {% set attrs = attrs|merge({ 'aria-label': aria_label }) %}
+    {% endif %}
+
     {% if href is defined and href %}
         <a
-            is="{{ attr['is']|default('rz-link') }}"
-            {% if aria_label %}aria-label="{{ aria_label|trans }}"{% endif %}
-            href="{{ href }}"
-            class="rz-button rz-button--md rz-button--on-dark {{ class is defined and class ? class : '' }}"
-            {{ el_attrs.print(attr|default({})) }}
+            {{ el_attrs.print(attrs) }}
         >
             <span class="rz-button__icon {{ icon }}"></span>
         </a>
     {% else %}
         <button
-            is="{{attr['is']|default('rz-button')}}"
-            {% if aria_label %}aria-label="{{ aria_label|trans }}"{% endif %}
-            class="rz-button rz-button--md rz-button--on-dark {{ class is defined and class ? class : '' }}"
-            {{ el_attrs.print(attr|default({})) }}
+            {{ el_attrs.print(attrs) }}
         >
             <span class="rz-button__icon {{ icon }}"></span>
         </button>
@@ -31,7 +39,7 @@
             'is': 'rz-save-button',
             'data-action-save': dataActionSave,
             'type': 'submit',
-            title: label|trans,
+            'title': label|trans,
         }
     ) }}
 {% endmacro %}
