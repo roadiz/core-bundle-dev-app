@@ -2,6 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.0...v2.7.1) - 2026-02-03
+
+### Bug Fixes
+
+- **(deps)** update rezozero/tree-walker to v1.7.0 - ([8a7f1e1](https://github.com/roadiz/core-bundle-dev-app/commit/8a7f1e17add9c16b12cb682a7c687e3204963521))
+- **(serializer)** add ApiResource attribute to multiple classes and Dto - ([3249936](https://github.com/roadiz/core-bundle-dev-app/commit/3249936f037cf7b0969f6dea9189cc297077e2ec))
+- **(serializer)** add NodesSourcesTypeNormalizer to enforce `@type` correct normalization - ([5188961](https://github.com/roadiz/core-bundle-dev-app/commit/51889616038de321b9a1d50ca21aad8f48098c01))
+
 ## [2.7.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.26...2.7.0) - 2026-01-23
 
 ### ⚠ Breaking changes
