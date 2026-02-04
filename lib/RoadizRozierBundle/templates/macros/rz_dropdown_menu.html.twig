@@ -128,7 +128,8 @@
 {% block wrapper %}
     {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
     {% set classes = html_classes('rz-dropdown', class|default(''), { 'rz-dropdown--reverse': reverse }) %}
-    <div
+    {% set wrapper_tag = wrapper_tag|default('div') %}
+    <{{ wrapper_tag }}
         class="{{ classes }}"
         id="{{ targetId }}"
         popover
@@ -149,5 +150,5 @@
 
         {% block additional_menu %}
         {% endblock %}
-    </div>
+    </{{ wrapper_tag }}>
 {% endblock %}
