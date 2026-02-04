@@ -1,5 +1,3 @@
-{% set _others_row = block('others_row') %}
-
 {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
 	bordered: true,
 	margin_top: 'xs',
@@ -25,6 +23,17 @@
 			{% endif %}
 			</td>
 		</tr>
-		{{ _others_row|raw }}
+
+		{% if additional_rows is defined and additional_rows|length > 0 %}
+			{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+			{% for rows in additional_rows %}
+				<tr>
+					{% for cell in rows %}
+						{% set tag = cell.tag|default('td') %}
+						<{{ tag }} {{ el_attrs.print(cell.attr|default({})) }}>{{ cell.content }}</{{ tag }}>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		{% endif %}
 	{% endblock %}
 {% endembed %}

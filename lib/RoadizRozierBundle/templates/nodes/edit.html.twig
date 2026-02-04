@@ -29,18 +29,10 @@
         {{ actions_menu.saveItem('#edit-node-form') }}
         {{ form_end(form) }}
 
-        {% embed '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
+        {% include '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
             item: node,
+            additional_rows: [[{ tag: 'th', content: 'position'|trans }, { tag: 'td', content: node.position }]],
         } only %}
-            {% block others_row %}
-                {% if item.position is defined %}
-                    <tr>
-                        <th>{% trans %}position{% endtrans %}</th>
-                        <td>{{ item.position }}</td>
-                    </tr>
-                {% endif %}
-            {% endblock %}
-        {% endembed %}
         </article>
 
         {% if node.isHidingChildren %}
