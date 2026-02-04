@@ -1,18 +1,17 @@
 {
-  "_Popover-BrqRB6W9.js": {
-    "file": "Popover-BrqRB6W9.js",
+  "_Popover-BH-MR4c1.js": {
+    "file": "Popover-BH-MR4c1.js",
     "name": "Popover"
   },
   "_RoadizElement-XU473doh.js": {
     "file": "RoadizElement-XU473doh.js",
     "name": "RoadizElement"
   },
-  "_Tooltip-BaLNh5dg.js": {
-    "file": "Tooltip-BaLNh5dg.js",
+  "_Tooltip-qGTVyZjS.js": {
+    "file": "Tooltip-qGTVyZjS.js",
     "name": "Tooltip",
     "imports": [
-      "_Popover-BrqRB6W9.js",
-      "app/main.js"
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "_jquery-DmndgEMa.js": {
@@ -113,7 +112,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzAside.ts": {
-    "file": "RzAside-M2QJYIrt.js",
+    "file": "RzAside-CzjruykY.js",
     "name": "RzAside",
     "src": "app/custom-elements/RzAside.ts",
     "isDynamicEntry": true,
@@ -125,16 +124,13 @@
     ]
   },
   "app/custom-elements/RzBadge.ts": {
-    "file": "RzBadge-XgGOKtfL.js",
+    "file": "RzBadge-2afYv7aN.js",
     "name": "RzBadge",
     "src": "app/custom-elements/RzBadge.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-BaLNh5dg.js",
-      "_Popover-BrqRB6W9.js",
-      "app/main.js",
-      "_vue-BqDQd3Vv.js",
-      "_jquery-DmndgEMa.js"
+      "_Tooltip-qGTVyZjS.js",
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzBulkActions.ts": {
@@ -150,16 +146,13 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzButton.ts": {
-    "file": "RzButton-BlmU10Y9.js",
+    "file": "RzButton-lx1x_Kof.js",
     "name": "RzButton",
     "src": "app/custom-elements/RzButton.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-BaLNh5dg.js",
-      "_Popover-BrqRB6W9.js",
-      "app/main.js",
-      "_vue-BqDQd3Vv.js",
-      "_jquery-DmndgEMa.js"
+      "_Tooltip-qGTVyZjS.js",
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzColorInput.ts": {
@@ -181,7 +174,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzDrawer.ts": {
-    "file": "RzDrawer-CH0s-xWJ.js",
+    "file": "RzDrawer-13qnWY66.js",
     "name": "RzDrawer",
     "src": "app/custom-elements/RzDrawer.ts",
     "isDynamicEntry": true,
@@ -204,7 +197,7 @@
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-CfUuECAa.js",
+    "file": "RzFileUpload-Df69xE4x.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -221,7 +214,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzFormField.ts": {
-    "file": "RzFormField-Bpphh54m.js",
+    "file": "RzFormField-CZf1g1m2.js",
     "name": "RzFormField",
     "src": "app/custom-elements/RzFormField.ts",
     "isDynamicEntry": true,
@@ -232,7 +225,7 @@
     ]
   },
   "app/custom-elements/RzGeotag.ts": {
-    "file": "RzGeotag-8ZTEYp3l.js",
+    "file": "RzGeotag-CjdvYfPW.js",
     "name": "RzGeotag",
     "src": "app/custom-elements/RzGeotag.ts",
     "isDynamicEntry": true,
@@ -264,20 +257,17 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzLink.ts": {
-    "file": "RzLink-Tse26UDW.js",
+    "file": "RzLink-D3epQvIo.js",
     "name": "RzLink",
     "src": "app/custom-elements/RzLink.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-BaLNh5dg.js",
-      "_Popover-BrqRB6W9.js",
-      "app/main.js",
-      "_vue-BqDQd3Vv.js",
-      "_jquery-DmndgEMa.js"
+      "_Tooltip-qGTVyZjS.js",
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzMarkdownEditor.ts": {
-    "file": "RzMarkdownEditor-BTH_NCEk.js",
+    "file": "RzMarkdownEditor-CJcOcHpS.js",
     "name": "RzMarkdownEditor",
     "src": "app/custom-elements/RzMarkdownEditor.ts",
     "isDynamicEntry": true,
@@ -289,12 +279,12 @@
     ]
   },
   "app/custom-elements/RzNodeTreeContextualMenu.ts": {
-    "file": "RzNodeTreeContextualMenu-DNOPjvA8.js",
+    "file": "RzNodeTreeContextualMenu-BvRYbQTj.js",
     "name": "RzNodeTreeContextualMenu",
     "src": "app/custom-elements/RzNodeTreeContextualMenu.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Popover-BrqRB6W9.js"
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzPage.ts": {
@@ -304,12 +294,12 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzPopover.ts": {
-    "file": "RzPopover-C2c8fQuj.js",
+    "file": "RzPopover-Bh2enSB6.js",
     "name": "RzPopover",
     "src": "app/custom-elements/RzPopover.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Popover-BrqRB6W9.js"
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzRepeatable.ts": {
@@ -325,7 +315,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzSearch.ts": {
-    "file": "RzSearch-skumScvz.js",
+    "file": "RzSearch-BjO59tlL.js",
     "name": "RzSearch",
     "src": "app/custom-elements/RzSearch.ts",
     "isDynamicEntry": true,
@@ -343,6 +333,15 @@
     "src": "app/custom-elements/RzSelect.ts",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzTable.ts": {
+    "file": "RzTable-8LcAhRX9.js",
+    "name": "RzTable",
+    "src": "app/custom-elements/RzTable.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_sortable.core.esm-Bjnw44Mn.js"
+    ]
+  },
   "app/custom-elements/RzTablist.ts": {
     "file": "RzTablist-C2HjIKyZ.js",
     "name": "RzTablist",
@@ -359,20 +358,17 @@
     ]
   },
   "app/custom-elements/RzTooltip.ts": {
-    "file": "RzTooltip-9rBdkE5t.js",
+    "file": "RzTooltip-1KZhkPIw.js",
     "name": "RzTooltip",
     "src": "app/custom-elements/RzTooltip.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-BaLNh5dg.js",
-      "_Popover-BrqRB6W9.js",
-      "app/main.js",
-      "_vue-BqDQd3Vv.js",
-      "_jquery-DmndgEMa.js"
+      "_Tooltip-qGTVyZjS.js",
+      "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzTree.ts": {
-    "file": "RzTree-CqGJTUqA.js",
+    "file": "RzTree-B50092qm.js",
     "name": "RzTree",
     "src": "app/custom-elements/RzTree.ts",
     "isDynamicEntry": true,
@@ -399,7 +395,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-CcgTb0a3.js",
+    "file": "main-QamJ9_aB.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -438,6 +434,7 @@
       "app/custom-elements/RzSaveButton.js",
       "app/custom-elements/RzSearch.ts",
       "app/custom-elements/RzSelect.ts",
+      "app/custom-elements/RzTable.ts",
       "app/custom-elements/RzTablist.ts",
       "app/custom-elements/RzToastList.ts",
       "app/custom-elements/RzTooltip.ts",
@@ -450,7 +447,7 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-Bs6XB94d.js",
+    "file": "shared-uucQJTez.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -458,7 +455,7 @@
       "_jquery-DmndgEMa.js"
     ],
     "css": [
-      "shared-B1QSfY73.css"
+      "shared-DF6OBhK5.css"
     ],
     "assets": [
       "fontawesome-webfont-Bsy9_7N6.woff2",
