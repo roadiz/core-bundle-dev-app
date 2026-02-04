@@ -33,10 +33,10 @@
             item: node,
         } only %}
             {% block others_row %}
-                {% if node.position is defined %}
+                {% if item.position is defined %}
                     <tr>
                         <th>{% trans %}position{% endtrans %}</th>
-                        <td>{{ node.position }}</td>
+                        <td>{{ item.position }}</td>
                     </tr>
                 {% endif %}
             {% endblock %}

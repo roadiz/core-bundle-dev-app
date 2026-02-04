@@ -14,7 +14,7 @@
 		</th>
 		<th>{% trans %}attributes.group{% endtrans %}</th>
 		<th>{% trans %}attributes.form.type{% endtrans %}</th>
-		<th>{% trans %}attributes.attribute_values{% endtrans %}</th>
+		<th>{% trans %}attributes.usage{% endtrans %}</th>
 		<th>
 			{% if not no_sort %}
 				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
@@ -52,15 +52,10 @@
 				<td>{{- item.typeLabel|trans -}}</td>
 
 				<td>
-					{%- if item.attributeValues|length > 0 -%}
-						<span
-							data-uk-tooltip="{animation:true}"
-							title="{% trans %}attributes.usage{% endtrans %}"
-							class="rz-badge"
-						>
-							{{- item.attributeValues|length -}}
-						</span>
-					{%- endif -%}
+					{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+					{{ rz_badge.item({
+						label: ' ' ~ (item.attributeValues|length),
+					}) }}
 				</td>
 
 				<td>

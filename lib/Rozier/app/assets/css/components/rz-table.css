@@ -1,7 +1,6 @@
-:where(
-	.rz-table,
-	[is='rz-table']
-) {
+
+.rz-table,
+[is='rz-table'] {
 	width: var(--rz-table-width, 100%);
 	box-sizing: border-box;
 
@@ -23,6 +22,7 @@
 	}
 
 	th {
+		white-space: nowrap;
 		font-family: var(--font-family-os-label);
 		font-size: var(--text-list-sm-font-size);
 		line-height: var(--text-list-sm-line-height);
@@ -40,6 +40,15 @@
 
 	&.rz-table--margin-top-xs {
 		margin-top: var(--spacing-xs);
+	}
+
+	&.rz-table--margin-top-md {
+		margin-top: var(--spacing-md);
+	}
+
+	/* Make table horizontally scrollable when inside a container */
+	*:has( > &) {
+		overflow-x: auto;
 	}
 }
 

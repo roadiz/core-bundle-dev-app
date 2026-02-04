@@ -1,5 +1,3 @@
-{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
-
 {% macro head(title, items) %}
     <div class="rz-dropdown__head">
         {% if title is defined and title %}
@@ -46,6 +44,7 @@
         - tag {string} - HTML tag to use (default: 'button', auto-set to 'a' if href provided)
 #}
 {% macro item(options = {}) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
     {# Set default values #}
     {% set label = options.label|default(null) %}
     {% set description = options.description|default(null) %}
@@ -127,11 +126,9 @@
 {% endmacro %}
 
 {% block wrapper %}
-    {% set classes = html_classes('rz-dropdown', class|default(''), {
-            'rz-dropdown--reverse': reverse,
-    }) %}
-    {% set tag = tag|default('div') %}
-    <{{tag}}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+    {% set classes = html_classes('rz-dropdown', class|default(''), { 'rz-dropdown--reverse': reverse }) %}
+    <div
         class="{{ classes }}"
         id="{{ targetId }}"
         popover
@@ -152,5 +149,5 @@
 
         {% block additional_menu %}
         {% endblock %}
-    </{{ tag }}>
+    </div>
 {% endblock %}
