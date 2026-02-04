@@ -103,6 +103,7 @@ export class Tooltip {
 
     open() {
         this.tooltip?.classList.add(`${this.tooltipClass}--visible`)
+        this.cleanupAutoUpdate?.()
         this.cleanupAutoUpdate = autoUpdate(this.context, this.tooltip, () =>
             this.updatePosition(),
         )
@@ -118,7 +119,6 @@ export class Tooltip {
         if (!this.context || !this.tooltip) return
 
         const { x, y } = await computePosition(this.context, this.tooltip, {
-            // strategy: 'fixed',
             placement: this.options.placement,
             middleware: [
                 flip(),
