@@ -1,8 +1,15 @@
 {% macro item(label, class, href, icon, attr = {} ) %}
     {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
 
+    {% set button_base_classes = 'rz-button rz-button--md rz-button--on-dark' %}
+    {% set extra_classes = '' %}
+    {% if class is not empty %}
+        {% set extra_classes = class %}
+    {% elseif attr.class is defined and attr.class is not empty %}
+        {% set extra_classes = attr.class %}
+    {% endif %}
     {% set attrs = attr|merge({
-        class: "rz-button rz-button--md rz-button--on-dark" ~ (class ? ' ' ~ class : '') ~ (attr.class ? ' ' ~ attr.class : ''),
+        class: button_base_classes ~ (extra_classes ? ' ' ~ extra_classes : ''),
     }) %}
 
     {% if href is defined and href %}
@@ -11,9 +18,9 @@
         {% set attrs = attrs|merge({ is: attr.is|default('rz-button') }) %}
     {% endif %}
 
-    {% set aria_label = attr['aria-label']|default(label)|trans %}
-    {% if aria_label %}
-        {% set attrs = attrs|merge({ 'aria-label': aria_label }) %}
+    {% set aria_label = attr['aria-label']|default(label) %}
+    {% if aria_label and aria_label != '' %}
+        {% set attrs = attrs|merge({ 'aria-label': aria_label|trans }) %}
     {% endif %}
 
     {% if href is defined and href %}
