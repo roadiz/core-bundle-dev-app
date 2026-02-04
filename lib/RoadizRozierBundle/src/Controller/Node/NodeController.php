@@ -612,15 +612,16 @@ final class NodeController extends AbstractController
         $form = $this->buildEmptyTrashForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $criteria = ['status' => NodeStatus::DELETED];
-            /** @var Node|null $chroot */
-            $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
-            if (null !== $chroot) {
-                $criteria['parent'] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
-            }
+        $criteria = ['status' => NodeStatus::DELETED];
+        /** @var Node|null $chroot */
+        $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
+        if (null !== $chroot) {
+            $criteria['parent'] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
+        }
 
-            $nodes = $this->allStatusesNodeRepository->findBy($criteria);
+        $nodes = $this->allStatusesNodeRepository->findBy($criteria);
+
+        if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var Node $node */
             foreach ($nodes as $node) {
@@ -637,9 +638,26 @@ final class NodeController extends AbstractController
             return $this->redirectToRoute('nodesHomeDeletedPage');
         }
 
-        return $this->render('@RoadizRozier/nodes/emptyTrash.html.twig', [
+        $items = [];
+        foreach ($nodes as $node) {
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
+        }
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $this->translator->trans('empty.node.trash'),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'messageType' => 'neutral',
+            'action_icon' => 'rz-icon-ri--delete-bin-7-line',
+            'action_color' => 'danger',
+            'action_label' => 'empty.trash',
+            'cancelPath' => $this->generateUrl('nodesHomeDeletedPage'),
+            'alertMessage' => 'are_you_sure.empty.node.and.data.trash',
             'form' => $form->createView(),
+            'items' => $items,
         ]);
+
+
+        //
     }
 
     #[Route(
