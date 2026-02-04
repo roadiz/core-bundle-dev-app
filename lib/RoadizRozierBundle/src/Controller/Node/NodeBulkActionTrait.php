@@ -195,6 +195,7 @@ trait NodeBulkActionTrait
         }
 
         $builder->setAction('?confirm=1');
+
         return $builder->getForm();
     }
 

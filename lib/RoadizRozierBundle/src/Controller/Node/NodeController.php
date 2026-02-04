@@ -789,9 +789,22 @@ final class NodeController extends AbstractController
             ]);
         }
 
-        return $this->render('@RoadizRozier/nodes/publishAll.html.twig', [
-            'node' => $node,
+        $title = $this->translator->trans(
+            'publish.node.%name%.offspring',
+            ['%name%' => $node->getNodeName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'messageType' => 'neutral',
+            'action_icon' => 'rz-icon-ri--check-line',
+            'action_color' => 'success',
+            'action_label' => 'publish-all',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'alertMessage' => 'are_you_sure.publish.node.offspring',
             'form' => $form->createView(),
+            'items' => [], // TODO: add children node_sources list
         ]);
     }
 

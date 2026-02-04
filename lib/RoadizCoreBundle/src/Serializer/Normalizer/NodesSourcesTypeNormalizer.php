@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Serializer\Normalizer\AbstractPathNormalizer;
 
 final class NodesSourcesTypeNormalizer extends AbstractPathNormalizer
 {
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!$data instanceof NodesSources) {

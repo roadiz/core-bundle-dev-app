@@ -30,6 +30,11 @@
 	is="rz-table"
 	{{ el_attr.print(_table_attributes|merge({ class: classes|join(' ') })) }}
 >
+	{% block caption %}
+		{% if caption is defined %}
+			<caption class="rz-table__caption">{{ caption }}</caption>
+		{% endif %}
+	{% endblock %}
 	{% block thead %}
 		{% if has_thead_content %}
 			<thead>

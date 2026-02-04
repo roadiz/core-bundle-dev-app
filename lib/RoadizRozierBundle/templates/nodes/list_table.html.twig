@@ -37,8 +37,10 @@
             >
                 {% if selection_available %}
                     <td>
-                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                        {{ rz_bulk.select_input({ value: node.id }) }}
+                        {% if not node.locked %}
+                           {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                            {{ rz_bulk.select_input({ value: node.id }) }}
+                        {% endif %}
                     </td>
                 {% endif %}
                 <td class="nodes-list-item-link">

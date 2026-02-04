@@ -26,6 +26,8 @@
 
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             bordered: true,
+            margin_top: 'xs',
+            caption: 'user.security.meta_table.caption'|trans,
         } %}
             {% block tbody_content %}
                 {% if not user.isAccountNonExpired %}
