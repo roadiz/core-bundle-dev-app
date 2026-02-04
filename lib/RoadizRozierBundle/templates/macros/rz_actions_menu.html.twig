@@ -1,16 +1,38 @@
-{% macro item(label, class, href, icon, attr) %}
+{% macro item(label, class, href, icon, attr = {} ) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+    {% set button_base_classes = 'rz-button rz-button--md rz-button--on-dark' %}
+    {% set extra_classes = '' %}
+    {% if class is not empty %}
+        {% set extra_classes = class %}
+    {% elseif attr.class is defined and attr.class is not empty %}
+        {% set extra_classes = attr.class %}
+    {% endif %}
+    {% set attrs = attr|merge({
+        class: button_base_classes ~ (extra_classes ? ' ' ~ extra_classes : ''),
+    }) %}
+
     {% if href is defined and href %}
-        <a aria-label="{{ label|trans }}"
-           href="{{ href }}"
-           class="rz-button rz-button--md rz-button--on-dark {{ class is defined and class ? class : '' }}">
+        {% set attrs = attrs|merge({'href': href,  is: attr.is|default('rz-link') }) %}
+    {% else %}
+        {% set attrs = attrs|merge({ is: attr.is|default('rz-button') }) %}
+    {% endif %}
+
+    {% set aria_label = attr['aria-label']|default(label) %}
+    {% if aria_label and aria_label != '' %}
+        {% set attrs = attrs|merge({ 'aria-label': aria_label|trans }) %}
+    {% endif %}
+
+    {% if href is defined and href %}
+        <a
+            {{ el_attrs.print(attrs) }}
+        >
             <span class="rz-button__icon {{ icon }}"></span>
         </a>
     {% else %}
-        <button aria-label="{{ label|trans }}"
-                {% for attrname, attrvalue in attr %}
-                    {{ attrname }}="{{ attrvalue }}"
-                {% endfor %}
-                class="rz-button rz-button--md rz-button--on-dark {{ class is defined and class ? class : '' }}">
+        <button
+            {{ el_attrs.print(attrs) }}
+        >
             <span class="rz-button__icon {{ icon }}"></span>
         </button>
     {% endif %}
@@ -18,19 +40,25 @@
 
 {% macro saveItem(dataActionSave, label = 'save') %}
     {{ _self.item(
-        label: label,
         class: 'rz-button--primary rz-button--success',
         icon: 'rz-icon-ri--save-line',
         attr: {
             'is': 'rz-save-button',
             'data-action-save': dataActionSave,
-            'type': 'submit'
+            'type': 'submit',
+            'title': label|trans,
         }
     ) }}
 {% endmacro %}
 
-{% macro deleteItem(label = 'delete', href) %}
-    {{ _self.item(label, 'rz-button--primary rz-button--danger', href, 'rz-icon-ri--delete-bin-7-line') }}
+{% macro deleteItem(label = 'delete', href, attr = {}) %}
+    {{ _self.item(
+        label: label,
+        class: 'rz-button--primary rz-button--danger',
+        href: href,
+        icon: 'rz-icon-ri--delete-bin-7-line',
+        attr: attr
+    ) }}
 {% endmacro %}
 
 <div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">

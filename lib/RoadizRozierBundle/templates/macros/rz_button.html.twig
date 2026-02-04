@@ -27,6 +27,7 @@
             (element_class ~ '--' ~ emphasis): emphasis,
             (element_class ~ '--' ~ color): color,
             (element_class ~ '--' ~ 'selected'): selected,
+            (element_class ~ '--' ~ 'on-dark'): onDark|default(false),
         }) }}"
 		{{ el_attrs.print(options.attributes|default({})) }}
     >

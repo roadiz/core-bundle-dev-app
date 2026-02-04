@@ -81,7 +81,7 @@
     {% if display_label is same as(false) %}
         {% set type_options = type_options|merge(
             {
-                attributes: { 'tooltip-text': type_options.label }|merge(default_options.attributes|default({})),
+                attributes: { 'title': type_options.label }|merge(default_options.attributes|default({})),
                 label: ''
             }) %}
     {% endif %}

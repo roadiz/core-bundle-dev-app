@@ -26,6 +26,10 @@
 	flex-direction: column;
 }
 
+.rz-dropdown > *:not(.rz-dropdown__head) {
+	z-index: 1; /* Ensure head background is below other elements */
+}
+
 /* wrapper has different border style and head element has a different background color */
 .rz-dropdown:has(.rz-dropdown__info-list) {
 	--rz-dropdown-border-bottom-width: 1PX;
@@ -45,16 +49,15 @@
 	display: flex;
 	flex-direction: column;
 	padding: var(--spacing-4xs);
-	gap: var(--spacing-7xs);
-	z-index: -1;
+	gap: var(--spacing-5xs);
 
 	&::before {
-		z-index: -2;
 		content: '';
 		position: absolute;
 		inset: 0;
 		background-color: var(--rz-dropdown-head-background-color);
 		border-radius: var(--rz-dropdown-border-radius);
+		z-index: -1;
 	}
 
 	.rz-dropdown--reverse & {
@@ -80,7 +83,7 @@
 	align-items: center;
 	flex-wrap: wrap;
 	justify-content: flex-end;
-	gap: var(--spacing-3xs);
+	gap: var(--spacing-5xs);
 	padding: initial;
 	margin: initial;
 	min-height: var(--spacing-md);
@@ -203,7 +206,6 @@
 	padding: var(--spacing-4xs);
 	border-top: 1px solid var(--line-on-light-primary, #EAEAEA);
 	background: var(--surface-light-primary, #FFF);
-	z-index: 1;
 
 	font-family: var(--font-family-os-text);
 	font-size: var(--text-form-description-sm-font-size);
