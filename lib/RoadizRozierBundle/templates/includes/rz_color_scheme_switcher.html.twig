@@ -15,7 +15,7 @@
 	{% block popover %}
 		{% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
 			targetId: popover_id,
-			tag: 'rz-color-scheme-switcher'
+			wrapper_tag: 'rz-color-scheme-switcher'
 		} %}
 			{% block items %}
 				{{ _self.item({
