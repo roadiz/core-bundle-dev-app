@@ -55,15 +55,15 @@ export class Tooltip {
     get options() {
         const placement =
             this.context.getAttribute(ATTRIBUTES_OPTIONS_MAP.placement) || 'top'
-        const shift =
+        const shiftValue =
             this.context.getAttribute(ATTRIBUTES_OPTIONS_MAP.shift) || '4'
-        const offset =
+        const offsetValue =
             this.context.getAttribute(ATTRIBUTES_OPTIONS_MAP.offset) || '4'
 
         return {
             placement: placement as Placement,
-            shift: parseInt(shift.toString(), 10),
-            offset: parseInt(offset.toString(), 10),
+            shift: parseInt(shiftValue.toString(), 10),
+            offset: parseInt(offsetValue.toString(), 10),
         }
     }
 
