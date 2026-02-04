@@ -23,7 +23,7 @@
             {{ form_start(form) }}
                 {{ form_widget(form) }}
                 {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-                {{ actions_menu.saveFormButton(form) }}
+                {{ actions_menu.saveItem('#' ~ field_id(form)) }}
             {{ form_end(form) }}
         {% else %}
             <div class="rz-message rz-message--error">
