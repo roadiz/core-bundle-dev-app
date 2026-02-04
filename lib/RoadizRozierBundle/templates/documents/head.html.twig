@@ -17,11 +17,12 @@
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             <div class="rz-page-header__item--right">
                 {{ _self.translations_bar(
-                    available_translations,
-                    'documentsMetaPage',
-                    document,
-                    'documentId',
-                    translation.id
+                    available_translations: available_translations,
+                    current: translation.id,
+                    path: 'documentsMetaPage',
+                    pathParams: {
+                        documentId: document.id,
+                    }
                 ) }}
             </div>
         {% endif %}

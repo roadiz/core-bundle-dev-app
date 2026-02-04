@@ -19,13 +19,12 @@
             {% endif %}
             <div class="rz-page-header__item--right">
                 {{ _self.translations_bar(
-                    available_translations,
-                    route,
-                    node,
-                    'nodeId',
-                    translation.id,
-                    path('nodesTranslatePage', { nodeId: node.getId }),
-                    'translate.node'|trans
+                    available_translations: available_translations,
+                    current: translation.id,
+                    path: route,
+                    pathParams: {nodeId: node.getId},
+                    pathAddTranslations: path('nodesTranslatePage', { nodeId: node.getId }),
+                    pathAddTranslationsTitle: 'translate.node'|trans,
                 ) }}
             </div>
         {% endif %}
