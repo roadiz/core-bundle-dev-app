@@ -22,8 +22,7 @@
 
 {% include "@RoadizRozier/admin/head.html.twig" with {
     translation_route: 'tagsEditTranslatedPage',
-    translation_params_key: 'tagId',
-    translation_entity: tag,
+    translation_params: {tagId: tag.id},
     available_translations: available_translations,
     translation: translation,
     title: title,
