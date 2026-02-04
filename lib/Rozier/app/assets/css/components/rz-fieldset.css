@@ -6,7 +6,7 @@
     box-sizing: border-box;
     position: relative;
     display: var(--rz-fieldset-display, grid);
-    width: 100%;
+    width: var(--rz-fieldset-width, 100%);
     gap:
         var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-xs)))
         var(--rz-fieldset-gap, var(--rz-form-field-list-gap, var(--spacing-md)));
@@ -37,6 +37,8 @@
     --rz-fieldset-padding-top: var(--spacing-4xs);
     --rz-fieldset-padding-bottom: var(--spacing-4xs);
     --rz-fieldset-gap: var(--spacing-4xs);
+    --rz-fieldset-width: fit-content;
+
     flex-wrap: wrap;
 }
 

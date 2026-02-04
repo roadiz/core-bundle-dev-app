@@ -393,17 +393,27 @@
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
+    {% set no_field_group = attr['no-field-group'] is not defined and attr['no-field-group'] %}
+
     {% if attr is defined %}
         {% set attr = attr|merge({'class': (attr.class|default('') ~ ' rz-fieldset')|trim}) %}
     {% endif %}
-        <fieldset class="{{ attr.class|default('rz-fieldset') }}">
-            <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
-        {%- for child in form %}
-            <div class="rz-form-field rz-form-field--type-radio">
-                {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
-                {{- form_widget(child) -}}
-            </div>
-        {% endfor -%}
+
+    {% if no_field_group is same as(false) %}
+        {% set attr = attr|merge({'class': (attr.class ~ ' rz-form-field__body')}) %}
+    {% endif %}
+
+        <fieldset class="{{ attr.class }}">
+            {% if no_field_group %}
+                {# When label already displayed in form_row, no need to display it again #}
+                <legend class="rz-fieldset__legend">{{- form.vars.label|trans -}}</legend>
+            {% endif %}
+            {%- for child in form %}
+                <div class="rz-form-field rz-form-field--type-radio">
+                    {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+                    {{- form_widget(child) -}}
+                </div>
+            {% endfor -%}
         </fieldset>
 {%- endblock choice_widget_expanded -%}
 
