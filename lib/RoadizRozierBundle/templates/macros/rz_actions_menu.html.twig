@@ -1,4 +1,4 @@
-{% macro item(label, class, href, icon, attr ) %}
+{% macro item(label, class, href, icon, attr = {} ) %}
     {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
 
     {% set attrs = attr|merge({
@@ -44,8 +44,14 @@
     ) }}
 {% endmacro %}
 
-{% macro deleteItem(label = 'delete', href, attr) %}
-    {{ _self.item(label, 'rz-button--primary rz-button--danger', href, 'rz-icon-ri--delete-bin-7-line', attr|default({})) }}
+{% macro deleteItem(label = 'delete', href, attr = {}) %}
+    {{ _self.item(
+        label: label,
+        class: 'rz-button--primary rz-button--danger',
+        href: href,
+        icon: 'rz-icon-ri--delete-bin-7-line',
+        attr: attr
+    ) }}
 {% endmacro %}
 
 <div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">

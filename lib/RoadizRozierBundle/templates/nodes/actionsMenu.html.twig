@@ -144,12 +144,12 @@
                                     label: 'published',
                                     leftIcon: 'rz-icon-rz--status-published-fill',
                                     rightIcon : (node.isPublished) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
-                                input: {
-                                    type: 'radio',
-                                    name: 'status',
-                                    value: 'publish',
-                                    attr: {'data-node-id': node.getId},
-                                },
+                                    input: {
+                                        type: 'radio',
+                                        name: 'status',
+                                        value: 'publish',
+                                        attr: {'data-node-id': node.getId},
+                                    },
                                 }) }}
                             {% endif %}
                             {% if workflow_can(node, 'archive') or node.isArchived %}
@@ -157,12 +157,12 @@
                                     label: 'archived',
                                     leftIcon: 'rz-icon-rz--status-archived-fill',
                                     rightIcon : (node.isArchived) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
-                                input: {
-                                    type: 'radio',
-                                    name: 'status',
-                                    value: 'archive',
-                                    attr: {'data-node-id': node.getId},
-                                },
+                                    input: {
+                                        type: 'radio',
+                                        name: 'status',
+                                        value: 'archive',
+                                        attr: {'data-node-id': node.getId},
+                                    },
                                 }) }}
                             {% endif %}
                         </menu>
