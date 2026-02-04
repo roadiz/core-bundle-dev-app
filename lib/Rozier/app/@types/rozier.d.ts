@@ -8,7 +8,6 @@ export default class Rozier {
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload
     vueApp: VueApp
-    backTopBtn: HTMLElement | null
     nodeStatuses?: unknown
 
     onDocumentReady(): void

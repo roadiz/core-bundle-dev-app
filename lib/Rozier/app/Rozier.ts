@@ -9,9 +9,8 @@ export default class Rozier {
     windowHeight: number | null
     resizeFirst: boolean
     canvasLoader: CanvasLoader | null
-    lazyload: Lazyload
-    vueApp: VueApp
-    backTopBtn: HTMLElement | null
+    lazyload: Lazyload | null = null
+    vueApp: VueApp | null = null
 
     constructor() {
         this.windowWidth = null
@@ -19,10 +18,6 @@ export default class Rozier {
         this.resizeFirst = true
 
         this.canvasLoader = null
-        this.backTopBtn = null
-
-        this.lazyload = new Lazyload()
-        this.vueApp = new VueApp()
 
         this.resize = this.resize.bind(this)
     }
