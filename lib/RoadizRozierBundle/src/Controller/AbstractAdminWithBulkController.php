@@ -208,8 +208,8 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 
         $this->assignation[$bulkFormName] = $bulkForm->createView();
         $this->assignation['title'] = $templateOptions['title'] ?? $this->translator->trans('delete.bulk.'.$this->getNamespace());
-        $this->assignation['headPath'] = '@RoadizRozier/admin/head.html.twig';
-        $this->assignation['cancelPath'] = $this->generateUrl($this->getDefaultRouteName());
+        $this->assignation['headPath'] = $templateOptions['headPath'] ?? '@RoadizRozier/admin/head.html.twig';
+        $this->assignation['cancelPath'] = $templateOptions['cancelPath'] ?? $this->generateUrl($this->getDefaultRouteName());
         $this->assignation['alertMessage'] = $templateOptions['alertMessage'] ?? $this->translator->trans(
             'are_you_sure.delete.these.%namespace%',
             [
