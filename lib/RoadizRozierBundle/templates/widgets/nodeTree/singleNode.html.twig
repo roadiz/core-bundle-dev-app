@@ -113,12 +113,19 @@
                 {% if nodeTree.isStackTree %}
                     {% set tags = nodeTree.getTags(item) %}
                     {% if tags|length %}
-                        <div class="nodetree-tags">
+                        <div class="rz-tree__item__tags">
                             {% for tag in tags %}
-                                <a href="?tagId={{ tag.id }}" class="uk-badge">
-                                    <i class="uk-icon-tag"></i>
-                                    {{ tag.name|default(tag.tagName) -}}
-                                </a>
+                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                                {% set label = tag.name|default(tag.tagName) %}
+                                {{ rz_badge.item({
+                                    label: label|truncate_title(12, '...'),
+                                    size: 'sm',
+                                    color: 'default',
+                                    attributes: {
+                                        href: '?tagId=' ~ tag.id,
+                                        title: label,
+                                    }
+                                }) }}
                             {% endfor %}
                         </div>
                     {% endif %}

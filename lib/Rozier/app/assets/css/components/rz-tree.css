@@ -211,6 +211,15 @@
 	}
 }
 
+.rz-tree__item__tags {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2xs);
+	margin-left: var(--spacing-6xs);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 .rz-tree__item__expand-button {
 	.rz-button__icon {
 		transform-origin: center;

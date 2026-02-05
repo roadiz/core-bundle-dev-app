@@ -17,6 +17,7 @@
     {% set tagName = options.tagName|default('rz-badge') %}
     {% if attributes.href is defined and attributes.href %}
         {% set tagName = 'a' %}
+        {% set attributes = attributes|merge({ is: attributes.is|default('rz-link') }) %}
     {% endif %}
 
     <{{ tagName }}
