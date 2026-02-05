@@ -124,8 +124,6 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $assignation = [];
-
         $nodesIds = trim((string) $request->get('statusForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
@@ -140,8 +138,10 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkStatusForm(
@@ -162,14 +162,23 @@ trait NodeBulkActionTrait
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
+        $cancelPath = $this->generateUrl('nodesHomePage');
         if (!empty($request->get('statusForm')['referer'])) {
-            $assignation['referer'] = $request->get('statusForm')['referer'];
+            $cancelPath = $request->get('statusForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkStatus.html.twig', $assignation);
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $this->translator->trans('change.nodes.status'),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'action_icon' => 'rz-icon-ri--check-line',
+            'action_color' => 'success',
+            'action_label' => 'change.nodes.status.all',
+            'cancelPath' => $cancelPath,
+            'messageType' => 'neutral',
+            'alertMessage' => 'are_you_sure.change-status.these.nodes',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     private function buildBulkDeleteForm(
@@ -257,7 +266,7 @@ trait NodeBulkActionTrait
     {
         /** @var FormBuilder $builder */
         $builder = $this->formFactory
-            ->createNamedBuilder('tagForm')
+            ->createNamedBuilder('tagForm', options: ['attr' => ['class' => 'rz-form--horizontal']])
             ->add('nodesIds', HiddenType::class, [
                 'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [
