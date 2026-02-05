@@ -3,7 +3,7 @@
     padding: 12px;
     grid-template-columns: 1fr 3fr 1fr;
 
-    &.rz-form-field__body {
+    rz-form-field & {
         box-sizing: border-box;
         min-height: 5.75rem;
         padding: var(--spacing-2xs);
