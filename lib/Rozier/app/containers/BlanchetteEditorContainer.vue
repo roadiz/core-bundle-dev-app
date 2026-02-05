@@ -141,7 +141,6 @@ export default {
         },
         async load() {
             await sleep(1000)
-            console.log('load', this.image)
             if (!this.image) {
                 this.image = this.$refs.image
                 this.start()
