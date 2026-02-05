@@ -11,7 +11,6 @@ use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -139,6 +138,12 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
+        foreach ($nodes as $node) {
+            $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
+        }
+
         $form = $this->buildBulkStatusForm(
             $request->get('statusForm')['referer'],
             $nodesIds,
@@ -160,12 +165,6 @@ trait NodeBulkActionTrait
         $cancelPath = $this->generateUrl('nodesHomePage');
         if (!empty($request->get('statusForm')['referer'])) {
             $cancelPath = $request->get('statusForm')['referer'];
-        }
-
-        $items = [];
-        foreach ($nodes as $node) {
-            $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
-            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
@@ -267,7 +266,7 @@ trait NodeBulkActionTrait
     {
         /** @var FormBuilder $builder */
         $builder = $this->formFactory
-            ->createNamedBuilder('tagForm', FormType::class, [], ['attr' => ['class' => 'rz-form--horizontal']])
+            ->createNamedBuilder('tagForm', options: ['attr' => ['class' => 'rz-form--horizontal']])
             ->add('nodesIds', HiddenType::class, [
                 'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [

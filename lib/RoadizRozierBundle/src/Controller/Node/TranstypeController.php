@@ -124,8 +124,8 @@ final class TranstypeController extends AbstractController
             'action_icon' => 'rz-icon-ri--command-line',
             'action_color' => 'success',
             'action_label' => 'transtype.node',
-            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]), //  path('nodesEditPage', {nodeId: node.getId})
-            'messageType' => 'neutral',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'messageType' => 'warning',
             'alertMessage' => 'transtype_will_copy_data_from_fields_existing_in_both_types_not_others',
             'form' => $form->createView(),
             'items' => [$this->explorerItemFactory->createForEntity($node)->toArray()],
