@@ -100,7 +100,7 @@ export default {
         height: {
             type: [Number, String],
             default: 460,
-         }
+        },
     },
     data() {
         return {
