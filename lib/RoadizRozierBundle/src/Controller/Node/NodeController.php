@@ -622,7 +622,6 @@ final class NodeController extends AbstractController
         $nodes = $this->allStatusesNodeRepository->findBy($criteria);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /** @var Node $node */
             foreach ($nodes as $node) {
                 /** @var NodeHandler $nodeHandler */
@@ -655,9 +654,6 @@ final class NodeController extends AbstractController
             'form' => $form->createView(),
             'items' => $items,
         ]);
-
-
-        //
     }
 
     #[Route(
