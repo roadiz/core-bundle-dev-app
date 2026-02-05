@@ -13,9 +13,7 @@
         } only %}
 
         <article class="content content-document-edit">
-            {{ dump(document) }}
             {% if document and document.image %}
-
                 <blanchette-editor-container
                     data-vuejs
                     src-url="{{ document|url({ 'noProcess': true }) }}"
