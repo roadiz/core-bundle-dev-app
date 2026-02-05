@@ -1,11 +1,12 @@
 {% if with_breadcrumb is defined and with_breadcrumb %}
     {% set parents = [
         {
-            label: 'custom-form.homepage'|trans,
+            label: 'customForms'|trans,
             type: 'listing',
             url: path('customFormsHomePage'),
         }
     ] %}
+
     {% for parent in breadcrumb_parents %}
         {% set parents = parents|merge([{
             label: parent.displayName,
@@ -13,12 +14,14 @@
             url: parent.url,
         }]) %}
     {% endfor %}
+
     {% set breadcrumb = {
         label: 'users-breadcrumb',
         parent: parents,
         current: title
     } %}
 {% endif %}
+
 {% include "@RoadizRozier/admin/head.html.twig" with {
     nav_bar_template: '@RoadizRozier/custom-forms/navBar.html.twig',
     nav_bar_context: {current: current, type: type}

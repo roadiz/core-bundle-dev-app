@@ -1,4 +1,4 @@
-import { Tooltip, ATTRIBUTES_OPTIONS } from '~/utils/Tooltip'
+import { Tooltip, ATTRIBUTES_OPTIONS, getTooltipContent } from '~/utils/Tooltip'
 
 export class RzTooltip extends HTMLElement {
     tooltip: Tooltip | null = null
@@ -12,15 +12,17 @@ export class RzTooltip extends HTMLElement {
     }
 
     attributeChangedCallback() {
-        this.tooltip?.updateOptions()
+        this.tooltip?.update()
     }
 
     connectedCallback() {
-        this.tooltip = new Tooltip(this)
+        if (getTooltipContent(this)) {
+            this.tooltip = new Tooltip(this)
+        }
     }
 
     disconnectedCallback() {
-        this.tooltip?.destroy()
+        this.tooltip?.disposeListeners()
         this.tooltip = null
     }
 }

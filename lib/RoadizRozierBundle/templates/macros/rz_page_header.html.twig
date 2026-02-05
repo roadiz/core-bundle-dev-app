@@ -74,25 +74,45 @@
     </nav>
 {% endmacro %}
 
-{% macro translations_bar(available_translations, basePath, entity, idParamName, current, pathAddTranslations, pathAddTranslationsTitle) %}
+{% macro translations_bar(available_translations, path, pathParams, current, pathAddTranslations, pathAddTranslationsTitle) %}
+    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
     {% if available_translations %}
         <div class="rz-button-group rz-button-group--sm rz-button-group--collapsed">
             {%- for translation in available_translations -%}
-                {% set params = { (idParamName): entity.id, 'translationId': translation.id } %}
-                <a class="rz-button rz-button-group__button{% if current == translation.getId %} rz-button--primary {% else %} rz-button--secondary {% endif %}"
-                   href="{{ path(basePath, params) }}"
-                   {% if current == translation.getId %} aria-current="page"{% endif %}
-                >
-                    <span class="rz-button__label">{{- translation.preferredLocale -}}</span>
-                </a>
+                {% set class = 'rz-button rz-button-group__button' %}
+                {% if current == translation.getId %}
+                    {% set class = class ~ ' rz-button--primary' %}
+                {% else %}
+                    {% set class = class ~ ' rz-button--secondary' %}
+                {% endif %}
+                {% set href = path(path, pathParams|merge({
+                    'translationId': translation.id,
+                    'locale': translation.locale
+                })) %}
+                {{ rz_link.root({
+                    class: class,
+                    label: translation.preferredLocale,
+                    attributes: {
+                        href: href,
+                        (current == translation.getId) ? aria-current: 'page' : null,
+                    }
+                }) }}
             {%- endfor -%}
             {% if pathAddTranslations is defined and pathAddTranslations %}
-                <a class="rz-button rz-button-group__button{% if not current %} rz-button--primary{% else %} rz-button--secondary{% endif %}"
-                    href="{{ pathAddTranslations }}"
-                    title="{{ pathAddTranslationsTitle }}"
-                >
-                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                </a>
+                {% set class = 'rz-button rz-button-group__button' %}
+                {% if not current %}
+                    {% set class = class ~ ' rz-button--primary' %}
+                {% else %}
+                    {% set class = class ~ ' rz-button--secondary' %}
+                {% endif %}
+                {{ rz_link.root({
+                    class: class,
+                    icon: 'rz-icon-ri--add-line',
+                    attributes: {
+                        href: pathAddTranslations,
+                        title: pathAddTranslationsTitle,
+                    }
+                }) }}
             {% endif %}
         </div>
     {% endif %}

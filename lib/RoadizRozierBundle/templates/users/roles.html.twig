@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global edit-user">
+<section>
     {% include '@RoadizRozier/users/head.html.twig' with {
         title: "edit.user.%name%.roles"|trans({'%name%': user.username })|truncate_title(40),
         with_nav_bar: true,
@@ -15,15 +15,18 @@
         current: 'roles',
         with_breadcrumb: true,
     } only %}
-    <article class="content content-user-roles">
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            roles: user.roles,
+            caption: 'inherited.roles.caption'|trans,
+        } only %}
             {% block thead_cells %}
                 <th>{% trans %}inherited.roles{% endtrans %}</th>
             {% endblock %}
 
             {% block tbody_content %}
-                {% for role in user.roles %}
+                {% for role in roles %}
                     <tr>
                         <td>{{ role }}</td>
                     </tr>
@@ -34,26 +37,37 @@
         <hr />
 
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            userRoles: user.userRoles,
             selection_available: false,
             actions_available: true,
-        }%}
+            caption: 'specific.roles.caption'|trans,
+            userId: user.id,
+        } only %}
             {% block thead_cells %}
                 <th>{% trans %}specific.roles{% endtrans %}</th>
             {% endblock %}
 
             {% block tbody_content %}
-                {% for role in user.userRoles %}
+                {% for role in userRoles %}
                     <tr>
                         <td>{{ role }}</td>
                         {% if actions_available %}
                             <td>
                                 {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
                                     'edit_href': null,
-                                    'delete_href': is_granted(role) ? path('usersRemoveRolesPage', { userId: user.id, role: role }) : null,
+                                    'delete_href': is_granted(role) ? path('usersRemoveRolesPage', { userId: userId, role: role }) : null,
                                     'delete_title': 'remove'|trans,
                                 } only %}
                             </td>
                         {% endif %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        {% set colspan = 1 %}
+                        {% if actions_available %}
+                            {% set colspan = colspan + 1 %}
+                        {% endif %}
+                        <td colspan="{{ colspan }}">{% trans %}no.specific.roles{% endtrans %}</td>
                     </tr>
                 {% endfor %}
             {% endblock %}
@@ -61,15 +75,20 @@
 
         <hr />
 
-        <h2>{% trans %}add.a.specific.role{% endtrans %}</h2>
+        <h2 class="text-h1-sm">{% trans %}add.a.specific.role{% endtrans %}</h2>
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
             <div class="rz-form-field rz-form-field--align-start">
-                <button class="rz-button rz-button--primary" type="submit">
-                    <span class="rz-button__label">{% trans %}add.role{% endtrans %}</span>
-                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                </button>
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    size: 'md',
+                    label: 'add.role'|trans,
+                    icon: 'rz-icon-ri--add-line',
+                    attributes: {
+                        type: 'submit'
+                    }
+                }) }}
             </div>
         {{ form_end(form) }}
     </article>

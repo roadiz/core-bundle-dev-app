@@ -2,7 +2,7 @@
 {% if with_breadcrumb is defined and with_breadcrumb %}
     {% set parents = [
         {
-            label: 'attributes.homepage'|trans,
+            label: 'attributes'|trans,
             type: 'listing',
             url: path('attributesHomePage'),
         }
@@ -21,11 +21,6 @@
     } %}
 {% endif %}
 {% include "@RoadizRozier/admin/head.html.twig" with {
-    translation_route: translation_route,
-    translation_params_key: translation_params_key,
-    translation_entity: tag,
-    available_translations: available_translations,
-    translation: translation,
     title: title,
     buttons: buttons,
     filters: filters,

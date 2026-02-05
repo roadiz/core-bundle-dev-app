@@ -1,8 +1,9 @@
 {# Scope with translation bar and nav_bar support - uses generic head template #}
 {% include "@RoadizRozier/admin/head.html.twig" with {
     translation_route: 'foldersEditTranslationPage',
-    translation_params_key: 'folderId',
-    translation_entity: folder,
+    translation_params: {
+        folderId: folder.id,
+    },
     nav_bar_template: '@RoadizRozier/folders/navBar.html.twig',
     nav_bar_context: {folder: folder, current: current, translation: translation}
 } %}

@@ -11,19 +11,21 @@
     - available_translations (optional): Array of available translations
     - translation (optional): Current translation object
     - translation_route (optional): Route name for translation switching
-    - translation_params_key (optional): Parameter key for translation route
-    - translation_entity (optional): Entity for translation route
+    - translation_params (optional): Parameters for translation route
+    - translation_add_route (optional): Route name for adding translations
+    - translation_add_title (optional): Title for adding translations link
 #}
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id and translation_route is defined %}
             <div class="rz-page-header__item--right">
                 {{ _self.translations_bar(
-                    available_translations,
-                    translation_route,
-                    translation_entity,
-                    translation_params_key,
-                    translation.id
+                    available_translations: available_translations,
+                    current: translation.id,
+                    path: translation_route,
+                    pathParams: translation_params,
+                    pathAddTranslations: translation_add_route|default(null),
+                    pathAddTranslationsTitle: translation_add_title|default(null),
                 ) }}
             </div>
         {% endif %}
