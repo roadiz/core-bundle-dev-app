@@ -271,7 +271,7 @@ export default {
             if (!this.cropper) {
                 this.image = null
                 this.url = this.originalUrl
-                 this.$store.state.blanchetteEditor.originalUrl = ''
+                this.$store.state.blanchetteEditor.originalUrl = ''
                 this.cropped = false
             }
         },
