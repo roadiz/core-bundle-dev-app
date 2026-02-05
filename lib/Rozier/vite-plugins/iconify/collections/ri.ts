@@ -152,4 +152,13 @@ export default [
     'vimeo-fill',
     'youtube-fill',
     'zoom-in-line',
+    'zoom-out-line',
+    'drag-move-2-line',
+    'flip-horizontal-2-line',
+    'flip-vertical-2-line',
+    'expand-horizontal-line',
+    'expand-vertical-line',
+    'loop-left-line',
+    'loop-right-line',
+    'prohibited-line'
 ]
