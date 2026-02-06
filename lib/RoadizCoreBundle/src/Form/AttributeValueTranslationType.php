@@ -60,12 +60,7 @@ final class AttributeValueTranslationType extends AbstractType
                     'placeholder' => 'select.country_placeholder',
                 ])),
                 AttributeInterface::DATETIME_T => $builder->add('value', DateTimeType::class, array_merge($defaultOptions, [
-                    'placeholder' => [
-                        'hour' => 'hour',
-                        'minute' => 'minute',
-                    ],
-                    'date_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
+                    'html5' => true,
                     'attr' => [
                         'class' => 'rz-datetime-field',
                     ],
