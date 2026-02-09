@@ -243,7 +243,6 @@ export default {
             const type = this.type
 
             if (this.cropping) {
-                this.$store.state.blanchetteEditor.originalUrl = this.url
                 this.data = cropper.getData()
                 this.canvasData = cropper.getCanvasData()
                 this.cropBoxData = cropper.getCropBoxData()
@@ -270,7 +269,6 @@ export default {
             if (!this.cropper) {
                 this.image = null
                 this.url = this.originalUrl
-                this.$store.state.blanchetteEditor.originalUrl = ''
                 this.cropped = false
             }
         },
