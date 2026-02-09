@@ -22,6 +22,9 @@
         delete_form_method: 'post',
         tagNodesForm: tagNodesForm,
         statusNodesForm: statusNodesForm,
+        routeName : app.request.attributes.get('_route'),
+        undelete_form_data: undeleteNodesForm|default(null),
+        undelete_form_action: path('nodesBulkUndeletePage'),
     } only %}
 
     <section class="rz-page__body">
