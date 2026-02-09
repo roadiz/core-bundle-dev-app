@@ -52,9 +52,6 @@
         {% if type.isPublishable and source.publishedAt %}
             {% set icon_class = source.publishedAt > date() ? 'rz-icon-ri--history-line' : 'rz-icon-rz--status-published-fill' %}
         {% endif %}
-        {% if node.isHome %}
-            {% set icon_class = node.isPublished ? 'rz-icon-ri--home-2-fill' : 'rz-icon-ri--home-draft-2-fill' %}
-        {% endif %}
 
         {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
             item: node,
@@ -110,26 +107,35 @@
 
 
             {% block before_actions %}
-                {% if nodeTree.isStackTree %}
-                    {% set tags = nodeTree.getTags(item) %}
-                    {% if tags|length %}
-                        <div class="rz-tree__item__tags">
-                            {% for tag in tags %}
-                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                                {% set label = tag.name|default(tag.tagName) %}
-                                {{ rz_badge.item({
-                                    label: label|truncate_title(12, '...'),
-                                    size: 'sm',
-                                    color: 'default',
-                                    attributes: {
-                                        href: '?tagId=' ~ tag.id,
-                                        title: label,
-                                    }
-                                }) }}
-                            {% endfor %}
-                        </div>
+                <div class="rz-tree__item__tags">
+                    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                    {% if item.isHome %}
+                        {{ rz_badge.item({
+                            size: 'xs',
+                            color: 'default',
+                            'icon': 'rz-icon-ri--home-2-fill',
+                            attributes: {
+                                title: 'node.home'|trans,
+                            }
+                        }) }}
                     {% endif %}
-                {% endif %}
+
+                    {% set tags = nodeTree.getTags(item) %}
+                    {% if tags|length and nodeTree.isStackTree %}
+                        {% for tag in tags %}
+                            {% set label = tag.name|default(tag.tagName) %}
+                            {{ rz_badge.item({
+                                label: label|truncate_title(12, '...'),
+                                size: 'sm',
+                                color: 'default',
+                                attributes: {
+                                    href: '?tagId=' ~ tag.id,
+                                    title: label,
+                                }
+                            }) }}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             {% endblock %}
 
 
