@@ -38,10 +38,6 @@
 		font-weight: var(--text-list-md-font-weight);
 	}
 
-	a {
-		color: currentColor
-	}
-
 	&.rz-table--margin-top-xs {
 		margin-top: var(--spacing-xs);
 	}
@@ -91,6 +87,10 @@
 	tr {
 		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
 	}
+}
+
+.rz-table__link {
+	color: currentColor
 }
 
 .rz-table__ordering-link {

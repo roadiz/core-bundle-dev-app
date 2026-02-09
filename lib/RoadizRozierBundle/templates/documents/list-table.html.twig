@@ -1,7 +1,7 @@
 {% extends "@RoadizRozier/documents/list.html.twig" %}
 
 {% block content_body %}
-    <article class="content content-no-action-menu">
+    <article>
         {% block pre_content_body %}{% endblock %}
 
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
@@ -95,7 +95,12 @@
                             </figure>
                         </td>
                         <td>
-                            <a href="{{ path('documentsEditPage', { documentId: document.id }) }}">{{ document|centralTruncate(30, -4) }}</a>
+                            <a
+                                class="rz-table__link"
+                                href="{{ path('documentsEditPage', { documentId: document.id }) }}"
+                            >
+                                {{ document|centralTruncate(30, -4) }}
+                            </a>
                         </td>
                         <td class="mobile-hidden">
                             {{ document.createdAt|format_datetime('short', 'short') }}
