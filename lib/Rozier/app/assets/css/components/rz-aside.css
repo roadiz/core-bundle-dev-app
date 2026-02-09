@@ -45,6 +45,10 @@
 	height: var(--rz-aside-head-height);
 }
 
+.rz-aside__icon {
+	font-size: 16px;
+}
+
 .rz-aside__title {
 	display: flex;
 	align-items: center;

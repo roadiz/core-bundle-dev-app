@@ -19,7 +19,7 @@
 
 		{% if has_header is defined and has_header %}
 			<div class="rz-aside__head">
-				<span class="{{ icon|default('rz-icon-ri--node-tree') }}"></span>
+				<span class="rz-aside__icon {{ icon|default('rz-icon-ri--node-tree') }}"></span>
 
 				<h2 class="rz-aside__title">
 					{{ title|default('rz_aside.title'|trans) }}
