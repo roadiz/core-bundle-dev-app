@@ -81,6 +81,7 @@
 
 /* standalone element */
 .rz-back-to-top-button {
+	display: none; /* Not useful anymore */
 	margin-block: var(--spacing-4xs);
 	float: right;
 }
