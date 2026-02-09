@@ -1,4 +1,4 @@
-.rz-document-edit {
+.rz-layout-column {
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-xs);
@@ -14,7 +14,7 @@
 	}
 }
 
-.rz-document-edit__first-column {
+.rz-layout-column__first-column {
 	display: flex;
 	align-items: center;
 	background-color: var(--surface-light-tertiary, #F2F2F2);
@@ -45,7 +45,7 @@
 	}
 }
 
-.rz-document-edit__second-column {
+.rz-layout-column__second-column {
 	grid-column: 2 / -1;
     height: min-content;
 }
