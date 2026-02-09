@@ -425,6 +425,11 @@
     <input is="rz-input" class="rz-form-field__body" type="text" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
 {%- endblock url_widget -%}
 
+{% block integer_widget -%}
+    {%- set type = type|default('number') -%}
+    <input is="rz-input" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
+{%- endblock integer_widget %}
+
 {% block number_widget -%}
     {%- set type = type|default('number') -%}
     <input is="rz-input" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
