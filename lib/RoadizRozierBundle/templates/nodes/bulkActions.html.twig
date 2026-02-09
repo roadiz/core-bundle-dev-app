@@ -5,7 +5,7 @@
     {% set status_panel_id = "nodes-bulk-status-form-cont" %}
 
     {% block other_actions %}
-        {% if (routeName !== 'nodesHomeDeletedPage') %}
+        {% if (routeName != 'nodesHomeDeletedPage') %}
             {{
                 rz_button.root({
                     attributes: {
