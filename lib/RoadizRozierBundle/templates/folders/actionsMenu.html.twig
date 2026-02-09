@@ -5,19 +5,18 @@
 } only %}
     {% block items %}
         {% if folder.getId %}
-            {{ _self.item(
-                label: 'download',
-                class: 'rz-button--tertiary',
-                href: path('foldersDownloadPage', { folderId: folder.getId }),
-                icon: 'rz-icon-ri--download-line'
-            ) }}
-
             {% if not folder.locked %}
                 {{ _self.deleteItem(
                     label: 'delete.folder',
                     href: path('foldersDeletePage', { folderId: folder.getId }),
                 ) }}
             {% endif  %}
+            {{ _self.item(
+                label: 'download',
+                class: 'rz-button--tertiary',
+                href: path('foldersDownloadPage', { folderId: folder.getId }),
+                icon: 'rz-icon-ri--download-line'
+            ) }}
         {% endif %}
     {% endblock %}
 {% endembed %}
