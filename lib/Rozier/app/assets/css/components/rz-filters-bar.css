@@ -40,6 +40,10 @@ rz-filters-bar {
 	}
 }
 
+.rz-filters-bar__group--right {
+	margin-left: auto;
+}
+
 .rz-filters-bar__group--divider {
 	padding-right: var(--spacing-5xs);
 	border-right: 1PX solid var(--line-on-light-secondary, #DADADA);

@@ -6,50 +6,52 @@
         <p class="rz-filters-bar__description">{{ filters.description }}</p>
     {% endif %}
 
-    <form method="get" class="rz-filters-bar__group">
-        {% if display_layout_fields %}
-            {% set value = filters.layout ?? app.request.query.get('layout') %}
-            {{ rz_filters_bar.layout_fields(value) }}
-        {% endif %}
+    {% if with_filter_form is not same as(false) %}
+        <form method="get" class="rz-filters-bar__group">
+            {% if display_layout_fields %}
+                {% set value = filters.layout ?? app.request.query.get('layout') %}
+                {{ rz_filters_bar.layout_fields(value) }}
+            {% endif %}
 
-        <input
-            class="rz-input"
-            id="uk-form-filter-input-search"
-            type="search"
-            name="search"
-            placeholder="{% trans %}search{% endtrans %}"
-            value="{{ filters.search }}"
-        />
-        {% block before_submit %}{% endblock %}
-        {{
-            rz_button.root({
-                attributes: {
-                    type: 'submit',
-                },
-                emphasis: 'secondary',
-                label: 'submit',
-                icon: 'rz-icon-ri--search-line'
-            })
-        }}
-        {% if display_select_all_button %}
-        {{
-            rz_button.root({
-                attributes: {
-                    type: 'button',
-                    'aria-selected': 'false',
-                    'data-bulk-select-all-button': '',
-                    'selected-class': 'rz-button--selected',
-                },
-                emphasis: 'secondary',
-                label: 'select.all',
-                icon: 'rz-icon-ri--checkbox-line'
-            })
-        }}
-        {% endif %}
-    </form>
+            <input
+                class="rz-input"
+                id="uk-form-filter-input-search"
+                type="search"
+                name="search"
+                placeholder="{% trans %}search{% endtrans %}"
+                value="{{ filters.search }}"
+            />
+            {% block before_submit %}{% endblock %}
+            {{
+                rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                    },
+                    emphasis: 'secondary',
+                    label: 'submit',
+                    icon: 'rz-icon-ri--search-line'
+                })
+            }}
+            {% if display_select_all_button %}
+            {{
+                rz_button.root({
+                    attributes: {
+                        type: 'button',
+                        'aria-selected': 'false',
+                        'data-bulk-select-all-button': '',
+                        'selected-class': 'rz-button--selected',
+                    },
+                    emphasis: 'secondary',
+                    label: 'select.all',
+                    icon: 'rz-icon-ri--checkbox-line'
+                })
+            }}
+            {% endif %}
+        </form>
+    {% endif %}
 
     {% if filters.itemCount > filters.itemPerPage %}
-        <div class="rz-filters-bar__group">
+        <div class="rz-filters-bar__group rz-filters-bar__group--right">
             {{ rz_filters_bar.pagination(filters) }}
 
             {% if filters.itemPerPage and filters.itemCount > 10 %}
