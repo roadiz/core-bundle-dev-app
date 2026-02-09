@@ -38,6 +38,10 @@
 		font-weight: var(--text-list-md-font-weight);
 	}
 
+	a {
+		color: currentColor
+	}
+
 	&.rz-table--margin-top-xs {
 		margin-top: var(--spacing-xs);
 	}

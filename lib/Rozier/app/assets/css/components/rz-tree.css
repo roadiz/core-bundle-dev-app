@@ -202,6 +202,12 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 
+	& > a,
+	&:where(a) {
+		color: currentColor;
+		text-decoration: none;
+	}
+
 	.rz-tree__item__icon + & {
 		padding-left: var(--spacing-6xs);
 	}
