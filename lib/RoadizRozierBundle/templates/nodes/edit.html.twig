@@ -28,90 +28,105 @@
         {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
         {{ actions_menu.saveItem('#edit-node-form') }}
         {{ form_end(form) }}
+    </article>
 
-        {% include '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
-            item: node,
-            additional_rows: [[{ tag: 'th', content: 'position'|trans }, { tag: 'td', content: node.position }]],
-        } only %}
+    {% if node.isHidingChildren %}
+        <hr />
+        <article>
+            <h2 class="text-h1-sm">{% trans %}stack.types{% endtrans %}</h2>
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                selection_available: false,
+                actions_available: true,
+                node: node,
+                stackTypesForm: stackTypesForm,
+            } only %}
+                {% block thead_cells %}
+                    <th>{% trans %}nodeType{% endtrans %}</th>
+                {% endblock %}
+                {% block tbody_content %}
+                    {% for type in node.stackTypes %}
+                        {% set nodeType = getNodeType(type) %}
+                        {% if nodeType is not null %}
+                            <tr>
+                                <td>{{ nodeType.displayName }}</td>
+                                {% if actions_available %}
+                                    <td>
+                                        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+                                            {% block other_actions %}
+                                                <form
+                                                    action="{{ path('nodesRemoveStackTypePage', {nodeId:node.id, typeName:nodeType.name}) }}"
+                                                    method="POST"
+                                                >
+                                                    {{ _self.button({
+                                                        icon: 'rz-icon-ri--delete-bin-7-line',
+                                                        color: 'danger',
+                                                        attributes: {
+                                                            type: 'submit',
+                                                            title: 'delete'|trans,
+                                                        }
+                                                    }) }}
+                                                </form>
+                                            {% endblock %}
+                                        {% endembed %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% else %}
+                        <tr><td colspan="2">{% trans %}no.stack.types{% endtrans %}</td></tr>
+                    {% endfor %}
+                {% endblock %}
+
+                {% block tfoot_content %}
+                    {% if stackTypesForm %}
+                        <td>
+                            {% form_theme stackTypesForm '@RoadizRozier/forms.html.twig' %}
+                            {{ form_start(stackTypesForm) }}
+                            {{ form_widget(stackTypesForm) }}
+                            {{ form_end(stackTypesForm) }}
+                        </td>
+                        <td class="rz-table__cell--align-right">
+                            {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                            {{ rz_button.root({
+                                icon: 'rz-icon-ri--add-line',
+                                emphasis: 'primary',
+                                label: 'add.stack.type'|trans,
+                                attributes: {
+                                    type: 'submit',
+                                    form: field_id(stackTypesForm),
+                                }
+                            }) }}
+                        </td>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
         </article>
+    {% endif %}
 
-        {% if node.isHidingChildren %}
-             <article>
-                <h2 id="add-node-translation">{% trans %}stack.types{% endtrans %}</h2>
+    {% if translationForm %}
+        <hr />
+        <article>
+            <h2 class="text-h1-sm">{% trans %}translate.node{% endtrans %}</h2>
+            {% form_theme translationForm '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(translationForm) }}
+                {{ form_widget(translationForm) }}
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    icon: 'rz-icon-ri--flag-line',
+                    emphasis: 'primary',
+                    label: 'translate'|trans,
+                    attributes: {
+                        type: 'submit',
+                    }
+                }) }}
+            {{ form_end(translationForm) }}
+        </article>
+    {% endif %}
 
-                {% form_theme stackTypesForm '@RoadizRozier/horizontalForms.html.twig' %}
-                {{ form_start(stackTypesForm) }}
-                    {{ form_widget(stackTypesForm) }}
-                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
-                    {{ rz_button.root({
-                        icon: 'rz-icon-ri--add-line',
-                        emphasis: 'primary',
-                        label: 'add.stack.type'|trans,
-                        attributes: {
-                            type: 'submit',
-                        }
-                    }) }}
-                {{ form_end(stackTypesForm) }}
-
-                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                    selection_available: false,
-                    actions_available: true,
-                    node: node,
-                } only %}
-                    {% block thead_cells %}
-                        <th>{% trans %}nodeType{% endtrans %}</th>
-                    {% endblock %}
-                    {% block tbody_content %}
-                        {% for type in node.stackTypes %}
-                            {% set nodeType = getNodeType(type) %}
-                            {% if nodeType is not null %}
-                                <tr>
-                                    <td>{{ nodeType.displayName }}</td>
-                                    {% if actions_available %}
-                                        <td>
-                                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
-                                                {% block other_actions %}
-                                                    <form
-                                                        action="{{ path('nodesRemoveStackTypePage', {nodeId:node.id, typeName:nodeType.name}) }}"
-                                                        method="POST"
-                                                    >
-                                                        {{ _self.button({
-                                                            icon: 'rz-icon-ri--delete-bin-7-line',
-                                                            color: 'danger',
-                                                            attributes: {
-                                                                type: 'submit',
-                                                                title: 'delete'|trans,
-                                                            }
-                                                        }) }}
-                                                    </form>
-                                                {% endblock %}
-                                            {% endembed %}
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                            {% endif %}
-                        {% else %}
-                            <tr><td colspan="2">{% trans %}no.stack.types{% endtrans %}</td></tr>
-                        {% endfor %}
-                    {% endblock %}
-                {% endembed %}
-            </article>
-        {% endif %}
-
-        {% if translationForm %}
-            <article>
-                <h2 id="add-node-translation">{% trans %}translate.node{% endtrans %}</h2>
-                {% form_theme translationForm '@RoadizRozier/forms.html.twig' %}
-                {{ form_start(translationForm) }}
-                    {{ form_widget(translationForm) }}
-                    <fieldset data-uk-margin>
-                        <button class="uk-button uk-button-primary" type="submit">
-                            <i class="uk-icon-flag"></i> {% trans %}translate{% endtrans %}
-                        </button>
-                    </fieldset>
-                {{ form_end(translationForm) }}
-            </article>
-        {% endif %}
+    {% include '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
+        item: node,
+        additional_rows: [[{ tag: 'th', content: 'position'|trans }, { tag: 'td', content: node.position }]],
+    } only %}
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
 </section>
