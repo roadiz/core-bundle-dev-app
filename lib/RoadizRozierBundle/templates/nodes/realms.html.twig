@@ -6,43 +6,41 @@
 {% block title %}{{ "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global">
-        {% include '@RoadizRozier/nodes/head.html.twig' with {
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title,
+        current: 'realm',
+        with_info_badge: true,
+        with_status_badge: true,
+        with_nav_bar: true,
+    } only %}
+
+    <section class="rz-page__body">
+        {% include '@RoadizRozier/nodes/realms_table.html.twig' with {
+            nodeRealms: nodeRealms,
             node: node,
-            title: "edit.node.%name%.realms"|trans({'%name%': currentTitle})|truncate_title,
-            current: 'realm',
-            with_info_badge: true,
-            with_status_badge: true,
-            with_nav_bar: true,
-        } only %}
+            actions_available: true,
+        } %}
+        <hr>
 
-        <article>
-            {% include '@RoadizRozier/nodes/realms_table.html.twig' with {
-                nodeRealms: nodeRealms,
-                node: node,
-	            actions_available: true,
-            } %}
-            <hr>
-
-                {% if form %}
-                    <div>
-                        <h3 class="text-h1-sm">{% trans %}join.a.realm{% endtrans %}</h3>
-                        {% form_theme form '@RoadizRozier/forms.html.twig' %}
-                        {{ form_start(form) }}
-                        {{ form_widget(form) }}
-                        <div class="rz-form-field rz-form-field--align-start">
-                            <button class="rz-button rz-button--primary" type="submit">
-                                <span class="rz-button__label">{% trans %}join.realm{% endtrans %}</span>
-                                <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                            </button>
-                        </div>
-                        {{ form_end(form) }}
+            {% if form %}
+                <div>
+                    <h3 class="text-h1-sm">{% trans %}join.a.realm{% endtrans %}</h3>
+                    {% form_theme form '@RoadizRozier/forms.html.twig' %}
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class="rz-form-field rz-form-field--align-start">
+                        <button class="rz-button rz-button--primary" type="submit">
+                            <span class="rz-button__label">{% trans %}join.realm{% endtrans %}</span>
+                            <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                        </button>
                     </div>
-                {% endif %}
+                    {{ form_end(form) }}
+                </div>
+            {% endif %}
 
-            </div>
-        </article>
+        </div>
+    </section >
 
-        {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
-    </section>
+    {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
 {% endblock %}

@@ -1,6 +1,7 @@
 .rz-page-header {
 	display: flex;
 	flex-direction: column;
+	padding-bottom: var(--spacing-4xs);
 }
 
 .rz-page-header__row {

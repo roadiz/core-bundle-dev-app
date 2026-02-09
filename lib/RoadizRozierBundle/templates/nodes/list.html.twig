@@ -24,11 +24,11 @@
         statusNodesForm: statusNodesForm,
     } only %}
 
-    <article>
+    <section class="rz-page__body">
         {% include '@RoadizRozier/nodes/list_table.html.twig' with {
             selection_available: true,
             actions_available: true,
         } %}
-    </article>
+    </section>
 </rz-bulk-section>
 {% endblock %}
