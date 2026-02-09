@@ -56,7 +56,7 @@
                 {% endif %}
             {% endfor %}
             {% if defaultGroup %}
-                {% set orderedGroups = [{ 'code': 'default', 'data': defaultGroup }] |merge(orderedGroups) %}
+                {% set orderedGroups = [{ 'code': 'default', 'data': defaultGroup }]|merge(orderedGroups) %}
             {% endif %}
 
             {% if orderedGroups|length > 1 %}
