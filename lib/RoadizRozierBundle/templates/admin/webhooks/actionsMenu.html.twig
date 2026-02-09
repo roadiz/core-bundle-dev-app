@@ -5,12 +5,12 @@
 } only %}
     {% block items %}
         {% if item.id and is_granted('ROLE_ACCESS_WEBHOOKS') %}
+            {{ _self.deleteItem(href: path('webhooksDeletePage', { id: item.id })) }}
             {{ _self.item(
                 label: 'webhook.trigger',
                 href: path('webhooksTriggerPage', { id: item.id }),
                 icon: 'rz-icon-ri--space-ship-line'
             ) }}
-            {{ _self.deleteItem(href: path('webhooksDeletePage', { id: item.id })) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

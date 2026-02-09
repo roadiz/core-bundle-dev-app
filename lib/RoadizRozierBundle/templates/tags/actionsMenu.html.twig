@@ -10,6 +10,9 @@
     max_versions_showed: max_versions_showed
 } only %}
     {% block items %}
+        {% if tag.id and (is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked and not readOnly) %}
+            {{ _self.deleteItem(href: path('tagsDeletePage', { tagId: tag.getId })) }}
+        {% endif %}
         {% if versions and versions|length > 1 %}
             {% set version_popover_id = 'version-popover-menu' %}
             <rz-popover
@@ -57,10 +60,6 @@
                     {% endblock %}
                 {% endembed %}
             </rz-popover>
-        {% endif %}
-
-        {% if tag.id and (is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked and not readOnly) %}
-            {{ _self.deleteItem(href: path('tagsDeletePage', { tagId: tag.getId })) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

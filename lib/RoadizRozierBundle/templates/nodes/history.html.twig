@@ -3,7 +3,6 @@
 {% block title %}{{ "history.for.%name%"|trans({"%name%":node.nodeName}) }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         title: "history.for.%name%"|trans({"%name%":node.nodeName}),
@@ -13,18 +12,18 @@
         with_status_badge: true,
         with_nav_bar: true,
     } only %}
+
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
     }  only %}
 
-    <article>
+    <section class="rz-page__body">
         {% include '@RoadizRozier/history/list_table.html.twig' with {
             levels: levels,
             log_list: entries
         } only %}
-    </article>
+    </section>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
-</section>
 {% endblock %}

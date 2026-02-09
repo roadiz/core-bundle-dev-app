@@ -38,7 +38,7 @@
             {% if target is defined and target %} target="{{ target }}"{% endif %}
         >
             {% if icon is defined and icon %}
-                <span class="{{ icon }}"></span>
+                <span class="rz-menu-bar__icon {{ icon }}"></span>
             {% endif %}
             {% if label is defined and label and not iconOnly %}
                 {{- label|trans -}}

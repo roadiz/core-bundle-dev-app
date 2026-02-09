@@ -5,7 +5,6 @@
 {% block title %}{{ "edit.node.%name%.seo"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         title: "edit.node.%name%.seo"|trans({'%name%': currentTitle})|truncate_title,
@@ -21,7 +20,7 @@
         route: 'nodesEditSEOPage',
     } only %}
 
-    <article class="content content-node-edit-seo">
+    <section class="rz-page__body">
         {% if seoForm %}
             <h2 class="text-h1-sm">{% trans %}edit.node.seo{% endtrans %}</h2>
 
@@ -142,8 +141,7 @@
                 {% endif %}
             {% endblock %}
         {% endembed %}
-    </article>
+    </section>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
-</section>
 {% endblock %}
