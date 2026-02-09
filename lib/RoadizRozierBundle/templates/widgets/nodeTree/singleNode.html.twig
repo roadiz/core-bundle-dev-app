@@ -107,35 +107,37 @@
 
 
             {% block before_actions %}
-                <div class="rz-tree__item__tags">
-                    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                    {% if item.isHome %}
-                        {{ rz_badge.item({
-                            size: 'xs',
-                            color: 'default',
-                            'icon': 'rz-icon-ri--home-2-fill',
-                            attributes: {
-                                title: 'node.home'|trans,
-                            }
-                        }) }}
-                    {% endif %}
-
-                    {% set tags = nodeTree.getTags(item) %}
-                    {% if tags|length and nodeTree.isStackTree %}
-                        {% for tag in tags %}
-                            {% set label = tag.name|default(tag.tagName) %}
+                {% set tags = nodeTree.getTags(item) %}
+                {% if item.isHome or tags|length %}
+                    <div class="rz-tree__item__tags">
+                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                        {% if item.isHome %}
                             {{ rz_badge.item({
-                                label: label|truncate_title(12, '...'),
-                                size: 'sm',
+                                size: 'xs',
                                 color: 'default',
+                                'icon': 'rz-icon-ri--home-2-fill',
                                 attributes: {
-                                    href: '?tagId=' ~ tag.id,
-                                    title: label,
+                                    title: 'node.home'|trans,
                                 }
                             }) }}
-                        {% endfor %}
-                    {% endif %}
-                </div>
+                        {% endif %}
+
+                        {% if tags|length and nodeTree.isStackTree %}
+                            {% for tag in tags %}
+                                {% set label = tag.name|default(tag.tagName) %}
+                                {{ rz_badge.item({
+                                    label: label|truncate_title(12, '...'),
+                                    size: 'sm',
+                                    color: 'default',
+                                    attributes: {
+                                        href: '?tagId=' ~ tag.id,
+                                        title: label,
+                                    }
+                                }) }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endif %}
             {% endblock %}
 
 
