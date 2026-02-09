@@ -84,7 +84,7 @@ rz-form-field,
 
 .rz-form-field__description {
     display: block;
-    width: 100%;
+    width: min(100%, 74ch);
     margin-block: var(--rz-form-field-description-margin-block, var(--spacing-6xs) 0);
 
     font-family: var(--font-family-os-text);
