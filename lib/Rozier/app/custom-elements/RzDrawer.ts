@@ -300,7 +300,7 @@ export class RzDrawer extends HTMLElement {
     }
 
     appendItem(item: RzDrawerItem) {
-        if (!this.listElement) {
+        if (!this.listElement || this.itemElements.has(item)) {
             return
         }
 
