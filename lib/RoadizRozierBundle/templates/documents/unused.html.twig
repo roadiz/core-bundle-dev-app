@@ -5,9 +5,7 @@
 {% block header_action_menu %}{% endblock %}
 
 {% block pre_content_body %}
-    <div class="rz-message rz-message--error rz-message--filled">
-        <div class="rz-message__text">
-            {{- 'unused_documents.help'|trans|markdown -}}
-        </div>
+    <div class="rz-message rz-message--warning rz-message__text">
+        {{- 'unused_documents.help'|trans|markdown -}}
     </div>
 {% endblock %}
