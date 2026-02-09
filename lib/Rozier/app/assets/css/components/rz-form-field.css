@@ -59,6 +59,7 @@ rz-form-field,
 
 .rz-form-field__head__icon {
     margin-right: var(--spacing-4xs);
+    font-size: 17px;
 }
 
 .rz-form-field__head__label {
