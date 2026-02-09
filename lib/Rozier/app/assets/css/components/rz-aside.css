@@ -61,6 +61,10 @@
 	font-weight: var(--text-form-label-font-weight);
 }
 
+.rz-aside__root-tree-link {
+	display: none;
+}
+
 .rz-aside__button {
 	margin-left: auto;
 }
