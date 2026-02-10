@@ -87,16 +87,17 @@
                                 {{ rz_bulk.select_input({ value: item.id }) }}
                             </td>
                         {% endif %}
-                        <td>
-                            <a href="{{ itemEditUrl }}" class="rz-table__cell--flex">
-                                <rz-entity-thumbnail
-                                    entity-class="App\GeneratedEntity\NSArticle"
-                                    entity-id="{{ item.id }}"
-                                ></rz-entity-thumbnail>
-                                <span class="rz-table__cell--ellipsis">
-                                    {{ item.title }}
-                                </span>
-                            </a>
+                        <td  class="rz-table__cell--flex">
+                            <rz-entity-thumbnail
+                                entity-class="App\GeneratedEntity\NSArticle"
+                                entity-id="{{ item.id }}"
+                            ></rz-entity-thumbnail>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: item.title,
+                                class: "rz-table__cell--ellipsis",
+                                attributes: { href: itemEditUrl },
+                            }) }}
                         </td>
                         <td>{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
                         <td>{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
