@@ -64,9 +64,11 @@
 						entity-id="{{ item.id }}"
 					></rz-entity-thumbnail>
 					{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
-						<a href="{{ path('usersEditPage', { id: item.id }) }}">
-							{{- item.username|u.truncate(30) -}}
-						</a>
+						{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+						{{ rz_link.root({
+							label: item.username|u.truncate(30),
+							attributes: { href: path('usersEditPage', { id: item.id })  },
+						}) }}
 					{% else %}
 						{{- item.username|u.truncate(30) -}}
 					{% endif %}

@@ -59,7 +59,11 @@
                     </td>
                 {% endif %}
                 <td>
-                    <a href="{{ url }}">{{ item.query }}</a>
+                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                    {{ rz_link.root({
+                        label: item.query,
+                        attributes: { href: url },
+                    }) }}
                 </td>
                 <td>
                     {% if item.redirectNodeSource %}

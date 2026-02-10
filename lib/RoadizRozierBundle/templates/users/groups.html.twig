@@ -35,21 +35,32 @@
                             </td>
                         {% endif %}
                         <td>
-                            <a href="{{ path('groupsEditPage', {'id':group.getId}) }}">{{ group.getName }}</a>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: group.getName,
+                                attributes: { href: path('groupsEditPage', { id: group.getId })  },
+                            }) }}
                         </td>
                         {% if actions_available %}
                         <td>
                             {% if is_granted(group) %}
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
                                     'edit_href': path('groupsEditRolesPage', { id: group.getId }),
                                     'edit_title': 'roles'|trans,
                                     'delete_href': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
                                     'delete_title': 'unlink'|trans,
                                 } only %}
-                                {% endembed %}
                             {% endif %}
                             </td>
                         {% endif %}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        {% set colspan = 1 %}
+                        {% if actions_available %}
+                            {% set colspan = colspan + 1 %}
+                        {% endif %}
+                        <td colspan="{{ colspan }}">{% trans %}no.groups{% endtrans %}</td>
                     </tr>
                 {% endfor %}
             {% endblock %}

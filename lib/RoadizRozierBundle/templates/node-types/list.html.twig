@@ -69,9 +69,11 @@
                              {{ _self.colored_row_attrs({'color': type.color }) }}
                         >
                             <td>
-                                <a href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) }}">
-                                    {{ type.getName }}
-                                </a>
+                                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                {{ rz_link.root({
+                                    label: type.getName,
+                                    attributes: { href: path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) },
+                                }) }}
                             </td>
                             <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
                             <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>

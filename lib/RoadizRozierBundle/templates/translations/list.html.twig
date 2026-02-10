@@ -64,9 +64,11 @@
                 {% for t in translations %}
                     <tr>
                         <td>
-                            <a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">
-                                {{ t.translation.getName }}
-                            </a>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: t.translation.getName,
+                                attributes: { href: path('translationsEditPage', { translationId: t.translation.getId }) },
+                            }) }}
                         </td>
                         <td>{{ t.translation.locale }}</td>
                         <td>{{ t.translation.overrideLocale }}</td>

@@ -12,9 +12,11 @@
                 <td>
                     {% if nodeRealm.realm %}
                         {% if accessRealms %}
-                            <a href="{{ path('realmsEditPage', { id: nodeRealm.realm.id }) }}">
-                                {{ nodeRealm.realm.name }}
-                            </a>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: nodeRealm.realm.name,
+                                attributes: { href: path('realmsEditPage', { id: nodeRealm.realm.id }) },
+                            }) }}
                         {% else %}
                             {{ nodeRealm.realm.name }}
                         {% endif %}

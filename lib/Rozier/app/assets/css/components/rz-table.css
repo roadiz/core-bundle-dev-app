@@ -125,6 +125,12 @@
 	gap: var(--spacing-2xs);
 }
 
+.rz-table__cell--flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .rz-table__cell--rtl {
 	direction: rtl;
 }
