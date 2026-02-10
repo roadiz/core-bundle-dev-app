@@ -82,7 +82,9 @@
 	{% if options.actions_available %}
 		{% set colspan = colspan + 1 %}
 	{% endif %}
-	<td colspan="{{ colspan }}">{{ options.message|default('no.result')|trans }}</td>
+	<tr>
+		<td colspan="{{ colspan }}">{{ options.message|default('no.result')|trans }}</td>
+	</tr>
 {% endmacro %}
 
 
