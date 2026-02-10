@@ -70,6 +70,17 @@
 	{% endif %}
 {% endmacro %}
 
+{% macro fallback_row(options) %}
+	{% set colspan = options.length|default(1) %}
+	{% if options.selection_available %}
+		{% set colspan = colspan + 1 %}
+	{% endif %}
+	{% if options.actions_available %}
+		{% set colspan = colspan + 1 %}
+	{% endif %}
+	<td colspan="{{ colspan }}">{{ options.message|default('no.result')|trans }}</td>
+{% endmacro %}
+
 
 {% macro colored_row_attrs(options = {}, attrs = {}) %}
 	{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}

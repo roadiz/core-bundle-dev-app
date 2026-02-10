@@ -30,7 +30,7 @@
         delete_form_method: 'GET',
     } only %}
 
-    <article>
+    <section class="rz-page__body">
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             sortable: false,
             selection_available: true,
@@ -61,8 +61,8 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': tag.color }) }}
                     >
-                        <td>
-                            {% if selection_available %}
+                        {% if selection_available %}
+                            <td>
                                 {% if can_delete %}
                                     {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
                                     {{ rz_bulk.select_input({ value: tag.id }) }}
@@ -74,8 +74,8 @@
                                         }
                                     }) }}
                                 {% endif %}
-                            {% endif %}
-                        </td>
+                            </td>
+                        {% endif %}
                         <td>
                             {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
@@ -93,17 +93,26 @@
                             {% endif %}
                         </td>
                         <td>{{ tag.id }}</td>
-                        <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                'edit_href': edit_link,
-                                'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
-                            } only %}
-                        </td>
+                        {% if actions_available %}
+                            <td>
+                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': edit_link,
+                                    'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
+                                } only %}
+                            </td>
+                        {% endif %}
                     </tr>
+                {% else %}
+                    {{ _self.fallback_row({
+                        length: 2,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_tags',
+                    }) }}
                 {% endfor %}
             {% endblock %}
         {% endembed %}
-    </article>
+    </section>
 
 </rz-bulk-section>
 {% endblock %}

@@ -69,13 +69,12 @@
 				{% endif %}
 			</tr>
 		{% else %}
-			<tr>
-				{% set colspan = 6 %}
-				{% if actions_available %}
-					{% set colspan = colspan + 1 %}
-				{% endif %}
-				<td colspan="{{ colspan }}">{% trans %}no_attributes{% endtrans %}</td>
-			</tr>
+			{{ _self.fallback_row({
+				length: 6,
+				selection_available: selection_available,
+				actions_available: actions_available,
+				message: 'no_attributes',
+			}) }}
 		{% endfor %}
 	{% endblock %}
 {% endembed %}

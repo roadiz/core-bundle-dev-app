@@ -146,9 +146,12 @@
                 {% endif %}
 			</tr>
 		{% else %}
-			<tr>
-				<td colspan="7">{% trans %}no_users{% endtrans %}</td>
-			</tr>
+			{{ _self.fallback_row({
+				length: 5,
+				selection_available: selection_available,
+				actions_available: actions_available,
+				message: 'no_users',
+			}) }}
 		{% endfor %}
 	{% endblock %}
 {% endembed %}

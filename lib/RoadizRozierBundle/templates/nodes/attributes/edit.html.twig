@@ -99,40 +99,47 @@
                             {% endembed %}
                         </td>
                     </tr>
+                {% else %}
+                    {{ _self.fallback_row({
+                        length: 3,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_attributes',
+                    }) }}
                 {% endfor %}
             {% endblock %}
 
             {% block tfoot_content %}
                 {% if addAttributeForm %}
-                        <tr>
-                            {% form_theme addAttributeForm '@RoadizRozier/forms.html.twig' %}
-                            {% set form_id = 'add-node-attribute-form' %}
-                            {% set attr_field = addAttributeForm.attribute %}
-                            {% set label = field_label(attr_field) %}
-                            {% set id = field_id(attr_field) %}
+                    <tr>
+                        {% form_theme addAttributeForm '@RoadizRozier/forms.html.twig' %}
+                        {% set form_id = 'add-node-attribute-form' %}
+                        {% set attr_field = addAttributeForm.attribute %}
+                        {% set label = field_label(attr_field) %}
+                        {% set id = field_id(attr_field) %}
 
-                            <th class="rz-table__cell--bold" scope="row">
-                                <label for="{{ id }}">{{ label }}</label>
-                            </th>
-                            <td colspan="2">
-                                {{ form_start(addAttributeForm, { attr: { id: form_id } }) }}
-                                    {{ form_row(attr_field, { attr: { class: 'rz-form-field--head-hidden' }}) }}
-                                    {{ form_rest(addAttributeForm) }}
-                                {{ form_end(addAttributeForm) }}
-                            </td>
-                            <td class="rz-table__cell--align-right">
-                                {{ rz_button.root({
-                                    icon: 'rz-icon-ri--add-line',
-                                    emphasis: 'primary',
-                                    size: 'md',
-                                    attributes: {
-                                        type: 'submit',
-                                        form: form_id,
-                                        title: 'add.a.node.attribute'|trans,
-                                    }
-                                }) }}
-                            </td>
-                        </tr>
+                        <th class="rz-table__cell--bold" scope="row">
+                            <label for="{{ id }}">{{ label }}</label>
+                        </th>
+                        <td colspan="2">
+                            {{ form_start(addAttributeForm, { attr: { id: form_id } }) }}
+                                {{ form_row(attr_field, { attr: { class: 'rz-form-field--head-hidden' }}) }}
+                                {{ form_rest(addAttributeForm) }}
+                            {{ form_end(addAttributeForm) }}
+                        </td>
+                        <td class="rz-table__cell--align-right">
+                            {{ rz_button.root({
+                                icon: 'rz-icon-ri--add-line',
+                                emphasis: 'primary',
+                                size: 'md',
+                                attributes: {
+                                    type: 'submit',
+                                    form: form_id,
+                                    title: 'add.a.node.attribute'|trans,
+                                }
+                            }) }}
+                        </td>
+                    </tr>
                 {% endif %}
             {% endblock %}
 

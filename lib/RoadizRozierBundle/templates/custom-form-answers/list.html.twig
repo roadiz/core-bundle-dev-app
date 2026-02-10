@@ -3,77 +3,82 @@
 {% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters">
-        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-            title: customForm.displayName|truncate_title,
-            filters: filters,
-            with_nav_bar: true,
-            current: 'customFormAnswers',
-            type: customForm,
-            buttons: [{
-                label: 'export'|trans,
-                attributes: {
-                    href: path('customFormsExportPage', { id: customForm.id }),
-                },
-                icon: 'rz-icon-ri--download-line'
-            }],
-            with_breadcrumb: true,
-        } only %}
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
-            filters: filters,
-        }  only %}
+    {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+        title: customForm.displayName|truncate_title,
+        filters: filters,
+        with_nav_bar: true,
+        current: 'customFormAnswers',
+        type: customForm,
+        buttons: [{
+            label: 'export'|trans,
+            attributes: {
+                href: path('customFormsExportPage', { id: customForm.id }),
+            },
+            icon: 'rz-icon-ri--download-line'
+        }],
+        with_breadcrumb: true,
+    } only %}
+    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+    }  only %}
 
-        <article>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                actions_available: true,
-            }%}
-                {% block thead_cells %}
-                    <th class="mobile-hidden">
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'ip',
-                            'filters': filters,
-                            'label': 'ip.address'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
-                    </th>
-                    <th class="mobile-hidden">
-                        {% trans %}email{% endtrans %}
-                    </th>
-                    <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'submittedAt',
-                            'filters': filters,
-                            'label': 'submitted.date'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
-                    </th>
-                {% endblock %}
+    <section class="rz-page__body">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            actions_available: true,
+        }%}
+            {% block thead_cells %}
+                <th class="mobile-hidden">
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'ip',
+                        'filters': filters,
+                        'label': 'ip.address'|trans,
+                        'column_ordering_class': column_ordering_class,
+                    } only %}
+                </th>
+                <th class="mobile-hidden">
+                    {% trans %}email{% endtrans %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'submittedAt',
+                        'filters': filters,
+                        'label': 'submitted.date'|trans,
+                        'column_ordering_class': column_ordering_class,
+                    } only %}
+                </th>
+            {% endblock %}
 
-                {% block tbody_content %}
-                    {% for type in custom_form_answers %}
-                        <tr>
-                            <td class="mobile-hidden">{{ type.ip }}</td>
-                            <td class="mobile-hidden">{{ type.email }}</td>
-                            <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
-                            <td class="table-actions-row table-actions-row-2">
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'delete_href': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
-                                } %}
-                                    {% block other_actions %}
-                                        {{ _self.button({
-                                            icon: 'uk-icon-rz-node-type-field',
-                                            attributes: {
-                                                href: path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }),
-                                                title: 'customFormAnswer.answers'|trans,
-                                            }
-                                        }) }}
-                                    {% endblock %}
-                                {% endembed %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endblock %}
-            {% endembed %}
-        </article>
+            {% block tbody_content %}
+                {% for type in custom_form_answers %}
+                    <tr>
+                        <td class="mobile-hidden">{{ type.ip }}</td>
+                        <td class="mobile-hidden">{{ type.email }}</td>
+                        <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
+                        <td class="table-actions-row table-actions-row-2">
+                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'delete_href': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
+                            } %}
+                                {% block other_actions %}
+                                    {{ _self.button({
+                                        icon: 'uk-icon-rz-node-type-field',
+                                        attributes: {
+                                            href: path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }),
+                                            title: 'customFormAnswer.answers'|trans,
+                                        }
+                                    }) }}
+                                {% endblock %}
+                            {% endembed %}
+                        </td>
+                    </tr>
+                {% else %}
+                    {{ _self.fallback_row({
+                        length: 3,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_answers',
+                    }) }}
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </section>
 {% endblock %}
