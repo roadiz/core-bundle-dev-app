@@ -60,6 +60,7 @@
 @import './components/rz-history.css';
 @import './components/rz-node-icon.css';
 @import './components/rz-toast.css';
+@import './components/rz-link.css';
 
 /* Components: Form */
 @import './components/rz-repeatable.css';
