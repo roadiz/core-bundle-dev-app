@@ -9,7 +9,10 @@
 {% set imageWidth = _self.getWidgetAttribute(widget_attributes, 'image-width') %}
 {% set imageHeight = _self.getWidgetAttribute(widget_attributes, 'image-height') %}
 
-<document-alignment-widget class="document-alignment-widget" input-base-name="{{ form.vars.full_name }}">
+<document-alignment-widget
+    class="document-alignment-widget {% if widget_class %}{{ widget_class }}{% endif %}"
+    input-base-name="{{ form.vars.full_name }}"
+>
     <div class="document-alignment-widget__image-wrapper">
         <div class="document-alignment-widget__image-overlay"></div>
         <div class="document-alignment-widget__area">
@@ -30,11 +33,17 @@
         />
     </div>
     <label class="document-alignment-widget__override">
-        <input type="checkbox" class="rz-boolean-checkbox" data-on-text="I" data-off-text="O" />
+        <input type="checkbox" class="rz-switch" data-on-text="I" data-off-text="O" />
         <span>{{ 'document.imageAlignment.override'|trans }}</span>
     </label>
-    <button type="button" class="uk-button uk-button-small document-alignment-widget__reset">
-        <i class="uk-icon-rz-reset"></i>
-        {{ 'document.imageAlignment.reset'|trans }}
-    </button>
+
+    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+    {{ rz_button.root({
+        class: 'document-alignment-widget__reset',
+        icon: 'rz-icon-ri--refresh-line',
+        label: 'document.imageAlignment.reset'|trans,
+        attributes: {
+            type: 'button'
+        }
+    }) }}
 </document-alignment-widget>
