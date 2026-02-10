@@ -2,11 +2,13 @@
 	--rz-tree-indent-width: 24px;
 	--rz-tree-item-height: 28px;
 	--rz-tree-icon-width: 16px;
+	--rz-tree-root-item-margin-block: var(--spacing-4xs);
 }
 
 .rz-tree--child-nodes {
 	--rz-tree-item-height: 50px;
 	--rz-tree-icon-width: 36px;
+	--rz-tree-root-item-margin-block: 0;
 
 	padding: var(--spacing-2xs);
 	min-height: 92px;
@@ -27,6 +29,10 @@
 
 .rz-tree__item {
 	position: relative;
+
+	rz-tree > .rz-tree__list > & {
+		margin-block: var(--rz-tree-root-item-margin-block);
+	}
 
 	/*
 	* For now, there is no way to have recursive CSS variables, so we manually set the depth variable.
@@ -162,7 +168,13 @@
 	flex-shrink: 0;
 	font-size: 16px;
 	opacity: 0;
+	color: var(--node-icon-on-light, #9A9A9A);
 	transition: opacity 0.3s;
+
+	/* First root item has handle visible by default */
+	rz-tree > .rz-tree__list > .rz-tree__item > .rz-tree__item__node > .rz-tree__item__node__inner & {
+		opacity: 1;
+	}
 
 	&:not(.rz-tree__item__handle-locked) {
 		cursor: move;
