@@ -61,21 +61,7 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': tag.color }) }}
                     >
-                        {% if selection_available %}
-                            <td>
-                                {% if can_delete %}
-                                    {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                    {{ rz_bulk.select_input({ value: tag.id }) }}
-                                {% else %}
-                                    {{ rz_badge.item({
-                                        icon: 'rz-icon-ri--lock-2-line',
-                                        attributes: {
-                                            title: 'locked'|trans,
-                                        }
-                                    }) }}
-                                {% endif %}
-                            </td>
-                        {% endif %}
+                        {{ _self.selection_input(selection_available, tag.id, tag.locked) }}
                         <td>
                             {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({

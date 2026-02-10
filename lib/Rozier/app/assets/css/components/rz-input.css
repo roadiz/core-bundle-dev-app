@@ -82,8 +82,13 @@
 		mask-size: 100% 100%;
 	}
 
+	&[disabled] {
+		color: var(--button-basic-high-on_dark-bg-disabled, #4E4E4E);
+		cursor: unset;
+	}
+
 	@media (hover: hover) {
-		&:hover {
+		&:not([disabled]):hover {
 			background-color: var(--form-checkbox-radio-bg-hover, #F2F2F2);
 		}
 	}

@@ -81,12 +81,7 @@
                         translationId: item.translation.id,
                     }) %}
                     <tr>
-                        {% if selection_available %}
-                            <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: item.id }) }}
-                            </td>
-                        {% endif %}
+                        {{ _self.selection_input(selection_available, item.id, item.node.locked) }}
                         <td  class="rz-table__cell--flex">
                             <rz-entity-thumbnail
                                 entity-class="App\GeneratedEntity\NSArticle"
