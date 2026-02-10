@@ -110,10 +110,10 @@
         --rz-menu-bar-item-min-height: 31px;
         --rz-menu-bar-item-padding-inline: var(--spacing-4xs);
 
-        font-size: var(--text-tag-md-font-size);
-        line-height: var(--text-tag-md-line-height);
-        letter-spacing: var(--text-tag-md-letter-spacing);
-        font-weight: var(--text-tag-md-font-weight);
+        font-size: var(--text-tab-md-font-size);
+        line-height: var(--text-tab-md-line-height);
+        letter-spacing: var(--text-tab-md-letter-spacing);
+        font-weight: var(--text-tab-md-font-weight);
     }
 }
 
