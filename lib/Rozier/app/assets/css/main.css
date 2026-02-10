@@ -22,6 +22,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-document-alignment-widget.css';
 @import './components/rz-document-card.css';
 @import './components/rz-search.css';
 @import './components/rz-spinner.css';

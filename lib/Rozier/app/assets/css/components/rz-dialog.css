@@ -90,6 +90,12 @@
 	.rz-dialog__header + & {
 		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
 	}
+
+	&:has(.rz-spinner:only-child) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }
 
 .rz-dialog__footer {
@@ -101,6 +107,10 @@
 	> * + * {
 		margin-left: var(--spacing-5xs);
 	}
+}
+
+.rz-dialog__push-right {
+	margin-right: auto;
 }
 
 .rz-dialog__footer--justify-end {

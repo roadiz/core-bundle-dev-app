@@ -365,6 +365,7 @@
 {%- block document_alignment_widget -%}
     {% include '@RoadizRozier/widgets/documentAlignment.html.twig' with {
         widget_attributes: block('widget_attributes'),
+        widget_class: 'rz-form-field__body',
         id: 'document-edit',
         form: form
     } %}

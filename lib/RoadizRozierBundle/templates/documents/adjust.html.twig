@@ -14,7 +14,13 @@
 
         <article class="content content-document-edit">
             {% if document and document.image %}
-                <blanchette-editor-container data-vuejs src-url="{{ document|url({ 'noProcess': true }) }}" filename="{{ document.filename }}">
+                <blanchette-editor-container
+                    data-vuejs
+                    src-url="{{ document|url({ 'noProcess': true }) }}"
+                    filename="{{ document.filename }}"
+                    width="{{ document.imageWidth }}"
+                    height="{{ document.imageHeight }}"
+                >
                     <div class="hidden">
                         {{ form(file_form) }}
                     </div>
