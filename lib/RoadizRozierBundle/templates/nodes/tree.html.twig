@@ -45,7 +45,7 @@
     } only %}
 
 
-    <article>
+    <section class="rz-page__body">
         {% if availableTags %}
             <div class="available-nodetree-tags uk-visible-large">
                 <a href="?" class="uk-badge{% if not filterTag %} active{% endif %}">{{- 'see_all'|trans -}}</a>
@@ -69,9 +69,11 @@
                 node: specificNodeTree.getRootNode,
             } only %}
         </rz-tree>
-    </article>
+    </section>
+
     {% if node %}
         {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
     {% endif %}
+
 </rz-bulk-section>
 {% endblock %}

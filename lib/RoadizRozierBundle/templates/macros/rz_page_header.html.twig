@@ -62,13 +62,21 @@
                             {%- if breadcrumbsItem.home -%}
                                 <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
                             {%- endif -%}
+                            {% if 'list' in breadcrumbsItem.url %}
+                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                            {% endif %}
                             {{- breadcrumbsItem.label|truncate_title -}}
                         </a>
                     </li>
                 {% endif %}
             {% endfor %}
             <li class="rz-breadcrumb__list-item">
-                <a href="" class="rz-breadcrumb__item" aria-current="page">{{ breadcrumb.current|truncate_title }}</a>
+                <a href="" class="rz-breadcrumb__item" aria-current="page">
+                    {%- if breadcrumb.home -%}
+                        <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
+                    {%- endif -%}
+                    {{ breadcrumb.current|truncate_title }}
+                </a>
             </li>
         </ol>
     </nav>

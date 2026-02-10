@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,6 +28,7 @@ final class NodeDuplicateController extends AbstractController
 {
     public function __construct(
         private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly ManagerRegistry $managerRegistry,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
@@ -53,9 +56,17 @@ final class NodeDuplicateController extends AbstractController
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
-            return $this->render('@RoadizRozier/nodes/duplicate.html.twig', [
-                'node' => $existingNode,
+            return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+                'title' => new UnicodeString($this->translator->trans('duplicate.node')),
+                'headPath' => '@RoadizRozier/nodes/head.html.twig',
+                'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $existingNode->getId()]),
+                'alertMessage' => 'are_you_sure.duplicate.node',
+                'messageType' => 'warning',
+                'action_color' => 'success',
+                'action_label' => $this->translator->trans('duplicate'),
+                'action_icon' => 'rz-icon-ri--file-copy-line',
                 'form' => $form->createView(),
+                'items' => [$this->explorerItemFactory->createForEntity($existingNode)->toArray()],
             ]);
         }
 

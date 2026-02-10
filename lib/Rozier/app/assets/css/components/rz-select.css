@@ -22,6 +22,10 @@
 		background-image: url("assets/img/icons/arrow-down-s-line-on-dark.svg");
 	}
 
+	[multiple="multiple"] {
+		background-image: none;
+	}
+
 	display: block;
 	width: var(--rz-input-width, 100%);
 	border: 1PX solid var(--rz-input-border-color, var(--form-basic-border, #DADADA));

@@ -126,12 +126,7 @@ final class SettingType extends AbstractType
                 ];
             case FieldType::DATETIME_T:
                 return [
-                    'placeholder' => [
-                        'hour' => 'hour',
-                        'minute' => 'minute',
-                    ],
-                    'date_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
+                    'html5' => true,
                     'attr' => [
                         'class' => 'rz-datetime-field',
                     ],

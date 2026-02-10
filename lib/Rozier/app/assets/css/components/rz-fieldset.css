@@ -21,6 +21,10 @@
         border-radius: var(--radius-xs, 6px);
         border: 1px solid var(--line-on-light-secondary, #DADADA);
     }
+
+    rz-form-field > .rz-form-field__head + & {
+        margin-top: var(--rz-form-field-body-margin-top, var(--spacing-4xs));
+    }
 }
 
 :where(.rz-fieldset) {

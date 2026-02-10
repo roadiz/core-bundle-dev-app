@@ -1,11 +1,24 @@
 {% if not source %}
     {% set source = node.nodeSources.first %}
 {% endif %}
+{% if node.parent.shadow == true %}
+    {% set breadcrumbParent = [source|parent(null, true)] %}
+{% else %}
+    {% set breadcrumbParent = source|parents(null, true)|reverse %}
+    {% set homePage = [{
+        type: 'listing',
+        url: path('nodesHomePage'),
+        label: 'all.nodes'|trans,
+    }] %}
+    {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+{% endif %}
+
 {% if source is defined and source %}
     {% set breadcrumb = {
         'label': 'node-breadcrumb',
-        'parent': source|parents(null, true)|reverse,
-        'current': source.title|default(node.nodeName)
+        'parent': breadcrumbParent,
+        'current': source.title|default(node.nodeName),
+        'home': source.node.home,
     } %}
 {% endif %}
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {

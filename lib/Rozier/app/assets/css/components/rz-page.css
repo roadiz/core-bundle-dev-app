@@ -22,3 +22,7 @@
 		padding-inline: var(--spacing-2xs);
 	}
 }
+
+.rz-page__body {
+	padding-top: var(--spacing-4xs);
+}

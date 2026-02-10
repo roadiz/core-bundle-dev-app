@@ -47,6 +47,7 @@ export class RzSearch extends HTMLElement {
 
         this.onInputChange = debounce(this.onInputChange.bind(this), 300)
         this.onKeyDown = this.onKeyDown.bind(this)
+        this.closeDialog = this.closeDialog.bind(this)
     }
 
     updateSpinnerVisibility() {
@@ -245,6 +246,7 @@ export class RzSearch extends HTMLElement {
         }
 
         this.createStatusElements()
+        window.addEventListener('pageshowend', this.closeDialog)
     }
 
     disconnectedCallback() {
@@ -253,6 +255,13 @@ export class RzSearch extends HTMLElement {
         }
 
         this.searchInput?.removeEventListener('input', this.onInputChange)
+        window.removeEventListener('pageshowend', this.closeDialog)
+    }
+
+    closeDialog() {
+        if (!this.dialogElement) return
+
+        this.dialogElement.close()
     }
 
     onKeyDown(event: KeyboardEvent) {

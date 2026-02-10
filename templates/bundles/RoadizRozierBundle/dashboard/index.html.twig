@@ -46,7 +46,20 @@
                                         data-uk-tooltip="{animation:true}"
                                     ></rz-entity-thumbnail>
                                 </td>
-                                <td><a href="{{ path('nodesForwardSourcePage', {nodeSourceId: article.id}) }}">{{ article.title }}</a></td>
+                                <td>
+                                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                    {{ rz_link.root({
+                                        label: article.title,
+                                        attributes: {
+                                            href: path('nodesForwardSourcePage', {nodeSourceId: article.id}),
+                                        },
+                                    }) }}
+                                </td>
+                                {% if article.node.updatedAt is defined %}
+                                <td>
+                                    {{ article.node.updatedAt|format_datetime('medium', 'short', locale=app.request.locale) }}
+                                </td>
+                                {% endif %}
                             </tr>
                         {% else %}
                             <tr>

@@ -175,3 +175,5 @@ fabric.properties
 /.deptrac.cache
 ###< deptrac/deptrac ###
 /phpstan_report.txt
+
+/config/reference.php

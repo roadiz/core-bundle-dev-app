@@ -89,6 +89,10 @@
 	}
 }
 
+.rz-table__link {
+	color: currentColor
+}
+
 .rz-table__ordering-link {
 	display: inline-flex;
 	gap: 4px;
@@ -127,7 +131,7 @@
 
 .rz-table--td-ellipsis td,
 .rz-table__cell--ellipsis {
-	max-width: var(--rz-table-cell-max-width, 20ch);
+	max-width: var(--rz-table-cell-max-width, 26ch);
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;

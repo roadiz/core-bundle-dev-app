@@ -1,6 +1,7 @@
 .rz-page-header {
 	display: flex;
 	flex-direction: column;
+	padding-bottom: var(--spacing-4xs);
 }
 
 .rz-page-header__row {
@@ -8,11 +9,12 @@
 	align-items: center;
 	gap: var(--spacing-4xs);
 	padding-block: var(--spacing-4xs);
+	box-sizing: border-box;
 }
 
 .rz-page-header__row--border {
 	border-bottom: 1PX solid var(--line-on-light-primary, #EAEAEA);
-	min-height: 48px;
+	min-height: 54px;
 }
 
 .rz-page-header__title {

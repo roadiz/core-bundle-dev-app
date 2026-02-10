@@ -43,19 +43,19 @@
     } %}
 
     {% block content_body %}
-    <article class="content">
-        {% block pre_content_body %}{% endblock %}
+        <article>
+            {% block pre_content_body %}{% endblock %}
 
-        <div class="rz-layout-grid">
-            {% for document in documents %}
-                {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
-                    document: document,
-                    thumbnailFormat: thumbnailFormat,
-                    controls: true
-                } only %}
-            {% endfor %}
-        </div>
-	</article>
+            <div class="rz-layout-grid">
+                {% for document in documents %}
+                    {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
+                        document: document,
+                        thumbnailFormat: thumbnailFormat,
+                        controls: true
+                    } only %}
+                {% endfor %}
+            </div>
+        </article>
     {% endblock %}
 </rz-bulk-section>
 {% endblock %}

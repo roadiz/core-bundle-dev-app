@@ -1,6 +1,6 @@
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
     has_header: mainNodeTree,
-    title: 'aside.node_tree.title'|trans,
+    title: 'nodeTree'|trans,
     display_translations: mainNodeTree,
     tree: nodeTree,
 	mainNodeTree: mainNodeTree,
@@ -23,14 +23,15 @@
     {% endblock %}
 
     {% block after_title %}
-        <a
-            class="see-all-root-tree"
-            data-uk-tooltip="{animation:true}"
-            title="{% trans %}see_all{% endtrans %}"
-            href="{{ path('nodesMainTreePage', { translationId: tree.translation.id }) }}"
-        >
-            <span class="rz-icon-ri--search-line"></span>
-        </a>
+        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+        {{ rz_link.root({
+            icon: 'rz-icon-ri--search-line',
+            class: 'rz-aside__root-tree-link',
+            attributes: {
+                href: path('nodesMainTreePage', { translationId: tree.translation.id }),
+                title: 'see_all'|trans,
+            }
+        }) }}
     {% endblock %}
 
     {% block tree_content %}

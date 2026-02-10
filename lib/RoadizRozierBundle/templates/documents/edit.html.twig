@@ -24,8 +24,8 @@
                     <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_only_external{% endtrans %}</p>
                 {% endif %}
 
-                <div class="rz-document-edit">
-                    <div class="rz-document-edit__first-column{% if document.private %} rz-document-edit__first-column--private{% endif %}">
+                <div class="rz-layout-column">
+                    <div class="rz-layout-column__first-column{% if document.private %} rz-layout-column__first-column--private{% endif %}">
                         {% if not document.private %}
                             {% if (document.image or document.svg or document.video or document.audio or document.pdf) and document.isEmbed == false %}
                                 {% set options = {
@@ -64,7 +64,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="rz-document-edit__second-column rz-form__field-list">
+                    <div class="rz-layout-column__second-column rz-form__field-list">
                         {{ form_row(form.filename) }}
                         {{ form_row(form.mimeType) }}
                         {{ form_row(form.newDocument) }}

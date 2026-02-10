@@ -1,3 +1,5 @@
+/* Lot of forms are construct with structure -> form.rz-form > div[id] */
+.rz-form > div[id]:not([class]),
 .rz-form {
 	--rz-form-field-list-gap: var(--spacing-md);
 
