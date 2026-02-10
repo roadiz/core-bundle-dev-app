@@ -56,20 +56,21 @@
                 {% endblock %}
 
                 {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+
                 {%- for item in items -%}
                     {% set path = item.path|split('.') %}
                     {% set entity, field = path[0], path[1] %}
 
-                    {% if item.property.value == 'color' %}
+                    {% set color = '#000000' %}
+                    {% if item.property.value == 'color' and item.value and item.value != '' %}
                         {% set color = item.value %}
-                    {% else %}
-                        {% set color = '#000000' %}
                     {% endif %}
 
                     <tr {{ _self.colored_row_attrs({'color': color }) }}>
                         {% if selection_available %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
                                 {{ rz_bulk.select_input({ value: item.id }) }}
                             </td>
                         {% endif %}
@@ -83,7 +84,6 @@
                         <td class="mobile-hidden">{{ field }}</td>
                         <td class="mobile-hidden">{{ ("nodeTypeDecorator.property." ~ item.property.value)|trans() }}</td>
                         <td class="mobile-hidden">
-                            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
 
                             {% set label = null %}
                             {% set icon = null %}

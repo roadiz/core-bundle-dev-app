@@ -74,7 +74,7 @@
                             {{ rz_bulk.select_input({ value: document.id }) }}
                         </td>
                         {% endif %}
-                        <td class="mobile-hidden rz-table__cell rz-table__cell--flex-center ">
+                        <td class="mobile-hidden rz-table__cell rz-table__cell--flex-center">
                             {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
                                 {{ document|display({
                                     align: document.imageCropAlignment,

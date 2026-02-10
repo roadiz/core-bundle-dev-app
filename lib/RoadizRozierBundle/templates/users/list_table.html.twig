@@ -48,11 +48,14 @@
 	{% endblock %}
 
 	{% block tbody_content %}
+		{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+		{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+		{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
 		{% for item in items %}
 			<tr>
 				{% if selection_available %}
                     <td>
-                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
                         {{ rz_bulk.select_input({ value: item.id }) }}
                     </td>
                 {% endif %}
@@ -64,7 +67,6 @@
 						entity-id="{{ item.id }}"
 					></rz-entity-thumbnail>
 					{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
-						{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
 						{{ rz_link.root({
 							label: item.username|u.truncate(30),
 							attributes: { href: path('usersEditPage', { id: item.id })  },
@@ -85,7 +87,6 @@
 					{% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
 				</td>
 				<td class="mobile-hidden uk-visible-large">
-					{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
 					{% set label_status = item.enabled ? 'user.enabled' : 'user.disabled' %}
 					{% set color_status = item.enabled ? 'success' : 'danger' %}
 					{% set icon_status = item.enabled ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
