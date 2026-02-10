@@ -34,8 +34,8 @@
                         :alt="name"
                         @load="load"
                         ref="image"
-                        :width="width"
-                        :height="height"
+                        :width="width ? width : ''"
+                        :height="height ? height : ''"
                     />
                 </template>
             </div>
@@ -133,6 +133,7 @@ export default {
     methods: {
         ...mapActions(['blanchetteEditorInit', 'blanchetteEditorLoaded', 'blanchetteEditorSave']),
         overwrite() {
+            console.log(this)
             this.blanchetteEditorSave({
                 url: this.url,
                 filename: this.filename,

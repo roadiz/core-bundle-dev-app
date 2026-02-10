@@ -70,7 +70,7 @@
                 class="rz-select toolbar__select"
                 v-model="ratio"
                 :title="translations.aspectRatio"
-                id="blanchette-toolbar-ratio-select"
+                :id="id + '-' + 'blanchette-toolbar-ratio-select'"
                 @change="aspectRatio"
             >
                 <optgroup :label="translations.other">
@@ -186,6 +186,7 @@ export default {
     data() {
         return {
             ratio: 'free',
+            id: this._uid
         }
     },
     mounted() {
