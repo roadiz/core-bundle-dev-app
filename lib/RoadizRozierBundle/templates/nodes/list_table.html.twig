@@ -88,6 +88,13 @@
                     </td>
                 {% endif %}
             </tr>
+        {% else %}
+            {{ _self.fallback_row({
+                length: 4,
+                selection_available: selection_available,
+                actions_available: actions_available,
+                message: 'no_nodes',
+            }) }}
         {% endfor %}
     {% endblock %}
 {% endembed %}
