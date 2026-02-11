@@ -7,7 +7,6 @@
 {%- endblock -%}
 
 {% block content %}
-<section>
     {% include '@RoadizRozier/users/head.html.twig' with {
         title: "edit.user.%name%.roles"|trans({'%name%': user.username })|truncate_title(40),
         with_nav_bar: true,
@@ -16,7 +15,7 @@
         with_breadcrumb: true,
     } only %}
 
-    <article>
+    <section class="rz-page__body">
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             roles: user.roles,
             caption: 'inherited.roles.caption'|trans,
@@ -30,6 +29,13 @@
                     <tr>
                         <td>{{ role }}</td>
                     </tr>
+                {% else %}
+                    {{ _self.fallback_row({
+                        length: 1,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_roles',
+                    }) }}
                 {% endfor %}
             {% endblock %}
         {% endembed %}
@@ -62,13 +68,12 @@
                         {% endif %}
                     </tr>
                 {% else %}
-                    <tr>
-                        {% set colspan = 1 %}
-                        {% if actions_available %}
-                            {% set colspan = colspan + 1 %}
-                        {% endif %}
-                        <td colspan="{{ colspan }}">{% trans %}no.specific.roles{% endtrans %}</td>
-                    </tr>
+                    {{ _self.fallback_row({
+                        length: 1,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_specific_roles',
+                    }) }}
                 {% endfor %}
             {% endblock %}
         {% endembed %}
@@ -91,8 +96,7 @@
                 }) }}
             </div>
         {{ form_end(form) }}
-    </article>
+    </section>
 
     {% include '@RoadizRozier/users/actionsMenu.html.twig' %}
-</section>
 {% endblock %}

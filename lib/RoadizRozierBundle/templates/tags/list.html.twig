@@ -30,7 +30,7 @@
         delete_form_method: 'GET',
     } only %}
 
-    <article>
+    <section class="rz-page__body">
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             sortable: false,
             selection_available: true,
@@ -38,7 +38,6 @@
         } %}
 
             {% block thead_cells %}
-                <th>{% trans %}id{% endtrans %}</th>
                 <th>
                     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                         'field': 'tagName',
@@ -46,14 +45,16 @@
                         'label': 'name'|trans
                     } only %}
                 </th>
+                <th>{% trans %}id{% endtrans %}</th>
             {% endblock %}
 
             {% block tbody_content %}
                 {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
 
                 {% for tag in tags %}
                     {% set translated_tag = tag.getTranslatedTags.first %}
-                    {% set tag_href = translated_tag ?
+                    {% set edit_link = translated_tag ?
                         path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translated_tag.translation.id })
                         : path('tagsEditPage', { tagId: tag.id })
                     %}
@@ -61,28 +62,13 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': tag.color }) }}
                     >
-                            <td>
-                                {% if selection_available %}
-                                    {% if can_delete %}
-                                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                        {{ rz_bulk.select_input({ value: tag.id }) }}
-                                    {% else %}
-                                        {{ rz_badge.item({
-                                            icon: 'rz-icon-ri--lock-2-line',
-                                            attributes: {
-                                                title: 'locked'|trans,
-                                            }
-                                        }) }}
-                                    {% endif %}
-                                {% endif %}
-                            </td>
+                        {{ _self.selection_input(selection_available, tag.id, disabled: not can_delete) }}
                         <td>
-                            <a href="{{ tag_href }}">{{ tag.id }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ tag_href }}">{{ translated_tag.getName|default('tag_' ~ tag.id) }}</a>
+                            {{ rz_link.root({
+                                label: translated_tag.getName|default('tag_' ~ tag.id),
+                                attributes: { href: edit_link },
+                            }) }}
                             {% if not translated_tag %}
-
                                 {{ rz_badge.item({
                                     icon: 'rz-icon-ri--error-warning-line',
                                     color: 'warning',
@@ -92,17 +78,27 @@
                                 }) }}
                             {% endif %}
                         </td>
-                        <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                'edit_href': translated_tag ? path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translated_tag.translation.id }) : path('tagsEditPage', { tagId: tag.id }),
-                                'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
-                            } only %}
-                        </td>
+                        <td>{{ tag.id }}</td>
+                        {% if actions_available %}
+                            <td>
+                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': edit_link,
+                                    'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
+                                } only %}
+                            </td>
+                        {% endif %}
                     </tr>
+                {% else %}
+                    {{ _self.fallback_row({
+                        length: 2,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_tags',
+                    }) }}
                 {% endfor %}
             {% endblock %}
         {% endembed %}
-    </article>
+    </section>
 
 </rz-bulk-section>
 {% endblock %}

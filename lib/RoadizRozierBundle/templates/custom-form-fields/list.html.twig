@@ -3,70 +3,78 @@
 {% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters">
-        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-            title: customForm.displayName|truncate_title,
-            filters: filters,
-            with_nav_bar: true,
-            current: 'customFormFields',
-            type: customForm,
-            buttons: [{
-                label: 'add.a.customFormField'|trans,
-                attributes: {
-                    href: path('customFormFieldsAddPage', {customFormId: customForm.id}),
-                },
-                icon: 'rz-icon-ri--add-line'
-            }],
-            with_breadcrumb: true,
-        } only %}
-        <article>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                actions_available: true,
-            }%}
-                {% block thead_cells %}
-                    <th>{% trans %}label{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
-                    <th class="mobile-hidden">{% trans %}required{% endtrans %}</th>
-                {% endblock %}
+    {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+        title: customForm.displayName|truncate_title,
+        filters: filters,
+        with_nav_bar: true,
+        current: 'customFormFields',
+        type: customForm,
+        buttons: [{
+            label: 'add.a.customFormField'|trans,
+            attributes: {
+                href: path('customFormFieldsAddPage', {customFormId: customForm.id}),
+            },
+            icon: 'rz-icon-ri--add-line'
+        }],
+        with_breadcrumb: true,
+    } only %}
 
-                {% block tbody_content %}
-                    {% for field in fields %}
-                        <tr
-                            data-position="{{ field.position }}"
-                            data-field-id="{{ field.getId }}"
-                        >
-                            <td>
-                                <a
-                                    href="{{ path('customFormFieldsEditPage', { customFormFieldId: field.getId }) }}"
-                                    data-index="{{ loop.index0 }}"
-                                >
-                                    {{- field.label -}}
-                                </a>
-                            </td>
-                            <td class="mobile-hidden">{{ field.typeName|trans }}</td>
-                            <td class="mobile-hidden">{{ field.groupName|trans }}</td>
-                            <td class="mobile-hidden">
-                                {% if field.required %}
-                                    {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
-                                    {{ rz_badge.item({
-                                        icon: 'rz-icon-ri--asterisk',
-                                        attributes: {
-                                            title: 'required'|trans,
-                                        }
-                                    })}}
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': path('customFormFieldsEditPage', { customFormFieldId: field.getId }),
-                                    'delete_href': path('customFormFieldsDeletePage', { customFormFieldId: field.getId }),
-                                } %}
-                            </td>
-                        </tr>
+    <section class="rz-page__body">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            actions_available: true,
+        }%}
+            {% block thead_cells %}
+                <th>{% trans %}label{% endtrans %}</th>
+                <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
+                <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
+                <th class="mobile-hidden">{% trans %}required{% endtrans %}</th>
+            {% endblock %}
+
+            {% block tbody_content %}
+                {% for field in fields %}
+                    <tr
+                        data-position="{{ field.position }}"
+                        data-field-id="{{ field.getId }}"
+                    >
+                        <td>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: field.label,
+                                attributes: {
+                                    href: path('customFormFieldsEditPage', { customFormFieldId: field.getId }),
+                                    'data-index': loop.index0,
+                                },
+                            }) }}
+                        </td>
+                        <td class="mobile-hidden">{{ field.typeName|trans }}</td>
+                        <td class="mobile-hidden">{{ field.groupName|trans }}</td>
+                        <td class="mobile-hidden">
+                            {% if field.required %}
+                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--asterisk',
+                                    attributes: {
+                                        title: 'required'|trans,
+                                    }
+                                })}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                'edit_href': path('customFormFieldsEditPage', { customFormFieldId: field.getId }),
+                                'delete_href': path('customFormFieldsDeletePage', { customFormFieldId: field.getId }),
+                            } %}
+                        </td>
+                    </tr>
+                    {% else %}
+                        {{ _self.fallback_row({
+                            length: 4,
+                            selection_available: selection_available,
+                            actions_available: actions_available,
+                            message: 'no_questions',
+                        }) }}
                     {% endfor %}
-                {% endblock %}
-            {% endembed %}
-        </article>
+            {% endblock %}
+        {% endembed %}
     </section>
 {% endblock %}

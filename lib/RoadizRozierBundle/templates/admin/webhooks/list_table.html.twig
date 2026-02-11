@@ -37,7 +37,7 @@
 					{{ rz_bulk.select_input({ value: item.id }) }}
 				</td>
 				{% endif %}
-				<td>{{- item.description|u.truncate(50) -}}</td>
+				<td title="{{ item.description }}">{{- item.description|centralTruncate(30) -}}</td>
 				<td title="{{ item.messageType }}" class="rz-table__cell--ellipsis rz-table__cell--rtl">
 					{{- item.messageType -}}
 				</td>
@@ -73,7 +73,12 @@
 				{% endif %}
 			</tr>
 		{% else %}
-			<tr><td colspan="6">{% trans %}no_webhooks{% endtrans %}</td></tr>
+			{{ _self.fallback_row({
+				length: 4,
+				selection_available: selection_available,
+				actions_available: actions_available,
+				message: 'no_webhooks',
+			}) }}
 		{% endfor %}
 	{% endblock %}
 {% endembed %}

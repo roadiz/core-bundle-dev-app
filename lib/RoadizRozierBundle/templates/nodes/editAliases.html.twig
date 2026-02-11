@@ -51,9 +51,12 @@
                         'urlAlias': urlAlias
                     } %}
                 {% else %}
-                    <tr>
-                        <td colspan="3">{% trans %}no_alias_found{% endtrans %}</td>
-                    </tr>
+                    {{ _self.fallback_row({
+                        length: 2,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_alias_found',
+                    }) }}
                 {% endfor %}
             {% endblock %}
 
@@ -108,9 +111,12 @@
                         redirection: redirection
                     } %}
                 {% else %}
-                    <tr>
-                        <td colspan="4">{% trans %}no_redirection_found{% endtrans %}</td>
-                    </tr>
+                    {{ _self.fallback_row({
+                        length: 4,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_redirection_found',
+                    }) }}
                 {% endfor %}
             {% endblock %}
 

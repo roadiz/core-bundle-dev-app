@@ -1,6 +1,6 @@
 {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
 	{% block thead_cells %}
-		<th colspan="2">
+		<th>
 			{% if not no_sort %}
 				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
 					'field': 'code',
@@ -12,6 +12,7 @@
 				{% trans %}attributes.code{% endtrans %}
 			{% endif %}
 		</th>
+		<th>{% trans %}translation{% endtrans %}</th>
 		<th>{% trans %}attributes.group{% endtrans %}</th>
 		<th>{% trans %}attributes.form.type{% endtrans %}</th>
 		<th>{% trans %}attributes.usage{% endtrans %}</th>
@@ -34,20 +35,17 @@
 				{{ _self.colored_row_attrs({'color': item.color }) }}
 			>
 				{{ _self.selection_input(selection_available, item.id) }}
-				<td class="name">
-					<a href="{{ path('attributesEditPage', { id: item.id }) }}">
-						<span class="color" style="background-color:{{ item.color|default('transparent') }};"></span>
-						{{ item.code -}}
-					</a>
+				<td>
+					{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+					{{ rz_link.root({
+						label: item.code,
+						attributes: { href: path('attributesEditPage', { id: item.id }) },
+					}) }}
 				</td>
 
 				<td>{{ item.attributeTranslations.first.label -}}</td>
 
-				<td>
-					{%- if item.group -%}
-						{{- item.group.name -}}
-					{%- endif -%}
-				</td>
+				<td>{% if item.group %}{{- item.group.name -}}{% endif %}</td>
 
 				<td>{{- item.typeLabel|trans -}}</td>
 
@@ -58,9 +56,7 @@
 					}) }}
 				</td>
 
-				<td>
-					{{- item.weight -}}
-				</td>
+				<td>{{- item.weight -}}</td>
 
 				{% if actions_available %}
 					<td>
@@ -73,7 +69,12 @@
 				{% endif %}
 			</tr>
 		{% else %}
-			<tr><td colspan="4">{% trans %}no_attributes{% endtrans %}</td></tr>
+			{{ _self.fallback_row({
+				length: 6,
+				selection_available: selection_available,
+				actions_available: actions_available,
+				message: 'no_attributes',
+			}) }}
 		{% endfor %}
 	{% endblock %}
 {% endembed %}

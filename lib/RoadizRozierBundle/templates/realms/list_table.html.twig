@@ -33,7 +33,11 @@
         {% for item in items %}
             <tr>
                 <td>
-                    <a href="{{ path('realmsEditPage', { id: item.id }) }}">{{ item.name }}</a>
+                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                    {{ rz_link.root({
+                        label: item.name,
+                        attributes: { href: path('realmsEditPage', { id: item.id }) },
+                    }) }}
                 </td>
                 <td>{{ ('realm.' ~ item.type)|trans }}</td>
                 <td>{{ ('realm.behaviour_' ~ item.behaviour)|trans }}</td>

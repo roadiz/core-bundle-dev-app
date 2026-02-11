@@ -72,7 +72,12 @@
                             </tr>
                         {% endif %}
                     {% else %}
-                        <tr><td colspan="2">{% trans %}no.stack.types{% endtrans %}</td></tr>
+                        {{ _self.fallback_row({
+                            length: 1,
+                            selection_available: selection_available,
+                            actions_available: actions_available,
+                            message: 'no_stack_types',
+                        }) }}
                     {% endfor %}
                 {% endblock %}
 

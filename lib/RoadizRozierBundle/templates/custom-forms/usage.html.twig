@@ -3,47 +3,52 @@
 {% block title %}{{ customForm.displayName|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section>
-        {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-            title: customForm.displayName,
-            current: 'usage',
-            type: customForm,
-            with_nav_bar: true,
-            with_breadcrumb: true,
-        } only %}
+    {% include '@RoadizRozier/custom-forms/head.html.twig' with {
+        title: customForm.displayName,
+        current: 'usage',
+        type: customForm,
+        with_nav_bar: true,
+        with_breadcrumb: true,
+    } only %}
 
-        <article>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                actions_available: true,
-            } %}
-                {% block thead_cells %}
-                    <th>{% trans %}title{% endtrans %}</th>
-                    <th>{% trans %}usage.fieldName{% endtrans %}</th>
-                {% endblock %}
+    <section class="rz-page__body">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            actions_available: true,
+        } %}
+            {% block thead_cells %}
+                <th>{% trans %}title{% endtrans %}</th>
+                <th>{% trans %}usage.fieldName{% endtrans %}</th>
+            {% endblock %}
 
-                {% block tbody_content %}
-                    {% for usage in usages %}
+            {% block tbody_content %}
+                {% for usage in usages %}
                     {% set source = usage.node.nodeSources.first %}
                     {% set nodeHref = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id}) %}
                     {% set nodeName = source.title ? source.title : source.node.nodeName %}
-                        <tr>
+                    <tr>
+                        <td>
+                            <a href="{{ nodeHref }}">{{ nodeName }}</a>
+                        </td>
+                        <td>{{ usage.fieldName }}</td>
+                        {% if actions_available %}
                             <td>
-                                <a href="{{ nodeHref }}">{{ nodeName }}</a>
+                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': nodeHref,
+                                    'edit_icon': 'rz-icon-ri--eye-line',
+                                    'edit_title': 'view.node'|trans,
+                                } only %}
                             </td>
-                            <td>{{ usage.fieldName }}</td>
-                            {% if actions_available %}
-                                <td>
-                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                        'edit_href': nodeHref,
-                                        'edit_icon': 'rz-icon-ri--eye-line',
-                                        'edit_title': 'view.node'|trans,
-                                    } only %}
-                                </td>
-                            {% endif %}
-                        </tr>
+                        {% endif %}
+                    </tr>
+                    {% else %}
+                        {{ _self.fallback_row({
+                            length: 2,
+                            selection_available: selection_available,
+                            actions_available: actions_available,
+                            message: 'no_usages',
+                        }) }}
                     {% endfor %}
-                {% endblock %}
-            {% endembed %}
-        </article>
+            {% endblock %}
+        {% endembed %}
     </section>
 {% endblock %}

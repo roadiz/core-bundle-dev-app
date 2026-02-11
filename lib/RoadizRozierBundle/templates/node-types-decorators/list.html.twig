@@ -56,45 +56,55 @@
                 {% endblock %}
 
                 {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+
                 {%- for item in items -%}
                     {% set path = item.path|split('.') %}
                     {% set entity, field = path[0], path[1] %}
-                    {% if '' != field %}
-                        {% set color = '#FF0000' %}
-                    {% else %}
-                        {% set color = '#000000' %}
+
+                    {% set color = '#000000' %}
+                    {% if item.property.value == 'color' and item.value and item.value != '' %}
+                        {% set color = item.value %}
                     {% endif %}
-                    <tr style="--rz-accent-color: {{ color }};">
+
+                    <tr {{ _self.colored_row_attrs({'color': color }) }}>
                         {% if selection_available %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
                                 {{ rz_bulk.select_input({ value: item.id }) }}
                             </td>
                         {% endif %}
                         <td>
-                            <a href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}">
-                                <span class="rz-table__color" style="background-color:{{ color|raw }};"></span>
-                                {{- entity -}}
-                            </a>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: entity,
+                                attributes: { href: path('nodeTypeDecoratorsEditPage', { id: item.getId }) },
+                            }) }}
                         </td>
                         <td class="mobile-hidden">{{ field }}</td>
                         <td class="mobile-hidden">{{ ("nodeTypeDecorator.property." ~ item.property.value)|trans() }}</td>
                         <td class="mobile-hidden">
-                            {% if item.property.value == 'field_universal' or item.property.value == 'field_visible' or item.property.value == 'highlighted' %}
-                                {% if item.value == true %}
-                                    <div class="uk-button-status uk-button-check" >
-                                        <i class="uk-icon-check"></i>
-                                    </div>
-                                {% else %}
-                                    <div class="uk-button-status uk-button-close" >
-                                        <i class="uk-icon-close"></i>
-                                    </div>
-                                {% endif %}
-                            {% elseif item.property.value == 'color' and item.value != '' %}
-                                <div class="uk-button-status" style="background-color: {{ item.value }}" title="{{ item.value }}" data-uk-tooltip="{animation:true}">
-                                </div>
+
+                            {% set label = null %}
+                            {% set icon = null %}
+
+                            {% if item.value is same as true or item.value is same as false %}
+                                {% set label = item.value ? 'enabled'|trans : 'disabled'|trans %}
+                                {% set icon = item.value ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
+                            {% elseif item.property.value == 'color' %}
+                                {% set label = item.value %}
+                                {% set icon = 'rz-icon-ri--color-filter-line' %}
                             {% else %}
-                                {{ item.value }}
+                                {% set label = item.value %}
+                            {% endif %}
+
+                            {% if label != '' and label != null %}
+                                {{ rz_badge.item({
+                                    size: 'sm',
+                                    color: 'default',
+                                    label: label,
+                                    icon: icon,
+                                }) }}
                             {% endif %}
                         </td>
                         {% if actions_available %}

@@ -8,29 +8,28 @@
 {%- endblock -%}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters">
-        {% include '@RoadizRozier/tags/head.html.twig' with {
-            title: tTag.getName,
-            filters: filters,
-            with_nav_bar: true,
-            tag: tag,
-            current: 'nodes',
-            available_translations: available_translations,
-            translation: translation,
-            with_breadcrumb: true,
-        } only %}
+    {% include '@RoadizRozier/tags/head.html.twig' with {
+        title: tTag.getName,
+        filters: filters,
+        with_nav_bar: true,
+        tag: tag,
+        current: 'nodes',
+        available_translations: available_translations,
+        translation: translation,
+        with_breadcrumb: true,
+    } only %}
 
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
     }  only %}
 
-        <article>
-            {% include '@RoadizRozier/nodes/list_table.html.twig' with {
-                sortable: false,
-                selection_available: false,
-                actions_available: true,
-            } %}
-        </article>
+    <section>
+        {% include '@RoadizRozier/nodes/list_table.html.twig' with {
+            sortable: false,
+            selection_available: false,
+            actions_available: true,
+            nodes: nodes,
+        } only %}
     </section>
 {% endblock %}
