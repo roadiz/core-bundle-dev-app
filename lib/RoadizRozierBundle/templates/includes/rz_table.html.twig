@@ -76,10 +76,10 @@
 
 {% macro fallback_row(options) %}
 	{% set colspan = options.length|default(1) %}
-	{% if options.selection_available %}
+	{% if options.selection_available|default(false) %}
 		{% set colspan = colspan + 1 %}
 	{% endif %}
-	{% if options.actions_available %}
+	{% if options.actions_available|default(false) %}
 		{% set colspan = colspan + 1 %}
 	{% endif %}
 	<tr>
