@@ -24,7 +24,6 @@
 
     <{{ tag }}
         class="{{ buttonClass }}"
-        title="{{ label }}"
         {% if href is defined and href %} href="{{ href }}"{% endif %}
         {% if tag == 'button' %}aria-expanded="false"{% endif %}
         {% if component %}
@@ -42,6 +41,9 @@
             <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-right-line"></span>
         {% elseif hasChildren %}
             <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-down-s-line"></span>
+        {% endif %}
+        {% if buttonOptions.rightElement %}
+            {{ buttonOptions.rightElement|raw }}
         {% endif %}
     </{{ tag }}>
 {% endmacro %}
