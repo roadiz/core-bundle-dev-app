@@ -3669,6 +3669,18 @@
         <source>nodeType.name.alreadyExists</source>
         <target state="final">节点类型名称已存在</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="color.system" approved="yes">
+        <source>color.system</source>
+        <target state="final">系统</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.light" approved="yes">
+        <source>color.light</source>
+        <target state="final">浅色</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.dark" approved="yes">
+        <source>color.dark</source>
+        <target state="final">深色</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="color.should.be.formatted.in.hexadecimal" approved="yes">
         <source>color.should.be.formatted.in.hexadecimal</source>
         <target state="final">颜色的格式必须是十六进制表示法。</target>
