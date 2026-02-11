@@ -43,6 +43,7 @@
     {% endblock %}
 
     {% block tbody_content %}
+        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
         {% for item in items %}
             <tr>
                 {% set url = path('redirectionsEditPage', { id: item.id }) %}
@@ -59,7 +60,10 @@
                     </td>
                 {% endif %}
                 <td>
-                    <a href="{{ url }}">{{ item.query }}</a>
+                    {{ rz_link.root({
+                        label: item.query,
+                        attributes: { href: url },
+                    }) }}
                 </td>
                 <td>
                     {% if item.redirectNodeSource %}
@@ -81,7 +85,12 @@
                 {% endif %}
             </tr>
         {% else %}
-            <tr><td colspan="5">{% trans %}no_redirections{% endtrans %}</td></tr>
+            {{ _self.fallback_row({
+                length: 4,
+                selection_available: selection_available,
+                actions_available: actions_available,
+                message: 'no_redirections',
+            }) }}
         {% endfor %}
     {% endblock %}
 {% endembed %}

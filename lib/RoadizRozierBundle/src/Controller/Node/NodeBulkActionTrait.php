@@ -426,4 +426,102 @@ trait NodeBulkActionTrait
 
         return $builder->getForm();
     }
+
+    /**
+     * @throws RuntimeError
+     */
+    public function bulkUndeleteAction(Request $request): Response
+    {
+        if (empty($request->get('undeleteForm')['nodesIds'])) {
+            throw new ResourceNotFoundException();
+        }
+
+        $nodesIds = trim((string) $request->get('undeleteForm')['nodesIds']);
+        $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
+        array_filter($nodesIds);
+
+        /** @var Node[] $nodes */
+        $nodes = $this->allStatusesNodeRepository->findBy([
+            'id' => $nodesIds,
+        ]);
+
+        if (0 === count($nodes)) {
+            throw new ResourceNotFoundException();
+        }
+
+        $items = [];
+        foreach ($nodes as $node) {
+            $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
+        }
+
+        $form = $this->buildBulkUndeleteForm(
+            $nodesIds
+        );
+        $form->handleRequest($request);
+        if ($request->get('confirm') && $form->isSubmitted() && $form->isValid()) {
+            $msg = $this->bulkUndeleteNodes($form->getData());
+            $this->logTrail->publishConfirmMessage($request, $msg);
+
+            return $this->redirectToRoute('nodesHomePage');
+        }
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => new UnicodeString($this->translator->trans('undelete.nodes')),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesHomePage'),
+            'alertMessage' => 'are_you_sure.undelete.these.nodes',
+            'action_label' => 'undelete.nodes.all',
+            'action_icon' => 'rz-icon-ri--device-recover-line',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
+    }
+
+    private function buildBulkUndeleteForm(
+        array $nodesIds = [],
+    ): FormInterface {
+        /** @var FormBuilder $builder */
+        $builder = $this->formFactory
+            ->createNamedBuilder('undeleteForm')
+            ->add('nodesIds', HiddenType::class, [
+                'data' => json_encode($nodesIds, flags: JSON_THROW_ON_ERROR),
+                'attr' => ['class' => 'bulk-form-value'],
+                'constraints' => [
+                    new NotNull(),
+                    new NotBlank(),
+                ],
+            ]);
+
+        $builder->setAction('?confirm=1');
+
+        return $builder->getForm();
+    }
+
+    private function bulkUndeleteNodes(array $data): string
+    {
+        if (!empty($data['nodesIds'])) {
+            $nodesIds = trim((string) $data['nodesIds']);
+            $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
+            array_filter($nodesIds);
+
+            $nodes = $this->allStatusesNodeRepository
+                ->findBy([
+                    'id' => $nodesIds,
+                ]);
+
+            /** @var Node $node */
+            foreach ($nodes as $node) {
+                /** @var NodeHandler $handler */
+                $handler = $this->handlerFactory->getHandler($node);
+                $handler->softUnremoveWithChildren();
+            }
+
+            $this->managerRegistry->getManager()->flush();
+
+            return $this->translator->trans('nodes.bulk.undeleted');
+        }
+
+        return $this->translator->trans('wrong.request');
+    }
 }

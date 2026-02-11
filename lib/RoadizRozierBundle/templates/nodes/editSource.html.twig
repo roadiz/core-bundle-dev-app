@@ -5,7 +5,6 @@
 {% import "@RoadizRozier/macros/rz_page_header.html.twig" as page_header %}
 
 {% block content %}
-<section class="content-global">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         title: ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false),
@@ -20,7 +19,7 @@
         source: source,
     } only %}
 
-    <div class="content content-node-edit-source">
+    <section class="rz-page__body">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-node-source-form'}}) }}
             {% set groups = {} %}
@@ -106,8 +105,7 @@
             {{ actions_menu.saveItem('#edit-node-source-form') }}
         {% endif %}
         {{ form_end(form) }}
-    </div>
+    </section>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
-</section>
 {% endblock %}

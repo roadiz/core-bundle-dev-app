@@ -17,8 +17,13 @@
 	padding-inline: var(--spacing-4xs);
 	transition: translate 0.4s;
 	box-sizing: border-box;
+	padding-bottom: var(--spacing-lg);
 
 	@media (--screen-sm-min) {
 		padding-inline: var(--spacing-2xs);
 	}
+}
+
+.rz-page__body {
+	padding-top: var(--spacing-4xs);
 }

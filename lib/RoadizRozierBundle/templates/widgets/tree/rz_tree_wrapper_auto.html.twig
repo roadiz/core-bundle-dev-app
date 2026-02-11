@@ -1,7 +1,7 @@
 {% embed '@RoadizRozier/widgets/rz_tree_wrapper.html.twig' with {
     has_header: mainTree,
     title: tree_type == 'node'
-        ? 'aside.node_tree.title'|trans
+        ? 'nodeTree'|trans
         : tree_type == 'tag'
         ? 'tagTree'|trans
         : 'folderTree'|trans,
@@ -62,14 +62,15 @@
     {# ===================== #}
     {% block after_title %}
         {% if tree_type == 'node' and tree is defined %}
-            <a
-                class="see-all-root-tree"
-                data-uk-tooltip="{animation:true}"
-                title="{% trans %}see_all{% endtrans %}"
-                href="{{ path('nodesMainTreePage', { translationId: tree.translation.id }) }}"
-            >
-                <span class="rz-icon-ri--search-line"></span>
-            </a>
+            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+            {{ rz_link.root({
+                icon: 'rz-icon-ri--search-line',
+                class: 'rz-aside__root-tree-link',
+                attributes: {
+                    href: path('nodesMainTreePage', { translationId: tree.translation.id }),
+                    title: 'see_all'|trans,
+                }
+            }) }}
         {% endif %}
     {% endblock %}
 

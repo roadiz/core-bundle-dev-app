@@ -70,3 +70,22 @@
 	--rz-input-color: var(--status-error, #E54457);
 	--rz-input-border-color: var(--status-error, #E54457);
 }
+
+[is="rz-select"][multiple],
+.rz-select[multiple] {
+	background-image: none;
+	padding: 11PX 0 10PX 12PX;
+
+	option {
+		padding-block: 4px;
+	}
+
+	option:checked {
+		color: light-dark(var(--color-black-100), var(--color-white-100))!important;
+		box-shadow: 0 0 0 100px light-dark(var(--color-black-70), var(--color-grey-100)) inset;
+	}
+
+	&:focus option:checked {
+		box-shadow: 0 0 0 100px light-dark(var(--color-black-100), var(--color-white-100)) inset;
+	}
+}

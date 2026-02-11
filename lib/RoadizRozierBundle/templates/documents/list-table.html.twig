@@ -74,33 +74,30 @@
                             {{ rz_bulk.select_input({ value: document.id }) }}
                         </td>
                         {% endif %}
-                        <td class="mobile-hidden">
-                            <figure class="document-image">
-                                {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
-                                    {{ document|display({
-                                        picture: true,
-                                        align: document.imageCropAlignment,
-                                        hotspot: document.hotspotAsString,
-                                        width: 64,
-                                        crop: '1:1',
-                                        quality: 60
-                                    }) }}
-                                {% endif %}
-                                {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
-                                    {{ rz_badge.item({
-                                        icon: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
-                                        size: 'md',
-                                    })}}
-                                {% endif %}
-                            </figure>
+                        <td class="mobile-hidden rz-table__cell rz-table__cell--flex-center">
+                            {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
+                                {{ document|display({
+                                    align: document.imageCropAlignment,
+                                    hotspot: document.hotspotAsString,
+                                    width: 54,
+                                    crop: '1:1',
+                                    quality: 70,
+                                    class: 'rz-entity-thumbnail'
+                                }) }}
+                            {% endif %}
+                            {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
+                                {{ rz_badge.item({
+                                    icon: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
+                                    size: 'md',
+                                })}}
+                            {% endif %}
                         </td>
                         <td>
-                            <a
-                                class="rz-table__link"
-                                href="{{ path('documentsEditPage', { documentId: document.id }) }}"
-                            >
-                                {{ document|centralTruncate(30, -4) }}
-                            </a>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: document|centralTruncate(30, -4),
+                                attributes: { href: path('documentsEditPage', { documentId: document.id }) },
+                            }) }}
                         </td>
                         <td class="mobile-hidden">
                             {{ document.createdAt|format_datetime('short', 'short') }}

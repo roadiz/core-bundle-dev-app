@@ -7,7 +7,6 @@
 {%- endblock -%}
 
 {% block content %}
-<section>
     {% include '@RoadizRozier/users/head.html.twig' with {
         title: "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title(40),
         with_nav_bar: true,
@@ -16,7 +15,7 @@
         with_breadcrumb: true,
     } only %}
 
-    <article class="content content-user-groups">
+    <section class="rz-page__body">
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             selection_available: false,
             actions_available: true,
@@ -35,23 +34,33 @@
                             </td>
                         {% endif %}
                         <td>
-                            <a href="{{ path('groupsEditPage', {'id':group.getId}) }}">{{ group.getName }}</a>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: group.getName,
+                                attributes: { href: path('groupsEditPage', { id: group.getId })  },
+                            }) }}
                         </td>
                         {% if actions_available %}
-                        <td>
-                            {% if is_granted(group) %}
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': path('groupsEditRolesPage', { id: group.getId }),
-                                    'edit_title': 'roles'|trans,
-                                    'delete_href': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
-                                    'delete_title': 'unlink'|trans,
-                                } only %}
-                                {% endembed %}
-                            {% endif %}
+                            <td>
+                                {% if is_granted(group) %}
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': path('groupsEditRolesPage', { id: group.getId }),
+                                        'edit_title': 'roles'|trans,
+                                        'delete_href': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
+                                        'delete_title': 'unlink'|trans,
+                                    } only %}
+                                {% endif %}
                             </td>
                         {% endif %}
                     </tr>
-                {% endfor %}
+                    {% else %}
+                        {{ _self.fallback_row({
+                            length: 1,
+                            selection_available: selection_available,
+                            actions_available: actions_available,
+                            message: 'no_groups',
+                        }) }}
+                    {% endfor %}
             {% endblock %}
         {% endembed %}
 
@@ -73,7 +82,7 @@
                 }) }}
             </div>
         {{ form_end(form) }}
-    </article>
+    </section>
+
     {% include '@RoadizRozier/users/actionsMenu.html.twig' %}
-</section>
 {% endblock %}

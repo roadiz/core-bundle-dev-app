@@ -6,7 +6,6 @@
 {% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
         title: "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title,
@@ -16,8 +15,7 @@
         with_nav_bar: true,
     } only %}
 
-    <article class="content content-node-translate">
-        <div class="content-table-cont">
+    <section class="rz-page__body">
         {% if form %}
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
             {{ form_start(form) }}
@@ -31,9 +29,7 @@
                 <p class="rz-message__text">{% trans %}no_more_translation_available{% endtrans %}</p>
             </div>
         {% endif %}
-        </div>
-    </article>
+    </section>
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
-</section>
 {% endblock %}

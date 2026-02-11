@@ -6,13 +6,13 @@
     {% block items %}
         {% if (is_granted('ROLE_ACCESS_CUSTOMFORMS_DELETE')) %}
             {% if item.id %}
+                {{ _self.deleteItem(href: path('customFormsDeletePage', { id: item.id })) }}
                 {{ _self.item(
                     label: 'customForm.duplicate',
                     class: 'rz-button--tertiary',
                     href: path('customFormsDuplicatePage', { id: item.id}) ,
                     icon: 'rz-icon-ri--file-copy-line'
                 ) }}
-                {{ _self.deleteItem(href: path('customFormsDeletePage', { id: item.id })) }}
             {% endif %}
         {% endif %}
     {% endblock %}

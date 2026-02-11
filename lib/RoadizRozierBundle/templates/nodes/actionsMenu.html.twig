@@ -12,6 +12,47 @@
 } only %}
     {% block items %}
     {% if node %}
+        {% if not readOnly and is_granted('DELETE', node) %}
+            {% set canDelete = workflow_can(node, 'delete') %}
+
+            {% if workflow_can(node, 'undelete') %}
+                {{ _self.item(
+                    class: 'rz-button--primary rz-button--danger',
+                    href: path('nodesUndeletePage', { nodeId: node.getId}),
+                    icon: 'rz-icon-ri--device-recover-line',
+                    attr: {
+                        title: 'undelete'|trans,
+                        'popover-placement': 'left',
+                    }
+                ) }}
+            {% endif %}
+
+            {% if canDelete and node.nodeSources|length > 1 and source %}
+                {{ _self.item(
+                    class: 'rz-button--primary rz-button--danger',
+                    href: path('nodesDeleteSourcePage', { nodeSourceId: source.id }),
+                    icon: 'rz-icon-ri--flag-off-line',
+                    attr: {
+                        title: 'delete.translation'|trans,
+                        'popover-placement': 'left',
+                    }
+                ) }}
+            {% endif %}
+
+            {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
+                {{ _self.deleteItem(
+                    href: path('nodesDeletePage', {
+                        nodeId: node.getId,
+                        referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
+                    }),
+                    attr: {
+                        title: 'delete.node'|trans,
+                        'popover-placement': 'left',
+                    },
+                ) }}
+            {% endif %}
+        {% endif %}
+
         {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
         {% set canPublish = workflow_can(node, 'publish') %}
         {% if not node.isDeleted %}
@@ -219,46 +260,6 @@
             </rz-popover>
         {% endif %}
 
-        {% if not readOnly and is_granted('DELETE', node) %}
-            {% set canDelete = workflow_can(node, 'delete') %}
-
-            {% if workflow_can(node, 'undelete') %}
-                {{ _self.item(
-                    class: 'rz-button--primary rz-button--danger',
-                    href: path('nodesUndeletePage', { nodeId: node.getId}),
-                    icon: 'rz-icon-ri--device-recover-line',
-                    attr: {
-                        title: 'undelete'|trans,
-                        'popover-placement': 'left',
-                    }
-                ) }}
-            {% endif %}
-
-            {% if canDelete and node.nodeSources|length > 1 and source %}
-                {{ _self.item(
-                    class: 'rz-button--primary rz-button--danger',
-                    href: path('nodesDeleteSourcePage', { nodeSourceId: source.id }),
-                    icon: 'rz-icon-ri--flag-off-line',
-                    attr: {
-                        title: 'delete.translation'|trans,
-                        'popover-placement': 'left',
-                    }
-                ) }}
-            {% endif %}
-
-            {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
-                {{ _self.deleteItem(
-                    href: path('nodesDeletePage', {
-                        nodeId: node.getId,
-                        referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
-                    }),
-                    attr: {
-                        title: 'delete.node'|trans,
-                        'popover-placement': 'left',
-                    },
-                ) }}
-            {% endif %}
-        {% endif %}
     {% endif %}
     {% endblock %}
 {% endembed %}

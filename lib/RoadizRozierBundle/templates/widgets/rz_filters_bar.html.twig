@@ -19,7 +19,7 @@
                 type="search"
                 name="search"
                 placeholder="{% trans %}search{% endtrans %}"
-                value="{{ filters.search }}"
+                value="{{ filters.search|default(app.request.get('search') ?? '') }}"
             />
             {% block before_submit %}{% endblock %}
             {{

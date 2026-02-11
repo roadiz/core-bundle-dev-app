@@ -69,8 +69,8 @@ importers:
         specifier: 2.7.16
         version: 2.7.16
       vue-cropperjs:
-        specifier: ^2.1.0
-        version: 2.2.2(vue@2.7.16)
+        specifier: 2.1.0
+        version: 2.1.0(vue@2.7.16)
       vue-js-modal:
         specifier: ^1.2.3
         version: 1.3.35(vue@2.7.16)
@@ -133,8 +133,8 @@ importers:
         specifier: ^9.0.0
         version: 9.8.8
       cropperjs:
-        specifier: ^2.0.1
-        version: 2.0.1
+        specifier: 1.6.2
+        version: 1.6.2
       eslint:
         specifier: ^9.36.0
         version: 9.36.0(jiti@2.6.1)
@@ -229,39 +229,6 @@ packages:
   '@babel/types@7.28.4':
     resolution: {integrity: sha512-bkFqkLhh3pMBUQQkpVgWDWq/lqzc2678eUyDlTBhRqhCHFguYYGM0Efga7tYk4TogG/3x0EEl66/OQ+WGbWB/Q==}
     engines: {node: '>=6.9.0'}
-
-  '@cropper/element-canvas@2.0.1':
-    resolution: {integrity: sha512-OKxq/O0HL9W2JegOsc2zh1NRpERZcLM5+M8aQ/eXdmMcfi1lzosPftag3Irp6pTsVpwV6B6ypIxKESzJ4ci9Fw==}
-
-  '@cropper/element-crosshair@2.0.1':
-    resolution: {integrity: sha512-bS5msU9cTU/jf1/kDw+QJmEM9/rw8IgOdpolR85iMVUCR8sRcLa0wgom42MBHcpBYB6hvL5YfiOeXZ7lHIYMpw==}
-
-  '@cropper/element-grid@2.0.1':
-    resolution: {integrity: sha512-ayqCvYQJ+GVT31HhFpttzHabW1T/LsIwLJY5PLTMG0cEZLw/E8ihg8mxctjZbo852D7oEePbz6/2SeuCb1018Q==}
-
-  '@cropper/element-handle@2.0.1':
-    resolution: {integrity: sha512-fdifyyPIaR9S2eQ7qPHuM8fX8uToAfBsi8vQlR9EM+oJkDNil0uO4rWyArLWEtlr0/q7U0OvsufcuJ7ffqfmpg==}
-
-  '@cropper/element-image@2.0.1':
-    resolution: {integrity: sha512-gPj5Sl2T8Cno198Cz3F3TDfcYoALW3yJ3fV6PHXmhMnX8sBkL7J441do7Vwkg0mEd2CogCtTLAf+p7ljdV0kgA==}
-
-  '@cropper/element-selection@2.0.1':
-    resolution: {integrity: sha512-atv+Aeq2N2eWawelIRPGh1kYFdNrpb0QkUPPheGxz1ImfxpLdcHO9gb9T5noQijizUW2G0pNvts4ZaITQ0I71Q==}
-
-  '@cropper/element-shade@2.0.1':
-    resolution: {integrity: sha512-YIYgJ690NdFQ6wJLRFh/EySNVxGFKArncQ4FrsJ3yHU+ShgtOKz4FpjFLpqJRJB9swoVbD3WKTimGyzXrwjZrQ==}
-
-  '@cropper/element-viewer@2.0.1':
-    resolution: {integrity: sha512-HDj25l08pWi/AO6El/OqfQHBpBC4Lh5NEnQN1SOldsmxEwt27Ubv6ndDsF8LkTK7XPwjjZRpyQPyfig4w8L2JQ==}
-
-  '@cropper/element@2.0.1':
-    resolution: {integrity: sha512-Jn1hR7XWzWQM/QfXRGMGzdkJ2gG/UcLdQPZQ7OKs0JiFfRzKpzu4u/nYrXHeH3MM2iOslLqh2kqYju6mjZLMJQ==}
-
-  '@cropper/elements@2.0.1':
-    resolution: {integrity: sha512-paFbBLXTKXNngn1yDi2ZIf+FO1pIEQXyBntmqOjuxqtG73KuEKv633wsJPFpj958bgcfSakgBbF80j+3nHbPug==}
-
-  '@cropper/utils@2.0.1':
-    resolution: {integrity: sha512-A9RnAFmgNF5aZk5q2VZnFnHtXWu1kPyEN0LVsX8wJ2LBRu2nyETKwz+ZXVsVWliktToCaYojHKrS+6/HODyEZA==}
 
   '@csstools/cascade-layer-name-parser@2.0.5':
     resolution: {integrity: sha512-p1ko5eHgV+MgXFVa4STPKpvPxr6ReS8oS2jzTukjR74i5zJNyWO1ZM1m8YKBXnzDKWfBN1ztLYlHxbVemDD88A==}
@@ -1148,11 +1115,11 @@ packages:
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
 
+  cropperjs@0.8.1:
+    resolution: {integrity: sha512-ClbOgGHiK0KQEdVboqbyDxKgMOtogBOhzBdqEMV3304IXZTo/ggAUUpfY0sfLs3ZuhMUpVUAhYZ3048uqigwag==}
+
   cropperjs@1.6.2:
     resolution: {integrity: sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==}
-
-  cropperjs@2.0.1:
-    resolution: {integrity: sha512-hiJwk2SCPZqxMA7aR3byzLpYUqOrQo+ihMk8k/WRm/xe/LX8wNzAIzMwEB/NEGJYA6sbewxW9TUlrRUYi/2Ipg==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -1705,6 +1672,10 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash.omit@4.5.0:
+    resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -2351,8 +2322,8 @@ packages:
       yaml:
         optional: true
 
-  vue-cropperjs@2.2.2:
-    resolution: {integrity: sha512-LUbdkVZFd1uzytBspMCaoeIJ7xcsJPUmI7qLmzb2wMOhCpLzdWS/o1Sg+LxY1PwbNx/PnQ7EWIT/Tut/E20JkQ==}
+  vue-cropperjs@2.1.0:
+    resolution: {integrity: sha512-UUjC3+Q3IoHGLx8CJT/xUaLfHkpLYM7JYFyz6yYLGx0NMR4SttUOYI1EMMITshoR7nb3rjituz7pDJCdEVyJOQ==}
     peerDependencies:
       vue: '>=2.0.0'
 
@@ -2482,72 +2453,6 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
-
-  '@cropper/element-canvas@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-crosshair@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-grid@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-handle@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-image@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/element-canvas': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-selection@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/element-canvas': 2.0.1
-      '@cropper/element-image': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-shade@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/element-canvas': 2.0.1
-      '@cropper/element-selection': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element-viewer@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/element-canvas': 2.0.1
-      '@cropper/element-image': 2.0.1
-      '@cropper/element-selection': 2.0.1
-      '@cropper/utils': 2.0.1
-
-  '@cropper/element@2.0.1':
-    dependencies:
-      '@cropper/utils': 2.0.1
-
-  '@cropper/elements@2.0.1':
-    dependencies:
-      '@cropper/element': 2.0.1
-      '@cropper/element-canvas': 2.0.1
-      '@cropper/element-crosshair': 2.0.1
-      '@cropper/element-grid': 2.0.1
-      '@cropper/element-handle': 2.0.1
-      '@cropper/element-image': 2.0.1
-      '@cropper/element-selection': 2.0.1
-      '@cropper/element-shade': 2.0.1
-      '@cropper/element-viewer': 2.0.1
-
-  '@cropper/utils@2.0.1': {}
 
   '@csstools/cascade-layer-name-parser@2.0.5(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)':
     dependencies:
@@ -3437,12 +3342,9 @@ snapshots:
   core-util-is@1.0.2:
     optional: true
 
-  cropperjs@1.6.2: {}
+  cropperjs@0.8.1: {}
 
-  cropperjs@2.0.1:
-    dependencies:
-      '@cropper/elements': 2.0.1
-      '@cropper/utils': 2.0.1
+  cropperjs@1.6.2: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -4023,6 +3925,8 @@ snapshots:
       p-locate: 5.0.0
 
   lodash.merge@4.6.2: {}
+
+  lodash.omit@4.5.0: {}
 
   lodash@4.17.21: {}
 
@@ -4676,9 +4580,10 @@ snapshots:
       less: 2.7.3
       terser: 5.44.0
 
-  vue-cropperjs@2.2.2(vue@2.7.16):
+  vue-cropperjs@2.1.0(vue@2.7.16):
     dependencies:
-      cropperjs: 1.6.2
+      cropperjs: 0.8.1
+      lodash.omit: 4.5.0
       vue: 2.7.16
 
   vue-js-modal@1.3.35(vue@2.7.16):

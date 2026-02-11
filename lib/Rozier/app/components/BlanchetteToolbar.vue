@@ -1,148 +1,129 @@
 <template>
-    <div class="toolbar" ref="toolbar">
+    <div class="toolbar rz-button-group" ref="toolbar">
         <template v-if="!cropped">
             <button
-                class="toolbar__button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar__button "
                 :title="translations.move"
                 v-if="setDragMode"
                 @click="setDragMode('move')"
             >
-                <i class="uk-icon-arrows"></i>
+                <span class="rz-button__icon rz-icon-ri--drag-move-2-line"></span>
             </button>
             <button
-                class="toolbar__button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar__button "
                 :title="translations.crop"
                 v-if="setDragMode"
                 @click="setDragMode('crop')"
             >
-                <i class="uk-icon-crop"></i>
+                <span class="rz-button__icon rz-icon-ri--crop-line"></span>
             </button>
             <button
-                class="toolbar_button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar_button "
                 :title="translations.zoomIn"
                 v-if="zoomIn"
                 @click="zoomIn"
             >
-                <i class="uk-icon-search-plus"></i>
+                <span class="rz-button__icon rz-icon-ri--zoom-in-line"></span>
             </button>
             <button
-                class="toolbar_button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar_button "
                 :title="translations.zoomOut"
                 v-if="zoomOut"
                 @click="zoomOut"
             >
-                <i class="uk-icon-search-minus"></i>
+                <span class="rz-button__icon rz-icon-ri--zoom-out-line"></span>
             </button>
             <button
-                class="toolbar_button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar_button "
                 :title="translations.rotateLeft"
                 v-if="rotateLeft"
                 @click="rotateLeft"
             >
-                <i class="uk-icon-rotate-left"></i>
+                <span class="rz-button__icon rz-icon-ri--loop-left-line"></span>
             </button>
             <button
-                class="toolbar_button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar_button "
                 :title="translations.rotateRight"
                 v-if="rotateRight"
                 @click="rotateRight"
             >
-                <i class="uk-icon-rotate-right"></i>
+                <span class="rz-button__icon rz-icon-ri--loop-right-line"></span>
             </button>
             <button
-                class="toolbar_button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar_button "
                 :title="translations.flipHorizontal"
                 v-if="flipHorizontal"
                 @click="flipHorizontal"
             >
-                <i class="uk-icon-arrows-h"></i>
+                <span class="rz-button__icon rz-icon-ri--flip-horizontal-2-line"></span>
             </button>
             <button
-                class="toolbar_button uk-button"
-                data-uk-tooltip
+                class="rz-button toolbar_button "
                 :title="translations.flipVertical"
                 v-if="flipVertical"
                 @click="flipVertical"
             >
-                <i class="uk-icon-arrows-v"></i>
+                <span class="rz-button__icon rz-icon-ri--flip-vertical-2-line"></span>
             </button>
 
-            <div class="toolbar__select_wraper" data-uk-tooltip :title="translations.aspectRatio">
-                <select class="toolbar__select uk-button" v-model="ratio" @change="aspectRatio">
-                    <optgroup :label="translations.other">
-                        <option value="free">{{ translations.free }}</option>
-                        <option value="1:1">1:1</option>
-                        <option value="4:3">4:3</option>
-                    </optgroup>
-                    <optgroup :label="translations.landscape">
-                        <option value="16:9">16:9</option>
-                        <option value="21:9">21:9</option>
-                    </optgroup>
-                    <optgroup :label="translations.portrait">
-                        <option value="9:16">9:16</option>
-                        <option value="9:21">9:21</option>
-                    </optgroup>
-                </select>
-                <i class="uk-icon-arrow-down"></i>
-            </div>
+            <select
+                class="rz-select toolbar__select"
+                v-model="ratio"
+                :title="translations.aspectRatio"
+                :id="id + '-' + 'blanchette-toolbar-ratio-select'"
+                @change="aspectRatio"
+            >
+                <optgroup :label="translations.other">
+                    <option value="free">{{ translations.free }}</option>
+                    <option value="1:1">1:1</option>
+                    <option value="4:3">4:3</option>
+                </optgroup>
+                <optgroup :label="translations.landscape">
+                    <option value="16:9">16:9</option>
+                    <option value="21:9">21:9</option>
+                </optgroup>
+                <optgroup :label="translations.portrait">
+                    <option value="9:16">9:16</option>
+                    <option value="9:21">9:21</option>
+                </optgroup>
+            </select>
 
             <button
-                class="toolbar_button uk-button uk-button-primary"
-                data-uk-tooltip
-                :title="translations.applyChange"
+                class="rz-button toolbar_button"
                 v-if="cropping && !cropped"
                 @click="crop"
             >
-                <i class="uk-icon-check"></i>
+                <span class="rz-button__label">{{ translations.applyChange }}</span>
+                <span class="rz-button__icon rz-icon-ri--check-line"></span>
             </button>
         </template>
 
         <button
-            class="toolbar_button uk-button uk-button-secondary"
-            data-uk-tooltip
+            class="rz-button toolbar_button"
             :title="translations.undo"
-            v-if="cropped"
+             v-if="cropped"
             @click="undo"
         >
-            <i class="uk-icon-undo"></i>
+            <span class="rz-button__label">{{ translations.undo }}</span>
+            <span class="rz-button__icon rz-icon-ri--arrow-go-back-line"></span>
         </button>
         <button
-            class="toolbar_button uk-button uk-button-primary"
-            data-uk-tooltip
-            :title="translations.saveAndOverwrite"
-            v-if="cropped"
+            class="rz-button toolbar_button"
+             v-if="cropped"
             @click="overwrite"
         >
-            <i class="uk-icon-floppy-o"></i> {{ translations.saveAndOverwrite }}
+            <span class="rz-button__label">{{ translations.saveAndOverwrite }}</span>
+            <span class="rz-button__icon rz-icon-ri--save-line"></span>
         </button>
     </div>
 </template>
 <style lang="less" scoped>
 .toolbar {
     margin: 20px 0;
+}
 
-    .toolbar__select_wraper {
-        position: relative;
-        display: inline-block;
-
-        .toolbar__select {
-            padding-right: 30px;
-        }
-
-        i {
-            position: absolute;
-            right: 7px;
-            top: 11px;
-            pointer-events: none;
-        }
-    }
+.toolbar__select {
+    --rz-input-width: auto;
 }
 </style>
 <script>
@@ -205,6 +186,7 @@ export default {
     data() {
         return {
             ratio: 'free',
+            id: this._uid
         }
     },
     mounted() {

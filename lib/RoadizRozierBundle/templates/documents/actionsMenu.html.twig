@@ -10,6 +10,17 @@
     max_versions_showed: max_versions_showed,
 } only %}
     {% block items %}
+        {% if (is_granted('ROLE_ACCESS_DOCUMENTS_DELETE') and not readOnly) %}
+            {% if document.id %}
+                {{ _self.item(
+                    label: 'delete.document',
+                    class: 'rz-button--primary rz-button--danger',
+                    href: path('documentsDeletePage', { documentId: document.id}),
+                    icon: 'rz-icon-ri--delete-bin-7-line'
+                ) }}
+            {% endif %}
+        {% endif %}
+
         {% if versions and versions|length > 1 %}
             <rz-popover popover-placement="left-start" popover-offset="18px">
                 <button popovertarget="version-menu"
@@ -58,17 +69,6 @@
                 href: path('documentsDownloadPage', { documentId: document.id}),
                 icon: 'rz-icon-ri--download-line'
             ) }}
-        {% endif %}
-
-        {% if (is_granted('ROLE_ACCESS_DOCUMENTS_DELETE') and not readOnly) %}
-            {% if document.id %}
-                {{ _self.item(
-                    label: 'delete.document',
-                    class: 'rz-button--primary rz-button--danger',
-                    href: path('documentsDeletePage', { documentId: document.id}),
-                    icon: 'rz-icon-ri--delete-bin-7-line'
-                ) }}
-            {% endif %}
         {% endif %}
     {% endblock %}
 {% endembed %}

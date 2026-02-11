@@ -22,6 +22,7 @@
 @import './icons/index.css';
 
 /* Components */
+@import './components/rz-document-alignment-widget.css';
 @import './components/rz-document-card.css';
 @import './components/rz-search.css';
 @import './components/rz-spinner.css';
@@ -60,6 +61,7 @@
 @import './components/rz-history.css';
 @import './components/rz-node-icon.css';
 @import './components/rz-toast.css';
+@import './components/rz-link.css';
 
 /* Components: Form */
 @import './components/rz-repeatable.css';
@@ -81,6 +83,16 @@
 
 /* standalone element */
 .rz-back-to-top-button {
+	display: none; /* Not useful anymore */
 	margin-block: var(--spacing-4xs);
 	float: right;
+}
+
+
+/* Temporaly fix for horizontal scrollbar
+Don't know why flex item with margin-left auto seems to expand parent width
+can be reproduce with .rz-page-header__row and .rz-page-header__item--right inside
+*/
+html {
+	overflow-x: hidden;
 }

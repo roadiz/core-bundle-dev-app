@@ -31,30 +31,28 @@
     {% endblock %}
 
     {% block tbody_content %}
+        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+
         {% for node in nodes %}
             <tr
                 {{ _self.colored_row_attrs({'color': getNodeType(node).color }) }}
             >
-                {% if selection_available %}
-                    <td>
-                        {% if not node.locked %}
-                           {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                            {{ rz_bulk.select_input({ value: node.id }) }}
-                        {% endif %}
-                    </td>
-                {% endif %}
-                <td class="nodes-list-item-link">
-                    <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}" class="rz-table__cell--flex">
-                        <rz-entity-thumbnail
-                            class="mobile-hidden uk-visible-large"
-                            entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
-                            entity-id="{{ node.id }}"
-                        >
-                        </rz-entity-thumbnail>
-                        <span class="rz-table__cell--ellipsis">
-                            {{ node.nodeSources.first.title|default(node.nodeName) }}
-                        </span>
-                    </a>
+                {{ _self.selection_input(selection_available, node.id, node.locked) }}
+                <td class="rz-table__cell--flex">
+                    <rz-entity-thumbnail
+                        class="mobile-hidden uk-visible-large"
+                        entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
+                        entity-id="{{ node.id }}"
+                    >
+                    </rz-entity-thumbnail>
+                    {% set label = node.nodeSources.first.title|default(node.nodeName)%}
+                    {{ rz_link.root({
+                        label: label|centralTruncate(30, -4),
+                        attributes: {
+                            href: path('nodesEditPage', { nodeId: node.id }),
+                            'aria-label': label,
+                        },
+                    }) }}
                 </td>
                 <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
                 <td class="mobile-hidden uk-visible-large">

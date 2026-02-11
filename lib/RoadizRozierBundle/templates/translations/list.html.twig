@@ -7,8 +7,6 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global edit-translation content-nav-and-filters">
-
     {% include '@RoadizRozier/translations/head.html.twig' with {
         title: 'translations'|trans,
         filters: filters,
@@ -26,7 +24,7 @@
         display_select_all_button: false,
     }  only %}
 
-    <article>
+    <section class="rz-page__body">
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
@@ -61,18 +59,20 @@
             {% endblock %}
 
             {% block tbody_content %}
+                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+
                 {% for t in translations %}
                     <tr>
                         <td>
-                            <a href="{{ path('translationsEditPage', { translationId: t.translation.getId }) }}">
-                                {{ t.translation.getName }}
-                            </a>
+                            {{ rz_link.root({
+                                label: t.translation.getName,
+                                attributes: { href: path('translationsEditPage', { translationId: t.translation.getId }) },
+                            }) }}
                         </td>
                         <td>{{ t.translation.locale }}</td>
                         <td>{{ t.translation.overrideLocale }}</td>
                         <td>
-                            {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
-
                             {% if t.translation.isAvailable == false %}
                                 {{ rz_badge.item({ label: 'not_available'|trans })}}
                             {% endif %}
@@ -114,6 +114,5 @@
                 {% endfor %}
             {% endblock %}
         {% endembed %}
-    </article>
-</section>
+    </section>
 {% endblock %}

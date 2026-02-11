@@ -53,13 +53,16 @@
     >
         {% set search_dialog_id = "search_dialog_id" %}
         <div class="rz-header__li">
+            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
             {{
                 header.button({
                     label: "search"|trans,
                     icon: "rz-icon-ri--search-line",
+                    rightIcon: "rz-icon-ri--arrow-right-up-line",
                     tag: 'button',
                     opentarget: search_dialog_id,
-                    component: "rz-button"
+                    component: "rz-button",
+                    rightElement: rz_badge.item({ label: 'Cmd+k', size: 'sm', color: 'default', class: 'rz-header-nav-item__right-el' }),
                 })
             }}
         </div>

@@ -61,13 +61,30 @@
 </table>
 
 
-{% macro selection_input(selection_available, value) %}
-	{% if selection_available %}
-		<td>
-			{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-			{{ rz_bulk.select_input({ value: value }) }}
-		</td>
+{% macro selection_input(selection_available, value, disabled = false) %}
+	{% set attrs = {} %}
+	{% if disabled is same as(true) %}
+		{% set attrs = attrs|merge({ disabled: '' }) %}
 	{% endif %}
+
+	{% if selection_available %}
+		{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+		<td>{{ rz_bulk.select_input({ value: value }|merge(attrs)) }}</td>
+	{% endif %}
+
+{% endmacro %}
+
+{% macro fallback_row(options) %}
+	{% set colspan = options.length|default(1) %}
+	{% if options.selection_available|default(false) %}
+		{% set colspan = colspan + 1 %}
+	{% endif %}
+	{% if options.actions_available|default(false) %}
+		{% set colspan = colspan + 1 %}
+	{% endif %}
+	<tr>
+		<td colspan="{{ colspan }}">{{ options.message|default('no.result')|trans }}</td>
+	</tr>
 {% endmacro %}
 
 

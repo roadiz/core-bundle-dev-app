@@ -1,0 +1,9 @@
+/* rz-link could be use with rz-button style, use :where to set lower priority in this case */
+:where([is="rz-link"],
+.rz-link) {
+	color: currentColor;
+
+	&.rz-link--ghost {
+		text-decoration: none;
+	}
+}

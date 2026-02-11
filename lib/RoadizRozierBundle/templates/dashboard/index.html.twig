@@ -59,7 +59,13 @@
                                                 {% endif %}
                                             </figure>
                                         </td>
-                                        <td><a href="{{ entityPath }}">{{ log.additionalData.entity_title }}</a></td>
+                                        <td>
+                                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                            {{ rz_link.root({
+                                                label: log.additionalData.entity_title,
+                                                attributes: { href: entityPath },
+                                            }) }}
+                                            </td>
                                         <td>{{ log.additionalData.user_public_name|default(log.username) }}</td>
                                         <td>{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
                                     </tr>
@@ -84,14 +90,15 @@
                         <ul class="rz-dashboard__body-bg">
                             {% for bookmark in bookmarks %}
                                 <li>
-                                    <a
-                                        class="rz-dashboard__text"
-                                        target="_blank"
-                                        rel="nofollow noopener"
-                                        href="{{ bookmark.url }}"
-                                    >
-                                        {{ bookmark.label }}
-                                    </a>
+                                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                    {{ rz_link.root({
+                                        label: bookmark.label,
+                                        class: 'rz-dashboard__text',
+                                        attributes: {
+                                            href: bookmark.url,
+                                            target: '_blank',
+                                        },
+                                    }) }}
                                 </li>
                             {% endfor %}
                         </ul>

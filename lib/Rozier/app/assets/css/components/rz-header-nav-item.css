@@ -57,6 +57,10 @@
 	font-weight: var(--text-label-sm-font-weight);
 }
 
+.rz-header-nav-item__right-el {
+	margin-left: auto;
+}
+
 .rz-header-nav-item__arrow {
 	color: var(--workspace-icon, #BCBCBC);
 	font-size: 20px;

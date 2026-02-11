@@ -45,6 +45,10 @@
 	height: var(--rz-aside-head-height);
 }
 
+.rz-aside__icon {
+	font-size: 16px;
+}
+
 .rz-aside__title {
 	display: flex;
 	align-items: center;
@@ -55,6 +59,10 @@
 	line-height: var(--text-form-label-line-height);
 	letter-spacing: var(--text-form-label-letter-spacing);
 	font-weight: var(--text-form-label-font-weight);
+}
+
+.rz-aside__root-tree-link {
+	display: none;
 }
 
 .rz-aside__button {

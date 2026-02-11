@@ -3,7 +3,6 @@
 {% block title %}{{ "document.%name%.usage"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global manage-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         document: document,
         title: "document.%name%.usage"|trans({'%name%': document})|truncate_title,
@@ -12,50 +11,51 @@
         with_breadcrumb: true,
     } only %}
 
-    <article class="content content-no-action-menu">
-        {% if usages|length %}
-            <h3>{% trans %}nodes{% endtrans %}</h3>
-
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                usages: usages,
-                actions_available: true,
-            } only %}
-                {% block thead_cells %}
-                    <th>{% trans %}title{% endtrans %}</th>
-                    <th>{% trans %}usage.fieldName{% endtrans %}</th>
-                {% endblock %}
-                {% block tbody_content %}
-                    {% for usage in usages %}
-
-                        {% set source = usage.nodeSource %}
-                        {% set edit_href = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id }) %}
-                        <tr>
+    <section>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            usages: usages,
+            actions_available: true,
+        } only %}
+            {% block thead_cells %}
+                <th>{% trans %}node.name{% endtrans %}</th>
+                <th>{% trans %}usage.fieldName{% endtrans %}</th>
+            {% endblock %}
+            {% block tbody_content %}
+                {% for usage in usages %}
+                    {% set source = usage.nodeSource %}
+                    {% set edit_source_link = path('nodesEditSourcePage', { nodeId: source.node.id, translationId: source.translation.id }) %}
+                    <tr>
+                        <td>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: source.title|default(source.node.nodeName),
+                                attributes: { href: edit_source_link },
+                            }) }}
+                        </td>
+                        <td>{{ usage.fieldName }}</td>
+                        {% if actions_available %}
                             <td>
-                                <a href="{{ edit_href }}">
-                                    {% if source.title %}
-                                        {{ source.title }}
-                                    {% else %}
-                                        {{ source.node.nodeName }}
-                                    {% endif %}
-                                </a>
+                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': edit_source_link,
+                                    'edit_icon': 'rz-icon-ri--eye-line',
+                                } %}
                             </td>
-                            <td>{{ usage.fieldName }}</td>
-                            {% if actions_available %}
-                                <td>
-                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                        'edit_href': edit_href,
-                                    } %}
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                {% endblock %}
-            {% endembed %}
-            <hr>
-        {% endif %}
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    {{ _self.fallback_row({
+                        length: 2,
+                        selection_available: selection_available,
+                        actions_available: actions_available,
+                        message: 'no_results',
+                    }) }}
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
 
         {% if attributes|length %}
-            <h3>{% trans %}attributes{% endtrans %}</h3>
+            <hr>
+            <h3 class="text-h1-sm">{% trans %}attributes{% endtrans %}</h3>
             {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
                 {% block thead_cells %}
                     <th>{% trans %}attributes.code{% endtrans %}</th>
@@ -72,9 +72,11 @@
                                     {{ attribute.attributeTranslations.first.label|default(attribute.code) -}}
                                 </a>
                             </td>
-                            <td>{%- if attribute.group -%}
-                                    {{- attribute.group.name -}}
-                                {%- endif -%}</td>
+                            <td>
+                                {% if attribute.group %}
+                                    {{ attribute.group.name }}
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 {% endblock %}
@@ -104,7 +106,6 @@
                 {% endblock %}
             {% endembed %}
         {% endif %}
-    </article>
+    </section>
 
-</section>
 {% endblock %}

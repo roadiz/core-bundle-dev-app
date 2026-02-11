@@ -229,6 +229,14 @@ final class NodeController extends AbstractController
             $assignation['deleteNodesForm'] = $deleteNodesForm->createView();
         }
 
+        /*
+         * Handle bulk undelete form
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_DELETE')) {
+            $undeleteNodesForm = $this->buildBulkUndeleteForm();
+            $assignation['undeleteNodesForm'] = $undeleteNodesForm->createView();
+        }
+
         $assignation['filters'] = $listManager->getAssignation();
         $assignation['translation'] = $translation;
         $assignation['availableTranslations'] = $this->translationRepository->findAll();
