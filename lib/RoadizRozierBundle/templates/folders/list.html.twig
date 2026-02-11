@@ -13,7 +13,11 @@
                 href: path('foldersAddPage'),
             },
             icon: 'rz-icon-ri--add-line'
-        }]
+        }],
+        breadcrumb: {
+            label: 'folders-breadcrumb',
+            current: 'folders'|trans,
+        },
     } only %}
 
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
