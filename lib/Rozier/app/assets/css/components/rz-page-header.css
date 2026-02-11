@@ -10,6 +10,9 @@
 	gap: var(--spacing-4xs);
 	padding-block: var(--spacing-4xs);
 	box-sizing: border-box;
+
+	/* Temporaly fix for row overflow when children has margin-left: auto or flex-grow: 1 */
+	max-width: calc(100% - 4px);
 }
 
 .rz-page-header__row--border {

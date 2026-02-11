@@ -34,7 +34,23 @@
         source: source,
     } only %}
 
-    {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+    {% set tags = [] %}
+    {% if availableTags|length > 0 %}
+        {% for tag in availableTags %}
+            {% set current_tag = tag.translatedTagsByTranslation(translation) %}
+            {% set tagName = current_tag[0].name|default(tag.tagName) %}
+            {% set tags = tags|merge([{
+                'name': tagName,
+                'id': tag.id,
+                'selected': filterTag and filterTag.id == tag.id,
+            }]) %}
+        {% endfor %}
+    {% endif %}
+
+    {% include '@RoadizRozier/nodes/filtersBar.html.twig' with {
+        filters: filters,
+        tags: tags,
+    } only %}
 
     {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
         delete_form_data: deleteNodesForm|default(null),
@@ -44,19 +60,7 @@
         statusNodesForm: statusNodesForm,
     } only %}
 
-
     <section class="rz-page__body">
-        {% if availableTags %}
-            <div class="available-nodetree-tags uk-visible-large">
-                <a href="?" class="uk-badge{% if not filterTag %} active{% endif %}">{{- 'see_all'|trans -}}</a>
-                {% for tag in availableTags %}
-                    {% set ttag = tag.translatedTagsByTranslation(translation) %}
-                    {% set tagName = ttag[0].name|default(tag.tagName) %}
-                    <a href="?tagId={{ tag.id }}" class="uk-badge{% if filterTag and filterTag.id == tag.id %} active{% endif %}"><i class="uk-icon-tag"></i> {{ tagName -}}</a>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         <rz-tree
             class="rz-tree"
             group="nodeTree"

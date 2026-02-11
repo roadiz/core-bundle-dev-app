@@ -1,5 +1,20 @@
 
-{% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
-    filters: filters,
+{% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
     display_select_all_button: true,
+    filters: filters,
+    tags: tags,
 }  only %}
+    {% block before_submit %}
+        <select class="rz-select" name="tagId" data-submit-on-change>
+            <option value="">{{ '-- Select a tag --'|trans }}</option>
+            {% for tag in tags %}
+                <option
+                    value="{{ tag.id }}"
+                    {% if tag.selected %}selected{% endif %}
+                >
+                    {{- tag.name -}}
+                </option>
+            {% endfor %}
+        </select>
+    {% endblock %}
+{% endembed %}

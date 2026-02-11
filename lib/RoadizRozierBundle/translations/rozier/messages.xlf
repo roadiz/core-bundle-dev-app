@@ -1029,6 +1029,9 @@
             <trans-unit xml:space="preserve" id="tagName.%name%.alreadyExists"><source>tagName.%name%.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeField.name.alreadyExists"><source>nodeTypeField.name.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeType.name.alreadyExists"><source>nodeType.name.alreadyExists</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color.system"><source>color.system</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color.light"><source>color.light</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color.dark"><source>color.dark</source></trans-unit>
             <trans-unit xml:space="preserve" id="color.should.be.formatted.in.hexadecimal"><source>color.should.be.formatted.in.hexadecimal</source></trans-unit>
             <trans-unit xml:space="preserve" id="customFormField.name.alreadyExists"><source>customFormField.name.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="customForm.name.alreadyExists"><source>customForm.name.alreadyExists</source></trans-unit>
