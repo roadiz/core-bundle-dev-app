@@ -50,6 +50,7 @@
 
             {% block tbody_content %}
                 {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
 
                 {% for tag in tags %}
                     {% set translated_tag = tag.getTranslatedTags.first %}
@@ -63,7 +64,6 @@
                     >
                         {{ _self.selection_input(selection_available, tag.id, disabled: not can_delete) }}
                         <td>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: translated_tag.getName|default('tag_' ~ tag.id),
                                 attributes: { href: edit_link },
