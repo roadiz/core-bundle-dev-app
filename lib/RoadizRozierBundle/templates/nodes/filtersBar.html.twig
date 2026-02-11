@@ -5,16 +5,18 @@
     tags: tags,
 }  only %}
     {% block before_submit %}
-        <select class="rz-select" name="tagId" data-submit-on-change>
-            <option value="">{{ '-- Select a tag --'|trans }}</option>
-            {% for tag in tags %}
-                <option
-                    value="{{ tag.id }}"
-                    {% if tag.selected %}selected{% endif %}
-                >
-                    {{- tag.name -}}
-                </option>
-            {% endfor %}
-        </select>
+        {% if tags|length > 0 %}
+            <select class="rz-select" name="tagId" data-submit-on-change>
+                <option value="">{{ '-- Select a tag --'|trans }}</option>
+                {% for tag in tags %}
+                    <option
+                        value="{{ tag.id }}"
+                        {% if tag.selected %}selected{% endif %}
+                    >
+                        {{- tag.name -}}
+                    </option>
+                {% endfor %}
+            </select>
+        {% endif %}
     {% endblock %}
 {% endembed %}
