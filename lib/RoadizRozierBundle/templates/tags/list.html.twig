@@ -17,7 +17,11 @@
                 href: path('tagsAddPage'),
             },
             icon: 'rz-icon-ri--add-line',
-        }]
+        }],
+        breadcrumb: {
+            label: 'tags-breadcrumb',
+            current: 'tags'|trans,
+        },
     } only %}
 
     {% include '@RoadizRozier/tags/filtersBar.html.twig' with {

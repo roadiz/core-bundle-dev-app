@@ -11,6 +11,10 @@
 {%- block header -%}
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: "hello.%name%"|trans({'%name%': displayName}),
+        breadcrumb: {
+            label: 'breadcrumb',
+            current: 'dashboard'|trans,
+        },
         with_nav_bar: true,
         nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
         nav_bar_context: {'current':'dashboard'}
