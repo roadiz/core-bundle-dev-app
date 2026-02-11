@@ -126,11 +126,10 @@
                             {% for tag in tags %}
                                 {% set label = tag.name|default(tag.tagName) %}
                                 {{ rz_badge.item({
-                                    label: label|truncate_title(12, '...'),
+                                    label: label|truncate_title(18),
                                     size: 'sm',
                                     color: 'default',
                                     attributes: {
-                                        href: '?tagId=' ~ tag.id,
                                         title: label,
                                     }
                                 }) }}
