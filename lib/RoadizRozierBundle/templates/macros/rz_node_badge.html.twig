@@ -1,7 +1,13 @@
 {% macro item(type = 'unknown', display_label = true, badgeOptions = {}) %}
     {% set default_options = { size: 'sm'}|merge(badgeOptions) %}
 
-    {% if type == 'deleted' %}
+    {% if type == 'not-published-yet' %}
+        {% set type_options = {
+            label: 'not_published_yet'|trans,
+            icon: 'rz-icon-ri--history-line',
+            color: 'warning',
+        } %}
+    {% elseif type == 'deleted' %}
         {% set type_options = {
             label: 'deleted'|trans,
             icon: 'rz-icon-rz--status-deleted-fill',
@@ -94,7 +100,12 @@
 {% macro status(node, options = { display_label: true }) %}
     {% set status = 'unknown' %}
 
-    {% if node.isPublished == true %}
+    {% set type = getNodeType(node) %}
+    {% set source = node.nodeSource|default(node.nodeSources.first) %}
+
+    {% if type is defined and type.isPublishable and source.publishedAt and source.publishedAt > date() %}
+        {% set status = 'not-published-yet' %}
+    {% elseif node.isPublished == true %}
         {% set status = 'published' %}
     {% elseif node.isDeleted %}
         {% set status = 'deleted' %}
@@ -110,6 +121,8 @@
 {% endmacro %}
 
 {% macro parameters(node, options = { display_label: true }, badgeOptions = {}) %}
+
+
     {% if node.isVisible == false %}
         {{ _self.item('hidden', options.display_label, badgeOptions) }}
     {% endif %}

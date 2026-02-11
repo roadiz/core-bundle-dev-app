@@ -49,8 +49,8 @@
     >
         {% set icon_class = node.isPublished ? 'rz-icon-rz--status-published-fill' : 'rz-icon-rz--status-draft-fill' %}
         {% set source = node.nodeSource|default(node.nodeSources.first) %}
-        {% if type.isPublishable and source.publishedAt %}
-            {% set icon_class = source.publishedAt > date() ? 'rz-icon-ri--history-line' : 'rz-icon-rz--status-published-fill' %}
+        {% if type.isPublishable and source.publishedAt and source.publishedAt > date() %}
+                {% set icon_class = 'rz-icon-ri--history-line' %}
         {% endif %}
 
         {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
