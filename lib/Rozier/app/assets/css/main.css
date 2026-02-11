@@ -87,3 +87,12 @@
 	margin-block: var(--spacing-4xs);
 	float: right;
 }
+
+
+/* Temporaly fix for horizontal scrollbar
+Don't know why flex item with margin-left auto seems to expand parent width
+can be reproduce with .rz-page-header__row and .rz-page-header__item--right inside
+*/
+html {
+	overflow-x: hidden;
+}
