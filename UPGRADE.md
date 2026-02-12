@@ -12,8 +12,11 @@ Roadiz has been upgraded from **Doctrine ORM 2.20** to **Doctrine ORM 3.6**, bri
 
 ### Breaking Changes
 
-⚠️ **None for standard Roadiz usage** - All deprecated APIs were already removed or avoided in Roadiz codebase:
+⚠️ **Internal changes only** - The following deprecated APIs were removed from Roadiz codebase:
 
+- ✅ Removed `HINT_FORCE_PARTIAL_LOAD` query hint (removed in ORM 3.0)
+  - Affected files: `LogRepository`, `TagRepository`, `OptimizedNodesSourcesGraphPathAggregator`
+  - This hint is no longer needed as ORM 3.0 properly handles scalar and array results
 - ✅ No `EntityManager::merge()` usage
 - ✅ No cascade merge definitions
 - ✅ All entities use PHP 8 attributes (not annotations)
@@ -45,6 +48,9 @@ After upgrading, verify:
 ```bash
 # Validate schema
 php bin/console doctrine:schema:validate
+
+# Sync migrations metadata storage (required for ORM 3)
+php bin/console doctrine:migrations:sync-metadata-storage
 
 # Run migrations
 php bin/console doctrine:migrations:migrate

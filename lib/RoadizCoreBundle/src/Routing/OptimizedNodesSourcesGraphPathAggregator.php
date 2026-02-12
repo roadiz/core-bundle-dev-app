@@ -89,7 +89,6 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
                     'translation' => $source->getTranslation(),
                 ])
                 ->getQuery()
-                ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
                 ->setCacheable(true)
                 ->getArrayResult()
             ;
