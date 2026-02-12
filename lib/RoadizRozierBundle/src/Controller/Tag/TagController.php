@@ -17,12 +17,10 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
-use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Controller\VersionedControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\TagTranslationType;
 use RZ\Roadiz\RozierBundle\Form\TagType;
@@ -59,11 +57,9 @@ final class TagController extends AbstractController
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly TreeWidgetFactory $treeWidgetFactory,
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
-        private readonly BreadcrumbsItemFactoryInterface $breadcrumbsItemFactory,
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly LogTrail $logTrail,
     ) {
     }

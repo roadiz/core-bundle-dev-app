@@ -43,7 +43,7 @@ final class TranslationExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getAlternativeDisplayable(): ?string
+    public function getAlternativeDisplayable(): string
     {
         return $this->translation->getLocale();
     }

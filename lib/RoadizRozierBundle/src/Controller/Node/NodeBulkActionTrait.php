@@ -447,7 +447,9 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+        foreach ($nodes as $node) {
+            $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+        }
 
         $form = $this->buildBulkUndeleteForm(
             $nodesIds
