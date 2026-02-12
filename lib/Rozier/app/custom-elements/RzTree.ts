@@ -239,13 +239,11 @@ export default class RzTree extends HTMLElement {
     }
 
     async refreshOtherTrees() {
-        document
-            .querySelectorAll('rz-tree')
-            ?.forEach(async (instance: RzTree) => {
-                if (instance !== this) {
-                    await instance.refreshNodeTree()
-                }
-            })
+        const instances = document.querySelectorAll<RzTree>('rz-tree')
+        const refreshPromises = Array.from(instances)
+            .filter((instance) => instance !== this)
+            .map((instance) => instance.refreshNodeTree())
+        await Promise.all(refreshPromises)
     }
 
     async refreshNodeTree() {
