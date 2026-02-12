@@ -117,6 +117,7 @@ export default ({ mode }) => {
                             items: [
                                 { text: 'Roadiz events', link: '/extensions/events' },
                                 { text: 'Extension examples', link: '/extensions/extending_roadiz' },
+                                { text: 'Backoffice templates', link: '/extensions/backoffice_templates' },
                                 { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry.md' },
                                 { text: 'Add additional entries into navbar', link: '/extensions/additional_entries_navbar.md' },
                                 { text: 'Extending Solr indexation', link: '/extensions/extending_solr' },
