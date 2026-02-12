@@ -30,8 +30,6 @@ export async function fetchSessionMessages() {
 
 export async function dispatchSessionToast() {
     const messages = await fetchSessionMessages()
-    console.log('Session messages:', messages)
-
     if (!messages) return
 
     if (messages.confirm && messages.confirm.length > 0) {

@@ -84,9 +84,7 @@ export default class RzTree extends HTMLElement {
         )
     }
 
-    onRequestAllNodeTreeChange(event: Event) {
-        event.preventDefault()
-        console.log('onRequestAllNodeTreeChange', event, this)
+    onRequestAllNodeTreeChange() {
         this.refreshNodeTree()
     }
 
