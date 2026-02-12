@@ -8,6 +8,7 @@ export default class Rozier {
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload
     vueApp: VueApp
+    nodeStatuses: null | string
 
     onDocumentReady(): void
     bindMainTrees(): void

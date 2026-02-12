@@ -21,11 +21,12 @@ export async function fetchSessionMessages() {
         },
     })
 
+    if (!response.ok) {
+        return null
+    }
+
     const data = (await response.json()) as SessionMessagesResponse
-
-    if (!data.messages) return null
-
-    return data.messages
+    return data?.messages
 }
 
 export async function dispatchSessionToast() {

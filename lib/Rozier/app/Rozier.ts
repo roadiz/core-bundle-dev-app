@@ -13,6 +13,7 @@ export default class Rozier {
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload | null = null
     vueApp: VueApp | null = null
+    nodeStatuses = null
 
     constructor() {
         this.windowWidth = null
@@ -39,6 +40,7 @@ export default class Rozier {
         window.addEventListener('requestLoaderHide', () => {
             this.canvasLoader?.hide()
         })
+        window.addEventListener('requestMessagesRefresh', this.getMessages)
     }
 
     getAsideElement() {

@@ -65,7 +65,7 @@ export default class RzTree extends HTMLElement {
         }
 
         this.syncCollapsedState()
-        this.bindExpandButtons()
+        this.bindExpandButtonsId()
         this.addEventListener('command', this.onCommand)
 
         window.addEventListener(
@@ -282,13 +282,11 @@ export default class RzTree extends HTMLElement {
                 } else {
                     this.innerHTML = data.nodeTree
                     this.rootNode = this.querySelector('[role="tree"]')
-                    this.bindExpandButtons()
                     await fadeIn(this)
                 }
 
-                // window.dispatchEvent(new CustomEvent('requestNestablesInit'))
-                // window.dispatchEvent(new CustomEvent('requestBindMainTrees'))
-                // window.dispatchEvent(new CustomEvent('requestAjaxLinkBind'))
+                this.bindExpandButtonsId()
+                window.Rozier?.lazyload?.bindAjaxLink?.()
             }
         } catch (error) {
             await this.pushRequestError(error)
@@ -346,7 +344,7 @@ export default class RzTree extends HTMLElement {
         this.updateCollapsedState(item, newValue)
     }
 
-    bindExpandButtons() {
+    bindExpandButtonsId() {
         const buttons = this.querySelectorAll('.rz-tree__item__expand-button')
         if (!buttons.length) return
 
