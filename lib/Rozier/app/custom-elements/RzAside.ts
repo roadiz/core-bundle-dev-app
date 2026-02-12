@@ -165,6 +165,8 @@ export default class RzAside extends RoadizElement {
             data?.['tree']
 
         if (data && typeof treeHTML !== 'undefined') {
+            await this.refreshTreeContent(treeHTML)
+
             const translationId =
                 queryOptions?.translationId?.toString() ||
                 this.querySelector(
@@ -176,7 +178,6 @@ export default class RzAside extends RoadizElement {
                 `type-${data.tree_type || 'node'}-tree` +
                 `-translation-${translationId || 'main'}`
 
-            await this.refreshTreeContent(treeHTML)
             treeContainer.setAttribute('data-tree-id', asideContainerId)
 
             this.currentTranslationId =
