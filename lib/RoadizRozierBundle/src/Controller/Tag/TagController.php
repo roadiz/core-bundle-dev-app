@@ -308,7 +308,6 @@ final class TagController extends AbstractController
 
         $title = $this->translator->trans('delete.tags');
 
-
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/admin/head.html.twig',
@@ -505,7 +504,7 @@ final class TagController extends AbstractController
             'cancelPath' => $this->generateUrl('tagsHomePage'),
             'alertMessage' => 'are_you_sure.delete.tag',
             'form' => $form->createView(),
-            'items' => [$tag]
+            'items' => [$tag],
         ]);
     }
 

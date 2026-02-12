@@ -338,7 +338,7 @@ final class SettingController extends AbstractController
                 [
                     'label' => $setting->getName(),
                     'url' => $this->generateUrl('settingsEditPage', ['settingId' => $setting->getId()]),
-                ]
+                ],
             ],
             'cancelPath' => $this->generateUrl('settingsHomePage'),
             'alertMessage' => 'are_you_sure.delete.setting',

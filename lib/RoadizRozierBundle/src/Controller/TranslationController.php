@@ -11,7 +11,6 @@ use RZ\Roadiz\CoreBundle\EntityHandler\TranslationHandler;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationUpdatedEvent;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\TranslationType;
@@ -204,7 +203,7 @@ final class TranslationController extends AbstractController
                 [
                     'label' => $translation->getName(),
                     'url' => $this->generateUrl('translationsEditPage', ['translationId' => $translation->getId()]),
-                ]
+                ],
             ],
             'alertMessage' => 'are_you_sure.delete.translation',
             'form' => $form->createView(),

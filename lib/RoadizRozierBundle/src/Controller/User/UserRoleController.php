@@ -110,7 +110,7 @@ final class UserRoleController extends AbstractController
         }
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
-            'title' => $this->translator->trans("remove.user.%name%.role.%role%", [
+            'title' => $this->translator->trans('remove.user.%name%.role.%role%', [
                 '%name%' => $user->getUserName(),
                 '%role%' => $role,
             ]),
@@ -126,7 +126,7 @@ final class UserRoleController extends AbstractController
                     'url' => $this->generateUrl('usersEditPage', ['id' => $user->getId()]),
                 ],
             ],
-            'cancelPath' => $this->generateUrl('usersEditRolesPage', [ 'userId'=> $user->getId()]),
+            'cancelPath' => $this->generateUrl('usersEditRolesPage', ['userId' => $user->getId()]),
             'alertMessage' => 'are_you_sure.remove.user.role',
             'form' => $form->createView(),
         ]);
