@@ -12,6 +12,8 @@ export default class RzTree extends HTMLElement {
         this.sortables = []
         this.onSortableChange = this.onSortableChange.bind(this)
         this.onCommand = this.onCommand.bind(this)
+        this.onRequestAllNodeTreeChange =
+            this.onRequestAllNodeTreeChange.bind(this)
     }
 
     get group() {
@@ -65,11 +67,27 @@ export default class RzTree extends HTMLElement {
         this.syncCollapsedState()
         this.bindExpandButtons()
         this.addEventListener('command', this.onCommand)
+
+        window.addEventListener(
+            'requestAllNodeTreeChange',
+            this.onRequestAllNodeTreeChange,
+        )
     }
 
     disconnectedCallback() {
         this.removeEventListener('command', this.onCommand)
         this.destroySortable()
+
+        window.removeEventListener(
+            'requestAllNodeTreeChange',
+            this.onRequestAllNodeTreeChange,
+        )
+    }
+
+    onRequestAllNodeTreeChange(event: Event) {
+        event.preventDefault()
+        console.log('onRequestAllNodeTreeChange', event, this)
+        this.refreshNodeTree()
     }
 
     onCommand(event: CommandEvent) {
@@ -78,6 +96,7 @@ export default class RzTree extends HTMLElement {
                 this.onToggleChildren(event)
                 break
             case '--quick-add-child-node':
+                // Add child from children-nodes-widget (form) context
                 this.onQuickAddNode(event)
                 break
         }
@@ -102,10 +121,7 @@ export default class RzTree extends HTMLElement {
     }
 
     getRootNodeId() {
-        const rootList = this.rootList
-        if (!rootList) return null
-
-        const rootNodeId = rootList.getAttribute('data-parent-id')
+        const rootNodeId = this.rootList?.getAttribute('data-parent-id')
         if (!rootNodeId) return null
 
         const parsedId = parseInt(rootNodeId, 10)
@@ -184,17 +200,22 @@ export default class RzTree extends HTMLElement {
         }
     }
 
-    async fetchNodeTree(
-        rootNodeId: number,
-        linkedTypes: string[],
-        translationId: number | null = null,
-    ) {
-        const params = new URLSearchParams({
+    async fetchNodeTree() {
+        const linkedTypes = this.getRootLinkedTypes()
+        const translationId = this.getRootTranslationId()
+
+        const options = {
             _token: window.RozierConfig.ajaxToken,
             _action: 'requestNodeTree',
-            parentNodeId: rootNodeId.toString(),
             translationId: translationId ? translationId.toString() : '',
-        })
+        }
+
+        const rootNodeId = this.getRootNodeId()
+        if (rootNodeId) {
+            Object.assign(options, { parentNodeId: rootNodeId.toString() })
+        }
+        const params = new URLSearchParams(options)
+
         linkedTypes.forEach((type, i) => {
             params.append(`linkedTypes[${i}]`, type)
         })
@@ -217,23 +238,22 @@ export default class RzTree extends HTMLElement {
         return await response.json()
     }
 
+    async refreshOtherTrees() {
+        document
+            .querySelectorAll('rz-tree')
+            ?.forEach(async (instance: RzTree) => {
+                if (instance !== this) {
+                    await instance.refreshNodeTree()
+                }
+            })
+    }
+
     async refreshNodeTree() {
-        const rootNodeId = this.getRootNodeId()
-        if (!rootNodeId) {
-            console.log('No node-tree available.')
-            return
-        }
-
-        const linkedTypes = this.getRootLinkedTypes()
-        const translationId = this.getRootTranslationId()
-
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+
         try {
-            const data = await this.fetchNodeTree(
-                rootNodeId,
-                linkedTypes,
-                translationId,
-            )
+            const data = await this.fetchNodeTree()
+
             if (typeof data.nodeTree !== 'undefined') {
                 const wrapper = document.createElement('div')
                 wrapper.innerHTML = data.nodeTree
@@ -270,9 +290,9 @@ export default class RzTree extends HTMLElement {
                     await fadeIn(this)
                 }
 
-                window.dispatchEvent(new CustomEvent('requestNestablesInit'))
-                window.dispatchEvent(new CustomEvent('requestBindMainTrees'))
-                window.dispatchEvent(new CustomEvent('requestAjaxLinkBind'))
+                // window.dispatchEvent(new CustomEvent('requestNestablesInit'))
+                // window.dispatchEvent(new CustomEvent('requestBindMainTrees'))
+                // window.dispatchEvent(new CustomEvent('requestAjaxLinkBind'))
             }
         } catch (error) {
             await this.pushRequestError(error)
@@ -524,10 +544,12 @@ export default class RzTree extends HTMLElement {
                 throw response
             }
             const data = await response.json()
+
             const message =
                 this.entityType === 'node'
                     ? data.responseText || data.detail
                     : data.responseText
+
             window.dispatchEvent(
                 new CustomEvent('pushToast', {
                     detail: {
@@ -536,6 +558,8 @@ export default class RzTree extends HTMLElement {
                     },
                 }),
             )
+
+            await this.refreshOtherTrees()
         } catch (response) {
             const data = await response.json()
             window.dispatchEvent(

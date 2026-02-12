@@ -72,6 +72,8 @@
                 {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
                     nodeTree: specificNodeTree,
                     node: specificNodeTree.getRootNode,
+                    isMainTree: false,
+                    layout: 'condensed',
                 } only %}
             </rz-tree>
         {% else %}

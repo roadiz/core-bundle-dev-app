@@ -3,27 +3,15 @@ import { fadeIn, fadeOut } from '~/utils/animation'
 import { sleep } from '~/utils/sleep'
 
 export default class RzAside extends RoadizElement {
-    private onPageShowEnd: () => void
-    private onAllNodeTreeChange: () => void
-    private onMainTreeRefresh: () => void
-    private onBindMainTreesRequest: () => void
-    private onAjaxLinkBindRequest: () => void
-    private onMessagesRefresh: () => void
     private onLangButtonClick: (event: Event) => void
-    private onMainTreeContextMenu: (event: Event) => void
+    private currentTranslationId: number | null = null
 
     constructor() {
         super()
 
-        this.onPageShowEnd = this.handlePageShowEnd.bind(this)
-        this.onAllNodeTreeChange = this.handleAllNodeTreeChange.bind(this)
-        this.onMainTreeRefresh = this.handleMainTreeRefresh.bind(this)
-        this.onBindMainTreesRequest = this.handleBindMainTreesRequest.bind(this)
-        this.onAjaxLinkBindRequest = this.handleAjaxLinkBindRequest.bind(this)
-        this.onMessagesRefresh = this.handleMessagesRefresh.bind(this)
+        this.onPageShowEnd = this.onPageShowEnd.bind(this)
         this.onLangButtonClick = this.handleLangButtonClick.bind(this)
-        this.onMainTreeContextMenu =
-            this.maintreeElementNameRightClick.bind(this)
+        this.handleMessagesRefresh = this.handleMessagesRefresh.bind(this)
     }
 
     private get rozier() {
@@ -33,31 +21,10 @@ export default class RzAside extends RoadizElement {
     connectedCallback() {
         this.listen(this, 'click', this.onLangButtonClick)
         this.refreshAsideMainTree()
-
         window.addEventListener('pageshowend', this.onPageShowEnd)
         window.addEventListener(
-            'requestAllNodeTreeChange',
-            this.onAllNodeTreeChange,
-        )
-        window.addEventListener(
-            'requestAllNodeTreeRefresh',
-            this.onAllNodeTreeChange,
-        )
-        window.addEventListener(
-            'requestMainTreeRefresh',
-            this.onMainTreeRefresh,
-        )
-        window.addEventListener(
-            'requestBindMainTrees',
-            this.onBindMainTreesRequest,
-        )
-        window.addEventListener(
-            'requestAjaxLinkBind',
-            this.onAjaxLinkBindRequest,
-        )
-        window.addEventListener(
             'requestMessagesRefresh',
-            this.onMessagesRefresh,
+            this.handleMessagesRefresh,
         )
     }
 
@@ -66,54 +33,17 @@ export default class RzAside extends RoadizElement {
 
         window.removeEventListener('pageshowend', this.onPageShowEnd)
         window.removeEventListener(
-            'requestAllNodeTreeChange',
-            this.onAllNodeTreeChange,
-        )
-        window.removeEventListener(
-            'requestAllNodeTreeRefresh',
-            this.onAllNodeTreeChange,
-        )
-        window.removeEventListener(
-            'requestMainTreeRefresh',
-            this.onMainTreeRefresh,
-        )
-        window.removeEventListener(
-            'requestBindMainTrees',
-            this.onBindMainTreesRequest,
-        )
-        window.removeEventListener(
-            'requestAjaxLinkBind',
-            this.onAjaxLinkBindRequest,
-        )
-        window.removeEventListener(
             'requestMessagesRefresh',
-            this.onMessagesRefresh,
+            this.handleMessagesRefresh,
         )
     }
 
-    private handlePageShowEnd() {
-        this.refreshAsideMainTree()
-    }
-
-    private handleAllNodeTreeChange() {
-        this.refreshAllNodeTrees()
-        window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
-    }
-
-    private handleMainTreeRefresh() {
+    private onPageShowEnd() {
         this.refreshAsideMainTree()
     }
 
     private handleMessagesRefresh() {
         this.rozier?.getMessages?.()
-    }
-
-    private handleBindMainTreesRequest() {
-        this.bindMainTrees()
-    }
-
-    private handleAjaxLinkBindRequest() {
-        this.rozier?.lazyload?.bindAjaxLink?.()
     }
 
     private get treeContainer() {
@@ -148,74 +78,15 @@ export default class RzAside extends RoadizElement {
             this.refreshMainTagTree(translationId)
         }
     }
-
-    /**
-     * Bind main trees
-     */
-    bindMainTrees() {
-        const treeElements = this.querySelectorAll('.tree-element-name')
-        treeElements.forEach((element) => {
-            element.removeEventListener(
-                'contextmenu',
-                this.onMainTreeContextMenu,
-            )
-            element.addEventListener('contextmenu', this.onMainTreeContextMenu)
-        })
-    }
-
-    /**
-     * Main tree element name right click.
-     * @return {boolean}
-     */
-    maintreeElementNameRightClick(event: Event) {
-        event.preventDefault()
-
-        document
-            .querySelectorAll('.tree-contextualmenu')
-            .forEach((contextualMenu) => {
-                if (contextualMenu.classList.contains('uk-open')) {
-                    contextualMenu.classList.remove('uk-open')
-                }
-            })
-
-        const target = event.currentTarget as HTMLElement | null
-        const contextualMenu = target?.parentElement?.querySelector(
-            '.tree-contextualmenu',
-        )
-        if (contextualMenu) {
-            if (!contextualMenu.classList.contains('uk-open')) {
-                contextualMenu.classList.add('uk-open')
-            } else {
-                contextualMenu.classList.remove('uk-open')
-            }
-        }
-
-        return false
-    }
-
-    /**
-     * @param translationId
-     */
-    refreshAllNodeTrees(translationId?: number) {
-        const promises: Array<Promise<unknown>> = []
-        promises.push(this.refreshMainNodeTree(translationId))
-
-        if (this.rozier?.lazyload?.stackNodeTrees?.treeAvailable?.()) {
-            promises.push(this.rozier.lazyload.stackNodeTrees.refreshNodeTree())
-        }
-
-        return Promise.all(promises)
-    }
-
-    async refreshAsideTreeContent(treeHTML = '') {
+    async refreshTreeContent(treeHTML = '') {
         if (!treeHTML) {
-            console.warn('No treeHTML provided to refreshAsideTreeContent')
+            console.warn('No treeHTML provided to refreshTreeContent')
             return
         }
 
         const treeContainer = this.treeContainer
         if (!treeContainer) {
-            console.warn('No tree container found to refreshAsideTreeContent')
+            console.warn('No tree container found to refreshTreeContent')
             return
         }
 
@@ -236,8 +107,6 @@ export default class RzAside extends RoadizElement {
 
         await fadeIn(treeContainer)
 
-        this.bindMainTrees()
-        this.rozier?.resize?.()
         this.rozier?.lazyload?.bindAjaxLink?.()
     }
 
@@ -297,17 +166,21 @@ export default class RzAside extends RoadizElement {
 
         if (data && typeof treeHTML !== 'undefined') {
             const treeTypeId =
-                `${data.tree_type || 'node'}-tree` +
-                (queryOptions?.translationId
-                    ? `-${queryOptions?.translationId}`
-                    : '-main-locale')
+                `type-${data.tree_type || 'node'}-tree` +
+                '-t-' +
+                (this.currentTranslationId || 'main-locale')
 
-            if (treeTypeId === treeContainer.getAttribute('data-tree-id')) {
-                return
-            }
-
-            this.refreshAsideTreeContent(treeHTML)
+            await this.refreshTreeContent(treeHTML)
             treeContainer.setAttribute('data-tree-id', treeTypeId)
+
+            const translationId =
+                queryOptions?.translationId?.toString() ||
+                this.querySelector(
+                    '.rz-aside__langs button.rz-button--selected',
+                )?.getAttribute('data-translation-id') ||
+                ''
+            this.currentTranslationId =
+                translationId !== '' ? Number(translationId) : null
         }
     }
 

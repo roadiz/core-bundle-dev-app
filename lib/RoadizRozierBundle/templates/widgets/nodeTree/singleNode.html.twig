@@ -36,12 +36,12 @@
     {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
 {% endif %}
 
-    <li
-        style="--rz-node-icon-background: {{ type.color }};"
-        data-entity-id="{{ node.id }}"
-        class="{{ classes|join(' ') }}"
-        {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
-        {% if not node.isVisible %}data-visible="false"{% endif %}
+<li
+    style="--rz-node-icon-background: {{ type.color }};"
+    data-entity-id="{{ node.id }}"
+    class="{{ classes|join(' ') }}"
+    {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
+    {% if not node.isVisible %}data-visible="false"{% endif %}
 >
     <div
         class="{{ innerClasses|join(' ') }}"
@@ -58,12 +58,13 @@
             has_children: children is defined and children|length > 0,
             icon_class: icon_class,
             can_reorder: canReorder and not node.isLocked,
-            has_selection: nodeTree.isStackTree,
+            has_selection: layout == 'condensed' and not isMainTree and nodeTree.isStackTree,
             nodeTree: nodeTree,
-            isMainTree: isMainTree
+            isMainTree: isMainTree,
+            contextual_menu_id: 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ node.id,
         } only %}
             {% block icon_content %}
-                {%- if not isMainTree and not nodeTree.isStackTree -%}
+                {%- if layout == 'condensed' -%}
                     <rz-entity-thumbnail
                         class="nodetree-element-img rz-node-icon__thumbnail"
                         entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
@@ -141,7 +142,6 @@
 
 
             {% block contextual_menu %}
-                {% set contextual_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ item.id %}
                 <rz-node-tree-contextual-menu
                     class="rz-node-contextual-menu"
                     data-contextual-menu-path="{{ path('nodeContextualMenu', {
@@ -155,7 +155,7 @@
                     data-node-copied-trans="{{ 'node.copied_to_clipboard'|trans }}"
                     data-node-edit-position-path="{{ path('nodesPositionAjax') }}"
                     popover-placement="bottom-end"
-                    id="{{ contextual_id }}"
+                    id="{{ contextual_menu_id }}"
                 >
                     {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
@@ -165,7 +165,7 @@
                         class: 'tree-contextualmenu-button',
                         attributes: {
                             'aria-label': 'show.actions'|trans,
-                            popovertarget: contextual_id ~ '-popover',
+                            popovertarget: contextual_menu_id ~ '-popover',
                             type: 'button',
                         }
                     })}}

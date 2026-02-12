@@ -283,13 +283,11 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
         const nodeTreeElement = (event.currentTarget as HTMLElement).closest(
-            '.nodetree-element',
+            '.rz-tree__item',
         )
 
         const parentNodeId = parseInt(
-            nodeTreeElement
-                .closest('ul')
-                ?.getAttribute('data-parent-node-id') || '',
+            nodeTreeElement.closest('ul')?.getAttribute('data-parent-id') || '',
         )
 
         const postData: UpdatePayloadDict = {
@@ -349,7 +347,12 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             } else {
                 const data = await response.json()
                 window.dispatchEvent(
-                    new CustomEvent('requestAllNodeTreeChange'),
+                    new CustomEvent('requestAllNodeTreeChange', {
+                        detail: {
+                            nodeId: this.nodeId,
+                            treeElement: this.closest('rz-tree'),
+                        },
+                    }),
                 )
                 return data
             }

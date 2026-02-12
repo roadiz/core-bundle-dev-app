@@ -81,20 +81,23 @@
         {% if tree_type == 'node' %}
             {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
                 nodeTree: tree,
-                isMainTree: true,
+                isMainTree: not tree.rootNode.id or (isMainTree is defined and isMainTree),
                 linkedTypes: linkedTypes|default(null),
+                layout: 'condensed',
             } %}
 
         {% elseif tree_type == 'tag' %}
             {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
                 tagTree: tree,
-                isMainTree: true,
+                isMainTree: not tree.rootNode.id or (isMainTree is defined and isMainTree),
+                layout: 'condensed',
             } %}
 
         {% elseif tree_type == 'folder' %}
             {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
                 folderTree: tree,
-                isMainTree: true,
+                isMainTree: not tree.rootNode.id or (isMainTree is defined and isMainTree),
+                layout: 'condensed',
             } %}
         {% endif %}
     {% endblock %}
