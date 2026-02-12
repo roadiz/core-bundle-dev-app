@@ -97,14 +97,18 @@
                     'translationId': translation.id,
                     'locale': translation.locale
                 })) %}
+
+                {% set attr = { href: href } %}
+                {% if current == translation.getId %}
+                    {% set attr = attr|merge({ 'aria-current': 'page' }) %}
+                {% endif %}
+
                 {{ rz_link.root({
                     class: class,
                     label: translation.preferredLocale,
-                    attributes: {
-                        href: href,
-                        (current == translation.getId) ? aria-current: 'page' : null,
-                    }
+                    attributes: attr,
                 }) }}
+
             {%- endfor -%}
             {% if pathAddTranslations is defined and pathAddTranslations %}
                 {% set class = 'rz-button rz-button-group__button' %}
