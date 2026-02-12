@@ -11,6 +11,10 @@
         {% include '@RoadizRozier/admin/head.html.twig' with {
             title: title_label,
             filters: filters,
+            breadcrumb: {
+                label: 'search-breadcrumb',
+                current: title_label,
+            },
         } only %}
 
         <article>

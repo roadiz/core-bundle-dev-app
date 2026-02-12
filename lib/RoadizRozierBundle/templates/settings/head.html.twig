@@ -1,15 +1,12 @@
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set parents = [
+{% set breadcrumb = {
+    label: 'setting-breadcrumb',
+    parent: [
         {
             label: 'settings'|trans,
             type: 'listing',
             url: path('settingsHomePage'),
         }
-    ] %}
-    {% set breadcrumb = {
-        label: 'setting-breadcrumb',
-        parent: parents,
-        current: title
-    } %}
-{% endif %}
+    ],
+    current: title
+} %}
 {% include "@RoadizRozier/admin/head.html.twig" %}

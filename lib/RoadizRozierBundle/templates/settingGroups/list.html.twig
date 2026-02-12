@@ -17,7 +17,11 @@
                     href: path('settingGroupsAddPage'),
                 },
                 icon: 'rz-icon-ri--add-line'
-            }]
+            }],
+            breadcrumb: {
+                label: 'settingGroups-breadcrumb',
+                current: 'settingGroups'|trans,
+            },
         } only %}
 
         {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {

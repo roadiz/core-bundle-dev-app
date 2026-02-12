@@ -1,6 +1,17 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.settingGroup.%name%"|trans({'%name%': item.getName}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
+    'parentBreadcrumb': [
+        {
+            label: 'settingGroups'|trans,
+            type: 'listing',
+            url: path('settingGroupsHomePage'),
+        },
+        {
+            label: item.getName,
+            url: path('settingGroupsEditPage', { id: item.id }),
+        },
+    ],
     'cancelPath': path('settingGroupsHomePage'),
     'alertMessage': 'are_you_sure.delete.settingGroup'|trans,
     'form': form,

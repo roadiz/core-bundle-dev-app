@@ -4,8 +4,10 @@
 {% block title %}{{ title|truncate_title }}{% endblock %}
 
 {% block content %}
-    {% if items is defined and items|length == 1 %}
-        {% set parentBreadcrumb = [items[0]] %}
+    {% if parentBreadcrumb is not defined %}
+        {% if items is defined and items|length == 1 and items[0] is iterable %}
+            {% set parentBreadcrumb = [items[0]] %}
+        {% endif %}
     {% endif %}
     {% set breadcrumb = {
         'label': 'confirm-breadcrumb',
