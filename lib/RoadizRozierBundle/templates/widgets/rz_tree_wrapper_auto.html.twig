@@ -1,0 +1,113 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+{% set type_prefix = tree_type|default('node') %}
+{% set root_classes = ['rz-tree-wrapper', 'tree-widget', type_prefix ~ '-tree-widget'] %}
+
+<div class="{{ root_classes|join(' ') }}">
+    {% if not tree %}
+		{{ rz_button.root({
+			tagName: 'div',
+			label: 'loading'|trans,
+			emphasis: 'secondary',
+			size: 'md',
+			iconClass: 'rz-spinner',
+			class: 'rz-aside__loading-button',
+			attributes: {
+				'aria-live': 'polite',
+				'role': 'status',
+			}
+		}) }}
+    {% else %}
+        <div class="rz-aside__head">
+            <span class="rz-aside__icon {{ icon|default('rz-icon-ri--node-tree') }}"></span>
+            <h2 class="rz-aside__title">
+                {{-
+                    tree_type == 'node'
+                        ? 'nodeTree'|trans
+                        : tree_type == 'tag'
+                        ? 'tagTree'|trans
+                        : 'folderTree'|trans
+                -}}
+            </h2>
+
+            {% set btn_label = null %}
+            {% set btn_href = null %}
+
+            {% if tree_type == 'node' %}
+                {% set btn_label = not tree.rootNode
+                    ? 'add.a.node'|trans
+                    : 'add.child.node'|trans %}
+                {% set btn_href = not tree.rootNode
+                        ? path('nodesAddPage', { translationId: tree.translation.id })
+                        : path('nodesAddChildPage', { nodeId: tree.rootNode.id }) %}
+
+            {% elseif tree_type == 'tag' %}
+                {% set btn_label = tree.getRootTag == null
+                    ? 'add.a.tag'|trans
+                    : 'add.child.tag'|trans %}
+                {% set btn_href = tree.getRootTag == null
+                        ? path('tagsAddPage')
+                        : path('tagsAddChildPage', { tagId: tree.rootTag.id }) %}
+
+            {% elseif tree_type == 'folder' %}
+                {% set btn_label = tree.getRootFolder == null
+                    ? 'add.a.folder'|trans
+                    : 'add.child.folder'|trans %}
+                {% set btn_href = tree.getRootFolder == null
+                        ? path('foldersAddPage')
+                        : path('foldersAddChildPage', { folderId: tree.rootFolder.id }) %}
+            {% endif %}
+
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--add-line',
+                size: 'sm',
+                label: btn_label,
+                class: 'rz-aside__button',
+                attributes: {
+                    href: btn_href,
+                }
+            }) }}
+        </div>
+
+		{% if mainTree %}
+			{% include '@RoadizRozier/widgets/rz_language_switcher.html.twig' with {
+				tree: tree,
+				type_prefix: type_prefix,
+				classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
+			} only %}
+		{% endif %}
+
+		{% set tree_wrapper_classes = ['rz-tree', 'rz-tree--' ~ type_prefix ] %}
+		{% set tree_id =  tree.id ?? tree.parentNode.id ?? tree.rootTag.id ?? tree.rootFolder.id ?? 'root' %}
+	    <rz-tree
+	        class="{{ tree_wrapper_classes|join(' ') }}"
+	        group="{{ type_prefix }}Tree"
+	        data-entity-type="{{ type_prefix }}"
+	        data-is-sortable="{{ tree.canReorder ? 'true' : 'false' }}"
+	        id="{{ type_prefix ~ '-' ~ tree_id }}"
+	    >
+            {% if tree_type == 'node' %}
+                {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                    nodeTree: tree,
+                    isMainTree: not tree.rootNode.id or (isMainTree is defined and isMainTree),
+                    linkedTypes: linkedTypes|default(null),
+                    layout: 'condensed',
+                } %}
+
+            {% elseif tree_type == 'tag' %}
+                {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
+                    tagTree: tree,
+                    isMainTree: not tree.rootNode.id or (isMainTree is defined and isMainTree),
+                    layout: 'condensed',
+                } %}
+
+            {% elseif tree_type == 'folder' %}
+                {% include '@RoadizRozier/widgets/folderTree/folderTree.html.twig' with {
+                    folderTree: tree,
+                    isMainTree: not tree.rootNode.id or (isMainTree is defined and isMainTree),
+                    layout: 'condensed',
+                } %}
+            {% endif %}
+        </rz-tree>
+    {% endif %}
+</div>

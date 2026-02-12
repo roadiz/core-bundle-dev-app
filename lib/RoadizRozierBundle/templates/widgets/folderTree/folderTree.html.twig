@@ -1,6 +1,7 @@
 {%- if folderTree -%}
     <ul
         class="rz-tree__list"
+        data-translation-id="{{ folder.translation.id }}"
         {% if folder.getId %}data-parent-id="{{ folder.getId }}"{% endif %}
     >
         {% for cfolder in folderTree.folders %}
