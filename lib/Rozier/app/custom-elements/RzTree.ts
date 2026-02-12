@@ -209,7 +209,7 @@ export default class RzTree extends HTMLElement {
         }
 
         const rootNodeId = this.getRootNodeId()
-        if (rootNodeId) {
+        if (!!rootNodeId || rootNodeId === 0) {
             Object.assign(options, { parentNodeId: rootNodeId.toString() })
         }
         const params = new URLSearchParams(options)
