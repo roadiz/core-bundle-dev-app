@@ -165,20 +165,20 @@ export default class RzAside extends RoadizElement {
             data?.['tree']
 
         if (data && typeof treeHTML !== 'undefined') {
-            const treeTypeId =
-                `type-${data.tree_type || 'node'}-tree` +
-                '-t-' +
-                (this.currentTranslationId || 'main-locale')
-
-            await this.refreshTreeContent(treeHTML)
-            treeContainer.setAttribute('data-tree-id', treeTypeId)
-
             const translationId =
                 queryOptions?.translationId?.toString() ||
                 this.querySelector(
                     '.rz-aside__langs button.rz-button--selected',
                 )?.getAttribute('data-translation-id') ||
                 ''
+
+            const asideContainerId =
+                `type-${data.tree_type || 'node'}-tree` +
+                `-translation-${translationId || 'main'}`
+
+            await this.refreshTreeContent(treeHTML)
+            treeContainer.setAttribute('data-tree-id', asideContainerId)
+
             this.currentTranslationId =
                 translationId !== '' ? Number(translationId) : null
         }
