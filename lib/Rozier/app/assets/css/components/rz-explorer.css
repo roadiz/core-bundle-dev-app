@@ -7,7 +7,8 @@
 }
 
 .rz-explorer {
-	background-color: var(--surface-light-tertiary, #F2F2F2);
+	background-color: var(--surface-light-primary, #FFF);
+	box-shadow: 16px 0 16px 10px rgba(0, 0, 0, 0.2);
 	position: fixed;
     left: 0px;
     top: 0px;
