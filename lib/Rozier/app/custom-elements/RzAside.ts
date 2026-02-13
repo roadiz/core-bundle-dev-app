@@ -12,7 +12,7 @@ export default class RzAside extends HTMLElement {
         this.onCommand = this.onCommand.bind(this)
     }
 
-    private get treeContainer() {
+    private get innerElement() {
         return this.querySelector('.rz-aside__body') as HTMLElement | null
     }
 
@@ -105,40 +105,44 @@ export default class RzAside extends HTMLElement {
             return
         }
 
-        const treeContainer = this.treeContainer
-        if (!treeContainer) {
+        const innerElement = this.innerElement
+        if (!innerElement) {
             console.warn('No tree container found to refreshTreeContent')
             return
         }
 
-        const previousElement = treeContainer.querySelector('.rz-tree-wrapper')
+        const previousElement = innerElement.querySelector('.rz-tree-wrapper')
 
         const temporaryElement = document.createElement('div')
         temporaryElement.innerHTML = treeHTML
         const newElement = temporaryElement.querySelector('.rz-tree-wrapper')
 
-        await fadeOut(treeContainer)
+        await fadeOut(innerElement)
 
         if (newElement) {
-            treeContainer.appendChild(newElement)
+            innerElement.appendChild(newElement)
         }
         if (previousElement) {
             previousElement.remove()
         }
 
-        await fadeIn(treeContainer)
+        await fadeIn(innerElement)
         window.Rozier?.lazyload?.bindAjaxLink?.()
+    }
+
+    getDisplayedTreeTranslationId() {
+        return (
+            this.getAttribute('data-translation-id') ||
+            this.innerElement
+                .querySelector('.rz-tree__list')
+                ?.getAttribute('data-translation-id')
+        )
     }
 
     async refreshMainTree(
         baseUrl?: string | null,
         queryOptions: Record<string, string> = {},
     ) {
-        const treeContainer = this.treeContainer
-        if (!treeContainer) {
-            return
-        }
-
         const options = {
             _token: window.RozierConfig.ajaxToken,
             _action: 'requestMainTree',
@@ -148,26 +152,20 @@ export default class RzAside extends HTMLElement {
 
         const translationId =
             queryOptions?.translationId ||
-            treeContainer
-                .querySelector('.rz-tree-wrapper')
-                ?.getAttribute('data-translation-id') ||
-            ''
+            this.getDisplayedTreeTranslationId() ||
+            this.currentTranslationId
 
         if (translationId) {
             Object.assign(options, { translationId })
         }
 
         const query = new URLSearchParams(options)
-
         const fetchUrl =
             baseUrl ||
             (window.RozierConfig.routes as { treeAjaxGateway?: string })
                 ?.treeAjaxGateway
 
-        if (!fetchUrl) {
-            return
-        }
-
+        if (!fetchUrl) return
         const treeResponse = await fetch(`${fetchUrl}?${query.toString()}`, {
             method: 'GET',
             headers: {
@@ -190,11 +188,10 @@ export default class RzAside extends HTMLElement {
 
         if (data && typeof treeHTML !== 'undefined') {
             // refresh only when new tree will be diferent (translation or type changed)
-            if (
-                (!this.entityType && !this.currentTranslationId) ||
-                (data.tree_type === this.entityType &&
-                    translationId === this.currentTranslationId)
-            ) {
+            const isSameType = data.tree_type === this.entityType
+            const isSameTranslation =
+                translationId === this.currentTranslationId
+            if (isSameType && isSameTranslation) {
                 return
             }
 
