@@ -11,7 +11,7 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	margin-block-end: var(--spacing-xs);
+	margin-block: 0 var(--spacing-xs);
 	white-space: nowrap;
 	text-align: center;
 	font-family: var(--font-family-os-title);
