@@ -268,8 +268,13 @@ export default class Lazyload {
 
     bindAjaxLink() {
         this.parseLinks()
-
+        const url = window.location.href
         this.linksSelector.forEach((link) => {
+            if (link.href === url) {
+                link.setAttribute('aria-current', 'page')
+            } else {
+                link.removeAttribute('aria-current')
+            }
             link.classList.add('rz-ajax-link')
             link.removeEventListener('click', this.onClick)
             link.addEventListener('click', this.onClick)

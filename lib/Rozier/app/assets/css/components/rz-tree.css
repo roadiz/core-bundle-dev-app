@@ -218,6 +218,10 @@
 	&:where(a) {
 		color: currentColor;
 		text-decoration: none;
+
+		&[aria-current="page"] {
+			font-weight: 500;
+		}
 	}
 
 	.rz-tree__item__icon + & {
