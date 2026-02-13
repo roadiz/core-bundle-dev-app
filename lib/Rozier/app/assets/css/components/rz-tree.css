@@ -118,6 +118,10 @@
 		background: var(--surface-light-primary, #FFF);
 	}
 
+	&:has(a[aria-current="page"]) {
+		background: var(--node-bg-on-light-selected, #F2F2F2);
+	}
+
 	.rz-tree__item--ghost & {
 		background: var(--node-bg-on-light-selected-hover, #EAEAEA);
 	}
