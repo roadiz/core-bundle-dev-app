@@ -40,7 +40,9 @@ export default class Rozier {
         window.addEventListener('requestLoaderHide', () => {
             this.canvasLoader?.hide()
         })
-        window.addEventListener('requestMessagesRefresh', this.getMessages)
+        window.addEventListener('requestMessagesRefresh', () => {
+            this.getMessages()
+        })
     }
 
     getAsideElement() {
@@ -51,15 +53,15 @@ export default class Rozier {
         // this.getAsideElement()?.bindMainTrees?.()
     }
 
-    refreshMainNodeTree(translationId?: number) {
+    refreshMainNodeTree(translationId?: string) {
         return this.getAsideElement()?.refreshMainNodeTree?.(translationId)
     }
 
-    refreshMainTagTree(translationId?: number) {
+    refreshMainTagTree(translationId?: string) {
         return this.getAsideElement()?.refreshMainTagTree?.(translationId)
     }
 
-    refreshMainFolderTree(translationId?: number) {
+    refreshMainFolderTree(translationId?: string) {
         return this.getAsideElement()?.refreshMainFolderTree?.(translationId)
     }
 

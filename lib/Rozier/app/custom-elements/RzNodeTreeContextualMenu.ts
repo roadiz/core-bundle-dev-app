@@ -347,12 +347,7 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             } else {
                 const data = await response.json()
                 window.dispatchEvent(
-                    new CustomEvent('requestAllNodeTreeChange', {
-                        detail: {
-                            nodeId: this.nodeId,
-                            treeElement: this.closest('rz-tree'),
-                        },
-                    }),
+                    new CustomEvent('requestAllNodeTreeChange'),
                 )
                 return data
             }
