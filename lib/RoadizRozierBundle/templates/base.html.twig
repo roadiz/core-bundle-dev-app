@@ -7,6 +7,18 @@
         <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ meta.siteName }}{% endblock %}</title>
         <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <script>
+            (function () {
+                try {
+                    const stored = localStorage.getItem('rz-color-scheme')
+                    if (stored === 'light' || stored === 'dark') {
+                        document.documentElement.setAttribute('data-theme', stored)
+                    }
+                } catch (error) {
+                    return
+                }
+            })()
+        </script>
         {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
         {# CSS scripts inclusions / Using webpack #}
         {{ manifest_preload_tags('shared') }}
