@@ -3,7 +3,7 @@ import { fadeIn, fadeOut } from '~/utils/animation'
 import { sleep } from '~/utils/sleep'
 
 export default class RzAside extends RoadizElement {
-    private currentTranslationId: number | null = null
+    private currentTranslationId: string | null = null
     private entityType: null | string = null
 
     constructor() {
@@ -13,10 +13,6 @@ export default class RzAside extends RoadizElement {
         this.onCommand = this.onCommand.bind(this)
     }
 
-    private get rozier() {
-        return window.Rozier
-    }
-
     private get treeContainer() {
         return this.querySelector('.rz-aside__body') as HTMLElement | null
     }
@@ -24,6 +20,9 @@ export default class RzAside extends RoadizElement {
     connectedCallback() {
         this.refreshAsideMainTree()
 
+        this.currentTranslationId = this.getAttribute(
+            'data-default-translation-id',
+        )
         window.addEventListener('pageshowend', this.onPageShowEnd)
         this.addEventListener('command', this.onCommand)
     }
@@ -42,10 +41,7 @@ export default class RzAside extends RoadizElement {
     }
 
     private onPageShowEnd() {
-        // TODO: refresh only when new tree will be diferent (translation or type changed)
         this.refreshAsideMainTree()
-        const id = this.treeContainer.getAttribute('data-id')
-        console.log('onPageShowEnd', id)
     }
 
     private onLangButtonClick(event: CommandEvent) {
@@ -53,10 +49,7 @@ export default class RzAside extends RoadizElement {
         if (!target || !this.entityType) {
             return
         }
-        const translationIdRaw = target.getAttribute('data-translation-id')
-        const translationId = translationIdRaw
-            ? parseInt(translationIdRaw, 10)
-            : undefined
+        const translationId = target.getAttribute('data-translation-id')
 
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
@@ -69,21 +62,21 @@ export default class RzAside extends RoadizElement {
         }
     }
 
-    async refreshMainNodeTree(translationId: number | undefined = undefined) {
+    async refreshMainNodeTree(translationId: string | undefined = undefined) {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.nodesTreeAjax || null,
             { translationId },
         )
     }
 
-    async refreshMainTagTree(translationId: number | undefined = undefined) {
+    async refreshMainTagTree(translationId: string | undefined = undefined) {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.tagsTreeAjax || null,
             { translationId },
         )
     }
 
-    async refreshMainFolderTree(translationId: number | undefined = undefined) {
+    async refreshMainFolderTree(translationId: string | undefined = undefined) {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.foldersTreeAjax || null,
             { translationId },
@@ -92,7 +85,7 @@ export default class RzAside extends RoadizElement {
 
     async refreshAsideMainTree(
         baseUrl: string | null = null,
-        query: Record<string, string | number> = {},
+        query: Record<string, string> = {},
     ) {
         try {
             await this.refreshMainTree(baseUrl, query)
@@ -135,44 +128,47 @@ export default class RzAside extends RoadizElement {
         }
 
         await fadeIn(treeContainer)
-
-        this.rozier?.lazyload?.bindAjaxLink?.()
+        window.Rozier?.lazyload?.bindAjaxLink?.()
     }
 
     async refreshMainTree(
         baseUrl?: string | null,
-        queryOptions: Record<string, string | number> = {},
+        queryOptions: Record<string, string> = {},
     ) {
         const treeContainer = this.treeContainer
         if (!treeContainer) {
             return
         }
 
-        const currentRootTree = treeContainer.querySelector('.rz-tree-wrapper')
-
-        if (currentRootTree && !queryOptions?.translationId) {
-            const translationId = currentRootTree.getAttribute(
-                'data-translation-id',
-            )
-            if (translationId) {
-                queryOptions.translationId = translationId
-            }
-        }
-
-        const query = new URLSearchParams({
+        const options = {
             _token: window.RozierConfig.ajaxToken,
             _action: 'requestMainTree',
             url: window.location.pathname,
             ...queryOptions,
-        })
+        }
+
+        const translationId =
+            queryOptions?.translationId ||
+            treeContainer
+                .querySelector('.rz-tree-wrapper')
+                ?.getAttribute('data-translation-id') ||
+            ''
+
+        if (translationId) {
+            Object.assign(options, { translationId })
+        }
+
+        const query = new URLSearchParams(options)
 
         const fetchUrl =
             baseUrl ||
             (window.RozierConfig.routes as { treeAjaxGateway?: string })
                 ?.treeAjaxGateway
+
         if (!fetchUrl) {
             return
         }
+
         const treeResponse = await fetch(`${fetchUrl}?${query.toString()}`, {
             method: 'GET',
             headers: {
@@ -194,31 +190,19 @@ export default class RzAside extends RoadizElement {
             data?.['tree']
 
         if (data && typeof treeHTML !== 'undefined') {
-            this.entityType = data.tree_type
+            // refresh only when new tree will be diferent (translation or type changed)
+            if (
+                (!this.entityType && !this.currentTranslationId) ||
+                (data.tree_type === this.entityType &&
+                    translationId === this.currentTranslationId)
+            ) {
+                return
+            }
 
             await this.refreshTreeContent(treeHTML)
 
-            const translationId = this.getNewContainerId(
-                data.tree_type,
-                queryOptions?.translationId?.toString() ||
-                    this.querySelector(
-                        '.rz-aside__langs button.rz-button--selected',
-                    )?.getAttribute('data-translation-id') ||
-                    '',
-            )
-
-            const asideContainerId =
-                `type-${this.entityType}-tree` +
-                `-translation-${translationId || 'main'}`
-
-            treeContainer.setAttribute('data-id', asideContainerId)
-
-            this.currentTranslationId =
-                translationId !== '' ? Number(translationId) : null
+            this.entityType = data.tree_type
+            this.currentTranslationId = translationId
         }
-    }
-
-    getNewContainerId(type: string, translation: string) {
-        return `type-${type}-tree-translation-${translation}`
     }
 }
