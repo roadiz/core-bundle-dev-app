@@ -40,7 +40,7 @@
                 {{ _self.selection_input(selection_available, node.id, node.locked) }}
                 <td class="rz-table__cell--flex">
                     <rz-entity-thumbnail
-                        class="mobile-hidden uk-visible-large"
+                        class="mobile-hidden uk-visible-large rz-entity-thumbnail--medium"
                         entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
                         entity-id="{{ node.id }}"
                     >
@@ -55,9 +55,11 @@
                     }) }}
                 </td>
                 <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
-                <td class="mobile-hidden uk-visible-large">
-                    {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
-                    {{ rz_node_badge.all(node, { display_label: false }) }}
+                <td class="rz-table__cell">
+                    <div class="rz-button-group rz-button-group--nowrap">
+                        {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+                        {{ rz_node_badge.all(node, { display_label: false }) }}
+                    </div>
                 </td>
                 <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
                 {% if actions_available %}
