@@ -108,33 +108,20 @@
 
             {% block before_actions %}
                 {% set tags = nodeTree.getTags(item) %}
-                {% if item.isHome or tags|length %}
+                {% if tags|length and nodeTree.isStackTree %}
+                    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
                     <div class="rz-tree__item__tags">
-                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                        {% if item.isHome %}
+                        {% for tag in tags %}
+                            {% set label = tag.name|default(tag.tagName) %}
                             {{ rz_badge.item({
-                                size: 'xs',
+                                label: label|truncate_title(18),
+                                size: 'sm',
                                 color: 'default',
-                                'icon': 'rz-icon-ri--home-2-fill',
                                 attributes: {
-                                    title: 'node.home'|trans,
+                                    title: label,
                                 }
                             }) }}
-                        {% endif %}
-
-                        {% if tags|length and nodeTree.isStackTree %}
-                            {% for tag in tags %}
-                                {% set label = tag.name|default(tag.tagName) %}
-                                {{ rz_badge.item({
-                                    label: label|truncate_title(18),
-                                    size: 'sm',
-                                    color: 'default',
-                                    attributes: {
-                                        title: label,
-                                    }
-                                }) }}
-                            {% endfor %}
-                        {% endif %}
+                        {% endfor %}
                     </div>
                 {% endif %}
             {% endblock %}
