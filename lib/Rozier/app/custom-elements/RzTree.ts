@@ -208,6 +208,10 @@ export default class RzTree extends HTMLElement {
             translationId: translationId ? translationId.toString() : '',
         }
 
+        if (this.hasAttribute('data-stack-tree')) {
+            Object.assign(options, { stackTree: true })
+        }
+
         const rootNodeId = this.getRootNodeId()
         if (!!rootNodeId || rootNodeId === 0) {
             Object.assign(options, { parentNodeId: rootNodeId.toString() })

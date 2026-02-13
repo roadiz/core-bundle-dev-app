@@ -52,6 +52,7 @@
         {% if type.isPublishable and source.publishedAt and source.publishedAt > date() %}
                 {% set icon_class = 'rz-icon-ri--history-line' %}
         {% endif %}
+        {% set contextual_menu_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ node.id %}
 
         {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
             item: node,
@@ -61,7 +62,7 @@
             has_selection: layout == 'condensed' and not isMainTree and nodeTree.isStackTree,
             nodeTree: nodeTree,
             isMainTree: isMainTree,
-            contextual_menu_id: 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ node.id,
+            contextual_menu_id: contextual_menu_id,
         } only %}
             {% block icon_content %}
                 {%- if layout == 'condensed' -%}
@@ -194,6 +195,7 @@
                     "level": level + 1,
                     'canReorder': (node.childrenOrder == 'position'),
                     'is_last': loop.last,
+                    "layout": layout,
                 } only %}
             {% endfor %}
         </ul>
