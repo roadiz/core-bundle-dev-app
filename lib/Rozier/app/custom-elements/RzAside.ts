@@ -1,8 +1,7 @@
-import RoadizElement from '~/utils/custom-element/RoadizElement'
 import { fadeIn, fadeOut } from '~/utils/animation'
 import { sleep } from '~/utils/sleep'
 
-export default class RzAside extends RoadizElement {
+export default class RzAside extends HTMLElement {
     private currentTranslationId: string | null = null
     private entityType: null | string = null
 
