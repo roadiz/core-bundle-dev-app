@@ -8,12 +8,22 @@
 
 {% block content %}
 <section class="content-global delete-user">
-
-    <header class="content-header header-user header-user-delete">
-        <h1 class="content-title user-delete-title">
-            {{- "remove.user.%name%.from.group.%group%"|trans({'%name%': user.username, '%group%': group.getName})|truncate_title -}}
-        </h1>
-    </header>
+    {% set page_title = "remove.user.%name%.from.group.%group%"|trans({'%name%': user.username, '%group%': group.getName})|truncate_title %}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: page_title,
+        breadcrumb: {
+            label: 'users-breadcrumb',
+            parent: [{
+                label: 'users'|trans,
+                type: 'listing',
+                url: path('usersHomePage'),
+            }, {
+                label: user.username,
+                url: path('usersEditPage', { id: user.id }),
+            }],
+            current: page_title,
+        },
+    } only %}
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

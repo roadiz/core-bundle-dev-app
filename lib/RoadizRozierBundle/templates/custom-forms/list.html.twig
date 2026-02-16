@@ -13,7 +13,11 @@
                 href: path('customFormsAddPage'),
             },
             icon: 'rz-icon-ri--add-line',
-        }]
+        }],
+        breadcrumb: {
+            label: 'users-breadcrumb',
+            current: 'customForms'|trans,
+        },
     } only %}
 
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {

@@ -1,9 +1,24 @@
-{# Scope with translation bar and nav_bar support - uses generic head template #}
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set breadcrumbParent = folder.getParents %}
+    {% set homePage = [{
+        type: 'listing',
+        url: path('foldersHomePage'),
+        label: 'folders'|trans,
+    }] %}
+    {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+    {% set breadcrumb = {
+        label: 'folders-breadcrumb',
+        parent: breadcrumbParent,
+        current: folder.name|default(folder.folderName),
+    } %}
+{% endif %}
+
 {% include "@RoadizRozier/admin/head.html.twig" with {
     translation_route: 'foldersEditTranslationPage',
     translation_params: {
         folderId: folder.id,
     },
     nav_bar_template: '@RoadizRozier/folders/navBar.html.twig',
-    nav_bar_context: {folder: folder, current: current, translation: translation}
+    nav_bar_context: {folder: folder, current: current, translation: translation},
+    breadcrumb: breadcrumb,
 } %}

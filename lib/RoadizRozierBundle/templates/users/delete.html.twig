@@ -1,6 +1,17 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.user.%name%"|trans({'%name%': item.username }),
     'headPath': '@RoadizRozier/admin/head.html.twig',
+    'parentBreadcrumb': [
+        {
+            label: 'users'|trans,
+            type: 'listing',
+            url: path('usersHomePage'),
+        },
+        {
+            label: item.username,
+            url: path('usersEditPage', { id: item.id }),
+        },
+    ],
     'cancelPath': path('usersHomePage'),
     'alertMessage': 'are_you_sure.delete.user'|trans,
     'form': form,

@@ -8,6 +8,10 @@
         {% include '@RoadizRozier/admin/head.html.twig' with {
             title: 'two_factor_authentication'|trans,
             subtitle: 'start_two_factor_activation'|trans,
+            breadcrumb: {
+                label: 'two-factor-breadcrumb',
+                current: 'two_factor_authentication'|trans,
+            }
         } only %}
 
         <article class="content content-delete content-no-action-menu">

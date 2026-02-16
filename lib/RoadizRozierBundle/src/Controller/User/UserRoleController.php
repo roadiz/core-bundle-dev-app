@@ -109,9 +109,25 @@ final class UserRoleController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/users/removeRole.html.twig', [
-            'user' => $user,
-            'role' => $role,
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $this->translator->trans('remove.user.%name%.role.%role%', [
+                '%name%' => $user->getUserName(),
+                '%role%' => $role,
+            ]),
+            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'parentBreadcrumb' => [
+                [
+                    'label' => $this->translator->trans('users'),
+                    'type' => 'listing',
+                    'url' => $this->generateUrl('usersHomePage'),
+                ],
+                [
+                    'label' => $user->getUserName(),
+                    'url' => $this->generateUrl('usersEditPage', ['id' => $user->getId()]),
+                ],
+            ],
+            'cancelPath' => $this->generateUrl('usersEditRolesPage', ['userId' => $user->getId()]),
+            'alertMessage' => 'are_you_sure.remove.user.role',
             'form' => $form->createView(),
         ]);
     }

@@ -7,8 +7,20 @@
 
 {% block content %}
     <section class="content-global">
-        {% include '@RoadizRozier/translations/head.html.twig' with {
+        {% include '@RoadizRozier/admin/head.html.twig' with {
             title: title,
+            breadcrumb: {
+                label: 'webhooks-breadcrumb',
+                parent: [{
+                    label: 'webhooks'|trans,
+                    type: 'listing',
+                    url: path('webhooksHomePage'),
+                }, {
+                    label: item.description,
+                    url: path('webhooksEditPage', { id: item.getId }),
+                }],
+                current: title,
+            },
         } only %}
 
         <article class="content content-delete content-no-action-menu">

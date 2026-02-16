@@ -606,6 +606,7 @@ final class NodeController extends AbstractController
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
             'alertMessage' => 'are_you_sure.delete.node.and.data',
             'form' => $form->createView(),
+            'items' => [$node],
         ]);
     }
 
