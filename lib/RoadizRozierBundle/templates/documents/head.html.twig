@@ -69,11 +69,12 @@
                     <span class="rz-button__label">{{ 'embed.document'|trans }}</span>
                     <span class="rz-button__icon rz-icon-ri--add-line"></span>
                 </a>
-                <a class="rz-button rz-button--primary rz-button-group__button"
+                {# feature not working  #}
+                {# <a class="rz-button rz-button--primary rz-button-group__button"
                    href="{{ path('documentsRandomPage', {folderId: folder.id}) }}">
                     <span class="rz-button__label">{{ 'random.document'|trans }}</span>
                     <span class="rz-button__icon rz-icon-ri--star-line"></span>
-                </a>
+                </a> #}
             </div>
         {% endif %}
     {% endblock %}
