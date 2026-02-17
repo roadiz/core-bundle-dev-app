@@ -11,6 +11,10 @@
 	background-color: var(--color-black-100);
 	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
 	z-index: 1001;
+	position: fixed;
+	right: var(--spacing-4xs);
+	top: 50%;
+	transform: translateY(-50%);
 
 	li {
 		list-style: none;
