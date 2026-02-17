@@ -240,10 +240,8 @@
 .rz-tree__item__tags {
 	display: flex;
 	align-items: center;
-	gap: var(--spacing-2xs);
-	margin-left: var(--spacing-6xs);
-	overflow: hidden;
-	white-space: nowrap;
+	gap: var(--spacing-6xs);
+	margin-inline: var(--spacing-6xs) var(--spacing-xs);
 }
 
 .rz-tree__item__expand-button {

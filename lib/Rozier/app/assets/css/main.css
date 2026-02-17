@@ -62,6 +62,8 @@
 @import './components/rz-node-icon.css';
 @import './components/rz-toast.css';
 @import './components/rz-link.css';
+@import './components/rz-overflow-list.css';
+
 
 /* Components: Form */
 @import './components/rz-repeatable.css';
