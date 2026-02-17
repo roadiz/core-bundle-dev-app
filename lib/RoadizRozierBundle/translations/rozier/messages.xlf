@@ -12,6 +12,7 @@
             <trans-unit xml:space="preserve" id="7"><source>document.%name%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="8"><source>document.%name%.deleted</source></trans-unit>
             <trans-unit xml:space="preserve" id="9"><source>document.%name%.cannot_delete</source></trans-unit>
+            <trans-unit xml:space="preserve" id="drag.actions.menu"><source>drag.actions.menu</source></trans-unit>
             <trans-unit xml:space="preserve" id="10"><source>document.%name%.uploaded</source></trans-unit>
             <trans-unit xml:space="preserve" id="11"><source>document.cannot_persist</source></trans-unit>
             <trans-unit xml:space="preserve" id="12"><source>name</source></trans-unit>

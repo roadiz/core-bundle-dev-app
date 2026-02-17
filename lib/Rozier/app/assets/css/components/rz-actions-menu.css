@@ -1,26 +1,69 @@
 .rz-actions-menu {
-	display: inline-flex;
-	flex-direction: var(--rz-actions-menu-direction, row);
-	justify-content: center;
-	align-items: flex-start;
-	padding: var(--spacing-6xs);
-	gap: var(--spacing-5xs);
-	border-radius: var(--radius-sm);
-	/* background-color: var(--surface-dark-primary, #18191B); */
-	/* Design system don't work with dark theme */
-	background-color: var(--color-black-100);
-	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
-	z-index: 1001;
-	position: fixed;
-	right: var(--spacing-4xs);
-	top: 50%;
-	transform: translateY(-50%);
+    display: inline-flex;
+    flex-direction: var(--rz-actions-menu-direction, row);
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--spacing-6xs);
+    gap: var(--spacing-5xs);
+    border-radius: var(--radius-sm);
+    /* background-color: var(--surface-dark-primary, #18191B); */
+    /* Design system don't work with dark theme */
+    background-color: var(--color-black-100);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.05);
+    z-index: 1001;
+    position: fixed;
+    right: var(--spacing-4xs);
+	box-sizing: border-box;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: box-shadow 0.2s ease;
 
-	li {
-		list-style: none;
+    li {
+        list-style: none;
+    }
+}
+
+.rz-actions-menu__handle {
+	--handle-size: 18px;
+
+	left: var(--radius-sm);
+	right: var(--radius-sm);
+	height: var(--handle-size);
+	position: absolute;
+	bottom: calc(var(--handle-size) * -1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+    border: 0;
+	box-sizing: border-box;
+    border-radius: 0 0 var(--radius-xs) var(--radius-xs) ;
+    background: transparent;
+    color: var(--color-white-100, #fff);
+    cursor: grab;
+    line-height: 1;
+    user-select: none;
+    touch-action: none;
+    /* background-color: var(--color-black-100); */
+    background-color: var(--surface-light-tertiary, #F2F2F2);
+	font-size: 16px;
+	pointer-events: none;
+	opacity: 0;
+
+	@media(hover: hover) {
+		.rz-actions-menu:hover & {
+			pointer-events: auto;
+			opacity: 1;
+		}
 	}
 }
 
+.rz-actions-menu__handle:active {
+    cursor: grabbing;
+}
+
 .rz-actions-menu--vertical {
-	--rz-actions-menu-direction: column;
+    --rz-actions-menu-direction: column;
 }
