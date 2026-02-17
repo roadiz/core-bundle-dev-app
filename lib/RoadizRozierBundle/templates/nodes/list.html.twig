@@ -13,6 +13,10 @@
         translation: translation,
         nodeTypes: nodeTypes,
         mainFilter: mainFilter,
+        breadcrumb: {
+            label: 'nodes-breadcrumb',
+            current: mainTitle|trans,
+        },
     } only %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}

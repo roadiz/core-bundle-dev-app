@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
@@ -33,6 +34,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly TranslationRepository $translationRepository,
     ) {
     }
@@ -74,6 +76,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         return [
             new TwigFunction('getNodeType', $this->getNodeType(...)),
             new TwigFunction('getBreadcrumbsItem', $this->getBreadcrumbsItem(...)),
+            new TwigFunction('getExplorerItem', $this->getExplorerItem(...)),
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
@@ -98,6 +101,11 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getBreadcrumbsItem(?object $item): ?BreadcrumbsItem
     {
         return $this->breadcrumbItemFactory->createBreadcrumbsItem($item);
+    }
+
+    public function getExplorerItem(mixed $item): array
+    {
+        return $this->explorerItemFactory->createForEntity($item)->toArray();
     }
 
     public function getManifestScriptTags(string $name): string

@@ -99,9 +99,18 @@ final class DocumentController extends AbstractController
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
+            'parentBreadcrumb' => [
+                [
+                    'label' => $this->translator->trans('documents'),
+                    'type' => 'listing',
+                    'url' => $this->generateUrl('documentsHomePage'),
+                ],
+                $document,
+            ],
             'cancelPath' => $this->generateUrl('documentsHomePage'),
             'alertMessage' => 'are_you_sure.delete.document',
             'form' => $form->createView(),
+            'items' => [$document],
         ]);
     }
 
@@ -149,18 +158,13 @@ final class DocumentController extends AbstractController
 
         $title = $this->translator->trans('delete.documents');
 
-        $items = [];
-        foreach ($documents as $document) {
-            $items[] = $this->explorerItemFactory->createForEntity($document)->toArray();
-        }
-
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),
             'alertMessage' => 'are_you_sure.delete.these.documents',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $documents,
         ]);
     }
 

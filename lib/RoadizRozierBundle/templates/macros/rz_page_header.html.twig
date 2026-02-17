@@ -41,11 +41,7 @@
     <nav class="rz-breadcrumb" aria-label="{{ breadcrumb.label }}">
         <ol class="rz-breadcrumb__list">
             {% for parent in breadcrumb.parent %}
-                {% if parent.type is defined
-                    and parent.url is defined
-                    and parent.url != ''
-                    and parent.label is defined
-                    and parent.label != '' %}
+                {% if parent is iterable and parent.url is defined and parent.label is defined %}
                     <li class="rz-breadcrumb__list-item">
                         <a class="rz-breadcrumb__item" href="{{ parent.url }}">
                             {% if parent.type == 'listing' %}
@@ -54,20 +50,21 @@
                          {{- parent.label -}}
                         </a>
                     </li>
-                {% endif %}
-                {% if is_granted('READ', parent) %}
+                {% else %}
                     {% set breadcrumbsItem = getBreadcrumbsItem(parent) %}
-                    <li class="rz-breadcrumb__list-item">
-                        <a class="rz-breadcrumb__item" href="{{ breadcrumbsItem.url }}">
-                            {%- if breadcrumbsItem.home -%}
-                                <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
-                            {%- endif -%}
-                            {% if 'list' in breadcrumbsItem.url %}
-                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
-                            {% endif %}
-                            {{- breadcrumbsItem.label|truncate_title -}}
-                        </a>
-                    </li>
+                    {% if breadcrumbsItem != null %}
+                        <li class="rz-breadcrumb__list-item">
+                            <a class="rz-breadcrumb__item" href="{{ breadcrumbsItem.url }}">
+                                {%- if breadcrumbsItem.home -%}
+                                    <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
+                                {%- endif -%}
+                                {% if 'list' in breadcrumbsItem.url %}
+                                    <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                                {% endif %}
+                                {{- breadcrumbsItem.label|truncate_title -}}
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
             <li class="rz-breadcrumb__list-item">

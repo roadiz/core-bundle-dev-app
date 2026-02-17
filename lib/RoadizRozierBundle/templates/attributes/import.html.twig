@@ -6,7 +6,8 @@
 {% block content %}
 <section class="content-global import-item">
     {% include '@RoadizRozier/attributes/head.html.twig' with {
-        title: 'import.attributes'|trans
+        title: 'import.attributes'|trans,
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-no-action-menu">

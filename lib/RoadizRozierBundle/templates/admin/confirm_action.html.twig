@@ -4,10 +4,21 @@
 {% block title %}{{ title|truncate_title }}{% endblock %}
 
 {% block content %}
+    {% if parentBreadcrumb is not defined %}
+        {% if items is defined and items|length == 1 and items[0] is iterable %}
+            {% set parentBreadcrumb = [items[0]] %}
+        {% endif %}
+    {% endif %}
+    {% set breadcrumb = {
+        'label': 'confirm-breadcrumb',
+        'parent': parentBreadcrumb|default([]),
+        'current': title,
+    } %}
     <section class="content-global delete-document">
         {% include headPath with {
             title: title,
             subtitle: subtitle,
+            breadcrumb: breadcrumb,
         } only %}
 
         <article class="content content-delete content-no-action-menu">
@@ -50,7 +61,12 @@
 
                 <ul class="rz-delete-page__body rz-layout-grid">
                     {% for item in items %}
-                        {{ card.render(item, thumbnailFormat) }}
+                        {% if item is iterable %}
+                            {% set itemExplorer = item %}
+                        {% else %}
+                            {% set itemExplorer = getExplorerItem(item) %}
+                        {% endif %}
+                        {{ card.render(itemExplorer, thumbnailFormat) }}
                     {% endfor %}
                 </ul>
             {% endif %}

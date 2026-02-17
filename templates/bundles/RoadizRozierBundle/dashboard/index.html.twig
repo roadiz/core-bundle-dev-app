@@ -7,6 +7,10 @@
         with_nav_bar: true,
         nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
         nav_bar_context: {'current':'dashboard'},
+        breadcrumb: {
+            label: 'breadcrumb',
+            current: 'dashboard'|trans,
+        },
         buttons: [
             {
                 label: 'articles.add'|trans,

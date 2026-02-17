@@ -22,7 +22,11 @@
         filters: filters,
         with_nav_bar: true,
         nav_bar_template: user ? '@RoadizRozier/users/navBar.html.twig' : '@RoadizRozier/dashboard/navBar.html.twig',
-        nav_bar_context: user ? {'user':user, 'current':'history'} : {'current':'history'}
+        nav_bar_context: user ? {'user':user, 'current':'history'} : {'current':'history'},
+        breadcrumb: {
+            label: 'history-breadcrumb',
+            current: pageTitle,
+        },
     } only %}
 
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {

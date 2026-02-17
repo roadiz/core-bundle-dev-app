@@ -9,6 +9,10 @@
     <section class="content-global delete-document">
         {% include '@RoadizRozier/admin/head.html.twig' with {
             title: title,
+            breadcrumb: {
+                label: 'two-factor-breadcrumb',
+                current: title,
+            }
         } only %}
 
         <article class="content content-delete content-no-action-menu">

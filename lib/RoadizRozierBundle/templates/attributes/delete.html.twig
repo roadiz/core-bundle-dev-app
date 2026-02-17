@@ -1,6 +1,17 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.attribute.%name%"|trans({'%name%': item.code}),
     'headPath': '@RoadizRozier/attributes/head.html.twig',
+    'parentBreadcrumb': [
+        {
+            label: 'attributes'|trans,
+            type: 'listing',
+            url: path('attributesHomePage'),
+        },
+        {
+            label: item.code,
+            url: path('attributesEditPage', { id: item.id }),
+        },
+    ],
     'cancelPath': path('attributesHomePage'),
     'alertMessage': 'are_you_sure.delete.attribute'|trans,
     'form': form,
