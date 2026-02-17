@@ -104,12 +104,13 @@
                         </td>
                         <td class="mobile-hidden">{{ document.mimeType }}</td>
                         <td>
-                            {% if document.filesize > 0 %}<span class="rz-icon-ri--eye-line"></span> {{ document.filesize|formatBytes }}{% endif %}
-                            {% if document.rawDocument %}
-                                {% if document.rawDocument.filesize > 0 %}
-                                    <br>
-                                    <span class="rz-icon-ri--camera-line" title="{{ 'original.document'|trans }}"></span> {{ document.rawDocument.filesize|formatBytes }}
-                                {% endif %}
+                            {% if document.filesize > 0 %}
+                                {{ document.filesize|formatBytes }}
+                            {% endif %}
+                            {% if document.rawDocument and document.rawDocument.filesize > 0  %}
+                                <br>
+                                <span class="rz-icon-ri--camera-line" title="{{ 'original.document'|trans }}"></span>
+                                {{ document.rawDocument.filesize|formatBytes }}
                             {% endif %}
                         </td>
                         <td class="mobile-hidden uk-visible-xlarge">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
@@ -122,7 +123,8 @@
                                 {% endif %}
                                 {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
                                 {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--' ~ iconName ~ '-fill',
+                                    label: iconName,
+                                    icon: 'rz-icon-logo--' ~ iconName,
                                     attributes: {
                                         title: document.embedPlatform|trans|capitalize,
                                     }
