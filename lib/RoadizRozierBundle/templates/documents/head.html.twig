@@ -26,6 +26,7 @@
         {% set breadcrumb = {
             label: 'documents-breadcrumb',
             type: 'listing',
+            parent: breadcrumbParent|default([]),
             current: title,
         } %}
     {% endif %}

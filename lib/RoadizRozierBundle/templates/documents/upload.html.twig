@@ -6,6 +6,12 @@
 <section class="content-global upload-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         title: "upload.document"|trans,
+        breadcrumbParent: [{
+            type: 'listing',
+            url: path('documentsHomePage'),
+            label: 'documents'|trans,
+        }],
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-upload">
