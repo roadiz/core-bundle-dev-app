@@ -7,31 +7,27 @@
 {%- endblock -%}
 
 {%- block content_body -%}
-    <article class="content">
+    <section class="rz-page__body">
         {%- block content_body_before -%}{%- endblock -%}
+
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, {
-            'attr': {
-                'id': 'articles-form',
-                'class': 'rz-form'
-            }
-        }) }}{{ form_widget(form) }}
-        <fieldset data-uk-margin>
-            {% apply spaceless %}
-                {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
-                {{ rz_button.root({
-                    attributes: {
-                        type: 'submit',
-                        'data-action-save': '#articles-form',
-                        title: 'articles.form.add'|trans,
-                    },
-                    label: 'articles.form.add'|trans,
-                    emphasis: 'primary',
-                    icon: 'rz-icon-ri--save-line',
-                }) }}
-            {% endapply %}
-        </fieldset>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+            {{ rz_button.root({
+                label: 'articles.form.add'|trans,
+                emphasis: 'primary',
+                color: 'success',
+                onDark: true,
+                icon: 'rz-icon-ri--save-line',
+                attributes: {
+                    'style': 'align-self: flex-start;',
+                    'type': 'submit',
+                }
+            }) }}
+
         {{ form_end(form) }}
+
         {%- block content_body_after -%}{%- endblock -%}
-    </article>
+    </section>
 {%- endblock -%}

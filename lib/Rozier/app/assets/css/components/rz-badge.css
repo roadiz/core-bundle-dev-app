@@ -55,6 +55,7 @@
 }
 
 .rz-badge__label {
+	white-space: var(--rz-badge-label-white-space);
 	font-size: var(--rz-badge-label-font-size, 12px);
 	line-height: var(--rz-badge-label-line-height, 110%);
 	font-weight: var(--rz-badge-label-font-weight, 400);

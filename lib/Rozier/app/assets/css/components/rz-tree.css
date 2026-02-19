@@ -118,6 +118,10 @@
 		background: var(--surface-light-primary, #FFF);
 	}
 
+	&:has(a[aria-current="page"]) {
+		background: var(--node-bg-on-light-selected, #F2F2F2);
+	}
+
 	.rz-tree__item--ghost & {
 		background: var(--node-bg-on-light-selected-hover, #EAEAEA);
 	}
@@ -218,6 +222,10 @@
 	&:where(a) {
 		color: currentColor;
 		text-decoration: none;
+
+		&[aria-current="page"] {
+			font-weight: 500;
+		}
 	}
 
 	.rz-tree__item__icon + & {
@@ -232,10 +240,8 @@
 .rz-tree__item__tags {
 	display: flex;
 	align-items: center;
-	gap: var(--spacing-2xs);
-	margin-left: var(--spacing-6xs);
-	overflow: hidden;
-	white-space: nowrap;
+	gap: var(--spacing-6xs);
+	margin-inline: var(--spacing-6xs) var(--spacing-xs);
 }
 
 .rz-tree__item__expand-button {

@@ -1,13 +1,35 @@
 {% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set breadcrumb = {
-        label: 'documents-breadcrumb',
-        parent: [{
-            label: 'documents'|trans,
+    {% if folder is defined and folder %}
+        {% set breadcrumbParent = folder.getParents %}
+        {% set homePage = [{
             type: 'listing',
-            url: path('documentsHomePage'),
-        }],
-        current: title
-    } %}
+            url: path('foldersHomePage'),
+            label: 'folders'|trans,
+        }] %}
+        {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+        {% set breadcrumb = {
+            label: 'folders-breadcrumb',
+            parent: breadcrumbParent,
+            current: folder.name|default(folder.folderName),
+        } %}
+    {% elseif document is defined and document %}
+        {% set breadcrumb = {
+            label: 'documents-breadcrumb',
+            parent: [{
+                label: 'documents'|trans,
+                type: 'listing',
+                url: path('documentsHomePage'),
+            }],
+            current: title,
+        } %}
+    {% else %}
+        {% set breadcrumb = {
+            label: 'documents-breadcrumb',
+            type: 'listing',
+            parent: breadcrumbParent|default([]),
+            current: title,
+        } %}
+    {% endif %}
 {% endif %}
 
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
@@ -47,11 +69,12 @@
                     <span class="rz-button__label">{{ 'embed.document'|trans }}</span>
                     <span class="rz-button__icon rz-icon-ri--add-line"></span>
                 </a>
-                <a class="rz-button rz-button--primary rz-button-group__button"
+                {# feature not working  #}
+                {# <a class="rz-button rz-button--primary rz-button-group__button"
                    href="{{ path('documentsRandomPage', {folderId: folder.id}) }}">
                     <span class="rz-button__label">{{ 'random.document'|trans }}</span>
                     <span class="rz-button__icon rz-icon-ri--star-line"></span>
-                </a>
+                </a> #}
             </div>
         {% endif %}
     {% endblock %}

@@ -6,16 +6,23 @@
 <section class="content-global embed-document">
     {% include '@RoadizRozier/documents/head.html.twig' with {
         title: "embed.document"|trans,
+        breadcrumbParent: [{
+            type: 'listing',
+            url: path('documentsHomePage'),
+            label: 'documents'|trans,
+        }],
+        with_breadcrumb: true,
     } only %}
 
     <article class="content content-embed">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(form, { attr: {id: "embed-dropzone-document"}}) }}
-        {{ form_widget(form) }}
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#embed-dropzone-document') }}
+        {{ form_start(form, { attr: { id: "embed-dropzone-document" }}) }}
+            {{ form_widget(form) }}
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#embed-dropzone-document') }}
         {{ form_end(form) }}
     </article>
+
     {% include '@RoadizRozier/documents/actionsMenu.html.twig' %}
 </section>
 {% endblock %}

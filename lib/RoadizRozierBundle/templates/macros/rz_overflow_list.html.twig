@@ -1,0 +1,105 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+
+{% set items = items|default([]) %}
+{% set visible_count = visibleCount|default(0) %}
+{% if visible_count is not null %}
+    {% set visible_count = visible_count %}
+{% else %}
+    {% set visible_count = 0 %}
+{% endif %}
+
+{% set popover = popover|default({}) %}
+{% set popover_id = popover.id|default('rz-overflow-' ~ random()) %}
+{% set placement = popover.placement|default('bottom-start') %}
+{% set offset = popover.offset|default('8') %}
+{% set shift = popover.shift|default(null) %}
+{% set popover_tag_list = popover.tagList|default('div') %}
+{% set popover_attributes = popover.attributes|default({}) %}
+{% set popover_class = html_classes(
+    'rz-overflow-list__popover',
+    popover.class|default(''),
+    popover_attributes.class|default('')
+) %}
+{% set popover_attributes = popover_attributes|merge({
+    class: popover_class,
+}) %}
+
+{% set button = button|default({}) %}
+{% set button_attributes = button.attributes|default({})|merge({
+    type: 'button',
+    popovertarget: popover_id,
+    'aria-label': button.ariaLabel|default('more')|trans,
+}) %}
+
+{% set wrapper_attributes = wrapperAttributes|default({}) %}
+{% set wrapper_class = html_classes(
+    'rz-overflow-list',
+    wrapperClass|default(''),
+    wrapper_attributes.class|default('')
+) %}
+{% set wrapper_attributes = wrapper_attributes|merge({
+    class: wrapper_class,
+}) %}
+
+{% set overflow_button_class = html_classes(
+    'rz-overflow-list__button',
+    button.class|default('')
+) %}
+
+{% set visible_items = items|slice(0, visible_count) %}
+{% set overflow_items = items|slice(visible_count) %}
+{% set item_template = itemTemplate|default(null) %}
+{% set item_template_context = itemTemplateContext|default({}) %}
+{% set wrapperTag = wrapperTag|default('div') %}
+
+{% block item %}{% endblock %}
+
+<{{ wrapperTag }}
+    {{ el_attrs.print(wrapper_attributes) }}
+>
+    {% for loop_item in visible_items %}
+        {% if item_template %}
+            {{ include(item_template, item_template_context|merge({ item: loop_item })) }}
+        {% else %}
+            {% with { item: loop_item } %}
+                {{ block('item') }}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
+
+    {% if overflow_items|length > 0 %}
+        <rz-popover
+            {% if shift is not null %}popover-shift="{{ shift }}"{% endif %}
+            popover-placement="{{ placement }}"
+            popover-offset="{{ offset }}"
+        >
+            {{ rz_button.root(button|merge({
+                icon: button.icon|default('rz-icon-ri--more-line'),
+                size: button.size|default('sm'),
+                emphasis: button.emphasis|default('tertiary'),
+                class: overflow_button_class,
+                attributes: button_attributes,
+            })) }}
+
+            <div
+                id="{{ popover_id }}"
+                popover
+                {{ el_attrs.print(popover_attributes) }}
+            >
+                <{{ popover_tag_list }} class="rz-overflow-list__list">
+                    {% for loop_item in overflow_items %}
+                        {% if item_template %}
+                            {{ include(item_template, item_template_context|merge({ item: loop_item })) }}
+                        {% else %}
+                            {% with { item: loop_item } %}
+                                {{ block('item') }}
+                            {% endwith %}
+                        {% endif %}
+                    {% endfor %}
+                </{{ popover_tag_list }}>
+            </div>
+        </rz-popover>
+    {% endif %}
+</{{ wrapperTag }}>

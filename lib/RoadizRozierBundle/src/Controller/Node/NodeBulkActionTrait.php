@@ -75,10 +75,8 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
-            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkDeleteForm(
@@ -111,7 +109,7 @@ trait NodeBulkActionTrait
             'cancelPath' => $cancelPath,
             'alertMessage' => 'are_you_sure.delete.these.nodes',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $nodes,
         ]);
     }
 
@@ -449,10 +447,8 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
-            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkUndeleteForm(
@@ -474,7 +470,7 @@ trait NodeBulkActionTrait
             'action_label' => 'undelete.nodes.all',
             'action_icon' => 'rz-icon-ri--device-recover-line',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $nodes,
         ]);
     }
 

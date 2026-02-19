@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
@@ -28,7 +27,6 @@ final class NodeDuplicateController extends AbstractController
 {
     public function __construct(
         private readonly NodeNamePolicyInterface $nodeNamePolicy,
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly ManagerRegistry $managerRegistry,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
@@ -66,7 +64,7 @@ final class NodeDuplicateController extends AbstractController
                 'action_label' => $this->translator->trans('duplicate'),
                 'action_icon' => 'rz-icon-ri--file-copy-line',
                 'form' => $form->createView(),
-                'items' => [$this->explorerItemFactory->createForEntity($existingNode)->toArray()],
+                'items' => [$existingNode],
             ]);
         }
 

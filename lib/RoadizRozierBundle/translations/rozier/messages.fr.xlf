@@ -42,6 +42,10 @@
         <source>document.%name%.cannot_delete</source>
         <target state="final">Le document %name% n’a pas pu être supprimé.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="drag.actions.menu" approved="yes">
+        <source>drag.actions.menu</source>
+        <target state="final">Déplacer le menu d’actions</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="10" approved="yes">
         <source>document.%name%.uploaded</source>
         <target state="final">Le document %name% a été téléversé.</target>

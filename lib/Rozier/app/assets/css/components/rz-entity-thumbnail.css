@@ -27,13 +27,13 @@ rz-entity-thumbnail,
 }
 
 .rz-entity-thumbnail--medium {
-    width: 68px;
-    height: 52px;
+    width: 48px;
+    height: 38px;
 }
 
 .rz-entity-thumbnail--large {
-    width: 64px;
-    height: 64px;
+    width: 68px;
+    height: 52px;
 }
 
 /* Placeholder for empty state */

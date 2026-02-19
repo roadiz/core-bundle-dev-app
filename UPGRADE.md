@@ -59,23 +59,27 @@ php bin/console doctrine:migrations:migrate
 php bin/console cache:clear
 ```
 
-## ⚠ Twig Breaking changes
-For twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
+## ⚠ Twig breaking changes
+
+- Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
+
+For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
 - `content_title`
 - `content_count_filters`
 - `content_header_nav`
-  blocks to use new `header` block instead.
 
-example:
+blocks to use new `header` block instead.
+
+Example:
 ```twig
 {%- block header -%}
     {% include '@RoadizRozier/admin/head.html.twig' with {
-        title: 'articles'|trans,
+        title: 'my_entities'|trans,
         filters: filters,
-        buttons : [
+        buttons: [
             {
-                label: 'articles.add'|trans,
-                href: path('appArticlesAddPage'),
+                label: 'add.entity'|trans,
+                href: path('my_entity_add'),
                 icon: 'rz-icon-ri--add-line',
             }
         ]
@@ -85,7 +89,7 @@ example:
 
 You need to update your `content_filters` block to use new `widgets/rz_filters_bar.html.twig` inside this block.
 
-example:
+Example:
 ```twig
 {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
     filters: filters,
@@ -98,8 +102,8 @@ example:
 All backoffice menu icon classes now use the new UI icon set.
 If your project overrides menu entries in `config/packages/roadiz_rozier.yaml` and still uses old `uk-icon-*` classes, those icons will no longer display.
 
-Update your menu entries to use `rz-icon-ri--<name>` classes (or `rz-icon-rz--<name>`for Roadiz-specific icons).
-Icon names was based on Remix Icon names: https://remixicon.com/
+Update your menu entries to use `rz-icon-ri--<name>` classes (or `rz-icon-rz--<name>` for Roadiz-specific icons).
+Icon names are based on Remix Icon names: https://remixicon.com/
 
 Example migration:
 
@@ -121,6 +125,15 @@ Example migration:
 -                    icon: uk-icon-rz-draft-nodes
 +                    icon: rz-icon-rz--status-draft-line
 ```
+
+## New admin templates
+
+New reusable templates for building back-office pages:
+- `admin/head.html.twig` - Page header with title, breadcrumb, buttons
+- `admin/confirm_action.html.twig` - Generic confirmation page
+- `widgets/rz_filters_bar.html.twig` - Filter bar widget
+- `widgets/rz_bulk_actions.html.twig` - Bulk actions widget
+- New macros: `rz_button`, `rz_badge`, `rz_actions_menu`, `rz_card`
 
 # Upgrade to 2.7
 

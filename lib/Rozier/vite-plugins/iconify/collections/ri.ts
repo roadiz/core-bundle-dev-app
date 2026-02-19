@@ -142,6 +142,7 @@ export default [
     'stack-line',
     'star-line',
     'subtract-line',
+    'suitcase-line',
     'sun-line',
     'survey-line',
     'thumb-up-line',

@@ -3,6 +3,10 @@
 {%- block header -%}
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: 'two_factor_backup_codes'|trans,
+        breadcrumb: {
+            label: 'two-factor-breadcrumb',
+            current: 'two_factor_backup_codes'|trans,
+        }
     } only %}
 {%- endblock -%}
 

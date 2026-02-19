@@ -108,34 +108,35 @@
 
             {% block before_actions %}
                 {% set tags = nodeTree.getTags(item) %}
-                {% if item.isHome or tags|length %}
-                    <div class="rz-tree__item__tags">
-                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                        {% if item.isHome %}
-                            {{ rz_badge.item({
-                                size: 'xs',
-                                color: 'default',
-                                'icon': 'rz-icon-ri--home-2-fill',
-                                attributes: {
-                                    title: 'node.home'|trans,
-                                }
-                            }) }}
-                        {% endif %}
-
-                        {% if tags|length and nodeTree.isStackTree %}
-                            {% for tag in tags %}
-                                {% set label = tag.name|default(tag.tagName) %}
+                {% if tags|length and nodeTree.isStackTree %}
+                    {% embed "@RoadizRozier/macros/rz_overflow_list.html.twig" with {
+                        items: tags,
+                        visibleCount: 2,
+                        wrapperTag: 'div',
+                        wrapperClass: 'rz-tree__item__tags',
+                        popover: {
+                            offset: '8',
+                            class: 'rz-tree__item__tags__popover',
+                        },
+                        button: {
+                            icon: 'rz-icon-ri--price-tag-3-line',
+                            size: 'sm',
+                            emphasis: 'secondary',
+                            ariaLabel: 'more.tags'|trans,
+                        }
+                    } %}
+                        {% block item %}
+                            {% set label = item.name|default(item.tagName) %}
+                            {% if item and label %}
+                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
                                 {{ rz_badge.item({
-                                    label: label|truncate_title(18),
+                                    label: label,
                                     size: 'sm',
                                     color: 'default',
-                                    attributes: {
-                                        title: label,
-                                    }
                                 }) }}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
                 {% endif %}
             {% endblock %}
 

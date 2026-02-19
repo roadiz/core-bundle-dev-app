@@ -1,6 +1,17 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.realm.%name%"|trans({'%name%': item.getName()}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
+    'parentBreadcrumb': [
+        {
+            label: 'realms'|trans,
+            type: 'listing',
+            url: path('realmsHomePage'),
+        },
+        {
+            label: item.getName,
+            url: path('realmsEditPage', { id: item.id }),
+        },
+    ],
     'cancelPath': path('realmsHomePage'),
     'alertMessage': 'are_you_sure.delete.realm'|trans,
     'form': form,

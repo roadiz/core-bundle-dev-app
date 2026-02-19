@@ -7,6 +7,10 @@
         with_nav_bar: true,
         nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
         nav_bar_context: {'current':'dashboard'},
+        breadcrumb: {
+            label: 'breadcrumb',
+            current: 'dashboard'|trans,
+        },
         buttons: [
             {
                 label: 'articles.add'|trans,
@@ -41,9 +45,9 @@
                                 <td>
                                     <rz-entity-thumbnail
                                         size="medium"
+                                        class="rz-entity-thumbnail--medium"
                                         entity-class="App\GeneratedEntity\NSArticle"
                                         entity-id="{{ article.id }}"
-                                        data-uk-tooltip="{animation:true}"
                                     ></rz-entity-thumbnail>
                                 </td>
                                 <td>

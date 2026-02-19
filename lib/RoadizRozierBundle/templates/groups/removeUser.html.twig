@@ -1,6 +1,17 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "unlink.user.%name%"|trans({'%name%': user.userName}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
+    'parentBreadcrumb': [
+        {
+            label: 'groups'|trans,
+            type: 'listing',
+            url: path('groupsHomePage'),
+        },
+        {
+            label: item.getName,
+            url: path('groupsEditPage', { id: item.id }),
+        },
+    ],
     'cancelPath': path('groupsEditUsersPage', { id: item.id }),
     'alertMessage': 'are_you_sure.remove.user.from.group'|trans,
     'action_label': 'unlink'|trans,

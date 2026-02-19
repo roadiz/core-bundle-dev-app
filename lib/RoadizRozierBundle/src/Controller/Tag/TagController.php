@@ -17,7 +17,6 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
@@ -61,7 +60,6 @@ final class TagController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly LogTrail $logTrail,
     ) {
     }
@@ -299,8 +297,6 @@ final class TagController extends AbstractController
         }
 
         $assignation = [];
-        $assignation['tags'] = $tags;
-        $assignation['form'] = $form->createView();
 
         if (!empty($request->get('deleteForm')['referer'])) {
             $assignation['referer'] = $request->get('deleteForm')['referer'];
@@ -308,18 +304,13 @@ final class TagController extends AbstractController
 
         $title = $this->translator->trans('delete.tags');
 
-        $items = [];
-        foreach ($tags as $tag) {
-            $items[] = $this->explorerItemFactory->createForEntity($tag)->toArray();
-        }
-
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/admin/head.html.twig',
             'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
             'alertMessage' => 'are_you_sure.delete.these.tags',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $tags,
         ]);
     }
 
@@ -509,6 +500,7 @@ final class TagController extends AbstractController
             'cancelPath' => $this->generateUrl('tagsHomePage'),
             'alertMessage' => 'are_you_sure.delete.tag',
             'form' => $form->createView(),
+            'items' => [$tag],
         ]);
     }
 
