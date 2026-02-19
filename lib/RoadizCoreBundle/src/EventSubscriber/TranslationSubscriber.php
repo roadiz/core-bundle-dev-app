@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Event\Cache\CachePurgeRequestEvent;
@@ -41,11 +40,8 @@ final readonly class TranslationSubscriber implements EventSubscriberInterface
     {
         $manager = $this->managerRegistry->getManager();
         // Clear result cache
-        if (
-            $manager instanceof EntityManagerInterface
-            && $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
-        ) {
-            $manager->getConfiguration()->getResultCacheImpl()->deleteAll();
+        if ($manager instanceof EntityManagerInterface) {
+            $manager->getConfiguration()->getResultCache()?->clear();
         }
         $dispatcher->dispatch(new CachePurgeRequestEvent());
     }
