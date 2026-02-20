@@ -76,6 +76,8 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.project_logo_url', $config['projectLogoUrl']);
         $container->setParameter('roadiz_core.generated_class_namespace', $config['generatedClassNamespace']);
         $container->setParameter('roadiz_core.generated_repository_namespace', $config['generatedRepositoryNamespace']);
+        $container->setParameter('roadiz_core.solr.search.fuzzy_proximity', $config['solr']['search']['fuzzy_proximity']);
+        $container->setParameter('roadiz_core.solr.search.fuzzy_min_term_length', $config['solr']['search']['fuzzy_min_term_length']);
 
         /*
          * Assets config
