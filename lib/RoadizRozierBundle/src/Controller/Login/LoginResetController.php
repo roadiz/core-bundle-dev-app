@@ -64,6 +64,7 @@ final class LoginResetController extends AbstractController
         path: '/rz-admin/login/reset/confirm',
         name: 'loginResetConfirmPage',
         methods: ['GET'],
+        priority: 2,
     )]
     public function confirmAction(): Response
     {
