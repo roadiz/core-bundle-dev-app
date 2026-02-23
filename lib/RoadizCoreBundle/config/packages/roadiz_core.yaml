@@ -29,6 +29,9 @@ roadiz_core:
                 domainName: '%env(string:VARNISH_DOMAIN)%'
     solr:
         timeout: 3
+        search:
+            fuzzy_proximity: 2
+            fuzzy_min_term_length: 3
         endpoints:
             docker:
                 host: '%env(string:SOLR_HOST)%'
