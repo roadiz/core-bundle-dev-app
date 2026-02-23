@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.1...v2.7.2) - 2026-02-23
+
+### Bug Fixes
+
+- add priority to login reset confirmation route - ([a6bfc27](https://github.com/roadiz/core-bundle-dev-app/commit/a6bfc27429fa2cf04074471ed8469cc138da27a1))
+
 ## [2.7.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.0...v2.7.1) - 2026-02-03
 
 ### Bug Fixes
