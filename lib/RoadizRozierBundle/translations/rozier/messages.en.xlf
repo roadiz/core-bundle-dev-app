@@ -5082,6 +5082,194 @@
         <source>bookmarks.links</source>
         <target state="final">Bookmarks</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="-- Select a tag --" approved="yes">
+        <source>-- Select a tag --</source>
+        <target state="final">-- Select a tag --</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add" approved="yes">
+        <source>add</source>
+        <target state="final">Add</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.children_node" approved="yes">
+        <source>add.children_node</source>
+        <target state="final">Add child node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.no_group" approved="yes">
+        <source>attributes.no_group</source>
+        <target state="final">No group</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.values" approved="yes">
+        <source>attributes.values</source>
+        <target state="final">Values</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="close" approved="yes">
+        <source>close</source>
+        <target state="final">Close</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.delete_item" approved="yes">
+        <source>collection.delete_item</source>
+        <target state="final">Delete item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.insert_item" approved="yes">
+        <source>collection.insert_item</source>
+        <target state="final">Insert item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.move_down_item" approved="yes">
+        <source>collection.move_down_item</source>
+        <target state="final">Move item down</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.move_up_item" approved="yes">
+        <source>collection.move_up_item</source>
+        <target state="final">Move item up</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForms" approved="yes">
+        <source>customForms</source>
+        <target state="final">Custom forms</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="date" approved="yes">
+        <source>date</source>
+        <target state="final">Date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all_locations" approved="yes">
+        <source>delete.all_locations</source>
+        <target state="final">Delete all locations</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.locations" approved="yes">
+        <source>delete.locations</source>
+        <target state="final">Delete locations</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="disabled" approved="yes">
+        <source>disabled</source>
+        <target state="final">Disabled</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enabled" approved="yes">
+        <source>enabled</source>
+        <target state="final">Enabled</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="entity" approved="yes">
+        <source>entity</source>
+        <target state="final">Entity</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hidden" approved="yes">
+        <source>hidden</source>
+        <target state="final">Hidden</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.details.title" approved="yes">
+        <source>history.details.title</source>
+        <target state="final">History details</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="import.attributes" approved="yes">
+        <source>import.attributes</source>
+        <target state="final">Import attributes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="inherited.roles.caption" approved="yes">
+        <source>inherited.roles.caption</source>
+        <target state="final">Inherited roles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="insert.zone" approved="yes">
+        <source>insert.zone</source>
+        <target state="final">Insert zone</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ip.address" approved="yes">
+        <source>ip.address</source>
+        <target state="final">IP address</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="loading" approved="yes">
+        <source>loading</source>
+        <target state="final">Loading</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.down" approved="yes">
+        <source>move.down</source>
+        <target state="final">Move down</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.up" approved="yes">
+        <source>move.up</source>
+        <target state="final">Move up</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.result.found" approved="yes">
+        <source>no.result.found</source>
+        <target state="final">No result found</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.home" approved="yes">
+        <source>node.home</source>
+        <target state="final">Home node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.meta_table.caption" approved="yes">
+        <source>node_source.meta_table.caption</source>
+        <target state="final">Node source metadata</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_tree.no_nodes_found" approved="yes">
+        <source>node_tree.no_nodes_found</source>
+        <target state="final">No nodes found</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes-breadcrumb" approved="yes">
+        <source>nodes-breadcrumb</source>
+        <target state="final">Nodes breadcrumb</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.available" approved="yes">
+        <source>not.available</source>
+        <target state="final">Not available</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not_published_yet" approved="yes">
+        <source>not_published_yet</source>
+        <target state="final">Not published yet</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="pending.validation" approved="yes">
+        <source>pending.validation</source>
+        <target state="final">Pending validation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="remove.item" approved="yes">
+        <source>remove.item</source>
+        <target state="final">Remove item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="repeatable.add" approved="yes">
+        <source>repeatable.add</source>
+        <target state="final">Add item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="rz_aside.title" approved="yes">
+        <source>rz_aside.title</source>
+        <target state="final">Navigation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.location" approved="yes">
+        <source>search.location</source>
+        <target state="final">Search location</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.location.placeholder" approved="yes">
+        <source>search.location.placeholder</source>
+        <target state="final">Search for a location</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.row" approved="yes">
+        <source>select.row</source>
+        <target state="final">Select row</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="shadow" approved="yes">
+        <source>shadow</source>
+        <target state="final">Shadow</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="show.actions" approved="yes">
+        <source>show.actions</source>
+        <target state="final">Show actions</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="show.color.theme" approved="yes">
+        <source>show.color.theme</source>
+        <target state="final">Show color theme</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="specific.roles.caption" approved="yes">
+        <source>specific.roles.caption</source>
+        <target state="final">Specific roles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.security.meta_table.caption" approved="yes">
+        <source>user.security.meta_table.caption</source>
+        <target state="final">User security</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="view.details" approved="yes">
+        <source>view.details</source>
+        <target state="final">View details</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="view.node" approved="yes">
+        <source>view.node</source>
+        <target state="final">View node</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
