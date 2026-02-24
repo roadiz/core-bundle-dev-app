@@ -72,9 +72,6 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
         $container->setParameter('roadiz_core.force_locale', $config['forceLocale']);
         $container->setParameter('roadiz_core.force_locale_with_url_aliases', $config['forceLocaleWithUrlAliases']);
-        $container->setParameter('roadiz_core.solr.search.fuzzy_proximity', $config['solr']['search']['fuzzy_proximity']);
-        $container->setParameter('roadiz_core.solr.search.fuzzy_min_term_length', $config['solr']['search']['fuzzy_min_term_length']);
-
         /*
          * Assets config
          */

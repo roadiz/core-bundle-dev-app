@@ -21,10 +21,6 @@ roadiz_core:
         private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
         public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
         verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
-    solr:
-        search:
-            fuzzy_proximity: 2
-            fuzzy_min_term_length: 3
     inheritance:
         type: single_table
     reverseProxyCache:
