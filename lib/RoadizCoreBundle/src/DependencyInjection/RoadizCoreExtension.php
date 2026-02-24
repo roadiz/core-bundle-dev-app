@@ -68,8 +68,6 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.use_accept_language_header', $config['useAcceptLanguageHeader']);
         $container->setParameter('roadiz_core.web_response_class', $config['webResponseClass']);
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
-        $container->setParameter('roadiz_core.solr.search.fuzzy_proximity', $config['solr']['search']['fuzzy_proximity']);
-        $container->setParameter('roadiz_core.solr.search.fuzzy_min_term_length', $config['solr']['search']['fuzzy_min_term_length']);
 
         /*
          * Assets config
@@ -283,6 +281,10 @@ class RoadizCoreExtension extends Extension
             );
         }
         $container->setParameter('roadiz_core.solr.clients', $solrEndpoints);
+        if (isset($config['solr']['search']['fuzzy_proximity']) && isset($config['solr']['search']['fuzzy_min_term_length'])) {
+            $container->setParameter('roadiz_core.solr.search.fuzzy_proximity', $config['solr']['search']['fuzzy_proximity']);
+            $container->setParameter('roadiz_core.solr.search.fuzzy_min_term_length', $config['solr']['search']['fuzzy_min_term_length']);
+        }
     }
 
     private function registerMarkdown(array $config, ContainerBuilder $container): void
