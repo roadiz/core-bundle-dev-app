@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.42...v2.5.43) - 2026-02-24
+
+### Bug Fixes
+
+- Ensure default values are set for Solr config - ([16da211](https://github.com/roadiz/core-bundle-dev-app/commit/16da21183d5de059e7f0e631f7a4f479108f8972))
+
 ## [2.5.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.41...v2.5.42) - 2026-02-24
 
 ### Features
