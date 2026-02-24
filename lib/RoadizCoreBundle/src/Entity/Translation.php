@@ -24,8 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Translations describe language locales to be used by Nodes,
  * Tags, UrlAliases and Documents.
  */
-#[
-    ORM\Entity(repositoryClass: TranslationRepository::class),
+#[ORM\Entity(repositoryClass: TranslationRepository::class),
     ORM\Table(name: 'translations'),
     ORM\Index(columns: ['available']),
     ORM\Index(columns: ['default_translation']),
@@ -52,8 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(BaseFilter\SearchFilter::class, properties: [
         'locale' => 'exact',
         'name' => 'exact',
-    ])
-]
+    ])]
 class Translation extends AbstractDateTimed implements TranslationInterface
 {
     /**

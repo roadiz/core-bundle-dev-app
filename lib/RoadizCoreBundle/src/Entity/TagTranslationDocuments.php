@@ -14,12 +14,10 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
  * Describes a complex ManyToMany relation
  * between TagTranslation and Documents.
  */
-#[
-    ORM\Entity(repositoryClass: TagTranslationDocumentsRepository::class),
+#[ORM\Entity(repositoryClass: TagTranslationDocumentsRepository::class),
     ORM\Table(name: 'tags_translations_documents'),
     ORM\Index(columns: ['position']),
-    ORM\Index(columns: ['tag_translation_id', 'position'], name: 'tagtranslation_position')
-]
+    ORM\Index(columns: ['tag_translation_id', 'position'], name: 'tagtranslation_position')]
 class TagTranslationDocuments extends AbstractPositioned
 {
     #[ORM\ManyToOne(

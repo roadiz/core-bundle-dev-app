@@ -14,57 +14,45 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * This class can be extended for *Users*, *Subscribers*, etc.
  */
-#[
-    ORM\MappedSuperclass,
+#[ORM\MappedSuperclass,
     ORM\Table,
-    ORM\HasLifecycleCallbacks
-]
+    ORM\HasLifecycleCallbacks]
 abstract class AbstractHuman extends AbstractDateTimed
 {
-    #[
-        ORM\Column(type: 'string', length: 200, unique: true),
+    #[ORM\Column(type: 'string', length: 200, unique: true),
         Serializer\Groups(['user_personal', 'human']),
         SymfonySerializer\Groups(['user_personal', 'human']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 200),
-        Assert\Email()
-    ]
+        Assert\Email()]
     protected ?string $email = null;
 
     /**
      * Public name (pseudonyme) that can be displayed to a public audience.
      */
-    #[
-        ORM\Column(name: 'publicName', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'publicName', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_public', 'human']),
         SymfonySerializer\Groups(['user_public', 'human']),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     protected ?string $publicName = null;
 
-    #[
-        ORM\Column(name: 'firstName', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'firstName', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
         SymfonySerializer\Groups(['user_personal', 'human']),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     protected ?string $firstName = null;
 
-    #[
-        ORM\Column(name: 'lastName', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'lastName', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
         SymfonySerializer\Groups(['user_personal', 'human']),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     protected ?string $lastName = null;
 
-    #[
-        ORM\Column(type: 'string', length: 250, nullable: true),
+    #[ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
         SymfonySerializer\Groups(['user_personal', 'human']),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     protected ?string $company = null;
 
     public function getEmail(): ?string

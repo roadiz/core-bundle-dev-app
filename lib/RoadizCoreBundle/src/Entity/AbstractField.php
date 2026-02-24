@@ -14,14 +14,12 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
-#[
-    ORM\MappedSuperclass,
+#[ORM\MappedSuperclass,
     ORM\Table,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['group_name']),
     ORM\Index(columns: ['group_name_canonical']),
-    Serializer\ExclusionPolicy('all')
-]
+    Serializer\ExclusionPolicy('all')]
 abstract class AbstractField extends AbstractPositioned
 {
     use FieldTypeTrait;
@@ -329,102 +327,84 @@ abstract class AbstractField extends AbstractPositioned
         AbstractField::MARKDOWN_T,
     ];
 
-    #[
-        ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Serializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
-        Serializer\Expose
-    ]
+        Serializer\Expose]
     protected ?string $groupName = null;
 
-    #[
-        ORM\Column(name: 'group_name_canonical', type: 'string', length: 250, nullable: true),
+    #[ORM\Column(name: 'group_name_canonical', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'setting']),
         Assert\Length(max: 250),
         Serializer\Type('string'),
-        Serializer\Expose
-    ]
+        Serializer\Expose]
     protected ?string $groupNameCanonical = null;
 
-    #[
-        ORM\Column(type: 'string', length: 250),
+    #[ORM\Column(type: 'string', length: 250),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Serializer\Type('string'),
         Assert\NotBlank(),
-        Assert\NotNull()
-    ]
+        Assert\NotNull()]
     protected string $name;
 
-    #[
-        ORM\Column(type: 'string', length: 250),
+    #[ORM\Column(type: 'string', length: 250),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
-        Assert\NotNull()
-    ]
+        Assert\NotNull()]
     protected ?string $label;
 
-    #[
-        ORM\Column(type: 'string', length: 250, nullable: true),
+    #[ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
-        Serializer\Type('string')
-    ]
+        Serializer\Type('string')]
     protected ?string $placeholder = null;
 
-    #[
-        ORM\Column(type: 'text', nullable: true),
+    #[ORM\Column(type: 'text', nullable: true),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
-        Serializer\Type('string')
-    ]
+        Serializer\Type('string')]
     protected ?string $description = null;
 
-    #[
-        ORM\Column(name: 'default_values', type: 'text', nullable: true),
+    #[ORM\Column(name: 'default_values', type: 'text', nullable: true),
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
-        Serializer\Expose
-    ]
+        Serializer\Expose]
     protected ?string $defaultValues = null;
 
-    #[
-        ORM\Column(
-            type: Types::SMALLINT,
-            nullable: false,
-            enumType: FieldType::class,
-            options: ['default' => FieldType::STRING_T]
-        ),
+    #[ORM\Column(
+        type: Types::SMALLINT,
+        nullable: false,
+        enumType: FieldType::class,
+        options: ['default' => FieldType::STRING_T]
+    ),
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'setting']),
         Serializer\Type('int'),
-        Serializer\Expose
-    ]
+        Serializer\Expose]
     protected FieldType $type = FieldType::STRING_T;
 
     /**
      * If current field data should be expanded (for choices and country types).
      */
-    #[
-        ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
+    #[ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Serializer\Type('bool'),
-        Serializer\Expose
-    ]
+        Serializer\Expose]
     protected bool $expanded = false;
 
     public function __construct()

@@ -21,7 +21,7 @@ final readonly class TranslationTransformer implements DataTransformerInterface
      */
     public function transform(mixed $value): int|string|null
     {
-        if (!($value instanceof PersistableInterface)) {
+        if (!$value instanceof PersistableInterface) {
             return null;
         }
 

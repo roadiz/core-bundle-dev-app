@@ -26,8 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Tags are hierarchical entities used to qualify Nodes.
  */
-#[
-    ORM\Entity(repositoryClass: TagRepository::class),
+#[ORM\Entity(repositoryClass: TagRepository::class),
     ORM\HasLifecycleCallbacks,
     ORM\Table(name: 'tags'),
     ORM\Index(columns: ['visible']),
@@ -46,8 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'position',
         'createdAt',
         'updatedAt',
-    ])
-]
+    ])]
 class Tag extends AbstractDateTimedPositioned implements LeafInterface
 {
     use LeafTrait;

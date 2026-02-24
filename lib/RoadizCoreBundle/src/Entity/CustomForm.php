@@ -21,128 +21,104 @@ use Symfony\Component\Validator\Constraints as Assert;
  * CustomForms describe each node structure family,
  * They are mandatory before creating any Node.
  */
-#[
-    ORM\Entity(repositoryClass: CustomFormRepository::class),
+#[ORM\Entity(repositoryClass: CustomFormRepository::class),
     ORM\Table(name: 'custom_forms'),
     ORM\HasLifecycleCallbacks,
     UniqueEntity(fields: ['name']),
     ORM\Index(columns: ['created_at'], name: 'custom_form_created_at'),
-    ORM\Index(columns: ['updated_at'], name: 'custom_form_updated_at'),
-]
+    ORM\Index(columns: ['updated_at'], name: 'custom_form_updated_at'),]
 class CustomForm extends AbstractDateTimed
 {
-    #[
-        ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
+    #[ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
         Serializer\Groups(['custom_form', 'nodes_sources']),
         Assert\Length(max: 7),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     protected ?string $color = '#000000';
 
-    #[
-        ORM\Column(type: 'string', length: 250, unique: true),
+    #[ORM\Column(type: 'string', length: 250, unique: true),
         Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private string $name = 'Untitled';
 
-    #[
-        ORM\Column(name: 'display_name', type: 'string', length: 250),
+    #[ORM\Column(name: 'display_name', type: 'string', length: 250),
         Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private string $displayName = 'Untitled';
 
-    #[
-        ORM\Column(type: 'text', nullable: true),
+    #[ORM\Column(type: 'text', nullable: true),
         Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private ?string $description = null;
 
-    #[
-        ORM\Column(type: 'text', nullable: true),
+    #[ORM\Column(type: 'text', nullable: true),
         Serializer\Groups(['custom_form']),
         SymfonySerializer\Groups(['custom_form']),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private ?string $email = null;
 
-    #[
-        ORM\Column(type: 'string', length: 15, nullable: true),
+    #[ORM\Column(type: 'string', length: 15, nullable: true),
         Serializer\Groups(['custom_form']),
         SymfonySerializer\Groups(['custom_form']),
         Assert\Length(max: 15),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private ?string $retentionTime = null;
 
-    #[
-        ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
         Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private bool $open = true;
 
-    #[
-        ApiFilter(RoadizFilter\ArchiveFilter::class),
+    #[ApiFilter(RoadizFilter\ArchiveFilter::class),
         ORM\Column(name: 'close_date', type: 'datetime', nullable: true),
         Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private ?\DateTime $closeDate = null;
 
     /**
      * @var Collection<int, CustomFormField>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'customForm',
-            targetEntity: CustomFormField::class,
-            cascade: ['ALL'],
-            orphanRemoval: true
-        ),
+    #[ORM\OneToMany(
+        mappedBy: 'customForm',
+        targetEntity: CustomFormField::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    ),
         ORM\OrderBy(['position' => 'ASC']),
         Serializer\Groups(['custom_form']),
         SymfonySerializer\Groups(['custom_form']),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     private Collection $fields;
 
     /**
      * @var Collection<int, CustomFormAnswer>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'customForm',
-            targetEntity: CustomFormAnswer::class,
-            cascade: ['ALL'],
-            orphanRemoval: true
-        ),
+    #[ORM\OneToMany(
+        mappedBy: 'customForm',
+        targetEntity: CustomFormAnswer::class,
+        cascade: ['ALL'],
+        orphanRemoval: true
+    ),
         Serializer\Exclude,
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     private Collection $customFormAnswers;
 
     /**
      * @var Collection<int, NodesCustomForms>
      */
-    #[
-        ORM\OneToMany(mappedBy: 'customForm', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY'),
+    #[ORM\OneToMany(mappedBy: 'customForm', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY'),
         Serializer\Exclude,
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     private Collection $nodes;
 
     public function __construct()
@@ -228,11 +204,9 @@ class CustomForm extends AbstractDateTimed
      * Combine open flag and closeDate to determine
      * if current form is still available.
      */
-    #[
-        Serializer\Groups(['custom_form', 'nodes_sources']),
+    #[Serializer\Groups(['custom_form', 'nodes_sources']),
         Serializer\VirtualProperty,
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     public function isFormStillOpen(): bool
     {
         return (null === $this->getCloseDate() || $this->getCloseDate() >= (new \DateTime('now')))

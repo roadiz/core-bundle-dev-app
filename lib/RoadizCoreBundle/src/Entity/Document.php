@@ -33,8 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Documents entity represent a file on server with datetime and naming.
  */
-#[
-    ORM\Entity(repositoryClass: DocumentRepository::class),
+#[ORM\Entity(repositoryClass: DocumentRepository::class),
     ORM\Table(name: 'documents'),
     ORM\Index(columns: ['created_at'], name: 'document_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'document_updated_at'),
@@ -69,8 +68,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'copyrightValidSince' => 'include_null_before',
         'copyrightValidUntil' => 'include_null_after',
     ]),
-    ApiFilter(CopyrightValidFilter::class)
-]
+    ApiFilter(CopyrightValidFilter::class)]
 class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
 {
     use DocumentTrait;
@@ -139,12 +137,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[Serializer\Exclude]
     protected ?DocumentInterface $rawDocument = null;
 
-    #[
-        SymfonySerializer\Ignore,
+    #[SymfonySerializer\Ignore,
         Serializer\Groups(['document']),
         Serializer\Type('bool'),
-        ORM\Column(name: 'raw', type: 'boolean', nullable: false, options: ['default' => false])
-    ]
+        ORM\Column(name: 'raw', type: 'boolean', nullable: false, options: ['default' => false])]
     protected bool $raw = false;
 
     #[ORM\Column(name: 'embedId', type: 'string', length: 250, unique: false, nullable: true)]
@@ -606,8 +602,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         Serializer\Type('string'),
         Serializer\VirtualProperty,
         Serializer\SerializedName('alt'),
@@ -616,8 +611,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         ApiProperty(
             description: 'Document alternative text, for img HTML tag. Image is decorative if this is NULL or empty.',
             writable: false,
-        )
-    ]
+        )]
     public function getAlternativeText(): ?string
     {
         $documentTranslation = $this->getDocumentTranslations()->first();

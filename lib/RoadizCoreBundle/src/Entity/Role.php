@@ -17,22 +17,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Roles are persisted version of string Symfony's roles.
  */
-#[
-    ORM\Entity(repositoryClass: RoleRepository::class),
+#[ORM\Entity(repositoryClass: RoleRepository::class),
     ORM\Table(name: 'roles'),
-    UniqueEntity(fields: ['name'])
-]
+    UniqueEntity(fields: ['name'])]
 class Role implements PersistableInterface
 {
     public const ROLE_DEFAULT = 'ROLE_USER';
     public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
     public const ROLE_BACKEND_USER = 'ROLE_BACKEND_USER';
 
-    #[
-        ORM\Id,
+    #[ORM\Id,
         ORM\Column(type: 'integer'),
-        ORM\GeneratedValue(strategy: 'AUTO')
-    ]
+        ORM\GeneratedValue(strategy: 'AUTO')]
     protected ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]

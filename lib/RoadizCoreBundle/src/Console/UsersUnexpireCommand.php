@@ -44,10 +44,9 @@ final class UsersUnexpireCommand extends UsersCommand
             $io->success('User “'.$name.'” unexpired.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not updated.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not updated.');
+
+        return 1;
     }
 }

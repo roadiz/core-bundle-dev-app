@@ -26,7 +26,7 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
      */
     public function __invoke(NodesSources $source, WalkerInterface $walker): array
     {
-        if (!($this->context instanceof NodeSourceWalkerContext)) {
+        if (!$this->context instanceof NodeSourceWalkerContext) {
             throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 

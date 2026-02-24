@@ -37,7 +37,7 @@ final readonly class ReverseProxyCacheEventSubscriber implements EventSubscriber
         ];
     }
 
-    protected function supportConfig(): bool
+    private function supportConfig(): bool
     {
         return count($this->reverseProxyCacheLocator->getFrontends()) > 0;
     }
@@ -83,7 +83,7 @@ final readonly class ReverseProxyCacheEventSubscriber implements EventSubscriber
     /**
      * @return HttpRequestMessageInterface[]
      */
-    protected function createBanRequests(): array
+    private function createBanRequests(): array
     {
         $requests = [];
         foreach ($this->reverseProxyCacheLocator->getFrontends() as $frontend) {
@@ -109,7 +109,7 @@ final readonly class ReverseProxyCacheEventSubscriber implements EventSubscriber
         return $requests;
     }
 
-    protected function purgeNodesSources(NodesSources $nodeSource): void
+    private function purgeNodesSources(NodesSources $nodeSource): void
     {
         try {
             $this->bus->dispatch(new Envelope(new PurgeReverseProxyCacheMessage($nodeSource->getId())));
@@ -118,7 +118,7 @@ final readonly class ReverseProxyCacheEventSubscriber implements EventSubscriber
         }
     }
 
-    protected function sendRequest(HttpRequestMessageInterface $requestMessage): void
+    private function sendRequest(HttpRequestMessageInterface $requestMessage): void
     {
         try {
             $this->bus->dispatch(new Envelope($requestMessage));

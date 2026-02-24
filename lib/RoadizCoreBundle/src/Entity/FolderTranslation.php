@@ -18,12 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * It stores their name.
  */
-#[
-    ORM\Entity(repositoryClass: FolderTranslationRepository::class),
+#[ORM\Entity(repositoryClass: FolderTranslationRepository::class),
     ORM\Table(name: 'folders_translations'),
     ORM\UniqueConstraint(columns: ['folder_id', 'translation_id']),
-    UniqueEntity(fields: ['folder', 'translation'])
-]
+    UniqueEntity(fields: ['folder', 'translation'])]
 class FolderTranslation extends AbstractEntity
 {
     #[ORM\Column(type: 'string', length: 250)]

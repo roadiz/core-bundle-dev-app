@@ -1,19 +1,17 @@
 phpstan:
-	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 
 test:
-	vendor/bin/requirements-checker
-	vendor/bin/monorepo-builder validate
+	docker compose run --no-deps --rm --entrypoint= app vendor/bin/requirements-checker
+	docker compose run --no-deps --rm --entrypoint= app vendor/bin/monorepo-builder validate
 	make phpstan
-	XDEBUG_MODE=coverage vendor/bin/phpunit -v
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
+	make phpunit
 
 phpunit:
 	APP_ENV=test docker compose exec app php vendor/bin/phpunit -v

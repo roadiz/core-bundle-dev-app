@@ -40,7 +40,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
             ->getRepository(CustomFormAnswer::class)
             ->find($message->getCustomFormAnswerId());
 
-        if (!($answer instanceof CustomFormAnswer)) {
+        if (!$answer instanceof CustomFormAnswer) {
             throw new UnrecoverableMessageHandlingException('CustomFormAnswer not found');
         }
 

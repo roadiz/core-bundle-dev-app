@@ -68,7 +68,7 @@ final class NodeRouteHelper
         return $this->controller;
     }
 
-    protected function getControllerNamespace(): string
+    private function getControllerNamespace(): string
     {
         $namespace = $this->defaultControllerNamespace;
         if (null !== $this->theme) {

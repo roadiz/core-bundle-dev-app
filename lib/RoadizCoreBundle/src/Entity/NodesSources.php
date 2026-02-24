@@ -31,8 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * NodesSources store Node content according to a translation and a NodeType.
  */
-#[
-    ORM\Entity(repositoryClass: NodesSourcesRepository::class),
+#[ORM\Entity(repositoryClass: NodesSourcesRepository::class),
     ORM\Table(name: 'nodes_sources'),
     ORM\Index(columns: ['discr']),
     ORM\Index(columns: ['title']),
@@ -57,8 +56,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(RoadizFilter\LocaleFilter::class),
-    ApiFilter(RoadizFilter\TagGroupFilter::class),
-]
+    ApiFilter(RoadizFilter\TagGroupFilter::class),]
 class NodesSources extends AbstractEntity implements Loggable
 {
     #[SymfonySerializer\Ignore]
@@ -495,9 +493,9 @@ class NodesSources extends AbstractEntity implements Loggable
             $nodeSources = $parent->getNodeSourcesByTranslation($this->translation)->first();
 
             return $nodeSources ?: null;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public function __toString(): string

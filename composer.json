@@ -41,7 +41,7 @@
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "ext-zip": "*",
-        "api-platform/core": "~3.3.11",
+        "api-platform/core": "~3.4.17",
         "codercat/jwk-to-pem": "^1.0",
         "composer/package-versions-deprecated": "1.11.99.3",
         "doctrine/annotations": "^2.0",

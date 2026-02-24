@@ -36,7 +36,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
 
     private function updateDocumentSize(DocumentInterface $document): void
     {
-        if (!($document instanceof SizeableInterface)) {
+        if (!$document instanceof SizeableInterface) {
             return;
         }
         $mountPath = $document->getMountPath();

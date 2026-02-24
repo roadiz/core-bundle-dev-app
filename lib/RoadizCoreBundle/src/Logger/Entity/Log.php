@@ -14,8 +14,7 @@ use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: LogRepository::class),
+#[ORM\Entity(repositoryClass: LogRepository::class),
     ORM\Table(name: 'log'),
     ORM\Index(columns: ['datetime']),
     ORM\Index(columns: ['entity_class']),
@@ -29,8 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['level']),
     ORM\Index(columns: ['username']),
     ORM\Index(columns: ['channel']),
-    ORM\HasLifecycleCallbacks
-]
+    ORM\HasLifecycleCallbacks]
 class Log extends AbstractEntity
 {
     #[ORM\Column(name: 'user_id', type: 'string', length: 36, unique: false, nullable: true)]

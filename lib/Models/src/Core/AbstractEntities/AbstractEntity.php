@@ -11,20 +11,16 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 /**
  * Base entity implementing PersistableInterface to offer a unique ID.
  */
-#[
-    ORM\MappedSuperclass,
-    ORM\Table
-]
+#[ORM\MappedSuperclass,
+    ORM\Table]
 abstract class AbstractEntity implements PersistableInterface
 {
-    #[
-        ORM\Id,
+    #[ORM\Id,
         ORM\Column(type: 'integer'),
         ORM\GeneratedValue,
         Serializer\Groups(['id']),
         Serializer\Type('integer'),
-        SymfonySerializer\Groups(['id'])
-    ]
+        SymfonySerializer\Groups(['id'])]
     protected int|string|null $id = null;
 
     public function getId(): int|string|null

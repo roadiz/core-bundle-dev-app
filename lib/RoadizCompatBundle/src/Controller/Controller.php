@@ -293,9 +293,8 @@ abstract class Controller extends AbstractController
         } catch (RuntimeError $e) {
             if ($e->getPrevious() instanceof ForceResponseException) {
                 return $e->getPrevious()->getResponse();
-            } else {
-                throw $e;
             }
+            throw $e;
         }
     }
 

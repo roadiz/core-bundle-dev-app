@@ -8,10 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\CoreBundle\Repository\StackTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: StackTypeRepository::class),
-    ORM\Table(name: 'stack_types'),
-]
+#[ORM\Entity(repositoryClass: StackTypeRepository::class),
+    ORM\Table(name: 'stack_types'),]
 class StackType
 {
     public function __construct(

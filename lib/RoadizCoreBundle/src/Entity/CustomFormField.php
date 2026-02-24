@@ -18,8 +18,7 @@ use Symfony\Component\Validator\Constraints\Choice;
  * CustomFormField entities are used to create CustomForms with
  * custom data structure.
  */
-#[
-    ORM\Entity(repositoryClass: CustomFormFieldRepository::class),
+#[ORM\Entity(repositoryClass: CustomFormFieldRepository::class),
     ORM\Table(name: 'custom_form_fields'),
     ORM\UniqueConstraint(columns: ['name', 'custom_form_id']),
     ORM\Index(columns: ['position']),
@@ -27,8 +26,7 @@ use Symfony\Component\Validator\Constraints\Choice;
     ORM\Index(columns: ['type']),
     ORM\Index(columns: ['custom_form_id', 'position'], name: 'cfield_customform_position'),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity(fields: ['label', 'customForm'])
-]
+    UniqueEntity(fields: ['label', 'customForm'])]
 class CustomFormField extends AbstractField
 {
     /**
@@ -50,36 +48,29 @@ class CustomFormField extends AbstractField
         FieldType::TEXT_T,
     ];
 
-    #[
-        ORM\ManyToOne(targetEntity: CustomForm::class, inversedBy: 'fields'),
+    #[ORM\ManyToOne(targetEntity: CustomForm::class, inversedBy: 'fields'),
         ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
         Serializer\Exclude,
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     private CustomForm $customForm;
 
     /**
      * @var Collection<int, CustomFormFieldAttribute>
      */
-    #[
-        ORM\OneToMany(mappedBy: 'customFormField', targetEntity: CustomFormFieldAttribute::class),
+    #[ORM\OneToMany(mappedBy: 'customFormField', targetEntity: CustomFormFieldAttribute::class),
         Serializer\Exclude,
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     private Collection $customFormFieldAttributes;
 
-    #[
-        ORM\Column(name: 'field_required', type: 'boolean', nullable: false, options: ['default' => false]),
+    #[ORM\Column(name: 'field_required', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['custom_form']),
-        SymfonySerializer\Groups(['custom_form'])
-    ]
+        SymfonySerializer\Groups(['custom_form'])]
     private bool $required = false;
 
     /**
      * @var string|null https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete
      */
-    #[
-        ORM\Column(name: 'autocomplete', type: 'string', length: 18, nullable: true),
+    #[ORM\Column(name: 'autocomplete', type: 'string', length: 18, nullable: true),
         Serializer\Groups(['custom_form']),
         SymfonySerializer\Groups(['custom_form']),
         Choice([
@@ -108,8 +99,7 @@ class CustomFormField extends AbstractField
             'tel-national',
             'url',
             'photo',
-        ])
-    ]
+        ])]
     private ?string $autocomplete = null;
 
     public function __construct()

@@ -24,7 +24,7 @@
         "ext-zip": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "api-platform/core": "~3.3.11",
+        "api-platform/core": "~3.4.17",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",

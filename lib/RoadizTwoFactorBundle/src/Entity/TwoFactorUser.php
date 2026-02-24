@@ -15,11 +15,9 @@ use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TotpTwoFactorInterfac
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: TwoFactorUserRepository::class),
+#[ORM\Entity(repositoryClass: TwoFactorUserRepository::class),
     ORM\Table(name: 'two_factor_users'),
-    ORM\UniqueConstraint(columns: ['user_id']),
-]
+    ORM\UniqueConstraint(columns: ['user_id']),]
 class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, TrustedDeviceInterface, GoogleAuthenticatorTwoFactorInterface
 {
     #[ORM\OneToOne(targetEntity: User::class)]

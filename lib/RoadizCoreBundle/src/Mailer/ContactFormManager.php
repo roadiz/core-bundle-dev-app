@@ -289,18 +289,17 @@ final class ContactFormManager extends EmailManager
                     $this->send();
                     if ($returnJson) {
                         return new JsonResponse([], Response::HTTP_ACCEPTED);
-                    } else {
-                        if ($request->hasPreviousSession()) {
-                            /** @var Session $session */
-                            $session = $request->getSession();
-                            $session->getFlashBag()
-                                ->add('confirm', $this->translator->trans($this->successMessage));
-                        }
-
-                        $this->redirectUrl = null !== $this->redirectUrl ? $this->redirectUrl : $request->getUri();
-
-                        return new RedirectResponse($this->redirectUrl);
                     }
+                    if ($request->hasPreviousSession()) {
+                        /** @var Session $session */
+                        $session = $request->getSession();
+                        $session->getFlashBag()
+                            ->add('confirm', $this->translator->trans($this->successMessage));
+                    }
+
+                    $this->redirectUrl = null !== $this->redirectUrl ? $this->redirectUrl : $request->getUri();
+
+                    return new RedirectResponse($this->redirectUrl);
                 } catch (BadFormRequestException $e) {
                     if (null !== $e->getFieldErrored() && $this->form->has($e->getFieldErrored())) {
                         $this->form->get($e->getFieldErrored())->addError(new FormError($e->getMessage()));
@@ -393,9 +392,8 @@ final class ContactFormManager extends EmailManager
             || $uploadedFile->getSize() > $this->maxFileSize
         ) {
             throw new BadFormRequestException($this->translator->trans('file.not.accepted'), Response::HTTP_FORBIDDEN, 'danger', $name);
-        } else {
-            $this->uploadedFiles[$name] = $uploadedFile;
         }
+        $this->uploadedFiles[$name] = $uploadedFile;
 
         return $this;
     }

@@ -37,7 +37,7 @@ final readonly class BackupCodeManager implements BackupCodeManagerInterface
             $user = $this->twoFactorUserProvider->getFromUser($user);
         }
 
-        if (!($user instanceof BackupCodeInterface)) {
+        if (!$user instanceof BackupCodeInterface) {
             return;
         }
 

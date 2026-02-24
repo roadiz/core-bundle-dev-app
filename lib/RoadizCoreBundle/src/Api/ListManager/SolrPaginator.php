@@ -16,7 +16,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
     {
     }
 
-    protected function handleOnce(): void
+    private function handleOnce(): void
     {
         if (false === $this->handled) {
             $this->listManager->handle();

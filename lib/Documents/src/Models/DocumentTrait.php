@@ -162,9 +162,9 @@ trait DocumentTrait
     {
         if (null !== $this->getMimeType() && isset(static::$mimeToIcon[$this->getMimeType()])) {
             return static::$mimeToIcon[$this->getMimeType()];
-        } else {
-            return 'unknown';
         }
+
+        return 'unknown';
     }
 
     /**
@@ -233,23 +233,19 @@ trait DocumentTrait
         return 'image/webp' === $this->getMimeType();
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        Serializer\SerializedName('relativePath'),
-    ]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('relativePath'),]
     public function getRelativePath(): ?string
     {
         if ($this->isLocal()) {
             return $this->getFolder().'/'.$this->getFilename();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
-    #[
-        Serializer\Groups(['document_mount']),
-        Serializer\SerializedName('mountPath'),
-    ]
+    #[Serializer\Groups(['document_mount']),
+        Serializer\SerializedName('mountPath'),]
     public function getMountPath(): ?string
     {
         if (null === $relativePath = $this->getRelativePath()) {
@@ -257,14 +253,12 @@ trait DocumentTrait
         }
         if ($this->isPrivate()) {
             return 'private://'.$relativePath;
-        } else {
-            return 'public://'.$relativePath;
         }
+
+        return 'public://'.$relativePath;
     }
 
-    #[
-        Serializer\Ignore
-    ]
+    #[Serializer\Ignore]
     public function getMountFolderPath(): ?string
     {
         $folder = $this->getFolder();
@@ -273,9 +267,9 @@ trait DocumentTrait
         }
         if ($this->isPrivate()) {
             return 'private://'.$folder;
-        } else {
-            return 'public://'.$folder;
         }
+
+        return 'public://'.$folder;
     }
 
     /**
@@ -292,23 +286,19 @@ trait DocumentTrait
         $this->setFolder(DocumentFolderGenerator::generateFolderName());
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('processable'),
         ApiProperty(
             description: 'Document can be processed as an image for resampling and other image operations.',
             writable: false,
-        )
-    ]
+        )]
     public function isProcessable(): bool
     {
         return $this->isImage() && in_array($this->getMimeType(), static::$processableMimeTypes, true);
     }
 
-    #[
-        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        Serializer\SerializedName('alt'),
-    ]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('alt'),]
     public function getAlternativeText(): ?string
     {
         return null;

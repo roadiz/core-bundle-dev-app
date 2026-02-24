@@ -41,12 +41,11 @@ class ThemeGenerator
                     return $this->relativeSymlinkWithFallback($originDir, $targetDir);
                 } elseif (static::METHOD_ABSOLUTE_SYMLINK === $expectedMethod) {
                     return $this->absoluteSymlinkWithFallback($originDir, $targetDir);
-                } else {
-                    return $this->hardCopy($originDir, $targetDir);
                 }
-            } else {
-                $this->logger->info($themeInfo->getThemeName().' assets are already public.');
+
+                return $this->hardCopy($originDir, $targetDir);
             }
+            $this->logger->info($themeInfo->getThemeName().' assets are already public.');
         }
 
         return null;

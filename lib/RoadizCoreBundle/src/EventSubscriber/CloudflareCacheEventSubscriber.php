@@ -38,7 +38,7 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
         ];
     }
 
-    protected function supportConfig(): bool
+    private function supportConfig(): bool
     {
         return null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()
            && (
@@ -117,7 +117,7 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
     /**
      * @throws \JsonException
      */
-    protected function createRequest(array $body): HttpRequestMessageInterface
+    private function createRequest(array $body): HttpRequestMessageInterface
     {
         $headers = [
             'Content-type' => 'application/json',
@@ -150,7 +150,7 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
     /**
      * @throws \JsonException
      */
-    protected function createBanRequest(): HttpRequestMessageInterface
+    private function createBanRequest(): HttpRequestMessageInterface
     {
         return $this->createRequest([
             'purge_everything' => true,
@@ -162,14 +162,14 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
      *
      * @throws \JsonException
      */
-    protected function createPurgeRequest(array $uris = []): HttpRequestMessageInterface
+    private function createPurgeRequest(array $uris = []): HttpRequestMessageInterface
     {
         return $this->createRequest([
             'files' => $uris,
         ]);
     }
 
-    protected function sendRequest(HttpRequestMessageInterface $requestMessage): void
+    private function sendRequest(HttpRequestMessageInterface $requestMessage): void
     {
         try {
             $this->bus->dispatch(new Envelope($requestMessage));
