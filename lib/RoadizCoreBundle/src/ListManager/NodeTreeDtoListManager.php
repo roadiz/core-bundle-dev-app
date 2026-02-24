@@ -37,18 +37,17 @@ final class NodeTreeDtoListManager extends EntityListManager
 
             // @phpstan-ignore-next-line
             return $this->paginator->findByAtPage($this->orderingArray, $this->currentPage);
-        } else {
-            $repository = $this->entityManager->getRepository(Node::class);
-            if ($repository instanceof StatusAwareRepository) {
-                $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
-                $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
-            }
-
-            return $repository->findByAsNodeTreeDto(
-                $this->filteringArray,
-                $this->orderingArray,
-                $this->itemPerPage
-            );
         }
+        $repository = $this->entityManager->getRepository(Node::class);
+        if ($repository instanceof StatusAwareRepository) {
+            $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
+            $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+        }
+
+        return $repository->findByAsNodeTreeDto(
+            $this->filteringArray,
+            $this->orderingArray,
+            $this->itemPerPage
+        );
     }
 }

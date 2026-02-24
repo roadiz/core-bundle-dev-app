@@ -36,7 +36,7 @@ final readonly class NonReachableNodeSourceBlockDefinition
      */
     public function __invoke(NodesSources $source): array
     {
-        if (!($this->context instanceof NodeSourceWalkerContext)) {
+        if (!$this->context instanceof NodeSourceWalkerContext) {
             throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 

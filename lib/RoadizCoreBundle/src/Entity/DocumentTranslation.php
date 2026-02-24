@@ -15,12 +15,10 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: DocumentTranslationRepository::class),
+#[ORM\Entity(repositoryClass: DocumentTranslationRepository::class),
     ORM\Table(name: 'documents_translations'),
     ORM\UniqueConstraint(columns: ['document_id', 'translation_id']),
-    Gedmo\Loggable(logEntryClass: UserLogEntry::class)
-]
+    Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 class DocumentTranslation implements Loggable, PersistableInterface
 {
     use SequentialIdTrait;

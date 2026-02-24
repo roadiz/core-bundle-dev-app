@@ -11,12 +11,10 @@ use RZ\Roadiz\CoreBundle\Enum\NodeTypeDecoratorProperty;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeDecoratorRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[
-    ORM\Entity(repositoryClass: NodeTypeDecoratorRepository::class),
+#[ORM\Entity(repositoryClass: NodeTypeDecoratorRepository::class),
     ORM\Table(name: 'node_type_decorators'),
     UniqueEntity(fields: ['path', 'property']),
-    ORM\Index(columns: ['path'], name: 'idx_ntd_path'),
-]
+    ORM\Index(columns: ['path'], name: 'idx_ntd_path'),]
 class NodeTypeDecorator implements PersistableInterface, \Stringable
 {
     use SequentialIdTrait;

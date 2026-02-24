@@ -19,50 +19,34 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 final class NodeType implements NodeTypeInterface, \Stringable
 {
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
-        Assert\Length(max: 7),
-    ]
-    protected ?string $color = '#000000';
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
+        Assert\Length(max: 7),]
+    private ?string $color = '#000000';
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Assert\NotNull(),
         Assert\NotBlank(),
         RoadizAssert\SimpleLatinString(),
         // Limit discriminator column to 30 characters for indexing optimization
-        Assert\Length(max: 30)
-    ]
+        Assert\Length(max: 30)]
     private string $name = '';
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Assert\NotNull(),
         Assert\NotBlank(),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     private string $displayName = '';
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private ?string $description = null;
-    #[
-        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),]
     private bool $visible = true;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $publishable = false;
 
     /**
      * @var bool define if this node-type produces nodes that will have attributes
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $attributable = false;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $sortingAttributesByWeight = false;
     /**
      * Define if this node-type produces nodes that will be
@@ -70,45 +54,31 @@ final class NodeType implements NodeTypeInterface, \Stringable
      *
      * Typically, if a node has a URL.
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $reachable = true;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $hidingNodes = false;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $hidingNonReachableNodes = false;
     /**
      * @var Collection<int, NodeTypeField>
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private Collection $fields;
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),
         Assert\GreaterThanOrEqual(value: 0),
-        Assert\NotNull
-    ]
+        Assert\NotNull]
     // @phpstan-ignore-next-line
     private ?int $defaultTtl = 0;
     /**
      * Define if this node-type title will be indexed during its parent indexation.
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $searchable = true;
     /**
      * Define if this node type is allowed in the first position in node-type selector on node creation.
      */
-    #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
-    ]
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $highlighted = false;
 
     public function __construct()

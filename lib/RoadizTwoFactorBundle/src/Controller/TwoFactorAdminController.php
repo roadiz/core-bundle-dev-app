@@ -34,7 +34,7 @@ final class TwoFactorAdminController extends AbstractController
         }
 
         $user = $tokenStorage->getToken()->getUser();
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
         $assignation = [];
@@ -82,7 +82,7 @@ final class TwoFactorAdminController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
         $user = $tokenStorage->getToken()->getUser();
-        if (!($user instanceof User)) {
+        if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);

@@ -230,19 +230,18 @@ final class DocumentController extends AbstractController
                             'success' => true,
                             'document' => $documentModel->toArray(),
                         ], Response::HTTP_CREATED);
-                    } else {
-                        return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
                     }
-                } else {
-                    $msg = $this->translator->trans('document.cannot_persist');
-                    $this->logTrail->publishErrorMessage($request, $msg, $document);
 
-                    if ('json' === $_format || $request->isXmlHttpRequest()) {
-                        throw $this->createNotFoundException($msg);
-                    } else {
-                        return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
-                    }
+                    return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
                 }
+                $msg = $this->translator->trans('document.cannot_persist');
+                $this->logTrail->publishErrorMessage($request, $msg, $document);
+
+                if ('json' === $_format || $request->isXmlHttpRequest()) {
+                    throw $this->createNotFoundException($msg);
+                }
+
+                return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
             } elseif ('json' === $_format || $request->isXmlHttpRequest()) {
                 /*
                  * Bad form submitted

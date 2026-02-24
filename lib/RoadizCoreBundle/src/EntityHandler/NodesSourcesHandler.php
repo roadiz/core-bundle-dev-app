@@ -319,11 +319,10 @@ final class NodesSourcesHandler extends AbstractHandler
             $parentHandler->setNodeSource($this->nodeSource->getParent());
 
             return $parentHandler->getFirstChild($criteria, $order);
-        } else {
-            $criteria['node.parent'] = null;
-
-            return $this->getFirstChild($criteria, $order);
         }
+        $criteria['node.parent'] = null;
+
+        return $this->getFirstChild($criteria, $order);
     }
 
     /**
@@ -340,11 +339,10 @@ final class NodesSourcesHandler extends AbstractHandler
             $parentHandler->setNodeSource($this->nodeSource->getParent());
 
             return $parentHandler->getLastChild($criteria, $order);
-        } else {
-            $criteria['node.parent'] = null;
-
-            return $this->getLastChild($criteria, $order);
         }
+        $criteria['node.parent'] = null;
+
+        return $this->getLastChild($criteria, $order);
     }
 
     /**

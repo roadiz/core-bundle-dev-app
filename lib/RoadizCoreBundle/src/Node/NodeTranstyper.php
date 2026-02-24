@@ -127,7 +127,7 @@ final readonly class NodeTranstyper
         return $node;
     }
 
-    protected function removeOldSources(Node $node, array &$sources): void
+    private function removeOldSources(Node $node, array &$sources): void
     {
         /** @var NodesSources $existingSource */
         foreach ($sources as $existingSource) {
@@ -145,7 +145,7 @@ final readonly class NodeTranstyper
      *
      * @param class-string<NodesSources> $sourceClass
      */
-    protected function doTranstypeSingleSource(
+    private function doTranstypeSingleSource(
         Node $node,
         NodesSources $existingSource,
         TranslationInterface $translation,
@@ -221,7 +221,7 @@ final readonly class NodeTranstyper
      *
      * @throws \InvalidArgumentException if mock fails due to Source class not existing
      */
-    protected function mockTranstype(NodeTypeInterface $nodeType): void
+    private function mockTranstype(NodeTypeInterface $nodeType): void
     {
         $sourceClass = $nodeType->getSourceEntityFullQualifiedClassName();
         if (!class_exists($sourceClass)) {

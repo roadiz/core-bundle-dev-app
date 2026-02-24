@@ -36,7 +36,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
     {
         $answer = $this->customFormAnswerRepository->find($message->getCustomFormAnswerId());
 
-        if (!($answer instanceof CustomFormAnswer)) {
+        if (!$answer instanceof CustomFormAnswer) {
             throw new UnrecoverableMessageHandlingException('CustomFormAnswer not found');
         }
 

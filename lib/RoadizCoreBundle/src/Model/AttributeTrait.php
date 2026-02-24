@@ -13,74 +13,60 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTrait
 {
-    #[
-        ORM\Column(type: 'string', length: 255, unique: true, nullable: false),
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false),
         Serializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
-        Assert\Length(max: 255)
-    ]
+        Assert\Length(max: 255)]
     protected string $code = '';
 
-    #[
-        ORM\Column(type: 'boolean', unique: false, nullable: false, options: ['default' => false]),
-        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
-    ]
+    #[ORM\Column(type: 'boolean', unique: false, nullable: false, options: ['default' => false]),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),]
     protected bool $searchable = false;
 
-    #[
-        ORM\Column(type: 'integer', unique: false, nullable: false),
-        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
-    ]
+    #[ORM\Column(type: 'integer', unique: false, nullable: false),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),]
     protected int $type = AttributeInterface::STRING_T;
 
-    #[
-        ORM\Column(type: 'string', length: 7, unique: false, nullable: true),
+    #[ORM\Column(type: 'string', length: 7, unique: false, nullable: true),
         Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
-        Assert\Length(max: 7)
-    ]
+        Assert\Length(max: 7)]
     protected ?string $color = null;
 
-    #[
-        ORM\ManyToOne(
-            targetEntity: AttributeGroupInterface::class,
-            cascade: ['persist', 'merge'],
-            fetch: 'EAGER',
-            inversedBy: 'attributes'
-        ),
+    #[ORM\ManyToOne(
+        targetEntity: AttributeGroupInterface::class,
+        cascade: ['persist', 'merge'],
+        fetch: 'EAGER',
+        inversedBy: 'attributes'
+    ),
         ORM\JoinColumn(name: 'group_id', onDelete: 'SET NULL'),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
-    ]
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),]
     protected ?AttributeGroupInterface $group = null;
 
     /**
      * @var Collection<int, AttributeTranslationInterface>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'attribute',
-            targetEntity: AttributeTranslationInterface::class,
-            cascade: ['all'],
-            fetch: 'EAGER',
-            orphanRemoval: true
-        ),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export']),
-    ]
+    #[ORM\OneToMany(
+        mappedBy: 'attribute',
+        targetEntity: AttributeTranslationInterface::class,
+        cascade: ['all'],
+        fetch: 'EAGER',
+        orphanRemoval: true
+    ),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export']),]
     protected Collection $attributeTranslations;
 
     /**
      * @var Collection<int, AttributeValueInterface>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'attribute',
-            targetEntity: AttributeValueInterface::class,
-            cascade: ['persist', 'remove'],
-            fetch: 'EXTRA_LAZY',
-            orphanRemoval: true
-        ),
-        Serializer\Ignore
-    ]
+    #[ORM\OneToMany(
+        mappedBy: 'attribute',
+        targetEntity: AttributeValueInterface::class,
+        cascade: ['persist', 'remove'],
+        fetch: 'EXTRA_LAZY',
+        orphanRemoval: true
+    ),
+        Serializer\Ignore]
     protected Collection $attributeValues;
 
     public function getCode(): string

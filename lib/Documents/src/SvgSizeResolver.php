@@ -22,7 +22,7 @@ final class SvgSizeResolver
     /**
      * @return array|null [$x, $y, $width, $height]
      */
-    protected function getViewBoxAttributes(): ?array
+    private function getViewBoxAttributes(): ?array
     {
         try {
             $viewBox = $this->getSvgNodeAttributes()->getNamedItem('viewBox');
@@ -36,7 +36,7 @@ final class SvgSizeResolver
         return null;
     }
 
-    protected function getIntegerAttribute(string $name): ?int
+    private function getIntegerAttribute(string $name): ?int
     {
         try {
             $attribute = $this->getSvgNodeAttributes()->getNamedItem($name);

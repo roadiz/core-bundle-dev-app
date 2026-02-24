@@ -46,10 +46,9 @@ final class UsersLockCommand extends UsersCommand
             $io->success('User “'.$name.'” locked.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not locked.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not locked.');
+
+        return 1;
     }
 }

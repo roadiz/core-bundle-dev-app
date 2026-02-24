@@ -23,7 +23,7 @@ trait NodeSourceDefinitionTrait
         NodesSources $parent,
         bool $onlyVisible = true,
     ): QueryBuilder {
-        if (!($this->context instanceof NodeSourceWalkerContext)) {
+        if (!$this->context instanceof NodeSourceWalkerContext) {
             throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 

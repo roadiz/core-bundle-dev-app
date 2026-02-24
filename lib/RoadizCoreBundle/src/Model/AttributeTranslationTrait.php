@@ -11,34 +11,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTranslationTrait
 {
-    #[
-        ORM\ManyToOne(targetEntity: TranslationInterface::class),
+    #[ORM\ManyToOne(targetEntity: TranslationInterface::class),
         ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),
-    ]
+        Serializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),]
     protected TranslationInterface $translation;
 
-    #[
-        ORM\Column(type: 'string', length: 250, unique: false, nullable: false),
+    #[ORM\Column(type: 'string', length: 250, unique: false, nullable: false),
         Serializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),
-        Assert\Length(max: 250)
-    ]
+        Assert\Length(max: 250)]
     protected string $label = '';
 
     /**
      * @var array<string>|null
      */
-    #[
-        ORM\Column(type: 'simple_array', unique: false, nullable: true),
-        Serializer\Groups(['attribute', 'attribute:export']),
-    ]
+    #[ORM\Column(type: 'simple_array', unique: false, nullable: true),
+        Serializer\Groups(['attribute', 'attribute:export']),]
     protected ?array $options = [];
 
-    #[
-        ORM\ManyToOne(targetEntity: AttributeInterface::class, cascade: ['persist'], inversedBy: 'attributeTranslations'),
+    #[ORM\ManyToOne(targetEntity: AttributeInterface::class, cascade: ['persist'], inversedBy: 'attributeTranslations'),
         ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Ignore,
-    ]
+        Serializer\Ignore,]
     protected AttributeInterface $attribute;
 
     public function getLabel(): ?string

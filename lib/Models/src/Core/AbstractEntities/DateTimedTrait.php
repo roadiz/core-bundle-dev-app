@@ -9,16 +9,12 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 
 trait DateTimedTrait
 {
-    #[
-        ORM\Column(name: 'created_at', type: 'datetime', nullable: true),
-        Serializer\Groups(['timestamps']),
-    ]
+    #[ORM\Column(name: 'created_at', type: 'datetime', nullable: true),
+        Serializer\Groups(['timestamps']),]
     protected ?\DateTime $createdAt = null;
 
-    #[
-        ORM\Column(name: 'updated_at', type: 'datetime', nullable: true),
-        Serializer\Groups(['timestamps']),
-    ]
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true),
+        Serializer\Groups(['timestamps']),]
     protected ?\DateTime $updatedAt = null;
 
     public function getCreatedAt(): ?\DateTime

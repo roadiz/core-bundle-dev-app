@@ -30,4 +30,3 @@ roadiz_core:
                 domainName: '%env(string:VARNISH_DOMAIN)%'
 
 
-

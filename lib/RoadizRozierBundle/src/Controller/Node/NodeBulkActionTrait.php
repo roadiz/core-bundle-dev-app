@@ -92,9 +92,9 @@ trait NodeBulkActionTrait
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $assignation['nodes'] = $nodes;
@@ -149,9 +149,9 @@ trait NodeBulkActionTrait
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $assignation['nodes'] = $nodes;

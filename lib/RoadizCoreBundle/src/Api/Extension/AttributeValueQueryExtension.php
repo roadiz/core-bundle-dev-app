@@ -79,7 +79,5 @@ final readonly class AttributeValueQueryExtension implements QueryItemExtensionI
         $queryBuilder
             ->andWhere($queryBuilder->expr()->eq($joinAlias.'.status', ':status'))
             ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
     }
 }

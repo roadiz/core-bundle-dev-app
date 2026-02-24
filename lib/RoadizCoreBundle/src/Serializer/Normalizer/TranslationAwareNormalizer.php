@@ -61,9 +61,9 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
 
         if ($this->previewResolver->isPreview()) {
             return $repository->findOneByLocaleOrOverrideLocale($locale);
-        } else {
-            return $repository->findOneAvailableByLocaleOrOverrideLocale($locale);
         }
+
+        return $repository->findOneAvailableByLocaleOrOverrideLocale($locale);
     }
 
     private function getTranslationFromRequest(): ?TranslationInterface

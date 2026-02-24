@@ -20,7 +20,7 @@ final class CaptchaType extends AbstractType
     }
 
     /**
-     * @see \Symfony\Component\Form\AbstractType::buildView()
+     * @see AbstractType::buildView()
      */
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -29,7 +29,7 @@ final class CaptchaType extends AbstractType
     }
 
     /**
-     * @see \Symfony\Component\Form\AbstractType::configureOptions()
+     * @see AbstractType::configureOptions()
      */
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void

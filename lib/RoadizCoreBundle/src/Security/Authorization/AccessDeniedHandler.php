@@ -54,15 +54,14 @@ final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
                 ],
                 Response::HTTP_FORBIDDEN
             );
-        } else {
-            if ('' !== $this->redirectRoute) {
-                $redirectUrl = $this->urlGenerator->generate($this->redirectRoute, $this->redirectParameters);
-            } else {
-                $redirectUrl = $request->getBaseUrl();
-            }
-
-            // Forbidden code should be set on final response, not the redirection!
-            return new RedirectResponse($redirectUrl, Response::HTTP_FOUND);
         }
+        if ('' !== $this->redirectRoute) {
+            $redirectUrl = $this->urlGenerator->generate($this->redirectRoute, $this->redirectParameters);
+        } else {
+            $redirectUrl = $request->getBaseUrl();
+        }
+
+        // Forbidden code should be set on final response, not the redirection!
+        return new RedirectResponse($redirectUrl, Response::HTTP_FOUND);
     }
 }

@@ -11,13 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @deprecated since 2.6, use composition with DateTimedTrait instead.
  */
-#[
-    ORM\MappedSuperclass,
+#[ORM\MappedSuperclass,
     ORM\HasLifecycleCallbacks,
     ORM\Table,
     ORM\Index(columns: ['created_at']),
-    ORM\Index(columns: ['updated_at']),
-]
+    ORM\Index(columns: ['updated_at']),]
 abstract class AbstractDateTimed extends AbstractEntity implements DateTimedInterface
 {
     use DateTimedTrait;
