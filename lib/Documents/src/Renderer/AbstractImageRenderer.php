@@ -176,7 +176,7 @@ abstract class AbstractImageRenderer extends AbstractRenderer
             $assignation['height'] = $options['height'] = $this->getImageHeight($options);
         }
 
-        if (!($document instanceof AdvancedDocumentInterface)) {
+        if (!$document instanceof AdvancedDocumentInterface) {
             return;
         }
 

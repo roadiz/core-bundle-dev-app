@@ -67,9 +67,9 @@ final class DocumentExtension extends AbstractExtension
         if (null === $document) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Document can’t be null to get its EmbedFinder.');
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         try {
@@ -85,9 +85,9 @@ final class DocumentExtension extends AbstractExtension
         } catch (InvalidEmbedId $embedException) {
             if ($this->throwExceptions) {
                 throw new RuntimeError($embedException->getMessage());
-            } else {
-                return null;
             }
+
+            return null;
         }
 
         return null;
@@ -101,9 +101,9 @@ final class DocumentExtension extends AbstractExtension
         if (null === $document) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Document can’t be null to be displayed.');
-            } else {
-                return '';
             }
+
+            return '';
         }
         if (null === $options) {
             $options = [];
@@ -113,9 +113,9 @@ final class DocumentExtension extends AbstractExtension
         } catch (InvalidEmbedId $embedException) {
             if ($this->throwExceptions) {
                 throw new RuntimeError($embedException->getMessage());
-            } else {
-                return '<p>'.$embedException->getMessage().'</p>';
             }
+
+            return '<p>'.$embedException->getMessage().'</p>';
         } catch (InvalidArgumentException $e) {
             throw new RuntimeError($e->getMessage(), -1, null, $e);
         }
@@ -135,9 +135,9 @@ final class DocumentExtension extends AbstractExtension
         if (null === $document) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Document can’t be null to get its orientation.');
-            } else {
-                return null;
             }
+
+            return null;
         }
         $size = $this->getImageSize($document);
 
@@ -154,12 +154,12 @@ final class DocumentExtension extends AbstractExtension
         if (null === $document) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Document can’t be null to get its size.');
-            } else {
-                return [
-                    'width' => 0,
-                    'height' => 0,
-                ];
             }
+
+            return [
+                'width' => 0,
+                'height' => 0,
+            ];
         }
 
         return [
@@ -176,9 +176,9 @@ final class DocumentExtension extends AbstractExtension
         if (null === $document) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Document can’t be null to get its ratio.');
-            } else {
-                return 0.0;
             }
+
+            return 0.0;
         }
 
         if (null !== $document && null !== $ratio = $document->getImageRatio()) {

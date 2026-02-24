@@ -108,11 +108,10 @@ final class DocumentExifMessageHandler extends AbstractDocumentMessageHandler
                     }
 
                     return $comment;
-                } else {
-                    foreach ($section as $skey => $value) {
-                        if ('comment' == \mb_strtolower($skey)) {
-                            return $value;
-                        }
+                }
+                foreach ($section as $skey => $value) {
+                    if ('comment' == \mb_strtolower($skey)) {
+                        return $value;
                     }
                 }
             }

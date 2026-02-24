@@ -189,9 +189,8 @@ final class DocumentEmbedController extends AbstractController
             }
 
             return $this->createDocumentFromFinder($finder, $folderId);
-        } else {
-            throw new \RuntimeException('bad.request', 1);
         }
+        throw new \RuntimeException('bad.request', 1);
     }
 
     /**

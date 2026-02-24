@@ -156,7 +156,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
 
         $jwt = $configuration->parser()->parse($jsonResponse['id_token']);
 
-        if (!($jwt instanceof Plain)) {
+        if (!$jwt instanceof Plain) {
             throw new OpenIdAuthenticationException('JWT token must be instance of '.Plain::class);
         }
 

@@ -50,9 +50,9 @@ final class NodeTypesType extends AbstractType
                 }
                 if ($nodeType->isReachable()) {
                     return 'reachable';
-                } else {
-                    return 'not_reachable';
                 }
+
+                return 'not_reachable';
             }
 
             return null;

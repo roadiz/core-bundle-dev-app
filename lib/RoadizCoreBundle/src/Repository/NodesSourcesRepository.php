@@ -390,9 +390,9 @@ class NodesSourcesRepository extends StatusAwareRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**

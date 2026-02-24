@@ -22,7 +22,7 @@ final class NodesSourcesNodeTypeFilter implements EventSubscriberInterface
         ];
     }
 
-    protected function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
+    private function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
     {
         return $event->supports()
             && 'node.nodeType' === $event->getProperty()

@@ -12,13 +12,11 @@ use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
 use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Entity\User;
 
-#[
-    ORM\Entity(),
+#[ORM\Entity(),
     ORM\Table(name: 'positioned_page_user'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position'], name: 'ppu_position'),
-    ORM\Index(columns: ['node_source_id', 'position'], name: 'ppu_node_source_id_position'),
-]
+    ORM\Index(columns: ['node_source_id', 'position'], name: 'ppu_node_source_id_position'),]
 class PositionedPageUser implements PositionedInterface, PersistableInterface
 {
     use SequentialIdTrait;

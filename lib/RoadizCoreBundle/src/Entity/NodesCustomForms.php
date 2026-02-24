@@ -16,14 +16,12 @@ use RZ\Roadiz\CoreBundle\Repository\NodesCustomFormsRepository;
  * Describes a complex ManyToMany relation
  * between Nodes, CustomForms and NodeTypeFields.
  */
-#[
-    ORM\Entity(repositoryClass: NodesCustomFormsRepository::class),
+#[ORM\Entity(repositoryClass: NodesCustomFormsRepository::class),
     ORM\Table(name: 'nodes_custom_forms'),
     ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['node_id', 'position'], name: 'customform_node_position'),
-    ORM\Index(columns: ['node_id', 'field_name', 'position'], name: 'customform_node_field_position')
-]
+    ORM\Index(columns: ['node_id', 'field_name', 'position'], name: 'customform_node_field_position')]
 class NodesCustomForms implements PositionedInterface, PersistableInterface
 {
     use SequentialIdTrait;

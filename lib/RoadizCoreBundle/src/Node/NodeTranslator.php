@@ -54,7 +54,7 @@ final readonly class NodeTranslator
                     $node->getNodeSources()->filter(fn (NodesSources $nodesSources) => $nodesSources->getTranslation()->isDefaultTranslation())->first() ?:
                         $node->getNodeSources()->first();
 
-            if (!($baseSource instanceof NodesSources)) {
+            if (!$baseSource instanceof NodesSources) {
                 throw new \RuntimeException('Cannot translate a Node without any NodesSources');
             }
             $source = clone $baseSource;
@@ -72,8 +72,8 @@ final readonly class NodeTranslator
             $this->dispatcher->dispatch(new NodesSourcesCreatedEvent($source));
 
             return $source;
-        } else {
-            return $existing;
         }
+
+        return $existing;
     }
 }

@@ -159,7 +159,7 @@ class UserController extends AbstractAdminWithBulkController
 
         /** @var mixed|object|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
-        if (!($item instanceof PersistableInterface)) {
+        if (!$item instanceof PersistableInterface) {
             throw $this->createNotFoundException();
         }
 

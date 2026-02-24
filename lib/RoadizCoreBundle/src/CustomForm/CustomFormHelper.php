@@ -152,7 +152,7 @@ final readonly class CustomFormHelper
      * @throws FilesystemException
      * @throws \Exception
      */
-    protected function handleUploadedFile(
+    private function handleUploadedFile(
         UploadedFile $file,
         CustomFormFieldAttribute $fieldAttr,
     ): ?DocumentInterface {
@@ -167,7 +167,7 @@ final readonly class CustomFormHelper
         return $document;
     }
 
-    protected function getDocumentFolderForCustomForm(): ?Folder
+    private function getDocumentFolderForCustomForm(): ?Folder
     {
         return $this->em->getRepository(Folder::class)
             ->findOrCreateByPath(
@@ -187,9 +187,9 @@ final readonly class CustomFormHelper
             $values = array_map('strip_tags', $values);
 
             return implode(static::ARRAY_SEPARATOR, $values);
-        } else {
-            return strip_tags((string) $rawValue);
         }
+
+        return strip_tags((string) $rawValue);
     }
 
     private function getAttribute(CustomFormAnswer $answer, CustomFormField $field): ?CustomFormFieldAttribute
