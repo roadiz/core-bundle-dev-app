@@ -242,6 +242,11 @@
 	align-items: center;
 	gap: var(--spacing-6xs);
 	margin-inline: var(--spacing-6xs) var(--spacing-xs);
+
+	.rz-overflow-list__list {
+		background-color: var(--surface-light-primary, #FFF);
+		padding: var(--spacing-4xs);
+	}
 }
 
 .rz-tree__item__expand-button {

@@ -78,6 +78,7 @@
             {{ rz_button.root(button|merge({
                 icon: button.icon|default('rz-icon-ri--more-line'),
                 size: button.size|default('sm'),
+                label: overflow_items|length,
                 emphasis: button.emphasis|default('tertiary'),
                 class: overflow_button_class,
                 attributes: button_attributes,
@@ -86,6 +87,7 @@
             <div
                 id="{{ popover_id }}"
                 popover
+                class="rz-dropdown"
                 {{ el_attrs.print(popover_attributes) }}
             >
                 <{{ popover_tag_list }} class="rz-overflow-list__list">
