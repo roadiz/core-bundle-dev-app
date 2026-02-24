@@ -401,9 +401,9 @@ final class NodeHandler extends AbstractHandler
             $parentHandler->setNode($parent);
 
             return $parentHandler->cleanChildrenPositions($setPositions);
-        } else {
-            return $this->cleanRootNodesPositions($setPositions);
         }
+
+        return $this->cleanRootNodesPositions($setPositions);
     }
 
     /**

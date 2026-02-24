@@ -72,7 +72,7 @@ final readonly class UserLifeCycleSubscriber
         }
     }
 
-    protected function setPassword(User $user, ?string $plainPassword): void
+    private function setPassword(User $user, ?string $plainPassword): void
     {
         if (null !== $plainPassword) {
             $hasher = $this->passwordHasherFactory->getPasswordHasher($user);

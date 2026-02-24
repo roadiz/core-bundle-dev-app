@@ -16,11 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A group gather User and Roles.
  */
-#[
-    ORM\Entity(repositoryClass: GroupRepository::class),
+#[ORM\Entity(repositoryClass: GroupRepository::class),
     ORM\Table(name: 'usergroups'),
-    UniqueEntity(fields: ['name'])
-]
+    UniqueEntity(fields: ['name'])]
 class Group extends AbstractEntity
 {
     #[ORM\Column(type: 'string', length: 250, unique: true)]

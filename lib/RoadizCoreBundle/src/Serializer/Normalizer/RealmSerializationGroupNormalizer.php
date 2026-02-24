@@ -29,7 +29,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        if (!($data instanceof NodesSources)) {
+        if (!$data instanceof NodesSources) {
             return false;
         }
         // Make sure we're not called twice

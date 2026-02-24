@@ -22,7 +22,7 @@ final readonly class ClientRegistry
         if (null === $client) {
             return null;
         }
-        if (!($client instanceof Client)) {
+        if (!$client instanceof Client) {
             throw new \RuntimeException('Solr client must be an instance of '.Client::class);
         }
 

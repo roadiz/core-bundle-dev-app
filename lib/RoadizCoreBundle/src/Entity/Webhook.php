@@ -12,8 +12,7 @@ use RZ\Roadiz\CoreBundle\Webhook\WebhookInterface;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: WebhookRepository::class),
+#[ORM\Entity(repositoryClass: WebhookRepository::class),
     ORM\Table(name: 'webhooks'),
     ORM\Index(columns: ['message_type'], name: 'webhook_message_type'),
     ORM\Index(columns: ['created_at'], name: 'webhook_created_at'),
@@ -21,17 +20,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['automatic'], name: 'webhook_automatic'),
     ORM\Index(columns: ['root_node'], name: 'webhook_root_node'),
     ORM\Index(columns: ['last_triggered_at'], name: 'webhook_last_triggered_at'),
-    ORM\HasLifecycleCallbacks
-]
+    ORM\HasLifecycleCallbacks]
 class Webhook extends AbstractDateTimed implements WebhookInterface
 {
-    #[
-        ORM\Id,
+    #[ORM\Id,
         ORM\Column(type: 'string', length: 36),
         Serializer\Groups(['id']),
         SymfonySerializer\Groups(['id']),
-        Serializer\Type('string')
-    ]
+        Serializer\Type('string')]
     /** @phpstan-ignore-next-line */
     protected int|string|null $id = null;
 

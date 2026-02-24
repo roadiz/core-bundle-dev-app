@@ -12,8 +12,7 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 
 trait AttributeValueTrait
 {
-    #[
-        ORM\ManyToOne(targetEntity: AttributeInterface::class, fetch: 'EAGER', inversedBy: 'attributeValues'),
+    #[ORM\ManyToOne(targetEntity: AttributeInterface::class, fetch: 'EAGER', inversedBy: 'attributeValues'),
         ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
         ApiFilter(BaseFilter\SearchFilter::class, properties: [
             'attribute.id' => 'exact',
@@ -33,21 +32,19 @@ trait AttributeValueTrait
         ]),
         ApiFilter(BaseFilter\OrderFilter::class, properties: [
             'attribute.weight' => 'DESC',
-        ])
-    ]
+        ])]
     protected AttributeInterface $attribute;
 
     /**
      * @var Collection<int, AttributeValueTranslationInterface>
      */
-    #[
-        ORM\OneToMany(
-            mappedBy: 'attributeValue',
-            targetEntity: AttributeValueTranslationInterface::class,
-            cascade: ['persist', 'remove'],
-            fetch: 'EAGER',
-            orphanRemoval: true
-        ),
+    #[ORM\OneToMany(
+        mappedBy: 'attributeValue',
+        targetEntity: AttributeValueTranslationInterface::class,
+        cascade: ['persist', 'remove'],
+        fetch: 'EAGER',
+        orphanRemoval: true
+    ),
         ApiFilter(BaseFilter\SearchFilter::class, properties: [
             'attributeValueTranslations.value' => 'partial',
         ]),
@@ -56,8 +53,7 @@ trait AttributeValueTrait
         ]),
         ApiFilter(BaseFilter\ExistsFilter::class, properties: [
             'attributeValueTranslations.value',
-        ]),
-    ]
+        ]),]
     protected Collection $attributeValueTranslations;
 
     public function getAttribute(): ?AttributeInterface

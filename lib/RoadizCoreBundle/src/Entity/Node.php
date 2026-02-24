@@ -39,8 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * it describes a document-like object which can be inherited
  * with *NodesSources* to create complex data structures.
  */
-#[
-    ORM\Entity(repositoryClass: NodeRepository::class),
+#[ORM\Entity(repositoryClass: NodeRepository::class),
     ORM\Table(name: 'nodes'),
     ORM\Index(columns: ['visible']),
     ORM\Index(columns: ['status']),
@@ -74,8 +73,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(PropertyFilter::class),
-    ApiFilter(TagGroupFilter::class)
-]
+    ApiFilter(TagGroupFilter::class)]
 class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable, NodeInterface
 {
     use LeafTrait;

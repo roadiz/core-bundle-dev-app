@@ -15,15 +15,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Http redirection which are editable by BO users.
  */
-#[
-    ORM\Entity(repositoryClass: RedirectionRepository::class),
+#[ORM\Entity(repositoryClass: RedirectionRepository::class),
     ORM\Table(name: 'redirections'),
     ORM\HasLifecycleCallbacks,
     UniqueEntity(fields: ['query']),
     ORM\Index(columns: ['use_count'], name: 'redirection_use_count'),
     ORM\Index(columns: ['created_at'], name: 'redirection_created_at'),
-    ORM\Index(columns: ['updated_at'], name: 'redirection_updated_at'),
-]
+    ORM\Index(columns: ['updated_at'], name: 'redirection_updated_at'),]
 class Redirection extends AbstractDateTimed
 {
     #[ORM\Column(type: 'string', length: 255, unique: true)]

@@ -276,9 +276,9 @@ final class TagsController extends AbstractController
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('tagsHomePage');
             }
+
+            return $this->redirectToRoute('tagsHomePage');
         }
 
         $assignation = [];

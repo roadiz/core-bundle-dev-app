@@ -99,7 +99,7 @@ final readonly class UniversalDataDuplicator
         return 1 === $sourceCount;
     }
 
-    protected function duplicateNonVirtualField(
+    private function duplicateNonVirtualField(
         NodesSources $universalSource,
         NodesSources $destSource,
         NodeTypeFieldInterface $field,
@@ -110,7 +110,7 @@ final readonly class UniversalDataDuplicator
         $destSource->$setter($universalSource->$getter());
     }
 
-    protected function duplicateDocumentsField(
+    private function duplicateDocumentsField(
         NodesSources $universalSource,
         NodesSources $destSource,
         NodeTypeFieldInterface $field,

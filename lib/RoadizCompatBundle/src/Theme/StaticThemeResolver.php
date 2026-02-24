@@ -112,8 +112,8 @@ class StaticThemeResolver implements ThemeResolverInterface
         }
         if (call_user_func([$classA, 'getPriority']) > call_user_func([$classB, 'getPriority'])) {
             return 1;
-        } else {
-            return -1;
         }
+
+        return -1;
     }
 }

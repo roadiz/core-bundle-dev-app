@@ -33,7 +33,7 @@ final class NodesSourcesReachableFilter implements EventSubscriberInterface
         ];
     }
 
-    protected function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
+    private function supports(FilterNodesSourcesQueryBuilderCriteriaEvent $event): bool
     {
         return $event->supports()
             && in_array($event->getProperty(), self::PARAMETER)

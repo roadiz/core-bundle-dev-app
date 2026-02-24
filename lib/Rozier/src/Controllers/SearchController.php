@@ -324,14 +324,14 @@ final class SearchController extends AbstractController
         if ($nodeTypeForm->isSubmitted() && $nodeTypeForm->isValid()) {
             if (empty($nodeTypeForm->getData()['nodetype'])) {
                 return $this->redirectToRoute('searchNodePage');
-            } else {
-                return $this->redirectToRoute(
-                    'searchNodeSourcePage',
-                    [
-                        'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
-                    ]
-                );
             }
+
+            return $this->redirectToRoute(
+                'searchNodeSourcePage',
+                [
+                    'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
+                ]
+            );
         }
 
         return null;

@@ -10,22 +10,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeValueTranslationTrait
 {
-    #[
-        ORM\ManyToOne(targetEntity: TranslationInterface::class),
-        ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-    ]
+    #[ORM\ManyToOne(targetEntity: TranslationInterface::class),
+        ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),]
     protected TranslationInterface $translation;
 
-    #[
-        ORM\Column(type: 'string', length: 255, unique: false, nullable: true),
-        Assert\Length(max: 255)
-    ]
+    #[ORM\Column(type: 'string', length: 255, unique: false, nullable: true),
+        Assert\Length(max: 255)]
     protected ?string $value = null;
 
-    #[
-        ORM\ManyToOne(targetEntity: AttributeValueInterface::class, cascade: ['persist'], inversedBy: 'attributeValueTranslations'),
-        ORM\JoinColumn(name: 'attribute_value', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-    ]
+    #[ORM\ManyToOne(targetEntity: AttributeValueInterface::class, cascade: ['persist'], inversedBy: 'attributeValueTranslations'),
+        ORM\JoinColumn(name: 'attribute_value', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),]
     protected AttributeValueInterface $attributeValue;
 
     /**

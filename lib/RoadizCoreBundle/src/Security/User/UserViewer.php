@@ -105,7 +105,7 @@ final readonly class UserViewer
         $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
     }
 
-    protected function getContactEmail(): string
+    private function getContactEmail(): string
     {
         $emailContact = $this->settingsBag->get('email_sender') ?? '';
         if (empty($emailContact)) {
@@ -115,7 +115,7 @@ final readonly class UserViewer
         return $emailContact;
     }
 
-    protected function getSiteName(): string
+    private function getSiteName(): string
     {
         $siteName = $this->settingsBag->get('site_name') ?? '';
         if (empty($siteName)) {

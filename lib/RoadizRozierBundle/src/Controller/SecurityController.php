@@ -72,7 +72,7 @@ class SecurityController extends AbstractController
             $email = $request->getPayload()->get('email');
             $user = $userRepository->findOneBy(['email' => $email]);
 
-            if (!($user instanceof UserInterface)) {
+            if (!$user instanceof UserInterface) {
                 // Do not reveal whether a user account exists or not
                 return $this->redirectToRoute('roadiz_rozier_login_link_sent');
             }

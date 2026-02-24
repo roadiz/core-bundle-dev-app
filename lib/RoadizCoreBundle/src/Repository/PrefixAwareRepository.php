@@ -174,9 +174,9 @@ abstract class PrefixAwareRepository extends EntityRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     /**
@@ -260,9 +260,9 @@ abstract class PrefixAwareRepository extends EntityRepository
              * if a limit is set because of the default inner join
              */
             return (new Paginator($query))->getIterator()->getArrayCopy();
-        } else {
-            return $query->getResult();
         }
+
+        return $query->getResult();
     }
 
     public function countSearchBy(string $pattern, array $criteria = []): int

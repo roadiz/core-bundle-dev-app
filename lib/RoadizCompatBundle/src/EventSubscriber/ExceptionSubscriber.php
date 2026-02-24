@@ -145,7 +145,7 @@ final readonly class ExceptionSubscriber implements EventSubscriberInterface
         }
     }
 
-    protected function isNotFoundExceptionWithTheme(ExceptionEvent $event): ?Theme
+    private function isNotFoundExceptionWithTheme(ExceptionEvent $event): ?Theme
     {
         $exception = $event->getThrowable();
         $request = $event->getRequest();
@@ -182,7 +182,7 @@ final readonly class ExceptionSubscriber implements EventSubscriberInterface
      * @throws \Throwable
      * @throws SyntaxError
      */
-    protected function createThemeNotFoundResponse(Theme $theme, \Throwable $exception, ExceptionEvent $event): Response
+    private function createThemeNotFoundResponse(Theme $theme, \Throwable $exception, ExceptionEvent $event): Response
     {
         $ctrlClass = $theme->getClassName();
         $controller = new $ctrlClass();

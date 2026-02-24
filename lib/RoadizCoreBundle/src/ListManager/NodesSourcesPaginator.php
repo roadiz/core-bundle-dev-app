@@ -35,14 +35,14 @@ class NodesSourcesPaginator extends Paginator
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
-        } else {
-            return $this->getRepository()->findBy(
-                $this->criteria,
-                $order,
-                $this->getItemsPerPage(),
-                $this->getItemsPerPage() * ($page - 1)
-            );
         }
+
+        return $this->getRepository()->findBy(
+            $this->criteria,
+            $order,
+            $this->getItemsPerPage(),
+            $this->getItemsPerPage() * ($page - 1)
+        );
     }
 
     protected function getRepository(): NodesSourcesRepository

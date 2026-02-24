@@ -31,7 +31,7 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
     {
         $parent = $this->nodeSource->getParent();
 
-        if (!($parent instanceof NodesSources)) {
+        if (!$parent instanceof NodesSources) {
             return null;
         }
 

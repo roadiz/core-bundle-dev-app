@@ -207,9 +207,9 @@ final class NodesTreesController extends AbstractController
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $assignation['nodes'] = $nodes;
@@ -264,9 +264,9 @@ final class NodesTreesController extends AbstractController
 
             if (!empty($form->getData()['referer'])) {
                 return $this->redirect($form->getData()['referer']);
-            } else {
-                return $this->redirectToRoute('nodesHomePage');
             }
+
+            return $this->redirectToRoute('nodesHomePage');
         }
 
         $assignation['nodes'] = $nodes;

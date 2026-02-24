@@ -13,46 +13,40 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
  * Describes a complex ManyToMany relation
  * between Attribute and Documents.
  */
-#[
-    ORM\Entity(repositoryClass: AttributeDocumentsRepository::class),
+#[ORM\Entity(repositoryClass: AttributeDocumentsRepository::class),
     ORM\Table(name: 'attributes_documents'),
     ORM\Index(columns: ['position']),
-    ORM\Index(columns: ['attribute_id', 'position'])
-]
+    ORM\Index(columns: ['attribute_id', 'position'])]
 class AttributeDocuments extends AbstractPositioned
 {
-    #[
-        ORM\ManyToOne(
-            targetEntity: Attribute::class,
-            cascade: ['persist', 'merge'],
-            fetch: 'EAGER',
-            inversedBy: 'attributeDocuments'
-        ),
+    #[ORM\ManyToOne(
+        targetEntity: Attribute::class,
+        cascade: ['persist', 'merge'],
+        fetch: 'EAGER',
+        inversedBy: 'attributeDocuments'
+    ),
         ORM\JoinColumn(
             name: 'attribute_id',
             referencedColumnName: 'id',
             nullable: false,
             onDelete: 'CASCADE'
         ),
-        SymfonySerializer\Ignore()
-    ]
+        SymfonySerializer\Ignore()]
     protected Attribute $attribute;
 
-    #[
-        ORM\ManyToOne(
-            targetEntity: Document::class,
-            cascade: ['persist', 'merge'],
-            fetch: 'EAGER',
-            inversedBy: 'attributeDocuments'
-        ),
+    #[ORM\ManyToOne(
+        targetEntity: Document::class,
+        cascade: ['persist', 'merge'],
+        fetch: 'EAGER',
+        inversedBy: 'attributeDocuments'
+    ),
         ORM\JoinColumn(
             name: 'document_id',
             referencedColumnName: 'id',
             nullable: false,
             onDelete: 'CASCADE'
         ),
-        SymfonySerializer\Groups(['attribute']),
-    ]
+        SymfonySerializer\Groups(['attribute']),]
     protected Document $document;
 
     public function __construct(Attribute $attribute, Document $document)

@@ -18,8 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[
-    ORM\Entity(repositoryClass: UserRepository::class),
+#[ORM\Entity(repositoryClass: UserRepository::class),
     ORM\Table(name: 'users'),
     ORM\Index(columns: ['username'], name: 'idx_users_username'),
     ORM\Index(columns: ['email'], name: 'idx_users_email'),
@@ -34,8 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['updated_at'], name: 'idx_user_updated_at'),
     ORM\HasLifecycleCallbacks,
     UniqueEntity('email'),
-    UniqueEntity('username')
-]
+    UniqueEntity('username')]
 class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface
 {
     /**
@@ -194,9 +192,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             return $this->getFirstName().' '.$this->getLastName();
         } elseif ('' != $this->getFirstName()) {
             return $this->getFirstName();
-        } else {
-            return $this->getUsername();
         }
+
+        return $this->getUsername();
     }
 
     #[Serializer\SerializedName('identifier')]

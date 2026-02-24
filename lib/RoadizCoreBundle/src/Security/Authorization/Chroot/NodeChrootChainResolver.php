@@ -17,7 +17,7 @@ final readonly class NodeChrootChainResolver implements NodeChrootResolver
     public function __construct(private array $resolvers)
     {
         foreach ($this->resolvers as $resolver) {
-            if (!($resolver instanceof NodeChrootResolver)) {
+            if (!$resolver instanceof NodeChrootResolver) {
                 throw new \InvalidArgumentException('Resolver must implements '.NodeChrootResolver::class);
             }
         }

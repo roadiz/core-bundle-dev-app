@@ -17,7 +17,7 @@ final readonly class GlobalNodeSourceSearchHandler
     ) {
     }
 
-    protected function getRepository(): NodesSourcesRepository
+    private function getRepository(): NodesSourcesRepository
     {
         return $this->allStatusesNodesSourcesRepository;
     }

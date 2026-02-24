@@ -20,7 +20,7 @@ final readonly class NodesSourcesUrlGenerator
     ) {
     }
 
-    protected function isNodeSourceHome(NodesSources $nodeSource): bool
+    private function isNodeSourceHome(NodesSources $nodeSource): bool
     {
         if ($nodeSource->getNode()->isHome()) {
             return true;
@@ -44,9 +44,9 @@ final readonly class NodesSourcesUrlGenerator
                     && false === $this->forceLocale
                 ) {
                     return '';
-                } else {
-                    return $this->nodeSource->getTranslation()->getPreferredLocale();
                 }
+
+                return $this->nodeSource->getTranslation()->getPreferredLocale();
             }
 
             $path = $this->pathAggregator->aggregatePath($this->nodeSource, $parameters);
@@ -70,12 +70,11 @@ final readonly class NodesSourcesUrlGenerator
             }
 
             return $path;
-        } else {
-            throw new \RuntimeException('Cannot generate Url for a NULL NodesSources', 1);
         }
+        throw new \RuntimeException('Cannot generate Url for a NULL NodesSources', 1);
     }
 
-    protected function useUrlAlias(NodesSources $nodesSources): bool
+    private function useUrlAlias(NodesSources $nodesSources): bool
     {
         if ($nodesSources->getIdentifier() !== $nodesSources->getNode()->getNodeName()) {
             return true;
@@ -84,7 +83,7 @@ final readonly class NodesSourcesUrlGenerator
         return false;
     }
 
-    protected function urlNeedsLocalePrefix(NodesSources $nodesSources): bool
+    private function urlNeedsLocalePrefix(NodesSources $nodesSources): bool
     {
         /*
          * Needs a prefix only if translation is not default AND nodeSource does not have an Url alias

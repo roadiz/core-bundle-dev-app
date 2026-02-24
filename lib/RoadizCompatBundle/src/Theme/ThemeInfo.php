@@ -53,7 +53,7 @@ final class ThemeInfo
      *
      * @throws ThemeClassNotValidException
      */
-    protected function guessClassnameFromThemeName(string $themeName): string
+    private function guessClassnameFromThemeName(string $themeName): string
     {
         $className = match ($themeName) {
             'RozierApp', 'RozierTheme', 'Rozier' => '\\Themes\\Rozier\\RozierApp',
@@ -62,9 +62,8 @@ final class ThemeInfo
 
         if (class_exists($className)) {
             return $className;
-        } else {
-            throw new ThemeClassNotValidException(sprintf('“%s” theme is not available in your project.', $className));
         }
+        throw new ThemeClassNotValidException(sprintf('“%s” theme is not available in your project.', $className));
     }
 
     /**
@@ -72,7 +71,7 @@ final class ThemeInfo
      *
      * @throws ThemeClassNotValidException
      */
-    protected function extractNameFromClassname(string $classname): string
+    private function extractNameFromClassname(string $classname): string
     {
         $shortName = $this->getThemeReflectionClass($classname)->getShortName();
 
@@ -86,7 +85,7 @@ final class ThemeInfo
      *
      * @throws ThemeClassNotValidException
      */
-    protected function validateClassname(string $classname): string
+    private function validateClassname(string $classname): string
     {
         if (null !== $reflection = $this->getThemeReflectionClass($classname)) {
             /** @var class-string<AppController> $class */
@@ -98,7 +97,7 @@ final class ThemeInfo
         throw new \RuntimeException('Theme class '.$classname.' does not exist.');
     }
 
-    protected function validateName(string $name): string
+    private function validateName(string $name): string
     {
         if (1 !== preg_match('#^[A-Z][a-zA-Z]+$#', $name)) {
             throw new LogicException('Theme name must only contain alphabetical characters and begin with uppercase letter.');
@@ -129,7 +128,7 @@ final class ThemeInfo
         return false;
     }
 
-    protected function getProtectedThemePath(): string
+    private function getProtectedThemePath(): string
     {
         if ($this->filesystem->exists($this->projectDir.'/vendor/roadiz/'.$this->getThemeName())) {
             return $this->projectDir.'/vendor/roadiz/'.$this->getThemeName();
@@ -188,7 +187,7 @@ final class ThemeInfo
         return null;
     }
 
-    protected function getThemeNameFromName(): string
+    private function getThemeNameFromName(): string
     {
         if (in_array($this->name, self::$protectedThemeNames)) {
             return $this->name;

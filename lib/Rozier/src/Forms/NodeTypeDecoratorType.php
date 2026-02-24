@@ -77,9 +77,9 @@ final class NodeTypeDecoratorType extends AbstractType
             return CheckboxType::class;
         } elseif (NodeTypeDecoratorProperty::NODE_TYPE_COLOR === $property) {
             return ColorType::class;
-        } else {
-            return TextType::class;
         }
+
+        return TextType::class;
     }
 
     private function getExplodedPath(string $path): array

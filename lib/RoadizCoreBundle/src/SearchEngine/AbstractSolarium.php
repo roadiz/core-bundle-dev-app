@@ -142,9 +142,9 @@ abstract class AbstractSolarium
             $update->addDeleteById($this->document->id);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -249,12 +249,11 @@ abstract class AbstractSolarium
 
         if (0 === $resultset->getNumFound()) {
             return false;
-        } else {
-            foreach ($resultset as $document) {
-                $this->document = $document;
+        }
+        foreach ($resultset as $document) {
+            $this->document = $document;
 
-                return true;
-            }
+            return true;
         }
 
         return false;

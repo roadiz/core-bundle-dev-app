@@ -27,7 +27,7 @@ final class RecaptchaValidator extends ConstraintValidator
     }
 
     /**
-     * @see \Symfony\Component\Validator\ConstraintValidator::validate()
+     * @see ConstraintValidator::validate()
      */
     public function validate(mixed $data, Constraint $constraint): void
     {

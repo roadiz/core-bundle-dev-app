@@ -12,29 +12,24 @@ use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesTagsRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
-#[
-    ORM\Entity(repositoryClass: NodesTagsRepository::class),
+#[ORM\Entity(repositoryClass: NodesTagsRepository::class),
     ORM\Table(name: 'nodes_tags'),
     ORM\Index(columns: ['node_id', 'position'], name: 'nodes_tags_node_id_position'),
     ORM\Index(columns: ['tag_id', 'position'], name: 'nodes_tags_tag_id_position'),
     ORM\Index(columns: ['position'], name: 'nodes_tags_position'),
     ORM\Index(columns: ['tag_id'], name: 'nodes_tags_tag_id'),
-    ORM\Index(columns: ['node_id'], name: 'nodes_tags_node_id'),
-]
+    ORM\Index(columns: ['node_id'], name: 'nodes_tags_node_id'),]
 class NodesTags implements PositionedInterface, Comparable
 {
     use PositionedTrait;
 
-    #[
-        ORM\Id,
+    #[ORM\Id,
         ORM\Column(type: 'string', length: 36),
-        SymfonySerializer\Ignore
-    ]
+        SymfonySerializer\Ignore]
     /** @phpstan-ignore-next-line */
     protected ?string $id = null;
 
-    #[
-        ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'nodesTags'),
+    #[ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'nodesTags'),
         ORM\JoinColumn(
             name: 'node_id',
             referencedColumnName: 'id',
@@ -43,12 +38,10 @@ class NodesTags implements PositionedInterface, Comparable
             onDelete: 'CASCADE'
         ),
         SymfonySerializer\Ignore,
-        Serializer\Exclude,
-    ]
+        Serializer\Exclude,]
     private Node $node;
 
-    #[
-        ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'nodesTags'),
+    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'nodesTags'),
         ORM\JoinColumn(
             name: 'tag_id',
             referencedColumnName: 'id',
@@ -57,15 +50,12 @@ class NodesTags implements PositionedInterface, Comparable
             onDelete: 'CASCADE'
         ),
         SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),
-        Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),
-    ]
+        Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),]
     private Tag $tag;
 
-    #[
-        ORM\Column(type: 'float', nullable: false, options: ['default' => 1]),
+    #[ORM\Column(type: 'float', nullable: false, options: ['default' => 1]),
         SymfonySerializer\Ignore,
-        Serializer\Exclude,
-    ]
+        Serializer\Exclude,]
     protected float $position = 0.0;
 
     public function __construct(?string $uuid = null)

@@ -74,7 +74,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
 
     protected function getEditItemPath(): ?string
     {
-        if (!($this->document instanceof PersistableInterface)) {
+        if (!$this->document instanceof PersistableInterface) {
             return null;
         }
 

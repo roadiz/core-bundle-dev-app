@@ -25,29 +25,28 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
          */
         if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
             return array_map('trim', $field->getDefaultValuesAsArray());
-        } else {
-            /*
-             * With single table inheritance, we need to get all default values
-             * from all fields of all node types.
-             */
-            $defaultValues = [];
-            $nodeTypeFields = [];
-            $nodeTypes = $this->nodeTypesBag->all();
-            foreach ($nodeTypes as $nodeType) {
-                $nodeTypeFields = [
-                    ...$nodeTypeFields,
-                    ...$nodeType->getFields()->filter(function (NodeTypeFieldInterface $nodeTypeField) use ($field) {
-                        return $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType();
-                    })->toArray(),
-                ];
-            }
-            foreach ($nodeTypeFields as $nodeTypeField) {
-                $values = array_filter(array_map('trim', $nodeTypeField->getDefaultValuesAsArray()));
-                $defaultValues = array_merge($defaultValues, $values);
-            }
-
-            return $defaultValues;
         }
+        /*
+         * With single table inheritance, we need to get all default values
+         * from all fields of all node types.
+         */
+        $defaultValues = [];
+        $nodeTypeFields = [];
+        $nodeTypes = $this->nodeTypesBag->all();
+        foreach ($nodeTypes as $nodeType) {
+            $nodeTypeFields = [
+                ...$nodeTypeFields,
+                ...$nodeType->getFields()->filter(function (NodeTypeFieldInterface $nodeTypeField) use ($field) {
+                    return $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType();
+                })->toArray(),
+            ];
+        }
+        foreach ($nodeTypeFields as $nodeTypeField) {
+            $values = array_filter(array_map('trim', $nodeTypeField->getDefaultValuesAsArray()));
+            $defaultValues = array_merge($defaultValues, $values);
+        }
+
+        return $defaultValues;
     }
 
     public function getMaxDefaultValuesLengthAmongAllFields(NodeTypeFieldInterface $field): int

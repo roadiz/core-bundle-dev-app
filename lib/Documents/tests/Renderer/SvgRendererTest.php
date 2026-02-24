@@ -67,8 +67,7 @@ class SvgRendererTest extends AbstractRendererTestCase
         $this->assertHtmlTidyEquals(
             <<<EOT
 <img src="/files/folder/file2.svg" />
-EOT
-            ,
+EOT,
             $renderer->render($mockDocument, [])
         );
     }
