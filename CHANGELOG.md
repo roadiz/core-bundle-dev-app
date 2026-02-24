@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.41...v2.5.42) - 2026-02-24
+
+### Features
+
+- **(solr)** add fuzzy search configuration options - ([7b87b3f](https://github.com/roadiz/core-bundle-dev-app/commit/7b87b3f69bd81b0676a29e9669a0572cf0a9044b))
+
 ## [2.5.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.40...2.5.41) - 2025-10-28
 
 ### Bug Fixes
