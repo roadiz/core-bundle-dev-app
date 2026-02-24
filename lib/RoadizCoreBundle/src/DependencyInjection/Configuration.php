@@ -168,7 +168,7 @@ EOD
     protected function addSolrNode()
     {
         $builder = new TreeBuilder('solr');
-        $node = $builder->getRootNode();
+        $node = $builder->getRootNode()->addDefaultsIfNotSet();
 
         $node->children()
                 ->scalarNode('timeout')->defaultValue(3)->end()
