@@ -4194,6 +4194,10 @@
         <source>form_has_errors.check_you_fields</source>
         <target state="final">Your form has errors, check highlighted fields.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="form.field.invalid" approved="yes">
+        <source>form.field.invalid</source>
+        <target state="final">Field "%label%" is invalid.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="no_more_translation_available" approved="yes">
         <source>no_more_translation_available</source>
         <target state="final">No more translation is available for current node.</target>

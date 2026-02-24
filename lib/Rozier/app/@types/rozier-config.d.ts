@@ -37,6 +37,7 @@ export interface RozierConfig {
         moreTags?: string
         moreEntities?: string
         moreCustomForms?: string
+        'form.field.invalid'?: string
         documentEditDialogSubmit?: string
         documentEditDialogCancel?: string
         documentEditDialogEdit?: string
