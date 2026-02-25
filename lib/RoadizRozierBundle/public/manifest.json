@@ -7,8 +7,8 @@
     "file": "RoadizElement-XU473doh.js",
     "name": "RoadizElement"
   },
-  "_Tooltip-qGTVyZjS.js": {
-    "file": "Tooltip-qGTVyZjS.js",
+  "_Tooltip-BexXoLty.js": {
+    "file": "Tooltip-BexXoLty.js",
     "name": "Tooltip",
     "imports": [
       "_Popover-BH-MR4c1.js"
@@ -120,8 +120,14 @@
     "src": "app/custom-elements/FolderAutocomplete.js",
     "isDynamicEntry": true
   },
+  "app/custom-elements/RzActionsMenu.ts": {
+    "file": "RzActionsMenu-h5si-PHi.js",
+    "name": "RzActionsMenu",
+    "src": "app/custom-elements/RzActionsMenu.ts",
+    "isDynamicEntry": true
+  },
   "app/custom-elements/RzAside.ts": {
-    "file": "RzAside-dYb2l4hx.js",
+    "file": "RzAside-qqoscr9r.js",
     "name": "RzAside",
     "src": "app/custom-elements/RzAside.ts",
     "isDynamicEntry": true,
@@ -133,12 +139,12 @@
     ]
   },
   "app/custom-elements/RzBadge.ts": {
-    "file": "RzBadge-2afYv7aN.js",
+    "file": "RzBadge-rLNB4pzO.js",
     "name": "RzBadge",
     "src": "app/custom-elements/RzBadge.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-qGTVyZjS.js",
+      "_Tooltip-BexXoLty.js",
       "_Popover-BH-MR4c1.js"
     ]
   },
@@ -155,12 +161,12 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzButton.ts": {
-    "file": "RzButton-lx1x_Kof.js",
+    "file": "RzButton-CplUFvIr.js",
     "name": "RzButton",
     "src": "app/custom-elements/RzButton.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-qGTVyZjS.js",
+      "_Tooltip-BexXoLty.js",
       "_Popover-BH-MR4c1.js"
     ]
   },
@@ -171,7 +177,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzColorSchemeSwitcher.ts": {
-    "file": "RzColorSchemeSwitcher-Bus6YJrm.js",
+    "file": "RzColorSchemeSwitcher-BH5IDP_7.js",
     "name": "RzColorSchemeSwitcher",
     "src": "app/custom-elements/RzColorSchemeSwitcher.ts",
     "isDynamicEntry": true
@@ -183,7 +189,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzDrawer.ts": {
-    "file": "RzDrawer-Di3yrqBV.js",
+    "file": "RzDrawer-VD5mRpNS.js",
     "name": "RzDrawer",
     "src": "app/custom-elements/RzDrawer.ts",
     "isDynamicEntry": true,
@@ -207,7 +213,7 @@
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-BReFyJqf.js",
+    "file": "RzFileUpload-FPfUyNLa.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -224,7 +230,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzFormField.ts": {
-    "file": "RzFormField-DoOXVnYD.js",
+    "file": "RzFormField-gfN3U_5H.js",
     "name": "RzFormField",
     "src": "app/custom-elements/RzFormField.ts",
     "isDynamicEntry": true,
@@ -235,7 +241,7 @@
     ]
   },
   "app/custom-elements/RzGeotag.ts": {
-    "file": "RzGeotag-D7iRIPcb.js",
+    "file": "RzGeotag-CPMj6-k7.js",
     "name": "RzGeotag",
     "src": "app/custom-elements/RzGeotag.ts",
     "isDynamicEntry": true,
@@ -267,17 +273,17 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzLink.ts": {
-    "file": "RzLink-D3epQvIo.js",
+    "file": "RzLink-BuzIzdib.js",
     "name": "RzLink",
     "src": "app/custom-elements/RzLink.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-qGTVyZjS.js",
+      "_Tooltip-BexXoLty.js",
       "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzMarkdownEditor.ts": {
-    "file": "RzMarkdownEditor-Cu9bT1F5.js",
+    "file": "RzMarkdownEditor-CNeJdBKb.js",
     "name": "RzMarkdownEditor",
     "src": "app/custom-elements/RzMarkdownEditor.ts",
     "isDynamicEntry": true,
@@ -325,7 +331,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzSearch.ts": {
-    "file": "RzSearch-BhpYGcmu.js",
+    "file": "RzSearch-Djd1EC-F.js",
     "name": "RzSearch",
     "src": "app/custom-elements/RzSearch.ts",
     "isDynamicEntry": true,
@@ -354,7 +360,7 @@
     ]
   },
   "app/custom-elements/RzTablist.ts": {
-    "file": "RzTablist-C2HjIKyZ.js",
+    "file": "RzTablist-BMngtlA5.js",
     "name": "RzTablist",
     "src": "app/custom-elements/RzTablist.ts",
     "isDynamicEntry": true
@@ -370,17 +376,17 @@
     ]
   },
   "app/custom-elements/RzTooltip.ts": {
-    "file": "RzTooltip-1KZhkPIw.js",
+    "file": "RzTooltip-Ah7lJ9cb.js",
     "name": "RzTooltip",
     "src": "app/custom-elements/RzTooltip.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Tooltip-qGTVyZjS.js",
+      "_Tooltip-BexXoLty.js",
       "_Popover-BH-MR4c1.js"
     ]
   },
   "app/custom-elements/RzTree.ts": {
-    "file": "RzTree-CaKM5u92.js",
+    "file": "RzTree-ClpBgwtG.js",
     "name": "RzTree",
     "src": "app/custom-elements/RzTree.ts",
     "isDynamicEntry": true,
@@ -407,7 +413,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-DvSyKddi.js",
+    "file": "main-BPrMlaF3.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -420,6 +426,7 @@
       "app/custom-elements/DocumentAlignmentWidget.js",
       "app/custom-elements/DocumentEditDialog.js",
       "app/custom-elements/FolderAutocomplete.js",
+      "app/custom-elements/RzActionsMenu.ts",
       "app/custom-elements/RzAside.ts",
       "app/custom-elements/RzBadge.ts",
       "app/custom-elements/RzBulkActions.ts",
@@ -455,11 +462,11 @@
       "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "main-CsbaHJDq.css"
+      "main-TPVCXbWU.css"
     ]
   },
   "app/shared.js": {
-    "file": "shared-BjRPE8Lf.js",
+    "file": "shared-DgYyLrVq.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -467,7 +474,7 @@
       "_jquery-DmndgEMa.js"
     ],
     "css": [
-      "shared-BZwYYTeI.css"
+      "shared-NRvenui2.css"
     ],
     "assets": [
       "fontawesome-webfont-Bsy9_7N6.woff2",
