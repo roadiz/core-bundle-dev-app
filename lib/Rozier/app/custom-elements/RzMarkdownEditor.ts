@@ -584,10 +584,6 @@ export default class RzMarkdownEditor extends HTMLElement {
             el.removeEventListener('show.uk.switcher', this.forceEditorUpdate)
         })
 
-        if (this.editor) {
-            this.editor.toTextArea()
-        }
-
         this.preview?.remove()
         this.tabs?.remove()
         this.cont?.classList.remove(
