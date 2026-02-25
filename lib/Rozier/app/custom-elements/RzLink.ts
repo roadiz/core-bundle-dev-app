@@ -16,13 +16,17 @@ export class RzLink extends HTMLAnchorElement {
     }
 
     connectedCallback() {
+        if (this.tooltip) {
+            return
+        }
+
         if (getTooltipContent(this)) {
             this.tooltip = new Tooltip(this)
         }
     }
 
     disconnectedCallback() {
-        this.tooltip?.disposeListeners()
+        this.tooltip?.dispose()
         this.tooltip = null
     }
 }

@@ -151,4 +151,11 @@ export class Tooltip {
         this.context.removeEventListener('mouseleave', this.close)
         this.context.removeEventListener('blur', this.close)
     }
+
+    dispose() {
+        this.close()
+        this.disposeListeners()
+        this.tooltip?.remove()
+        this.tooltip = null
+    }
 }
