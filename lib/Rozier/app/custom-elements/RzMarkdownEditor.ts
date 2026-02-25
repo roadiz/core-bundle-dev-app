@@ -63,6 +63,10 @@ export default class RzMarkdownEditor extends HTMLElement {
     }
 
     connectedCallback() {
+        if (this.getAttribute('initialized') === 'true') {
+            return
+        }
+
         this.markdownit = new markdownit()
         this.markdownit.use(markdownItFootnote)
 
@@ -248,6 +252,8 @@ export default class RzMarkdownEditor extends HTMLElement {
             })
             this.forceEditorUpdate()
         })
+
+        this.setAttribute('initialized', 'true')
     }
 
     get value(): string {
@@ -544,7 +550,53 @@ export default class RzMarkdownEditor extends HTMLElement {
     }
 
     destroy() {
+        if (this.refreshPreviewTimeout !== null) {
+            window.cancelAnimationFrame(this.refreshPreviewTimeout)
+            this.refreshPreviewTimeout = null
+        }
+
+        this.editor?.off('change', this.onEditorChange)
+        this.editor?.off('focus', this.textareaFocus)
+        this.editor?.off('blur', this.textareaBlur)
+        this.editor?.off('drop', this.onDropFile)
+
+        this.buttonPreview?.forEach((button) => {
+            button.removeEventListener('click', this.buttonPreviewClick)
+        })
+        this.buttonTranslateAssistant?.forEach((button) => {
+            button.removeEventListener(
+                'click',
+                this.buttonTranslateAssistantClick,
+            )
+        })
+        this.buttonTranslateAssistantRephrase?.forEach((button) => {
+            button.removeEventListener(
+                'click',
+                this.buttonTranslateAssistantRephraseClick,
+            )
+        })
+        this.buttons?.forEach((button) => {
+            button.removeEventListener('click', this.buttonClick)
+        })
+
+        window.removeEventListener('keyup', this.closePreview)
+        document.querySelectorAll('[data-uk-switcher]').forEach((el) => {
+            el.removeEventListener('show.uk.switcher', this.forceEditorUpdate)
+        })
+
+        if (this.editor) {
+            this.editor.toTextArea()
+        }
+
         this.preview?.remove()
+        this.tabs?.remove()
+        this.cont?.classList.remove(
+            'markdown-editor',
+            'markdown-editor__disabled',
+            'form-col-focus',
+        )
+
+        this.removeAttribute('initialized')
     }
 
     async buttonTranslateAssistantClick(e: Event): Promise<void> {
