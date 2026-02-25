@@ -15,6 +15,7 @@ export class RzDrawer extends HTMLElement {
     acceptEntity: string
     name: string
     sortableEnabled: boolean
+    validationProxy: HTMLSelectElement | null = null
 
     constructor() {
         super()
@@ -36,6 +37,7 @@ export class RzDrawer extends HTMLElement {
         this.initItems()
         this.initSortable()
         this.initFileUpload()
+        this.initValidationProxy()
     }
 
     disconnectedCallback() {
@@ -44,6 +46,7 @@ export class RzDrawer extends HTMLElement {
         this.destroyCommands()
         this.destroySortable()
         this.destroyFileUpload()
+        this.destroyValidationProxy()
     }
 
     // COMMANDS
@@ -84,6 +87,48 @@ export class RzDrawer extends HTMLElement {
         }
 
         this.fileUpload.removeEventListener('success', this.onFileUploadSuccess)
+    }
+
+    // VALIDATION PROXY
+    initValidationProxy() {
+        this.validationProxy = this.querySelector<HTMLSelectElement>(
+            '[data-drawer-validation-proxy]',
+        )
+    }
+
+    destroyValidationProxy() {
+        this.validationProxy = null
+    }
+
+    syncValidationProxyOptions(ids: Array<string | number>) {
+        if (!this.validationProxy) {
+            return
+        }
+
+        this.validationProxy.innerHTML = ''
+
+        ids.forEach((id) => {
+            const option = document.createElement('option')
+            option.value = id.toString()
+            option.selected = true
+            option.setAttribute('selected', 'true')
+            this.validationProxy?.appendChild(option)
+        })
+    }
+
+    updateValidationProxy() {
+        if (!this.validationProxy) {
+            return
+        }
+
+        const ids = this.items
+            .map((item) => item?.id)
+            .filter(
+                (value): value is number =>
+                    typeof value === 'number' || typeof value === 'string',
+            )
+
+        this.syncValidationProxyOptions(ids)
     }
 
     onFileUploadSuccess(event: CustomEvent) {
@@ -274,6 +319,8 @@ export class RzDrawer extends HTMLElement {
 
             this.listElement.appendChild(fragment)
         }
+
+        this.updateValidationProxy()
     }
 
     destroyItems() {
@@ -311,6 +358,7 @@ export class RzDrawer extends HTMLElement {
         this.itemElements.set(item, element)
         this.listElement.appendChild(element)
 
+        this.updateValidationProxy()
         this.dispatchLengthChange()
     }
 
@@ -331,6 +379,7 @@ export class RzDrawer extends HTMLElement {
             // Reindex remaining items
             this.reindexItems()
 
+            this.updateValidationProxy()
             this.dispatchLengthChange()
         }
     }

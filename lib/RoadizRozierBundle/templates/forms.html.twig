@@ -728,12 +728,16 @@
 {%- endblock button_widget -%}
 
 {%- block widget_attributes -%}
-    id="{{ id }}" name="{{ full_name }}"
+    id="{{ id }}"
+    name="{{ full_name }}"
     {%- if disabled %} disabled="disabled"{% endif -%}
     {%- if required %} required="required"{% endif -%}
     {%- if form.vars.help ?? false -%}
         aria-describedby="{{ form.vars.id }}_help"
     {%- endif -%}
+    {%- if attr['data-max-length'] is not defined and nodeTypeField.type.name == 'MANY_TO_ONE_T' %}
+        data-max-length="1"
+    {% endif -%}
     {{ block('attributes') }}
 {%- endblock widget_attributes -%}
 
