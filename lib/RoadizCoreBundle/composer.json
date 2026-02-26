@@ -37,7 +37,6 @@
         "league/flysystem-bundle": "^3.0",
         "lexik/jwt-authentication-bundle": "^3.1.0",
         "phpdocumentor/reflection-docblock": "^5.2",
-        "phpoffice/phpspreadsheet": "^1.15",
         "rezozero/intervention-request-bundle": "^5.1",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.7.0",
