@@ -50,11 +50,12 @@
         </form>
     {% endif %}
 
-    {% if filters.itemCount > filters.itemPerPage %}
+    {% set hasItemPerPageParams = app.request.get('item_per_page') is not same as("20") %}
+    {% if (filters.itemCount > filters.itemPerPage) or hasItemPerPageParams %}
         <div class="rz-filters-bar__group rz-filters-bar__group--right">
             {{ rz_filters_bar.pagination(filters) }}
 
-            {% if filters.itemPerPage and filters.itemCount > 10 %}
+            {% if (filters.itemPerPage and filters.itemCount > 10) or hasItemPerPageParams %}
                 {{ rz_filters_bar.item_per_page(filters.itemPerPage) }}
             {% endif %}
         </div>
