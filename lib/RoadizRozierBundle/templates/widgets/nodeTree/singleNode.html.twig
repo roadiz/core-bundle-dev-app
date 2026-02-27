@@ -81,25 +81,16 @@
                     {% set node_label = item.nodeName|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
                 {% endif %}
 
-                {% set node_href = null %}
-                {% if node.isHidingChildren %}
-                    {% set node_href = path('nodesTreePage', {
-                        nodeId: item.id,
-                        translationId: nodeTree.translation.id
-                    }) %}
-                {% else %}
-                    {% set node_href = path('nodesEditSourcePage', {
-                        nodeId: item.id,
-                        translationId: nodeTree.translation.id,
-                        referer: parent ? path('nodesEditSourcePage', {
-                            nodeId: parent.id,
-                            translationId: nodeTree.translation.id,
-                        }) : null  })
-                    %}
-                {% endif %}
-
+                {% set node_href = getNodeSourceHref(item, nodeTree.translation, parent) %}
                 {% if node_href is not null %}
-                    <a href="{{ node_href }}" title="{{ node_label }}">{{- node_label -}}</a>
+                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+					{{ rz_link.root({
+						label: node_label,
+						attributes: {
+                            href: node_href,
+                            title: node_label,
+                        },
+					}) }}
                 {% else %}
                     {{- node_label -}}
                 {% endif %}
