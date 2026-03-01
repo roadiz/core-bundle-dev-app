@@ -32,7 +32,7 @@ class TagTranslationDocuments implements PositionedInterface, PersistableInterfa
     public function __construct(
         #[ORM\ManyToOne(
             targetEntity: TagTranslation::class,
-            cascade: ['persist', 'merge'],
+            cascade: ['persist'],
             fetch: 'EAGER',
             inversedBy: 'tagTranslationDocuments'
         )]
@@ -41,7 +41,7 @@ class TagTranslationDocuments implements PositionedInterface, PersistableInterfa
         protected TagTranslation $tagTranslation,
         #[ORM\ManyToOne(
             targetEntity: Document::class,
-            cascade: ['persist', 'merge'],
+            cascade: ['persist'],
             fetch: 'EAGER',
             inversedBy: 'tagTranslations'
         )]

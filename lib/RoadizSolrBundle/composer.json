@@ -25,7 +25,7 @@
         "ext-zip": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/orm": "~2.20.0",
+        "doctrine/orm": "^3.6",
         "nelmio/solarium-bundle": "^5.1",
         "roadiz/core-bundle": "2.8.x-dev",
         "roadiz/documents": "2.8.x-dev",

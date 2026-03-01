@@ -35,7 +35,7 @@ trait AttributeTrait
 
     #[ORM\ManyToOne(
         targetEntity: AttributeGroupInterface::class,
-        cascade: ['persist', 'merge'],
+        cascade: ['persist'],
         fetch: 'EAGER',
         inversedBy: 'attributes'
     ),

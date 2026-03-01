@@ -206,7 +206,6 @@ class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailIn
     /**
      * @var Collection<int, FolderInterface>
      */
-    #[ORM\JoinTable(name: 'documents_folders')]
     #[ORM\ManyToMany(targetEntity: Folder::class, mappedBy: 'documents')]
     #[SymfonySerializer\Ignore]
     protected Collection $folders;

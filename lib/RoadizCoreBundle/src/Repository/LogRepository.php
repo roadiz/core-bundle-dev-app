@@ -43,7 +43,6 @@ final class LogRepository extends EntityRepository
             ->setMaxResults($maxResult)
         ;
         $ids = $qb->getQuery()
-            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getScalarResult();
 
         $qb2 = $this->createQueryBuilder('log');

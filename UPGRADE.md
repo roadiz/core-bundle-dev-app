@@ -1,5 +1,64 @@
 # Upgrade to 2.8
 
+## ⚠ Doctrine ORM 3.x Upgrade
+
+Roadiz has been upgraded from **Doctrine ORM 2.20** to **Doctrine ORM 3.6**, bringing performance improvements and better maintainability. This is a major internal upgrade with the following changes:
+
+### What Changed
+
+- **Doctrine ORM**: Upgraded from `~2.20.0` to `^3.6`
+- **Doctrine DBAL**: Automatically upgraded to `^3.0` (ORM 3 dependency)
+- **DoctrineBundle**: Remains at `^2.12` (supports both ORM 2.x and 3.x, PHP 8.3 compatible)
+
+### Breaking Changes
+
+⚠️ **Internal changes only** - The following deprecated APIs were removed from Roadiz codebase:
+
+- ✅ Removed `HINT_FORCE_PARTIAL_LOAD` query hint (removed in ORM 3.0)
+  - Affected files: `LogRepository`, `TagRepository`, `OptimizedNodesSourcesGraphPathAggregator`
+  - This hint is no longer needed as ORM 3.0 properly handles scalar and array results
+- ✅ No `EntityManager::merge()` usage
+- ✅ No cascade merge definitions
+- ✅ All entities use PHP 8 attributes (not annotations)
+- ✅ No YAML mappings
+- ✅ No partial flush usage
+- ✅ Lazy ghost objects already enabled
+
+### Configuration Changes
+
+The Doctrine configuration in `config/packages/doctrine.yaml` now includes `metadata_cache_driver` for the production environment to optimize metadata caching with ORM 3.
+
+### For Custom Code
+
+If you have custom code in your project that extends Roadiz:
+
+1. **Check for `merge()` usage**: ORM 3 removed `EntityManager::merge()`. Use explicit load and update patterns instead.
+2. **Check cascade definitions**: `cascade={"merge"}` is no longer supported.
+3. **Review custom DQL queries**: Verify they still work correctly.
+4. **Test lazy loading**: Verify proxy generation and lazy loading work as expected.
+
+### Migration Steps
+
+No migration steps required. The upgrade is transparent for standard Roadiz installations.
+
+### Testing
+
+After upgrading, verify:
+
+```bash
+# Validate schema
+php bin/console doctrine:schema:validate
+
+# Sync migrations metadata storage (required for ORM 3)
+php bin/console doctrine:migrations:sync-metadata-storage
+
+# Run migrations
+php bin/console doctrine:migrations:migrate
+
+# Clear caches
+php bin/console cache:clear
+```
+
 ## ⚠ Twig breaking changes
 
 - Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
