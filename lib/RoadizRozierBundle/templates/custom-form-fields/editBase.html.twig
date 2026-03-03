@@ -5,10 +5,10 @@
 {% block content %}
     <section class="content-global manage-custom-form-field">
         {% include '@RoadizRozier/custom-forms/head.html.twig' with {
-            title: "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|truncate_title(40),
+            title: "edit.nodeTypeField.%name%"|trans({'%name%': field.getName})|truncate_title,
             with_breadcrumb: true,
             breadcrumb_parents: [{
-                displayName: customForm.displayName|truncate_title(30),
+                displayName: customForm.displayName|truncate_title,
                 type: 'customFormFields',
                 url: path('customFormFieldsListPage', {customFormId: customForm.id})
             }],

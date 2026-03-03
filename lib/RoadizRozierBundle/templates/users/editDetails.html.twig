@@ -9,7 +9,7 @@
 {% block content %}
 <section class="content-global edit-user">
     {% include '@RoadizRozier/users/head.html.twig' with {
-        title: "edit.user_details.%name%"|trans({'%name%': item.username })|truncate_title(40),
+        title: "edit.user_details.%name%"|trans({'%name%': item.username })|truncate_title,
         with_nav_bar: true,
         user: item,
         current: 'edit_details',

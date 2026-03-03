@@ -31,7 +31,7 @@
         title: 'customFormFieldAttribute'|trans,
         with_breadcrumb: true,
         breadcrumb_parents: [{
-            displayName: customForm.displayName|truncate_title(30),
+            displayName: customForm.displayName|truncate_title,
             type: 'customFormFields',
             url: path('customFormAnswersHomePage', {customFormId: customForm.id})
         }],

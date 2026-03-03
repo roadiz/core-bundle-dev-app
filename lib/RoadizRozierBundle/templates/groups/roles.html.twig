@@ -6,7 +6,7 @@
 {% block content %}
 <section class="content-global edit-group">
     {% include '@RoadizRozier/groups/head.html.twig' with {
-        title: 'edit.group.%name%.roles'|trans({'%name%': item.name})|truncate_title(40),
+        title: 'edit.group.%name%.roles'|trans({'%name%': item.name})|truncate_title,
         item: item,
         current: 'roles',
         with_nav_bar: true,

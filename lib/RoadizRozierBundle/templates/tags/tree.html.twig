@@ -9,7 +9,7 @@
 {% block content %}
 <section>
     {% include '@RoadizRozier/tags/head.html.twig' with {
-        title: "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title(40),
+        title: "tag.%name%.tree"|trans({'%name%': tag.getTagName })|truncate_title,
         filters: filters,
         with_nav_bar: true,
         tag: tag,
