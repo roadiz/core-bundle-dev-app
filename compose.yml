@@ -154,6 +154,9 @@ services:
             target: node-dev
             args:
                 UID: ${UID:-1000}
+        stdin_open: true
+        tty: true
+        restart: unless-stopped
         ports:
             - 5173:5173
         volumes:

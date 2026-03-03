@@ -82,6 +82,16 @@ final class DocumentAdjustController extends AbstractController
 
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $fileForm->get('editDocument')->getData();
+
+            $imageSize = @\getimagesize($uploadedFile->getPathname());
+            if (\is_array($imageSize)) {
+                $document->setImageWidth((int) $imageSize[0]);
+                $document->setImageHeight((int) $imageSize[1]);
+            } else {
+                $document->setImageWidth(0);
+                $document->setImageHeight(0);
+            }
+
             $this->documentFactory->setFile($uploadedFile);
             $this->documentFactory->updateDocument($document);
             $em->flush();
@@ -103,6 +113,8 @@ final class DocumentAdjustController extends AbstractController
             return new JsonResponse([
                 'message' => $msg,
                 'path' => $this->documentsStorage->publicUrl($mountPath).'?'.\random_int(10, 999),
+                'imageWidth' => $document->getImageWidth(),
+                'imageHeight' => $document->getImageHeight(),
             ]);
         }
 
