@@ -702,10 +702,10 @@
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
-            '%name%': name,
-            '%id%': id,
-            }) %}
-        {%- else -%}
+                '%name%': name,
+                '%id%': id,
+                }) %}
+        {%- elseif label is not same as(false) -%}
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
@@ -714,7 +714,7 @@
             <span class="rz-button__label">
             {{ label_html is same as(false) ? label : label|raw }}
         </span>
-        {% else %}
+        {% elseif label %}
             <span class="rz-button__label">
             {{ label_html is same as(false)
             ? label|trans(label_translation_parameters, translation_domain)

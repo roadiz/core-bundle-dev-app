@@ -264,7 +264,7 @@ trait NodeBulkActionTrait
     {
         /** @var FormBuilder $builder */
         $builder = $this->formFactory
-            ->createNamedBuilder('tagForm', options: ['attr' => ['class' => 'rz-form--horizontal']])
+            ->createNamedBuilder('tagForm')
             ->add('nodesIds', HiddenType::class, [
                 'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [
@@ -284,7 +284,7 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitTag', SubmitType::class, [
-                'label' => null,
+                'label' => false,
                 'attr' => [
                     'is' => 'rz-button',
                     'class' => 'rz-button rz-button--secondary',
@@ -293,7 +293,7 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitUntag', SubmitType::class, [
-                'label' => null,
+                'label' => false,
                 'attr' => [
                     'is' => 'rz-button',
                     'class' => 'rz-button rz-button--secondary',

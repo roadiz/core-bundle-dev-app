@@ -35,29 +35,29 @@
         {% endif %}
     {% endblock %}
 
-        {% block delete_form %}
-            {% if (routeName == 'nodesHomeDeletedPage') %}
-                <form
-                    class="rz-bulk-actions__form-button"
-                    action="{{ undelete_form_action }}"
-                    method="POST"
-                >
-                    {% form_theme undelete_form_data '@RoadizRozier/forms.html.twig' %}
-                    {{ form_widget(undelete_form_data) }}
-                    {{ rz_button.root({
-                        attributes: {
-                            type: 'submit',
-                            title: title
-                        },
-                        color: 'danger',
-                        emphasis: 'primary',
-                        icon: 'rz-icon-ri--device-recover-line',
-                    }) }}
-                </form>
-            {% else %}
-                {{ parent() }}
-            {% endif %}
-        {%  endblock %}
+    {% block delete_form %}
+        {% if (routeName == 'nodesHomeDeletedPage') %}
+            <form
+                class="rz-bulk-actions__form-button"
+                action="{{ undelete_form_action }}"
+                method="POST"
+            >
+                {% form_theme undelete_form_data '@RoadizRozier/forms.html.twig' %}
+                {{ form_widget(undelete_form_data) }}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: title
+                    },
+                    color: 'danger',
+                    emphasis: 'primary',
+                    icon: 'rz-icon-ri--device-recover-line',
+                }) }}
+            </form>
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {%  endblock %}
 
     {% block panels %}
         {% if tagNodesForm %}
@@ -69,7 +69,7 @@
             >
                 {% form_theme tagNodesForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(tagNodesForm) }}
-                {{ form_widget(tagNodesForm) }}
+                {{ form_widget(tagNodesForm, { attr: { class: 'rz-bulk-actions__form-inline' } }) }}
                 {{ form_end(tagNodesForm) }}
             </tag-autocomplete>
         {% endif %}
@@ -79,12 +79,12 @@
                 class="rz-bulk-actions__group"
             >
                 {% form_theme statusNodesForm '@RoadizRozier/forms.html.twig' %}
-                <form
-                    class="rz-form rz-form--horizontal"
-                    action="{{ path('nodesBulkStatusPage') }}"
-                    method="get"
-                >
-                    {{ form_widget(statusNodesForm) }}
+                {{ form_start(statusNodesForm, {
+                    action: path('nodesBulkStatusPage'),
+                    method: 'get',
+                    attr: { class: 'rz-bulk-actions__form-inline' }
+                }) }}
+                    {{ form_widget(statusNodesForm, { attr: { class: 'rz-form rz-bulk-actions__form-inline' } }) }}
                     {{
                         rz_button.root({
                             attributes: {
@@ -96,7 +96,7 @@
                             icon: 'rz-icon-ri--save-line',
                         })
                     }}
-                </form>
+                {{ form_end(statusNodesForm) }}
             </div>
         {% endif %}
     {% endblock %}
