@@ -466,7 +466,7 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-DgYyLrVq.js",
+    "file": "shared-D4J_85DA.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -474,7 +474,7 @@
       "_jquery-DmndgEMa.js"
     ],
     "css": [
-      "shared-NRvenui2.css"
+      "shared-Dahu4FYm.css"
     ],
     "assets": [
       "fontawesome-webfont-Bsy9_7N6.woff2",
@@ -483,8 +483,8 @@
       "fa-brands-400-llyXKB-1.woff",
       "rz-icons-BSa7Mah2.woff2",
       "rz-icons-BOx9IpnW.woff",
-      "login-page-background-DYwPeqRb.png",
-      "spritemap@2x-Bd7qNsVN.png"
+      "spritemap@2x-Bd7qNsVN.png",
+      "login-page-background-DYwPeqRb.png"
     ]
   },
   "app/simple.js": {
