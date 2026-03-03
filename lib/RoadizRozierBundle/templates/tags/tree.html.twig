@@ -25,7 +25,10 @@
             data-is-sortable="{{ specificTagTree.canReorder ? 'true' : 'false' }}"
             id="children-stack-{{ specificTagTree.id ?? node.id }}"
         >
-            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with { "tagTree":specificTagTree, "tag":specificTagTree.getRootTag } only %}
+            {% include '@RoadizRozier/widgets/tagTree/tagTree.html.twig' with {
+                "tagTree":specificTagTree,
+                "tag":specificTagTree.getRootTag
+            } only %}
         </rz-tree>
     </article>
 
