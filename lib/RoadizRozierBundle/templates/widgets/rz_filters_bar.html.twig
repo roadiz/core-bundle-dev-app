@@ -50,12 +50,19 @@
         </form>
     {% endif %}
 
-    {% set hasItemPerPageParams = app.request.get('item_per_page') is not same as("20") %}
-    {% if (filters.itemCount > filters.itemPerPage) or hasItemPerPageParams %}
-        <div class="rz-filters-bar__group rz-filters-bar__group--right">
-            {{ rz_filters_bar.pagination(filters) }}
 
-            {% if (filters.itemPerPage and filters.itemCount > 10) or hasItemPerPageParams %}
+    {% set hasItemPerPageParams = app.request.get('item_per_page') and (app.request.get('item_per_page') != 20) %}
+    {% set hasMorePage = filters.itemCount > filters.itemPerPage %}
+
+    {% if hasItemPerPageParams or hasMorePage %}
+        <div class="rz-filters-bar__group rz-filters-bar__group--right">
+            {% if hasMorePage %}
+                {{ rz_filters_bar.pagination(filters) }}
+            {% endif %}
+
+
+            {% if filters.pageCount > 1 or filters.itemCount > 10 %}
+                {# Keep select if there are multiple pages or enough items #}
                 {{ rz_filters_bar.item_per_page(filters.itemPerPage) }}
             {% endif %}
         </div>
