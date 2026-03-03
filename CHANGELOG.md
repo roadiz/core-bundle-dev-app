@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.3...v2.7.4) - 2026-03-03
+
+### Bug Fixes
+
+- add attribute indexes for webhook fields in CustomForm - ([8176369](https://github.com/roadiz/core-bundle-dev-app/commit/8176369d3188b459d2c4f6d91814cae3de8a7e98))
+
 ## [2.7.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.2...v2.7.3) - 2026-02-26
 
 ### Bug Fixes
