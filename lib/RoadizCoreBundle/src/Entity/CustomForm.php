@@ -30,8 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['created_at'], name: 'custom_form_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'custom_form_updated_at'),
     ORM\Index(columns: ['webhook_enabled'], name: 'custom_form_webhook_enabled'),
-    ORM\Index(columns: ['webhook_provider'], name: 'custom_form_webhook_provider'),
-]
+    ORM\Index(columns: ['webhook_provider'], name: 'custom_form_webhook_provider'),]
 class CustomForm implements DateTimedInterface, PersistableInterface
 {
     use SequentialIdTrait;
