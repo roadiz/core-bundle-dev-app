@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.4...v2.7.5) - 2026-03-03
+
+### Bug Fixes
+
+- rector - ([4af9c47](https://github.com/roadiz/core-bundle-dev-app/commit/4af9c47311081c24db6b626b135abaf31f316974))
+
 ## [2.7.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.3...v2.7.4) - 2026-03-03
 
 ### Bug Fixes
