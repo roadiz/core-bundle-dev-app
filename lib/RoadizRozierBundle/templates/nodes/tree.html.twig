@@ -66,12 +66,15 @@
                 class="rz-tree"
                 group="nodeTree"
                 data-entity-type="node"
+                data-stack-tree="true"
                 data-is-sortable="{{ specificNodeTree.canReorder ? 'true' : 'false' }}"
                 id="children-stack-{{ specificNodeTree.id ?? node.id ?? 'root' }}"
             >
                 {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
                     nodeTree: specificNodeTree,
                     node: specificNodeTree.getRootNode,
+                    isMainTree: false,
+                    layout: 'condensed',
                 } only %}
             </rz-tree>
         {% else %}
