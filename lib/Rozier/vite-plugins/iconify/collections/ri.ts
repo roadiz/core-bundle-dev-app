@@ -146,6 +146,7 @@ export default [
     'sun-line',
     'survey-line',
     'thumb-up-line',
+    'ticket-line',
     'translate-ai-2',
     'translate-ai',
     'translate',
