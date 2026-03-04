@@ -295,15 +295,15 @@ export default {
                 this.data = cropper.getData()
                 this.canvasData = cropper.getCanvasData()
                 this.cropBoxData = cropper.getCropBoxData()
-                this.url = cropper
-                    .getCroppedCanvas(
-                        type === 'image/png'
-                            ? null
-                            : {
-                                  fillColor: '#fff',
-                              }
-                    )
-                    .toDataURL(type)
+                if (type === 'image/png') {
+                    this.url = cropper.getCroppedCanvas().toDataURL(type)
+                } else {
+                    this.url = cropper
+                        .getCroppedCanvas({
+                            fillColor: '#fff',
+                        })
+                        .toDataURL(type)
+                }
 
                 this.cropped = true
                 this.stop()

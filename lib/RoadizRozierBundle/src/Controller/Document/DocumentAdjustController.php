@@ -83,13 +83,17 @@ final class DocumentAdjustController extends AbstractController
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $fileForm->get('editDocument')->getData();
 
-            $imageSize = @\getimagesize($uploadedFile->getPathname());
-            if (\is_array($imageSize)) {
-                $document->setImageWidth((int) $imageSize[0]);
-                $document->setImageHeight((int) $imageSize[1]);
-            } else {
-                $document->setImageWidth(0);
-                $document->setImageHeight(0);
+            $uploadedFileMimeType = $uploadedFile->getMimeType();
+            if (
+                \is_string($uploadedFileMimeType)
+                && \str_starts_with($uploadedFileMimeType, 'image/')
+                && 'image/svg+xml' !== $uploadedFileMimeType
+            ) {
+                $imageSize = \getimagesize($uploadedFile->getPathname());
+                if (\is_array($imageSize)) {
+                    $document->setImageWidth((int) $imageSize[0]);
+                    $document->setImageHeight((int) $imageSize[1]);
+                }
             }
 
             $this->documentFactory->setFile($uploadedFile);
