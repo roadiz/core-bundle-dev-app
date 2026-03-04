@@ -52,6 +52,8 @@ final class DocumentUnusedController extends AbstractController
             'controls' => false,
             'loading' => 'lazy',
         ];
+        $assignation['pageTitle'] = 'unused_documents';
+        $assignation['displayButtonAction'] = false;
 
         return $this->render('@RoadizRozier/documents/unused.html.twig', $assignation);
     }

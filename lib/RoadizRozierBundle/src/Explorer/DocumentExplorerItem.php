@@ -20,7 +20,7 @@ use Symfony\Component\Uid\Uuid;
 final class DocumentExplorerItem extends AbstractExplorerItem
 {
     public static array $thumbnailSmallArray = [
-        'width' => 100,
+        'width' => 240,
         'crop' => '1:1',
         'quality' => 50,
         'sharpen' => 5,

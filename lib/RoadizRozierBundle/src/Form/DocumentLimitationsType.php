@@ -19,11 +19,7 @@ class DocumentLimitationsType extends AbstractType
             ->add('copyrightValidSince', DateTimeType::class, [
                 'label' => 'document.copyrightValidSince',
                 'required' => false,
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
+                'html5' => true,
                 'placeholder' => [
                     'hour' => 'hour',
                     'minute' => 'minute',
@@ -32,11 +28,7 @@ class DocumentLimitationsType extends AbstractType
             ->add('copyrightValidUntil', DateTimeType::class, [
                 'label' => 'document.copyrightValidUntil',
                 'required' => false,
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
+                'html5' => true,
                 'placeholder' => [
                     'hour' => 'hour',
                     'minute' => 'minute',
@@ -50,6 +42,9 @@ class DocumentLimitationsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Document::class,
+            'attr' => [
+                'class' => 'rz-form__field-list',
+            ],
         ]);
 
         $resolver->setRequired('referer');

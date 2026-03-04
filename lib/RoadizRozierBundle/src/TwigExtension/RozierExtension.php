@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\TwigExtension;
 
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
@@ -17,8 +20,11 @@ use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\Vite\JsonManifestResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\String\UnicodeString;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 final class RozierExtension extends AbstractExtension implements GlobalsInterface
@@ -30,6 +36,9 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        private readonly TranslationRepository $translationRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -56,20 +65,51 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     }
 
     #[\Override]
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('truncate_title', $this->truncateTitle(...)),
+            new TwigFilter('json_decode', $this->jsonDecode(...)),
+        ];
+    }
+
+    #[\Override]
     public function getFunctions(): array
     {
         return [
             new TwigFunction('getNodeType', $this->getNodeType(...)),
             new TwigFunction('getBreadcrumbsItem', $this->getBreadcrumbsItem(...)),
+            new TwigFunction('getExplorerItem', $this->getExplorerItem(...)),
+            new TwigFunction('getNodeSourceHref', $this->getNodeSourceHref(...)),
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
+            new TwigFunction('getAvailableTranslations', $this->getAllAvailableTranslations(...)),
         ];
+    }
+
+    /**
+     * Truncate a title string to a maximum length with an ellipsis suffix.
+     *
+     * @param string $title  The title string to truncate
+     * @param int    $length Maximum length of the truncated string (default: 45)
+     * @param string $suffix Suffix to append when truncated (default: '[…]')
+     *
+     * @return string The truncated title
+     */
+    public function truncateTitle(string $title, int $length = 45, string $suffix = '[…]'): string
+    {
+        return (new UnicodeString($title))->truncate($length, $suffix, true)->toString();
     }
 
     public function getBreadcrumbsItem(?object $item): ?BreadcrumbsItem
     {
         return $this->breadcrumbItemFactory->createBreadcrumbsItem($item);
+    }
+
+    public function getExplorerItem(mixed $item): array
+    {
+        return $this->explorerItemFactory->createForEntity($item)->toArray();
     }
 
     public function getManifestScriptTags(string $name): string
@@ -120,5 +160,65 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         }
 
         throw new \RuntimeException('Unexpected object type');
+    }
+
+    public function getAllAvailableTranslations(): array
+    {
+        return $this->translationRepository->findAllAvailable();
+    }
+
+    /**
+     * Define the main backoffice page for a node source based on node settings.
+     */
+    public function getNodeSourceHref(mixed $node, ?TranslationInterface $translation, ?NodeInterface $parent = null): ?string
+    {
+        if (null === $translation) {
+            return null;
+        }
+
+        if (!$node instanceof NodeInterface || !method_exists($node, 'isHidingChildren')) {
+            return null;
+        }
+
+        /** @var NodeInterface&object{isHidingChildren(): bool} $node */
+
+        if ($node->isHidingChildren()) {
+            return $this->urlGenerator->generate('nodesTreePage', [
+                'nodeId' => $node->getId(),
+                'translationId' => $translation->getId(),
+            ]);
+        }
+
+        $referer = null;
+        if (null !== $parent) {
+            $referer = $this->urlGenerator->generate('nodesEditSourcePage', [
+                'nodeId' => $parent->getId(),
+                'translationId' => $translation->getId(),
+            ]);
+        }
+
+        return $this->urlGenerator->generate('nodesEditSourcePage', [
+            'nodeId' => $node->getId(),
+            'translationId' => $translation->getId(),
+            'referer' => $referer,
+        ]);
+    }
+
+    /**
+     * Decode a JSON string into an associative array.
+     *
+     * @throws \JsonException when the JSON is invalid
+     */
+    public function jsonDecode(?string $json): ?array
+    {
+        if (null === $json) {
+            return null;
+        }
+        $json = trim($json);
+        if ('' === $json) {
+            return null;
+        }
+
+        return \json_decode(json: $json, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }

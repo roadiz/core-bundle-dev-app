@@ -10,19 +10,19 @@
 	font-family: var(--font-family-os-label);
 }
 
-.rz-badge--size-xs {
+.rz-badge--xs {
 	--rz-badge-padding: 4px;
 	--rz-badge-icon-font-size: 12px;
 	--rz-badge-label-font-size: 12px;
 	--rz-badge-label-padding-inline: 2px;
 }
-.rz-badge--size-sm {
+.rz-badge--sm {
 	--rz-badge-padding: 5px 4px;
 	--rz-badge-icon-font-size: 14px;
 	--rz-badge-label-font-size: 12px;
 	--rz-badge-label-padding-inline: 4px;
 }
-.rz-badge--size-md {
+.rz-badge--md {
 	--rz-badge-padding: 9px 6px;
 	--rz-badge-icon-font-size: 16px;
 	--rz-badge-label-font-size: 13px;
@@ -44,7 +44,7 @@
 	--rz-badge-border-color: var(--status-warning, #F4956C);
 	--rz-badge-color: var(--status-warning-on-container, #D35824);
 }
-.rz-badge--error {
+.rz-badge--danger {
 	--rz-badge-background-color: var(--status-error-container, #FFD3DA);
 	--rz-badge-border-color: var(--status-error, #E54457);
 	--rz-badge-color: var(--status-error-on-container, #A92A3E);
@@ -55,6 +55,7 @@
 }
 
 .rz-badge__label {
+	white-space: var(--rz-badge-label-white-space);
 	font-size: var(--rz-badge-label-font-size, 12px);
 	line-height: var(--rz-badge-label-line-height, 110%);
 	font-weight: var(--rz-badge-label-font-weight, 400);

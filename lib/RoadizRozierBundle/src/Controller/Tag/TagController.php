@@ -297,14 +297,21 @@ final class TagController extends AbstractController
         }
 
         $assignation = [];
-        $assignation['tags'] = $tags;
-        $assignation['form'] = $form->createView();
 
         if (!empty($request->get('deleteForm')['referer'])) {
             $assignation['referer'] = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/tags/bulkDelete.html.twig', $assignation);
+        $title = $this->translator->trans('delete.tags');
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.these.tags',
+            'form' => $form->createView(),
+            'items' => $tags,
+        ]);
     }
 
     #[Route(
@@ -482,9 +489,18 @@ final class TagController extends AbstractController
             return $this->redirectToRoute('tagsHomePage');
         }
 
-        return $this->render('@RoadizRozier/tags/delete.html.twig', [
-            'tag' => $tag,
+        $title = $this->translator->trans(
+            'delete.tag.%name%',
+            ['%name%' => $tag->getTagName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/tags/head.html.twig',
+            'cancelPath' => $this->generateUrl('tagsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.tag',
             'form' => $form->createView(),
+            'items' => [$tag],
         ]);
     }
 

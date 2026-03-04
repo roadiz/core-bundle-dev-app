@@ -6,6 +6,7 @@ namespace RZ\Roadiz\RozierBundle\Form;
 
 use RZ\Roadiz\CoreBundle\CustomForm\Webhook\CustomFormWebhookProviderRegistry;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,6 +20,7 @@ final class CustomFormWebhookType extends AbstractType
 {
     public function __construct(
         private readonly CustomFormWebhookProviderRegistry $providerRegistry,
+        private readonly Security $security,
     ) {
     }
 
@@ -48,12 +50,15 @@ final class CustomFormWebhookType extends AbstractType
             ->add('webhookFieldMapping', CustomFormWebhookFieldMappingType::class, [
                 'custom_form' => $customForm,
                 'required' => false,
-            ])
-            ->add('webhookExtraConfig', CustomFormWebhookExtraConfigType::class, [
+                'attr' => ['class' => 'rz-form__field-list'],
+            ]);
+        if ($this->security->isGranted('ROLE_ACCESS_CUSTOMFORMS_RETENTION') && $customForm->getWebhookProvider()) {
+            $builder->add('webhookExtraConfig', CustomFormWebhookExtraConfigType::class, [
                 'custom_form' => $customForm,
                 'required' => false,
-            ])
-        ;
+                'attr' => ['class' => 'rz-form__field-list rz-fieldset'],
+            ]);
+        }
     }
 
     #[\Override]
@@ -69,7 +74,9 @@ final class CustomFormWebhookType extends AbstractType
             'label' => 'customForm.webhook.section',
             'data_class' => CustomForm::class,
             'custom_form' => null,
-            'attr' => ['tag' => 'fieldset'],
+            'attr' => [
+                'class' => 'rz-form-field__body',
+            ],
         ]);
 
         $resolver->setAllowedTypes('custom_form', ['null', CustomForm::class]);

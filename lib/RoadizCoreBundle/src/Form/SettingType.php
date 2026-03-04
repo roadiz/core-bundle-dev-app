@@ -91,8 +91,11 @@ final class SettingType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', Setting::class);
-        $resolver->setDefault('shortEdit', false);
+        $resolver->setDefaults([
+            'data_class' => Setting::class,
+            'shortEdit' => false,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
         $resolver->setAllowedTypes('shortEdit', ['boolean']);
     }
 
@@ -123,12 +126,7 @@ final class SettingType extends AbstractType
                 ];
             case FieldType::DATETIME_T:
                 return [
-                    'placeholder' => [
-                        'hour' => 'hour',
-                        'minute' => 'minute',
-                    ],
-                    'date_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
+                    'html5' => true,
                     'attr' => [
                         'class' => 'rz-datetime-field',
                     ],

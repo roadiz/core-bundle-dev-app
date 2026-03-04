@@ -1,0 +1,81 @@
+:root {
+    --explorer-width: 100vw;
+
+    @media (--screen-sm-min) {
+        --explorer-width: min(50vw, 700px);
+    }
+}
+
+.rz-explorer {
+	background-color: var(--surface-light-primary, #FFF);
+	box-shadow: 16px 0 16px 10px rgba(0, 0, 0, 0.2);
+	position: fixed;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: var(--explorer-width);
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 101;
+}
+
+.rz-explorer__inner {
+	display: flex;
+    flex-direction: column;
+	padding-inline: var(--spacing-3xs);
+	min-height: 100%;
+}
+
+.rz-explorer__header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding-block: 20px 10px;
+	border-bottom: 1px solid var(--form-basic-border);
+}
+
+.rz-explorer__logo {
+
+}
+
+.rz-explorer__search {
+	flex-grow: 1;
+
+	> input[type="search"] {
+		width: 100%;
+	}
+}
+
+.rz-explorer__main {
+	flex-grow: 1;
+}
+
+.rz-explorer__list {
+	display: grid;
+	gap: var(--spacing-xs);
+	padding: 10px 0;
+	margin: initial;
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+
+.rz-explorer__pagination {
+	border-top: 1px solid var(--form-basic-border);
+	text-align: center;
+	margin-top: 50px;
+	padding-block: 14px;
+	color: var(--form-basic-input-text, #383838);
+
+	font-family: var(--font-family-os-text);
+	font-size: var(--text-form-description-md-font-size);
+	line-height: var(--text-form-description-md-line-height);
+	letter-spacing: var(--text-form-description-md-letter-spacing);
+	font-weight: var(--text-form-description-md-font-weight);
+}
+
+
+.rz-explorer__load-more {
+	--rz-button-display: flex;
+
+	margin-inline: auto;
+	margin-top: 30px;
+}

@@ -53,7 +53,7 @@ class AttributeDocuments implements PositionedInterface, PersistableInterface
                 nullable: false,
                 onDelete: 'CASCADE'
             ),
-            SymfonySerializer\Groups(['attribute']),]
+            SymfonySerializer\Groups(['attribute'])]
         protected Document $document,
     ) {
     }

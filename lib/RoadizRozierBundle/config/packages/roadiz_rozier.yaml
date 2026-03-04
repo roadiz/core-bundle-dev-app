@@ -4,8 +4,12 @@ parameters:
     env(OPEN_ID_HOSTED_DOMAIN): ''
     env(OPEN_ID_CLIENT_ID): ''
     env(OPEN_ID_CLIENT_SECRET): ''
+    env(DEEPL_API_KEY): ''
 roadiz_rozier:
-    theme_dir: '%kernel.project_dir%/vendor/roadiz/rozier/src'
+    translate_assistant:
+        deepl_api_key: '%env(string:DEEPL_API_KEY)%'
+    csv_encoder_options:
+        csv_delimiter: ';'
     open_id:
         # Verify User info in JWT at each login
         verify_user_info: false
@@ -17,96 +21,112 @@ roadiz_rozier:
         oauth_client_id: '%env(string:OPEN_ID_CLIENT_ID)%'
         # OpenID identity provider OAuth2 client secret
         oauth_client_secret: '%env(string:OPEN_ID_CLIENT_SECRET)%'
-        requires_local_user: false
-        force_ssl_on_redirect_uri: true
+        scopes:
+            - openid
+            - profile
+            - email
+        requires_local_user: true
+        force_ssl_on_redirect_uri: false
         # Only when local users are not required, creating virtual users
         # with following roles.
         granted_roles:
             - ROLE_USER
             - ROLE_BACKEND_USER
             - ROLE_SUPERADMIN
+
+    bookmarks:
+        - label: 'Documentation'
+          url: 'https://docs.roadiz.io/'
+        - label: 'Github'
+          url: 'https://github.com/roadiz'
+        - label: '%env(string:APP_EXAMPLE_BOOKMARK_LABEL)%'
+          url: '%env(string:APP_EXAMPLE_BOOKMARK_URL)%'
+
     entries:
         dashboard:
             name: dashboard
             route: adminHomePage
-            icon: uk-icon-rz-dashboard
-            roles: ~
-            subentries: ~
+            icon: rz-icon-ri--dashboard-line
 
         nodes:
             name: nodes
             route: ~
-            icon: uk-icon-rz-global-nodes
+            icon: rz-icon-ri--command-line
             roles: [ 'ROLE_ACCESS_NODES' ]
             subentries:
                 all_nodes:
                     name: 'all.nodes'
                     route: nodesHomePage
-                    icon: uk-icon-rz-all-nodes
+                    icon: rz-icon-rz--status-container-line
                     roles: ~
                 draft_nodes:
                     name: 'draft.nodes'
                     route: nodesHomeDraftPage
-                    icon: uk-icon-rz-draft-nodes
+                    icon: rz-icon-rz--status-draft-line
                     roles: ~
                 pending_nodes:
                     name: 'pending.nodes'
                     route: nodesHomePendingPage
-                    icon: uk-icon-rz-pending-nodes
+                    icon: rz-icon-rz--status-pending-line
                     roles: ~
                 archived_nodes:
                     name: 'archived.nodes'
                     route: nodesHomeArchivedPage
-                    icon: uk-icon-rz-archives-nodes
+                    icon: rz-icon-rz--status-archived-line
                     roles: ~
                 deleted_nodes:
                     name: 'deleted.nodes'
                     route: nodesHomeDeletedPage
-                    icon: uk-icon-rz-deleted-nodes
+                    icon: rz-icon-rz--status-deleted-line
+                    roles: ~
+                shadow_nodes:
+                    name: 'shadow.nodes'
+                    route: nodesHomeShadowPage
+                    icon: rz-icon-rz--status-shadow-container-line
                     roles: ~
                 search_nodes:
                     name: 'search.nodes'
                     route: searchNodePage
-                    icon: uk-icon-search
+                    icon: rz-icon-ri--search-line
                     roles: ~
 
         manage_documents:
             name: 'manage.documents'
             route: ~
-            icon: uk-icon-rz-documents
+            icon: rz-icon-ri--image-line
             roles: [ 'ROLE_ACCESS_DOCUMENTS' ]
             subentries:
                 all_documents:
                     name: 'all.documents'
                     route: documentsHomePage
-                    icon: uk-icon-rz-documents
+                    icon: rz-icon-ri--image-line
                     roles: [ 'ROLE_ACCESS_DOCUMENTS' ]
                 private_documents:
                     name: 'private_documents'
                     route: documentsPrivateHomePage
-                    icon: uk-icon-lock
+                    icon: rz-icon-ri--lock-2-line
                     roles: [ 'ROLE_ACCESS_DOCUMENTS' ]
                 unused_documents:
                     name: 'unused_documents'
                     route: documentsUnusedPage
-                    icon: uk-icon-unlink
+                    icon: rz-icon-ri--close-line
                     roles: [ 'ROLE_ACCESS_DOCUMENTS' ]
                 duplicated_documents:
                     name: 'duplicated_documents'
                     route: documentsDuplicatesPage
-                    icon: uk-icon-files-o
+                    icon: rz-icon-ri--file-copy-line
                     roles: [ 'ROLE_ACCESS_DOCUMENTS' ]
 
         manage_tags:
             name: 'manage.tags'
             route: tagsHomePage
-            icon: uk-icon-rz-tags
+            icon: 'rz-icon-ri--price-tag-3-line'
             roles: [ 'ROLE_ACCESS_TAGS' ]
 
         construction:
             name: 'construction'
             route: ~
-            icon: uk-icon-rz-construction
+            icon: 'rz-icon-ri--hammer-line'
             roles:
                 - 'ROLE_ACCESS_NODETYPES'
                 - 'ROLE_ACCESS_ATTRIBUTES'
@@ -118,76 +138,77 @@ roadiz_rozier:
                 manage_nodeTypes:
                     name: 'manage.nodeTypes'
                     route: nodeTypesHomePage
-                    icon: uk-icon-rz-manage-nodes
+                    icon: 'rz-icon-ri--kanban-view'
                     roles: ['ROLE_ACCESS_NODETYPES']
                 manage_attributes:
                     name: 'manage.attributes'
                     route: attributesHomePage
-                    icon: uk-icon-server
+                    icon: 'rz-icon-ri--server-line'
                     roles: ['ROLE_ACCESS_ATTRIBUTES']
                 manage_translations:
                     name: 'manage.translations'
                     route: translationsHomePage
-                    icon: uk-icon-rz-translate
+                    icon: 'rz-icon-ri--translate'
                     roles: ['ROLE_ACCESS_TRANSLATIONS']
                 manage_redirections:
                     name: 'manage.redirections'
                     route: redirectionsHomePage
-                    icon: 'uk-icon-compass'
+                    icon: 'rz-icon-ri--compass-3-line'
                     roles: ['ROLE_ACCESS_REDIRECTIONS']
                 manage_webhooks:
                     name: 'manage.webhooks'
                     route: webhooksHomePage
-                    icon: 'uk-icon-space-shuttle'
+                    icon: 'rz-icon-ri--space-ship-line'
                     roles: ['ROLE_ACCESS_WEBHOOKS']
                 manage_realms:
                     name: 'manage.realms'
                     route: realmsHomePage
-                    icon: 'uk-icon-user-secret'
+                    icon: 'rz-icon-ri--spy-line'
                     roles: ['ROLE_ACCESS_REALMS']
 
         user_system:
             name: 'user.system'
             route: ~
-            icon: uk-icon-rz-users
+            icon: 'rz-icon-ri--user-line'
             roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_GROUPS']
             subentries:
                 manage_users:
                     name: 'manage.users'
                     route: usersHomePage
-                    icon: uk-icon-rz-user
+                    icon: 'rz-icon-ri--user-line'
                     roles: ['ROLE_ACCESS_USERS']
                 manage_groups:
                     name: 'manage.groups'
                     route: groupsHomePage
-                    icon: uk-icon-rz-groups
+                    icon: rz-icon-ri--group-line
                     roles: ['ROLE_ACCESS_GROUPS']
 
         manage_customForms:
             name: 'manage.customForms'
             route: customFormsHomePage
-            icon: uk-icon-rz-surveys
-            roles: ['ROLE_ACCESS_CUSTOMFORMS']
+            icon: 'rz-icon-ri--questionnaire-line'
+            roles: [ 'ROLE_ACCESS_CUSTOMFORMS' ]
+
 
         settings:
             name: 'settings'
             route: ~
-            icon: uk-icon-rz-settings
+            icon: rz-icon-ri--settings-line
             roles: ['ROLE_ACCESS_SETTINGS']
             subentries:
                 all_settings:
                     name: 'all.settings'
                     route: settingsHomePage
-                    icon: uk-icon-rz-settings-general
+                    icon: rz-icon-ri--settings-4-line
                     roles: ['ROLE_ACCESS_SETTINGS']
                 setting_groups_dynamic:
                     # This is a special menu entry replaced by all settings groups
                     name: 'setting.groups.dynamic' # do not rename this
-                    icon: uk-icon-rz-settings-general
+                    icon: rz-icon-ri--settings-4-line
                     roles: ['ROLE_ACCESS_SETTINGS']
                 setting_groups:
                     name: 'setting.groups'
                     route: settingGroupsHomePage
-                    icon: uk-icon-rz-settings-groups
+                    icon: rz-icon-ri--equalizer-3-line
                     roles: ['ROLE_ACCESS_SETTINGS']
 

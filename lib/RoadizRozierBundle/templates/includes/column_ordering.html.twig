@@ -1,3 +1,5 @@
+{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+
 {% if orderingParams is not defined %}
     {% if filters is not defined %}
         {% set orderingParams = {
@@ -17,22 +19,52 @@
     {% endif %}
 {% endif %}
 
-{% if app.request.query.get("field") == field and app.request.query.get("ordering") == "DESC" %}
+{% set hasQuery = app.request.query.get("field") == field %}
+
+{% if hasQuery and app.request.query.get("ordering") == "DESC" %}
     {% set localOrderingParams = orderingParams|merge({
         'field': field,
         'ordering': 'ASC'
     }) %}
-    <a title="{{ 'sort_asc'|trans }}" class="active" href="?{{ localOrderingParams|url_encode }}"><i class="uk-icon-caret-down"></i></a>
-{% elseif app.request.query.get("field") == field and app.request.query.get("ordering") == "ASC" %}
+    {{ rz_link.root({
+            class: 'active ' ~ (column_ordering_class|default('')),
+            label: label,
+            icon: 'rz-icon-ri--arrow-down-s-fill',
+            attributes: {
+                href: '?' ~ localOrderingParams|url_encode,
+                title: 'sort_asc'|trans,
+            }
+        })
+    }}
+{% elseif hasQuery and app.request.query.get("ordering") == "ASC" %}
     {% set localOrderingParams = orderingParams|merge({
         'field': field,
         'ordering': 'DESC'
     }) %}
-    <a title="{{ 'sort_desc'|trans }}" class="active" href="?{{ localOrderingParams|url_encode }}"><i class="uk-icon-caret-up"></i></a>
+    {{ rz_link.root({
+            class: 'active ' ~ (column_ordering_class|default('')),
+            label: label,
+            icon: 'rz-icon-ri--arrow-up-s-fill',
+            attributes: {
+                href: '?' ~ localOrderingParams|url_encode,
+                title: 'sort_desc'|trans,
+            }
+        })
+    }}
 {% else %}
     {% set localOrderingParams = orderingParams|merge({
         'field': field,
         'ordering': 'ASC'
     }) %}
-    <a title="{{ 'sort_asc'|trans }}" href="?{{ localOrderingParams|url_encode }}">&bull;</a>
+        {{
+            rz_link.root({
+                class: column_ordering_class|default(''),
+                label: label,
+                content: '&bull;',
+                attributes: {
+                    href: '?' ~ localOrderingParams|url_encode,
+                    title: 'sort_asc'|trans,
+                }
+            })
+        }}
 {% endif %}

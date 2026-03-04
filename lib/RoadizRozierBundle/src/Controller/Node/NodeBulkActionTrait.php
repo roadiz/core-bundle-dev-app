@@ -62,8 +62,6 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $assignation = [];
-
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
@@ -97,14 +95,22 @@ trait NodeBulkActionTrait
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
+        $referer = null;
         if (!empty($request->get('deleteForm')['referer'])) {
-            $assignation['referer'] = $request->get('deleteForm')['referer'];
+            $referer = $request->get('deleteForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkDelete.html.twig', $assignation);
+        $title = new UnicodeString($this->translator->trans('delete.nodes'));
+        $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $cancelPath,
+            'alertMessage' => 'are_you_sure.delete.these.nodes',
+            'form' => $form->createView(),
+            'items' => $nodes,
+        ]);
     }
 
     /**
@@ -115,8 +121,6 @@ trait NodeBulkActionTrait
         if (empty($request->get('statusForm')['nodesIds'])) {
             throw new ResourceNotFoundException();
         }
-
-        $assignation = [];
 
         $nodesIds = trim((string) $request->get('statusForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
@@ -132,8 +136,10 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
+        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkStatusForm(
@@ -154,14 +160,23 @@ trait NodeBulkActionTrait
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        $assignation['nodes'] = $nodes;
-        $assignation['form'] = $form->createView();
-
+        $cancelPath = $this->generateUrl('nodesHomePage');
         if (!empty($request->get('statusForm')['referer'])) {
-            $assignation['referer'] = $request->get('statusForm')['referer'];
+            $cancelPath = $request->get('statusForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/nodes/bulkStatus.html.twig', $assignation);
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $this->translator->trans('change.nodes.status'),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'action_icon' => 'rz-icon-ri--check-line',
+            'action_color' => 'success',
+            'action_label' => 'change.nodes.status.all',
+            'cancelPath' => $cancelPath,
+            'messageType' => 'neutral',
+            'alertMessage' => 'are_you_sure.change-status.these.nodes',
+            'form' => $form->createView(),
+            'items' => $items,
+        ]);
     }
 
     private function buildBulkDeleteForm(
@@ -185,6 +200,8 @@ trait NodeBulkActionTrait
                 'data' => $referer,
             ]);
         }
+
+        $builder->setAction('?confirm=1');
 
         return $builder->getForm();
     }
@@ -267,19 +284,21 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitTag', SubmitType::class, [
-                'label' => 'link.tags',
+                'label' => false,
                 'attr' => [
-                    'class' => 'uk-button uk-button-primary',
-                    'title' => 'link.tags',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('link.tags'),
+                    'icon' => 'rz-icon-ri--add-line',
                 ],
             ])
             ->add('submitUntag', SubmitType::class, [
-                'label' => 'unlink.tags',
+                'label' => false,
                 'attr' => [
-                    'class' => 'uk-button',
-                    'title' => 'unlink.tags',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('unlink.tags'),
+                    'icon' => 'rz-icon-ri--subtract-line',
                 ],
             ])
         ;
@@ -404,5 +423,101 @@ trait NodeBulkActionTrait
         }
 
         return $builder->getForm();
+    }
+
+    /**
+     * @throws RuntimeError
+     */
+    public function bulkUndeleteAction(Request $request): Response
+    {
+        if (empty($request->get('undeleteForm')['nodesIds'])) {
+            throw new ResourceNotFoundException();
+        }
+
+        $nodesIds = trim((string) $request->get('undeleteForm')['nodesIds']);
+        $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
+        array_filter($nodesIds);
+
+        /** @var Node[] $nodes */
+        $nodes = $this->allStatusesNodeRepository->findBy([
+            'id' => $nodesIds,
+        ]);
+
+        if (0 === count($nodes)) {
+            throw new ResourceNotFoundException();
+        }
+
+        foreach ($nodes as $node) {
+            $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
+        }
+
+        $form = $this->buildBulkUndeleteForm(
+            $nodesIds
+        );
+        $form->handleRequest($request);
+        if ($request->get('confirm') && $form->isSubmitted() && $form->isValid()) {
+            $msg = $this->bulkUndeleteNodes($form->getData());
+            $this->logTrail->publishConfirmMessage($request, $msg);
+
+            return $this->redirectToRoute('nodesHomePage');
+        }
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => new UnicodeString($this->translator->trans('undelete.nodes')),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesHomePage'),
+            'alertMessage' => 'are_you_sure.undelete.these.nodes',
+            'action_label' => 'undelete.nodes.all',
+            'action_icon' => 'rz-icon-ri--device-recover-line',
+            'form' => $form->createView(),
+            'items' => $nodes,
+        ]);
+    }
+
+    private function buildBulkUndeleteForm(
+        array $nodesIds = [],
+    ): FormInterface {
+        /** @var FormBuilder $builder */
+        $builder = $this->formFactory
+            ->createNamedBuilder('undeleteForm')
+            ->add('nodesIds', HiddenType::class, [
+                'data' => json_encode($nodesIds, flags: JSON_THROW_ON_ERROR),
+                'attr' => ['class' => 'bulk-form-value'],
+                'constraints' => [
+                    new NotNull(),
+                    new NotBlank(),
+                ],
+            ]);
+
+        $builder->setAction('?confirm=1');
+
+        return $builder->getForm();
+    }
+
+    private function bulkUndeleteNodes(array $data): string
+    {
+        if (!empty($data['nodesIds'])) {
+            $nodesIds = trim((string) $data['nodesIds']);
+            $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
+            array_filter($nodesIds);
+
+            $nodes = $this->allStatusesNodeRepository
+                ->findBy([
+                    'id' => $nodesIds,
+                ]);
+
+            /** @var Node $node */
+            foreach ($nodes as $node) {
+                /** @var NodeHandler $handler */
+                $handler = $this->handlerFactory->getHandler($node);
+                $handler->softUnremoveWithChildren();
+            }
+
+            $this->managerRegistry->getManager()->flush();
+
+            return $this->translator->trans('nodes.bulk.undeleted');
+        }
+
+        return $this->translator->trans('wrong.request');
     }
 }

@@ -1,0 +1,39 @@
+{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+	bordered: true,
+	margin_top: 'xs',
+	caption: table_caption|default('node_source.meta_table.caption'|trans),
+} %}
+	{% block tbody_content %}
+		<tr>
+			<th>{% trans %}created.at{% endtrans %}</th>
+			<td>
+			{% if item.createdAt is defined %}
+				{{ item.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
+			{% else %}
+				{{ 'not.available'|trans }}
+			{% endif %}
+		</tr>
+		<tr>
+			<th>{% trans %}updated.at{% endtrans %}</th>
+			<td>
+			{% if item.updatedAt is defined %}
+				{{ item.updatedAt|format_datetime('long', locale=app.request.locale) }}
+			{% else %}
+				{{ 'not.available'|trans }}
+			{% endif %}
+			</td>
+		</tr>
+
+		{% if additional_rows is defined and additional_rows|length > 0 %}
+			{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+			{% for rows in additional_rows %}
+				<tr>
+					{% for cell in rows %}
+						{% set tag = cell.tag|default('td') %}
+						<{{ tag }} {{ el_attrs.print(cell.attr|default({})) }}>{{ cell.content }}</{{ tag }}>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		{% endif %}
+	{% endblock %}
+{% endembed %}

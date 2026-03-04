@@ -1,0 +1,31 @@
+/* Lot of forms are construct with structure -> form.rz-form > div[id] */
+.rz-form > div[id]:not([class]),
+.rz-form {
+	--rz-form-field-list-gap: var(--spacing-md);
+
+	display: flex;
+	flex-direction: var(--rz-form-flex-direction, column);
+	gap: var(--rz-form-gap, var(--spacing-md));
+	align-items: var(--rz-form-align-items);
+}
+
+.rz-form--start {
+	align-items: flex-start;
+}
+
+.rz-form--horizontal,
+.rz-form__field-list {
+	display: grid;
+	width: var(--rz-form-width, 100%);
+	align-items: var(--rz-form-align-items, flex-start);
+	gap: var(--rz-form-field-list-gap);
+}
+
+.rz-form--align-end {
+	--rz-form-align-items: flex-end;
+}
+
+.rz-form--horizontal,
+.rz-form__field-list--horizontal {
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}

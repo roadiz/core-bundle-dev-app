@@ -91,9 +91,26 @@ final class DocumentController extends AbstractController
             return $this->redirectToRoute('documentsHomePage');
         }
 
-        return $this->render('@RoadizRozier/documents/delete.html.twig', [
-            'document' => $document,
+        $title = $this->translator->trans(
+            'delete.document.%name%',
+            ['%name%' => $document->getFilename()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/documents/head.html.twig',
+            'parentBreadcrumb' => [
+                [
+                    'label' => $this->translator->trans('documents'),
+                    'type' => 'listing',
+                    'url' => $this->generateUrl('documentsHomePage'),
+                ],
+                $document,
+            ],
+            'cancelPath' => $this->generateUrl('documentsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.document',
             'form' => $form->createView(),
+            'items' => [$document],
         ]);
     }
 
@@ -139,10 +156,15 @@ final class DocumentController extends AbstractController
             return $this->redirectToRoute('documentsHomePage');
         }
 
-        return $this->render('@RoadizRozier/documents/bulkDelete.html.twig', [
-            'documents' => $documents,
+        $title = $this->translator->trans('delete.documents');
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/documents/head.html.twig',
+            'cancelPath' => $this->generateUrl('documentsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.these.documents',
             'form' => $form->createView(),
-            'action' => '?'.http_build_query(['documents' => $documentsIds]),
+            'items' => $documents,
         ]);
     }
 

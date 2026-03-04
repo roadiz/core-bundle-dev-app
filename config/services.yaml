@@ -39,3 +39,7 @@ services:
         arguments:
             $decorated: '@App\Serializer\Normalizer\AliasBlockWalkerNormalizer.inner'
             $itemNormalizer: '@api_platform.serializer.normalizer.item'
+
+    App\Controller\Admin\DashboardController:
+        tags: ['controller.service_arguments']
+        decorates: RZ\Roadiz\RozierBundle\Controller\DashboardController

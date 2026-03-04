@@ -59,6 +59,10 @@ export default defineConfig(({ mode }) => {
                     prefix: 'rz',
                     srcDir: 'app/assets/img/icons/rz',
                 },
+                {
+                    prefix: 'logo',
+                    srcDir: 'app/assets/img/icons/logo',
+                },
             ]),
         ],
     }

@@ -7,6 +7,18 @@
         <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ meta.siteName }}{% endblock %}</title>
         <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <script>
+            (function () {
+                try {
+                    const stored = localStorage.getItem('rz-color-scheme')
+                    if (stored === 'light' || stored === 'dark') {
+                        document.documentElement.setAttribute('data-theme', stored)
+                    }
+                } catch (error) {
+                    return
+                }
+            })()
+        </script>
         {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
         {# CSS scripts inclusions / Using webpack #}
         {{ manifest_preload_tags('shared') }}
@@ -33,46 +45,40 @@
         {% endif %}
     </head>
     <body>
-        <div id="app"></div>
-        <div id="main-container">
-            {% set treePanelEnabled = (is_granted('ROLE_ACCESS_NODES') or
-                is_granted('ROLE_ACCESS_DOCUMENTS') or
-                is_granted('ROLE_ACCESS_TAGS')) %}
-            <div id="main-container-inner"{% if not treePanelEnabled %} class="trees-panel--hidden"{% endif %}>
-                <section class="main-container-section navigation-container-section" id="user-panel">
-                    {% include '@RoadizRozier/panels/user_panel.html.twig' with {
-                        'session' : session,
-                        'head' : head,
-                    } only %}
-                </section>
-                <section class="main-container-section navigation-container-section" id="admin-menu">
-                    {% include '@RoadizRozier/panels/admin_menu.html.twig' with {
-                        'backofficeEntries':backofficeEntries,
-                    } only %}
-                </section>
-                {% if treePanelEnabled %}
-                <section class="main-container-section navigation-container-section" id="main-trees">
-                    <div id="main-trees-container">
-                        {% include '@RoadizRozier/panels/tree_panel.html.twig' %}
-                    </div>
-                </section>
-                {% endif %}
-                <!-- Add your site or application content here -->
-                <section id="main-content" class="main-container-section" data-uk-observe>
-                    <div id="main-content-overlay"></div>
-                    <div id="main-content-scrollable" data-ajax-root>
-                        {% block permanentComponents %}
-                            <overlay data-vuejs></overlay>
-                        {% endblock %}
-                        {% block content %}{% endblock %}
-                    </div>
-                    <div id="canvasloader-container"></div>
-                    <div id="back-top-button"
-                         title="{% trans %}back_to.top{% endtrans %}"
-                         data-uk-tooltip="{animation:true,pos:'top'}"><i class="uk-icon-rz-backtop"></i></div>
-                    {# This is a debug panel placeholder… do not remove it. #}
-                </section>
-            </div>
+        <div class="rz-app" id="app">
+            <header is="rz-header" class="rz-header">
+                {% include '@RoadizRozier/admin/rz_header.html.twig' with {
+                    'backofficeEntries':backofficeEntries,
+                } only %}
+            </header>
+
+            {% if is_granted('ROLE_ACCESS_NODES') or is_granted('ROLE_ACCESS_DOCUMENTS') or is_granted('ROLE_ACCESS_TAGS') %}
+                {% include '@RoadizRozier/widgets/rz_aside.html.twig' %}
+            {% endif %}
+            <!-- Add your site or application content here -->
+            <main is="rz-page" id="rz-page" class="rz-page" data-uk-observe>
+                <div id="main-content-overlay"></div>
+                <div id="main-content-scrollable" data-ajax-root>
+                    {% block permanentComponents %}
+                        <overlay data-vuejs></overlay>
+                    {% endblock %}
+                    {% block content %}{% endblock %}
+                </div>
+                <div id="canvasloader-container"></div>
+
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    class: 'rz-back-to-top-button',
+                    icon: 'rz-icon-ri--arrow-up-line',
+                    size: 'xs',
+                    attributes: {
+                        title: 'back_to.top'|trans,
+                        'command': '--scroll-top',
+                        'commandfor': 'rz-page',
+                    }
+                }) }}
+                {# This is a debug panel placeholder… do not remove it. #}
+            </main>
         </div>
 
         <div id="vue-containers">
@@ -82,6 +88,7 @@
             <modal-container></modal-container>
         </div>
         <div id="codemirror-preview-containers"></div>
+        <rz-toast-list role="status" class="rz-toast-list--bottom-right"></rz-toast-list>
         <script>
             /**
              * Global Rozier configuration object
@@ -96,6 +103,7 @@
                 'leafletMapTileUrl': '{{ leaflet_map_tile_url }}',
                 'defaultMapLocation': {{ maps_default_location|raw }},
                 'messages': {
+                    'close':                  '{{ 'close'|trans|trim|escape }}',
                     'login':                  '{{ 'login'|trans|trim|escape }}',
                     'sessionExpireTitle':     '{{ 'session.expire.title'|trans|trim|escape }}',
                     'sessionExpireContent':   '{{ 'session.expire.content'|trans|trim|escape }}',
@@ -120,6 +128,7 @@
                     'moreTags':               '{{ 'more.tags'|trans|trim|escape }}',
                     'moreEntities':           '{{ 'more.entities'|trans|trim|escape }}',
                     'moreCustomForms':        '{{ 'more.custom_forms'|trans|trim|escape }}',
+                    'form.field.invalid':     '{{ 'form.field.invalid'|trans|trim|escape }}',
                     'documentEditDialogSubmit':        '{{ 'documentEditDialog.submit'|trans|trim|escape }}',
                     'documentEditDialogCancel':        '{{ 'documentEditDialog.cancel'|trans|trim|escape }}',
                     'documentEditDialogEdit':        '{{ 'documentEditDialog.edit'|trans|trim|escape }}',
@@ -194,7 +203,7 @@
                     'foldersAjaxExplorer' :        '{{ path('foldersAjaxExplorerPage') }}',
                     'foldersAjaxSearch':           '{{ path('foldersAjaxSearch') }}',
                     'foldersPositionAjax' :        '{{ path('foldersPositionAjax') }}',
-                    'foldersTreeAjax' :            '{{ path('foldersTreeAjax') }}',
+                    'foldersTreeAjax' :            '{{ path('treeAjaxGateway') }}',
                     'joinsAjaxByArray' :           '{{ path('entitiesAjaxByArray') }}',
                     'joinsAjaxExplorer' :          '{{ path('entitiesAjaxExplorerPage') }}',
                     'loginPage':                   '{{ path('loginPage') }}',
@@ -205,7 +214,7 @@
                     'nodesGenerateAndAddNodeAction': '{{ path('nodesGenerateAndAddNodeAction')}}',
                     'nodesPositionAjax' :          '{{ path('nodesPositionAjax') }}',
                     'nodesStatusesAjax' :          '{{ path('nodesStatusesAjax') }}',
-                    'nodesTreeAjax' :              '{{ path('nodesTreeAjax') }}',
+                    'nodesTreeAjax' :              '{{ path('treeAjaxGateway') }}',
                     'ping' :                       '{{ path('ping') }}',
                     'providerAjaxByArray' :        '{{ path('providerAjaxByArray') }}',
                     'providerAjaxExplorer' :       '{{ path('providerAjaxExplorerPage') }}',
@@ -217,7 +226,8 @@
                     'tagsAjaxCreate' :             '{{ path('tagsAjaxCreate') }}',
                     'tagsAjaxExplorer' :           '{{ path('tagsAjaxExplorer') }}',
                     'tagsAjaxExplorerList' :       '{{ path('tagsAjaxExplorerList') }}',
-                    'tagsTreeAjax' :               '{{ path('tagsTreeAjax') }}',
+                    'tagsTreeAjax' :               '{{ path('treeAjaxGateway') }}',
+                    'treeAjaxGateway' :               '{{ path('treeAjaxGateway') }}',
                 }
             };
         </script>

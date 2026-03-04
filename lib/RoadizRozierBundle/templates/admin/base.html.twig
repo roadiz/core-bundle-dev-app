@@ -1,21 +1,9 @@
 {% extends "@RoadizRozier/layout.html.twig" %}
 
 {% block content %}
-    <section class="bulk-layout content-global">
-        <header class="content-header">
-            <h1 class="content-title">{%- block content_title -%}{%- endblock -%}</h1>
-            {%- block content_sub_title -%}{%- endblock -%}
-            {%- block content_count_filters -%}
-                {%- include '@RoadizRozier/widgets/countFiltersBar.html.twig' -%}
-            {%- endblock -%}
-
-            <div class="content-header-action-menu">
-                {%- block content_header_actions -%}{%- endblock -%}
-            </div>
-
-            {%- block content_header_nav -%}{%- endblock -%}
-        </header>
+    <rz-bulk-section>
+        {% block header %}{% endblock %}
         {%- block content_filters -%}{%- endblock -%}
         {%- block content_body -%}{%- endblock -%}
-    </section>
+    </rz-bulk-section>
 {% endblock %}

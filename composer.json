@@ -75,7 +75,6 @@
         "nelmio/solarium-bundle": "^5.1",
         "nette/php-generator": "^4.1",
         "phpdocumentor/reflection-docblock": "^5.2",
-        "phpoffice/phpspreadsheet": "^1.15",
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
         "rezozero/intervention-request-bundle": "^5.1",

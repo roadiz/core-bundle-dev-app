@@ -116,11 +116,17 @@ final class TranstypeController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/nodes/transtype.html.twig', [
-            'node' => $node,
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $this->translator->trans('transtype.a.node'),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'action_icon' => 'rz-icon-ri--command-line',
+            'action_color' => 'success',
+            'action_label' => 'transtype.node',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'messageType' => 'warning',
+            'alertMessage' => 'transtype_will_copy_data_from_fields_existing_in_both_types_not_others',
             'form' => $form->createView(),
-            'parentNode' => $node->getParent(),
-            'type' => $node->getNodeTypeName(),
+            'items' => [$node],
         ]);
     }
 }

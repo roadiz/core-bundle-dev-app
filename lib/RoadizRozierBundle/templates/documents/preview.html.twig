@@ -1,15 +1,18 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.document.%name%"|trans({'%name%': document|u.truncate(25, '[…]', true)}) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global manage-document">
+    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
-        <header class="content-header header-document header-document-edit">
-            <h1 class="content-title document-edit-title">{{ "edit.document.%name%"|trans({'%name%': document})|u.truncate(25, '[…]', true) }}</h1>
-            {% include '@RoadizRozier/documents/navBar.html.twig' with {'document':document, current:'preview'} %}
-            {% include '@RoadizRozier/documents/backLink.html.twig' %}
-        </header>
+    <section class="content-global manage-document">
+        {% include '@RoadizRozier/documents/head.html.twig' with {
+            document: document,
+            title: "edit.document.%name%"|trans({'%name%': document})|truncate_title,
+            current: 'preview',
+            with_nav_bar: true,
+            with_breadcrumb: true,
+        } only %}
 
         <article class="content content-document-preview">
             <div class="content-inner">
@@ -45,14 +48,19 @@
                         {# Try to download PDF using private route #}
                         <object width="100%" height="700px" data="{{ path('documentsDownloadInlinePage', { documentId: document.id}) }}" type="application/pdf"></object>
                     {% else %}
-                        <p class="uk-alert uk-alert-warning"><i class="uk-icon-warning"></i> {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}</p>
+                        <p class="uk-alert uk-alert-warning">
+                            <i class="uk-icon-warning"></i>
+                            {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
+                        </p>
                     {% endif %}
                 {% endif %}
             </div>
         </article>
         <article class="content content-document-infos">
-            <div class="content-inner">
-                <table class="uk-table content-table">
+            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                bordered: true
+            } %}
+                {% block tbody_content %}
                     {% if not document.private and document.filename %}
                         <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat) }}</td></tr>
                         <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat|merge({absolute:true})) }}</td></tr>
@@ -67,50 +75,86 @@
                     {% for key, info in infos %}
                         <tr><th>{{ ('document.' ~ key)|trans }}</th><td>{{ info }}</td></tr>
                     {% endfor %}
-                </table>
-                {% if otherVideos|length %}
-                    <hr>
-                    <h4>{% trans %}document.video_sources{% endtrans %}</h4>
-                    <table class="uk-table content-table">
+                {% endblock %}
+            {% endembed %}
+            {% if otherVideos|length %}
+                <hr>
+                <h4>{% trans %}document.video_sources{% endtrans %}</h4>
+                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                    bordered: true
+                } %}
+                    {% block tbody_content %}
                         {% for otherVideo in otherVideos %}
                             <tr>
                                 <td>{{ otherVideo.mimeType }}</td>
                                 <td>{{ otherVideo.relativePath }}</td>
-                                <td><a class="uk-button uk-button-content uk-button-small document-link"
-                                       href="{{ path('documentsEditPage', { documentId: otherVideo.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                <td>
+                                    {{ rz_button.root({
+                                        icon: 'rz-icon-ri--edit-line',
+                                        size: 'sm',
+                                        attributes: {
+                                            href: path('documentsEditPage', { documentId: otherVideo.id }),
+                                            title: 'edit'|trans,
+                                        },
+                                    }) }}
+                                </td>
                             </tr>
                         {% endfor %}
-                    </table>
-                {% endif %}
-                {% if otherAudios|length %}
-                    <hr>
-                    <h4>{% trans %}document.audio_sources{% endtrans %}</h4>
-                    <table class="uk-table content-table">
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+            {% if otherAudios|length %}
+                <hr>
+                <h4>{% trans %}document.audio_sources{% endtrans %}</h4>
+                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                    bordered: true
+                } %}
+                    {% block tbody_content %}
                         {% for otherAudio in otherAudios %}
                             <tr>
                                 <td>{{ otherAudio.mimeType }}</td>
                                 <td>{{ otherAudio.relativePath }}</td>
-                                <td><a class="uk-button uk-button-content uk-button-small document-link"
-                                       href="{{ path('documentsEditPage', { documentId: otherAudio.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                <td>
+                                  {{ rz_button.root({
+                                        icon: 'rz-icon-ri--edit-line',
+                                        size: 'sm',
+                                        attributes: {
+                                            href: path('documentsEditPage', { documentId: otherAudio.id }),
+                                            title: 'edit'|trans,
+                                        },
+                                    }) }}
+                                </td>
                             </tr>
                         {% endfor %}
-                    </table>
-                {% endif %}
-                {% if otherPictures|length %}
-                    <hr>
-                    <h4>{% trans %}document.picture_sources{% endtrans %}</h4>
-                    <table class="uk-table content-table">
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+            {% if otherPictures|length %}
+                <hr>
+                <h4>{% trans %}document.picture_sources{% endtrans %}</h4>
+                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                    bordered: true
+                } %}
+                    {% block tbody_content %}
                         {% for otherPicture in otherPictures %}
                             <tr>
                                 <td>{{ otherPicture.mimeType }}</td>
                                 <td>{{ otherPicture.relativePath }}</td>
-                                <td><a class="uk-button uk-button-content uk-button-small document-link"
-                                       href="{{ path('documentsEditPage', { documentId: otherPicture.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                <td>
+                                    {{ rz_button.root({
+                                        icon: 'rz-icon-ri--edit-line',
+                                        size: 'sm',
+                                        attributes: {
+                                            href: path('documentsEditPage', { documentId: otherPicture.id }),
+                                            title: 'edit'|trans,
+                                        },
+                                    }) }}
+                                </td>
                             </tr>
                         {% endfor %}
-                    </table>
-                {% endif %}
-            </div>
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
         </article>
 
         {% include '@RoadizRozier/documents/actionsMenu.html.twig' %}

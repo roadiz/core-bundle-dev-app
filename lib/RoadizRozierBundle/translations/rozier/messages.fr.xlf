@@ -42,6 +42,10 @@
         <source>document.%name%.cannot_delete</source>
         <target state="final">Le document %name% n’a pas pu être supprimé.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="drag.actions.menu" approved="yes">
+        <source>drag.actions.menu</source>
+        <target state="final">Déplacer le menu d’actions</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="10" approved="yes">
         <source>document.%name%.uploaded</source>
         <target state="final">Le document %name% a été téléversé.</target>
@@ -2928,48 +2932,48 @@
         <source>no_attributes</source>
         <target state="final">Aucun attribut</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.attributes</source>
+      <trans-unit id="are_you_sure.delete.these.attribute" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.attribute</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les attributs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>attributes.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.attribute" xml:space="preserve" approved="yes">
+        <source>delete.bulk.attribute</source>
         <target state="final">Supprimer des attributs</target>
       </trans-unit>
       <trans-unit id="no_webhooks" xml:space="preserve" approved="yes">
         <source>no_webhooks</source>
         <target state="final">Aucun webhook</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.webhooks</source>
+      <trans-unit id="are_you_sure.delete.these.webhook" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.webhook</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les webhooks sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>webhooks.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.webhook" xml:space="preserve" approved="yes">
+        <source>delete.bulk.webhook</source>
         <target state="final">Supprimer des webhooks</target>
       </trans-unit>
       <trans-unit id="no_redirections" xml:space="preserve" approved="yes">
         <source>no_redirections</source>
         <target state="final">Aucune redirection</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.redirections</source>
+      <trans-unit id="are_you_sure.delete.these.redirection" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.redirection</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer toutes les redirections sélectionnées ?</target>
       </trans-unit>
-      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>redirections.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.redirection" xml:space="preserve" approved="yes">
+        <source>delete.bulk.redirection</source>
         <target state="final">Supprimer des redirections</target>
       </trans-unit>
       <trans-unit id="no_custom_forms" xml:space="preserve" approved="yes">
         <source>no_custom_forms</source>
         <target state="final">Aucun formulaire personnalisé</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.custom_forms</source>
+      <trans-unit id="are_you_sure.delete.these.custom-form" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.custom-form</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les formulaires personnalisés sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>custom_forms.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.custom-form" xml:space="preserve" approved="yes">
+        <source>delete.bulk.custom-form</source>
         <target state="final">Supprimer des formulaires personnalisés</target>
       </trans-unit>
       <trans-unit id="no_users" xml:space="preserve" approved="yes">
@@ -2984,12 +2988,12 @@
         <source>bulk.disable</source>
         <target state="final">Tout désactiver</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve" approved="yes">
-        <source>are_you_sure.bulk_delete.users</source>
+      <trans-unit id="are_you_sure.delete.these.User" xml:space="preserve" approved="yes">
+        <source>are_you_sure.delete.these.User</source>
         <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les comptes utilisateurs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="users.bulk_delete.title" xml:space="preserve" approved="yes">
-        <source>users.bulk_delete.title</source>
+      <trans-unit id="delete.bulk.user" xml:space="preserve" approved="yes">
+        <source>delete.bulk.user</source>
         <target state="final">Supprimer les utilisateurs sélectionnés</target>
       </trans-unit>
       <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve" approved="yes">
@@ -3939,6 +3943,18 @@
         <source>nodeType.name.alreadyExists</source>
         <target state="final">Le nom du type de nœud est déjà utilisé</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="color.system" approved="yes">
+        <source>color.system</source>
+        <target state="final">Système</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.light" approved="yes">
+        <source>color.light</source>
+        <target state="final">Clair</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.dark" approved="yes">
+        <source>color.dark</source>
+        <target state="final">Sombre</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="color.should.be.formatted.in.hexadecimal" approved="yes">
         <source>color.should.be.formatted.in.hexadecimal</source>
         <target state="final">La couleur doit être écrite en notation hexadécimale</target>
@@ -4177,6 +4193,10 @@
       <trans-unit xml:space="preserve" id="form_has_errors.check_you_fields" approved="yes">
         <source>form_has_errors.check_you_fields</source>
         <target state="final">Votre formulaire contient des erreurs, vérifiez les champs correspondants.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="form.field.invalid" approved="yes">
+        <source>form.field.invalid</source>
+        <target state="final">Champ « %label% » invalide.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="no_more_translation_available" approved="yes">
         <source>no_more_translation_available</source>
@@ -5065,6 +5085,194 @@
       <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
         <source>bookmarks.links</source>
         <target state="final">Liens utiles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="-- Select a tag --" approved="yes">
+        <source>-- Select a tag --</source>
+        <target state="final">-- Sélectionnez un tag --</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add" approved="yes">
+        <source>add</source>
+        <target state="final">Ajouter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.children_node" approved="yes">
+        <source>add.children_node</source>
+        <target state="final">Ajouter un nœud enfant</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.no_group" approved="yes">
+        <source>attributes.no_group</source>
+        <target state="final">Aucun groupe</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.values" approved="yes">
+        <source>attributes.values</source>
+        <target state="final">Valeurs</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="close" approved="yes">
+        <source>close</source>
+        <target state="final">Fermer</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.delete_item" approved="yes">
+        <source>collection.delete_item</source>
+        <target state="final">Supprimer l’élément</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.insert_item" approved="yes">
+        <source>collection.insert_item</source>
+        <target state="final">Insérer un élément</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.move_down_item" approved="yes">
+        <source>collection.move_down_item</source>
+        <target state="final">Descendre l’élément</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.move_up_item" approved="yes">
+        <source>collection.move_up_item</source>
+        <target state="final">Monter l’élément</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForms" approved="yes">
+        <source>customForms</source>
+        <target state="final">Formulaires personnalisés</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="date" approved="yes">
+        <source>date</source>
+        <target state="final">Date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all_locations" approved="yes">
+        <source>delete.all_locations</source>
+        <target state="final">Supprimer toutes les localisations</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.locations" approved="yes">
+        <source>delete.locations</source>
+        <target state="final">Supprimer les localisations</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="disabled" approved="yes">
+        <source>disabled</source>
+        <target state="final">Désactivé</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enabled" approved="yes">
+        <source>enabled</source>
+        <target state="final">Activé</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="entity" approved="yes">
+        <source>entity</source>
+        <target state="final">Entité</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hidden" approved="yes">
+        <source>hidden</source>
+        <target state="final">Masqué</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.details.title" approved="yes">
+        <source>history.details.title</source>
+        <target state="final">Détails de l’historique</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="import.attributes" approved="yes">
+        <source>import.attributes</source>
+        <target state="final">Importer des attributs</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="inherited.roles.caption" approved="yes">
+        <source>inherited.roles.caption</source>
+        <target state="final">Rôles hérités</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="insert.zone" approved="yes">
+        <source>insert.zone</source>
+        <target state="final">Zone d’insertion</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ip.address" approved="yes">
+        <source>ip.address</source>
+        <target state="final">Adresse IP</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="loading" approved="yes">
+        <source>loading</source>
+        <target state="final">Chargement</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.down" approved="yes">
+        <source>move.down</source>
+        <target state="final">Descendre</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.up" approved="yes">
+        <source>move.up</source>
+        <target state="final">Monter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.result.found" approved="yes">
+        <source>no.result.found</source>
+        <target state="final">Aucun résultat trouvé</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.home" approved="yes">
+        <source>node.home</source>
+        <target state="final">Nœud d’accueil</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.meta_table.caption" approved="yes">
+        <source>node_source.meta_table.caption</source>
+        <target state="final">Métadonnées de la source</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_tree.no_nodes_found" approved="yes">
+        <source>node_tree.no_nodes_found</source>
+        <target state="final">Aucun nœud trouvé</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes-breadcrumb" approved="yes">
+        <source>nodes-breadcrumb</source>
+        <target state="final">Fil d’Ariane des nœuds</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.available" approved="yes">
+        <source>not.available</source>
+        <target state="final">Non disponible</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not_published_yet" approved="yes">
+        <source>not_published_yet</source>
+        <target state="final">Pas encore publié</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="pending.validation" approved="yes">
+        <source>pending.validation</source>
+        <target state="final">En attente de validation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="remove.item" approved="yes">
+        <source>remove.item</source>
+        <target state="final">Retirer l’élément</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="repeatable.add" approved="yes">
+        <source>repeatable.add</source>
+        <target state="final">Ajouter un élément</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="rz_aside.title" approved="yes">
+        <source>rz_aside.title</source>
+        <target state="final">Navigation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.location" approved="yes">
+        <source>search.location</source>
+        <target state="final">Rechercher une localisation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.location.placeholder" approved="yes">
+        <source>search.location.placeholder</source>
+        <target state="final">Recherchez une localisation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.row" approved="yes">
+        <source>select.row</source>
+        <target state="final">Sélectionner la ligne</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="shadow" approved="yes">
+        <source>shadow</source>
+        <target state="final">Ombre</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="show.actions" approved="yes">
+        <source>show.actions</source>
+        <target state="final">Afficher les actions</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="show.color.theme" approved="yes">
+        <source>show.color.theme</source>
+        <target state="final">Afficher le thème de couleur</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="specific.roles.caption" approved="yes">
+        <source>specific.roles.caption</source>
+        <target state="final">Rôles spécifiques</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.security.meta_table.caption" approved="yes">
+        <source>user.security.meta_table.caption</source>
+        <target state="final">Sécurité de l’utilisateur</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="view.details" approved="yes">
+        <source>view.details</source>
+        <target state="final">Voir les détails</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="view.node" approved="yes">
+        <source>view.node</source>
+        <target state="final">Voir le nœud</target>
       </trans-unit>
     </body>
   </file>

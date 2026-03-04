@@ -1,0 +1,12 @@
+{% set breadcrumb = {
+    label: 'setting-breadcrumb',
+    parent: [
+        {
+            label: 'settings'|trans,
+            type: 'listing',
+            url: path('settingsHomePage'),
+        }
+    ],
+    current: title
+} %}
+{% include "@RoadizRozier/admin/head.html.twig" %}

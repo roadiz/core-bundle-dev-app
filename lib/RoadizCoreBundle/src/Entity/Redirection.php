@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['use_count'], name: 'redirection_use_count'),
     ORM\Index(columns: ['created_at'], name: 'redirection_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'redirection_updated_at'),]
-class Redirection implements DateTimedInterface, PersistableInterface
+class Redirection implements DateTimedInterface, PersistableInterface, \Stringable
 {
     use SequentialIdTrait;
     use DateTimedTrait;
@@ -124,5 +124,28 @@ class Redirection implements DateTimedInterface, PersistableInterface
         ++$this->useCount;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        $path = trim($this->query, '/');
+        if ('' === $path) {
+            return '';
+        }
+
+        $segments = explode('/', $path);
+        $language = null;
+
+        if (isset($segments[0]) && 1 === preg_match('/^[a-z]{2}$/i', $segments[0])) {
+            $language = strtolower(array_shift($segments));
+        }
+
+        $result = implode(' | ', $segments);
+
+        if (null !== $language) {
+            $result .= ' ('.$language.')';
+        }
+
+        return $result;
     }
 }

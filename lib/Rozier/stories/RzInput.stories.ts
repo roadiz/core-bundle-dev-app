@@ -5,24 +5,28 @@ import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
 export type Args = {
     type: (typeof INPUT_TYPES)[number]
     name: string
+    id: string
     placeholder?: string
-    value?: string | boolean | object | number // depending on input type (e.g., checkbox might be boolean)
+    value?: string
     required?: boolean
+    className?: string
+    attributes?: { [key: string]: string }
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Input',
+    tags: ['autodocs'],
     args: {
         name: 'input-name',
+        placeholder: 'A default placeholder',
+        value: '',
+        type: 'text',
     },
     argTypes: {
         type: {
             control: { type: 'select' },
             options: INPUT_TYPES,
         },
-    },
-    globals: {
-        backgrounds: { value: 'light' },
     },
     parameters: {
         layout: 'centered',
@@ -88,10 +92,13 @@ export const Checkbox: Story = {
     },
     args: {
         type: 'checkbox',
-        value: true,
+        value: 'true',
     },
 }
 
+/**
+ * Use [RzColorInput custom element](http://localhost:6006/?path=/docs/components-form-colorinput--docs) for better color input support.
+ */
 export const Color: Story = {
     render: (args) => {
         return rzInputRenderer(args)
