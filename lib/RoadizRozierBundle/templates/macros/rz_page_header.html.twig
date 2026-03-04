@@ -82,7 +82,7 @@
 {% macro translations_bar(available_translations, path, pathParams, current, pathAddTranslations, pathAddTranslationsTitle) %}
     {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
     {% if available_translations %}
-        <div class="rz-button-group rz-button-group--sm rz-button-group--collapsed">
+        <div class="rz-page-header__translations rz-button-group rz-button-group--sm rz-button-group--collapsed">
             {%- for translation in available_translations -%}
                 {% set class = 'rz-button rz-button-group__button' %}
                 {% if current == translation.getId %}
@@ -95,7 +95,7 @@
                     'locale': translation.locale
                 })) %}
 
-                {% set attr = { href: href } %}
+                {% set attr = { href: href, 'data-translation-id': translation.id } %}
                 {% if current == translation.getId %}
                     {% set attr = attr|merge({ 'aria-current': 'page' }) %}
                 {% endif %}

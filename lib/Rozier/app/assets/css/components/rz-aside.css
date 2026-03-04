@@ -29,7 +29,7 @@
 }
 
 .rz-aside__body {
-	overflow-y: auto;
+	overflow: hidden auto;
 	height: 100%;
 	padding-inline: var(--spacing-4xs);
 }

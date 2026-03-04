@@ -54,11 +54,12 @@
             <div class="stack-tree-quick-creation rz-button-group rz-button-group--gap-md rz-page-header__item--right">
                 {% for stackType in node.stackTypes %}
                     {% set nodeType = getNodeType(stackType) %}
-                    <button type="button"
-                            class="rz-button rz-button--primary rz-button-group__button"
-                            data-children-node-type="{{ nodeType.name }}"
-                            data-children-parent-node="{{ node.id }}"
-                            {% if specificNodeTree is defined and specificNodeTree.tag is defined %}data-filter-tag="{{ specificNodeTree.tag.id }}"{% endif %}
+                    <button
+                        type="button"
+                        class="rz-button rz-button--primary rz-button-group__button"
+                        data-children-node-type="{{ nodeType.name }}"
+                        data-children-parent-node="{{ node.id }}"
+                        {% if specificNodeTree is defined and specificNodeTree.tag is defined %}data-filter-tag="{{ specificNodeTree.tag.id }}"{% endif %}
                     >
                         <span class="rz-button__label">{{ nodeType.displayName }}</span>
                         <span class="rz-button__icon rz-icon-ri--add-line"></span>

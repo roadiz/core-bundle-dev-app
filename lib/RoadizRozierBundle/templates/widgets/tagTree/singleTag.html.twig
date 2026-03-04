@@ -39,6 +39,7 @@
             has_selection: false,
             tagTree: tagTree,
             tagName: tagName,
+            isMainTree: isMainTree,
         } only %}
             {% block label %}
                 <a href="{{ path('tagsEditNodesPage', { tagId:item.id }) }}">{{- tagName -}}</a>
@@ -46,7 +47,7 @@
 
             {% block contextual_menu %}
                 <rz-popover popover-placement="bottom-start" popover-offset="8">
-                    {% set popover_id = "tag-contextual-menu-" ~ item.id %}
+                    {% set popover_id = 'tag-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ item.id %}
                     {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
                         icon: 'rz-icon-ri--more-line',
@@ -109,6 +110,7 @@
                     "parent":tag,
                     "tagTree":tagTree,
                     'canReorder': (tag.childrenOrder == 'position'),
+                    "isMainTree": isMainTree,
                 } %}
             {% endfor %}
         </ul>

@@ -2,15 +2,6 @@
 {%
 set listItems = [
     [
-        tag.getChildren|length ? {
-            'name': 'tree',
-            'label': 'tag.tree',
-            'href': path('tagsTreePage', { tagId: tag.getId }),
-            'icon': 'rz-icon-ri--node-tree',
-            'iconOnly': true,
-        } : null,
-    ],
-    [
         {
             'name': 'edit',
             'label': 'tag.content',
@@ -31,7 +22,16 @@ set listItems = [
             'label': 'add.tags',
             'href': path('tagsAddMultipleChildPage', { parentTagId: tag.getId }),
         },
-    ]
+    ],
+    [
+        tag.getChildren|length ? {
+            'name': 'tree',
+            'label': 'tag.tree',
+            'href': path('tagsTreePage', { tagId: tag.getId }),
+            'icon': 'rz-icon-ri--node-tree',
+            'iconOnly': true,
+        } : null,
+    ],
 ]
 %}
 {% set custom_entries_content %}

@@ -7,7 +7,7 @@
 {% block content %}
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         node: node,
-        title: ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false),
+        title: ("edit.nodeSource.%name%"|trans({'%name%': currentTitle})),
         translation: translation,
         available_translations: available_translations,
         current: 'source',
