@@ -181,7 +181,6 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         }
 
         /** @var NodeInterface&object{isHidingChildren(): bool} $node */
-
         if ($node->isHidingChildren()) {
             return $this->urlGenerator->generate('nodesTreePage', [
                 'nodeId' => $node->getId(),
