@@ -66,3 +66,6 @@ migrate:
 update:
 	docker compose exec app php bin/console doctrine:migrations:migrate -n
 	docker compose exec app php bin/console app:install
+
+fixtures:
+	docker compose exec app php bin/console doctrine:fixtures:load -n --purge-exclusions=users --purge-exclusions=usergroups --purge-exclusions=users_groups
