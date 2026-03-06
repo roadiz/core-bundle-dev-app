@@ -34,8 +34,8 @@
                         :alt="name"
                         @load="load"
                         ref="image"
-                        :width="width ? width : ''"
-                        :height="height ? height : ''"
+                        :width="currentWidth ? currentWidth : ''"
+                        :height="currentHeight ? currentHeight : ''"
                     />
                 </template>
             </div>
@@ -94,6 +94,10 @@ export default {
             required: true,
             type: String,
         },
+        mimeType: {
+            type: String,
+            default: '',
+        },
         width: {
             type: [Number, String],
         },
@@ -110,14 +114,20 @@ export default {
             canvasData: null,
             cropBoxData: null,
             image: null,
-            type: '',
+            type: 'image/png',
+            originalMimeType: '',
             name: '',
             url: this.srcUrl,
             cropped: false,
             aspectRatio: null,
+            currentWidth: this.width ? Number(this.width) : null,
+            currentHeight: this.height ? Number(this.height) : null,
         }
     },
     mounted() {
+        this.originalMimeType = this.normalizeMimeType(this.mimeType)
+        this.type = this.resolveOutputMimeType(this.originalMimeType)
+
         this.blanchetteEditorInit({
             url: this.url,
             editor: this.$refs.blanchetteEditor,
@@ -133,11 +143,50 @@ export default {
     methods: {
         ...mapActions(['blanchetteEditorInit', 'blanchetteEditorLoaded', 'blanchetteEditorSave']),
         overwrite() {
-            console.log(this)
             this.blanchetteEditorSave({
                 url: this.url,
-                filename: this.filename,
-            }).then(() => this.restore())
+                filename: this.getOverwriteFilename(),
+            }).then((data) => {
+                if (
+                    data &&
+                    typeof data.imageWidth !== 'undefined' &&
+                    typeof data.imageHeight !== 'undefined'
+                ) {
+                    this.currentWidth = Number(data.imageWidth)
+                    this.currentHeight = Number(data.imageHeight)
+                }
+                this.restore()
+            })
+        },
+        normalizeMimeType(mimeType) {
+            if (!mimeType || typeof mimeType !== 'string') {
+                return ''
+            }
+
+            return mimeType.toLowerCase()
+        },
+        resolveOutputMimeType(mimeType) {
+            switch (mimeType) {
+                case 'image/jpeg':
+                case 'image/png':
+                case 'image/webp':
+                    return mimeType
+                case 'image/gif':
+                default:
+                    return 'image/png'
+            }
+        },
+        getOverwriteFilename() {
+            if (this.type !== 'image/png' || this.originalMimeType === 'image/png') {
+                return this.filename
+            }
+
+            const extensionPosition = this.filename.lastIndexOf('.')
+            if (extensionPosition > 0) {
+                return `${this.filename.slice(0, extensionPosition)}.png`
+            }
+
+            return `${this.filename}.png`
         },
         async load() {
             await sleep(1000)
@@ -246,15 +295,15 @@ export default {
                 this.data = cropper.getData()
                 this.canvasData = cropper.getCanvasData()
                 this.cropBoxData = cropper.getCropBoxData()
-                this.url = cropper
-                    .getCroppedCanvas(
-                        type === 'image/png'
-                            ? null
-                            : {
-                                  fillColor: '#fff',
-                              }
-                    )
-                    .toDataURL(type)
+                if (type === 'image/png') {
+                    this.url = cropper.getCroppedCanvas().toDataURL(type)
+                } else {
+                    this.url = cropper
+                        .getCroppedCanvas({
+                            fillColor: '#fff',
+                        })
+                        .toDataURL(type)
+                }
 
                 this.cropped = true
                 this.stop()
