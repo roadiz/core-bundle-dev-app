@@ -68,10 +68,23 @@ nelmio_solarium:
             adapter_timeout: 5
 ```
 
+Configure fuzzy search options in `config/packages/roadiz_solr.yaml`:
+
+```yaml
+# config/packages/roadiz_solr.yaml
+roadiz_solr:
+    search:
+        fuzzy_proximity: 2
+        fuzzy_min_term_length: 3
+```
+
 ::: tip
 You can use Solr in 2 ways:
 - **Standalone core**: Set the `core` parameter to `SOLR_CORE_NAME`
 - **SolrCloud collection**: Set the `core` parameter to `SOLR_COLLECTION_NAME` and configure shards/replication
+
+Fuzzy search options are configured in `roadiz_solr.search`.
+For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
 :::
 
 ### API Platform Integration
