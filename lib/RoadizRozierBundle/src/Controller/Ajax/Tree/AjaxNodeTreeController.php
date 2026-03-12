@@ -124,7 +124,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
             'status' => 'success',
             'tree_type' => $assignation['tree_type'],
             'linkedTypes' => $linkedTypes,
-            'nodeTree' => trim($this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation)),
+            'nodeTree' => trim($this->twig->render('@RoadizRozier/widgets/rz_tree_wrapper_auto.html.twig', $assignation)),
         ]);
     }
 }
