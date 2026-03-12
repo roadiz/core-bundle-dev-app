@@ -267,18 +267,17 @@ final class ContactFormManager
                     );
                     if ($returnJson) {
                         return new JsonResponse([], Response::HTTP_ACCEPTED);
-                    } else {
-                        if ($request->hasPreviousSession()) {
-                            /** @var Session $session */
-                            $session = $request->getSession();
-                            $session->getFlashBag()
-                                ->add('confirm', $this->translator->trans('form.successfully.sent'));
-                        }
-
-                        $this->redirectUrl ??= $request->getUri();
-
-                        return new RedirectResponse($this->redirectUrl);
                     }
+                    if ($request->hasPreviousSession()) {
+                        /** @var Session $session */
+                        $session = $request->getSession();
+                        $session->getFlashBag()
+                            ->add('confirm', $this->translator->trans('form.successfully.sent'));
+                    }
+
+                    $this->redirectUrl ??= $request->getUri();
+
+                    return new RedirectResponse($this->redirectUrl);
                 } catch (BadFormRequestException $e) {
                     if (null !== $e->getFieldErrored() && $this->form->has($e->getFieldErrored())) {
                         $this->form->get($e->getFieldErrored())->addError(new FormError($e->getMessage()));
@@ -318,16 +317,16 @@ final class ContactFormManager
     /**
      * @return array<RecipientInterface>
      */
-    protected function getRecipients(): array
+    private function getRecipients(): array
     {
         if (!empty($this->recipients)) {
             return $this->recipients;
         } elseif ($this->notifier instanceof Notifier) {
             return $this->notifier->getAdminRecipients();
-        } else {
-            // Fallback to the parent method if Notifier is not used
-            return [];
         }
+
+        // Fallback to the parent method if Notifier is not used
+        return [];
     }
 
     /**
@@ -352,7 +351,7 @@ final class ContactFormManager
      *
      * @throws BadFormRequestException
      */
-    protected function handleFiles(): array
+    private function handleFiles(): array
     {
         $uploadedFiles = [];
         $request = $this->requestStack->getMainRequest();
@@ -402,7 +401,7 @@ final class ContactFormManager
      *
      * @throws BadFormRequestException
      */
-    protected function addUploadedFile(array &$uploadedFiles, string $name, UploadedFile $uploadedFile): ContactFormManager
+    private function addUploadedFile(array &$uploadedFiles, string $name, UploadedFile $uploadedFile): ContactFormManager
     {
         if (
             !$uploadedFile->isValid()
@@ -410,14 +409,13 @@ final class ContactFormManager
             || $uploadedFile->getSize() > $this->maxFileSize
         ) {
             throw new BadFormRequestException($this->translator->trans('file.not.accepted'), Response::HTTP_FORBIDDEN, 'danger', $name);
-        } else {
-            $uploadedFiles[$name] = $uploadedFile;
         }
+        $uploadedFiles[$name] = $uploadedFile;
 
         return $this;
     }
 
-    protected function findEmailData(array $formData): ?string
+    private function findEmailData(array $formData): ?string
     {
         foreach ($formData as $key => $value) {
             if (
@@ -439,7 +437,7 @@ final class ContactFormManager
      *
      * @throws \Exception
      */
-    protected function createNotificationFromForm(FormInterface $form, array $uploadedFiles): ContactFormNotification
+    private function createNotificationFromForm(FormInterface $form, array $uploadedFiles): ContactFormNotification
     {
         $formData = $form->getData();
         $fields = $this->flattenFormData($form, []);
@@ -528,7 +526,7 @@ final class ContactFormManager
         return $this;
     }
 
-    protected function isFieldPrivate(FormInterface $form): bool
+    private function isFieldPrivate(FormInterface $form): bool
     {
         $key = $form->getName();
         $privateFieldNames = [
@@ -541,7 +539,7 @@ final class ContactFormManager
         ;
     }
 
-    protected function flattenFormData(FormInterface $form, array $fields): array
+    private function flattenFormData(FormInterface $form, array $fields): array
     {
         /** @var FormInterface $formItem */
         foreach ($form as $formItem) {

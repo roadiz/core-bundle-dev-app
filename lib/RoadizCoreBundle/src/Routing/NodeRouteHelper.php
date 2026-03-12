@@ -69,7 +69,7 @@ final class NodeRouteHelper
         return $this->controller;
     }
 
-    protected function getControllerNamespace(): string
+    private function getControllerNamespace(): string
     {
         return $this->defaultControllerNamespace;
     }

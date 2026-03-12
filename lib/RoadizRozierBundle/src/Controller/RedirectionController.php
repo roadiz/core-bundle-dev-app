@@ -87,7 +87,7 @@ final class RedirectionController extends AbstractAdminWithBulkController
     #[\Override]
     protected function createPostCreateEvent(PersistableInterface $item): RedirectionEvent
     {
-        if (!($item instanceof Redirection)) {
+        if (!$item instanceof Redirection) {
             throw new \InvalidArgumentException('Item should be instance of '.Redirection::class);
         }
 
@@ -97,7 +97,7 @@ final class RedirectionController extends AbstractAdminWithBulkController
     #[\Override]
     protected function createPostUpdateEvent(PersistableInterface $item): RedirectionEvent
     {
-        if (!($item instanceof Redirection)) {
+        if (!$item instanceof Redirection) {
             throw new \InvalidArgumentException('Item should be instance of '.Redirection::class);
         }
 
@@ -107,7 +107,7 @@ final class RedirectionController extends AbstractAdminWithBulkController
     #[\Override]
     protected function createDeleteEvent(PersistableInterface $item): RedirectionEvent
     {
-        if (!($item instanceof Redirection)) {
+        if (!$item instanceof Redirection) {
             throw new \InvalidArgumentException('Item should be instance of '.Redirection::class);
         }
 

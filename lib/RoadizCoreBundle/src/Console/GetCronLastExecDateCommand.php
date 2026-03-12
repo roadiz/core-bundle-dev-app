@@ -31,7 +31,7 @@ final class GetCronLastExecDateCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $setting = $this->settingRepository->findOneByName('cron_last_exec_date');
-        if (!($setting instanceof Setting)) {
+        if (!$setting instanceof Setting) {
             $io->warning('Last execution date of cron job has not been persisted yet.');
 
             return Command::FAILURE;

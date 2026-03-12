@@ -51,7 +51,7 @@ final class NodeTypeGenerator
         ]);
     }
 
-    protected function getInterfaceBody(): string
+    private function getInterfaceBody(): string
     {
         $lines = [
             'export interface '.$this->nodeType->getSourceEntityClassName().' extends RoadizNodesSources {',
@@ -62,7 +62,7 @@ final class NodeTypeGenerator
         return implode(PHP_EOL, $lines);
     }
 
-    protected function getIntroduction(): string
+    private function getIntroduction(): string
     {
         $lines = [
             '',
@@ -80,7 +80,7 @@ final class NodeTypeGenerator
         return implode(PHP_EOL, array_map(fn (string $line) => '// '.$line, $lines));
     }
 
-    protected function getFieldsContents(): string
+    private function getFieldsContents(): string
     {
         return implode(PHP_EOL, array_map(fn (AbstractFieldGenerator $abstractFieldGenerator) => $abstractFieldGenerator->getContents(), $this->fieldGenerators));
     }

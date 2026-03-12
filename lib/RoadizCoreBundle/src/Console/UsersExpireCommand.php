@@ -54,10 +54,9 @@ final class UsersExpireCommand extends UsersCommand
             $io->success('User “'.$name.'” expiration date was set on '.$expirationDate->format('c').'.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not updated.');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not updated.');
+
+        return 1;
     }
 }

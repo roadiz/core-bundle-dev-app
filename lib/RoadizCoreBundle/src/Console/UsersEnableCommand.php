@@ -46,10 +46,9 @@ final class UsersEnableCommand extends UsersCommand
             $io->success('User “'.$name.'” was enabled.');
 
             return 0;
-        } else {
-            $io->warning('User “'.$name.'” was not enabled');
-
-            return 1;
         }
+        $io->warning('User “'.$name.'” was not enabled');
+
+        return 1;
     }
 }
