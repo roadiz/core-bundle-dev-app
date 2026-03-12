@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Importer;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
@@ -42,10 +41,7 @@ final readonly class SettingsImporter implements EntityImporterInterface
 
         if ($manager instanceof EntityManagerInterface) {
             // Clear result cache
-            $cacheDriver = $manager->getConfiguration()->getResultCacheImpl();
-            if ($cacheDriver instanceof CacheProvider) {
-                $cacheDriver->deleteAll();
-            }
+            $manager->getConfiguration()->getResultCache()?->clear();
         }
 
         return true;

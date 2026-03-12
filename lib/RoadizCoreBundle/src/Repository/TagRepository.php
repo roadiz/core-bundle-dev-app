@@ -480,7 +480,6 @@ EOT,
         }
 
         return $qb->getQuery()
-            ->setHint(\Doctrine\ORM\Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getResult()
         ;
     }

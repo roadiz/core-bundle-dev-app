@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
@@ -90,9 +90,9 @@ final readonly class NodesSourcesInheritanceSubscriber
             ];
 
             if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
-                $metadata->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
+                $metadata->setInheritanceType(ClassMetadata::INHERITANCE_TYPE_JOINED);
             } elseif (Configuration::INHERITANCE_TYPE_SINGLE_TABLE === $this->inheritanceType) {
-                $metadata->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE);
+                $metadata->setInheritanceType(ClassMetadata::INHERITANCE_TYPE_SINGLE_TABLE);
                 /*
                  * If inheritance type is single table, we need to set indexes on parent class: NodesSources
                  */

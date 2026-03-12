@@ -21,7 +21,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-        "doctrine/orm": "~2.20.0",
+        "doctrine/orm": "^3.6",
         "endroid/qr-code": "^4.0",
         "roadiz/core-bundle": "2.8.x-dev",
         "roadiz/rozier-bundle": "2.8.x-dev",

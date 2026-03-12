@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
@@ -241,12 +240,11 @@ final class SettingController extends AbstractController
     protected function resetSettingsCache(): void
     {
         $this->settingsBag->reset();
-        /** @var CacheProvider|null $cacheDriver */
-        $cacheDriver = $this->managerRegistry
+        $this->managerRegistry
             ->getManagerForClass(Setting::class)
             ?->getConfiguration()
-            ->getResultCacheImpl();
-        $cacheDriver?->deleteAll();
+            ->getResultCache()
+            ?->clear();
         $this->eventDispatcher->dispatch(new CachePurgeRequestEvent());
     }
 

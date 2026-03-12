@@ -29,7 +29,7 @@ class AttributeDocuments implements PositionedInterface, PersistableInterface
     public function __construct(
         #[ORM\ManyToOne(
             targetEntity: Attribute::class,
-            cascade: ['persist', 'merge'],
+            cascade: ['persist'],
             fetch: 'EAGER',
             inversedBy: 'attributeDocuments'
         ),
@@ -43,7 +43,7 @@ class AttributeDocuments implements PositionedInterface, PersistableInterface
         protected Attribute $attribute,
         #[ORM\ManyToOne(
             targetEntity: Document::class,
-            cascade: ['persist', 'merge'],
+            cascade: ['persist'],
             fetch: 'EAGER',
             inversedBy: 'attributeDocuments'
         ),

@@ -97,7 +97,7 @@ class Tag implements DateTimedInterface, LeafInterface, PersistableInterface, \S
     #[ORM\OneToMany(
         mappedBy: 'parent',
         targetEntity: Tag::class,
-        cascade: ['persist', 'merge'],
+        cascade: ['persist'],
         orphanRemoval: true
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]

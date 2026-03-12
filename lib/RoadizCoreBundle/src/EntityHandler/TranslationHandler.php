@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
-use Doctrine\Common\Cache\FlushableCache;
 use Doctrine\ORM\EntityManagerInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use Symfony\Component\Cache\ResettableInterface;
 
 /**
  * Handle operations with translations entities.
@@ -48,13 +46,7 @@ final class TranslationHandler extends AbstractHandler
         $this->objectManager->flush();
 
         if ($this->objectManager instanceof EntityManagerInterface) {
-            $cache = $this->objectManager->getConfiguration()->getResultCacheImpl();
-            if ($cache instanceof FlushableCache) {
-                $cache->flushAll();
-            }
-            if ($cache instanceof ResettableInterface) {
-                $cache->reset();
-            }
+            $this->objectManager->getConfiguration()->getResultCache()?->clear();
         }
 
         return $this;

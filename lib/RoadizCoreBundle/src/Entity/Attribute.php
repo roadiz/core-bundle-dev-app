@@ -40,7 +40,7 @@ class Attribute implements AttributeInterface
     #[ORM\OneToMany(
         mappedBy: 'attribute',
         targetEntity: AttributeDocuments::class,
-        cascade: ['persist', 'merge'],
+        cascade: ['persist'],
         orphanRemoval: true
     ),
         ORM\OrderBy(['position' => 'ASC']),

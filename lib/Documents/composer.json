@@ -25,7 +25,7 @@
         "ext-zip": "*",
         "ext-simplexml": "*",
         "ext-fileinfo": "*",
-        "doctrine/orm": "~2.20.0",
+        "doctrine/orm": "^3.6",
         "enshrined/svg-sanitize": "^0.22",
         "intervention/image": "^3.11",
         "league/flysystem": "^3.0",
@@ -43,7 +43,7 @@
     },
     "require-dev": {
         "api-platform/metadata": "^4.1.18",
-        "doctrine/doctrine-bundle": "^2.8.1",
+        "doctrine/doctrine-bundle": "^2.12",
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2",
