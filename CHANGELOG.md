@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.43...v2.5.44) - 2026-03-19
+
+### Bug Fixes
+
+- **(security)** reject unsafe remote URLs in DownloadedFile::fromUrl method - GHSA-rc55-58f4-687g - ([1a710e7](https://github.com/roadiz/core-bundle-dev-app/commit/1a710e7b3134281013f2e85475936683b0c47601))
+
 ## [2.5.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.42...v2.5.43) - 2026-02-24
 
 ### Bug Fixes
@@ -12,9 +18,9 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Features
 
-- **(solr)** add fuzzy search configuration options - ([7b87b3f](https://github.com/roadiz/core-bundle-dev-app/commit/7b87b3f69bd81b0676a29e9669a0572cf0a9044b))
+- **(solr)** add fuzzy search configuration options - ([6e74bae](https://github.com/roadiz/core-bundle-dev-app/commit/6e74bae9cd20cdc0140b0ad250934176610cf1d9))
 
-## [2.5.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.40...2.5.41) - 2025-10-28
+## [2.5.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.40...v2.5.41) - 2025-10-28
 
 ### Bug Fixes
 
@@ -88,9 +94,13 @@ All notable changes to Roadiz will be documented in this file.
 
 ## [2.5.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.29...v2.5.30) - 2025-07-21
 
+### ⚠ Breaking changes
+
+- [Backported] Introduce CaptchaServiceInterface to make captcha generic and update all related services ([#138](https://github.com/roadiz/core-bundle-dev-app/issues/138))
+
 ### Refactor
 
-- **(core)** [Backported] Introduce CaptchaServiceInterface to make captcha generic and update all related services ([#138](https://github.com/roadiz/core-bundle-dev-app/issues/138)) - ([b07108e](https://github.com/roadiz/core-bundle-dev-app/commit/b07108e59f14d020d0ef6209ad545d50f8b98e52))
+- **(core)** [**breaking**] [Backported] Introduce CaptchaServiceInterface to make captcha generic and update all related services ([#138](https://github.com/roadiz/core-bundle-dev-app/issues/138)) - ([b07108e](https://github.com/roadiz/core-bundle-dev-app/commit/b07108e59f14d020d0ef6209ad545d50f8b98e52))
 
 ## [2.5.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.28...v2.5.29) - 2025-07-17
 
@@ -112,7 +122,7 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Testing
 
-- **(Document)** Add alternative text handling for images in rendering - ([15ea1ed](https://github.com/roadiz/core-bundle-dev-app/commit/15ea1edd1dd6e6f5526b029c98b9cedab5589b68))
+- **(Document)** Add alternative text handling for images in rendering - ([f5978ff](https://github.com/roadiz/core-bundle-dev-app/commit/f5978ff8477676dad87b1ae59d5e0949c14d3afe))
 
 ## [2.5.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.25...v2.5.26) - 2025-06-27
 
@@ -130,7 +140,6 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Bug Fixes
 
-- **(NodeSourceWalkerContext)** Force NodesSourcesRepository state to published nodes only to avoid security issues with `StatusAwareRepository` and FrankenPHP runtime.
 - **(StatusAwareRepository)** Deprecate `StatusAwareRepository` because it is stateful and may lead to security issue used as a service. Added AllStatusXXX and NotPublishedXXX repositories to separate services. - ([84f1044](https://github.com/roadiz/core-bundle-dev-app/commit/84f10448c1158d3dfedc06d905e192863bfe51e4))
 
 ## [2.5.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.22...v2.5.23) - 2025-06-13
@@ -219,7 +228,7 @@ All notable changes to Roadiz will be documented in this file.
 
 - **(Rozier)** Refactor document styles and optimize transitions. - ([6ecfe16](https://github.com/roadiz/core-bundle-dev-app/commit/6ecfe164463cee08919a7c117e0c62639b4b4209))
 
-## [2.5.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.8...2.5.9) - 2025-04-28
+## [2.5.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.8...v2.5.9) - 2025-04-28
 
 ### Bug Fixes
 
@@ -283,17 +292,9 @@ All notable changes to Roadiz will be documented in this file.
 
 ### ⚠ Breaking changes
 
-- Removed deprecated methods about NodeType JSON file generation and import
-- Remove node-type and node-type fields tables ([#40](https://github.com/roadiz/core-bundle-dev-app/issues/40))
-- Removed `TagsImporter` and deprecate JMS ObjectContructors
-- Setting export and import features use Symfony Serializer instead of JMS.
-- Moved `CustomFormField`, Setting and `NodeTypeField` `type` property to `FieldType` enum
-- Removed User `facebookName` useless property
-- Removed useless NodesSourcesRepository `findBySearchQueryAndTranslation`, `findByTextQuery`, `findByLatestUpdated`, `findParent` and NodeSourceApi `searchBy` methods.
 - Moved `RZ\Roadiz\Core\AbstractEntities\AbstractField` to `RZ\Roadiz\CoreBundle\Entity\AbstractField`
 - Make sure to tag your ExplorerProviderInterface services with `roadiz.explorer_provider`
 - Removed useless User `phone`, `job` and `birthday` properties and DB columns
-- Added 2 new API filter to replace node-type entities: `reachable` and `publishable`
 
 ### Bug Fixes
 
@@ -316,22 +317,6 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Features
 
--  [**breaking**]Removed TagsImporter and deprecate JMS ObjectContructors - ([4349c72](https://github.com/roadiz/core-bundle-dev-app/commit/4349c7264d4524a9fb986a619e94b63ed64cf420))
-- Rewrote Attribute and AttributeGroup importers with Symfony Serializer instead of JMS - ([a62a48b](https://github.com/roadiz/core-bundle-dev-app/commit/a62a48b8144aa96ade8c0b1247989721d5ba4526))
-- Rewrote Groups and Roles importer with Symfony Serializer instead of JMS - ([1d2f3fe](https://github.com/roadiz/core-bundle-dev-app/commit/1d2f3fe409797bd8309b2197da7307d09e479024))
-- Removed useless NodeTypesImporter.php - ([a8603b0](https://github.com/roadiz/core-bundle-dev-app/commit/a8603b069c6eae1927d5331a2c22c97f8ea7620e))
--  [**breaking**]Setting export and import features use Symfony Serializer instead of JMS. - ([c51cb6e](https://github.com/roadiz/core-bundle-dev-app/commit/c51cb6e7f75f05fe17e96e352249afac156e51df))
--  [**breaking**]Moved CustomFormField, Setting and NodeTypeField `type` property to `FieldType` enum - ([206d20d](https://github.com/roadiz/core-bundle-dev-app/commit/206d20d05a4d13781597dd042c3df06da17e0ea9))
--  [**breaking**]Removed User `facebookName` useless property - ([2fd5f82](https://github.com/roadiz/core-bundle-dev-app/commit/2fd5f82268b6c40c7c2e03b602df3fa75ce8b0d8))
--  [**breaking**]Removed useless NodesSourcesRepository `findBySearchQueryAndTranslation`, `findByTextQuery`, `findByLatestUpdated`, `findParent` and NodeSourceApi `searchBy` methods. - ([43f5509](https://github.com/roadiz/core-bundle-dev-app/commit/43f5509656b053b8ea35a9543dabbbfb70036610))
-- [**breaking**]Removed deprecated methods about NodeType JSON file generation and import - ([3b49491](https://github.com/roadiz/core-bundle-dev-app/commit/3b49491d20074cf1fe5a82f8073dfc84c117cb5d))
-- Respect `document.imageCropAlignment` for backoffice image thumbnails - ([2bc50ed](https://github.com/roadiz/core-bundle-dev-app/commit/2bc50ed0ca0b8f3d3d74c4c17dd817063ffdb7ba))
--  [**breaking**]Added 2 new API filter to replace node-type entities: `reachable` and `publishable` - ([cf0cdb4](https://github.com/roadiz/core-bundle-dev-app/commit/cf0cdb4b32dc0d3411e9f22c96f984dfa9e9bb7c))
-- Co-authored-by: Ambroise Maupate <ambroise@rezo-zero.com> - ([373fd1f](https://github.com/roadiz/core-bundle-dev-app/commit/373fd1fd4079cc4e4ba43688a45bd0bacca1965f))
-- Optimize dynamic nodes-sources path resolver ([#35](https://github.com/roadiz/core-bundle-dev-app/issues/35)) - ([0020b0b](https://github.com/roadiz/core-bundle-dev-app/commit/0020b0bfd87f74ca01a098c28f70292a8365fa76))
-- Removed NodeTypeRepository usage ([#34](https://github.com/roadiz/core-bundle-dev-app/issues/34)) - ([94573ef](https://github.com/roadiz/core-bundle-dev-app/commit/94573efb1dadb2439eb2663678feaf75139ac419))
-- Remove @deprecated NodeType related code ([#46](https://github.com/roadiz/core-bundle-dev-app/issues/46)) - ([9004830](https://github.com/roadiz/core-bundle-dev-app/commit/90048308690ac39553673a44b619524e42160c73))
--  [**breaking**]Remove node-type and node-type fields tables ([#40](https://github.com/roadiz/core-bundle-dev-app/issues/40)) - ([f40fd74](https://github.com/roadiz/core-bundle-dev-app/commit/f40fd7405d4397df2bb25418097f227518a37359))
 - **(Documentation)** Moved Roadiz docs to github pages and vitepress stack ([#52](https://github.com/roadiz/core-bundle-dev-app/issues/52)) - ([f24acf1](https://github.com/roadiz/core-bundle-dev-app/commit/f24acf1c4c8024b13172556ed0b2f8d5c1c4fc75))
 - **(Documents)** New `document_raw_relative_path` serialization group to add `rawRelativePath` to Documents - ([a282009](https://github.com/roadiz/core-bundle-dev-app/commit/a282009688c210adfe823862b8d03dca21318c84))
 - **(Documents)** Reduced document folder column length, use microtime to ensure folder uniqueness, refactored document utils - ([d84f564](https://github.com/roadiz/core-bundle-dev-app/commit/d84f564d55a8969bcedc3d90e283681acf17cd8f))
@@ -352,21 +337,56 @@ All notable changes to Roadiz will be documented in this file.
 
 ## [2.4.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.16...v2.4.17) - 2025-02-21
 
+### ⚠ Breaking changes
+
+- Removed TagsImporter and deprecate JMS ObjectContructors
+- Setting export and import features use Symfony Serializer instead of JMS.
+- Moved CustomFormField, Setting and NodeTypeField `type` property to `FieldType` enum
+- Removed User `facebookName` useless property
+- Removed useless NodesSourcesRepository `findBySearchQueryAndTranslation`, `findByTextQuery`, `findByLatestUpdated`, `findParent` and NodeSourceApi `searchBy` methods.
+
 ### Bug Fixes
 
+- **(Rozier)** Linked types must be NodeType entities, not only strings, to expose name and displayName to ajax responses - ([38d36b4](https://github.com/roadiz/core-bundle-dev-app/commit/38d36b4c8d4e66cd8a6ae1f287c748ebc197852f))
 - Added `roadiz_core.useEmailReplyTo` configuration to disable Emails ReplyTo header when SMTP does not support it. - ([402fee5](https://github.com/roadiz/core-bundle-dev-app/commit/402fee59a22fc7d4c14820120befbf7df5900ec1))
+- Fixed NodesType form-type with embedded data-transformer - ([5d064f6](https://github.com/roadiz/core-bundle-dev-app/commit/5d064f6c1992fe74d63abd34bbf4eb3311f0414a))
+- Fixed Solr search-handler with `nodeTypeName` - ([458ef44](https://github.com/roadiz/core-bundle-dev-app/commit/458ef44283e06520c8418933c1242ea0d9bec127))
+- CustomFormField default values must remain comma-separated for simplicity. - ([de0f528](https://github.com/roadiz/core-bundle-dev-app/commit/de0f528a6361e4060c0cecf42d5acc60d57fb4f6))
+
+### Features
+
+-  [**breaking**]Removed TagsImporter and deprecate JMS ObjectContructors - ([4349c72](https://github.com/roadiz/core-bundle-dev-app/commit/4349c7264d4524a9fb986a619e94b63ed64cf420))
+- Rewrote Attribute and AttributeGroup importers with Symfony Serializer instead of JMS - ([a62a48b](https://github.com/roadiz/core-bundle-dev-app/commit/a62a48b8144aa96ade8c0b1247989721d5ba4526))
+- Rewrote Groups and Roles importer with Symfony Serializer instead of JMS - ([1d2f3fe](https://github.com/roadiz/core-bundle-dev-app/commit/1d2f3fe409797bd8309b2197da7307d09e479024))
+- Removed useless NodeTypesImporter.php - ([a8603b0](https://github.com/roadiz/core-bundle-dev-app/commit/a8603b069c6eae1927d5331a2c22c97f8ea7620e))
+-  [**breaking**]Setting export and import features use Symfony Serializer instead of JMS. - ([c51cb6e](https://github.com/roadiz/core-bundle-dev-app/commit/c51cb6e7f75f05fe17e96e352249afac156e51df))
+-  [**breaking**]Moved CustomFormField, Setting and NodeTypeField `type` property to `FieldType` enum - ([206d20d](https://github.com/roadiz/core-bundle-dev-app/commit/206d20d05a4d13781597dd042c3df06da17e0ea9))
+-  [**breaking**]Removed User `facebookName` useless property - ([2fd5f82](https://github.com/roadiz/core-bundle-dev-app/commit/2fd5f82268b6c40c7c2e03b602df3fa75ce8b0d8))
+-  [**breaking**]Removed useless NodesSourcesRepository `findBySearchQueryAndTranslation`, `findByTextQuery`, `findByLatestUpdated`, `findParent` and NodeSourceApi `searchBy` methods. - ([43f5509](https://github.com/roadiz/core-bundle-dev-app/commit/43f5509656b053b8ea35a9543dabbbfb70036610))
 
 ## [2.4.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.15...v2.4.16) - 2025-02-17
 
 ### Bug Fixes
 
 - **(Rozier)** Generate ordered query-string arrays to prevent Varnish to sort `ids` arbitrarily - ([9c1b0cb](https://github.com/roadiz/core-bundle-dev-app/commit/9c1b0cb67ecd23e5ce9637344f88561c14912615))
+- Fix user creation command ([#47](https://github.com/roadiz/core-bundle-dev-app/issues/47)) - ([8f4a634](https://github.com/roadiz/core-bundle-dev-app/commit/8f4a634784d71a3dae011114585763acb6a24ecb))
 
 ## [2.4.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.14...v2.4.15) - 2025-02-17
+
+### ⚠ Breaking changes
+
+- Removed deprecated methods about NodeType JSON file generation and import
+- Remove node-type and node-type fields tables ([#40](https://github.com/roadiz/core-bundle-dev-app/issues/40))
 
 ### Bug Fixes
 
 - **(RozierBundle)** Added configurable csv_encoder_options - ([ebb7fab](https://github.com/roadiz/core-bundle-dev-app/commit/ebb7fab7d9c462a69a7b10769bed1ea3eb86308c))
+
+### Features
+
+-  [**breaking**]Removed deprecated methods about NodeType JSON file generation and import - ([3b49491](https://github.com/roadiz/core-bundle-dev-app/commit/3b49491d20074cf1fe5a82f8073dfc84c117cb5d))
+- Remove @deprecated NodeType related code ([#46](https://github.com/roadiz/core-bundle-dev-app/issues/46)) - ([9004830](https://github.com/roadiz/core-bundle-dev-app/commit/90048308690ac39553673a44b619524e42160c73))
+-  [**breaking**]Remove node-type and node-type fields tables ([#40](https://github.com/roadiz/core-bundle-dev-app/issues/40)) - ([f40fd74](https://github.com/roadiz/core-bundle-dev-app/commit/f40fd7405d4397df2bb25418097f227518a37359))
 
 ## [2.4.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.13...v2.4.14) - 2025-02-13
 
@@ -384,33 +404,46 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Bug Fixes
 
-- Enforce NodesSources are filtered out when their `publishedAt` is future and no preview - ([80160a6](https://github.com/roadiz/core-bundle-dev-app/commit/80160a62051db8cff9892ba347d975f07e97c7a3))
+- Enforce NodesSources are filtered out when their publishedAt is future and no preview - ([80160a6](https://github.com/roadiz/core-bundle-dev-app/commit/80160a62051db8cff9892ba347d975f07e97c7a3))
 
 ## [2.4.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.10...v2.4.11) - 2025-02-10
 
-This version introduces many deprecations over *node-types* and *node-type fields* management.
-**You should export all your node-types and node-type fields to YAML files before upgrading future Roadiz v2.5.** 
+### Bug Fixes
 
-```shell
-mkdir config/node_types
-bin/console nodetypes:export-files
-```
+- Migrate all Node-type related TreeWalker definition from NodeSourceApi to QueryBuilder and NodeTypes bag - ([4360a6f](https://github.com/roadiz/core-bundle-dev-app/commit/4360a6f5097fcefb5945e4a4a0b01967efb82750))
 
-Future Roadiz v2.5 will drop _node-types_ and _node-type fields_ from database and will only use YAML files to define them.
+### Documentation
 
-Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if you are upgrade your project from a previous version.
+- Added new UPGRADE.md to describe only breaking changes - ([3ef5323](https://github.com/roadiz/core-bundle-dev-app/commit/3ef5323518e45281c4c322db4b860c1cac7c7e3d))
 
 ### Features
 
 - Backport command for exporting node types from the database to yaml files - ([2a5dfc0](https://github.com/roadiz/core-bundle-dev-app/commit/2a5dfc085202a306e1989a139d819d2a9cefeccb))
+- Filter node references by their defaultValued node-types ([#42](https://github.com/roadiz/core-bundle-dev-app/issues/42)) - ([2afcf4c](https://github.com/roadiz/core-bundle-dev-app/commit/2afcf4c639640c45c83364a48fc9c359423417de))
 
 ## [2.4.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.9...v2.4.10) - 2025-02-10
+
+### ⚠ Breaking changes
+
+- Added 2 new API filter to replace node-type entities: `reachable` and `publishable`
 
 ### Bug Fixes
 
 - Migrate all Node-type related TreeWalker definition from NodeSourceApi to QueryBuilder and NodeTypes bag - ([5cf1101](https://github.com/roadiz/core-bundle-dev-app/commit/5cf11013c6e4000d9fc796fe47d0070af15f5840))
+- Remove last NodeTypeId use - ([bd99c22](https://github.com/roadiz/core-bundle-dev-app/commit/bd99c2261b4609cd108b07087b532ddab4019233))
+- fix NodeExplorer - ([67a21fd](https://github.com/roadiz/core-bundle-dev-app/commit/67a21fd6675458f56dd1eb4474d6621a7ee28013))
 
-## [2.4.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.8...2.4.9) - 2025-01-28
+### Features
+
+- Respect `document.imageCropAlignment` for backoffice image thumbnails - ([2bc50ed](https://github.com/roadiz/core-bundle-dev-app/commit/2bc50ed0ca0b8f3d3d74c4c17dd817063ffdb7ba))
+-  [**breaking**]Added 2 new API filter to replace node-type entities: `reachable` and `publishable` - ([cf0cdb4](https://github.com/roadiz/core-bundle-dev-app/commit/cf0cdb4b32dc0d3411e9f22c96f984dfa9e9bb7c))
+- Co-authored-by: Ambroise Maupate <ambroise@rezo-zero.com> - ([373fd1f](https://github.com/roadiz/core-bundle-dev-app/commit/373fd1fd4079cc4e4ba43688a45bd0bacca1965f))
+
+### Performance
+
+- Rewrote MultiTypeChildrenDefinition using isInstanceOf for node-types - ([80ffbb0](https://github.com/roadiz/core-bundle-dev-app/commit/80ffbb0ede642e6ebb05417cc4739424c8366bd0))
+
+## [2.4.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.8...v2.4.9) - 2025-01-28
 
 ### Bug Fixes
 
@@ -421,6 +454,11 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 ### Bug Fixes
 
 - Fixed serialized property conflict between `isThumbnail` and `thumbnail` - ([e9e4cc3](https://github.com/roadiz/core-bundle-dev-app/commit/e9e4cc3f210cbcaea624f27bb14be616f6b2070c))
+
+### Features
+
+- Optimize dynamic nodes-sources path resolver ([#35](https://github.com/roadiz/core-bundle-dev-app/issues/35)) - ([0020b0b](https://github.com/roadiz/core-bundle-dev-app/commit/0020b0bfd87f74ca01a098c28f70292a8365fa76))
+- Removed NodeTypeRepository usage ([#34](https://github.com/roadiz/core-bundle-dev-app/issues/34)) - ([94573ef](https://github.com/roadiz/core-bundle-dev-app/commit/94573efb1dadb2439eb2663678feaf75139ac419))
 
 ## [2.4.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.6...v2.4.7) - 2025-01-16
 
@@ -470,133 +508,66 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 
 - Fixed back-office quick search using ExplorerItemFactory to support other data than NodesSources - ([26f540c](https://github.com/roadiz/core-bundle-dev-app/commit/26f540cdeaef4578b5bd8df3d54c96fd52fae654))
 
-## [2.4.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.31...v2.4.0) - 2024-12-05
+## [2.4.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.31...v2.4.0) - 2024-12-06
 
 ### ⚠ Breaking changes
 
-- **Roadiz requires php 8.2 minimum**
-- Upgraded to **ApiPlatform 3.3** - requires config changes
-- Deleted `Controller::findTranslationForLocale`, `Controller::renderJson`, `Controller::denyResourceExceptForFormats`, `Controller::getHandlerFactory`, `Controller::getPreviewResolver` methods
-- Deleted deprecated `AppController::makeResponseCachable`
-- Removed _sensio/framework-extra-bundle_, upgraded _sentry/sentry-symfony_ and _doctrine/annotations_
-- Upgraded _rollerworks/password-strength-bundle_, removed `Top500Provider.php`
+- Delete Controller::findTranslationForLocale, Controller::renderJson, Controller::denyResourceExceptForFormats, Controller::getHandlerFactory, Controller::getPreviewResolver methods
+- Delete deprecated AppController::makeResponseCachable
+- Removed sensio/framework-extra-bundle, upgraded sentry/sentry-symfony and doctrine/annotations
+- Upgraded rollerworks/password-strength-bundle, removed Top500Provider.php
 - AbstractAjaxController requires a Symfony Serializer interface instead of JMS Serializer
-- Removed Embed finder for _Twitch_ (they disabled OEmbed on their API)
+- Removed Embed finder for Twitch (they disabled OEmbed on their API)
 - All AbstractEmbedFinder sub-classes require HttpClientInterface, dropped GuzzleRequestMessage, changed HttpRequestMessageInterface
-- Changed `WebResponseDataTransformerInterface::transform` signature to allow passing an existing WebResponseInterface
+- Changed WebResponseDataTransformerInterface transform signature to allow passing an existing WebResponseInterface
 - Deprecated.php aliases has been removed make sure you use the latest Roadiz namespaces
-- Changed all node exports to CSV format to be able to stream response.
-- Pass NodesSources repository entityClass to parent constructor. Changed NodesSourcesRepository constructor signature.
-- `AbstractPathNormalizer::__construct` signature changed (added Stopwatch).
 
 ### Bug Fixes
 
-- **(Attributes)** Fixed AttributeValueRepository findByAttributable method preventing fetch attribute values without translations. Fixed AttributeChoiceType still requesting entityManager. - ([1ce795e](https://github.com/roadiz/core-bundle-dev-app/commit/1ce795ec77ac85af9aeee2d8d43520b21d214791))
-- **(Document)** Remove Documents used by CustomFormAnswer from unused repository method - ([f5289b8](https://github.com/roadiz/core-bundle-dev-app/commit/f5289b884266c1366d936f3c5f9690ed16dcf5b1))
-- **(Documents)** Do not throw `UnableToMoveFile` when document `filename` changes because we update the whole file - ([da5386e](https://github.com/roadiz/core-bundle-dev-app/commit/da5386e0cab580ec1a414f91779c1a1fbcc14160))
-- **(DtsGenerator)** Fixed .d.ts file header generation with latest @roadiz/types package - ([49aca37](https://github.com/roadiz/core-bundle-dev-app/commit/49aca375f0e51ec81bfa4a044c8924740067218a))
-- **(EmailManager)** Removed EmailManager and ContactFormManager direct usage. Use their Factory service to avoid sharing service data between async requests. - ([80e25e5](https://github.com/roadiz/core-bundle-dev-app/commit/80e25e52319213bde65d2ca5021bbcf083870e6a))
-- **(Nodes)** Fixed node offspring resolution cache with new `NodeOffspringResolverInterface` service - ([cf62690](https://github.com/roadiz/core-bundle-dev-app/commit/cf62690c623bdba20812afb557538720b53b2abb))
-- **(Serialization)** Always falls back on default translation if no translation for Tag, Folder and Document entities - ([0f0ceed](https://github.com/roadiz/core-bundle-dev-app/commit/0f0ceeda64b6deb57d4dfebfcf45826736507211))
-- **(Style)** Fixed explorer drawer item style to allow long titles and breadcrumbs - ([c621b6a](https://github.com/roadiz/core-bundle-dev-app/commit/c621b6ae459724f548867b5a9be8d85f4f472e91))
-- **(UI)** Fixed collapsable nestable node-tree state, in ajax navigation - ([2546848](https://github.com/roadiz/core-bundle-dev-app/commit/2546848fc3b53b2289fd65e7d365f240970573b8))
-- **Do not use Symfony Inflector yet**: wrongly pluralizes "nodes_sources" to "nodes_sourcess" - ([e1eb282](https://github.com/roadiz/core-bundle-dev-app/commit/e1eb28261eabb672b70d7e42038e1ec50d5fd187))
-- Added autocomplete on login template - ([7369d9c](https://github.com/roadiz/core-bundle-dev-app/commit/7369d9cb4f56fd7779d19d8377e48323f74aeace))
-- Allow duplicated documents when embedding audio embed covers, fix #19 - ([e61e2ee](https://github.com/roadiz/core-bundle-dev-app/commit/e61e2ee7f6caf12275a86519085e50d41917003b))
-- Do not crash Doctrine metadata if NodesSources class does not exist. - ([93d84df](https://github.com/roadiz/core-bundle-dev-app/commit/93d84df1019c5fbb04ee3622e4cfe5085ed4ef41))
-- Do not format `null` user.lastLogin date - ([37aafec](https://github.com/roadiz/core-bundle-dev-app/commit/37aafecda727de70bd8457b34e5913e9c941e698))
-- Do not generate random IDs for virtual api resources - ([af5196e](https://github.com/roadiz/core-bundle-dev-app/commit/af5196e729abc956374fb4dc5ab30eba67282806))
-- Do not require a `themes` folder at project root - ([02b2e1c](https://github.com/roadiz/core-bundle-dev-app/commit/02b2e1cf242c8b8f63fb9caaa6d8eca0220ec53b))
-- Do not throw exception on bad page and itemPerPage argument, just use defaults fix #20 - ([e051822](https://github.com/roadiz/core-bundle-dev-app/commit/e05182222564e2a4dd59048cbac5d7771fc99d82))
-- Do not use array reference for ConfigurableExplorerItem.php anymore - ([6a23ba0](https://github.com/roadiz/core-bundle-dev-app/commit/6a23ba032d174e58545f85bf81f2cdaf1760b154))
-- Fixed CacheController twig template - ([1d9d203](https://github.com/roadiz/core-bundle-dev-app/commit/1d9d20356329442b244eaa12020bbd629ed6aba9))
-- Fixed OpenIdJwtConfigurationFactory configuration - ([3db3793](https://github.com/roadiz/core-bundle-dev-app/commit/3db379358b1d4507b00f57024ec9f8532a7f2693))
-- Fixed RequestDataCollector - ([4aa997a](https://github.com/roadiz/core-bundle-dev-app/commit/4aa997ac2605e0c1283100473d050923cdeba3c0))
-- Fixed Roadiz data collector - ([1c65a0c](https://github.com/roadiz/core-bundle-dev-app/commit/1c65a0c81f7967a72394e0d56114784db3d67a64))
-- Fixed StringHandler camelCase method with `lc_first` - ([47c7798](https://github.com/roadiz/core-bundle-dev-app/commit/47c7798dc33e6453dd8028eaebb41f62fe0e528b))
-- Fixed `null` newParent parameter for Ajax Node/Tag/Folder controllers - ([81d3570](https://github.com/roadiz/core-bundle-dev-app/commit/81d3570abc5c5b4dae139b71da03b6b6094c66da))
-- Fixed `simple.html.twig` twig template with rz-accent-color for login and custom-form - ([2fa84b6](https://github.com/roadiz/core-bundle-dev-app/commit/2fa84b662046cefdc1c000c5ec002824221651ca))
-- Fixed early access of AbstractEmbedFinder::$feed - ([676ff55](https://github.com/roadiz/core-bundle-dev-app/commit/676ff55371201429fecc300835182789f1e1246e))
-- Fixed unit tests namespaces, moved to tests folder and use `autoload-dev` composer directive - ([f8092dc](https://github.com/roadiz/core-bundle-dev-app/commit/f8092dce03b81a3d523d4a44b56a6e5796b08d0e))
-- Get rid of `cssAction` route and use CSS vars for node, tag, attribute, custom-form, folder accent colors - ([06548e2](https://github.com/roadiz/core-bundle-dev-app/commit/06548e2f129a22c96a81b248f725a98e62fe54af))
-- Improved Ajax controllers and fixed setting `null` newParent as `string` - ([07a6df3](https://github.com/roadiz/core-bundle-dev-app/commit/07a6df382021a68a631dd45a373311d5707f63b7))
-- Missing `NodesTagsRepository` - ([b80548d](https://github.com/roadiz/core-bundle-dev-app/commit/b80548de67835ea4fb05374f3670972940cad754))
-- Missing `RealmRepository::findByNodeWithSerializationGroup` method - ([aac6e4e](https://github.com/roadiz/core-bundle-dev-app/commit/aac6e4e3eda25967908a0a9d2789c799acf82b0a))
-- Missing dependency in Roadiz Model package - ([303a2f5](https://github.com/roadiz/core-bundle-dev-app/commit/303a2f57af38e0b9b0fd925593c8fe62d672b34f))
-- Missing doctrine/doctrine-bundle dependency in sub-packages - ([c019a62](https://github.com/roadiz/core-bundle-dev-app/commit/c019a628d70327844568022cee35ad009104d0d6))
 - Missing generate:api-resources command execution in `app:migrate` - ([5ec4ee0](https://github.com/roadiz/core-bundle-dev-app/commit/5ec4ee0bb0634d25d91de896f4340d923cb4bc9f))
-- Pass FormInterface to `bulkAction` to update bulk item with a form field data. - ([8d46507](https://github.com/roadiz/core-bundle-dev-app/commit/8d4650767dcaa183c135c4043ffd1cfea4dc64d6))
-- Removed duplicated Twig templates - ([a6461a1](https://github.com/roadiz/core-bundle-dev-app/commit/a6461a1952b238e9c3554a045a7226ac51f81c07))
-- Set translation and locale to be used in Request context from Roadiz ResourceInfo - ([a444bc9](https://github.com/roadiz/core-bundle-dev-app/commit/a444bc98026c55d628b4465238c832da0eb473fb))
-- Still execute migration Version20240318204224 when there are no node_type_fields: i.e at Roadiz first install - ([6fda4a9](https://github.com/roadiz/core-bundle-dev-app/commit/6fda4a9b55361d9d49e847c79cc1876f5f3cce0a))
-- StringHandler.php camelCase - ([facee39](https://github.com/roadiz/core-bundle-dev-app/commit/facee39d8ae8273ec423e18be913077493e31a90))
-- Sync indexes on NodesSources entity and NodesSourcesInheritanceSubscriber - ([a604e8b](https://github.com/roadiz/core-bundle-dev-app/commit/a604e8bfb02b2d41ce45ea58ee6b494321f9beb0))
-- Updated MySQL reserved words list - ([277fd69](https://github.com/roadiz/core-bundle-dev-app/commit/277fd6979e648f526c9c7391faba6bc8cd37e7ff))
-- Use NodeSourceXlsxSerializer in Export and Search node controllers - ([00b96e4](https://github.com/roadiz/core-bundle-dev-app/commit/00b96e437fb03842a5f9caee2d542e6b6a7d8b13))
-- Use `lexik_jwt_authentication.on_authentication_success` event to update user last login date - ([fbe532f](https://github.com/roadiz/core-bundle-dev-app/commit/fbe532f303bd732673b937c8c89e1f9d1a293505))
-- Use constructor promotion for all final classes when possible - ([0513183](https://github.com/roadiz/core-bundle-dev-app/commit/0513183efb1146fc5a248257632240a745721de4))
-- `StringHandler::variablize` method with non-alphanum characters - ([6db4486](https://github.com/roadiz/core-bundle-dev-app/commit/6db4486e7414f3cb2335b56455debbaa86175930))
-- Remove restart worker - ([4cfe40f](https://github.com/roadiz/core-bundle-dev-app/commit/4cfe40f2b02ceb80ac75e568c2c1f7696a6ace97))
+- Fixed early access of AbstractEmbedFinder::$feed - ([676ff55](https://github.com/roadiz/core-bundle-dev-app/commit/676ff55371201429fecc300835182789f1e1246e))
+- Do not generate random IDs for virtual api resources - ([af5196e](https://github.com/roadiz/core-bundle-dev-app/commit/af5196e729abc956374fb4dc5ab30eba67282806))
+
+### CI/CD
+
+- Use multi-staged Dockerfile for all development docker compose environment - ([2def123](https://github.com/roadiz/core-bundle-dev-app/commit/2def123df77cf5be95239d25b335eefe7aeb455d))
+
+### Documentation
+
+- Updated Bruno - ([6592297](https://github.com/roadiz/core-bundle-dev-app/commit/65922978aa6b158627df4e262b65c38a3fce9914))
 
 ### Features
 
--  [**breaking**]Changed WebResponseDataTransformerInterface transform signature to allow passing an existing WebResponseInterface - ([235bd7f](https://github.com/roadiz/core-bundle-dev-app/commit/235bd7f90261981c2a431c2585316ce1ee90b0ac))
--  [**breaking**]Changed all node exports to CSV format. - ([dc6d099](https://github.com/roadiz/core-bundle-dev-app/commit/dc6d099a6fc382cd23ab5567350469bd83a10b1f))
--  [**breaking**]Pass NodesSources repository entityClass to parent constructor. Changed NodesSourcesRepository constructor signature. - ([aa917f3](https://github.com/roadiz/core-bundle-dev-app/commit/aa917f30a81552f7ccd2256b1d041ed1dc513471))
+- Add config in `compose.override.yml.dist` for use MariaDB instead of Mysql - ([b45f1db](https://github.com/roadiz/core-bundle-dev-app/commit/b45f1db77cf9db247a82c4f13dc8d39e38d3a9af))
+- Added frankenphp ([#25](https://github.com/roadiz/core-bundle-dev-app/issues/25)) - ([31cc3a1](https://github.com/roadiz/core-bundle-dev-app/commit/31cc3a141c9d0411bb7ea317d6d3a0474bb2e507))
+- Migrate Node::status to NodeStatus enum, reduced int to smallint when possible - ([f1efd31](https://github.com/roadiz/core-bundle-dev-app/commit/f1efd313109915b42defb1e039755a94a19c2908))
+- Use roadiz/random interfaces and declare them as services - ([4a9b073](https://github.com/roadiz/core-bundle-dev-app/commit/4a9b073777f3113214f8b41c5ec66fbdf1deaa9b))
+- Upgraded doctrine/orm to 2.20 - ([69b1ffc](https://github.com/roadiz/core-bundle-dev-app/commit/69b1ffc3fcd0d1d59ad68599c0b5c23222afb256))
+-  [**breaking**]Removed sensio/framework-extra-bundle, upgraded sentry/sentry-symfony and doctrine/annotations - ([96c9f87](https://github.com/roadiz/core-bundle-dev-app/commit/96c9f87dbe05d02fc6bd20965c2e8a90642246bf))
+-  [**breaking**]Upgraded rollerworks/password-strength-bundle, removed Top500Provider.php - ([797aa4f](https://github.com/roadiz/core-bundle-dev-app/commit/797aa4f9f8bbc01658610aa7ba67cfbf700d71de))
+-  [**breaking**]Removed JMS Serializer annotation, AbstractAjaxController requires a Symfony Serializer interface - ([0bafe06](https://github.com/roadiz/core-bundle-dev-app/commit/0bafe06e69734654b8ca2a6366501098d269df55))
 -  [**breaking**]Removed Embed finder for Twitch (they disabled OEmbed on their API) - ([ad4e807](https://github.com/roadiz/core-bundle-dev-app/commit/ad4e8074e254fc0787f7935d13b1bba416b91998))
 -  [**breaking**]Removed Guzzle dependencies in favor of Symfony Http Client - ([9a4c47b](https://github.com/roadiz/core-bundle-dev-app/commit/9a4c47bfbc17e9419316b14d79e563f6f4e7c5da))
--  [**breaking**]Removed JMS Serializer annotation, AbstractAjaxController requires a Symfony Serializer interface - ([0bafe06](https://github.com/roadiz/core-bundle-dev-app/commit/0bafe06e69734654b8ca2a6366501098d269df55))
+-  [**breaking**]Changed WebResponseDataTransformerInterface transform signature to allow passing an existing WebResponseInterface - ([235bd7f](https://github.com/roadiz/core-bundle-dev-app/commit/235bd7f90261981c2a431c2585316ce1ee90b0ac))
 -  [**breaking**]Removed deprecated.php aliases for old Roadiz v1 classes - ([128c530](https://github.com/roadiz/core-bundle-dev-app/commit/128c5304c1164eab24792c46919269f20fdd2d8f))
--  [**breaking**]Removed sensio/framework-extra-bundle, upgraded sentry/sentry-symfony and doctrine/annotations - ([96c9f87](https://github.com/roadiz/core-bundle-dev-app/commit/96c9f87dbe05d02fc6bd20965c2e8a90642246bf))
--  [**breaking**]Upgraded jwt libraries and drop php8.1 support. - ([9c82755](https://github.com/roadiz/core-bundle-dev-app/commit/9c827553751bf262611a20870116dde4b03d125b))
--  [**breaking**]Upgraded rollerworks/password-strength-bundle, removed Top500Provider.php - ([797aa4f](https://github.com/roadiz/core-bundle-dev-app/commit/797aa4f9f8bbc01658610aa7ba67cfbf700d71de))
--  [**breaking**]Upgraded to ApiPlatform 3.3 - requires config changes - ([0fce406](https://github.com/roadiz/core-bundle-dev-app/commit/0fce4065de7afa921e070c793c05b82cdef43782))
-- **(Doctrine)** Roadiz repository extends `ServiceEntityRepository`. Removed `Paginator` return type from all `findBy` and `searchBy` methods. - ([b7a91a9](https://github.com/roadiz/core-bundle-dev-app/commit/b7a91a9695e87b220ab26f049e9290b803e801b6))
-- **(Node)** New `NodeInterface` to gather `Node` doctrine entity and its DTOs into Workflow and Widgets - ([90e7d4e](https://github.com/roadiz/core-bundle-dev-app/commit/90e7d4e9aca747952a072cc3f66fe60d69d58672))
-- **(NodeTree)** Use Doctrine DTO to optimize node-tree walking in backoffice - ([15aad4a](https://github.com/roadiz/core-bundle-dev-app/commit/15aad4a3af930bd3bb75cecf29cce8b193b68d7d))
-- **(UserBundle)** Add FrontendLoginLinkHandler and updated README ([#15](https://github.com/roadiz/core-bundle-dev-app/issues/15)) - ([9045642](https://github.com/roadiz/core-bundle-dev-app/commit/9045642dd9865de9ea8cbbcf6901e303ef72c2c3))
-- **(UserBundle)** Added password-less public user creation and login link - ([c86889d](https://github.com/roadiz/core-bundle-dev-app/commit/c86889d1e887e9fe68d62f147ba67cd31860a7cd))
-- **(UserBundle)** Extract common logic between UserInput and PasswordlessUserInput - ([bd11480](https://github.com/roadiz/core-bundle-dev-app/commit/bd11480483fd40570fcdfd9a28b5b7037ccd2496))
-- **(UserBundle)** Improved documentation - ([24193eb](https://github.com/roadiz/core-bundle-dev-app/commit/24193ebf43ff3ec64ba42b59ccac90eae0e55950))
-- **(Users)** Added `users:inactive` console command to list and purge never logging-in users with Role filtering - ([6475423](https://github.com/roadiz/core-bundle-dev-app/commit/6475423bf30b277583740574d4ac94d0ba8c51a6))
-- Add config in `compose.override.yml.dist` for use MariaDB instead of Mysql - ([b45f1db](https://github.com/roadiz/core-bundle-dev-app/commit/b45f1db77cf9db247a82c4f13dc8d39e38d3a9af))
-- Added CustomFormField `autocomplete` field to provide HTML autocomplete hint - ([6b8c3e7](https://github.com/roadiz/core-bundle-dev-app/commit/6b8c3e722e0c4385587f3fcd2566d6e04f9e68c1))
-- Added backoffice login-link authentication - ([2a5efeb](https://github.com/roadiz/core-bundle-dev-app/commit/2a5efebe1487915f7c91090e8f5258e7cec6f88f))
-- Added deprecation notices about `RZ\Roadiz\CoreBundle\Xlsx` services - ([a9af918](https://github.com/roadiz/core-bundle-dev-app/commit/a9af9187b7196c528250f19febf73877d22db4da))
-- Added frankenphp ([#25](https://github.com/roadiz/core-bundle-dev-app/issues/25)) - ([31cc3a1](https://github.com/roadiz/core-bundle-dev-app/commit/31cc3a141c9d0411bb7ea317d6d3a0474bb2e507))
-- Always use JMS serializer for Ajax explorer responses - ([d3638ef](https://github.com/roadiz/core-bundle-dev-app/commit/d3638ef316bf8476a980dc41c4b926045c475a8f))
-- Export custom-form answers into CSV file instead of Xlsx - ([5da1a44](https://github.com/roadiz/core-bundle-dev-app/commit/5da1a448bc62ebe5373d0a2b8b2341fd801dca34))
-- Made OpenId and Jwt bundles use `symfony/http-client` instead of `guzzle` - ([c4c368e](https://github.com/roadiz/core-bundle-dev-app/commit/c4c368ed83b210531f92da221f0907324528054b))
-- Migrate MessageHandlers to AsMessageHandler attribute - ([51bc2d3](https://github.com/roadiz/core-bundle-dev-app/commit/51bc2d31f923b9287b91279c2cd129dc8b46e7ed))
-- Migrate `Node::$status` to `NodeStatus` _enum_, reduced `int` to `smallint` in database when possible - ([f1efd31](https://github.com/roadiz/core-bundle-dev-app/commit/f1efd313109915b42defb1e039755a94a19c2908))
-- Migrated to `AsDoctrineListener` and removed useless TablePrefixSubscriber.php - ([ab57bbe](https://github.com/roadiz/core-bundle-dev-app/commit/ab57bbef555abbf109e1076b816bda8248f36524))
-- Run doctrine:migration:migrate from main Roadiz install command - ([5ccb7ca](https://github.com/roadiz/core-bundle-dev-app/commit/5ccb7caab351aa1bfba289b90894cee6e9b4bbcf))
-- Switched to php8.3 - ([7970e3c](https://github.com/roadiz/core-bundle-dev-app/commit/7970e3cfe05f4086d188edefbdab1599d0ce1bf1))
-- Transform CustomFormField `groupName` field to HTML DataList to improve user experience - ([676a016](https://github.com/roadiz/core-bundle-dev-app/commit/676a0161ad593e2efbfdcd4f0a15db8086b28425))
-- Upgrade rezozero/tree-walker package - ([d90c04a](https://github.com/roadiz/core-bundle-dev-app/commit/d90c04ae736629a0d6618022b866fa625da7c958))
-- Upgraded doctrine/orm to 2.20 - ([69b1ffc](https://github.com/roadiz/core-bundle-dev-app/commit/69b1ffc3fcd0d1d59ad68599c0b5c23222afb256))
-- Use ExplorerItemFactory to provide explorerItems and make them overrideable - ([3a12223](https://github.com/roadiz/core-bundle-dev-app/commit/3a12223feed14c6df925f5a2c1eca0c8a48189ce))
-- Use Twig global for `main_color` variable - ([106b564](https://github.com/roadiz/core-bundle-dev-app/commit/106b5642450960332acacff50728ee0647101483))
-- Use roadiz/random interfaces and declare them as services - ([4a9b073](https://github.com/roadiz/core-bundle-dev-app/commit/4a9b073777f3113214f8b41c5ec66fbdf1deaa9b))
 
 ### Refactor
 
--  [**breaking**]Delete deprecated AppController::makeResponseCachable - ([e304ce2](https://github.com/roadiz/core-bundle-dev-app/commit/e304ce2669f0d2cd37f77480470e9a9f53d78b0e))
--  [**breaking**]Delete unused CompatBundle Controller methods - ([a79d46b](https://github.com/roadiz/core-bundle-dev-app/commit/a79d46b1f843820e9e7484e1981591b6d50a2310))
-- **(EntityGenerator)** Simplify namespaces - ([53302bb](https://github.com/roadiz/core-bundle-dev-app/commit/53302bbb1cbb556d5c121cb3f8c15d8c40684f32))
-- **(EntityGenerator)** Use `nette/php-generator` ([#18](https://github.com/roadiz/core-bundle-dev-app/issues/18)) - ([bf73af2](https://github.com/roadiz/core-bundle-dev-app/commit/bf73af20e99c5b254cfede7883895e570f9ed970))
-- All ajax explorer models use `AbstractExplorerItem` class to uniformize API properties - ([2728a14](https://github.com/roadiz/core-bundle-dev-app/commit/2728a141c342eb3bd9eae1f285a32ac3f96b6d74))
-- Deprecated `Themes\Rozier\Models\ModelInterface`, changed `NodeModel` and `NodeSourceModel` to use AbstractExplorerItem - ([c50b430](https://github.com/roadiz/core-bundle-dev-app/commit/c50b4304a98d0c9d04620d9ea9ca32e39ec3cc69))
-- Removed base `RozierApp` class when possible, added `LogTrail` service for publishing message in session and logger - ([539806d](https://github.com/roadiz/core-bundle-dev-app/commit/539806d9bda2a3d6e1ee480c3fa3e357458f46d3))
+- Removed base RozierApp class when possible, added LogTrail service for publishing message in session and logger - ([539806d](https://github.com/roadiz/core-bundle-dev-app/commit/539806d9bda2a3d6e1ee480c3fa3e357458f46d3))
 - Removed base assignation data for Twig templating, moved all globals to TwigExtensions - ([acb892a](https://github.com/roadiz/core-bundle-dev-app/commit/acb892af4034ad14748a3b56e775147bd26feb55))
-- Use _friendsofphp/php-cs-fixer_ instead of _squizlabs/php_codesniffer_ ([#22](https://github.com/roadiz/core-bundle-dev-app/issues/22)) - ([e53f8c9](https://github.com/roadiz/core-bundle-dev-app/commit/e53f8c9285003ec019cb9b75d0762a8006ab097a))
-- Use multi-process `documents:downscale` command. Reduce conditions deepness with early return pattern - ([e255e0f](https://github.com/roadiz/core-bundle-dev-app/commit/e255e0f9b675bb4195f17d6eb1e1cefe8c8d21ea))
+-  [**breaking**]Delete unused CompatBundle Controller methods - ([a79d46b](https://github.com/roadiz/core-bundle-dev-app/commit/a79d46b1f843820e9e7484e1981591b6d50a2310))
+-  [**breaking**]Delete deprecated AppController::makeResponseCachable - ([e304ce2](https://github.com/roadiz/core-bundle-dev-app/commit/e304ce2669f0d2cd37f77480470e9a9f53d78b0e))
+- Use friendsofphp/php-cs-fixer instead of squizlabs/php_codesniffer ([#22](https://github.com/roadiz/core-bundle-dev-app/issues/22)) - ([e53f8c9](https://github.com/roadiz/core-bundle-dev-app/commit/e53f8c9285003ec019cb9b75d0762a8006ab097a))
+
+### Testing
+
+- Allow testing on php 8.4 - ([a2399b2](https://github.com/roadiz/core-bundle-dev-app/commit/a2399b2b5f8173100cf15392d3472e571594796b))
 
 ## [2.3.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.30...v2.3.31) - 2024-10-26
 
 ### Bug Fixes
 
-- **(DtsGenerator)** Fixed `.d.ts` file header generation with latest @roadiz/types package - ([49aca37](https://github.com/roadiz/core-bundle-dev-app/commit/49aca375f0e51ec81bfa4a044c8924740067218a))
+- **(DtsGenerator)** Fixed .d.ts file header generation with latest @roadiz/types package - ([49aca37](https://github.com/roadiz/core-bundle-dev-app/commit/49aca375f0e51ec81bfa4a044c8924740067218a))
 
 ## [2.3.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.29...v2.3.30) - 2024-10-25
 
@@ -611,23 +582,67 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 - Allow duplicated documents when embedding audio embed covers, fix #19 - ([e61e2ee](https://github.com/roadiz/core-bundle-dev-app/commit/e61e2ee7f6caf12275a86519085e50d41917003b))
 - Do not throw exception on bad page and itemPerPage argument, just use defaults fix #20 - ([e051822](https://github.com/roadiz/core-bundle-dev-app/commit/e05182222564e2a4dd59048cbac5d7771fc99d82))
 
+### Refactor
+
+- **(EntityGenerator)** Simplify namespaces - ([53302bb](https://github.com/roadiz/core-bundle-dev-app/commit/53302bbb1cbb556d5c121cb3f8c15d8c40684f32))
+- **(EntityGenerator)** Use `nette/php-generator` ([#18](https://github.com/roadiz/core-bundle-dev-app/issues/18)) - ([bf73af2](https://github.com/roadiz/core-bundle-dev-app/commit/bf73af20e99c5b254cfede7883895e570f9ed970))
+
 ## [2.3.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.27...v2.3.28) - 2024-09-24
 
 ### Bug Fixes
 
 - **(Documents)** Do not throw `UnableToMoveFile` when document `filename` changes because we update the whole file - ([da5386e](https://github.com/roadiz/core-bundle-dev-app/commit/da5386e0cab580ec1a414f91779c1a1fbcc14160))
+- Do not format `null` user.lastLogin date - ([37aafec](https://github.com/roadiz/core-bundle-dev-app/commit/37aafecda727de70bd8457b34e5913e9c941e698))
+- remove restart worker - ([4cfe40f](https://github.com/roadiz/core-bundle-dev-app/commit/4cfe40f2b02ceb80ac75e568c2c1f7696a6ace97))
+- Use `lexik_jwt_authentication.on_authentication_success` event to update user last login date - ([fbe532f](https://github.com/roadiz/core-bundle-dev-app/commit/fbe532f303bd732673b937c8c89e1f9d1a293505))
+
+### CI/CD
+
+- Simplify dev docker images with no init overhead - ([a9ba4a4](https://github.com/roadiz/core-bundle-dev-app/commit/a9ba4a4b3f89efa8531b0315042903a4c7912ebf))
+
+### Features
+
+- **(UserBundle)** Add FrontendLoginLinkHandler and updated README ([#15](https://github.com/roadiz/core-bundle-dev-app/issues/15)) - ([9045642](https://github.com/roadiz/core-bundle-dev-app/commit/9045642dd9865de9ea8cbbcf6901e303ef72c2c3))
+- **(UserBundle)** Improved documentation - ([24193eb](https://github.com/roadiz/core-bundle-dev-app/commit/24193ebf43ff3ec64ba42b59ccac90eae0e55950))
+- **(UserBundle)** Extract common logic between UserInput and PasswordlessUserInput - ([bd11480](https://github.com/roadiz/core-bundle-dev-app/commit/bd11480483fd40570fcdfd9a28b5b7037ccd2496))
+- **(UserBundle)** Added password-less public user creation and login link - ([c86889d](https://github.com/roadiz/core-bundle-dev-app/commit/c86889d1e887e9fe68d62f147ba67cd31860a7cd))
+- **(Users)** Added `users:inactive` console command to list and purge never logging-in users with Role filtering - ([6475423](https://github.com/roadiz/core-bundle-dev-app/commit/6475423bf30b277583740574d4ac94d0ba8c51a6))
 
 ## [2.3.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.26...v2.3.27) - 2024-09-13
 
+### ⚠ Breaking changes
+
+- Roadiz requires php 8.2 minimum
+
 ### Bug Fixes
 
-- Fixed usage view with fieldName - ([c0a3e07](https://github.com/roadiz/core-bundle-dev-app/commit/c0a3e0738c1aec1487bc5e171d446332c1a7be5f))
+- fixed usage view with fieldName - ([c0a3e07](https://github.com/roadiz/core-bundle-dev-app/commit/c0a3e0738c1aec1487bc5e171d446332c1a7be5f))
+
+### Documentation
+
+- Improved README and added Bruno collection - ([ae36c59](https://github.com/roadiz/core-bundle-dev-app/commit/ae36c599f0d1831263f1fec0f11785335fa4d3ca))
+
+### Features
+
+- Use Twig global for `main_color` variable - ([106b564](https://github.com/roadiz/core-bundle-dev-app/commit/106b5642450960332acacff50728ee0647101483))
+-  [**breaking**]Upgraded jwt libraries and drop php8.1 support. - ([9c82755](https://github.com/roadiz/core-bundle-dev-app/commit/9c827553751bf262611a20870116dde4b03d125b))
+- Always use JMS serializer for Ajax explorer responses - ([d3638ef](https://github.com/roadiz/core-bundle-dev-app/commit/d3638ef316bf8476a980dc41c4b926045c475a8f))
+- Use ExplorerItemFactory to provide explorerItems and make them overrideable - ([3a12223](https://github.com/roadiz/core-bundle-dev-app/commit/3a12223feed14c6df925f5a2c1eca0c8a48189ce))
+
+### Refactor
+
+- All ajax explorer models use `AbstractExplorerItem` class to uniformize API properties - ([2728a14](https://github.com/roadiz/core-bundle-dev-app/commit/2728a141c342eb3bd9eae1f285a32ac3f96b6d74))
+- Deprecated `Themes\Rozier\Models\ModelInterface`, changed `NodeModel` and `NodeSourceModel` to use AbstractExplorerItem - ([c50b430](https://github.com/roadiz/core-bundle-dev-app/commit/c50b4304a98d0c9d04620d9ea9ca32e39ec3cc69))
 
 ## [2.3.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.25...v2.3.26) - 2024-08-27
 
 ### Bug Fixes
 
 - Missing `processable` property for backoffice Explorer thumbnails - ([72e2195](https://github.com/roadiz/core-bundle-dev-app/commit/72e21955c7024a085555edfadeffb5abe00f97ae))
+
+### Refactor
+
+- Use multi-process `documents:downscale` command. Reduce conditions deepness with early return pattern - ([e255e0f](https://github.com/roadiz/core-bundle-dev-app/commit/e255e0f9b675bb4195f17d6eb1e1cefe8c8d21ea))
 
 ## [2.3.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.24...v2.3.25) - 2024-08-26
 
@@ -646,6 +661,15 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 ### Bug Fixes
 
 - Fixed StringHandler camelCase method with lc_first - ([47c7798](https://github.com/roadiz/core-bundle-dev-app/commit/47c7798dc33e6453dd8028eaebb41f62fe0e528b))
+- StringHandler.php camelCase - ([facee39](https://github.com/roadiz/core-bundle-dev-app/commit/facee39d8ae8273ec423e18be913077493e31a90))
+
+### Features
+
+- Added backoffice login-link authentication - ([2a5efeb](https://github.com/roadiz/core-bundle-dev-app/commit/2a5efebe1487915f7c91090e8f5258e7cec6f88f))
+
+### Styling
+
+- Updated login styles - ([b661321](https://github.com/roadiz/core-bundle-dev-app/commit/b661321965184349e4e263515e6641f2592964c9))
 
 ## [2.3.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.21...v2.3.22) - 2024-08-01
 
@@ -655,16 +679,43 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 
 ## [2.3.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.20...v2.3.21) - 2024-07-29
 
+### ⚠ Breaking changes
+
+- Upgraded to ApiPlatform 3.3 - requires config changes
+- Changed all node exports to CSV format.
+- Pass NodesSources repository entityClass to parent constructor. Changed NodesSourcesRepository constructor signature.
+
 ### Bug Fixes
 
 - **(Style)** Fixed explorer drawer item style to allow long titles and breadcrumbs - ([c621b6a](https://github.com/roadiz/core-bundle-dev-app/commit/c621b6ae459724f548867b5a9be8d85f4f472e91))
 - Added autocomplete on login template - ([7369d9c](https://github.com/roadiz/core-bundle-dev-app/commit/7369d9cb4f56fd7779d19d8377e48323f74aeace))
+- Sync indexes on NodesSources entity and NodesSourcesInheritanceSubscriber - ([a604e8b](https://github.com/roadiz/core-bundle-dev-app/commit/a604e8bfb02b2d41ce45ea58ee6b494321f9beb0))
+- Fixed OpenIdJwtConfigurationFactory configuration - ([3db3793](https://github.com/roadiz/core-bundle-dev-app/commit/3db379358b1d4507b00f57024ec9f8532a7f2693))
+
+### Features
+
+-  [**breaking**]Upgraded to ApiPlatform 3.3 - requires config changes - ([0fce406](https://github.com/roadiz/core-bundle-dev-app/commit/0fce4065de7afa921e070c793c05b82cdef43782))
+-  [**breaking**]Changed all node exports to CSV format. - ([dc6d099](https://github.com/roadiz/core-bundle-dev-app/commit/dc6d099a6fc382cd23ab5567350469bd83a10b1f))
+-  [**breaking**]Pass NodesSources repository entityClass to parent constructor. Changed NodesSourcesRepository constructor signature. - ([aa917f3](https://github.com/roadiz/core-bundle-dev-app/commit/aa917f30a81552f7ccd2256b1d041ed1dc513471))
+
+### Testing
+
+- Skip database depend tests when no database is available - ([7d59ed6](https://github.com/roadiz/core-bundle-dev-app/commit/7d59ed6797a9988e66e38839b06a3d224dbdc304))
+- Added application tests with database fixtures and API test cases - ([4b6e910](https://github.com/roadiz/core-bundle-dev-app/commit/4b6e910f75ec128244512e90a0999bd7820a0fc0))
+- Fix test phpunit environment and initial data migration - ([018565d](https://github.com/roadiz/core-bundle-dev-app/commit/018565dc41784ac57b81b495bdec2cfc2cb450ef))
+- Install Roadiz database and fixture on phpunit if mysql server is available - ([ae84508](https://github.com/roadiz/core-bundle-dev-app/commit/ae84508c2590ae87dabd01315739fe3c0897b735))
 
 ## [2.3.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.19...v2.3.20) - 2024-07-13
 
 ### Bug Fixes
 
 - Do not crash Doctrine metadata if NodesSources class does not exist. - ([93d84df](https://github.com/roadiz/core-bundle-dev-app/commit/93d84df1019c5fbb04ee3622e4cfe5085ed4ef41))
+- Missing doctrine/doctrine-bundle dependency in sub-packages - ([c019a62](https://github.com/roadiz/core-bundle-dev-app/commit/c019a628d70327844568022cee35ad009104d0d6))
+- Missing dependency in Roadiz Model package - ([303a2f5](https://github.com/roadiz/core-bundle-dev-app/commit/303a2f57af38e0b9b0fd925593c8fe62d672b34f))
+
+### Features
+
+- Made OpenId and Jwt bundle use symfony/http-client instead of guzzle - ([c4c368e](https://github.com/roadiz/core-bundle-dev-app/commit/c4c368ed83b210531f92da221f0907324528054b))
 
 ## [2.3.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.18...v2.3.19) - 2024-07-12
 
@@ -722,6 +773,7 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 ### Bug Fixes
 
 - Fixed `null` newParent parameter for Ajax Node/Tag/Folder controllers - ([81d3570](https://github.com/roadiz/core-bundle-dev-app/commit/81d3570abc5c5b4dae139b71da03b6b6094c66da))
+- Improved Ajax controllers and fixed setting `null` newParent as `string` - ([07a6df3](https://github.com/roadiz/core-bundle-dev-app/commit/07a6df382021a68a631dd45a373311d5707f63b7))
 
 ## [2.3.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.12...v2.3.13) - 2024-06-19
 
@@ -749,10 +801,26 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 
 ## [2.3.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.8...v2.3.9) - 2024-06-13
 
+### ⚠ Breaking changes
+
+- AbstractPathNormalizer `__construct` signature changed (added Stopwatch).
+
+### Bug Fixes
+
+- **(UI)** Fixed collapsable nestable node-tree state, in ajax navigation - ([2546848](https://github.com/roadiz/core-bundle-dev-app/commit/2546848fc3b53b2289fd65e7d365f240970573b8))
+- Do not use Symfony Inflector yet: wrongly pluralizes "nodes_sources" to "nodes_sourcess" - ([e1eb282](https://github.com/roadiz/core-bundle-dev-app/commit/e1eb28261eabb672b70d7e42038e1ec50d5fd187))
+
 ### Features
 
+- **(Doctrine)** Roadiz repository extends `ServiceEntityRepository`. Removed `Paginator` return type from all `findBy` and `searchBy` methods. - ([b7a91a9](https://github.com/roadiz/core-bundle-dev-app/commit/b7a91a9695e87b220ab26f049e9290b803e801b6))
+- **(Node)** New `NodeInterface` to gather `Node` doctrine entity and its DTOs into Workflow and Widgets - ([90e7d4e](https://github.com/roadiz/core-bundle-dev-app/commit/90e7d4e9aca747952a072cc3f66fe60d69d58672))
+- **(NodeTree)** Use Doctrine DTO to optimize node-tree walking in backoffice - ([15aad4a](https://github.com/roadiz/core-bundle-dev-app/commit/15aad4a3af930bd3bb75cecf29cce8b193b68d7d))
 - Added security layer on NodesSources form type for each node-type-field (NodeTypeFieldVoter) - ([29b0332](https://github.com/roadiz/core-bundle-dev-app/commit/29b03327001d3b27db38928b5c7eee758bf1a9a6))
 - Added customizable `getDefaultRouteParameters` in AbstractAdminController - ([899b397](https://github.com/roadiz/core-bundle-dev-app/commit/899b39788c25d9b735dc1d049684b4303d8b42a1))
+
+### Performance
+
+-  [**breaking**]Added `Stopwatch` to `AbstractPathNormalizer` to profile all serialization normalizers. - ([0f211b5](https://github.com/roadiz/core-bundle-dev-app/commit/0f211b5bcbc7bb0bec5d4ad59edb8324a330a881))
 
 ## [2.3.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.7...v2.3.8) - 2024-06-07
 
@@ -783,10 +851,15 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 ### Bug Fixes
 
 - **(UI)** Fixed drag and drop custom-form fields, node-type fields and attribute-values by setting new position against previous or next element id - ([1c929fc](https://github.com/roadiz/core-bundle-dev-app/commit/1c929fcdf5c636a77a7ec3730895c0790e1a9c09))
+- Fixed Roadiz data collector - ([1c65a0c](https://github.com/roadiz/core-bundle-dev-app/commit/1c65a0c81f7967a72394e0d56114784db3d67a64))
 
 ### Features
 
 - **(Attributes)** Added Attribute `weight` field to sort filtered lists. - ([cbcc6e6](https://github.com/roadiz/core-bundle-dev-app/commit/cbcc6e682f0783b9da02454f411fe06f0417f0cb))
+- Run doctrine:migration:migrate from main Roadiz install command - ([5ccb7ca](https://github.com/roadiz/core-bundle-dev-app/commit/5ccb7caab351aa1bfba289b90894cee6e9b4bbcf))
+- Migrate MessageHandlers to AsMessageHandler attribute - ([51bc2d3](https://github.com/roadiz/core-bundle-dev-app/commit/51bc2d31f923b9287b91279c2cd129dc8b46e7ed))
+- Switched to php8.3 - ([7970e3c](https://github.com/roadiz/core-bundle-dev-app/commit/7970e3cfe05f4086d188edefbdab1599d0ce1bf1))
+- Migrated to `AsDoctrineListener` and removed useless TablePrefixSubscriber.php - ([ab57bbe](https://github.com/roadiz/core-bundle-dev-app/commit/ab57bbef555abbf109e1076b816bda8248f36524))
 
 ## [2.3.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.2...v2.3.3) - 2024-05-31
 
@@ -810,99 +883,23 @@ Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if 
 
 ## [2.3.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.15...v2.3.0) - 2024-05-15
 
-### ⚠ BREAKING CHANGES
+### Bug Fixes
 
-* **Solr:** Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods
-* Make sure you don't have fields with name longer than 50 characters before migrating. Migration can be skipped if so.
-* Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use `field_name` string column for loose relation. **Make sure to backup your database before performing this migration**.
-* `node_type_name` JSON property is no-longer required in node-type JSON export files.
-* Node constructor does not accept any argument anymore.
-* Switched to ApiPlatform 3.2, make sure to upgrade `bundles.php` file and `api_platform.yaml` configuration
-* **Nodes:** NodesSources `metaKeyword` and Node `priority` fields will be dropped.
-* **Settings:** Setting encryption and crypto keys have been dropped, migrate all your secrets to symfony:secrets to get only one secure vault.
-
-Remove any crypto configuration from `config/packages/roadiz_core.yml`:
-
-```yaml
-    security:
-        private_key_name: default
-```
-* `getResultItems` method will always return `array<SolrSearchResultItem>` no matter item type or highlighting.
-* Regenerate your api platform resource YAML files, or rename `getByPath` operation to `%entity%_get_by_path`
-* Command constructor signatures changed
-* Controller::get and Controller::has methods have been removed
+- **(Security)** Fixed `NodeVoter` accepting `UserInterface` for OpenId accounts - ([e9dc229](https://github.com/roadiz/core-bundle-dev-app/commit/e9dc229853a56ccae34730de10ed4935e72e0364))
+- Fixed Attributes import - ([9023668](https://github.com/roadiz/core-bundle-dev-app/commit/90236689350a01e850332282791dec2382aef6b2))
+- Fixed permission for nodesTranstypePage action menu button - ([151878e](https://github.com/roadiz/core-bundle-dev-app/commit/151878e7cce5b58da2c9c9b6ce48b9d26e707f9d))
 
 ### Features
 
-* Added ApiProperty documentation for base entities fields ([fa4a0be](https://github.com/roadiz/core-bundle-dev-app/commit/fa4a0be43309ebedcd5816d1f2650d9d07f2452f))
-* Added more social network urls to head ([b4f6863](https://github.com/roadiz/core-bundle-dev-app/commit/b4f68631c46442655208c922bf6d63e7c135e52c))
-* Added new `cron` testing commands to test if your cron jobs are executing ([efdbaa5](https://github.com/roadiz/core-bundle-dev-app/commit/efdbaa59ba4930dc239e1aeaacf189828ef0cfd5))
-* Added new `cron` testing commands to test if your cron jobs are executing ([b486bec](https://github.com/roadiz/core-bundle-dev-app/commit/b486bec23bfeef277e05c2f07d618dcfff7b5bc2))
-* Added new `DataListTextType` to render HTML input with their datalist. ([5316137](https://github.com/roadiz/core-bundle-dev-app/commit/5316137b85a1fd493fa657dfcbadd5be76690005))
-* **Admin:** Create an update event for each bulk entity ([7ca5792](https://github.com/roadiz/core-bundle-dev-app/commit/7ca57920922893e58bd37031a81494faaa33488e))
-* Allow WebResponse object instantiation overriding ([8690594](https://github.com/roadiz/core-bundle-dev-app/commit/8690594d2cd4119ee575126f710f0c9ae12a26a5))
-* Always use SolrSearchResultItem to wrap a single object from search engine results. ([00ebe1d](https://github.com/roadiz/core-bundle-dev-app/commit/00ebe1df1d6db05d8a5fb54fa47d2b58f9db8230))
-* Better overridability for WebResponses ([1dff926](https://github.com/roadiz/core-bundle-dev-app/commit/1dff926798e5df990725aeb78e4243d528f6b658))
-* **CoreBundle:** Refactored node routing ([eea6399](https://github.com/roadiz/core-bundle-dev-app/commit/eea6399eef1dfef2ef242d1237fd4a539e97172f))
-* Create different operation names for each Entity with WebResponse. ([21fdc5c](https://github.com/roadiz/core-bundle-dev-app/commit/21fdc5cad7de5b6bce3d0ededd7fdab253485e37))
-* **CustomForms:** Made NodesCustomForms.php relation columns not nullable for index performance ([dba0237](https://github.com/roadiz/core-bundle-dev-app/commit/dba02370ac5bd4fd8cf93d8d610ea7a51c4e1d7e))
-* Do not serialize tag slug manually ([42747f1](https://github.com/roadiz/core-bundle-dev-app/commit/42747f1a957a13e1e555bc9e8ba53f03cdc752c5))
-* **Documents:** Improved $mimeToIcon with additional mime-types and new `3d` category. ([898264f](https://github.com/roadiz/core-bundle-dev-app/commit/898264fa246334137b0d804ffef66e1cc3e230e4))
-* **Documents:** Made NodesSourcesDocuments.php relation columns not nullable for index performance ([167b2dd](https://github.com/roadiz/core-bundle-dev-app/commit/167b2dd3934b90ba40b6940605f12b700cb341bc))
-* **Documents:** Set SvgRenderers higher priority than ImageRenderer ([920f273](https://github.com/roadiz/core-bundle-dev-app/commit/920f273c1671f9887abbe19c084bfd8361f0987c))
-* **EntityGenerator:** Added ApiProperty documentation for generated entities non-virtual fields ([d6e4462](https://github.com/roadiz/core-bundle-dev-app/commit/d6e44626bd92ebaeeb275130138151efead59105))
-* Expose WebResponse optional `maxAge` and populate with Node's TTL when available ([1a020de](https://github.com/roadiz/core-bundle-dev-app/commit/1a020de46bde509543e806903c4cedc9c5ae7963))
-* Fixed api-platform version to 3.2 ([6501910](https://github.com/roadiz/core-bundle-dev-app/commit/6501910e6613a80c59d37754f5734e8bb60f7243))
-* Improved *locale* management by storing `_translation` into Request attributes during LocaleSubscriber ([9e70e04](https://github.com/roadiz/core-bundle-dev-app/commit/9e70e04f068c677c20aa0becb98ca144517be279))
-* Made Gravatar optional with roadiz_core.useGravatar config option ([6e8c396](https://github.com/roadiz/core-bundle-dev-app/commit/6e8c3965ee83c118bc826271fec8e9a6975b8a70))
-* **Nodes:** Made NodesToNodes.php relation columns not nullable for index performance ([bd9f5d6](https://github.com/roadiz/core-bundle-dev-app/commit/bd9f5d63e5ccb2cdfb600d77564fd19c2f24d113))
-* **Nodes:** Removed useless NodesSources metaKeyword and Node priority fields. ([e3bed58](https://github.com/roadiz/core-bundle-dev-app/commit/e3bed5894589327507add5dcd24868ad3fad10b2))
-* **NodesSources:** Respect user set TTL on nodes-sources during API requests ([f1c66c2](https://github.com/roadiz/core-bundle-dev-app/commit/f1c66c2628fa7cb4c7860a4b69d91a40348c1487))
-* **OpenId:** Added `force_ssl_on_redirect_uri` open_id configuration to allow `http` redirectUri ([352bf79](https://github.com/roadiz/core-bundle-dev-app/commit/352bf796344e44b0ebfcd2f569697bf638396319))
-* Override `_api_operation` attribute as well when using `GetWebResponseByPathController` ([89dd9a3](https://github.com/roadiz/core-bundle-dev-app/commit/89dd9a3cf8378749055ba7ddbeeae27cf838899f))
-* Prevent creating same NodeTypeField name but with different doctrine type. ([c81773d](https://github.com/roadiz/core-bundle-dev-app/commit/c81773dd367eed945cdf9849a1950a1aca5e5d10))
-* **Realms:** Made RealmNode.php realm_id column not nullable for index performance ([153d53c](https://github.com/roadiz/core-bundle-dev-app/commit/153d53cc2f8a1aefe3d0639d9b1b87f191fd976b))
-* Reduce NodeTypeField name to maximum 50 characters long. ([8d7529a](https://github.com/roadiz/core-bundle-dev-app/commit/8d7529aad953f5b4f5689672df9fd6ae725bc89f))
-* Refactored command signatures ([173a4fb](https://github.com/roadiz/core-bundle-dev-app/commit/173a4fbcec66c92125330ac3bb609f82c60d34f8))
-* Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use string column for loose relation. ([fb5a2d8](https://github.com/roadiz/core-bundle-dev-app/commit/fb5a2d812cd5544d9c34d00dc6e787f2dc5a0749))
-* Removed NodeTypeFieldObjectConstructor.php for app:install to avoid conflicts between object construction and dropping all fields. `node_type_name` JSON property is no-longer required ([6a30b32](https://github.com/roadiz/core-bundle-dev-app/commit/6a30b32b7720cc761b57c34b5555bb50bdcf5f5d))
-* Set Request attribute `data` as WebResponse instead of WebResponse item. Changed LinkHeader and AddHeaders event subscribers to check if `data` is WebResponseInterface ([a7da352](https://github.com/roadiz/core-bundle-dev-app/commit/a7da352e369d185c9531b0528c9835bf4010a82e))
-* **Settings:** Removed encrypted Settings. Use symfony:secret to store secrets. ([ccec892](https://github.com/roadiz/core-bundle-dev-app/commit/ccec89210ba7e0a677f523b983ed168441d65d1d))
-* **Solr:** Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods ([e0e36b5](https://github.com/roadiz/core-bundle-dev-app/commit/e0e36b51bd1eadc239dc5f5adea0ee0d7858375f))
-* Upgrade to ApiPlatform 3.2 ([4962d87](https://github.com/roadiz/core-bundle-dev-app/commit/4962d87b316a9fac6a0163eaabf23987a94c4bf0))
-* Upgrade to doctrine/orm ~2.19.0 ([b14f5be](https://github.com/roadiz/core-bundle-dev-app/commit/b14f5bef13870c6c4c929b1fe914295e89e00751))
-* Upgraded to Symfony 6.4 LTS ([0e37266](https://github.com/roadiz/core-bundle-dev-app/commit/0e37266d7ebb9f6b6a72d9e81714496a99fba8db))
-* WebResponseDataTransformer must always transform PersistableInterface ([de1226a](https://github.com/roadiz/core-bundle-dev-app/commit/de1226a45ac7d7e9bac7d4643810bae5f5f46deb))
-* **WebResponse:** Expose request attribute `_web_response_item_class` to store WebResponse item class name ([e483039](https://github.com/roadiz/core-bundle-dev-app/commit/e483039982cf655012c25b5d72c6fc94c21be0fb))
-* **WebResponse:** Moved all web_response_by_path operations to WebResponse resource to avoid cheating with Api Platform resource resolution. ([a44745a](https://github.com/roadiz/core-bundle-dev-app/commit/a44745ae4f3598e6ca64133937c1de35a15bb7e8))
+- **(Documents)** Set SvgRenderers higher priority than ImageRenderer - ([920f273](https://github.com/roadiz/core-bundle-dev-app/commit/920f273c1671f9887abbe19c084bfd8361f0987c))
+- **(Documents)** Improved $mimeToIcon with additional mime-types and new `3d` category. - ([898264f](https://github.com/roadiz/core-bundle-dev-app/commit/898264fa246334137b0d804ffef66e1cc3e230e4))
+- **(OpenId)** Added `force_ssl_on_redirect_uri` open_id configuration to allow `http` redirectUri - ([352bf79](https://github.com/roadiz/core-bundle-dev-app/commit/352bf796344e44b0ebfcd2f569697bf638396319))
+- Made Gravatar optional with roadiz_core.useGravatar config option - ([6e8c396](https://github.com/roadiz/core-bundle-dev-app/commit/6e8c3965ee83c118bc826271fec8e9a6975b8a70))
+- Fixed api-platform version to 3.2 - ([6501910](https://github.com/roadiz/core-bundle-dev-app/commit/6501910e6613a80c59d37754f5734e8bb60f7243))
 
+### Styling
 
-### Bug Fixes
-
-* Allow OpenApi decoration with no `web_response_by_path` path ([c74dc6f](https://github.com/roadiz/core-bundle-dev-app/commit/c74dc6f2f65cbfe0ed9082b99af40e72a9c1684d))
-* **Documents:** Requires api-platform/metadata for unit tests ([ae67dba](https://github.com/roadiz/core-bundle-dev-app/commit/ae67dba4325f43bae173dd250ad237b46767b60e))
-* **Documents:** Updated Dailymotion oembed discovery and iframe source generation. ([2a06744](https://github.com/roadiz/core-bundle-dev-app/commit/2a067441e808cf16d872a9d9d3688cb3b7d0c23a))
-* Fixed AjaxNodesExplorerController with SearchResultsInterface ([9231f42](https://github.com/roadiz/core-bundle-dev-app/commit/9231f42e35decc50aebdc7c4c1b3c9634b4edf64))
-* Fixed Attributes import ([9023668](https://github.com/roadiz/core-bundle-dev-app/commit/90236689350a01e850332282791dec2382aef6b2))
-* Fixed permission for nodesTranstypePage action menu button ([151878e](https://github.com/roadiz/core-bundle-dev-app/commit/151878e7cce5b58da2c9c9b6ce48b9d26e707f9d))
-* Fixed stateless with some listeners ([b04faa2](https://github.com/roadiz/core-bundle-dev-app/commit/b04faa2a99167233328a5fdf6393cb2ae0041e2c))
-* LoginController.php with random images ([032e68e](https://github.com/roadiz/core-bundle-dev-app/commit/032e68e7cd184b7a4be7c88397dad8ac41a15c70))
-* Missing `orphanRemoval: true` on non-nullable OneToMany relationships ([019b353](https://github.com/roadiz/core-bundle-dev-app/commit/019b3534ba89effa1479673382e2150164f63973))
-* Moved AbstractDateTimedPositioned.php to CoreBundle to avoid requiring ApiPlatform on Models ([359c026](https://github.com/roadiz/core-bundle-dev-app/commit/359c026527e1d8a61eaa2c27e3471e05270a6559))
-* Need to comment all bundle config api_resource definitions ([cfd0c53](https://github.com/roadiz/core-bundle-dev-app/commit/cfd0c530297ae002410698b628b1e16dc806075a))
-* Prevent some api endpoint routes to trigger session from LocaleSubscriber ([fa63c8c](https://github.com/roadiz/core-bundle-dev-app/commit/fa63c8cc0cde00bb328e42724a92223d79e6ec58))
-* Removed explicit symfony-cmf/routing dependency ([6daf32f](https://github.com/roadiz/core-bundle-dev-app/commit/6daf32f8ae25ab371ca7eba94945e41894959103))
-* Removed NodeTypeInterface from Node constructor, Removed ThemeRoutesLoader.php ([0816525](https://github.com/roadiz/core-bundle-dev-app/commit/08165257777756f954be303719659ec7070a586e))
-* Rewrote all api_resources config files with `resources:` prefix ([40e5e9a](https://github.com/roadiz/core-bundle-dev-app/commit/40e5e9a4fe3b030858301e33c3a62924fcd2f4ea))
-* **Security:** Fixed `NodeVoter` accepting `UserInterface` for OpenId accounts ([e9dc229](https://github.com/roadiz/core-bundle-dev-app/commit/e9dc229853a56ccae34730de10ed4935e72e0364))
-* **Setting:** Always format DateTimeInterface to string in settings even if type is wrongly set ([3c9eda6](https://github.com/roadiz/core-bundle-dev-app/commit/3c9eda63c3bbf30e9feed9130d8701fb27397100))
-
-
-### Performance Improvements
-
-* Improved event subscriber registration and initialization ([febf372](https://github.com/roadiz/core-bundle-dev-app/commit/febf372018ec54726914ba07ebba480acf1dc661))
-* Made all foreign key columns not nullable for index performance ([fd90805](https://github.com/roadiz/core-bundle-dev-app/commit/fd908058e2856c58cca0d1eba582bee020145a3c))
-* Missing `node_parent_position` composite index ([9147b6b](https://github.com/roadiz/core-bundle-dev-app/commit/9147b6bb03a7176ee05257eed5fc6ca66c8c7e78))
+- Fixed User panel avatar icon when OpenId account - ([5829df7](https://github.com/roadiz/core-bundle-dev-app/commit/5829df7ecc90e9868fce148205dcb22d285aa44a))
 
 ## [2.2.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.14...v2.2.15) - 2024-04-19
 
@@ -1744,7 +1741,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.1...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.9...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
