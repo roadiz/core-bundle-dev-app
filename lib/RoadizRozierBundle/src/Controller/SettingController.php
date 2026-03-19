@@ -55,7 +55,7 @@ final class SettingController extends AbstractController
         $assignation = [];
 
         if (null !== $response = $this->commonSettingList($request, null, $assignation)) {
-            return $response->send();
+            return $response;
         }
 
         return $this->render('@RoadizRozier/settings/list.html.twig', $assignation);
@@ -77,7 +77,7 @@ final class SettingController extends AbstractController
         $assignation['settingGroup'] = $settingGroup;
 
         if (null !== $response = $this->commonSettingList($request, $settingGroup, $assignation)) {
-            return $response->send();
+            return $response;
         }
 
         return $this->render('@RoadizRozier/settings/list.html.twig', $assignation);
