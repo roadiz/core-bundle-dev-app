@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.8...v2.7.9) - 2026-03-19
+
+### Bug Fixes
+
+- **(security)** reject unsafe remote URLs in DownloadedFile::fromUrl method - GHSA-rc55-58f4-687g - ([7904f69](https://github.com/roadiz/core-bundle-dev-app/commit/7904f690a51b88b1c72c02149ebdf85fa81f19f2))
+
 ## [2.7.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.7...v2.7.8) - 2026-03-19
 
 ### Bug Fixes
@@ -2415,7 +2421,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.7...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.8...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
