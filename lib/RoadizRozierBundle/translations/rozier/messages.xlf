@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en-US" datatype="plaintext">
+    <file source-language="en-US" datatype="plaintext">
         <body>
             <trans-unit xml:space="preserve" id="%namespace%.imported"><source>%namespace%.imported</source></trans-unit>
             <trans-unit xml:space="preserve" id="2"><source>node.%name%.updated</source></trans-unit>
