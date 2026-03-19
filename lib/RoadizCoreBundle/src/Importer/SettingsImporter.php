@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Entity\SettingGroup;
+use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 final readonly class SettingsImporter implements EntityImporterInterface
@@ -41,10 +42,18 @@ final readonly class SettingsImporter implements EntityImporterInterface
         $manager->flush();
 
         if ($manager instanceof EntityManagerInterface) {
-            // Clear result cache
-            $cacheDriver = $manager->getConfiguration()->getResultCacheImpl();
-            if ($cacheDriver instanceof CacheProvider) {
-                $cacheDriver->deleteAll();
+            $configuration = $manager->getConfiguration();
+
+            // Doctrine ORM result cache pool (PSR-6, Doctrine ORM 2.7+)
+            $resultCache = $configuration->getResultCache();
+            $resultCache?->clear();
+            if ($resultCache instanceof ResettableInterface) {
+                $resultCache->reset();
+            }
+
+            // Legacy Doctrine result cache provider
+            if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
+                $configuration->getResultCacheImpl()->deleteAll();
             }
         }
 
