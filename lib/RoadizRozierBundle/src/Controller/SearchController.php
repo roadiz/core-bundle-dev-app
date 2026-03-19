@@ -96,7 +96,7 @@ final class SearchController extends AbstractController
         if (null !== $response = $this->handleNodeTypeForm($nodeTypeForm)) {
             $response->prepare($request);
 
-            return $response->send();
+            return $response;
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
