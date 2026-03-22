@@ -2,6 +2,21 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.9...v2.7.10) - 2026-03-22
+
+### Bug Fixes
+
+- **(security)** strip raw HTML in markdown filters by default, add opt-in allowHtml flag - ([a202c7e](https://github.com/roadiz/core-bundle-dev-app/commit/a202c7ef4d790cfc19d8cd6afd4b9317d715fdb1))
+- **(security)** disable external entity resolution in SvgSizeResolver - ([aee511d](https://github.com/roadiz/core-bundle-dev-app/commit/aee511d5849c34d1f038bb2f8bb2bbd66b8b2ad7))
+- **(security)** gate stack trace in JSON 403 responses behind kernel.debug - ([3d43817](https://github.com/roadiz/core-bundle-dev-app/commit/3d43817098b149344ec55efa7c625864f31e65b4))
+- **(security)** replace Mersenne Twister functions with CSPRNG in PasswordGenerator - ([09304f2](https://github.com/roadiz/core-bundle-dev-app/commit/09304f22a1a38bf81f1f4f5387c4c28747234581))
+- **(security)** verify OAuth2 state CSRF token on OpenID callback - ([408d67d](https://github.com/roadiz/core-bundle-dev-app/commit/408d67d171eb45c89bab01ed743aa6eec099d70e))
+- **(security)** hash Realm passwords and prevent plaintext exposure - ([98db951](https://github.com/roadiz/core-bundle-dev-app/commit/98db951f1bce4f13721925712e790095fff64db6))
+
+### Documentation
+
+- add Realm documentation - ([655a9f7](https://github.com/roadiz/core-bundle-dev-app/commit/655a9f7e303d19f4688660aae0914e9456610ad7))
+
 ## [2.7.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.8...v2.7.9) - 2026-03-19
 
 ### Bug Fixes
@@ -2421,7 +2436,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.8...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.9...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
