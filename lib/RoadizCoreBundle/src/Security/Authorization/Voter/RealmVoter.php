@@ -91,7 +91,9 @@ final class RealmVoter extends Voter
     private function voteForPassword(string $attribute, RealmInterface $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (null === $request || empty($subject->getPlainPassword())) {
+        $storedPassword = $subject->getPlainPassword();
+
+        if (null === $request || empty($storedPassword)) {
             $vote?->addReason('Realm does not have a plain password or request is not set.');
 
             return false;
@@ -107,9 +109,6 @@ final class RealmVoter extends Voter
 
             return false;
         }
-
-        $storedPassword = $subject->getPlainPassword();
-        \assert(null !== $storedPassword);
 
         if (!$this->verifyPassword($submittedPassword, $storedPassword)) {
             $vote?->addReason('Provided password does not match realm password.');
