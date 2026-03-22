@@ -9,156 +9,293 @@ export default ({ mode }) => {
      */
 
     return defineConfig({
-        title: env.VITE_CONFIG_BASE ? "Roadiz Documentation ("+env.VITE_CONFIG_BASE+")" : "Roadiz Documentation",
-        description: env.VITE_CONFIG_BASE ? "Roadiz Documentation ("+env.VITE_CONFIG_BASE+")" : "Roadiz Documentation",
-        base: env.VITE_CONFIG_BASE ? '/'+env.VITE_CONFIG_BASE+'/' : '/',
-        outDir: env.VITE_CONFIG_BASE ? './.vitepress/dist/'+env.VITE_CONFIG_BASE : './.vitepress/dist',
-        cacheDir: env.VITE_CONFIG_BASE ? './.vitepress/cache/'+env.VITE_CONFIG_BASE : './.vitepress/cache',
+        title: env.VITE_CONFIG_BASE
+            ? "Roadiz Documentation (" + env.VITE_CONFIG_BASE + ")"
+            : "Roadiz Documentation",
+        description: env.VITE_CONFIG_BASE
+            ? "Roadiz Documentation (" + env.VITE_CONFIG_BASE + ")"
+            : "Roadiz Documentation",
+        base: env.VITE_CONFIG_BASE ? "/" + env.VITE_CONFIG_BASE + "/" : "/",
+        outDir: env.VITE_CONFIG_BASE
+            ? "./.vitepress/dist/" + env.VITE_CONFIG_BASE
+            : "./.vitepress/dist",
+        cacheDir: env.VITE_CONFIG_BASE
+            ? "./.vitepress/cache/" + env.VITE_CONFIG_BASE
+            : "./.vitepress/cache",
         lastUpdated: true,
-        head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
+        head: [["link", { rel: "icon", href: "/favicon.ico" }]],
         themeConfig: {
-            siteTitle: 'Roadiz',
-            logo: '/Roadiz_White.jpg',
+            siteTitle: "Roadiz",
+            logo: "/Roadiz_White.jpg",
 
             nav: [
                 {
-                    text: 'Versions',
+                    text: "Versions",
                     items: [
                         {
-                            text: 'Latest',
-                            link: 'https://docs.roadiz.io/'
+                            text: "Latest",
+                            link: "https://docs.roadiz.io/",
                         },
                         {
-                            text: 'Develop',
-                            link: 'https://docs.roadiz.io/develop/'
+                            text: "Develop",
+                            link: "https://docs.roadiz.io/develop/",
                         },
-                    ]
+                    ],
                 },
                 {
-                    text: 'Other documentation',
+                    text: "Other documentation",
                     items: [
                         {
-                            text: 'Project changelog',
-                            link: 'https://github.com/roadiz/core-bundle-dev-app/blob/develop/CHANGELOG.md'
+                            text: "Project changelog",
+                            link: "https://github.com/roadiz/core-bundle-dev-app/blob/develop/CHANGELOG.md",
                         },
                         {
-                            text: 'Upgrade notes',
-                            link: 'https://github.com/roadiz/core-bundle-dev-app/blob/develop/UPGRADE.md'
+                            text: "Upgrade notes",
+                            link: "https://github.com/roadiz/core-bundle-dev-app/blob/develop/UPGRADE.md",
                         },
-                    ]
+                    ],
                 },
-                { text: 'Built by Rezo Zero', link: 'https://www.rezo-zero.com/' },
+                {
+                    text: "Built by Rezo Zero",
+                    link: "https://www.rezo-zero.com/",
+                },
             ],
 
             search: {
-                provider: 'local'
+                provider: "local",
             },
 
             sidebar: [
                 {
-                    text: 'Developer',
+                    text: "Developer",
                     items: [
-                        { text: 'Requirements', link: '/developer/first-steps/requirements' },
-                        { text: 'Installation', link: '/developer/first-steps/installation' },
-                        { text: 'Configuration', link: '/developer/first-steps/manual_config' },
-                        { text: 'Upgrading', link: '/developer/first-steps/upgrading' },
-                        { text: 'Security', link: '/developer/security/security' },
                         {
-                            text: 'Node system',
+                            text: "Requirements",
+                            link: "/developer/first-steps/requirements",
+                        },
+                        {
+                            text: "Installation",
+                            link: "/developer/first-steps/installation",
+                        },
+                        {
+                            text: "Configuration",
+                            link: "/developer/first-steps/manual_config",
+                        },
+                        {
+                            text: "Upgrading",
+                            link: "/developer/first-steps/upgrading",
+                        },
+                        {
+                            text: "Node system",
                             collapsed: true,
                             items: [
-                                { text: 'Introduction', link: '/developer/nodes-system/intro' },
-                                { text: 'Nodes', link: '/developer/nodes-system/nodes' },
-                                { text: 'Managing node-types', link: '/developer/nodes-system/node_types' },
                                 {
-                                    text: 'Node-type fields specifications',
-                                    link: '/developer/nodes-system/node_type_fields'
+                                    text: "Introduction",
+                                    link: "/developer/nodes-system/intro",
                                 },
-                                { text: 'Node-type decorators', link: '/developer/nodes-system/node_type_decorators' },
-                            ]
+                                {
+                                    text: "Nodes",
+                                    link: "/developer/nodes-system/nodes",
+                                },
+                                {
+                                    text: "Managing node-types",
+                                    link: "/developer/nodes-system/node_types",
+                                },
+                                {
+                                    text: "Node-type fields specifications",
+                                    link: "/developer/nodes-system/node_type_fields",
+                                },
+                                {
+                                    text: "Node-type decorators",
+                                    link: "/developer/nodes-system/node_type_decorators",
+                                },
+                            ],
                         },
                         {
-                            text: 'Building headless websites using API',
+                            text: "Building headless websites using API",
                             collapsed: true,
                             items: [
-                                { text: 'Introduction', link: '/developer/api/intro' },
-                                { text: 'Exposing node types', link: '/developer/api/exposing_node_types' },
-                                { text: 'Serialization', link: '/developer/api/serialization' },
-                                { text: 'Web response', link: '/developer/api/web_response' },
-                            ]
+                                {
+                                    text: "Introduction",
+                                    link: "/developer/api/intro",
+                                },
+                                {
+                                    text: "Exposing node types",
+                                    link: "/developer/api/exposing_node_types",
+                                },
+                                {
+                                    text: "Serialization",
+                                    link: "/developer/api/serialization",
+                                },
+                                {
+                                    text: "Web response",
+                                    link: "/developer/api/web_response",
+                                },
+                            ],
                         },
-                        { text: 'Building classic websites using Twig', link: '/developer/twig/intro' },
-                        { text: 'Tag system', link: '/developer/tags-system/' },
-                        { text: 'Documents system', link: '/developer/documents-system/' },
-                        { text: 'Attributes', link: '/developer/attributes/' },
                         {
-                            text: 'Forms',
+                            text: "Building classic websites using Twig",
+                            link: "/developer/twig/intro",
+                        },
+                        {
+                            text: "Security",
+                            link: "/developer/security/security",
+                        },
+                        { text: "Realms", link: "/developer/security/realms" },
+                        { text: "Tag system", link: "/developer/tags-system/" },
+                        {
+                            text: "Documents system",
+                            link: "/developer/documents-system/",
+                        },
+                        { text: "Attributes", link: "/developer/attributes/" },
+                        {
+                            text: "Forms",
                             collapsed: true,
                             items: [
-                                { text: 'Contact forms', link: '/developer/forms/contact_forms' },
-                                { text: 'Custom forms', link: '/developer/forms/custom_forms' },
-                            ]
+                                {
+                                    text: "Contact forms",
+                                    link: "/developer/forms/contact_forms",
+                                },
+                                {
+                                    text: "Custom forms",
+                                    link: "/developer/forms/custom_forms",
+                                },
+                            ],
                         },
-                        { text: 'Solr search engine', link: '/developer/first-steps/use_apache_solr' },
-                        { text: 'Infrastructure', link: '/developer/infrastructure/infrastructure' },
                         {
-                            text: 'Optional bundles',
+                            text: "Solr search engine",
+                            link: "/developer/first-steps/use_apache_solr",
+                        },
+                        {
+                            text: "Infrastructure",
+                            link: "/developer/infrastructure/infrastructure",
+                        },
+                        {
+                            text: "Optional bundles",
                             collapsed: true,
                             items: [
-                                { text: 'Introduction', link: '/developer/optional-bundles/' },
-                                { text: 'Solr Bundle', link: '/developer/optional-bundles/solr-bundle' },
-                                { text: 'Two-Factor Authentication Bundle', link: '/developer/optional-bundles/two-factor-bundle' },
-                                { text: 'User Bundle', link: '/developer/optional-bundles/user-bundle' },
-                            ]
+                                {
+                                    text: "Introduction",
+                                    link: "/developer/optional-bundles/",
+                                },
+                                {
+                                    text: "Solr Bundle",
+                                    link: "/developer/optional-bundles/solr-bundle",
+                                },
+                                {
+                                    text: "Two-Factor Authentication Bundle",
+                                    link: "/developer/optional-bundles/two-factor-bundle",
+                                },
+                                {
+                                    text: "User Bundle",
+                                    link: "/developer/optional-bundles/user-bundle",
+                                },
+                            ],
                         },
                         {
-                            text: 'Extending Roadiz',
+                            text: "Extending Roadiz",
                             collapsed: false,
                             items: [
-                                { text: 'Roadiz events', link: '/extensions/events' },
-                                { text: 'Extension examples', link: '/extensions/extending_roadiz' },
-                                { text: 'Add a back-office entry for a shadow container', link: '/extensions/custom_backoffice_entry' },
-                                { text: 'Extending Solr indexation', link: '/extensions/extending_solr' },
-                                { text: 'Entity thumbnails', link: '/extensions/entity-thumbnail' },
-                                { text: 'Translate Assistant', link: '/extensions/translate-assistant' },
-                                { text: 'Custom forms webhooks', link: '/extensions/webhook-system' },
-                            ]
+                                {
+                                    text: "Roadiz events",
+                                    link: "/extensions/events",
+                                },
+                                {
+                                    text: "Extension examples",
+                                    link: "/extensions/extending_roadiz",
+                                },
+                                {
+                                    text: "Add a back-office entry for a shadow container",
+                                    link: "/extensions/custom_backoffice_entry",
+                                },
+                                {
+                                    text: "Extending Solr indexation",
+                                    link: "/extensions/extending_solr",
+                                },
+                                {
+                                    text: "Entity thumbnails",
+                                    link: "/extensions/entity-thumbnail",
+                                },
+                                {
+                                    text: "Translate Assistant",
+                                    link: "/extensions/translate-assistant",
+                                },
+                                {
+                                    text: "Custom forms webhooks",
+                                    link: "/extensions/webhook-system",
+                                },
+                            ],
                         },
-                        { text: 'Contributing', link: '/developer/contributing/contributing' },
-                        { text: 'Troubleshooting', link: '/developer/troubleshooting/troubleshooting' },
-                    ]
+                        {
+                            text: "Contributing",
+                            link: "/developer/contributing/contributing",
+                        },
+                        {
+                            text: "Troubleshooting",
+                            link: "/developer/troubleshooting/troubleshooting",
+                        },
+                    ],
                 },
                 {
-                    text: 'User',
+                    text: "User",
                     collapsed: false,
                     items: [
-                        { text: 'Introduction', link: '/user/intro' },
-                        { text: 'Se connecter au back office', link: '/user/connecter_au_back_office' },
-                        { text: 'Édition des contenus', link: '/user/edition_des_contenus' },
-                        { text: 'Gérer les médias', link: '/user/gerer_les_medias' },
-                        { text: 'Dossiers de documents', link: '/user/dossiers_de_documents' },
-                        { text: 'Étiquettes', link: '/user/etiquettes' },
-                        { text: 'Syntaxe Markdown', link: '/user/syntaxe_markdown' },
-                        { text: 'Gérer les comptes', link: '/user/gerer_les_comptes' },
-                        { text: 'Formulaires personnalisés', link: '/user/formulaires_personnalises' },
-                        { text: 'États (publié, dépublié, caché)', link: '/user/etats' },
-                        { text: 'Visualisation et Prévisualisation', link: '/user/visualisation_et_previsualisation' },
-                    ]
-                }
+                        { text: "Introduction", link: "/user/intro" },
+                        {
+                            text: "Se connecter au back office",
+                            link: "/user/connecter_au_back_office",
+                        },
+                        {
+                            text: "Édition des contenus",
+                            link: "/user/edition_des_contenus",
+                        },
+                        {
+                            text: "Gérer les médias",
+                            link: "/user/gerer_les_medias",
+                        },
+                        {
+                            text: "Dossiers de documents",
+                            link: "/user/dossiers_de_documents",
+                        },
+                        { text: "Étiquettes", link: "/user/etiquettes" },
+                        {
+                            text: "Syntaxe Markdown",
+                            link: "/user/syntaxe_markdown",
+                        },
+                        {
+                            text: "Gérer les comptes",
+                            link: "/user/gerer_les_comptes",
+                        },
+                        {
+                            text: "Formulaires personnalisés",
+                            link: "/user/formulaires_personnalises",
+                        },
+                        {
+                            text: "États (publié, dépublié, caché)",
+                            link: "/user/etats",
+                        },
+                        {
+                            text: "Visualisation et Prévisualisation",
+                            link: "/user/visualisation_et_previsualisation",
+                        },
+                    ],
+                },
             ],
 
             editLink: {
-                pattern: 'https://github.com/roadiz/core-bundle-dev-app/edit/develop/docs/:path',
-                text: 'Edit this page on GitHub'
+                pattern:
+                    "https://github.com/roadiz/core-bundle-dev-app/edit/develop/docs/:path",
+                text: "Edit this page on GitHub",
             },
 
             socialLinks: [
-                { icon: 'github', link: 'https://github.com/roadiz' },
+                { icon: "github", link: "https://github.com/roadiz" },
             ],
 
             footer: {
-                copyright: 'Roadiz is proudly maintained by Rezo Zero Team. © Copyright 2013-present, Ambroise Maupate, Julien Blanchet.'
-            }
-        }
-    })
+                copyright:
+                    "Roadiz is proudly maintained by Rezo Zero Team. © Copyright 2013-present, Ambroise Maupate, Julien Blanchet.",
+            },
+        },
+    });
 }
