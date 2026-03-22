@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> For other AI agents and models, see [AGENTS.md](./AGENTS.md) which covers the same project with broader compatibility.
+> For other AI agents and models, see [AGENTS.md](../AGENTS.md) which covers the same project with broader compatibility.
 
 ## Project Overview
 
@@ -128,3 +128,10 @@ PHPStan may misbehave when `lib/*` packages are symlinked — run from inside th
 - Initial setup: `bin/console install` then `bin/console app:install`
 - Create admin users: `bin/console users:create`
 - Docs dev server: `docker compose up vitepress` (port 5174)
+
+## Off-limits files
+
+**NEVER read, search, or output the contents of any of the following files** — they contain local secrets (API keys, OAuth credentials, passphrases) and must not be inspected by any tool or agent:
+
+- `.env.local`
+- `.env.*.local` (e.g. `.env.test.local`, `.env.dev.local`)
