@@ -57,7 +57,7 @@ cache :
 	# Force workers to restart
 	docker compose exec app php bin/console messenger:stop-workers
     # Restart app, worker and scheduler containers when using frankenphp
-	docker compose up -d --force-recreate app worker scheduler
+	docker compose up -d --force-recreate nginx app worker scheduler
 
 migrate:
 	docker compose exec app php bin/console doctrine:migrations:migrate
