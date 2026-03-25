@@ -8,7 +8,7 @@ use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
 abstract class AbstractPodEducEmbedFinder extends AbstractEmbedFinder
 {
-    private const PODEDUC_BASE_URL = 'https://podeduc.apps.education.fr';
+    private const string PODEDUC_BASE_URL = 'https://podeduc.apps.education.fr';
     /**
      * @internal Use getPlatform() instead
      */
