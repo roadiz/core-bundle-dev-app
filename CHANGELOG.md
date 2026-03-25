@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.28...v2.6.29) - 2026-03-25
+
+### Features
+
+- add new podEduc embed finder - ([34be2c0](https://github.com/roadiz/core-bundle-dev-app/commit/34be2c0f568ee20482a4099577d33b64daceb564))
+
 ## [2.6.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.27...v2.6.28) - 2026-03-19
 
 ### Bug Fixes
