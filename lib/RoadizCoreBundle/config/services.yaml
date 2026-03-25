@@ -112,6 +112,8 @@ services:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'podcast' } ]
     RZ\Roadiz\CoreBundle\Document\MediaFinder\ApplePodcastEmbedFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'apple_podcast' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\PodEducEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'podeduc' } ]
 
     # Removed DataTransformers
     RZ\Roadiz\CoreBundle\Api\DataTransformer\:
