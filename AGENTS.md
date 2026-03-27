@@ -1,4 +1,4 @@
-# Roadiz - Agent guidelines
+# Roadiz - Agents guidelines
 
 Purpose
 - Provide project-specific guidance for automated coding agents.
@@ -20,6 +20,10 @@ Repository layout
 - `lib/Models` and `lib/*`: shared libraries and generators.
 - `tests/`: application tests; bundle tests live under each bundle.
 - `docs/`: VitePress documentation site.
+
+**NEVER read, search, or output the contents of any of the following files** — they contain local secrets (API keys, OAuth credentials, passphrases) and must not be inspected by any tool or agent:
+- `.env.local`
+- `.env.*.local` (e.g. `.env.test.local`, `.env.dev.local`)
 
 Build, lint, and test commands
 - Install deps (Docker): `docker compose run --rm --no-deps --entrypoint= app composer install`.

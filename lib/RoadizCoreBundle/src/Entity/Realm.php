@@ -181,7 +181,11 @@ class Realm implements RealmInterface
 
     public function setPlainPassword(?string $plainPassword): Realm
     {
-        $this->plainPassword = $plainPassword;
+        if (null !== $plainPassword && '' !== $plainPassword) {
+            $this->plainPassword = \password_hash($plainPassword, \PASSWORD_BCRYPT);
+        } elseif (null === $plainPassword) {
+            $this->plainPassword = null;
+        }
 
         return $this;
     }
