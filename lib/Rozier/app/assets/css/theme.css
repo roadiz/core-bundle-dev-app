@@ -61,7 +61,7 @@ html[data-theme="light"] {
     --button-basic-medium-border-on-dark-hover: var(--color-gray-200);
     --button-basic-medium-border-on-dark-selected: var(--color-white-100);
     --button-basic-medium-border-on-light: light-dark(var(--color-gray-300), var(--color-gray-700));
-    --button-basic-medium-border-on-light-disabled: var(--color-gray-500);
+    --button-basic-medium-border-on-light-disabled: light-dark(var(--color-gray-300), var(--color-gray-700));
     --button-basic-medium-border-on-light-hover: light-dark(var(--color-gray-800), var(--color-gray-200));
     --button-basic-medium-border-on-light-selected: light-dark(var(--color-gray-700), var(--color-gray-300));
     --button-basic-medium-content-on-dark: var(--color-white-100);
