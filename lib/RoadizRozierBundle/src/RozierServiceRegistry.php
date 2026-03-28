@@ -16,8 +16,9 @@ use RZ\Roadiz\RozierBundle\Widget\TagTreeWidget;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
-final class RozierServiceRegistry
+final class RozierServiceRegistry implements ResetInterface
 {
     private ?array $settingGroups = null;
     private ?TagTreeWidget $tagTree = null;
@@ -101,5 +102,15 @@ final class RozierServiceRegistry
     public function getBackofficeMenuEntries(): array
     {
         return $this->backofficeMenuEntries;
+    }
+
+    #[\Override]
+    public function reset(): void
+    {
+        $this->settingGroups = null;
+        $this->tagTree = null;
+        $this->folderTree = null;
+        $this->nodeTree = null;
+        $this->userActions = null;
     }
 }
