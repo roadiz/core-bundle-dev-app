@@ -159,7 +159,7 @@
         "phpstan/phpstan-symfony": "^1.1.8",
         "phpunit/phpunit": "^9.6",
         "rector/rector": "^1.2",
-        "runtime/frankenphp-symfony": "^0.2.0",
+        "runtime/frankenphp-symfony": "^1.0.0",
         "symfony/browser-kit": "7.3.*",
         "symfony/debug-bundle": "7.3.*",
         "symfony/http-client-contracts": "^3.5",

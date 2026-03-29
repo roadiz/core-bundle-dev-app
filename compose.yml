@@ -5,6 +5,7 @@ services:
             target: mysql
             args:
                 UID: ${UID:-1000}
+        mem_limit: 1g
         networks:
             - default
         volumes:
@@ -20,6 +21,7 @@ services:
             target: mysql
             args:
                 UID: ${UID:-1000}
+        mem_limit: 1g
         networks:
             - default
         volumes:
@@ -35,6 +37,7 @@ services:
             target: mariadb
             args:
                 UID: ${UID:-1000}
+        mem_limit: 1g
         networks:
             - default
         volumes:
@@ -57,6 +60,7 @@ services:
 
     solr:
         image: solr:9-slim
+        mem_limit: 1g
 #        volumes:
 #            - "solr-standalone:/var/solr"
 #        command:
@@ -76,6 +80,7 @@ services:
 
     redis:
         image: redis:7-alpine
+        mem_limit: 512m
         volumes:
             - "redis:/data"
         networks:
@@ -84,6 +89,7 @@ services:
     app: &app_template
         # Need to pass all vars to docker env for Crontab and supervisor scripts
         env_file: "./.env.local"
+        mem_limit: 512m
         build:
             target: php-dev
             args:
@@ -129,6 +135,7 @@ services:
             target: nginx-dev
             args:
                 UID: ${UID:-1000}
+        mem_limit: 256m
         depends_on:
             - app
         links:
@@ -140,12 +147,14 @@ services:
     varnish:
         build:
             target: varnish
+        mem_limit: 512m
         depends_on:
             - nginx
 
     mailer:
         hostname: mailer
         image: axllent/mailpit
+        mem_limit: 256m
 
 networks:
     # If you need to use port forwarding, fixing default gateway can be useful
