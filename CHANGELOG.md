@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.29...v2.6.30) - 2026-03-29
+
+### Bug Fixes
+
+- **(rozier)** implement ResetInterface on RozierServiceRegistry ([#418](https://github.com/roadiz/core-bundle-dev-app/issues/418)) - ([32718e7](https://github.com/roadiz/core-bundle-dev-app/commit/32718e714cc6211ba5594f61577243261acc0f7b))
+
 ## [2.6.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.28...v2.6.29) - 2026-03-25
 
 ### Features
