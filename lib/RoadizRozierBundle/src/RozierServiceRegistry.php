@@ -23,7 +23,6 @@ final class RozierServiceRegistry implements ResetInterface
     private ?array $settingGroups = null;
     private ?TagTreeWidget $tagTree = null;
     private ?FolderTreeWidget $folderTree = null;
-    private ?NodeTreeWidget $nodeTree = null;
     private ?array $userActions = null;
 
     public function __construct(
@@ -90,13 +89,9 @@ final class RozierServiceRegistry implements ResetInterface
 
     public function getNodeTree(mixed $user): NodeTreeWidget
     {
-        if (null === $this->nodeTree) {
-            $this->nodeTree = $this->treeWidgetFactory->createNodeTree(
-                $this->chrootResolver->getChroot($user)
-            );
-        }
-
-        return $this->nodeTree;
+        return $this->treeWidgetFactory->createNodeTree(
+            $this->chrootResolver->getChroot($user)
+        );
     }
 
     public function getBackofficeMenuEntries(): array
@@ -110,7 +105,6 @@ final class RozierServiceRegistry implements ResetInterface
         $this->settingGroups = null;
         $this->tagTree = null;
         $this->folderTree = null;
-        $this->nodeTree = null;
         $this->userActions = null;
     }
 }
