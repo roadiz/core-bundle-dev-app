@@ -100,7 +100,7 @@ trait WebResponseTrait
      */
     public function getBlocks(): ?array
     {
-        return $this->blocks?->getValues();
+        return $this->blocks?->getValues() ?? [];
     }
 
     /**
