@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.12...v2.7.13) - 2026-04-08
+
+### Bug Fixes
+
+- **(api)** return empty array instead of null in WebResponseTrait::getBlocks() - ([477168f](https://github.com/roadiz/core-bundle-dev-app/commit/477168f85d8b9d774605e657db8638d8ca74ca69))
+
 ## [2.7.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.11...v2.7.12) - 2026-03-29
 
 ### Bug Fixes
