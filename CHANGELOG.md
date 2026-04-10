@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.13...v2.7.14) - 2026-04-10
+
+### Bug Fixes
+
+- remove unnecessary null coalescing and limit PHPStan parallel workers - ([d8f968b](https://github.com/roadiz/core-bundle-dev-app/commit/d8f968bd489c819e9971b6e22da4726f95fc784a))
+
 ## [2.7.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.12...v2.7.13) - 2026-04-08
 
 ### Bug Fixes
