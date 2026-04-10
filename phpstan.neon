@@ -1,4 +1,6 @@
 parameters:
+    parallel:
+        maximumNumberOfProcesses: 2
     level: 8
     paths:
         - lib/DocGenerator/src
