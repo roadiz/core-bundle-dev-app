@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.14...v2.7.15) - 2026-04-15
+
+### Bug Fixes
+
+- **(rozier)** update newParentId assignment logic to avoid sending "null" or "undefined" query-string ([#421](https://github.com/roadiz/core-bundle-dev-app/issues/421)) - ([0eef181](https://github.com/roadiz/core-bundle-dev-app/commit/0eef1810470ba34420791a8ac90b3df36b8441ec))
+
 ## [2.7.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.13...v2.7.14) - 2026-04-10
 
 ### Bug Fixes
