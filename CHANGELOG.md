@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.15...v2.7.16) - 2026-04-15
+
+### Bug Fixes
+
+- **(rozier)** use function-based exclude in postcss-pxtorem to prevent px-to-rem conversion in Less files - ([c2ec937](https://github.com/roadiz/core-bundle-dev-app/commit/c2ec9372e2b7c3cc7d457f901ce3a3010273cfad))
+
 ## [2.7.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.14...v2.7.15) - 2026-04-15
 
 ### Bug Fixes
