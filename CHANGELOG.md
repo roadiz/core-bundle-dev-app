@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.17...v2.7.18) - 2026-04-20
+
+### Bug Fixes
+
+- **(OpenID)** generate and validate OpenID Connect nonce - ([28035ed](https://github.com/roadiz/core-bundle-dev-app/commit/28035ed6706823fcad015cf8ffecf783205993f6))
+- **(tests)** improve assertions in ArticleTest - ([5c95700](https://github.com/roadiz/core-bundle-dev-app/commit/5c95700feaf672674898cb4633529f5a13a9bda3))
+
 ## [2.7.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.16...v2.7.17) - 2026-04-20
 
 ### Bug Fixes

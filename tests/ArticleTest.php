@@ -79,9 +79,15 @@ class ArticleTest extends ApiTestCase
     {
         try {
             $articleRepository = static::getContainer()->get(NSArticleRepository::class);
-            $article = $articleRepository
-                ->createQueryBuilder('a')
-                ->innerJoin('a.node', 'n')
+            $queryBuilder = $articleRepository->createQueryBuilder('a');
+
+            $articleRepository->resetStatuses();
+            $articleRepository->alterQueryBuilderWithAuthorizationChecker(
+                $queryBuilder,
+                'a',
+            );
+
+            $article = $queryBuilder
                 ->andWhere('n.parent IS NOT NULL')
                 ->orderBy('a.id', 'ASC')
                 ->setMaxResults(1)
@@ -94,10 +100,10 @@ class ArticleTest extends ApiTestCase
             $this->assertInstanceOf(NSArticle::class, $article);
 
             $client = static::createClient();
-            $client->request('GET', '/api/articles/'.$article->getId());
-            $this->assertResponseIsSuccessful();
+            $response = $client->request('GET', '/api/articles/'.$article->getId());
+            $this->assertResponseIsSuccessful('/api/articles/'.$article->getId().' endpoint is not accessible.');
 
-            $articleData = $client->getResponse()->toArray(false);
+            $articleData = $response->toArray(false);
             $path = $articleData['url'] ?? null;
             if (!\is_string($path) || '' === $path) {
                 $this->fail('Article URL is missing from API response.');
@@ -114,7 +120,7 @@ class ArticleTest extends ApiTestCase
                 ],
             ]);
 
-            $this->assertResponseIsSuccessful();
+            $this->assertResponseIsSuccessful('/api/web_response_by_path endpoint is not accessible with path: '.$path.' for article ID: '.$article->getId());
             $this->assertJsonContains([
                 '@context' => '/api/contexts/WebResponse',
                 '@id' => '/api/web_response_by_path',
