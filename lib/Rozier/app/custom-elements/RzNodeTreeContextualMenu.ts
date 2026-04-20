@@ -6,6 +6,22 @@ type UpdatePayloadDict = Record<string, string | number | boolean | null>
 export default class RzNodeTreeContextualMenu extends HTMLElement {
     popoverInstance: Popover | null = null
 
+    private hidePopover() {
+        const popover = this.popoverElement as unknown as {
+            hidePopover?: () => void
+        } | null
+        popover?.hidePopover?.()
+    }
+
+    private closePopoverIfRequested(source: HTMLElement | null) {
+        if (!source) return
+        if (source.getAttribute('data-close-popover-on-click') !== 'true') {
+            return
+        }
+
+        this.hidePopover()
+    }
+
     static get observedAttributes() {
         return [...ATTRIBUTES_OPTIONS]
     }
@@ -163,28 +179,32 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
 
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        switch (event.command) {
-            case '--duplicate':
-                await this.duplicateNode()
-                break
-            case '--copy':
-                this.copyNode()
-                break
-            case '--paste-inside':
-                await this.pasteInsideNode()
-                break
-            case '--paste-after':
-                await this.pasteAfterNode()
-                break
-            case '--update-status':
-                await this.changeStatus(event)
-                break
-            case '--move-first':
-                await this.moveNodeToPosition('first', event)
-                break
-            case '--move-last':
-                await this.moveNodeToPosition('last', event)
-                break
+        try {
+            switch (event.command) {
+                case '--duplicate':
+                    await this.duplicateNode()
+                    break
+                case '--copy':
+                    this.copyNode()
+                    break
+                case '--paste-inside':
+                    await this.pasteInsideNode()
+                    break
+                case '--paste-after':
+                    await this.pasteAfterNode()
+                    break
+                case '--update-status':
+                    await this.changeStatus(event)
+                    break
+                case '--move-first':
+                    await this.moveNodeToPosition('first', event)
+                    break
+                case '--move-last':
+                    await this.moveNodeToPosition('last', event)
+                    break
+            }
+        } finally {
+            this.closePopoverIfRequested(event.source)
         }
     }
 
@@ -283,14 +303,18 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
         const nodeTreeElement = (event.currentTarget as HTMLElement).closest(
-            '.nodetree-element',
+            '.nodetree-element, .rz-tree__item',
         )
 
-        const parentNodeId = parseInt(
+        const parentNodeTreeElement =
             nodeTreeElement
-                .closest('ul')
-                ?.getAttribute('data-parent-node-id') || '',
-        )
+                ?.closest('ul')
+                ?.getAttribute('data-parent-node-id') ??
+            nodeTreeElement?.closest('ul')?.getAttribute('data-parent-id')
+
+        const parentNodeId = parentNodeTreeElement
+            ? parseInt(parentNodeTreeElement)
+            : null
 
         const postData: UpdatePayloadDict = {
             csrfToken: window.RozierConfig.ajaxToken,
