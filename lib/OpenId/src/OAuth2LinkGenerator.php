@@ -12,6 +12,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 class OAuth2LinkGenerator
 {
     public const OAUTH_STATE_TOKEN = 'openid_state';
+    public const OAUTH_NONCE_SESSION_KEY = 'openid_nonce';
     private readonly array $openIdScopes;
 
     public function __construct(
@@ -65,6 +66,8 @@ class OAuth2LinkGenerator
             $customScopes = $supportedScopes;
         }
         $stateToken = $this->csrfTokenManager->getToken(static::OAUTH_STATE_TOKEN);
+        $nonce = $this->tokenGenerator->generateToken();
+        $request->getSession()->set(static::OAUTH_NONCE_SESSION_KEY, $nonce);
 
         return $this->discovery->get('authorization_endpoint').'?'.http_build_query([
             'response_type' => $responseType,
@@ -72,7 +75,7 @@ class OAuth2LinkGenerator
             'state' => http_build_query(array_merge($state, [
                 'token' => $stateToken->getValue(),
             ])),
-            'nonce' => $this->tokenGenerator->generateToken(),
+            'nonce' => $nonce,
             'login_hint' => $request->get('email', null),
             'scope' => implode(' ', $customScopes),
             'client_id' => $this->oauthClientId,

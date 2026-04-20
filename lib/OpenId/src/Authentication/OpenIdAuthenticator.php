@@ -6,12 +6,13 @@ namespace RZ\Roadiz\OpenId\Authentication;
 
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use RZ\Roadiz\JWT\JwtConfigurationFactory;
 use RZ\Roadiz\OpenId\Authentication\Provider\JwtRoleStrategy;
 use RZ\Roadiz\OpenId\Discovery;
 use RZ\Roadiz\OpenId\Exception\DiscoveryNotAvailableException;
 use RZ\Roadiz\OpenId\Exception\OpenIdAuthenticationException;
 use RZ\Roadiz\OpenId\Exception\OpenIdConfigurationException;
-use RZ\Roadiz\OpenId\OpenIdJwtConfigurationFactory;
+use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use RZ\Roadiz\OpenId\User\OpenIdAccount;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +44,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         private readonly HttpUtils $httpUtils,
         private readonly ?Discovery $discovery,
         private readonly JwtRoleStrategy $roleStrategy,
-        private readonly OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
+        private readonly JwtConfigurationFactory $jwtConfigurationFactory,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         HttpClientInterface $client,
@@ -107,7 +108,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             !isset($stateToken)
             || !is_string($stateToken)
             || !$this->csrfTokenManager->isTokenValid(
-                new CsrfToken(\RZ\Roadiz\OpenId\OAuth2LinkGenerator::OAUTH_STATE_TOKEN, $stateToken)
+                new CsrfToken(OAuth2LinkGenerator::OAUTH_STATE_TOKEN, $stateToken)
             )
         ) {
             throw new OpenIdAuthenticationException('OAuth2 state token is invalid or has already been used.');
@@ -174,6 +175,24 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
 
         if (!$jwt instanceof Plain) {
             throw new OpenIdAuthenticationException('JWT token must be instance of '.Plain::class);
+        }
+
+        /*
+         * Validate OIDC nonce to prevent ID token replay and injection attacks.
+         * OIDC Core 1.0 §3.1.3.7 requires nonce verification. A missing stored
+         * nonce is itself rejected — it indicates the flow bypassed generate().
+         */
+        if (!$request->hasSession()) {
+            throw new OpenIdAuthenticationException('No session available for OIDC nonce validation.');
+        }
+        $storedNonce = $request->getSession()->get(OAuth2LinkGenerator::OAUTH_NONCE_SESSION_KEY);
+        $request->getSession()->remove(OAuth2LinkGenerator::OAUTH_NONCE_SESSION_KEY);
+        if (null === $storedNonce) {
+            throw new OpenIdAuthenticationException('No OIDC nonce found in session; possible replay attack.');
+        }
+        $jwtNonce = $jwt->claims()->get('nonce', null);
+        if (!\is_string($jwtNonce) || !hash_equals($storedNonce, $jwtNonce)) {
+            throw new OpenIdAuthenticationException('JWT nonce claim does not match the expected value.');
         }
 
         if (!$jwt->claims()->has($this->usernameClaim)) {
