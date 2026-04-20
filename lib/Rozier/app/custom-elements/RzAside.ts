@@ -1,280 +1,171 @@
-import RoadizElement from '~/utils/custom-element/RoadizElement'
 import { fadeIn, fadeOut } from '~/utils/animation'
 import { sleep } from '~/utils/sleep'
 
-export default class RzAside extends RoadizElement {
-    private onPageShowEnd: () => void
-    private onAllNodeTreeChange: () => void
-    private onMainTreeRefresh: () => void
-    private onBindMainTreesRequest: () => void
-    private onAjaxLinkBindRequest: () => void
-    private onMessagesRefresh: () => void
-    private onLangButtonClick: (event: Event) => void
-    private onMainTreeContextMenu: (event: Event) => void
+export default class RzAside extends HTMLElement {
+    private currentTranslationId: string | null = null
+    private entityType: null | string = null
 
     constructor() {
         super()
 
-        this.onPageShowEnd = this.handlePageShowEnd.bind(this)
-        this.onAllNodeTreeChange = this.handleAllNodeTreeChange.bind(this)
-        this.onMainTreeRefresh = this.handleMainTreeRefresh.bind(this)
-        this.onBindMainTreesRequest = this.handleBindMainTreesRequest.bind(this)
-        this.onAjaxLinkBindRequest = this.handleAjaxLinkBindRequest.bind(this)
-        this.onMessagesRefresh = this.handleMessagesRefresh.bind(this)
-        this.onLangButtonClick = this.handleLangButtonClick.bind(this)
-        this.onMainTreeContextMenu =
-            this.maintreeElementNameRightClick.bind(this)
+        this.onPageShowEnd = this.onPageShowEnd.bind(this)
+        this.onCommand = this.onCommand.bind(this)
     }
 
-    private get rozier() {
-        return window.Rozier
-    }
-
-    connectedCallback() {
-        this.listen(this, 'click', this.onLangButtonClick)
-        this.refreshAsideMainTree()
-
-        window.addEventListener('pageshowend', this.onPageShowEnd)
-        window.addEventListener(
-            'requestAllNodeTreeChange',
-            this.onAllNodeTreeChange,
-        )
-        window.addEventListener(
-            'requestAllNodeTreeRefresh',
-            this.onAllNodeTreeChange,
-        )
-        window.addEventListener(
-            'requestMainTreeRefresh',
-            this.onMainTreeRefresh,
-        )
-        window.addEventListener(
-            'requestBindMainTrees',
-            this.onBindMainTreesRequest,
-        )
-        window.addEventListener(
-            'requestAjaxLinkBind',
-            this.onAjaxLinkBindRequest,
-        )
-        window.addEventListener(
-            'requestMessagesRefresh',
-            this.onMessagesRefresh,
-        )
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback()
-
-        window.removeEventListener('pageshowend', this.onPageShowEnd)
-        window.removeEventListener(
-            'requestAllNodeTreeChange',
-            this.onAllNodeTreeChange,
-        )
-        window.removeEventListener(
-            'requestAllNodeTreeRefresh',
-            this.onAllNodeTreeChange,
-        )
-        window.removeEventListener(
-            'requestMainTreeRefresh',
-            this.onMainTreeRefresh,
-        )
-        window.removeEventListener(
-            'requestBindMainTrees',
-            this.onBindMainTreesRequest,
-        )
-        window.removeEventListener(
-            'requestAjaxLinkBind',
-            this.onAjaxLinkBindRequest,
-        )
-        window.removeEventListener(
-            'requestMessagesRefresh',
-            this.onMessagesRefresh,
-        )
-    }
-
-    private handlePageShowEnd() {
-        this.refreshAsideMainTree()
-    }
-
-    private handleAllNodeTreeChange() {
-        this.refreshAllNodeTrees()
-        window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
-    }
-
-    private handleMainTreeRefresh() {
-        this.refreshAsideMainTree()
-    }
-
-    private handleMessagesRefresh() {
-        this.rozier?.getMessages?.()
-    }
-
-    private handleBindMainTreesRequest() {
-        this.bindMainTrees()
-    }
-
-    private handleAjaxLinkBindRequest() {
-        this.rozier?.lazyload?.bindAjaxLink?.()
-    }
-
-    private get treeContainer() {
+    private get innerElement() {
         return this.querySelector('.rz-aside__body') as HTMLElement | null
     }
 
-    private handleLangButtonClick(event: Event) {
-        const target = (event.target as HTMLElement | null)?.closest('button')
-        if (!target || !this.contains(target)) {
+    connectedCallback() {
+        this.refreshAsideMainTree()
+
+        this.currentTranslationId = this.getAttribute(
+            'data-default-translation-id',
+        )
+        window.addEventListener('pageshowend', this.onPageShowEnd)
+        this.addEventListener('command', this.onCommand)
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('pageshowend', this.onPageShowEnd)
+        this.removeEventListener('command', this.onCommand)
+    }
+
+    onCommand(event: CommandEvent) {
+        switch (event.command) {
+            case '--update-translation':
+                this.onLangButtonClick(event)
+                break
+        }
+    }
+
+    private onPageShowEnd() {
+        this.refreshAsideMainTree()
+    }
+
+    private onLangButtonClick(event: CommandEvent) {
+        const target = event.source as HTMLButtonElement | undefined
+        if (!target || !this.entityType) {
             return
         }
+        const translationId = target.getAttribute('data-translation-id')
 
-        const translationIdRaw = target.getAttribute('data-translation-id')
-        const translationId = translationIdRaw
-            ? parseInt(translationIdRaw, 10)
-            : undefined
+        window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        if (target.closest('[data-tree-type="node"]')) {
-            window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+        if (this.entityType === 'node') {
             this.refreshMainNodeTree(translationId)
-            return
-        }
-
-        if (target.closest('[data-tree-type="folder"]')) {
-            window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+        } else if (this.entityType === 'folder') {
             this.refreshMainFolderTree(translationId)
-            return
-        }
-
-        if (target.closest('[data-tree-type="tag"]')) {
-            window.dispatchEvent(new CustomEvent('requestLoaderShow'))
+        } else if (this.entityType === 'tag') {
             this.refreshMainTagTree(translationId)
         }
     }
 
-    /**
-     * Bind main trees
-     */
-    bindMainTrees() {
-        const treeElements = this.querySelectorAll('.tree-element-name')
-        treeElements.forEach((element) => {
-            element.removeEventListener(
-                'contextmenu',
-                this.onMainTreeContextMenu,
-            )
-            element.addEventListener('contextmenu', this.onMainTreeContextMenu)
-        })
-    }
-
-    /**
-     * Main tree element name right click.
-     * @return {boolean}
-     */
-    maintreeElementNameRightClick(event: Event) {
-        event.preventDefault()
-
-        document
-            .querySelectorAll('.tree-contextualmenu')
-            .forEach((contextualMenu) => {
-                if (contextualMenu.classList.contains('uk-open')) {
-                    contextualMenu.classList.remove('uk-open')
-                }
-            })
-
-        const target = event.currentTarget as HTMLElement | null
-        const contextualMenu = target?.parentElement?.querySelector(
-            '.tree-contextualmenu',
+    async refreshMainNodeTree(translationId: string | undefined = undefined) {
+        await this.refreshAsideMainTree(
+            window.RozierConfig.routes?.nodesTreeAjax || null,
+            { translationId },
         )
-        if (contextualMenu) {
-            if (!contextualMenu.classList.contains('uk-open')) {
-                contextualMenu.classList.add('uk-open')
-            } else {
-                contextualMenu.classList.remove('uk-open')
-            }
-        }
-
-        return false
     }
 
-    /**
-     * @param translationId
-     */
-    refreshAllNodeTrees(translationId?: number) {
-        const promises: Array<Promise<unknown>> = []
-        promises.push(this.refreshMainNodeTree(translationId))
-
-        if (this.rozier?.lazyload?.stackNodeTrees?.treeAvailable?.()) {
-            promises.push(this.rozier.lazyload.stackNodeTrees.refreshNodeTree())
-        }
-
-        return Promise.all(promises)
+    async refreshMainTagTree(translationId: string | undefined = undefined) {
+        await this.refreshAsideMainTree(
+            window.RozierConfig.routes?.tagsTreeAjax || null,
+            { translationId },
+        )
     }
 
-    async refreshAsideTreeContent(treeHTML = '') {
+    async refreshMainFolderTree(translationId: string | undefined = undefined) {
+        await this.refreshAsideMainTree(
+            window.RozierConfig.routes?.foldersTreeAjax || null,
+            { translationId },
+        )
+    }
+
+    async refreshAsideMainTree(
+        baseUrl: string | null = null,
+        query: Record<string, string> = {},
+    ) {
+        try {
+            await this.refreshMainTree(baseUrl, query)
+        } catch {
+            console.debug(
+                '[RzAside.refreshAsideMainTree] Retrying in 3 seconds',
+            )
+            await sleep(3000)
+            await this.refreshMainTree(baseUrl, query)
+        }
+
+        window.dispatchEvent(new CustomEvent('requestLoaderHide'))
+    }
+
+    async refreshTreeContent(treeHTML = '') {
         if (!treeHTML) {
-            console.warn('No treeHTML provided to refreshAsideTreeContent')
+            console.warn('No treeHTML provided to refreshTreeContent')
             return
         }
 
-        const treeContainer = this.treeContainer
-        if (!treeContainer) {
-            console.warn('No tree container found to refreshAsideTreeContent')
+        const innerElement = this.innerElement
+        if (!innerElement) {
+            console.warn('No tree container found to refreshTreeContent')
             return
         }
 
-        const previousElement = treeContainer.querySelector('.rz-tree-wrapper')
+        const previousElement = innerElement.querySelector('.rz-tree-wrapper')
 
         const temporaryElement = document.createElement('div')
         temporaryElement.innerHTML = treeHTML
         const newElement = temporaryElement.querySelector('.rz-tree-wrapper')
 
-        await fadeOut(treeContainer)
+        await fadeOut(innerElement)
 
         if (newElement) {
-            treeContainer.appendChild(newElement)
+            innerElement.appendChild(newElement)
         }
         if (previousElement) {
             previousElement.remove()
         }
 
-        await fadeIn(treeContainer)
+        await fadeIn(innerElement)
+        window.Rozier?.lazyload?.bindAjaxLink?.()
+    }
 
-        this.bindMainTrees()
-        this.rozier?.resize?.()
-        this.rozier?.lazyload?.bindAjaxLink?.()
+    getDisplayedTreeTranslationId() {
+        return (
+            this.getAttribute('data-translation-id') ||
+            this.innerElement
+                .querySelector('.rz-tree__list')
+                ?.getAttribute('data-translation-id')
+        )
     }
 
     async refreshMainTree(
         baseUrl?: string | null,
-        queryOptions: Record<string, string | number> = {},
+        queryOptions: Record<string, string> = {},
     ) {
-        const treeContainer = this.treeContainer
-        if (!treeContainer) {
-            return
-        }
-
-        const currentRootTree = treeContainer.querySelector('.rz-tree-wrapper')
-
-        if (currentRootTree && !queryOptions?.translationId) {
-            const translationId = currentRootTree.getAttribute(
-                'data-translation-id',
-            )
-            if (translationId) {
-                queryOptions.translationId = translationId
-            }
-        }
-
-        const query = new URLSearchParams({
+        const options = {
             _token: window.RozierConfig.ajaxToken,
             _action: 'requestMainTree',
             url: window.location.pathname,
             ...queryOptions,
-        })
+        }
 
+        const translationId =
+            queryOptions?.translationId ||
+            this.getDisplayedTreeTranslationId() ||
+            this.currentTranslationId
+
+        if (translationId) {
+            Object.assign(options, { translationId })
+        }
+
+        const query = new URLSearchParams(options)
         const fetchUrl =
             baseUrl ||
             (window.RozierConfig.routes as { treeAjaxGateway?: string })
                 ?.treeAjaxGateway
-        if (!fetchUrl) {
-            return
-        }
+
+        if (!fetchUrl) return
         const treeResponse = await fetch(`${fetchUrl}?${query.toString()}`, {
             method: 'GET',
             headers: {
@@ -296,56 +187,18 @@ export default class RzAside extends RoadizElement {
             data?.['tree']
 
         if (data && typeof treeHTML !== 'undefined') {
-            const treeTypeId =
-                `${data.tree_type || 'node'}-tree` +
-                (queryOptions?.translationId
-                    ? `-${queryOptions?.translationId}`
-                    : '-main-locale')
-
-            if (treeTypeId === treeContainer.getAttribute('data-tree-id')) {
+            // refresh only when new tree will be diferent (translation or type changed)
+            const isSameType = data.tree_type === this.entityType
+            const isSameTranslation =
+                translationId === this.currentTranslationId
+            if (isSameType && isSameTranslation) {
                 return
             }
 
-            this.refreshAsideTreeContent(treeHTML)
-            treeContainer.setAttribute('data-tree-id', treeTypeId)
+            await this.refreshTreeContent(treeHTML)
+
+            this.entityType = data.tree_type
+            this.currentTranslationId = translationId
         }
-    }
-
-    async refreshAsideMainTree(
-        baseUrl: string | null = null,
-        query: Record<string, string | number> = {},
-    ) {
-        try {
-            await this.refreshMainTree(baseUrl, query)
-        } catch {
-            console.debug(
-                '[RzAside.refreshAsideMainTree] Retrying in 3 seconds',
-            )
-            await sleep(3000)
-            await this.refreshMainTree(baseUrl, query)
-        }
-
-        window.dispatchEvent(new CustomEvent('requestLoaderHide'))
-    }
-
-    async refreshMainNodeTree(translationId: number | undefined = undefined) {
-        await this.refreshAsideMainTree(
-            window.RozierConfig.routes?.nodesTreeAjax || null,
-            { translationId },
-        )
-    }
-
-    async refreshMainTagTree(translationId: number | undefined = undefined) {
-        await this.refreshAsideMainTree(
-            window.RozierConfig.routes?.tagsTreeAjax || null,
-            { translationId },
-        )
-    }
-
-    async refreshMainFolderTree(translationId: number | undefined = undefined) {
-        await this.refreshAsideMainTree(
-            window.RozierConfig.routes?.foldersTreeAjax || null,
-            { translationId },
-        )
     }
 }
