@@ -35,7 +35,7 @@
         "jms/serializer": "^3.32.3",
         "jms/serializer-bundle": "^5.5.1",
         "league/flysystem": "^3.0",
-        "league/flysystem-bundle": "^3.0",
+        "league/flysystem-bundle": "<3.7",
         "lexik/jwt-authentication-bundle": "^3.1.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
