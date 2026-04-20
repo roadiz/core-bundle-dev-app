@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.16...v2.7.17) - 2026-04-20
+
+### Bug Fixes
+
+- refactor flysystem local adapter definition creation - ([03af5a3](https://github.com/roadiz/core-bundle-dev-app/commit/03af5a302da035752c58ddaa5d8bb0cc1ee5e241))
+
 ## [2.7.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.15...v2.7.16) - 2026-04-15
 
 ### Bug Fixes
