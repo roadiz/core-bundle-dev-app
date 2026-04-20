@@ -40,7 +40,7 @@ class RoadizRozierExtension extends Extension
             $config['csv_encoder_options'],
         );
 
-        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
         $loader->load('services.yaml');
 
         $this->registerOpenId($config, $container);

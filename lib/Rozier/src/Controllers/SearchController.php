@@ -78,38 +78,38 @@ class SearchController extends RozierApp
 
     protected function processCriteria(array $data, string $prefix = ''): array
     {
-        if (!empty($data[$prefix.'nodeName'])) {
-            if (!isset($data[$prefix.'nodeName_exact']) || true !== $data[$prefix.'nodeName_exact']) {
-                $data[$prefix.'nodeName'] = ['LIKE', '%'.$data[$prefix.'nodeName'].'%'];
+        if (!empty($data[$prefix . 'nodeName'])) {
+            if (!isset($data[$prefix . 'nodeName_exact']) || true !== $data[$prefix . 'nodeName_exact']) {
+                $data[$prefix . 'nodeName'] = ['LIKE', '%' . $data[$prefix . 'nodeName'] . '%'];
             }
         }
 
-        if (key_exists($prefix.'nodeName_exact', $data)) {
-            unset($data[$prefix.'nodeName_exact']);
+        if (key_exists($prefix . 'nodeName_exact', $data)) {
+            unset($data[$prefix . 'nodeName_exact']);
         }
 
-        if (isset($data[$prefix.'parent']) && !$this->isBlank($data[$prefix.'parent'])) {
-            if ('null' == $data[$prefix.'parent'] || 0 == $data[$prefix.'parent']) {
-                $data[$prefix.'parent'] = null;
+        if (isset($data[$prefix . 'parent']) && !$this->isBlank($data[$prefix . 'parent'])) {
+            if ('null' == $data[$prefix . 'parent'] || 0 == $data[$prefix . 'parent']) {
+                $data[$prefix . 'parent'] = null;
             }
         }
 
-        if (isset($data[$prefix.'visible'])) {
-            $data[$prefix.'visible'] = (bool) $data[$prefix.'visible'];
+        if (isset($data[$prefix . 'visible'])) {
+            $data[$prefix . 'visible'] = (bool) $data[$prefix . 'visible'];
         }
 
-        if (isset($data[$prefix.'createdAt'])) {
-            $this->appendDateTimeCriteria($data, $prefix.'createdAt');
+        if (isset($data[$prefix . 'createdAt'])) {
+            $this->appendDateTimeCriteria($data, $prefix . 'createdAt');
         }
 
-        if (isset($data[$prefix.'updatedAt'])) {
-            $this->appendDateTimeCriteria($data, $prefix.'updatedAt');
+        if (isset($data[$prefix . 'updatedAt'])) {
+            $this->appendDateTimeCriteria($data, $prefix . 'updatedAt');
         }
 
-        if (isset($data[$prefix.'limitResult'])) {
+        if (isset($data[$prefix . 'limitResult'])) {
             $this->pagination = false;
-            $this->itemPerPage = (int) $data[$prefix.'limitResult'];
-            unset($data[$prefix.'limitResult']);
+            $this->itemPerPage = (int) $data[$prefix . 'limitResult'];
+            unset($data[$prefix . 'limitResult']);
         }
 
         /*
@@ -131,9 +131,9 @@ class SearchController extends RozierApp
         $fields = $nodetype->getFields();
         foreach ($data as $key => $value) {
             if ('title' === $key) {
-                $data['title'] = ['LIKE', '%'.$value.'%'];
-                if (isset($data[$key.'_exact'])) {
-                    if (true === $data[$key.'_exact']) {
+                $data['title'] = ['LIKE', '%' . $value . '%'];
+                if (isset($data[$key . '_exact'])) {
+                    if (true === $data[$key . '_exact']) {
                         $data['title'] = $value;
                     }
                 }
@@ -152,8 +152,8 @@ class SearchController extends RozierApp
                             || AbstractField::EMAIL_T === $field->getType()
                             || AbstractField::CSS_T === $field->getType()
                         ) {
-                            $data[$field->getVarName()] = ['LIKE', '%'.$value.'%'];
-                            if (isset($data[$key.'_exact']) && true === $data[$key.'_exact']) {
+                            $data[$field->getVarName()] = ['LIKE', '%' . $value . '%'];
+                            if (isset($data[$key . '_exact']) && true === $data[$key . '_exact']) {
                                 $data[$field->getVarName()] = $value;
                             }
                         } elseif (AbstractField::BOOLEAN_T === $field->getType()) {
@@ -168,8 +168,8 @@ class SearchController extends RozierApp
                     }
                 }
             }
-            if (key_exists($key.'_exact', $data)) {
-                unset($data[$key.'_exact']);
+            if (key_exists($key . '_exact', $data)) {
+                unset($data[$key . '_exact']);
             }
         }
 
@@ -374,7 +374,7 @@ class SearchController extends RozierApp
          */
         $button = $form->get('export');
         if ($button instanceof ClickableInterface && $button->isClicked()) {
-            $filename = 'search-'.$nodetype->getName().'-'.date('YmdHis').'.csv';
+            $filename = 'search-' . $nodetype->getName() . '-' . date('YmdHis') . '.csv';
             $response = new StreamedResponse(function () use ($entities) {
                 echo $this->serializer->serialize($entities, 'csv', [
                     ...$this->csvEncoderOptions,
@@ -410,7 +410,7 @@ class SearchController extends RozierApp
         /** @var FormBuilder $builder */
         $builder = $this->createFormBuilder([], ['method' => 'get']);
 
-        $builder->add($prefix.'status', NodeStatesType::class, [
+        $builder->add($prefix . 'status', NodeStatesType::class, [
             'label' => 'node.status',
             'required' => false,
         ]);
@@ -423,37 +423,37 @@ class SearchController extends RozierApp
                     'class' => 'form-col-status-group',
                 ],
             ])
-            ->add($prefix.'visible', ExtendedBooleanType::class, [
+            ->add($prefix . 'visible', ExtendedBooleanType::class, [
                 'label' => 'visible',
             ])
-            ->add($prefix.'locked', ExtendedBooleanType::class, [
+            ->add($prefix . 'locked', ExtendedBooleanType::class, [
                 'label' => 'locked',
             ])
-            ->add($prefix.'sterile', ExtendedBooleanType::class, [
+            ->add($prefix . 'sterile', ExtendedBooleanType::class, [
                 'label' => 'sterile-status',
             ])
-            ->add($prefix.'hideChildren', ExtendedBooleanType::class, [
+            ->add($prefix . 'hideChildren', ExtendedBooleanType::class, [
                 'label' => 'hiding-children',
             ])
         );
         $builder->add(
-            $this->createTextSearchForm($builder, $prefix.'nodeName', 'nodeName')
+            $this->createTextSearchForm($builder, $prefix . 'nodeName', 'nodeName')
         );
-        $builder->add($prefix.'parent', TextType::class, [
+        $builder->add($prefix . 'parent', TextType::class, [
             'label' => 'node.id.parent',
             'required' => false,
         ])
-            ->add($prefix.'createdAt', CompareDatetimeType::class, [
+            ->add($prefix . 'createdAt', CompareDatetimeType::class, [
                 'label' => 'created.at',
                 'inherit_data' => false,
                 'required' => false,
             ])
-            ->add($prefix.'updatedAt', CompareDatetimeType::class, [
+            ->add($prefix . 'updatedAt', CompareDatetimeType::class, [
                 'label' => 'updated.at',
                 'inherit_data' => false,
                 'required' => false,
             ])
-            ->add($prefix.'limitResult', NumberType::class, [
+            ->add($prefix . 'limitResult', NumberType::class, [
                 'label' => 'node.limit.result',
                 'required' => false,
                 'constraints' => [
@@ -481,7 +481,7 @@ class SearchController extends RozierApp
         string $formName,
         string $label,
     ): FormBuilderInterface {
-        return $builder->create($formName.'_group', FormType::class, [
+        return $builder->create($formName . '_group', FormType::class, [
             'label' => false,
             'inherit_data' => true,
             'mapped' => false,
@@ -493,7 +493,7 @@ class SearchController extends RozierApp
                 'label' => $label,
                 'required' => false,
             ])
-            ->add($formName.'_exact', CheckboxType::class, [
+            ->add($formName . '_exact', CheckboxType::class, [
                 'label' => 'exact_search',
                 'required' => false,
             ])

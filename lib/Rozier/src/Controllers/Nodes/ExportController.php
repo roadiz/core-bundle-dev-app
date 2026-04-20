@@ -40,7 +40,7 @@ class ExportController extends RozierApp
         }
         $criteria = ['translation' => $translation];
         $order = ['node.nodeType' => 'ASC'];
-        $filename = 'nodes-'.date('YmdHis').'.'.$translation->getLocale().'.csv';
+        $filename = 'nodes-' . date('YmdHis') . '.' . $translation->getLocale() . '.csv';
 
         if (null !== $parentNodeId) {
             /** @var Node|null $parentNode */
@@ -52,7 +52,7 @@ class ExportController extends RozierApp
             }
             $this->denyAccessUnlessGranted(NodeVoter::READ, $parentNode);
             $criteria['node.parent'] = $parentNode;
-            $filename = $parentNode->getNodeName().'-'.date('YmdHis').'.'.$translation->getLocale().'.csv';
+            $filename = $parentNode->getNodeName() . '-' . date('YmdHis') . '.' . $translation->getLocale() . '.csv';
         } else {
             $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
         }

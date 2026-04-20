@@ -69,7 +69,7 @@ class CustomFormsUtilsController extends RozierApp
             'Content-Disposition',
             $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $customForm->getName().'.csv'
+                $customForm->getName() . '.csv'
             )
         );
 

@@ -38,7 +38,7 @@ final class ReachableNodeSourceDefinition
     public function __invoke(NodesSources $source): array
     {
         if (!($this->context instanceof NodeSourceWalkerContext)) {
-            throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
+            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
         }
 
         $this->context->getStopwatch()->start(self::class);

@@ -22,7 +22,7 @@ trait NodeSourceDefinitionTrait
         NodesSources $parent,
     ): QueryBuilder {
         if (!($this->context instanceof NodeSourceWalkerContext)) {
-            throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
+            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
         }
 
         $nodeTypes = $this->getNodeTypes($this->context->getNodeTypesBag());
@@ -43,9 +43,9 @@ trait NodeSourceDefinitionTrait
         );
 
         $qb->select([$alias, 'node'])
-            ->innerJoin($alias.'.node', 'node')
+            ->innerJoin($alias . '.node', 'node')
             ->andWhere('node.parent = :parent')
-            ->andWhere($alias.'.translation = :translation')
+            ->andWhere($alias . '.translation = :translation')
             ->addOrderBy('node.position', 'ASC')
             ->setParameter('parent', $parent->getNode())
             ->setParameter('translation', $parent->getTranslation());
