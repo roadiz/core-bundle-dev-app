@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.43...v2.3.44) - 2026-04-20
+
+### Bug Fixes
+
+- codestyle (phpcs) - ([ee72fa0](https://github.com/roadiz/core-bundle-dev-app/commit/ee72fa01d9c7947afb7183f8acafe5382d1e0037))
+
 ## [2.3.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.42...v2.3.43) - 2026-04-20
 
 ### Bug Fixes
