@@ -99,6 +99,7 @@ class RoadizRozierExtension extends Extension
                     $config['open_id']['hosted_domain'],
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['verify_user_info'],
+                    $config['open_id']['clock_skew'],
                 ])
         );
 
