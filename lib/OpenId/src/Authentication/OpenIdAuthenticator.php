@@ -6,12 +6,13 @@ namespace RZ\Roadiz\OpenId\Authentication;
 
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use RZ\Roadiz\JWT\JwtConfigurationFactory;
 use RZ\Roadiz\OpenId\Authentication\Provider\JwtRoleStrategy;
 use RZ\Roadiz\OpenId\Discovery;
 use RZ\Roadiz\OpenId\Exception\DiscoveryNotAvailableException;
 use RZ\Roadiz\OpenId\Exception\OpenIdAuthenticationException;
 use RZ\Roadiz\OpenId\Exception\OpenIdConfigurationException;
-use RZ\Roadiz\OpenId\OpenIdJwtConfigurationFactory;
+use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use RZ\Roadiz\OpenId\User\OpenIdAccount;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
@@ -41,8 +44,9 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         private readonly HttpUtils $httpUtils,
         private readonly ?Discovery $discovery,
         private readonly JwtRoleStrategy $roleStrategy,
-        private readonly OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
+        private readonly JwtConfigurationFactory $jwtConfigurationFactory,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly CsrfTokenManagerInterface $csrfTokenManager,
         HttpClientInterface $client,
         private readonly string $returnPath,
         private readonly string $defaultRoute,
@@ -92,6 +96,21 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         }
 
         \parse_str((string) $request->query->get('state'), $state);
+
+        /*
+         * Validate the CSRF state token to prevent CSRF / open-redirect attacks.
+         * The token was embedded by OAuth2LinkGenerator::generate() under the "token" key.
+         */
+        $stateToken = $state['token'] ?? null;
+        if (
+            !isset($stateToken)
+            || !is_string($stateToken)
+            || !$this->csrfTokenManager->isTokenValid(
+                new CsrfToken(OAuth2LinkGenerator::OAUTH_STATE_TOKEN, $stateToken)
+            )
+        ) {
+            throw new OpenIdAuthenticationException('OAuth2 state token is invalid or has already been used.');
+        }
 
         /*
          * Fetch _target_path parameter from OAuth2 state
@@ -156,6 +175,24 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
 
         if (!$jwt instanceof Plain) {
             throw new OpenIdAuthenticationException('JWT token must be instance of '.Plain::class);
+        }
+
+        /*
+         * Validate OIDC nonce to prevent ID token replay and injection attacks.
+         * OIDC Core 1.0 §3.1.3.7 requires nonce verification. A missing stored
+         * nonce is itself rejected — it indicates the flow bypassed generate().
+         */
+        if (!$request->hasSession()) {
+            throw new OpenIdAuthenticationException('No session available for OIDC nonce validation.');
+        }
+        $storedNonce = $request->getSession()->get(OAuth2LinkGenerator::OAUTH_NONCE_SESSION_KEY);
+        $request->getSession()->remove(OAuth2LinkGenerator::OAUTH_NONCE_SESSION_KEY);
+        if (null === $storedNonce) {
+            throw new OpenIdAuthenticationException('No OIDC nonce found in session; possible replay attack.');
+        }
+        $jwtNonce = $jwt->claims()->get('nonce', null);
+        if (!\is_string($jwtNonce) || !hash_equals($storedNonce, $jwtNonce)) {
+            throw new OpenIdAuthenticationException('JWT nonce claim does not match the expected value.');
         }
 
         if (!$jwt->claims()->has($this->usernameClaim)) {
