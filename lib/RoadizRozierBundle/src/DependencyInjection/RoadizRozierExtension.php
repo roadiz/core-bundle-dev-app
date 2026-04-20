@@ -88,6 +88,7 @@ class RoadizRozierExtension extends Extension
                     $config['open_id']['hosted_domain'],
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['verify_user_info'],
+                    $config['open_id']['clock_skew'],
                 ])
         );
 
@@ -105,6 +106,7 @@ class RoadizRozierExtension extends Extension
                     new Reference(\RZ\Roadiz\OpenId\Authentication\Provider\ChainJwtRoleStrategy::class),
                     new Reference('roadiz_rozier.open_id.jwt_configuration_factory'),
                     new Reference(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class),
+                    new Reference(\Symfony\Component\Security\Csrf\CsrfTokenManagerInterface::class),
                     new Reference(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
                     'loginPage',
                     'adminHomePage',
