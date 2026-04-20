@@ -105,6 +105,7 @@ class RoadizRozierExtension extends Extension
                     new Reference(\RZ\Roadiz\OpenId\Authentication\Provider\ChainJwtRoleStrategy::class),
                     new Reference('roadiz_rozier.open_id.jwt_configuration_factory'),
                     new Reference(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class),
+                    new Reference(\Symfony\Component\Security\Csrf\CsrfTokenManagerInterface::class),
                     new Reference(HttpClientInterface::class),
                     'loginPage',
                     'adminHomePage',

@@ -84,6 +84,7 @@ services:
             - '%roadiz_rozier.open_id.hosted_domain%'
             - '%roadiz_rozier.open_id.oauth_client_id%'
             - '%roadiz_rozier.open_id.scopes%'
+            - '%roadiz_rozier.open_id.force_ssl_on_redirect_uri%'
 
     RZ\Roadiz\OpenId\Authentication\Provider\SettingsRoleStrategy:
         arguments: [ '@RZ\Roadiz\CoreBundle\Bag\Settings' ]
