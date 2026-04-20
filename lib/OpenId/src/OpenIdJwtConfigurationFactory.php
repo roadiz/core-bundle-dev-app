@@ -25,6 +25,7 @@ final readonly class OpenIdJwtConfigurationFactory implements JwtConfigurationFa
         private ?string $openIdHostedDomain,
         private ?string $oauthClientId,
         private bool $verifyUserInfo,
+        private int $clockSkew = 0,
     ) {
     }
 
@@ -34,7 +35,10 @@ final readonly class OpenIdJwtConfigurationFactory implements JwtConfigurationFa
     private function getValidationConstraints(): array
     {
         $validators = [
-            new LooseValidAt(SystemClock::fromSystemTimezone()),
+            new LooseValidAt(
+                SystemClock::fromSystemTimezone(),
+                $this->clockSkew > 0 ? new \DateInterval('PT'.$this->clockSkew.'S') : null
+            ),
         ];
 
         if (\is_string($this->oauthClientId) && !empty(trim($this->oauthClientId))) {
