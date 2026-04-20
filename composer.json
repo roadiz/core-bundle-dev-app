@@ -167,6 +167,12 @@
             "symfony/flex": true,
             "symfony/runtime": true,
             "php-http/discovery": false
+        },
+        "audit": {
+            "ignore": [
+                "PKSA-gs8r-6kz6-pp56",
+                "PKSA-gnn4-pxdg-q76m"
+            ]
         }
     },
     "autoload": {
