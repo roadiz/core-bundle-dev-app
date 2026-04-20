@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.42...v2.3.43) - 2026-04-20
+
+### Bug Fixes
+
+- **(OpenId)** add clock skew and nonce validation for OIDC - ([c6de91d](https://github.com/roadiz/core-bundle-dev-app/commit/c6de91d66e5016dc94301c1e4428b26151f47b8d))
+- **(dependencies)** restrict league/flysystem-bundle version - ([633e402](https://github.com/roadiz/core-bundle-dev-app/commit/633e40289de67b25f2f3b8084e56c4690001e9e9))
+
 ## [2.3.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.41...v2.3.42) - 2026-03-19
 
 ### Bug Fixes
