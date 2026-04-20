@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.31...v2.6.32) - 2026-04-20
+
+### Bug Fixes
+
+- **(OpenId)** add CSRF token manager reference - ([4bef41d](https://github.com/roadiz/core-bundle-dev-app/commit/4bef41df0c8475153bcb23b77d9cec3a50ac96c2))
+
 ## [2.6.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.30...v2.6.31) - 2026-04-20
 
 ### Bug Fixes
