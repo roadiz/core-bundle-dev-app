@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.46...v2.5.47) - 2026-04-20
+
+### Bug Fixes
+
+- **(OpenID)** remove unused force_ssl_on_redirect_uri - ([465b8e6](https://github.com/roadiz/core-bundle-dev-app/commit/465b8e670877ffb3044edd4d941128ee0600874d))
+
 ## [2.5.46](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.45...v2.5.46) - 2026-04-20
 
 ### Bug Fixes
