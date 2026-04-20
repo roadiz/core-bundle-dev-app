@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.6.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.30...v2.6.31) - 2026-04-20
+
+### Bug Fixes
+
+- **(OpenID)** generate and validate OpenID Connect nonce - ([ec8e20f](https://github.com/roadiz/core-bundle-dev-app/commit/ec8e20f4c89f09d432ffd8325b49a959521554fd))
+- **(dependencies)** restrict league/flysystem-bundle version - ([9ee5205](https://github.com/roadiz/core-bundle-dev-app/commit/9ee52050bfeaf8bef6079b2eeba3e22bbbaeac53))
+
 ## [2.6.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.6.29...v2.6.30) - 2026-03-29
 
 ### Bug Fixes
