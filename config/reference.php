@@ -1657,6 +1657,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         oauth_client_id?: scalar|Param|null, // OpenID identity provider OAuth2 client ID // Default: null
  *         oauth_client_secret?: scalar|Param|null, // OpenID identity provider OAuth2 client secret // Default: null
  *         openid_username_claim?: scalar|Param|null, // OpenID identity provider identifier claim field // Default: "email"
+ *         clock_skew?: int|Param, // Accepted clock skew in seconds between this server and the identity provider. Increase this value (e.g. 30) if you get "token issued in the future" errors caused by clock drift between servers. // Default: 0
  *         requires_local_user?: bool|Param, // A local account must exists for each OpenID user. // Default: "true"
  *         scopes?: list<scalar|Param|null>,
  *         granted_roles?: list<scalar|Param|null>,

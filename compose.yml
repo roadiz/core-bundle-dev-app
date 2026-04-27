@@ -89,7 +89,6 @@ services:
     app: &app_template
         # Need to pass all vars to docker env for Crontab and supervisor scripts
         env_file: "./.env.local"
-        mem_limit: 512m
         build:
             target: php-dev
             args:
