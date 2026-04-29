@@ -2,6 +2,21 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.19...v2.7.20) - 2026-04-29
+
+### Features
+
+- **(solr)** add fuzzy search configuration options ([#408](https://github.com/roadiz/core-bundle-dev-app/issues/408)) - ([35d31d2](https://github.com/roadiz/core-bundle-dev-app/commit/35d31d2e0e2a2360b14f3ef76ecacb98431beb12))
+- **(solr)** add fuzzy search configuration options - ([66685fc](https://github.com/roadiz/core-bundle-dev-app/commit/66685fcad030ac04d11b55ed732d16ecfaca9d37))
+
+## [2.7.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.18...v2.7.19) - 2026-04-29
+
+### Bug Fixes
+
+- **(EntityGenerator)** apply normalizationContext on proxied many-to-many getters - ([136187e](https://github.com/roadiz/core-bundle-dev-app/commit/136187ed29dd1a4428992c8b044c48bf77d36e9a))
+- phpstan - ([ddb00bb](https://github.com/roadiz/core-bundle-dev-app/commit/ddb00bb203b3b30912a805ff88fabf3276b7f027))
+- use width and height for document adjust - ([9c260f2](https://github.com/roadiz/core-bundle-dev-app/commit/9c260f28e6dbded597889c6664da2a19e6e1d1b2))
+
 ## [2.7.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.17...v2.7.18) - 2026-04-20
 
 ### Bug Fixes
