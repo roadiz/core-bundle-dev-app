@@ -894,7 +894,8 @@ EOT,
         if ($node instanceof NodeInterface) {
             $node = $node->getId();
         }
-        $cacheItem = $this->_em->getConfiguration()->getResultCache()?->getItem('noderepository_findAllAncestors_'.$node);
+        $resultCache = $this->_em->getConfiguration()->getResultCache();
+        $cacheItem = $resultCache?->getItem('noderepository_findAllAncestors_'.$node);
         if ($cacheItem?->isHit()) {
             // @phpstan-ignore-next-line
             return $cacheItem->get();
@@ -927,10 +928,10 @@ SQL
         $result = $statement
             ->executeQuery()
             ->fetchAllAssociative();
-        if (null !== $cacheItem) {
+        if (null !== $cacheItem && null !== $resultCache) {
             $cacheItem->set($result);
             $cacheItem->expiresAfter($cacheTtl);
-            $this->_em->getConfiguration()->getResultCache()?->save($cacheItem);
+            $resultCache->save($cacheItem);
         }
 
         return $result;
