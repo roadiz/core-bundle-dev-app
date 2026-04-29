@@ -103,6 +103,8 @@ final class DocumentAdjustController extends AbstractController
             return new JsonResponse([
                 'message' => $msg,
                 'path' => $this->documentsStorage->publicUrl($mountPath).'?'.\random_int(10, 999),
+                'imageWidth' => $document->getImageWidth(),
+                'imageHeight' => $document->getImageHeight(),
             ]);
         }
 
