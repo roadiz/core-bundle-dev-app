@@ -115,9 +115,21 @@ nelmio_solarium:
             adapter_timeout: 5
 ```
 
+Configure fuzzy search options in a dedicated `roadiz_solr` config file:
+```yaml
+# config/packages/roadiz_solr.yaml
+roadiz_solr:
+    search:
+        fuzzy_proximity: 2
+        fuzzy_min_term_length: 3
+```
+
 You can use Solr Cloud with a collection instead of a core by setting the `SOLR_COLLECTION_NAME` environment variable and commenting the `core` line.
 Then you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and `SOLR_COLLECTION_REPLICATION_FACTOR` variables to configure your collection and execute
 `solr:init` command to create the collection.
+
+Fuzzy search options should now be configured in `roadiz_solr.search`.
+For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
 
 #### Extending Solr configuration
 
