@@ -170,6 +170,32 @@ resources:
                         - { type: string, name: path, in: query, required: true, description: 'Resource path, or `/` for home page', schema: { type: string } }
 ```
 
+## Reachable node-types and tree-walker depth
+
+::: warning
+Since **v2.7.21**, `AutoChildrenNodeSourceWalker` **stops walking into children of reachable node-types** (node-types that have their own URL) when they appear at level > 0 in the tree.
+:::
+
+### The problem
+
+When a `WebResponse` is built, `WebResponseOutputDataTransformer` calls `injectBlocks()` which creates an `AutoChildrenNodeSourceWalker` with a **max depth of 5** (defined by `getChildrenNodeSourceWalkerMaxLevel()`). Before v2.7.21, the walker recursed into *every* child node — including children that are themselves **reachable** (i.e. node-types that have their own URL).
+
+This means that if a reachable *Page* contains children that are also reachable *Pages*, all their sub-trees (blocks, sub-pages, sub-blocks…) were serialized recursively up to 5 levels deep.
+
+And that could return a very large JSON payload containing the entire tree of all sub-pages and their blocks, even though each of those sub-pages has its own URL and can be fetched individually.
+
+### The fix
+
+`AutoChildrenNodeSourceWalker::getChildren()` now returns an empty collection when the current item is a reachable `NodesSources` at level > 0. The walker still walks into **non-reachable** children (blocks, content sections, etc.) as before.
+
+### Impact on existing projects
+
+If your content architecture nests reachable node-types as children of other reachable node-types (e.g. a *Section* page containing *Article* sub-pages), their blocks and children **will no longer appear** in the parent `WebResponse` `blocks` tree.
+
+This is the intended behavior: each reachable node should be fetched through its own `WebResponse` call using its URL.
+
+If you need to restore the previous behavior for a specific use-case, create a custom walker that extends `AbstractCycleAwareWalker` directly (replicating the definition logic from `AutoChildrenNodeSourceWalker` without the reachable guard in `getChildren()`) and override `getChildrenNodeSourceWalkerClassname()` in your `WebResponseOutputDataTransformer` decorator to return your custom class.
+
 ## Override WebResponse block walker
 
 Imagine you have a block (*ArticleFeedBlock*) which should list latest news (*Article*).
