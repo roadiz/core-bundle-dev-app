@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.20...v2.7.21) - 2026-05-18
+
+### Bug Fixes
+
+- **(walker)** stop recursing into reachable children in AutoChildrenNodeSourceWalker - ([70320ac](https://github.com/roadiz/core-bundle-dev-app/commit/70320ac5ef1974e6ef54397f8be8e01e304d5c61))
+
 ## [2.7.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.19...v2.7.20) - 2026-04-29
 
 ### Features
