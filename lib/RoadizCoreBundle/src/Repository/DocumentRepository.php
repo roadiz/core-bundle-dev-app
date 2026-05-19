@@ -541,7 +541,14 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageCropAlignment,
                     d.hotspot,
                     nsf.imageCropAlignment,
-                    nsf.hotspot
+                    nsf.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -552,6 +559,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('raw', false)
             ->setParameter('private', false)
+            ->setParameter('nullValue', null)
             ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
             ->setMaxResults(1)
             ->setCacheable(true);
@@ -636,7 +644,10 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     dt.name,
                     dt.description,
                     dt.copyright,
-                    dt.externalUrl
+                    dt.externalUrl,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -676,7 +687,16 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageAverageColor,
                     d.folder,
                     d.imageCropAlignment,
-                    d.hotspot
+                    d.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -684,6 +704,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)
             ->setParameter('raw', false)
+            ->setParameter('nullValue', null)
             ->setMaxResults(1)
             ->setCacheable(true);
 
