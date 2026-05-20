@@ -36,6 +36,9 @@ final class DocumentDto implements \Stringable, BaseDocumentInterface
         private readonly ?string $documentTranslationDescription = null,
         private readonly ?string $documentTranslationCopyright = null,
         private readonly ?string $documentTranslationExternalUrl = null,
+        private readonly ?int $filesize = null,
+        private readonly ?\DateTime $copyrightValidSince = null,
+        private readonly ?\DateTime $copyrightValidUntil = null,
     ) {
     }
 
@@ -74,6 +77,24 @@ final class DocumentDto implements \Stringable, BaseDocumentInterface
     public function getMediaDuration(): int
     {
         return $this->mediaDuration;
+    }
+
+    #[Groups(['document_filesize'])]
+    public function getFilesize(): ?int
+    {
+        return $this->filesize;
+    }
+
+    #[Groups(['document_copyright'])]
+    public function getCopyrightValidSince(): ?\DateTime
+    {
+        return $this->copyrightValidSince;
+    }
+
+    #[Groups(['document_copyright'])]
+    public function getCopyrightValidUntil(): ?\DateTime
+    {
+        return $this->copyrightValidUntil;
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
