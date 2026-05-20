@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.21...v2.7.22) - 2026-05-20
+
+### Features
+
+- **(document)** add filesize and copyright dates to DocumentDto - ([dbd4391](https://github.com/roadiz/core-bundle-dev-app/commit/dbd4391bdb356e7bdb780f49d4b383166d80dce9))
+
 ## [2.7.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.20...v2.7.21) - 2026-05-18
 
 ### Bug Fixes
