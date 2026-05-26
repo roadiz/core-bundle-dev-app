@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.49...v2.5.50) - 2026-05-26
+
+### Bug Fixes
+
+- **(solr)** fix typed const usage on php 8.2 - ([5b66a17](https://github.com/roadiz/core-bundle-dev-app/commit/5b66a176da875f0c6756ce863010661eb1ba6c6b))
+
 ## [2.5.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.48...v2.5.49) - 2026-05-26
 
 ### Bug Fixes
