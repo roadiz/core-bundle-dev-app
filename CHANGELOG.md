@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.22...2.7.23) - 2026-05-26
+
+### Bug Fixes
+
+- **(search)** never add fuzzy suffix on highlighting - ([52d609d](https://github.com/roadiz/core-bundle-dev-app/commit/52d609d105d2d45c52bade92dd4d8f26a4d28ebd))
+- **(search)** extract Solr boost values as named constants and widen fuzzify method visibility ([#431](https://github.com/roadiz/core-bundle-dev-app/issues/431)) - ([1e1c4df](https://github.com/roadiz/core-bundle-dev-app/commit/1e1c4df39cbd86af4893119a49218e853548df8c))
+
 ## [2.7.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.21...v2.7.22) - 2026-05-20
 
 ### Features
