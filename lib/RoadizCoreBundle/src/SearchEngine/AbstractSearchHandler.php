@@ -15,9 +15,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
-    protected const int DEFAULT_TITLE_BOOST = 10;
-    protected const int EXACT_TITLE_BOOST = 20;
-    protected const int EXACT_COLLECTION_BOOST = 2;
+    protected const DEFAULT_TITLE_BOOST = 10;
+    protected const EXACT_TITLE_BOOST = 20;
+    protected const EXACT_COLLECTION_BOOST = 2;
     protected LoggerInterface $logger;
     protected int $highlightingFragmentSize = 150;
     /**
