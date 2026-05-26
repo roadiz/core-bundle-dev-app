@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.48...v2.5.49) - 2026-05-26
+
+### Bug Fixes
+
+- **(search)** extract Solr boost values as named constants and widen fuzzify method visibility ([#431](https://github.com/roadiz/core-bundle-dev-app/issues/431)) - ([30b9423](https://github.com/roadiz/core-bundle-dev-app/commit/30b94239e18271ea16746ce40dbdddcd2f4b749f))
+
 ## [2.5.48](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.47...v2.5.48) - 2026-05-19
 
 ### Bug Fixes
