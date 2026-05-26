@@ -328,12 +328,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
             return $this->escapeQuery($q);
         }
 
-        $escapedQuery = $this->escapeQuery($q);
-        if (!$this->shouldFuzzify($q)) {
-            return $escapedQuery;
-        }
-
-        return $escapedQuery.$this->getFuzzySuffix();
+        return $this->escapeQuery($q);
     }
 
     final protected function shouldFuzzify(string $word): bool
