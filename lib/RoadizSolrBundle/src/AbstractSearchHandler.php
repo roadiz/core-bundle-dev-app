@@ -19,6 +19,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
+    protected const int DEFAULT_TITLE_BOOST = 10;
+    protected const int EXACT_TITLE_BOOST = 20;
+    protected const int EXACT_COLLECTION_BOOST = 2;
     protected int $highlightingFragmentSize = 150;
     /**
      * Specifies the breakiterator type for dividing the document into passages.
@@ -293,11 +296,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         if ($searchTags) {
             // Need to use Fuzzy search AND Exact search
             return sprintf(
-                '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s) ('.$tagsField.':%s) ('.$tagsField.':%s)',
+                '('.$titleField.':%s)^%d ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^%d ('.$collectionField.':%s) ('.$tagsField.':%s) ('.$tagsField.':%s)',
                 $exactQuery,
+                static::EXACT_TITLE_BOOST,
                 $fuzzyiedQuery,
                 $wildcardQuery,
                 $exactQuery,
+                static::EXACT_COLLECTION_BOOST,
                 $fuzzyiedQuery,
                 $exactQuery,
                 $fuzzyiedQuery
@@ -305,11 +310,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         }
 
         return sprintf(
-            '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s)',
+            '('.$titleField.':%s)^%d ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^%d ('.$collectionField.':%s)',
             $exactQuery,
+            static::EXACT_TITLE_BOOST,
             $fuzzyiedQuery,
             $wildcardQuery,
             $exactQuery,
+            static::EXACT_COLLECTION_BOOST,
             $fuzzyiedQuery
         );
     }
@@ -330,13 +337,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return $escapedQuery.$this->getFuzzySuffix();
     }
 
-    private function shouldFuzzify(string $word): bool
+    final protected function shouldFuzzify(string $word): bool
     {
         return $this->fuzzyProximity > 0
             && \mb_strlen($word) >= $this->fuzzyMinTermLength;
     }
 
-    private function getFuzzySuffix(): string
+    final protected function getFuzzySuffix(): string
     {
         return '~'.$this->fuzzyProximity;
     }
@@ -348,7 +355,14 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $tagsField = $this->getTagsField($args);
 
         if ($searchTags) {
-            return $titleField.'^10 '.$collectionField.'^2 '.$tagsField.' slug_s';
+            return sprintf(
+                '%s^%d %s^%d %s slug_s',
+                $titleField,
+                static::DEFAULT_TITLE_BOOST,
+                $collectionField,
+                static::EXACT_COLLECTION_BOOST,
+                $tagsField
+            );
         }
 
         return $titleField.' '.$collectionField.' slug_s';
