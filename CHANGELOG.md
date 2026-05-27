@@ -2,7 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.7.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.22...2.7.23) - 2026-05-26
+## [2.7.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.23...v2.7.24) - 2026-05-27
+
+### Bug Fixes
+
+- **(Document)** missing xlsm mime-type mapping - ([62a353d](https://github.com/roadiz/core-bundle-dev-app/commit/62a353d976d2d67e77c13c598aefcbb6c5826bd7))
+- **(Form)** cast joined entities ID to string before searching them in array - ([37667cf](https://github.com/roadiz/core-bundle-dev-app/commit/37667cfb651a136c117f126243a83d7d2afd5bad))
+
+## [2.7.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.22...v2.7.23) - 2026-05-26
 
 ### Bug Fixes
 
