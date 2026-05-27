@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.24...v2.7.25) - 2026-05-27
+
+### Bug Fixes
+
+- **(Form)** guard against null and non-array value in JoinDataTransformer - ([0d6de48](https://github.com/roadiz/core-bundle-dev-app/commit/0d6de482d0d035c7b1ad9cb120710cd3e2d42bea))
+
 ## [2.7.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.23...v2.7.24) - 2026-05-27
 
 ### Bug Fixes
