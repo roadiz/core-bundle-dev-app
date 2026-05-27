@@ -58,6 +58,9 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
     public function reverseTransform(mixed $value): array|object|null
     {
         if ($this->nodeTypeField->isManyToMany()) {
+            if (empty($value) || !is_array($value)) {
+                return [];
+            }
             /** @var PersistableInterface[] $unorderedEntities */
             $unorderedEntities = $this->managerRegistry->getRepository($this->entityClassname)->findBy([
                 'id' => $value,
@@ -76,6 +79,9 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
             return $unorderedEntities;
         }
         if ($this->nodeTypeField->isManyToOne()) {
+            if (empty($value)) {
+                return null;
+            }
             return $this->managerRegistry->getRepository($this->entityClassname)->findOneBy([
                 'id' => $value,
             ]);
