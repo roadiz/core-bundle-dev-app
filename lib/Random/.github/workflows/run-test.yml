@@ -1,4 +1,4 @@
-name: Unit tests, static analysis and code style
+name: Static analysis and code style
 
 on:
     push:
@@ -15,11 +15,11 @@ on:
             - ready_for_review
 
 jobs:
-    run-tests:
+    static-analysis-tests:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.3', '8.4']
+                php-version: ['8.3', '8.4', '8.5']
         steps:
             - uses: shivammathur/setup-php@v2
               with:
