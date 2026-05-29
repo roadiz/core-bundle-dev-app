@@ -217,7 +217,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $qb->leftJoin($alias.'.documentTranslations', 'dt');
         $criteriaFields = [];
 
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(DocumentTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(DocumentTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 
@@ -719,7 +719,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      */
     public function findAllSettingDocuments(): array
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT d FROM RZ\Roadiz\CoreBundle\Entity\Document d
             WHERE d.id IN (
                 SELECT s.value FROM RZ\Roadiz\CoreBundle\Entity\Setting s
@@ -744,7 +744,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInSettings(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings
@@ -768,7 +768,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInCustomFormAnswers(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings

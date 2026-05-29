@@ -23,7 +23,7 @@ final class NodesToNodesRepository extends EntityRepository
 
     public function getLatestPositionForFieldName(Node $node, string $fieldName): int
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT MAX(ntn.position) FROM RZ\Roadiz\CoreBundle\Entity\NodesToNodes ntn
             WHERE ntn.nodeA = :nodeA AND ntn.fieldName = :fieldName')
                     ->setParameter('nodeA', $node)

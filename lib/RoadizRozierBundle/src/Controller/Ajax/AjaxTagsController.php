@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller\Ajax;
 
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -313,9 +311,6 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
 
     /**
      * Create a new Tag.
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     #[Route(
         path: '/rz-admin/ajax/tag/create',

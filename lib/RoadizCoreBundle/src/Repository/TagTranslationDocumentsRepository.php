@@ -35,7 +35,7 @@ final class TagTranslationDocumentsRepository extends EntityRepository
      */
     public function getLatestPosition($tagTranslation): int
     {
-        $query = $this->_em->createQuery('SELECT MAX(ttd.position)
+        $query = $this->getEntityManager()->createQuery('SELECT MAX(ttd.position)
 FROM RZ\Roadiz\CoreBundle\Entity\TagTranslationDocuments ttd
 WHERE ttd.tagTranslation = :tagTranslation')
                     ->setParameter('tagTranslation', $tagTranslation);
