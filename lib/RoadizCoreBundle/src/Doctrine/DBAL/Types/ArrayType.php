@@ -18,6 +18,7 @@ final class ArrayType extends JsonType
         return 'array';
     }
 
+    #[\Override]
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): mixed
     {
         if (null === $value || '' === $value) {
