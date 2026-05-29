@@ -178,7 +178,12 @@ export default {
             this.documentPreviewOpen({ document: this.document })
         },
         onEditClick(event) {
-            if (!this.document.processable) return
+            if (!this.document.processable) {
+                event.preventDefault()
+                event.stopPropagation()
+                window.Rozier.lazyload.onClick(event)
+                return
+            }
 
             this.$emit('edit', { document: this.document, index: this.index, currentTarget: event.currentTarget })
         },

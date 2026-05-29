@@ -2,6 +2,18 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.25...v2.7.26) - 2026-05-29
+
+### Bug Fixes
+
+- **(Search)** resolve DQL error when sorting NodesSources by Node fields - ([e743cd2](https://github.com/roadiz/core-bundle-dev-app/commit/e743cd29a16893035cf1bd24fb80d7bb30309d17))
+- use Lazyload AJAX navigation for document edit links in modals - ([e6844a6](https://github.com/roadiz/core-bundle-dev-app/commit/e6844a6f144e0fea1d471d16a4588c95814bd83a))
+- fix DocumentPreviewListItem.vue edit button behaviour for non-images documents. - ([c0bbca0](https://github.com/roadiz/core-bundle-dev-app/commit/c0bbca082ac314ef24cecf86a2f2992d2749d94d))
+
+### CI/CD
+
+- align GitHub Actions workflows across all sub-packages - ([0c00a9b](https://github.com/roadiz/core-bundle-dev-app/commit/0c00a9b24c72bb2e66889eb384079ddb40f985bf))
+
 ## [2.7.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.24...v2.7.25) - 2026-05-27
 
 ### Bug Fixes

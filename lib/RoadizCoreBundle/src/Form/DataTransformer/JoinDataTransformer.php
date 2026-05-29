@@ -82,6 +82,7 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
             if (empty($value)) {
                 return null;
             }
+
             return $this->managerRegistry->getRepository($this->entityClassname)->findOneBy([
                 'id' => $value,
             ]);
