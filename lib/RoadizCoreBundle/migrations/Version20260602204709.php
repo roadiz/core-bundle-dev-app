@@ -14,7 +14,7 @@ final class Version20260602204709 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Fixed column types and uuid column comment';
     }
 
     public function up(Schema $schema): void
