@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
@@ -254,11 +253,6 @@ final class SettingController extends AbstractController
             $resultCache?->clear();
             if ($resultCache instanceof ResettableInterface) {
                 $resultCache->reset();
-            }
-
-            // Legacy Doctrine result cache provider
-            if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
-                $configuration->getResultCacheImpl()->deleteAll();
             }
         }
 

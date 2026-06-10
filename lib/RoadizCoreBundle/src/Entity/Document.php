@@ -40,23 +40,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: DocumentRepository::class),
     ORM\Table(name: 'documents'),
     ORM\HasLifecycleCallbacks,
-    ORM\Index(columns: ['created_at'], name: 'document_created_at'),
-    ORM\Index(columns: ['updated_at'], name: 'document_updated_at'),
+    ORM\Index(name: 'document_created_at', columns: ['created_at']),
+    ORM\Index(name: 'document_updated_at', columns: ['updated_at']),
     ORM\Index(columns: ['raw']),
-    ORM\Index(columns: ['raw', 'created_at'], name: 'document_raw_created_at'),
+    ORM\Index(name: 'document_raw_created_at', columns: ['raw', 'created_at']),
     ORM\Index(columns: ['private']),
-    ORM\Index(columns: ['filename'], name: 'document_filename'),
-    ORM\Index(columns: ['file_hash'], name: 'document_file_hash'),
-    ORM\Index(columns: ['file_hash_algorithm'], name: 'document_hash_algorithm'),
-    ORM\Index(columns: ['file_hash', 'file_hash_algorithm'], name: 'document_file_hash_algorithm'),
-    ORM\Index(columns: ['embedId'], name: 'document_embed_id'),
-    ORM\Index(columns: ['embedId', 'embedPlatform'], name: 'document_embed_platform_id'),
-    ORM\Index(columns: ['embedPlatform'], name: 'document_embed_platform'),
+    ORM\Index(name: 'document_filename', columns: ['filename']),
+    ORM\Index(name: 'document_file_hash', columns: ['file_hash']),
+    ORM\Index(name: 'document_hash_algorithm', columns: ['file_hash_algorithm']),
+    ORM\Index(name: 'document_file_hash_algorithm', columns: ['file_hash', 'file_hash_algorithm']),
+    ORM\Index(name: 'document_embed_id', columns: ['embedId']),
+    ORM\Index(name: 'document_embed_platform_id', columns: ['embedId', 'embedPlatform']),
+    ORM\Index(name: 'document_embed_platform', columns: ['embedPlatform']),
     ORM\Index(columns: ['raw', 'private']),
-    ORM\Index(columns: ['duration'], name: 'document_duration'),
-    ORM\Index(columns: ['filesize'], name: 'document_filesize'),
-    ORM\Index(columns: ['imageWidth'], name: 'document_image_width'),
-    ORM\Index(columns: ['imageHeight'], name: 'document_image_height'),
+    ORM\Index(name: 'document_duration', columns: ['duration']),
+    ORM\Index(name: 'document_filesize', columns: ['filesize']),
+    ORM\Index(name: 'document_image_width', columns: ['imageWidth']),
+    ORM\Index(name: 'document_image_height', columns: ['imageHeight']),
     ORM\Index(columns: ['mime_type']),
     ApiFilter(PropertyFilter::class),
     ApiFilter(BaseFilter\OrderFilter::class, properties: [
@@ -138,7 +138,7 @@ class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailIn
 
     #[ORM\ManyToOne(
         targetEntity: Document::class,
-        cascade: ['all'],
+        cascade: ['persist'],
         fetch: 'EXTRA_LAZY',
         inversedBy: 'downscaledDocuments'
     )]
@@ -206,7 +206,6 @@ class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailIn
     /**
      * @var Collection<int, FolderInterface>
      */
-    #[ORM\JoinTable(name: 'documents_folders')]
     #[ORM\ManyToMany(targetEntity: Folder::class, mappedBy: 'documents')]
     #[SymfonySerializer\Ignore]
     protected Collection $folders;
@@ -214,8 +213,8 @@ class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailIn
      * @var Collection<int, DocumentTranslation>
      */
     #[ORM\OneToMany(
-        mappedBy: 'document',
         targetEntity: DocumentTranslation::class,
+        mappedBy: 'document',
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
@@ -238,7 +237,7 @@ class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailIn
     /**
      * @var Collection<int, DocumentInterface>
      */
-    #[ORM\OneToMany(mappedBy: 'rawDocument', targetEntity: Document::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'rawDocument', fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
     private Collection $downscaledDocuments;
     #[ORM\Column(type: 'string', length: 12, nullable: true)]

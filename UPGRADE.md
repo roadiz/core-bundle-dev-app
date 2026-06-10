@@ -67,6 +67,123 @@ Example migration:
 +                    icon: rz-icon-rz--status-draft-line
 ```
 
+## ⚠ Doctrine ORM 3 upgrade
+
+Roadiz 2.8 upgrades to **Doctrine ORM 3.6**, **Doctrine DBAL 4.4**, and **Doctrine Persistence 4.2**. This is a major dependency change that requires updates in your project code.
+
+### Updated packages
+
+| Package | Old version | New version |
+|---------|------------|-------------|
+| `doctrine/orm` | `~2.20.0` | `^3.6` |
+| `doctrine/dbal` | `^3.10` | `^4.4` |
+| `doctrine/persistence` | `^3.4` | `^4.2` |
+| `doctrine/doctrine-bundle` | `^2.8` | `^2.19` |
+| `doctrine/doctrine-fixtures-bundle` | `^3.6` | `^4.3` |
+| `scienta/doctrine-json-functions` | `^4.2` | `^6.0` |
+
+Update your `composer.json` accordingly:
+
+```diff
+ "require": {
+-    "doctrine/doctrine-bundle": "^2.8.1",
+-    "doctrine/orm": "~2.20.0",
+-    "scienta/doctrine-json-functions": "^4.2",
++    "doctrine/doctrine-bundle": "^2.19",
++    "doctrine/orm": "^3.6",
++    "scienta/doctrine-json-functions": "^6.0",
+ },
+ "require-dev": {
+-    "doctrine/doctrine-fixtures-bundle": "^3.6",
++    "doctrine/doctrine-fixtures-bundle": "^4.3",
+ }
+```
+
+### Doctrine configuration changes
+
+Remove `enable_lazy_ghost_objects` from your `config/packages/doctrine.yaml` (always-on in ORM 3):
+
+```diff
+ doctrine:
+     orm:
+         auto_generate_proxy_classes: true
+-        enable_lazy_ghost_objects: true
+```
+
+Register the backward-compatible `array` Doctrine DBAL type. The built-in `array` type was removed in DBAL 4, but `gedmo/doctrine-extensions` `AbstractLogEntry` still references it. Roadiz now ships a replacement type that extends `JsonType` (always writes JSON, reads both JSON and legacy PHP-serialized data):
+
+```diff
+ doctrine:
+     dbal:
+         url: '%env(resolve:DATABASE_URL)%'
++        types:
++            array:
++                class: RZ\Roadiz\CoreBundle\Doctrine\DBAL\Types\ArrayType
+```
+
+### Code changes required in your project
+
+**1. Replace `$this->_em` with `$this->getEntityManager()` in custom repositories**
+
+The protected `$_em` property is no longer accessible on `ServiceEntityRepository`. Use `$this->getEntityManager()` instead.
+
+```diff
+-$query = $this->_em->createQuery('...');
++$query = $this->getEntityManager()->createQuery('...');
+```
+
+**2. Remove `cascade: ['merge']` and `cascade: ['all']` from entity mappings**
+
+The `merge` cascade operation is removed in ORM 3. Replace:
+- `cascade: ['persist', 'merge']` with `cascade: ['persist']`
+- `cascade: ['all']` with explicit cascades: `cascade: ['persist', 'remove']` (or just `cascade: ['persist']` for ManyToOne)
+
+**3. Replace `ClassMetadataInfo` with `ClassMetadata`**
+
+`Doctrine\ORM\Mapping\ClassMetadataInfo` is removed. Use `Doctrine\ORM\Mapping\ClassMetadata` instead.
+
+**4. Replace `EntityManager::detach()` calls**
+
+`EntityManager::detach()` is removed in ORM 3. Use `$em->clear()` for batch processing memory management, or extract entity data into plain arrays before removal.
+
+**5. Remove `JoinTable` from inverse ManyToMany sides**
+
+ORM 3 rejects `#[ORM\JoinTable]` on the inverse side (`mappedBy`) of a ManyToMany relationship. Only the owning side (`inversedBy`) should define the join table.
+
+**6. Replace `setParameters(array)` with individual `setParameter()` calls**
+
+`QueryBuilder::setParameters()` no longer accepts plain arrays. Use chained `setParameter()` calls instead:
+
+```diff
+-$qb->setParameters([
+-    'foo' => $foo,
+-    'bar' => $bar,
+-]);
++$qb->setParameter('foo', $foo)
++   ->setParameter('bar', $bar);
+```
+
+**7. Replace `setFirstResult(null)` with `setFirstResult(0)`**
+
+`Query::setFirstResult()` no longer accepts `null`.
+
+**8. Remove legacy Doctrine Cache API usage**
+
+`Configuration::getResultCacheImpl()` and `Doctrine\Common\Cache\CacheProvider` are removed. Use `Configuration::getResultCache()` (PSR-6) instead:
+
+```diff
+-use Doctrine\Common\Cache\CacheProvider;
+-if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
+-    $configuration->getResultCacheImpl()->deleteAll();
+-}
++$resultCache = $configuration->getResultCache();
++$resultCache?->clear();
+```
+
+**9. Remove `@throws` annotations for `ORMException` and `OptimisticLockException`**
+
+These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc annotations referencing them.
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

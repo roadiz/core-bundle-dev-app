@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
@@ -203,7 +203,7 @@ abstract class EntityRepository extends ServiceEntityRepository
         return 0;
     }
 
-    public static function getSearchableColumnsNames(ClassMetadataInfo $metadata): array
+    public static function getSearchableColumnsNames(ClassMetadata $metadata): array
     {
         /*
          * Get fields needed for a search query

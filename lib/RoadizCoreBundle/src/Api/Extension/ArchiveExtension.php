@@ -101,7 +101,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
          * disable pagination to get all archives
          */
         $paginator->getQuery()->setMaxResults(null);
-        $paginator->getQuery()->setFirstResult(null);
+        $paginator->getQuery()->setFirstResult(0);
 
         foreach ($paginator as $result) {
             $dateTimeField = reset($result);
