@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.50...v2.5.51) - 2026-06-10
+
+### Bug Fixes
+
+- ensure RealmNode::$node and RealmNode::$realm properties are not null or set - ([37fbaed](https://github.com/roadiz/core-bundle-dev-app/commit/37fbaed4fbabee3ec3714294e3be5af6e8f316f1))
+
 ## [2.5.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.49...v2.5.50) - 2026-05-26
 
 ### Bug Fixes
