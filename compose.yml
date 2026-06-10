@@ -166,6 +166,8 @@ services:
         ports:
             - 5173:5173
         volumes:
+            # Required for pnpm lint to respect root editor config
+            - ./.editorconfig:/.editorconfig:ro
             - ./lib/Rozier:/app
             - ./lib/RoadizRozierBundle/public:/RoadizRozierBundle/public
 
