@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Importer;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
@@ -49,11 +48,6 @@ final readonly class SettingsImporter implements EntityImporterInterface
             $resultCache?->clear();
             if ($resultCache instanceof ResettableInterface) {
                 $resultCache->reset();
-            }
-
-            // Legacy Doctrine result cache provider
-            if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
-                $configuration->getResultCacheImpl()->deleteAll();
             }
         }
 

@@ -38,9 +38,9 @@ class Attribute implements AttributeInterface
      * @var Collection<int, AttributeDocuments>
      */
     #[ORM\OneToMany(
-        mappedBy: 'attribute',
         targetEntity: AttributeDocuments::class,
-        cascade: ['persist', 'merge'],
+        mappedBy: 'attribute',
+        cascade: ['persist'],
         orphanRemoval: true
     ),
         ORM\OrderBy(['position' => 'ASC']),

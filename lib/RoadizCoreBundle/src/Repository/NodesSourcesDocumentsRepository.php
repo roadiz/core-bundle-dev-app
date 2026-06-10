@@ -38,7 +38,7 @@ final class NodesSourcesDocumentsRepository extends EntityRepository
 
     public function getLatestPositionForFieldName(NodesSources $nodeSource, string $fieldName): int
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT MAX(nsd.position) FROM RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments nsd
             WHERE nsd.nodeSource = :nodeSource AND nsd.fieldName = :fieldName')
                     ->setParameter('nodeSource', $nodeSource)

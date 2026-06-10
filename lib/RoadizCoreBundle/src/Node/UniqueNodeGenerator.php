@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Node;
 
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -90,9 +88,6 @@ final readonly class UniqueNodeGenerator
 
     /**
      * Try to generate a unique node from request variables.
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      *
      * @deprecated Use generateFromDto() method instead
      */

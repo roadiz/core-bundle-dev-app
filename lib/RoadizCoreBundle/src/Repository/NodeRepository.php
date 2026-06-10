@@ -894,13 +894,13 @@ EOT,
         if ($node instanceof NodeInterface) {
             $node = $node->getId();
         }
-        $resultCache = $this->_em->getConfiguration()->getResultCache();
+        $resultCache = $this->getEntityManager()->getConfiguration()->getResultCache();
         $cacheItem = $resultCache?->getItem('noderepository_findAllAncestors_'.$node);
         if ($cacheItem?->isHit()) {
             // @phpstan-ignore-next-line
             return $cacheItem->get();
         }
-        $statement = $this->_em->getConnection()->prepare(<<<SQL
+        $statement = $this->getEntityManager()->getConnection()->prepare(<<<SQL
 WITH RECURSIVE
     ancestors ( node, ancestor, level )
         AS
@@ -959,7 +959,7 @@ SQL
          */
         $qb->innerJoin($alias.'.nodeSources', self::NODESSOURCES_ALIAS);
         $criteriaFields = [];
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(NodesSources::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(NodesSources::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
         foreach ($criteriaFields as $key => $value) {

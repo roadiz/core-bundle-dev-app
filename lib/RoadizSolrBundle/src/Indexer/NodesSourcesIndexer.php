@@ -127,8 +127,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
             $buffer->addDocument($solarium->getDocument() ?? throw new \RuntimeException('No document created for indexing'));
 
             $this->io?->progressAdvance();
-            // detach from Doctrine, so that it can be Garbage-Collected immediately
-            $this->managerRegistry->getManager()->detach($row);
+            $this->managerRegistry->getManager()->clear();
         }
 
         $buffer->flush();

@@ -21,7 +21,7 @@
     "require": {
         "php": ">=8.3",
         "api-platform/symfony": "^4.1.18",
-        "doctrine/orm": "~2.20.0",
+        "doctrine/orm": "^3.6",
         "roadiz/core-bundle": "2.8.x-dev",
         "roadiz/models": "2.8.x-dev",
         "symfony/framework-bundle": "7.4.*",

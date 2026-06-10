@@ -53,6 +53,8 @@ parameters:
         - '#but returns Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
         - '#does not accept Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
         - '#RZ\\Roadiz\\CoreBundle\\Entity\\NodesSources does not have a field named \$node\.nodeName#'
+        # UserLogEntry narrows action/objectClass per Gedmo LogEntryInterface; the DB columns are plain strings
+        - '#Property RZ\\Roadiz\\CoreBundle\\Entity\\UserLogEntry::\$(action|objectClass) type mapping mismatch: database can contain string but property expects#'
 
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: false
