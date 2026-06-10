@@ -23,50 +23,37 @@ class UserLogEntry implements LogEntryInterface
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    protected ?int $id;
+    protected ?int $id = null;
 
     /**
-     * @var self::ACTION_CREATE|self::ACTION_UPDATE|self::ACTION_REMOVE|null
+     * @var self::ACTION_CREATE|self::ACTION_UPDATE|self::ACTION_REMOVE
      */
     #[ORM\Column(type: Types::STRING, length: 8)]
-    protected ?string $action;
+    protected string $action;
 
-    /**
-     * @var \DateTime|null
-     */
     #[ORM\Column(name: 'logged_at', type: Types::DATETIME_MUTABLE)]
-    protected ?\DateTime $loggedAt;
+    protected \DateTime $loggedAt;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'object_id', length: 64, nullable: true)]
-    protected ?string $objectId;
+    protected ?string $objectId = null;
 
     /**
-     * @var class-string|null
+     * @var class-string
      */
     #[ORM\Column(name: 'object_class', type: Types::STRING, length: 191)]
-    protected ?string $objectClass;
+    protected string $objectClass;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(type: Types::INTEGER)]
-    protected ?int $version;
-
+    protected int $version;
 
     /**
      * @var array<string, mixed>|null
      */
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    protected ?array $data;
+    protected ?array $data = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(length: 191, nullable: true)]
-    protected ?string $username;
+    protected ?string $username = null;
 
     public function getId(): ?int
     {
@@ -76,6 +63,7 @@ class UserLogEntry implements LogEntryInterface
     public function setId(?int $id): UserLogEntry
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -84,9 +72,10 @@ class UserLogEntry implements LogEntryInterface
         return $this->action;
     }
 
-    public function setAction(?string $action): UserLogEntry
+    public function setAction(string $action): UserLogEntry
     {
         $this->action = $action;
+
         return $this;
     }
 
@@ -98,6 +87,7 @@ class UserLogEntry implements LogEntryInterface
     public function setLoggedAt(): UserLogEntry
     {
         $this->loggedAt = new \DateTime();
+
         return $this;
     }
 
@@ -109,6 +99,7 @@ class UserLogEntry implements LogEntryInterface
     public function setObjectId(?string $objectId): UserLogEntry
     {
         $this->objectId = $objectId;
+
         return $this;
     }
 
@@ -117,9 +108,10 @@ class UserLogEntry implements LogEntryInterface
         return $this->objectClass;
     }
 
-    public function setObjectClass(?string $objectClass): UserLogEntry
+    public function setObjectClass(string $objectClass): UserLogEntry
     {
         $this->objectClass = $objectClass;
+
         return $this;
     }
 
@@ -128,9 +120,10 @@ class UserLogEntry implements LogEntryInterface
         return $this->version;
     }
 
-    public function setVersion(?int $version): UserLogEntry
+    public function setVersion(int $version): UserLogEntry
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -142,6 +135,7 @@ class UserLogEntry implements LogEntryInterface
     public function setData(?array $data): UserLogEntry
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -153,6 +147,7 @@ class UserLogEntry implements LogEntryInterface
     public function setUsername(?string $username): UserLogEntry
     {
         $this->username = $username;
+
         return $this;
     }
 }
