@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.26...v2.7.27) - 2026-06-10
+
+### Features
+
+- add new CompactTagPurger to reduce Cache-Tags header size with very large API responses with lots of resources. - ([64a8457](https://github.com/roadiz/core-bundle-dev-app/commit/64a84570df0efabbcd823ee8964fcf551adf5bc0))
+
 ## [2.7.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.25...v2.7.26) - 2026-05-29
 
 ### Bug Fixes
