@@ -60,7 +60,11 @@ final class FieldsStory extends Story
         if ($fields instanceof NSFields) {
             $fields->setSubTitle('All field types coverage');
             $fields->setLongText(faker()->paragraph(3));
-            $fields->setContent(faker()->paragraphs(2, true));
+            $paragraphs = faker()->paragraphs(2, true);
+            if (!is_string($paragraphs)) {
+                $paragraphs = null;
+            }
+            $fields->setContent($paragraphs);
             $fields->setColor('#00FF00');
             $fields->setSticky(true);
             $fields->setStickytest(false);
@@ -88,7 +92,7 @@ final class FieldsStory extends Story
             $fields->setDate(faker()->dateTimeBetween('-2 years', '-1 year'));
             $fields->setDatetime(faker()->dateTimeBetween('-1 year', 'now'));
             $fields->setCss('body { color: #111; }');
-            $fields->setYaml("k1: " . faker()->word() . "\nk2:\n  - " . faker()->word());
+            $fields->setYaml('k1: '.faker()->word()."\nk2:\n  - ".faker()->word());
             $fields->setJson((string) json_encode([
                 'enabled' => true,
                 'max' => faker()->numberBetween(1, 50),

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Story;
 
-use App\GeneratedEntity\NSAliasBlock;
 use App\GeneratedEntity\NSArticleFeedBlock;
 use App\GeneratedEntity\NSBasicBlock;
 use App\GeneratedEntity\NSMenuLink;
@@ -12,7 +11,6 @@ use App\GeneratedEntity\NSPage;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
