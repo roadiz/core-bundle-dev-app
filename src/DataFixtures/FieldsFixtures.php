@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Story\ArticleStory;
+use App\Story\FieldsStory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ArticleFixtures extends Fixture implements DependentFixtureInterface
+class FieldsFixtures extends Fixture implements DependentFixtureInterface
 {
     #[\Override]
     public function getDependencies(): array
@@ -22,6 +22,6 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     #[\Override]
     public function load(ObjectManager $manager): void
     {
-        ArticleStory::load();
+        FieldsStory::load();
     }
 }

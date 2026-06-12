@@ -28,7 +28,7 @@ set listItems = [
         },
     ],
     [
-        {
+        (type.open == true) ? {
             'name': 'customForm.show',
             'href': path('customFormSendAction', { customFormId: type.id }),
             'icon': 'rz-icon-ri--eye-line',

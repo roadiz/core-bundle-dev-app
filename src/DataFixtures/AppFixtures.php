@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Story\TranslationsStory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -15,13 +16,11 @@ class AppFixtures extends Fixture
     #[\Override]
     public function load(ObjectManager $manager): void
     {
-        $defaultTranslation = new Translation();
-        $defaultTranslation->setName('en');
-        $defaultTranslation->setLocale('en');
-        $defaultTranslation->setDefaultTranslation(true);
-        $manager->persist($defaultTranslation);
+        $defaultTranslation = TranslationsStory::get('defaultTranslation');
+        if (!$defaultTranslation instanceof Translation) {
+            throw new \RuntimeException('Default translation story state is invalid.');
+        }
 
-        $manager->flush();
         $this->addReference(self::DEFAULT_TRANSLATION_REFERENCE, $defaultTranslation);
     }
 }

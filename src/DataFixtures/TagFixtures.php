@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Story\ArticleStory;
+use App\Story\TagStory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ArticleFixtures extends Fixture implements DependentFixtureInterface
+class TagFixtures extends Fixture implements DependentFixtureInterface
 {
     #[\Override]
     public function getDependencies(): array
     {
         return [
-            PageHierarchyFixtures::class,
+            ArticleFixtures::class,
         ];
     }
 
     #[\Override]
     public function load(ObjectManager $manager): void
     {
-        ArticleStory::load();
+        TagStory::load();
     }
 }
