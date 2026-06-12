@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Event\Cache\CachePurgeRequestEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationUpdatedEvent;
+use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -40,13 +40,18 @@ final readonly class TranslationSubscriber implements EventSubscriberInterface
     public function purgeCache(Event $event, string $eventName, EventDispatcherInterface $dispatcher): void
     {
         $manager = $this->managerRegistry->getManager();
-        // Clear result cache
-        if (
-            $manager instanceof EntityManagerInterface
-            && $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
-        ) {
-            $manager->getConfiguration()->getResultCacheImpl()->deleteAll();
+
+        if ($manager instanceof EntityManagerInterface) {
+            $configuration = $manager->getConfiguration();
+
+            // Doctrine ORM result cache pool (PSR-6, Doctrine ORM 2.7+)
+            $resultCache = $configuration->getResultCache();
+            $resultCache?->clear();
+            if ($resultCache instanceof ResettableInterface) {
+                $resultCache->reset();
+            }
         }
+
         $dispatcher->dispatch(new CachePurgeRequestEvent());
     }
 }

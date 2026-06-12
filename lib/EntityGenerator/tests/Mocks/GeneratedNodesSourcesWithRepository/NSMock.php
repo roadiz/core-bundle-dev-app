@@ -1137,6 +1137,10 @@ class NSMock extends NodesSources
     }
 
     #[Serializer\SerializedName(serializedName: 'fooManyToManyProxied')]
+    #[Serializer\Context(
+        normalizationContext: ['groups' => ['nodes_sources', 'nodes_sources_default', 'foo_many_to_many_proxied']],
+        groups: ['nodes_sources', 'nodes_sources_default'],
+    )]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\MaxDepth(1)]
     public function getFooManyToManyProxied(): array

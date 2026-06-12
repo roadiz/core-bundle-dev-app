@@ -21,6 +21,8 @@ services:
             $solrHostname: '%env(string:SOLR_HOST)%'
             $solrPort: '%env(int:SOLR_PORT)%'
             $solrSecure: '%env(bool:SOLR_SECURE)%'
+            $fuzzyProximity: '%roadiz_solr.search.fuzzy_proximity%'
+            $fuzzyMinTermLength: '%roadiz_solr.search.fuzzy_min_term_length%'
 
     RZ\Roadiz\SolrBundle\:
         resource: '../src/'

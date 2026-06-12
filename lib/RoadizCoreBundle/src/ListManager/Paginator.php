@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -240,7 +240,7 @@ class Paginator
     protected function getSearchableFields(): array
     {
         $metadata = $this->em->getClassMetadata($this->entityName);
-        if (!$metadata instanceof ClassMetadataInfo) {
+        if (!$metadata instanceof ClassMetadata) {
             throw new \RuntimeException('Entity has no metadata.');
         }
 

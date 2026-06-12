@@ -22,6 +22,7 @@ final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private ?LoggerInterface $logger,
+        private bool $debug = false,
         private string $redirectRoute = '',
         private array $redirectParameters = [],
     ) {
@@ -44,14 +45,13 @@ final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
             || ($request->attributes->has('_format') && 'json' === $request->attributes->get('_format'));
 
         if ($returnJson) {
-            return new JsonResponse(
-                [
-                    'message' => $accessDeniedException->getMessage(),
-                    'trace' => $accessDeniedException->getTraceAsString(),
-                    'exception' => $accessDeniedException::class,
-                ],
-                Response::HTTP_FORBIDDEN
-            );
+            $body = ['message' => $accessDeniedException->getMessage()];
+            if ($this->debug) {
+                $body['trace'] = $accessDeniedException->getTraceAsString();
+                $body['exception'] = $accessDeniedException::class;
+            }
+
+            return new JsonResponse($body, Response::HTTP_FORBIDDEN);
         }
         if ('' !== $this->redirectRoute) {
             $redirectUrl = $this->urlGenerator->generate($this->redirectRoute, $this->redirectParameters);

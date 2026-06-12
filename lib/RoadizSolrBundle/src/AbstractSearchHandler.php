@@ -19,6 +19,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
+    protected const int DEFAULT_TITLE_BOOST = 10;
+    protected const int EXACT_TITLE_BOOST = 20;
+    protected const int EXACT_COLLECTION_BOOST = 2;
     protected int $highlightingFragmentSize = 150;
     /**
      * Specifies the breakiterator type for dividing the document into passages.
@@ -34,6 +37,8 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         protected readonly ObjectManager $em,
         protected readonly LoggerInterface $searchEngineLogger,
         protected readonly EventDispatcherInterface $eventDispatcher,
+        protected readonly int $fuzzyProximity,
+        protected readonly int $fuzzyMinTermLength,
     ) {
     }
 
@@ -249,10 +254,10 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $fuzzyiedQuery = implode(' ', array_map(function (string $word) {
             /*
              * Do not fuzz short words: Solr crashes
-             * Proximity is set to 1 by default for single-words
+             * Proximity is configurable and can be disabled.
              */
-            if (\mb_strlen($word) > 3) {
-                return $this->escapeQuery($word).'~2';
+            if ($this->shouldFuzzify($word)) {
+                return $this->escapeQuery($word).$this->getFuzzySuffix();
             }
 
             return $this->escapeQuery($word);
@@ -264,7 +269,10 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         /*
          * Wildcard search for allowing autocomplete
          */
-        $wildcardQuery = $this->escapeQuery($q).'*~2';
+        $wildcardQuery = $this->escapeQuery($q).'*';
+        if ($this->shouldFuzzify($q)) {
+            $wildcardQuery .= $this->getFuzzySuffix();
+        }
 
         return [$exactQuery, $fuzzyiedQuery, $wildcardQuery];
     }
@@ -287,11 +295,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         if ($searchTags) {
             // Need to use Fuzzy search AND Exact search
             return sprintf(
-                '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s) ('.$tagsField.':%s) ('.$tagsField.':%s)',
+                '('.$titleField.':%s)^%d ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^%d ('.$collectionField.':%s) ('.$tagsField.':%s) ('.$tagsField.':%s)',
                 $exactQuery,
+                static::EXACT_TITLE_BOOST,
                 $fuzzyiedQuery,
                 $wildcardQuery,
                 $exactQuery,
+                static::EXACT_COLLECTION_BOOST,
                 $fuzzyiedQuery,
                 $exactQuery,
                 $fuzzyiedQuery
@@ -299,11 +309,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         }
 
         return sprintf(
-            '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s)',
+            '('.$titleField.':%s)^%d ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^%d ('.$collectionField.':%s)',
             $exactQuery,
+            static::EXACT_TITLE_BOOST,
             $fuzzyiedQuery,
             $wildcardQuery,
             $exactQuery,
+            static::EXACT_COLLECTION_BOOST,
             $fuzzyiedQuery
         );
     }
@@ -312,13 +324,22 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     {
         $q = trim($q);
         $words = preg_split('#[\s,]+#', $q, -1, PREG_SPLIT_NO_EMPTY);
-        if (\is_array($words) && \count($words) > 1) {
+        if (!\is_array($words) || \count($words) > 1) {
             return $this->escapeQuery($q);
         }
 
-        $q = $this->escapeQuery($q);
+        return $this->escapeQuery($q);
+    }
 
-        return sprintf('%s~2', $q);
+    final protected function shouldFuzzify(string $word): bool
+    {
+        return $this->fuzzyProximity > 0
+            && \mb_strlen($word) >= $this->fuzzyMinTermLength;
+    }
+
+    final protected function getFuzzySuffix(): string
+    {
+        return '~'.$this->fuzzyProximity;
     }
 
     protected function buildQueryFields(array &$args, bool $searchTags = true): string
@@ -328,7 +349,14 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $tagsField = $this->getTagsField($args);
 
         if ($searchTags) {
-            return $titleField.'^10 '.$collectionField.'^2 '.$tagsField.' slug_s';
+            return sprintf(
+                '%s^%d %s^%d %s slug_s',
+                $titleField,
+                static::DEFAULT_TITLE_BOOST,
+                $collectionField,
+                static::EXACT_COLLECTION_BOOST,
+                $tagsField
+            );
         }
 
         return $titleField.' '.$collectionField.' slug_s';

@@ -58,6 +58,9 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
     public function reverseTransform(mixed $value): array|object|null
     {
         if ($this->nodeTypeField->isManyToMany()) {
+            if (empty($value) || !is_array($value)) {
+                return [];
+            }
             /** @var PersistableInterface[] $unorderedEntities */
             $unorderedEntities = $this->managerRegistry->getRepository($this->entityClassname)->findBy([
                 'id' => $value,
@@ -65,9 +68,10 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
             /*
              * Need to preserve order in POST data
              */
-            usort($unorderedEntities, function (PersistableInterface $a, PersistableInterface $b) use ($value): int {
-                $aPosition = array_search($a->getId(), $value, true);
-                $bPosition = array_search($b->getId(), $value, true);
+            $stringIds = array_map(strval(...), $value);
+            usort($unorderedEntities, function (PersistableInterface $a, PersistableInterface $b) use ($stringIds): int {
+                $aPosition = array_search((string) $a->getId(), $stringIds, true);
+                $bPosition = array_search((string) $b->getId(), $stringIds, true);
 
                 return ((int) $aPosition) <=> ((int) $bPosition);
             });
@@ -75,6 +79,10 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
             return $unorderedEntities;
         }
         if ($this->nodeTypeField->isManyToOne()) {
+            if (empty($value)) {
+                return null;
+            }
+
             return $this->managerRegistry->getRepository($this->entityClassname)->findOneBy([
                 'id' => $value,
             ]);

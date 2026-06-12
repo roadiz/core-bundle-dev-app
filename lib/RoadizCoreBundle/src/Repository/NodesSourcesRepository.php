@@ -269,6 +269,12 @@ class NodesSourcesRepository extends StatusAwareRepository
                 if (\str_contains((string) $key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS.'.'.$simpleKey, $value);
+                } elseif (
+                    !$this->getClassMetadata()->hasField($key)
+                    && !$this->getClassMetadata()->hasAssociation($key)
+                    && $this->hasJoinedNode($qb, static::NODESSOURCES_ALIAS)
+                ) {
+                    $qb->addOrderBy(static::NODE_ALIAS.'.'.$key, $value);
                 } else {
                     $qb->addOrderBy(static::NODESSOURCES_ALIAS.'.'.$key, $value);
                 }
@@ -508,7 +514,30 @@ class NodesSourcesRepository extends StatusAwareRepository
         ?int $offset = null,
         string $alias = EntityRepository::DEFAULT_ALIAS,
     ): array {
-        return parent::searchBy($pattern, $criteria, $orders, $limit, $offset, static::NODESSOURCES_ALIAS);
+        return parent::searchBy($pattern, $criteria, $this->prefixNodeOrderFields($orders), $limit, $offset, static::NODESSOURCES_ALIAS);
+    }
+
+    /**
+     * @param array<non-empty-string, 'ASC'|'DESC'> $orders
+     *
+     * @return array<non-empty-string, 'ASC'|'DESC'>
+     */
+    private function prefixNodeOrderFields(array $orders): array
+    {
+        $prefixed = [];
+        foreach ($orders as $key => $value) {
+            if (
+                !\str_contains($key, '.')
+                && !$this->getClassMetadata()->hasField($key)
+                && !$this->getClassMetadata()->hasAssociation($key)
+            ) {
+                $prefixed['node.'.$key] = $value;
+            } else {
+                $prefixed[$key] = $value;
+            }
+        }
+
+        return $prefixed;
     }
 
     /**

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,9 +30,6 @@ final class FolderRepository extends EntityRepository
 
     /**
      * Find a folder according to the given path or create it.
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function findOrCreateByPath(string $folderPath, ?TranslationInterface $translation = null): ?Folder
     {
@@ -76,14 +71,14 @@ final class FolderRepository extends EntityRepository
          * with given name
          */
         if (null === $translation) {
-            $translation = $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
+            $translation = $this->getEntityManager()->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
         }
         $folderTranslation = new FolderTranslation($folder, $translation);
         $folderTranslation->setName($folderName);
 
-        $this->_em->persist($folder);
-        $this->_em->persist($folderTranslation);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($folder);
+        $this->getEntityManager()->persist($folderTranslation);
+        $this->getEntityManager()->flush();
 
         return $folder;
     }
@@ -192,7 +187,7 @@ final class FolderRepository extends EntityRepository
         $qb->leftJoin('obj.translatedFolders', 'tf');
 
         $criteriaFields = [];
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(FolderTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(FolderTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 

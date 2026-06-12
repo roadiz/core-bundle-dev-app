@@ -1,0 +1,4 @@
+roadiz_solr:
+    search:
+        fuzzy_proximity: 2
+        fuzzy_min_term_length: 3

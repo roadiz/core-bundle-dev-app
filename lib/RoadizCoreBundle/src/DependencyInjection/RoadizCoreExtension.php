@@ -230,19 +230,32 @@ class RoadizCoreExtension extends Extension
         $container->setParameter(
             'roadiz_core.markdown_config_text_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'allow',
+                'html_input' => 'strip',
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_text_extra_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'allow',
+                'html_input' => 'strip',
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_line_converter',
             array_merge($defaultConfig, [
                 'html_input' => 'escape',
+            ])
+        );
+        // html_input='allow' variants — used only when |markdown(true) is explicitly requested
+        $container->setParameter(
+            'roadiz_core.markdown_config_text_html_converter',
+            array_merge($defaultConfig, [
+                'html_input' => 'allow',
+            ])
+        );
+        $container->setParameter(
+            'roadiz_core.markdown_config_text_extra_html_converter',
+            array_merge($defaultConfig, [
+                'html_input' => 'allow',
             ])
         );
 
@@ -313,6 +326,50 @@ class RoadizCoreExtension extends Extension
         );
 
         $container->setDefinition(
+            'roadiz_core.markdown.environments.text_html_converter',
+            (new Definition())
+                ->setClass(Environment::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    '%roadiz_core.markdown_config_text_html_converter%',
+                ])
+        );
+
+        $container->setDefinition(
+            'roadiz_core.markdown.converters.text_html_converter',
+            (new Definition())
+                ->setClass(MarkdownConverter::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    new Reference('roadiz_core.markdown.environments.text_html_converter'),
+                ])
+        );
+
+        $container->setDefinition(
+            'roadiz_core.markdown.environments.text_extra_html_converter',
+            (new Definition())
+                ->setClass(Environment::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    '%roadiz_core.markdown_config_text_extra_html_converter%',
+                ])
+        );
+
+        $container->setDefinition(
+            'roadiz_core.markdown.converters.text_extra_html_converter',
+            (new Definition())
+                ->setClass(MarkdownConverter::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    new Reference('roadiz_core.markdown.environments.text_extra_html_converter'),
+                ])
+        );
+
+        $container->setDefinition(
             MarkdownInterface::class,
             (new Definition())
                 ->setClass(CommonMark::class)
@@ -321,6 +378,8 @@ class RoadizCoreExtension extends Extension
                     new Reference('roadiz_core.markdown.converters.text_converter'),
                     new Reference('roadiz_core.markdown.converters.text_extra_converter'),
                     new Reference('roadiz_core.markdown.converters.line_converter'),
+                    new Reference('roadiz_core.markdown.converters.text_html_converter'),
+                    new Reference('roadiz_core.markdown.converters.text_extra_html_converter'),
                     new Reference(Stopwatch::class),
                 ])
         );

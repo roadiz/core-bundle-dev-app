@@ -84,7 +84,11 @@ export const Simple: Story = {
         displayHeadElements: false,
         items: [
             [DEFAULT_ITEM, DEFAULT_ITEM, DEFAULT_ITEM, DEFAULT_ITEM].map(
-                (i) => ({ ...i, description: undefined, badge: undefined }),
+                (i) => ({
+                    ...i,
+                    description: undefined,
+                    badge: undefined,
+                }),
             ),
         ],
     },

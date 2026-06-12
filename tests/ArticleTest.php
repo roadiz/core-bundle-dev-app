@@ -78,24 +78,49 @@ class ArticleTest extends ApiTestCase
     public function testArticleWebResponse(): void
     {
         try {
-            $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-            $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
+            $articleRepository = static::getContainer()->get(NSArticleRepository::class);
+            $queryBuilder = $articleRepository->createQueryBuilder('a');
+
+            $articleRepository->resetStatuses();
+            $articleRepository->alterQueryBuilderWithAuthorizationChecker(
+                $queryBuilder,
+                'a',
+            );
+
+            $article = $queryBuilder
+                ->andWhere('n.parent IS NOT NULL')
+                ->orderBy('a.id', 'ASC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+
             if (null === $article) {
-                $this->fail('No article found in database.');
+                $this->fail('No child article found in database.');
             }
             $this->assertInstanceOf(NSArticle::class, $article);
 
-            $path = $urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                RouteObjectInterface::ROUTE_OBJECT => $article,
-            ]);
+            $client = static::createClient();
+            $response = $client->request('GET', '/api/articles/'.$article->getId());
+            $this->assertResponseIsSuccessful('/api/articles/'.$article->getId().' endpoint is not accessible.');
 
-            static::createClient()->request('GET', '/api/web_response_by_path', [
+            $articleData = $response->toArray(false);
+            $path = $articleData['url'] ?? null;
+            if (!\is_string($path) || '' === $path) {
+                $this->fail('Article URL is missing from API response.');
+            }
+
+            $normalizedPath = parse_url($path, \PHP_URL_PATH);
+            if (\is_string($normalizedPath) && '' !== $normalizedPath) {
+                $path = $normalizedPath;
+            }
+
+            $client->request('GET', '/api/web_response_by_path', [
                 'query' => [
                     'path' => $path,
                 ],
             ]);
 
-            $this->assertResponseIsSuccessful();
+            $this->assertResponseIsSuccessful('/api/web_response_by_path endpoint is not accessible with path: '.$path.' for article ID: '.$article->getId());
             $this->assertJsonContains([
                 '@context' => '/api/contexts/WebResponse',
                 '@id' => '/api/web_response_by_path',

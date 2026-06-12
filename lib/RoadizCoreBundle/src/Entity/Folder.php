@@ -243,7 +243,7 @@ class Folder implements DateTimedInterface, FolderInterface, LeafInterface, Pers
     #[\Override]
     public function getFolderName(): string
     {
-        return $this->folderName ?? '';
+        return $this->folderName;
     }
 
     /**

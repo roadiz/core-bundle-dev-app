@@ -2,7 +2,10 @@ const config = {
     plugins: {
         'postcss-pxtorem': {
             propList: ['*'],
-            exclude: /(node_modules|assets\/less)/i,
+            exclude: (filePath: string) => {
+                if (!filePath) return true
+                return /node_modules|\.less/i.test(filePath)
+            },
         },
         'postcss-custom-media': {},
     },

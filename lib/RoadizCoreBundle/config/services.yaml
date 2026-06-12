@@ -1,7 +1,7 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.7.5'
-    roadiz_core.cms_version_prefix: 'main'
+    roadiz_core.cms_version: '2.8.x'
+    roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
@@ -112,6 +112,8 @@ services:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'podcast' } ]
     RZ\Roadiz\CoreBundle\Document\MediaFinder\ApplePodcastEmbedFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'apple_podcast' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\PodEducEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'podeduc' } ]
 
     # Removed DataTransformers
     RZ\Roadiz\CoreBundle\Api\DataTransformer\:

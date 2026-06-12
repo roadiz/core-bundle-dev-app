@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Security\Authorization\Voter;
 
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
@@ -19,6 +20,7 @@ final class RealmVoter extends Voter
 {
     public const string READ = 'read';
     public const string PASSWORD_QUERY_PARAMETER = 'password';
+    public const string AUTHORIZATION_SCHEME = 'PasswordQuery';
 
     public function __construct(
         private readonly AccessDecisionManagerInterface $accessDecisionManager,
@@ -89,24 +91,63 @@ final class RealmVoter extends Voter
     private function voteForPassword(string $attribute, RealmInterface $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (null === $request || empty($subject->getPlainPassword())) {
+        $storedPassword = $subject->getPlainPassword();
+
+        if (null === $request || empty($storedPassword)) {
             $vote?->addReason('Realm does not have a plain password or request is not set.');
 
             return false;
         }
 
-        if (!$request->query->has(self::PASSWORD_QUERY_PARAMETER)) {
-            $vote?->addReason(sprintf('Realm requires a %s query parameter to be set.', self::PASSWORD_QUERY_PARAMETER));
+        $submittedPassword = $this->extractPassword($request);
+        if (null === $submittedPassword) {
+            $vote?->addReason(sprintf(
+                'Realm requires a %s query parameter or an Authorization header with scheme %s.',
+                self::PASSWORD_QUERY_PARAMETER,
+                self::AUTHORIZATION_SCHEME,
+            ));
 
             return false;
         }
 
-        if ($request->query->get(self::PASSWORD_QUERY_PARAMETER) !== $subject->getPlainPassword()) {
-            $vote?->addReason('Provided password does not match realm plain password.');
+        if (!$this->verifyPassword($submittedPassword, $storedPassword)) {
+            $vote?->addReason('Provided password does not match realm password.');
 
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Extract the submitted password from the Authorization header (preferred) or query parameter (legacy).
+     */
+    private function extractPassword(Request $request): ?string
+    {
+        $authorization = $request->headers->get('Authorization', '');
+        if (null !== $authorization && str_starts_with($authorization, self::AUTHORIZATION_SCHEME.' ')) {
+            return substr($authorization, \strlen(self::AUTHORIZATION_SCHEME) + 1);
+        }
+
+        if ($request->query->has(self::PASSWORD_QUERY_PARAMETER)) {
+            return $request->query->get(self::PASSWORD_QUERY_PARAMETER);
+        }
+
+        return null;
+    }
+
+    /**
+     * Verify a submitted password against the stored password.
+     * Supports bcrypt hashes (new) and falls back to timing-safe comparison for legacy plaintext passwords.
+     */
+    private function verifyPassword(string $submittedPassword, string $storedPassword): bool
+    {
+        // New bcrypt-hashed passwords
+        if (\password_verify($submittedPassword, $storedPassword)) {
+            return true;
+        }
+
+        // Legacy plaintext passwords: use timing-safe comparison
+        return \hash_equals($storedPassword, $submittedPassword);
     }
 }

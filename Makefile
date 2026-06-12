@@ -35,10 +35,16 @@ check:
 phpunit:
 	docker compose up -d --force-recreate app mariadb-test db-test
 	sleep 3
+	# Flush Doctrine 2nd-level cache (Redis) to avoid cross-run pollution
+	-docker compose exec -T redis redis-cli FLUSHALL
 	# Test with MariaDB 11.8.3
+	# Drop any leftover DB first — named volumes survive --force-recreate, so prior runs may leave state behind
+	-docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --if-exists --force
 	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
 	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
 	# Test with MySQL 8.4.7
+	-docker compose exec -T redis redis-cli FLUSHALL
+	-docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --if-exists --force
 	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
 	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
 	docker compose stop mariadb-test db-test
@@ -57,7 +63,7 @@ cache :
 	# Force workers to restart
 	docker compose exec app php bin/console messenger:stop-workers
     # Restart app, worker and scheduler containers when using frankenphp
-	docker compose up -d --force-recreate app worker scheduler
+	docker compose up -d --force-recreate nginx app worker scheduler
 
 migrate:
 	docker compose exec app php bin/console doctrine:migrations:migrate

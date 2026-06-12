@@ -75,8 +75,7 @@ class DocumentIndexer extends AbstractIndexer
                 $buffer->addDocument($document);
             }
             $this->io?->progressAdvance();
-            // detach from Doctrine, so that it can be Garbage-Collected immediately
-            $this->managerRegistry->getManager()->detach($row);
+            $this->managerRegistry->getManager()->clear();
         }
 
         $buffer->flush();

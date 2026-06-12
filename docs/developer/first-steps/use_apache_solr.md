@@ -53,9 +53,22 @@ nelmio_solarium:
             adapter_timeout: 5
 ```
 
+Then configure fuzzy search options in `config/packages/roadiz_solr.yaml`:
+
+```yaml
+# config/packages/roadiz_solr.yaml
+roadiz_solr:
+    search:
+        fuzzy_proximity: 2
+        fuzzy_min_term_length: 3
+```
+
 You can use Solr in 2 ways: as a core or as a collection:
 - If you are using Solr as a single core, you can set the `SOLR_CORE_NAME` environment variable.
 - If you are using _SolrCloud mode_, you can set the `SOLR_COLLECTION_NAME`
+
+Fuzzy search options are configured in `roadiz_solr.search`.
+For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
 
 ::: info
 When using _SolrCloud mode_ you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and 

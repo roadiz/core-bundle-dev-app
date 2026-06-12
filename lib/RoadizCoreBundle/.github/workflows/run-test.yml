@@ -1,4 +1,4 @@
-name: Static analysis and code style
+name: Unit tests, static analysis and code style
 
 on:
     push:
@@ -15,11 +15,11 @@ on:
             - ready_for_review
 
 jobs:
-    static-analysis-tests:
+    run-tests:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.3', '8.4']
+                php-version: ['8.3', '8.4', '8.5']
         steps:
             - uses: shivammathur/setup-php@v2
               with:
@@ -34,8 +34,8 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-php-${{ matrix.php-version }}-
             - name: Install Dependencies
-              run: composer install --no-ansi --no-interaction --no-progress
+              run: composer install --no-scripts --no-ansi --no-interaction --no-progress
             - name: Run PHPStan
               run: vendor/bin/phpstan analyse --no-progress -c phpstan.neon
-            - name: Run PHP Unit
-              run: vendor/bin/phpunit -v
+            - name: Run Unit tests
+              run: vendor/bin/phpunit -v --whitelist ./src tests

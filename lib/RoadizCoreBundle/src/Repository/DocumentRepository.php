@@ -217,7 +217,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $qb->leftJoin($alias.'.documentTranslations', 'dt');
         $criteriaFields = [];
 
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(DocumentTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(DocumentTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 
@@ -542,7 +542,14 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageCropAlignment,
                     d.hotspot,
                     nsf.imageCropAlignment,
-                    nsf.hotspot
+                    nsf.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -553,6 +560,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('raw', false)
             ->setParameter('private', false)
+            ->setParameter('nullValue', null)
             ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
             ->setMaxResults(1)
             ->setCacheable(true);
@@ -637,7 +645,10 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     dt.name,
                     dt.description,
                     dt.copyright,
-                    dt.externalUrl
+                    dt.externalUrl,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -677,7 +688,16 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageAverageColor,
                     d.folder,
                     d.imageCropAlignment,
-                    d.hotspot
+                    d.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -685,6 +705,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)
             ->setParameter('raw', false)
+            ->setParameter('nullValue', null)
             ->setMaxResults(1)
             ->setCacheable(true);
 
@@ -698,7 +719,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      */
     public function findAllSettingDocuments(): array
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT d FROM RZ\Roadiz\CoreBundle\Entity\Document d
             WHERE d.id IN (
                 SELECT s.value FROM RZ\Roadiz\CoreBundle\Entity\Setting s
@@ -723,7 +744,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInSettings(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings
@@ -747,7 +768,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInCustomFormAnswers(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings

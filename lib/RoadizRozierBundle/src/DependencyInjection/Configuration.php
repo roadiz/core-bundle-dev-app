@@ -142,6 +142,15 @@ OpenID identity provider identifier claim field
 EOD
                     )
                 ->end()
+                ->integerNode('clock_skew')
+                    ->defaultValue(0)
+                    ->info(<<<EOD
+Accepted clock skew in seconds between this server and the identity provider.
+Increase this value (e.g. 30) if you get "token issued in the future" errors
+caused by clock drift between servers.
+EOD
+                    )
+                ->end()
                 ->booleanNode('requires_local_user')
                     ->defaultValue('true')
                     ->info(<<<EOD

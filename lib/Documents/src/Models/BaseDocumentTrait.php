@@ -107,6 +107,7 @@ trait BaseDocumentTrait
         'application/vnd.oasis.opendocument.text ' => 'word',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'powerpoint',
         'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'powerpoint',
+        'application/vnd.ms-excel.sheet.macroenabled.12' => 'excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'excel',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'word',
@@ -175,6 +176,7 @@ trait BaseDocumentTrait
     public function getShortType(): string
     {
         $mimeType = (string) $this->getMimeType();
+        $mimeType = strtolower($mimeType);
         if ('' !== $mimeType && isset(static::$mimeToIcon[$mimeType])) {
             return static::$mimeToIcon[$mimeType];
         }

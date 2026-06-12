@@ -583,7 +583,7 @@ EOT,
         $qb->leftJoin($alias.'.translatedTags', 'tt');
 
         $criteriaFields = [];
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(TagTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(TagTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
         foreach ($criteriaFields as $key => $value) {
@@ -655,9 +655,6 @@ EOT,
 
     /**
      * Find a tag according to the given path or create it.
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function findOrCreateByPath(string $tagPath, ?TranslationInterface $translation = null): ?Tag
     {
@@ -674,7 +671,7 @@ EOT,
 
         if (null === $tag) {
             /** @var TagTranslation|null $ttag */
-            $ttag = $this->_em->getRepository(TagTranslation::class)->findOneByName($tagName);
+            $ttag = $this->getEntityManager()->getRepository(TagTranslation::class)->findOneByName($tagName);
             if (null !== $ttag) {
                 $tag = $ttag->getTag();
             }
@@ -693,7 +690,7 @@ EOT,
                 $parentTag = $this->findOrCreateByPath(implode('/', array_slice($tags, 0, -1)), $translation);
             }
             if (null === $translation) {
-                $translation = $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \RuntimeException('No default translation found.');
+                $translation = $this->getEntityManager()->getRepository(Translation::class)->findDefault() ?? throw new \RuntimeException('No default translation found.');
             }
 
             $tag = new Tag();
@@ -706,9 +703,9 @@ EOT,
                 $tag->setParent($parentTag);
             }
 
-            $this->_em->persist($translatedTag);
-            $this->_em->persist($tag);
-            $this->_em->flush();
+            $this->getEntityManager()->persist($translatedTag);
+            $this->getEntityManager()->persist($tag);
+            $this->getEntityManager()->flush();
         }
 
         return $tag;
@@ -728,7 +725,7 @@ EOT,
         $tag = $this->findOneByTagName(StringHandler::slugify($tagName));
 
         if (null === $tag) {
-            $ttag = $this->_em->getRepository(TagTranslation::class)->findOneByName($tagName);
+            $ttag = $this->getEntityManager()->getRepository(TagTranslation::class)->findOneByName($tagName);
             if (null !== $ttag) {
                 $tag = $ttag->getTag();
             }
