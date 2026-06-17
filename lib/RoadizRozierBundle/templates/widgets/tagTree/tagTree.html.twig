@@ -1,6 +1,7 @@
 {%- if tagTree -%}
     <ul
         class="rz-tree__list"
+        data-translation-id="{{ tagTree.translation.id }}"
         {% if tag.getId %}data-parent-id="{{ tag.getId }}"{% endif %}
     >
         {% for ctag in tagTree.getTags %}
