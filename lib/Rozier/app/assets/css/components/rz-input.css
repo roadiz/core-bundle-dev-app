@@ -209,5 +209,21 @@
 		width: 16px;
 		height: 16px;
 		background: url("assets/img/icons/ri/close-line.svg") no-repeat center right;
+
+		@media (prefers-color-scheme: dark) {
+			background-image: url("assets/img/icons/ri/close-line-on-dark.svg");
+		}
+	}
+
+	[data-theme="light"] & {
+		&::-webkit-search-cancel-button {
+			background-image: url("assets/img/icons/ri/close-line.svg");
+		}
+	}
+
+	[data-theme="dark"] & {
+		&::-webkit-search-cancel-button {
+			background-image: url("assets/img/icons/ri/close-line-on-dark.svg");
+		}
 	}
 }
