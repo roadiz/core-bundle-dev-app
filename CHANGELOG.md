@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.28...2.7.29) - 2026-06-29
+
+### Bug Fixes
+
+- **(markdown editor)** auto focus with URL anchor - ([dcfd09f](https://github.com/roadiz/core-bundle-dev-app/commit/dcfd09f8e3f735f92d83d0da24a5a908a1f421ed))
+
 ## [2.7.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.27...v2.7.28) - 2026-06-10
 
 ### Bug Fixes

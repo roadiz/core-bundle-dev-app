@@ -251,6 +251,18 @@ export default class RzMarkdownEditor extends HTMLElement {
                 el.addEventListener('show.uk.switcher', this.forceEditorUpdate)
             })
             this.forceEditorUpdate()
+
+            // When the URL hash targets this textarea, focus the CodeMirror
+            // instance — the browser can't auto-focus it because CodeMirror
+            // replaces the textarea with its own DOM structure.
+            if (
+                window.location.hash &&
+                this.textarea.id &&
+                window.location.hash === `#${this.textarea.id}`
+            ) {
+                this.editor.focus()
+                this.$editor.scrollIntoView()
+            }
         })
 
         this.setAttribute('initialized', 'true')
