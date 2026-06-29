@@ -2,7 +2,7 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.7.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.28...2.7.29) - 2026-06-29
+## [2.7.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.28...v2.7.29) - 2026-06-29
 
 ### Bug Fixes
 
