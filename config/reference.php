@@ -966,17 +966,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             keep_slave?: bool|Param, // Deprecated: The "keep_slave" configuration key is deprecated since doctrine-bundle 2.2. Use the "keep_replica" configuration key instead.
  *             keep_replica?: bool|Param,
  *             options?: array<string, mixed>,
-<<<<<<< HEAD
- *             mapping_types?: array<string, scalar|Param|null>,
- *             default_table_options?: array<string, scalar|Param|null>,
- *             schema_manager_factory?: scalar|Param|null, // Default: "doctrine.dbal.default_schema_manager_factory"
- *             result_cache?: scalar|Param|null,
-=======
  *             mapping_types?: array<string, scalar|null|Param>,
  *             default_table_options?: array<string, scalar|null|Param>,
  *             schema_manager_factory?: scalar|null|Param, // Default: "doctrine.dbal.legacy_schema_manager_factory"
  *             result_cache?: scalar|null|Param,
->>>>>>> v2.7.29
  *             slaves?: array<string, array{ // Default: []
  *                 url?: scalar|null|Param, // A URL with connection information; any parameter value parsed from this string will override explicitly set parameters
  *                 dbname?: scalar|null|Param,
@@ -1044,15 +1037,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     orm?: array{
-<<<<<<< HEAD
- *         default_entity_manager?: scalar|Param|null,
- *         auto_generate_proxy_classes?: scalar|Param|null, // Auto generate mode possible values are: "NEVER", "ALWAYS", "FILE_NOT_EXISTS", "EVAL", "FILE_NOT_EXISTS_OR_CHANGED", this option is ignored when the "enable_native_lazy_objects" option is true // Default: false
- *         enable_lazy_ghost_objects?: bool|Param, // Enables the new implementation of proxies based on lazy ghosts instead of using the legacy implementation // Default: true
-=======
  *         default_entity_manager?: scalar|null|Param,
  *         auto_generate_proxy_classes?: scalar|null|Param, // Auto generate mode possible values are: "NEVER", "ALWAYS", "FILE_NOT_EXISTS", "EVAL", "FILE_NOT_EXISTS_OR_CHANGED", this option is ignored when the "enable_native_lazy_objects" option is true // Default: false
  *         enable_lazy_ghost_objects?: bool|Param, // Enables the new implementation of proxies based on lazy ghosts instead of using the legacy implementation // Default: false
->>>>>>> v2.7.29
  *         enable_native_lazy_objects?: bool|Param, // Enables the new native implementation of PHP lazy objects instead of generated proxies // Default: false
  *         proxy_dir?: scalar|null|Param, // Configures the path where generated proxy classes are saved when using non-native lazy objects, this option is ignored when the "enable_native_lazy_objects" option is true // Default: "%kernel.build_dir%/doctrine/orm/Proxies"
  *         proxy_namespace?: scalar|null|Param, // Defines the root namespace for generated proxy classes when using non-native lazy objects, this option is ignored when the "enable_native_lazy_objects" option is true // Default: "Proxies"
@@ -1087,20 +1074,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                     }>,
  *                 }>,
  *             },
-<<<<<<< HEAD
- *             connection?: scalar|Param|null,
- *             class_metadata_factory_name?: scalar|Param|null, // Default: "Doctrine\\ORM\\Mapping\\ClassMetadataFactory"
- *             default_repository_class?: scalar|Param|null, // Default: "Doctrine\\ORM\\EntityRepository"
- *             auto_mapping?: scalar|Param|null, // Default: false
- *             naming_strategy?: scalar|Param|null, // Default: "doctrine.orm.naming_strategy.default"
- *             quote_strategy?: scalar|Param|null, // Default: "doctrine.orm.quote_strategy.default"
- *             typed_field_mapper?: scalar|Param|null, // Default: "doctrine.orm.typed_field_mapper.default"
- *             entity_listener_resolver?: scalar|Param|null, // Default: null
- *             fetch_mode_subselect_batch_size?: scalar|Param|null,
- *             repository_factory?: scalar|Param|null, // Default: "doctrine.orm.container_repository_factory"
- *             schema_ignore_classes?: list<scalar|Param|null>,
- *             report_fields_where_declared?: bool|Param, // Set to "true" to opt-in to the new mapping driver mode that was added in Doctrine ORM 2.16 and will be mandatory in ORM 3.0. See https://github.com/doctrine/orm/pull/10455. // Default: true
-=======
  *             connection?: scalar|null|Param,
  *             class_metadata_factory_name?: scalar|null|Param, // Default: "Doctrine\\ORM\\Mapping\\ClassMetadataFactory"
  *             default_repository_class?: scalar|null|Param, // Default: "Doctrine\\ORM\\EntityRepository"
@@ -1113,7 +1086,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             repository_factory?: scalar|null|Param, // Default: "doctrine.orm.container_repository_factory"
  *             schema_ignore_classes?: list<scalar|null|Param>,
  *             report_fields_where_declared?: bool|Param, // Set to "true" to opt-in to the new mapping driver mode that was added in Doctrine ORM 2.16 and will be mandatory in ORM 3.0. See https://github.com/doctrine/orm/pull/10455. // Default: false
->>>>>>> v2.7.29
  *             validate_xml_mapping?: bool|Param, // Set to "true" to opt-in to the new mapping driver mode that was added in Doctrine ORM 2.14. See https://github.com/doctrine/orm/pull/6728. // Default: false
  *             second_level_cache?: array{
  *                 region_cache_driver?: string|array{
