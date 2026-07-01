@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.30...v2.7.31) - 2026-07-01
+
+### Bug Fixes
+
+- update compose env with profiles ([#456](https://github.com/roadiz/core-bundle-dev-app/issues/456)) - ([735399e](https://github.com/roadiz/core-bundle-dev-app/commit/735399ebefb22443b2b1e69f38bfc8bdf4891c74))
+
+### Features
+
+- **(solr)** default node source search to exclude embargoed content and added facets support ([#455](https://github.com/roadiz/core-bundle-dev-app/issues/455)) - ([3253c24](https://github.com/roadiz/core-bundle-dev-app/commit/3253c2421e073499f4180fdc93de5f4bc60d00fb))
+
 ## [2.7.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.28...v2.7.29) - 2026-06-29
 
 ### Bug Fixes
