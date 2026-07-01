@@ -68,7 +68,7 @@ class NodesSourcesSearchController extends AbstractController
     {
         /*
          * No explicit `publishedAt` filter: NodeSourceSearchHandler already
-         * defaults to `published_at_dt:[* TO NOW/MIN]` when no status override
+         * defaults to `published_at_dt:[* TO NOW/MINUTE]` when no status override
          * is requested. Passing an exact PHP-computed timestamp here instead
          * would produce a unique fq string on every request, defeating Solr's
          * filter cache reuse.

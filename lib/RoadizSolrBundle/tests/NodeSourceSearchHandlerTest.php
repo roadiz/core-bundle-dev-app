@@ -39,7 +39,7 @@ final class NodeSourceSearchHandlerTest extends TestCase
         $args = $this->argFqProcess([]);
 
         $this->assertContains('node_status_i:'.NodeStatus::PUBLISHED->value, $args['fq']);
-        $this->assertContains('published_at_dt:[* TO NOW/MIN]', $args['fq']);
+        $this->assertContains('published_at_dt:[* TO NOW/MINUTE]', $args['fq']);
     }
 
     public function testExplicitPublishedAtFilterIsNotDuplicated(): void
@@ -51,7 +51,7 @@ final class NodeSourceSearchHandlerTest extends TestCase
 
         $this->assertContains('node_status_i:'.NodeStatus::PUBLISHED->value, $args['fq']);
         $this->assertContains('published_at_dt:[* TO 2026-01-01T00:00:00Z]', $args['fq']);
-        $this->assertNotContains('published_at_dt:[* TO NOW/MIN]', $args['fq']);
+        $this->assertNotContains('published_at_dt:[* TO NOW/MINUTE]', $args['fq']);
     }
 
     public function testExplicitStatusOverrideSkipsAutomaticTemporalFilter(): void
@@ -61,6 +61,6 @@ final class NodeSourceSearchHandlerTest extends TestCase
         ]);
 
         $this->assertContains('node_status_i:[* TO '.NodeStatus::ARCHIVED->value.']', $args['fq']);
-        $this->assertNotContains('published_at_dt:[* TO NOW/MIN]', $args['fq']);
+        $this->assertNotContains('published_at_dt:[* TO NOW/MINUTE]', $args['fq']);
     }
 }

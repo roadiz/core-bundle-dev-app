@@ -215,7 +215,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
              */
             $args['fq'][] = 'node_status_i:'.(string) NodeStatus::PUBLISHED->value;
             if (!$hasExplicitPublishedAtFilter) {
-                $args['fq'][] = 'published_at_dt:[* TO NOW/MIN]';
+                $args['fq'][] = 'published_at_dt:[* TO NOW/MINUTE]';
             }
         }
 
