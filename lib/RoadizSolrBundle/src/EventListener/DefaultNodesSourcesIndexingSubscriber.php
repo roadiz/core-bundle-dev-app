@@ -89,18 +89,20 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             /*
              * `tags_txt` Must store only public, visible and user-searchable content.
              */
-            $out = array_map(
-                function (Tag $tag) use ($event, $nodeSource) {
-                    $translatedTag = $tag->getTranslatedTagsByTranslation($nodeSource->getTranslation())->first();
-                    $tagName = $translatedTag ?
-                        $translatedTag->getName() :
-                        $tag->getTagName();
+            $visibleSlugOut = [];
+            $out = [];
+            foreach ($nodeSource->getNode()->getTags()->filter(fn (Tag $tag) => $tag->isVisible())->toArray() as $tag) {
+                $translatedTag = $tag->getTranslatedTagsByTranslation($nodeSource->getTranslation())->first();
+                $tagName = $translatedTag ?
+                    $translatedTag->getName() :
+                    $tag->getTagName();
+                $out[] = $event->getSolariumDocument()->cleanTextContent($tagName, false);
+                $visibleSlugOut[] = $event->getSolariumDocument()->cleanTextContent($tag->getTagName(), false);
+            }
 
-                    return $event->getSolariumDocument()->cleanTextContent($tagName, false);
-                },
-                $nodeSource->getNode()->getTags()->filter(fn (Tag $tag) => $tag->isVisible())->toArray()
-            );
-            $out = array_filter(array_unique($out));
+            $out = array_values(array_filter(array_unique($out)));
+            $visibleSlugOut = array_values(array_filter(array_unique($visibleSlugOut)));
+
             // Use tags_txt to be compatible with other data types
             $assoc['tags_txt'] = $out;
             // Compile all tags names into a single localized text field.
@@ -113,9 +115,13 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
                 fn (Tag $tag) => $tag->getTagName(),
                 $nodeSource->getNode()->getTags()->toArray()
             );
-            $allOut = array_filter(array_unique($allOut));
+            $allOut = array_values(array_filter(array_unique($allOut)));
             // Use all_tags_slugs_ss to be compatible with other data types
             $assoc['all_tags_slugs_ss'] = $allOut;
+
+            // Facets compatible fields
+            $assoc['facet_tags_slugs_ss'] = $visibleSlugOut;
+            $assoc['facet_tags_ss'] = $out;
 
             $booleanFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isBoolean());
             $this->indexSuffixedFields($booleanFields, '_b', $nodeSource, $assoc);

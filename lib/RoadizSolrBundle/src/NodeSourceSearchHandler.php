@@ -100,11 +100,11 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
          */
         if (!empty($args['tags'])) {
             if ($args['tags'] instanceof Tag) {
-                $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $args['tags']->getTagName());
+                $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($args['tags']->getTagName());
             } elseif (is_array($args['tags'])) {
                 foreach ($args['tags'] as $tag) {
                     if ($tag instanceof Tag) {
-                        $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $tag->getTagName());
+                        $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($tag->getTagName());
                     }
                 }
             }
@@ -120,16 +120,16 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
                 $orQuery = [];
                 foreach ($nodeType as $singleNodeType) {
                     if ($singleNodeType instanceof NodeTypeInterface) {
-                        $orQuery[] = $singleNodeType->getName();
+                        $orQuery[] = $this->escapePhrase($singleNodeType->getName());
                     } elseif (is_string($singleNodeType)) {
-                        $orQuery[] = $singleNodeType;
+                        $orQuery[] = $this->escapePhrase($singleNodeType);
                     }
                 }
                 $args['fq'][] = 'node_type_s:('.implode(' OR ', $orQuery).')';
             } elseif ($nodeType instanceof NodeTypeInterface) {
-                $args['fq'][] = 'node_type_s:'.$nodeType->getName();
+                $args['fq'][] = 'node_type_s:'.$this->escapePhrase($nodeType->getName());
             } else {
-                $args['fq'][] = 'node_type_s:'.$nodeType;
+                $args['fq'][] = 'node_type_s:'.$this->escapePhrase((string) $nodeType);
             }
             unset($args['nodeType']);
             unset($args['node.nodeType']);
@@ -145,7 +145,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             if ($parent instanceof Node) {
                 $args['fq'][] = 'node_parent_i:'.$parent->getId();
             } elseif (is_string($parent)) {
-                $args['fq'][] = 'node_parent_s:'.trim($parent);
+                $args['fq'][] = 'node_parent_s:'.$this->escapePhrase(trim($parent));
             } elseif (is_numeric($parent)) {
                 $args['fq'][] = 'node_parent_i:'.(int) $parent;
             }
@@ -156,6 +156,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         /*
          * Handle publication date-time filtering
          */
+        $hasExplicitPublishedAtFilter = isset($args['publishedAt']);
         if (isset($args['publishedAt'])) {
             $tmp = 'published_at_dt:';
             if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTimeInterface) {
@@ -194,30 +195,38 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         $status = $args['status'] ?? $args['node.status'] ?? null;
         if (isset($status)) {
             $tmp = 'node_status_i:';
-            if ($status  instanceof NodeStatus) {
+            if ($status instanceof NodeStatus) {
                 $tmp .= (string) $status->value;
             } elseif (is_numeric($status)) {
                 $tmp .= (string) $status;
             } elseif (is_array($status) && '<=' == $status[0] && $status[1] instanceof NodeStatus) {
                 $tmp .= '[* TO '.(string) $status[1]->value.']';
-            } elseif (is_array($status) && '>=' == $status[0]->value && $status[1] instanceof NodeStatus) {
+            } elseif (is_array($status) && '>=' == $status[0] && $status[1] instanceof NodeStatus) {
                 $tmp .= '['.(string) $status[1]->value.' TO *]';
             }
             unset($args['status']);
             unset($args['node.status']);
             $args['fq'][] = $tmp;
         } else {
+            /*
+             * No explicit status requested: default to public visibility,
+             * excluding embargoed content not yet published, same as
+             * NodesSourcesRepository::alterQueryBuilderWithAuthorizationChecker.
+             */
             $args['fq'][] = 'node_status_i:'.(string) NodeStatus::PUBLISHED->value;
+            if (!$hasExplicitPublishedAtFilter) {
+                $args['fq'][] = 'published_at_dt:[* TO NOW/MINUTE]';
+            }
         }
 
         /*
          * Filter by translation or locale
          */
         if (isset($args['translation']) && $args['translation'] instanceof TranslationInterface) {
-            $args['fq'][] = 'locale_s:'.$args['translation']->getLocale();
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['translation']->getLocale());
         }
         if (isset($args['locale']) && is_string($args['locale'])) {
-            $args['fq'][] = 'locale_s:'.$args['locale'];
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['locale']);
         }
 
         return $args;

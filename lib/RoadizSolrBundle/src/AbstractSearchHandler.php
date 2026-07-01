@@ -237,6 +237,19 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     }
 
     /**
+     * Escape a free-string value as a quoted Lucene phrase for use in a filter
+     * query (`field:<escaped>`). Surrounds the value with double quotes and
+     * backslash-escapes any `"`/`\`, preventing injection of boolean operators,
+     * local params or additional `field:value` clauses.
+     *
+     * Only use this for free strings, never for range/numeric/structural syntax.
+     */
+    protected function escapePhrase(string $input): string
+    {
+        return (new Helper())->escapePhrase($input);
+    }
+
+    /**
      * @return array [$exactQuery, $fuzzyQuery, $wildcardQuery]
      */
     protected function getFormattedQuery(string $q): array
