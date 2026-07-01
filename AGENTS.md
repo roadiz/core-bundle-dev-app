@@ -6,7 +6,7 @@ Purpose
 
 Authoritative instructions
 - Copilot rules: `.github/copilot-instructions.md`.
-- Git commit rules: `.github/git-commit-instructions.md`.
+- Git commit rules: `.github/git-commit-instructions.md` — note its `Co-authored-by:` trailer suggestion does not apply to agent-authored commits; follow the "Git commit guidance" section below instead, which never adds that footer.
 - Cursor rules: none found in `.cursor/rules/` or `.cursorrules`.
 
 Project overview
@@ -41,13 +41,14 @@ Build, lint, and test commands
 - Single test file (Docker): `docker compose exec app vendor/bin/phpunit tests/SomeTest.php`.
 - Single test by name: `docker compose exec app vendor/bin/phpunit --filter SomeTest`.
 - Bundle tests: use bundle paths listed in `phpunit.xml.dist` (for example `lib/RoadizCoreBundle/tests`).
-- CI note: `make test` runs PHPStan, Rector, Deptrac, Twig lint, and PHPUnit.
+- CI note: `make test` runs requirements-checker, monorepo-builder validate, composer audit, PHPStan, Rector (dry run), Deptrac, PHP-CS-Fixer check, Twig lint, and PHPUnit, in that order.
 - PHPStan can misbehave when `lib/*` bundles are symlinked.
 
 Docker helpers
 - Shell in container: `make bash`.
 - Cache reset: `make cache` (clears caches and restarts workers).
 - Migrations: `make migrate` (interactive) or `make update` (non-interactive).
+- Profiles: `compose.yml` gates optional services behind profiles — `tests` (`db-test`, `mariadb-test`), `debug` (`pma`/phpMyAdmin), `frontend` (`node`, `storybook`), `docs` (`vitepress`). Naming a service explicitly (e.g. `docker compose up node`) auto-activates its profile, so existing commands work unchanged; add `--profile <name>` only when starting a profiled service without naming it directly.
 
 Environment notes
 - Use `.env.local` for local overrides; never commit it.
@@ -131,7 +132,7 @@ Localization and user-facing text
 Monorepo tooling
 - `vendor/bin/monorepo-builder merge` for dependency syncing across bundles.
 - `vendor/bin/monorepo-builder validate` to keep versions aligned.
-- Update Deptrac rules when adding a new bundle layer.
+- Deptrac enforces strict layering: `Models` has no internal deps; `RoadizCoreBundle` depends on `Models`; `RoadizRozierBundle` depends on `RoadizCoreBundle`. Run `make check-architecture` after adding cross-bundle dependencies or a new bundle layer.
 
 Copilot formatting rules (must follow when generating suggestions)
 - Start with a short step-by-step plan.
@@ -146,6 +147,7 @@ Git commit guidance (Conventional Commits)
 - Allowed types: feat, fix, docs, style, refactor, perf, test, chore, ci.
 - Use footer for issues or BREAKING CHANGE notes.
 - Wrap body lines around 72 characters.
+- Never add a `Co-Authored-By` (or `Co-authored-by`) footer to commit messages.
 
 Notes for agents
 - Keep changes minimal, focused, and aligned with CI tooling.

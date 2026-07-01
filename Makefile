@@ -33,22 +33,21 @@ check:
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
 phpunit:
-	docker compose up -d --force-recreate app mariadb-test db-test
-	sleep 3
+	docker compose up -d mariadb-test db-test redis varnish
+	sleep 10
 	# Flush Doctrine 2nd-level cache (Redis) to avoid cross-run pollution
 	-docker compose exec -T redis redis-cli FLUSHALL
 	# Test with MariaDB 11.8.3
 	# Drop any leftover DB first — named volumes survive --force-recreate, so prior runs may leave state behind
-	-docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --if-exists --force
-	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
-	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
+	-docker compose run --rm --no-deps --entrypoint= -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --if-exists --force
+	docker compose run --rm --no-deps --entrypoint= -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
+	docker compose run --rm --no-deps --entrypoint= -e "DATABASE_URL=mysql://db_user:db_password@mariadb-test/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
 	# Test with MySQL 8.4.7
 	-docker compose exec -T redis redis-cli FLUSHALL
-	-docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --if-exists --force
-	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
-	docker compose exec -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
-	docker compose stop mariadb-test db-test
-	docker compose rm -f -v mariadb-test db-test
+	-docker compose run --rm --no-deps --entrypoint= -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --if-exists --force
+	docker compose run --rm --no-deps --entrypoint= -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
+	docker compose run --rm --no-deps --entrypoint= -e "DATABASE_URL=mysql://db_user:db_password@db-test/db_name?serverVersion=8.4.7&charset=utf8mb4" -e "APP_ENV=test" app bin/console -e test doctrine:database:drop --force
+	docker compose down mariadb-test db-test
 
 requirements:
 	docker compose run --no-deps --rm --entrypoint= app vendor/bin/requirements-checker

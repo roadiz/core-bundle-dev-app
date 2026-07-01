@@ -19,5 +19,5 @@ body:json {
 
 script:post-response {
   const data = res.getBody();
-  bru.setEnvVar("token", data.token);
+  bru.setVar("token", data.token);
 }
