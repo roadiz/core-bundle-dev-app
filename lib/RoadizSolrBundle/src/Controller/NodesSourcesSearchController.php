@@ -66,8 +66,14 @@ class NodesSourcesSearchController extends AbstractController
 
     protected function getCriteria(Request $request): array
     {
+        /*
+         * No explicit `publishedAt` filter: NodeSourceSearchHandler already
+         * defaults to `published_at_dt:[* TO NOW/MIN]` when no status override
+         * is requested. Passing an exact PHP-computed timestamp here instead
+         * would produce a unique fq string on every request, defeating Solr's
+         * filter cache reuse.
+         */
         return [
-            'publishedAt' => ['<=', new \DateTime()],
             'translation' => $this->getTranslation($request),
         ];
     }

@@ -48,6 +48,7 @@
             <directory>lib/Documents/tests</directory>
             <directory>lib/EntityGenerator/tests</directory>
             <directory>lib/OpenId/tests</directory>
+            <directory>lib/RoadizSolrBundle/tests</directory>
         </testsuite>
     </testsuites>
 
@@ -69,6 +70,7 @@
             <directory>lib/Documents/tests</directory>
             <directory>lib/EntityGenerator/tests</directory>
             <directory>lib/OpenId/tests</directory>
+            <directory>lib/RoadizSolrBundle/tests</directory>
         </exclude>
         <report>
             <text outputFile="php://stdout"/>

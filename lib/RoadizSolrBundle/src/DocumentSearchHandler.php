@@ -112,7 +112,7 @@ class DocumentSearchHandler extends AbstractSearchHandler
          * Filter out non-valid copyright documents
          */
         if (isset($args['copyrightValid'])) {
-            $args['fq'][] = '(copyright_valid_since_dt:[* TO NOW] AND copyright_valid_until_dt:[NOW TO *])';
+            $args['fq'][] = '(copyright_valid_since_dt:[* TO NOW/MIN] AND copyright_valid_until_dt:[NOW/MIN TO *])';
             unset($args['copyrightValid']);
         }
 

@@ -156,6 +156,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         /*
          * Handle publication date-time filtering
          */
+        $hasExplicitPublishedAtFilter = isset($args['publishedAt']);
         if (isset($args['publishedAt'])) {
             $tmp = 'published_at_dt:';
             if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTimeInterface) {
@@ -207,7 +208,15 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             unset($args['node.status']);
             $args['fq'][] = $tmp;
         } else {
+            /*
+             * No explicit status requested: default to public visibility,
+             * excluding embargoed content not yet published, same as
+             * NodesSourcesRepository::alterQueryBuilderWithAuthorizationChecker.
+             */
             $args['fq'][] = 'node_status_i:'.(string) NodeStatus::PUBLISHED->value;
+            if (!$hasExplicitPublishedAtFilter) {
+                $args['fq'][] = 'published_at_dt:[* TO NOW/MIN]';
+            }
         }
 
         /*
