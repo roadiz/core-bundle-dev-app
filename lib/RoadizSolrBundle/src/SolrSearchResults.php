@@ -7,6 +7,7 @@ namespace RZ\Roadiz\SolrBundle;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\SearchEngine\FacetedSearchResultsInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultItemInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\SolrBundle\Solarium\AbstractSolarium;
@@ -19,7 +20,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
  * Wrapper over Solr search results and metas.
  */
 #[Exclude]
-class SolrSearchResults implements SearchResultsInterface
+class SolrSearchResults implements SearchResultsInterface, FacetedSearchResultsInterface
 {
     #[Ignore]
     protected int $position;
@@ -50,6 +51,15 @@ class SolrSearchResults implements SearchResultsInterface
         }
 
         return 0;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    #[\Override]
+    public function getFacets(): array
+    {
+        return $this->response['facets'] ?? [];
     }
 
     /**

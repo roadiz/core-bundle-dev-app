@@ -78,16 +78,27 @@ When using _SolrCloud mode_ you will need to set the `SOLR_COLLECTION_NUM_SHARDS
 
 ### Register an API operation for search
 
-Add `api_nodes_sources_search` API operation to expose `NodesSourcesSearchController`
+Expose `NodesSourcesSearchController` at `/api/search` through the virtual,
+read-only `SearchResultItem` resource. Each result is serialized with a unique
+skolem IRI (`/.well-known/genid/...`) and the matched entity is nested under the
+`item` property, alongside its `highlighting`.
+
 ```yaml
-# config/api_resources/nodes_sources.yml
+# config/api_resources/search.yml
 resources:
-    RZ\Roadiz\CoreBundle\Entity\NodesSources:
+    RZ\Roadiz\SolrBundle\SearchResultItem:
+        shortName: SearchResultItem
+        description: 'A single Solr search result, wrapping a matched resource and its highlighting.'
+        types:
+            - SearchResultItem
+        # Virtual, read-only resource: no identifier and no item operation, so each
+        # member is serialized with a unique skolem IRI (`/.well-known/genid/...`).
+        stateless: true
         operations:
-            api_nodes_sources_search:
+            search_collection:
                 class: ApiPlatform\Metadata\GetCollection
                 method: 'GET'
-                uriTemplate: '/nodes_sources/search'
+                uriTemplate: '/search'
                 controller: RZ\Roadiz\SolrBundle\Controller\NodesSourcesSearchController
                 read: false
                 normalizationContext:
@@ -103,6 +114,8 @@ resources:
                     summary: Search NodesSources resources
                     description: |
                         Search all website NodesSources resources using **Solr** full-text search engine
+                    tags:
+                        - Search
                     parameters:
                         -   type: string
                             name: search
@@ -111,7 +124,37 @@ resources:
                             description: Search pattern
                             schema:
                                 type: string
+                        -   name: tag_name
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more visible tag names.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
+                        -   name: node_type
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more allowlisted node types.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
 ```
+
+::: tip
+The endpoint returns embedded `facets` and accepts `tag_name` / `node_type`
+filter params. Only published content is returned by default (previewers also see
+draft, pending and embargoed content). See the
+[Solr Bundle](../optional-bundles/solr-bundle.md) documentation for the full
+faceting and filtering reference.
+:::
 
 ### Register a Monolog handler
 

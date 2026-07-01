@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\ListManager;
 
 use RZ\Roadiz\CoreBundle\ListManager\AbstractEntityListManager;
+use RZ\Roadiz\CoreBundle\SearchEngine\FacetedSearchResultsInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -84,5 +85,17 @@ final class SearchEngineListManager extends AbstractEntityListManager
             return $this->searchResults->getResultItems();
         }
         throw new \InvalidArgumentException('Call EntityListManagerInterface::handle before getting entities.');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getFacets(): array
+    {
+        if ($this->searchResults instanceof FacetedSearchResultsInterface) {
+            return $this->searchResults->getFacets();
+        }
+
+        return [];
     }
 }

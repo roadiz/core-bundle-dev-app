@@ -154,16 +154,28 @@ bin/console solr:drop
 
 ### Api Resources
 
-Add `api_nodes_sources_search` API operation to expose `NodesSourcesSearchController`
+Expose the `NodesSourcesSearchController` at `/api/search` by declaring the
+`SearchResultItem` resource. It is a **virtual, read-only** resource: it has no
+identifier and no item operation, so every result is serialized with a unique
+skolem IRI (`/.well-known/genid/...`) and the matched entity is nested under the
+`item` property, alongside its `highlighting`.
+
 ```yaml
-# config/api_resources/nodes_sources.yml
+# config/api_resources/search.yml
 resources:
-    RZ\Roadiz\CoreBundle\Entity\NodesSources:
+    RZ\Roadiz\SolrBundle\SearchResultItem:
+        shortName: SearchResultItem
+        description: 'A single Solr search result, wrapping a matched resource and its highlighting.'
+        types:
+            - SearchResultItem
+        # Virtual, read-only resource: no identifier and no item operation, so each
+        # member is serialized with a unique skolem IRI (`/.well-known/genid/...`).
+        stateless: true
         operations:
-            api_nodes_sources_search:
+            search_collection:
                 class: ApiPlatform\Metadata\GetCollection
                 method: 'GET'
-                uriTemplate: '/nodes_sources/search'
+                uriTemplate: '/search'
                 controller: RZ\Roadiz\SolrBundle\Controller\NodesSourcesSearchController
                 read: false
                 normalizationContext:
@@ -179,6 +191,8 @@ resources:
                     summary: Search NodesSources resources
                     description: |
                         Search all website NodesSources resources using **Solr** full-text search engine
+                    tags:
+                        - Search
                     parameters:
                         -   type: string
                             name: search
@@ -187,7 +201,80 @@ resources:
                             description: Search pattern
                             schema:
                                 type: string
+                        -   name: tag_name
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more visible tag names (matches the
+                                `facet_tags_ss` facet). Repeat the param to filter on several tags.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
+                        -   name: node_type
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more node types (matches the
+                                `node_type_s` facet). Only node types within the endpoint allowlist
+                                are returned. Repeat the param to filter on several node types.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
 ```
+
+> **Migrating from `/nodes_sources/search`:** the operation moved from the
+> `NodesSources` resource (`/api/nodes_sources/search`) to a dedicated
+> `SearchResultItem` resource at `/api/search`. Update your front-end calls and
+> read the matched entity from the `item` property of each `hydra:member`.
+
+#### Content visibility
+
+By default the endpoint only returns **published** content: the handler applies
+`node_status_i:PUBLISHED` and `published_at_dt:[* TO NOW/MINUTE]`, hiding drafts,
+pending and not-yet-published (embargoed) content. With a valid preview token,
+`NodesSourcesSearchController::getCriteria()` widens the query to
+`status <= PUBLISHED` so previewers can see **draft, pending and published**
+content, including embargoed items. The `NOW/MINUTE` rounding lets consecutive
+requests share Solr's filter cache.
+
+#### Faceted search
+
+Responses embed a `facets` object next to `hydra:member`. `NodeSourceSearchFacetSubscriber`
+registers JSON facet terms for `node_type` (`node_type_s`), `document_type`
+(`document_type_s`) and `tag_name` (`facet_tags_ss`). Facets are exposed through
+`FacetedSearchResultsInterface::getFacets()` and appended to the Hydra collection
+by the `FacetedCollectionNormalizer` decorator. The tag facet fields
+(`facet_tags_ss` and `facet_tags_slugs_ss`), populated by
+`DefaultNodesSourcesIndexingSubscriber`, only contain **visible** tags.
+
+> **Note:** the `tag_name` facet exposes **translated tag names**, not slugs. A
+> Solr facet bucket is a flat `{ val, count }` pair and cannot hold a label *and*
+> a value, so the displayed name is also the value you filter with. The frontend
+> can render facets as-is and echo the selected value back into `?tag_name=...`,
+> but that value is localized (and therefore not a stable, language-neutral
+> identifier). `facet_tags_slugs_ss` is indexed for slug-based queries, not to
+> pair slugs with names inside a facet response.
+
+#### Filtering search results
+
+Optional filter params are handled by subscribers listening to
+`NodeSourceSearchQueryEvent`:
+
+- **`tag_name`** — `NodeSourceSearchTagsFilterSubscriber` (`facet_tags_ss`).
+- **`node_type`** — `NodeSourceSearchNodeTypeFilterSubscriber` (`node_type_s`).
+
+Each accepts a single value (`?node_type=Page`) or several
+(`?node_type[]=Page&node_type[]=Article`) and escapes values with
+`Solarium\Core\Query\Helper::escapePhrase()`. Because Solr ANDs filter queries,
+`node_type` can only narrow within the controller's node-type allowlist. Add your
+own filters by subscribing to `NodeSourceSearchQueryEvent` and appending filter
+queries (or facets) on the Solarium query.
 
 ### Monolog
 
