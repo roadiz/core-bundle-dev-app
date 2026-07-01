@@ -14,8 +14,7 @@ final class NodeSourceSearchFacetSubscriber implements EventSubscriberInterface
         $facetSet = $event->getQuery()->getFacetSet();
         $facetSet->createJsonFacetTerms(['local_key' => 'node_type', 'field' => 'node_type_s']);
         $facetSet->createJsonFacetTerms(['local_key' => 'document_type', 'field' => 'document_type_s']);
-        $facetSet->createJsonFacetTerms(['local_key' => 'tags_slugs', 'field' => 'facet_tags_slugs_ss']);
-        $facetSet->createJsonFacetTerms(['local_key' => 'tags_names', 'field' => 'facet_tags_ss']);
+        $facetSet->createJsonFacetTerms(['local_key' => 'tag_name', 'field' => 'facet_tags_ss']);
     }
 
     #[\Override]

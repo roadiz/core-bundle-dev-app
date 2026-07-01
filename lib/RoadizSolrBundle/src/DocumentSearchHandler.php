@@ -68,11 +68,11 @@ class DocumentSearchHandler extends AbstractSearchHandler
          */
         if (!empty($args['folders'])) {
             if ($args['folders'] instanceof Folder) {
-                $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $args['folders']->getFolderName());
+                $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($args['folders']->getFolderName());
             } elseif (is_array($args['folders'])) {
                 foreach ($args['folders'] as $folder) {
                     if ($folder instanceof Folder) {
-                        $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $folder->getFolderName());
+                        $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($folder->getFolderName());
                     }
                 }
             }
@@ -82,9 +82,12 @@ class DocumentSearchHandler extends AbstractSearchHandler
         if (isset($args['mimeType'])) {
             $tmp = 'mime_type_s:';
             if (!is_array($args['mimeType'])) {
-                $tmp .= (string) $args['mimeType'];
+                $tmp .= $this->escapePhrase((string) $args['mimeType']);
             } else {
-                $value = implode(' AND ', $args['mimeType']);
+                $value = implode(' AND ', array_map(
+                    fn ($mimeType) => $this->escapePhrase((string) $mimeType),
+                    $args['mimeType']
+                ));
                 $tmp .= '('.$value.')';
             }
             unset($args['mimeType']);
@@ -95,17 +98,17 @@ class DocumentSearchHandler extends AbstractSearchHandler
          * Filter by translation or locale
          */
         if (isset($args['translation']) && $args['translation'] instanceof Translation) {
-            $args['fq'][] = 'locale_s:'.$args['translation']->getLocale();
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['translation']->getLocale());
         }
         if (isset($args['locale']) && is_string($args['locale'])) {
-            $args['fq'][] = 'locale_s:'.$args['locale'];
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['locale']);
         }
 
         /*
          * Filter by filename
          */
         if (isset($args['filename'])) {
-            $args['fq'][] = sprintf('filename_s:"%s"', trim((string) $args['filename']));
+            $args['fq'][] = 'filename_s:'.$this->escapePhrase(trim((string) $args['filename']));
         }
 
         /*

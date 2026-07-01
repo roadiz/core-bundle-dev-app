@@ -1,0 +1,20 @@
+meta {
+  name: Search resources
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/search?search=test&_locale=en&node_type[]=Page
+  body: none
+  auth: none
+}
+
+params:query {
+  search: test
+  _locale: en
+  node_type[]: Page
+  ~node_type[]: Offer
+  ~tag_name[]: Category 1 FR
+  ~tag_name[]: aasd-asd-s
+}

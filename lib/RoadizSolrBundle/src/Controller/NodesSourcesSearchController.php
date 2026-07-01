@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\SolrBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Controller\TranslationAwareControllerTrait;
 use RZ\Roadiz\CoreBundle\Api\ListManager\SearchEngineListManager;
 use RZ\Roadiz\CoreBundle\Api\ListManager\SearchEnginePaginator;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
@@ -18,7 +20,10 @@ use RZ\Roadiz\SolrBundle\SolrHighlightingBsTypeEnum;
 use RZ\Roadiz\SolrBundle\SolrHighlightingMethodEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -28,12 +33,13 @@ class NodesSourcesSearchController extends AbstractController
     use TranslationAwareControllerTrait;
 
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
-        private readonly int $highlightingFragmentSize = 200,
-        private readonly SolrHighlightingBsTypeEnum $highlightingBsType = SolrHighlightingBsTypeEnum::WORD,
-        private readonly SolrHighlightingMethodEnum $highlightingMethod = SolrHighlightingMethodEnum::UNIFIED,
+        protected readonly RequestStack $requestStack,
+        protected readonly ManagerRegistry $managerRegistry,
+        protected readonly PreviewResolverInterface $previewResolver,
+        protected readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        protected readonly int $highlightingFragmentSize = 200,
+        protected readonly SolrHighlightingBsTypeEnum $highlightingBsType = SolrHighlightingBsTypeEnum::WORD,
+        protected readonly SolrHighlightingMethodEnum $highlightingMethod = SolrHighlightingMethodEnum::UNIFIED,
     ) {
     }
 
@@ -49,8 +55,21 @@ class NodesSourcesSearchController extends AbstractController
         return $this->previewResolver;
     }
 
+    protected function getTranslationFromRequest(): ?TranslationInterface
+    {
+        $request = $this->requestStack->getMainRequest();
+        if (null !== $request) {
+            return $this->getTranslation($request);
+        }
+
+        return null;
+    }
+
     protected function getSearchHandler(): SearchHandlerInterface
     {
+        if (null === $this->nodeSourceSearchHandler) {
+            throw new HttpException(Response::HTTP_SERVICE_UNAVAILABLE, 'Search engine does not respond.');
+        }
         $this->nodeSourceSearchHandler->boostByPublicationDate();
         if ($this->highlightingFragmentSize > 0) {
             $this->nodeSourceSearchHandler->setHighlightingFragmentSize($this->highlightingFragmentSize);
@@ -64,18 +83,48 @@ class NodesSourcesSearchController extends AbstractController
         return $this->nodeSourceSearchHandler;
     }
 
-    protected function getCriteria(Request $request): array
+    /**
+     * @return string[]
+     */
+    protected function getAllowedNodeTypes(): array
     {
-        /*
-         * No explicit `publishedAt` filter: NodeSourceSearchHandler already
-         * defaults to `published_at_dt:[* TO NOW/MINUTE]` when no status override
-         * is requested. Passing an exact PHP-computed timestamp here instead
-         * would produce a unique fq string on every request, defeating Solr's
-         * filter cache reuse.
-         */
         return [
-            'translation' => $this->getTranslation($request),
+            'Page',
+            'Article',
+            'BlogPost',
+            'ArticleContainer',
+            'Offer',
         ];
+    }
+
+    protected function getCriteria(): array
+    {
+        $criteria = [
+            'nodeType' => $this->getAllowedNodeTypes(),
+            'translation' => $this->getTranslationFromRequest(),
+        ];
+
+        if ($this->getPreviewResolver()->isPreview()) {
+            /*
+             * Previewers are allowed to see draft, pending and published content,
+             * including not-yet-published (embargoed) items. Setting an explicit
+             * status override also disables NodeSourceSearchHandler's default
+             * `published_at_dt:[* TO NOW/MINUTE]` temporal filter.
+             */
+            $criteria['status'] = ['<=', NodeStatus::PUBLISHED];
+        } else {
+            /*
+             * Default visitors only get currently published and visible content.
+             * NodeSourceSearchHandler already defaults to `node_status_i:PUBLISHED`
+             * and `published_at_dt:[* TO NOW/MINUTE]` when no status override is
+             * requested, so we only add the visibility constraint here. Passing an
+             * exact PHP-computed `publishedAt` timestamp would produce a unique fq
+             * string on every request, defeating Solr's filter cache reuse.
+             */
+            $criteria['visible'] = true;
+        }
+
+        return $criteria;
     }
 
     public function __invoke(Request $request): SearchEnginePaginator
@@ -84,7 +133,7 @@ class NodesSourcesSearchController extends AbstractController
             $entityListManager = new SearchEngineListManager(
                 $request,
                 $this->getSearchHandler(),
-                $this->getCriteria($request),
+                $this->getCriteria(),
                 true
             );
 
