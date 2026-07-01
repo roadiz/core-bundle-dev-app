@@ -195,13 +195,13 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         $status = $args['status'] ?? $args['node.status'] ?? null;
         if (isset($status)) {
             $tmp = 'node_status_i:';
-            if ($status  instanceof NodeStatus) {
+            if ($status instanceof NodeStatus) {
                 $tmp .= (string) $status->value;
             } elseif (is_numeric($status)) {
                 $tmp .= (string) $status;
             } elseif (is_array($status) && '<=' == $status[0] && $status[1] instanceof NodeStatus) {
                 $tmp .= '[* TO '.(string) $status[1]->value.']';
-            } elseif (is_array($status) && '>=' == $status[0]->value && $status[1] instanceof NodeStatus) {
+            } elseif (is_array($status) && '>=' == $status[0] && $status[1] instanceof NodeStatus) {
                 $tmp .= '['.(string) $status[1]->value.' TO *]';
             }
             unset($args['status']);

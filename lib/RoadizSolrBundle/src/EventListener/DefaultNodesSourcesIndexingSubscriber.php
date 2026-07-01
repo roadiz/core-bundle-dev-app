@@ -96,8 +96,8 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
                 $tagName = $translatedTag ?
                     $translatedTag->getName() :
                     $tag->getTagName();
-                $out[$tagName] = $tagName;
-                $visibleSlugOut[$tagName] = $event->getSolariumDocument()->cleanTextContent($tag->getTagName(), false);
+                $out[] = $event->getSolariumDocument()->cleanTextContent($tagName, false);
+                $visibleSlugOut[] = $event->getSolariumDocument()->cleanTextContent($tag->getTagName(), false);
             }
 
             $out = array_values(array_filter(array_unique($out)));
@@ -115,7 +115,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
                 fn (Tag $tag) => $tag->getTagName(),
                 $nodeSource->getNode()->getTags()->toArray()
             );
-            $allOut = array_filter(array_unique($allOut));
+            $allOut = array_values(array_filter(array_unique($allOut)));
             // Use all_tags_slugs_ss to be compatible with other data types
             $assoc['all_tags_slugs_ss'] = $allOut;
 
