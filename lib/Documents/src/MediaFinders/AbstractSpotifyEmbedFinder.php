@@ -140,6 +140,19 @@ abstract class AbstractSpotifyEmbedFinder extends AbstractEmbedFinder
     }
 
     #[\Override]
+    public function getPublicUri(): ?string
+    {
+        if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
+            return 'https://open.spotify.com/'.$this->embedId;
+        }
+        if (preg_match(static::$idPattern, $this->embedId, $matches)) {
+            return 'https://open.spotify.com/'.$matches['type'].'/'.$matches['id'];
+        }
+
+        return null;
+    }
+
+    #[\Override]
     protected function areDuplicatesAllowed(): bool
     {
         return true;
