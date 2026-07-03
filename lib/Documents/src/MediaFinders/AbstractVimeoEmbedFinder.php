@@ -171,4 +171,9 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
 
         return 'https://player.vimeo.com/video/' . $this->embedId . '?' . http_build_query($queryString);
     }
+
+    public function getPublicUri(): ?string
+    {
+        return 'https://vimeo.com/'.$this->embedId;
+    }
 }
