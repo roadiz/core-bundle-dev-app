@@ -24,7 +24,7 @@ final class ChainDoctrineObjectConstructor implements ObjectConstructorInterface
      * @param DeserializationVisitorInterface $visitor
      * @param ClassMetadata $metadata
      * @param PersistableInterface|array<PersistableInterface> $data
-     * @param array $type
+     * @param array{name: string, params: array} $type
      * @param DeserializationContext $context
      * @return object|null
      */
