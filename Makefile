@@ -14,13 +14,13 @@ test:
 	make phpunit
 
 phpunit:
-	APP_ENV=test docker compose exec app php vendor/bin/phpunit -v
+	docker compose run -e "APP_ENV=test" --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/phpunit -v
 
 fix:
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 
 check:
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
 requirements:
 	vendor/bin/requirements-checker
