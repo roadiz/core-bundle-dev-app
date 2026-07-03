@@ -172,3 +172,10 @@ fabric.properties
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+.claude/
+.deptrac.cache
+config/reference.php
+docs/
+lib/Rozier/.pnpm-store/
+phpstan_report.txt
