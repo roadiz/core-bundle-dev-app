@@ -116,6 +116,15 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     }
 
     /**
+     * Get the original public media URL (permalink), not the iframe/embed source.
+     */
+    #[\Override]
+    public function getPublicUri(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Crawl an embed API to get a Json feed.
      */
     abstract public function getMediaFeed(?string $search = null): string;

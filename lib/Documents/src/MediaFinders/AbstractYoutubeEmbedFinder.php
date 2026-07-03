@@ -221,4 +221,16 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
 
         return static::YOUTUBE_EMBED_DOMAIN.'/embed/'.$embedId.'?'.http_build_query($queryString);
     }
+
+    #[\Override]
+    public function getPublicUri(): ?string
+    {
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
+            $embedId = $matches['id'];
+        } else {
+            $embedId = $this->embedId;
+        }
+
+        return 'https://www.youtube.com/watch?v='.$embedId;
+    }
 }
