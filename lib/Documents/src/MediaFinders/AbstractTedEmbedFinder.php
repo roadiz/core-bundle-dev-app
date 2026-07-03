@@ -88,4 +88,9 @@ abstract class AbstractTedEmbedFinder extends AbstractEmbedFinder
 
         return $this->embedId;
     }
+
+    public function getPublicUri(): ?string
+    {
+        return $this->embedId;
+    }
 }

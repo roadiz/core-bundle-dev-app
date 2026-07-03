@@ -138,6 +138,13 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         return 'https://w.soundcloud.com/player/?'.http_build_query($queryString);
     }
 
+    public function getPublicUri(): ?string
+    {
+        // getFeed() mutates $embedId to an api.soundcloud.com URL,
+        // so prefer the original public URL captured in $embedUrl.
+        return $this->embedUrl ?? $this->embedId;
+    }
+
     protected function areDuplicatesAllowed(): bool
     {
         return true;

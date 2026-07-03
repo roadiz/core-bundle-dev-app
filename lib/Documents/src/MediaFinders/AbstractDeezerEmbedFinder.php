@@ -152,6 +152,18 @@ abstract class AbstractDeezerEmbedFinder extends AbstractEmbedFinder
         return $baseUri.'?'.http_build_query($queryString);
     }
 
+    public function getPublicUri(): ?string
+    {
+        if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
+            return 'https://www.deezer.com/'.$this->embedId;
+        }
+        if (preg_match(static::$idPattern, $this->embedId, $matches)) {
+            return 'https://www.deezer.com/'.$matches['type'].'/'.$matches['id'];
+        }
+
+        return null;
+    }
+
     protected function areDuplicatesAllowed(): bool
     {
         return true;

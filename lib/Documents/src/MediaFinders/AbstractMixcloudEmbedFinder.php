@@ -120,6 +120,11 @@ abstract class AbstractMixcloudEmbedFinder extends AbstractEmbedFinder
         return 'https://www.mixcloud.com/widget/iframe/?'.http_build_query($queryString);
     }
 
+    public function getPublicUri(): ?string
+    {
+        return $this->embedId;
+    }
+
     protected function areDuplicatesAllowed(): bool
     {
         return true;
