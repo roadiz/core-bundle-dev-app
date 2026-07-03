@@ -108,6 +108,16 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
     }
 
     #[\Override]
+    public function getPublicUri(): ?string
+    {
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
+            return 'https://podcasts.apple.com/'.$matches['path'];
+        }
+
+        return null;
+    }
+
+    #[\Override]
     public function getShortType(): string
     {
         return 'podcast';
