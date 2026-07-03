@@ -2,10 +2,17 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.31...v2.7.32) - 2026-07-03
+
+### Features
+
+- **(documents)** add getPublicUri to media finders - ([0ad306e](https://github.com/roadiz/core-bundle-dev-app/commit/0ad306e9016fe7515dfd62af538b3f720a1f17db))
+
 ## [2.7.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.30...v2.7.31) - 2026-07-01
 
 ### Bug Fixes
 
+- **(Rozier)** downgrade cropperjs ([#453](https://github.com/roadiz/core-bundle-dev-app/issues/453)) - ([ec41dae](https://github.com/roadiz/core-bundle-dev-app/commit/ec41dae6597066a1450c03a8a8bfdfe75e1d8aa2))
 - update compose env with profiles ([#456](https://github.com/roadiz/core-bundle-dev-app/issues/456)) - ([735399e](https://github.com/roadiz/core-bundle-dev-app/commit/735399ebefb22443b2b1e69f38bfc8bdf4891c74))
 
 ### Features
