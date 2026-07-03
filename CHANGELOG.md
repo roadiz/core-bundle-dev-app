@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.44...v2.3.45) - 2026-07-03
+
+### Features
+
+- **(documents)** add getPublicUri to media finders - ([f8c9937](https://github.com/roadiz/core-bundle-dev-app/commit/f8c9937cb07f4708615524a66329cc787c576b47))
+
 ## [2.3.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.43...v2.3.44) - 2026-04-20
 
 ### Bug Fixes
