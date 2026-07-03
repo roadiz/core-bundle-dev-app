@@ -169,3 +169,9 @@ fabric.properties
 ###< friendsofphp/php-cs-fixer ###
 /compose.override.yml
 /siege.txt
+
+.claude/
+.deptrac.cache
+config/reference.php
+lib/Rozier/.pnpm-store/
+phpstan_report.txt
