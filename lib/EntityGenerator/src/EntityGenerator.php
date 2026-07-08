@@ -73,6 +73,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             'node_class',
             'translation_class',
             'document_class',
+            'document_base_class',
             'document_proxy_class',
             'custom_form_class',
             'custom_form_proxy_class',
@@ -85,6 +86,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setAllowedTypes('node_class', 'string');
         $resolver->setAllowedTypes('translation_class', 'string');
         $resolver->setAllowedTypes('document_class', 'string');
+        $resolver->setAllowedTypes('document_base_class', 'string');
         $resolver->setAllowedTypes('document_proxy_class', 'string');
         $resolver->setAllowedTypes('custom_form_class', 'string');
         $resolver->setAllowedTypes('custom_form_proxy_class', 'string');
@@ -101,6 +103,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setNormalizer('node_class', $normalizeClassName);
         $resolver->setNormalizer('translation_class', $normalizeClassName);
         $resolver->setNormalizer('document_class', $normalizeClassName);
+        $resolver->setNormalizer('document_base_class', $normalizeClassName);
         $resolver->setNormalizer('document_proxy_class', $normalizeClassName);
         $resolver->setNormalizer('custom_form_class', $normalizeClassName);
         $resolver->setNormalizer('custom_form_proxy_class', $normalizeClassName);
@@ -327,6 +330,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         ;
 
         $this->addMetaDescriptionFallbackMethod($classType);
+        $this->addShareImageMethod($classType);
 
         return $this;
     }
@@ -368,6 +372,39 @@ final class EntityGenerator implements EntityGeneratorInterface
                 ."}\n\n"
                 .'return (string) ($this->'.$fallbackGetter."() ?? '');"
             )
+        ;
+    }
+
+    /**
+     * Override getShareImage to return the first document of a documents field
+     * flagged as "shareImage", exposing it as the node-source share-image
+     * (Open Graph / social image).
+     *
+     * The flag lives on the concrete NodeTypeField (not the contracts
+     * interface), so it is read here by duck typing; and the return type is
+     * taken from the injected "document_base_class" option rather than a
+     * hard-coded FQCN, to avoid coupling this split package to the Documents
+     * (and core-bundle) layers.
+     */
+    private function addShareImageMethod(ClassType $classType): void
+    {
+        $shareImageGetter = null;
+        foreach ($this->nodeType->getFields() as $field) {
+            if (method_exists($field, 'isShareImage') && $field->isShareImage()) {
+                $shareImageGetter = $field->getGetterName();
+                break;
+            }
+        }
+
+        if (null === $shareImageGetter) {
+            return;
+        }
+
+        $classType->addMethod('getShareImage')
+            ->setReturnType($this->options['document_base_class'])
+            ->setReturnNullable(true)
+            ->addAttribute(\Override::class)
+            ->setBody('return $this->'.$shareImageGetter.'()[0] ?? null;')
         ;
     }
 }

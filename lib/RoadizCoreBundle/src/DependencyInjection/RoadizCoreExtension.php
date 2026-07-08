@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessageInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Markdown\CommonMark;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Symfony\Component\Config\FileLocator;
@@ -205,6 +206,7 @@ class RoadizCoreExtension extends Extension
             'repository_class' => NodesSourcesRepository::class,
             'node_class' => Node::class,
             'document_class' => Document::class,
+            'document_base_class' => BaseDocumentInterface::class,
             'document_proxy_class' => NodesSourcesDocuments::class,
             'custom_form_class' => CustomForm::class,
             'custom_form_proxy_class' => NodesCustomForms::class,

@@ -23,6 +23,7 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypeReachableFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
@@ -439,6 +440,20 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     public function getMetaDescriptionOrFallback(): string
     {
         return $this->getMetaDescription();
+    }
+
+    /**
+     * Document to expose as the node-source share-image (Open Graph / social
+     * image), taken from the first document of a node-type field flagged as
+     * "shareImage".
+     *
+     * This base implementation returns null; it is overridden in generated
+     * node-source entities when a documents field is flagged. The head then
+     * falls back on the global "share_image" setting when this is null.
+     */
+    public function getShareImage(): ?BaseDocumentInterface
+    {
+        return null;
     }
 
     public function isNoIndex(): bool
