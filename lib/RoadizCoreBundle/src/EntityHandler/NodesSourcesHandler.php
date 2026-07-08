@@ -444,15 +444,11 @@ final class NodesSourcesHandler extends AbstractHandler
     }
 
     /**
-     * Get current node-source SEO data.
+     * Get current node-source SEO data.
      *
-     * This method returns a 3-fields array with:
+     * @return array{'title': string, 'description': string|null}
      *
-     * * title
-     * * description
-     * * keywords
-     *
-     * @return array<string>
+     * @deprecated No replacement: SEO should be handled in NodesSourcesHead
      */
     public function getSEO(): array
     {

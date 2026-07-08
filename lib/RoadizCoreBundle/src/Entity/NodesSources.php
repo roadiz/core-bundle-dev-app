@@ -385,7 +385,12 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         return $this;
     }
 
-    public function getMetaTitle(): string
+    /**
+     * Final on purpose: like getMetaDescription(), this raw getter is bound to
+     * the admin SEO form and its setter round-trip, so it must never become a
+     * computed value (that would persist the computed value on save).
+     */
+    final public function getMetaTitle(): string
     {
         return $this->metaTitle;
     }
@@ -400,7 +405,13 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         return $this;
     }
 
-    public function getMetaDescription(): string
+    /**
+     * Final on purpose: this raw getter is bound to the admin SEO form and its
+     * setter round-trip, so it must never become a computed value (that would
+     * persist the computed value on save). Use getMetaDescriptionOrFallback()
+     * to expose a fallback-aware value instead.
+     */
+    final public function getMetaDescription(): string
     {
         return $this->metaDescription;
     }
@@ -413,6 +424,21 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         $this->metaDescription = null !== $metaDescription ? trim($metaDescription) : '';
 
         return $this;
+    }
+
+    /**
+     * Meta-description to expose for SEO, falling back on the content of a
+     * node-type field flagged as "metaDescriptionFallback" when the stored
+     * meta-description is empty.
+     *
+     * This base implementation returns the raw stored meta-description; it is
+     * overridden in generated node-source entities when a field is flagged.
+     * Unlike getMetaDescription(), this computed value is never persisted back,
+     * so it is safe to expose without polluting the real meta-description field.
+     */
+    public function getMetaDescriptionOrFallback(): string
+    {
+        return $this->getMetaDescription();
     }
 
     public function isNoIndex(): bool

@@ -52,7 +52,19 @@ final class NodeTypeConfiguration implements ConfigurationInterface
 
         $node = $treeBuilder->getRootNode()
             ->isRequired()
+            ->validate()
+                ->ifTrue(fn (array $fields) => count(array_filter(
+                    $fields,
+                    fn (array $field) => $field['metaDescriptionFallback'] ?? false
+                )) > 1)
+                ->thenInvalid('Only one field can be flagged as "metaDescriptionFallback" per node-type.')
+            ->end()
             ->arrayPrototype()
+                ->validate()
+                    ->ifTrue(fn (array $field) => ($field['metaDescriptionFallback'] ?? false)
+                        && !in_array($field['type'] ?? null, ['string', 'text', 'markdown'], true))
+                    ->thenInvalid('A "metaDescriptionFallback" field must be a "string", "text" or "markdown" type.')
+                ->end()
                 ->children()
                     ->scalarNode('name')
                         ->info('Unique field name without spaces or special characters')
@@ -92,6 +104,7 @@ final class NodeTypeConfiguration implements ConfigurationInterface
                     ->booleanNode('visible')->defaultTrue()->end()
                     ->booleanNode('expanded')->defaultFalse()->end()
                     ->booleanNode('required')->defaultFalse()->end()
+                    ->booleanNode('metaDescriptionFallback')->defaultFalse()->end()
                     ->variableNode('defaultValues')->end()
                     ->arrayNode('normalizationContext')
                         ->children()

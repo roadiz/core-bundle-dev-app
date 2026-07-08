@@ -46,6 +46,10 @@
                 <source>hotspot_area_start_and_end_coordinates_must_be_between_0_and_1</source>
                 <target state="final">Les coordonnées de la zone du point d'intérêt doivent être comprises entre 0 et 1.</target>
             </trans-unit>
+      <trans-unit id="A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO." xml:space="preserve" approved="yes">
+                <source>A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO.</source>
+                <target state="final">Une méta-description doit être laissée vide ou comporter plus de 20 caractères pour rester pertinente pour le référencement.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

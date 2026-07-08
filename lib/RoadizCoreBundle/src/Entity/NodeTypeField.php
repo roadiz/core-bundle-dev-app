@@ -70,6 +70,13 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $required = false;
 
+    /**
+     * Use this field content as a fallback for the node-source meta-description
+     * when it is left empty. At most one field per node-type can be flagged.
+     */
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
+    private bool $metaDescriptionFallback = false;
+
     #[Serializer\Groups(['node_type'])]
     #[\Override]
     public function getNodeTypeName(): string
@@ -273,6 +280,22 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     public function setRequired(bool $required): NodeTypeField
     {
         $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * Tells if current field content should feed the node-source meta-description
+     * when it is left empty.
+     */
+    public function isMetaDescriptionFallback(): bool
+    {
+        return $this->metaDescriptionFallback;
+    }
+
+    public function setMetaDescriptionFallback(bool $metaDescriptionFallback): NodeTypeField
+    {
+        $this->metaDescriptionFallback = $metaDescriptionFallback;
 
         return $this;
     }

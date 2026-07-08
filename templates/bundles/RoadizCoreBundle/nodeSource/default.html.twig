@@ -1,6 +1,9 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ webResponse.item.title }}{% endblock %}
+{% block title %}{{ webResponse.head.metaTitle }}{% endblock %}
+{% block description %}{% if webResponse.head.metaDescription %}
+    <meta name="description" content="{{ webResponse.head.metaDescription }}">
+{% endif %}{% endblock %}
 
 {% macro walk_block(block) %}
     <li>{{ block.item.title }}</li>
