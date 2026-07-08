@@ -59,4 +59,26 @@ final readonly class CommonMark implements MarkdownInterface
 
         return $html;
     }
+
+    #[\Override]
+    public function strip(?string $markdown = null): ?string
+    {
+        if (!is_string($markdown)) {
+            return null;
+        }
+        /*
+         * Strip Markdown syntax
+         */
+        $markdown = $this->textExtra($markdown);
+        // replace BR with space to avoid merged words.
+        $markdown = str_replace(['<br>', '<br />', '<br/>'], ' ', $markdown);
+        $markdown = strip_tags($markdown);
+        /*
+         * Remove ctrl characters
+         */
+        $markdown = preg_replace('[:cntrl:]', '', $markdown);
+        $markdown = preg_replace('/[\x00-\x1F]/', '', (string) $markdown);
+
+        return $markdown;
+    }
 }
