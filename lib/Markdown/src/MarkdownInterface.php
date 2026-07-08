@@ -26,4 +26,9 @@ interface MarkdownInterface
      * Convert Markdown to HTML using only inline HTML elements.
      */
     public function line(?string $markdown = null): string;
+
+    /**
+     * Convert Markdown then strip tags, control characters and replace br with whitespace.
+     */
+    public function strip(?string $markdown = null): ?string;
 }

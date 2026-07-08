@@ -326,6 +326,48 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->setBody('return \'['.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType).'] \' . parent::__toString();')
         ;
 
+        $this->addMetaDescriptionFallbackMethod($classType);
+
         return $this;
+    }
+
+    /**
+     * Override getMetaDescriptionOrFallback to fall back on a text field flagged
+     * as "metaDescriptionFallback" when the stored meta-description is empty.
+     *
+     * This intentionally does NOT override getMetaDescription() itself: that
+     * raw getter is used by the admin SEO form and its setter round-trip, so
+     * exposing a computed value there would persist the fallback into the real
+     * meta-description column on save.
+     *
+     * The flag lives on the concrete NodeTypeField (not the contracts
+     * interface), so it is read here by duck typing to avoid coupling this
+     * split package to roadiz/core-bundle.
+     */
+    private function addMetaDescriptionFallbackMethod(ClassType $classType): void
+    {
+        $fallbackGetter = null;
+        foreach ($this->nodeType->getFields() as $field) {
+            if (method_exists($field, 'isMetaDescriptionFallback') && $field->isMetaDescriptionFallback()) {
+                $fallbackGetter = $field->getGetterName();
+                break;
+            }
+        }
+
+        if (null === $fallbackGetter) {
+            return;
+        }
+
+        $classType->addMethod('getMetaDescriptionOrFallback')
+            ->setReturnType('string')
+            ->addAttribute(\Override::class)
+            ->setBody(
+                "\$metaDescription = \$this->getMetaDescription();\n"
+                ."if ('' !== \$metaDescription) {\n"
+                ."    return \$metaDescription;\n"
+                ."}\n\n"
+                .'return (string) ($this->'.$fallbackGetter."() ?? '');"
+            )
+        ;
     }
 }

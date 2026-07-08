@@ -71,7 +71,7 @@ to populate all data during the `asyncData()` routine in `_.vue` page
         "matomoSiteId": null,
         "siteName": "Roadiz dev website",
         "metaTitle": "Contact – Roadiz dev website",
-        "metaDescription": "Contact, Roadiz dev website",
+        "metaDescription": null,
         "policyUrl": null,
         "mainColor": null,
         "facebookUrl": null,
@@ -625,7 +625,7 @@ Then, the following resource will be exposed:
         "matomoSiteId": null,
         "siteName": "Roadiz dev website",
         "metaTitle": "Contact – Roadiz dev website",
-        "metaDescription": "Contact, Roadiz dev website",
+        "metaDescription": null,
         "homePageUrl": "/",
         "shareImage": null
     },

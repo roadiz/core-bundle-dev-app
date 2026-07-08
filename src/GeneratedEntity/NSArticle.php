@@ -323,4 +323,15 @@ class NSArticle extends NodesSources
     {
         return '[NSArticle] ' . parent::__toString();
     }
+
+    #[\Override]
+    public function getMetaDescriptionOrFallback(): string
+    {
+        $metaDescription = $this->getMetaDescription();
+        if ('' !== $metaDescription) {
+            return $metaDescription;
+        }
+
+        return (string) ($this->getContent() ?? '');
+    }
 }

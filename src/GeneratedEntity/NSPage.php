@@ -976,4 +976,15 @@ class NSPage extends NodesSources
     {
         return '[NSPage] ' . parent::__toString();
     }
+
+    #[\Override]
+    public function getMetaDescriptionOrFallback(): string
+    {
+        $metaDescription = $this->getMetaDescription();
+        if ('' !== $metaDescription) {
+            return $metaDescription;
+        }
+
+        return (string) ($this->getContent() ?? '');
+    }
 }

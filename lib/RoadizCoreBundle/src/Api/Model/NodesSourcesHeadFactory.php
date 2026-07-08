@@ -8,6 +8,7 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\Markdown\MarkdownInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final readonly class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryInterface
@@ -16,6 +17,7 @@ final readonly class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryI
         private Settings $settingsBag,
         private UrlGeneratorInterface $urlGenerator,
         private HandlerFactoryInterface $handlerFactory,
+        private ?MarkdownInterface $markdown = null,
     ) {
     }
 
@@ -27,7 +29,8 @@ final readonly class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryI
             $this->settingsBag,
             $this->urlGenerator,
             $this->handlerFactory,
-            $nodesSources->getTranslation()
+            $nodesSources->getTranslation(),
+            $this->markdown,
         );
     }
 
@@ -39,7 +42,8 @@ final readonly class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryI
             $this->settingsBag,
             $this->urlGenerator,
             $this->handlerFactory,
-            $translation
+            $translation,
+            $this->markdown,
         );
     }
 }
