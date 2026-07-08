@@ -22,6 +22,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     #[Serializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 50),
         RoadizAssert\NonSqlReservedWord(),
+        RoadizAssert\NodeSourceReservedName(),
         RoadizAssert\SimpleLatinString()]
     protected string $name;
 
@@ -76,6 +77,14 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
      */
     #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $metaDescriptionFallback = false;
+
+    /**
+     * Use the first document of this field as the node-source share-image
+     * (Open Graph / social image). Only documents fields can be flagged and at
+     * most one field per node-type can be flagged.
+     */
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
+    private bool $shareImage = false;
 
     #[Serializer\Groups(['node_type'])]
     #[\Override]
@@ -296,6 +305,22 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     public function setMetaDescriptionFallback(bool $metaDescriptionFallback): NodeTypeField
     {
         $this->metaDescriptionFallback = $metaDescriptionFallback;
+
+        return $this;
+    }
+
+    /**
+     * Tells if the first document of current field should feed the node-source
+     * share-image (Open Graph / social image).
+     */
+    public function isShareImage(): bool
+    {
+        return $this->shareImage;
+    }
+
+    public function setShareImage(bool $shareImage): NodeTypeField
+    {
+        $this->shareImage = $shareImage;
 
         return $this;
     }

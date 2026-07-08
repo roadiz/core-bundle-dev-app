@@ -334,4 +334,10 @@ class NSArticle extends NodesSources
 
         return (string) ($this->getContent() ?? '');
     }
+
+    #[\Override]
+    public function getShareImage(): ?\RZ\Roadiz\Documents\Models\BaseDocumentInterface
+    {
+        return $this->getImages()[0] ?? null;
+    }
 }

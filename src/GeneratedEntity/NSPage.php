@@ -987,4 +987,10 @@ class NSPage extends NodesSources
 
         return (string) ($this->getContent() ?? '');
     }
+
+    #[\Override]
+    public function getShareImage(): ?\RZ\Roadiz\Documents\Models\BaseDocumentInterface
+    {
+        return $this->getHeaderImage()[0] ?? null;
+    }
 }

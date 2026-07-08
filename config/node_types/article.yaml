@@ -19,6 +19,7 @@ fields:
         universal: true
         label: Images
         type: documents
+        shareImage: true
     -
         name: realm_b_secret
         serializationGroups:

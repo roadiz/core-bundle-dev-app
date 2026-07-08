@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\EntityGenerator\EntityGenerator;
 
-final class EntityGeneratorMetaDescriptionTest extends TestCase
+final class EntityGeneratorShareImageTest extends TestCase
 {
     use NodeTypeAwareTestTrait;
 
@@ -18,7 +18,7 @@ final class EntityGeneratorMetaDescriptionTest extends TestCase
         'node_class' => '\mock\Entity\Node',
         'translation_class' => '\mock\Entity\Translation',
         'document_class' => '\mock\Entity\Document',
-        'document_base_class' => '\mock\Entity\Document',
+        'document_base_class' => '\mock\Models\BaseDocumentInterface',
         'document_proxy_class' => '\mock\Entity\NodesSourcesDocument',
         'custom_form_class' => '\mock\Entity\CustomForm',
         'custom_form_proxy_class' => '\mock\Entity\NodesSourcesCustomForm',
@@ -57,36 +57,31 @@ final class EntityGeneratorMetaDescriptionTest extends TestCase
         ))->getClassContent();
     }
 
-    public function testFlaggedFieldGeneratesMetaDescriptionOverride(): void
+    public function testFlaggedFieldGeneratesShareImageOverride(): void
     {
         $content = $this->generate($this->createNodeType([
             (new SimpleNodeTypeField())
-                ->setName('excerpt')
-                ->setTypeName('markdown')
-                ->setDoctrineType('text')
+                ->setName('images')
+                ->setTypeName('documents')
                 ->setVirtual(false)
-                ->setLabel('Excerpt')
-                ->setMetaDescriptionFallback(true),
+                ->setLabel('Images')
+                ->setShareImage(true),
         ]));
 
-        $this->assertStringContainsString('public function getMetaDescriptionOrFallback(): string', $content);
-        $this->assertStringContainsString('$metaDescription = $this->getMetaDescription();', $content);
-        $this->assertStringContainsString('return (string) ($this->getExcerpt() ?? \'\');', $content);
-        // The raw getter must NOT be overridden (would pollute the SEO form round-trip).
-        $this->assertStringNotContainsString('public function getMetaDescription(): string', $content);
+        $this->assertStringContainsString('public function getShareImage(): ?\mock\Models\BaseDocumentInterface', $content);
+        $this->assertStringContainsString('return $this->getImages()[0] ?? null;', $content);
     }
 
-    public function testUnflaggedFieldsGenerateNoOverride(): void
+    public function testUnflaggedFieldsGenerateNoShareImageOverride(): void
     {
         $content = $this->generate($this->createNodeType([
             (new SimpleNodeTypeField())
-                ->setName('excerpt')
-                ->setTypeName('markdown')
-                ->setDoctrineType('text')
+                ->setName('images')
+                ->setTypeName('documents')
                 ->setVirtual(false)
-                ->setLabel('Excerpt'),
+                ->setLabel('Images'),
         ]));
 
-        $this->assertStringNotContainsString('public function getMetaDescriptionOrFallback(): string', $content);
+        $this->assertStringNotContainsString('public function getShareImage()', $content);
     }
 }
