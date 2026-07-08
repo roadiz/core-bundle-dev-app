@@ -46,6 +46,10 @@
                 <source>hotspot_area_start_and_end_coordinates_must_be_between_0_and_1</source>
                 <target state="translated">Hotspot area start and end coordinates must be between 0 and 1.</target>
             </trans-unit>
+      <trans-unit id="A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO." xml:space="preserve" approved="yes">
+                <source>A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO.</source>
+                <target state="final">A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

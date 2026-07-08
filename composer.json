@@ -210,7 +210,8 @@
             "RZ\\Roadiz\\Tests\\": "lib/Models/tests/",
             "RZ\\Roadiz\\CoreBundle\\Tests\\": "lib/RoadizCoreBundle/tests/",
             "RZ\\Roadiz\\Documents\\Tests\\": "lib/Documents/tests/",
-            "RZ\\Roadiz\\EntityGenerator\\Tests\\": "lib/EntityGenerator/tests/"
+            "RZ\\Roadiz\\EntityGenerator\\Tests\\": "lib/EntityGenerator/tests/",
+            "RZ\\Roadiz\\Markdown\\Tests\\": "lib/Markdown/tests/"
         }
     },
     "replace": {

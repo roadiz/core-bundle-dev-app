@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.33](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.32...v2.7.33) - 2026-07-08
+
+### Bug Fixes
+
+- **(nodes)** use decorated node-type display name ([#461](https://github.com/roadiz/core-bundle-dev-app/issues/461)) - ([9a35080](https://github.com/roadiz/core-bundle-dev-app/commit/9a35080cd7db18e213e81e8df0c0c2afdbebf6fa))
+
+### Features
+
+- **(seo)** replace title-duplicating meta-description fallback with an explicit node-type field ([#460](https://github.com/roadiz/core-bundle-dev-app/issues/460)) - ([0ac40e0](https://github.com/roadiz/core-bundle-dev-app/commit/0ac40e020f211eaf8eb80c40d78ce04165b10198))
+
 ## [2.7.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.31...v2.7.32) - 2026-07-03
 
 ### Features

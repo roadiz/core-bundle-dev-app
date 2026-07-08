@@ -33,6 +33,7 @@ fields:
             allow_translate_assistant_translate: true
             allow_translate_assistant_rephrase: true
         type: markdown
+        metaDescriptionFallback: true
     -
         name: color
         universal: true

@@ -13,6 +13,7 @@ fields:
         description: 'Your content'
         label: 'Your content'
         type: markdown
+        metaDescriptionFallback: true
     -
         name: images
         universal: true
