@@ -60,9 +60,11 @@ fields:
         type: documents
     -
         name: header_image
+        universal: true
         groupName: Images
         label: 'Header image'
         type: documents
+        shareImage: true
     -
         name: over_title
         label: Overtitle

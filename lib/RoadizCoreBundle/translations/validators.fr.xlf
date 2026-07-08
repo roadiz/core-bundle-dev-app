@@ -50,6 +50,10 @@
                 <source>A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO.</source>
                 <target state="final">Une méta-description doit être laissée vide ou comporter plus de 20 caractères pour rester pertinente pour le référencement.</target>
             </trans-unit>
+      <trans-unit id="node_type_field.name.%name%.is.reserved.for.node.source" xml:space="preserve" approved="yes">
+                <source>node_type_field.name.%name%.is.reserved.for.node.source</source>
+                <target state="final">Le nom de champ « %name% » est réservé : il entre en conflit avec une propriété interne de la source de nœud. Veuillez choisir un autre nom.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

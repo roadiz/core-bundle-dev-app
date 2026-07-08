@@ -257,19 +257,14 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     #[\Override]
     public function getShareImage(): ?BaseDocumentInterface
     {
-        if (
-            null !== $this->nodesSource
-            && method_exists($this->nodesSource, 'getHeaderImage')
-            && isset($this->nodesSource->getHeaderImage()[0])
-        ) {
-            return $this->nodesSource->getHeaderImage()[0];
-        }
-        if (
-            null !== $this->nodesSource
-            && method_exists($this->nodesSource, 'getImage')
-            && isset($this->nodesSource->getImage()[0])
-        ) {
-            return $this->nodesSource->getImage()[0];
+        /*
+         * getShareImage() returns the first document of a field flagged as
+         * "shareImage" in the generated node-source entity, or null when no
+         * field is flagged (or the flagged field is empty).
+         */
+        $shareImage = $this->nodesSource?->getShareImage();
+        if (null !== $shareImage) {
+            return $shareImage;
         }
 
         return $this->settingsBag->getDocument('share_image') ?? null;

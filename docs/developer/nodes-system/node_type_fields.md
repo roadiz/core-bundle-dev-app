@@ -117,6 +117,29 @@ Constraints, enforced when node-types are loaded:
 
 The fallback value is then stripped of Markdown, trimmed of control characters, and truncated to 160 characters before being exposed in the head. A candidate shorter than 20 characters is discarded (the head exposes `null`), to avoid thin or duplicated descriptions.
 
+## Share-image field
+
+The **share-image** (Open Graph / social image) is exposed through the `WebResponse` *head* as `getShareImage()`. Instead of guessing which documents field to use from hard-coded field names, you can designate **one** `documents` field per node-type as the share-image with the `shareImage` flag. The generated *NSEntity* then gets a `getShareImage()` method returning the **first document** of that field:
+
+```yaml
+fields:
+    - name: header_image
+      label: Header image
+      type: documents
+      shareImage: true
+```
+
+Constraints, enforced when node-types are loaded:
+
+- **At most one** field per node-type can be flagged.
+- The flagged field must be a `documents` type.
+
+When the flagged field is empty (or no field is flagged), the head falls back on the global `share_image` setting.
+
+## Reserved field names
+
+A field getter is generated as `get` + camelCase(name), so a field whose name resolves to a getter already declared on `NodesSources` (e.g. `title`, `metaTitle`, `metaDescription`, `shareImage`, `publishedAt`, `noIndex`, `node`, `parent`, `translation`, …) would produce a node-source entity that cannot compile. These names are therefore **reserved** and rejected at validation time — both when node-types are loaded from configuration and in the back-office field form — with a clear error instead of a fatal error at generation time. The check is case-insensitive to `camelCase`/`snake_case` spelling (`metaTitle` and `meta_title` are both rejected).
+
 ## YAML field
 
 When you use the YAML field type, you get an additional method to return your code already parsed. If your field is named `data`, your methods will be generated in your *NSEntity* as `getData()` and `getDataAsObject()`.
