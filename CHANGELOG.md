@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.33...v2.7.34) - 2026-07-08
+
+### Features
+
+- **(seo)** add declarative shareImage node-type field - ([860de92](https://github.com/roadiz/core-bundle-dev-app/commit/860de923bb22bbe23871c4e824286d1bd57c49a0))
+
 ## [2.7.33](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.32...v2.7.33) - 2026-07-08
 
 ### Bug Fixes
