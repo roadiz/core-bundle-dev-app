@@ -74,10 +74,9 @@ final readonly class CommonMark implements MarkdownInterface
         $markdown = str_replace(['<br>', '<br />', '<br/>'], ' ', $markdown);
         $markdown = strip_tags($markdown);
         /*
-         * Remove ctrl characters
+         * Remove control characters (including DEL).
          */
-        $markdown = preg_replace('[:cntrl:]', '', $markdown);
-        $markdown = preg_replace('/[\x00-\x1F]/', '', (string) $markdown);
+        $markdown = preg_replace('/[\x00-\x1F\x7F]/', '', $markdown);
 
         return $markdown;
     }

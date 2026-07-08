@@ -31,6 +31,7 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
     private bool $indexed = true;
     private bool $expanded = false;
     private bool $required = false;
+    private bool $metaDescriptionFallback = false;
     private string $typeName = 'string';
     private string $nodeTypeName = 'NodeType';
     private string $doctrineType = 'string';
@@ -465,6 +466,18 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
     public function setRequired(bool $required): SimpleNodeTypeField
     {
         $this->required = $required;
+
+        return $this;
+    }
+
+    public function isMetaDescriptionFallback(): bool
+    {
+        return $this->metaDescriptionFallback;
+    }
+
+    public function setMetaDescriptionFallback(bool $metaDescriptionFallback): SimpleNodeTypeField
+    {
+        $this->metaDescriptionFallback = $metaDescriptionFallback;
 
         return $this;
     }
