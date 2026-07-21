@@ -15,8 +15,6 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderApplyEvent;
-use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -24,7 +22,6 @@ use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -39,24 +36,6 @@ class NodeRepository extends StatusAwareRepository
         Security $security,
     ) {
         parent::__construct($registry, Node::class, $previewResolver, $dispatcher, $security);
-    }
-
-    #[\Override]
-    protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): Event
-    {
-        // @phpstan-ignore-next-line
-        return $this->dispatcher->dispatch(
-            new QueryBuilderBuildEvent($qb, Node::class, $property, $value, $this->getEntityName())
-        );
-    }
-
-    #[\Override]
-    protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): Event
-    {
-        // @phpstan-ignore-next-line
-        return $this->dispatcher->dispatch(
-            new QueryBuilderApplyEvent($qb, Node::class, $property, $value, $this->getEntityName())
-        );
     }
 
     /**
@@ -937,20 +916,12 @@ SQL
         return $result;
     }
 
-    /**
-     * Create a Criteria object from a search pattern and additional fields.
-     *
-     * @param string       $pattern  Search pattern
-     * @param QueryBuilder $qb       QueryBuilder to pass
-     * @param array        $criteria Additional criteria
-     * @param string       $alias    SQL query table alias
-     */
     #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = 'obj',
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->classicLikeComparison($pattern, $qb, $alias);
 

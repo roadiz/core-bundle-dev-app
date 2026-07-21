@@ -69,11 +69,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     public const TAG_ALIAS = 'tg';
 
     /**
-     * Alias for DQL and Query builder representing NodeType relation.
-     */
-    public const NODETYPE_ALIAS = 'nt';
-
-    /**
      * Alias for DQL and Query builder representing NodeTypeDecorator relation.
      */
     public const NODETYPE_DECORATOR_ALIAS = 'ntd';
@@ -158,6 +153,9 @@ abstract class EntityRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @deprecated
+     */
     protected function directExprIn(QueryBuilder $qb, string $name, string $key, mixed $value): Query\Expr\Func
     {
         $newValue = [];
@@ -344,7 +342,7 @@ abstract class EntityRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder(static::DEFAULT_ALIAS);
         $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS.'.id'));
-        $qb = $this->createSearchBy($pattern, $qb, $criteria);
+        $qb = $this->createSearchBy($pattern, $qb, $criteria, static::DEFAULT_ALIAS);
 
         $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
         $this->applyFilterByCriteria($criteria, $qb);
@@ -446,14 +444,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODESSOURCES_ALIAS);
-    }
-
-    /**
-     * Ensure that nodes_sources table is joined only once.
-     */
-    protected function hasJoinedNodeType(QueryBuilder $qb, string $alias): bool
-    {
-        return $this->joinExists($qb, $alias, static::NODETYPE_ALIAS);
     }
 
     protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias): bool

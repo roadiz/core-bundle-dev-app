@@ -2,6 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.34...2.7.35) - 2026-07-21
+
+### Bug Fixes
+
+- **(command)** reimplemented `nodes:force-universal` CLI command - ([bf284e1](https://github.com/roadiz/core-bundle-dev-app/commit/bf284e11297e959a273f2acc58ee106da570b87b))
+- **(folders)** fixed missing folder color in FolderExplorerItem.php - ([49d8bac](https://github.com/roadiz/core-bundle-dev-app/commit/49d8bac33a21120edcafb1b71372d488fce50180))
+- **(repositories)** fixed duplicated FolderRepository::countSearchBy which did not call applyFilterByCriteria - ([bd5e3f1](https://github.com/roadiz/core-bundle-dev-app/commit/bd5e3f1f071738e6bbe8e26f18562ebc3b4869df))
+
 ## [2.7.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.33...v2.7.34) - 2026-07-08
 
 ### Features
