@@ -64,6 +64,6 @@ final class FolderExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getColor(): string
     {
-        return $this->folder->getColor() ?? '#000000';
+        return $this->folder->getColor();
     }
 }

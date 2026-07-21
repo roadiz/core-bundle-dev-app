@@ -259,7 +259,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     }
 
     /**
-     * Bind translation parameter to final query.
+     * @deprecated
      */
     protected function applyTranslationByFolder(
         QueryBuilder $qb,

@@ -82,24 +82,6 @@ final class TagRepository extends EntityRepository
     }
 
     /**
-     * Bind parameters to generated query.
-     */
-    #[\Override]
-    protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
-    {
-        /*
-         * Reimplementing findBy features…
-         */
-        $simpleQB = new SimpleQueryBuilder($qb);
-        foreach ($criteria as $key => $value) {
-            $event = $this->dispatchQueryBuilderApplyEvent($qb, $key, $value);
-            if (!$event->isPropagationStopped()) {
-                $simpleQB->bindValue($key, $value);
-            }
-        }
-    }
-
-    /**
      * Create filters according to any translation criteria OR argument.
      */
     protected function filterByTranslation(
@@ -114,29 +96,27 @@ final class TagRepository extends EntityRepository
         ) {
             $qb->leftJoin('tg.translatedTags', 'tt');
             $qb->leftJoin('tt.translation', static::TRANSLATION_ALIAS);
+        } elseif (null !== $translation) {
+            /*
+             * With a given translation
+             */
+            $qb->leftJoin(
+                'tg.translatedTags',
+                'tt',
+                'WITH',
+                'tt.translation = :translation'
+            );
         } else {
-            if (null !== $translation) {
-                /*
-                 * With a given translation
-                 */
-                $qb->leftJoin(
-                    'tg.translatedTags',
-                    'tt',
-                    'WITH',
-                    'tt.translation = :translation'
-                );
-            } else {
-                /*
-                 * With a null translation, just take the default one.
-                 */
-                $qb->leftJoin('tg.translatedTags', 'tt');
-                $qb->leftJoin(
-                    'tt.translation',
-                    self::TRANSLATION_ALIAS,
-                    'WITH',
-                    't.defaultTranslation = true'
-                );
-            }
+            /*
+             * With a null translation, just take the default one.
+             */
+            $qb->leftJoin('tg.translatedTags', 'tt');
+            $qb->leftJoin(
+                'tt.translation',
+                self::TRANSLATION_ALIAS,
+                'WITH',
+                't.defaultTranslation = true'
+            );
         }
     }
 
