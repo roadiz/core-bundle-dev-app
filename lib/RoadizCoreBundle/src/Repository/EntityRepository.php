@@ -344,7 +344,7 @@ abstract class EntityRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder(static::DEFAULT_ALIAS);
         $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS.'.id'));
-        $qb = $this->createSearchBy($pattern, $qb, $criteria);
+        $qb = $this->createSearchBy($pattern, $qb, $criteria, static::DEFAULT_ALIAS);
 
         $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
         $this->applyFilterByCriteria($criteria, $qb);
