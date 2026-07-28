@@ -165,6 +165,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     public function setUnpublishable(bool $unpublishable): NodeType
     {
         $this->unpublishable = $unpublishable;
+
         return $this;
     }
 
