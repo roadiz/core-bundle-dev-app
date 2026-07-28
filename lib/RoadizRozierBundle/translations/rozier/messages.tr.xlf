@@ -3525,6 +3525,18 @@
         <source>nodeType.name.alreadyExists</source>
         <target state="final">Düğüm tipi ismi zaten kullanımda</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="color.system" approved="yes">
+        <source>color.system</source>
+        <target state="final">Sistem</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.light" approved="yes">
+        <source>color.light</source>
+        <target state="final">Açık</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.dark" approved="yes">
+        <source>color.dark</source>
+        <target state="final">Koyu</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="color.should.be.formatted.in.hexadecimal" approved="yes">
         <source>color.should.be.formatted.in.hexadecimal</source>
         <target state="final">Renk hexadesimal olarak biçimlendirilmeli</target>

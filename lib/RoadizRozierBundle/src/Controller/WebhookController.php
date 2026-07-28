@@ -7,6 +7,7 @@ namespace RZ\Roadiz\RozierBundle\Controller;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Webhook;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\WebhookType;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -25,6 +26,7 @@ final class WebhookController extends AbstractAdminWithBulkController
 {
     public function __construct(
         private readonly WebhookDispatcher $webhookDispatcher,
+        ExplorerItemFactoryInterface $explorerItemFactory,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
@@ -33,7 +35,7 @@ final class WebhookController extends AbstractAdminWithBulkController
         LogTrail $logTrail,
         EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
+        parent::__construct($formFactory, $explorerItemFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     public function triggerAction(Request $request, string $id): Response

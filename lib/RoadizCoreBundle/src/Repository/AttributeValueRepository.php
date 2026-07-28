@@ -44,9 +44,7 @@ final class AttributeValueRepository extends EntityRepository
             ->leftJoin('a.group', 'ag')
             ->leftJoin('ag.attributeGroupTranslations', 'agt')
             ->andWhere($qb->expr()->eq('av.node', ':attributable'))
-            ->setParameters([
-                'attributable' => $attributable,
-            ])
+            ->setParameter('attributable', $attributable)
             ->setCacheable(true);
 
         if ($orderByWeight) {
@@ -81,10 +79,8 @@ final class AttributeValueRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('at.translation', ':translation'))
             ->andWhere($qb->expr()->eq('agt.translation', ':translation'))
             ->addOrderBy('av.position', 'ASC')
-            ->setParameters([
-                'attributable' => $attributable,
-                'translation' => $translation,
-            ])
+            ->setParameter('attributable', $attributable)
+            ->setParameter('translation', $translation)
             ->setCacheable(true)
             ->getQuery()
             ->getResult();

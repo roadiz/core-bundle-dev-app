@@ -1,0 +1,42 @@
+:where(rz-tooltip, .rz-tooltip) {
+	box-sizing: border-box;
+}
+
+:where(rz-tooltip, .rz-tooltip) [popover="hint"],
+.rz-tooltip__content {
+	position: absolute;
+	inset: initial;
+	margin: initial;
+	padding: var(--spacing-4xs) var(--spacing-3xs);
+	border-radius: var(--radius-xs);
+	background-color: var(--tooltip-bg, #18191B);
+	color: var(--tooltip-content, #FFF);
+
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-tooltip-md-font-size);
+	line-height: var(--text-tooltip-md-line-height);
+	letter-spacing: var(--text-tooltip-md-letter-spacing);
+	font-weight: var(--text-tooltip-md-font-weight);
+	pointer-events: none;
+
+	/* Exit state */
+	opacity: 0;
+	transition-property: opacity, overlay, display;
+  	transition-duration: 0.3s;
+	transition-behavior: allow-discrete;
+	z-index: 1001;
+
+	/* Visible state */
+	&.rz-tooltip__content--visible,
+	&:popover-open {
+		opacity: 1;
+		pointer-events: initial;
+	}
+
+	/* Before visible state */
+	@starting-style {
+		&:popover-open {
+			opacity: 0;
+		}
+	}
+}

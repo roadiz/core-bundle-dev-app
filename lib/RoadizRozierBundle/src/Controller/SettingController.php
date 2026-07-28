@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
@@ -255,11 +254,6 @@ final class SettingController extends AbstractController
             if ($resultCache instanceof ResettableInterface) {
                 $resultCache->reset();
             }
-
-            // Legacy Doctrine result cache provider
-            if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
-                $configuration->getResultCacheImpl()->deleteAll();
-            }
         }
 
         $this->eventDispatcher->dispatch(new CachePurgeRequestEvent());
@@ -336,9 +330,29 @@ final class SettingController extends AbstractController
             }
         }
 
-        return $this->render('@RoadizRozier/settings/delete.html.twig', [
-            'setting' => $setting,
+        $title = $this->translator->trans(
+            'delete.setting.%name%',
+            ['%name%' => $setting->getName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'parentBreadcrumb' => [
+                [
+                    'label' => $this->translator->trans('settings'),
+                    'type' => 'listing',
+                    'url' => $this->generateUrl('settingsHomePage'),
+                ],
+                [
+                    'label' => $setting->getName(),
+                    'url' => $this->generateUrl('settingsEditPage', ['settingId' => $setting->getId()]),
+                ],
+            ],
+            'cancelPath' => $this->generateUrl('settingsHomePage'),
+            'alertMessage' => 'are_you_sure.delete.setting',
             'form' => $form->createView(),
+            'items' => [$setting],
         ]);
     }
 }

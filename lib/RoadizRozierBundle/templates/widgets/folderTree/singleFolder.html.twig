@@ -1,60 +1,109 @@
-{% set editUrl = path('documentsHomePage', { folderId: folder.id }) %}
-{# Remove VueJS placeholder marks #}
-{% set folderName = folder.translatedFoldersByTranslation(folderTree.translation).first.name|default(folder.translatedFolders.first.name)|default(folder.folderName)|replace({'${':'--'}) %}
-{% set subFolders = folderTree.childrenFolders(folder) %}
-<li data-folder-id="{{ folder.id }}"
-    style="--rz-accent-color: {{ folder.color }};"
-    class="uk-nestable-item uk-nestable-list-item-folder foldertree-element{% if subFolders|length > 0 %} has-children{% endif %}">
-    <div class="tree-element-inner uk-nestable-panel uk-nestable-item-folder{% if not folder.isVisible %} hidden-folder{% endif %}{% if folder.isLocked %} locked-folder{% endif %}">
-        <div class="uk-nestable-handle uk-nestable-handle-folder">
-            <i class="{% if subFolders|length > 0 %}uk-icon-rz-folder-tree-mini{% else %}uk-icon-rz-folder-tree-mini{% endif %}"></i>
-        </div>
-        <div data-nestable-action="toggle"></div>
-        <div class="tree-element-name foldertree-element-name"{% if folderTree.translation is rtl %} dir="rtl"{% endif %}>
-            <a href="{{ editUrl }}">{{- folderName -}}</a>
-        </div>
 
-        <div class="tree-contextualmenu foldertree-contextualmenu uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
-            <button tabindex="-1" class="tree-contextualmenu-button uk-button uk-button-mini">
-                <i class="uk-icon-caret-down"></i>
-            </button>
-            <nav class="uk-dropdown uk-dropdown-small uk-dropdown-flip">
-                <div class="uk-nav uk-nav-dropdown uk-dropdown-flip">
-                    <p>
-                        <a title="{{ "edit.folder.%name%"|trans({'%name%': folderName}) }}"
-                           href="{{ path('foldersEditPage', { folderId:folder.id }) }}">
-                            <i class="uk-icon-pencil"></i> {% trans %}edit.folder{% endtrans %}
-                        </a>
-                    </p>
-                    <p>
-                        <a title="{{ "add.folder.%name%.child"|trans({'%name%': folderName}) }}"
-                           href="{{ path('foldersAddPage', { parentFolderId:folder.id }) }}">
-                            <i class="uk-icon-rz-plus"></i> {% trans %}add.child.folder{% endtrans %}
-                        </a>
-                    </p>
-                    {% if not folder.Locked %}
-                        <p>
-                            <a title="{{ "delete.folder.%name%"|trans({'%name%': folderName}) }}"
-                               href="{{ path('foldersDeletePage', { folderId:folder.id }) }}">
-                                <i class="uk-icon-trash-o"></i> {% trans %}delete.folder{% endtrans %}
-                            </a>
-                        </p>
-                    {% endif %}
-                </div>
-            </nav>
-        </div>
+
+{% set subFolders = folderTree.childrenFolders(folder) %}
+{% set folderName = folder.translatedFoldersByTranslation(folderTree.translation).first.name|default(folder.translatedFolders.first.name)|default(folder.folderName)|replace({'${':'--'}) %}
+
+{% set classes = ['rz-tree__item'] %}
+{% if subFolders|length > 0 %}
+    {% set classes = classes|merge(['rz-tree__item--parent']) %}
+{% endif %}
+{% if folder.isLocked %}
+    {% set classes = classes|merge(['rz-tree__item--locked']) %}
+{% endif %}
+
+{% set innerClasses = ['rz-tree__item__node'] %}
+{% if not folder.isVisible %}
+    {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
+{% endif %}
+<li
+    data-entity-id="{{ folder.id }}"
+    style="--rz-node-icon-background: {{ folder.color }}"
+    class="{{ classes|join(' ') }}"
+>
+    <div
+        class="{{ innerClasses|join(' ') }}"
+        role="treeitem"
+    >
+        {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
+            item: folder,
+            has_children: subFolders|length > 0,
+            icon_class: 'rz-icon-ri--folder-fill',
+            can_reorder: not folder.isLocked,
+            has_selection: false,
+            folderTree: folderTree,
+            folderName: folderName,
+        } only %}
+            {% block label %}
+                <a href="{{ path('documentsHomePage', { folderId: item.id }) }}">{{- folderName -}}</a>
+            {% endblock %}
+
+            {% block contextual_menu %}
+                <rz-popover popover-placement="bottom-start" popover-offset="8">
+                    {% set popover_id = "folder-contextual-menu-" ~ item.id %}
+                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                    {{ rz_button.root({
+                        icon: 'rz-icon-ri--more-line',
+                        size: 'sm',
+                        emphasis: 'tertiary',
+                        class: 'tree-contextualmenu-button',
+                        attributes: {
+                            'aria-label': 'show.actions'|trans,
+                            type: 'button',
+                            popovertarget: popover_id,
+                        }
+                    })}}
+                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                            targetId: popover_id,
+                            tagList: 'ul',
+                        } %}
+                            {% block items %}
+                                {{ _self.item({
+                                    label: 'edit.folder'|trans,
+                                    href: path('foldersEditPage', { folderId: item.id }),
+                                    rightIcon: 'rz-icon-ri--edit-line',
+                                    attributes: {
+                                        title: "edit.folder.%name%"|trans({'%name%': folderName })
+                                    }
+                                }) }}
+                                {{ _self.item({
+                                    label: 'add.child.folder'|trans,
+                                    href: path('foldersAddPage', { parentFolderId: item.id }),
+                                    rightIcon: 'rz-icon-ri--add-line',
+                                    attributes: {
+                                        title: "add.folder.%name%.child"|trans({'%name%': folderName})
+                                    }
+                                }) }}
+                                {% if not item.locked %}
+                                    {{ _self.item({
+                                        label: 'delete.folder'|trans,
+                                        href: path('foldersDeletePage', { folderId: item.id }) ,
+                                        rightIcon: 'rz-icon-ri--delete-bin-7-line',
+                                        attributes: {
+                                            title: "delete.folder.%name%"|trans({'%name%': folderName })
+                                        }
+                                    }) }}
+                                {% endif %}
+                            {% endblock %}
+                        {% endembed %}
+                </rz-popover>
+            {% endblock %}
+        {% endembed %}
     </div>
-    <ul class="uk-nestable-list uk-nestable-list-folder" data-parent-folder-id="{{ folder.id }}">
-    {#
-     # For drag&drop ease, we don't create nested lists
-     # We will have to check after OR inside drag status
-     #}
-    {% for subFolder in subFolders %}
-        {% include '@RoadizRozier/widgets/folderTree/singleFolder.html.twig' with {
-            "folder":subFolder,
-            "parent":folder,
-            "folderTree":folderTree
-        } %}
-    {% endfor %}
-    </ul>
+
+    {% if subFolders|length > 0 %}
+        <ul
+            class="rz-tree__list"
+            data-parent-id="{{ folder.id }}"
+            data-parent-folder-id="{{ folder.id }}"
+            role="group"
+        >
+            {% for subFolder in subFolders %}
+                {% include '@RoadizRozier/widgets/folderTree/singleFolder.html.twig' with {
+                    "folder":subFolder,
+                    "parent":folder,
+                    "folderTree":folderTree
+                } %}
+            {% endfor %}
+        </ul>
+    {% endif %}
 </li>

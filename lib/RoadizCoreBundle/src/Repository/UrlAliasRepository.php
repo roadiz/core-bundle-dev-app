@@ -38,7 +38,7 @@ final class UrlAliasRepository extends EntityRepository
         if (null === $nodeId) {
             return [];
         }
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT ua FROM RZ\Roadiz\CoreBundle\Entity\UrlAlias ua
             INNER JOIN ua.nodeSource ns
             INNER JOIN ns.node n
@@ -54,7 +54,7 @@ final class UrlAliasRepository extends EntityRepository
      */
     public function exists(string $alias): bool
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT COUNT(ua.alias) FROM RZ\Roadiz\CoreBundle\Entity\UrlAlias ua
             WHERE ua.alias = :alias')
                         ->setParameter('alias', $alias);

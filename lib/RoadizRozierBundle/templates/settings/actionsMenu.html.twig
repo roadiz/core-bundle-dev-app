@@ -1,8 +1,11 @@
-<nav data-action-menu class="actions-menu uk-navbar">
-    {% if setting.getId %}
-    <a class="uk-button uk-button-danger" href="{{ path('settingsDeletePage', { settingId: setting.getId}) }}">
-        <span class="icon-container"><i class="uk-icon-rz-trash-o"></i></span>
-        <span class="label"><span class="label-text">{% trans %}delete{% endtrans %}</span></span>
-    </a>
-    {% endif %}
-</nav>
+{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+    vertical: true,
+    class: 'actions-menu',
+    setting: setting,
+} only %}
+    {% block items %}
+        {% if setting.getId %}
+            {{ _self.deleteItem(href: path('settingsDeletePage', { settingId: setting.getId})) }}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

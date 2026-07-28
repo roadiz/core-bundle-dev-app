@@ -4,15 +4,18 @@ export function rzMessageRenderer(args: Args) {
     const className = 'rz-message'
 
     const wrapper = document.createElement('div')
-    const classList = [
-        className,
-        args.color && `${className}--${args.color}`,
-    ].filter((c) => c)
-    wrapper.classList.add(...classList)
+    wrapper.classList.add(className)
+
+    if (args.color) {
+        wrapper.classList.add(`${className}--${args.color}`)
+    }
+    if (args.variant) {
+        wrapper.classList.add(`${className}--${args.variant}`)
+    }
 
     const text = document.createElement('p')
     text.classList.add(`${className}__text`)
-    text.textContent = args.text
+    text.innerHTML = args.innerHTML || args.text
     wrapper.appendChild(text)
 
     return wrapper

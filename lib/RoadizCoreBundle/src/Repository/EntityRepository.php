@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
@@ -67,11 +67,6 @@ abstract class EntityRepository extends ServiceEntityRepository
      * Alias for DQL and Query builder representing Tag relation.
      */
     public const TAG_ALIAS = 'tg';
-
-    /**
-     * Alias for DQL and Query builder representing NodeType relation.
-     */
-    public const NODETYPE_ALIAS = 'nt';
 
     /**
      * Alias for DQL and Query builder representing NodeTypeDecorator relation.
@@ -158,6 +153,9 @@ abstract class EntityRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @deprecated
+     */
     protected function directExprIn(QueryBuilder $qb, string $name, string $key, mixed $value): Query\Expr\Func
     {
         $newValue = [];
@@ -203,7 +201,7 @@ abstract class EntityRepository extends ServiceEntityRepository
         return 0;
     }
 
-    public static function getSearchableColumnsNames(ClassMetadataInfo $metadata): array
+    public static function getSearchableColumnsNames(ClassMetadata $metadata): array
     {
         /*
          * Get fields needed for a search query
@@ -344,7 +342,7 @@ abstract class EntityRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder(static::DEFAULT_ALIAS);
         $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS.'.id'));
-        $qb = $this->createSearchBy($pattern, $qb, $criteria);
+        $qb = $this->createSearchBy($pattern, $qb, $criteria, static::DEFAULT_ALIAS);
 
         $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
         $this->applyFilterByCriteria($criteria, $qb);
@@ -446,14 +444,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODESSOURCES_ALIAS);
-    }
-
-    /**
-     * Ensure that nodes_sources table is joined only once.
-     */
-    protected function hasJoinedNodeType(QueryBuilder $qb, string $alias): bool
-    {
-        return $this->joinExists($qb, $alias, static::NODETYPE_ALIAS);
     }
 
     protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias): bool

@@ -1,0 +1,139 @@
+<div class="rz-page-header">
+    {% if block('breadcrumb')|trim is not empty or block('buttons')|trim is not empty %}
+        <div class="rz-page-header__row rz-page-header__row--border">
+            {% block breadcrumb %}
+            {% endblock %}
+            {% block buttons %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('badges')|trim is not empty or block('translation')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block badges %}
+            {% endblock %}
+            {% block translation %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('title')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block title %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('subtitle')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block subtitle %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% if block('nav_bar')|trim is not empty %}
+        <div class="rz-page-header__row">
+            {% block nav_bar %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% block additional_row %}
+    {% endblock %}
+</div>
+
+{% macro breadcrumb(breadcrumb) %}
+    <nav class="rz-breadcrumb" aria-label="{{ breadcrumb.label }}">
+        <ol class="rz-breadcrumb__list">
+            {% for parent in breadcrumb.parent %}
+                {% if parent is iterable and parent.url is defined and parent.label is defined %}
+                    <li class="rz-breadcrumb__list-item">
+                        <a class="rz-breadcrumb__item" href="{{ parent.url }}">
+                            {% if parent.type == 'listing' %}
+                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                            {% endif %}
+                         {{- parent.label -}}
+                        </a>
+                    </li>
+                {% else %}
+                    {% set breadcrumbsItem = getBreadcrumbsItem(parent) %}
+                    {% if breadcrumbsItem != null %}
+                        <li class="rz-breadcrumb__list-item">
+                            <a class="rz-breadcrumb__item" href="{{ breadcrumbsItem.url }}">
+                                {%- if breadcrumbsItem.home -%}
+                                    <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
+                                {%- endif -%}
+                                {% if 'list' in breadcrumbsItem.url %}
+                                    <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
+                                {% endif %}
+                                {{- breadcrumbsItem.label|truncate_title -}}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <li class="rz-breadcrumb__list-item">
+                <a href="" class="rz-breadcrumb__item" aria-current="page">
+                    {%- if breadcrumb.home -%}
+                        <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
+                    {%- endif -%}
+                    {{ breadcrumb.current|truncate_title }}
+                </a>
+            </li>
+        </ol>
+    </nav>
+{% endmacro %}
+
+{% macro translations_bar(available_translations, path, pathParams, current, pathAddTranslations, pathAddTranslationsTitle) %}
+    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+    {% if available_translations %}
+        <div class="rz-page-header__translations rz-button-group rz-button-group--sm rz-button-group--collapsed">
+            {%- for translation in available_translations -%}
+                {% set class = 'rz-button rz-button-group__button' %}
+                {% if current == translation.getId %}
+                    {% set class = class ~ ' rz-button--primary' %}
+                {% else %}
+                    {% set class = class ~ ' rz-button--secondary' %}
+                {% endif %}
+                {% set href = path(path, pathParams|merge({
+                    'translationId': translation.id,
+                    'locale': translation.locale
+                })) %}
+
+                {% set attr = { href: href, 'data-translation-id': translation.id } %}
+                {% if current == translation.getId %}
+                    {% set attr = attr|merge({ 'aria-current': 'page' }) %}
+                {% endif %}
+
+                {{ rz_link.root({
+                    class: class,
+                    label: translation.preferredLocale,
+                    attributes: attr,
+                }) }}
+
+            {%- endfor -%}
+            {% if pathAddTranslations is defined and pathAddTranslations %}
+                {% set class = 'rz-button rz-button-group__button' %}
+                {% if not current %}
+                    {% set class = class ~ ' rz-button--primary' %}
+                {% else %}
+                    {% set class = class ~ ' rz-button--secondary' %}
+                {% endif %}
+                {{ rz_link.root({
+                    class: class,
+                    icon: 'rz-icon-ri--add-line',
+                    attributes: {
+                        href: pathAddTranslations,
+                        title: pathAddTranslationsTitle,
+                    }
+                }) }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro button_group(buttons) %}
+    {%- if buttons and buttons|length > 0 -%}
+        {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+        <div class="rz-page-header__item--right{% if buttons|length > 1 %} rz-button-group rz-button-group--gap-md{% endif %}">
+            {%- for btn in buttons -%}
+                {{ rz_button.root(btn|merge({emphasis : 'primary'})) }}
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{% endmacro %}

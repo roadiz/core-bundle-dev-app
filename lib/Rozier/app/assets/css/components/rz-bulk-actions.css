@@ -1,0 +1,74 @@
+:where(rz-bulk-actions, .rz-bulk-actions) {
+	display: none;
+	padding-block: var(--spacing-xs);
+}
+
+.rz-bulk-actions--visible {
+	display: block;
+}
+
+.rz-bulk-actions__title {
+	display: flex;
+	align-items: center;
+	position: relative;
+	margin-block: 0 var(--spacing-xs);
+	white-space: nowrap;
+	text-align: center;
+	font-family: var(--font-family-os-title);
+	font-size: var(--text-h1-sm-font-size);
+	line-height: var(--text-h1-sm-line-height);
+	letter-spacing: var(--text-h1-sm-letter-spacing);
+	font-weight: var(--text-h1-sm-font-weight);
+
+	&::before,
+	&::after {
+		content: '';
+		display: inline-block;
+		flex-grow: 1;
+		height: 1PX;
+		background-color: var(--line-on-light-primary, #EAEAEA);
+	}
+
+	&::before {
+		margin-right: 20px;
+	}
+
+	&::after {
+		margin-left: 20px;
+	}
+}
+
+.rz-bulk-actions__buttons {
+	display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-5xs);
+	justify-content: center;
+}
+
+.rz-bulk-actions__form {
+	display: inline-block;
+}
+
+.rz-bulk-actions__group {
+	--rz-form-width: auto;
+
+	display: none;
+	justify-content: center;
+	margin-block: var(--spacing-md) var(--spacing-xs);
+}
+
+.rz-bulk-actions__group--visible {
+	display: flex;
+}
+
+
+/* Add priority to override if .rz-form is already used */
+.rz-bulk-actions .rz-bulk-actions__form-inline {
+	--rz-form-field-body-margin-top: 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	gap: var(--spacing-5xs);
+	align-items: center;
+}

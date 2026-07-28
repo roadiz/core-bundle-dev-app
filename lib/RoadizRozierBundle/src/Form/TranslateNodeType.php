@@ -66,7 +66,7 @@ class TranslateNodeType extends AbstractType
         $resolver->setDefaults([
             'label' => false,
             'attr' => [
-                'class' => 'uk-form node-translation-form',
+                'class' => 'rz-form node-translation-form',
             ],
         ]);
 

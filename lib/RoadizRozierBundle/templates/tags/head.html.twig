@@ -1,0 +1,29 @@
+{% if with_breadcrumb is defined and with_breadcrumb %}
+    {% set breadcrumbParent = tag.parents(null, true) %}
+    {% set homePage = [{
+        type: 'listing',
+        url: path('tagsHomePage'),
+        label: 'tags'|trans,
+    }] %}
+    {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+    {% set breadcrumb = {
+        label: 'tags-breadcrumb',
+        parent: breadcrumbParent,
+        current: tag.getTagName,
+    } %}
+{% endif %}
+
+{% include "@RoadizRozier/admin/head.html.twig" with {
+    item: tag,
+    translation_route: 'tagsEditTranslatedPage',
+    translation_params: {tagId: tag.id},
+    available_translations: available_translations,
+    translation: translation,
+    title: title,
+    buttons: buttons,
+    filters: filters,
+    with_nav_bar: with_nav_bar,
+    nav_bar_template: '@RoadizRozier/tags/navBar.html.twig',
+    nav_bar_context: {"tag": tag, "current": current},
+    breadcrumb: breadcrumb,
+} only %}

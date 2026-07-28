@@ -59,8 +59,10 @@ class DocumentEmbedType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('required', true);
-        $resolver->setDefault('document_platforms', null);
+        $resolver->setDefaults([
+            'required' => true,
+            'document_platforms' => null,
+        ]);
         $resolver->setAllowedTypes('document_platforms', ['array', 'null']);
     }
 

@@ -205,8 +205,16 @@ export default ({ mode }) => {
                                     link: "/extensions/extending_roadiz",
                                 },
                                 {
+                                    text: "Backoffice templates",
+                                    link: "/extensions/backoffice_templates",
+                                },
+                                {
                                     text: "Add a back-office entry for a shadow container",
                                     link: "/extensions/custom_backoffice_entry",
+                                },
+                                {
+                                    text: "Add additional entries into navbar",
+                                    link: "/extensions/additional_entries_navbar",
                                 },
                                 {
                                     text: "Extending Solr indexation",

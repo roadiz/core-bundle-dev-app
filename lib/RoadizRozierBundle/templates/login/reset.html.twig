@@ -6,11 +6,16 @@
     {% endif %}
     {% if form %}
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        <form id="login-form" class="uk-form uk-form-stacked {% if error %}uk-animation-shake{% endif %}" method="post">
+        <form id="login-form"
+              class="rz-login__group"
+              method="post">
             {{ form_widget(form) }}
-            <fieldset>
-                <button class="uk-button" type="submit"><i class="uk-icon-sign-in"></i> {% trans %}save.new.password{% endtrans %}</button>
-            </fieldset>
+            <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
+                <button type="submit" class="rz-button rz-button--primary">
+                    <span class="rz-button__label">{% trans %}save.new.password{% endtrans %}</span>
+                    <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+                </button>
+            </div>
         </form>
     {% endif %}
 {% endblock %}

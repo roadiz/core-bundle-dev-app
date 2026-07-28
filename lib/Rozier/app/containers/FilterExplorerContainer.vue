@@ -2,16 +2,15 @@
     <transition name="slide-left-no-opacity">
         <div class="filter-widget-explorer" v-if="isOpen">
             <ul class="filters-items">
-                <li class="filters-infos">
-                    <div class="infos-content">
-                        <transition name="fade">
-                            <div v-if="itemCount || itemCount === 0">
-                                <span class="number">{{ itemCount }}</span>
-                                {{ itemCount > 1 ? translations.items : translations.item }}
-                            </div>
-                        </transition>
-                    </div>
-                </li>
+                <transition name="fade">
+                    <li class="filters-infos" v-if="itemCount || itemCount === 0">
+                        <span class="number">{{ itemCount }}</span>
+                        <span>{{ itemCount > 1 ? translations.items : translations.item }}</span>
+                        <button class="rz-button rz-button--xs rz-button--tertiary" @click.prevent="filterExplorerToggle">
+                            <span class="rz-button__icon rz-icon-ri--close-line"></span>
+                        </button>
+                    </li>
+                </transition>
                 <li class="item">
                     <button
                         type="button"
@@ -63,7 +62,7 @@ export default {
         }),
     },
     methods: {
-        ...mapActions(['filterExplorerUpdate']),
+        ...mapActions(['filterExplorerUpdate', 'filterExplorerToggle']),
         onItemClick: function (item) {
             this.filterExplorerUpdate({ item: item })
         },

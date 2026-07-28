@@ -1,56 +1,88 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {%- block title -%}
-    {{ "edit.user.%name%.groups"|trans({'%name%': user.username })|u.truncate(25, '[…]', true) }}
+    {{ "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title }}
     |
     {{ parent() -}}
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global edit-user">
+    {% include '@RoadizRozier/users/head.html.twig' with {
+        title: "edit.user.%name%.groups"|trans({'%name%': user.username })|truncate_title,
+        with_nav_bar: true,
+        user: user,
+        current: 'groups',
+        with_breadcrumb: true,
+    } only %}
 
-    <header class="content-header header-user header-user-edit">
-        <h1 class="content-title user-add-title">{{ "edit.user.%name%.groups"|trans({'%name%': user.username })|u.truncate(25, '[…]', true) }}</h1>
-        {% include '@RoadizRozier/users/navBar.html.twig' with {'user':user, current:'groups'} %}
-    </header>
+    <section class="rz-page__body">
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: false,
+            actions_available: true,
+        }%}
+            {% block thead_cells %}
+                <th>{% trans %}group{% endtrans %}</th>
+            {% endblock %}
 
-    <article class="content content-user-groups">
-        <div class="content-table-cont">
-            <table class="content-table users-groups uk-table">
-                <thead>
+            {% block tbody_content %}
+                {% for group in user.getGroups %}
                     <tr>
-                        <th>{% trans %}group{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-2">{% trans %}actions{% endtrans %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for group in user.getGroups %}
-                    <tr>
-                        <td><a href="{{ path('groupsEditPage', {'id':group.getId}) }}">{{ group.getName }}</a></td>
-                        <td class="table-actions-row table-actions-row-2">
-                        {% if is_granted(group) %}
-                            <div class="uk-button-group">
-                                <a class="uk-button uk-button-content uk-button-small" href="{{ path('groupsEditRolesPage', { id: group.getId }) }}" title="{% trans %}roles{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-star"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }) }}" title="{% trans %}unlink{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                            </div>
+                        {% if selection_available %}
+                            <td>
+                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+                                {{ rz_bulk.select_input({ value: group.getId }) }}
+                            </td>
                         {% endif %}
+                        <td>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: group.getName,
+                                attributes: { href: path('groupsEditPage', { id: group.getId })  },
+                            }) }}
                         </td>
+                        {% if actions_available %}
+                            <td>
+                                {% if is_granted(group) %}
+                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                        'edit_href': path('groupsEditRolesPage', { id: group.getId }),
+                                        'edit_title': 'roles'|trans,
+                                        'delete_href': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
+                                        'delete_title': 'unlink'|trans,
+                                    } only %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
                     </tr>
+                    {% else %}
+                        {{ _self.fallback_row({
+                            length: 1,
+                            selection_available: selection_available,
+                            actions_available: actions_available,
+                            message: 'no_groups',
+                        }) }}
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <hr />
-        <h2>{% trans %}add.a.group{% endtrans %}</h2>
+            {% endblock %}
+        {% endembed %}
 
+        <hr />
+
+        <h2 class="text-h1-sm">{% trans %}add.a.group{% endtrans %}</h2>
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-            <button class="uk-button uk-button-primary" type="submit"><i class="uk-icon-rz-plus"></i> {% trans %}add.group{% endtrans %}</button>
-            </fieldset>
+            <div class="rz-form-field rz-form-field--align-start">
+                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    size: 'md',
+                    label: 'add.group'|trans,
+                    icon: 'rz-icon-ri--add-line',
+                    attributes: {
+                        type: 'submit'
+                    }
+                }) }}
+            </div>
         {{ form_end(form) }}
-    </article>
+    </section>
+
     {% include '@RoadizRozier/users/actionsMenu.html.twig' %}
-</section>
 {% endblock %}

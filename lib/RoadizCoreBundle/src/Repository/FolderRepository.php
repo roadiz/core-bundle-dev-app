@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,9 +30,6 @@ final class FolderRepository extends EntityRepository
 
     /**
      * Find a folder according to the given path or create it.
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function findOrCreateByPath(string $folderPath, ?TranslationInterface $translation = null): ?Folder
     {
@@ -76,14 +71,14 @@ final class FolderRepository extends EntityRepository
          * with given name
          */
         if (null === $translation) {
-            $translation = $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
+            $translation = $this->getEntityManager()->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
         }
         $folderTranslation = new FolderTranslation($folder, $translation);
         $folderTranslation->setName($folderName);
 
-        $this->_em->persist($folder);
-        $this->_em->persist($folderTranslation);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($folder);
+        $this->getEntityManager()->persist($folderTranslation);
+        $this->getEntityManager()->flush();
 
         return $folder;
     }
@@ -169,30 +164,22 @@ final class FolderRepository extends EntityRepository
         return array_map(current(...), $qb->getQuery()->getScalarResult());
     }
 
-    /**
-     * Create a Criteria object from a search pattern and additionnal fields.
-     *
-     * @param string       $pattern  Search pattern
-     * @param QueryBuilder $qb       QueryBuilder to pass
-     * @param array        $criteria Additional criteria
-     * @param string       $alias    SQL query table alias
-     */
     #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = 'obj',
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->classicLikeComparison($pattern, $qb, $alias);
 
         /*
          * Search in translations
          */
-        $qb->leftJoin('obj.translatedFolders', 'tf');
+        $qb->leftJoin($alias.'.translatedFolders', 'tf');
 
         $criteriaFields = [];
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(FolderTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(FolderTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 
@@ -202,20 +189,6 @@ final class FolderRepository extends EntityRepository
         }
 
         return $this->prepareComparisons($criteria, $qb, $alias);
-    }
-
-    /**
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws NonUniqueResultException
-     */
-    #[\Override]
-    public function countSearchBy(string $pattern, array $criteria = [], string $alias = 'obj'): int
-    {
-        $qb = $this->createQueryBuilder($alias);
-        $qb->select($qb->expr()->countDistinct($alias));
-        $qb = $this->createSearchBy($pattern, $qb, $criteria, $alias);
-
-        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
     public function findByDocumentAndTranslation(Document $document, ?TranslationInterface $translation = null): array

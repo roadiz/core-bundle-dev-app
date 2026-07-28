@@ -24,9 +24,6 @@ trait LoginRequestTrait
 
     /**
      * @return bool TRUE if confirmation has been sent. FALSE if errors
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function sendConfirmationEmail(
         FormInterface $form,

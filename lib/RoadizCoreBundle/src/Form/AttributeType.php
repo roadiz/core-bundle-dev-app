@@ -82,11 +82,12 @@ final class AttributeType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
-                        'class' => 'uk-form uk-form-horizontal',
+                        'class' => 'rz-form uk-form-horizontal',
                     ],
                 ],
                 'attr' => [
                     'class' => 'rz-collection-form-type',
+                    'no-field-group' => true,
                 ],
             ])
             ->add('attributeDocuments', AttributeDocumentType::class, [
@@ -94,6 +95,9 @@ final class AttributeType extends AbstractType
                 'help' => 'attributes.form_help.documents',
                 'required' => false,
                 'attribute' => $builder->getForm()->getData(),
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
         ;
     }
@@ -102,7 +106,10 @@ final class AttributeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
-        $resolver->setDefault('data_class', Attribute::class);
+        $resolver->setDefaults([
+            'data_class' => Attribute::class,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
     }
 
     #[\Override]

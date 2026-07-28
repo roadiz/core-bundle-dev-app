@@ -1,71 +1,147 @@
 {% extends "@RoadizRozier/admin/base.html.twig" %}
 
-{%- block content_title -%}{{ shadowTitle }}{%- endblock -%}
-
-{%- block content_header_actions -%}
-    <a class="uk-button" href="{{ path('appArticlesAddPage') }}">
-        <i class="uk-icon-rz-plus"></i> {% trans %}articles.add{% endtrans %}
-    </a>
+{%- block header -%}
+    {% include '@RoadizRozier/admin/head.html.twig' with {
+        title: 'articles'|trans,
+        filters: filters,
+        buttons: [
+            {
+                label: 'articles.add'|trans,
+                attributes : {
+                    href: path('appArticlesAddPage'),
+                },
+                icon: 'rz-icon-ri--add-line',
+            }
+        ]
+    } only %}
 {%- endblock -%}
 
-{% block content_header_nav %}
-    {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
-{% endblock %}
-
 {%- block content_filters -%}
-    {% embed '@RoadizRozier/widgets/filtersBar.html.twig' %}
-        {% block filter_search_form %}
-            <input type="hidden" name="page" value="1">
-            {% if tags|length %}
-                <select aria-label="{% trans %}filter.by_tag{% endtrans %}"
-                        class="uk-form-width-small"
-                        name="tag">
-                    <option value>{% trans %}filter.by_tag.all{% endtrans %}</option>
-                    {% for tagGroupName, tagGroup in tags %}
-                        <optgroup label="{{ tagGroupName }}">
-                            {% for tag in tagGroup %}
-                                <option {% if currentTag.id == tag.id %}selected {% endif %}value="{{ tag.id }}">{{ tag.name }}</option>
-                            {% endfor %}
-                        </optgroup>
-                    {% endfor %}
-                </select>
-            {% endif %}
-
-            {{ parent() }}
-
-            {% set resetUrl = path('appArticlesListPage') %}
-            <button class="uk-button uk-button-secondary uk-button-small"
-                    type="submit"><i class="uk-icon uk-icon-filter"></i> {% trans %}filter{% endtrans %}</button>
-            <a class="uk-button uk-button-secondary uk-button-small uk-button-status"
-               href="{{ resetUrl }}"
-               title="{% trans %}filter.reset{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon uk-icon-close"></i></a>
+    {% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        filters: filters,
+        display_select_all_button: true,
+        tags: tags,
+        currentTag: currentTag,
+    } only %}
+        {% block before_submit %}
+            <select aria-label="{% trans %}filter.by_tag{% endtrans %}"
+                    is="rz-select"
+                    name="tag">
+                <option value>{% trans %}filter.by_tag.all{% endtrans %}</option>
+                {% for tagGroupName, tagGroup in tags %}
+                    <optgroup label="{{ tagGroupName }}">
+                        {% for tag in tagGroup %}
+                            <option {% if currentTag.id == tag.id %}selected {% endif %}value="{{ tag.id }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
         {% endblock %}
     {% endembed %}
     {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
 {%- endblock -%}
 
 {%- block content_body -%}
-    <article class="content content-no-action-menu">
-        <div class="content-table-cont">
-            <table class="content-table uk-table">
-                <thead>
-                <tr>
-                    {%- include '/admin/article/row_header.html.twig' -%}
-                </tr>
-                </thead>
-                <tbody>
-                {%- for item in items -%}
+    <article>
+        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            selection_available: true,
+            actions_available: true,
+            items: items
+        } only %}
+            {% block thead_cells %}
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'title',
+                        label: 'article.title'|trans,
+                    } %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'publishedAt',
+                        label: 'article.published_at'|trans,
+                    } %}
+                </th>
+                <th>
+                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                        'field': 'node.createdAt',
+                        label: 'article.created_at'|trans,
+                    } %}
+                </th>
+                <th>
+                    {% trans %}article.status{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}article.tags{% endtrans %}
+                </th>
+            {% endblock %}
+            {% block tbody_content %}
+                {% for item in items %}
+                    {% set itemEditUrl = path('nodesEditSourcePage', {
+                        nodeId: item.node.id,
+                        translationId: item.translation.id,
+                    }) %}
                     <tr>
-                        {%- include '/admin/article/row.html.twig' -%}
+                        {{ _self.selection_input(selection_available, item.id, item.node.locked) }}
+                        <td  class="rz-table__cell--flex">
+                            <rz-entity-thumbnail
+                                entity-class="App\GeneratedEntity\NSArticle"
+                                entity-id="{{ item.id }}"
+                            ></rz-entity-thumbnail>
+                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {{ rz_link.root({
+                                label: item.title,
+                                class: "rz-table__cell--ellipsis",
+                                attributes: { href: itemEditUrl },
+                            }) }}
+                        </td>
+                        <td>{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
+                        <td>{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
+                        <td>
+                            {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+                            {{ rz_node_badge.all(item.node, { display_label: false }) }}
+                        </td>
+                        <td>
+                            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                            {%- for tag in item.node.tags -%}
+                                {{ rz_badge.item({
+                                    label: tag.name,
+                                })}}
+                            {%- endfor -%}
+                        </td>
+                        {% if actions_available %}
+                            <td>
+                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    'edit_href': itemEditUrl,
+                                    'delete_href': workflow_can(item.node, 'delete') ? path('nodesDeletePage', { nodeId: item.node.id }) : null,
+                                } %}
+                                    {% block other_actions %}
+                                        {{ _self.button({
+                                            icon: 'uk-icon-rz-node-tree-mini',
+                                            attributes: {
+                                                href: path('nodesTreePage', { nodeId: item.node.id }),
+                                                title: 'see.nodetree'|trans,
+                                            }
+                                        }) }}
+                                        {% if workflow_can(item.node, 'undelete') %}
+                                            {{ _self.button({
+                                                icon: 'uk-icon-rz-untrash',
+                                                attributes: {
+                                                    href: path('nodesUndeletePage', { nodeId: item.node.id }),
+                                                    title: 'undelete'|trans,
+                                                }
+                                            })}}
+                                        {% endif %}
+                                    {% endblock %}
+                                {% endembed %}
+                            </td>
+                        {% endif %}
                     </tr>
                 {%- else -%}
                     <tr>
                         <td colspan="8">{% trans %}no_article{% endtrans %}</td>
                     </tr>
-                {%- endfor -%}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            {% endblock %}
+        {% endembed %}
     </article>
 {%- endblock -%}

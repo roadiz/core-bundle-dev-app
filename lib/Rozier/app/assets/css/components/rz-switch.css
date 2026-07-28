@@ -4,6 +4,8 @@
 	--rz-switch-inner-width: 18px;
 	--rz-switch-padding-inline: 3px;
 
+	appearance: initial;
+	position: relative;
 	display: flex;
 	width: var(--rz-switch-width);
 	height: 24px;
@@ -42,9 +44,17 @@
 		mask-position: center;
 		opacity: 0;
 	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+ 	&:disabled:after {
+		background-color:  var(--button-basic-high-on-light-bg-hover, #4E4E4E);
+	}
 }
 
-.rz-switch--checked {
+.rz-switch:checked {
 	color: var(--status-success, #16A867);
 	background-color: var(--status-success, #16A867);
 

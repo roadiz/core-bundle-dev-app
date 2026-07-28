@@ -1,18 +1,68 @@
-.rz-form-field--inline {
-    --rz-form-field-gap: 0 var(--spacing-4xs);
+rz-form-field,
+.rz-form-field {
+    display: flex;
+    flex-direction: var(--rz-form-field-flex-direction, column);
+    /* flex-wrap: wrap; */
+}
 
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-auto-flow: dense;
-    align-items: center;
+.rz-form-field--align-start {
+    align-items: flex-start;
+}
 
-    .rz-form-field__label,
+.rz-form-field--align-center {
+    align-self: center;
+}
+
+.rz-form-field--align-end {
+    align-self: end;
+}
+
+.rz-form-field--justify-end {
+    margin-left: auto;
+}
+
+.rz-fieldset--minify .rz-form-field,
+.rz-form-field--horizontal {
+    --rz-form-field-flex-direction: row;
+
+    .rz-form-field__head {
+        order: 1;
+    }
+
+    .rz-form-field__body {
+        --rz-form-field-body-flex-grow: 0;
+        --rz-form-field-body-margin-top: 0;
+
+        order: 0;
+        margin-right: var(--spacing-4xs);
+    }
+
     .rz-form-field__description {
-        grid-column: 2 / -1;
+        order: 1;
+    }
+
+    .rz-form-field__message {
+        order: 2;
     }
 }
 
-.rz-form-field__label {
+.rz-form-field__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-block: var(--rz-form-field-head-padding-block);
+
+    .rz-form-field--head-hidden & {
+        display: none;
+    }
+}
+
+.rz-form-field__head__icon {
+    margin-right: var(--spacing-4xs);
+    font-size: 17px;
+}
+
+.rz-form-field__head__label {
     font-family: var(--font-family-os-label);
     font-size: var(--text-form-label-font-size);
     line-height: var(--text-form-label-line-height);
@@ -25,9 +75,18 @@
     }
 }
 
+.rz-form-field__head__badge {
+    margin-left: var(--spacing-4xs);
+}
+
+.rz-form-field__head__end {
+	margin-left: auto;
+}
+
 .rz-form-field__description {
     display: block;
-    margin-block: var(--spacing-6xs) 0;
+    width: min(100%, 74ch);
+    margin-block: var(--rz-form-field-description-margin-block, var(--spacing-6xs) 0);
 
     font-family: var(--font-family-os-text);
     font-size: var(--text-form-description-md-font-size);
@@ -36,13 +95,19 @@
     font-weight: var(--text-form-description-md-font-weight);
 }
 
-.rz-form-field__input {
-    margin-top: var(--spacing-4xs);
-    width: stretch;
+.rz-form-field__body {
+    margin-top: var(--rz-form-field-body-margin-top, var(--spacing-4xs));
+    flex-grow: var(--rz-form-field-body-flex-grow, 1);
+
+    .rz-form-field--head-hidden & {
+        margin-top: var(--rz-form-field-body-margin-top);
+    }
 }
 
 .rz-form-field__message {
     margin-block: var(--spacing-4xs) 0;
+    list-style: none;
+    min-width: min(26ch, 100%);
 
     & > p {
         margin: initial;

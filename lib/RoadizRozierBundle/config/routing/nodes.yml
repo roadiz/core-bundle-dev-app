@@ -11,3 +11,7 @@ nodesBulkStatusPage:
     path:     /bulk-status
     defaults:
         _controller: RZ\Roadiz\RozierBundle\Controller\Node\NodeTreeController::bulkStatusAction
+nodesBulkUndeletePage:
+    path:     /bulk-undelete
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Controller\Node\NodeTreeController::bulkUndeleteAction

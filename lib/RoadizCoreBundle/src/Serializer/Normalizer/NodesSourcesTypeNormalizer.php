@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 
 final class NodesSourcesTypeNormalizer extends AbstractPathNormalizer
 {
+    #[\Override]
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!$data instanceof NodesSources) {

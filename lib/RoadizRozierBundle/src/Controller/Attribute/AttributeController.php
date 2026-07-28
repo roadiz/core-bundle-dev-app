@@ -7,6 +7,7 @@ namespace RZ\Roadiz\RozierBundle\Controller\Attribute;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\AttributeImportType;
 use RZ\Roadiz\CoreBundle\Form\AttributeType;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
@@ -30,6 +31,7 @@ final class AttributeController extends AbstractAdminWithBulkController
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly AttributeImporter $attributeImporter,
+        ExplorerItemFactoryInterface $explorerItemFactory,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
         EntityListManagerFactoryInterface $entityListManagerFactory,
@@ -38,7 +40,7 @@ final class AttributeController extends AbstractAdminWithBulkController
         LogTrail $logTrail,
         EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
+        parent::__construct($formFactory, $explorerItemFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     #[\Override]

@@ -1,0 +1,53 @@
+{% macro select_all_button(attributes = {}) %}
+    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+        {{
+            rz_button.root({
+                attributes: {
+                    type: 'button',
+                    'aria-selected': 'false',
+                    'data-bulk-select-all-button': '',
+                    'selected-class': 'rz-button--selected',
+                },
+                emphasis: 'secondary',
+                label: 'select.all',
+                icon: 'rz-icon-ri--checkbox-line'
+            })
+        }}
+{% endmacro %}
+
+{% macro deselect_all_button(attributes = {}) %}
+    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+    {{
+        rz_button.root({
+            attributes: {
+                type: 'button',
+                title: "deselect.all"|trans,
+                'data-bulk-deselect-all-button': '',
+            },
+            emphasis: 'primary',
+            icon: 'rz-icon-ri--checkbox-blank-line',
+        })
+    }}
+{% endmacro %}
+
+{% macro select_all_input(attributes = {}) %}
+    {% import "@RoadizRozier/macros/element_attributes.html.twig" as el_attr %}
+    <input
+        is="rz-input"
+        type="checkbox"
+        name="bulk-selection-all"
+        aria-label="{{ "select.all"|trans }}"
+        {{ el_attr.print(attributes|default({})) }}
+    />
+{% endmacro %}
+
+{% macro select_input(attributes = {}) %}
+    {% import "@RoadizRozier/macros/element_attributes.html.twig" as el_attr %}
+    <input
+        is="rz-input"
+        type="checkbox"
+        name="bulk-selection[]"
+        aria-label="{{ "select.row"|trans }}"
+        {{ el_attr.print(attributes|default({})) }}
+    />
+{% endmacro %}

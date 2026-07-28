@@ -23,6 +23,9 @@ final class NodesTagsType extends AbstractType
     {
         $builder->add('nodesTags', TagsType::class, [
             'by_reference' => false,
+            'attr' => [
+                'no-field-group' => true,
+            ],
         ]);
         $builder->get('nodesTags')
             ->addViewTransformer(new NodesTagsTransformer($this->managerRegistry));

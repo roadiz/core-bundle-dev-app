@@ -15,11 +15,11 @@ use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 #[ORM\Entity(repositoryClass: NodesTagsRepository::class),
     ORM\Table(name: 'nodes_tags'),
     ORM\HasLifecycleCallbacks,
-    ORM\Index(columns: ['node_id', 'position'], name: 'nodes_tags_node_id_position'),
-    ORM\Index(columns: ['tag_id', 'position'], name: 'nodes_tags_tag_id_position'),
-    ORM\Index(columns: ['position'], name: 'nodes_tags_position'),
-    ORM\Index(columns: ['tag_id'], name: 'nodes_tags_tag_id'),
-    ORM\Index(columns: ['node_id'], name: 'nodes_tags_node_id'),]
+    ORM\Index(name: 'nodes_tags_node_id_position', columns: ['node_id', 'position']),
+    ORM\Index(name: 'nodes_tags_tag_id_position', columns: ['tag_id', 'position']),
+    ORM\Index(name: 'nodes_tags_position', columns: ['position']),
+    ORM\Index(name: 'nodes_tags_tag_id', columns: ['tag_id']),
+    ORM\Index(name: 'nodes_tags_node_id', columns: ['node_id']),]
 class NodesTags implements PositionedInterface, PersistableInterface
 {
     use UuidTrait;
@@ -47,7 +47,7 @@ class NodesTags implements PositionedInterface, PersistableInterface
         SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),]
     private Tag $tag;
 
-    #[ORM\Column(type: 'float', nullable: false, options: ['default' => 1]),
+    #[ORM\Column(type: 'float', nullable: false, options: ['default' => '1']),
         SymfonySerializer\Ignore,]
     protected float $position = 0.0;
 

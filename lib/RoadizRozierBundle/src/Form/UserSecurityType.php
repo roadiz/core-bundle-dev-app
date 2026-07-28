@@ -28,30 +28,12 @@ class UserSecurityType extends AbstractType
             ->add('expiresAt', DateTimeType::class, [
                 'label' => 'user.expiresAt',
                 'required' => false,
-                'years' => range(date('Y'), ((int) date('Y')) + 2),
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
-                'placeholder' => [
-                    'hour' => 'hour',
-                    'minute' => 'minute',
-                ],
+                'html5' => true,
             ])
             ->add('credentialsExpiresAt', DateTimeType::class, [
                 'label' => 'user.credentialsExpiresAt',
                 'required' => false,
-                'years' => range(date('Y'), ((int) date('Y')) + 2),
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
-                'placeholder' => [
-                    'hour' => 'hour',
-                    'minute' => 'minute',
-                ],
+                'html5' => true,
             ]);
 
         if (true === $options['canChroot']) {
@@ -77,7 +59,7 @@ class UserSecurityType extends AbstractType
             'data_class' => User::class,
             'canChroot' => false,
             'attr' => [
-                'class' => 'uk-form user-form',
+                'class' => 'rz-form user-form',
             ],
         ]);
 

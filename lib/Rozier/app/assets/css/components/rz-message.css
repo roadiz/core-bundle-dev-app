@@ -5,7 +5,20 @@
     color: var(--rz-message-color, var(--content-on-light-primary, #18191B));
 }
 
+.rz-message--ghost {
+    padding: var(--spacing-5xs) 0;
+    background-color: initial;
+    color: var(--rz-message-ghost-color);
+}
+
+.rz-message--warning {
+    --rz-message-ghost-color: var(--status-warning, #F4956C);
+    --rz-message-color: var(--status-warning-on-container, #D35824);
+    --rz-message-background-color: var(--status-warning-container, #FFDACB);
+}
+
 .rz-message--error {
+    --rz-message-ghost-color: var(--status-error, #E54457);
     --rz-message-color: var(--status-error-on-container, #A92A3E);
     --rz-message-background-color: var(--status-error-container, #FFD3DA);
 }

@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -88,6 +88,9 @@ final class DocumentEditType extends AbstractType
                 'required' => false,
                 'inherit_data' => true,
                 'document_platforms' => $options['document_platforms'],
+                'attr' => [
+                    'class' => 'rz-fieldset',
+                ],
             ])
             ->add('imageAverageColor', ColorType::class, [
                 'label' => 'document.imageAverageColor',
@@ -98,18 +101,18 @@ final class DocumentEditType extends AbstractType
         ;
 
         if ($document->isImage() || $document->isVideo() || $document->isEmbed()) {
-            $builder->add('imageWidth', IntegerType::class, [
+            $builder->add('imageWidth', NumberType::class, [
                 'label' => 'document.width',
                 'required' => false,
             ]);
-            $builder->add('imageHeight', IntegerType::class, [
+            $builder->add('imageHeight', NumberType::class, [
                 'label' => 'document.height',
                 'required' => false,
             ]);
         }
 
         if ($document->isAudio() || $document->isVideo() || $document->isEmbed()) {
-            $builder->add('mediaDuration', IntegerType::class, [
+            $builder->add('mediaDuration', NumberType::class, [
                 'label' => 'document.duration',
                 'required' => false,
             ]);
@@ -138,6 +141,9 @@ final class DocumentEditType extends AbstractType
                 'label' => 'document.thumbnails',
                 'multiple' => true,
                 'required' => false,
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ]);
         }
 
@@ -145,6 +151,9 @@ final class DocumentEditType extends AbstractType
             'label' => 'folders',
             'multiple' => true,
             'required' => false,
+            'attr' => [
+                'no-field-group' => true,
+            ],
         ]);
 
         if ($this->security->isGranted('ROLE_ACCESS_DOCUMENTS_CREATION_DATE')) {
@@ -152,11 +161,7 @@ final class DocumentEditType extends AbstractType
                 'label' => 'createdAt',
                 'help' => 'document.createdAt.help',
                 'required' => false,
-                'attr' => [
-                    'class' => 'rz-datetime-field',
-                ],
-                'date_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
+                'html5' => true,
                 'placeholder' => [
                     'hour' => 'hour',
                     'minute' => 'minute',
@@ -174,6 +179,9 @@ final class DocumentEditType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Document::class,
+            'attr' => [
+                'class' => 'rz-form__field-list',
+            ],
         ]);
 
         $resolver->setRequired('referer');

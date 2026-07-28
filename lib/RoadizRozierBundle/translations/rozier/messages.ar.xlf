@@ -618,6 +618,18 @@
         <source>remove.user.%name%.from.group.%group%</source>
         <target state="final">إزالة.المستخدم.%name%.من.المجموعة.%group%</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="color.system" approved="yes">
+        <source>color.system</source>
+        <target state="final">النظام</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.light" approved="yes">
+        <source>color.light</source>
+        <target state="final">فاتح</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.dark" approved="yes">
+        <source>color.dark</source>
+        <target state="final">داكن</target>
+      </trans-unit>
       <!-- Count translations -->
       <!-- Node type fields datatypes -->
       <!-- Dynamic button in nodeTree add.a.%nodeType% -->

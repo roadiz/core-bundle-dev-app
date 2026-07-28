@@ -87,8 +87,18 @@ final class CustomFormAnswerController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/custom-form-answers/delete.html.twig', [
-            'customFormAnswer' => $customFormAnswer,
+        $title = $this->translator->trans(
+            'delete.customFormAnswer.%name%',
+            ['%name%' => $customFormAnswer->getCustomForm()->getDisplayName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/custom-forms/head.html.twig',
+            'cancelPath' => $this->generateUrl('customFormAnswersHomePage', [
+                'customFormId' => $customFormAnswer->getCustomForm()->getId(),
+            ]),
+            'alertMessage' => 'are_you_sure.delete.customFormAnswer',
             'form' => $form->createView(),
         ]);
     }

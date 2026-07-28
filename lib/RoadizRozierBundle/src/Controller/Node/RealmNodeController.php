@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -148,12 +149,17 @@ final class RealmNodeController extends AbstractController
             ]);
         }
 
-        return $this->render('@RoadizRozier/nodes/deleteRealm.html.twig', [
+        $title = (new UnicodeString($this->translator->trans('leave.realm')));
+
+        $subtitle = $nodeSource->getTitle().' - '.$realmNode->getRealm()->getName();
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesRealmsPage', ['id' => $node->getId()]),
+            'alertMessage' => 'are_you_sure.leave.realm',
             'form' => $form->createView(),
-            'node' => $node,
-            'source' => $nodeSource,
-            'realmNode' => $realmNode,
-            'translation' => $nodeSource->getTranslation(),
         ]);
     }
 }

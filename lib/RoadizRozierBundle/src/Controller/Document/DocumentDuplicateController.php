@@ -50,6 +50,8 @@ final class DocumentDuplicateController extends AbstractController
             'controls' => false,
             'loading' => 'lazy',
         ];
+        $assignation['pageTitle'] = 'duplicated_documents';
+        $assignation['displayButtonAction'] = false;
 
         return $this->render('@RoadizRozier/documents/duplicated.html.twig', $assignation);
     }

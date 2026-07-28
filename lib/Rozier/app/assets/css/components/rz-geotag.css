@@ -1,0 +1,113 @@
+
+rz-geotag {
+	--rz-geotag-background-color: var(--surface-light-primary, #FFF);
+
+	display: flex;
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--form-basic-border, #DADADA);
+	background-color: var(--rz-geotag-background-color);
+	box-sizing: border-box;
+	height: 391px;
+	overflow: hidden;
+
+	/* Added by RzGeotag */
+	.rz-geotag__map {
+		flex-grow: 1;
+		height: 100%;
+	}
+}
+
+.rz-geotag__textarea {
+	border: none;
+	width: 100%;
+	height: 100%;
+
+	/* Display loading only when Custom element try to load leaflet module */
+	rz-geotag[data-initialized="false"] & {
+		color: transparent;
+		background-color: var(--rz-geotag-background-color);
+		background: linear-gradient(110deg,
+			var(--rz-geotag-background-color) 10%,
+			color-mix(in hsl, var(--surface-dark-primary), transparent 85%) 30%,
+			var(--rz-geotag-background-color) 50%
+		);
+		background-size: 200% 100%;
+		animation: 1.3s shine cubic-bezier(0.35, 0.09, 0.52, 1) infinite;
+	}
+
+	rz-geotag[data-initialized="true"] & {
+		display: none;
+	}
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.rz-geotag__item-list {
+	box-sizing: border-box;
+	width: min(50%, 362px);
+	max-width: 362px;
+	height: 100%;
+	background-color: var(--rz-geotag-background-color);
+	padding: var(--spacing-4xs);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-6xs);
+	overflow-y: auto
+}
+
+.rz-geotag__item {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs);
+	padding-block: var(--spacing-4xs);
+
+	&:last-child {
+		padding-bottom: var(--spacing-md);
+	}
+}
+
+.rz-geotag__item__icon {
+	flex-shrink: 0;
+}
+
+.rz-geotag__item__content {
+	display: flex;
+    flex-direction: column;
+    max-width: 70%;
+	flex-grow: 1;
+}
+
+.rz-geotag__item__name {
+  font-family: var(--font-family-os-label);
+  font-size: var(--text-card-md-font-size);
+  line-height: var(--text-card-md-line-height);
+  letter-spacing: var(--text-card-md-letter-spacing);
+  font-weight: var(--text-card-md-font-weight);
+}
+
+.rz-geotag__item__subtitle {
+	color: var(--content-on_light-secondary, #646464);
+	margin-top: var(--spacing-6xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-card-sm-font-size);
+	line-height: var(--text-card-sm-line-height);
+	letter-spacing: var(--text-card-sm-letter-spacing);
+	font-weight: var(--text-card-sm-font-weight);
+}
+
+.rz-geotag__item__name,
+.rz-geotag__item__subtitle {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.rz-geotag__item__button {
+	.rz-geotag__item__content + & {
+		margin-left: auto;
+	}
+}

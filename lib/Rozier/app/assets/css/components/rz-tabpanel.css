@@ -1,0 +1,5 @@
+.rz-tabpanel {
+	&[hidden] {
+		display: none;
+	}
+}

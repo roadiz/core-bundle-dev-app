@@ -36,6 +36,9 @@ final class RealmNodeType extends AbstractType
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('data_class', RealmNode::class);
+        $resolver->setDefaults([
+            'data_class' => RealmNode::class,
+            'attr' => ['class' => 'rz-form__field-list'],
+        ]);
     }
 }

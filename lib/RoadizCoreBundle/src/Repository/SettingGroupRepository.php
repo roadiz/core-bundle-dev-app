@@ -32,7 +32,7 @@ final class SettingGroupRepository extends EntityRepository
      */
     public function exists(string $name): bool
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT COUNT(s.id) FROM RZ\Roadiz\CoreBundle\Entity\SettingGroup s
             WHERE s.name = :name')
                         ->setParameter('name', $name);
@@ -42,7 +42,7 @@ final class SettingGroupRepository extends EntityRepository
 
     public function findAllNames(): array
     {
-        $query = $this->_em->createQuery('SELECT s.name FROM RZ\Roadiz\CoreBundle\Entity\SettingGroup s');
+        $query = $this->getEntityManager()->createQuery('SELECT s.name FROM RZ\Roadiz\CoreBundle\Entity\SettingGroup s');
 
         return array_map(current(...), $query->getScalarResult());
     }

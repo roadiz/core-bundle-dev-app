@@ -3576,6 +3576,18 @@
         <source>nodeType.name.alreadyExists</source>
         <target state="final">Il nome del tipo di nodo è già in uso</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="color.system" approved="yes">
+        <source>color.system</source>
+        <target state="final">Sistema</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.light" approved="yes">
+        <source>color.light</source>
+        <target state="final">Chiaro</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color.dark" approved="yes">
+        <source>color.dark</source>
+        <target state="final">Scuro</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="color.should.be.formatted.in.hexadecimal" approved="yes">
         <source>color.should.be.formatted.in.hexadecimal</source>
         <target state="final">Il colore dovrebbe essere formattato usando la notazione esadecimale  </target>

@@ -1,0 +1,24 @@
+.rz-node-contextual-menu {
+	position: relative;
+
+	&:has(.rz-node-contextual-menu__loader) {
+		min-width: var(--rz-dropdown-min-width, 194px);
+		min-height: 50px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		color: var(--content-on-light-secondary, #646464);
+	}
+
+	> [popover] {
+		position: absolute;
+		margin: initial;
+		border: none;
+		padding: initial;
+	}
+
+	> button[popovertarget][aria-expanded="true"] {
+		background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
+	}
+}

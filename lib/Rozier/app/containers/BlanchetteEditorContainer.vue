@@ -34,8 +34,8 @@
                         :alt="name"
                         @load="load"
                         ref="image"
-                        :width="currentWidth ? currentWidth : ''"
-                        :height="currentHeight ? currentHeight : ''"
+                        :width="width ? width : ''"
+                        :height="height ? height : ''"
                     />
                 </template>
             </div>
@@ -82,7 +82,7 @@ import { mapState, mapActions } from 'vuex'
 
 // Components
 import BlanchetteToolbar from '../components/BlanchetteToolbar.vue'
-import { sleep } from '../utils/sleep'
+import { sleep } from '~/utils/sleep'
 
 export default {
     props: {
@@ -93,10 +93,6 @@ export default {
         filename: {
             required: true,
             type: String,
-        },
-        mimeType: {
-            type: String,
-            default: '',
         },
         width: {
             type: [Number, String],
@@ -143,6 +139,7 @@ export default {
     methods: {
         ...mapActions(['blanchetteEditorInit', 'blanchetteEditorLoaded', 'blanchetteEditorSave']),
         overwrite() {
+            console.log(this)
             this.blanchetteEditorSave({
                 url: this.url,
                 filename: this.getOverwriteFilename(),
@@ -289,7 +286,6 @@ export default {
             const type = this.type
 
             if (this.cropping) {
-                this.originalUrl = this.url
                 this.data = cropper.getData()
                 this.canvasData = cropper.getCanvasData()
                 this.cropBoxData = cropper.getCropBoxData()
@@ -316,7 +312,6 @@ export default {
             if (!this.cropper) {
                 this.image = null
                 this.url = this.originalUrl
-                this.originalUrl = ''
                 this.cropped = false
             }
         },

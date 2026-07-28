@@ -1,0 +1,119 @@
+[is="rz-dialog"],
+.rz-dialog {
+	box-sizing: border-box;
+	min-width: var(--rz-dialog-min-width, 300px);
+	width: var(--rz-dialog-width, fit-content);
+	max-width: var(--rz-dialog-max-width);
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-sm, 8px);
+	border: 1PX solid var(--line-on-light-primary, #EAEAEA);
+	background-color: var(--surface-light-primary, #FFF);
+
+	/* Reveal/close animation */
+	opacity: 0;
+	translate: 0 30px;
+	transition:
+		opacity 0.4s,
+		translate 0.4s,
+		overlay 0.4s allow-discrete,
+		display 0.4s allow-discrete;
+
+	/* Open state */
+	&:open {
+		opacity: 1;
+		translate: 0 0;
+	}
+
+	&::backdrop {
+		background-color: transparent;
+		transition:
+			display 0.4s allow-discrete,
+			overlay 0.4s allow-discrete,
+			background-color 0.4s;
+	}
+
+	&:open::backdrop {
+		background-color: var(--surface-overlay-secondary, rgba(24, 25, 27, 0.50));
+	}
+
+	/* State before opening */
+	/* Must be placed after the previous dialog:open rule to take effect, as the specificity is the same */
+	@starting-style {
+		&:open {
+			opacity: 0;
+			translate: 0 30px;
+		}
+
+		&:open::backdrop {
+			background-color: transparent;
+		}
+	}
+
+	@media (--screen-xs-max) {
+		/* Dialog attached on bottom for small screens */
+		margin-bottom: initial;
+	}
+}
+
+.rz-dialog__header {
+	display: flex;
+	align-items: center;
+	padding: var(--spacing-5xs) var(--spacing-4xs) var(--spacing-5xs) var(--spacing-2xs);
+}
+
+.rz-dialog__icon {
+	margin-right: var(--spacing-3xs);
+}
+
+.rz-dialog__title {
+	padding-right: var(--spacing-lg);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-form-label-font-size);
+	line-height: var(--text-form-label-line-height);
+	letter-spacing: var(--text-form-label-letter-spacing);
+	font-weight: var(--text-form-label-font-weight);
+}
+
+.rz-dialog__close {
+	margin-left: auto;
+}
+
+.rz-dialog__body {
+	box-sizing: border-box;
+
+	&:where(.rz-dialog__body--padding),
+	&:not(:has( > *)) {
+		padding: var(--spacing-xs);
+	}
+
+	.rz-dialog__header + & {
+		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
+	}
+
+	&:has(.rz-spinner:only-child) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.rz-dialog__footer {
+	display: flex;
+	align-items: center;
+	padding: var(--spacing-4xs);
+	border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
+
+	> * + * {
+		margin-left: var(--spacing-5xs);
+	}
+}
+
+.rz-dialog__push-right {
+	margin-right: auto;
+}
+
+.rz-dialog__footer--justify-end {
+	justify-content: flex-end;
+
+}

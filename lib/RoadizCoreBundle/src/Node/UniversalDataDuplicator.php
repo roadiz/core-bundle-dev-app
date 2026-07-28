@@ -31,7 +31,6 @@ final readonly class UniversalDataDuplicator
      *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function duplicateUniversalContents(NodesSources $source): bool
     {

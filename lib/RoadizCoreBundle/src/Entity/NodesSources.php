@@ -146,7 +146,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     #[ORM\OneToMany(
         mappedBy: 'nodeSource',
         targetEntity: UrlAlias::class,
-        cascade: ['all']
+        cascade: ['persist', 'remove']
     )]
     #[SymfonySerializer\Ignore]
     private Collection $urlAliases;

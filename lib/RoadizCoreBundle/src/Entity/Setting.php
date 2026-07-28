@@ -71,7 +71,7 @@ class Setting implements PersistableInterface
 
     #[ORM\ManyToOne(
         targetEntity: SettingGroup::class,
-        cascade: ['persist', 'merge'],
+        cascade: ['persist'],
         inversedBy: 'settings'
     )]
     #[ORM\JoinColumn(name: 'setting_group_id', referencedColumnName: 'id', onDelete: 'SET NULL')]

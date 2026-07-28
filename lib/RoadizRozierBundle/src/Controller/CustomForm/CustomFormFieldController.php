@@ -195,8 +195,18 @@ final class CustomFormFieldController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/custom-form-fields/delete.html.twig', [
-            'field' => $field,
+        $title = $this->translator->trans(
+            'delete.customFormField.%name%',
+            ['%name%' => $field->getLabel()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/custom-forms/head.html.twig',
+            'cancelPath' => $this->generateUrl('customFormFieldsListPage', [
+                'customFormId' => $field->getCustomForm()->getId(),
+            ]),
+            'alertMessage' => 'are_you_sure.delete.customFormField',
             'form' => $form->createView(),
         ]);
     }

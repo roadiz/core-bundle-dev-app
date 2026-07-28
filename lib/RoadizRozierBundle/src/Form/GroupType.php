@@ -27,7 +27,7 @@ class GroupType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Group::class,
             'attr' => [
-                'class' => 'uk-form group-form',
+                'class' => 'rz-form group-form',
             ],
         ]);
     }

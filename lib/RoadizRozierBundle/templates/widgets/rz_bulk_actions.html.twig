@@ -1,0 +1,56 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+<rz-bulk-actions
+	class="rz-bulk-actions"
+	visibility-class="rz-bulk-actions--visible"
+>
+	<h3 class="rz-bulk-actions__title">
+		{% block title_content %}
+			{% trans %}bulk.actions{% endtrans %}
+		{% endblock %}
+	</h3>
+
+	<div class="rz-bulk-actions__buttons">
+		{{
+			rz_button.root({
+				attributes: {
+					type: 'button',
+					title: "deselect.all"|trans,
+					'data-bulk-deselect-all-button': '',
+				},
+				emphasis: 'primary',
+				icon: 'rz-icon-ri--checkbox-blank-line',
+			})
+		}}
+
+		{% block other_actions %}{% endblock %}
+
+		{% block delete_form %}
+			<form
+				class="rz-bulk-actions__form-button"
+				action="{{ delete_form_action }}"
+				method="{{ delete_form_method|default('POST') }}"
+			>
+				{% block delete_form_content %}
+					{% if delete_form_data %}
+						{% form_theme delete_form_data '@RoadizRozier/forms.html.twig' %}
+						{{ form_widget(delete_form_data) }}
+					{% endif %}
+				{% endblock %}
+				{{
+					rz_button.root({
+						attributes: {
+							type: 'submit',
+							title: title
+						},
+						color: 'danger',
+						emphasis: 'primary',
+						icon: 'rz-icon-ri--delete-bin-7-line',
+					})
+				}}
+			</form>
+		{% endblock %}
+	</div>
+
+	{% block panels %}{% endblock %}
+</rz-bulk-actions>

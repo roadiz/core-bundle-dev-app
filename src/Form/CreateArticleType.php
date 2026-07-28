@@ -35,6 +35,9 @@ final class CreateArticleType extends AbstractType
             ->add('tags', TagsType::class, [
                 'label' => 'tags',
                 'required' => false,
+                'attr' => [
+                    'no-field-group' => true,
+                ],
             ])
         ;
 

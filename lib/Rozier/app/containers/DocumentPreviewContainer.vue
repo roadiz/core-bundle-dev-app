@@ -41,8 +41,14 @@ export default {
             }
         },
     },
+    mounted() {
+        document.addEventListener('show-preview', this.onShowPreview)
+    },
+    unmounted() {
+        document.removeEventListener('show-preview', this.onShowPreview)
+    },
     methods: {
-        ...mapActions(['documentPreviewClose']),
+        ...mapActions(['documentPreviewOpen', 'documentPreviewClose']),
         closePreview() {
             this.documentPreviewClose()
         },
@@ -50,6 +56,13 @@ export default {
             if (e.srcElement.classList.contains('document-preview-widget__wrapper')) {
                 this.closePreview()
             }
+        },
+        onShowPreview(event) {
+            const document = event.detail?.document
+
+            if (!document) return
+
+            this.documentPreviewOpen({ document })
         },
     },
 }

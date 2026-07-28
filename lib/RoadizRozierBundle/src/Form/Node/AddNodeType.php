@@ -117,7 +117,7 @@ final class AddNodeType extends AbstractType
             'nodeName' => '',
             'showNodeType' => true,
             'attr' => [
-                'class' => 'uk-form childnode-form',
+                'class' => 'rz-form childnode-form',
             ],
         ]);
 

@@ -1,0 +1,70 @@
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/macros/rz_filters_bar.html.twig" as rz_filters_bar %}
+
+<rz-filters-bar>
+    {% if filters.description %}
+        <p class="rz-filters-bar__description">{{ filters.description }}</p>
+    {% endif %}
+
+    {% if with_filter_form is not same as(false) %}
+        <form method="get" class="rz-filters-bar__group">
+            {% if display_layout_fields %}
+                {% set value = filters.layout ?? app.request.query.get('layout') %}
+                {{ rz_filters_bar.layout_fields(value) }}
+            {% endif %}
+
+            <input
+                class="rz-input"
+                id="uk-form-filter-input-search"
+                type="search"
+                name="search"
+                placeholder="{% trans %}search{% endtrans %}"
+                value="{{ filters.search|default(app.request.get('search') ?? '') }}"
+            />
+            {% block before_submit %}{% endblock %}
+            {{
+                rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                    },
+                    emphasis: 'secondary',
+                    label: 'filter'|trans,
+                    icon: 'rz-icon-ri--search-line'
+                })
+            }}
+            {% if display_select_all_button %}
+            {{
+                rz_button.root({
+                    attributes: {
+                        type: 'button',
+                        'aria-selected': 'false',
+                        'data-bulk-select-all-button': '',
+                        'selected-class': 'rz-button--selected',
+                    },
+                    emphasis: 'secondary',
+                    label: 'select.all',
+                    icon: 'rz-icon-ri--checkbox-line'
+                })
+            }}
+            {% endif %}
+        </form>
+    {% endif %}
+
+
+    {% set hasItemPerPageParams = app.request.get('item_per_page') and (app.request.get('item_per_page') != 20) %}
+    {% set hasMorePage = filters.itemCount > filters.itemPerPage %}
+
+    {% if hasItemPerPageParams or hasMorePage %}
+        <div class="rz-filters-bar__group rz-filters-bar__group--right">
+            {% if hasMorePage %}
+                {{ rz_filters_bar.pagination(filters) }}
+            {% endif %}
+
+
+            {% if filters.pageCount > 1 or filters.itemCount > 10 %}
+                {# Keep select if there are multiple pages or enough items #}
+                {{ rz_filters_bar.item_per_page(filters.itemPerPage) }}
+            {% endif %}
+        </div>
+    {% endif %}
+</rz-filters-bar>

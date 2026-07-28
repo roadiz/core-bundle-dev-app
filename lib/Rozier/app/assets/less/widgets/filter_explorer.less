@@ -18,6 +18,11 @@
 
     .filters-items {
         padding: 0;
+        margin: 0;
+
+        & > .item:nth-child(1 of .item) {
+            margin-top: 14px;
+        }
 
         & > .item {
             margin: 0 0 5px 20px;
@@ -52,43 +57,33 @@
     }
 
     .filters-infos {
-        height: 60px;
-        margin-left: 0px;
-        margin-top: 25px;
-        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
         border-bottom: 1px solid #444444;
-        padding: 0px;
+        font-size: var(--default-font-size);
+        border-bottom: 1px solid #d5d5d5;
+        padding: 10px 0;
+        margin: 0 20px;
 
-        @media (min-width: @screen-sm-min) {
-            margin-top: 35px;
+        .box-sizing();
+        position: relative;
+
+        button {
+            margin-left: auto;
         }
 
-        .infos-content {
-            font-size: var(--default-font-size);
-            border-bottom: 1px solid #d5d5d5;
-            padding: 5px 5px 0;
-            margin: 0 20px;
+        .number {
             display: inline-block;
-            color: #747474;
-            height: 41px;
-            .box-sizing();
-            bottom: -20px;
-            position: relative;
-            width: calc(~'100% - 40px');
+            width: 35px;
+        }
 
-            .number {
-                display: inline-block;
-                width: 35px;
-            }
+        i {
+            font-size: 22px;
+        }
 
+        &:hover {
             i {
-                font-size: 22px;
-            }
-
-            &:hover {
-                i {
-                    animation: reset-spin 2s infinite linear;
-                }
+                animation: reset-spin 2s infinite linear;
             }
         }
     }

@@ -4,14 +4,10 @@
 
 {% block content %}
 <section class="content-global import-group">
-
-    <header class="content-header header-group header-group-import">
-        <h1 class="content-title group-import-title">{% trans %}import.group{% endtrans %}</h1>
-        <a class="content-header-nav-back uk-navbar-content"
-           href="{{ path('groupsHomePage') }}"
-           title="{% trans %}back_to.groups{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/groups/head.html.twig' with {
+        title: 'import.group'|trans,
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-import">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

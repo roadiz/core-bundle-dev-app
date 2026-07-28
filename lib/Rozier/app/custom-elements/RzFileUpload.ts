@@ -13,7 +13,7 @@ export default class RzFileUpload extends HTMLElement {
             ...window.RozierConfig?.messages?.dropzone,
             url:
                 this.getAttribute('url') ||
-                window.RozierConfig.routes?.documentsUploadPage,
+                window.RozierConfig?.routes?.documentsUploadPage,
             paramName: 'form[attachment]',
             uploadMultiple: false,
             maxFilesize: 64,
@@ -24,6 +24,11 @@ export default class RzFileUpload extends HTMLElement {
     }
 
     connectedCallback() {
+        if (!this.options.url) {
+            console.error('RzFileUpload: No upload URL defined')
+            return
+        }
+
         this.dropzone = new Dropzone(this, this.options)
 
         this.dropzone.on('addedfile', (file) => {
@@ -77,22 +82,17 @@ export default class RzFileUpload extends HTMLElement {
 
         this.insertAdjacentHTML(
             'beforeend',
-            `<div class="dz-default dz-message"><span>${this.options.dictDefaultMessage}</span></div>`,
+            `<div class="rz-file-upload__placeholder">
+                <div class="rz-file-upload__item">
+                    <span class="rz-icon-ri--upload-line"></span>
+                </div>
+            </div>`,
         )
-        const dzMessage = this.querySelector('.dz-message')
-
-        if (dzMessage) {
-            dzMessage.insertAdjacentHTML(
+        const text = this.options.dictDefaultMessage
+        if (text) {
+            this.insertAdjacentHTML(
                 'beforeend',
-                `
-                    <div class="circles-icons">
-                        <div class="circle circle-1"></div>
-                        <div class="circle circle-2"></div>
-                        <div class="circle circle-3"></div>
-                        <div class="circle circle-4"></div>
-                        <div class="circle circle-5"></div>
-                        <i class="uk-icon-rz-file"></i>
-                    </div>`,
+                `<div class="rz-file-upload__message">${text}</div>`,
             )
         }
     }

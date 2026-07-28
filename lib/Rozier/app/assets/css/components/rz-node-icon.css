@@ -1,0 +1,25 @@
+.rz-node-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: circle(50% at 50% 50%);
+    background: var(--rz-node-icon-background, var(--node-border-on-light, #9A9A9A));
+}
+
+.rz-node-icon--draft {
+    clip-path: none;
+    mask: url('assets/img/node-draft-outer.svg') no-repeat center / cover;
+}
+
+.rz-node-icon__thumbnail {
+    position: absolute;
+    inset: 2PX;
+    clip-path: inherit;
+
+    .rz-node-icon--draft & {
+        clip-path: none;
+        mask: url('assets/img/node-draft-inner.svg') no-repeat center / cover;
+    }
+}
+

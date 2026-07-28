@@ -183,4 +183,4 @@ fabric.properties
 ###< deptrac/deptrac ###
 /phpstan_report.txt
 
-config/reference.php
+/config/reference.php

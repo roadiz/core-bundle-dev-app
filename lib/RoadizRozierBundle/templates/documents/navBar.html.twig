@@ -4,29 +4,52 @@
     {% set editRouteParams = editRouteParams|merge({ referer: app.request.get('referer') }) %}
 {% endif %}
 
-<nav class="document-navbar-navigation navbar-navigation uk-navbar has-translations">
-    <ul class="uk-navbar-nav">
-        <li class="{% if current == 'edit' %}uk-active{% endif %}" >
-            <a href="{{ path('documentsEditPage', editRouteParams) }}">{% trans %}document.edit{% endtrans %}</a>
-        </li>
-        <li class="{% if current == 'metas' %}uk-active{% endif %}" >
-            <a href="{{ path('documentsMetaPage', editRouteParams) }}">{% trans %}document.metas{% endtrans %}</a>
-        </li>
-        {%- if is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') -%}
-            <li class="{% if current == 'limitations' %}uk-active{% endif %}" >
-                <a href="{{ path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }) }}">{% trans %}document.limitations{% endtrans %}</a>
-            </li>
-        {%- endif -%}
-        <li class="{% if current == 'preview' %}uk-active{% endif %}">
-            <a href="{{ path('documentsPreviewPage', editRouteParams) }}">{% trans %}document.preview{% endtrans %}</a>
-        </li>
-        <li class="{% if current == 'usage' %}uk-active{% endif %}">
-            <a href="{{ path('documentsUsagePage', editRouteParams) }}">{% trans %}document.usage{% endtrans %}</a>
-        </li>
-        {%- if document and document.image -%}
-            <li class="{% if current == 'adjust' %}uk-active{% endif %}">
-                <a href="{{ path('documentsAdjustPage', editRouteParams) }}">{% trans %}document.adjust{% endtrans %}</a>
-            </li>
-        {%- endif -%}
-    </ul>
-</nav>
+{%
+set listItems = [
+    [
+        {
+            'name': 'edit',
+            'label': 'document.edit',
+            'href': path('documentsEditPage', editRouteParams),
+        },
+        {
+            'name': 'metas',
+            'label': 'document.metas',
+            'href': path('documentsMetaPage', editRouteParams),
+        },
+        is_granted('ROLE_ACCESS_DOCUMENTS_LIMITATIONS') ? {
+            'name': 'limitations',
+            'label': 'document.limitations',
+            'href': path('documentsLimitationsPage', { id: document.id, referer: app.request.get('referer') }),
+        } : null,
+        {
+            'name': 'preview',
+            'label': 'document.preview',
+            'href': path('documentsPreviewPage', editRouteParams),
+        },
+        {
+            'name': 'usage',
+            'label': 'document.usage',
+            'href': path('documentsUsagePage', editRouteParams),
+        }
+    ],
+    [
+        document and document.image ? {
+            'name': 'adjust',
+            'label': 'document.adjust',
+            'href': path('documentsAdjustPage', editRouteParams),
+            'icon': 'rz-icon-ri--crop-line',
+            'iconOnly': true,
+        } : null,
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

@@ -8,22 +8,17 @@
 
 {% block content %}
 <section class="content-global">
-
-    <header class="content-header header-setting header-setting-add">
-        <h1 class="content-title setting-list-title">{% trans %}add.a.setting{% endtrans %}</h1>
-        <a class="content-header-nav-back uk-navbar-content" href="{{ path('settingsHomePage') }}" title="{% trans %}back_to.settings{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
-    </header>
+    {% include '@RoadizRozier/settings/head.html.twig' with {
+        title: 'add.a.setting'|trans,
+        with_breadcrumb: true,
+    } only %}
 
     <article class="content content-setting-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: 'add-setting-form'}}) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <button is="rz-save-button" data-action-save="#add-setting-form" class="uk-button uk-button-success" type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-                </button>
-            </fieldset>
+            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem('#add-setting-form') }}
         {{ form_end(form) }}
     </article>
 

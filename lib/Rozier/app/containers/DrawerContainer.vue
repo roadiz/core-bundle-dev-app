@@ -9,6 +9,7 @@ import { DRAWERS_UPDATE_LIST } from '../types/mutationTypes'
 import RzButton from '../components/RzButton.vue'
 import draggable from 'vuedraggable'
 import { NODE_SOURCE_DOCUMENT_ENTITY } from '../types/entityTypes'
+import FormFieldLengthIndicator from '~/utils/FormFieldLengthIndicator'
 
 export default {
     props: ['entity'],
@@ -20,16 +21,21 @@ export default {
             isSortable: null,
             entityName: null,
             documentEditDialog: null,
+            lengthIndicator: null,
         }
     },
     mounted() {
         // Add the instance to the drawer store
         this.drawersAddInstance(this)
 
+        this.lengthIndicator = new FormFieldLengthIndicator()
+
         // Import
         Vue.nextTick(() => {
             this.drawerName = this.$refs.drawer.getAttribute('name')
             this.entityName = this.$refs.drawer.getAttribute('data-entity-name')
+
+            this.lengthIndicator.init(this.$el)
 
             let ids = this.ids
             let entity = this.entity
@@ -46,7 +52,7 @@ export default {
             const isSortable = this.$refs.drawer.getAttribute('data-is-sortable')
             const minLengthEl = this.$refs.drawer.getAttribute('data-min-length')
             const maxLengthEl = this.$refs.drawer.getAttribute('data-max-length')
-            const maxLength = maxLengthEl ? parseInt(maxLengthEl, 10) : 9999
+            const maxLength = maxLengthEl ? parseInt(maxLengthEl, 10) : 0
             const minLength = minLengthEl ? parseInt(minLengthEl, 10) : 0
 
             // Change draggable config
@@ -98,7 +104,7 @@ export default {
         },
         items: {
             get() {
-                return this.drawer.items
+                return this.drawer?.items
             },
             set(newList) {
                 this.$store.commit(DRAWERS_UPDATE_LIST, {
@@ -107,6 +113,11 @@ export default {
                 })
             },
         },
+    },
+    watch: {
+        items() {
+            this.lengthIndicator?.updateLength(this.items?.length || 0)
+        }
     },
     methods: {
         ...mapActions([

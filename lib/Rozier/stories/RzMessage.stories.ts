@@ -2,21 +2,29 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzMessageRenderer } from '../app/utils/storybook/renderer/rzMessage'
 
 /* Think about accessibility during integration, e.g., role="alert" when creating error messages */
-const COLORS = ['error'] as const
+const COLORS = ['neutral', 'error'] as const
+const VARIANTS = ['filled', 'ghost'] as const
 
 export type Args = {
     text: string
+    innerHTML?: string
+    variant?: (typeof VARIANTS)[number]
     color?: (typeof COLORS)[number]
 }
 
 const meta: Meta<Args> = {
     title: 'Components/Message',
+    tags: ['autodocs'],
     args: {
         text: 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur',
     },
     argTypes: {
+        variant: {
+            options: VARIANTS,
+            control: { type: 'radio' },
+        },
         color: {
-            options: ['', ...COLORS],
+            options: COLORS,
             control: { type: 'radio' },
         },
     },

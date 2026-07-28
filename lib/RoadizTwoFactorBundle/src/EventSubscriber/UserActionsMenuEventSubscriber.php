@@ -33,7 +33,7 @@ final readonly class UserActionsMenuEventSubscriber implements EventSubscriberIn
         $event->addAction(
             'two_factor_authentication',
             $this->urlGenerator->generate('2fa_admin_two_factor'),
-            'uk-icon-key'
+            'rz-icon-ri--key-2-line'
         );
     }
 }

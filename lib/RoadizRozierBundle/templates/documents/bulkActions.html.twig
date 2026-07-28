@@ -1,0 +1,74 @@
+{% embed "@RoadizRozier/widgets/rz_bulk_actions.html.twig" %}
+	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+	{% set folder_id = "documents-bulk-folder-cont" %}
+
+	{% block other_actions %}
+        {% if joinFolderForm %}
+            {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: "bulk.fold.documents"|trans,
+                        "data-tab-controls": folder_id,
+                        'data-tab-panel-active-class': 'rz-bulk-actions__group--visible',
+                        'data-tab-active-class': 'rz-button--selected',
+                    },
+                    emphasis: 'primary',
+                    icon: 'rz-icon-ri--folder-2-line',
+            }) }}
+        {% endif %}
+		<form
+			class="rz-bulk-actions__form"
+			action="{{ path('documentsBulkDownloadPage') }}"
+			method="get"
+		>
+			<input type="hidden" class="bulk-form-value" name="documents" />
+			{{
+				rz_button.root({
+					attributes: {
+						type: 'submit',
+						title: "bulk.download.documents"|trans,
+					},
+					emphasis: 'primary',
+					icon: 'rz-icon-ri--download-cloud-2-line',
+				})
+			}}
+		</form>
+	{% endblock %}
+
+	{% block delete_form %}
+		<form
+			class="rz-bulk-actions__form-button"
+			action="{{ path('documentsBulkDeletePage') }}"
+			method="get"
+		>
+			<input type="hidden" class="bulk-form-value" name="documents" />
+			{{
+				rz_button.root({
+					attributes: {
+						type: 'submit',
+						title: "bulk.delete.documents"|trans
+					},
+					color: 'danger',
+					emphasis: 'primary',
+					icon: 'rz-icon-ri--delete-bin-7-line',
+				})
+			}}
+		</form>
+	{% endblock %}
+
+	{% block panels %}
+        {% if joinFolderForm %}
+            <folder-autocomplete
+                id="{{ folder_id }}"
+                class="rz-bulk-actions__group"
+                data-search-path="{{ path('foldersAjaxSearch') }}"
+                data-csrf-token="{{ csrf_token(constant('RZ\\Roadiz\\RozierBundle\\Controller\\Ajax\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}"
+            >
+                {% form_theme joinFolderForm '@RoadizRozier/forms.html.twig' %}
+                {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
+                {{ form_widget(joinFolderForm) }}
+                {{ form_end(joinFolderForm) }}
+            </folder-autocomplete>
+        {% endif %}
+	{% endblock %}
+{% endembed %}

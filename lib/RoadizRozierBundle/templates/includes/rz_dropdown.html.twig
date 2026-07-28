@@ -1,0 +1,24 @@
+{% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+
+{% set popover_id = id|default('rz-dropdown-' ~ random()) %}
+{% set placement = placement|default('bottom-end') %}
+{% set offset = offset|default('12') %}
+{% set shift = shift|default(null) %}
+
+{% set _target_options = target_options|default({}) %}
+{% set target_options_attributes = _target_options.attributes|default({})|merge({
+		'popovertarget': popover_id,
+		type: 'button',
+	}) %}
+{% set button_options = _target_options|merge({ attributes: target_options_attributes })%}
+
+<rz-popover
+	{% if shift is not null %}popover-shift="{{ shift }}"{% endif %}
+	popover-placement="{{ placement }}"
+	popover-offset="{{ offset }}"
+	{{ el_attrs.print(attributes|default({})) }}
+>
+	{{ rz_button.root(button_options) }}
+	{% block popover %}{% endblock %}
+</rz-popover>

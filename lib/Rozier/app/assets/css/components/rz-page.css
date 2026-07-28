@@ -1,0 +1,29 @@
+.rz-app > .rz-page {
+	min-height: var(--rz-aside-head-height);
+	margin-block: var(--rz-app-padding-block);
+	margin-inline: var(--spacing-4xs);
+	z-index: 1;
+
+	@media (--screen-sm-min) {
+		margin-inline: 0 var(--spacing-4xs);
+		min-height: calc(100vh - var(--rz-app-padding-block) * 2);
+	}
+}
+
+.rz-page {
+	border-radius: var(--radius-md, 12px);
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	background-color: var(--surface-light-primary, #FFF);
+	padding-inline: var(--spacing-4xs);
+	transition: translate 0.4s;
+	box-sizing: border-box;
+	padding-bottom: var(--spacing-lg);
+
+	@media (--screen-sm-min) {
+		padding-inline: var(--spacing-2xs);
+	}
+}
+
+.rz-page__body {
+	padding-top: var(--spacing-4xs);
+}

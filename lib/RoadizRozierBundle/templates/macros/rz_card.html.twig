@@ -1,0 +1,70 @@
+{% macro render(item, thumbnailFormat) %}
+    <li class="rz-card">
+
+        {% if item.displayable is defined and item.isImage is not defined %}
+            <div class="rz-card__title">
+                {{ item.displayable }}
+            </div>
+        {% endif %}
+
+        {% if item.classname is defined and item.isImage is not defined %}
+            <div class="rz-card__overtitle">
+                {{ item.classname }}
+            </div>
+        {% endif %}
+
+        {% set hasThumbnail   = item.thumbnail is defined and item.thumbnail is not empty %}
+        {% set hasPictureUrl  = item.pictureUrl is defined %}
+        {% set hasThumbnail80 = item.thumbnail80 is defined %}
+
+        {% if hasThumbnail or hasPictureUrl or hasThumbnail80 %}
+            <div class="rz-card__asset">
+
+                {# Thumbnail via filter display #}
+                {% if hasThumbnail %}
+                    {% set format = thumbnailFormat|merge({
+                        class: 'rz-image rz-card__img'
+                    }) %}
+                    {{ item.thumbnail|display(format) }}
+
+                    {# Image externe ou avatar #}
+                {% elseif hasPictureUrl %}
+                    {% if item.pictureUrl is null %}
+                        <span class="rz-badge rz-badge--md rz-card__badge">
+                            <span class="rz-badge__icon rz-icon-ri--user-line"></span>
+                        </span>
+                    {% else %}
+                        <img
+                            src="{{ item.pictureUrl }}"
+                            alt="{{ item.displayable|default('Thumbnail') }}"
+                            class="rz-card__img"
+                        >
+                    {% endif %}
+
+                    {# Thumbnail 80 avec badges #}
+                {% elseif hasThumbnail80 %}
+                    {% if item.isPrivate %}
+                        <div class="rz-badge rz-badge--md rz-card__badge">
+                            <span class="rz-badge__icon rz-icon-ri--lock-2-line"></span>
+                        </div>
+                    {% endif %}
+
+                    {% if item.isPdf %}
+                        <div class="rz-badge rz-badge--md rz-card__badge">
+                            <span class="rz-badge__icon rz-icon-ri--file-pdf-2-line"></span>
+                        </div>
+                    {% endif %}
+
+                    <img
+                        src="{{ item.thumbnail80 }}"
+                        alt="{{ item.displayable|default('Thumbnail') }}"
+                        width="110"
+                        height="94"
+                        class="rz-card__img"
+                    >
+                {% endif %}
+
+            </div>
+        {% endif %}
+    </li>
+{% endmacro %}

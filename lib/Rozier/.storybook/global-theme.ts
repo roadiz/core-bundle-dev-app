@@ -13,7 +13,7 @@ export default {
                 title: 'Theme',
                 items: [
                     {
-                        value: 'normal',
+                        value: 'light dark',
                         title: 'User preference',
                     },
                     {
@@ -33,14 +33,11 @@ export default {
     },
     decorators: [
         (story, context) => {
-            const selectedTheme = context.globals.theme
             const html =
                 context.canvasElement.ownerDocument.querySelector('html')
 
-            if (html && selectedTheme == 'normal') {
-                html.style.removeProperty('--theme')
-            } else if (html) {
-                html.style.setProperty('--theme', selectedTheme)
+            if (html) {
+                html.setAttribute('data-theme', context.globals.theme)
             }
 
             return story(context)

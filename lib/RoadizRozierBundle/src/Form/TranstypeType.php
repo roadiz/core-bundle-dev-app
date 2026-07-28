@@ -46,7 +46,7 @@ final class TranstypeType extends AbstractType
             'label' => false,
             'nodeName' => null,
             'attr' => [
-                'class' => 'uk-form transtype-form',
+                'class' => 'rz-form transtype-form',
             ],
         ]);
 

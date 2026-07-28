@@ -56,4 +56,13 @@ final class UserExplorerItem extends AbstractExplorerItem
             'id' => $this->user->getId(),
         ]);
     }
+
+    #[\Override]
+    public function toArray(): array
+    {
+        return [
+            ...parent::toArray(),
+            'pictureUrl' => $this->user->getPictureUrl(),
+        ];
+    }
 }

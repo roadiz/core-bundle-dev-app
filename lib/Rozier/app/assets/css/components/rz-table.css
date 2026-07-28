@@ -1,0 +1,194 @@
+
+.rz-table-container {
+	/* overflow-x: auto; */
+	max-width: 100%;
+}
+
+.rz-table,
+[is='rz-table'] {
+	width: var(--rz-table-width, 100%);
+	box-sizing: border-box;
+
+	caption {
+		margin-bottom: var(--spacing-3xs);
+		text-align: left;
+		font-family: var(--font-family-os-text);
+		font-size: var(--text-body-md-font-size);
+		line-height: var(--text-body-md-line-height);
+		letter-spacing: var(--text-body-md-letter-spacing);
+		font-weight: var(--text-body-md-font-weight);
+	}
+
+	th, td {
+		box-sizing: border-box;
+		text-align: left;
+		padding-block: var(--rz-table-cell-padding-block, var(--spacing-5xs));
+		padding-inline: var(--rz-table-cell-padding-start, var(--spacing-6xs)) var(--rz-table-cell-padding-end, var(--spacing-6xs));
+	}
+
+	th {
+		white-space: nowrap;
+		font-family: var(--font-family-os-label);
+		font-size: var(--text-list-sm-font-size);
+		line-height: var(--text-list-sm-line-height);
+		letter-spacing: var(--text-list-sm-letter-spacing);
+		font-weight: var(--text-list-sm-font-weight);
+	}
+
+	td {
+		font-family: var(--font-family-os-label);
+		font-size: var(--text-list-md-font-size);
+		line-height: var(--text-list-md-line-height);
+		letter-spacing: var(--text-list-md-letter-spacing);
+		font-weight: var(--text-list-md-font-weight);
+	}
+
+	&.rz-table--margin-top-xs {
+		margin-top: var(--spacing-xs);
+	}
+
+	&.rz-table--margin-top-md {
+		margin-top: var(--spacing-md);
+	}
+}
+
+.rz-table--default {
+	--rz-table-td-border-radius-value: var(--radius-xs);
+	--rz-table-td-height: 64px;
+	--rz-table-td-background-color: var(--surface-light-secondary, #F8F8F8);
+
+	border-collapse: separate;
+    border-spacing: 0 var(--spacing-5xs);
+
+	td, th {
+		position: relative;
+	}
+
+	td {
+		height: var(--rz-table-td-height);
+		border-radius: var(--rz-table-td-border-radius);
+		background-color: var(--rz-table-td-background-color);
+	}
+
+	th:first-of-type,
+	td:first-of-type {
+		--rz-table-cell-padding-start: 14px;
+		--rz-table-td-border-radius: var(--rz-table-td-border-radius-value) 0 0 var(--rz-table-td-border-radius-value);
+	}
+
+	th:last-of-type,
+	td:last-of-type {
+		--rz-table-cell-padding-end: 14px;
+		--rz-table-td-border-radius: 0 var(--rz-table-td-border-radius-value) var(--rz-table-td-border-radius-value) 0;
+	}
+}
+
+.rz-table--bordered {
+	--rz-table-td-height: initial;
+	--rz-table-td-background-color: initial;
+
+	border-collapse: collapse;
+
+	tr {
+		border-top: 1PX solid var(--line-on-light-primary, #EAEAEA);
+	}
+}
+
+.rz-table__link {
+	color: currentColor
+}
+
+.rz-table__ordering-link {
+	display: inline-flex;
+	gap: 4px;
+	text-decoration: none;
+	color: inherit;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+
+	.rz-link__icon,
+	[class|="rz-icon-ri"] {
+		font-size: 16px;
+	}
+}
+
+.rz-table__cell--align-right {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	text-align: right;
+}
+
+.rz-table__cell--sm {
+	max-width: var(--rz-table-cell-max-width, 50ch);
+}
+
+.rz-table__cell--flex {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2xs);
+}
+
+.rz-table__cell--flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rz-table__cell--rtl {
+	direction: rtl;
+}
+
+.rz-table--td-ellipsis td,
+.rz-table__cell--ellipsis {
+	max-width: var(--rz-table-cell-max-width, 26ch);
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.rz-table--title-bold th,
+.rz-table__cell--bold {
+	font-weight: 700;
+}
+
+.rz-table__row--colored {
+	> td:first-of-type::before {
+		position: absolute;
+		content: '';
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 3PX;
+		border-radius: var(--rz-table-td-border-radius-value) 0 0 var(--rz-table-td-border-radius-value);
+		background-color: var(--rz-table-row-color, var(--rz-table-td-background-color));
+	}
+}
+
+.rz-table__color {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 3PX;
+	background-color: var(--rz-table-row-color);
+}
+
+.rz-table__handle {
+	cursor: move;
+}
+
+.rz-table__cell--muted {
+	color: var(--content-on-light-tertiary, #9a9a9a);
+}
+
+.rz-table__actions {
+    display: flex;
+	gap: var(--spacing-5xs);
+	/* justify-content: flex-end; */
+
+	& > *:first-child {
+		margin-left: auto;
+	}
+}

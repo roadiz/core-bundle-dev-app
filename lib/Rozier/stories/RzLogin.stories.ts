@@ -1,0 +1,305 @@
+import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+
+type Element = {
+    [key: string]: unknown
+    tag: string
+    class?: string
+    innerHTML?: string
+    attributes?: Record<string, string>
+    children?: Element[]
+}
+
+export type Args = {
+    elements: Element[]
+}
+
+function getFormElement(counter: number) {
+    const form = document.createElement('form')
+    const formFieldList = [
+        {
+            label: 'Username',
+            required: true,
+            input: {
+                name: `username`,
+                type: 'text',
+                placeholder: 'Enter your username',
+            },
+        },
+        {
+            label: 'Password',
+            required: true,
+            help: '<a href="/rz-admin/login/request">Forgot password?</a>',
+            input: {
+                name: `password`,
+                type: 'password',
+                placeholder: '*******',
+            },
+        },
+        {
+            label: 'Keep me logged in',
+            input: {
+                className: 'rz-switch',
+                name: `keepMeLoggedIn`,
+                type: 'checkbox',
+            },
+        },
+    ] as const
+
+    formFieldList.forEach((data) => {
+        const id = `${data.label}-${Math.random().toString(36).slice(2, 11)}-${counter}`
+        const newData = {
+            ...data,
+            input: {
+                ...data.input,
+                id: id,
+                name: id,
+            },
+        }
+        const el = rzFormFieldRenderer(newData)
+        form.appendChild(el)
+    })
+
+    return form
+}
+
+function getDefaultElements(counter: number) {
+    return [
+        {
+            tag: 'header',
+            class: 'rz-login__header',
+            children: [
+                { tag: 'span', innerHTML: 'RZ', class: 'rz-brand' },
+                {
+                    tag: 'span',
+                    class: 'rz-badge',
+                    innerHTML: '<span class="rz-badge__label">V 3.1.2</span>',
+                },
+                {
+                    tag: 'a',
+                    attributes: { href: '#' },
+                    class: 'rz-button rz-button--secondary rz-login__item--end',
+                    innerHTML: `
+						<span class="rz-button__label">View website</span>
+						<span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+					`,
+                },
+            ],
+        },
+        {
+            tag: 'div',
+            class: 'rz-login__body',
+            children: [
+                {
+                    tag: 'h1',
+                    class: 'rz-login__title',
+                    innerHTML: 'Backstage',
+                },
+                {
+                    tag: 'div',
+                    class: 'rz-login__group rz-login__group--row',
+                    children: [
+                        {
+                            tag: 'a',
+                            attributes: { href: '#' },
+                            class: 'rz-button rz-button--secondary',
+                            innerHTML: `
+								<span class="rz-button__label">Log in by SSO</span>
+								<span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+							`,
+                        },
+                        {
+                            tag: 'a',
+                            attributes: { href: '#' },
+                            class: 'rz-button rz-button--secondary',
+                            innerHTML: `
+								<span class="rz-button__label">Log in with Magic Link</span>
+								<span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+							`,
+                        },
+                    ],
+                },
+                {
+                    tag: 'hr',
+                    class: 'rz-login__divider',
+                },
+                {
+                    tag: 'form',
+                    class: 'rz-login__group',
+                    innerHTML: getFormElement(counter).innerHTML,
+                },
+            ],
+        },
+        {
+            tag: 'footer',
+            class: 'rz-login__group rz-login__group--last',
+            children: [
+                {
+                    tag: 'a',
+                    class: 'rz-button rz-button--secondary',
+                    attributes: { href: '#' },
+                    innerHTML: `
+						<span class="rz-button__label">Ask help</span>
+						<span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+					`,
+                },
+                {
+                    tag: 'button',
+                    class: 'rz-button rz-button--primary',
+                    innerHTML: `
+						<span class="rz-button__label">Log in with Magic Link</span>
+						<span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+					`,
+                },
+            ],
+        },
+    ]
+}
+
+function elementRenderer(element: Element) {
+    const el = document.createElement(element.tag)
+    if (element.class) {
+        el.className = element.class
+    }
+    if (element.innerHTML) {
+        el.innerHTML = element.innerHTML
+    }
+    if (element.attributes) {
+        for (const [attr, value] of Object.entries(element.attributes)) {
+            el.setAttribute(attr, value)
+        }
+    }
+
+    element.children?.forEach((child) => {
+        const childElement = elementRenderer(child)
+        el.appendChild(childElement)
+    })
+
+    return el
+}
+
+function rzLoginRenderer(args: Args) {
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('rz-login')
+
+    const section = document.createElement('section')
+    section.classList.add('rz-login__section')
+    wrapper.appendChild(section)
+
+    args.elements.forEach((element) => {
+        const el = elementRenderer(element)
+        section.appendChild(el)
+    })
+
+    return wrapper
+}
+
+const meta: Meta<Args> = {
+    title: 'Components/Login',
+    tags: ['autodocs'],
+    args: {
+        elements: getDefaultElements(1),
+    },
+    parameters: {
+        layout: 'fullscreen',
+    },
+}
+
+export default meta
+type Story = StoryObj<Args>
+
+export const Default: Story = {
+    render: (args) => {
+        return rzLoginRenderer(args)
+    },
+    args: {
+        elements: getDefaultElements(2),
+    },
+}
+
+export const NoFooter: Story = {
+    render: (args) => {
+        return rzLoginRenderer(args)
+    },
+    args: {
+        elements: [
+            {
+                tag: 'header',
+                class: 'rz-login__header',
+                children: [
+                    { tag: 'span', innerHTML: 'RZ', class: 'rz-brand' },
+                    {
+                        tag: 'span',
+                        class: 'rz-badge',
+                        innerHTML:
+                            '<span class="rz-badge__label">V 3.1.2</span>',
+                    },
+                    {
+                        tag: 'a',
+                        attributes: { href: '#' },
+                        class: 'rz-button rz-button--secondary rz-login__item--end',
+                        innerHTML: `
+						<span class="rz-button__label">View website</span>
+						<span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+					`,
+                    },
+                ],
+            },
+            {
+                tag: 'div',
+                class: 'rz-login__body',
+                children: [
+                    {
+                        tag: 'h1',
+                        class: 'rz-login__title',
+                        innerHTML: 'Backstage',
+                    },
+                    {
+                        tag: 'div',
+                        class: 'rz-login__group rz-login__group--row',
+                        children: [
+                            {
+                                tag: 'a',
+                                attributes: { href: '#' },
+                                class: 'rz-button rz-button--secondary',
+                                innerHTML: `
+                                    <span class="rz-button__label">Log in by SSO</span>
+                                    <span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+                                `,
+                            },
+                            {
+                                tag: 'a',
+                                attributes: { href: '#' },
+                                class: 'rz-button rz-button--secondary',
+                                innerHTML: `
+                                    <span class="rz-button__label">Log in with Magic Link</span>
+                                    <span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+                                `,
+                            },
+                        ],
+                    },
+                    {
+                        tag: 'hr',
+                        class: 'rz-login__divider',
+                    },
+                    {
+                        tag: 'form',
+                        class: 'rz-login__group',
+                        innerHTML:
+                            getFormElement(3).innerHTML +
+                            `<div class="rz-login__group rz-login__group--last rz-login__group--full-width">
+                                <a href="#" class="rz-button rz-button--secondary">
+                                    <span class="rz-button__label">Ask help</span>
+                                    <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+                                </a>
+                                <button class="rz-button rz-button--primary">
+                                    <span class="rz-button__label">Log in with Magic Link</span>
+                                    <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+                                </button>
+                            </div>`,
+                    },
+                ],
+            },
+        ],
+    },
+}

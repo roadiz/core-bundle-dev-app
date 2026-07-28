@@ -192,20 +192,12 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         }
     }
 
-    /**
-     * Create a Criteria object from a search pattern and additional fields.
-     *
-     * @param string       $pattern  Search pattern
-     * @param QueryBuilder $qb       QueryBuilder to pass
-     * @param array        $criteria Additional criteria
-     * @param string       $alias    SQL query table alias
-     */
     #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = 'obj',
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->filterByFolder($criteria, $qb, $alias);
         $this->applyFilterByFolder($criteria, $qb);
@@ -217,7 +209,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $qb->leftJoin($alias.'.documentTranslations', 'dt');
         $criteriaFields = [];
 
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(DocumentTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(DocumentTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 
@@ -267,7 +259,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     }
 
     /**
-     * Bind translation parameter to final query.
+     * @deprecated
      */
     protected function applyTranslationByFolder(
         QueryBuilder $qb,
@@ -719,7 +711,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      */
     public function findAllSettingDocuments(): array
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT d FROM RZ\Roadiz\CoreBundle\Entity\Document d
             WHERE d.id IN (
                 SELECT s.value FROM RZ\Roadiz\CoreBundle\Entity\Setting s
@@ -744,7 +736,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInSettings(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings
@@ -768,7 +760,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInCustomFormAnswers(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings

@@ -11,7 +11,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -91,7 +91,7 @@ class NodeType extends AbstractType
         ;
 
         if ($isReachable) {
-            $builder->add('ttl', IntegerType::class, [
+            $builder->add('ttl', NumberType::class, [
                 'label' => 'node.ttl',
                 'help' => 'node_time_to_live_cache_on_front_controller',
                 'disabled' => $isShadow,
@@ -114,7 +114,7 @@ class NodeType extends AbstractType
             'nodeName' => null,
             'data_class' => Node::class,
             'attr' => [
-                'class' => 'uk-form node-form',
+                'class' => 'rz-form__field-list',
             ],
         ]);
         $resolver->setAllowedTypes('nodeName', ['string', 'null']);

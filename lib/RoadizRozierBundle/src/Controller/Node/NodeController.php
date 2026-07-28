@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodePathChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUndeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Model\NodeCreationDto;
@@ -86,6 +87,7 @@ final class NodeController extends AbstractController
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbsItemFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {
@@ -225,6 +227,14 @@ final class NodeController extends AbstractController
         if ('deleted' !== $filter && $this->isGranted('ROLE_ACCESS_NODES_DELETE')) {
             $deleteNodesForm = $this->buildBulkDeleteForm($request->getRequestUri());
             $assignation['deleteNodesForm'] = $deleteNodesForm->createView();
+        }
+
+        /*
+         * Handle bulk undelete form
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_DELETE')) {
+            $undeleteNodesForm = $this->buildBulkUndeleteForm();
+            $assignation['undeleteNodesForm'] = $undeleteNodesForm->createView();
         }
 
         $assignation['filters'] = $listManager->getAssignation();
@@ -585,9 +595,18 @@ final class NodeController extends AbstractController
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        return $this->render('@RoadizRozier/nodes/delete.html.twig', [
+        $title = $this->translator->trans(
+            'delete.node.%name%',
+            ['%name%' => $node->getNodeName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'alertMessage' => 'are_you_sure.delete.node.and.data',
             'form' => $form->createView(),
-            'node' => $node,
+            'items' => [$node],
         ]);
     }
 
@@ -602,16 +621,16 @@ final class NodeController extends AbstractController
         $form = $this->buildEmptyTrashForm();
         $form->handleRequest($request);
 
+        $criteria = ['status' => NodeStatus::DELETED];
+        /** @var Node|null $chroot */
+        $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
+        if (null !== $chroot) {
+            $criteria['parent'] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
+        }
+
+        $nodes = $this->allStatusesNodeRepository->findBy($criteria);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $criteria = ['status' => NodeStatus::DELETED];
-            /** @var Node|null $chroot */
-            $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
-            if (null !== $chroot) {
-                $criteria['parent'] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
-            }
-
-            $nodes = $this->allStatusesNodeRepository->findBy($criteria);
-
             /** @var Node $node */
             foreach ($nodes as $node) {
                 /** @var NodeHandler $nodeHandler */
@@ -627,8 +646,22 @@ final class NodeController extends AbstractController
             return $this->redirectToRoute('nodesHomeDeletedPage');
         }
 
-        return $this->render('@RoadizRozier/nodes/emptyTrash.html.twig', [
+        $items = [];
+        foreach ($nodes as $node) {
+            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
+        }
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $this->translator->trans('empty.node.trash'),
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'messageType' => 'neutral',
+            'action_icon' => 'rz-icon-ri--delete-bin-7-line',
+            'action_color' => 'danger',
+            'action_label' => 'empty.trash',
+            'cancelPath' => $this->generateUrl('nodesHomeDeletedPage'),
+            'alertMessage' => 'are_you_sure.empty.node.and.data.trash',
             'form' => $form->createView(),
+            'items' => $items,
         ]);
     }
 
@@ -779,9 +812,22 @@ final class NodeController extends AbstractController
             ]);
         }
 
-        return $this->render('@RoadizRozier/nodes/publishAll.html.twig', [
-            'node' => $node,
+        $title = $this->translator->trans(
+            'publish.node.%name%.offspring',
+            ['%name%' => $node->getNodeName()]
+        );
+
+        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            'title' => $title,
+            'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'messageType' => 'neutral',
+            'action_icon' => 'rz-icon-ri--check-line',
+            'action_color' => 'success',
+            'action_label' => 'publish-all',
+            'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'alertMessage' => 'are_you_sure.publish.node.offspring',
             'form' => $form->createView(),
+            'items' => [], // TODO: add children node_sources list
         ]);
     }
 

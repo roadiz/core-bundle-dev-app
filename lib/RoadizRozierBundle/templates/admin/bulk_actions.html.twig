@@ -1,45 +1,54 @@
 {% if hasBulkActions %}
-    <nav class="bulk-actions bulk-actions--collapsed">
-        <div class="bulk-actions-title-cont">
-            <h3 class="bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
-        </div>
-        <div class="bulk-actions__actions">
-            <button type="button"
-                    class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags"
-                    title="{% trans %}deselect.all{% endtrans %}"
-                    data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></button>
-            {# Links #}
-            {% if bulkDeleteForm %}
-                {% form_theme bulkDeleteForm '@RoadizRozier/horizontalForms.html.twig' %}
-                {{ form_start(bulkDeleteForm) }}
-                {{ form_widget(bulkDeleteForm) }}
-                <button type="submit"
-                        class="uk-button uk-button-bulk uk-button-danger uk-button-bulk-delete rz-no-ajax-link"
-                        title="{% trans %}bulk.delete{% endtrans %}"
-                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></button>
-                {{ form_end(bulkDeleteForm) }}
-            {% endif %}
+    {% embed "@RoadizRozier/widgets/rz_bulk_actions.html.twig" %}
+        {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+        {% block other_actions %}
             {% if bulkPublishForm %}
-                {% form_theme bulkPublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {% form_theme bulkPublishForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkPublishForm) }}
-                    {{ form_widget(bulkPublishForm) }}
-                    <button type="submit"
-                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
-                            title="{% trans %}bulk.publish{% endtrans %}"
-                            data-uk-tooltip="{animation:true}"><i class="uk-icon-check-circle-o"></i> </button>
+                {{ form_widget(bulkPublishForm, { attr: { style: 'display: none;' } }) }}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: "bulk.publish"|trans,
+                    },
+                    emphasis: 'primary',
+                    color: 'success',
+                    icon: 'rz-icon-ri--check-line',
+                }) }}
                 {{ form_end(bulkPublishForm) }}
             {% endif %}
             {% if bulkUnpublishForm %}
-                {% form_theme bulkUnpublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {% form_theme bulkUnpublishForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(bulkUnpublishForm) }}
-                    {{ form_widget(bulkUnpublishForm) }}
-                    <button type="submit"
-                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
-                            title="{% trans %}bulk.unpublish{% endtrans %}"
-                            data-uk-tooltip="{animation:true}"><i class="uk-icon-times-circle-o"></i> </button>
+                {{ form_widget(bulkUnpublishForm , { attr: { style: 'display: none;' }}) }}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: "bulk.unpublish"|trans,
+                    },
+                    emphasis: 'primary',
+                    color: 'success',
+                    icon: 'rz-icon-ri--close-line',
+                }) }}
                 {{ form_end(bulkUnpublishForm) }}
             {% endif %}
-            {% block other_actions %}{% endblock %}
-        </div>
-    </nav>
+        {% endblock %}
+        {% block delete_form %}
+            {% if bulkDeleteForm %}
+                {% form_theme bulkDeleteForm '@RoadizRozier/forms.html.twig' %}
+                {{ form_start(bulkDeleteForm) }}
+                {{ form_widget(bulkDeleteForm, { attr: { style: 'display: none;' }}) }}
+                {{ rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                        title: 'bulk.delete'|trans,
+                    },
+                    color: 'danger',
+                    emphasis: 'primary',
+                    icon: 'rz-icon-ri--delete-bin-7-line',
+                }) }}
+                {{ form_end(bulkDeleteForm) }}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endif %}

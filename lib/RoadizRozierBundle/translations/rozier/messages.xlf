@@ -12,6 +12,7 @@
             <trans-unit xml:space="preserve" id="7"><source>document.%name%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="8"><source>document.%name%.deleted</source></trans-unit>
             <trans-unit xml:space="preserve" id="9"><source>document.%name%.cannot_delete</source></trans-unit>
+            <trans-unit xml:space="preserve" id="drag.actions.menu"><source>drag.actions.menu</source></trans-unit>
             <trans-unit xml:space="preserve" id="10"><source>document.%name%.uploaded</source></trans-unit>
             <trans-unit xml:space="preserve" id="11"><source>document.cannot_persist</source></trans-unit>
             <trans-unit xml:space="preserve" id="12"><source>name</source></trans-unit>
@@ -764,26 +765,26 @@
             <trans-unit id="bulk.unpublish" xml:space="preserve"><source>bulk.unpublish</source></trans-unit>
 
             <trans-unit id="no_attributes" xml:space="preserve"><source>no_attributes</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve"><source>are_you_sure.bulk_delete.attributes</source></trans-unit>
-            <trans-unit id="attributes.bulk_delete.title" xml:space="preserve"><source>attributes.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.attribute" xml:space="preserve"><source>are_you_sure.delete.these.attribute</source></trans-unit>
+            <trans-unit id="delete.bulk.attribute" xml:space="preserve"><source>delete.bulk.attribute</source></trans-unit>
 
             <trans-unit id="no_webhooks" xml:space="preserve"><source>no_webhooks</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve"><source>are_you_sure.bulk_delete.webhooks</source></trans-unit>
-            <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve"><source>webhooks.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.webhook" xml:space="preserve"><source>are_you_sure.delete.these.webhook</source></trans-unit>
+            <trans-unit id="delete.bulk.webhook" xml:space="preserve"><source>delete.bulk.webhook</source></trans-unit>
 
             <trans-unit id="no_redirections" xml:space="preserve"><source>no_redirections</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve"><source>are_you_sure.bulk_delete.redirections</source></trans-unit>
-            <trans-unit id="redirections.bulk_delete.title" xml:space="preserve"><source>redirections.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.redirection" xml:space="preserve"><source>are_you_sure.delete.these.redirection</source></trans-unit>
+            <trans-unit id="delete.bulk.redirection" xml:space="preserve"><source>delete.bulk.redirection</source></trans-unit>
 
             <trans-unit id="no_custom_forms" xml:space="preserve"><source>no_custom_forms</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve"><source>are_you_sure.bulk_delete.custom_forms</source></trans-unit>
-            <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve"><source>custom_forms.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.custom-form" xml:space="preserve"><source>are_you_sure.delete.these.custom-form</source></trans-unit>
+            <trans-unit id="delete.bulk.custom-form" xml:space="preserve"><source>delete.bulk.custom-form</source></trans-unit>
 
             <trans-unit id="no_users" xml:space="preserve"><source>no_users</source></trans-unit>
             <trans-unit id="bulk.enable" xml:space="preserve"><source>bulk.enable</source></trans-unit>
             <trans-unit id="bulk.disable" xml:space="preserve"><source>bulk.disable</source></trans-unit>
-            <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve"><source>are_you_sure.bulk_delete.users</source></trans-unit>
-            <trans-unit id="users.bulk_delete.title" xml:space="preserve"><source>users.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.delete.these.User" xml:space="preserve"><source>are_you_sure.delete.these.User</source></trans-unit>
+            <trans-unit id="delete.bulk.user" xml:space="preserve"><source>delete.bulk.user</source></trans-unit>
             <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve"><source>are_you_sure.bulk_enable.users</source></trans-unit>
             <trans-unit id="users.bulk_enable.title" xml:space="preserve"><source>users.bulk_enable.title</source></trans-unit>
             <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve"><source>are_you_sure.bulk_disable.users</source></trans-unit>
@@ -1029,6 +1030,9 @@
             <trans-unit xml:space="preserve" id="tagName.%name%.alreadyExists"><source>tagName.%name%.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeField.name.alreadyExists"><source>nodeTypeField.name.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeType.name.alreadyExists"><source>nodeType.name.alreadyExists</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color.system"><source>color.system</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color.light"><source>color.light</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color.dark"><source>color.dark</source></trans-unit>
             <trans-unit xml:space="preserve" id="color.should.be.formatted.in.hexadecimal"><source>color.should.be.formatted.in.hexadecimal</source></trans-unit>
             <trans-unit xml:space="preserve" id="customFormField.name.alreadyExists"><source>customFormField.name.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="customForm.name.alreadyExists"><source>customForm.name.alreadyExists</source></trans-unit>
@@ -1099,6 +1103,7 @@
             <trans-unit xml:space="preserve" id="stack_type.%type%.has_been_removed.%name%"><source>stack_type.%type%.has_been_removed.%name%</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="form_has_errors.check_you_fields"><source>form_has_errors.check_you_fields</source></trans-unit>
+            <trans-unit xml:space="preserve" id="form.field.invalid"><source>form.field.invalid</source><note>Form field invalid message.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="no_more_translation_available"><source>no_more_translation_available</source></trans-unit>
             <trans-unit xml:space="preserve" id="translate_offspring"><source>translate_offspring</source></trans-unit>

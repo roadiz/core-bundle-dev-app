@@ -82,24 +82,6 @@ final class TagRepository extends EntityRepository
     }
 
     /**
-     * Bind parameters to generated query.
-     */
-    #[\Override]
-    protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
-    {
-        /*
-         * Reimplementing findBy features…
-         */
-        $simpleQB = new SimpleQueryBuilder($qb);
-        foreach ($criteria as $key => $value) {
-            $event = $this->dispatchQueryBuilderApplyEvent($qb, $key, $value);
-            if (!$event->isPropagationStopped()) {
-                $simpleQB->bindValue($key, $value);
-            }
-        }
-    }
-
-    /**
      * Create filters according to any translation criteria OR argument.
      */
     protected function filterByTranslation(
@@ -114,29 +96,27 @@ final class TagRepository extends EntityRepository
         ) {
             $qb->leftJoin('tg.translatedTags', 'tt');
             $qb->leftJoin('tt.translation', static::TRANSLATION_ALIAS);
+        } elseif (null !== $translation) {
+            /*
+             * With a given translation
+             */
+            $qb->leftJoin(
+                'tg.translatedTags',
+                'tt',
+                'WITH',
+                'tt.translation = :translation'
+            );
         } else {
-            if (null !== $translation) {
-                /*
-                 * With a given translation
-                 */
-                $qb->leftJoin(
-                    'tg.translatedTags',
-                    'tt',
-                    'WITH',
-                    'tt.translation = :translation'
-                );
-            } else {
-                /*
-                 * With a null translation, just take the default one.
-                 */
-                $qb->leftJoin('tg.translatedTags', 'tt');
-                $qb->leftJoin(
-                    'tt.translation',
-                    self::TRANSLATION_ALIAS,
-                    'WITH',
-                    't.defaultTranslation = true'
-                );
-            }
+            /*
+             * With a null translation, just take the default one.
+             */
+            $qb->leftJoin('tg.translatedTags', 'tt');
+            $qb->leftJoin(
+                'tt.translation',
+                self::TRANSLATION_ALIAS,
+                'WITH',
+                't.defaultTranslation = true'
+            );
         }
     }
 
@@ -583,7 +563,7 @@ EOT,
         $qb->leftJoin($alias.'.translatedTags', 'tt');
 
         $criteriaFields = [];
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(TagTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(TagTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
         foreach ($criteriaFields as $key => $value) {
@@ -655,9 +635,6 @@ EOT,
 
     /**
      * Find a tag according to the given path or create it.
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function findOrCreateByPath(string $tagPath, ?TranslationInterface $translation = null): ?Tag
     {
@@ -674,7 +651,7 @@ EOT,
 
         if (null === $tag) {
             /** @var TagTranslation|null $ttag */
-            $ttag = $this->_em->getRepository(TagTranslation::class)->findOneByName($tagName);
+            $ttag = $this->getEntityManager()->getRepository(TagTranslation::class)->findOneByName($tagName);
             if (null !== $ttag) {
                 $tag = $ttag->getTag();
             }
@@ -693,7 +670,7 @@ EOT,
                 $parentTag = $this->findOrCreateByPath(implode('/', array_slice($tags, 0, -1)), $translation);
             }
             if (null === $translation) {
-                $translation = $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \RuntimeException('No default translation found.');
+                $translation = $this->getEntityManager()->getRepository(Translation::class)->findDefault() ?? throw new \RuntimeException('No default translation found.');
             }
 
             $tag = new Tag();
@@ -706,9 +683,9 @@ EOT,
                 $tag->setParent($parentTag);
             }
 
-            $this->_em->persist($translatedTag);
-            $this->_em->persist($tag);
-            $this->_em->flush();
+            $this->getEntityManager()->persist($translatedTag);
+            $this->getEntityManager()->persist($tag);
+            $this->getEntityManager()->flush();
         }
 
         return $tag;
@@ -728,7 +705,7 @@ EOT,
         $tag = $this->findOneByTagName(StringHandler::slugify($tagName));
 
         if (null === $tag) {
-            $ttag = $this->_em->getRepository(TagTranslation::class)->findOneByName($tagName);
+            $ttag = $this->getEntityManager()->getRepository(TagTranslation::class)->findOneByName($tagName);
             if (null !== $ttag) {
                 $tag = $ttag->getTag();
             }

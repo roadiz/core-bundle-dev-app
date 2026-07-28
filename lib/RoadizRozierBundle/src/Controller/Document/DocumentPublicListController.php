@@ -157,7 +157,7 @@ class DocumentPublicListController extends AbstractController
 
     protected function getListingTemplate(Request $request): string
     {
-        if ('1' === $request->query->get('list')) {
+        if ('list' === $request->query->get('layout')) {
             return '@RoadizRozier/documents/list-table.html.twig';
         }
 

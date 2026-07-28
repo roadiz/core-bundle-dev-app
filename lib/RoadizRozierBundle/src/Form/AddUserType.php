@@ -19,6 +19,9 @@ class AddUserType extends UserType
             'required' => false,
             'multiple' => true,
             'expanded' => true,
+            'attr' => [
+                'class' => 'rz-fieldset--minify',
+            ],
         ])
         ;
     }

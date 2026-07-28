@@ -51,7 +51,7 @@ class TranslationType extends AbstractType
             'overrideLocale' => '',
             'data_class' => Translation::class,
             'attr' => [
-                'class' => 'uk-form translation-form',
+                'class' => 'rz-form translation-form',
             ],
         ]);
     }

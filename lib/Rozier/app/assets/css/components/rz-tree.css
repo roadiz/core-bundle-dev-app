@@ -1,0 +1,260 @@
+.rz-tree {
+	--rz-tree-indent-width: 24px;
+	--rz-tree-item-height: 28px;
+	--rz-tree-icon-width: 16px;
+	--rz-tree-root-item-margin-block: var(--spacing-4xs);
+}
+
+.rz-tree--child-nodes {
+	--rz-tree-item-height: 50px;
+	--rz-tree-icon-width: 36px;
+	--rz-tree-root-item-margin-block: 0;
+
+	padding: var(--spacing-2xs);
+	min-height: 92px;
+	border-radius: var(--radius-xs, 6px);
+	border: 1px solid var(--form-basic-border, #DADADA);
+	background: var(--surface-light-secondary, #F8F8F8);
+}
+
+.rz-tree__list {
+	list-style: none;
+	padding-left: initial;
+	margin-block: 0;
+
+	.rz-tree__item__node:has(> .rz-tree__item__node__inner > .rz-tree__item__expand-button[aria-expanded="false"]) + & {
+		display: none;
+	}
+}
+
+.rz-tree__item {
+	position: relative;
+
+	rz-tree > .rz-tree__list > & {
+		margin-block: var(--rz-tree-root-item-margin-block);
+	}
+
+	/*
+	* For now, there is no way to have recursive CSS variables, so we manually set the depth variable.
+	* There is a technique with limited compatibility: https://kizu.dev/self-modifying-variables/
+	*/
+	--rz-tree-depth: 1;
+
+	& & {
+		--rz-tree-depth: 2;
+	}
+
+	& & & {
+		--rz-tree-depth: 3;
+	}
+
+	& & & & {
+		--rz-tree-depth: 4;
+	}
+
+	& & & & & {
+		--rz-tree-depth: 5;
+	}
+
+	& & & & & & {
+		--rz-tree-depth: 6;
+	}
+}
+
+
+
+/* Classe name added by SortableJS */
+/* .rz-tree__item--chosen {
+} */
+
+/* Classe name added by SortableJS */
+.rz-tree__item--drag {
+	background: var(--surface-light-ternary, #EAEAEA);
+}
+
+/* Classe name added by SortableJS */
+/* .rz-tree__item--ghost {
+} */
+
+.rz-tree__item__node {
+	--rz-tree-item-hover-background: var(--node-bg-on-light-hover, #F2F2F2);
+
+	border-radius: var(--radius-2xs, 4px);
+	transition: background-color 0.3s;
+	padding: var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding, 0) var(--rz-tree-item-padding-left, 0);
+
+	.rz-tree--child-nodes & {
+		--rz-tree-item-padding: 1PX;
+		--rz-tree-item-padding-left: 4PX;
+		--rz-tree-item-hover-background: var(--surface-dark-ternary, #4E4E4E);
+
+		background: var(--surface-light-ternary, #EAEAEA);
+	}
+
+	&:where(button) {
+		border: none;
+		text-align: initial;
+		padding-block: initial;
+	}
+
+	@media (hover: hover) {
+		/* hover disabled if a drag occurs */
+		.rz-tree:not(:has(.rz-tree__item--ghost)) &:hover {
+			background: var(--rz-tree-item-hover-background);
+		}
+	}
+}
+
+.rz-tree__item__node__inner {
+	display: flex;
+	align-items: center;
+	height: var(--rz-tree-item-height);
+	padding-inline: calc(var(--rz-tree-depth) * var(--rz-tree-indent-width) - var(--rz-tree-item-padding-left, 0px)) var(--spacing-6xs);
+	box-sizing: border-box;
+	border-radius: inherit;
+	width: 100%;
+
+	.rz-tree--child-nodes & {
+		background: var(--surface-light-primary, #FFF);
+	}
+
+	&:has(a[aria-current="page"]) {
+		background: var(--node-bg-on-light-selected, #F2F2F2);
+	}
+
+	.rz-tree__item--ghost & {
+		background: var(--node-bg-on-light-selected-hover, #EAEAEA);
+	}
+
+	.rz-tree__item .rz-tree__item &::before,
+	.rz-tree__item .rz-tree__item &::after {
+		position: absolute;
+		content: '';
+		top: 0;
+	}
+
+	/* Last nested item  */
+	.rz-tree__item:last-of-type > .rz-tree__item__node &::after {
+		display: none;
+	}
+
+	/* Dragged item */
+	.rz-tree__item--drag > .rz-tree__item__node > &:before,
+	.rz-tree__item--drag > .rz-tree__item__node > &:after {
+		display: none;
+	}
+
+	&::after {
+		width: 1px;
+		height: 100%;
+		background-color: var(--line-on-light-secondary, #DADADA);
+		z-index: 1;
+		translate: calc(var(--rz-tree-icon-width) * 0.5 - var(--rz-tree-indent-width) - 100%) 0;
+	}
+
+	&::before {
+		width: var(--rz-tree-indent-width);
+		height: var(--rz-tree-item-height);
+		left: 0;
+		align-self: flex-start;
+		border: 1px solid var(--line-on-light-secondary, #DADADA);
+		border-width: 0 0 1px 1px;
+		border-radius: 0 0 0 4px;
+		translate:
+			calc(var(--rz-tree-depth) * var(--rz-tree-indent-width) + var(--rz-tree-icon-width) * 0.5 - 100%)
+			calc(var(--rz-tree-item-height) * -0.5);
+	}
+}
+
+.rz-tree__item__handle {
+	position: absolute;
+	left: calc(4px + var(--rz-tree-item-padding-left, 0px));
+	flex-shrink: 0;
+	font-size: 16px;
+	opacity: 0;
+	color: var(--node-icon-on-light, #9A9A9A);
+	transition: opacity 0.3s;
+
+	/* First root item has handle visible by default */
+	rz-tree > .rz-tree__list > .rz-tree__item > .rz-tree__item__node > .rz-tree__item__node__inner & {
+		opacity: 1;
+	}
+
+	&:not(.rz-tree__item__handle-locked) {
+		cursor: move;
+	}
+
+	.rz-tree--child-nodes & {
+		opacity: 1;
+	}
+
+	@media(hover: hover) {
+		/* hover disabled if a drag occurs */
+		.rz-tree:not(:has(.rz-tree__item--ghost)) .rz-tree__item__node__inner:hover & {
+			opacity: 1;
+		}
+	}
+}
+
+.rz-tree__item__icon {
+	width: var(--rz-tree-icon-width);
+	height: var(--rz-tree-icon-width);
+	z-index: 2;
+	flex-shrink: 0;
+	font-size: var(--rz-tree-icon-width);
+	color: var(--rz-tree-icon-color, var(--node-border-on-light, #9A9A9A));
+}
+
+.rz-tree__item__label {
+	flex-grow: 1;
+	padding-inline: calc(var(--rz-tree-icon-width) + var(--spacing-6xs)) var(--spacing-md);
+
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size);
+	line-height: var(--text-label-sm-line-height);
+	letter-spacing: var(--text-label-sm-letter-spacing);
+	font-weight: var(--text-label-sm-font-weight);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	& > a,
+	&:where(a) {
+		color: currentColor;
+		text-decoration: none;
+
+		&[aria-current="page"] {
+			font-weight: 500;
+		}
+	}
+
+	.rz-tree__item__icon + & {
+		padding-left: var(--spacing-6xs);
+	}
+
+	.rz-tree__item__node--not-visible & {
+		text-decoration: line-through;
+	}
+}
+
+.rz-tree__item__tags {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-6xs);
+	margin-inline: var(--spacing-6xs) var(--spacing-xs);
+
+	.rz-overflow-list__list {
+		background-color: var(--surface-light-primary, #FFF);
+		padding: var(--spacing-4xs);
+	}
+}
+
+.rz-tree__item__expand-button {
+	.rz-button__icon {
+		transform-origin: center;
+	}
+
+	&[aria-expanded="true"] .rz-button__icon {
+		rotate: 180deg;
+	}
+}

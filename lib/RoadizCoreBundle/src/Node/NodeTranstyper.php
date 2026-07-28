@@ -101,21 +101,23 @@ final readonly class NodeTranstyper
          * Perform actual trans-typing
          */
         $existingSources = $node->getNodeSources()->toArray();
+        /** @var array<string, array<int, array{query: string, type: int}>> $existingRedirections */
         $existingRedirections = [];
         /** @var NodesSources $existingSource */
         foreach ($existingSources as $existingSource) {
-            $existingRedirections[$existingSource->getTranslation()->getLocale()] = array_map(function (Redirection $redirection) {
-                $this->managerRegistry->getManager()->detach($redirection);
-
-                return $redirection;
-            }, $existingSource->getRedirections()->toArray());
+            $existingRedirections[$existingSource->getTranslation()->getLocale()] = array_map(
+                fn (Redirection $redirection) => [
+                    'query' => $redirection->getQuery(),
+                    'type' => $redirection->getType(),
+                ],
+                $existingSource->getRedirections()->toArray()
+            );
         }
 
         $this->removeOldSources($node, $existingSources);
 
         /** @var NodesSources $existingSource */
         foreach ($existingSources as $existingSource) {
-            $this->managerRegistry->getManager()->detach($existingSource);
             $this->doTranstypeSingleSource(
                 $node,
                 $existingSource,
@@ -208,13 +210,13 @@ final readonly class NodeTranstyper
         /*
          * Recreate redirections too.
          */
-        /** @var Redirection $existingRedirection */
-        foreach ($existingRedirections[$translation->getLocale()] as $existingRedirection) {
+        /** @var array{query: string, type: int} $redirectionData */
+        foreach ($existingRedirections[$translation->getLocale()] as $redirectionData) {
             $newRedirection = new Redirection();
             $this->getManager()->persist($newRedirection);
             $newRedirection->setRedirectNodeSource($source);
-            $newRedirection->setQuery($existingRedirection->getQuery());
-            $newRedirection->setType($existingRedirection->getType());
+            $newRedirection->setQuery($redirectionData['query']);
+            $newRedirection->setType($redirectionData['type']);
         }
         $this->logger->debug('Recreate aliases');
 

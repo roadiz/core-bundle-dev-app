@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Translation;
 
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -71,8 +70,6 @@ final class TranslationViewer
      *             'translation' => string 'Spanish'
      *
      * @param bool $absolute Generate absolute url or relative paths
-     *
-     * @throws ORMException
      *
      * @deprecated
      */

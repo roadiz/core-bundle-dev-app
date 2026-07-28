@@ -41,7 +41,7 @@ final class CustomFormRepository extends EntityRepository
      */
     public function findByNodeAndField(Node $node, NodeTypeFieldInterface $field): array
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT cf FROM RZ\Roadiz\CoreBundle\Entity\CustomForm cf
             INNER JOIN cf.nodes ncf
             WHERE ncf.fieldName = :fieldName AND ncf.node = :node
@@ -57,7 +57,7 @@ final class CustomFormRepository extends EntityRepository
      */
     public function findByNodeAndFieldName(Node $node, string $fieldName): array
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT cf FROM RZ\Roadiz\CoreBundle\Entity\CustomForm cf
             INNER JOIN cf.nodes ncf
             WHERE ncf.fieldName = :fieldName AND ncf.node = :node

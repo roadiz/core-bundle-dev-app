@@ -1,16 +1,35 @@
-<nav class="folder-navbar-navigation navbar-navigation uk-navbar has-translations">
-    <ul class="uk-navbar-nav">
-        <li class="{% if current == 'edit' %}uk-active{% endif %}" >
-            <a href="{{ path('foldersEditPage', { folderId: folder.id }) }}">{% trans %}folder.settings{% endtrans %}</a>
-        </li>
-        <li class="{% if current == 'edit-label' %}uk-active{% endif %}">
-            <a href="{{ path('foldersEditTranslationPage', { folderId: folder.id, translationId:translation.id }) }}">{% trans %}folder.labels{% endtrans %}</a>
-        </li>
-        <li class="{% if current == 'list' %}uk-active{% endif %}" >
-            <a href="{{ path('documentsHomePage', { folderId: folder.id }) }}">{% trans %}documents{% endtrans %}</a>
-        </li>
-        <li class="{% if current == 'private_list' %}uk-active{% endif %}" >
-            <a href="{{ path('documentsPrivateHomePage', { folderId: folder.id }) }}">{% trans %}private_documents{% endtrans %}</a>
-        </li>
-    </ul>
-</nav>
+{%
+set listItems = [
+    [
+        {
+            'name': 'edit',
+            'label': 'folder.settings',
+            'href': path('foldersEditPage', { folderId: folder.id }),
+        },
+        {
+            'name': 'edit-label',
+            'label': 'folder.labels',
+            'href': path('foldersEditTranslationPage', { folderId: folder.id, translationId: translation.id }),
+        },
+        {
+            'name': 'list',
+            'label': 'documents',
+            'href': path('documentsHomePage', { folderId: folder.id }),
+        },
+        {
+            'name': 'private_list',
+            'label': 'private_documents',
+            'href': path('documentsPrivateHomePage', { folderId: folder.id }),
+        },
+    ]
+]
+%}
+{% set custom_entries_content %}
+    {% block additional_entries %}{% endblock %}
+{% endset %}
+
+{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+    {% block additional_entries %}
+        {{ custom_entries_content|raw }}
+    {% endblock %}
+{% endembed %}

@@ -35,7 +35,7 @@ trait AttributeTrait
 
     #[ORM\ManyToOne(
         targetEntity: AttributeGroupInterface::class,
-        cascade: ['persist', 'merge'],
+        cascade: ['persist'],
         fetch: 'EAGER',
         inversedBy: 'attributes'
     ),
@@ -47,9 +47,9 @@ trait AttributeTrait
      * @var Collection<int, AttributeTranslationInterface>
      */
     #[ORM\OneToMany(
-        mappedBy: 'attribute',
         targetEntity: AttributeTranslationInterface::class,
-        cascade: ['all'],
+        mappedBy: 'attribute',
+        cascade: ['persist', 'remove'],
         fetch: 'EAGER',
         orphanRemoval: true
     ),
@@ -60,8 +60,8 @@ trait AttributeTrait
      * @var Collection<int, AttributeValueInterface>
      */
     #[ORM\OneToMany(
-        mappedBy: 'attribute',
         targetEntity: AttributeValueInterface::class,
+        mappedBy: 'attribute',
         cascade: ['persist', 'remove'],
         fetch: 'EXTRA_LAZY',
         orphanRemoval: true
