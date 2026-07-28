@@ -50,6 +50,23 @@ final class NodeSourceBaseType extends AbstractType
                 ],
             ]);
         }
+
+        if (true === $options['unpublishable']) {
+            $builder->add('unpublishedAt', DateTimeType::class, [
+                'label' => 'unpublishedAt',
+                'required' => false,
+                'attr' => [
+                    'class' => 'rz-datetime-field',
+                    'data-dev-name' => '{{ nodeSource.'.StringHandler::camelCase('unpublishedAt').' }}',
+                ],
+                'date_widget' => 'single_text',
+                'date_format' => 'yyyy-MM-dd',
+                'placeholder' => [
+                    'hour' => 'hour',
+                    'minute' => 'minute',
+                ],
+            ]);
+        }
     }
 
     #[\Override]
@@ -65,6 +82,7 @@ final class NodeSourceBaseType extends AbstractType
             'label' => false,
             'inherit_data' => true,
             'publishable' => false,
+            'unpublishable' => false,
         ]);
 
         $resolver->setRequired('translation');

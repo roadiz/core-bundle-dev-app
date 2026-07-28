@@ -74,6 +74,10 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
                 $assoc['published_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
             }
 
+            if (null !== $nodeSource->getUnpublishedAt()) {
+                $assoc['unpublished_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getUnpublishedAt());
+            }
+
             if ($this->canIndexTitleInCollection($nodeSource)) {
                 $collection[] = $title;
             }

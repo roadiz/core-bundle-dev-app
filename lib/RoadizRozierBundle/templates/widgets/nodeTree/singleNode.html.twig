@@ -54,6 +54,12 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
         {% set innerClasses = innerClasses|merge(['datetime-publishable-future']) %}
     {% endif %}
 {% endif %}
+{% if nodeTree.isStackTree and type.isUnpublishable and source.unpublishedAt %}
+    {% set innerClasses = innerClasses|merge(['datetime-unpublishable']) %}
+    {% if source.unpublishedAt < date() %}
+        {% set innerClasses = innerClasses|merge(['datetime-unpublishable-past']) %}
+    {% endif %}
+{% endif %}
 
 <li style="--rz-accent-color: {{ type.color }};" data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
     {% if not mainNodeTree and not nodeTree.isStackTree %}
@@ -90,6 +96,11 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                 {% if nodeTree.isStackTree and type.isPublishable and source.publishedAt %}
                     <div class="nodetree-published-at uk-badge">
                         <i class="uk-icon-clock-o"></i> {{ source.publishedAt|format_date('short', locale=app.request.locale) }}
+                    </div>
+                {% endif %}
+                {% if nodeTree.isStackTree and type.isUnpublishable and source.unpublishedAt %}
+                    <div class="nodetree-unpublished-at uk-badge">
+                        <i class="uk-icon-clock-o"></i> {{ source.unpublishedAt|format_date('short', locale=app.request.locale) }}
                     </div>
                 {% endif %}
             </div>

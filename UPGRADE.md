@@ -19,6 +19,8 @@
   - RealmsAwareWebResponseInterface
 - Removed obsolete `roadiz/fonts-bundle`
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
+- `NodesSources` now ships a **built-in `unpublishedAt`** date-time field and `unpublishedAt` becomes a **reserved node-type field name**. Projects that already declared an `unpublished_at` (as a custom node-type field, or as a project-level column) must migrate — see [Built-in `unpublishedAt` scheduled expiration field](#built-in-unpublishedat-scheduled-expiration-field).
+- `NodeTypeInterface` gained an `isUnpublishable(): bool` method. Any custom implementation must add it.
 
 ## New custom-form webhook system
 
@@ -27,6 +29,66 @@
 - Built-in providers include Brevo, Mailchimp, HubSpot, Zoho CRM, and a generic HTTP option; you can also plug in custom providers.
 - Field mapping and provider settings are configured per form in the admin UI; this controls how form fields map to provider-specific fields.
 - The system is idempotent per CustomFormAnswer ID and uses Messenger retry policies on failure
+
+## Built-in `unpublishedAt` scheduled expiration field
+
+`NodesSources` now provides a built-in, nullable `unpublishedAt` date-time column (`nodes_sources.unpublished_at`),
+symmetrical to `publishedAt`. It lets editors schedule content **expiration**: a node-source is publicly
+visible only when
+
+```
+node.status = PUBLISHED
+AND publishedAt <= now
+AND (unpublishedAt IS NULL OR unpublishedAt > now)
+```
+
+Enable it per node-type with the new `unpublishable: true` option (mirroring `publishable`). `unpublishedAt`
+defaults to `null` (*never expires*), so enabling it is backward-compatible for existing content.
+
+A core bundle migration adds the column and its indexes. It is **guarded**: if `nodes_sources.unpublished_at`
+already exists it is a no-op, so it will not clash with a column you added yourself.
+
+### If your project already has an `unpublished_at`
+
+`unpublishedAt` is now a reserved name and a built-in property, so an existing project-level `unpublished_at`
+**will collide** (a custom node-type field named `unpublished_at` would generate a duplicate `$unpublishedAt`
+property on the generated entity). You must remove the legacy definition and reconcile the schema:
+
+1. **Remove the custom field from your node-type(s).** Delete the `unpublished_at` field from every
+   `config/node_types/*.yaml` (or from the node-type definition in database), then regenerate entities:
+
+   ```bash
+   bin/console app:node-types:regenerate   # or your project's node-type sync/update command
+   ```
+
+2. **Add a project migration** (`bin/console make:migration`, then adjust it) to preserve legacy data and
+   drop the legacy schema. Adapt the table name(s) to your node-type(s):
+
+   ```php
+   public function up(Schema $schema): void
+   {
+       // Copy legacy per-node-type values up into the built-in column, then drop the custom column.
+       if ($schema->hasTable('ns_article') && $schema->getTable('ns_article')->hasColumn('unpublished_at')) {
+           $this->addSql('UPDATE nodes_sources ns INNER JOIN ns_article a ON a.id = ns.id SET ns.unpublished_at = a.unpublished_at WHERE a.unpublished_at IS NOT NULL');
+           $this->addSql('ALTER TABLE ns_article DROP unpublished_at');
+       }
+
+       // If you previously added a project-level column/index on nodes_sources, drop the redundant index
+       // so it does not conflict with the built-in one created by the core bundle migration.
+       if ($schema->getTable('nodes_sources')->hasIndex('nsapp_unpublished_at')) {
+           $this->addSql('DROP INDEX nsapp_unpublished_at ON nodes_sources');
+       }
+   }
+   ```
+
+3. **Run the migrations** and verify the schema is in sync:
+
+   ```bash
+   bin/console doctrine:migrations:migrate
+   bin/console doctrine:schema:validate
+   ```
+
+If you implement `NodeTypeInterface` yourself, also add the new `isUnpublishable(): bool` method.
 
 ## Other changes
 

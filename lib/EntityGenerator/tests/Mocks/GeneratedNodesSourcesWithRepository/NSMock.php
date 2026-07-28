@@ -1260,6 +1260,16 @@ class NSMock extends NodesSources
         return true;
     }
 
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
+    {
+        return true;
+    }
+
     #[\Override]
     public function __toString(): string
     {

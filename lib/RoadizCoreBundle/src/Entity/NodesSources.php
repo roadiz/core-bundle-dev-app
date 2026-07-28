@@ -37,15 +37,20 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['discr']),
     ORM\Index(columns: ['title']),
     ORM\Index(columns: ['published_at']),
+    ORM\Index(columns: ['unpublished_at'], name: 'ns_unpublished_at'),
     ORM\Index(columns: ['no_index'], name: 'ns_no_index'),
     ORM\Index(columns: ['node_id', 'translation_id', 'published_at'], name: 'ns_node_translation_published'),
+    ORM\Index(columns: ['node_id', 'translation_id', 'unpublished_at'], name: 'ns_node_translation_unpublished'),
     ORM\Index(columns: ['node_id', 'discr', 'translation_id'], name: 'ns_node_discr_translation'),
     ORM\Index(columns: ['node_id', 'discr', 'translation_id', 'published_at'], name: 'ns_node_discr_translation_published'),
+    ORM\Index(columns: ['node_id', 'discr', 'translation_id', 'unpublished_at'], name: 'ns_node_discr_translation_unpublished'),
     ORM\Index(columns: ['translation_id', 'published_at'], name: 'ns_translation_published'),
     ORM\Index(columns: ['discr', 'translation_id'], name: 'ns_discr_translation'),
     ORM\Index(columns: ['discr', 'translation_id', 'published_at'], name: 'ns_discr_translation_published'),
+    ORM\Index(columns: ['discr', 'translation_id', 'unpublished_at'], name: 'ns_discr_translation_unpublished'),
     ORM\Index(columns: ['title', 'published_at'], name: 'ns_title_published'),
     ORM\Index(columns: ['title', 'translation_id', 'published_at'], name: 'ns_title_translation_published'),
+    ORM\Index(columns: ['title', 'translation_id', 'unpublished_at'], name: 'ns_title_translation_unpublished'),
     ORM\UniqueConstraint(columns: ['node_id', 'translation_id']),
     ORM\InheritanceType('JOINED'),
     // Limit discriminator column to 30 characters for indexing optimization
@@ -93,6 +98,16 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         description: 'Content publication date and time',
     )]
     protected ?\DateTime $publishedAt = null;
+
+    #[ApiFilter(BaseFilter\DateFilter::class)]
+    #[ApiFilter(BaseFilter\OrderFilter::class)]
+    #[ORM\Column(name: 'unpublished_at', type: 'datetime', unique: false, nullable: true)]
+    #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
+    #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Content unpublication date and time',
+    )]
+    protected ?\DateTime $unpublishedAt = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
@@ -386,6 +401,18 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         return $this;
     }
 
+    public function getUnpublishedAt(): ?\DateTime
+    {
+        return $this->unpublishedAt;
+    }
+
+    public function setUnpublishedAt(?\DateTime $unpublishedAt = null): NodesSources
+    {
+        $this->unpublishedAt = $unpublishedAt;
+
+        return $this;
+    }
+
     /**
      * Final on purpose: like getMetaDescription(), this raw getter is bound to
      * the admin SEO form and its setter round-trip, so it must never become a
@@ -559,15 +586,26 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     #[SymfonySerializer\Groups(['nodes_sources_published'])]
     public function isPublished(): bool
     {
+        $now = new \DateTime();
+
         return $this->getNode()->isPublished()
             && null !== $this->getPublishedAt()
-            && $this->getPublishedAt() <= new \DateTime();
+            && $this->getPublishedAt() <= $now
+            && (null === $this->getUnpublishedAt() || $this->getUnpublishedAt() > $now);
     }
 
     /**
      * Overridden in NS classes.
      */
     public function isPublishable(): bool
+    {
+        throw new \RuntimeException('This method should only be called from children classes');
+    }
+
+    /**
+     * Overridden in NS classes.
+     */
+    public function isUnpublishable(): bool
     {
         throw new \RuntimeException('This method should only be called from children classes');
     }

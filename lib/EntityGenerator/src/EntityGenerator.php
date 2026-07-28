@@ -323,6 +323,14 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->setBody('return '.($this->nodeType->isPublishable() ? 'true' : 'false').';')
         ;
 
+        $classType->addMethod('isUnpublishable')
+            ->addComment('$this->nodeType->isUnpublishable() proxy.')
+            ->addComment('@return bool Does this nodeSource is unpublishable with date and time?')
+            ->addAttribute(\Override::class)
+            ->setReturnType('bool')
+            ->setBody('return '.($this->nodeType->isUnpublishable() ? 'true' : 'false').';')
+        ;
+
         $classType->addMethod('__toString')
             ->setReturnType('string')
             ->addAttribute(\Override::class)

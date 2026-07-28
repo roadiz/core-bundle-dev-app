@@ -31,7 +31,12 @@ To add a new node type, follow these steps:
    visible: true
 
    # 'publishable' is an optional boolean.
+   # When true, node-sources get a "publishedAt" date-time field (scheduled publication).
    publishable: false
+
+   # 'unpublishable' is an optional boolean.
+   # When true, node-sources get an "unpublishedAt" date-time field (scheduled expiration).
+   unpublishable: false
 
    # 'attributable' is an optional boolean.
    attributable: true

@@ -408,7 +408,8 @@ NEW %s(
     %s.nodeTypeName,
     %s.id,
     %s.title,
-    %s.publishedAt
+    %s.publishedAt,
+    %s.unpublishedAt
 )
 EOT,
             NodeTreeDto::class,
@@ -423,6 +424,7 @@ EOT,
             $alias,
             $alias,
             $alias,
+            self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
