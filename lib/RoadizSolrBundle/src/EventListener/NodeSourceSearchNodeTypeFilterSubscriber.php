@@ -54,6 +54,7 @@ final readonly class NodeSourceSearchNodeTypeFilterSubscriber implements EventSu
         }
 
         $event->getQuery()->createFilterQuery('node_type')
+            ->setTags(['node_type'])
             ->setQuery(implode(' OR ', $phrases));
     }
 

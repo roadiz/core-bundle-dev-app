@@ -50,6 +50,7 @@ final readonly class NodeSourceSearchTagsFilterSubscriber implements EventSubscr
         }
 
         $event->getQuery()->createFilterQuery('tag_name')
+            ->setTags(['tag_name'])
             ->setQuery(implode(' OR ', $phrases));
     }
 

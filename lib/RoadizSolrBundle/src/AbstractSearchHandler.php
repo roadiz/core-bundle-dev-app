@@ -429,10 +429,18 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
             if (is_array($value)) {
                 $value = array_unique($value);
                 foreach ($value as $k => $v) {
-                    $query->addFilterQuery([
-                        'key' => 'fq_'.$key.'_'.$k,
-                        'query' => $v,
-                    ]);
+                    if (str_starts_with((string) $v, 'node_type_s')) {
+                        $query->addFilterQuery([
+                            'key' => 'fq_'.$key.'_'.$k,
+                            'tag' => 'node_type',
+                            'query' => '{!tag=node_type}'.$v,
+                        ]);
+                    } else {
+                        $query->addFilterQuery([
+                            'key' => 'fq_'.$key.'_'.$k,
+                            'query' => $v,
+                        ]);
+                    }
                 }
             } elseif (is_scalar($value)) {
                 $query->addParam($key, $value);
