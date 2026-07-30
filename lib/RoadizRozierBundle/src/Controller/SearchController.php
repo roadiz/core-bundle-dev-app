@@ -290,7 +290,7 @@ final class SearchController extends AbstractController
             foreach ($data['tags'] as $key => $value) {
                 $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
             }
-            array_filter($data['tags']);
+            $data['tags'] = array_filter($data['tags']);
         }
 
         return $data;
