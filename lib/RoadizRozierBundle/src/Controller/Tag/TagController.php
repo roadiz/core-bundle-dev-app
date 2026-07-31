@@ -267,7 +267,7 @@ final class TagController extends AbstractController
 
         $tagsIds = trim((string) $request->get('deleteForm')['tagsIds']);
         $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($tagsIds);
+        $tagsIds = array_filter($tagsIds);
 
         $tags = $this->managerRegistry->getRepository(Tag::class)
             ->findBy([
@@ -659,7 +659,7 @@ final class TagController extends AbstractController
 
         $tagsIds = trim((string) $data['tagsIds']);
         $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($tagsIds);
+        $tagsIds = array_filter($tagsIds);
 
         $tags = $this->managerRegistry->getRepository(Tag::class)
             ->findBy([
