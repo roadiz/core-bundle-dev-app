@@ -66,7 +66,7 @@ trait NodeBulkActionTrait
 
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($nodesIds);
+        $nodesIds = array_filter($nodesIds);
 
         /** @var Node[] $nodes */
         $nodes = $this->allStatusesNodeRepository->findBy([
@@ -120,7 +120,7 @@ trait NodeBulkActionTrait
 
         $nodesIds = trim((string) $request->get('statusForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($nodesIds);
+        $nodesIds = array_filter($nodesIds);
 
         /** @var Node[] $nodes */
         $nodes = $this->allStatusesNodeRepository
@@ -194,7 +194,7 @@ trait NodeBulkActionTrait
         if (!empty($data['nodesIds'])) {
             $nodesIds = trim((string) $data['nodesIds']);
             $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-            array_filter($nodesIds);
+            $nodesIds = array_filter($nodesIds);
 
             $nodes = $this->allStatusesNodeRepository
                 ->findBy([
@@ -220,7 +220,7 @@ trait NodeBulkActionTrait
     {
         if (!empty($data['nodesIds'])) {
             $nodesIds = \json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
-            array_filter($nodesIds);
+            $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
             $nodes = $this->allStatusesNodeRepository

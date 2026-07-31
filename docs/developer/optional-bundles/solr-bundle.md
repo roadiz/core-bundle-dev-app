@@ -197,6 +197,14 @@ build faceted navigation UIs without a second request. Facets are computed over
 the current query domain (`q` + filter queries), so counts always reflect the
 published/visible documents actually returned.
 
+::: info JSON Facet API
+Roadiz uses Solr's [JSON Facet API](https://solr.apache.org/guide/solr/latest/query-guide/json-facet-api.html)
+(`json.facet`), not the legacy `facet=true`/`facet.field` parameters. Keep that
+in mind when adding your own facets: they must be declared as JSON facet types
+(`terms`, `range`, `query`, nested sub-facets…), and responses come back as
+`{ "buckets": [ { "val": …, "count": … } ] }`.
+:::
+
 ```json
 {
     "@context": "/api/contexts/SearchResultItem",
