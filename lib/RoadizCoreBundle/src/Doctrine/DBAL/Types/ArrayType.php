@@ -13,7 +13,6 @@ use Doctrine\DBAL\Types\JsonType;
  */
 final class ArrayType extends JsonType
 {
-    #[\Override]
     public function getName(): string
     {
         return 'array';
