@@ -2,7 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.7.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.34...2.7.35) - 2026-07-21
+## [2.7.36](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.35...v2.7.36) - 2026-07-31
+
+### Features
+
+- **(solr)** add tags on solr filter-query and facet-query ([#464](https://github.com/roadiz/core-bundle-dev-app/issues/464)) - ([708920a](https://github.com/roadiz/core-bundle-dev-app/commit/708920ac66119ce43dcfe7a25bf16d931afaf8a5))
+
+## [2.7.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.34...v2.7.35) - 2026-07-21
 
 ### Bug Fixes
 
