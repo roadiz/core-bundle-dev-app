@@ -88,8 +88,13 @@ final readonly class NodesSourcesQueryExtension implements QueryItemExtensionInt
 
         $queryBuilder
             ->andWhere($queryBuilder->expr()->lte('o.publishedAt', ':lte_published_at'))
+            ->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->gt('o.unpublishedAt', ':gt_unpublished_at'),
+                $queryBuilder->expr()->isNull('o.unpublishedAt')
+            ))
             ->andWhere($queryBuilder->expr()->eq($alias.'.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
+            ->setParameter(':gt_unpublished_at', new \DateTime())
             ->setParameter(':status', NodeStatus::PUBLISHED);
     }
 }

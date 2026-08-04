@@ -226,6 +226,12 @@ class NodesSourcesRepository extends StatusAwareRepository
          * Forbid unpublished node for anonymous and not backend users.
          */
         $qb->andWhere($qb->expr()->lte($prefix.'.publishedAt', ':now'));
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->gt($prefix.'.unpublishedAt', ':now'),
+                $qb->expr()->isNull($prefix.'.unpublishedAt')
+            )
+        );
         $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS.'.status', ':node_status'));
         $qb->setParameter('node_status', NodeStatus::PUBLISHED);
         $qb->setParameter('now', new \DateTime('now'));

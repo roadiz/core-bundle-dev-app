@@ -62,6 +62,7 @@ final class NodeSourceType extends AbstractType
         if (true === $options['withTitle']) {
             $builder->add('base', NodeSourceBaseType::class, [
                 'publishable' => $options['nodeType']->isPublishable(),
+                'unpublishable' => $options['nodeType']->isUnpublishable(),
                 'translation' => $builder->getData()->getTranslation(),
             ]);
         }

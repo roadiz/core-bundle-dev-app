@@ -33,6 +33,7 @@ final class NodeTypeConfiguration implements ConfigurationInterface
                 ->scalarNode('description')->end()
                 ->booleanNode('visible')->defaultTrue()->end()
                 ->booleanNode('publishable')->defaultFalse()->end()
+                ->booleanNode('unpublishable')->defaultFalse()->end()
                 ->booleanNode('attributable')->defaultFalse()->end()
                 ->booleanNode('searchable')->defaultTrue()->end()
                 ->booleanNode('sortingAttributesByWeight')->defaultFalse()->end()

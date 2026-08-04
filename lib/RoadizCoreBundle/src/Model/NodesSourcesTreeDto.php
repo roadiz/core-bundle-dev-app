@@ -12,6 +12,7 @@ final readonly class NodesSourcesTreeDto implements PersistableInterface
         private ?int $id,
         private ?string $title,
         private ?\DateTime $publishedAt,
+        private ?\DateTime $unpublishedAt = null,
     ) {
     }
 
@@ -29,5 +30,10 @@ final readonly class NodesSourcesTreeDto implements PersistableInterface
     public function getPublishedAt(): ?\DateTime
     {
         return $this->publishedAt;
+    }
+
+    public function getUnpublishedAt(): ?\DateTime
+    {
+        return $this->unpublishedAt;
     }
 }

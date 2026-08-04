@@ -4,6 +4,7 @@ displayName: Article
 description: Article
 visible: true
 publishable: true
+unpublishable: true
 attributable: true
 sortingAttributesByWeight: false
 reachable: true
@@ -40,12 +41,6 @@ fields:
             - GroupBlock
             - AliasBlock
         type: children-nodes
-    -
-        name: unpublished_at
-        universal: true
-        indexed: true
-        label: 'Date de dépublication'
-        type: date-time
     -
         name: only_on_webresponse
         serializationGroups:

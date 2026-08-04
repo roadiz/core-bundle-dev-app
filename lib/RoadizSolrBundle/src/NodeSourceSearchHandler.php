@@ -192,6 +192,45 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             $args['fq'][] = $tmp;
         }
 
+        /*
+         * Handle unpublication (expiration) date-time filtering
+         */
+        $hasExplicitUnpublishedAtFilter = isset($args['unpublishedAt']);
+        if (isset($args['unpublishedAt'])) {
+            $tmp = 'unpublished_at_dt:';
+            if (!is_array($args['unpublishedAt']) && $args['unpublishedAt'] instanceof \DateTimeInterface) {
+                $tmp .= $this->formatDateTimeToUTC($args['unpublishedAt']);
+            } elseif (
+                isset($args['unpublishedAt'][0])
+                && 'BETWEEN' === $args['unpublishedAt'][0]
+                && isset($args['unpublishedAt'][1])
+                && $args['unpublishedAt'][1] instanceof \DateTimeInterface
+                && isset($args['unpublishedAt'][2])
+                && $args['unpublishedAt'][2] instanceof \DateTimeInterface
+            ) {
+                $tmp .= '['.
+                    $this->formatDateTimeToUTC($args['unpublishedAt'][1]).
+                    ' TO '.
+                    $this->formatDateTimeToUTC($args['unpublishedAt'][2]).']';
+            } elseif (
+                isset($args['unpublishedAt'][0])
+                && '<=' === $args['unpublishedAt'][0]
+                && isset($args['unpublishedAt'][1])
+                && $args['unpublishedAt'][1] instanceof \DateTimeInterface
+            ) {
+                $tmp .= '[* TO '.$this->formatDateTimeToUTC($args['unpublishedAt'][1]).']';
+            } elseif (
+                isset($args['unpublishedAt'][0])
+                && '>=' === $args['unpublishedAt'][0]
+                && isset($args['unpublishedAt'][1])
+                && $args['unpublishedAt'][1] instanceof \DateTimeInterface
+            ) {
+                $tmp .= '['.$this->formatDateTimeToUTC($args['unpublishedAt'][1]).' TO *]';
+            }
+            unset($args['unpublishedAt']);
+            $args['fq'][] = $tmp;
+        }
+
         $status = $args['status'] ?? $args['node.status'] ?? null;
         if (isset($status)) {
             $tmp = 'node_status_i:';
@@ -216,6 +255,13 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             $args['fq'][] = 'node_status_i:'.(string) NodeStatus::PUBLISHED->value;
             if (!$hasExplicitPublishedAtFilter) {
                 $args['fq'][] = 'published_at_dt:[* TO NOW/MINUTE]';
+            }
+            if (!$hasExplicitUnpublishedAtFilter) {
+                /*
+                 * Exclude expired content: keep documents whose unpublished_at_dt is in the
+                 * future or missing (unpublishedAt IS NULL OR unpublishedAt > now).
+                 */
+                $args['fq'][] = '(*:* -unpublished_at_dt:[* TO NOW/MINUTE])';
             }
         }
 

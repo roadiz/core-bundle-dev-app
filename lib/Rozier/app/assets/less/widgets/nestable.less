@@ -376,6 +376,44 @@
             }
         }
     }
+
+    &.datetime-unpublishable {
+        .non-nestable-handle:before,
+        .uk-nestable-handle:before {
+            z-index: 1;
+        }
+        .nodetree-unpublished-at {
+            margin-left: 0;
+            left: -20px;
+            top: -1px;
+            position: relative;
+            z-index: 0;
+            border-radius: 15px 0 0 15px;
+            background-color: #b8b8b8;
+            color: #fff;
+            margin-right: -15px;
+            line-height: 1;
+            border: 0 none;
+            padding: 4px 7px 4px 25px;
+            min-width: 50px;
+            text-align: right;
+            text-shadow: none;
+            letter-spacing: 0.02em;
+
+            i {
+                display: none;
+            }
+        }
+
+        &.datetime-unpublishable-past {
+            .nodetree-unpublished-at {
+                background-color: #ca8776;
+                i {
+                    display: inline-block;
+                }
+            }
+        }
+    }
 }
 
 .root-tree,

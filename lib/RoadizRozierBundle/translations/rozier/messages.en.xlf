@@ -4403,6 +4403,16 @@
         <target state="final">Date and time publishable</target>
         <note>Field label for node-type publishable status.</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="unpublishedAt" approved="yes">
+        <source>unpublishedAt</source>
+        <target state="final">Unpublication date and time</target>
+        <note>Field label for node-source scheduled expiration date and time.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unpublishable" approved="yes">
+        <source>unpublishable</source>
+        <target state="final">Date and time unpublishable</target>
+        <note>Field label for node-type unpublishable status.</note>
+      </trans-unit>
       <!-- Node form help messages -->
       <trans-unit xml:space="preserve" id="this_node_type_will_be_available_for_creating_root_nodes" approved="yes">
         <source>this_node_type_will_be_available_for_creating_root_nodes</source>

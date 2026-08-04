@@ -30,7 +30,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 #[ORM\Entity(repositoryClass: Repository\NSArticleRepository::class)]
 #[ORM\Table(name: 'ns_article')]
-#[ORM\Index(columns: ['unpublished_at'])]
 #[ApiFilter(PropertyFilter::class)]
 class NSArticle extends NodesSources
 {
@@ -74,17 +73,6 @@ class NSArticle extends NodesSources
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'realm_a_secret', type: 'string', nullable: true, length: 250)]
     private ?string $realmASecret = null;
-
-    /** Date de dépublication. */
-    #[Serializer\SerializedName(serializedName: 'unpublishedAt')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Date de dépublication')]
-    #[Serializer\MaxDepth(2)]
-    #[ApiFilter(Filter\OrderFilter::class)]
-    #[ApiFilter(Filter\DateFilter::class)]
-    #[Gedmo\Versioned]
-    #[ORM\Column(name: 'unpublished_at', type: 'datetime', nullable: true)]
-    private ?\DateTime $unpublishedAt = null;
 
     /** Only on web response. */
     #[Serializer\SerializedName(serializedName: 'onlyOnWebresponse')]
@@ -216,23 +204,6 @@ class NSArticle extends NodesSources
     }
 
     /**
-     * @return \DateTime|null
-     */
-    public function getUnpublishedAt(): ?\DateTime
-    {
-        return $this->unpublishedAt;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setUnpublishedAt(?\DateTime $unpublishedAt): static
-    {
-        $this->unpublishedAt = $unpublishedAt;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getOnlyOnWebresponse(): ?string
@@ -314,6 +285,16 @@ class NSArticle extends NodesSources
      */
     #[\Override]
     public function isPublishable(): bool
+    {
+        return true;
+    }
+
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
     {
         return true;
     }

@@ -32,11 +32,13 @@ final class NodeTreeDto implements NodeInterface
         ?int $sourceId,
         ?string $title,
         ?\DateTime $publishedAt,
+        ?\DateTime $unpublishedAt = null,
     ) {
         $this->nodeSource = new NodesSourcesTreeDto(
             $sourceId,
             $title,
             $publishedAt,
+            $unpublishedAt,
         );
     }
 
