@@ -83,6 +83,7 @@ apt-get --quiet --yes --purge --autoremove upgrade
 # Packages - System
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     less \
+    git \
     ffmpeg
 rm -rf /var/lib/apt/lists/*
 

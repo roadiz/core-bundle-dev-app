@@ -184,3 +184,4 @@ fabric.properties
 /phpstan_report.txt
 
 config/reference.php
+.phpactor.json

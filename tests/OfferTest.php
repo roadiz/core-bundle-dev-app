@@ -14,6 +14,8 @@ use Doctrine\DBAL\Exception;
  */
 class OfferTest extends ApiTestCase
 {
+    protected static ?bool $alwaysBootKernel = true;
+
     public function testRepository(): void
     {
         try {
