@@ -174,6 +174,6 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
 
     public function getPublicUri(): ?string
     {
-        return 'https://vimeo.com/'.$this->embedId;
+        return 'https://vimeo.com/' . $this->embedId;
     }
 }

@@ -157,10 +157,10 @@ abstract class AbstractSpotifyEmbedFinder extends AbstractEmbedFinder
     public function getPublicUri(): ?string
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
-            return 'https://open.spotify.com/'.$this->embedId;
+            return 'https://open.spotify.com/' . $this->embedId;
         }
         if (preg_match(static::$idPattern, $this->embedId, $matches)) {
-            return 'https://open.spotify.com/'.$matches['type'].'/'.$matches['id'];
+            return 'https://open.spotify.com/' . $matches['type'] . '/' . $matches['id'];
         }
 
         return null;

@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 trait EmbedFinderTrait
 {
@@ -57,7 +58,7 @@ trait EmbedFinderTrait
             }
         } catch (APINeedsAuthentificationException $exception) {
             // do no prevent from creating document if credentials are not provided.
-        } catch (ClientException $exception) {
+        } catch (ClientException | HttpClientExceptionInterface $exception) {
             // do no prevent from creating document if platform has errors, such as
             // too much API usage.
         }

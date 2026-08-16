@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\MediaFinders;
 
 use Doctrine\Persistence\ObjectManager;
-use GuzzleHttp\Client;
 use League\Flysystem\FilesystemException;
 use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
@@ -13,7 +12,6 @@ use RZ\Roadiz\Documents\DownloadedFile;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use SimpleXMLElement;
-use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractPodcastFinder extends AbstractEmbedFinder
 {
@@ -177,15 +175,8 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
      */
     public function getMediaFeed($search = null)
     {
-        $url = $this->embedId;
-        $client = new Client();
-        $response = $client->get($url);
-
-        if (Response::HTTP_OK == $response->getStatusCode()) {
-            return $response->getBody();
-        }
-
-        throw new \RuntimeException($response->getReasonPhrase());
+        // embedId is a user-supplied feed URL: it must go through the guarded client in downloadFeedFromAPI.
+        return $this->downloadFeedFromAPI($this->embedId);
     }
 
     /**

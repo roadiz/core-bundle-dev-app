@@ -176,6 +176,6 @@ abstract class AbstractDailymotionEmbedFinder extends AbstractEmbedFinder
             $embedId = $this->embedId;
         }
 
-        return 'https://www.dailymotion.com/video/'.$embedId;
+        return 'https://www.dailymotion.com/video/' . $embedId;
     }
 }
