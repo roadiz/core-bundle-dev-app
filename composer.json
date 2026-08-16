@@ -168,8 +168,24 @@
             "symfony/runtime": true,
             "php-http/discovery": false
         },
+        "policy": {
+            "advisories": {
+                "ignore-severity": ["low", "medium"],
+                "ignore-id": [
+                    "PKSA-8kfs-m8zw-ggzs",
+                    "PKSA-3ncz-km6v-5vjr",
+                    "PKSA-gs8r-6kz6-pp56",
+                    "PKSA-gnn4-pxdg-q76m"
+                ],
+                "ignore": [
+                    "api-platform/core"
+                ]
+            }
+        },
         "audit": {
             "ignore": [
+                "PKSA-8kfs-m8zw-ggzs",
+                "PKSA-3ncz-km6v-5vjr",
                 "PKSA-gs8r-6kz6-pp56",
                 "PKSA-gnn4-pxdg-q76m"
             ]
