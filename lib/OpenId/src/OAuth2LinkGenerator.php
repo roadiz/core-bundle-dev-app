@@ -76,7 +76,7 @@ class OAuth2LinkGenerator
                 'token' => $stateToken->getValue(),
             ])),
             'nonce' => $nonce,
-            'login_hint' => $request->get('email', null),
+            'login_hint' => $request->query->get('email'),
             'scope' => implode(' ', $customScopes),
             'client_id' => $this->oauthClientId,
             'redirect_uri' => $redirectUri,

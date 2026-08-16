@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.7.36'
+    roadiz_core.cms_version: '2.7.37'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -465,9 +465,20 @@ services:
     #
     # Media finders
     #
-    RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder:
+    # Media finders fetch user-supplied URLs (podcast feeds, oEmbed endpoints): never give them the raw
+    # http_client, or they become an SSRF pivot into the private network.
+    roadiz_core.no_private_network_http_client:
+        class: Symfony\Component\HttpClient\NoPrivateNetworkHttpClient
+        # autoconfigure would inject a logger through the setLogger() deprecated since symfony/http-client 7.1;
+        # the wrapped http_client already logs. kernel.reset is kept to flush its DNS cache between requests.
+        autoconfigure: false
         arguments:
             - '@http_client'
+        tags:
+            - { name: kernel.reset, method: reset }
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder:
+        arguments:
+            - '@roadiz_core.no_private_network_http_client'
             - '%roadiz_core.medias.unsplash_client_id%'
     RZ\Roadiz\Documents\MediaFinders\RandomImageFinder:
         alias: RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder
@@ -590,7 +601,7 @@ services:
 
     RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory:
         arguments:
-            - '@http_client'
+            - '@roadiz_core.no_private_network_http_client'
             - '%roadiz_core.medias.supported_platforms%'
 
     RZ\Roadiz\Documents\Renderer\ChainRenderer:
