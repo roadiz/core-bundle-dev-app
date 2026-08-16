@@ -117,6 +117,13 @@ jobs:
                   DATABASE_URL: "mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4"
               run: |
                   vendor/bin/phpunit -v
+            - name: Flush Doctrine 2nd-level cache (Redis)
+              # Both DB passes share this Redis instance and both engines auto-increment
+              # entity IDs from 1, so without flushing, the MySQL pass can hydrate
+              # stale cached entities from the MariaDB pass under the same ID (mirrors
+              # `make phpunit`'s own `redis-cli FLUSHALL` between its two passes).
+              run: |
+                  docker run --rm --network host redis:7-alpine redis-cli -h 127.0.0.1 FLUSHALL
             - name: Run unit tests (MySQL)
               env:
                   XDEBUG_MODE: coverage
