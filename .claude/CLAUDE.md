@@ -112,7 +112,9 @@ App\Tests\          → tests/
 
 ### Test Setup
 
-`tests/bootstrap.php` auto-creates the test database and runs migrations. PHPUnit runs against both MariaDB 11.8 and MySQL 8.4 in CI (matrix). Tests in `phpunit.xml.dist` cover `tests/`, `lib/Models/tests/`, `lib/RoadizCoreBundle/tests/`, `lib/Documents/tests/`, and `lib/EntityGenerator/tests/`.
+`tests/bootstrap.php` auto-creates the test database and runs migrations. Tests in `phpunit.xml.dist` cover `tests/`, `lib/Models/tests/`, `lib/RoadizCoreBundle/tests/`, `lib/Documents/tests/`, `lib/EntityGenerator/tests/`, `lib/Markdown/tests/`, `lib/OpenId/tests/`, `lib/RoadizSolrBundle/tests/`, `lib/RoadizUserBundle/tests/`, `lib/RoadizTwoFactorBundle/tests/`, `lib/Jwt/tests/`, and `lib/Random/tests/`.
+
+PHPUnit runs against both MariaDB 11.8 and MySQL 8.4 in CI (matrix, `.github/workflows/run-test.yml`), which provisions real MariaDB/MySQL/Redis/Mailpit services plus a manually-started Varnish container (its VCL lives in the repo, so it can't be a `services:` entry — those start before checkout) and a generated JWT keypair (`config/jwt/*.pem` is gitignored). Redis is flushed between the two DB-engine passes: several repositories use Doctrine's `setCacheable(true)`, and both engines auto-increment entity IDs from 1, so without the flush the MySQL pass can hydrate stale cached entities from the MariaDB pass.
 
 ## Code Style
 

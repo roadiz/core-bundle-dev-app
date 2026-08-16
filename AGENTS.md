@@ -37,6 +37,7 @@ Build, lint, and test commands
 - Rector apply: `make rector` (also runs PHP-CS-Fixer fix).
 - Architecture rules: `make check-architecture` (Deptrac).
 - PHPUnit full suite: `make phpunit` (runs against MariaDB + MySQL containers).
+- CI (`run-test.yml`) provisions real MariaDB/MySQL/Redis/Mailpit services plus a manually-started Varnish container and a generated JWT keypair (`config/jwt/*.pem` is gitignored). It flushes Redis between the MariaDB and MySQL passes to avoid `setCacheable(true)` query-cache pollution across engines (both auto-increment entity IDs from 1).
 - Twig lint: part of `make test`, or run `bin/console lint:twig` for bundle templates.
 - Single test file (Docker): `docker compose exec app vendor/bin/phpunit tests/SomeTest.php`.
 - Single test by name: `docker compose exec app vendor/bin/phpunit --filter SomeTest`.
