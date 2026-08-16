@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class ArticleTest extends ApiTestCase
 {
+    protected static ?bool $alwaysBootKernel = true;
+
     public function testRepository(): void
     {
         try {
