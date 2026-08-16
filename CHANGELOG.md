@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.37](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.36...v2.7.37) - 2026-08-16
+
+### Bug Fixes
+
+- **(security)** pin remote fetches to validated IP ([#465](https://github.com/roadiz/core-bundle-dev-app/issues/465)) - ([bbdabb4](https://github.com/roadiz/core-bundle-dev-app/commit/bbdabb418ec26841892ea76817128219becb04bd))
+- address direct deprecation notices - ([9b489e0](https://github.com/roadiz/core-bundle-dev-app/commit/9b489e091561e2b3d7009edda1fca07dfb9b019a))
+
 ## [2.7.36](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.35...v2.7.36) - 2026-07-31
 
 ### Features
