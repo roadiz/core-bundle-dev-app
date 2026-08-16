@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Documents\MediaFinders\AbstractPodcastFinder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 
-final class SimplePodcastFinder extends AbstractPodcastFinder
+class SimplePodcastFinder extends AbstractPodcastFinder
 {
     protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): bool
     {

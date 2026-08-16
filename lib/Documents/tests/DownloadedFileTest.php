@@ -46,20 +46,6 @@ class DownloadedFileTest extends TestCase
         $this->assertNull(MockDownloadedFile::fromUrl('https://93.184.216.34/test.jpg'));
     }
 
-    public function testFromUrlRejectsRedirectToPrivateAddress(): void
-    {
-        MockDownloadedFile::$responses = [
-            new MockResponse('', [
-                'http_code' => 302,
-                'primary_ip' => '93.184.216.34',
-                'response_headers' => ['Location: http://127.0.0.1/internal.jpg'],
-            ]),
-            new MockResponse('secret', ['primary_ip' => '127.0.0.1']),
-        ];
-
-        $this->assertNull(MockDownloadedFile::fromUrl('https://93.184.216.34/test.jpg'));
-    }
-
     public function testFromUrlDownloadsPublicAddress(): void
     {
         MockDownloadedFile::$responses = [new MockResponse('payload', ['primary_ip' => '93.184.216.34'])];

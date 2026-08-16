@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\MediaFinders;
 
 use Doctrine\Persistence\ObjectManager;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Utils;
 use League\Flysystem\FilesystemException;
 use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
@@ -19,8 +19,12 @@ use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use SimpleXMLElement;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\NoPrivateNetworkHttpClient;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Abstract class to handle external media via their Json API.
@@ -287,7 +291,8 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
         } catch (APINeedsAuthentificationException $exception) {
             $document = $documentFactory->getDocument(true, $this->areDuplicatesAllowed());
             $document?->setFilename($this->getPlatform() . '_' . $this->embedId . '.jpg');
-        } catch (RequestException $exception) {
+        } catch (RequestException | HttpClientExceptionInterface $exception) {
+            // RequestException covers the finders still fetching with Guzzle (Unsplash, Facebook).
             $document = $documentFactory->getDocument(true, $this->areDuplicatesAllowed());
             $document?->setFilename($this->getPlatform() . '_' . $this->embedId . '.jpg');
         }
@@ -385,7 +390,17 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     }
 
     /**
-     * Send a CURL request and get its string output.
+     * Any override MUST keep blocking private networks: this method is reached with user-supplied URLs
+     * (podcast feeds), and NoPrivateNetworkHttpClient pins the connection to the address it validated and
+     * re-checks every redirect hop.
+     */
+    protected function createHttpClient(): HttpClientInterface
+    {
+        return new NoPrivateNetworkHttpClient(HttpClient::create());
+    }
+
+    /**
+     * Send a request to a media platform API and get its output.
      *
      * @param string $url
      *
@@ -394,14 +409,15 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
      */
     public function downloadFeedFromAPI(string $url): StreamInterface
     {
-        $client = new Client();
-        $response = $client->get($url);
+        $response = $this->createHttpClient()->request('GET', $url, [
+            'max_redirects' => 3,
+        ]);
 
-        if (Response::HTTP_OK == $response->getStatusCode()) {
-            return $response->getBody();
+        if (Response::HTTP_OK !== $response->getStatusCode()) {
+            throw new \RuntimeException(sprintf('Got a %d response from media platform.', $response->getStatusCode()));
         }
 
-        throw new \RuntimeException($response->getReasonPhrase());
+        return Utils::streamFor($response->getContent());
     }
 
     /**

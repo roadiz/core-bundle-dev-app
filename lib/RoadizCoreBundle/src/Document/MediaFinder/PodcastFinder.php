@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\Documents\MediaFinders\AbstractPodcastFinder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 class PodcastFinder extends AbstractPodcastFinder
 {
@@ -33,7 +34,7 @@ class PodcastFinder extends AbstractPodcastFinder
                 $documentTr->setCopyright($this->getPodcastItemCopyright($item));
                 $objectManager->persist($documentTr);
             }
-        } catch (ClientException $exception) {
+        } catch (ClientException | HttpClientExceptionInterface $exception) {
             // do no prevent from creating document if platform has errors, such as
             // too much API usage.
         }
