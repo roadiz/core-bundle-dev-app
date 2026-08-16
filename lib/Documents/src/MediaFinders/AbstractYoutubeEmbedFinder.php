@@ -229,6 +229,6 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
             $embedId = $this->embedId;
         }
 
-        return 'https://www.youtube.com/watch?v='.$embedId;
+        return 'https://www.youtube.com/watch?v=' . $embedId;
     }
 }
