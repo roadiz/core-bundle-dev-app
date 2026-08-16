@@ -90,6 +90,14 @@ final class NodesSourcesQueryExtensionTest extends KernelTestCase
         self::assertStringNotContainsString('publishedAt', $dql);
     }
 
+    /**
+     * MERGE-INTO-DEVELOP TODO: `develop` adds an `unpublishedAt` column to NodesSources
+     * and its non-preview branch now also filters
+     * `o.unpublishedAt > :gt_unpublished_at OR o.unpublishedAt IS NULL`. This test still
+     * passes as-is after merging (its assertions don't check for absence of other
+     * clauses), but it will no longer fully describe the real filtering behaviour.
+     * Add assertions for that OR clause and the `:gt_unpublished_at` parameter here.
+     */
     public function testNonPreviewModeFiltersByExactStatusAndPublicationDate(): void
     {
         $queryBuilder = $this->createQueryBuilder(NodesSources::class);
