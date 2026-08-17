@@ -21,6 +21,8 @@ use RZ\Roadiz\CoreBundle\Entity\User;
  */
 final class DocumentUploadCsrfTest extends ApiTestCase
 {
+    protected static ?bool $alwaysBootKernel = true;
+
     public function testUploadIsRejectedWithoutToken(): void
     {
         $client = self::createClient();
@@ -70,7 +72,7 @@ final class DocumentUploadCsrfTest extends ApiTestCase
     private function extractAjaxToken(mixed $client): string
     {
         $dashboard = $client->request('GET', '/rz-admin');
-        self::assertSame(200, $dashboard->getStatusCode());
+        self::assertSame(200, $dashboard->getStatusCode(), substr($dashboard->getContent(false), 0, 4000));
 
         preg_match("/ajaxToken['\"]?\s*:\s*'([^']+)'/", $dashboard->getContent(false), $matches);
         self::assertArrayHasKey(1, $matches, 'ajaxToken must be present in the rendered dashboard');

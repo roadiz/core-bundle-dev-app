@@ -27,6 +27,8 @@ use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
  */
 final class LoginRequestAsyncEmailTest extends ApiTestCase
 {
+    protected static ?bool $alwaysBootKernel = true;
+
     use MailerAssertionsTrait;
 
     public function testExistingEmailDispatchesResetLinkAsynchronously(): void
@@ -99,7 +101,7 @@ final class LoginRequestAsyncEmailTest extends ApiTestCase
     private function extractFormToken(mixed $client, string $url, string $formName): string
     {
         $page = $client->request('GET', $url);
-        self::assertSame(200, $page->getStatusCode());
+        self::assertSame(200, $page->getStatusCode(), substr($page->getContent(false), 0, 4000));
 
         preg_match(
             '/name="'.preg_quote($formName, '/').'\[_token\]"[^>]*\svalue="([^"]+)"/',

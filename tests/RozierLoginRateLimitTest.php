@@ -16,6 +16,8 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
  */
 final class RozierLoginRateLimitTest extends ApiTestCase
 {
+    protected static ?bool $alwaysBootKernel = true;
+
     public function testLoginRequestIsThrottledPerIp(): void
     {
         self::getContainer()->get('cache.login_request_limiter')->clear();
