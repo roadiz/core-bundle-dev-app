@@ -120,6 +120,18 @@
                 <source>user.changed_password</source>
                 <target state="translated">Le mot de passe de l'utilisateur a été changé</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="signup.email_already_used.notification" approved="yes">
+                <source>signup.email_already_used.notification</source>
+                <target state="final">Tentative d'inscription sur votre compte</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="someone.tried.to.sign.up.with.your.email.on.%site%" approved="yes">
+                <source>someone.tried.to.sign.up.with.your.email.on.%site%</source>
+                <target state="final">Quelqu'un a tenté de s'inscrire avec votre adresse email sur « %site% »</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="if.this.wasnt.you.ignore.this.email" approved="yes">
+                <source>if.this.wasnt.you.ignore.this.email</source>
+                <target state="final">Si vous n'êtes pas à l'origine de cette action, ignorez simplement cet email — votre compte n'a pas été modifié.</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
                 <target state="final">* Champs requis</target>
@@ -211,6 +223,18 @@
       <trans-unit xml:space="preserve" id="classic.login_password" approved="yes">
                 <source>classic.login_password</source>
                 <target state="final">Se connecter avec mot de passe</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link.confirm" approved="yes">
+                <source>login_link.confirm</source>
+                <target state="final">Confirmer la connexion</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link.confirm.description" approved="yes">
+                <source>login_link.confirm.description</source>
+                <target state="final">Pour votre sécurité, veuillez confirmer que vous souhaitez vous connecter en cliquant sur le bouton ci-dessous.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link.confirm.button" approved="yes">
+                <source>login_link.confirm.button</source>
+                <target state="final">Continuer</target>
             </trans-unit>
       <!-- History entry params -->
       <trans-unit id="user_id" xml:space="preserve" approved="yes">
