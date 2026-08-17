@@ -27,9 +27,8 @@ use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
  */
 final class LoginRequestAsyncEmailTest extends ApiTestCase
 {
-    protected static ?bool $alwaysBootKernel = true;
-
     use MailerAssertionsTrait;
+    protected static ?bool $alwaysBootKernel = true;
 
     public function testExistingEmailDispatchesResetLinkAsynchronously(): void
     {
