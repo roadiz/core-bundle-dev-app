@@ -10,11 +10,11 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\CoreBundle\Message\UserPasswordResetLinkNotifyMessage;
 use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
-use RZ\Roadiz\UserBundle\Message\UserPasswordRequestNotifyMessage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -151,13 +151,15 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         // Dispatched asynchronously (routed to the 'async' transport via
         // AsyncMessage) so this request returns in similar time whether the
         // user exists or not, closing the password_request timing oracle.
-        $this->messageBus->dispatch(new UserPasswordRequestNotifyMessage(
+        $this->messageBus->dispatch(new UserPasswordResetLinkNotifyMessage(
             $user->getId() ?? throw new \RuntimeException('User id is null.'),
             $resetLink,
             $this->translator->trans(
                 'reset.password.request',
                 locale: $user->getLocale()
-            )
+            ),
+            '@RoadizUser/email/users/reset_password_email.html.twig',
+            '@RoadizUser/email/users/reset_password_email.txt.twig',
         ));
     }
 }

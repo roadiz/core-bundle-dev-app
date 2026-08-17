@@ -8,7 +8,7 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\UserBundle\Message\UserPasswordRequestNotifyMessage;
+use RZ\Roadiz\CoreBundle\Message\UserPasswordResetLinkNotifyMessage;
 use Symfony\Bundle\FrameworkBundle\Test\MailerAssertionsTrait;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\TransportException;
@@ -108,7 +108,7 @@ final class UserPasswordRequestProcessorTest extends ApiTestCase
         $envelopes = $transport->getSent();
         self::assertCount(1, $envelopes);
         $message = $envelopes[0]->getMessage();
-        self::assertInstanceOf(UserPasswordRequestNotifyMessage::class, $message);
+        self::assertInstanceOf(UserPasswordResetLinkNotifyMessage::class, $message);
         self::assertSame($userId, $message->getUserId());
     }
 
