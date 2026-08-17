@@ -160,12 +160,10 @@ final class ContactFormManager
             'constraints' => [
                 new NotNull(),
                 new NotBlank(),
-                new Email([
-                    'message' => 'email.not.valid',
-                    'mode' => $this->isEmailStrictMode() ?
-                        Email::VALIDATION_MODE_STRICT :
-                        Email::VALIDATION_MODE_HTML5,
-                ]),
+                new Email(
+                    message: 'email.not.valid',
+                    mode: $this->isEmailStrictMode() ? Email::VALIDATION_MODE_STRICT : Email::VALIDATION_MODE_HTML5,
+                ),
             ],
         ])
             ->add('name', TextType::class, [
