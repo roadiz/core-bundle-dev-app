@@ -18,7 +18,7 @@
         {% if main_color %}
             <style>
                 :root {
-                    --rz-accent-color: {{ main_color|escape('html_attr') }};
+                    --rz-accent-color: {{ main_color }};
                     --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
                     --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
                     --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
@@ -91,7 +91,7 @@
                 'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
                 'resourcesUrl':      '{{ asset('/bundles/roadizrozier/') }}',
                 'ajaxToken':         '{{ csrf_token(constant('RZ\\Roadiz\\RozierBundle\\Controller\\Ajax\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
-                'mainColor':         '{{ main_color|escape('js') }}',
+                'mainColor':         '{{ main_color }}',
                 'mapsStyle':         {% if head.mapsStyle %}{{ head.mapsStyle|raw }}{% else %}[]{% endif %},
                 'leafletMapTileUrl': '{{ leaflet_map_tile_url }}',
                 'defaultMapLocation': {{ maps_default_location|raw }},
