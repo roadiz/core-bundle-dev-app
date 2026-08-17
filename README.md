@@ -137,6 +137,14 @@ Do not forget to build final assets for production before shipping a new Roadiz 
 docker compose run --rm node pnpm build
 ```
 
+After rebuilding assets, the compiled `manifest.json` (asset filename → content-hash mapping) can still be served stale even after `bin/console cache:clear` alone — restart the `app` container to force a fresh read:
+
+```shell
+docker compose restart app
+```
+
+If you restart `app`, restart `nginx` too — it caches the `app` container's resolved IP and won't reconnect to a restarted container on its own (`502 Bad Gateway` / "no route to host").
+
 ### Without Docker
 
 If you want to run the frontend development server without Docker, follow these steps.

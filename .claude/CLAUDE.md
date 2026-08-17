@@ -59,6 +59,8 @@ docker compose run --rm node pnpm build   # Build assets
 # Local: cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev
 ```
 
+After `pnpm build`, `bin/console cache:clear` alone may not refresh the compiled asset manifest (`manifest.json`, filename → content-hash mapping) — restart the `app` container (`docker compose restart app`) to force a fresh read. If you restart `app`, restart `nginx` too: it caches the `app` container's resolved IP and won't reconnect on its own after a restart (`502 Bad Gateway` / "no route to host").
+
 **Docs (VitePress):**
 ```bash
 docker compose up vitepress   # Dev server (port 5174)
