@@ -7,12 +7,12 @@
     <link rel="shortcut icon" href="{{ asset('/bundles/roadizrozier/favicon.ico') }}" />
 {% endif %}
 {% if project_logo_url matches '/\.svg$/' and main_color %}
-    <link rel="mask-icon" href="{{ project_logo_url }}" color="{{ main_color }}">
+    <link rel="mask-icon" href="{{ project_logo_url }}" color="{{ main_color|escape('html_attr') }}">
 {% endif %}
 {% if main_color %}
-    <meta name="msapplication-TileColor" content="{{ main_color }}">
-    <meta name="apple-mobile-web-app-status-bar-style" content="{{ main_color }}">
-    <meta name="theme-color" content="{{ main_color }}">
+    <meta name="msapplication-TileColor" content="{{ main_color|escape('html_attr') }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="{{ main_color|escape('html_attr') }}">
+    <meta name="theme-color" content="{{ main_color|escape('html_attr') }}">
 {% else %}
     <meta name="msapplication-TileColor" content="#2d89ef">
     <meta name="apple-mobile-web-app-status-bar-style" content="#808080">
