@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\OpenId\Tests;
 
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use PHPUnit\Framework\TestCase;
 use RZ\Roadiz\JWT\Validation\Constraint\HostedDomain;
 use RZ\Roadiz\JWT\Validation\Constraint\UserInfoEndpoint;
@@ -16,17 +20,29 @@ use RZ\Roadiz\OpenId\OpenIdJwtConfigurationFactory;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * Pins the exact constraint set assembled by OpenIdJwtConfigurationFactory today.
- *
- * NOTE: this factory currently never adds a SignedWith constraint, meaning the
- * assembled Configuration relies on Configuration::forAsymmetricSigner's verification
- * key alone rather than an explicit validation constraint. That gap is a tracked,
- * separate security finding. This test documents the CURRENT list on purpose: once
- * SignedWith is added as part of that fix, the "full config" assertions below must
- * fail and be updated — that's the intended trip-wire.
+ * Pins the constraint set assembled by OpenIdJwtConfigurationFactory, including the
+ * SignedWith constraint (M2 fix): the id_token signature is now actually verified,
+ * and the verification key is selected by matching the token's "kid" header against
+ * the JWKS-derived key map instead of always trusting the first key.
  */
 class OpenIdJwtConfigurationFactoryTest extends TestCase
 {
+    /**
+     * @return array{0: string, 1: string} [privateKeyPem, publicKeyPem]
+     */
+    private function generateRsaKeyPair(): array
+    {
+        $resource = openssl_pkey_new([
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+        ]);
+        $this->assertNotFalse($resource);
+        openssl_pkey_export($resource, $privateKey);
+        $publicKey = openssl_pkey_get_details($resource)['key'];
+
+        return [$privateKey, $publicKey];
+    }
+
     private function buildFactory(
         ?Discovery $discovery,
         ?string $hostedDomain,
@@ -59,20 +75,20 @@ class OpenIdJwtConfigurationFactoryTest extends TestCase
     /**
      * @return list<class-string>
      */
-    private function getValidationConstraintClasses(OpenIdJwtConfigurationFactory $factory): array
+    private function getValidationConstraintClasses(OpenIdJwtConfigurationFactory $factory, string $pem = 'fake-pem'): array
     {
         $method = new \ReflectionMethod($factory, 'getValidationConstraints');
-        $constraints = $method->invoke($factory);
+        $constraints = $method->invoke($factory, $pem);
 
         return array_map(static fn (object $c) => $c::class, $constraints);
     }
 
-    public function testMinimalConfigOnlyAddsLooseValidAt(): void
+    public function testMinimalConfigOnlyAddsSignedWithAndLooseValidAt(): void
     {
         $factory = $this->buildFactory(null, null, null, false);
 
         $this->assertSame(
-            [LooseValidAt::class],
+            [SignedWith::class, LooseValidAt::class],
             $this->getValidationConstraintClasses($factory)
         );
     }
@@ -85,9 +101,9 @@ class OpenIdJwtConfigurationFactoryTest extends TestCase
         ]);
         $factory = $this->buildFactory($discovery, 'example.com', 'client-id', true);
 
-        // Documents the CURRENT set — no SignedWith here (see class docblock).
         $this->assertSame(
             [
+                SignedWith::class,
                 LooseValidAt::class,
                 PermittedFor::class,
                 HostedDomain::class,
@@ -107,7 +123,7 @@ class OpenIdJwtConfigurationFactoryTest extends TestCase
 
         $this->assertNotContains(HostedDomain::class, $classes);
         $this->assertSame(
-            [LooseValidAt::class, PermittedFor::class, IssuedBy::class],
+            [SignedWith::class, LooseValidAt::class, PermittedFor::class, IssuedBy::class],
             $classes
         );
     }
@@ -119,7 +135,7 @@ class OpenIdJwtConfigurationFactoryTest extends TestCase
         $classes = $this->getValidationConstraintClasses($factory);
 
         $this->assertNotContains(PermittedFor::class, $classes);
-        $this->assertSame([LooseValidAt::class, HostedDomain::class], $classes);
+        $this->assertSame([SignedWith::class, LooseValidAt::class, HostedDomain::class], $classes);
     }
 
     public function testVerifyUserInfoFalseSkipsUserInfoEndpointConstraintEvenWhenAdvertised(): void
@@ -158,7 +174,7 @@ class OpenIdJwtConfigurationFactoryTest extends TestCase
 
         $this->assertNotContains(IssuedBy::class, $classes);
         $this->assertNotContains(UserInfoEndpoint::class, $classes);
-        $this->assertSame([LooseValidAt::class], $classes);
+        $this->assertSame([SignedWith::class, LooseValidAt::class], $classes);
     }
 
     public function testCreateReturnsNullWhenDiscoveryIsNull(): void
@@ -243,8 +259,80 @@ class OpenIdJwtConfigurationFactoryTest extends TestCase
 
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertSame(
-            [LooseValidAt::class, PermittedFor::class, HostedDomain::class, IssuedBy::class],
+            [SignedWith::class, LooseValidAt::class, PermittedFor::class, HostedDomain::class, IssuedBy::class],
             array_map(static fn (object $c) => $c::class, $configuration->validationConstraints())
         );
+    }
+
+    public function testCreateSelectsKeyMatchingKidWhenMultipleKeysAreAvailable(): void
+    {
+        [$privateA, $publicA] = $this->generateRsaKeyPair();
+        [, $publicB] = $this->generateRsaKeyPair();
+
+        $discovery = $this->createMock(Discovery::class);
+        $discovery->method('canVerifySignature')->willReturn(true);
+        $discovery->method('getPems')->willReturn(['key-a' => $publicA, 'key-b' => $publicB]);
+        $discovery->method('get')->willReturnCallback(
+            static fn (string $key, mixed $default = null) => match ($key) {
+                'id_token_signing_alg_values_supported' => ['RS256'],
+                default => $default,
+            }
+        );
+
+        $factory = $this->buildFactory($discovery, null, null, false);
+        $signer = new Sha256();
+        $signingConfiguration = Configuration::forAsymmetricSigner($signer, InMemory::plainText($privateA), InMemory::plainText($privateA));
+        $token = $signingConfiguration->builder()->getToken($signer, InMemory::plainText($privateA));
+
+        $correctKeyConfiguration = $factory->create('key-a');
+        $this->assertNotNull($correctKeyConfiguration);
+        $correctKeyConfiguration->validator()->assert($token, ...$correctKeyConfiguration->validationConstraints());
+        $this->addToAssertionCount(1);
+    }
+
+    public function testCreateRejectsTokenSignedWithADifferentKeyThanTheMatchedKid(): void
+    {
+        [$privateA] = $this->generateRsaKeyPair();
+        [, $publicB] = $this->generateRsaKeyPair();
+
+        $discovery = $this->createMock(Discovery::class);
+        $discovery->method('canVerifySignature')->willReturn(true);
+        $discovery->method('getPems')->willReturn(['key-b' => $publicB]);
+        $discovery->method('get')->willReturnCallback(
+            static fn (string $key, mixed $default = null) => match ($key) {
+                'id_token_signing_alg_values_supported' => ['RS256'],
+                default => $default,
+            }
+        );
+
+        $factory = $this->buildFactory($discovery, null, null, false);
+        $signer = new Sha256();
+        $signingConfiguration = Configuration::forAsymmetricSigner($signer, InMemory::plainText($privateA), InMemory::plainText($privateA));
+        $token = $signingConfiguration->builder()->getToken($signer, InMemory::plainText($privateA));
+
+        $wrongKeyConfiguration = $factory->create('key-b');
+        $this->assertNotNull($wrongKeyConfiguration);
+
+        $this->expectException(RequiredConstraintsViolated::class);
+        $wrongKeyConfiguration->validator()->assert($token, ...$wrongKeyConfiguration->validationConstraints());
+    }
+
+    public function testCreateFallsBackToFirstKeyWhenKidIsUnknown(): void
+    {
+        $pem = '-----BEGIN PUBLIC KEY-----fake-----END PUBLIC KEY-----';
+        $discovery = $this->createMock(Discovery::class);
+        $discovery->method('canVerifySignature')->willReturn(true);
+        $discovery->method('getPems')->willReturn(['key-a' => $pem]);
+        $discovery->method('get')->willReturnCallback(
+            static fn (string $key, mixed $default = null) => match ($key) {
+                'id_token_signing_alg_values_supported' => ['RS256'],
+                default => $default,
+            }
+        );
+
+        $factory = $this->buildFactory($discovery, null, null, false);
+
+        $this->assertInstanceOf(Configuration::class, $factory->create());
+        $this->assertInstanceOf(Configuration::class, $factory->create('unknown-kid'));
     }
 }

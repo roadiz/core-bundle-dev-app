@@ -77,7 +77,7 @@ class Discovery extends LazyParameterBag
     }
 
     /**
-     * @return array<string>|null
+     * @return array<string, string>|null Map of key ID ("kid", or the key's index when absent) to PEM-encoded public key
      *
      * @throws Base64DecodeException
      * @throws ClientExceptionInterface
@@ -93,13 +93,18 @@ class Discovery extends LazyParameterBag
     public function getPems(): ?array
     {
         $jwksData = $this->getJwksData();
-        if (null !== $jwksData && isset($jwksData['keys'])) {
-            $converter = new JWKConverter();
-
-            return $converter->multipleToPEM($jwksData['keys']);
+        if (null === $jwksData || !isset($jwksData['keys'])) {
+            return null;
         }
 
-        return null;
+        $converter = new JWKConverter();
+        $pems = [];
+        foreach ($jwksData['keys'] as $index => $jwk) {
+            $kid = (is_array($jwk) && isset($jwk['kid']) && is_string($jwk['kid'])) ? $jwk['kid'] : (string) $index;
+            $pems[$kid] = $converter->toPEM($jwk);
+        }
+
+        return $pems;
     }
 
     /**
