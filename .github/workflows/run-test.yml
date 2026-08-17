@@ -105,6 +105,15 @@ jobs:
                   JWT_PASSPHRASE: 6e5690ad7417d7b8dea7d497e6d552f1
               run: |
                   php bin/console lexik:jwt:generate-keypair --overwrite -n
+            - name: Stub Rozier admin asset manifest
+              # lib/RoadizRozierBundle/public/manifest.json (behind the public/bundles/roadizrozier/
+              # symlink) is a pnpm-build artifact, gitignored, and this workflow never runs the
+              # separate build-assets.yml job. Without it, JsonManifestResolver throws and any test
+              # that renders an @RoadizRozier admin page (base.html.twig, simple.html.twig, ...) 500s.
+              # A test run doesn't need real CSS/JS, just a manifest file that exists and parses.
+              run: |
+                  mkdir -p public/bundles/roadizrozier
+                  echo '{}' > public/bundles/roadizrozier/manifest.json
             - name: Validate monorepo
               run: |
                   vendor/bin/monorepo-builder validate
