@@ -164,10 +164,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
     #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
-        $url = $this->embedId;
-        $response = $this->client->request('GET', $url);
-
-        return $response->getContent();
+        return $this->fetchFeedContent($this->embedId);
     }
 
     #[\Override]

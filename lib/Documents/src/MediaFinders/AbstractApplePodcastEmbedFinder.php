@@ -30,7 +30,7 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
     #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
-        if (false !== preg_match(static::$idPattern, $embedId, $matches)) {
+        if (1 === preg_match(static::$idPattern, $embedId, $matches)) {
             return $embedId;
         }
         throw new InvalidEmbedId($embedId, static::$platform);
@@ -100,7 +100,7 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
     {
         parent::getSource($options);
 
-        if (false !== preg_match(static::$idPattern, $this->embedId, $matches)) {
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
             return 'https://embed.podcasts.apple.com/'.$matches['path'];
         }
 
