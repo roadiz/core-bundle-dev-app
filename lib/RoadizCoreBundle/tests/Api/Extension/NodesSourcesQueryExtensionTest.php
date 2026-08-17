@@ -19,14 +19,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * date depending on preview mode, and adds an INSTANCE OF clause for generated
  * NodesSources subclasses (App\GeneratedEntity\NS*).
  *
- * IMPORTANT (security audit finding H2): unlike AttributeValueRealmExtension,
- * this extension applies NO Realm-based filtering at all. A NodesSources
- * belonging to a node under a DENY realm is NOT excluded from /api/nodes_sources
- * collections. This is a known gap, not a bug in this test — see
- * lib/RoadizCoreBundle/tests/Api/Extension/AttributeValueRealmExtensionTest.php
- * for the realm-filtering behaviour that AttributeValue gets but NodesSources
- * doesn't, and tests/RealmApiTest.php for the functional placeholder covering
- * the desired /api/nodes_sources behaviour once H2 is fixed.
+ * This extension applies no Realm-based filtering itself — that's handled by
+ * the sibling NodesSourcesRealmExtension (see NodesSourcesRealmExtensionTest.php
+ * and tests/RealmApiTest.php for the DENY-realm exclusion behaviour).
  *
  * Uses a real Doctrine QueryBuilder (built from the test container's EntityManager)
  * so getDQL() reflects the actual mutation instead of a hand-rolled string.

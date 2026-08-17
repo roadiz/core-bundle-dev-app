@@ -18,7 +18,7 @@ use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /*
- * Functional coverage of realm-based API filtering (security audit ref: H2/T10).
+ * Functional coverage of realm-based API filtering.
  *
  * Builds its own minimal Article node + DENY-behaviour Realm directly through
  * the entity manager rather than the shared DataFixtures, since no realm
@@ -68,6 +68,11 @@ final class RealmApiTest extends ApiTestCase
         $em->persist($realmNode);
         $em->flush();
 
+        // RealmResolver::getGrantedRealms()/getDeniedRealms() cache their
+        // result per-user for 1h (Redis-backed cache.app, shared across the
+        // whole test run): flush it so this freshly created realm is seen.
+        $container->get('cache.app')->clear();
+
         return $article;
     }
 
@@ -94,17 +99,9 @@ final class RealmApiTest extends ApiTestCase
     }
 
     /**
-     * H2 placeholder / acceptance check: AttributeValueRealmExtension filters
-     * realm-gated AttributeValue rows out of collections, but no equivalent
-     * extension exists for NodesSources (security audit finding H2), so a
-     * DENY-realm node's NodesSources currently still appears in
-     * /api/nodes_sources for anonymous users.
-     *
-     * This test intentionally documents that gap instead of pinning it: as
-     * long as the leak reproduces, it calls markTestIncomplete() referencing
-     * H2 (green-as-incomplete, not red). Once a NodesSources realm extension
-     * is added and the leak stops reproducing, the guard below is skipped
-     * and the assertion becomes the real regression check.
+     * NodesSourcesRealmExtension filters realm-gated NodesSources rows out of
+     * collections, mirroring AttributeValueRealmExtension, so a DENY-realm
+     * node no longer leaks through /api/nodes_sources for anonymous users.
      */
     public function testAnonymousNodesSourcesCollectionShouldExcludeDenyRealmNode(): void
     {
@@ -120,19 +117,10 @@ final class RealmApiTest extends ApiTestCase
         $data = $response->toArray(false);
         $totalItems = $data['hydra:totalItems'] ?? null;
 
-        if (1 === $totalItems) {
-            $this->markTestIncomplete(
-                'H2 (security audit): NodesSourcesQueryExtension has no Realm filtering at all, unlike '
-                .'AttributeValueRealmExtension. A DENY-realm NodesSources still leaks into /api/nodes_sources '
-                .'for anonymous users. This test documents the desired behavior; once H2 is fixed, this guard '
-                .'will stop triggering and the assertion below becomes the acceptance check.'
-            );
-        }
-
         self::assertSame(
             0,
             $totalItems,
-            'DENY-realm NodesSources must not appear in /api/nodes_sources for anonymous users (H2 acceptance check).'
+            'DENY-realm NodesSources must not appear in /api/nodes_sources for anonymous users.'
         );
     }
 }
