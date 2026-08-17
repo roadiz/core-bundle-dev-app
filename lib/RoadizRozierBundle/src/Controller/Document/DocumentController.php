@@ -16,7 +16,9 @@ use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentDeletedEvent;
+use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -203,12 +205,47 @@ final class DocumentController extends AbstractController
             $folder = $this->managerRegistry->getRepository(Folder::class)->find($folderId);
         }
 
-        $form = $this->buildUploadForm($folderId);
+        $isXhr = 'json' === $_format || $request->isXmlHttpRequest();
+
+        /*
+         * The Dropzone-based uploader (RzFileUpload.ts) cannot submit the form's own
+         * CSRF field, it sends the ajax CSRF token as a raw `_token` header instead
+         * (same token/intention already used by other ajax endpoints, see
+         * AbstractAjaxController::AJAX_TOKEN_INTENTION). Validate it manually for XHR
+         * uploads and keep the form's own auto-rendered CSRF field for the plain
+         * <noscript> form fallback.
+         */
+        if (
+            $request->isMethod('POST')
+            && $isXhr
+            && !$this->isCsrfTokenValid(AbstractAjaxController::AJAX_TOKEN_INTENTION, $request->headers->get('_token'))
+        ) {
+            return new JsonResponse([
+                'errors' => ['attachment' => [$this->translator->trans('document.upload.invalid_csrf_token')]],
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $form = $this->buildUploadForm($folderId, !$isXhr);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $document = $this->uploadDocument($form, $folderId);
+                try {
+                    $document = $this->uploadDocument($form, $folderId);
+                } catch (DocumentTypeNotAllowedException $exception) {
+                    $msg = $this->translator->trans('document.type_not_allowed', [
+                        '%extension%' => $exception->getExtension(),
+                    ]);
+                    $this->logTrail->publishErrorMessage($request, $msg);
+
+                    if ($isXhr) {
+                        return new JsonResponse([
+                            'errors' => ['attachment' => [$msg]],
+                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                    }
+
+                    return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
+                }
 
                 if (null !== $document) {
                     $msg = $this->translator->trans('document.%name%.uploaded', [
@@ -221,7 +258,7 @@ final class DocumentController extends AbstractController
                         new DocumentCreatedEvent($document)
                     );
 
-                    if ('json' === $_format || $request->isXmlHttpRequest()) {
+                    if ($isXhr) {
                         $documentModel = $this->explorerItemFactory->createForEntity(
                             $document
                         );
@@ -237,12 +274,12 @@ final class DocumentController extends AbstractController
                 $msg = $this->translator->trans('document.cannot_persist');
                 $this->logTrail->publishErrorMessage($request, $msg, $document);
 
-                if ('json' === $_format || $request->isXmlHttpRequest()) {
+                if ($isXhr) {
                     throw $this->createNotFoundException($msg);
                 }
 
                 return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
-            } elseif ('json' === $_format || $request->isXmlHttpRequest()) {
+            } elseif ($isXhr) {
                 /*
                  * Bad form submitted
                  */
@@ -308,10 +345,16 @@ final class DocumentController extends AbstractController
         return $builder->getForm();
     }
 
-    private function buildUploadForm(?int $folderId = null): FormInterface
+    /**
+     * @param bool $csrfProtection Disabled for XHR uploads: the token is validated
+     *                             manually from the ajax header in uploadAction() instead,
+     *                             since the Dropzone uploader never submits the form's own
+     *                             CSRF field
+     */
+    private function buildUploadForm(?int $folderId = null, bool $csrfProtection = true): FormInterface
     {
         $builder = $this->createFormBuilder([], [
-            'csrf_protection' => false,
+            'csrf_protection' => $csrfProtection,
         ])
             ->add('attachment', FileType::class, [
                 'label' => 'choose.documents.to_upload',
@@ -336,6 +379,7 @@ final class DocumentController extends AbstractController
      * Handle upload form data to create a Document.
      *
      * @throws FilesystemException
+     * @throws DocumentTypeNotAllowedException
      */
     private function uploadDocument(FormInterface $data, ?int $folderId = null): ?DocumentInterface
     {
