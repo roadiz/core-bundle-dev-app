@@ -8,17 +8,20 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\UserBundle\Message\UserPasswordRequestNotifyMessage;
 use Symfony\Bundle\FrameworkBundle\Test\MailerAssertionsTrait;
-use Symfony\Component\Notifier\Notification\Notification;
-use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\RecipientInterface;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Exception\TransportException;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 
 /**
  * Functional coverage of the password reset REQUEST endpoint
  * (POST /api/users/password_request), handled by UserPasswordRequestProcessor:
  * the anti user-enumeration guarantee (identical response for known and
- * unknown identifiers), confirmation token issuance + notification dispatch,
- * per-IP rate limiting, and token rollback when the notifier fails.
+ * unknown identifiers), confirmation token issuance + async notification
+ * dispatch, per-IP and per-email rate limiting, and token rollback when
+ * message dispatch fails.
  *
  * Hits the real HTTP endpoint against the test database (no repository
  * mocking) since the enumeration guarantee lives in the HTTP contract, not
@@ -74,7 +77,7 @@ final class UserPasswordRequestProcessorTest extends ApiTestCase
         self::assertSame($existingShape, $this->normalizeBody($unknownResponse->getContent(false)));
     }
 
-    public function testExistingEmailSetsConfirmationTokenAndDispatchesNotification(): void
+    public function testExistingEmailSetsConfirmationTokenAndDispatchesNotificationAsynchronously(): void
     {
         $client = self::createClient();
         $this->overrideCaptcha();
@@ -95,8 +98,18 @@ final class UserPasswordRequestProcessorTest extends ApiTestCase
         self::assertNotNull($fresh->getConfirmationToken());
         self::assertNotNull($fresh->getPasswordRequestedAt());
 
-        self::assertEmailCount(1);
-        self::assertEmailAddressContains(self::getMailerMessage(), 'To', (string) $user->getEmail());
+        // No synchronous mail-send within the request: this is what closes
+        // the password_request timing side-channel (L3), since the
+        // non-existent-user branch also returns without doing any send.
+        self::assertEmailCount(0);
+
+        /** @var InMemoryTransport $transport */
+        $transport = self::getContainer()->get('messenger.transport.async');
+        $envelopes = $transport->getSent();
+        self::assertCount(1, $envelopes);
+        $message = $envelopes[0]->getMessage();
+        self::assertInstanceOf(UserPasswordRequestNotifyMessage::class, $message);
+        self::assertSame($userId, $message->getUserId());
     }
 
     public function testTooManyRequestsFromSameIpAreThrottled(): void
@@ -134,7 +147,44 @@ final class UserPasswordRequestProcessorTest extends ApiTestCase
         self::assertSame(429, $throttled->getStatusCode());
     }
 
-    public function testNotifierFailureRollsBackConfirmationToken(): void
+    public function testTooManyRequestsForSameEmailFromDifferentIpsAreThrottled(): void
+    {
+        // Same idempotency concern as testTooManyRequestsFromSameIpAreThrottled above,
+        // but for the per-email limiter's cache pool (prepended by RoadizUserExtension).
+        self::getContainer()->get('cache.password_request_email_limiter')->clear();
+
+        $client = self::createClient();
+        $client->disableReboot();
+        $this->overrideCaptcha();
+        // A fixed target identifier requested from a different IP each time:
+        // the per-IP limiter alone would never trip, but the per-email
+        // limiter must still cap requests aimed at one target (M7).
+        $targetIdentifier = 'flood-target-'.uniqid().'@example.test';
+
+        // config/packages/framework.yaml: password_request_email limiter is
+        // a fixed_window, limit 5 per hour.
+        for ($i = 0; $i < 5; ++$i) {
+            $response = $client->request('POST', self::ENDPOINT, [
+                'json' => ['identifier' => $targetIdentifier],
+                'headers' => [
+                    'REMOTE_ADDR' => $this->randomIp(),
+                    self::CAPTCHA_HEADER => 'response',
+                ],
+            ]);
+            self::assertLessThan(300, $response->getStatusCode());
+        }
+
+        $throttled = $client->request('POST', self::ENDPOINT, [
+            'json' => ['identifier' => $targetIdentifier],
+            'headers' => [
+                'REMOTE_ADDR' => $this->randomIp(),
+                self::CAPTCHA_HEADER => 'response',
+            ],
+        ]);
+        self::assertSame(429, $throttled->getStatusCode());
+    }
+
+    public function testMessageBusFailureRollsBackConfirmationToken(): void
     {
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $user = $this->createUser($em);
@@ -142,12 +192,12 @@ final class UserPasswordRequestProcessorTest extends ApiTestCase
 
         $client = self::createClient();
         $this->overrideCaptcha();
-        // Force the notifier to fail so the processor's catch block rolls
-        // back setConfirmationToken()/setPasswordRequestedAt() to null.
-        self::getContainer()->set(NotifierInterface::class, new class implements NotifierInterface {
-            public function send(Notification $notification, RecipientInterface ...$recipients): void
+        // Force message dispatch to fail so the processor's catch block
+        // rolls back setConfirmationToken()/setPasswordRequestedAt() to null.
+        self::getContainer()->set(MessageBusInterface::class, new class implements MessageBusInterface {
+            public function dispatch(object $message, array $stamps = []): Envelope
             {
-                throw new \RuntimeException('Simulated notifier failure.');
+                throw new TransportException('Simulated message bus failure.');
             }
         });
 
@@ -158,7 +208,7 @@ final class UserPasswordRequestProcessorTest extends ApiTestCase
                 self::CAPTCHA_HEADER => 'response',
             ],
         ]);
-        // The processor catches the notifier exception itself, so the
+        // The processor catches the dispatch exception itself, so the
         // request still completes successfully (no half-state is surfaced
         // to the client either).
         self::assertResponseIsSuccessful();

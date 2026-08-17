@@ -14,12 +14,11 @@ use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
-use RZ\Roadiz\UserBundle\Notifier\UserPasswordRequestNotification;
+use RZ\Roadiz\UserBundle\Message\UserPasswordRequestNotifyMessage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\Recipient;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -36,10 +35,11 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
     public function __construct(
         private LoggerInterface $logger,
         private RateLimiterFactoryInterface $passwordRequestLimiter,
+        private RateLimiterFactoryInterface $passwordRequestEmailLimiter,
         private ManagerRegistry $managerRegistry,
         private RequestStack $requestStack,
         private UserProvider $userProvider,
-        private NotifierInterface $notifier,
+        private MessageBusInterface $messageBus,
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private CaptchaServiceInterface $recaptchaService,
@@ -67,6 +67,14 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         $limit = $limiter->consume();
         if (false === $limit->isAccepted()) {
             throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+        }
+
+        // Per-IP limiting alone lets an IP-rotating attacker flood a single
+        // victim's mailbox: also cap requests per targeted identifier.
+        $emailLimiter = $this->passwordRequestEmailLimiter->create(mb_strtolower(trim($data->identifier)));
+        $emailLimit = $emailLimiter->consume();
+        if (false === $emailLimit->isAccepted()) {
+            throw new TooManyRequestsHttpException($emailLimit->getRetryAfter()->getTimestamp());
         }
 
         $this->validateCaptchaHeader($request);
@@ -140,15 +148,16 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             );
         }
 
-        $notification = new UserPasswordRequestNotification(
-            $user,
+        // Dispatched asynchronously (routed to the 'async' transport via
+        // AsyncMessage) so this request returns in similar time whether the
+        // user exists or not, closing the password_request timing oracle.
+        $this->messageBus->dispatch(new UserPasswordRequestNotifyMessage(
+            $user->getId() ?? throw new \RuntimeException('User id is null.'),
             $resetLink,
             $this->translator->trans(
                 'reset.password.request',
                 locale: $user->getLocale()
             )
-        );
-
-        $this->notifier->send($notification, new Recipient($user->getEmail() ?? throw new \RuntimeException('User email is null.')));
+        ));
     }
 }
