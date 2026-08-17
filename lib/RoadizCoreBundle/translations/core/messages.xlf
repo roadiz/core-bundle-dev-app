@@ -126,6 +126,20 @@
                 <source>user.changed_password</source>
                 <target></target>
             </trans-unit>
+
+            <trans-unit xml:space="preserve" id="signup.email_already_used.notification">
+                <source>signup.email_already_used.notification</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="someone.tried.to.sign.up.with.your.email.on.%site%">
+                <source>someone.tried.to.sign.up.with.your.email.on.%site%</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="if.this.wasnt.you.ignore.this.email">
+                <source>if.this.wasnt.you.ignore.this.email</source>
+                <target></target>
+            </trans-unit>
+
             <trans-unit xml:space="preserve" id="*.required.fields">
                 <source>*.required.fields</source>
                 <target></target>
@@ -220,6 +234,18 @@
             </trans-unit>
             <trans-unit xml:space="preserve" id="classic.login_password">
                 <source>classic.login_password</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link.confirm">
+                <source>login_link.confirm</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link.confirm.description">
+                <source>login_link.confirm.description</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link.confirm.button">
+                <source>login_link.confirm.button</source>
                 <target></target>
             </trans-unit>
 
