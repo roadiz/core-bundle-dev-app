@@ -10,18 +10,14 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\CoreBundle\Message\UserPasswordResetLinkNotifyMessage;
 use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
-use Symfony\Component\HttpFoundation\Request;
+use RZ\Roadiz\UserBundle\Notifier\PasswordResetLinkNotifier;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -39,11 +35,9 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         private ManagerRegistry $managerRegistry,
         private RequestStack $requestStack,
         private UserProvider $userProvider,
-        private MessageBusInterface $messageBus,
+        private PasswordResetLinkNotifier $passwordResetLinkNotifier,
         private TranslatorInterface $translator,
-        private UrlGeneratorInterface $urlGenerator,
         private CaptchaServiceInterface $recaptchaService,
-        private string $passwordResetUrl,
     ) {
     }
 
@@ -90,7 +84,13 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             $tokenGenerator = new TokenGenerator($this->logger);
             $user->setPasswordRequestedAt(new \DateTime());
             $user->setConfirmationToken($tokenGenerator->generateToken());
-            $this->sendPasswordResetLink($request, $user);
+            $this->passwordResetLinkNotifier->notify(
+                $user,
+                $request->getLocale(),
+                $this->translator->trans('reset.password.request', locale: $user->getLocale()),
+                '@RoadizUser/email/users/reset_password_email.html.twig',
+                '@RoadizUser/email/users/reset_password_email.txt.twig',
+            );
         } catch (\Exception $e) {
             $user->setPasswordRequestedAt(null);
             $user->setConfirmationToken(null);
@@ -123,43 +123,5 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         }
 
         return null;
-    }
-
-    private function sendPasswordResetLink(Request $request, User $user): void
-    {
-        /*
-         * Support routes name as well as hard-coded URLs
-         */
-        try {
-            $resetLink = $this->urlGenerator->generate(
-                $this->passwordResetUrl,
-                [
-                    'token' => $user->getConfirmationToken(),
-                    '_locale' => $request->getLocale(),
-                ],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        } catch (RouteNotFoundException) {
-            $resetLink = $this->passwordResetUrl.'?'.http_build_query(
-                [
-                    'token' => $user->getConfirmationToken(),
-                    '_locale' => $request->getLocale(),
-                ]
-            );
-        }
-
-        // Dispatched asynchronously (routed to the 'async' transport via
-        // AsyncMessage) so this request returns in similar time whether the
-        // user exists or not, closing the password_request timing oracle.
-        $this->messageBus->dispatch(new UserPasswordResetLinkNotifyMessage(
-            $user->getId() ?? throw new \RuntimeException('User id is null.'),
-            $resetLink,
-            $this->translator->trans(
-                'reset.password.request',
-                locale: $user->getLocale()
-            ),
-            '@RoadizUser/email/users/reset_password_email.html.twig',
-            '@RoadizUser/email/users/reset_password_email.txt.twig',
-        ));
     }
 }

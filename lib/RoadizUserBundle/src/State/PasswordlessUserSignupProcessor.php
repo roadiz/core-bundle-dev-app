@@ -7,7 +7,10 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -36,6 +39,8 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
         private LoginLinkSenderInterface $loginLinkSender,
+        private ManagerRegistry $managerRegistry,
+        private LoggerInterface $logger,
         private string $publicUserRoleName,
         private string $passwordlessUserRoleName,
     ) {
@@ -68,6 +73,21 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         $request = $this->requestStack->getCurrentRequest();
         $this->validateRequest($request);
         $this->validateCaptchaHeader($request);
+
+        // Do not reveal that this email is already registered: send the
+        // existing account holder a fresh login link out-of-band instead of
+        // returning a 422 that an anonymous caller could use to enumerate accounts.
+        $existingUser = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $data->email]);
+        if ($existingUser instanceof User) {
+            try {
+                $loginLinkDetails = $this->loginLinkHandler->createLoginLink($existingUser, $request);
+                $this->loginLinkSender->sendLoginLink($existingUser, $loginLinkDetails);
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+            }
+
+            return new VoidOutput();
+        }
 
         $user = $this->createUser($data);
         $user->setUserRoles([
