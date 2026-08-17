@@ -18,6 +18,8 @@
   - PositionedInterface
   - RealmsAwareWebResponseInterface
 - Removed obsolete `roadiz/fonts-bundle`
+- `POST /api/token` now rejects (401) a 2FA-enabled account authenticating with username+password only — a valid TOTP or backup code must be sent as an additional `_auth_code` field in the request body. Any API client (mobile app, SPA, script) authenticating a 2FA-enabled user must be updated to prompt for and send this field. Accounts without 2FA are unaffected.
+- `POST /api/users/signup` with an email that's already registered now returns the same success response as a fresh signup (the existing account holder is notified out-of-band instead) — it no longer returns a 422 identifying the email as taken. Frontend signup forms relying on that 422 to show an inline "email already used" message must be updated to rely on the out-of-band email instead.
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
 
 ## Security-audit hardening (no configuration required)
@@ -47,6 +49,11 @@ A batch of quick security fixes landed with sensible built-in defaults — **no 
 - The backoffice document upload endpoint (`DocumentController::uploadAction`) requires a valid CSRF token again (it was previously disabled). The built-in Dropzone uploader already sends one via the existing ajax token header; only a custom uploader built directly against this endpoint would need updating.
 - OpenID Connect id_token signatures are now actually verified (`SignedWith` was missing from the validation constraints), and a token asserting `email_verified: false` is now rejected. Review your IdP's JWKS endpoint and key rotation if you use OpenID login.
 - API Platform's `NotFilter` now respects the same `isPropertyEnabled()` allowlist as other filters (parity with `IntersectionFilter`) — filtering on a non-searchable property is now a no-op instead of silently building a working predicate.
+- Nodes/NodesSources gated by a DENY-behaviour `Realm` are now excluded from every read path (`GET /api/nodes`, `/api/nodes_sources`, `/api/pages/{id}`, `/api/articles`, etc.), not just `GET /api/web_response_by_path` — closes a gap where a realm-protected page's raw NodesSources data was still readable directly.
+- `POST /api/token` for a 2FA-enabled account now requires a valid TOTP/backup code as an extra `_auth_code` field (see Breaking changes above) — Scheb 2FA is session-based and could not previously run on the stateless `api_login` firewall.
+- Both `login_link` firewalls (`api` and `main`) now bind `password` into `signature_properties`, so a password change invalidates any outstanding login-link email. The `main` firewall's link also gained `check_post_only: true` (parity with the API link) — clicking the raw emailed link now lands on a small "confirm sign-in" page that auto-submits a POST, instead of authenticating on a plain GET, so a mail-scanner's link prefetch can no longer consume it.
+- `POST /api/users/signup` with an already-registered email now returns the same success response as a fresh signup instead of a 422 (see Breaking changes above) — the existing account holder gets a "someone tried to sign up with your email" notification with a password-reset link instead.
+- `Webhook` entities gained an optional `secret` field: when set, outbound webhook POSTs carry an `X-Roadiz-Signature: sha256=<hmac>` header (HMAC-SHA256 of the raw JSON body) so receivers can verify the payload came from this instance. Existing webhooks without a secret are unaffected (no header sent).
 
 ## New custom-form webhook system
 
