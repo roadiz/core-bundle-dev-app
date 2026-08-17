@@ -20,6 +20,34 @@
 - Removed obsolete `roadiz/fonts-bundle`
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
 
+## Security-audit hardening (no configuration required)
+
+A batch of quick security fixes landed with sensible built-in defaults — **no project changes are required to upgrade**, but you may want to review or tune them:
+
+- **New rate limiters, pre-configured:** `RoadizUserBundle` and `RoadizTwoFactorBundle` now each prepend a default `framework.rate_limiter` entry and dedicated `framework.cache` pool (`password_request_email` and `two_factor_login` respectively) via `PrependExtensionInterface`, so the container compiles out of the box. Declare a limiter/pool of the same name yourself to override the default (project config always takes precedence over the bundle's):
+  ```yaml
+  # config/packages/framework.yaml — optional, only to override the bundled defaults
+  framework:
+      rate_limiter:
+          password_request_email:
+              policy: 'fixed_window'
+              limit: 5
+              interval: '1 hour'
+              cache_pool: 'cache.password_request_email_limiter'
+          two_factor_login:
+              policy: 'token_bucket'
+              limit: 5
+              rate: { interval: '1 minutes', amount: 5 }
+              cache_pool: 'cache.two_factor_login_limiter'
+  ```
+  - `password_request_email` caps password-reset requests **per targeted email address**, in addition to the pre-existing per-IP limiter — closes an IP-rotating mailbox-flooding gap in `UserPasswordRequestProcessor`.
+  - `two_factor_login` throttles the `2fa_login_check` step (Scheb 2FA ships no built-in throttling for that step); the subscriber is auto-registered by `RoadizTwoFactorBundle`, so it applies as soon as the bundle is enabled.
+  - Each limiter gets its own bundle-provided cache pool (`cache.password_request_email_limiter`, `cache.two_factor_login_limiter`), so you don't need to touch `config/packages/cache.yaml` either — only add a pool of the same name there if you want a different adapter/backend for it.
+- Document uploads (backoffice and public custom-form fields) now reject a denylist of web-executable file extensions (`.php`, `.phtml`, `.html`, `.js`, `.htaccess`, etc. — see `AbstractDocumentFactory::getForbiddenFileExtensions()`); SVG uploads are sanitized server-side before storage.
+- The backoffice document upload endpoint (`DocumentController::uploadAction`) requires a valid CSRF token again (it was previously disabled). The built-in Dropzone uploader already sends one via the existing ajax token header; only a custom uploader built directly against this endpoint would need updating.
+- OpenID Connect id_token signatures are now actually verified (`SignedWith` was missing from the validation constraints), and a token asserting `email_verified: false` is now rejected. Review your IdP's JWKS endpoint and key rotation if you use OpenID login.
+- API Platform's `NotFilter` now respects the same `isPropertyEnabled()` allowlist as other filters (parity with `IntersectionFilter`) — filtering on a non-searchable property is now a no-op instead of silently building a working predicate.
+
 ## New custom-form webhook system
 
 - When a CustomForm is submitted, Roadiz can now dispatch the submission to external systems (CRMs or any HTTP endpoint) automatically.
@@ -40,6 +68,10 @@ roadiz_core:
     projectLogoUrl: '%env(string:APP_PROJECT_LOGO_URL)%'
 ```
 - New `RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailProviderInterface` system to get a thumbnail URL for any Roadiz entity.
+- Password-reset confirmation emails are now dispatched asynchronously via Messenger instead of synchronously, closing a timing side-channel that let an attacker distinguish existing from non-existing accounts.
+- Embed/podcast feed fetches (`AbstractEmbedFinder`, `AbstractPodcastFinder`) are now capped at a 5MB response size and a timeout, to prevent a memory/DoS issue on very large or slow feeds.
+- Outbound webhooks now go through the same private-network-blocking HTTP client already used by media finders (SSRF hardening).
+- `CustomForm.color` values are now validated with an anchored hex-color regex and escaped in the backoffice list template.
 
 # Upgrade to 2.6
 
