@@ -209,16 +209,22 @@ final class DocumentController extends AbstractController
 
         /*
          * The Dropzone-based uploader (RzFileUpload.ts) cannot submit the form's own
-         * CSRF field, it sends the ajax CSRF token as a raw `_token` header instead
+         * CSRF field, it sends the ajax CSRF token as a `_token` form field instead
          * (same token/intention already used by other ajax endpoints, see
-         * AbstractAjaxController::AJAX_TOKEN_INTENTION). Validate it manually for XHR
-         * uploads and keep the form's own auto-rendered CSRF field for the plain
-         * <noscript> form fallback.
+         * AbstractAjaxController::AJAX_TOKEN_INTENTION) — not as a header: nginx's
+         * default `underscores_in_headers off` silently drops any header containing
+         * an underscore, which would break this in most deployments. Validate it
+         * manually for XHR uploads and keep the form's own auto-rendered CSRF field
+         * for the plain <noscript> form fallback.
          */
+        $submittedToken = $request->request->get('_token');
         if (
             $request->isMethod('POST')
             && $isXhr
-            && !$this->isCsrfTokenValid(AbstractAjaxController::AJAX_TOKEN_INTENTION, $request->headers->get('_token'))
+            && !$this->isCsrfTokenValid(
+                AbstractAjaxController::AJAX_TOKEN_INTENTION,
+                \is_string($submittedToken) ? $submittedToken : null
+            )
         ) {
             return new JsonResponse([
                 'errors' => ['attachment' => [$this->translator->trans('document.upload.invalid_csrf_token')]],

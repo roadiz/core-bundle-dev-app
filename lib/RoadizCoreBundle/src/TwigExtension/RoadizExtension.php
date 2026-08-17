@@ -43,9 +43,9 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
      * used by hex colors, named colors, and CSS color functions (`rgb()`, `hsl()`, ...) —
      * anything else is dropped instead of rendered.
      */
-    public static function isSafeCssColorValue(?string $value): bool
+    public static function isSafeCssColorValue(mixed $value): bool
     {
-        if (null === $value || '' === $value) {
+        if (!\is_string($value) || '' === $value) {
             return false;
         }
 

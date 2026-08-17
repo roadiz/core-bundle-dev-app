@@ -18,6 +18,7 @@ declare module 'dropzone' {
         timeout?: number
         autoDiscover?: boolean
         headers?: Record<string, string>
+        params?: Record<string, string>
         dictDefaultMessage?: string
         dictFallbackMessage?: string
         dictFallbackText?: string

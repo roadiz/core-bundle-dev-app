@@ -19,7 +19,10 @@ export default class RzFileUpload extends HTMLElement {
             maxFilesize: 64,
             timeout: 0, // no timeout
             autoDiscover: false,
-            headers: { _token: window.RozierConfig?.ajaxToken || '' },
+            // Sent as a form field, not a header: nginx's default
+            // `underscores_in_headers off` silently drops any header
+            // containing an underscore, so `_token` never reached PHP.
+            params: { _token: window.RozierConfig?.ajaxToken || '' },
         }
     }
 
