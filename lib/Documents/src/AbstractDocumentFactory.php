@@ -124,16 +124,24 @@ abstract class AbstractDocumentFactory
      */
     public function isFilenameAllowed(string $filename): bool
     {
+        return null === $this->findForbiddenExtension($filename);
+    }
+
+    /**
+     * @return string|null The forbidden segment that matched, or null if none did
+     */
+    private function findForbiddenExtension(string $filename): ?string
+    {
         $forbidden = array_map(strtolower(...), $this->getForbiddenFileExtensions());
         $segments = explode('.', strtolower($filename));
 
         foreach ($segments as $segment) {
             if ('' !== $segment && \in_array($segment, $forbidden, true)) {
-                return false;
+                return $segment;
             }
         }
 
-        return true;
+        return null;
     }
 
     /**
@@ -141,8 +149,9 @@ abstract class AbstractDocumentFactory
      */
     private function assertFileTypeIsAllowed(string $filename): void
     {
-        if (!$this->isFilenameAllowed($filename)) {
-            throw new DocumentTypeNotAllowedException($filename, pathinfo($filename, PATHINFO_EXTENSION));
+        $forbiddenExtension = $this->findForbiddenExtension($filename);
+        if (null !== $forbiddenExtension) {
+            throw new DocumentTypeNotAllowedException($filename, $forbiddenExtension);
         }
     }
 

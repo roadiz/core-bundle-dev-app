@@ -77,12 +77,11 @@ class Discovery extends LazyParameterBag
     }
 
     /**
-     * @return array<string, string>|null Map of key ID ("kid", or the key's index when absent) to PEM-encoded public key
+     * @return array<string, string>|null Map of key ID ("kid", or the key's index when absent) to PEM-encoded public key,
+     *                                    or null if the JWKS is malformed and cannot be converted
      *
-     * @throws Base64DecodeException
      * @throws ClientExceptionInterface
      * @throws InvalidArgumentException
-     * @throws JWKConverterException
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
@@ -99,9 +98,18 @@ class Discovery extends LazyParameterBag
 
         $converter = new JWKConverter();
         $pems = [];
-        foreach ($jwksData['keys'] as $index => $jwk) {
-            $kid = (is_array($jwk) && isset($jwk['kid']) && is_string($jwk['kid'])) ? $jwk['kid'] : (string) $index;
-            $pems[$kid] = $converter->toPEM($jwk);
+        try {
+            foreach ($jwksData['keys'] as $index => $jwk) {
+                if (!is_array($jwk)) {
+                    throw new JWKConverterException(sprintf('JWK at index "%s" is not a valid array.', $index));
+                }
+                $kid = (isset($jwk['kid']) && is_string($jwk['kid'])) ? $jwk['kid'] : (string) $index;
+                $pems[$kid] = $converter->toPEM($jwk);
+            }
+        } catch (JWKConverterException|Base64DecodeException $exception) {
+            $this->logger->warning('Cannot convert JWKS keys to PEM: '.$exception->getMessage());
+
+            return null;
         }
 
         return $pems;

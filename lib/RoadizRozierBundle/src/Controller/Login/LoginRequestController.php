@@ -51,7 +51,7 @@ final class LoginRequestController extends AbstractController
         if ($form->isSubmitted()) {
             $limit = $this->loginRequestLimiter->create($request->getClientIp())->consume();
             if (false === $limit->isAccepted()) {
-                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
             }
 
             // Per-IP limiting alone lets an IP-rotating attacker flood a single
@@ -60,7 +60,7 @@ final class LoginRequestController extends AbstractController
             if (\is_string($email) && '' !== $email) {
                 $emailLimit = $this->loginRequestEmailLimiter->create(mb_strtolower(trim($email)))->consume();
                 if (false === $emailLimit->isAccepted()) {
-                    throw new TooManyRequestsHttpException($emailLimit->getRetryAfter()->getTimestamp());
+                    throw new TooManyRequestsHttpException($emailLimit->getRetryAfter()->getTimestamp() - time());
                 }
             }
 

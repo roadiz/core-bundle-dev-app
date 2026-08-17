@@ -8,8 +8,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
+use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -45,7 +47,11 @@ final class SettingDocumentType extends AbstractType
             function ($file) {
                 if ($file instanceof UploadedFile && $file->isValid()) {
                     $this->documentFactory->setFile($file);
-                    $document = $this->documentFactory->getDocument();
+                    try {
+                        $document = $this->documentFactory->getDocument();
+                    } catch (DocumentTypeNotAllowedException $exception) {
+                        throw new TransformationFailedException($exception->getMessage(), 0, $exception);
+                    }
 
                     if ($document instanceof Document) {
                         $manager = $this->managerRegistry

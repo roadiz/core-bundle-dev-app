@@ -209,7 +209,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
          * refuse to link/create a local account on it. A missing claim is not rejected, since some IdPs
          * never send it and this account-linking relies on the email being pre-verified out of band.
          */
-        if (false === $jwt->claims()->get('email_verified', true)) {
+        if (false === filter_var($jwt->claims()->get('email_verified', true), FILTER_VALIDATE_BOOLEAN)) {
             throw new OpenIdAuthenticationException('JWT “email_verified” claim is false.');
         }
 

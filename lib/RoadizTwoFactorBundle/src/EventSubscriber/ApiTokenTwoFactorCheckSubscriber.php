@@ -11,7 +11,9 @@ use RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\JsonLoginAuthenticator;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
@@ -31,13 +33,14 @@ final readonly class ApiTokenTwoFactorCheckSubscriber implements EventSubscriber
         private TwoFactorUserProviderInterface $twoFactorUserProvider,
         private TotpAuthenticatorInterface $totpAuthenticator,
         private BackupCodeManager $backupCodeManager,
+        private RateLimiterFactoryInterface $twoFactorLoginLimiter,
     ) {
     }
 
     #[\Override]
     public static function getSubscribedEvents(): array
     {
-        // Must run after Symfony's CheckCredentialsListener (priority 1024)
+        // Must run after Symfony's CheckCredentialsListener (default priority 0)
         // so a wrong password fails before a 2FA code is even requested.
         return [
             CheckPassportEvent::class => ['onCheckPassport', -10],
@@ -58,6 +61,14 @@ final readonly class ApiTokenTwoFactorCheckSubscriber implements EventSubscriber
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);
         if (!$twoFactorUser instanceof TwoFactorUser || !$twoFactorUser->isTotpAuthenticationEnabled()) {
             return;
+        }
+
+        // Dedicated per-user throttle: the stateless api_login firewall's login_throttling
+        // only protects the password check, so without this, 2FA code-guessing on this
+        // endpoint is only as rate-limited as ordinary password brute-forcing.
+        $limit = $this->twoFactorLoginLimiter->create($user->getUserIdentifier())->consume();
+        if (!$limit->isAccepted()) {
+            throw new TooManyLoginAttemptsAuthenticationException((int) ceil(($limit->getRetryAfter()->getTimestamp() - time()) / 60));
         }
 
         $code = $this->getSubmittedCode();

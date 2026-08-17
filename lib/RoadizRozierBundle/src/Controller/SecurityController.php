@@ -74,7 +74,7 @@ class SecurityController extends AbstractController
         if ($request->isMethod('POST')) {
             $limit = $loginLinkRequestLimiter->create($request->getClientIp())->consume();
             if (false === $limit->isAccepted()) {
-                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
             }
 
             // load the user in some way (e.g. using the form input)
@@ -85,7 +85,7 @@ class SecurityController extends AbstractController
             if (\is_string($email) && '' !== $email) {
                 $emailLimit = $loginLinkRequestEmailLimiter->create(mb_strtolower(trim($email)))->consume();
                 if (false === $emailLimit->isAccepted()) {
-                    throw new TooManyRequestsHttpException($emailLimit->getRetryAfter()->getTimestamp());
+                    throw new TooManyRequestsHttpException($emailLimit->getRetryAfter()->getTimestamp() - time());
                 }
             }
 

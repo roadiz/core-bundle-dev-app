@@ -39,7 +39,7 @@ final class LoginResetController extends AbstractController
     {
         $limit = $this->loginResetLimiter->create($request->getClientIp())->consume();
         if (false === $limit->isAccepted()) {
-            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
         }
 
         /** @var User|null $user */
