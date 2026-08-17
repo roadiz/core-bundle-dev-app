@@ -119,9 +119,17 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+    /**
+     * Reached only on a plain GET click-through of the emailed login link: `check_post_only`
+     * on the `login_link` firewall config means the authenticator ignores GET requests here,
+     * so this renders an auto-submitting POST form instead (defeats mail-scanner link prefetch,
+     * which never executes the JS or clicks the fallback button).
+     */
     #[Route('/rz-admin/login_link_check', name: 'login_link_check')]
-    public function check(): never
+    public function check(Request $request): Response
     {
-        throw new \LogicException('This code should never be reached');
+        return $this->render('@RoadizRozier/security/login_link_confirm.html.twig', [
+            'confirm_url' => $request->getRequestUri(),
+        ]);
     }
 }

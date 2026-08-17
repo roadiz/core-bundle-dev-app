@@ -1,0 +1,15 @@
+{% extends '@RoadizRozier/login/base.html.twig' %}
+
+{% block title %}{% trans %}login_link.confirm{% endtrans %} | {{ parent() }}{% endblock %}
+
+{% block login_content %}
+    <p>{% trans %}login_link.confirm.description{% endtrans %}</p>
+    <form id="login-link-confirm-form" action="{{ confirm_url }}" method="post">
+        <fieldset>
+            <button class="uk-button uk-button-primary" type="submit">
+                <i class="uk-icon-sign-in"></i> {% trans %}login_link.confirm.button{% endtrans %}
+            </button>
+        </fieldset>
+    </form>
+    <script>document.getElementById('login-link-confirm-form').submit();</script>
+{% endblock %}
