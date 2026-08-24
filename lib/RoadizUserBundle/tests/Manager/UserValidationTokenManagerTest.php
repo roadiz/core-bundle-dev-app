@@ -6,6 +6,7 @@ namespace RZ\Roadiz\UserBundle\Tests\Manager;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\UserBundle\Entity\UserValidationToken;
@@ -174,11 +175,13 @@ final class UserValidationTokenManagerTest extends TestCase
 
     /**
      * Stubs ManagerRegistry::getRepository()->findOneByUser(), the only
-     * repository method createForUser() calls.
+     * repository method createForUser() calls. Implements ObjectRepository
+     * (with unused methods left unimplemented) since ManagerRegistry::getRepository()
+     * declares that return type and PHPUnit's mock builder enforces it.
      */
     private function repositoryReturning(?UserValidationToken $token): object
     {
-        return new class($token) {
+        return new class($token) implements ObjectRepository {
             public function __construct(private readonly ?UserValidationToken $token)
             {
             }
@@ -186,6 +189,31 @@ final class UserValidationTokenManagerTest extends TestCase
             public function findOneByUser(mixed $user): ?UserValidationToken
             {
                 return $this->token;
+            }
+
+            public function find($id): ?object
+            {
+                throw new \BadMethodCallException('Not used by the code under test.');
+            }
+
+            public function findAll(): array
+            {
+                throw new \BadMethodCallException('Not used by the code under test.');
+            }
+
+            public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
+            {
+                throw new \BadMethodCallException('Not used by the code under test.');
+            }
+
+            public function findOneBy(array $criteria): ?object
+            {
+                throw new \BadMethodCallException('Not used by the code under test.');
+            }
+
+            public function getClassName(): string
+            {
+                throw new \BadMethodCallException('Not used by the code under test.');
             }
         };
     }
