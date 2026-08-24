@@ -36,13 +36,10 @@
                     name="{{ authCodeParameterName }}"
                     autocomplete="one-time-code"
                     autofocus
-                    inputmode="numeric"
-                    pattern="[0-9]*"
                     {#
                     https://www.twilio.com/blog/html-attributes-two-factor-authentication-autocomplete
-                    If your 2fa methods are using numeric codes only, add these attributes for better user experience:
-                    inputmode="numeric"
-                    pattern="[0-9]*"
+                    No inputmode/pattern restriction here: this field also accepts
+                    alphanumeric backup codes, not just numeric TOTP codes.
                     #}
                 />
             </div>

@@ -12,12 +12,13 @@ post {
 
 headers {
   x-g-recaptcha-response: 
+  x-cf-turnstile-response: 
 }
 
 body:json {
   {
-    "email": "public_user_2@test.test",
-    "plainPassword": "test-public_user_2"
+    "email": "{{username}}",
+    "plainPassword": "{{password}}"
   }
 }
 

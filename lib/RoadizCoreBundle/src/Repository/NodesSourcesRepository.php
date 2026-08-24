@@ -16,11 +16,15 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use RZ\Roadiz\CoreBundle\Realm\RealmResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * @template T of NodesSources
@@ -32,6 +36,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class NodesSourcesRepository extends StatusAwareRepository
 {
     /**
+     * Setter-injected (not constructor-injected) so this reaches the generated
+     * per-node-type NS*Repository subclasses, whose hand-generated constructors
+     * forward a fixed 5-argument call to parent::__construct() and would silently
+     * drop any new constructor parameter added here.
+     */
+    private ?RealmResolverInterface $realmResolver = null;
+
+    /**
      * @param class-string<NodesSources> $entityClass
      */
     public function __construct(
@@ -42,6 +54,12 @@ class NodesSourcesRepository extends StatusAwareRepository
         string $entityClass = NodesSources::class,
     ) {
         parent::__construct($registry, $entityClass, $previewResolver, $dispatcher, $security);
+    }
+
+    #[Required]
+    public function setRealmResolver(RealmResolverInterface $realmResolver): void
+    {
+        $this->realmResolver = $realmResolver;
     }
 
     /**
@@ -243,6 +261,41 @@ class NodesSourcesRepository extends StatusAwareRepository
     }
 
     /**
+     * Excludes NodesSources gated by a DENY-behaviour Realm the current user isn't
+     * granted, mirroring NodesSourcesRealmExtension so findBy/findOneBy/searchBy/countBy
+     * offer the same protection as the API Platform endpoints.
+     *
+     * Deliberately NOT called from findOneByIdentifierAndTranslation(): that method
+     * only backs NodesSourcesPathResolver, whose caller (web_response_by_path) already
+     * performs an equivalent, more specific DENY-realm check via
+     * RealmsAwareWebResponseOutputDataTransformerTrait::injectRealms() and returns 401.
+     * Filtering here too would make the row invisible earlier and surface as a 404 instead.
+     */
+    private function filterByDeniedRealms(QueryBuilder $qb): void
+    {
+        if (null === $this->realmResolver) {
+            return;
+        }
+
+        $deniedRealmIds = array_values(array_map(
+            fn (RealmInterface $realm) => $realm->getId(),
+            array_filter(
+                $this->realmResolver->getDeniedRealms(),
+                fn (RealmInterface $realm) => RealmInterface::BEHAVIOUR_DENY === $realm->getBehaviour()
+            )
+        ));
+
+        if ([] === $deniedRealmIds) {
+            return;
+        }
+
+        $qb->andWhere($qb->expr()->notIn(
+            static::NODE_ALIAS.'.id',
+            sprintf('SELECT IDENTITY(rn.node) FROM %s rn WHERE rn.realm IN (:deniedRealmIds)', RealmNode::class)
+        ))->setParameter('deniedRealmIds', $deniedRealmIds);
+    }
+
+    /**
      * Create a secure query with node.published = true if user is
      * not a Backend user.
      */
@@ -255,6 +308,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->joinNodeOnce($qb);
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
         $qb->addSelect(static::NODE_ALIAS);
 
         /*
@@ -300,7 +354,9 @@ class NodesSourcesRepository extends StatusAwareRepository
     protected function getCountContextualQuery(array &$criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
+        $this->joinNodeOnce($qb);
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
         /*
          * Filtering by tag
          */
@@ -500,7 +556,9 @@ class NodesSourcesRepository extends StatusAwareRepository
         string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $qb = parent::createSearchBy($pattern, $qb, $criteria, $alias);
+        $this->joinNodeOnce($qb, $alias);
         $this->alterQueryBuilderWithAuthorizationChecker($qb, $alias);
+        $this->filterByDeniedRealms($qb);
 
         return $qb;
     }
@@ -560,6 +618,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setCacheable(true);
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
 
         if (count($nodeSourceClasses) > 0) {
             $qb->andWhere($qb->expr()->orX(
@@ -594,6 +653,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setCacheable(true);
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
         if (!$this->previewResolver->isPreview() && !$this->isDisplayingAllNodesStatuses()) {
             $qb->andWhere($qb->expr()->eq(static::TRANSLATION_ALIAS.'.available', ':available'))
                 ->setParameter('available', true);

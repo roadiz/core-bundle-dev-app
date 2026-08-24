@@ -50,6 +50,14 @@
         <source>document.cannot_persist</source>
         <target state="final">Document can't be saved to database.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.type_not_allowed" approved="yes">
+        <source>document.type_not_allowed</source>
+        <target state="final">File type ".%extension%" is not allowed.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.upload.invalid_csrf_token" approved="yes">
+        <source>document.upload.invalid_csrf_token</source>
+        <target state="final">Invalid CSRF token.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="12" approved="yes">
         <source>name</source>
         <target state="final">Name</target>

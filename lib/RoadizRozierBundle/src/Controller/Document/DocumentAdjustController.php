@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Document\DocumentFactory;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Documents\Events\DocumentFileUpdatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
+use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormInterface;
@@ -83,7 +84,15 @@ final class DocumentAdjustController extends AbstractController
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $fileForm->get('editDocument')->getData();
             $this->documentFactory->setFile($uploadedFile);
-            $this->documentFactory->updateDocument($document);
+            try {
+                $this->documentFactory->updateDocument($document);
+            } catch (DocumentTypeNotAllowedException $exception) {
+                return new JsonResponse([
+                    'errors' => ['attachment' => [$this->translator->trans('document.type_not_allowed', [
+                        '%extension%' => $exception->getExtension(),
+                    ])]],
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
             $em->flush();
 
             // Event must be dispatched AFTER flush for async concurrency matters

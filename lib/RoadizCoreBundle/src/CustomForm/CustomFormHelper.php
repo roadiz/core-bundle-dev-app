@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\CustomForm;
 
 use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FilesystemException;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
@@ -15,6 +16,7 @@ use RZ\Roadiz\CoreBundle\Event\CustomFormAnswer\CustomFormAnswerSubmittedEvent;
 use RZ\Roadiz\CoreBundle\Form\CustomFormsType;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
+use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -36,6 +38,7 @@ final readonly class CustomFormHelper
         private AbstractDocumentFactory $documentFactory,
         private FormFactoryInterface $formFactory,
         private EventDispatcherInterface $eventDispatcher,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -158,7 +161,18 @@ final readonly class CustomFormHelper
     ): ?DocumentInterface {
         $this->documentFactory->setFile($file);
         $this->documentFactory->setFolder($this->getDocumentFolderForCustomForm());
-        $document = $this->documentFactory->getDocument();
+
+        try {
+            $document = $this->documentFactory->getDocument();
+        } catch (DocumentTypeNotAllowedException $exception) {
+            $this->logger->warning(
+                'Rejected custom-form file upload with a forbidden file type.',
+                ['filename' => $exception->getFilename(), 'exception' => $exception]
+            );
+
+            return null;
+        }
+
         if (null !== $document) {
             $fieldAttr->getDocuments()->add($document);
             $fieldAttr->setValue($fieldAttr->getValue().', '.$file->getPathname());

@@ -7,7 +7,6 @@ namespace App\Tests;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\GeneratedEntity\NSArticle;
 use App\GeneratedEntity\Repository\NSArticleRepository;
-use Doctrine\DBAL\Exception;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -20,116 +19,100 @@ class ArticleTest extends ApiTestCase
 
     public function testRepository(): void
     {
-        try {
-            $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
-            $this->assertNotNull($article);
-            $this->assertInstanceOf(NSArticle::class, $article);
-        } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error: '.$e->getMessage());
-        }
+        $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
+        $this->assertNotNull($article);
+        $this->assertInstanceOf(NSArticle::class, $article);
     }
 
     public function testCollection(): void
     {
-        try {
-            $articleCount = static::getContainer()->get(NSArticleRepository::class)->countBy([]);
+        $articleCount = static::getContainer()->get(NSArticleRepository::class)->countBy([]);
 
-            static::createClient()->request('GET', '/api/articles');
+        static::createClient()->request('GET', '/api/articles');
 
-            $this->assertResponseIsSuccessful();
-            $this->assertJsonContains([
-                '@context' => '/api/contexts/Article',
-                '@id' => '/api/articles',
-                '@type' => 'hydra:Collection',
-                'hydra:totalItems' => $articleCount,
-            ]);
-            $this->assertResponseHasHeader('Content-Type');
-        } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error: '.$e->getMessage());
-        }
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Article',
+            '@id' => '/api/articles',
+            '@type' => 'hydra:Collection',
+            'hydra:totalItems' => $articleCount,
+        ]);
+        $this->assertResponseHasHeader('Content-Type');
     }
 
     public function testSingleArticle(): void
     {
-        try {
-            $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-            $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
-            if (null === $article) {
-                $this->fail('No article found in database.');
-            }
-
-            $this->assertInstanceOf(NSArticle::class, $article);
-
-            static::createClient()->request('GET', '/api/articles/'.$article->getId());
-
-            $this->assertResponseIsSuccessful();
-            $this->assertJsonContains([
-                '@context' => '/api/contexts/Article',
-                '@id' => '/api/articles/'.$article->getId(),
-                '@type' => 'Article',
-                'title' => $article->getTitle(),
-                'url' => $urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                    RouteObjectInterface::ROUTE_OBJECT => $article,
-                ]),
-            ]);
-        } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error: '.$e->getMessage());
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $article = static::getContainer()->get(NSArticleRepository::class)->findOneBy([]);
+        if (null === $article) {
+            $this->fail('No article found in database.');
         }
+
+        $this->assertInstanceOf(NSArticle::class, $article);
+
+        static::createClient()->request('GET', '/api/articles/'.$article->getId());
+
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Article',
+            '@id' => '/api/articles/'.$article->getId(),
+            '@type' => 'Article',
+            'title' => $article->getTitle(),
+            'url' => $urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                RouteObjectInterface::ROUTE_OBJECT => $article,
+            ]),
+        ]);
     }
 
     public function testArticleWebResponse(): void
     {
-        try {
-            $articleRepository = static::getContainer()->get(NSArticleRepository::class);
-            $queryBuilder = $articleRepository->createQueryBuilder('a');
+        $articleRepository = static::getContainer()->get(NSArticleRepository::class);
+        $queryBuilder = $articleRepository->createQueryBuilder('a');
 
-            $articleRepository->resetStatuses();
-            $articleRepository->alterQueryBuilderWithAuthorizationChecker(
-                $queryBuilder,
-                'a',
-            );
+        $articleRepository->resetStatuses();
+        $articleRepository->alterQueryBuilderWithAuthorizationChecker(
+            $queryBuilder,
+            'a',
+        );
 
-            $article = $queryBuilder
-                ->andWhere('n.parent IS NOT NULL')
-                ->orderBy('a.id', 'ASC')
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult();
+        $article = $queryBuilder
+            ->andWhere('n.parent IS NOT NULL')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
 
-            if (null === $article) {
-                $this->fail('No child article found in database.');
-            }
-            $this->assertInstanceOf(NSArticle::class, $article);
-
-            $client = static::createClient();
-            $response = $client->request('GET', '/api/articles/'.$article->getId());
-            $this->assertResponseIsSuccessful('/api/articles/'.$article->getId().' endpoint is not accessible.');
-
-            $articleData = $response->toArray(false);
-            $path = $articleData['url'] ?? null;
-            if (!\is_string($path) || '' === $path) {
-                $this->fail('Article URL is missing from API response.');
-            }
-
-            $normalizedPath = parse_url($path, \PHP_URL_PATH);
-            if (\is_string($normalizedPath) && '' !== $normalizedPath) {
-                $path = $normalizedPath;
-            }
-
-            $client->request('GET', '/api/web_response_by_path', [
-                'query' => [
-                    'path' => $path,
-                ],
-            ]);
-
-            $this->assertResponseIsSuccessful('/api/web_response_by_path endpoint is not accessible with path: '.$path.' for article ID: '.$article->getId());
-            $this->assertJsonContains([
-                '@context' => '/api/contexts/WebResponse',
-                '@id' => '/api/web_response_by_path',
-                '@type' => 'WebResponse',
-            ]);
-        } catch (Exception $e) {
-            $this->markTestSkipped('Database connection error: '.$e->getMessage());
+        if (null === $article) {
+            $this->fail('No child article found in database.');
         }
+        $this->assertInstanceOf(NSArticle::class, $article);
+
+        $client = static::createClient();
+        $response = $client->request('GET', '/api/articles/'.$article->getId());
+        $this->assertResponseIsSuccessful('/api/articles/'.$article->getId().' endpoint is not accessible.');
+
+        $articleData = $response->toArray(false);
+        $path = $articleData['url'] ?? null;
+        if (!\is_string($path) || '' === $path) {
+            $this->fail('Article URL is missing from API response.');
+        }
+
+        $normalizedPath = parse_url($path, \PHP_URL_PATH);
+        if (\is_string($normalizedPath) && '' !== $normalizedPath) {
+            $path = $normalizedPath;
+        }
+
+        $client->request('GET', '/api/web_response_by_path', [
+            'query' => [
+                'path' => $path,
+            ],
+        ]);
+
+        $this->assertResponseIsSuccessful('/api/web_response_by_path endpoint is not accessible with path: '.$path.' for article ID: '.$article->getId());
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/WebResponse',
+            '@id' => '/api/web_response_by_path',
+            '@type' => 'WebResponse',
+        ]);
     }
 }

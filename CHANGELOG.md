@@ -2,6 +2,67 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.37...v2.7.38) - 2026-08-24
+
+### Bug Fixes
+
+- **(captcha)** do not require captcha header if service is disabled/not configured - ([bbb723a](https://github.com/roadiz/core-bundle-dev-app/commit/bbb723a1c1e1b5d5f735bc4808a6400755c7aaba))
+- **(core-bundle)** enforce realm DENY on direct node reads - ([54ef2d5](https://github.com/roadiz/core-bundle-dev-app/commit/54ef2d5de763fa966c0aa5dcfc7a631f5e42142f))
+- **(core-bundle)** bind login links to password and require POST confirmation - ([3e3d534](https://github.com/roadiz/core-bundle-dev-app/commit/3e3d534dd46c029d8eaecdcb745fa21ffbd5b0b9))
+- **(core-bundle)** dispatch admin password-reset email asynchronously - ([f007fcd](https://github.com/roadiz/core-bundle-dev-app/commit/f007fcdc8ef2d9f480ce8fbe369ffd34104cc5c4))
+- **(core-bundle)** block webhook SSRF and enforce NotFilter allowlist - ([b28fe83](https://github.com/roadiz/core-bundle-dev-app/commit/b28fe83abc54f039d4c6d552b52dbaa83286650f))
+- **(documents)** display real upload error messages, not [object Object] - ([f26f10a](https://github.com/roadiz/core-bundle-dev-app/commit/f26f10a9d468374f33b11d439c191bb8a2caeead))
+- **(documents)** send the upload CSRF token as form data, not a header - ([bc5bb56](https://github.com/roadiz/core-bundle-dev-app/commit/bc5bb5684429c7ab4afeb454849fbfddcfa7abc1))
+- **(documents)** cap feed fetch size and fix Apple Podcast id check - ([4b3c3b2](https://github.com/roadiz/core-bundle-dev-app/commit/4b3c3b29657407baf1948fa265d007b8e425bc6e))
+- **(documents)** reject forbidden file extensions on upload - ([1a60aee](https://github.com/roadiz/core-bundle-dev-app/commit/1a60aee84f5516028717f17e1e0c0ee6e6c85ade))
+- **(open-id)** verify id_token signature and email_verified claim - ([5c281bb](https://github.com/roadiz/core-bundle-dev-app/commit/5c281bb29615b48b7c7c5e6d529f7bddc60fb3dc))
+- **(rozier-bundle)** rate-limit admin login flows - ([fcd0aad](https://github.com/roadiz/core-bundle-dev-app/commit/fcd0aad8b554ce26ad61fc9ca406298c37275f11))
+- **(tests)** fail loudly on DB errors instead of silently skipping - ([7edd3c5](https://github.com/roadiz/core-bundle-dev-app/commit/7edd3c519c755c5af120eda09d111f3443a4e27a))
+- **(two-factor-bundle)** require 2FA code at API token issuance - ([4aaa2f7](https://github.com/roadiz/core-bundle-dev-app/commit/4aaa2f74e97594fe40b17b0a01052ff836f84beb))
+- **(two-factor-bundle)** stronger backup codes and throttle 2fa check - ([7570c40](https://github.com/roadiz/core-bundle-dev-app/commit/7570c40c60c3258e29ef5767f09eab1ab0993fd2))
+- **(user-bundle)** do not reveal existing accounts on signup - ([27ec111](https://github.com/roadiz/core-bundle-dev-app/commit/27ec111010162f8b9b3991e5ffe9c24e179fea91))
+- **(user-bundle)** rate-limit per-email and async the reset email - ([1135ce7](https://github.com/roadiz/core-bundle-dev-app/commit/1135ce7e8439ce09030ec03626cde985ba8d2712))
+- validate main_color at the source instead of escaping per sink - ([19899b1](https://github.com/roadiz/core-bundle-dev-app/commit/19899b1c28d1d714b6d8a86f277bc1196a4fcafb))
+- escape custom-form color and anchor hex color regex - ([6f231e4](https://github.com/roadiz/core-bundle-dev-app/commit/6f231e42758032df51f41a2d7a47f3e2920ae620))
+- escape main_color output and drop script from iframe allowlist - ([b1c7ad9](https://github.com/roadiz/core-bundle-dev-app/commit/b1c7ad9a9ffd2c17a6ef1613c22d99b178229930))
+
+### CI/CD
+
+- stub Rozier admin asset manifest before running phpunit - ([e42c2b1](https://github.com/roadiz/core-bundle-dev-app/commit/e42c2b1df9d570c8689bb67d8a15527937fcd28b))
+- flush Doctrine 2nd-level cache between DB engine passes - ([78851bb](https://github.com/roadiz/core-bundle-dev-app/commit/78851bb5f18a86434bdb0ad059570430256bf5f2))
+- provision database, redis, mailer and varnish for tests - ([81a1805](https://github.com/roadiz/core-bundle-dev-app/commit/81a1805e860268103b87d86d13b78d7185acb72e))
+
+### Documentation
+
+- document remaining security-audit fixes in UPGRADE.md - ([340fb0c](https://github.com/roadiz/core-bundle-dev-app/commit/340fb0c7ddc838cfbcd7f3f95e0779ed3c28aed0))
+- note asset manifest caching after pnpm build - ([e8923c3](https://github.com/roadiz/core-bundle-dev-app/commit/e8923c35c3ccd1eacf4540d8911ebc937b9950eb))
+- document security-audit hardening in UPGRADE.md - ([0bd4418](https://github.com/roadiz/core-bundle-dev-app/commit/0bd4418cd76a5d13c7f849fae406d2c04bd884b7))
+- update LLMs instructions - ([ca23fe7](https://github.com/roadiz/core-bundle-dev-app/commit/ca23fe74f23727dbed48f3f6536d44be604f65e8))
+
+### Features
+
+- **(core-bundle)** sign outbound webhook payloads with HMAC - ([7e16eb3](https://github.com/roadiz/core-bundle-dev-app/commit/7e16eb365b1f6546fdcd0d710f363c2517e24e00))
+
+### Refactor
+
+- **(user-bundle)** reuse core-bundle password-reset-link message - ([adb2445](https://github.com/roadiz/core-bundle-dev-app/commit/adb244577c2e4985035de6cfc1a573d23ddbc72f))
+
+### Styling
+
+- fix php-cs-fixer ordering in LoginRequestAsyncEmailTest - ([c158832](https://github.com/roadiz/core-bundle-dev-app/commit/c1588325e65798575087af21f23ab512ce651615))
+
+### Testing
+
+- **(core-bundle)** confirm custom-form POST is captcha-protected - ([e96c695](https://github.com/roadiz/core-bundle-dev-app/commit/e96c6955917ec360d0a0ca4267e80e34ed6e2654))
+- **(core-bundle)** cover authorization voters and realm query filtering - ([982a90b](https://github.com/roadiz/core-bundle-dev-app/commit/982a90b9fd440ba5be35a93d071f1108f51a0751))
+- **(jwt)** cover HostedDomain and UserInfoEndpoint constraints - ([fcb96f0](https://github.com/roadiz/core-bundle-dev-app/commit/fcb96f000fe7d19ae020d70c20c9529f8eca507b))
+- **(openid)** pin id_token validation constraint assembly - ([0952c80](https://github.com/roadiz/core-bundle-dev-app/commit/0952c80ce595a8b63bb5010bf6503c4567d67fca))
+- **(random)** cover token generator length, charset and uniqueness - ([9ff90d4](https://github.com/roadiz/core-bundle-dev-app/commit/9ff90d45ee2a7036ecdb7e58002f20201b4f7ab4))
+- **(two-factor-bundle)** cover 2FA skip-branch and backup codes - ([bae1ce9](https://github.com/roadiz/core-bundle-dev-app/commit/bae1ce9208d2f7d452b687bc16e066c76c54318a))
+- **(user-bundle)** cover password reset, request and email validation - ([88de71e](https://github.com/roadiz/core-bundle-dev-app/commit/88de71e5954b79ca7c16d132190c4694ce632e47))
+- silence api-platform alwaysBootKernel deprecation, surface real error on CI page-render failures - ([9a7d1ba](https://github.com/roadiz/core-bundle-dev-app/commit/9a7d1bae75589e01686837022e7cc2d670265a06))
+- register test suites for 4 previously unwired bundles - ([dba4629](https://github.com/roadiz/core-bundle-dev-app/commit/dba46293e168795da9f80ff2aa12af51fcdfbfe9))
+
 ## [2.7.37](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.36...v2.7.37) - 2026-08-16
 
 ### Bug Fixes
@@ -2616,7 +2677,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.9...v2.1.0) - 2023-03-06
+## [2.1.0] - 2023-03-06
 
 ### Bug Fixes
 

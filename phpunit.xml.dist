@@ -50,6 +50,10 @@
             <directory>lib/Markdown/tests</directory>
             <directory>lib/OpenId/tests</directory>
             <directory>lib/RoadizSolrBundle/tests</directory>
+            <directory>lib/RoadizUserBundle/tests</directory>
+            <directory>lib/RoadizTwoFactorBundle/tests</directory>
+            <directory>lib/Jwt/tests</directory>
+            <directory>lib/Random/tests</directory>
         </testsuite>
     </testsuites>
 
@@ -69,10 +73,13 @@
             <directory>lib/RoadizCoreBundle/tests</directory>
             <directory>lib/Models/tests</directory>
             <directory>lib/Documents/tests</directory>
-            <directory>lib/EntityGenerator/tests</directory>
             <directory>lib/Markdown/tests</directory>
             <directory>lib/OpenId/tests</directory>
             <directory>lib/RoadizSolrBundle/tests</directory>
+            <directory>lib/RoadizUserBundle/tests</directory>
+            <directory>lib/RoadizTwoFactorBundle/tests</directory>
+            <directory>lib/Jwt/tests</directory>
+            <directory>lib/Random/tests</directory>
         </exclude>
         <report>
             <text outputFile="php://stdout"/>

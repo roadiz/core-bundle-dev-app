@@ -18,7 +18,42 @@
   - PositionedInterface
   - RealmsAwareWebResponseInterface
 - Removed obsolete `roadiz/fonts-bundle`
+- `POST /api/token` now rejects (401) a 2FA-enabled account authenticating with username+password only — a valid TOTP or backup code must be sent as an additional `_auth_code` field in the request body. Any API client (mobile app, SPA, script) authenticating a 2FA-enabled user must be updated to prompt for and send this field. Accounts without 2FA are unaffected.
+- `POST /api/users/signup` with an email that's already registered now returns the same success response as a fresh signup (the existing account holder is notified out-of-band instead) — it no longer returns a 422 identifying the email as taken. Frontend signup forms relying on that 422 to show an inline "email already used" message must be updated to rely on the out-of-band email instead.
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
+
+## Security-audit hardening (no configuration required)
+
+A batch of quick security fixes landed with sensible built-in defaults — **no project changes are required to upgrade**, but you may want to review or tune them:
+
+- **New rate limiters, pre-configured:** `RoadizUserBundle` and `RoadizTwoFactorBundle` now each prepend a default `framework.rate_limiter` entry and dedicated `framework.cache` pool (`password_request_email` and `two_factor_login` respectively) via `PrependExtensionInterface`, so the container compiles out of the box. Declare a limiter/pool of the same name yourself to override the default (project config always takes precedence over the bundle's):
+  ```yaml
+  # config/packages/framework.yaml — optional, only to override the bundled defaults
+  framework:
+      rate_limiter:
+          password_request_email:
+              policy: 'fixed_window'
+              limit: 5
+              interval: '1 hour'
+              cache_pool: 'cache.password_request_email_limiter'
+          two_factor_login:
+              policy: 'token_bucket'
+              limit: 5
+              rate: { interval: '1 minutes', amount: 5 }
+              cache_pool: 'cache.two_factor_login_limiter'
+  ```
+  - `password_request_email` caps password-reset requests **per targeted email address**, in addition to the pre-existing per-IP limiter — closes an IP-rotating mailbox-flooding gap in `UserPasswordRequestProcessor`.
+  - `two_factor_login` throttles the `2fa_login_check` step (Scheb 2FA ships no built-in throttling for that step); the subscriber is auto-registered by `RoadizTwoFactorBundle`, so it applies as soon as the bundle is enabled.
+  - Each limiter gets its own bundle-provided cache pool (`cache.password_request_email_limiter`, `cache.two_factor_login_limiter`), so you don't need to touch `config/packages/cache.yaml` either — only add a pool of the same name there if you want a different adapter/backend for it.
+- Document uploads (backoffice and public custom-form fields) now reject a denylist of web-executable file extensions (`.php`, `.phtml`, `.html`, `.js`, `.htaccess`, etc. — see `AbstractDocumentFactory::getForbiddenFileExtensions()`); SVG uploads are sanitized server-side before storage.
+- The backoffice document upload endpoint (`DocumentController::uploadAction`) requires a valid CSRF token again (it was previously disabled). The built-in Dropzone uploader already sends one via the existing ajax token header; only a custom uploader built directly against this endpoint would need updating.
+- OpenID Connect id_token signatures are now actually verified (`SignedWith` was missing from the validation constraints), and a token asserting `email_verified: false` is now rejected. Review your IdP's JWKS endpoint and key rotation if you use OpenID login.
+- API Platform's `NotFilter` now respects the same `isPropertyEnabled()` allowlist as other filters (parity with `IntersectionFilter`) — filtering on a non-searchable property is now a no-op instead of silently building a working predicate.
+- Nodes/NodesSources gated by a DENY-behaviour `Realm` are now excluded from every read path (`GET /api/nodes`, `/api/nodes_sources`, `/api/pages/{id}`, `/api/articles`, etc.), not just `GET /api/web_response_by_path` — closes a gap where a realm-protected page's raw NodesSources data was still readable directly.
+- `POST /api/token` for a 2FA-enabled account now requires a valid TOTP/backup code as an extra `_auth_code` field (see Breaking changes above) — Scheb 2FA is session-based and could not previously run on the stateless `api_login` firewall.
+- Both `login_link` firewalls (`api` and `main`) now bind `password` into `signature_properties`, so a password change invalidates any outstanding login-link email. The `main` firewall's link also gained `check_post_only: true` (parity with the API link) — clicking the raw emailed link now lands on a small "confirm sign-in" page that auto-submits a POST, instead of authenticating on a plain GET, so a mail-scanner's link prefetch can no longer consume it.
+- `POST /api/users/signup` with an already-registered email now returns the same success response as a fresh signup instead of a 422 (see Breaking changes above) — the existing account holder gets a "someone tried to sign up with your email" notification with a password-reset link instead.
+- `Webhook` entities gained an optional `secret` field: when set, outbound webhook POSTs carry an `X-Roadiz-Signature: sha256=<hmac>` header (HMAC-SHA256 of the raw JSON body) so receivers can verify the payload came from this instance. Existing webhooks without a secret are unaffected (no header sent).
 
 ## New custom-form webhook system
 
@@ -40,6 +75,10 @@ roadiz_core:
     projectLogoUrl: '%env(string:APP_PROJECT_LOGO_URL)%'
 ```
 - New `RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailProviderInterface` system to get a thumbnail URL for any Roadiz entity.
+- Password-reset confirmation emails are now dispatched asynchronously via Messenger instead of synchronously, closing a timing side-channel that let an attacker distinguish existing from non-existing accounts.
+- Embed/podcast feed fetches (`AbstractEmbedFinder`, `AbstractPodcastFinder`) are now capped at a 5MB response size and a timeout, to prevent a memory/DoS issue on very large or slow feeds.
+- Outbound webhooks now go through the same private-network-blocking HTTP client already used by media finders (SSRF hardening).
+- `CustomForm.color` values are now validated with an anchored hex-color regex and escaped in the backoffice list template.
 
 # Upgrade to 2.6
 

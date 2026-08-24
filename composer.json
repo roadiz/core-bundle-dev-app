@@ -211,7 +211,11 @@
             "RZ\\Roadiz\\CoreBundle\\Tests\\": "lib/RoadizCoreBundle/tests/",
             "RZ\\Roadiz\\Documents\\Tests\\": "lib/Documents/tests/",
             "RZ\\Roadiz\\EntityGenerator\\Tests\\": "lib/EntityGenerator/tests/",
-            "RZ\\Roadiz\\Markdown\\Tests\\": "lib/Markdown/tests/"
+            "RZ\\Roadiz\\Markdown\\Tests\\": "lib/Markdown/tests/",
+            "RZ\\Roadiz\\UserBundle\\Tests\\": "lib/RoadizUserBundle/tests/",
+            "RZ\\Roadiz\\TwoFactorBundle\\Tests\\": "lib/RoadizTwoFactorBundle/tests/",
+            "RZ\\Roadiz\\JWT\\Tests\\": "lib/Jwt/tests/",
+            "RZ\\Roadiz\\Random\\Tests\\": "lib/Random/tests/"
         }
     },
     "replace": {
