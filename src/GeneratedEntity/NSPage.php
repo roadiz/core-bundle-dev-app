@@ -267,12 +267,13 @@ class NSPage extends NodesSources
 
     /**
      * Contacts.
+     * Sub-title description.
      * Default values:
      * entry_type: App\Form\ContactFormType
      */
     #[Serializer\SerializedName(serializedName: 'contacts')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Contacts')]
+    #[ApiProperty(description: 'Contacts: Sub-title description')]
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'contacts', type: 'json', nullable: true)]
