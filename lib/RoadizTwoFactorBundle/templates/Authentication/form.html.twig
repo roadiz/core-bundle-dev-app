@@ -10,64 +10,71 @@
 
     {# Let the user select the authentication method #}
     {% if availableTwoFactorProviders|length > 1 %}
-        <p>{{ "choose_provider"|trans({}, 'SchebTwoFactorBundle') }}:
+        <p class="text-body-md rz-login__group">{{ "choose_provider"|trans({}, 'SchebTwoFactorBundle') }}:
             {% for provider in availableTwoFactorProviders %}
                 <a href="{{ path("2fa_login", {"preferProvider": provider}) }}">{{ provider }}</a>
             {% endfor %}
         </p>
     {% endif %}
 
-    {# Display current two-factor provider #}
-    <p class="label"><label for="_auth_code">{% trans %}fill_totp_authentication_code{% endtrans %}</label></p>
-
-    <form class="uk-text-left uk-form uk-form-stacked {% if authenticationError %}uk-animation-shake{% endif %}"
+    <form id="two-factor-form"
+          class="rz-login__group"
           action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}"
           method="post">
-        <div class="data-uk-margin">
-            <div class="uk-form-row form-col-text form-col--auth_code">
-                <label for="_auth_code" class="uk-form-label required">
-                    <span class="uk-form-label-title">{% trans %}twoFactorCode{% endtrans %}</span>
-                    <small id="_auth_code_help" class="form-row-desc uk-form-label-description">{% trans %}twoFactorCode.help{% endtrans %}</small>
-                </label>
-                <input
-                    class="form-control"
-                    id="_auth_code"
-                    type="text"
-                    name="{{ authCodeParameterName }}"
-                    autocomplete="one-time-code"
-                    autofocus
-                    {#
-                    https://www.twilio.com/blog/html-attributes-two-factor-authentication-autocomplete
-                    No inputmode/pattern restriction here: this field also accepts
-                    alphanumeric backup codes, not just numeric TOTP codes.
-                    #}
-                />
+        <rz-form-field class="rz-form-field rz-form-field--required">
+            <div class="rz-form-field__head">
+                <label class="rz-form-field__head__label" for="_auth_code">{% trans %}twoFactorCode{% endtrans %}</label>
             </div>
+            <input
+                is="rz-input"
+                id="_auth_code"
+                type="text"
+                name="{{ authCodeParameterName }}"
+                autocomplete="one-time-code"
+                autofocus
+                class="rz-form-field__body"
+                {#
+                https://www.twilio.com/blog/html-attributes-two-factor-authentication-autocomplete
+                No inputmode/pattern restriction here: this field also accepts
+                alphanumeric backup codes, not just numeric TOTP codes.
+                #}
+            />
+            <div class="rz-message rz-message--ghost rz-form-field__message">
+                <p class="rz-message__text">{% trans %}twoFactorCode.help{% endtrans %}</p>
+            </div>
+        </rz-form-field>
 
-            {% if displayTrustedOption %}
-                <div class="uk-form-row form-col-checkbox form-col--remember-me">
-                    <label for="_trusted"
-                           class="uk-form-label"><span
-                            class="uk-form-label-title">{{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}</span></label><input
-                        id="_trusted"
-                        type="checkbox"
-                        class="rz-boolean-checkbox"
-                        data-on-text="I"
-                        data-off-text="O"
-                        name="{{ trustedParameterName }}" />
+        {% if displayTrustedOption %}
+            <rz-form-field class="rz-form-field">
+                <div class="rz-form-field__head">
+                    <label class="rz-form-field__head__label" for="_trusted">{{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}</label>
                 </div>
-            {% endif %}
-            {% if isCsrfProtectionEnabled %}
-                <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
-            {% endif %}
+                <input
+                    id="_trusted"
+                    type="checkbox"
+                    class="rz-switch rz-form-field__body"
+                    data-on-text="I"
+                    data-off-text="O"
+                    name="{{ trustedParameterName }}" />
+            </rz-form-field>
+        {% endif %}
+
+        {% if isCsrfProtectionEnabled %}
+            <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+        {% endif %}
+
+        <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
+            <button type="submit" class="rz-button rz-button--primary">
+                <span class="rz-button__label">{{ "login"|trans({}, 'SchebTwoFactorBundle') }}</span>
+                <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
+            </button>
         </div>
-        <fieldset>
-            <button class="uk-button uk-button-primary" type="submit">{{ "login"|trans({}, 'SchebTwoFactorBundle') }}</button>
-        </fieldset>
     </form>
 {% endblock %}
 
-{% block login_links %}
-    {# The logout link gives the user a way out if they can't complete two-factor authentication #}
-    <a class="login-link" href="{{ logoutPath }}">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</a>
+{% block login_footer %}
+    <a class="rz-button rz-button--secondary" href="{{ logoutPath }}">
+        <span class="rz-button__icon rz-icon-ri--corner-down-left-line"></span>
+        <span class="rz-button__label">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</span>
+    </a>
 {% endblock %}

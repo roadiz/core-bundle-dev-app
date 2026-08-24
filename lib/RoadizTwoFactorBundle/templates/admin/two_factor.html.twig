@@ -4,7 +4,7 @@
 {% block title %}{% trans %}two_factor_authentication{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global">
+    <section class="rz-page__body">
         {% include '@RoadizRozier/admin/head.html.twig' with {
             title: 'two_factor_authentication'|trans,
             subtitle: 'start_two_factor_activation'|trans,
@@ -49,9 +49,9 @@
                 </div>
                 {{ form_end(form) }}
             {% elseif displayQrCodeTotp %}
-                <h2>{% trans %}scan_qr_code_with_totp_app{% endtrans %}</h2>
+                <h2 class="text-h1-sm">{% trans %}scan_qr_code_with_totp_app{% endtrans %}</h2>
                 <p><img alt="Two factor QRCode" width="256" height="256" src="{{ path("2fa_qr_code_totp") }}" /></p>
-                <h2>{% trans %}enter_generated_code_to_finalize{% endtrans %}</h2>
+                <h2 class="text-h1-sm">{% trans %}enter_generated_code_to_finalize{% endtrans %}</h2>
                 {% form_theme totpForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(totpForm) }}
                 {{ form_widget(totpForm) }}
@@ -70,9 +70,6 @@
                 {{ form_end(totpForm) }}
             {% else %}
                 <div>
-                    <p class="uk-alert uk-alert-success">
-                        {% trans %}two_factor_authentication_is_enabled{% endtrans %}
-                    </p>
                     <div class="rz-message rz-form-field__message">
                         <p class="rz-message__text">
                             {% trans %}two_factor_authentication_is_enabled{% endtrans %}
