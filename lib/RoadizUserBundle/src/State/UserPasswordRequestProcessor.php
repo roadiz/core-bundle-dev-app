@@ -14,15 +14,10 @@ use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
-use RZ\Roadiz\UserBundle\Notifier\UserPasswordRequestNotification;
-use Symfony\Component\HttpFoundation\Request;
+use RZ\Roadiz\UserBundle\Notifier\PasswordResetLinkNotifier;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -36,14 +31,13 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
     public function __construct(
         private LoggerInterface $logger,
         private RateLimiterFactoryInterface $passwordRequestLimiter,
+        private RateLimiterFactoryInterface $passwordRequestEmailLimiter,
         private ManagerRegistry $managerRegistry,
         private RequestStack $requestStack,
         private UserProvider $userProvider,
-        private NotifierInterface $notifier,
+        private PasswordResetLinkNotifier $passwordResetLinkNotifier,
         private TranslatorInterface $translator,
-        private UrlGeneratorInterface $urlGenerator,
         private CaptchaServiceInterface $recaptchaService,
-        private string $passwordResetUrl,
     ) {
     }
 
@@ -66,7 +60,15 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         $limiter = $this->passwordRequestLimiter->create($request->getClientIp());
         $limit = $limiter->consume();
         if (false === $limit->isAccepted()) {
-            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
+        }
+
+        // Per-IP limiting alone lets an IP-rotating attacker flood a single
+        // victim's mailbox: also cap requests per targeted identifier.
+        $emailLimiter = $this->passwordRequestEmailLimiter->create(mb_strtolower(trim($data->identifier)));
+        $emailLimit = $emailLimiter->consume();
+        if (false === $emailLimit->isAccepted()) {
+            throw new TooManyRequestsHttpException($emailLimit->getRetryAfter()->getTimestamp() - time());
         }
 
         $this->validateCaptchaHeader($request);
@@ -82,7 +84,13 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             $tokenGenerator = new TokenGenerator($this->logger);
             $user->setPasswordRequestedAt(new \DateTime());
             $user->setConfirmationToken($tokenGenerator->generateToken());
-            $this->sendPasswordResetLink($request, $user);
+            $this->passwordResetLinkNotifier->notify(
+                $user,
+                $request->getLocale(),
+                $this->translator->trans('reset.password.request', locale: $user->getLocale()),
+                '@RoadizUser/email/users/reset_password_email.html.twig',
+                '@RoadizUser/email/users/reset_password_email.txt.twig',
+            );
         } catch (\Exception $e) {
             $user->setPasswordRequestedAt(null);
             $user->setConfirmationToken(null);
@@ -115,40 +123,5 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         }
 
         return null;
-    }
-
-    private function sendPasswordResetLink(Request $request, User $user): void
-    {
-        /*
-         * Support routes name as well as hard-coded URLs
-         */
-        try {
-            $resetLink = $this->urlGenerator->generate(
-                $this->passwordResetUrl,
-                [
-                    'token' => $user->getConfirmationToken(),
-                    '_locale' => $request->getLocale(),
-                ],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        } catch (RouteNotFoundException) {
-            $resetLink = $this->passwordResetUrl.'?'.http_build_query(
-                [
-                    'token' => $user->getConfirmationToken(),
-                    '_locale' => $request->getLocale(),
-                ]
-            );
-        }
-
-        $notification = new UserPasswordRequestNotification(
-            $user,
-            $resetLink,
-            $this->translator->trans(
-                'reset.password.request',
-                locale: $user->getLocale()
-            )
-        );
-
-        $this->notifier->send($notification, new Recipient($user->getEmail() ?? throw new \RuntimeException('User email is null.')));
     }
 }

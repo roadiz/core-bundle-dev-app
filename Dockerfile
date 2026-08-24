@@ -236,6 +236,10 @@ RUN ln -sf ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini
 COPY --link docker/php/conf.d/app.dev.ini   ${PHP_INI_DIR}/conf.d/zz-app.ini
 COPY --link docker/php/fpm.d/www.dev.conf   ${PHP_INI_DIR}-fpm.d/zz-www.conf
 
+# Coverage driver for `vendor/bin/phpunit` (matches CI's shivammathur/setup-php default);
+# off by default, enabled per-run via XDEBUG_MODE=coverage (see `make phpunit`)
+RUN install-php-extensions xdebug
+
 # Entrypoint
 COPY --link --chmod=755 docker/php/docker-entrypoint.dev /usr/local/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]

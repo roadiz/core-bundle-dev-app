@@ -46,6 +46,14 @@
                 <source>webhooks.payload</source>
                 <target></target>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="webhooks.secret">
+                <source>webhooks.secret</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="webhooks.secret.help">
+                <source>webhooks.secret.help</source>
+                <target></target>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="webhooks.throttleSeconds">
                 <source>webhooks.throttleSeconds</source>
                 <target></target>

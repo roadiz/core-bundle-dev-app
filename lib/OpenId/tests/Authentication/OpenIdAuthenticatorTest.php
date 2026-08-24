@@ -83,7 +83,7 @@ class OpenIdAuthenticatorTest extends TestCase
             {
             }
 
-            public function create(): ?Configuration
+            public function create(?string $kid = null): ?Configuration
             {
                 return $this->config;
             }
@@ -158,6 +158,31 @@ class OpenIdAuthenticatorTest extends TestCase
         $nonce = 'correct-nonce-value';
         $authenticator = $this->buildAuthenticator(
             $this->buildJwtString(['nonce' => $nonce])
+        );
+
+        $passport = $authenticator->authenticate($this->buildRequest($nonce));
+
+        $this->assertNotNull($passport);
+    }
+
+    public function testAuthenticateThrowsWhenEmailVerifiedClaimIsFalse(): void
+    {
+        $nonce = 'correct-nonce-value';
+        $authenticator = $this->buildAuthenticator(
+            $this->buildJwtString(['nonce' => $nonce, 'email_verified' => false])
+        );
+
+        $this->expectException(OpenIdAuthenticationException::class);
+        $this->expectExceptionMessage('JWT “email_verified” claim is false.');
+
+        $authenticator->authenticate($this->buildRequest($nonce));
+    }
+
+    public function testAuthenticateSucceedsWhenEmailVerifiedClaimIsTrue(): void
+    {
+        $nonce = 'correct-nonce-value';
+        $authenticator = $this->buildAuthenticator(
+            $this->buildJwtString(['nonce' => $nonce, 'email_verified' => true])
         );
 
         $passport = $authenticator->authenticate($this->buildRequest($nonce));

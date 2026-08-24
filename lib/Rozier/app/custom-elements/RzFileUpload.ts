@@ -2,6 +2,31 @@ import Dropzone, { type DropzoneOptions } from 'dropzone'
 import { fadeOut } from '~/utils/animation'
 import { sleep } from '~/utils/sleep'
 
+/**
+ * Dropzone's own error display just does `node.textContent = message` (see
+ * dropzone.js `_updateFilesErrorProcessing`), which stringifies to
+ * "[object Object]" for the backend's structured JSON violation responses
+ * (`{"errors": {"attachment": ["…"]}}`), instead of the actual message.
+ */
+function extractErrorMessage(errorMessage: unknown): string {
+    if (typeof errorMessage === 'string') {
+        return errorMessage
+    }
+
+    if (errorMessage && typeof errorMessage === 'object') {
+        const errors = (errorMessage as { errors?: Record<string, unknown> })
+            .errors
+        if (errors && typeof errors === 'object') {
+            const messages = Object.values(errors).flat()
+            if (messages.length) {
+                return messages.join(' ')
+            }
+        }
+    }
+
+    return String(errorMessage)
+}
+
 export default class RzFileUpload extends HTMLElement {
     options: DropzoneOptions
     dropzone: Dropzone | null = null
@@ -19,7 +44,10 @@ export default class RzFileUpload extends HTMLElement {
             maxFilesize: 64,
             timeout: 0, // no timeout
             autoDiscover: false,
-            headers: { _token: window.RozierConfig?.ajaxToken || '' },
+            // Sent as a form field, not a header: nginx's default
+            // `underscores_in_headers off` silently drops any header
+            // containing an underscore, so `_token` never reached PHP.
+            params: { _token: window.RozierConfig?.ajaxToken || '' },
         }
     }
 
@@ -56,9 +84,19 @@ export default class RzFileUpload extends HTMLElement {
         })
 
         this.dropzone.on('error', (file, errorMessage) => {
+            const message = extractErrorMessage(errorMessage)
+
+            if (file.previewElement) {
+                file.previewElement
+                    .querySelectorAll('[data-dz-errormessage]')
+                    .forEach((node) => {
+                        node.textContent = message
+                    })
+            }
+
             this.dispatchEvent(
                 new CustomEvent('error', {
-                    detail: { file, errorMessage },
+                    detail: { file, errorMessage: message },
                 }),
             )
         })

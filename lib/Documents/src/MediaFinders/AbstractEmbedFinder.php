@@ -323,13 +323,40 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     }
 
     /**
+     * Max accepted size for a remote feed response, to avoid memory exhaustion
+     * on a slow/huge/malicious feed. Private networks are already blocked by
+     * roadiz_core.no_private_network_http_client.
+     */
+    private const MAX_FEED_RESPONSE_SIZE = 5 * 1024 * 1024;
+
+    /**
      * Send a CURL request and get its string output.
      */
     public function downloadFeedFromAPI(string $url): string
     {
-        $response = $this->client->request('GET', $url);
+        return $this->fetchFeedContent($url);
+    }
 
-        return $response->getContent();
+    /**
+     * Stream a GET request, capping duration and response size, instead of
+     * buffering an unbounded body via ResponseInterface::getContent().
+     */
+    protected function fetchFeedContent(string $url): string
+    {
+        $response = $this->client->request('GET', $url, [
+            'timeout' => 10,
+            'max_duration' => 15,
+        ]);
+
+        $content = '';
+        foreach ($this->client->stream($response) as $chunk) {
+            $content .= $chunk->getContent();
+            if (\strlen($content) > self::MAX_FEED_RESPONSE_SIZE) {
+                throw new \RuntimeException('Feed response exceeds maximum allowed size.');
+            }
+        }
+
+        return $content;
     }
 
     public function getThumbnailName(string $pathinfo): string

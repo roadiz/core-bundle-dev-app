@@ -46,6 +46,14 @@
                 <source>webhooks.payload</source>
                 <target state="final">Payload</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="webhooks.secret" approved="yes">
+                <source>webhooks.secret</source>
+                <target state="final">Secret</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="webhooks.secret.help" approved="yes">
+                <source>webhooks.secret.help</source>
+                <target state="final">Optional shared secret used to sign outbound payloads with an HMAC-SHA256 X-Roadiz-Signature header, so the receiver can verify authenticity.</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="webhooks.throttleSeconds" approved="yes">
                 <source>webhooks.throttleSeconds</source>
                 <target state="final">Throttling (in seconds)</target>

@@ -34,6 +34,24 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
     ) {
     }
 
+    /**
+     * `main_color` is rendered unescaped into raw CSS (custom property values, inline
+     * `style` attributes) as well as a JS string literal, contexts where HTML-entity or
+     * JS escaping either does nothing (HTML entities are not decoded inside a `<style>`
+     * block) or produces invalid CSS. Since a color value never legitimately needs any of
+     * the characters that could break out of those contexts, only allow the character set
+     * used by hex colors, named colors, and CSS color functions (`rgb()`, `hsl()`, ...) —
+     * anything else is dropped instead of rendered.
+     */
+    public static function isSafeCssColorValue(mixed $value): bool
+    {
+        if (!\is_string($value) || '' === $value) {
+            return false;
+        }
+
+        return 1 === preg_match('/^[a-zA-Z0-9#(),.%\s-]+$/', $value);
+    }
+
     #[\Override]
     public function getGlobals(): array
     {
@@ -44,6 +62,11 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
                 $this->documentUrlGenerator->setDocument($adminImage);
                 $projectLogoUrl = $this->documentUrlGenerator->getUrl(true);
             }
+        }
+
+        $mainColor = $this->settingsBag->get('main_color');
+        if (!self::isSafeCssColorValue($mainColor)) {
+            $mainColor = null;
         }
 
         return [
@@ -57,7 +80,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
                 'nodeTypes' => $this->nodeTypesBag,
             ],
             'chroot_resolver' => $this->chrootResolver,
-            'main_color' => $this->settingsBag->get('main_color'),
+            'main_color' => $mainColor,
             'support_email_address' => $this->settingsBag->get('support_email_address'),
             'email_disclaimer' => $this->settingsBag->get('email_disclaimer'),
             'custom_public_scheme' => $this->customPublicScheme,

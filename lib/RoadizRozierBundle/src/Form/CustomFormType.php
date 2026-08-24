@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Form;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
+use RZ\Roadiz\CoreBundle\Form\Constraint\HexadecimalColor;
 use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
@@ -96,6 +97,7 @@ final class CustomFormType extends AbstractType
                 'label' => 'customForm.color',
                 'required' => false,
                 'html5' => true,
+                'constraints' => [new HexadecimalColor()],
             ]);
     }
 

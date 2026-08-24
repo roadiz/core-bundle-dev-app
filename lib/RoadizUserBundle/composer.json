@@ -33,10 +33,12 @@
         "phpstan/phpstan": "^2.1.36",
         "phpstan/phpdoc-parser": "<2",
         "phpstan/phpstan-doctrine": "^2.0.13",
+        "phpunit/phpunit": "^9.6",
         "roadiz/doc-generator": "2.7.*",
         "roadiz/entity-generator": "2.7.*",
         "roadiz/jwt": "2.7.*",
-        "roadiz/random": "2.7.*"
+        "roadiz/random": "2.7.*",
+        "symfony/phpunit-bridge": "^7.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -54,6 +56,11 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\UserBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\UserBundle\\Tests\\": "tests/"
         }
     },
     "extra": {

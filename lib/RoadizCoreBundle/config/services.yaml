@@ -482,6 +482,10 @@ services:
             - '%roadiz_core.medias.unsplash_client_id%'
     RZ\Roadiz\Documents\MediaFinders\RandomImageFinder:
         alias: RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder
+    # Webhook URIs are admin-set but still attacker-reachable (SSRF pivot into the private network) — same guard as media finders.
+    RZ\Roadiz\CoreBundle\Message\Handler\HttpRequestMessageHandler:
+        arguments:
+            $client: '@roadiz_core.no_private_network_http_client'
     RZ\Roadiz\Documents\Renderer\ImageRenderer:
         tags: [ 'roadiz_core.document_renderer' ]
     RZ\Roadiz\Documents\Renderer\PictureRenderer:

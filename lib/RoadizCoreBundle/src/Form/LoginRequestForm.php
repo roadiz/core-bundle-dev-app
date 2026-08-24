@@ -19,9 +19,7 @@ final class LoginRequestForm extends AbstractType
             'required' => true,
             'label' => 'your.account.email',
             'constraints' => [
-                new Email([
-                    'message' => 'email.invalid',
-                ]),
+                new Email(message: 'email.invalid'),
                 new ValidAccountEmail(),
             ],
         ]);
