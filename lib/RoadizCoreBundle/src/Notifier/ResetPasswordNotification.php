@@ -6,20 +6,17 @@ namespace RZ\Roadiz\CoreBundle\Notifier;
 
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Notifier\Message\EmailMessage;
 use Symfony\Component\Notifier\Notification\EmailNotificationInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 use Symfony\Component\Notifier\Recipient\RecipientInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class ResetPasswordNotification extends Notification implements EmailNotificationInterface
 {
     public function __construct(
         private readonly User $user,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly object|string $resetLinkRoute,
+        private readonly string $resetLink,
         string $subject = '',
         array $channels = [],
         private readonly string $htmlTemplate = '@RoadizCore/email/users/reset_password_email.html.twig',
@@ -37,33 +34,14 @@ final class ResetPasswordNotification extends Notification implements EmailNotif
     #[\Override]
     public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
-        if (is_string($this->resetLinkRoute)) {
-            $resetLink = $this->urlGenerator->generate(
-                $this->resetLinkRoute,
-                [
-                    'token' => $this->user->getConfirmationToken(),
-                ],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        } else {
-            $resetLink = $this->urlGenerator->generate(
-                RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
-                [
-                    RouteObjectInterface::ROUTE_OBJECT => $this->resetLinkRoute,
-                    'token' => $this->user->getConfirmationToken(),
-                ],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        }
-
         $email = new NotificationEmail();
         $email
             ->htmlTemplate($this->htmlTemplate)
             ->textTemplate($this->textTemplate)
             ->subject($this->getSubject())
-            ->action('reset_your_password', $resetLink)
+            ->action('reset_your_password', $this->resetLink)
             ->context([
-                'resetLink' => $resetLink,
+                'resetLink' => $this->resetLink,
                 'user' => $this->user,
             ])
             ->markAsPublic()

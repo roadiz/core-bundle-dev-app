@@ -96,7 +96,7 @@ final class CustomFormController extends AbstractController
             'X-RateLimit-Limit' => $limit->getLimit(),
         ];
         if (false === $limit->isAccepted()) {
-            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
         }
 
         /** @var CustomForm|null $customForm */

@@ -37,6 +37,7 @@ Build, lint, and test commands
 - Rector apply: `make rector` (also runs PHP-CS-Fixer fix).
 - Architecture rules: `make check-architecture` (Deptrac).
 - PHPUnit full suite: `make phpunit` (runs against MariaDB + MySQL containers).
+- CI (`run-test.yml`) provisions real MariaDB/MySQL/Redis/Mailpit services plus a manually-started Varnish container and a generated JWT keypair (`config/jwt/*.pem` is gitignored). It flushes Redis between the MariaDB and MySQL passes to avoid `setCacheable(true)` query-cache pollution across engines (both auto-increment entity IDs from 1).
 - Twig lint: part of `make test`, or run `bin/console lint:twig` for bundle templates.
 - Single test file (Docker): `docker compose exec app vendor/bin/phpunit tests/SomeTest.php`.
 - Single test by name: `docker compose exec app vendor/bin/phpunit --filter SomeTest`.
@@ -65,6 +66,7 @@ Frontend and docs commands
 - Docs dev (local): `cd docs && corepack enable && pnpm install && pnpm docs:dev`.
 - Frontend source lives in `lib/Rozier`; built assets go to `lib/RoadizRozierBundle/public/`.
 - Avoid editing generated assets in `lib/RoadizRozierBundle/public/`.
+- After `pnpm build`, `bin/console cache:clear` alone may not refresh the compiled asset manifest (`manifest.json`, filename → content-hash mapping) — restart the `app` container (`docker compose restart app`) to force a fresh read. If you restart `app`, restart `nginx` too: it caches the `app` container's resolved IP and won't reconnect on its own after a restart (`502 Bad Gateway` / "no route to host").
 
 Code style guidelines (PHP)
 - Follow PSR-12 and Symfony conventions; PHP-CS-Fixer uses `@Symfony` rules.

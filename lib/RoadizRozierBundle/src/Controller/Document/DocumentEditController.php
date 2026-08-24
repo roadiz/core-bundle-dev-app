@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\Events\DocumentFileUpdatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
+use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use RZ\Roadiz\RozierBundle\Form\DocumentEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -97,6 +98,10 @@ final class DocumentEditController extends AbstractController
                 );
             } catch (FilesystemException|FileException $exception) {
                 $form->get('filename')->addError(new FormError($exception->getMessage()));
+            } catch (DocumentTypeNotAllowedException $exception) {
+                $form->get('newDocument')->addError(new FormError($this->translator->trans('document.type_not_allowed', [
+                    '%extension%' => $exception->getExtension(),
+                ])));
             }
         }
 

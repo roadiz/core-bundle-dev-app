@@ -44,6 +44,14 @@ class Webhook implements \Stringable, WebhookInterface
     protected ?array $payload = null;
 
     /**
+     * Shared secret used to sign outbound payloads with an HMAC-SHA256
+     * X-Roadiz-Signature header, so receivers can verify authenticity.
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[SymfonySerializer\Ignore]
+    protected ?string $secret = null;
+
+    /**
      * @var int wait between webhook call and webhook triggering request
      */
     #[ORM\Column(name: 'throttleseconds', type: 'integer', nullable: false)]
@@ -114,6 +122,19 @@ class Webhook implements \Stringable, WebhookInterface
     public function setPayload(?array $payload): Webhook
     {
         $this->payload = $payload;
+
+        return $this;
+    }
+
+    #[\Override]
+    public function getSecret(): ?string
+    {
+        return $this->secret;
+    }
+
+    public function setSecret(?string $secret): Webhook
+    {
+        $this->secret = $secret;
 
         return $this;
     }

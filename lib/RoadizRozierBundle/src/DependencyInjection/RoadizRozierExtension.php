@@ -14,13 +14,69 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class RoadizRozierExtension extends Extension
+class RoadizRozierExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * Provide sensible defaults for the admin login-request/reset/login-link rate limiters
+     * (and their dedicated cache pools) so projects don't have to configure them themselves.
+     * A project declaring its own limiter or cache pool of the same name takes precedence
+     * over these defaults (Symfony merges config sources for the same key, and this is
+     * prepended first).
+     */
+    #[\Override]
+    public function prepend(ContainerBuilder $container): void
+    {
+        $container->prependExtensionConfig('framework', [
+            'rate_limiter' => [
+                'login_request' => [
+                    'policy' => 'token_bucket',
+                    'limit' => 3,
+                    'rate' => ['interval' => '1 minutes', 'amount' => 3],
+                    'cache_pool' => 'cache.login_request_limiter',
+                ],
+                'login_request_email' => [
+                    'policy' => 'fixed_window',
+                    'limit' => 5,
+                    'interval' => '1 hour',
+                    'cache_pool' => 'cache.login_request_email_limiter',
+                ],
+                'login_reset' => [
+                    'policy' => 'token_bucket',
+                    'limit' => 3,
+                    'rate' => ['interval' => '1 minutes', 'amount' => 3],
+                    'cache_pool' => 'cache.login_reset_limiter',
+                ],
+                'login_link_request' => [
+                    'policy' => 'token_bucket',
+                    'limit' => 3,
+                    'rate' => ['interval' => '1 minutes', 'amount' => 3],
+                    'cache_pool' => 'cache.login_link_request_limiter',
+                ],
+                'login_link_request_email' => [
+                    'policy' => 'fixed_window',
+                    'limit' => 5,
+                    'interval' => '1 hour',
+                    'cache_pool' => 'cache.login_link_request_email_limiter',
+                ],
+            ],
+            'cache' => [
+                'pools' => [
+                    'cache.login_request_limiter' => null,
+                    'cache.login_request_email_limiter' => null,
+                    'cache.login_reset_limiter' => null,
+                    'cache.login_link_request_limiter' => null,
+                    'cache.login_link_request_email_limiter' => null,
+                ],
+            ],
+        ]);
+    }
+
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {

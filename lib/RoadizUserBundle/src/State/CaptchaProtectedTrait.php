@@ -23,6 +23,11 @@ trait CaptchaProtectedTrait
          */
         $captchaHeaderName = mb_strtolower('X-'.$this->getCaptchaService()->getFieldName());
 
+        /* Do not enforce captcha validation if the service is disabled */
+        if (!$this->getCaptchaService()->isEnabled()) {
+            return;
+        }
+
         $responseValue = $request->headers->get($captchaHeaderName, null);
         if (null === $responseValue) {
             throw new BadRequestHttpException(sprintf('You must provide "%s" header for human verification.', $captchaHeaderName));

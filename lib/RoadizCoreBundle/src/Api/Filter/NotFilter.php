@@ -30,6 +30,10 @@ final class NotFilter extends AbstractFilter
         }
 
         foreach ($value as $property => $notValue) {
+            if (!$this->isPropertyEnabled($property, $resourceClass)) {
+                continue;
+            }
+
             $alias = 'o';
             $field = $property;
 

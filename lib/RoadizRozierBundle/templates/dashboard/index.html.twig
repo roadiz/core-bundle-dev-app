@@ -29,7 +29,7 @@
         {% if bags.settings.get('dashboard_iframe') %}
             <div class="rz-dashboard__row">
                 <div class="rz-dashboard__panel uk-panel uk-panel-box dashboard-iframe">
-                    {{- bags.settings.get('dashboard_iframe')|striptags(['iframe','script'])|raw -}}
+                    {{- bags.settings.get('dashboard_iframe')|striptags(['iframe'])|raw -}}
                 </div>
             </div>
         {% endif %}
