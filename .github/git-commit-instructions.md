@@ -46,7 +46,7 @@ Breaking changes
 
 Trailers and metadata
 - Add `Signed-off-by: Name <email>` or use GPG signing (`git commit -S`) if required by the repository.
-- Use `Co-authored-by: Name <email>` when multiple authors contributed.
+- Use `Co-authored-by: Name <email>` when multiple humans contributed. Never add it to agent-authored commits.
 - Reference issues/PRs in the footer: `Fixes #123`, `Refs #456`.
 
 Checks and tooling
