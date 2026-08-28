@@ -672,9 +672,7 @@ EOT,
                 // Call recursively to create parent tag if not exists with $tags array without last element
                 $parentTag = $this->findOrCreateByPath(implode('/', array_slice($tags, 0, -1)), $translation);
             }
-            if (null === $translation) {
-                $translation = $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \RuntimeException('No default translation found.');
-            }
+            $translation ??= $this->_em->getRepository(Translation::class)->findDefault() ?? throw new \RuntimeException('No default translation found.');
 
             $tag = new Tag();
             $tag->setTagName($tagName);

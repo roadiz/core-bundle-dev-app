@@ -82,9 +82,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
     #[\Override]
     protected function argFqProcess(array &$args): array
     {
-        if (!isset($args['fq'])) {
-            $args['fq'] = [];
-        }
+        $args['fq'] ??= [];
 
         $visible = $args['visible'] ?? $args['node.visible'] ?? null;
         if (isset($visible)) {

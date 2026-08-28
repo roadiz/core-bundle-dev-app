@@ -223,11 +223,9 @@ final class ContactFormManager
 
     public function getFormBuilder(): FormBuilderInterface
     {
-        if (null === $this->formBuilder) {
-            $this->formBuilder = $this->formFactory
-                ->createNamedBuilder($this->getFormName(), FormType::class, null, $this->options)
-                ->setMethod($this->method);
-        }
+        $this->formBuilder ??= $this->formFactory
+            ->createNamedBuilder($this->getFormName(), FormType::class, null, $this->options)
+            ->setMethod($this->method);
 
         return $this->formBuilder;
     }

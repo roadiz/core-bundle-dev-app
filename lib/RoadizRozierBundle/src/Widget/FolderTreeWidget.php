@@ -42,11 +42,9 @@ final class FolderTreeWidget extends AbstractWidget
      */
     public function getFolders(): iterable
     {
-        if (null === $this->folders) {
-            $this->folders = $this->getManagerRegistry()
-                ->getRepository(Folder::class)
-                ->findByParentAndTranslation($this->getRootFolder(), $this->getTranslation());
-        }
+        $this->folders ??= $this->getManagerRegistry()
+            ->getRepository(Folder::class)
+            ->findByParentAndTranslation($this->getRootFolder(), $this->getTranslation());
 
         return $this->folders;
     }

@@ -78,9 +78,7 @@ final class NotFilter extends AbstractFilter
     {
         $properties = $this->properties;
 
-        if (null === $properties) {
-            $properties = array_fill_keys($this->getClassMetadata($resourceClass)->getFieldNames(), null);
-        }
+        $properties ??= array_fill_keys($this->getClassMetadata($resourceClass)->getFieldNames(), null);
 
         return array_reduce(
             array_keys($properties),

@@ -170,9 +170,7 @@ final class NodesSourcesHandler extends AbstractHandler
         if (null === $this->parentsNodeSources) {
             $this->parentsNodeSources = [];
 
-            if (null === $criteria) {
-                $criteria = [];
-            }
+            $criteria ??= [];
 
             $parent = $this->getNodeSource();
 
@@ -372,9 +370,7 @@ final class NodesSourcesHandler extends AbstractHandler
             $defaultCriteria = array_merge($defaultCriteria, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'DESC';
 
@@ -411,9 +407,7 @@ final class NodesSourcesHandler extends AbstractHandler
             $defaultCrit = array_merge($defaultCrit, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'ASC';
 

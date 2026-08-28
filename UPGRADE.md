@@ -1,3 +1,13 @@
+# Upgrade guide
+
+- [Upgrade to 2.7](#upgrade-to-27)
+- [Upgrade to 2.6](#upgrade-to-26)
+- [Upgrade to 2.5](#upgrade-to-25)
+- [Upgrade to 2.4](#upgrade-to-24)
+- [Upgrade to 2.3](#upgrade-to-23)
+- [Upgrade to 2.2](#upgrade-to-22)
+- [Upgrade to 2.1](#upgrade-to-21)
+
 # Upgrade to 2.7
 
 ## ⚠ Breaking changes
@@ -504,9 +514,13 @@ composer require roadiz/solr-bundle
 
 ## Removed node_types and node_type_fields tables
 
-- Make sure to upgrade to **v2.4.11** first. And perform `bin/console nodetypes:export-files` before upgrading to 2.5.
-- A backup of your database is highly recommended before upgrading to 2.5.
-- Run new migrations
+2.5 drops the `node_types` and `node_type_fields` database tables: node-type definitions now live in static configuration files, not in the database. **You cannot jump straight to 2.5** — you must stop on the 2.4 line first to export them, otherwise your node-type definitions are lost with the dropped tables.
+
+1. **Upgrade to v2.4.11 first** (required intermediate stop — do not skip it).
+2. Run `bin/console nodetypes:export-files` on 2.4.11 to generate the static node-type configuration files from the database.
+3. Commit the generated files.
+4. Back up your database (highly recommended before proceeding).
+5. Upgrade to 2.5 and run the new migrations, which drop the now-exported tables.
 
 ## Removed useless user properties
 
@@ -573,6 +587,35 @@ Make sure to upgrade `bundles.php` file and `api_platform.yaml` configuration:
 
 * Merge `collectionOperations` and `itemOperations` into `operations` for each resource using `ApiPlatform\Metadata\Get` or `ApiPlatform\Metadata\GetCollection` classes
 * Regenerate your api platform resource YAML files, or rename `getByPath` operation to `%entity%_get_by_path`
+* `@type` in API responses for NodesSources may contain `NS` prefix: for example for a `Page` node-type, `@type` will be `NSPage`, make sure to upgrade frontend project to support this **or** create a `NodesSourcesTypeNormalizer` in your project which unset `resource_class` from context to avoid this:
+
+```php
+/**
+ * Roadiz WebResponse::$item and tree-walker items are typed against interfaces
+ * (PersistableInterface, Collection). API Platform 3 puts that declared interface
+ * into `resource_class`, so embedded NodesSources go through the anonymous JSON-LD
+ * context builder, which stamps `@type` from the PHP class short name (e.g. "NSPage"
+ * instead of "Page"). Resetting `resource_class` when it is not a NodesSources lets
+ * API Platform resolve the real resource and emit the correct `@type`.
+ 
+ * @param array<string, mixed> $context
+ *
+ * @return array<mixed>|string|int|float|bool|\ArrayObject<int|string, mixed>|null
+ */
+public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+{
+    if (
+        $object instanceof NodesSources
+        && isset($context['resource_class'])
+        && is_string($context['resource_class'])
+        && !is_a($context['resource_class'], NodesSources::class, true)
+    ) {
+        unset($context['resource_class']);
+    }
+
+    return $this->decorated->normalize($object, $format, $context);
+}
+```
 
 ### Other changes
 * **Solr:** Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods
