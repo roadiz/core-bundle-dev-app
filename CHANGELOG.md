@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.40...v2.7.41) - 2026-08-28
+
+### Bug Fixes
+
+- **(migrations)** switch MySQLPlatform to AbstractMySQLPlatform to support latest MariaDB driver - ([bfaca99](https://github.com/roadiz/core-bundle-dev-app/commit/bfaca99333fbea20785408f73fc79fb4d7ccede2))
+
+### Documentation
+
+- add upgrade notice to register LimeniusLiformBundle bundle in projects - ([2316c82](https://github.com/roadiz/core-bundle-dev-app/commit/2316c8216ddd422ec2ef81737961d2bd929b1114))
+
 ## [2.7.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.39...v2.7.40) - 2026-08-28
 
 ### Documentation
