@@ -131,6 +131,10 @@ class RoadizCoreExtension extends Extension
     {
         $verifyUrl = $config['captcha']['verify_url'] ?? $config['medias']['recaptcha_verify_url'] ?? null;
         $container->setParameter(
+            'roadiz_core.captcha.provider',
+            $config['captcha']['provider'] ?? null
+        );
+        $container->setParameter(
             'roadiz_core.captcha.private_key',
             $config['captcha']['private_key'] ?? $config['medias']['recaptcha_private_key'] ?? null
         );

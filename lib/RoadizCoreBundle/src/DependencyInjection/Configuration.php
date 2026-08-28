@@ -205,6 +205,7 @@ EOD
         $node = $builder->getRootNode();
         $node->addDefaultsIfNotSet()
             ->children()
+            ->scalarNode('provider')->defaultNull()->info('Explicit provider selector, e.g. "cap" for self-hosted Cap. When null, the provider is inferred from verify_url.')->end()
             ->scalarNode('private_key')->defaultNull()->end()
             ->scalarNode('public_key')->defaultNull()->end()
             ->scalarNode('verify_url')->defaultValue('https://www.google.com/recaptcha/api/siteverify')->end()
