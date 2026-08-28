@@ -1,12 +1,13 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.7.41'
+    roadiz_core.cms_version: '2.7.42'
     roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
     env(APP_UNSPLASH_CLIENT_ID): ~
     env(APP_SOUNDCLOUD_CLIENT_ID): ~
+    env(APP_CAPTCHA_PROVIDER): ~
     env(APP_CAPTCHA_PRIVATE_KEY): ~
     env(APP_CAPTCHA_PUBLIC_KEY): ~
     env(APP_CAPTCHA_VERIFY_URL): ~

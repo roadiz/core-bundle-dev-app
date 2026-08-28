@@ -19,6 +19,7 @@ roadiz_core:
         google_server_id: '%env(string:APP_GOOGLE_SERVER_ID)%'
         ffmpeg_path: '%env(string:APP_FFMPEG_PATH)%'
     captcha:
+        provider: '%env(string:APP_CAPTCHA_PROVIDER)%'
         private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
         public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
         verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
