@@ -2,6 +2,9 @@
 
 [![Unit tests, static analysis and code style](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml) [![Packages Split](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml)
 
+> 📖 **Looking for how to *use* Roadiz?** The full product documentation lives at **[docs.roadiz.io](https://docs.roadiz.io)**.
+> This README only covers the **monorepo development environment** (building, testing and splitting the packages).
+
 This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and main repositories in one place:
 
 - DocGenerator

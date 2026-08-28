@@ -26,6 +26,39 @@ security:
                 providers: [ 'roadiz_user_provider', 'openid_user_provider' ]
 ```
 
+## Back-office firewall
+
+The `roadiz/skeleton` ships this firewall pre-configured. If you integrate Roadiz
+manually (without the skeleton), declare the back-office firewall yourself: it
+uses the `all_users` provider defined above and the `RozierAuthenticator` custom
+authenticator, and restricts everything under `/rz-admin` to `ROLE_BACKEND_USER`
+(the login page stays public).
+
+```yaml
+# config/packages/security.yaml
+security:
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: all_users
+            switch_user: { role: ROLE_SUPERADMIN, parameter: _su }
+            logout:
+                path: logoutPage
+            custom_authenticator:
+                - RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
+    access_control:
+        - { path: ^/rz-admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/rz-admin, roles: ROLE_BACKEND_USER }
+```
+
+To also allow OpenID SSO login on the back office, append the
+`roadiz_rozier.open_id.authenticator` to `custom_authenticator` and configure
+the provider in `roadiz_rozier.open_id` (see
+[Configuration](../first-steps/manual_config.md#openid-sso-authentication)).
+
 ## Built-in roles
 Roadiz comes with a set of built-in roles that can be used to manage access control in your back office.
 These roles are defined in the `config/packages/security.yaml` file.

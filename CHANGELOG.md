@@ -2,7 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.7.39](https://github.com/roadiz/core-bundle-dev-app/compare/2.7.38...v2.7.39) - 2026-08-28
+## [2.7.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.39...v2.7.40) - 2026-08-28
+
+### Documentation
+
+- uniformize packages README - ([be39a5a](https://github.com/roadiz/core-bundle-dev-app/commit/be39a5aee524a9b31e4c203eba98287ba0378d00))
+
+## [2.7.39](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.38...v2.7.39) - 2026-08-28
 
 ### Bug Fixes
 
@@ -21,7 +27,7 @@ All notable changes to Roadiz will be documented in this file.
 - add LiformInterface regression test - ([2ff8a26](https://github.com/roadiz/core-bundle-dev-app/commit/2ff8a2600fff26c01a4c147833c5c5490b2cfdef))
 - remove packages github actions for consistency with monorepo - ([3d22c91](https://github.com/roadiz/core-bundle-dev-app/commit/3d22c91de11f3c0b2be1e7a41ddb8965473f1922))
 
-## [2.7.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.37...2.7.38) - 2026-08-24
+## [2.7.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.37...v2.7.38) - 2026-08-24
 
 ### Bug Fixes
 
