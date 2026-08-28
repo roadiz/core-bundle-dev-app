@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.41...v2.7.42) - 2026-08-28
+
+### Features
+
+- **(captcha)** add self-hosted Cap provider - ([a405429](https://github.com/roadiz/core-bundle-dev-app/commit/a405429db77a0edcc20105fa8e49f67a643bc3ef))
+
 ## [2.7.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.40...v2.7.41) - 2026-08-28
 
 ### Bug Fixes
