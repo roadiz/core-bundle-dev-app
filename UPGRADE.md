@@ -28,6 +28,10 @@
   - PositionedInterface
   - RealmsAwareWebResponseInterface
 - Removed obsolete `roadiz/fonts-bundle`
+- Replaced the `rezozero/liform-bundle` fork with the official `limenius/liform-bundle`. It ships no Symfony Flex recipe, so it is **not** auto-registered — add it to your `config/bundles.php` or `cache:clear` fails with *"Parent definition `Limenius\Liform\Transformer\AbstractTransformer` does not exist"*:
+  ```php
+  Limenius\LiformBundle\LimeniusLiformBundle::class => ['all' => true],
+  ```
 - `POST /api/token` now rejects (401) a 2FA-enabled account authenticating with username+password only — a valid TOTP or backup code must be sent as an additional `_auth_code` field in the request body. Any API client (mobile app, SPA, script) authenticating a 2FA-enabled user must be updated to prompt for and send this field. Accounts without 2FA are unaffected.
 - `POST /api/users/signup` with an email that's already registered now returns the same success response as a fresh signup (the existing account holder is notified out-of-band instead) — it no longer returns a 422 identifying the email as taken. Frontend signup forms relying on that 422 to show an inline "email already used" message must be updated to rely on the out-of-band email instead.
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
