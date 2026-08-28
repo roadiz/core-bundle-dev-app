@@ -124,7 +124,7 @@ Testing guidelines
 Static analysis
 - PHPStan runs at level 8; fix new issues instead of adding ignores.
 - Use phpdoc generics where needed; avoid broad `mixed` types.
-- Keep `phpstan.neon` consistent across bundles when adding rules.
+- A single root `phpstan.neon` analyses all `lib/*/src` and `src`; bundles have no per-package config.
 
 Localization and user-facing text
 - Avoid hardcoding UI strings; use translation keys and Crowdin workflow.
