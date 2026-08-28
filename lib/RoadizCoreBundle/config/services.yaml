@@ -312,6 +312,17 @@ services:
         tags:
             - { name: liform.transformer, form_type: date, widget: date }
 
+    # Re-homed from the former rezozero/liform fork: upstream limenius/liform
+    # ships neither a file transformer nor placeholder translation.
+    RZ\Roadiz\CoreBundle\Liform\FileTransformer:
+        parent: Limenius\Liform\Transformer\AbstractTransformer
+        tags:
+            - { name: liform.transformer, form_type: file, widget: file }
+
+    RZ\Roadiz\CoreBundle\Liform\PlaceholderTranslationExtension:
+        tags:
+            - { name: liform.extension }
+
     RZ\Roadiz\CoreBundle\Serializer\TranslationAwareContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
         arguments: [ '@RZ\Roadiz\CoreBundle\Serializer\TranslationAwareContextBuilder.inner' ]
