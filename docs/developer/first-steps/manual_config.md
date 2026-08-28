@@ -54,19 +54,38 @@ Roadiz supports captcha verification provided by:
 - [Friendly CAPTCHA](https://www.friendlycaptcha.eu)
 - [hCaptcha](https://docs.hcaptcha.com/)
 - [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
+- [Cap](https://trycap.dev) (self-hosted, standalone)
 
 Roadiz will automatically use the configured captcha service based on `roadiz_core.captcha.verify_url` value.
 
 ```yaml
 roadiz_core:
     captcha:
+        provider: '%env(string:APP_CAPTCHA_PROVIDER)%'
         private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
         public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
         verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
 ```
 
-If you change `APP_CAPTCHA_VERIFY_URL` environment variable, you need to clear Symfony cache to apply the new
+The `provider` key is optional. Leave it empty to let Roadiz infer the service from the
+`verify_url` domain (reCAPTCHA, Friendly CAPTCHA, hCaptcha, Turnstile). Because Cap is self-hosted,
+its domain cannot be inferred, so set `APP_CAPTCHA_PROVIDER=cap` to select it explicitly.
+
+If you change any `APP_CAPTCHA_*` environment variable, you need to clear Symfony cache to apply the new
 configuration.
+
+### Using a self-hosted Cap instance
+
+Cap needs no separate public key: the site key is part of the endpoint URL. Set only:
+
+```dotenv
+APP_CAPTCHA_PROVIDER=cap
+# https://<your-instance>/<site-key>/siteverify
+APP_CAPTCHA_VERIFY_URL=https://cap.example.com/d9256640cb53/siteverify
+APP_CAPTCHA_PRIVATE_KEY=<your-secret-key>
+```
+
+Roadiz derives the widget endpoint (`https://<your-instance>/<site-key>/`) from `verify_url`.
 
 Then you can use the `withCaptcha()` method on your contact-form manager to add a captcha field to your form.
 Or inject the `RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface` in your own logic to verify the captcha response.
@@ -104,8 +123,9 @@ Information for Service "RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface"
 
 - **Google reCAPTCHA**: `https://www.google.com/recaptcha/api/siteverify`
 - **Friendly CAPTCHA**: `https://global.frcapi.com/api/v2/captcha/siteverify`
-- **hCaptcha**: `https://hcaptcha.com/siteverify`
+- **hCaptcha**: `https://api.hcaptcha.com/siteverify`
 - **Cloudflare Turnstile**: `https://challenges.cloudflare.com/turnstile/v0/siteverify`
+- **Cap**: `https://<your-instance>/<site-key>/siteverify` (requires `APP_CAPTCHA_PROVIDER=cap`)
 
 ### API endpoints captcha verification
 
@@ -118,6 +138,7 @@ configured captcha service:
 - `h-captcha-response`
 - `g-recaptcha-response`
 - `cf-turnstile-response`
+- `cap-token`
 
 ## Reverse Proxy Cache Invalidation
 
