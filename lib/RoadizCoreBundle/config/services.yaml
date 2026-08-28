@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.7.38'
+    roadiz_core.cms_version: '2.7.39'
     roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -311,6 +311,17 @@ services:
         parent: Limenius\Liform\Transformer\AbstractTransformer
         tags:
             - { name: liform.transformer, form_type: date, widget: date }
+
+    # Re-homed from the former rezozero/liform fork: upstream limenius/liform
+    # ships neither a file transformer nor placeholder translation.
+    RZ\Roadiz\CoreBundle\Liform\FileTransformer:
+        parent: Limenius\Liform\Transformer\AbstractTransformer
+        tags:
+            - { name: liform.transformer, form_type: file, widget: file }
+
+    RZ\Roadiz\CoreBundle\Liform\PlaceholderTranslationExtension:
+        tags:
+            - { name: liform.extension }
 
     RZ\Roadiz\CoreBundle\Serializer\TranslationAwareContextBuilder:
         decorates: 'api_platform.serializer.context_builder'

@@ -66,13 +66,7 @@ final class FolderRepository extends EntityRepository
             $folder->setParent($parentFolder);
         }
 
-        /*
-         * Add folder translation
-         * with given name
-         */
-        if (null === $translation) {
-            $translation = $this->getEntityManager()->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
-        }
+        $translation ??= $this->getEntityManager()->getRepository(Translation::class)->findDefault() ?? throw new \InvalidArgumentException('No default translation found.');
         $folderTranslation = new FolderTranslation($folder, $translation);
         $folderTranslation->setName($folderName);
 

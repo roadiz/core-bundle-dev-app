@@ -1098,13 +1098,9 @@ SQL
         if ($node->getPosition() <= 1) {
             return null;
         }
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
-        if (null === $criteria) {
-            $criteria = [];
-        }
+        $criteria ??= [];
 
         $criteria['parent'] = $node->getParent();
         /*
@@ -1132,12 +1128,8 @@ SQL
         ?array $criteria = null,
         ?array $order = null,
     ): ?Node {
-        if (null === $criteria) {
-            $criteria = [];
-        }
-        if (null === $order) {
-            $order = [];
-        }
+        $criteria ??= [];
+        $order ??= [];
 
         $criteria['parent'] = $node->getParent();
 

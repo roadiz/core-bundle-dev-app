@@ -2,7 +2,26 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.7.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.37...v2.7.38) - 2026-08-24
+## [2.7.39](https://github.com/roadiz/core-bundle-dev-app/compare/2.7.38...v2.7.39) - 2026-08-28
+
+### Bug Fixes
+
+- **(forms)** replace rezozero/liform-bundle with official limenius/liform-bundle and injecting missing features - ([7a8d2f5](https://github.com/roadiz/core-bundle-dev-app/commit/7a8d2f574111207be1eb2babb42cdac2fdef57c1))
+- use null coalescing assignement operator when possible - ([a20c58f](https://github.com/roadiz/core-bundle-dev-app/commit/a20c58f6bc66ce20c2dceb994762c61168a77fef))
+
+### Documentation
+
+- improve UPGRADE.md - ([1246926](https://github.com/roadiz/core-bundle-dev-app/commit/12469263dc36df46d10612a271570522ed5fbfbc))
+- aligned copilot instructions - ([428ea38](https://github.com/roadiz/core-bundle-dev-app/commit/428ea3807ecafb2c43099c708f42d7bbf856025f))
+- align AGENTS.md - ([d5e3145](https://github.com/roadiz/core-bundle-dev-app/commit/d5e3145c918d6aac207ba7782a6e74065fb47a0e))
+- update LICENSE year - ([bc55f8e](https://github.com/roadiz/core-bundle-dev-app/commit/bc55f8e39444ca287eaf0dfd881620c8f714b3b5))
+
+### Testing
+
+- add LiformInterface regression test - ([2ff8a26](https://github.com/roadiz/core-bundle-dev-app/commit/2ff8a2600fff26c01a4c147833c5c5490b2cfdef))
+- remove packages github actions for consistency with monorepo - ([3d22c91](https://github.com/roadiz/core-bundle-dev-app/commit/3d22c91de11f3c0b2be1e7a41ddb8965473f1922))
+
+## [2.7.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.37...2.7.38) - 2026-08-24
 
 ### Bug Fixes
 
@@ -2677,7 +2696,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0] - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.9...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 

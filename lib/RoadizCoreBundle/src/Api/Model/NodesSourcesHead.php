@@ -143,9 +143,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     #[\Override]
     public function getMetaTitle(): ?string
     {
-        if (null === $this->seo) {
-            $this->seo = $this->getDefaultSeo();
-        }
+        $this->seo ??= $this->getDefaultSeo();
 
         return $this->seo['title'];
     }
@@ -154,9 +152,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     #[\Override]
     public function getMetaDescription(): ?string
     {
-        if (null === $this->seo) {
-            $this->seo = $this->getDefaultSeo();
-        }
+        $this->seo ??= $this->getDefaultSeo();
 
         return $this->seo['description'];
     }

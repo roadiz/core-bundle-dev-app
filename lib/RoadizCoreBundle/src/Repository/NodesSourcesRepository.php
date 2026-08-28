@@ -700,9 +700,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     ): array {
         $parentsNodeSources = [];
 
-        if (null === $criteria) {
-            $criteria = [];
-        }
+        $criteria ??= [];
 
         $parent = $nodeSource;
 
@@ -903,9 +901,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             $defaultCriteria = array_merge($defaultCriteria, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'DESC';
 
@@ -943,9 +939,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             $defaultCriteria = array_merge($defaultCriteria, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'ASC';
 
