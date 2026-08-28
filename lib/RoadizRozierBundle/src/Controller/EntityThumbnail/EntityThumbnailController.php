@@ -56,9 +56,7 @@ final class EntityThumbnailController extends AbstractController
         // Get thumbnail data - provider is responsible for fetching entity
         $thumbnail = $this->entityThumbnailProvider->getThumbnail($entityClass, $entityId);
 
-        if (null === $thumbnail) {
-            $thumbnail = new EntityThumbnail();
-        }
+        $thumbnail ??= new EntityThumbnail();
 
         $response = new JsonResponse(
             $this->serializer->serialize($thumbnail, 'json'),
