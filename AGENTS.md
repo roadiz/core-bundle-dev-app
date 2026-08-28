@@ -66,7 +66,7 @@ Frontend and docs commands
 - Docs dev (local): `cd docs && corepack enable && pnpm install && pnpm docs:dev`.
 - Frontend source lives in `lib/Rozier`; built assets go to `lib/RoadizRozierBundle/public/`.
 - Avoid editing generated assets in `lib/RoadizRozierBundle/public/`.
-- After `pnpm build`, `bin/console cache:clear` alone may not refresh the compiled asset manifest (`manifest.json`, filename → content-hash mapping) — restart the `app` container (`docker compose restart app`) to force a fresh read. If you restart `app`, restart `nginx` too: it caches the `app` container's resolved IP and won't reconnect on its own after a restart (`502 Bad Gateway` / "no route to host").
+- After `pnpm build`, restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
 
 Code style guidelines (PHP)
 - Follow PSR-12 and Symfony conventions; PHP-CS-Fixer uses `@Symfony` rules.
