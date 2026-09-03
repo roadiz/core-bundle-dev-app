@@ -20,13 +20,6 @@ export default class Rozier {
 }
 
 declare global {
-    interface RzAsideElement extends HTMLElement {
-        bindMainTrees?: () => void
-        refreshMainNodeTree?: (translationId?: number) => Promise<void> | void
-        refreshMainTagTree?: (translationId?: number) => Promise<void> | void
-        refreshMainFolderTree?: (translationId?: number) => Promise<void> | void
-    }
-
     interface CanvasLoader {
         setColor(color: string): void
         setShape(shape: string): void
