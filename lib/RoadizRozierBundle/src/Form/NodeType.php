@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -32,49 +33,55 @@ class NodeType extends AbstractType
         $isReachable = null !== $node && $this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable();
         $isShadow = null !== $node && $node->isShadow();
 
-        $builder->add('nodeName', TextType::class, [
+        $nameGroup = $builder->create('groupName', FormType::class, [
+            'label' => false,
+            'required' => false,
+            'inherit_data' => true,
+            'attr' => [
+                'class' => 'rz-form rz-form--horizontal',
+            ]
+        ])->add('nodeName', TextType::class, [
             'label' => 'nodeName',
             'empty_data' => '',
             'help' => 'node.nodeName.help',
         ])
-            ->add('dynamicNodeName', CheckboxType::class, [
-                'label' => 'node.dynamicNodeName',
-                'required' => false,
-                'help' => 'dynamic_node_name_will_follow_any_title_change_on_default_translation',
-                'disabled' => $isShadow,
-            ])
-        ;
-        if ($isReachable) {
-            $builder->add('home', CheckboxType::class, [
-                'label' => 'node.isHome',
-                'help' => 'node.isHome.help',
-                'required' => false,
-                'disabled' => $isShadow,
-            ]);
-        }
+        ->add('dynamicNodeName', CheckboxType::class, [
+            'label' => 'node.dynamicNodeName',
+            'required' => false,
+            'help' => 'dynamic_node_name_will_follow_any_title_change_on_default_translation',
+            'disabled' => $isShadow,
+        ]);
+
+        $builder->add($nameGroup);
 
         if ($this->security->isGranted(NodeVoter::EDIT_STATUS, $node)) {
-            $builder->add('visible', CheckboxType::class, [
-                'label' => 'node.visible',
-                'help' => 'node.visible.help',
+            $paramsGroup = $builder->create('parameters', FormType::class, [
+                'label' => 'node.parameters',
                 'required' => false,
+                'inherit_data' => true,
+                'attr' => [
+                    'class' => 'rz-fieldset rz-fieldset--horizontal',
+                ]
+                ])->add('visible', CheckboxType::class, [
+                    'label' => 'node.visible',
+                    'help' => 'node.visible.help',
+                    'required' => false,
+                ])->add('hideChildren', CheckboxType::class, [
+                    'label' => 'node.hideChildren',
+                    'help' => 'node.hideChildren.help',
+                    'required' => false,
+                ])->add('locked', CheckboxType::class, [
+                    'label' => 'node.locked',
+                    'help' => 'node.locked.help',
+                    'required' => false,
+                    'disabled' => $isShadow,
+                ])->add('shadow', CheckboxType::class, [
+                    'label' => 'node.shadow',
+                    'help' => 'node.shadow.help',
+                    'required' => false,
             ]);
-            $builder->add('hideChildren', CheckboxType::class, [
-                'label' => 'node.hideChildren',
-                'help' => 'node.hideChildren.help',
-                'required' => false,
-            ]);
-            $builder->add('locked', CheckboxType::class, [
-                'label' => 'node.locked',
-                'help' => 'node.locked.help',
-                'required' => false,
-                'disabled' => $isShadow,
-            ]);
-            $builder->add('shadow', CheckboxType::class, [
-                'label' => 'node.shadow',
-                'help' => 'node.shadow.help',
-                'required' => false,
-            ]);
+
+            $builder->add($paramsGroup);
         }
 
         $builder->add('childrenOrder', ChoiceType::class, [
@@ -94,6 +101,12 @@ class NodeType extends AbstractType
             $builder->add('ttl', NumberType::class, [
                 'label' => 'node.ttl',
                 'help' => 'node_time_to_live_cache_on_front_controller',
+                'disabled' => $isShadow,
+            ]);
+            $builder->add('home', CheckboxType::class, [
+                'label' => 'node.isHome',
+                'help' => 'node.isHome.help',
+                'required' => false,
                 'disabled' => $isShadow,
             ]);
         }
