@@ -7,6 +7,8 @@ namespace RZ\Roadiz\RozierBundle\Form;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,8 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TranslateNodeType extends AbstractType
 {
-    public function __construct(protected ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        protected ManagerRegistry $managerRegistry,
+        protected TranslateAssistantInterface $translateAssistant,
+    ) {
     }
 
     #[\Override]
@@ -52,6 +56,14 @@ class TranslateNodeType extends AbstractType
                 'help' => 'translate_offspring.help',
                 'required' => false,
             ]);
+
+        if (!$this->translateAssistant instanceof NullTranslateAssistant) {
+            $builder->add('use_translate_assistant', CheckboxType::class, [
+                'label' => 'use_translate_assistant',
+                'help' => 'use_translate_assistant.help',
+                'required' => false,
+            ]);
+        }
     }
 
     #[\Override]

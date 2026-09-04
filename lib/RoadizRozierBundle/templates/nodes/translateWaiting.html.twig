@@ -1,0 +1,40 @@
+
+{% set currentTitle = node.nodeSources.first.title|default(node.nodeName) %}
+
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+
+{% block customStyles %}
+    {{ parent() }}
+    {% if try < 30 %}
+        <meta http-equiv="refresh" content="2;url={{ path('nodesTranslateWaitingPage', {nodeId: node.id, translationId: translation.id, try: try + 1}) }}">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="content-global">
+    <header class="content-header header-node header-node-edit">
+        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {"node": node} only %}
+        <h1 class="content-title node-edit-title">
+            {{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
+            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+        </h1>
+        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
+    </header>
+
+    <article class="content content-node-translate">
+        <div class="content-table-cont">
+        {% if try < 30 %}
+            <p><i class="uk-icon uk-icon-spinner uk-icon-spin"></i> {% trans %}translation_in_progress{% endtrans %}</p>
+        {% else %}
+            <p class="uk-alert uk-alert-warning"><i class="uk-icon uk-icon-warning"></i> {% trans %}translation_in_progress.taking_longer{% endtrans %}</p>
+            <p>
+                <a class="uk-button" href="{{ path('nodesEditSourcePage', {nodeId: node.id, translationId: translation.id}) }}">{% trans %}edit.node{% endtrans %}</a>
+                <a class="uk-button" href="{{ path('nodesTreePage') }}">{% trans %}nodes{% endtrans %}</a>
+            </p>
+        {% endif %}
+        </div>
+    </article>
+</section>
+{% endblock %}

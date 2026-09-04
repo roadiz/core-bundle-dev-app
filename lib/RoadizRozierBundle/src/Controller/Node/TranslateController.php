@@ -10,14 +10,17 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Node\NodeTranslator;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\TranslateNodeType;
+use RZ\Roadiz\RozierBundle\Message\TranslateNodeMessage;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -28,6 +31,8 @@ final class TranslateController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly NodeTranslator $nodeTranslator,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private readonly MessageBusInterface $bus,
     ) {
     }
 
@@ -67,6 +72,30 @@ final class TranslateController extends AbstractController
                 /** @var Translation $sourceTranslation */
                 $sourceTranslation = $form->get('sourceTranslation')->getData();
                 $translateOffspring = (bool) $form->get('translate_offspring')->getData();
+                // Field is absent when no translate-assistant provider is configured.
+                $useAssistant = $form->has('use_translate_assistant')
+                    && (bool) $form->get('use_translate_assistant')->getData();
+
+                if ($useAssistant) {
+                    $this->bus->dispatch(new TranslateNodeMessage(
+                        $node->getId(),
+                        $sourceTranslation->getId(),
+                        $destinationTranslation->getId(),
+                        $translateOffspring,
+                    ));
+                    $this->logTrail->publishConfirmMessage(
+                        $request,
+                        $this->translator->trans('node.%name%.translation_in_progress', [
+                            '%name%' => $node->getNodeName(),
+                        ]),
+                        $node->getNodeSources()->first() ?: null
+                    );
+
+                    return $this->redirectToRoute(
+                        'nodesTranslateWaitingPage',
+                        ['nodeId' => $node->getId(), 'translationId' => $destinationTranslation->getId()]
+                    );
+                }
 
                 try {
                     $this->nodeTranslator->translateNode($sourceTranslation, $destinationTranslation, $node, $translateOffspring);
@@ -102,5 +131,49 @@ final class TranslateController extends AbstractController
         }
 
         return $this->render('@RoadizRozier/nodes/translate.html.twig', $assignation);
+    }
+
+    #[Route(
+        path: '/rz-admin/nodes/translate/{nodeId}/waiting/{translationId}',
+        name: 'nodesTranslateWaitingPage',
+        requirements: [
+            'nodeId' => '[0-9]+',
+            'translationId' => '[0-9]+',
+        ],
+        methods: ['GET'],
+    )]
+    public function waitingAction(
+        Request $request,
+        #[MapEntity(
+            expr: 'repository.find(nodeId)',
+            evictCache: true,
+            message: 'Node does not exist'
+        )]
+        Node $node,
+        #[MapEntity(
+            expr: 'repository.find(translationId)',
+            evictCache: true,
+            message: 'Translation does not exist'
+        )]
+        Translation $translation,
+    ): Response {
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $node);
+
+        /*
+         * The worker translates and flushes the cloned source in a single transaction:
+         * once the source exists, its fields are already translated.
+         */
+        if (null !== $this->allStatusesNodesSourcesRepository->findOneByNodeAndTranslation($node, $translation)) {
+            return $this->redirectToRoute(
+                'nodesEditSourcePage',
+                ['nodeId' => $node->getId(), 'translationId' => $translation->getId()]
+            );
+        }
+
+        return $this->render('@RoadizRozier/nodes/translateWaiting.html.twig', [
+            'node' => $node,
+            'translation' => $translation,
+            'try' => (int) $request->query->get('try', 0),
+        ]);
     }
 }
