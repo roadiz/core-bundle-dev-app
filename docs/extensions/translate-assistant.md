@@ -23,6 +23,7 @@ namespace App\TranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInput;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantOutput;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantUsage;
 
 final readonly class CustomTranslateAssistant implements TranslateAssistantInterface
 {
@@ -50,8 +51,21 @@ final readonly class CustomTranslateAssistant implements TranslateAssistantInter
     {
         return false;
     }
+
+    public function usage(): ?TranslateAssistantUsage
+    {
+        // Return null if your provider has no quota notion, or if it cannot be read.
+        return new TranslateAssistantUsage(characterCount: 0, characterLimit: 500000);
+    }
 }
 ```
+
+::: warning BC break
+`usage()` is a new method on `TranslateAssistantInterface`. Any third-party
+implementation must declare it — returning `null` is a valid no-op. Never throw from it:
+the back office calls it from the dashboard and from every Markdown edit form without
+knowing which provider is wired.
+:::
 
 ### Input/Output DTOs
 
@@ -65,6 +79,11 @@ final readonly class CustomTranslateAssistant implements TranslateAssistantInter
   - `translatedText` (string)
   - `sourceLang` (string)
   - `targetLang` (string)
+- `TranslateAssistantUsage`
+  - `characterCount` (int)
+  - `characterLimit` (int)
+  - `getPercentage(): float`
+  - `isLimitReached(): bool`
 
 ## Wiring your provider
 
@@ -96,6 +115,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInput;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantOutput;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantUsage;
 
 final readonly class OpenAiTranslateAssistant implements TranslateAssistantInterface
 {
@@ -146,6 +166,12 @@ final readonly class OpenAiTranslateAssistant implements TranslateAssistantInter
     public function supportRephrase(): bool
     {
         return true;
+    }
+
+    public function usage(): ?TranslateAssistantUsage
+    {
+        // OpenAI exposes no character quota: the back office simply hides the usage panel.
+        return null;
     }
 
     private function request(string $prompt, ?string $sourceLang): string
