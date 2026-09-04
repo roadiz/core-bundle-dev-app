@@ -398,6 +398,10 @@
         <source>indexed</source>
         <target state="final">Indexed</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="excludeFromTranslation" approved="yes">
+        <source>excludeFromTranslation</source>
+        <target state="final">Excluded from machine translation</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="100" approved="yes">
         <source>defaultValues</source>
         <target state="final">Default values</target>
@@ -434,6 +438,18 @@
       <trans-unit xml:space="preserve" id="102" approved="yes">
         <source>node.%name%.translated</source>
         <target state="final">Node %name% has been translated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.translation_in_progress" approved="yes">
+        <source>node.%name%.translation_in_progress</source>
+        <target state="final">Translation of node %name% is in progress.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress" approved="yes">
+        <source>translation_in_progress</source>
+        <target state="final">Translation in progress…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress.taking_longer" approved="yes">
+        <source>translation_in_progress.taking_longer</source>
+        <target state="final">This translation is taking longer than expected. It may still be running, or it may have failed.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="103" approved="yes">
         <source>node_source.%node_source%.updated.%translation%</source>
@@ -4194,6 +4210,10 @@
         <source>translate_offspring</source>
         <target state="final">Translate node hierarchy</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="use_translate_assistant" approved="yes">
+        <source>use_translate_assistant</source>
+        <target state="final">Translate content with translation assistant</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="node.%name%.undeleted" approved="yes">
         <source>node.%name%.undeleted</source>
         <target state="final">Node %name% has been undeleted</target>
@@ -5073,6 +5093,14 @@
       <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
         <source>bookmarks.links</source>
         <target state="final">Bookmarks</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage" approved="yes">
+        <source>translate_assistant.usage</source>
+        <target state="final">Translation assistant quota</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage.%count%_of_%limit%_characters" approved="yes">
+        <source>translate_assistant.usage.%count%_of_%limit%_characters</source>
+        <target state="final">%count% of %limit% characters used</target>
       </trans-unit>
     </body>
   </file>

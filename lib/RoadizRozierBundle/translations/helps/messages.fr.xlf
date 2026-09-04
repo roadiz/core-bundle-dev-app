@@ -50,6 +50,9 @@
       <trans-unit xml:space="preserve" id="translate_offspring.help" approved="yes">
                 <source>translate_offspring.help</source>
             <target state="final">Effectue la traduction sur tous les nœuds enfants en cascade lorsque ceux-ci ne sont pas traduits dans la langue de destination.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="use_translate_assistant.help" approved="yes">
+                <source>use_translate_assistant.help</source>
+            <target state="final">Les sources sont clonées, puis traduites en arrière-plan par le prestataire configuré. Les champs marqués universal ou excludeFromTranslation sont laissés intacts.</target></trans-unit>
       <trans-unit xml:space="preserve" id="user.publicName.help" approved="yes">
                 <source>user.publicName.help</source>
             <target state="final">Si rempli, le nom publique peut être affiché librement sur le site à la manière d'un pseudonyme.</target></trans-unit>

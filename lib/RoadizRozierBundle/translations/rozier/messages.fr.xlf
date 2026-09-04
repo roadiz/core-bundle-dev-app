@@ -398,6 +398,10 @@
         <source>indexed</source>
         <target state="final">Indexé</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="excludeFromTranslation" approved="yes">
+        <source>excludeFromTranslation</source>
+        <target state="final">Exclu de la traduction automatique</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="100" approved="yes">
         <source>defaultValues</source>
         <target state="final">Valeur(s) par défaut</target>
@@ -434,6 +438,18 @@
       <trans-unit xml:space="preserve" id="102" approved="yes">
         <source>node.%name%.translated</source>
         <target state="final">Le nœud «%name%» a été traduit.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.translation_in_progress" approved="yes">
+        <source>node.%name%.translation_in_progress</source>
+        <target state="final">La traduction du nœud «%name%» est en cours.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress" approved="yes">
+        <source>translation_in_progress</source>
+        <target state="final">Traduction en cours…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress.taking_longer" approved="yes">
+        <source>translation_in_progress.taking_longer</source>
+        <target state="final">Cette traduction prend plus de temps que prévu. Elle est peut-être encore en cours, ou bien elle a échoué.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="103" approved="yes">
         <source>node_source.%node_source%.updated.%translation%</source>
@@ -4194,6 +4210,10 @@
         <source>translate_offspring</source>
         <target state="final">Traduire toute l’arborescence</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="use_translate_assistant" approved="yes">
+        <source>use_translate_assistant</source>
+        <target state="final">Traduire le contenu avec l’assistant de traduction</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="node.%name%.undeleted" approved="yes">
         <source>node.%name%.undeleted</source>
         <target state="final">Le nœud «%name%» a été sorti de la corbeille</target>
@@ -5073,6 +5093,14 @@
       <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
         <source>bookmarks.links</source>
         <target state="final">Liens utiles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage" approved="yes">
+        <source>translate_assistant.usage</source>
+        <target state="final">Quota de l’assistant de traduction</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage.%count%_of_%limit%_characters" approved="yes">
+        <source>translate_assistant.usage.%count%_of_%limit%_characters</source>
+        <target state="final">%count% caractères utilisés sur %limit%</target>
       </trans-unit>
     </body>
   </file>

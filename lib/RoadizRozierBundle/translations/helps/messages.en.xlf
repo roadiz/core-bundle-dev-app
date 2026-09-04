@@ -50,6 +50,9 @@
       <trans-unit xml:space="preserve" id="translate_offspring.help" approved="yes">
                 <source>translate_offspring.help</source>
             <target state="final">This will propagate translation to every node children when they are not translated yet in destination language.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="use_translate_assistant.help" approved="yes">
+                <source>use_translate_assistant.help</source>
+            <target state="final">Node sources are cloned, then translated in the background by the configured provider. Fields flagged as universal or excludeFromTranslation are left untouched.</target></trans-unit>
       <trans-unit xml:space="preserve" id="user.publicName.help" approved="yes">
                 <source>user.publicName.help</source>
             <target state="final">If filled, public name may be displayed to any other website user, you can use it as a pseudonym.</target></trans-unit>
