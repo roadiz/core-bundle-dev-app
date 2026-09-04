@@ -121,4 +121,30 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
     {
         return !str_ends_with($this->apiKey, ':fx');
     }
+
+    #[\Override]
+    public function usage(): ?TranslateAssistantUsage
+    {
+        if (empty($this->apiKey)) {
+            return null;
+        }
+
+        try {
+            // Shorter TTL than denyNotAvailableLanguages: the quota moves at every translation.
+            $cacheItem = $this->cache->getItem('DeeplTranslateAssistant_usage');
+            if (!$cacheItem->isHit()) {
+                $character = (new DeepLClient($this->apiKey))->getUsage()->character;
+                $cacheItem->set(null !== $character ? new TranslateAssistantUsage($character->count, $character->limit) : null);
+                $cacheItem->expiresAfter(300);
+                $this->cache->save($cacheItem);
+            }
+
+            $usage = $cacheItem->get();
+
+            return $usage instanceof TranslateAssistantUsage ? $usage : null;
+        } catch (DeepLException|InvalidArgumentException) {
+            // An unreachable quota must break neither the dashboard nor an edit form.
+            return null;
+        }
+    }
 }
