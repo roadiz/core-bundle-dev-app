@@ -1,0 +1,43 @@
+meta {
+  name: Debug CSRF
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/rz-admin/ajax/_debug/csrf?token={{ajaxToken}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  token: {{ajaxToken}}
+}
+
+script:post-response {
+  const data = res.getBody()
+  // Capture a token bound to THIS session so the write requests match.
+  if (data && data.freshToken) {
+    bru.setVar('ajaxToken', data.freshToken)
+  }
+  console.log(
+    'CSRF debug → sessionId:', data && data.sessionId,
+    '| user:', data && data.user,
+    '| submittedTokenValid:', data && data.submittedTokenValid,
+  )
+}
+
+docs {
+  Dev-only (`App\Controller\DebugCsrfController`, `#[Route(env: 'dev')]` — the route is not
+  registered at all outside the dev environment).
+
+  Run this first: it reads the session behind your `admin_cookie` and writes a **matching**
+  `ajaxToken` runtime var (overriding the env secret) for the other requests in this folder.
+  You then only ever need to paste the session `Cookie` — the token is fetched for you.
+
+  Compare `sessionId` here (via Bruno) with the same route opened in your **browser**:
+  - different ids → your `admin_cookie` is not carrying the authenticated session
+    (the `roadiz_core_app` cookie is HttpOnly — copy it from the DevTools Network tab).
+  - same id but `submittedTokenValid: false` → the token you had was from another session;
+    it is now refreshed, so the write requests will pass.
+}
