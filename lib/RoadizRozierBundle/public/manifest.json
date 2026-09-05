@@ -76,7 +76,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-Bc0wfAS7.js",
+    "file": "NodeSourceEditPage-Dn4yxCUn.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -87,10 +87,15 @@
     ]
   },
   "app/custom-elements/NodeTreeContextualMenu.js": {
-    "file": "NodeTreeContextualMenu-BOXjO34A.js",
+    "file": "NodeTreeContextualMenu-iO5_7wNn.js",
     "name": "NodeTreeContextualMenu",
     "src": "app/custom-elements/NodeTreeContextualMenu.js",
-    "isDynamicEntry": true
+    "isDynamicEntry": true,
+    "imports": [
+      "app/main.js",
+      "_jquery-Cs7-jZ1a.js",
+      "_vue-BqDQd3Vv.js"
+    ]
   },
   "app/custom-elements/RzEntityThumbnail.ts": {
     "file": "RzEntityThumbnail-ChGiX1nH.js",
@@ -102,7 +107,7 @@
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-CW_urlXe.js",
+    "file": "RzFileUpload-CCqHa9Cx.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -155,7 +160,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-BBQn5xLf.js",
+    "file": "TagEditPage-5fotHj2n.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -166,7 +171,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-CwXhIPj0.js",
+    "file": "main-CXWG69Rf.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,

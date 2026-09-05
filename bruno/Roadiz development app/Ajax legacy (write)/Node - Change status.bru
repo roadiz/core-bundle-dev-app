@@ -1,0 +1,32 @@
+meta {
+  name: Node - Change status
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/rz-admin/ajax/nodes/statuses
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  csrfToken: {{ajaxToken}}
+  nodeId: 278
+  statusName: status
+  statusValue: publish
+  ~statusName: visible
+  ~statusValue: true
+  ~statusName: locked
+  ~statusName: hideChildren
+}
+
+docs {
+  `statusName` is one of: `status`, `visible`, `locked`, `hideChildren`.
+  
+  When `statusName=status`, `statusValue` is a workflow transition:
+  `review`, `publish`, `reject` (unpublish), `archive`, `unarchive`, `delete`, `undelete`.
+  Otherwise `statusValue` is a boolean (`true`/`false`).
+  
+  A locked node rejects any `status` transition (400 `A locked node cannot change its status.`).
+}
