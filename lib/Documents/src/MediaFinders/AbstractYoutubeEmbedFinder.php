@@ -22,6 +22,8 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
     protected static string $idPattern = '#^https\:\/\/(?:www\.|studio\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v\=|video\?v\=)?(?<id>[a-zA-Z0-9\_\-]+)#';
     protected static string $realIdPattern = '#^(?<id>[a-zA-Z0-9\_\-]+)$#';
     protected ?string $embedUrl = null;
+    private ?int $thumbnailWidth = null;
+    private ?int $thumbnailHeight = null;
 
     #[\Override]
     public static function getPlatform(): string
@@ -138,23 +140,41 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         if (null !== $maxRes) {
             $file = DownloadedFile::fromUrl($maxRes, $this->getThumbnailName(basename($maxRes)));
             if (null !== $file) {
-                return $file;
+                return $this->rememberThumbnailSize($file);
             }
         }
 
-        return parent::downloadThumbnail();
+        $file = parent::downloadThumbnail();
+
+        return null !== $file ? $this->rememberThumbnailSize($file) : null;
+    }
+
+    /**
+     * oEmbed width/height describe the embed player (e.g. 200×113), not the
+     * downloaded cover. Measure the actual thumbnail so the document stores the
+     * real image size — otherwise the maxres cover keeps the tiny oEmbed size.
+     */
+    private function rememberThumbnailSize(File $file): File
+    {
+        $size = @getimagesize($file->getPathname());
+        if (false !== $size) {
+            $this->thumbnailWidth = $size[0];
+            $this->thumbnailHeight = $size[1];
+        }
+
+        return $file;
     }
 
     #[\Override]
     public function getMediaWidth(): ?int
     {
-        return $this->getFeed()['width'] ?? null;
+        return $this->thumbnailWidth ?? $this->getFeed()['width'] ?? null;
     }
 
     #[\Override]
     public function getMediaHeight(): ?int
     {
-        return $this->getFeed()['height'] ?? null;
+        return $this->thumbnailHeight ?? $this->getFeed()['height'] ?? null;
     }
 
     #[\Override]
