@@ -1,0 +1,27 @@
+meta {
+  name: Node contextual menu
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/rz-admin/ajax/nodes/contextual-menu/:nodeId/:translationId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  translationId: 1
+  nodeId: 278
+}
+
+headers {
+  Accept: text/html
+  X-Requested-With: XMLHttpRequest
+  Cookie: {{admin_cookie}}
+}
+
+docs {
+  Renders the node tree contextual-menu HTML fragment (206 Partial Content).
+  Path params: `{node}` id and `{translation}` id (both integers). Requires `ROLE_ACCESS_NODES`.
+}
