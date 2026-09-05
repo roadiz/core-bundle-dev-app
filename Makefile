@@ -71,3 +71,7 @@ migrate:
 update:
 	docker compose exec app php bin/console doctrine:migrations:migrate -n
 	docker compose exec app php bin/console app:install
+
+build_assets:
+	docker compose run --rm --no-deps --entrypoint= node pnpm install --frozen-lockfile
+	docker compose run --rm --no-deps --entrypoint= node pnpm build
