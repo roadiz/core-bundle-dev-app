@@ -112,6 +112,7 @@ Symfony and Doctrine practices
 - Validate user input with Symfony Validator; avoid custom ad-hoc checks.
 - Use repository methods for query reuse and clear intent.
 - Keep entities focused on state, not heavy business logic.
+- Keep services stateless: Roadiz can run on a long-running runtime (FrankenPHP worker mode, Messenger workers), where a service instance is reused across many requests/messages. Mutable request-scoped properties leak between them. Pass per-request data as method arguments; if a service must hold mutable state, implement `Symfony\Contracts\Service\ResetInterface` so the runtime clears it between requests. Objects built fresh per use (e.g. `EmbedFinderFactory` returns `new` finders per embed) are exempt.
 
 Testing guidelines
 - Add or update PHPUnit tests for functional changes.
