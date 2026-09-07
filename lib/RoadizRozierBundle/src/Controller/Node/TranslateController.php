@@ -9,12 +9,14 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeTranslator;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\TranslateNodeType;
 use RZ\Roadiz\RozierBundle\Message\TranslateNodeMessage;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantEstimator;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -33,6 +35,8 @@ final class TranslateController extends AbstractController
         private readonly NodeTranslator $nodeTranslator,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private readonly MessageBusInterface $bus,
+        private readonly TranslateAssistantEstimator $translateAssistantEstimator,
+        private readonly NodeOffspringResolverInterface $nodeOffspringResolver,
     ) {
     }
 
@@ -55,14 +59,21 @@ final class TranslateController extends AbstractController
     ): Response {
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $node);
 
+        /*
+         * Subtree-wide, not node-only: once the node itself is translated, the language would
+         * disappear from the form even though descendants still miss it — which used to leave
+         * an interrupted subtree translation with no way to resume from the back office.
+         */
+        $subtreeNodeIds = $this->nodeOffspringResolver->getAllOffspringIds($node);
         $availableTranslations = $this->managerRegistry
             ->getRepository(Translation::class)
-            ->findUnavailableTranslationsForNode($node);
+            ->findIncompleteTranslationsForNodes($subtreeNodeIds);
         $assignation = [];
 
         if (count($availableTranslations) > 0) {
             $form = $this->createForm(TranslateNodeType::class, null, [
                 'node' => $node,
+                'subtreeNodeIds' => $subtreeNodeIds,
             ]);
             $form->handleRequest($request);
 
@@ -76,7 +87,50 @@ final class TranslateController extends AbstractController
                 $useAssistant = $form->has('use_translate_assistant')
                     && (bool) $form->get('use_translate_assistant')->getData();
 
-                if ($useAssistant) {
+                // A dry run never translates anything, whatever the other checkboxes say.
+                $isDryRun = $form->has('dry_run') && (bool) $form->get('dry_run')->getData();
+
+                $estimate = null;
+                if ($isDryRun || $useAssistant) {
+                    $estimate = $this->translateAssistantEstimator->estimate(
+                        $node,
+                        $sourceTranslation,
+                        $destinationTranslation,
+                        $translateOffspring,
+                    );
+                    $assignation['estimate'] = $estimate;
+                }
+
+                if ($isDryRun) {
+                    // Nothing to do: the estimate is the whole point, fall through to rendering.
+                } elseif (!$useAssistant) {
+                    try {
+                        $this->nodeTranslator->translateNode($sourceTranslation, $destinationTranslation, $node, $translateOffspring);
+                        $this->managerRegistry->getManagerForClass(NodesSources::class)?->flush();
+                        $msg = $this->translator->trans('node.%name%.translated', [
+                            '%name%' => $node->getNodeName(),
+                        ]);
+                        /** @var NodesSources|false $nodeSource */
+                        $nodeSource = $node->getNodeSources()->first();
+                        $this->logTrail->publishConfirmMessage(
+                            $request,
+                            $msg,
+                            $nodeSource ?: null
+                        );
+
+                        return $this->redirectToRoute(
+                            'nodesEditSourcePage',
+                            ['nodeId' => $node->getId(), 'translationId' => $destinationTranslation->getId()]
+                        );
+                    } catch (EntityAlreadyExistsException $e) {
+                        $form->addError(new FormError($e->getMessage()));
+                    }
+                } elseif (null !== $estimate && !$estimate->fitsInQuota()) {
+                    // Refuse up front rather than let the worker die halfway through the subtree.
+                    $form->addError(new FormError(
+                        $this->translator->trans('translate_assistant.estimate.exceeds_quota')
+                    ));
+                } else {
                     $this->bus->dispatch(new TranslateNodeMessage(
                         $node->getId(),
                         $sourceTranslation->getId(),
@@ -95,28 +149,6 @@ final class TranslateController extends AbstractController
                         'nodesTranslateWaitingPage',
                         ['nodeId' => $node->getId(), 'translationId' => $destinationTranslation->getId()]
                     );
-                }
-
-                try {
-                    $this->nodeTranslator->translateNode($sourceTranslation, $destinationTranslation, $node, $translateOffspring);
-                    $this->managerRegistry->getManagerForClass(NodesSources::class)?->flush();
-                    $msg = $this->translator->trans('node.%name%.translated', [
-                        '%name%' => $node->getNodeName(),
-                    ]);
-                    /** @var NodesSources|false $nodeSource */
-                    $nodeSource = $node->getNodeSources()->first();
-                    $this->logTrail->publishConfirmMessage(
-                        $request,
-                        $msg,
-                        $nodeSource ?: null
-                    );
-
-                    return $this->redirectToRoute(
-                        'nodesEditSourcePage',
-                        ['nodeId' => $node->getId(), 'translationId' => $destinationTranslation->getId()]
-                    );
-                } catch (EntityAlreadyExistsException $e) {
-                    $form->addError(new FormError($e->getMessage()));
                 }
             }
             $assignation['form'] = $form->createView();

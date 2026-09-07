@@ -5102,6 +5102,38 @@
         <source>translate_assistant.usage.%count%_of_%limit%_characters</source>
         <target state="final">%count% caractères utilisés sur %limit%</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.dry_run" approved="yes">
+        <source>translate_assistant.dry_run</source>
+        <target state="final">Simulation : estimer le coût sans traduire</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%characters%_characters_for_%sources%_sources" approved="yes">
+        <source>translate_assistant.estimate.%characters%_characters_for_%sources%_sources</source>
+        <target state="final">Cette exécution enverrait %characters% caractères pour %sources% source(s) de nœud.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%remaining%_characters_remaining" approved="yes">
+        <source>translate_assistant.estimate.%remaining%_characters_remaining</source>
+        <target state="final">%remaining% caractères restants sur votre quota.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.exceeds_quota" approved="yes">
+        <source>translate_assistant.estimate.exceeds_quota</source>
+        <target state="final">Cette traduction dépasserait votre quota restant. Réduisez le périmètre ou augmentez votre offre chez le prestataire.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.nothing_to_translate" approved="yes">
+        <source>translate_assistant.estimate.nothing_to_translate</source>
+        <target state="final">Rien à traduire : toutes les sources existent déjà dans la langue de destination.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.quota_exceeded" approved="yes">
+        <source>translate_assistant.error.quota_exceeded</source>
+        <target state="final">La traduction de « %name% » s’est arrêtée : le quota de l’assistant de traduction est épuisé. Vérifiez votre offre chez le prestataire, puis relancez la traduction.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.provider_unreachable" approved="yes">
+        <source>translate_assistant.error.provider_unreachable</source>
+        <target state="final">La traduction de « %name% » n’a pas pu joindre l’assistant de traduction. Une nouvelle tentative aura lieu automatiquement.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.check_integration" approved="yes">
+        <source>translate_assistant.error.check_integration</source>
+        <target state="final">La traduction de « %name% » s’est arrêtée : l’assistant de traduction a refusé la requête. Vérifiez votre intégration de l’assistant de traduction.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

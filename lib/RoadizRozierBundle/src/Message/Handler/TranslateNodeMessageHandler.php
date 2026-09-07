@@ -13,7 +13,11 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeTranslator;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Message\TranslateNodeMessage;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantException;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantTransportException;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantUsageException;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NodesSourcesTranslator;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
@@ -21,6 +25,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
 final readonly class TranslateNodeMessageHandler
@@ -34,6 +39,8 @@ final readonly class TranslateNodeMessageHandler
         private NodeTypes $nodeTypesBag,
         private MessageBusInterface $bus,
         private EventDispatcherInterface $dispatcher,
+        private LogTrail $logTrail,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -74,7 +81,12 @@ final readonly class TranslateNodeMessageHandler
 
         // Already translated: nothing was scheduled, do not flush.
         if ([] !== $created) {
-            $this->translateCreatedSources($created, $entityManager, $sourceTranslation, $destinationTranslation);
+            try {
+                $this->translateCreatedSources($created, $entityManager, $sourceTranslation, $destinationTranslation);
+            } catch (TranslateAssistantException $exception) {
+                // Nothing was flushed for this node, so there is no partial source to clean up.
+                throw $this->asMessengerFailure($exception, $node);
+            }
         }
 
         if ($message->isTranslateChildren()) {
@@ -121,5 +133,36 @@ final readonly class TranslateNodeMessageHandler
         foreach ($created as $source) {
             $this->dispatcher->dispatch(new NodesSourcesUpdatedEvent($source));
         }
+    }
+
+    /**
+     * Decides, from the exception type alone, whether Messenger should try again — and warns the
+     * editor either way.
+     *
+     * There is no Request in a worker, so LogTrail writes to the log table only (no flash): that
+     * is what makes the warning reachable from the back-office history.
+     */
+    private function asMessengerFailure(TranslateAssistantException $exception, Node $node): \Throwable
+    {
+        $retryable = $exception instanceof TranslateAssistantTransportException;
+
+        $this->logTrail->publishErrorMessage(
+            null,
+            $this->translator->trans(
+                $retryable
+                    ? 'translate_assistant.error.provider_unreachable'
+                    : ($exception instanceof TranslateAssistantUsageException
+                        ? 'translate_assistant.error.quota_exceeded'
+                        : 'translate_assistant.error.check_integration'),
+                ['%name%' => $node->getNodeName()]
+            ),
+            $node
+        );
+
+        // Quota and credential failures cannot heal within a retry window, and each attempt is
+        // billed: stop now instead of burning the retries.
+        return $retryable
+            ? $exception
+            : new UnrecoverableMessageHandlingException($exception->getMessage(), previous: $exception);
     }
 }

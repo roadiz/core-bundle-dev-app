@@ -26,9 +26,11 @@ class TranslateNodeType extends AbstractType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Subtree-wide: a root that is already translated must still offer the language when
+        // some of its descendants are missing it, otherwise a half-done run cannot be resumed.
         $translations = $this->managerRegistry
             ->getRepository(Translation::class)
-            ->findUnavailableTranslationsForNode($options['node']);
+            ->findIncompleteTranslationsForNodes($options['subtreeNodeIds']);
         $availableTranslations = $this->managerRegistry
             ->getRepository(Translation::class)
             ->findAvailableTranslationsForNode($options['node']);
@@ -58,11 +60,17 @@ class TranslateNodeType extends AbstractType
             ]);
 
         if (!$this->translateAssistant instanceof NullTranslateAssistant) {
-            $builder->add('use_translate_assistant', CheckboxType::class, [
-                'label' => 'use_translate_assistant',
-                'help' => 'use_translate_assistant.help',
-                'required' => false,
-            ]);
+            $builder
+                ->add('use_translate_assistant', CheckboxType::class, [
+                    'label' => 'use_translate_assistant',
+                    'help' => 'use_translate_assistant.help',
+                    'required' => false,
+                ])
+                ->add('dry_run', CheckboxType::class, [
+                    'label' => 'translate_assistant.dry_run',
+                    'help' => 'translate_assistant.dry_run.help',
+                    'required' => false,
+                ]);
         }
     }
 
@@ -84,7 +92,9 @@ class TranslateNodeType extends AbstractType
 
         $resolver->setRequired([
             'node',
+            'subtreeNodeIds',
         ]);
         $resolver->setAllowedTypes('node', Node::class);
+        $resolver->setAllowedTypes('subtreeNodeIds', 'int[]');
     }
 }

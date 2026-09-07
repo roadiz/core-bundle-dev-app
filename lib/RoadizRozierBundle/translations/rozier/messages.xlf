@@ -1338,6 +1338,14 @@
             <trans-unit xml:space="preserve" id="bookmarks.links"><source>bookmarks.links</source></trans-unit>
             <trans-unit xml:space="preserve" id="translate_assistant.usage"><source>translate_assistant.usage</source></trans-unit>
             <trans-unit xml:space="preserve" id="translate_assistant.usage.%count%_of_%limit%_characters"><source>translate_assistant.usage.%count%_of_%limit%_characters</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.dry_run"><source>translate_assistant.dry_run</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.%characters%_characters_for_%sources%_sources"><source>translate_assistant.estimate.%characters%_characters_for_%sources%_sources</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.%remaining%_characters_remaining"><source>translate_assistant.estimate.%remaining%_characters_remaining</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.exceeds_quota"><source>translate_assistant.estimate.exceeds_quota</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.nothing_to_translate"><source>translate_assistant.estimate.nothing_to_translate</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.error.quota_exceeded"><source>translate_assistant.error.quota_exceeded</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.error.provider_unreachable"><source>translate_assistant.error.provider_unreachable</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.error.check_integration"><source>translate_assistant.error.check_integration</source></trans-unit>
         </body>
     </file>
 </xliff>

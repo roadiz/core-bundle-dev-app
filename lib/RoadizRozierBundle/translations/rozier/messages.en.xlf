@@ -5102,6 +5102,38 @@
         <source>translate_assistant.usage.%count%_of_%limit%_characters</source>
         <target state="final">%count% of %limit% characters used</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.dry_run" approved="yes">
+        <source>translate_assistant.dry_run</source>
+        <target state="final">Dry run: estimate the cost without translating</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%characters%_characters_for_%sources%_sources" approved="yes">
+        <source>translate_assistant.estimate.%characters%_characters_for_%sources%_sources</source>
+        <target state="final">This run would send %characters% characters for %sources% node-source(s).</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%remaining%_characters_remaining" approved="yes">
+        <source>translate_assistant.estimate.%remaining%_characters_remaining</source>
+        <target state="final">%remaining% characters remaining on your quota.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.exceeds_quota" approved="yes">
+        <source>translate_assistant.estimate.exceeds_quota</source>
+        <target state="final">This translation would exceed your remaining quota. Reduce the scope or top up your provider plan.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.nothing_to_translate" approved="yes">
+        <source>translate_assistant.estimate.nothing_to_translate</source>
+        <target state="final">Nothing to translate: every node-source already exists in the destination language.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.quota_exceeded" approved="yes">
+        <source>translate_assistant.error.quota_exceeded</source>
+        <target state="final">Translation of "%name%" stopped: the translation-assistant quota is exhausted. Check your provider plan, then start the translation again.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.provider_unreachable" approved="yes">
+        <source>translate_assistant.error.provider_unreachable</source>
+        <target state="final">Translation of "%name%" could not reach the translation assistant. It will be retried automatically.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.check_integration" approved="yes">
+        <source>translate_assistant.error.check_integration</source>
+        <target state="final">Translation of "%name%" stopped: the translation assistant refused the request. Check your translation-assistant integration.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

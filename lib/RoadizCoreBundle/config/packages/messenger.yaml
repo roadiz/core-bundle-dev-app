@@ -1,7 +1,8 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
+        # Failed messages are kept in the `failed` transport instead of being discarded, so a
+        # failure stays inspectable with messenger:failed:show.
+        failure_transport: failed
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration

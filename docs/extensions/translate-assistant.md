@@ -67,6 +67,43 @@ the back office calls it from the dashboard and from every Markdown edit form wi
 knowing which provider is wired.
 :::
 
+### Error contract
+
+A provider must never leak its own exception types. Translate every failure into the
+provider-agnostic hierarchy, because callers decide whether retrying is worth anything from
+the exception type alone:
+
+| exception                              | meaning                                   | retried?                                                                    |
+|----------------------------------------|-------------------------------------------|-----------------------------------------------------------------------------|
+| `TranslateAssistantUsageException`     | quota exhausted                           | **no** — it cannot refill within a retry window, and each attempt is billed |
+| `TranslateAssistantAccountException`   | key rejected, account blocked or unpaid   | **no** — only a config or billing change fixes it                           |
+| `TranslateAssistantTransportException` | provider unreachable, or rate-limiting us | **yes**                                                                     |
+| `TranslateAssistantException`          | anything else                             | no — treated as permanent                                                   |
+
+All four live in `RZ\Roadiz\RozierBundle\TranslateAssistant\Exception`. Always pass the
+original error as `previous`, so it survives in the logs:
+
+```php
+use DeepL\QuotaExceededException;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantUsageException;
+
+try {
+    // … call your provider …
+} catch (QuotaExceededException $exception) {
+    throw new TranslateAssistantUsageException($exception->getMessage(), previous: $exception);
+}
+```
+
+Subtree translation relies on this: an unretryable failure stops the message immediately
+instead of burning three attempts, and the editor gets a warning in the back-office history
+naming the node that stopped.
+
+::: warning BC break
+Throwing provider-specific exceptions from `translate()` or `rephrase()` used to be
+tolerated. It no longer is: such an exception escapes uncaught and is retried as if it were
+transient.
+:::
+
 ### Input/Output DTOs
 
 - `TranslateAssistantInput`
