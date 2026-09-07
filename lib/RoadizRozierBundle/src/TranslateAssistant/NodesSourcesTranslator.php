@@ -33,6 +33,45 @@ final readonly class NodesSourcesTranslator
         $sourceLang = \Locale::getPrimaryLanguage($sourceLocale) ?? $sourceLocale;
         $targetLang = \Locale::getPrimaryLanguage($targetLocale) ?? $targetLocale;
 
+        foreach ($this->translatableValues($source, $fields) as $unit) {
+            $source->{$unit['setter']}($this->translateValue(
+                $unit['value'],
+                $unit['maxLength'],
+                $unit['isHtml'],
+                $sourceLang,
+                $targetLang,
+            ));
+        }
+    }
+
+    /**
+     * Number of characters this source would send to the provider — what DeepL actually bills.
+     *
+     * Markup counts: richtext is sent with tag_handling=html, and maxLength truncates the
+     * *response*, never the request, so neither lowers the bill.
+     *
+     * @param iterable<NodeTypeField> $fields
+     */
+    public function countTranslatableCharacters(NodesSources $source, iterable $fields): int
+    {
+        $characters = 0;
+        foreach ($this->translatableValues($source, $fields) as $unit) {
+            $characters += mb_strlen($unit['value']);
+        }
+
+        return $characters;
+    }
+
+    /**
+     * The single source of truth for what reaches the provider: translate() applies it,
+     * countTranslatableCharacters() prices it. Any divergence would make the estimate lie.
+     *
+     * @param iterable<NodeTypeField> $fields
+     *
+     * @return \Generator<array{value: string, setter: string, maxLength: int|null, isHtml: bool}>
+     */
+    private function translatableValues(NodesSources $source, iterable $fields): \Generator
+    {
         foreach ($fields as $field) {
             if (!in_array($field->getType(), FieldType::translatableTypes(), true)) {
                 continue;
@@ -44,24 +83,30 @@ final readonly class NodesSourcesTranslator
             if (!is_string($value) || '' === trim($value)) {
                 continue;
             }
-            $source->{$field->getSetterName()}($this->translateValue(
-                $value,
-                $field->getMaxLength(),
-                FieldType::RICHTEXT_T === $field->getType(),
-                $sourceLang,
-                $targetLang,
-            ));
+            yield [
+                'value' => $value,
+                'setter' => $field->getSetterName(),
+                'maxLength' => $field->getMaxLength(),
+                'isHtml' => FieldType::RICHTEXT_T === $field->getType(),
+            ];
         }
 
         // Base NodesSources columns, with their own column lengths.
-        if ('' !== trim($source->getTitle() ?? '')) {
-            $source->setTitle($this->translateValue((string) $source->getTitle(), 250, false, $sourceLang, $targetLang));
-        }
-        if ('' !== trim($source->getMetaTitle())) {
-            $source->setMetaTitle($this->translateValue($source->getMetaTitle(), 150, false, $sourceLang, $targetLang));
-        }
-        if ('' !== trim($source->getMetaDescription())) {
-            $source->setMetaDescription($this->translateValue($source->getMetaDescription(), null, false, $sourceLang, $targetLang));
+        foreach ([
+            ['getTitle', 'setTitle', 250],
+            ['getMetaTitle', 'setMetaTitle', 150],
+            ['getMetaDescription', 'setMetaDescription', null],
+        ] as [$getter, $setter, $maxLength]) {
+            $value = $source->{$getter}();
+            if (!is_string($value) || '' === trim($value)) {
+                continue;
+            }
+            yield [
+                'value' => $value,
+                'setter' => $setter,
+                'maxLength' => $maxLength,
+                'isHtml' => false,
+            ];
         }
     }
 

@@ -123,6 +123,45 @@ final class NodesSourcesTranslatorTest extends TestCase
         $this->assertSame('en', $assistant->lastInput?->targetLang);
     }
 
+    public function testCountsOnlyWhatWouldBeSent(): void
+    {
+        $assistant = $this->assistant();
+        $translator = new NodesSourcesTranslator($assistant);
+
+        $source = $this->createSource();
+        $source->setTitle('12345');                 // 5, base column
+        $source->setMetaTitle('123');               // 3, base column
+        $source->setSubTitle('1234567890');         // 10, custom field
+
+        $fields = [
+            $this->field('subTitle', FieldType::STRING_T),
+            // Excluded and non-prose fields must not be priced.
+            $this->field('subTitle', FieldType::STRING_T)->setExcludeFromTranslation(true),
+            $this->field('subTitle', FieldType::COLOUR_T),
+        ];
+
+        $this->assertSame(18, $translator->countTranslatableCharacters($source, $fields));
+        // Pricing must never call the provider.
+        $this->assertSame(0, $assistant->calls);
+    }
+
+    public function testCountMatchesWhatTranslateSends(): void
+    {
+        $assistant = $this->assistant();
+        $translator = new NodesSourcesTranslator($assistant);
+
+        $source = $this->createSource();
+        $source->setTitle('Bonjour');
+        $source->setSubTitle('Bonsoir');
+        $fields = [$this->field('subTitle', FieldType::STRING_T)];
+
+        $expected = $translator->countTranslatableCharacters($source, $fields);
+        $translator->translate($source, $fields, 'fr', 'en');
+
+        // The estimate is only trustworthy while it prices exactly what translate() sends.
+        $this->assertSame($expected, $assistant->charactersSent);
+    }
+
     /**
      * @param iterable<NodeTypeField> $fields
      */
@@ -163,12 +202,14 @@ final class NodesSourcesTranslatorTest extends TestCase
     {
         return new class implements TranslateAssistantInterface {
             public int $calls = 0;
+            public int $charactersSent = 0;
             public ?TranslateAssistantInput $lastInput = null;
 
             #[\Override]
             public function translate(TranslateAssistantInput $translatorDto): TranslateAssistantOutput
             {
                 ++$this->calls;
+                $this->charactersSent += mb_strlen($translatorDto->text);
                 $this->lastInput = $translatorDto;
 
                 return new TranslateAssistantOutput(
