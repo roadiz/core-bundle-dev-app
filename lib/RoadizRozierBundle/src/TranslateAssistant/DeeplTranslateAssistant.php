@@ -108,7 +108,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
         return match (true) {
             $exception instanceof QuotaExceededException => new TranslateAssistantUsageException($exception->getMessage(), previous: $exception),
             $exception instanceof AuthorizationException,
-            $exception instanceof TooManyRequestsException=> new TranslateAssistantAccountException($exception->getMessage(), previous: $exception),
+            $exception instanceof TooManyRequestsException => new TranslateAssistantAccountException($exception->getMessage(), previous: $exception),
             $exception instanceof ConnectionException, => new TranslateAssistantTransportException($exception->getMessage(), previous: $exception),
             default => new TranslateAssistantException($exception->getMessage(), previous: $exception),
         };
