@@ -34,6 +34,25 @@ final class NodeSourceSearchHandlerTest extends TestCase
         return $method->invokeArgs($handler, [&$args]);
     }
 
+    /**
+     * @return array{0: string, 1: string, 2: string} [$exactQuery, $fuzzyQuery, $wildcardQuery]
+     */
+    private function getFormattedQuery(string $q): array
+    {
+        $handler = $this->createHandler();
+        $method = new \ReflectionMethod($handler, 'getFormattedQuery');
+
+        return $method->invoke($handler, $q);
+    }
+
+    private function buildQuery(string $q, array $args = []): string
+    {
+        $handler = $this->createHandler();
+        $method = new \ReflectionMethod($handler, 'buildQuery');
+
+        return $method->invokeArgs($handler, [$q, &$args]);
+    }
+
     public function testDefaultCriteriaExcludesEmbargoedContent(): void
     {
         $args = $this->argFqProcess([]);
@@ -62,5 +81,43 @@ final class NodeSourceSearchHandlerTest extends TestCase
 
         $this->assertContains('node_status_i:[* TO '.NodeStatus::ARCHIVED->value.']', $args['fq']);
         $this->assertNotContains('published_at_dt:[* TO NOW/MINUTE]', $args['fq']);
+    }
+
+    /**
+     * Regression test for gitlab.rezo-zero.com/events-api/eventsapi-dev-website#32:
+     * a multi-word query must produce a real Lucene PhraseQuery (quoted, with slop),
+     * not a single escapeQuery()'d term with the space backslash-escaped away.
+     */
+    public function testMultiWordQueryBuildsExactPhraseQuery(): void
+    {
+        [$exactQuery] = $this->getFormattedQuery('King Lear');
+
+        $this->assertSame('"King Lear"~2', $exactQuery);
+    }
+
+    public function testExactPhraseQueryEscapesQuotesWithoutBreakingThePhrase(): void
+    {
+        [$exactQuery] = $this->getFormattedQuery('King "Lear"');
+
+        $this->assertSame('"King \"Lear\""~2', $exactQuery);
+    }
+
+    /**
+     * Fuzzy clause must require every word (AND), like v7 did, otherwise a single
+     * matching word is enough to rank a document (combined with eDismax minimum-match).
+     */
+    public function testFuzzyQueryRequiresEveryWord(): void
+    {
+        [, $fuzzyQuery] = $this->getFormattedQuery('King Lear');
+
+        $this->assertSame('(King~2 AND Lear~2)', $fuzzyQuery);
+    }
+
+    public function testBuildQueryScopesExactAndFuzzyClausesToTitleField(): void
+    {
+        $query = $this->buildQuery('King Lear');
+
+        $this->assertStringContainsString('(title:"King Lear"~2)^20', $query);
+        $this->assertStringContainsString('(title:(King~2 AND Lear~2))', $query);
     }
 }
