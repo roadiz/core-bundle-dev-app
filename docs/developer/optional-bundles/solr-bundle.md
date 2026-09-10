@@ -452,30 +452,33 @@ You can customize Solr field definitions and filters by subscribing to the `Solr
 use RZ\Roadiz\SolrBundle\Event\SolrInitializationEvent;
 use RZ\Roadiz\SolrBundle\EventListener\AbstractSolrInitializationSubscriber;
 
-class CustomSolrInitializationSubscriber extends AbstractSolrInitializationSubscriber
+final readonly class CustomSolrInitializationSubscriber extends AbstractSolrInitializationSubscriber
 {
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            SolrInitializationEvent::class => 'onSolrInitialization',
-        ];
-    }
+    // getSubscribedEvents() is already implemented by the abstract class,
+    // no need to override it unless you want a different priority.
 
     public function onSolrInitialization(SolrInitializationEvent $event): void
     {
-        // Add custom fields
-        $this->addField($event, 'custom_field', 'text_general');
-        
-        // Add custom filters
-        $this->addFilter($event, 'customFilter', [
-            'class' => 'solr.LowerCaseFilterFactory',
+        // Add a filter to an existing field type's analyzer
+        $this->addFilterToFieldType($event->io, $event->baseUrl, $event->solrCollectionName, 'text_general', [
+            'name' => 'lowercase',
+        ]);
+
+        // Call the Solr Schema API directly for anything else (new field, new field type…)
+        $this->requestSchemaApi($event->io, $event->baseUrl, $event->solrCollectionName, [
+            'add-field' => [
+                'name' => 'custom_field',
+                'type' => 'text_general',
+                'indexed' => true,
+                'stored' => true,
+            ],
         ]);
     }
 }
 ```
 
 ::: tip
-See `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationSubscriber` for examples of extending Solr configuration.
+See `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationFieldsSubscriber` for a real example (ASCII folding filter, French stemmer swap, `DateRangeField` type).
 :::
 
 ## More Information
