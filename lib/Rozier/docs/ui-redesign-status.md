@@ -1,305 +1,301 @@
-# État des lieux — refonte graphique de Rozier
+# Status report — Rozier UI redesign
 
-> Document de suivi ponctuel, produit le 2026-09-10 à partir du board GitHub
-> [`orgs/roadiz/projects/1`](https://github.com/orgs/roadiz/projects/1), de l'historique Git
-> de `develop`, d'un inventaire des composants `lib/Rozier`, et d'un échantillon de maquettes Figma.
-> À rafraîchir si utilisé plus tard : les statuts d'issues, de PR et de branches évoluent vite.
+> One-off status document, produced on 2026-09-10 from the GitHub board
+> [`orgs/roadiz/projects/1`](https://github.com/orgs/roadiz/projects/1), the Git history of
+> `develop`, a component inventory of `lib/Rozier`, and a sample of Figma mockups.
+> Refresh if reused later: issue, PR, and branch statuses change fast.
 >
-> **Corrigé le 2026-09-10** : la première version listait `feature/sortable-table` et
-> `feature/blanchette-editor-and-modal` comme branches non fusionnées. Vérification faite, ces deux
-> branches avaient en réalité déjà été mergées début février 2026 (PR [#383](https://github.com/roadiz/core-bundle-dev-app/pull/383) et
-> [#389](https://github.com/roadiz/core-bundle-dev-app/pull/389)) puis supprimées — l'erreur venait de refs Git locales obsolètes
-> (`origin/*` non purgées après un `git fetch` sans `--prune`). Aucun travail n'a été perdu. Section
-> corrigée plus bas avec les vraies 5 branches restantes, qui sont en fait déjà des **PR ouvertes**.
+> **Corrected on 2026-09-10**: the first version listed `feature/sortable-table` and
+> `feature/blanchette-editor-and-modal` as unmerged branches. On verification, both branches had
+> actually already been merged in early February 2026 (PR [#383](https://github.com/roadiz/core-bundle-dev-app/pull/383) and
+> [#389](https://github.com/roadiz/core-bundle-dev-app/pull/389)) and then deleted — the error came from stale local Git refs
+> (`origin/*` never pruned after a `git fetch` without `--prune`). No work was lost. Section
+> corrected further down with the real 5 remaining branches, which turn out to already be **open PRs**.
 
-## Résumé exécutif
+## Executive summary
 
-- **v2.7 est livré et clos** : les 36 tickets du milestone sont à `Done` sur le board.
-- Le gros de la refonte visuelle est arrivé en un seul merge (`#279`, 2026-02-02), suivi d'un mois
-  de finitions actives jusqu'au **3-4 mars 2026**. **Le chantier est à l'arrêt depuis** — seuls des
-  commits de maintenance sans lien avec le design sont passés depuis.
-- **5 pull requests ouvertes contiennent du travail non intégré** (entre 1 et 15 commits chacune),
-  dont une seule (#396) est prête sans être en brouillon, et une (#398) a des conflits.
-- **v2.8** (le backlog post-refonte) n'a été ni priorisé ni commencé : 24 tickets sur le board,
-  tous au statut `(no status)` sauf un seul `Todo`.
-- Le board et le vrai milestone GitHub `v2.8` ont divergé : **13 issues ouvertes du milestone ne
-  sont même pas sur le board**, dont 2 paires de doublons.
-- Un inventaire du code (voir plus bas) montre que **49 des 67 fichiers UI de Rozier sont déjà
-  redessinés**, mais que Rozier tourne en **Vue 2.7** (pas Vue 3 comme indiqué dans `CLAUDE.md`) —
-  point qui pèse directement sur l'ambition de `roadmap.md` de retirer Vue.
+- **v2.7 has shipped and is closed**: all 36 tickets in the milestone are `Done` on the board.
+- The bulk of the visual redesign landed in a single merge (`#279`, 2026-02-02), followed by a month
+  of active polish until **March 3-4, 2026**. **The effort has been stalled since** — only maintenance
+  commits unrelated to design have landed since then.
+- **5 open pull requests contain unmerged work** (between 1 and 15 commits each), only one of which
+  (#396) is ready without being a draft, and one (#398) has conflicts.
+- **v2.8** (the post-redesign backlog) has been neither prioritized nor started: 24 tickets on the
+  board, all `(no status)` except a single `Todo`.
+- The board and the real GitHub `v2.8` milestone have diverged: **13 open issues in the milestone
+  aren't even on the board**, including 2 duplicate pairs.
+- A code inventory (see below) shows that **49 of Rozier's 67 UI files are already redesigned**,
+  but that Rozier runs on **Vue 2.7** (not Vue 3 as `CLAUDE.md` states) — a point that directly
+  weighs on `roadmap.md`'s ambition to remove Vue.
 
-## Ce qui a été livré (v2.7)
+## What has shipped (v2.7)
 
-Le milestone `v2.7` (échéance initiale : 2025-11-30) est terminé à 100% (36/36 tickets `Done`).
+The `v2.7` milestone (initial due date: 2025-11-30) is 100% complete (36/36 tickets `Done`).
 
-Le cœur de la refonte est entré dans `develop` via un unique commit de squash :
+The core of the redesign landed in `develop` via a single squash commit:
 
-> `024c2d9e feat: brand new UI (#279)` — 2026-02-02, 801 fichiers modifiés
-> (+33 788 / -18 453 lignes), périmètre `lib/Rozier` + `lib/RoadizRozierBundle`.
+> `024c2d9e feat: brand new UI (#279)` — 2026-02-02, 801 files changed
+> (+33,788 / -18,453 lines), scope `lib/Rozier` + `lib/RoadizRozierBundle`.
 
-Ce commit agrège une longue branche d'intégration `2.7-ui` (supprimée depuis) qui avait elle-même
-rassemblé une dizaine de sous-branches (`feat/rz-header`, `feat/rz-tooltip`, `style/rz-form`,
-`feature/repeatable-widget`, `feature/rz-login-page`, etc.) construites entre l'automne 2025 et
-janvier 2026.
+This commit aggregates a long-lived integration branch `2.7-ui` (deleted since) which itself
+gathered about ten sub-branches (`feat/rz-header`, `feat/rz-tooltip`, `style/rz-form`,
+`feature/repeatable-widget`, `feature/rz-login-page`, etc.) built between autumn 2025 and
+January 2026.
 
-Autres livrables notables du même milestone, visibles sur le board :
-- Storybook (mise en place + palette de couleurs, [#203](https://github.com/roadiz/core-bundle-dev-app/issues/203))
+Other notable deliverables from the same milestone, visible on the board:
+- Storybook (setup + color palette, [#203](https://github.com/roadiz/core-bundle-dev-app/issues/203))
 - Color scheme & theming ([#232](https://github.com/roadiz/core-bundle-dev-app/issues/232))
-- Nouveau composant `rz-tablist` en remplacement de la navbar ([#298](https://github.com/roadiz/core-bundle-dev-app/pull/298))
-- Nouveau composant `rz-input` en remplacement des checkboxes ([#300](https://github.com/roadiz/core-bundle-dev-app/pull/300))
-- Refonte des formulaires ([#295](https://github.com/roadiz/core-bundle-dev-app/pull/295), [#362](https://github.com/roadiz/core-bundle-dev-app/pull/362))
-- Mise en place de Deptrac ([#275](https://github.com/roadiz/core-bundle-dev-app/pull/275))
+- New `rz-tablist` component replacing the navbar ([#298](https://github.com/roadiz/core-bundle-dev-app/pull/298))
+- New `rz-input` component replacing checkboxes ([#300](https://github.com/roadiz/core-bundle-dev-app/pull/300))
+- Form redesign ([#295](https://github.com/roadiz/core-bundle-dev-app/pull/295), [#362](https://github.com/roadiz/core-bundle-dev-app/pull/362))
+- Deptrac setup ([#275](https://github.com/roadiz/core-bundle-dev-app/pull/275))
 
-**Portée confirmée** : strictement `lib/Rozier` (front Vue 3/TS) et `lib/RoadizRozierBundle`
-(templates Twig + assets compilés). Aucune trace de travail sur le Nuxt starter public ni sur des
-design tokens partagés inter-dépôts — ce n'est pas dans le périmètre de cette refonte.
+**Confirmed scope**: strictly `lib/Rozier` (Vue/TS front) and `lib/RoadizRozierBundle`
+(Twig templates + compiled assets). No trace of work on the public Nuxt starter or on shared
+design tokens across repos — that's out of scope for this redesign.
 
-## Chronologie de l'arrêt
+## Timeline of the stall
 
-| Date | Événement |
+| Date | Event |
 |---|---|
-| Automne 2025 – janv. 2026 | Développement sur des sous-branches unitaires (`feat/rz-header`, `feat/rz-tooltip`, `style/rz-form`…), intégrées au fur et à mesure sur `2.7-ui`. |
-| 2026-02-02 | Merge squash `024c2d9e feat: brand new UI (#279)` dans `develop`. |
-| Février – 3/4 mars 2026 | Finitions actives : styles `RzAside`, `rz-tree`, `rzBulkActions`, `rz-table`, icônes, menu d'actions draggable, drawer, tooltip. |
-| Depuis mars 2026 | **Silence sur le design.** Seuls des commits de maintenance sans rapport passent sur `lib/Rozier` : `postcss-pxtorem` (15/04), ajustements sur les documents (27-29/04), correctif Vue mineur sur `DocumentPreviewListItem` (29/05). |
+| Autumn 2025 – Jan. 2026 | Development on individual sub-branches (`feat/rz-header`, `feat/rz-tooltip`, `style/rz-form`…), integrated progressively into `2.7-ui`. |
+| 2026-02-02 | Squash merge `024c2d9e feat: brand new UI (#279)` into `develop`. |
+| February – March 3/4, 2026 | Active polish: `RzAside`, `rz-tree`, `rzBulkActions`, `rz-table` styling, icons, draggable action menu, drawer, tooltip. |
+| Since March 2026 | **Silence on design.** Only unrelated maintenance commits have landed on `lib/Rozier`: `postcss-pxtorem` (04/15), document adjustments (04/27-29), minor Vue fix on `DocumentPreviewListItem` (05/29). |
 
-## Travail non récupéré (5 pull requests ouvertes)
+## Unmerged work (5 open pull requests)
 
-Les 5 branches restantes sont en fait déjà proposées en PR sur `develop` — ce n'est pas du travail
-à "récupérer" mais des PR à relire et merger. Toutes passent la CI (`SUCCESS`) et sont `MERGEABLE`
-sauf une.
+The 5 remaining branches are in fact already proposed as PRs against `develop` — this isn't work to
+"recover" but PRs to review and merge. All pass CI (`SUCCESS`) and are `MERGEABLE` except one.
 
-| PR | Titre | Créée | Taille | Statut |
+| PR | Title | Created | Size | Status |
 |---|---|---|---|---|
-| [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) | fix(ExplorerStoreModule): remove value for filters to correct load more | 2026-03-27 | 1 fichier, ±1 ligne | Prête, mergeable — **quasi zéro risque** |
-| [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) | style: improved style | 2026-03-27 | 4 fichiers, +19/-2 | Draft, mergeable, CI verte |
-| [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417) | feat: add functionality to close popover on button click in contextual menu | 2026-03-27 | 2 fichiers, +61/-27 | Draft, mergeable, CI verte |
-| [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) | Fix: refresh RzAside tree depending on page tree action | 2026-02-12 | 24 fichiers, +406/-662 | Prête, mergeable, CI verte, **stale ~7 mois** — à retester avant merge |
-| [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398) | feat: add rzActionMenu user drag feature | 2026-02-13 | 3 fichiers, +68/-5 | Draft, **CONFLICTING** — conflits à résoudre. Une PR antérieure (#377) sur le même sujet a été fermée, à vérifier avant de reprendre #398 pour ne pas dupliquer le travail. |
+| [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) | fix(ExplorerStoreModule): remove value for filters to correct load more | 2026-03-27 | 1 file, ±1 line | Ready, mergeable — **near-zero risk** |
+| [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) | style: improved style | 2026-03-27 | 4 files, +19/-2 | Draft, mergeable, CI green |
+| [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417) | feat: add functionality to close popover on button click in contextual menu | 2026-03-27 | 2 files, +61/-27 | Draft, mergeable, CI green |
+| [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) | Fix: refresh RzAside tree depending on page tree action | 2026-02-12 | 24 files, +406/-662 | Ready, mergeable, CI green, **stale ~7 months** — retest before merging |
+| [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398) | feat: add rzActionMenu user drag feature | 2026-02-13 | 3 files, +68/-5 | Draft, **CONFLICTING** — conflicts to resolve. An earlier PR (#377) on the same topic was closed; check it before resuming #398 to avoid duplicating work. |
 
-Aucune des 5 n'a de review enregistrée à ce jour (`reviewDecision` vide).
+None of the 5 has a recorded review yet (`reviewDecision` empty).
 
-**Recommandation** : merger #416 immédiatement (risque nul), puis #415/#417 après un passage de
-revue rapide (petits diffs, CI verte), puis re-tester #396 avant merge (le plus gros diff et le
-plus ancien), et traiter #398 en dernier (résolution de conflits + vérifier le lien avec #377).
+**Recommendation**: merge #416 right away (zero risk), then #415/#417 after a quick review pass
+(small diffs, CI green), then retest #396 before merging (the largest diff and the oldest one),
+and handle #398 last (conflict resolution + check the link with #377).
 
-## Backlog restant (milestone v2.8)
+## Remaining backlog (v2.8 milestone)
 
-24 tickets sont actuellement sur le board sous `v2.8`, tous non commencés. Regroupés par thème :
+24 tickets currently sit on the board under `v2.8`, all not started. Grouped by theme:
 
-**Dark mode / contrastes** (le sujet qui revient le plus souvent — 5 tickets, dont un doublon)
-- [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436) — Trop de contraste/bordures visibles en dark mode
-- [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445) — Contraste fond de page / contrôles trompeur (semble désactivé)
-- [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) / [#447](https://github.com/roadiz/core-bundle-dev-app/issues/447) *(doublon)* — Couleurs/tailles de police et fond peu lisibles
-- [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448) — Layout perçu comme plus encombré et moins lisible
-- [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) — Contraste insuffisant menu d'actions / contenu en dark mode
+**Dark mode / contrast** (the most recurring topic — 5 tickets, one of them a duplicate)
+- [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436) — Too much contrast/visible borders in dark mode
+- [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445) — Misleading contrast between page background and controls (looks disabled)
+- [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) / [#447](https://github.com/roadiz/core-bundle-dev-app/issues/447) *(duplicate)* — Font colors/sizes and background hard to read
+- [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448) — Layout perceived as more cluttered and less legible
+- [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) — Insufficient contrast on action menu / content in dark mode
 
-**Composants de formulaire**
-- [#435](https://github.com/roadiz/core-bundle-dev-app/issues/435) — Champs booléens trop hauts, optimiser l'espace vertical
-- [#438](https://github.com/roadiz/core-bundle-dev-app/issues/438) — Switch booléen : état `false` identique à `disabled`
+**Form components**
+- [#435](https://github.com/roadiz/core-bundle-dev-app/issues/435) — Boolean fields too tall, optimize vertical space
+- [#438](https://github.com/roadiz/core-bundle-dev-app/issues/438) — Boolean switch: `false` state looks identical to `disabled`
 
-**Éditeur markdown**
-- [#443](https://github.com/roadiz/core-bundle-dev-app/issues/443) — Preview cassée, besoin d'un vrai mode plein écran avec aperçu temps réel
-- [#444](https://github.com/roadiz/core-bundle-dev-app/issues/444) — Coloration syntaxique perdue
+**Markdown editor**
+- [#443](https://github.com/roadiz/core-bundle-dev-app/issues/443) — Broken preview, needs a real fullscreen mode with live preview
+- [#444](https://github.com/roadiz/core-bundle-dev-app/issues/444) — Lost syntax highlighting
 
-**Navigation / organisation**
-- [#437](https://github.com/roadiz/core-bundle-dev-app/issues/437) — Loader principal mal positionné depuis le nouveau layout
-- [#441](https://github.com/roadiz/core-bundle-dev-app/issues/441) — Le menu d'actions chevauche le panneau de contenu
-- [#469](https://github.com/roadiz/core-bundle-dev-app/issues/469) — Garder plusieurs arbres (node/folder/tag) accessibles simultanément
+**Navigation / layout**
+- [#437](https://github.com/roadiz/core-bundle-dev-app/issues/437) — Main loader hasn't been updated for the new layout, randomly positioned
+- [#441](https://github.com/roadiz/core-bundle-dev-app/issues/441) — Action menu overlaps the main content panel
+- [#469](https://github.com/roadiz/core-bundle-dev-app/issues/469) — Keep multiple trees (node/folder/tag) accessible at the same time
 
-**Fiche de contenu (node source)**
-- [#434](https://github.com/roadiz/core-bundle-dev-app/issues/434) — Pas de disclaimer si édition sur une autre version
-- [#442](https://github.com/roadiz/core-bundle-dev-app/issues/442) — Ratio de grille titre/date de publication à passer de 50/50 à 66/33
+**Content editing page (node-source)**
+- [#434](https://github.com/roadiz/core-bundle-dev-app/issues/434) — No disclaimer when editing on a different version
+- [#442](https://github.com/roadiz/core-bundle-dev-app/issues/442) — Title/publication date grid ratio should move from 50/50 to 66/33
 
-**Fondations techniques**
-- [#205](https://github.com/roadiz/core-bundle-dev-app/issues/205) — [Vite] utiliser un entry point CSS dédié
-- [#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) — `MutationObserver` pour initialiser les comportements JS au changement de DOM
-- [#230](https://github.com/roadiz/core-bundle-dev-app/issues/230) — Retirer la config globale de Rozier
-- [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) — Icônes de statut (intégration)
-- [#255](https://github.com/roadiz/core-bundle-dev-app/issues/255) — Backoffice embarqué en iframe via query-param
-- [#332](https://github.com/roadiz/core-bundle-dev-app/issues/332) — Migrer le bundle OpenID vers l'authentification OIDC native Symfony
+**Technical foundations**
+- [#205](https://github.com/roadiz/core-bundle-dev-app/issues/205) — [Vite] use a dedicated CSS entry point
+- [#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) — `MutationObserver` to initialize behaviour-type JS on DOM changes
+- [#230](https://github.com/roadiz/core-bundle-dev-app/issues/230) — Remove Rozier's global config
+- [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) — Status icons (integration)
+- [#255](https://github.com/roadiz/core-bundle-dev-app/issues/255) — Embedded backoffice via iframe query-param
+- [#332](https://github.com/roadiz/core-bundle-dev-app/issues/332) — Migrate the OpenID bundle to native Symfony OIDC authentication
 
-**Dans le même milestone mais hors refonte visuelle, absents du board** (voir section suivante)
+**Same milestone but outside the visual redesign, absent from the board** (see next section)
 - [#128](https://github.com/roadiz/core-bundle-dev-app/issues/128), [#134](https://github.com/roadiz/core-bundle-dev-app/issues/134), [#171](https://github.com/roadiz/core-bundle-dev-app/issues/171), [#409](https://github.com/roadiz/core-bundle-dev-app/issues/409)
 
-## Hygiène board / milestone
+## Board / milestone hygiene
 
-Le board (24 items `v2.8`) et le vrai milestone GitHub `v2.8` (31 issues) ont divergé :
-**13 issues ouvertes du milestone ne sont pas sur le board**.
+The board (24 `v2.8` items) and the real GitHub `v2.8` milestone (31 issues) have diverged:
+**13 open issues in the milestone aren't on the board**.
 
-- **Doublons à trancher** :
-  - [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) / [#440](https://github.com/roadiz/core-bundle-dev-app/issues/440) — même titre, icône menu custom-form
-  - [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) / [#447](https://github.com/roadiz/core-bundle-dev-app/issues/447) — même titre, contraste UI (déjà listés ci-dessus)
-  - [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415) / [core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) — même bug (zone de drag-and-drop de l'uploader) rapporté dans deux repos différents de l'org ; le board agrège plusieurs repos, `#415` ici n'a aucun rapport avec la PR `#415` de `core-bundle-dev-app` citée plus haut (simple collision de numérotation entre repos). Les deux sont déjà sur le board, sans milestone.
-- **Issues liées à la refonte mais jamais triagées sur le board** : #128, #134, #171, #409 (listées ci-dessus).
-- **Vieux tickets backend sans lien avec la refonte visuelle**, dans le milestone `v2.8` mais jamais triagés sur le board : [#16](https://github.com/roadiz/core-bundle-dev-app/issues/16), [#393](https://github.com/roadiz/core-bundle-dev-app/issues/393), [#399](https://github.com/roadiz/core-bundle-dev-app/issues/399), [#406](https://github.com/roadiz/core-bundle-dev-app/issues/406), [#428](https://github.com/roadiz/core-bundle-dev-app/issues/428), [#457](https://github.com/roadiz/core-bundle-dev-app/issues/457), [#470](https://github.com/roadiz/core-bundle-dev-app/issues/470) — probablement à sortir du milestone plutôt qu'à traiter dans ce chantier.
-- `v2.8` n'a **pas de date d'échéance** (`due_on: null`), contrairement à `v2.7`.
+- **Duplicates to resolve**:
+  - [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) / [#440](https://github.com/roadiz/core-bundle-dev-app/issues/440) — same title, custom-form menu icon
+  - [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) / [#447](https://github.com/roadiz/core-bundle-dev-app/issues/447) — same title, UI contrast (already listed above)
+  - [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415) / [core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) — same bug (uploader drag-and-drop zone) reported in two different repos of the org; the board aggregates several repos, `#415` here has nothing to do with the `core-bundle-dev-app` PR `#415` cited above (a plain numbering collision across repos). Both are already on the board, without a milestone.
+- **Issues related to the redesign but never triaged onto the board**: #128, #134, #171, #409 (listed above).
+- **Old backend tickets unrelated to the visual redesign**, in the `v2.8` milestone but never triaged onto the board: [#16](https://github.com/roadiz/core-bundle-dev-app/issues/16), [#393](https://github.com/roadiz/core-bundle-dev-app/issues/393), [#399](https://github.com/roadiz/core-bundle-dev-app/issues/399), [#406](https://github.com/roadiz/core-bundle-dev-app/issues/406), [#428](https://github.com/roadiz/core-bundle-dev-app/issues/428), [#457](https://github.com/roadiz/core-bundle-dev-app/issues/457), [#470](https://github.com/roadiz/core-bundle-dev-app/issues/470) — probably to be taken out of the milestone rather than handled in this effort.
+- `v2.8` has **no due date** (`due_on: null`), unlike `v2.7`.
 
-Ce document se limite à recenser ces écarts — aucune action n'a été effectuée sur GitHub à ce stade.
+This document only lists these gaps — no action has been taken on GitHub at this stage.
 
-## Inventaire des composants (`lib/Rozier`)
+## Component inventory (`lib/Rozier`)
 
-Inventaire réalisé le 2026-09-10 (67 fichiers UI trackés : 21 composants Vue dans `app/components/`
-et `app/containers/`, 38 CustomElements dans `app/custom-elements/`, auto-enregistrés via
-`import.meta.glob`). Datation croisée entre `git show --name-status 024c2d9e` (liste exacte du
-commit de refonte) et l'historique complet par fichier, pour ne pas se fier aux commits de merge
-qui faussent `git log -1`.
+Inventory carried out on 2026-09-10 (67 tracked UI files: 21 Vue components in `app/components/`
+and `app/containers/`, 38 CustomElements in `app/custom-elements/`, auto-registered via
+`import.meta.glob`). Dating cross-checked between `git show --name-status 024c2d9e` (exact file
+list of the redesign commit) and each file's full history, to avoid being misled by merge commits
+that would skew `git log -1`.
 
-**Bilan global : 49 fichiers redessinés / 18 legacy** (non touchés depuis avant le 2026-02-02).
+**Overall tally: 49 redesigned files / 18 legacy** (untouched since before 2026-02-02).
 
-| Domaine fonctionnel | Total | Redessinés | Legacy | Story Storybook |
+| Functional area | Total | Redesigned | Legacy | Storybook story |
 |---|---|---|---|---|
-| Tableaux/listings/bulk (`RzTable`, `RzBulkActions`, `RzActionsMenu`) | 4 | 4 | 0 | 2/4 |
-| Fiche de contenu / node-source (`RzInput`, `RzFormField`, `RzMarkdownEditor`, `RzRepeatable`...) | ~14 | ~13 | 0 net | 7+/14 |
-| Navigation/arbre (`RzAside`, `RzTree`, `RzHeader*`) | 9 | 8 | 1 (`AdminMenuNav.js`) | 4/9 |
-| Médiathèque/documents (`RzFileUpload`, `Blanchette*`) | 8 | 7 | 1 (`DocumentAlignmentWidget.js`) | 2/8 |
-| Dialogues/overlays transverses (`RzDialog`, `RzPopover`, `RzTooltip`...) | 13 | 7 | 6 | 7/13 |
-| Explorateur/Drawer (sélection d'entités liées) | 9 | 6 | 3 (dont `NodeTypesDrawerContainer.vue`, encore massivement UIkit malgré son passage dans le commit squash) | 2/9 |
+| Tables/listings/bulk actions (`RzTable`, `RzBulkActions`, `RzActionsMenu`) | 4 | 4 | 0 | 2/4 |
+| Content editing page / node-source (`RzInput`, `RzFormField`, `RzMarkdownEditor`, `RzRepeatable`...) | ~14 | ~13 | 0 net | 7+/14 |
+| Navigation/tree (`RzAside`, `RzTree`, `RzHeader*`) | 9 | 8 | 1 (`AdminMenuNav.js`) | 4/9 |
+| Media library/documents (`RzFileUpload`, `Blanchette*`) | 8 | 7 | 1 (`DocumentAlignmentWidget.js`) | 2/8 |
+| Cross-cutting dialogs/overlays (`RzDialog`, `RzPopover`, `RzTooltip`...) | 13 | 7 | 6 | 7/13 |
+| Explorer/Drawer (related-entity picker) | 9 | 6 | 3 (incl. `NodeTypesDrawerContainer.vue`, still heavily UIkit despite being touched by the squash commit) | 2/9 |
 | Tags/Folders | 6 | 1 | 5 | 0/6 |
-| Login/recherche | 2 | 1 | 1 | 2/2 |
-| Formulaires personnalisés | 1 | 0 | 1 | 0/1 |
-| Gestion utilisateurs | 0 composant dédié (Symfony/Twig + `assets/less/users/` legacy) | — | — | — |
+| Login/search | 2 | 1 | 1 | 2/2 |
+| Custom forms | 1 | 0 | 1 | 0/1 |
+| User management | 0 dedicated component (Symfony/Twig + legacy `assets/less/users/`) | — | — | — |
 
-**Dette technique quantifiée** (pertinente pour `roadmap.md`) :
-- **19 fichiers** utilisent encore des classes UIkit (`uk-*`), y compris certains fichiers déjà
-  "redessinés" (ex. `custom-elements/RzAside.ts`, `RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`).
-- **5 fichiers** utilisent encore jQuery directement ; jQuery/jQuery UI/UIkit restent chargés
-  globalement sur chaque page via `main.js`.
-- Le singleton global `window.Rozier` (visé par `roadmap.md`) est encore utilisé par ~15 fichiers,
-  y compris des composants déjà redessinés.
-- 78 fichiers `.less` legacy (dont tout UIkit vendorisé) contre 54 fichiers `assets/css/components/rz-*.css`
-  du nouveau design system.
-- **Cas notable** : `components/RzButton.vue` (legacy, markup `uk-button`) est encore importé en
-  parallèle du vrai `custom-elements/RzButton.ts` redessiné — collision de nom à nettoyer.
-- **Doute méthodologique assumé** : `custom-elements/RzSelect.ts` a un CSS mis à jour par la refonte
-  mais une logique JS inchangée depuis avant le projet — visuellement à jour, architecturalement
-  legacy. Ce genre de cas ne peut pas être tranché par la seule analyse Git ; une vérification
-  visuelle par zone reste nécessaire (voir TODO).
+**Quantified technical debt** (relevant to `roadmap.md`):
+- **19 files** still use UIkit classes (`uk-*`), including some already "redesigned" files
+  (e.g. `custom-elements/RzAside.ts`, `RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`).
+- **5 files** still use jQuery directly; jQuery/jQuery UI/UIkit remain loaded globally on every
+  page via `main.js`.
+- The global `window.Rozier` singleton (targeted by `roadmap.md`) is still used by ~15 files,
+  including already-redesigned components.
+- 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
+  files from the new design system.
+- **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
+  alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up.
+- **Acknowledged methodological uncertainty**: `custom-elements/RzSelect.ts` has CSS updated by the
+  redesign but JS logic unchanged since before the project — visually current, architecturally
+  legacy. This kind of case can't be settled by Git analysis alone; a visual check per zone remains
+  necessary (see TODO).
 
-Storybook documente 24 des 67 fichiers (~36%, ~49% des redessinés, **0% des legacy**) : c'est un
-bon indicateur de couverture par zone, mais pas un inventaire fonctionnel complet à lui seul.
+Storybook documents 24 of the 67 files (~36%, ~49% of the redesigned ones, **0% of the legacy
+ones**): a good indicator of coverage per zone, but not a complete functional inventory on its own.
 
-Détail complet dans l'historique de conversation ayant produit ce document ; à ré-auditer si ce
-fichier est réutilisé plusieurs semaines plus tard.
+Full detail lives in the conversation history that produced this document; re-audit if this file
+is reused several weeks later.
 
-## Confrontation aux maquettes Figma (échantillon)
+## Cross-check against Figma mockups (sample)
 
-Comparaison faite sur 3 sections du fichier Figma [`Roadiz - V3.0`](https://www.figma.com/design/RS9Difo5w26fBkQRLG7UAt/Roadiz---V3.0)
-fournies par l'utilisateur (échantillon, pas une couverture exhaustive du fichier) :
+Comparison made on 3 sections of the Figma file [`Roadiz - V3.0`](https://www.figma.com/design/RS9Difo5w26fBkQRLG7UAt/Roadiz---V3.0)
+provided by the user (a sample, not exhaustive coverage of the file):
 
-- **Section "Markdown"** : la maquette contient déjà un panneau **"MarkdownQuickView"** (aperçu
-  affiché à côté du champ d'édition, pas une modale plein écran). Ça répond directement à
-  [#443](https://github.com/roadiz/core-bundle-dev-app/issues/443) ("besoin d'un vrai mode plein écran avec aperçu") : ce n'est pas une question de
-  design à trancher, c'est un écart d'implémentation — le design existe déjà.
-- **Section "Structure"** (fiche de contenu) : contient un composant **"Edit / FloatingBar"** déjà
-  spécifié dans plusieurs états (liens, repeatable, carte). Il correspond à la fonctionnalité de la
-  PR [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398) (`feature/rz-action-menu-dragging`, actuellement en conflit) — là aussi le design
-  est prêt, il ne reste que l'implémentation à finir.
-- **Section "Dashboard"** : uniquement en thème clair dans cet échantillon.
-- **Aucune variante dark mode n'apparaît dans les 3 sections examinées.** Point non tranché,
-  volontairement — à vérifier directement dans Figma (chercher une section ou des variantes dark
-  mode dédiées) avant de conclure que le dark mode n'est pas maquetté. Ne pas deviner.
+- **"Markdown" section**: the mockup already contains a **"MarkdownQuickView"** panel (preview shown
+  next to the edit field, not a fullscreen modal). This directly answers
+  [#443](https://github.com/roadiz/core-bundle-dev-app/issues/443) ("needs a real fullscreen mode with preview"): this isn't a design
+  question to settle, it's an implementation gap — the design already exists.
+- **"Structure" section** (content editing page): contains an **"Edit / FloatingBar"** component
+  already specified across several states (links, repeatable, map). It matches the feature of PR
+  [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398) (`feature/rz-action-menu-dragging`, currently conflicting) — here too the
+  design is ready, only the implementation is left to finish.
+- **"Dashboard" section**: light theme only in this sample.
+- **No dark mode variant appears in the 3 sections examined.** Deliberately left unresolved — to
+  be checked directly in Figma (look for a dedicated dark mode section or variants) before
+  concluding that dark mode isn't mocked up. Don't guess.
 
-Le fichier Figma n'a qu'une seule page top-level ("Cover") mais organise le contenu en grandes
-"sections" positionnées sur un même canvas (Dashboard, Markdown, Structure...) — un inventaire
-exhaustif des sections nécessiterait de parcourir le fichier directement dans Figma plutôt que de
-deviner des node-id.
+The Figma file has only one top-level page ("Cover") but organizes content into large "sections"
+positioned on the same canvas (Dashboard, Markdown, Structure...) — an exhaustive inventory of
+sections would require browsing the file directly in Figma rather than guessing node IDs.
 
-## Dette technique legacy : UIkit, Vue, JS global — état des lieux détaillé
+## Legacy technical debt: UIkit, Vue, global JS — detailed status
 
-`lib/Rozier/docs/roadmap.md` vise à terme à retirer `Rozier.js`, `Lazyload.js`, jQuery, UIkit et
-**Vue**, au profit de `CustomElements` natifs. Investigation faite le 2026-09-10 (3 explorations
-indépendantes) pour savoir si c'est pertinent d'attaquer ça dès la reprise. **Constat principal :
-la refonte a déjà fait la majorité du travail d'extraction sans que `roadmap.md` ait été mis à
-jour** — ce ne sont plus 3 gros chantiers à démarrer, mais surtout du nettoyage de code déjà mort,
-plus un nombre réduit de blocs réellement couplés.
+`lib/Rozier/docs/roadmap.md` aims, in the long run, to remove `Rozier.js`, `Lazyload.js`, jQuery,
+UIkit, and **Vue**, in favor of native `CustomElements`. Investigation carried out on 2026-09-10
+(3 independent explorations) to check whether it's worth tackling this as soon as work resumes.
+**Main finding: the redesign has already done most of the extraction work without `roadmap.md`
+being updated** — these are no longer 3 big efforts to start, but mostly cleanup of already-dead
+code, plus a small number of genuinely coupled blocks.
 
-### UIkit (2.27.4 — branche 2.x, dépendante de jQuery)
+### UIkit (2.27.4 — the 2.x branch, which depends on jQuery)
 
-- Sur les ~19-22 fichiers avec des classes `uk-*`, la grande majorité est **du CSS/naming sans
-  runtime JS**. Aucun appel `UIkit.modal()`/`UIkit.dropdown()` en dur trouvé nulle part.
-- **Comportements JS UIkit réellement morts** (importés dans `main.js`/`vendor.less` mais sans
-  markup ni handler qui les déclenche encore) : `switcher` (4 fichiers le référencent en vain :
-  `RzMarkdownEditor.ts`, `YamlEditor.js`, `JsonEditor.js`, `CssEditor.js`), `sortable` (le gabarit
-  cible a été reconstruit sans drag-and-drop), `nestable`, `datepicker`, `pagination`, `notify`,
-  `htmleditor` — supprimables sans réimplémentation. Plus **12 fichiers CSS vendorisés orphelins**
-  (jamais importés).
-- **Comportements JS réellement vivants à traiter : seulement 2** — l'alert dismissible
-  (`data-uk-alert` × 8 gabarits, pas d'équivalent natif dédié) et le tooltip legacy
-  (`data-uk-tooltip` × 8, mais `RzTooltip.ts` existe déjà et attend juste d'être branché dessus).
-- Équivalents natifs déjà en place et adoptés : `RzDialog` (remplace `uk-modal`), `RzPopover`
-  (remplace `uk-dropdown`, déjà utilisé dans 10 gabarits), `RzTablist`, `RzDrawer`, `RzToastList`.
-- 4 fichiers ont une double dépendance (natif + reliquat UIkit) à assainir :
+- Of the ~19-22 files with `uk-*` classes, the large majority is **CSS/naming only, with no JS
+  runtime**. No hardcoded `UIkit.modal()`/`UIkit.dropdown()` call was found anywhere.
+- **UIkit JS behaviours that are genuinely dead** (imported in `main.js`/`vendor.less` but with no
+  markup or handler left to trigger them): `switcher` (referenced in vain by 4 files:
+  `RzMarkdownEditor.ts`, `YamlEditor.js`, `JsonEditor.js`, `CssEditor.js`), `sortable` (the target
+  template was rebuilt without drag-and-drop), `nestable`, `datepicker`, `pagination`, `notify`,
+  `htmleditor` — removable without reimplementation. Plus **12 orphaned vendored CSS files**
+  (never imported).
+- **JS behaviours genuinely still alive to handle: only 2** — the dismissible alert
+  (`data-uk-alert` × 8 templates, no dedicated native equivalent yet) and the legacy tooltip
+  (`data-uk-tooltip` × 8, but `RzTooltip.ts` already exists and just needs to be wired up).
+- Native equivalents already in place and adopted: `RzDialog` (replaces `uk-modal`), `RzPopover`
+  (replaces `uk-dropdown`, already used in 10 templates), `RzTablist`, `RzDrawer`, `RzToastList`.
+- 4 files have a double dependency (native + UIkit leftover) to clean up:
   `RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `base.html.twig`.
 
-### Vue (2.7.16, EOL depuis fin 2023 — et non Vue 3 comme l'indique `CLAUDE.md`, à corriger)
+### Vue (2.7.16, EOL since late 2023 — not Vue 3 as `CLAUDE.md` states, to be fixed)
 
-21 fichiers `.vue`. Montage via 3 mécanismes dans `App.js`/`main.js`. State management : Vuex 3.0.1,
-6 modules, **100% confiné au monde Vue** (aucun custom element n'importe le store).
+21 `.vue` files. Mounted via 3 mechanisms in `App.js`/`main.js`. State management: Vuex 3.0.1,
+6 modules, **100% confined to the Vue world** (no custom element imports the store).
 
-- **6 fichiers sont déjà morts** (non montés, non importés par un chemin vivant) : `DrawerContainer.vue`
-  (remplacé par `<rz-drawer>` dans le même commit de refonte), `NodeTypesDrawerContainer.vue`,
-  `TagsEditorContainer.vue`, `RzButton.vue` (collision de nom avec le `RzButton.ts` natif),
-  `RzTextarea.vue`, `CodeMirror.vue`. Supprimables directement.
-- **7 fichiers sont isolés et suivent déjà le pattern événementiel** prouvé sur `rz-drawer`
-  (`CustomEvent` sur `window`/`document`, aucune imbrication Vue/custom-element) : `Overlay.vue`,
-  `BlanchetteEditorContainer.vue` + `BlanchetteToolbar.vue` et leurs feuilles. Migrables fichier par
-  fichier, sans gros risque.
-- **8 fichiers forment un bloc réellement couplé** par Vuex et un montage commun : `ExplorerContainer.vue`,
-  `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue`, `ModalContainer.vue` et leurs
-  enfants dynamiques. C'est le seul vrai "gros chantier" restant sur Vue — nécessite de remplacer le
-  store Vuex, pas juste de porter des templates.
-- **Aucun test** (pas de vitest/jest, Storybook structurellement incapable de rendre du Vue 2).
+- **6 files are already dead** (not mounted, not imported through any live path): `DrawerContainer.vue`
+  (replaced by `<rz-drawer>` in the same redesign commit), `NodeTypesDrawerContainer.vue`,
+  `TagsEditorContainer.vue`, `RzButton.vue` (naming collision with the native `RzButton.ts`),
+  `RzTextarea.vue`, `CodeMirror.vue`. Directly removable.
+- **7 files are isolated and already follow the event-driven pattern** proven on `rz-drawer`
+  (`CustomEvent` on `window`/`document`, no Vue/custom-element nesting): `Overlay.vue`,
+  `BlanchetteEditorContainer.vue` + `BlanchetteToolbar.vue` and their leaf children. Migratable
+  file by file, with low risk.
+- **8 files form a genuinely coupled block** through Vuex and a shared mount: `ExplorerContainer.vue`,
+  `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue`, `ModalContainer.vue` and their
+  dynamic children. This is the only real remaining "big effort" on Vue — it requires replacing
+  the Vuex store, not just porting templates.
+- **No tests at all** (no vitest/jest, Storybook structurally unable to render Vue 2).
 
-### JS global / `window.Rozier`
+### Global JS / `window.Rozier`
 
-- `Rozier.js` (1095 lignes) a déjà été réécrit en `Rozier.ts` (141 lignes) pendant la refonte : la
-  quasi-totalité de la logique d'arbres a été extraite vers `RzAside.ts`/`RzTree.ts`. Il ne reste
-  que ~10 fichiers consommateurs de `window.Rozier`, chacun avec un appel isolé et peu profond
-  (lecture de messages, délégation vers `<rz-aside>`) — pas de couplage structurel restant.
-- **Bug trouvé en vérifiant ce constat** : [`StackNodeTree.js:194`](../app/widgets/StackNodeTree.js#L194)
-  appelle `window.Rozier.initNestables()`, méthode qui n'existe plus sur la classe `Rozier` actuelle
-  (confirmé en lisant `Rozier.ts` en entier) → `TypeError` à chaque réorganisation d'arbre par
-  drag-and-drop, qui empêche aussi l'exécution des lignes suivantes (`bindMainTrees()`,
-  `lazyload.bindAjaxLink()`, `resize()`). **À corriger indépendamment de tout chantier de retrait**,
-  probablement un bug utilisateur actif. `Lazyload.ts` contient aussi des champs jamais réassignés
-  (code mort à nettoyer : `inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`).
-- **jQuery est couplé à UIkit, pas juste aux 5 fichiers qui l'utilisent directement** : UIkit 2.27.4
-  exige `window.jQuery` au runtime pour ses composants importés (confirmé par un commentaire
-  explicite dans le code : *"HERE WE NEED JQUERY BECAUSE UI-KIT V2 REQUIRE JQUERY"*), invisible au
-  graphe de dépendances npm. **On ne peut pas retirer jQuery sans retirer UIkit d'abord** (ou les
-  deux ensemble).
-- `main.js` charge jQuery/UIkit/jQuery UI/Rozier de façon bloquante sur **toutes** les pages
-  authentifiées, utilisées ou non par la page en cours.
+- `Rozier.js` (1095 lines) was already rewritten as `Rozier.ts` (141 lines) during the redesign:
+  almost all of the tree logic was extracted into `RzAside.ts`/`RzTree.ts`. Only ~10 files still
+  consume `window.Rozier`, each with an isolated, shallow call (reading messages, delegating to
+  `<rz-aside>`) — no remaining structural coupling.
+- **Bug found while verifying this finding**: [`StackNodeTree.js:194`](../app/widgets/StackNodeTree.js#L194)
+  calls `window.Rozier.initNestables()`, a method that no longer exists on the current `Rozier`
+  class (confirmed by reading the whole of `Rozier.ts`) → `TypeError` on every drag-and-drop tree
+  reorder, which also prevents the following lines from running (`bindMainTrees()`,
+  `lazyload.bindAjaxLink()`, `resize()`). **To be fixed independently of any removal effort**,
+  likely an active user-facing bug. `Lazyload.ts` also contains fields that are never reassigned
+  (dead code to clean up: `inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`).
+- **jQuery is coupled to UIkit, not just to the 5 files that use it directly**: UIkit 2.27.4
+  requires `window.jQuery` at runtime for its imported components (confirmed by an explicit
+  comment in the code: *"HERE WE NEED JQUERY BECAUSE UI-KIT V2 REQUIRE JQUERY"*), invisible in the
+  npm dependency graph. **jQuery can't be removed without removing UIkit first** (or both at once).
+- `main.js` loads jQuery/UIkit/jQuery UI/Rozier in a blocking way on **every** authenticated page,
+  whether the current page uses them or not.
 
-### Verdict : pertinent dès la reprise, ou à différer ?
+### Verdict: worth tackling as soon as work resumes, or defer?
 
-Pas un choix binaire par sujet — il y a 3 niveaux d'effort mélangés dans ces 3 sujets :
+Not a binary choice per topic — there are 3 mixed levels of effort across these 3 topics:
 
-1. **Nettoyage quasi gratuit, à faire immédiatement (Phase 0)** : supprimer les 6 fichiers Vue
-   morts, les comportements/imports UIkit morts (switcher, sortable, nestable, datepicker,
-   pagination, notify, htmleditor) et les 12 CSS vendorisés orphelins, corriger le bug
-   `initNestables()`, nettoyer les champs morts de `Lazyload.ts`. Risque très faible, gain immédiat
-   en lisibilité, et ça réduit la surface avant de commencer les zones visuelles.
-2. **Petites tâches contenues, à glisser dans les zones concernées** : brancher `RzTooltip.ts` sur
-   les 8 usages `data-uk-tooltip` restants, traiter les 4 fichiers à double dépendance, migrer les 7
-   fichiers Vue isolés au fil de l'eau quand on touche leur zone (ex. `BlanchetteEditorContainer`
-   quand on fait la médiathèque).
-3. **Le seul vrai "gros chantier" restant** : le bloc Vue+Vuex de 8 fichiers (Explorer/FilterExplorer/
-   DocumentPreview/Modal) + le retrait effectif de jQuery/UIkit du bundle (`main.js`, `vendor.less`,
-   l'alerte dismissible sans équivalent natif). **Ce n'est pas urgent pour reprendre la refonte
-   visuelle**, mais ça mérite d'être planifié comme une phase dédiée après avoir stabilisé 1-2 zones
-   visuelles (pour retrouver du rythme d'équipe et un peu de filet avant d'attaquer le plus risqué).
-   Sans aucun test automatisé nulle part dans `lib/Rozier`, prévoir une checklist de QA manuelle par
-   comportement retiré plutôt que de compter sur une suite de tests inexistante.
+1. **Near-free cleanup, to do right away (Phase 0)**: remove the 6 dead Vue files, the dead
+   UIkit behaviours/imports (switcher, sortable, nestable, datepicker, pagination, notify,
+   htmleditor) and the 12 orphaned vendored CSS files, fix the `initNestables()` bug, clean up the
+   dead fields in `Lazyload.ts`. Very low risk, immediate readability gain, and it shrinks the
+   surface before starting on the visual zones.
+2. **Small, contained tasks, to fold into the relevant zones**: wire up `RzTooltip.ts` for the 8
+   remaining `data-uk-tooltip` usages, handle the 4 double-dependency files, migrate the 7 isolated
+   Vue files as their zone comes up (e.g. `BlanchetteEditorContainer` when working on the media
+   library).
+3. **The only real remaining "big effort"**: the 8-file Vue+Vuex block (Explorer/FilterExplorer/
+   DocumentPreview/Modal) + the actual removal of jQuery/UIkit from the bundle (`main.js`,
+   `vendor.less`, the dismissible alert with no native equivalent). **Not urgent for resuming the
+   visual redesign**, but worth planning as a dedicated phase after 1-2 visual zones have been
+   stabilized (to rebuild team rhythm and a bit of a safety net before tackling the riskiest part).
+   With no automated tests anywhere in `lib/Rozier`, plan a manual QA checklist per removed
+   behaviour rather than relying on a test suite that doesn't exist.
 
-En clair : ne pas traiter "retirer UIkit / Vue / JS global" comme 3 fronts séparés à arbitrer contre
-la refonte visuelle. La partie 1 est à faire tout de suite (quasi gratuite), la partie 2 se fait au
-fil des zones déjà prévues, et seule la partie 3 est un vrai arbitrage de planning — voir
-[`ui-redesign-todo.md`](ui-redesign-todo.md) pour son emplacement dans les phases.
+In short: don't treat "remove UIkit / Vue / global JS" as 3 separate fronts to weigh against the
+visual redesign. Part 1 should happen right away (near-free), part 2 happens along the way as
+zones are worked on, and only part 3 is a genuine planning trade-off — see
+[`ui-redesign-todo.md`](ui-redesign-todo.md) for where it sits in the phases.
 
-## Feuille de route proposée pour la reprise
+## Proposed roadmap to resume work
 
-Voir [`ui-redesign-todo.md`](ui-redesign-todo.md) — méthodologie de reprise et TODO phasée et
-actionnable, construite à partir de cet état des lieux, de l'inventaire des composants, et de
-l'échantillon Figma ci-dessus.
+See [`ui-redesign-todo.md`](ui-redesign-todo.md) — a phased, actionable methodology and TODO for
+resuming work, built from this status report, the component inventory, and the Figma sample above.

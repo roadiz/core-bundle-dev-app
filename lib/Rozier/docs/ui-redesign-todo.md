@@ -1,133 +1,132 @@
-# TODO — Reprise méthodique de la refonte Rozier
+# TODO — Methodical resumption of the Rozier redesign
 
-> Construit à partir de [`ui-redesign-status.md`](ui-redesign-status.md) (état des lieux, inventaire
-> composants, échantillon Figma). Objectif : donner un cadre précis pour ne pas travailler sur
-> plusieurs gros chantiers à la fois — Rozier est une interface large, s'éparpiller dessus produit
-> beaucoup de zones à 60% plutôt que des zones finies.
+> Built from [`ui-redesign-status.md`](ui-redesign-status.md) (status report, component inventory,
+> Figma sample). Goal: give a precise framework so we don't work on several big fronts at once —
+> Rozier is a large interface, spreading thin across it produces a lot of zones at 60% rather than
+> finished zones.
 
-## Méthodologie
+## Methodology
 
-**Principe : tranche verticale par zone fonctionnelle, pas horizontale par type de composant.**
-Finir une zone à 100% (design conforme, dark mode validé, story Storybook, tickets fermés) avant
-d'ouvrir la suivante — plutôt que d'avancer un peu partout en même temps.
+**Principle: vertical slice by functional zone, not horizontal by component type.**
+Finish a zone to 100% (design-compliant, dark mode validated, Storybook story, tickets closed)
+before opening the next one — rather than making a bit of progress everywhere at once.
 
-Règles pour ne pas s'éparpiller :
-1. **Une seule zone "active" à la fois.** Toute autre idée qui surgit va dans le backlog (v2.8/v2.9), pas dans le sprint en cours.
-2. **Définition de "done" par zone** : composants legacy migrés ou explicitement exclus, dark mode vérifié sur cette zone, confrontation à la section Figma correspondante faite, tickets backlog liés fermés, story Storybook à jour.
-3. **Le dark mode/contraste est transverse** mais ne se propage qu'*après* avoir été validé sur une zone pilote — pas de correctif global non vérifié (c'est le symptôme qu'on voit déjà dans le backlog actuel).
-4. **Revue Figma avant chaque zone** : chercher la section correspondante dans le fichier `Roadiz - V3.0` et comparer avant de coder, pas après.
-5. **Ne pas deviner ce qui n'est pas vérifiable** (node-id Figma, statut d'une branche, contenu d'un fichier non lu) — vérifier plutôt que d'assumer.
+Rules to avoid spreading thin:
+1. **Only one "active" zone at a time.** Any other idea that comes up goes into the backlog (v2.8/v2.9), not into the current sprint.
+2. **Definition of "done" per zone**: legacy components migrated or explicitly excluded, dark mode checked on this zone, cross-check done against the matching Figma section, related backlog tickets closed, Storybook story up to date.
+3. **Dark mode/contrast is cross-cutting** but only rolls out *after* being validated on a pilot zone — no unverified global fix (that's the symptom already visible in the current backlog).
+4. **Figma review before each zone**: look up the matching section in the `Roadiz - V3.0` file and compare before coding, not after.
+5. **Don't guess what isn't verifiable** (a Figma node ID, a branch's status, the content of an unread file) — verify instead of assuming.
 
-## Ordre des zones et pourquoi
+## Zone order and rationale
 
-Basé sur l'inventaire composants (voir état des lieux) : les zones presque finies se ferment vite
-et créent de la traction ; les zones très legacy demandent un vrai chantier, pas des retouches.
+Based on the component inventory (see status report): the nearly-finished zones close quickly and
+build momentum; the heavily legacy zones need a real effort, not just touch-ups.
 
-| Ordre | Zone | Avancement | Pourquoi cet ordre |
+| Order | Zone | Progress | Why this order |
 |---|---|---|---|
-| 1 (pilote) | Fiche de contenu / node-source | 13/14 | Concentre la majorité des tickets bugs ouverts ; le design Figma des manques (MarkdownQuickView, FloatingBar) est déjà prêt ; zone la plus utilisée au quotidien |
-| 2 | Navigation / arbre | 8/9 | Quasi fini, 2 tickets à boucler |
-| 3 | Médiathèque / documents | 7/8 | Quasi fini |
-| — | Tableaux / listings / bulk | 4/4 | Déjà fini — juste revalider le dark mode quand on l'attaquera en phase 2 |
-| 4 | Dialogues / overlays transverses | 7/13 | Utilisé par toutes les autres zones — les doublons legacy (`RzButton.vue`/`RzTextarea.vue`) polluent aussi les zones "finies" |
-| 5 | Explorateur / Drawer | 6/9 | `NodeTypesDrawerContainer.vue` reste massivement UIkit malgré son passage dans le commit de refonte |
-| 6 | Tags / Folders | 1/6 | Le plus gros retard — probablement pas juste du rattrapage, nécessite un vrai passage de design avant de coder |
-| 7 | Formulaires personnalisés | 0/1 | Petit périmètre mais jamais commencé |
-| 8 | Gestion utilisateurs | 0 composant dédié | Aucune base existante, plus gros chantier — à cadrer séparément avec une maquette Figma dédiée |
+| 1 (pilot) | Content editing page / node-source | 13/14 | Concentrates most of the open bug tickets; the Figma design for the gaps (MarkdownQuickView, FloatingBar) is already ready; the most-used zone day to day |
+| 2 | Navigation / tree | 8/9 | Nearly done, 2 tickets to close out |
+| 3 | Media library / documents | 7/8 | Nearly done |
+| — | Tables / listings / bulk actions | 4/4 | Already done — just re-validate dark mode when it's tackled in phase 2 |
+| 4 | Cross-cutting dialogs / overlays | 7/13 | Used by every other zone — the legacy duplicates (`RzButton.vue`/`RzTextarea.vue`) also pollute the "finished" zones |
+| 5 | Explorer / Drawer | 6/9 | `NodeTypesDrawerContainer.vue` remains heavily UIkit despite being touched by the redesign commit |
+| 6 | Tags / Folders | 1/6 | The biggest gap — probably not just catch-up work, needs a real design pass before coding |
+| 7 | Custom forms | 0/1 | Small footprint but never started |
+| 8 | User management | 0 dedicated component | No existing foundation, the biggest remaining effort — to be scoped separately with a dedicated Figma mockup |
 
-## Phase 0 — Hygiène (avant de coder quoi que ce soit)
+## Phase 0 — Hygiene (before writing any code)
 
-Cette phase est quasi gratuite (peu de décisions de design) et logique juste après validation de la
-roadmap : elle déblaie le terrain et redonne du rythime avant la zone pilote. **Time-boxer à 2-3
-jours** — plusieurs items ci-dessous demandent une vérification manuelle rapide avant suppression
-(pas de tests automatisés dans `lib/Rozier`) ; ne pas la laisser dériver en chantier de vérification
-exhaustif qui retarderait la Phase 1.
+This phase is near-free (few design decisions) and makes sense right after the roadmap is
+validated: it clears the ground and rebuilds some rhythm before the pilot zone. **Time-box it to
+2-3 days** — several items below need a quick manual check before removal (no automated tests in
+`lib/Rozier`); don't let it drift into an exhaustive verification effort that delays Phase 1.
 
-**L'ordre ci-dessous est important** : merger les PR en premier, *avant* de toucher au nettoyage
-legacy/bugfix — la PR [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) modifie
-directement `Rozier.ts`, `RzAside.ts` et `RzTree.ts`, exactement les fichiers où vivent le bug
-`initNestables()` et le nettoyage Vue/UIkit ci-dessous. Corriger/nettoyer avant de merger #396
-risque un conflit ou un correctif écrasé.
+**The order below matters**: merge the PRs first, *before* touching the legacy cleanup/bugfix work —
+PR [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) directly modifies `Rozier.ts`, `RzAside.ts`, and `RzTree.ts`,
+exactly the files where the `initNestables()` bug and the Vue/UIkit cleanup below live. Fixing/
+cleaning up before merging #396 risks a conflict or an overwritten fix.
 
-- [ ] Merger [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (quasi zéro risque)
-- [ ] Revue + merge [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) et [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417)
-- [ ] Re-tester (stale ~7 mois) puis merger [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396)
-- [ ] Vérifier le lien avec la PR fermée #377, résoudre les conflits, puis merger [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398)
+- [ ] Merge [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (near-zero risk)
+- [ ] Review + merge [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) and [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417)
+- [ ] Retest (stale ~7 months) then merge [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396)
+- [ ] Check the link with the closed PR #377, resolve conflicts, then merge [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398)
 
-*(À partir d'ici, le code de `Rozier.ts`/`RzAside.ts`/`RzTree.ts` a bougé — se baser sur l'état
-post-merge, pas sur les chemins/lignes cités plus bas qui reflètent l'état du 2026-09-10.)*
+*(From here on, the code in `Rozier.ts`/`RzAside.ts`/`RzTree.ts` has moved — work from the
+post-merge state, not from the paths/line numbers cited below, which reflect the state as of
+2026-09-10.)*
 
-- [ ] Dédoublonner : [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439)/[#440](https://github.com/roadiz/core-bundle-dev-app/issues/440), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415)/[core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462)
-- [ ] Resynchroniser board ↔ milestone `v2.8` (13 issues du milestone absentes du board)
-- [ ] Statuer sur les 7 vieux tickets backend hors-sujet (#16, #393, #399, #406, #428, #457, #470) : sortir du milestone ou assumer explicitement
-- [ ] Fixer une échéance à `v2.8`, ou ouvrir `v2.9` si le périmètre a trop dérivé
-- [ ] Nettoyer la collision `components/RzButton.vue` (legacy) vs `custom-elements/RzButton.ts` (nouveau) — et son cousin `RzTextarea.vue`
-- [ ] Vérifier si `components/CodeMirror.vue` est du code mort (aucun import trouvé)
-- [ ] Corriger `CLAUDE.md` : Rozier tourne en Vue 2.7, pas Vue 3
-- [ ] Chercher dans Figma une section/des variantes dark mode dédiées (aucune vue dans l'échantillon consulté — à confirmer avant de considérer que le dark mode n'est pas maquetté)
-- [ ] **Corriger le bug `window.Rozier.initNestables()`** ([StackNodeTree.js:194](../app/widgets/StackNodeTree.js#L194)) — méthode inexistante sur `Rozier.ts`, plante à chaque réorganisation d'arbre par drag-and-drop et bloque le rebind qui suit. Indépendant de tout chantier de retrait, probablement un bug utilisateur actif
-- [ ] Supprimer les 6 fichiers Vue morts : `DrawerContainer.vue`, `NodeTypesDrawerContainer.vue`, `TagsEditorContainer.vue`, `RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
-- [ ] Supprimer les comportements/imports UIkit morts dans `main.js`/`vendor.less` : `switcher`, `sortable`, `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + les 12 CSS vendorisés orphelins
-- [ ] Nettoyer les champs morts de `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
+- [ ] De-duplicate: [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439)/[#440](https://github.com/roadiz/core-bundle-dev-app/issues/440), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415)/[core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462)
+- [ ] Resync board ↔ `v2.8` milestone (13 milestone issues missing from the board)
+- [ ] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): remove from the milestone or explicitly own them
+- [ ] Set a due date on `v2.8`, or open `v2.9` if scope has drifted too far
+- [ ] Clean up the `components/RzButton.vue` (legacy) vs `custom-elements/RzButton.ts` (new) collision — and its cousin `RzTextarea.vue`
+- [ ] Check whether `components/CodeMirror.vue` is dead code (no import found)
+- [ ] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
+- [ ] Look in Figma for a dedicated dark mode section/variants (none seen in the sample reviewed — confirm before concluding dark mode isn't mocked up)
+- [ ] **Fix the `window.Rozier.initNestables()` bug** ([StackNodeTree.js:194](../app/widgets/StackNodeTree.js#L194)) — method no longer exists on `Rozier.ts`, crashes on every drag-and-drop tree reorder and blocks the rebind that follows. Independent of any removal effort, likely an active user-facing bug
+- [ ] Remove the 6 dead Vue files: `DrawerContainer.vue`, `NodeTypesDrawerContainer.vue`, `TagsEditorContainer.vue`, `RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
+- [ ] Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `switcher`, `sortable`, `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files
+- [ ] Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
 
-## Phase 1 — Zone pilote : Fiche de contenu (node-source)
+## Phase 1 — Pilot zone: content editing page (node-source)
 
-- [ ] Comparer les composants de la zone aux sections Figma "Structure" et "Markdown"
-- [ ] Implémenter le panneau `MarkdownQuickView` selon le design Figma existant ([#443](https://github.com/roadiz/core-bundle-dev-app/issues/443))
-- [ ] Fix [#444](https://github.com/roadiz/core-bundle-dev-app/issues/444) — coloration syntaxique perdue
-- [ ] Fix [#434](https://github.com/roadiz/core-bundle-dev-app/issues/434) — disclaimer version
-- [ ] Fix [#442](https://github.com/roadiz/core-bundle-dev-app/issues/442) — ratio grille 66/33
-- [ ] Fix [#435](https://github.com/roadiz/core-bundle-dev-app/issues/435) — hauteur champs booléens
-- [ ] Fix [#438](https://github.com/roadiz/core-bundle-dev-app/issues/438) — switch `false`/`disabled`
-- [ ] Valider le dark mode sur cette zone uniquement (elle sert de référence pour la phase 2)
-- [ ] Compléter les stories Storybook manquantes de la zone
-- [ ] Brancher `RzTooltip.ts` (déjà prêt) sur les usages `data-uk-tooltip` restants de la zone
-- [ ] Marquer la zone "done"
+- [ ] Compare the zone's components against the Figma "Structure" and "Markdown" sections
+- [ ] Implement the `MarkdownQuickView` panel per the existing Figma design ([#443](https://github.com/roadiz/core-bundle-dev-app/issues/443))
+- [ ] Fix [#444](https://github.com/roadiz/core-bundle-dev-app/issues/444) — lost syntax highlighting
+- [ ] Fix [#434](https://github.com/roadiz/core-bundle-dev-app/issues/434) — version disclaimer
+- [ ] Fix [#442](https://github.com/roadiz/core-bundle-dev-app/issues/442) — 66/33 grid ratio
+- [ ] Fix [#435](https://github.com/roadiz/core-bundle-dev-app/issues/435) — boolean field height
+- [ ] Fix [#438](https://github.com/roadiz/core-bundle-dev-app/issues/438) — `false`/`disabled` switch state
+- [ ] Validate dark mode on this zone only (it serves as the reference for phase 2)
+- [ ] Fill in the zone's missing Storybook stories
+- [ ] Wire up `RzTooltip.ts` (already ready) for the zone's remaining `data-uk-tooltip` usages
+- [ ] Mark the zone "done"
 
-## Phase 2 — Dark mode / contraste (transverse, après la zone pilote)
+## Phase 2 — Dark mode / contrast (cross-cutting, after the pilot zone)
 
-- [ ] Utiliser la zone pilote validée comme référence de contraste
-- [ ] Fix [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436), [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448), [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) avec cette référence
-- [ ] Repasser sur les zones déjà quasi finies (Navigation, Tableaux) pour valider leur dark mode
+- [ ] Use the validated pilot zone as the contrast reference
+- [ ] Fix [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436), [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448), [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) against that reference
+- [ ] Go back over the nearly-finished zones (Navigation, Tables) to validate their dark mode
 
-## Phase 3 — Zones suivantes (dans l'ordre du tableau)
+## Phase 3 — Next zones (in the order from the table)
 
-- [ ] Navigation/arbre : [#469](https://github.com/roadiz/core-bundle-dev-app/issues/469), [#437](https://github.com/roadiz/core-bundle-dev-app/issues/437), migrer `AdminMenuNav.js`
-- [ ] Médiathèque/documents : migrer `DocumentAlignmentWidget.js`
-- [ ] Dialogues/overlays : nettoyer les composants legacy restants (`WarningModal`, `ModalContainer`, `Overlay`, `FilterExplorerItem`, `JoinPreviewItem`)
-- [ ] Explorateur/Drawer : reprendre `NodeTypesDrawerContainer.vue` (encore massivement UIkit)
+- [ ] Navigation/tree: [#469](https://github.com/roadiz/core-bundle-dev-app/issues/469), [#437](https://github.com/roadiz/core-bundle-dev-app/issues/437), migrate `AdminMenuNav.js`
+- [ ] Media library/documents: migrate `DocumentAlignmentWidget.js`
+- [ ] Dialogs/overlays: clean up the remaining legacy components (`WarningModal`, `ModalContainer`, `Overlay`, `FilterExplorerItem`, `JoinPreviewItem`)
+- [ ] Explorer/Drawer: revisit `NodeTypesDrawerContainer.vue` (still heavily UIkit)
 
-## Phase 4 — Fondations techniques
+## Phase 4 — Technical foundations
 
-- [ ] [#205](https://github.com/roadiz/core-bundle-dev-app/issues/205) Vite : entry point CSS dédié
+- [ ] [#205](https://github.com/roadiz/core-bundle-dev-app/issues/205) Vite: dedicated CSS entry point
 - [ ] [#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) `MutationObserver`
-- [ ] [#230](https://github.com/roadiz/core-bundle-dev-app/issues/230) retirer la config globale
-- [ ] [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) icônes de statut
-- [ ] [#255](https://github.com/roadiz/core-bundle-dev-app/issues/255) backoffice embarqué en iframe
-- [ ] [#332](https://github.com/roadiz/core-bundle-dev-app/issues/332) migration OIDC native
+- [ ] [#230](https://github.com/roadiz/core-bundle-dev-app/issues/230) remove global config
+- [ ] [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) status icons
+- [ ] [#255](https://github.com/roadiz/core-bundle-dev-app/issues/255) embedded backoffice via iframe
+- [ ] [#332](https://github.com/roadiz/core-bundle-dev-app/issues/332) native OIDC migration
 
-## Phase 5 — Le bloc Vue+Vuex et le retrait effectif jQuery/UIkit
+## Phase 5 — The Vue+Vuex block and the actual jQuery/UIkit removal
 
-Investigation faite (voir état des lieux) : ce n'est plus une question ouverte "faut-il retirer
-Vue/UIkit", c'est un périmètre précis et borné. À traiter comme une phase dédiée, après avoir
-stabilisé 1-2 zones visuelles (pas en urgence, mais à ne pas oublier) :
+Investigation done (see status report): this is no longer an open question of "should we remove
+Vue/UIkit", it's a precise, bounded scope. Treat it as a dedicated phase, after 1-2 visual zones
+have been stabilized (not urgent, but not to be forgotten):
 
-- [ ] Remplacer le store Vuex (6 modules) et migrer le bloc couplé de 8 fichiers : `ExplorerContainer.vue`, `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue`, `ModalContainer.vue` et leurs enfants dynamiques
-- [ ] Migrer les 7 fichiers Vue isolés restants (`Overlay.vue`, `BlanchetteEditorContainer.vue`/`BlanchetteToolbar.vue`...) en suivant le pattern événementiel déjà prouvé sur `rz-drawer` — faisable au fil de l'eau, zone par zone, pas besoin d'attendre cette phase
-- [ ] Traiter les 2 derniers comportements UIkit réellement vivants : alerte dismissible (`data-uk-alert` × 8, pas d'équivalent natif — à concevoir) et finir le passage à `RzTooltip.ts` partout
-- [ ] Assainir les 4 fichiers à double dépendance UIkit/natif (`RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `base.html.twig`)
-- [ ] Retirer jQuery + UIkit du bundle (`main.js`, `vendor.less`) — seulement possible une fois les deux points précédents faits, jQuery et UIkit 2.x étant couplés au runtime
-- [ ] Écrire une checklist de QA manuelle par comportement retiré (aucun test automatisé n'existe dans `lib/Rozier` pour sécuriser ces retraits)
-- [ ] Mettre à jour `roadmap.md` une fois ce périmètre traité (il documente encore ce chantier comme non commencé, alors qu'il est déjà largement avancé)
+- [ ] Replace the Vuex store (6 modules) and migrate the coupled 8-file block: `ExplorerContainer.vue`, `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue`, `ModalContainer.vue` and their dynamic children
+- [ ] Migrate the 7 remaining isolated Vue files (`Overlay.vue`, `BlanchetteEditorContainer.vue`/`BlanchetteToolbar.vue`...) following the event-driven pattern already proven on `rz-drawer` — doable along the way, zone by zone, no need to wait for this phase
+- [ ] Handle the last 2 genuinely live UIkit behaviours: dismissible alert (`data-uk-alert` × 8, no native equivalent yet — needs designing) and finish wiring `RzTooltip.ts` everywhere
+- [ ] Clean up the 4 files with a UIkit/native double dependency (`RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `base.html.twig`)
+- [ ] Remove jQuery + UIkit from the bundle (`main.js`, `vendor.less`) — only possible once the two previous points are done, since jQuery and UIkit 2.x are coupled at runtime
+- [ ] Write a manual QA checklist per removed behaviour (no automated test exists in `lib/Rozier` to safety-net these removals)
+- [ ] Update `roadmap.md` once this scope is handled (it still documents this effort as not started, even though it's already largely underway)
 
-## Phase 6 — Zones lourdes restantes
+## Phase 6 — Remaining heavy zones
 
-- [ ] Cadrer Tags/Folders avec un vrai passage de design Figma (pas juste du rattrapage de code)
-- [ ] Cadrer Formulaires personnalisés
-- [ ] Cadrer Gestion utilisateurs (aucun composant dédié existant — le plus gros chantier restant)
+- [ ] Scope Tags/Folders with a real Figma design pass (not just code catch-up)
+- [ ] Scope Custom forms
+- [ ] Scope User management (no existing dedicated component — the biggest remaining effort)
 
-## Règles anti-éparpillement (rappel)
+## Rules to avoid spreading thin (reminder)
 
-- Une seule zone "active" visible à la fois (ex. dans le milestone en cours).
-- Ne pas ouvrir de PR de redesign sur une nouvelle zone tant que la zone active n'est pas "done".
-- Toute idée hors zone active part au backlog `v2.9`, pas dans le sprint en cours.
+- Only one "active" zone visible at a time (e.g. in the current milestone).
+- Don't open a redesign PR on a new zone until the active zone is "done".
+- Any idea outside the active zone goes to the `v2.9` backlog, not into the current sprint.
