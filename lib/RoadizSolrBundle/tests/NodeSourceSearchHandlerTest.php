@@ -44,6 +44,14 @@ final class NodeSourceSearchHandlerTest extends TestCase
         return $method->invokeArgs($handler, [$q, &$args]);
     }
 
+    private function buildFuzzyQuery(string $q): string
+    {
+        $handler = $this->createHandler();
+        $method = new \ReflectionMethod($handler, 'buildFuzzyQuery');
+
+        return $method->invoke($handler, $q);
+    }
+
     /**
      * @return array{0: string, 1: string, 2: string}
      */
@@ -103,15 +111,30 @@ final class NodeSourceSearchHandlerTest extends TestCase
     /**
      * Under eDisMax the query string carries terms only: no field prefix, no
      * hand-built per-field clauses. Fields come from `qf`/`pf`.
+     *
+     * Terms stay plain so Solr analyses them. A fuzzy term is a MultiTermQuery,
+     * which skips the field analyzer: stopwords then survive and `mm` keeps
+     * requiring them, so "Pas de page sur la choucroute" matched nothing while
+     * the page titled exactly that sat in the index.
      */
-    public function testBuildQueryFuzzifiesEveryWordWithoutFieldPrefix(): void
+    public function testBuildQueryKeepsTermsAnalysableWithoutFieldPrefix(): void
     {
-        $this->assertSame('King~2 Lear~2', $this->buildQuery('King Lear'));
+        $this->assertSame('King Lear', $this->buildQuery('King Lear'));
+        $this->assertSame('Pas de page sur la choucroute', $this->buildQuery('Pas de page sur la choucroute'));
+    }
+
+    /**
+     * Typo tolerance moves to the second pass, run only when the analysed one
+     * came back empty.
+     */
+    public function testFuzzyQueryFuzzifiesEveryLongEnoughWord(): void
+    {
+        $this->assertSame('King~2 Lear~2', $this->buildFuzzyQuery('King Lear'));
     }
 
     public function testShortWordsAreNotFuzzified(): void
     {
-        $this->assertSame('Le roi~2 Lear~2', $this->buildQuery('Le roi Lear'));
+        $this->assertSame('Le roi~2 Lear~2', $this->buildFuzzyQuery('Le roi Lear'));
     }
 
     public function testQueryIsParsedByEdisMax(): void

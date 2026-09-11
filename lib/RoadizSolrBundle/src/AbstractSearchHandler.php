@@ -224,6 +224,25 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $event = $this->eventDispatcher->dispatch($this->createSearchQueryEvent($query, $args));
         $query = $event->getQuery();
 
+        $response = $this->getSolr()->execute($query)->getData();
+
+        $fuzzyQueryTxt = $this->buildFuzzyQuery($q);
+        if ($fuzzyQueryTxt === $queryTxt || 0 !== ($response['response']['numFound'] ?? 0)) {
+            return $response;
+        }
+
+        /*
+         * Nothing matched: give typos a second chance on the very same query, with
+         * every long-enough word fuzzified. This cannot be the first pass: a fuzzy
+         * term is a MultiTermQuery, which Solr does *not* run through the field
+         * analyzer — no stopword removal, so `mm` keeps requiring "pas" or "sur"
+         * and a plain French sentence matches nothing.
+         */
+        $query->setQuery($fuzzyQueryTxt);
+        $this->searchEngineLogger->debug(sprintf('[Solr] Retry %s search with fuzzy terms…', $this->getDocumentType()), [
+            'query' => $fuzzyQueryTxt,
+        ]);
+
         return $this->getSolr()->execute($query)->getData();
     }
 
@@ -388,9 +407,24 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      * phrase boosting are declared through `qf`/`pf` in configureQueryParser().
      * Extend this method to customize how user words are turned into terms.
      *
-     * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
+     * Terms are left plain so that Solr analyses them: stopwords are dropped and
+     * `mm` then only requires the meaningful words. buildFuzzyQuery() carries the
+     * typo-tolerant variant, used as a second pass when this one finds nothing.
      */
     protected function buildQuery(string $q, array &$args, bool $searchTags = false): string
+    {
+        return implode(' ', array_map(
+            $this->escapeQuery(...),
+            $this->splitQuery($q)
+        ));
+    }
+
+    /**
+     * Same terms as buildQuery(), with every long-enough word fuzzified.
+     *
+     * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
+     */
+    protected function buildFuzzyQuery(string $q): string
     {
         return implode(' ', array_map(function (string $word) {
             /*
