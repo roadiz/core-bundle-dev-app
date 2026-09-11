@@ -175,3 +175,4 @@ fabric.properties
 config/reference.php
 lib/Rozier/.pnpm-store/
 phpstan_report.txt
+.phpactor.json
