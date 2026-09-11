@@ -10,6 +10,8 @@ use Psr\Log\NullLogger;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\SolrBundle\ClientRegistryInterface;
 use RZ\Roadiz\SolrBundle\NodeSourceSearchHandler;
+use Solarium\Component\EdisMax;
+use Solarium\QueryType\Select\Query\Query;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 final class NodeSourceSearchHandlerTest extends TestCase
@@ -34,23 +36,22 @@ final class NodeSourceSearchHandlerTest extends TestCase
         return $method->invokeArgs($handler, [&$args]);
     }
 
-    /**
-     * @return array{0: string, 1: string, 2: string} [$exactQuery, $fuzzyQuery, $wildcardQuery]
-     */
-    private function getFormattedQuery(string $q): array
-    {
-        $handler = $this->createHandler();
-        $method = new \ReflectionMethod($handler, 'getFormattedQuery');
-
-        return $method->invoke($handler, $q);
-    }
-
     private function buildQuery(string $q, array $args = []): string
     {
         $handler = $this->createHandler();
         $method = new \ReflectionMethod($handler, 'buildQuery');
 
         return $method->invokeArgs($handler, [$q, &$args]);
+    }
+
+    private function configuredEdisMax(array $args = [], bool $searchTags = false): EdisMax
+    {
+        $handler = $this->createHandler();
+        $query = new Query();
+        $method = new \ReflectionMethod($handler, 'configureQueryParser');
+        $method->invokeArgs($handler, [$query, &$args, $searchTags]);
+
+        return $query->getEDisMax();
     }
 
     public function testDefaultCriteriaExcludesEmbargoedContent(): void
@@ -84,40 +85,79 @@ final class NodeSourceSearchHandlerTest extends TestCase
     }
 
     /**
-     * Regression test for gitlab.rezo-zero.com/events-api/eventsapi-dev-website#32:
-     * a multi-word query must produce a real Lucene PhraseQuery (quoted, with slop),
-     * not a single escapeQuery()'d term with the space backslash-escaped away.
+     * Under eDisMax the query string carries terms only: no field prefix, no
+     * hand-built per-field clauses. Fields come from `qf`/`pf`.
      */
-    public function testMultiWordQueryBuildsExactPhraseQuery(): void
+    public function testBuildQueryFuzzifiesEveryWordWithoutFieldPrefix(): void
     {
-        [$exactQuery] = $this->getFormattedQuery('King Lear');
-
-        $this->assertSame('"King Lear"~2', $exactQuery);
+        $this->assertSame('King~2 Lear~2', $this->buildQuery('King Lear'));
     }
 
-    public function testExactPhraseQueryEscapesQuotesWithoutBreakingThePhrase(): void
+    public function testShortWordsAreNotFuzzified(): void
     {
-        [$exactQuery] = $this->getFormattedQuery('King "Lear"');
+        $this->assertSame('Le roi~2 Lear~2', $this->buildQuery('Le roi Lear'));
+    }
 
-        $this->assertSame('"King \"Lear\""~2', $exactQuery);
+    public function testQueryIsParsedByEdisMax(): void
+    {
+        $this->assertSame('edismax', $this->configuredEdisMax()->getQueryParser());
     }
 
     /**
-     * Fuzzy clause must require every word (AND), like v7 did, otherwise a single
-     * matching word is enough to rank a document (combined with eDismax minimum-match).
+     * Regression test for gitlab.rezo-zero.com/events-api/eventsapi-dev-website#32:
+     * a multi-word query must still boost documents matching the words as a
+     * phrase. That is now eDisMax `pf`/`ps` instead of a hand-built PhraseQuery.
      */
-    public function testFuzzyQueryRequiresEveryWord(): void
+    public function testPhraseBoostIsDeclaredOnTitleAndCollection(): void
     {
-        [, $fuzzyQuery] = $this->getFormattedQuery('King Lear');
+        $edisMax = $this->configuredEdisMax();
 
-        $this->assertSame('(King~2 AND Lear~2)', $fuzzyQuery);
+        $this->assertSame('title^20 collection_txt^2', $edisMax->getPhraseFields());
+        $this->assertSame(2, $edisMax->getPhraseSlop());
     }
 
-    public function testBuildQueryScopesExactAndFuzzyClausesToTitleField(): void
+    /**
+     * Every word must be required, otherwise a single matching word is enough to
+     * rank a document. That is `mm` now, no longer an explicit AND join.
+     */
+    public function testMinimumMatchRequiresEveryWord(): void
     {
-        $query = $this->buildQuery('King Lear');
+        $this->assertSame('100%', $this->configuredEdisMax()->getMinimumMatch());
+    }
 
-        $this->assertStringContainsString('(title:"King Lear"~2)^20', $query);
-        $this->assertStringContainsString('(title:(King~2 AND Lear~2))', $query);
+    public function testQueryFieldsIncludeSlugAndSkipTagsUnlessAsked(): void
+    {
+        $this->assertSame(
+            'title^10 collection_txt^2 slug_s',
+            $this->configuredEdisMax()->getQueryFields()
+        );
+        $this->assertSame(
+            'title^10 collection_txt^2 tags_txt slug_s',
+            $this->configuredEdisMax(searchTags: true)->getQueryFields()
+        );
+    }
+
+    public function testQueryFieldsFollowRequestedLocale(): void
+    {
+        $edisMax = $this->configuredEdisMax(['locale' => 'fr_FR']);
+
+        $this->assertSame('title_txt_fr^10 collection_txt_fr^2 slug_s', $edisMax->getQueryFields());
+        $this->assertSame('title_txt_fr^20 collection_txt_fr^2', $edisMax->getPhraseFields());
+    }
+
+    public function testPublicationDateBoostUsesMultiplicativeBoostFunction(): void
+    {
+        $handler = $this->createHandler();
+        $handler->boostByPublicationDate();
+
+        $query = new Query();
+        $args = [];
+        $method = new \ReflectionMethod($handler, 'configureQueryParser');
+        $method->invokeArgs($handler, [$query, &$args, false]);
+
+        $this->assertSame(
+            'recip(ms(NOW,published_at_dt),3.16e-11,1,1)',
+            $query->getEDisMax()->getBoostFunctionsMult()
+        );
     }
 }
