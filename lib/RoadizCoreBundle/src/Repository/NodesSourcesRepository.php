@@ -265,6 +265,8 @@ class NodesSourcesRepository extends StatusAwareRepository
      * granted, mirroring NodesSourcesRealmExtension so findBy/findOneBy/searchBy/countBy
      * offer the same protection as the API Platform endpoints.
      *
+     * Skipped for back-end users: see the note on ROLE_BACKEND_USER below.
+     *
      * Deliberately NOT called from findOneByIdentifierAndTranslation(): that method
      * only backs NodesSourcesPathResolver, whose caller (web_response_by_path) already
      * performs an equivalent, more specific DENY-realm check via
@@ -274,6 +276,17 @@ class NodesSourcesRepository extends StatusAwareRepository
     private function filterByDeniedRealms(QueryBuilder $qb): void
     {
         if (null === $this->realmResolver) {
+            return;
+        }
+
+        /*
+         * Realms gate public delivery, not backoffice edition. A back-end user
+         * already goes through NodeVoter for every node they open, whereas a
+         * plain-password Realm can never be granted from Rozier — no challenge is
+         * ever submitted there — so filtering here makes every gated node
+         * uneditable, surfacing as a 404 instead of a 403.
+         */
+        if ($this->security->isGranted('ROLE_BACKEND_USER')) {
             return;
         }
 
