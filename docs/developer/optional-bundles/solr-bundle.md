@@ -108,6 +108,11 @@ is shared by every handler: to add your own document type, implement
 `getResultFields()` and `createSearchQueryEvent()` rather than reimplementing the
 Solr round-trip.
 
+`getFormattedQuery()` — which returned the exact/fuzzy/wildcard triple for the
+standard Lucene parser — is **deprecated**: eDisMax builds those clauses itself.
+It still works for handlers that compose their own query string, but declare
+your fields through `buildQueryFields()` / `buildPhraseFields()` instead.
+
 ::: warning
 `qf` and `pf` should only name fields that the document type actually indexes.
 A field the schema does not know at all makes Solr reject the whole request;

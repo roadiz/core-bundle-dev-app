@@ -343,6 +343,35 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     }
 
     /**
+     * Build the three query forms the standard Lucene parser needed: a quoted
+     * PhraseQuery, an AND-joined fuzzy group and a wildcard variant.
+     *
+     * @return array{0: string, 1: string, 2: string} [$exactQuery, $fuzzyQuery, $wildcardQuery]
+     *
+     * @deprecated since 2.7, eDisMax builds these clauses itself. Declare the
+     *             searched fields through buildQueryFields()/buildPhraseFields()
+     *             instead of composing a field-scoped query string by hand.
+     */
+    protected function getFormattedQuery(string $q): array
+    {
+        $q = trim($q);
+        $fuzzyiedQuery = '('.implode(' AND ', array_map(function (string $word) {
+            if ($this->shouldFuzzify($word)) {
+                return $this->escapeQuery($word).$this->getFuzzySuffix();
+            }
+
+            return $this->escapeQuery($word);
+        }, $this->splitQuery($q))).')';
+        $exactQuery = $this->escapePhrase($q).'~'.static::EXACT_PHRASE_SLOP;
+        $wildcardQuery = $this->escapeQuery($q).'*';
+        if ($this->shouldFuzzify($q)) {
+            $wildcardQuery .= $this->getFuzzySuffix();
+        }
+
+        return [$exactQuery, $fuzzyiedQuery, $wildcardQuery];
+    }
+
+    /**
      * Default Solr query builder.
      *
      * Under eDisMax the query string carries the terms only: fields, weights and

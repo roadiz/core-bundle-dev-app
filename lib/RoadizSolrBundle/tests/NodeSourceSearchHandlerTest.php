@@ -44,6 +44,17 @@ final class NodeSourceSearchHandlerTest extends TestCase
         return $method->invokeArgs($handler, [$q, &$args]);
     }
 
+    /**
+     * @return array{0: string, 1: string, 2: string}
+     */
+    private function getFormattedQuery(string $q): array
+    {
+        $handler = $this->createHandler();
+        $method = new \ReflectionMethod($handler, 'getFormattedQuery');
+
+        return $method->invoke($handler, $q);
+    }
+
     private function configuredEdisMax(array $args = [], bool $searchTags = false): EdisMax
     {
         $handler = $this->createHandler();
@@ -143,6 +154,20 @@ final class NodeSourceSearchHandlerTest extends TestCase
 
         $this->assertSame('title_txt_fr^10 collection_txt_fr^2 slug_s', $edisMax->getQueryFields());
         $this->assertSame('title_txt_fr^20 collection_txt_fr^2', $edisMax->getPhraseFields());
+    }
+
+    /**
+     * getFormattedQuery() is deprecated but still consumed by downstream handlers
+     * that compose their own query string. Keep its output stable until removal.
+     *
+     * @group legacy
+     */
+    public function testDeprecatedFormattedQueryKeepsItsLuceneShape(): void
+    {
+        $this->assertSame(
+            ['"King Lear"~2', '(King~2 AND Lear~2)', 'King\\ Lear*~2'],
+            $this->getFormattedQuery('King Lear')
+        );
     }
 
     public function testPublicationDateBoostUsesMultiplicativeBoostFunction(): void
