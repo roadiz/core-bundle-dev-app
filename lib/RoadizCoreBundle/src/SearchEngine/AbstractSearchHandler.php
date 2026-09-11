@@ -15,6 +15,11 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
+    /**
+     * Word distance tolerance for the exact-match Lucene PhraseQuery.
+     */
+    protected const EXACT_PHRASE_SLOP = 2;
+
     protected ClientRegistry $clientRegistry;
     protected ObjectManager $em;
     protected LoggerInterface $logger;
@@ -248,6 +253,18 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     }
 
     /**
+     * @param string $input
+     * @return string
+     */
+    protected function escapePhrase(string $input): string
+    {
+        $qHelper = new Helper();
+        $input = $qHelper->filterControlCharacters($input);
+
+        return $qHelper->escapePhrase($input);
+    }
+
+    /**
      * @param string $q
      * @return array [$exactQuery, $fuzzyQuery, $wildcardQuery]
      */
@@ -262,7 +279,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         if (false === $words) {
             throw new \RuntimeException('Cannot split query string.');
         }
-        $fuzzyiedQuery = implode(' ', array_map(function (string $word) {
+        /*
+         * Group with AND so every word is required (fuzzy tolerance still applies
+         * per-word), and wrap in parentheses so the field prefix it gets embedded
+         * under in buildQuery() (`field:%s`) scopes the whole group, not just the
+         * first word.
+         */
+        $fuzzyiedQuery = '(' . implode(' AND ', array_map(function (string $word) {
             /*
              * Do not fuzz short words: Solr crashes
              * Proximity is set to 1 by default for single-words
@@ -271,11 +294,13 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
                 return $this->escapeQuery($word) . '~2';
             }
             return $this->escapeQuery($word);
-        }, $words));
+        }, $words)) . ')';
         /*
-         * Only escape exact query
+         * Build a real Lucene PhraseQuery (quoted, with word-distance slop) instead
+         * of escapeQuery(), which backslash-escapes the space and collapses a
+         * multi-word query into a single non-phrase term.
          */
-        $exactQuery = $this->escapeQuery($q);
+        $exactQuery = $this->escapePhrase($q) . '~' . static::EXACT_PHRASE_SLOP;
         /*
          * Wildcard search for allowing autocomplete
          */
