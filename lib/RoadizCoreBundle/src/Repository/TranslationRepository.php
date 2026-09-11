@@ -432,6 +432,41 @@ final class TranslationRepository extends EntityRepository
         return array_map(current(...), $qb->getQuery()->getScalarResult());
     }
 
+    /**
+     * Translations still missing from at least one node of a subtree.
+     *
+     * findUnavailableTranslationsForNode() only looks at one node, so a root that is already
+     * translated hides the fact that its descendants are not — leaving no way to resume a
+     * subtree translation that stopped halfway.
+     *
+     * @param array<int> $nodeIds The whole subtree, ancestor included
+     *
+     * @return TranslationInterface[]
+     */
+    public function findIncompleteTranslationsForNodes(array $nodeIds): array
+    {
+        if ([] === $nodeIds) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);
+        $qb->leftJoin(
+            't.nodeSources',
+            self::NODESSOURCES_ALIAS,
+            'WITH',
+            $qb->expr()->in(self::NODESSOURCES_ALIAS.'.node', ':nodeIds')
+        )
+            ->groupBy('t.id')
+            ->having($qb->expr()->lt($qb->expr()->count(self::NODESSOURCES_ALIAS.'.id'), ':nodeCount'))
+            ->addOrderBy('t.defaultTranslation', 'DESC')
+            ->addOrderBy('t.locale', 'ASC')
+            ->setParameter('nodeIds', $nodeIds)
+            ->setParameter('nodeCount', count($nodeIds))
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findUnavailableTranslationIdForNode(Node $node): array
     {
         $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);

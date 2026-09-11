@@ -116,6 +116,7 @@ final class NodeTypeConfiguration implements ConfigurationInterface
                     ->integerNode('serializationMaxDepth')->defaultNull()->end()
                     ->booleanNode('universal')->defaultFalse()->end()
                     ->booleanNode('excludeFromSearch')->defaultFalse()->end()
+                    ->booleanNode('excludeFromTranslation')->defaultFalse()->end()
                     ->booleanNode('excludedFromSerialization')->defaultFalse()->end()
                     ->booleanNode('indexed')->defaultFalse()->end()
                     ->booleanNode('visible')->defaultTrue()->end()

@@ -23,4 +23,14 @@ final readonly class NullTranslateAssistant implements TranslateAssistantInterfa
     {
         return false;
     }
+
+    /**
+     * Unlike translate() and rephrase(), this does not throw: views call it without knowing
+     * which provider is wired.
+     */
+    #[\Override]
+    public function usage(): ?TranslateAssistantUsage
+    {
+        return null;
+    }
 }

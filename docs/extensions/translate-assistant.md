@@ -23,6 +23,7 @@ namespace App\TranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInput;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantOutput;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantUsage;
 
 final readonly class CustomTranslateAssistant implements TranslateAssistantInterface
 {
@@ -50,8 +51,58 @@ final readonly class CustomTranslateAssistant implements TranslateAssistantInter
     {
         return false;
     }
+
+    public function usage(): ?TranslateAssistantUsage
+    {
+        // Return null if your provider has no quota notion, or if it cannot be read.
+        return new TranslateAssistantUsage(characterCount: 0, characterLimit: 500000);
+    }
 }
 ```
+
+::: warning BC break
+`usage()` is a new method on `TranslateAssistantInterface`. Any third-party
+implementation must declare it — returning `null` is a valid no-op. Never throw from it:
+the back office calls it from the dashboard and from every Markdown edit form without
+knowing which provider is wired.
+:::
+
+### Error contract
+
+A provider must never leak its own exception types. Translate every failure into the
+provider-agnostic hierarchy, because callers decide whether retrying is worth anything from
+the exception type alone:
+
+| exception                              | meaning                                   | retried?                                                                    |
+|----------------------------------------|-------------------------------------------|-----------------------------------------------------------------------------|
+| `TranslateAssistantUsageException`     | quota exhausted                           | **no** — it cannot refill within a retry window, and each attempt is billed |
+| `TranslateAssistantAccountException`   | key rejected, account blocked or unpaid   | **no** — only a config or billing change fixes it                           |
+| `TranslateAssistantTransportException` | provider unreachable, or rate-limiting us | **yes**                                                                     |
+| `TranslateAssistantException`          | anything else                             | no — treated as permanent                                                   |
+
+All four live in `RZ\Roadiz\RozierBundle\TranslateAssistant\Exception`. Always pass the
+original error as `previous`, so it survives in the logs:
+
+```php
+use DeepL\QuotaExceededException;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantUsageException;
+
+try {
+    // … call your provider …
+} catch (QuotaExceededException $exception) {
+    throw new TranslateAssistantUsageException($exception->getMessage(), previous: $exception);
+}
+```
+
+Subtree translation relies on this: an unretryable failure stops the message immediately
+instead of burning three attempts, and the editor gets a warning in the back-office history
+naming the node that stopped.
+
+::: warning BC break
+Throwing provider-specific exceptions from `translate()` or `rephrase()` used to be
+tolerated. It no longer is: such an exception escapes uncaught and is retried as if it were
+transient.
+:::
 
 ### Input/Output DTOs
 
@@ -65,6 +116,11 @@ final readonly class CustomTranslateAssistant implements TranslateAssistantInter
   - `translatedText` (string)
   - `sourceLang` (string)
   - `targetLang` (string)
+- `TranslateAssistantUsage`
+  - `characterCount` (int)
+  - `characterLimit` (int)
+  - `getPercentage(): float`
+  - `isLimitReached(): bool`
 
 ## Wiring your provider
 
@@ -96,6 +152,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInput;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantOutput;
+use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantUsage;
 
 final readonly class OpenAiTranslateAssistant implements TranslateAssistantInterface
 {
@@ -146,6 +203,12 @@ final readonly class OpenAiTranslateAssistant implements TranslateAssistantInter
     public function supportRephrase(): bool
     {
         return true;
+    }
+
+    public function usage(): ?TranslateAssistantUsage
+    {
+        // OpenAI exposes no character quota: the back office simply hides the usage panel.
+        return null;
     }
 
     private function request(string $prompt, ?string $sourceLang): string
