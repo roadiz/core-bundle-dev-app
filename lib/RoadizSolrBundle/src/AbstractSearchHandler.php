@@ -24,7 +24,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     protected const int EXACT_TITLE_BOOST = 20;
     protected const int EXACT_COLLECTION_BOOST = 2;
     /**
-     * Word distance tolerance for the eDisMax phrase boost (`ps` parameter).
+     * Word distance tolerance of the phrase boost query.
      */
     protected const int EXACT_PHRASE_SLOP = 2;
     protected int $highlightingFragmentSize = 150;
@@ -212,7 +212,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         }
         $query = $this->createSolrQuery($args, $rows, $page);
         $query->setQuery($queryTxt);
-        $this->configureQueryParser($query, $args, $searchTags);
+        $this->configureQueryParser($query, $q, $args, $searchTags);
         $query->setFields($this->getResultFields());
 
         $this->searchEngineLogger->debug(sprintf('[Solr] Request %s search…', $this->getDocumentType()), [
@@ -250,12 +250,11 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      * Set up the eDisMax query parser: which fields are searched and how they
      * are weighted lives here, not in the query string itself.
      */
-    protected function configureQueryParser(Query $query, array &$args, bool $searchTags = false): void
+    protected function configureQueryParser(Query $query, string $q, array &$args, bool $searchTags = false): void
     {
         $edisMax = $query->getEDisMax();
         $edisMax->setQueryFields($this->buildQueryFields($args, $searchTags));
-        $edisMax->setPhraseFields($this->buildPhraseFields($args));
-        $edisMax->setPhraseSlop(static::EXACT_PHRASE_SLOP);
+        $edisMax->setBoostQuery($this->buildPhraseBoostQuery($q, $args));
         $edisMax->setMinimumMatch($this->getMinimumMatch());
         /*
          * `qf` mixes analyzed text fields with raw `string` ones (`slug_s`): the
@@ -378,8 +377,9 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      * @return array{0: string, 1: string, 2: string} [$exactQuery, $fuzzyQuery, $wildcardQuery]
      *
      * @deprecated since 2.7, eDisMax builds these clauses itself. Declare the
-     *             searched fields through buildQueryFields()/buildPhraseFields()
-     *             instead of composing a field-scoped query string by hand.
+     *             searched fields through buildQueryFields() and the phrase boost
+     *             through buildPhraseBoostQuery() instead of composing a
+     *             field-scoped query string by hand.
      */
     protected function getFormattedQuery(string $q): array
     {
@@ -404,7 +404,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      * Default Solr query builder.
      *
      * Under eDisMax the query string carries the terms only: fields, weights and
-     * phrase boosting are declared through `qf`/`pf` in configureQueryParser().
+     * phrase boosting are declared through `qf`/`bq` in configureQueryParser().
      * Extend this method to customize how user words are turned into terms.
      *
      * Terms are left plain so that Solr analyses them: stopwords are dropped and
@@ -478,16 +478,24 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     }
 
     /**
-     * eDisMax `pf`: fields where matching the words as a phrase earns a boost.
-     * This is what replaces the hand-built exact PhraseQuery.
+     * eDisMax `bq`: matching the user words as a phrase earns a boost.
+     *
+     * This is *not* declared through `pf`: eDisMax derives that phrase from `q`,
+     * which the fuzzy second pass rewrites into `Pas~2 de souci~2` — Solr then
+     * analyses it into `"pa 2 de souci 2"`, a phrase no title can ever match.
+     * Built from the raw user query, the boost holds on both passes.
      */
-    protected function buildPhraseFields(array &$args): string
+    protected function buildPhraseBoostQuery(string $q, array &$args): string
     {
+        $phrase = $this->escapePhrase(trim($q)).'~'.static::EXACT_PHRASE_SLOP;
+
         return sprintf(
-            '%s^%d %s^%d',
+            '%s:%s^%d %s:%s^%d',
             $this->getTitleField($args),
+            $phrase,
             static::EXACT_TITLE_BOOST,
             $this->getCollectionField($args),
+            $phrase,
             static::EXACT_COLLECTION_BOOST
         );
     }

@@ -63,19 +63,19 @@ final class NodeSourceSearchHandlerTest extends TestCase
         return $method->invoke($handler, $q);
     }
 
-    private function configuredQuery(array $args = [], bool $searchTags = false): Query
+    private function configuredQuery(array $args = [], bool $searchTags = false, string $q = 'King Lear'): Query
     {
         $handler = $this->createHandler();
         $query = new Query();
         $method = new \ReflectionMethod($handler, 'configureQueryParser');
-        $method->invokeArgs($handler, [$query, &$args, $searchTags]);
+        $method->invokeArgs($handler, [$query, $q, &$args, $searchTags]);
 
         return $query;
     }
 
-    private function configuredEdisMax(array $args = [], bool $searchTags = false): EdisMax
+    private function configuredEdisMax(array $args = [], bool $searchTags = false, string $q = 'King Lear'): EdisMax
     {
-        return $this->configuredQuery($args, $searchTags)->getEDisMax();
+        return $this->configuredQuery($args, $searchTags, $q)->getEDisMax();
     }
 
     public function testDefaultCriteriaExcludesEmbargoedContent(): void
@@ -110,7 +110,7 @@ final class NodeSourceSearchHandlerTest extends TestCase
 
     /**
      * Under eDisMax the query string carries terms only: no field prefix, no
-     * hand-built per-field clauses. Fields come from `qf`/`pf`.
+     * hand-built per-field clauses. Fields come from `qf`/`bq`.
      *
      * Terms stay plain so Solr analyses them. A fuzzy term is a MultiTermQuery,
      * which skips the field analyzer: stopwords then survive and `mm` keeps
@@ -145,14 +145,31 @@ final class NodeSourceSearchHandlerTest extends TestCase
     /**
      * Regression test for gitlab.rezo-zero.com/events-api/eventsapi-dev-website#32:
      * a multi-word query must still boost documents matching the words as a
-     * phrase. That is now eDisMax `pf`/`ps` instead of a hand-built PhraseQuery.
+     * phrase. That is now an eDisMax `bq` clause instead of a hand-built PhraseQuery.
      */
     public function testPhraseBoostIsDeclaredOnTitleAndCollection(): void
     {
-        $edisMax = $this->configuredEdisMax();
+        $this->assertSame(
+            'title:"King Lear"~2^20 collection_txt:"King Lear"~2^2',
+            $this->configuredEdisMax()->getBoostQuery()
+        );
+    }
 
-        $this->assertSame('title^20 collection_txt^2', $edisMax->getPhraseFields());
-        $this->assertSame(2, $edisMax->getPhraseSlop());
+    /**
+     * The phrase must be built from the raw user query, never from `q`: the fuzzy
+     * second pass rewrites `q` as `Pas~2 de souci~2`, and a `pf` derived from that
+     * analyses to `"pa 2 de souci 2"` — which no title matches, leaving the retry
+     * with no exact-title boost at all.
+     */
+    public function testPhraseBoostIgnoresFuzzySuffixes(): void
+    {
+        $edisMax = $this->configuredEdisMax(q: 'Pas de souci');
+
+        $this->assertSame(
+            'title:"Pas de souci"~2^20 collection_txt:"Pas de souci"~2^2',
+            $edisMax->getBoostQuery()
+        );
+        $this->assertNull($edisMax->getPhraseFields());
     }
 
     /**
@@ -191,7 +208,10 @@ final class NodeSourceSearchHandlerTest extends TestCase
         $edisMax = $this->configuredEdisMax(['locale' => 'fr_FR']);
 
         $this->assertSame('title_txt_fr^10 collection_txt_fr^2 slug_s', $edisMax->getQueryFields());
-        $this->assertSame('title_txt_fr^20 collection_txt_fr^2', $edisMax->getPhraseFields());
+        $this->assertSame(
+            'title_txt_fr:"King Lear"~2^20 collection_txt_fr:"King Lear"~2^2',
+            $edisMax->getBoostQuery()
+        );
     }
 
     /**
@@ -216,7 +236,7 @@ final class NodeSourceSearchHandlerTest extends TestCase
         $query = new Query();
         $args = [];
         $method = new \ReflectionMethod($handler, 'configureQueryParser');
-        $method->invokeArgs($handler, [$query, &$args, false]);
+        $method->invokeArgs($handler, [$query, 'King Lear', &$args, false]);
 
         $this->assertSame(
             'recip(ms(NOW,published_at_dt),3.16e-11,1,1)',
