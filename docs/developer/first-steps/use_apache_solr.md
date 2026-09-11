@@ -292,5 +292,5 @@ If you want to add/remove fields and update filters during `solr:init` command, 
 An abstract subscriber is provided in the bundle to provide helper methods to add fields and filters: `RZ\Roadiz\SolrBundle\EventListener\AbstractSolrInitializationSubscriber`.
 
 ::: tip
-You can take a look at the `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationSubscriber` class to see how to extend Solr configuration.
+You can take a look at the `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationFieldsSubscriber` class to see how to extend Solr configuration.
 :::
