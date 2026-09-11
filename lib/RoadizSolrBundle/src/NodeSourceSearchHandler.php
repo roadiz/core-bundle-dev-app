@@ -11,8 +11,10 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
+use RZ\Roadiz\SolrBundle\Event\AbstractSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Event\NodeSourceSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Solarium\SolariumNodeSource;
+use Solarium\QueryType\Select\Query\Query;
 
 class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourceSearchHandlerInterface
 {
@@ -21,62 +23,51 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
     protected bool $boostByCreationDate = false;
 
     #[\Override]
-    protected function nativeSearch(
-        string $q,
-        array $args = [],
-        int $rows = 20,
-        bool $searchTags = false,
-        int $page = 1,
-    ): ?array {
-        if (empty($q)) {
-            return null;
-        }
-        $query = $this->createSolrQuery($args, $rows, $page);
-        $queryTxt = $this->buildQuery($q, $args, $searchTags);
-
-        if ($this->boostByPublicationDate) {
-            $boost = '{!boost b=recip(ms(NOW,published_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost.$queryTxt;
-        }
-        if ($this->boostByUpdateDate) {
-            $boost = '{!boost b=recip(ms(NOW,updated_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost.$queryTxt;
-        }
-        if ($this->boostByCreationDate) {
-            $boost = '{!boost b=recip(ms(NOW,created_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost.$queryTxt;
-        }
-
-        $query->setQuery($queryTxt);
-
+    protected function getResultFields(): array
+    {
         /*
          * Only need these fields as Doctrine
          * will do the rest.
          */
-        $query->setFields([
+        return [
             'score',
             'id',
             'document_type_s',
             SolariumNodeSource::IDENTIFIER_KEY,
             'node_name_s',
             'locale_s',
-        ]);
+        ];
+    }
 
-        $this->searchEngineLogger->debug('[Solr] Request node-sources search…', [
-            'query' => $queryTxt,
-            'fq' => $args['fq'] ?? [],
-            'params' => $query->getParams(),
-        ]);
+    #[\Override]
+    protected function createSearchQueryEvent(Query $query, array $args): AbstractSearchQueryEvent
+    {
+        return new NodeSourceSearchQueryEvent($query, $args);
+    }
 
-        /** @var NodeSourceSearchQueryEvent $event */
-        $event = $this->eventDispatcher->dispatch(
-            new NodeSourceSearchQueryEvent($query, $args)
-        );
-        $query = $event->getQuery();
+    /**
+     * Node-sources also index their slug, which document translations do not.
+     */
+    #[\Override]
+    protected function buildQueryFields(array &$args, bool $searchTags = true): string
+    {
+        return parent::buildQueryFields($args, $searchTags).' slug_s';
+    }
 
-        $solrRequest = $this->getSolr()->execute($query);
+    #[\Override]
+    protected function getBoostFunction(): ?string
+    {
+        if ($this->boostByPublicationDate) {
+            return 'recip(ms(NOW,published_at_dt),3.16e-11,1,1)';
+        }
+        if ($this->boostByUpdateDate) {
+            return 'recip(ms(NOW,updated_at_dt),3.16e-11,1,1)';
+        }
+        if ($this->boostByCreationDate) {
+            return 'recip(ms(NOW,created_at_dt),3.16e-11,1,1)';
+        }
 
-        return $solrRequest->getData();
+        return null;
     }
 
     #[\Override]

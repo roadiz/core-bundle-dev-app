@@ -43,6 +43,9 @@
                                 {% if field.indexed %}
                                     {{ rz_node_badge.item('indexed', false) }}
                                 {% endif %}
+                                {% if field.ExcludedFromTranslation %}
+                                    {{ rz_node_badge.item('excludeFromTranslation', false) }}
+                                {% endif %}
                             </td>
                             {% if actions_available %}
                                 <td>

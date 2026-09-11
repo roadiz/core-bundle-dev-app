@@ -100,6 +100,7 @@
             <trans-unit xml:space="preserve" id="97"><source>label</source></trans-unit>
             <trans-unit xml:space="preserve" id="98"><source>type</source></trans-unit>
             <trans-unit xml:space="preserve" id="99"><source>indexed</source></trans-unit>
+            <trans-unit xml:space="preserve" id="excludeFromTranslation"><source>excludeFromTranslation</source><note>Field is left untouched by machine translation.</note></trans-unit>
             <trans-unit xml:space="preserve" id="100"><source>defaultValues</source></trans-unit>
             <trans-unit xml:space="preserve" id="customFormField.defaultValues"><source>customFormField.defaultValues</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues"><source>nodeTypeField.defaultValues</source></trans-unit>
@@ -108,6 +109,9 @@
             <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups.help"><source>nodeTypeField.serializationGroups.help</source></trans-unit>
             <trans-unit xml:space="preserve" id="101"><source>enter_values_comma_separated</source></trans-unit>
             <trans-unit xml:space="preserve" id="102"><source>node.%name%.translated</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.%name%.translation_in_progress"><source>node.%name%.translation_in_progress</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translation_in_progress"><source>translation_in_progress</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translation_in_progress.taking_longer"><source>translation_in_progress.taking_longer</source></trans-unit>
             <trans-unit xml:space="preserve" id="103"><source>node_source.%node_source%.updated.%translation%</source></trans-unit>
             <trans-unit xml:space="preserve" id="104"><source>node.%node%.linked.tag.%tag%</source></trans-unit>
             <trans-unit xml:space="preserve" id="105"><source>tag.%name%.removed</source></trans-unit>
@@ -1107,6 +1111,7 @@
 
             <trans-unit xml:space="preserve" id="no_more_translation_available"><source>no_more_translation_available</source></trans-unit>
             <trans-unit xml:space="preserve" id="translate_offspring"><source>translate_offspring</source></trans-unit>
+            <trans-unit xml:space="preserve" id="use_translate_assistant"><source>use_translate_assistant</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.%name%.undeleted"><source>node.%name%.undeleted</source></trans-unit>
             <trans-unit xml:space="preserve" id="universal"><source>universal</source><note>Universal node-type fields are common over translations.</note></trans-unit>
 
@@ -1336,6 +1341,16 @@
             <trans-unit xml:space="preserve" id="color_input.placeholder"><source>color_input.placeholder</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="bookmarks.links"><source>bookmarks.links</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.usage"><source>translate_assistant.usage</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.usage.%count%_of_%limit%_characters"><source>translate_assistant.usage.%count%_of_%limit%_characters</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.dry_run"><source>translate_assistant.dry_run</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.%characters%_characters_for_%sources%_sources"><source>translate_assistant.estimate.%characters%_characters_for_%sources%_sources</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.%remaining%_characters_remaining"><source>translate_assistant.estimate.%remaining%_characters_remaining</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.exceeds_quota"><source>translate_assistant.estimate.exceeds_quota</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.estimate.nothing_to_translate"><source>translate_assistant.estimate.nothing_to_translate</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.error.quota_exceeded"><source>translate_assistant.error.quota_exceeded</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.error.provider_unreachable"><source>translate_assistant.error.provider_unreachable</source></trans-unit>
+            <trans-unit xml:space="preserve" id="translate_assistant.error.check_integration"><source>translate_assistant.error.check_integration</source></trans-unit>
         </body>
     </file>
 </xliff>

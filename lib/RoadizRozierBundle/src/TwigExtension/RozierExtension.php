@@ -78,6 +78,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return [
             new TwigFunction('getNodeType', $this->getNodeType(...)),
+            new TwigFunction('translateAssistantUsage', $this->translateAssistant->usage(...)),
             new TwigFunction('getBreadcrumbsItem', $this->getBreadcrumbsItem(...)),
             new TwigFunction('getExplorerItem', $this->getExplorerItem(...)),
             new TwigFunction('getNodeSourceHref', $this->getNodeSourceHref(...)),

@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Security\Authentication;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,6 +84,34 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
         ]);
 
         return parent::onAuthenticationFailure($request, $exception);
+    }
+
+    /**
+     * Return a JSON 401 for AJAX/JSON requests instead of redirecting them to
+     * the HTML login page (which XHR callers cannot follow meaningfully).
+     */
+    #[\Override]
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
+    {
+        if ($this->wantsJsonResponse($request)) {
+            return new JsonResponse(
+                ['message' => 'Authentication required.'],
+                Response::HTTP_UNAUTHORIZED
+            );
+        }
+
+        return parent::start($request, $authException);
+    }
+
+    private function wantsJsonResponse(Request $request): bool
+    {
+        return $request->isXmlHttpRequest()
+            || 'json' === $request->getRequestFormat(null)
+            || (
+                1 === count($request->getAcceptableContentTypes())
+                && 'application/json' === $request->getAcceptableContentTypes()[0]
+            )
+            || ($request->attributes->has('_format') && 'json' === $request->attributes->get('_format'));
     }
 
     #[\Override]

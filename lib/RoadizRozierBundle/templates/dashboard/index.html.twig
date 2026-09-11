@@ -109,6 +109,12 @@
                     {% endblock %}
                 {% endembed %}
             {% endif %}
+            {% if translateAssistantEnabled and translateAssistantUsage() %}
+            <div class="rz-dashboard__panel uk-panel uk-panel-box" id="dashboard-translate-assistant-usage">
+                <h3 class="uk-panel-title uk-text-center">{% trans %}translate_assistant.usage{% endtrans %}</h3>
+                {% include '@RoadizRozier/includes/translateAssistantUsage.html.twig' %}
+            </div>
+            {% endif %}
         </div>
     </div>
 </article>
