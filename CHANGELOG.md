@@ -2,6 +2,24 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.42...v2.7.43) - 2026-09-11
+
+### ⚠ Breaking changes
+
+- Switched to edismax query filter by default,
+AbstractSearchHandler has new methods
+
+### Bug Fixes
+
+- **(Rozier)** handle ajax response error with getResponseErrorMessage util ([#472](https://github.com/roadiz/core-bundle-dev-app/issues/472)) - ([8b89d8f](https://github.com/roadiz/core-bundle-dev-app/commit/8b89d8f848b1505e32d03248da6d2817bb229454))
+- **(realm)** skip DENY filter for back-end users ([#478](https://github.com/roadiz/core-bundle-dev-app/issues/478)) - ([59528a1](https://github.com/roadiz/core-bundle-dev-app/commit/59528a153c97476b958b929473c4d6e238eead6d))
+- **(solr)** [**breaking**] restore Lucene phrase query for multi-word search ([#475](https://github.com/roadiz/core-bundle-dev-app/issues/475)) - ([4c056fb](https://github.com/roadiz/core-bundle-dev-app/commit/4c056fbb0dc6bb23f34136d44bde1bdb90e13f68))
+
+### Features
+
+- **(documents)** prefer YouTube maxresdefault cover ([#473](https://github.com/roadiz/core-bundle-dev-app/issues/473)) - ([0c77c7f](https://github.com/roadiz/core-bundle-dev-app/commit/0c77c7f363c0207a4b5bcf7ca4a84e57ea3d3fc4))
+- machine translation automation on node-tree ([#471](https://github.com/roadiz/core-bundle-dev-app/issues/471)) - ([601fb87](https://github.com/roadiz/core-bundle-dev-app/commit/601fb87bfc11a309005d535c09f76c02e5a71484))
+
 ## [2.7.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.41...v2.7.42) - 2026-08-28
 
 ### Features

@@ -156,6 +156,7 @@ fields:
         serializationMaxDepth: 2
         universal: false
         excludeFromSearch: false
+        excludeFromTranslation: false
         excludedFromSerialization: false
         indexed: false
         visible: true
@@ -171,6 +172,11 @@ fields:
 ```
 
 For more details on field types and parameters, refer to nodes-type-fields.
+
+`excludeFromTranslation` (default `false`) keeps a field out of *machine* translation: its
+value is copied as-is when a node-source is translated by a translate-assistant provider.
+Use it for identifiers, URLs, secrets or codes stored in text fields. It is independent from
+`excludeFromSearch`, which only excludes the field from full-text indexing.
 
 ::: tip
  Always validate your file with `nodetypes:validate-files` before running `app:migrate`.  

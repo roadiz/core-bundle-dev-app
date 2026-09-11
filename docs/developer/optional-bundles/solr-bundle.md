@@ -87,6 +87,41 @@ You can use Solr in 2 ways:
 Fuzzy search options are configured in `roadiz_solr.search`.
 For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
 
+### Query parser
+
+Search queries are parsed by Solr's
+[eDisMax](https://solr.apache.org/guide/solr/latest/query-guide/edismax-query-parser.html)
+parser. The query string carries the user words only — which fields are searched
+and how they are weighted is declared separately, so you no longer have to
+rewrite the whole query string to tune relevance:
+
+| eDisMax parameter | Built by                | Default                                        |
+|-------------------|-------------------------|------------------------------------------------|
+| `q`               | `buildQuery()`          | every word, fuzzified per `fuzzy_proximity`     |
+| `qf`              | `buildQueryFields()`    | `title^10 collection_txt^2` (+ `tags_txt`, + `slug_s` for node-sources) |
+| `pf` / `ps`       | `buildPhraseFields()`   | `title^20 collection_txt^2`, slop `2`          |
+| `mm`              | `getMinimumMatch()`     | `100%` — every word must match                 |
+| `boost`           | `getBoostFunction()`    | none, set by `boostByPublicationDate()` & co.  |
+
+Override any of these on your own handler to change relevance. `nativeSearch()`
+is shared by every handler: to add your own document type, implement
+`getResultFields()` and `createSearchQueryEvent()` rather than reimplementing the
+Solr round-trip.
+
+`getFormattedQuery()` — which returned the exact/fuzzy/wildcard triple for the
+standard Lucene parser — is **deprecated**: eDisMax builds those clauses itself.
+It still works for handlers that compose their own query string, but declare
+your fields through `buildQueryFields()` / `buildPhraseFields()` instead.
+
+::: warning
+`qf` and `pf` should only name fields that the document type actually indexes.
+A field the schema does not know at all makes Solr reject the whole request;
+one that merely stays empty — like `slug_s`, indexed for node-sources but not
+for document translations — silently dilutes the query instead. Suffixed names
+such as `slug_s` or `tags_txt` resolve through the `*_s` / `*_txt` dynamic
+fields, so they fail the quiet way rather than the loud one.
+:::
+
 ### API Platform Integration
 
 Expose the full-text search endpoint by declaring the `SearchResultItem` resource.
@@ -452,30 +487,33 @@ You can customize Solr field definitions and filters by subscribing to the `Solr
 use RZ\Roadiz\SolrBundle\Event\SolrInitializationEvent;
 use RZ\Roadiz\SolrBundle\EventListener\AbstractSolrInitializationSubscriber;
 
-class CustomSolrInitializationSubscriber extends AbstractSolrInitializationSubscriber
+final readonly class CustomSolrInitializationSubscriber extends AbstractSolrInitializationSubscriber
 {
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            SolrInitializationEvent::class => 'onSolrInitialization',
-        ];
-    }
+    // getSubscribedEvents() is already implemented by the abstract class,
+    // no need to override it unless you want a different priority.
 
     public function onSolrInitialization(SolrInitializationEvent $event): void
     {
-        // Add custom fields
-        $this->addField($event, 'custom_field', 'text_general');
-        
-        // Add custom filters
-        $this->addFilter($event, 'customFilter', [
-            'class' => 'solr.LowerCaseFilterFactory',
+        // Add a filter to an existing field type's analyzer
+        $this->addFilterToFieldType($event->io, $event->baseUrl, $event->solrCollectionName, 'text_general', [
+            'name' => 'lowercase',
+        ]);
+
+        // Call the Solr Schema API directly for anything else (new field, new field type…)
+        $this->requestSchemaApi($event->io, $event->baseUrl, $event->solrCollectionName, [
+            'add-field' => [
+                'name' => 'custom_field',
+                'type' => 'text_general',
+                'indexed' => true,
+                'stored' => true,
+            ],
         ]);
     }
 }
 ```
 
 ::: tip
-See `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationSubscriber` for examples of extending Solr configuration.
+See `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationFieldsSubscriber` for a real example (ASCII folding filter, French stemmer swap, `DateRangeField` type).
 :::
 
 ## More Information

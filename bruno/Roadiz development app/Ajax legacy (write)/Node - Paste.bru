@@ -1,0 +1,23 @@
+meta {
+  name: Node - Paste
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/rz-admin/ajax/nodes/paste
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  csrfToken: {{ajaxToken}}
+  nodeId: 1
+  ~parentNodeId: 2
+  ~prevNodeId: 3
+}
+
+docs {
+  Paste (move/copy) node `nodeId`. `parentNodeId` and `prevNodeId` are mutually exclusive
+  (validated server-side): give a new parent, or a sibling to paste after.
+}
