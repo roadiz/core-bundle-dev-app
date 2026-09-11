@@ -40,9 +40,10 @@ use Symfony\Component\Messenger\Event\WorkerMessageFailedEvent;
 use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Workflow\Event\Event;
+use Symfony\Contracts\Service\ResetInterface;
 
 #[AsDoctrineListener(event: Events::postFlush)]
-final class SolariumSubscriber implements EventSubscriberInterface
+final class SolariumSubscriber implements EventSubscriberInterface, ResetInterface
 {
     /**
      * Indexing messages wait here until the unit of work is committed.
@@ -111,6 +112,18 @@ final class SolariumSubscriber implements EventSubscriberInterface
         foreach ($pending as $message) {
             $this->messageBus->dispatch(new Envelope($message));
         }
+    }
+
+    /**
+     * A worker runtime (FrankenPHP, Swoole, RoadRunner) keeps this instance alive
+     * across requests, so the buffer must not outlive the one that filled it.
+     * Anything still here belongs to a request that died before any of the drains
+     * above — its transaction rolled back too, so there is nothing left to index.
+     */
+    #[\Override]
+    public function reset(): void
+    {
+        $this->pending = [];
     }
 
     private function defer(object $message): void

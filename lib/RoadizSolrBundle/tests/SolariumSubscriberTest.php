@@ -92,6 +92,21 @@ final class SolariumSubscriberTest extends TestCase
         $this->assertCount(1, $this->sent);
     }
 
+    /**
+     * A worker runtime reuses this instance across requests: a buffer left behind
+     * by a request that died must not be sent on behalf of the next one.
+     */
+    public function testResetDropsWhatNoDrainClaimed(): void
+    {
+        $subscriber = $this->createSubscriber();
+
+        $subscriber->onSolariumNodeUpdate($this->nodeUpdated(357));
+        $subscriber->reset();
+        $subscriber->send();
+
+        $this->assertSame([], $this->sent);
+    }
+
     public function testDrainedMessagesAreSentOnlyOnce(): void
     {
         $subscriber = $this->createSubscriber();
