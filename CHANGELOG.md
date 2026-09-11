@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.54](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.53...v2.5.54) - 2026-09-11
+
+### Bug Fixes
+
+- **(solr)** restore multi-word phrase query ([#476](https://github.com/roadiz/core-bundle-dev-app/issues/476)) - ([f958789](https://github.com/roadiz/core-bundle-dev-app/commit/f958789acdc7d80dbbac34801d1feed9b25ecead))
+
 ## [2.5.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.52...v2.5.53) - 2026-08-16
 
 ### Bug Fixes
