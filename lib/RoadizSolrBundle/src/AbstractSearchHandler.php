@@ -238,6 +238,16 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         $edisMax->setPhraseFields($this->buildPhraseFields($args));
         $edisMax->setPhraseSlop(static::EXACT_PHRASE_SLOP);
         $edisMax->setMinimumMatch($this->getMinimumMatch());
+        /*
+         * `qf` mixes analyzed text fields with raw `string` ones (`slug_s`): the
+         * latter keep the stopwords the former drop, so under mm=100% a query
+         * like "le roi Lear" also required a slug literally equal to "le" and
+         * returned nothing. autoRelax lowers mm by the number of clauses that
+         * analysis removed, restoring "every *meaningful* word must match".
+         *
+         * @see https://solr.apache.org/guide/solr/latest/query-guide/dismax-query-parser.html#mm-minimum-should-match-parameter
+         */
+        $query->addParam('mm.autoRelax', 'true');
 
         $boostFunction = $this->getBoostFunction();
         if (null !== $boostFunction) {

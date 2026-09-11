@@ -55,14 +55,19 @@ final class NodeSourceSearchHandlerTest extends TestCase
         return $method->invoke($handler, $q);
     }
 
-    private function configuredEdisMax(array $args = [], bool $searchTags = false): EdisMax
+    private function configuredQuery(array $args = [], bool $searchTags = false): Query
     {
         $handler = $this->createHandler();
         $query = new Query();
         $method = new \ReflectionMethod($handler, 'configureQueryParser');
         $method->invokeArgs($handler, [$query, &$args, $searchTags]);
 
-        return $query->getEDisMax();
+        return $query;
+    }
+
+    private function configuredEdisMax(array $args = [], bool $searchTags = false): EdisMax
+    {
+        return $this->configuredQuery($args, $searchTags)->getEDisMax();
     }
 
     public function testDefaultCriteriaExcludesEmbargoedContent(): void
@@ -134,6 +139,16 @@ final class NodeSourceSearchHandlerTest extends TestCase
     public function testMinimumMatchRequiresEveryWord(): void
     {
         $this->assertSame('100%', $this->configuredEdisMax()->getMinimumMatch());
+    }
+
+    /**
+     * …but `qf` also holds raw `string` fields (`slug_s`) which, unlike the text
+     * ones, keep stopwords. Without autoRelax, mm=100% made every query holding
+     * one ("le roi Lear") require a slug literally equal to "le": zero hits.
+     */
+    public function testMinimumMatchIsRelaxedWhenAnalysisDropsWords(): void
+    {
+        $this->assertSame('true', $this->configuredQuery()->getParams()['mm.autoRelax']);
     }
 
     public function testQueryFieldsIncludeSlugAndSkipTagsUnlessAsked(): void
