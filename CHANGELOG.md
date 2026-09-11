@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.43...v2.7.44) - 2026-09-11
+
+### Bug Fixes
+
+- **(solr)** relax mm when analysis drops words ([#479](https://github.com/roadiz/core-bundle-dev-app/issues/479)) - ([e34b8f9](https://github.com/roadiz/core-bundle-dev-app/commit/e34b8f98078938b4b5de4c068732fdfee632f9ac))
+
 ## [2.7.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.42...v2.7.43) - 2026-09-11
 
 ### ⚠ Breaking changes
