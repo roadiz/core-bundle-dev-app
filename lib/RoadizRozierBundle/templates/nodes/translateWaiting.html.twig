@@ -3,7 +3,7 @@
 
 {% extends '@RoadizRozier/layout.html.twig' %}
 
-{% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block customStyles %}
     {{ parent() }}
@@ -13,28 +13,48 @@
 {% endblock %}
 
 {% block content %}
-<section class="content-global">
-    <header class="content-header header-node header-node-edit">
-        {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {"node": node} only %}
-        <h1 class="content-title node-edit-title">
-            {{ "edit.node.%name%"|trans({'%name%': currentTitle})|u.truncate(25, '[…]', true) }}
-            {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
-        </h1>
-        {% include '@RoadizRozier/nodes/navBack.html.twig' %}
-    </header>
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title,
+        current: null,
+        with_info_badge: true,
+        with_nav_bar: true,
+    } only %}
 
-    <article class="content content-node-translate">
-        <div class="content-table-cont">
+    <section class="rz-page__body">
         {% if try < 30 %}
-            <p><i class="uk-icon uk-icon-spinner uk-icon-spin"></i> {% trans %}translation_in_progress{% endtrans %}</p>
+            <div class="rz-message rz-message--ghost">
+                <span class="rz-spinner"></span>
+                <p class="rz-message__text">{% trans %}translation_in_progress{% endtrans %}</p>
+            </div>
         {% else %}
-            <p class="uk-alert uk-alert-warning"><i class="uk-icon uk-icon-warning"></i> {% trans %}translation_in_progress.taking_longer{% endtrans %}</p>
-            <p>
-                <a class="uk-button" href="{{ path('nodesEditSourcePage', {nodeId: node.id, translationId: translation.id}) }}">{% trans %}edit.node{% endtrans %}</a>
-                <a class="uk-button" href="{{ path('nodesTreePage') }}">{% trans %}nodes{% endtrans %}</a>
-            </p>
+            {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+            <div class="rz-message rz-message--warning">
+                <span class="rz-icon-ri--error-warning-line"></span>
+                <p class="rz-message__text">{% trans %}translation_in_progress.taking_longer{% endtrans %}</p>
+            </div>
+            <div class="rz-button-group rz-button-group--gap-md">
+                {{
+                    rz_button.root({
+                        emphasis: 'primary',
+                        label: 'edit.node',
+                        icon: 'rz-icon-ri--edit-line',
+                        attributes: {
+                            href: path('nodesEditSourcePage', {nodeId: node.id, translationId: translation.id}),
+                        },
+                    })
+                }}
+                {{
+                    rz_button.root({
+                        emphasis: 'secondary',
+                        label: 'nodes',
+                        icon: 'rz-icon-ri--corner-down-left-line',
+                        attributes: {
+                            href: path('nodesTreePage'),
+                        },
+                    })
+                }}
+            </div>
         {% endif %}
-        </div>
-    </article>
-</section>
+    </section>
 {% endblock %}

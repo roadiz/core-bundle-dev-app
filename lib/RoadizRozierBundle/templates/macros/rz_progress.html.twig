@@ -1,0 +1,46 @@
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/macros/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-progress' %}
+    {% set class = options.class|default('') %}
+    {% set label = options.label|default(null) %}
+    {% set hint = options.hint|default(null) %}
+    {% set state = options.state|default(null) %}
+    {% set stat = options.stat|default(false) %}
+
+    {% set max = options.max|default(100) %}
+    {% set value = min(max, options.value|default(0)) %}
+    {% set percentage = max > 0 ? value / max * 100 : 0 %}
+    {% set projection = options.projection|default(0) %}
+    {% set projection_percentage = (projection > 0 and max > 0)
+        ? min(100 - percentage, projection / max * 100)
+        : 0 %}
+
+    <div class="{{ html_classes(element_class, class, {
+        (element_class ~ '--' ~ state): state,
+        (element_class ~ '--stat'): stat,
+    }) }}"
+		{{ el_attrs.print(options.attributes|default({})) }}
+    >
+        {% if label %}
+            <div class="{{ element_class ~ '__header' }}">
+                <span>{{- label|trans -}}</span>
+                <span class="{{ element_class ~ '__value' }}">
+                    {{- options.valueLabel|default(percentage|round ~ ' %') -}}
+                </span>
+            </div>
+        {% endif %}
+
+        <div class="{{ element_class ~ '__track' }}">
+            <progress class="{{ element_class ~ '__bar' }}" max="{{ max }}" value="{{ value }}"></progress>
+            {% if projection_percentage > 0 %}
+                <span class="{{ element_class ~ '__projection' }}" aria-hidden="true"
+                      style="--rz-progress-projection-start: {{ percentage|round(1) }}%; --rz-progress-projection-width: {{ projection_percentage|round(1) }}%"></span>
+            {% endif %}
+        </div>
+
+        {% if hint %}
+            <p class="{{ element_class ~ '__hint' }}">{{- hint -}}</p>
+        {% endif %}
+    </div>
+{% endmacro %}
