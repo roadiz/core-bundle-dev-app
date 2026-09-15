@@ -164,7 +164,8 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
             // Shorter TTL than denyNotAvailableLanguages: the quota moves at every translation.
             $cacheItem = $this->cache->getItem('DeeplTranslateAssistant_usage');
             if (!$cacheItem->isHit()) {
-                $character = (new DeepLClient($this->apiKey))->getUsage()->character;
+                $usage = (new DeepLClient($this->apiKey))->getUsage();
+                $character = $usage->apiKeyCharacter ?? $usage->character;
                 $cacheItem->set(null !== $character ? new TranslateAssistantUsage($character->count, $character->limit) : null);
                 $cacheItem->expiresAfter(300);
                 $this->cache->save($cacheItem);
