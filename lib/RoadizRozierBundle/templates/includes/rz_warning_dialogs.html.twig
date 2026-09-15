@@ -1,0 +1,66 @@
+{#
+    Blocking dialogs opened by LoginCheckService when the session expired
+    or when the admin back-end stopped answering the ping route.
+
+    Follows Molecule / WarningDialog in Figma (node 10163:115333).
+#}
+{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+
+<dialog
+	is="rz-dialog"
+	id="rz-session-expired-dialog"
+	class="rz-dialog rz-dialog--warning"
+	modal="true"
+	closedby="none"
+>
+	{{ rz_button.root({
+		icon: 'rz-icon-ri--close-line',
+		emphasis: 'tertiary',
+		size: 'sm',
+		class: 'rz-dialog__close',
+		attributes: {
+			'aria-label': 'close'|trans,
+			type: 'button',
+			closetarget: '',
+		}
+	}) }}
+	<div class="rz-dialog__body">
+		<span class="rz-dialog__medallion">
+			<span class="rz-icon-ri--lock-line"></span>
+		</span>
+		<div class="rz-dialog__group">
+			<h1 class="rz-dialog__title">{{ 'session.expire.title'|trans }}</h1>
+			<p class="rz-dialog__text">{{ 'session.expire.content'|trans }}</p>
+		</div>
+	</div>
+	<footer class="rz-dialog__footer">
+		{{ rz_button.root({
+			label: 'login',
+			icon: 'rz-icon-ri--arrow-right-s-line',
+			emphasis: 'primary',
+			size: 'lg',
+			attributes: {
+				href: path('loginPage') ~ '?_home=1',
+				autofocus: '',
+			}
+		}) }}
+	</footer>
+</dialog>
+
+<dialog
+	is="rz-dialog"
+	id="rz-health-check-dialog"
+	class="rz-dialog rz-dialog--warning rz-dialog--danger"
+	modal="true"
+	closedby="none"
+>
+	<div class="rz-dialog__body">
+		<span class="rz-dialog__medallion">
+			<span class="rz-icon-ri--information-line"></span>
+		</span>
+		<div class="rz-dialog__group">
+			<h1 class="rz-dialog__title">{{ 'health_check.failed.title'|trans }}</h1>
+			<p class="rz-dialog__text">{{ 'health_check.failed.content'|trans }}</p>
+		</div>
+	</div>
+</dialog>

@@ -85,9 +85,9 @@
             <filter-explorer-container></filter-explorer-container>
             <explorer-container></explorer-container>
             <document-preview-container></document-preview-container>
-            <modal-container></modal-container>
         </div>
         <div id="codemirror-preview-containers"></div>
+        {% include '@RoadizRozier/includes/rz_warning_dialogs.html.twig' %}
         <rz-toast-list role="status" class="rz-toast-list--bottom-right"></rz-toast-list>
         <script>
             /**
@@ -105,10 +105,6 @@
                 'messages': {
                     'close':                  '{{ 'close'|trans|trim|escape }}',
                     'login':                  '{{ 'login'|trans|trim|escape }}',
-                    'sessionExpireTitle':     '{{ 'session.expire.title'|trans|trim|escape }}',
-                    'sessionExpireContent':   '{{ 'session.expire.content'|trans|trim|escape }}',
-                    'healthCheckedFailedTitle':     '{{ 'health_check.failed.title'|trans|trim|escape }}',
-                    'healthCheckedFailedContent':   '{{ 'health_check.failed.content'|trans|trim|escape }}',
                     'createTag':              '{{ 'explorer.create_tag'|trans|trim|escape }}',
                     'explorer':               '{{ 'documents.toggle-explorer'|trans|trim|escape }}',
                     'forbiddenPage':          '{{ 'forbidden.page'|trans|trim|escape }}',
