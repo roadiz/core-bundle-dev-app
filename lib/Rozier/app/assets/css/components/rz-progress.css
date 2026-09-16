@@ -1,0 +1,104 @@
+.rz-progress {
+    display: grid;
+    gap: var(--rz-progress-gap, var(--spacing-5xs, 6px));
+}
+
+.rz-progress--warning {
+    --rz-progress-value-color: var(--status-warning, #F4956C);
+}
+
+.rz-progress--error {
+    --rz-progress-value-color: var(--status-error, #E54457);
+}
+
+.rz-progress--stat {
+    --rz-progress-header-direction: column-reverse;
+    --rz-progress-header-align: flex-start;
+    --rz-progress-header-gap: var(--spacing-6xs, 4px);
+    --rz-progress-value-font-size: var(--text-h1-md-font-size, 32px);
+    --rz-progress-value-line-height: var(--text-h1-md-line-height, 120%);
+}
+
+.rz-progress__header {
+    display: flex;
+    flex-direction: var(--rz-progress-header-direction, row);
+    align-items: var(--rz-progress-header-align, baseline);
+    justify-content: space-between;
+    gap: var(--rz-progress-header-gap, var(--spacing-3xs, 10px));
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-label-sm-font-size, 13px);
+    line-height: var(--text-label-sm-line-height, 110%);
+    color: var(--content-on-light-secondary, #646464);
+}
+
+.rz-progress__value {
+    font-size: var(--rz-progress-value-font-size, inherit);
+    line-height: var(--rz-progress-value-line-height, inherit);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--content-on-light-primary, #18191B);
+}
+
+.rz-progress__track {
+    position: relative;
+    display: block;
+}
+
+.rz-progress__bar {
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: var(--rz-progress-height, 6px);
+    border: 0;
+    border-radius: var(--rz-progress-border-radius, var(--radius-3xs, 2px));
+    overflow: hidden;
+    background-color: var(--rz-progress-track-color, var(--surface-light-tertiary, #F2F2F2));
+}
+
+.rz-progress__bar::-webkit-progress-bar {
+    background-color: var(--rz-progress-track-color, var(--surface-light-tertiary, #F2F2F2));
+    border-radius: var(--rz-progress-border-radius, var(--radius-3xs, 2px));
+}
+
+.rz-progress__bar::-webkit-progress-value {
+    background-color: var(--rz-progress-value-color, var(--status-success, #3CD28F));
+    border-radius: var(--rz-progress-border-radius, var(--radius-3xs, 2px));
+    transition: width 0.3s ease-in-out;
+}
+
+.rz-progress__bar::-moz-progress-bar {
+    background-color: var(--rz-progress-value-color, var(--status-success, #3CD28F));
+    border-radius: var(--rz-progress-border-radius, var(--radius-3xs, 2px));
+}
+
+/* Projection: how much an upcoming operation is expected to consume. */
+.rz-progress__projection {
+    position: absolute;
+    inset-block: 0;
+    left: var(--rz-progress-projection-start, 0%);
+    width: var(--rz-progress-projection-width, 0%);
+    border-radius: var(--rz-progress-border-radius, var(--radius-3xs, 2px));
+    background-image: repeating-linear-gradient(
+        -45deg,
+        var(--rz-progress-value-color, var(--status-success, #3CD28F)) 0 2PX,
+        transparent 2PX 5PX
+    );
+    opacity: 0.6;
+}
+
+.rz-progress__hint {
+    margin: initial;
+    font-family: var(--font-family-os-text);
+    font-size: var(--text-form-supporting-text-font-size);
+    line-height: var(--text-form-supporting-text-line-height);
+    letter-spacing: var(--text-form-supporting-text-letter-spacing);
+    font-weight: var(--text-form-supporting-text-font-weight);
+    font-variant-numeric: tabular-nums;
+    color: var(--content-on-light-secondary, #646464);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rz-progress__bar::-webkit-progress-value {
+        transition: none;
+    }
+}
