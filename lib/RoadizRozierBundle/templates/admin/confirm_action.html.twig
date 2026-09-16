@@ -1,18 +1,38 @@
+{#
+    Generic confirmation page for a destructive or irreversible action.
+
+    Controller parameters (camelCase):
+    - title (required): page title, also the last breadcrumb entry
+    - subtitle (optional): line under the title
+    - form (required): the confirmation form
+    - headPath (required): head template to include, e.g. '@RoadizRozier/admin/head.html.twig'
+    - cancelPath (required): URL of the cancel button
+    - alertMessage (required): translation key of the warning shown above the buttons
+    - messageType (optional): rz-message modifier, defaults to 'error'
+    - items (optional): entities to preview as cards; a single one also seeds the breadcrumb
+    - thumbnailFormat (optional): format passed to the item cards
+
+    Template options (snake_case):
+    - breadcrumb_parents (optional): breadcrumb ancestors, see macros/rz_breadcrumb.html.twig
+    - action_label / action_icon / action_color (optional): submit button, defaults to a red "delete"
+
+    Note: the camelCase parameters above predate the naming rule documented in
+    docs/developer/contributing/contributing.md. Renaming them is a breaking change.
+#}
 {% extends '@RoadizRozier/layout.html.twig' %}
 {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
 
 {% block title %}{{ title|truncate_title }}{% endblock %}
 
 {% block content %}
-    {% if parentBreadcrumb is not defined %}
+    {% if breadcrumb_parents is not defined %}
         {% if items is defined and items|length == 1 and items[0] is iterable %}
-            {% set parentBreadcrumb = [items[0]] %}
+            {% set breadcrumb_parents = [items[0]] %}
         {% endif %}
     {% endif %}
     {% set breadcrumb = {
-        'label': 'confirm-breadcrumb',
-        'parent': parentBreadcrumb|default([]),
-        'current': title,
+        parents: breadcrumb_parents|default([]),
+        current: title,
     } %}
     <section class="content-global delete-document">
         {% include headPath with {

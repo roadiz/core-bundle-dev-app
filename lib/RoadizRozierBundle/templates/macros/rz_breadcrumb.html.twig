@@ -1,0 +1,66 @@
+{#
+    Breadcrumb trail.
+
+    breadcrumb:
+    - parents (optional): ancestors, from the root down. Each entry is a hash
+      {label, url} or an entity supported by a BreadcrumbsItemFactory.
+    - current (required): label of the current page, rendered as plain text.
+
+    Past `collapse_from` ancestors the middle ones fold into a popover, so a deep node tree
+    never pushes the page action buttons off screen. The Storybook renderer mirrors that
+    threshold as COLLAPSE_FROM in app/utils/storybook/renderer/rzBreadcrumb.ts — keep both in step.
+
+    Who builds this hash: a page never declares the root of its own section. Its section
+    head does, and works out on its own whether the page *is* that root by comparing the
+    current route to the root's. A page only describes the levels in between, through
+    `breadcrumb_parents`. Outside a section head — a confirmation page, a section with no
+    head of its own — get a root with `breadcrumb_root('<section>')`, never by retyping the
+    hash, and the whole path down to a tree entity with `breadcrumb_trail('<section>', item)`.
+    See src/Breadcrumbs/BreadcrumbRoots.php for the list of sections.
+
+    A section head keeps a `breadcrumb` its caller already composed: that is how
+    admin/confirm_action.html.twig puts the deleted item and its ancestry above its own title.
+#}
+{% macro root(breadcrumb) %}
+    {% set item_template = '@RoadizRozier/includes/rz_breadcrumb_item.html.twig' %}
+    {% set parents = breadcrumb.parents|default([]) %}
+    {# Counts ancestors only, the current page excluded. Below 4 the popover would hide a single
+       entry behind a button, which buys nothing. #}
+    {% set collapse_from = 3 %}
+    {% set collapsed = parents|length > collapse_from %}
+
+    <nav class="rz-breadcrumb" aria-label="{{ 'breadcrumb'|trans }}">
+        <ol class="rz-breadcrumb__list">
+            {% for item in collapsed ? parents|slice(0, 1) : parents %}
+                {{ include(item_template, { item: item }, with_context = false) }}
+            {% endfor %}
+
+            {% if collapsed %}
+                {{ include('@RoadizRozier/macros/rz_overflow_list.html.twig', {
+                    items: parents|slice(1, parents|length - 2),
+                    visibleCount: 0,
+                    wrapperTag: 'li',
+                    wrapperClass: 'rz-breadcrumb__list-item',
+                    itemTemplate: item_template,
+                    itemTemplateContext: { in_popover: true },
+                    popover: {
+                        tagList: 'ul',
+                    },
+                    button: {
+                        label: '',
+                        ariaLabel: 'breadcrumb.show_more',
+                    },
+                }, with_context = false) }}
+
+                {% for item in parents|slice(-1) %}
+                    {{ include(item_template, { item: item }, with_context = false) }}
+                {% endfor %}
+            {% endif %}
+
+            {{ include(item_template, {
+                item: { label: breadcrumb.current },
+                current: true,
+            }, with_context = false) }}
+        </ol>
+    </nav>
+{% endmacro %}

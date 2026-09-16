@@ -12,12 +12,7 @@
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: page_title,
         breadcrumb: {
-            label: 'users-breadcrumb',
-            parent: [{
-                label: 'users'|trans,
-                type: 'listing',
-                url: path('usersHomePage'),
-            }, {
+            parents: [breadcrumb_root('users'), {
                 label: user.username,
                 url: path('usersEditPage', { id: user.id }),
             }],

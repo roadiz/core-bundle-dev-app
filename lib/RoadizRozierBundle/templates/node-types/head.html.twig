@@ -1,20 +1,11 @@
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set parents = [{
-        label: 'nodeType'|trans,
-        type: 'listing',
-        url: path('nodeTypesHomePage'),
-    }] %}
-    {% for parent in breadcrumb_parents %}
-        {% set parents = parents|merge([{
-            label: parent.displayName,
-            type: parent.type,
-            url: parent.url,
-        }]) %}
-    {% endfor %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('nodeTypes') %}
     {% set breadcrumb = {
-        label: 'node-types-breadcrumb',
-        parent: parents,
-        current: item.displayName,
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(breadcrumb_parents|default([])),
+        current: item.displayName|default(title),
     } %}
 {% endif %}
 
@@ -56,11 +47,6 @@
         {% endif %}
     {% endblock %}
 
-    {% block breadcrumb %}
-        {% if breadcrumb is defined and breadcrumb %}
-            {{ _self.breadcrumb(breadcrumb) }}
-        {% endif %}
-    {% endblock %}
 
     {% block badges %}
         {% if filters is defined and filters.itemCount %}

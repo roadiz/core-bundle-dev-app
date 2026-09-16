@@ -1,0 +1,31 @@
+{#
+    One breadcrumb entry. Shared by the trail and by its overflow popover.
+
+    Variables:
+    - item (required): a hash {label, url}, or an entity supported by a
+      BreadcrumbsItemFactory (Node, NodesSources, Tag, Folder, Document, Translation).
+    - current (optional): render as the current page, as plain text instead of a link.
+    - in_popover (optional): render as a dropdown entry. Folded levels are menu entries, not trail
+      links: they take the classes of macros/rz_dropdown_menu.html.twig so the popover reads like the
+      quick-access menu on rz-brand. Mirrored rather than reused for two reasons — that macro
+      translates its label, which would rewrite a node titled "settings", and its
+      __text-wrapper carries a 16px right margin meant to clear a trailing icon we do not have.
+#}
+{% set item = item is iterable ? item : getBreadcrumbsItem(item) %}
+{% if item %}
+    {% if in_popover|default(false) %}
+        <li>
+            <a class="rz-dropdown__item" href="{{ item.url }}">
+                <span class="rz-dropdown__item__label">{{- item.label|truncate_title -}}</span>
+            </a>
+        </li>
+    {% else %}
+        <li class="rz-breadcrumb__list-item">
+            {% if current|default(false) %}
+                <span class="rz-breadcrumb__item" aria-current="page">{{- item.label|truncate_title -}}</span>
+            {% else %}
+                <a class="rz-breadcrumb__item" href="{{ item.url }}">{{- item.label|truncate_title -}}</a>
+            {% endif %}
+        </li>
+    {% endif %}
+{% endif %}

@@ -1,6 +1,7 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.attribute_group.%name%"|trans({'%name%': item.getName()}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
+    'breadcrumb_parents': [breadcrumb_root('attributeGroups')],
     'cancelPath': path('attributeGroupsHomePage'),
     'alertMessage': 'are_you_sure.delete.attribute_group'|trans,
     'form': form,

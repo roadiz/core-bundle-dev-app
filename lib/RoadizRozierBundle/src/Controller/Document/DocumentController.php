@@ -18,6 +18,7 @@ use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentDeletedEvent;
 use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -50,6 +51,7 @@ final class DocumentController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -101,12 +103,8 @@ final class DocumentController extends AbstractController
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
-            'parentBreadcrumb' => [
-                [
-                    'label' => $this->translator->trans('documents'),
-                    'type' => 'listing',
-                    'url' => $this->generateUrl('documentsHomePage'),
-                ],
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('documents'),
                 $document,
             ],
             'cancelPath' => $this->generateUrl('documentsHomePage'),
@@ -164,6 +162,7 @@ final class DocumentController extends AbstractController
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('documents')],
             'alertMessage' => 'are_you_sure.delete.these.documents',
             'form' => $form->createView(),
             'items' => $documents,

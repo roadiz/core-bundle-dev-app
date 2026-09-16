@@ -1,25 +1,15 @@
 {# Simple scope - uses generic head template #}
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set parents = [
-        {
-            label: 'attributes'|trans,
-            type: 'listing',
-            url: path('attributesHomePage'),
-        }
-    ] %}
-    {% for parent in breadcrumb_parents %}
-        {% set parents = parents|merge([{
-            label: parent.displayName,
-            type: parent.type,
-            url: parent.url,
-        }]) %}
-    {% endfor %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('attributes') %}
     {% set breadcrumb = {
-        label: 'attribute-breadcrumb',
-        parent: parents,
-        current: title
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(breadcrumb_parents|default([])),
+        current: title,
     } %}
 {% endif %}
+
 {% include "@RoadizRozier/admin/head.html.twig" with {
     title: title,
     buttons: buttons,

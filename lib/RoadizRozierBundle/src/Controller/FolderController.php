@@ -16,6 +16,7 @@ use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\DocumentArchiver;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Form\FolderTranslationType;
 use RZ\Roadiz\RozierBundle\Form\FolderType;
 use RZ\Roadiz\Utils\StringHandler;
@@ -39,6 +40,7 @@ final class FolderController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
         private readonly EventDispatcherInterface $dispatcher,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -163,14 +165,7 @@ final class FolderController extends AbstractController
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/folders/head.html.twig',
-            'parentBreadcrumb' => [
-                [
-                    'label' => $this->translator->trans('folders'),
-                    'type' => 'listing',
-                    'url' => $this->generateUrl('foldersHomePage'),
-                ],
-                ...$folder->getParents(),
-            ],
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('folders', $folder),
             'cancelPath' => $this->generateUrl('foldersHomePage'),
             'alertMessage' => 'are_you_sure.delete.folder',
             'form' => $form->createView(),

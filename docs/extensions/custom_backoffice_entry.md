@@ -360,6 +360,40 @@ admin_article_bulk_unpublish:
 
 And create Twig templates for bulk actions in `templates/admin/article/`. You can copy and adapt them from https://github.com/roadiz/core-bundle-dev-app/tree/develop/templates/admin/article.
 
+## Give your entry a breadcrumb
+
+Your pages describe their own trail. The listing page *is* the root of your section, so it only
+carries its own name; pages below it put the root in `parents`:
+
+```twig
+{# templates/admin/article/list.html.twig #}
+{% include '@RoadizRozier/admin/head.html.twig' with {
+    title: 'articles'|trans,
+    breadcrumb: { current: 'articles'|trans },
+} only %}
+
+{# templates/admin/article/add.html.twig #}
+{% include '@RoadizRozier/admin/head.html.twig' with {
+    title: 'articles.add'|trans,
+    breadcrumb: {
+        parents: [{
+            label: 'articles'|trans,
+            url: path('appArticlesListPage'),
+        }],
+        current: 'articles.add'|trans,
+    },
+} only %}
+```
+
+Rozier's own sections come from a shared table (`BreadcrumbRoots`, reachable in Twig as
+`breadcrumb_root('users')`) because the same root was repeated forty times across the bundle. Your
+section has one page that needs it, so write it where it is read — that stays explicit and survives a
+route rename better than a second declaration living somewhere else. Should you end up repeating it
+across many templates, factor it into your own partial or Twig function at that point.
+
+Entries below the root are either a `{label, url}` hash like above, or an entity resolved by a
+`BreadcrumbsItemFactory` — which is what the next section is about.
+
 ## Override breadcrumbs generation for your shadow container (optional)
 
 If you want to allow users to go back to your custom listing page from the edit node-source page, 
@@ -405,7 +439,6 @@ final readonly class ArticlesContainerBreadcrumbsItemFactory implements Breadcru
             $this->urlGenerator->generate(
                 'appArticlesListPage'
             ),
-            $item->getNode()->isHome(),
         );
     }
 
