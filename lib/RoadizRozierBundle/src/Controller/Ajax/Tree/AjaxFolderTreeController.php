@@ -71,7 +71,7 @@ final class AjaxFolderTreeController extends AbstractAjaxController
             'statusCode' => '200',
             'status' => 'success',
             'tree_type' => $assignation['tree_type'],
-            'folderTree' => $this->twig->render('@RoadizRozier/widgets/tree/rz_tree_wrapper_auto.html.twig', $assignation),
+            'folderTree' => $this->twig->render('@RoadizRozier/widgets/rz_tree_wrapper_auto.html.twig', $assignation),
         ]);
     }
 }
