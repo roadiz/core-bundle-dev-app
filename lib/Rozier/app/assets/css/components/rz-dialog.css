@@ -56,6 +56,90 @@
 	}
 }
 
+/* Blocking warning dialogs: session expired, health check failed.
+   Centered alert layout, no header bar — the medallion carries the status.
+   Values follow Molecule / WarningDialog in Figma (node 10163:115333). */
+.rz-dialog--warning {
+	--rz-dialog-width: min(100% - var(--spacing-md) * 2, 368px);
+	--rz-dialog-accent-container: var(--status-warning-container);
+	--rz-dialog-accent-on-container: var(--status-warning-on-container);
+
+	box-shadow: 0 4px 8px rgb(0 0 0 / 5%);
+	text-align: center;
+
+	&:where(.rz-dialog--danger) {
+		--rz-dialog-accent-container: var(--status-error-container);
+		--rz-dialog-accent-on-container: var(--status-error-on-container);
+	}
+
+	.rz-dialog__body {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--spacing-sm);
+		padding: var(--spacing-md) var(--spacing-2xl);
+	}
+
+	.rz-dialog__group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4xs);
+		width: 100%;
+	}
+
+	.rz-dialog__title {
+		display: block;
+		margin: 0;
+		padding-right: 0;
+		font-family: var(--font-family-os-label);
+		font-size: var(--text-overtitle-md-font-size);
+		line-height: var(--text-overtitle-md-line-height);
+		letter-spacing: var(--text-overtitle-md-letter-spacing);
+		font-weight: var(--text-overtitle-md-font-weight);
+	}
+
+	.rz-dialog__text {
+		margin: 0;
+		font-family: var(--font-family-os-text);
+		font-size: var(--text-body-sm-font-size);
+		line-height: var(--text-body-sm-line-height);
+		letter-spacing: var(--text-body-sm-letter-spacing);
+		font-weight: var(--text-body-sm-font-weight);
+		color: var(--content-on-light-secondary);
+	}
+
+	/* The dialog is position:absolute once open, so it anchors the close button. */
+	.rz-dialog__close {
+		position: absolute;
+		top: var(--spacing-5xs);
+		right: var(--spacing-5xs);
+		margin-left: 0;
+	}
+
+	.rz-dialog__footer {
+		flex-direction: column;
+		align-items: stretch;
+		border-top: 0;
+
+		> * + * {
+			margin-left: 0;
+			margin-top: var(--spacing-5xs);
+		}
+	}
+}
+
+.rz-dialog__medallion {
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	margin-inline: auto;
+	border-radius: 50%;
+	background-color: var(--rz-dialog-accent-container);
+	color: var(--rz-dialog-accent-on-container);
+	font-size: 24px;
+}
+
 .rz-dialog__header {
 	display: flex;
 	align-items: center;
