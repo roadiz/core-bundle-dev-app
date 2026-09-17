@@ -1,5 +1,9 @@
 .rz-breadcrumb {
-    /* Shares its page-header row with the action buttons: shrink rather than push them off screen. */
+    /* Shares its page-header row with the action buttons: shrink rather than push them off screen.
+       flex-grow makes the width depend on the row, not on the trail: the responsive collapse
+       (utils/OverflowList.ts) reads it as the available space, and moving levels in or out of the
+       popover can never resize the nav and re-trigger itself. */
+    flex-grow: 1;
     min-width: 0;
     overflow: hidden;
 }
@@ -17,8 +21,11 @@
     display: flex;
     align-items: center;
     min-width: 0;
+}
 
-    & + &::before {
+/* Chevron between trail levels only: the same <li> also lives in the overflow popover. */
+.rz-breadcrumb__list > .rz-breadcrumb__list-item + .rz-breadcrumb__list-item {
+    &::before {
         display: inline-block;
         content: '';
         flex: none;
@@ -72,4 +79,37 @@ a.rz-breadcrumb__item {
 
 .rz-breadcrumb__item[aria-current='page'] {
     color: var(--breadcrumb-content-selected, #18191b);
+}
+
+/* Folded levels read like menu entries. Mirrors .rz-dropdown__item rather than reusing it, so a
+   level keeps the same markup in the trail and in the popover and can be moved between them. */
+.rz-overflow-list__list .rz-breadcrumb__list-item {
+    display: block;
+}
+
+.rz-overflow-list__list .rz-breadcrumb__item {
+    display: flex;
+    box-sizing: border-box;
+    min-height: 28px;
+    padding: var(--spacing-6xs);
+    border-radius: var(--radius-xs, 6px);
+    color: var(--button-basic-low-content-on-light, #18191b);
+    text-decoration: none;
+    transition: background-color 0.3s;
+
+    font-size: var(--text-label-sm-font-size);
+    line-height: var(--text-label-sm-line-height);
+    letter-spacing: var(--text-label-sm-letter-spacing);
+    font-weight: var(--text-label-sm-font-weight);
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--button-basic-low-content-on-light, #18191b);
+            text-decoration-color: transparent;
+            background-color: var(
+                --button-basic-low-bg-on-light-hover,
+                #f2f2f2
+            );
+        }
+    }
 }

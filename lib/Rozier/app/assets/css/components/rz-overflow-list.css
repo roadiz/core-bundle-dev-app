@@ -3,3 +3,9 @@
 .rz-overflow-list__popover {
     --rz-badge-label-white-space: nowrap;
 }
+
+/* [hidden] is a UA rule, beaten by any author `display` the wrapper inherits from its context
+   (.rz-breadcrumb__list-item is display: flex). Set while nothing is folded. */
+.rz-overflow-list[hidden] {
+    display: none;
+}

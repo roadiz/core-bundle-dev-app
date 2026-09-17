@@ -6,9 +6,12 @@
       {label, url} or an entity supported by a BreadcrumbsItemFactory.
     - current (required): label of the current page, rendered as plain text.
 
-    Past `collapse_from` ancestors the middle ones fold into a popover, so a deep node tree
-    never pushes the page action buttons off screen. The Storybook renderer mirrors that
-    threshold as COLLAPSE_FROM in app/utils/storybook/renderer/rzBreadcrumb.ts — keep both in step.
+    At most `max_visible` ancestors stay in the trail: past that, the levels right after the
+    root fold into a popover, so a deep node tree never pushes the page action buttons off
+    screen. When the row is too narrow for what the server left inline, the popover folds more
+    levels and unfolds them back as the row widens (utils/OverflowList.ts): the trail is always
+    one line. The Storybook renderer mirrors the cap as MAX_VISIBLE in
+    app/utils/storybook/renderer/rzBreadcrumb.ts — keep both in step.
 
     Who builds this hash: a page never declares the root of its own section. Its section
     head does, and works out on its own whether the page *is* that root by comparing the
@@ -24,25 +27,29 @@
 {% macro root(breadcrumb) %}
     {% set item_template = '@RoadizRozier/includes/rz_breadcrumb_item.html.twig' %}
     {% set parents = breadcrumb.parents|default([]) %}
-    {# Counts ancestors only, the current page excluded. Below 4 the popover would hide a single
-       entry behind a button, which buys nothing. #}
-    {% set collapse_from = 3 %}
-    {% set collapsed = parents|length > collapse_from %}
+    {# Counts ancestors only, the current page excluded. #}
+    {% set max_visible = 6 %}
+    {# Root and last ancestor never fold; everything in between is the popover's to manage. #}
+    {% set middle = parents|length > 2 ? parents|slice(1, parents|length - 2) : [] %}
+    {% set folded_count = max(0, parents|length - max_visible) %}
 
     <nav class="rz-breadcrumb" aria-label="{{ 'breadcrumb'|trans }}">
         <ol class="rz-breadcrumb__list">
-            {% for item in collapsed ? parents|slice(0, 1) : parents %}
-                {{ include(item_template, { item: item }, with_context = false) }}
-            {% endfor %}
+            {% if middle is empty %}
+                {% for item in parents %}
+                    {{ include(item_template, { item: item }, with_context = false) }}
+                {% endfor %}
+            {% else %}
+                {{ include(item_template, { item: parents|first }, with_context = false) }}
 
-            {% if collapsed %}
                 {{ include('@RoadizRozier/macros/rz_overflow_list.html.twig', {
-                    items: parents|slice(1, parents|length - 2),
+                    items: middle|slice(0, folded_count),
                     visibleCount: 0,
                     wrapperTag: 'li',
                     wrapperClass: 'rz-breadcrumb__list-item',
                     itemTemplate: item_template,
-                    itemTemplateContext: { in_popover: true },
+                    responsive: true,
+                    responsiveInline: middle|length - folded_count,
                     popover: {
                         tagList: 'ul',
                     },
@@ -52,9 +59,11 @@
                     },
                 }, with_context = false) }}
 
-                {% for item in parents|slice(-1) %}
+                {% for item in middle|slice(folded_count) %}
                     {{ include(item_template, { item: item }, with_context = false) }}
                 {% endfor %}
+
+                {{ include(item_template, { item: parents|last }, with_context = false) }}
             {% endif %}
 
             {{ include(item_template, {

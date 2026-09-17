@@ -242,6 +242,14 @@
 	align-items: center;
 	gap: var(--spacing-6xs);
 	margin-inline: var(--spacing-6xs) var(--spacing-xs);
+	/* A badge never wraps: when the row is too narrow it folds into the popover instead. */
+	--rz-badge-label-white-space: nowrap;
+}
+
+/* Title room kept before tags fold (read by utils/OverflowList.ts while measuring). Only on
+   tagged rows: the aside tree has no tags and must not overflow on deep nodes. */
+.rz-tree__item__node__inner:has(> .rz-tree__item__tags) > .rz-tree__item__label {
+	min-width: 120px;
 }
 
 .rz-tree__item__expand-button {

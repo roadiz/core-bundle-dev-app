@@ -120,7 +120,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getManifestScriptTags(string $name): string
     {
         return implode('', array_map(fn ($cssFilePath) => sprintf(
-            '<script async type="module" src="%s"></script>',
+            '<script type="module" src="%s"></script>',
             htmlspecialchars((string) $cssFilePath, ENT_QUOTES, 'UTF-8')
         ), $this->manifestResolver->getEntrypointScriptFiles($name)));
     }

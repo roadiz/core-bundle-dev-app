@@ -50,11 +50,23 @@
 {% set item_template = itemTemplate|default(null) %}
 {% set item_template_context = itemTemplateContext|default({}) %}
 {% set wrapperTag = wrapperTag|default('div') %}
+{# responsive: items fold into the popover when the wrapper's parent row is too narrow, and
+   unfold again when it widens (utils/OverflowList.ts). The popover is then always rendered,
+   hidden while empty. Two shapes:
+   - visibleCount > 0: the visible items rendered here, inside the wrapper, are the inline ones.
+   - visibleCount = 0: the caller renders `responsiveInline` inline items itself, as siblings
+     right after the wrapper (the breadcrumb, whose <li> cannot nest).
+   The default button label (folded count) is kept in sync; a custom label is left alone. #}
+{% set responsive = responsive|default(false) %}
+{% set responsive_inline = visible_count > 0 ? visible_items|length : responsiveInline|default(0) %}
+{% set responsive_side = visible_count > 0 ? 'before' : 'after' %}
+{% set responsive_empty = responsive and overflow_items is empty %}
 
 {% block item %}{% endblock %}
 
 <{{ wrapperTag }}
     {{ el_attrs.print(wrapper_attributes) }}
+    {% if responsive_empty and visible_count == 0 %}hidden{% endif %}
 >
     {% for loop_item in visible_items %}
         {% if item_template %}
@@ -66,8 +78,15 @@
         {% endif %}
     {% endfor %}
 
-    {% if overflow_items|length > 0 %}
+    {% if overflow_items|length > 0 or responsive %}
         <rz-popover
+            {% if responsive %}
+                overflow-responsive
+                overflow-inline="{{ responsive_inline }}"
+                overflow-inline-side="{{ responsive_side }}"
+                {% if button.label is not defined %}overflow-count{% endif %}
+                {% if responsive_empty and visible_count > 0 %}hidden{% endif %}
+            {% endif %}
             {% if shift is not null %}popover-shift="{{ shift }}"{% endif %}
             popover-placement="{{ placement }}"
             popover-offset="{{ offset }}"
