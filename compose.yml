@@ -173,6 +173,9 @@ services:
                 UID: ${UID:-1000}
         profiles: [ "frontend" ]
         mem_limit: 1g
+        # Vite exits as soon as stdin closes: keep it open for `docker compose up -d node`
+        stdin_open: true
+        tty: true
         ports:
             - 5173:5173
         volumes:
