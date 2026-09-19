@@ -101,7 +101,8 @@
                 {% if tags|length and nodeTree.isStackTree %}
                     {% embed "@RoadizRozier/macros/rz_overflow_list.html.twig" with {
                         items: tags,
-                        visibleCount: 2,
+                        visibleCount: 6,
+                        responsive: true,
                         wrapperTag: 'div',
                         wrapperClass: 'rz-tree__item__tags',
                         popover: {

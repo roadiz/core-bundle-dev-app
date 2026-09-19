@@ -1,72 +1,115 @@
+.rz-breadcrumb {
+    /* Shares its page-header row with the action buttons: shrink rather than push them off screen.
+       flex-grow makes the width depend on the row, not on the trail: the responsive collapse
+       (utils/OverflowList.ts) reads it as the available space, and moving levels in or out of the
+       popover can never resize the nav and re-trigger itself. */
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
 .rz-breadcrumb__list {
-	display: flex;
-	list-style: none;
-	align-items: center;
-	margin: 0;
-	padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .rz-breadcrumb__list-item {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
 
-	a {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-4xs);
-	}
+/* Chevron between trail levels only: the same <li> also lives in the overflow popover. */
+.rz-breadcrumb__list > .rz-breadcrumb__list-item + .rz-breadcrumb__list-item {
+    &::before {
+        display: inline-block;
+        content: '';
+        flex: none;
+        width: 20px;
+        height: 20px;
+        background-color: currentColor;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='black' d='M12.172 12L9.343 9.173l1.415-1.414L15 12l-4.242 4.242l-1.415-1.414z'/%3E%3C/svg%3E");
+        mask-repeat: no-repeat;
+        mask-size: 100% 100%;
 
-	& + &::before {
-		display: inline-block;
-		content: '';
-		background-image: url("assets/img/icons/ri/arrow-drop-right-line.svg");
-		background-position: center;
-		background-size: 100% 100%;
-		width: 20px;
-		height: 20px;
-		color: var(--content-on-light-primary, #18191B);
-
-		@media (prefers-color-scheme: dark) {
-			background-image: url("assets/img/icons/arrow-drop-right-line.svg");
-		}
-	}
-
-	[data-theme="light"] &::before {
-		background-image: url("assets/img/icons/ri/arrow-drop-right-line.svg");
-	}
-
-	[data-theme="dark"] &::before {
-		background-image: url("assets/img/icons/arrow-drop-right-line.svg");
-	}
+        [dir='rtl'] & {
+            transform: scaleX(-1);
+        }
+    }
 }
 
 .rz-breadcrumb__item {
-	color: var(--breadcrumb-content, #383838);
-	text-decoration-color: transparent;
-	text-underline-offset: 3px;
-	transition: text-decoration-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    white-space: nowrap;
+    color: var(--breadcrumb-content, #383838);
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition:
+        color 0.2s,
+        text-decoration-color 0.2s;
 
-	font-family: var(--font-family-os-label);
-	font-size: var(--text-breadcrumb-sm-font-size);
-	line-height: var(--text-breadcrumb-sm-line-height);
-	letter-spacing: var(--text-breadcrumb-sm-letter-spacing);
-	font-weight: var(--text-breadcrumb-sm-font-weight);
+    font-family: var(--font-family-os-label);
+    font-size: var(--text-breadcrumb-sm-font-size);
+    line-height: var(--text-breadcrumb-sm-line-height);
+    letter-spacing: var(--text-breadcrumb-sm-letter-spacing);
+    font-weight: var(--text-breadcrumb-sm-font-weight);
 
-	@media (hover: hover) {
-		&:hover {
-			text-decoration-color: currentColor;
-		}
-	}
+    @media (--screen-lg-min) {
+        font-size: var(--text-breadcrumb-md-font-size);
+        line-height: var(--text-breadcrumb-md-line-height);
+        letter-spacing: var(--text-breadcrumb-md-letter-spacing);
+        font-weight: var(--text-breadcrumb-md-font-weight);
+    }
 }
 
-.rz-breadcrumb__popover-content {
-	border: 1PX solid var(--content-on-light-primary, #18191B);
-	border-radius: var(--radius-sm);
-	padding: var(--spacing-4xs);
-	gap: var(--spacing-4xs);
+a.rz-breadcrumb__item {
+    @media (hover: hover) {
+        &:hover {
+            color: var(--breadcrumb-content-hover, #18191b);
+            text-decoration-color: currentColor;
+        }
+    }
+}
 
-	&:popover-open {
-		display: flex;
-		flex-direction: column;
-	}
+.rz-breadcrumb__item[aria-current='page'] {
+    color: var(--breadcrumb-content-selected, #18191b);
+}
+
+/* Folded levels read like menu entries. Mirrors .rz-dropdown__item rather than reusing it, so a
+   level keeps the same markup in the trail and in the popover and can be moved between them. */
+.rz-overflow-list__list .rz-breadcrumb__list-item {
+    display: block;
+}
+
+.rz-overflow-list__list .rz-breadcrumb__item {
+    display: flex;
+    box-sizing: border-box;
+    min-height: 28px;
+    padding: var(--spacing-6xs);
+    border-radius: var(--radius-xs, 6px);
+    color: var(--button-basic-low-content-on-light, #18191b);
+    text-decoration: none;
+    transition: background-color 0.3s;
+
+    font-size: var(--text-label-sm-font-size);
+    line-height: var(--text-label-sm-line-height);
+    letter-spacing: var(--text-label-sm-letter-spacing);
+    font-weight: var(--text-label-sm-font-weight);
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--button-basic-low-content-on-light, #18191b);
+            text-decoration-color: transparent;
+            background-color: var(
+                --button-basic-low-bg-on-light-hover,
+                #f2f2f2
+            );
+        }
+    }
 }

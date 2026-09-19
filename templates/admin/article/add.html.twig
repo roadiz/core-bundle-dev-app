@@ -3,6 +3,13 @@
 {%- block header -%}
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: 'articles.add'|trans,
+        breadcrumb: {
+            parents: [{
+                label: 'articles'|trans,
+                url: path('appArticlesListPage'),
+            }],
+            current: 'articles.add'|trans,
+        },
     } only %}
 {%- endblock -%}
 

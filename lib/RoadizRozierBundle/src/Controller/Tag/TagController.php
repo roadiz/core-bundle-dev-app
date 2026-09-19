@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Controller\VersionedControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\TagTranslationType;
 use RZ\Roadiz\RozierBundle\Form\TagType;
@@ -61,6 +62,7 @@ final class TagController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -308,6 +310,7 @@ final class TagController extends AbstractController
             'title' => $title,
             'headPath' => '@RoadizRozier/admin/head.html.twig',
             'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('tags')],
             'alertMessage' => 'are_you_sure.delete.these.tags',
             'form' => $form->createView(),
             'items' => $tags,
@@ -496,6 +499,7 @@ final class TagController extends AbstractController
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('tags', $tag),
             'headPath' => '@RoadizRozier/tags/head.html.twig',
             'cancelPath' => $this->generateUrl('tagsHomePage'),
             'alertMessage' => 'are_you_sure.delete.tag',

@@ -34,7 +34,6 @@ final readonly class DocumentBreadcrumbsItemFactory implements BreadcrumbsItemFa
                     'documentId' => $item->getId(),
                 ]
             ),
-            false,
         );
     }
 

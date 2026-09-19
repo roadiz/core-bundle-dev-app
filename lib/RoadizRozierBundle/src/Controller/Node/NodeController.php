@@ -35,6 +35,7 @@ use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use RZ\Roadiz\RozierBundle\Controller\NodeControllerTrait;
@@ -90,6 +91,7 @@ final class NodeController extends AbstractController
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -603,6 +605,7 @@ final class NodeController extends AbstractController
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $node),
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
             'alertMessage' => 'are_you_sure.delete.node.and.data',
             'form' => $form->createView(),
@@ -659,6 +662,7 @@ final class NodeController extends AbstractController
             'action_color' => 'danger',
             'action_label' => 'empty.trash',
             'cancelPath' => $this->generateUrl('nodesHomeDeletedPage'),
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('nodes')],
             'alertMessage' => 'are_you_sure.empty.node.and.data.trash',
             'form' => $form->createView(),
             'items' => $items,
@@ -825,6 +829,7 @@ final class NodeController extends AbstractController
             'action_color' => 'success',
             'action_label' => 'publish-all',
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $node),
             'alertMessage' => 'are_you_sure.publish.node.offspring',
             'form' => $form->createView(),
             'items' => [], // TODO: add children node_sources list

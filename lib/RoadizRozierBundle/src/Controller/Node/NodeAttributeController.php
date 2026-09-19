@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -47,6 +48,7 @@ final class NodeAttributeController extends AbstractController
         private readonly NodeTypes $nodeTypesBag,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private readonly TranslationRepository $translationRepository,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -322,6 +324,7 @@ final class NodeAttributeController extends AbstractController
                 'nodeId' => $node->getId(),
                 'translationId' => $translation->getId(),
             ]),
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $node),
             'alertMessage' => 'are_you_sure.delete_value.attribute',
             'form' => $form->createView(),
         ]);
