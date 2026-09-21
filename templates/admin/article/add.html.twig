@@ -4,10 +4,7 @@
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: 'articles.add'|trans,
         breadcrumb: {
-            parents: [{
-                label: 'articles'|trans,
-                url: path('appArticlesListPage'),
-            }],
+            parents: [breadcrumb_root('articles')],
             current: 'articles.add'|trans,
         },
     } only %}

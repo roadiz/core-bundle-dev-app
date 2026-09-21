@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Breadcrumbs;
 
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -15,14 +16,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * cannot go through their section head (confirmation pages, sections without a head) call it too,
  * instead of repeating the label and the route by hand.
  *
- * This table covers the sections Rozier itself ships. A project adding its own back-office section
- * writes the entry inline in its template — one place, explicit, no indirection — because a project
- * has no duplication to factor out. See docs/extensions/custom_backoffice_entry.md.
+ * The built-in table covers the sections Rozier itself ships. A project or a bundle adding its own
+ * back-office section registers it through a BreadcrumbRootProviderInterface.
+ * See docs/extensions/custom_backoffice_entry.md.
  */
 final readonly class BreadcrumbRoots
 {
     /**
-     * Section name => [translation key, listing route name].
+     * Rozier sections: name => [translation key, listing route name].
      *
      * @var array<string, array{string, string}>
      */
@@ -45,10 +46,27 @@ final readonly class BreadcrumbRoots
         'webhooks' => ['webhooks', 'webhooksHomePage'],
     ];
 
+    /**
+     * Built-in roots merged with every provider's, the last one to declare a section wins.
+     *
+     * @var array<string, array{string, string}>
+     */
+    private array $roots;
+
+    /**
+     * @param iterable<BreadcrumbRootProviderInterface> $providers
+     */
     public function __construct(
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
+        #[AutowireIterator('roadiz_rozier.breadcrumb_root_provider')]
+        iterable $providers = [],
     ) {
+        $roots = self::ROOTS;
+        foreach ($providers as $provider) {
+            $roots = [...$roots, ...$provider->getRoots()];
+        }
+        $this->roots = $roots;
     }
 
     /**
@@ -70,11 +88,11 @@ final readonly class BreadcrumbRoots
      */
     public function get(string $section): array
     {
-        if (!isset(self::ROOTS[$section])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown breadcrumb root "%s", expected one of: %s.', $section, implode(', ', array_keys(self::ROOTS))));
+        if (!isset($this->roots[$section])) {
+            throw new \InvalidArgumentException(\sprintf('Unknown breadcrumb root "%s", expected one of: %s.', $section, implode(', ', array_keys($this->roots))));
         }
 
-        [$label, $route] = self::ROOTS[$section];
+        [$label, $route] = $this->roots[$section];
 
         return [
             'label' => $this->translator->trans($label),

@@ -362,8 +362,28 @@ And create Twig templates for bulk actions in `templates/admin/article/`. You ca
 
 ## Give your entry a breadcrumb
 
-Your pages describe their own trail. The listing page *is* the root of your section, so it only
-carries its own name; pages below it put the root in `parents`:
+Rozier keeps every section root (label + listing route) in one table, `BreadcrumbRoots`, read in Twig
+through `breadcrumb_root()` and `breadcrumb_trail()`. Register your own section by implementing
+`BreadcrumbRootProviderInterface`, autoconfiguration tags it for you:
+
+```php
+// src/Breadcrumbs/ArticleBreadcrumbRoots.php
+namespace App\Breadcrumbs;
+
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRootProviderInterface;
+
+final class ArticleBreadcrumbRoots implements BreadcrumbRootProviderInterface
+{
+    public function getRoots(): array
+    {
+        // section name => [translation key, listing route name]
+        return ['articles' => ['articles', 'appArticlesListPage']];
+    }
+}
+```
+
+Your listing page *is* the root, so it only carries its own name; pages below it ask for the root
+instead of retyping it:
 
 ```twig
 {# templates/admin/article/list.html.twig #}
@@ -376,22 +396,17 @@ carries its own name; pages below it put the root in `parents`:
 {% include '@RoadizRozier/admin/head.html.twig' with {
     title: 'articles.add'|trans,
     breadcrumb: {
-        parents: [{
-            label: 'articles'|trans,
-            url: path('appArticlesListPage'),
-        }],
+        parents: [breadcrumb_root('articles')],
         current: 'articles.add'|trans,
     },
 } only %}
 ```
 
-Rozier's own sections come from a shared table (`BreadcrumbRoots`, reachable in Twig as
-`breadcrumb_root('users')`) because the same root was repeated forty times across the bundle. Your
-section has one page that needs it, so write it where it is read — that stays explicit and survives a
-route rename better than a second declaration living somewhere else. Should you end up repeating it
-across many templates, factor it into your own partial or Twig function at that point.
+The same works from a bundle, which is how you share a section between projects. Several providers
+may coexist; when two declare the same section, the last registered one wins, so a project can also
+relabel or re-route a built-in Rozier section.
 
-Entries below the root are either a `{label, url}` hash like above, or an entity resolved by a
+Entries below the root are either a `{label, url}` hash, or an entity resolved by a
 `BreadcrumbsItemFactory` — which is what the next section is about.
 
 ## Override breadcrumbs generation for your shadow container (optional)
