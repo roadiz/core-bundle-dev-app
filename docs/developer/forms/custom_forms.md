@@ -17,6 +17,22 @@ The answer is saved in two entities:
 The CustomFormAnswer will store the IP and the submitted time.
 While question answer will be in CustomFormFieldAttribute with the CustomFormAnswer id and the CustomFormField id.
 
+## Overriding allowed file mime types
+
+*Documents* fields accept a default mime type list:
+`application/pdf`, `application/x-pdf`, `image/avif`, `image/heif`, `image/heic`, `image/webp`,
+`image/jpeg`, `image/png`, `image/gif`.
+
+To override it, fill the field **Default values** (in *Manage custom forms* / your field) with a
+comma-separated list of mime types. It replaces the default list entirely:
+
+```
+image/svg+xml, application/pdf
+```
+
+Max upload size is not part of that list: it comes from the `fileUploadMaxSize` form option
+(`10m` by default) when building `CustomFormsType`.
+
 ## Exposing a custom form in your API
 
 Custom-form can be filled in a headless context, using \_definition and \_post endpoints:
