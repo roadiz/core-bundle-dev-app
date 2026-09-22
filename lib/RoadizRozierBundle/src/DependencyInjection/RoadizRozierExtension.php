@@ -198,6 +198,7 @@ class RoadizRozierExtension extends Extension implements PrependExtensionInterfa
                     ->setClass(DeeplTranslateAssistant::class)
                     ->setArguments([
                         new Reference(CacheItemPoolInterface::class),
+                        new Reference(HttpClientInterface::class),
                         '%roadiz_rozier.translate_assistant.deepl_api_key%',
                     ])
             );
