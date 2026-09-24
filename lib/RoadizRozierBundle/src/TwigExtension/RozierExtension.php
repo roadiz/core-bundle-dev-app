@@ -30,6 +30,9 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly bool $livePreviewEnabled,
+        /** @var int[] */
+        private readonly array $livePreviewViewportWidths,
     ) {
     }
 
@@ -52,6 +55,10 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             ],
             'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
             'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
+            'live_preview' => [
+                'enabled' => $this->livePreviewEnabled,
+                'viewport_widths' => $this->livePreviewViewportWidths,
+            ],
         ];
     }
 

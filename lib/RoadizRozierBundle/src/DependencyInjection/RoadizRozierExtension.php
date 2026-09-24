@@ -110,6 +110,8 @@ class RoadizRozierExtension extends Extension implements PrependExtensionInterfa
         $this->registerOpenId($config, $container);
         $this->registerTranslateAssistant($config, $container);
         $this->registerBookmarkCollection($config, $container);
+        $container->setParameter('roadiz_rozier.live_preview.enabled', $config['live_preview']['enabled']);
+        $container->setParameter('roadiz_rozier.live_preview.viewport_widths', $config['live_preview']['viewport_widths']);
     }
 
     private function registerOpenId(array $config, ContainerBuilder $container): void
