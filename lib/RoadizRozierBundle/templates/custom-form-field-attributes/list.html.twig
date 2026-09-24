@@ -29,9 +29,8 @@
 <section>
     {% include '@RoadizRozier/custom-forms/head.html.twig' with {
         title: 'customFormFieldAttribute'|trans,
-        with_breadcrumb: true,
         breadcrumb_parents: [{
-            displayName: customForm.displayName|truncate_title,
+            label: customForm.displayName|truncate_title,
             type: 'customFormFields',
             url: path('customFormAnswersHomePage', {customFormId: customForm.id})
         }],

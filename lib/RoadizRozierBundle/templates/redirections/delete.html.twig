@@ -1,13 +1,9 @@
-{% set parentBreadcrumb = [
-    {
-        label: 'manage.redirections'|trans,
-        type: 'listing',
-        url: path('redirectionsHomePage'),
-    },
+{% set breadcrumb_parents = [
+    breadcrumb_root('redirections'),
 ] %}
 
 {% if item.getRedirectUri is defined and item.getRedirectUri != '' %}
-    {% set parentBreadcrumb = parentBreadcrumb|merge([{
+    {% set breadcrumb_parents = breadcrumb_parents|merge([{
         label: item,
         url: path('redirectionsEditPage', { id: item.id }),
     }]) %}
@@ -16,7 +12,7 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.redirection"|trans,
     'headPath': '@RoadizRozier/admin/head.html.twig',
-    'parentBreadcrumb': parentBreadcrumb,
+    'breadcrumb_parents': breadcrumb_parents,
     'cancelPath': path('redirectionsHomePage'),
     'alertMessage': 'are_you_sure.delete.redirection'|trans,
     'form': form,

@@ -1,15 +1,12 @@
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set breadcrumbParent = folder.getParents %}
-    {% set homePage = [{
-        type: 'listing',
-        url: path('foldersHomePage'),
-        label: 'folders'|trans,
-    }] %}
-    {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('folders') %}
+    {% set folder = folder is defined and folder ? folder : null %}
     {% set breadcrumb = {
-        label: 'folders-breadcrumb',
-        parent: breadcrumbParent,
-        current: folder.name|default(folder.folderName),
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(folder ? folder.getParents : breadcrumb_parents|default([])),
+        current: folder ? folder.name|default(folder.folderName) : title,
     } %}
 {% endif %}
 

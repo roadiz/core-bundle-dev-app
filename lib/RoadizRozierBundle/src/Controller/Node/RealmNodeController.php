@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Form\RealmNodeType;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -32,6 +33,7 @@ final class RealmNodeController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -158,6 +160,7 @@ final class RealmNodeController extends AbstractController
             'subtitle' => $subtitle,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesRealmsPage', ['id' => $node->getId()]),
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $node),
             'alertMessage' => 'are_you_sure.leave.realm',
             'form' => $form->createView(),
         ]);

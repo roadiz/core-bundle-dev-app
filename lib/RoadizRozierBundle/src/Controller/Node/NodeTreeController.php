@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Widget\TreeWidgetFactory;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,6 +44,7 @@ final class NodeTreeController extends AbstractController
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 

@@ -2370,6 +2370,14 @@
         <source>blockquote</source>
         <target state="final">Citation</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb" approved="yes">
+        <source>breadcrumb</source>
+        <target state="final">Fil d’Ariane</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb.show_more" approved="yes">
+        <source>breadcrumb.show_more</source>
+        <target state="final">Afficher les niveaux masqués du fil d’Ariane</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="bold" approved="yes">
         <source>bold</source>
         <target state="final">Gras</target>
@@ -5243,10 +5251,6 @@
       <trans-unit xml:space="preserve" id="node_tree.no_nodes_found" approved="yes">
         <source>node_tree.no_nodes_found</source>
         <target state="final">Aucun nœud trouvé</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes-breadcrumb" approved="yes">
-        <source>nodes-breadcrumb</source>
-        <target state="final">Fil d’Ariane des nœuds</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="not.available" approved="yes">
         <source>not.available</source>

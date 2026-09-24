@@ -1,35 +1,14 @@
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% if folder is defined and folder %}
-        {% set breadcrumbParent = folder.getParents %}
-        {% set homePage = [{
-            type: 'listing',
-            url: path('foldersHomePage'),
-            label: 'folders'|trans,
-        }] %}
-        {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
-        {% set breadcrumb = {
-            label: 'folders-breadcrumb',
-            parent: breadcrumbParent,
-            current: folder.name|default(folder.folderName),
-        } %}
-    {% elseif document is defined and document %}
-        {% set breadcrumb = {
-            label: 'documents-breadcrumb',
-            parent: [{
-                label: 'documents'|trans,
-                type: 'listing',
-                url: path('documentsHomePage'),
-            }],
-            current: title,
-        } %}
-    {% else %}
-        {% set breadcrumb = {
-            label: 'documents-breadcrumb',
-            type: 'listing',
-            parent: breadcrumbParent|default([]),
-            current: title,
-        } %}
-    {% endif %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set folder = folder is defined and folder ? folder : null %}
+    {# Documents live under a folder tree: inside one, the trail roots on folders instead. #}
+    {% set root = breadcrumb_root(folder ? 'folders' : 'documents') %}
+    {% set breadcrumb = {
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(folder ? folder.getParents : breadcrumb_parents|default([])),
+        current: folder ? folder.name|default(folder.folderName) : title,
+    } %}
 {% endif %}
 
 {% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
@@ -50,11 +29,6 @@
         {% endif %}
     {% endblock %}
 
-    {% block breadcrumb %}
-        {% if breadcrumb is defined and breadcrumb %}
-            {{ _self.breadcrumb(breadcrumb) }}
-        {% endif %}
-    {% endblock %}
 
     {% block buttons %}
         {% if not displayPrivateDocuments and displayButtonAction %}

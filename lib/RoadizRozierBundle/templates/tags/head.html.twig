@@ -1,15 +1,12 @@
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set breadcrumbParent = tag.parents(null, true) %}
-    {% set homePage = [{
-        type: 'listing',
-        url: path('tagsHomePage'),
-        label: 'tags'|trans,
-    }] %}
-    {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('tags') %}
+    {% set tag = tag is defined and tag ? tag : null %}
     {% set breadcrumb = {
-        label: 'tags-breadcrumb',
-        parent: breadcrumbParent,
-        current: tag.getTagName,
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(tag ? tag.parents(null, true) : breadcrumb_parents|default([])),
+        current: tag ? tag.getTagName : title,
     } %}
 {% endif %}
 

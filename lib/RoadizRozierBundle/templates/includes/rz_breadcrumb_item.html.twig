@@ -1,0 +1,21 @@
+{#
+    One breadcrumb entry. Shared by the trail and by its overflow popover: the markup is the
+    same in both places so the responsive collapse (utils/OverflowList.ts) can move a <li>
+    between them as is. Folded levels get their menu-entry look from CSS
+    (`.rz-overflow-list__list .rz-breadcrumb__item` in rz-breadcrumb.css).
+
+    Variables:
+    - item (required): a hash {label, url}, or an entity supported by a
+      BreadcrumbsItemFactory (Node, NodesSources, Tag, Folder, Document, Translation).
+    - current (optional): render as the current page, as plain text instead of a link.
+#}
+{% set item = item is iterable ? item : getBreadcrumbsItem(item) %}
+{% if item %}
+    <li class="rz-breadcrumb__list-item">
+        {% if current|default(false) %}
+            <span class="rz-breadcrumb__item" aria-current="page">{{- item.label|truncate_title -}}</span>
+        {% else %}
+            <a class="rz-breadcrumb__item" href="{{ item.url }}">{{- item.label|truncate_title -}}</a>
+        {% endif %}
+    </li>
+{% endif %}
