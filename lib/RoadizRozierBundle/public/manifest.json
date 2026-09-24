@@ -76,7 +76,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/NodeSourceEditPage.js": {
-    "file": "NodeSourceEditPage-Dn4yxCUn.js",
+    "file": "NodeSourceEditPage-DGqA6axD.js",
     "name": "NodeSourceEditPage",
     "src": "app/custom-elements/NodeSourceEditPage.js",
     "isDynamicEntry": true,
@@ -87,7 +87,7 @@
     ]
   },
   "app/custom-elements/NodeTreeContextualMenu.js": {
-    "file": "NodeTreeContextualMenu-iO5_7wNn.js",
+    "file": "NodeTreeContextualMenu-Bn_ZWTr9.js",
     "name": "NodeTreeContextualMenu",
     "src": "app/custom-elements/NodeTreeContextualMenu.js",
     "isDynamicEntry": true,
@@ -107,7 +107,7 @@
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-CCqHa9Cx.js",
+    "file": "RzFileUpload-BghvLGzc.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -128,6 +128,15 @@
     "name": "RzInputColor",
     "src": "app/custom-elements/RzInputColor.js",
     "isDynamicEntry": true
+  },
+  "app/custom-elements/RzLivePreview.ts": {
+    "file": "RzLivePreview-Bl7XH5uH.js",
+    "name": "RzLivePreview",
+    "src": "app/custom-elements/RzLivePreview.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js"
+    ]
   },
   "app/custom-elements/RzSaveButton.js": {
     "file": "RzSaveButton-CxnLRuxS.js",
@@ -160,7 +169,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-5fotHj2n.js",
+    "file": "TagEditPage-PRodJI9A.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -171,7 +180,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-CXWG69Rf.js",
+    "file": "main-C-kn_wlz.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -191,6 +200,7 @@
       "app/custom-elements/RzFileUpload.ts",
       "app/custom-elements/RzInput.ts",
       "app/custom-elements/RzInputColor.js",
+      "app/custom-elements/RzLivePreview.ts",
       "app/custom-elements/RzSaveButton.js",
       "app/custom-elements/RzSelect.ts",
       "app/custom-elements/RzSwitch.ts",
@@ -199,11 +209,11 @@
       "app/custom-elements/TagEditPage.js"
     ],
     "css": [
-      "main-QW-VSvFC.css"
+      "main-BQvOIvtF.css"
     ]
   },
   "app/shared.js": {
-    "file": "shared-UCLy_iMT.js",
+    "file": "shared-D4wxdsBR.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -211,7 +221,7 @@
       "_jquery-Cs7-jZ1a.js"
     ],
     "css": [
-      "shared-Dx6DglSP.css"
+      "shared-BP92PH-f.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",

@@ -581,6 +581,26 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     }
 
     /**
+     * Walks up the node-source tree until a node-source with a URL is found.
+     *
+     * Blocks and other non-reachable node-sources are only ever rendered inside a page:
+     * this returns the page they belong to, or null when no ancestor is reachable.
+     */
+    #[SymfonySerializer\Groups(['nodes_sources_first_reachable_parent'])]
+    public function getFirstReachableParent(): ?NodesSources
+    {
+        $nodeSource = $this;
+        while (!$nodeSource->isReachable()) {
+            $nodeSource = $nodeSource->getParent();
+            if (null === $nodeSource) {
+                return null;
+            }
+        }
+
+        return $nodeSource;
+    }
+
+    /**
      * Set base data from another node-source.
      *
      * @return $this

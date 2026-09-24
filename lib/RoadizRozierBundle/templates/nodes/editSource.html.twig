@@ -5,6 +5,10 @@
 {% block title %}{{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }} | {{ parent() }}{% endblock %}
 
 {% block content %}
+{# default(), not ??: the globals are '' (not null) when the env vars are empty #}
+{% set front_origin = custom_preview_scheme|default(custom_public_scheme) %}
+{# null on classic Roadiz, when disabled, and for node-sources with no reachable ancestor (menus, footers…) #}
+{% set live_preview_source = (live_preview.enabled and front_origin) ? source.firstReachableParent : null %}
 <section class="content-global">
     <header class="content-header header-node header-node-edit-source">
         {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {
@@ -61,6 +65,42 @@
         {% endif %}
         {{ form_end(form) }}
     </node-source-edit-page>
+
+    {% if live_preview_source %}
+        <rz-live-preview id="live-preview"
+                         class="rz-live-preview"
+                         data-src="{{ path('nodesSourcesPreviewRedirect', { nodeSourceId: live_preview_source.id }) }}"
+                         data-front-origin="{{ front_origin }}"
+                         {# Only a block is singled out in the preview: the page itself needs no target. #}
+                         {% if source.id != live_preview_source.id %}data-node-source-id="{{ source.id }}"{% endif %}>
+            <div class="rz-live-preview__toolbar">
+                <div class="rz-button-group" role="group" aria-label="{% trans %}live_preview.viewport{% endtrans %}">
+                    {% for width in live_preview.viewport_widths %}
+                        {% set icon = width < 600 ? 'smartphone-line' : (width < 1024 ? 'tablet-line' : 'computer-line') %}
+                        <button type="button"
+                                class="rz-button rz-button--emphasis-low rz-button--size-sm"
+                                data-width="{{ width }}"
+                                aria-pressed="false"
+                                aria-label="{{ width }} px"
+                                title="{{ width }} px">
+                            <span class="rz-button__icon rz-icon-ri--{{ icon }}"></span>
+                        </button>
+                    {% endfor %}
+                </div>
+                <span class="rz-badge rz-badge--size-xs rz-live-preview__scale"><span class="rz-badge__label">100 %</span></span>
+                <button type="button"
+                        class="rz-button rz-button--emphasis-low rz-button--size-sm"
+                        data-close
+                        aria-label="{% trans %}live_preview.close{% endtrans %}"
+                        title="{% trans %}live_preview.close{% endtrans %}">
+                    <span class="rz-button__icon rz-icon-ri--close-line"></span>
+                </button>
+            </div>
+            <div class="rz-live-preview__viewport">
+                <iframe title="{% trans %}live_preview{% endtrans %}"></iframe>
+            </div>
+        </rz-live-preview>
+    {% endif %}
 
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}
 </section>
