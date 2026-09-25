@@ -34,6 +34,7 @@
                             'type': 'button',
                             'command': '--move-first',
                             'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                            'data-close-popover-on-click': 'true',
                         }
                     }) }}
                     {{ rz_dropdown_menu.item({
@@ -43,6 +44,7 @@
                             'type': 'button',
                             'command': '--move-last',
                             'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                            'data-close-popover-on-click': 'true',
                         }
                     }) }}
                 {%- endif -%}
@@ -59,6 +61,7 @@
                     'type': 'button',
                     'command': '--copy',
                     'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                    'data-close-popover-on-click': 'true',
                 }
             }) }}
             {{ rz_dropdown_menu.item({
@@ -68,6 +71,7 @@
                     'type': 'button',
                     'command': '--paste-inside',
                     'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                    'data-close-popover-on-click': 'true',
                     disabled: 'true',
                 }
             }) }}
@@ -78,6 +82,7 @@
                     'type': 'button',
                     'command': '--paste-after',
                     'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                    'data-close-popover-on-click': 'true',
                     disabled: 'true',
                 }
             }) }}
@@ -88,6 +93,7 @@
                     'type': 'button',
                     'command': '--duplicate',
                     'commandfor': 'DYNAMICALLY_SET_BY_JS',
+                    'data-close-popover-on-click': 'true',
                 }
             }) }}
         </menu>
@@ -106,6 +112,7 @@
                         'data-status': "visible",
                         'data-value': "0",
                         'type': "button",
+                        'data-close-popover-on-click': 'true',
                     }
                 }) }}
             {% else %}
@@ -119,6 +126,7 @@
                         'data-status': "visible",
                         'data-value': "1",
                         'type': "button",
+                        'data-close-popover-on-click': 'true',
                     }
                 }) }}
             {% endif %}
@@ -132,6 +140,7 @@
                         'data-status': "status",
                         'data-value': "publish",
                         'type': "button",
+                        'data-close-popover-on-click': 'true',
                     }
                 }) }}
             {% elseif node.published and workflow_can(node, 'reject') %}
@@ -144,6 +153,7 @@
                         'data-status': "status",
                         'data-value': "reject",
                         'type': "button",
+                        'data-close-popover-on-click': 'true',
                     }
                 }) }}
             {% endif %}
