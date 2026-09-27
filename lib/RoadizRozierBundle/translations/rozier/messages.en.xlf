@@ -3136,6 +3136,10 @@
         <source>changelog</source>
         <target state="final">Changelog</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password">
+        <source>current.password</source>
+        <target state="final">Current password</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
         <source>choose.a.new.password</source>
         <target state="final">Choose a new password</target>
