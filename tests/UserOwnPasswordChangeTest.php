@@ -56,6 +56,18 @@ final class UserOwnPasswordChangeTest extends KernelTestCase
         self::assertEmailAddressContains($email, 'To', (string) $user->getEmail());
     }
 
+    public function testSamePasswordIsNotChangedNorNotified(): void
+    {
+        $user = $this->createUser();
+        $hash = $user->getPassword();
+        $user->setPlainPassword('OldPassword123!');
+        $this->em()->flush();
+        $this->em()->refresh($user);
+
+        self::assertSame($hash, $user->getPassword());
+        self::assertEmailCount(0);
+    }
+
     private function createUser(): User
     {
         $suffix = uniqid();
