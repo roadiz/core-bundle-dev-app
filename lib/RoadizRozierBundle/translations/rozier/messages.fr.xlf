@@ -3148,6 +3148,10 @@
         <source>changelog</source>
         <target state="final">Notes de mise à jour</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password">
+        <source>current.password</source>
+        <target state="final">Mot de passe actuel</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
         <source>choose.a.new.password</source>
         <target state="final">Choisissez un nouveau mot de passe</target>
