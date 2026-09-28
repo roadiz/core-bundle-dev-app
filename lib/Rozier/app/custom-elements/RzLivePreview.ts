@@ -87,7 +87,7 @@ export default class RzLivePreview extends RoadizElement {
     private setOpen(open: boolean) {
         this.toggleAttribute('open', open)
         this.toggle?.setAttribute('aria-expanded', String(open))
-        this.toggle?.classList.toggle('uk-active', open)
+        this.toggle?.classList.toggle('rz-button--selected', open)
         try {
             localStorage.setItem(OPEN_KEY, open ? '1' : '0')
         } catch {
@@ -103,10 +103,9 @@ export default class RzLivePreview extends RoadizElement {
     private setWidth(width: number) {
         this.width = width
         for (const button of this.widthButtons) {
-            button.setAttribute(
-                'aria-pressed',
-                String(Number(button.dataset.width) === width),
-            )
+            const selected = Number(button.dataset.width) === width
+            button.setAttribute('aria-pressed', String(selected))
+            button.classList.toggle('rz-button--selected', selected)
         }
         try {
             localStorage.setItem(WIDTH_KEY, String(width))

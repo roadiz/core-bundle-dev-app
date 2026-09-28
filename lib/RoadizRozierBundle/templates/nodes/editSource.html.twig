@@ -121,7 +121,7 @@
                         {% for width in live_preview.viewport_widths %}
                             {% set icon = width < 600 ? 'smartphone-line' : (width < 1024 ? 'tablet-line' : 'computer-line') %}
                             <button type="button"
-                                    class="rz-button rz-button--emphasis-low rz-button--size-sm"
+                                    class="rz-button rz-button--tertiary rz-button--sm"
                                     data-width="{{ width }}"
                                     aria-pressed="false"
                                     aria-label="{{ width }} px"
@@ -130,9 +130,9 @@
                             </button>
                         {% endfor %}
                     </div>
-                    <span class="rz-badge rz-badge--size-xs rz-live-preview__scale"><span class="rz-badge__label">100 %</span></span>
+                    <span class="rz-badge rz-badge--xs rz-live-preview__scale"><span class="rz-badge__label">100 %</span></span>
                     <button type="button"
-                            class="rz-button rz-button--emphasis-low rz-button--size-sm"
+                            class="rz-button rz-button--tertiary rz-button--sm"
                             data-close
                             aria-label="{% trans %}live_preview.close{% endtrans %}"
                             title="{% trans %}live_preview.close{% endtrans %}">

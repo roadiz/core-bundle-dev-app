@@ -1,30 +1,29 @@
 /*
- * Split view on the node-source edit page: the form keeps the left of #main-content,
- * <rz-live-preview> takes a sticky column on the right. #main-content is the scroll container.
+ * Split view on the node-source edit page: the form keeps the left of .rz-page__body,
+ * <rz-live-preview> takes a sticky column on the right. The window is the scroll container.
  */
 @media (--screen-lg-min) {
-	.content-global:has(> .rz-live-preview[open]) {
+	.rz-page__body:has(> .rz-live-preview[open]) {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) var(--rz-live-preview-width, clamp(360px, 40%, 720px));
-
-		> .content-header {
-			grid-column: 1 / -1;
-		}
+		gap: var(--spacing-2xs, 12px);
+		align-items: start;
 	}
 }
 
 .rz-live-preview {
-	/* Width of the fixed .actions-menu (actions_menu.less: @action-menu-W), which overlays this edge. */
-	--rz-live-preview-gutter: 50px;
+	/* Room for the fixed .rz-actions-menu, which overlays the right edge of .rz-page. */
+	--rz-live-preview-gutter: 52px;
 
 	display: none;
 	position: sticky;
-	top: 0;
-	align-self: start;
+	top: var(--rz-app-padding-block, 8px);
 	box-sizing: border-box;
-	height: 100vh;
-	padding-right: var(--rz-live-preview-gutter);
-	border-left: 1PX solid var(--global-border-lighter-color, #E2E2E2);
+	height: calc(100vh - var(--rz-app-padding-block, 8px) * 2);
+	margin-right: var(--rz-live-preview-gutter);
+	overflow: hidden;
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	border-radius: var(--radius-sm, 8px);
 	background-color: var(--surface-light-tertiary, #F2F2F2);
 
 	&[open] {
@@ -46,16 +45,11 @@
 	align-items: center;
 	gap: var(--spacing-4xs, 8px);
 	padding: var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
-	border-bottom: 1PX solid var(--global-border-lighter-color, #E2E2E2);
+	border-bottom: 1px solid var(--line-on-light-secondary, #DADADA);
 	background-color: var(--surface-light-primary, #FFFFFF);
 	font-family: var(--font-family-os-label);
 	font-size: var(--text-label-sm-font-size);
 	line-height: var(--text-label-sm-line-height);
-
-	/* rz-button has no pressed state yet: reuse its "selected" token. */
-	.rz-button[aria-pressed="true"] {
-		--rz-button-background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
-	}
 }
 
 .rz-live-preview__scale {

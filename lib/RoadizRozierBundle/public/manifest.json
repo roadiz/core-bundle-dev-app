@@ -127,7 +127,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzAside.ts": {
-    "file": "RzAside-C2wBQ_B2.js",
+    "file": "RzAside-C8gbK4PP.js",
     "name": "RzAside",
     "src": "app/custom-elements/RzAside.ts",
     "isDynamicEntry": true,
@@ -189,7 +189,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzDrawer.ts": {
-    "file": "RzDrawer-CZYQUxXc.js",
+    "file": "RzDrawer-kLc8F-PF.js",
     "name": "RzDrawer",
     "src": "app/custom-elements/RzDrawer.ts",
     "isDynamicEntry": true,
@@ -213,7 +213,7 @@
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-BjKZYisF.js",
+    "file": "RzFileUpload-C-r4k9B0.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
@@ -230,7 +230,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzFormField.ts": {
-    "file": "RzFormField-BZ6oSURb.js",
+    "file": "RzFormField-vOGk9Yk5.js",
     "name": "RzFormField",
     "src": "app/custom-elements/RzFormField.ts",
     "isDynamicEntry": true,
@@ -241,7 +241,7 @@
     ]
   },
   "app/custom-elements/RzGeotag.ts": {
-    "file": "RzGeotag-DioswbgL.js",
+    "file": "RzGeotag-CJypH5NG.js",
     "name": "RzGeotag",
     "src": "app/custom-elements/RzGeotag.ts",
     "isDynamicEntry": true,
@@ -282,8 +282,17 @@
       "_Popover-BH-MR4c1.js"
     ]
   },
+  "app/custom-elements/RzLivePreview.ts": {
+    "file": "RzLivePreview-XXnLuq1i.js",
+    "name": "RzLivePreview",
+    "src": "app/custom-elements/RzLivePreview.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_RoadizElement-XU473doh.js"
+    ]
+  },
   "app/custom-elements/RzMarkdownEditor.ts": {
-    "file": "RzMarkdownEditor-Bfcw0S_x.js",
+    "file": "RzMarkdownEditor-DpnQLDad.js",
     "name": "RzMarkdownEditor",
     "src": "app/custom-elements/RzMarkdownEditor.ts",
     "isDynamicEntry": true,
@@ -310,12 +319,18 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzPopover.ts": {
-    "file": "RzPopover-Bh2enSB6.js",
+    "file": "RzPopover-KcD0iwYW.js",
     "name": "RzPopover",
     "src": "app/custom-elements/RzPopover.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_Popover-BH-MR4c1.js"
+      "app/main.js",
+      "_Popover-BH-MR4c1.js",
+      "_vue-BqDQd3Vv.js",
+      "_jquery-DmndgEMa.js"
+    ],
+    "dynamicImports": [
+      "app/utils/OverflowList.ts"
     ]
   },
   "app/custom-elements/RzRepeatable.ts": {
@@ -331,7 +346,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzSearch.ts": {
-    "file": "RzSearch-BmsHL0bf.js",
+    "file": "RzSearch-CMr4UMaK.js",
     "name": "RzSearch",
     "src": "app/custom-elements/RzSearch.ts",
     "isDynamicEntry": true,
@@ -386,7 +401,7 @@
     ]
   },
   "app/custom-elements/RzTree.ts": {
-    "file": "RzTree-B5hj51Kn.js",
+    "file": "RzTree-CPvkWp5Q.js",
     "name": "RzTree",
     "src": "app/custom-elements/RzTree.ts",
     "isDynamicEntry": true,
@@ -413,7 +428,7 @@
     ]
   },
   "app/main.js": {
-    "file": "main-Bx0jfkd0.js",
+    "file": "main-DwYplnYy.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
@@ -445,6 +460,7 @@
       "app/custom-elements/RzHeaderNavItemButton.ts",
       "app/custom-elements/RzInput.ts",
       "app/custom-elements/RzLink.ts",
+      "app/custom-elements/RzLivePreview.ts",
       "app/custom-elements/RzMarkdownEditor.ts",
       "app/custom-elements/RzNodeTreeContextualMenu.ts",
       "app/custom-elements/RzPage.ts",
@@ -466,7 +482,7 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-CE9_UfVz.js",
+    "file": "shared-DKxxGK5m.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
@@ -474,7 +490,7 @@
       "_jquery-DmndgEMa.js"
     ],
     "css": [
-      "shared-ol77vUlq.css"
+      "shared-DyCBfY5c.css"
     ],
     "assets": [
       "fontawesome-webfont-Bsy9_7N6.woff2",
@@ -492,5 +508,11 @@
     "name": "simple",
     "src": "app/simple.js",
     "isEntry": true
+  },
+  "app/utils/OverflowList.ts": {
+    "file": "OverflowList-DzfS3i6m.js",
+    "name": "OverflowList",
+    "src": "app/utils/OverflowList.ts",
+    "isDynamicEntry": true
   }
 }
