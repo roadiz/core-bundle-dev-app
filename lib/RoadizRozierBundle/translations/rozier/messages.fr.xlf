@@ -1275,6 +1275,18 @@
         <source>see.page</source>
         <target state="final">Voir la page</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview" approved="yes">
+        <source>live_preview</source>
+        <target state="final">Aperçu en direct</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.close" approved="yes">
+        <source>live_preview.close</source>
+        <target state="final">Fermer l'aperçu</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.viewport" approved="yes">
+        <source>live_preview.viewport</source>
+        <target state="final">Largeur d'aperçu</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="preview.page" approved="yes">
         <source>preview.page</source>
         <target state="final">Prévisualiser la page</target>
@@ -3135,6 +3147,10 @@
       <trans-unit xml:space="preserve" id="changelog" approved="yes">
         <source>changelog</source>
         <target state="final">Notes de mise à jour</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password">
+        <source>current.password</source>
+        <target state="final">Mot de passe actuel</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
         <source>choose.a.new.password</source>

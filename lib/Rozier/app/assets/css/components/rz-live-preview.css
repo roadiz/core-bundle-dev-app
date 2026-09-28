@@ -1,0 +1,79 @@
+/*
+ * Split view on the node-source edit page: the form keeps the left of #main-content,
+ * <rz-live-preview> takes a sticky column on the right. #main-content is the scroll container.
+ */
+@media (--screen-lg-min) {
+	.content-global:has(> .rz-live-preview[open]) {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) var(--rz-live-preview-width, clamp(360px, 40%, 720px));
+
+		> .content-header {
+			grid-column: 1 / -1;
+		}
+	}
+}
+
+.rz-live-preview {
+	/* Width of the fixed .actions-menu (actions_menu.less: @action-menu-W), which overlays this edge. */
+	--rz-live-preview-gutter: 50px;
+
+	display: none;
+	position: sticky;
+	top: 0;
+	align-self: start;
+	box-sizing: border-box;
+	height: 100vh;
+	padding-right: var(--rz-live-preview-gutter);
+	border-left: 1PX solid var(--global-border-lighter-color, #E2E2E2);
+	background-color: var(--surface-light-tertiary, #F2F2F2);
+
+	&[open] {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+/* The split view needs the lg breakpoint; below it the form keeps its full width. */
+@media (--screen-md-max) {
+	.rz-live-preview,
+	.rz-live-preview-toggle {
+		display: none !important;
+	}
+}
+
+.rz-live-preview__toolbar {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs, 8px);
+	padding: var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
+	border-bottom: 1PX solid var(--global-border-lighter-color, #E2E2E2);
+	background-color: var(--surface-light-primary, #FFFFFF);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size);
+	line-height: var(--text-label-sm-line-height);
+
+	/* rz-button has no pressed state yet: reuse its "selected" token. */
+	.rz-button[aria-pressed="true"] {
+		--rz-button-background-color: var(--button-basic-low-bg-on-light-selected, #F2F2F2);
+	}
+}
+
+.rz-live-preview__scale {
+	margin-left: auto;
+	font-variant-numeric: tabular-nums;
+}
+
+.rz-live-preview__viewport {
+	position: relative;
+	flex: 1;
+	overflow: hidden;
+}
+
+.rz-live-preview__viewport iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 0;
+	background-color: #FFFFFF;
+	transform-origin: top left;
+}

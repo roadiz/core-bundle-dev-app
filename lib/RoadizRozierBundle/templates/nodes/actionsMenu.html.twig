@@ -1,4 +1,14 @@
 <nav data-roadiz-rozier-bundle data-action-menu class="actions-menu uk-navbar">
+    {# Only defined by nodes/editSource.html.twig, on headless installations. #}
+    {% if live_preview_source is defined and live_preview_source %}
+        <button type="button"
+                class="uk-button uk-button-primary rz-live-preview-toggle"
+                aria-controls="live-preview"
+                aria-expanded="false">
+            <span class="icon-container"><i class="uk-icon-rz-visibility"></i></span>
+            <span class="label"><span class="label-text">{% trans %}live_preview{% endtrans %}</span></span>
+        </button>
+    {% endif %}
     {% if node %}
         {% set canPublish = workflow_can(node, 'publish') %}
         {% if not readOnly and is_granted('DELETE', node) %}

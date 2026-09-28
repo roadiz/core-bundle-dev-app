@@ -2,6 +2,17 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.44...v2.7.45) - 2026-09-28
+
+### Bug Fixes
+
+- **(users)** require current password on own change ([#491](https://github.com/roadiz/core-bundle-dev-app/issues/491)) - ([79cd6df](https://github.com/roadiz/core-bundle-dev-app/commit/79cd6dfc3b8f57f20cd30e844a2b59de4dd3845e))
+
+### Features
+
+- **(api)** add fallback character quota ([#483](https://github.com/roadiz/core-bundle-dev-app/issues/483)) - ([276183f](https://github.com/roadiz/core-bundle-dev-app/commit/276183fbe775526432a32eee6ced695079ef994f))
+- **(rozier)** add headless live preview column ([#490](https://github.com/roadiz/core-bundle-dev-app/issues/490)) - ([2ae5826](https://github.com/roadiz/core-bundle-dev-app/commit/2ae5826b8550fc213be7bf15662e53cfcc970d60))
+
 ## [2.7.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.43...v2.7.44) - 2026-09-11
 
 ### Bug Fixes
