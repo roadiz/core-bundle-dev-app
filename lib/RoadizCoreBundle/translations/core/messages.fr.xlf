@@ -7,6 +7,18 @@
         <source>welcome.user.email.%site%</source>
         <target state="final">Un compte utilisateur vous a été créé sur %site%.</target>
       </trans-unit>
+      <trans-unit id="password.changed.notification">
+        <source>password.changed.notification</source>
+        <target state="final">Votre mot de passe a été modifié</target>
+      </trans-unit>
+      <trans-unit id="your.password.was.changed.on.%site%">
+        <source>your.password.was.changed.on.%site%</source>
+        <target state="final">Le mot de passe de votre compte a été modifié sur %site%.</target>
+      </trans-unit>
+      <trans-unit id="if.you.did.not.change.your.password.reset.it.now">
+        <source>if.you.did.not.change.your.password.reset.it.now</source>
+        <target state="final">Si vous n’êtes pas à l’origine de cette modification, réinitialisez immédiatement votre mot de passe et contactez votre administrateur.</target>
+      </trans-unit>
       <trans-unit id="your.user.account" approved="yes">
         <source>your.user.account</source>
         <target state="final">Votre compte utilisateur</target>

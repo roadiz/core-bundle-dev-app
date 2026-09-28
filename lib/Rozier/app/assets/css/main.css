@@ -46,6 +46,7 @@
 @import './components/rz-history.css';
 @import './components/rz-language-switcher.css';
 @import './components/rz-link.css';
+@import './components/rz-live-preview.css';
 @import './components/rz-login.css';
 @import './components/rz-menu-bar.css';
 @import './components/rz-message.css';
@@ -64,7 +65,6 @@
 @import './components/rz-toast.css';
 @import './components/rz-tooltip.css';
 @import './components/rz-tree.css';
-
 
 /* Components: Form */
 @import './components/rz-repeatable.css';

@@ -41,6 +41,9 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly TranslationRepository $translationRepository,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly bool $livePreviewEnabled,
+        /** @var int[] */
+        private readonly array $livePreviewViewportWidths,
     ) {
     }
 
@@ -63,6 +66,10 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             ],
             'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
             'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
+            'live_preview' => [
+                'enabled' => $this->livePreviewEnabled,
+                'viewport_widths' => $this->livePreviewViewportWidths,
+            ],
         ];
     }
 

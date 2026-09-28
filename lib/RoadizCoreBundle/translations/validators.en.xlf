@@ -42,6 +42,10 @@
                 <source>hotspot_area_start_and_end_coordinates_must_be_numeric</source>
                 <target state="translated">Hotspot area start and end coordinates must be numeric.</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password.invalid">
+        <source>current.password.invalid</source>
+        <target state="final">Current password is invalid.</target>
+      </trans-unit>
       <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_between_0_and_1" xml:space="preserve">
                 <source>hotspot_area_start_and_end_coordinates_must_be_between_0_and_1</source>
                 <target state="translated">Hotspot area start and end coordinates must be between 0 and 1.</target>
