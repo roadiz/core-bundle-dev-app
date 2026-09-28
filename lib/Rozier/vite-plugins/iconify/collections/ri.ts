@@ -16,4 +16,6 @@ export default [
     'close-line',
     'computer-line',
     'search-line',
+    'smartphone-line',
+    'tablet-line',
 ]

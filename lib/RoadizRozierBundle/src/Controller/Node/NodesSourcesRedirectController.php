@@ -80,7 +80,7 @@ final readonly class NodesSourcesRedirectController
             RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
             array_filter([
                 RouteObjectInterface::ROUTE_OBJECT => $nodesSources,
-                'canonicalScheme' => $this->customPreviewScheme ?? $this->customPublicScheme,
+                'canonicalScheme' => $this->customPreviewScheme ?: $this->customPublicScheme,
                 'token' => $this->jwtExtension->createPreviewJwt(),
                 '_preview' => 1,
                 '_no_cache' => 1,
