@@ -5,14 +5,14 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/rz-admin/ajax/entity-thumbnail?class=RZ\Roadiz\CoreBundle\Entity\User&id=ambroise@roadiz.io
+  url: {{baseUrl}}/rz-admin/ajax/entity-thumbnail?class=RZ\Roadiz\CoreBundle\Entity\User&id={{username}}
   body: none
   auth: inherit
 }
 
 params:query {
   class: RZ\Roadiz\CoreBundle\Entity\User
-  id: ambroise@roadiz.io
+  id: {{username}}
   ~class: RZ\Roadiz\CoreBundle\Entity\Node
   ~id: 1
   ~class: RZ\Roadiz\CoreBundle\Entity\NodesSources

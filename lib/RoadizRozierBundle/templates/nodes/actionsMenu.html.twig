@@ -9,8 +9,22 @@
     loop: loop,
     max_versions_showed: max_versions_showed,
     readOnly: readOnly,
+    live_preview_source: live_preview_source,
 } only %}
     {% block items %}
+    {# Only defined by nodes/editSource.html.twig, on headless installations. #}
+    {% if live_preview_source is defined and live_preview_source %}
+        {{ _self.item(
+            class: 'rz-button--primary rz-live-preview-toggle',
+            icon: 'rz-icon-ri--eye-line',
+            attr: {
+                title: 'live_preview'|trans,
+                'popover-placement': 'left',
+                'aria-controls': "live-preview",
+                'aria-expanded': "false",
+            }
+        ) }}
+    {% endif %}
     {% if node %}
         {% if not readOnly and is_granted('DELETE', node) %}
             {% set canDelete = workflow_can(node, 'delete') %}

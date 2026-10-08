@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\SolrBundle\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostFlushEventArgs;
+use Doctrine\ORM\Events;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -29,14 +32,34 @@ use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
 use RZ\Roadiz\Documents\Events\FilterDocumentEvent;
 use RZ\Roadiz\SolrBundle\Message\SolrDeleteMessage;
 use RZ\Roadiz\SolrBundle\Message\SolrReindexMessage;
+use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Event\WorkerMessageFailedEvent;
+use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Workflow\Event\Event;
+use Symfony\Contracts\Service\ResetInterface;
 
-final readonly class SolariumSubscriber implements EventSubscriberInterface
+#[AsDoctrineListener(event: Events::postFlush)]
+final class SolariumSubscriber implements EventSubscriberInterface, ResetInterface
 {
-    public function __construct(private MessageBusInterface $messageBus)
+    /**
+     * Indexing messages wait here until the unit of work is committed.
+     *
+     * Rozier dispatches its node events *before* `EntityManager::flush()` — see
+     * AbstractAdminController::editAction, where that ordering is deliberate so a
+     * listener can still throw. Sending an indexing message straight away is a race
+     * against the commit: the async worker re-reads the entity by id and can get
+     * there first, indexing the pre-flush state. That is how a freshly published
+     * node-source kept `node_status_i:10` in Solr and disappeared from search.
+     *
+     * @var list<object>
+     */
+    private array $pending = [];
+
+    public function __construct(private readonly MessageBusInterface $messageBus)
     {
     }
 
@@ -61,14 +84,58 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
             DocumentUpdatedEvent::class => 'onSolariumDocumentUpdate',
             DocumentDeletedEvent::class => 'onSolariumDocumentDelete',
             FolderUpdatedEvent::class => 'onSolariumFolderUpdate', // Possibly too greedy if lots of docs tagged
+            /*
+             * Last resort for the callers that dispatch *after* their own flush
+             * (TranslateNodeMessageHandler does): without these the buffer would
+             * wait for a flush that never comes and the source stays unindexed.
+             */
+            KernelEvents::TERMINATE => 'send',
+            ConsoleEvents::TERMINATE => 'send',
+            WorkerMessageHandledEvent::class => 'send',
+            WorkerMessageFailedEvent::class => 'send',
         ];
+    }
+
+    /**
+     * The ORM has committed: the worker now reads what the editor just saved.
+     */
+    public function postFlush(PostFlushEventArgs $event): void
+    {
+        $this->send();
+    }
+
+    public function send(): void
+    {
+        $pending = $this->pending;
+        $this->pending = [];
+
+        foreach ($pending as $message) {
+            $this->messageBus->dispatch(new Envelope($message));
+        }
+    }
+
+    /**
+     * A worker runtime (FrankenPHP, Swoole, RoadRunner) keeps this instance alive
+     * across requests, so the buffer must not outlive the one that filled it.
+     * Anything still here belongs to a request that died before any of the drains
+     * above — its transaction rolled back too, so there is nothing left to index.
+     */
+    #[\Override]
+    public function reset(): void
+    {
+        $this->pending = [];
+    }
+
+    private function defer(object $message): void
+    {
+        $this->pending[] = $message;
     }
 
     public function onSolariumNodeWorkflowComplete(Event $event): void
     {
         $node = $event->getSubject();
         if ($node instanceof Node) {
-            $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Node::class, $node->getId())));
+            $this->defer(new SolrReindexMessage(Node::class, $node->getId()));
         }
     }
 
@@ -79,7 +146,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
      */
     public function onSolariumSingleUpdate(NodesSourcesUpdatedEvent $event): void
     {
-        $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(NodesSources::class, $event->getNodeSource()->getId())));
+        $this->defer(new SolrReindexMessage(NodesSources::class, $event->getNodeSource()->getId()));
     }
 
     /**
@@ -87,7 +154,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
      */
     public function onSolariumSingleDelete(NodesSourcesDeletedEvent $event): void
     {
-        $this->messageBus->dispatch(new Envelope(new SolrDeleteMessage(NodesSources::class, $event->getNodeSource()->getId())));
+        $this->defer(new SolrDeleteMessage(NodesSources::class, $event->getNodeSource()->getId()));
     }
 
     /**
@@ -95,7 +162,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
      */
     public function onSolariumNodeDelete(NodeDeletedEvent $event): void
     {
-        $this->messageBus->dispatch(new Envelope(new SolrDeleteMessage(Node::class, $event->getNode()->getId())));
+        $this->defer(new SolrDeleteMessage(Node::class, $event->getNode()->getId()));
     }
 
     /**
@@ -105,7 +172,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
      */
     public function onSolariumNodeUpdate(FilterNodeEvent $event): void
     {
-        $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Node::class, $event->getNode()->getId())));
+        $this->defer(new SolrReindexMessage(Node::class, $event->getNode()->getId()));
     }
 
     /**
@@ -115,7 +182,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
     {
         $document = $event->getDocument();
         if ($document instanceof Document) {
-            $this->messageBus->dispatch(new Envelope(new SolrDeleteMessage(Document::class, $document->getId())));
+            $this->defer(new SolrDeleteMessage(Document::class, $document->getId()));
         }
     }
 
@@ -128,7 +195,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
     {
         $document = $event->getDocument();
         if ($document instanceof Document) {
-            $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Document::class, $document->getId())));
+            $this->defer(new SolrReindexMessage(Document::class, $document->getId()));
         }
     }
 
@@ -141,7 +208,7 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
      */
     public function onSolariumTagUpdate(TagUpdatedEvent $event): void
     {
-        $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Tag::class, $event->getTag()->getId())));
+        $this->defer(new SolrReindexMessage(Tag::class, $event->getTag()->getId()));
     }
 
     /**
@@ -153,6 +220,6 @@ final readonly class SolariumSubscriber implements EventSubscriberInterface
      */
     public function onSolariumFolderUpdate(FolderUpdatedEvent $event): void
     {
-        $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Folder::class, $event->getFolder()->getId())));
+        $this->defer(new SolrReindexMessage(Folder::class, $event->getFolder()->getId()));
     }
 }

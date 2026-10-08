@@ -10,9 +10,12 @@ export default defineConfig(({ mode }) => {
         base: mode === 'production' ? '/bundles/roadizrozier/' : '/',
         server: {
             cors: true,
+            host: true, // listen on all interfaces, required inside Docker
             // Make sure this port is the same as in Dockerfile and compose.yml
             port: 5173,
             strictPort: true,
+            // URL the browser uses to reach this server (the app runs on another origin)
+            origin: process.env.VITE_DEV_ORIGIN ?? 'http://localhost:5173',
         },
         optimizeDeps: {
             exclude: ['uikit'], // fix a bug on dev mode + CommonJS require() used in UIkit

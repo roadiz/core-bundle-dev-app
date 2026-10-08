@@ -359,7 +359,8 @@ corepack enable pnpm
 pnpm install --config.platform=linux --config.architecture=x64
 EOF
 
-CMD ["pnpm", "dev", "--host", "0.0.0.0"]
+# Run vite directly (not through pnpm) so SIGTERM reaches it and manifest.dev.json is cleaned up
+CMD ["node_modules/.bin/vite"]
 
 
 ####################

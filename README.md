@@ -127,12 +127,14 @@ To launch the frontend development server or build the assets, use **docker comp
 
 ```shell
 docker compose up node
-
-# If you have issues with up command, try:
-docker compose run --no-deps --rm --service-ports node pnpm dev --host 0.0.0.0
 ```
 
-Default command will launch `pnpm dev --host 0.0.0.0` to start a development server on host port 5173 with hot reload.
+Default command starts the Vite development server on host port 5173 with hot reload.
+While it runs, the backoffice on `http://localhost:8681` loads its assets from `http://localhost:5173` and picks up CSS/JS changes live, no build nor cache clear needed. Stopping the server switches back to the built assets.
+
+If your backoffice is not reachable on `localhost`, set the URL the browser must use to reach Vite with `VITE_DEV_ORIGIN` on the `node` service (in `compose.override.yml`).
+
+Note: `./lib/Rozier` is mounted over the container's `/app`, so `lib/Rozier/node_modules` must exist on the host (`make build_assets` installs them).
 
 Do not forget to build final assets for production before shipping a new Roadiz version:
 
@@ -140,9 +142,10 @@ Do not forget to build final assets for production before shipping a new Roadiz 
 docker compose run --rm node pnpm build
 ```
 
-After rebuilding assets, the compiled `manifest.json` (asset filename → content-hash mapping) can still be served stale even after `bin/console cache:clear` alone — restart the `app` container to force a fresh read:
+After rebuilding assets, the compiled `manifest.json` (asset filename → content-hash mapping) is still served stale: `JsonManifestResolver` keeps it in the `cache.app` pool (Redis here) when `APP_DEBUG` is off, which neither `bin/console cache:clear` nor restarting `app` empties. Clear the pools, then restart `app`:
 
 ```shell
+make cache
 docker compose restart app
 ```
 

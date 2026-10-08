@@ -360,6 +360,55 @@ admin_article_bulk_unpublish:
 
 And create Twig templates for bulk actions in `templates/admin/article/`. You can copy and adapt them from https://github.com/roadiz/core-bundle-dev-app/tree/develop/templates/admin/article.
 
+## Give your entry a breadcrumb
+
+Rozier keeps every section root (label + listing route) in one table, `BreadcrumbRoots`, read in Twig
+through `breadcrumb_root()` and `breadcrumb_trail()`. Register your own section by implementing
+`BreadcrumbRootProviderInterface`, autoconfiguration tags it for you:
+
+```php
+// src/Breadcrumbs/ArticleBreadcrumbRoots.php
+namespace App\Breadcrumbs;
+
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRootProviderInterface;
+
+final class ArticleBreadcrumbRoots implements BreadcrumbRootProviderInterface
+{
+    public function getRoots(): array
+    {
+        // section name => [translation key, listing route name]
+        return ['articles' => ['articles', 'appArticlesListPage']];
+    }
+}
+```
+
+Your listing page *is* the root, so it only carries its own name; pages below it ask for the root
+instead of retyping it:
+
+```twig
+{# templates/admin/article/list.html.twig #}
+{% include '@RoadizRozier/admin/head.html.twig' with {
+    title: 'articles'|trans,
+    breadcrumb: { current: 'articles'|trans },
+} only %}
+
+{# templates/admin/article/add.html.twig #}
+{% include '@RoadizRozier/admin/head.html.twig' with {
+    title: 'articles.add'|trans,
+    breadcrumb: {
+        parents: [breadcrumb_root('articles')],
+        current: 'articles.add'|trans,
+    },
+} only %}
+```
+
+The same works from a bundle, which is how you share a section between projects. Several providers
+may coexist; when two declare the same section, the last registered one wins, so a project can also
+relabel or re-route a built-in Rozier section.
+
+Entries below the root are either a `{label, url}` hash, or an entity resolved by a
+`BreadcrumbsItemFactory` — which is what the next section is about.
+
 ## Override breadcrumbs generation for your shadow container (optional)
 
 If you want to allow users to go back to your custom listing page from the edit node-source page, 
@@ -405,7 +454,6 @@ final readonly class ArticlesContainerBreadcrumbsItemFactory implements Breadcru
             $this->urlGenerator->generate(
                 'appArticlesListPage'
             ),
-            $item->getNode()->isHome(),
         );
     }
 

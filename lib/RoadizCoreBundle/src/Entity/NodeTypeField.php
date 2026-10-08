@@ -38,6 +38,12 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $excludeFromSearch = false;
 
+    /**
+     * Exclude current field from machine translation.
+     */
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
+    private bool $excludeFromTranslation = false;
+
     #[Serializer\Ignore]
     private NodeTypeInterface $nodeType;
 
@@ -218,6 +224,23 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     public function setExcludeFromSearch(bool $excludeFromSearch): NodeTypeField
     {
         $this->excludeFromSearch = $excludeFromSearch;
+
+        return $this;
+    }
+
+    public function isExcludedFromTranslation(): bool
+    {
+        return $this->excludeFromTranslation;
+    }
+
+    public function getExcludeFromTranslation(): bool
+    {
+        return $this->excludeFromTranslation;
+    }
+
+    public function setExcludeFromTranslation(bool $excludeFromTranslation): NodeTypeField
+    {
+        $this->excludeFromTranslation = $excludeFromTranslation;
 
         return $this;
     }

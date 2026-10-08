@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
+use RZ\Roadiz\Documents\DownloadedFile;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Youtube tools class.
@@ -20,6 +22,8 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
     protected static string $idPattern = '#^https\:\/\/(?:www\.|studio\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v\=|video\?v\=)?(?<id>[a-zA-Z0-9\_\-]+)#';
     protected static string $realIdPattern = '#^(?<id>[a-zA-Z0-9\_\-]+)$#';
     protected ?string $embedUrl = null;
+    private ?int $thumbnailWidth = null;
+    private ?int $thumbnailHeight = null;
 
     #[\Override]
     public static function getPlatform(): string
@@ -110,16 +114,67 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         return $this->getFeed()['thumbnail_url'] ?? '';
     }
 
+    /**
+     * oEmbed only exposes the low-res hqdefault.jpg cover. YouTube also serves a
+     * 1280×720 maxresdefault.jpg at the same path, but only for videos uploaded
+     * in HD, so it can 404. Returns the maxres candidate, or null when the
+     * thumbnail URL is not a recognizable ytimg default.jpg cover.
+     */
+    protected function getMaxResThumbnailURL(): ?string
+    {
+        $url = $this->getThumbnailURL();
+        $maxRes = preg_replace('#/[a-z]+default\.jpg$#', '/maxresdefault.jpg', $url);
+
+        return (null !== $maxRes && $maxRes !== $url) ? $maxRes : null;
+    }
+
+    /**
+     * Prefer the high-res maxresdefault.jpg cover, falling back to the oEmbed
+     * thumbnail_url when maxres is missing. DownloadedFile::fromUrl() already
+     * returns null on any non-200 response, so a maxres 404 is the fallback signal.
+     */
+    #[\Override]
+    public function downloadThumbnail(): ?File
+    {
+        $maxRes = $this->getMaxResThumbnailURL();
+        if (null !== $maxRes) {
+            $file = DownloadedFile::fromUrl($maxRes, $this->getThumbnailName(basename($maxRes)));
+            if (null !== $file) {
+                return $this->rememberThumbnailSize($file);
+            }
+        }
+
+        $file = parent::downloadThumbnail();
+
+        return null !== $file ? $this->rememberThumbnailSize($file) : null;
+    }
+
+    /**
+     * oEmbed width/height describe the embed player (e.g. 200×113), not the
+     * downloaded cover. Measure the actual thumbnail so the document stores the
+     * real image size — otherwise the maxres cover keeps the tiny oEmbed size.
+     */
+    private function rememberThumbnailSize(File $file): File
+    {
+        $size = @getimagesize($file->getPathname());
+        if (false !== $size) {
+            $this->thumbnailWidth = $size[0];
+            $this->thumbnailHeight = $size[1];
+        }
+
+        return $file;
+    }
+
     #[\Override]
     public function getMediaWidth(): ?int
     {
-        return $this->getFeed()['width'] ?? null;
+        return $this->thumbnailWidth ?? $this->getFeed()['width'] ?? null;
     }
 
     #[\Override]
     public function getMediaHeight(): ?int
     {
-        return $this->getFeed()['height'] ?? null;
+        return $this->thumbnailHeight ?? $this->getFeed()['height'] ?? null;
     }
 
     #[\Override]

@@ -12,7 +12,6 @@
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: "hello.%name%"|trans({'%name%': displayName}),
         breadcrumb: {
-            label: 'breadcrumb',
             current: 'dashboard'|trans,
         },
         with_nav_bar: true,
@@ -106,6 +105,17 @@
                                 </li>
                             {% endfor %}
                         </ul>
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+            {% if translateAssistantEnabled and translateAssistantUsage() %}
+                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                    id: 'dashboard-translate-assistant-usage',
+                    icon: 'rz-icon-ri--translate',
+                    title: 'translate_assistant.usage'|trans,
+                } %}
+                    {% block content %}
+                        {% include '@RoadizRozier/includes/translateAssistantUsage.html.twig' %}
                     {% endblock %}
                 {% endembed %}
             {% endif %}

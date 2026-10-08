@@ -1,6 +1,7 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "undelete.node.%name%"|trans({'%name%': item.getNodeName()}),
-    'headPath': '@RoadizRozier/admin/head.html.twig',
+    'headPath': '@RoadizRozier/nodes/head.html.twig',
+    'breadcrumb_parents': breadcrumb_trail('nodes', item),
     'cancelPath': path('nodesHomeDeletedPage'),
     'action_label': 'undelete'|trans,
     'action_icon': 'rz-icon-ri--device-recover-line',

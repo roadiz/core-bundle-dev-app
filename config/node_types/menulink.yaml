@@ -12,6 +12,7 @@ fields:
     -
         name: link_external_url
         excludeFromSearch: true
+        excludeFromTranslation: true
         label: 'URL externe'
         type: string
     -

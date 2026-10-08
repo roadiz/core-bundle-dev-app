@@ -360,6 +360,16 @@ final class AjaxNodesController extends AbstractAjaxController
     {
         $workflow = $this->workflowRegistry->get($node);
 
+        if (!$workflow->can($node, $transition)) {
+            $blockers = $workflow->buildTransitionBlockerList($node, $transition);
+            $reasons = [];
+            foreach ($blockers as $blocker) {
+                $reasons[] = $blocker->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $reasons));
+        }
+
         $workflow->apply($node, $transition);
         $this->managerRegistry->getManager()->flush();
         $msg = $this->translator->trans('node.%name%.status_changed_to.%status%', [

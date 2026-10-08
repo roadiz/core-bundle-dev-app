@@ -49,6 +49,17 @@ Example:
 } only %}
 ```
 
+## ⚠ PHP breaking changes
+
+- `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem` now takes only `$label` and `$url`. The unused
+  `bool $enabled` property and the `bool $home` flag are both gone — the trail no longer draws icons.
+  Custom `BreadcrumbsItemFactoryInterface` implementations must drop those arguments.
+
+```diff
+-new BreadcrumbsItem($label, $url, $node->isHome())
++new BreadcrumbsItem($label, $url)
+```
+
 ## ⚠ Rozier menu icons changed
 
 All backoffice menu icon classes now use the new UI icon set.
@@ -200,6 +211,17 @@ These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc an
 New reusable templates for building back-office pages:
 - `admin/head.html.twig` - Page header with title, breadcrumb, buttons
 - `admin/confirm_action.html.twig` - Generic confirmation page
+- `macros/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
+  `{ parents, current }`, rendered automatically by `admin/head.html.twig` as soon as that
+  variable is in context. Ancestors are either `{label, url}` hashes or entities resolved by a
+  `BreadcrumbsItemFactory`; past three of them the middle ones fold into a popover.
+- `breadcrumb_root('<section>')` Twig function, backed by the `BreadcrumbRoots` service - the single
+  table of back-office section roots. A page never declares the root of its own section: the section
+  head does, and detects on its own whether the page *is* that root. Use the function only outside a
+  section head. Its companion `breadcrumb_trail('<section>', item)` returns the whole path down to a
+  tree entity — root, ancestors, then the item — which confirmation pages show above their own title.
+  It covers the sections Rozier ships; a project's own section writes its root inline. See
+  `docs/developer/contributing/contributing.md` and `docs/extensions/custom_backoffice_entry.md`.
 - `widgets/rz_filters_bar.html.twig` - Filter bar widget
 - `widgets/rz_bulk_actions.html.twig` - Bulk actions widget
 - New macros: `rz_button`, `rz_badge`, `rz_actions_menu`, `rz_card`

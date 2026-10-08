@@ -6,54 +6,34 @@ namespace RZ\Roadiz\SolrBundle;
 
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\SolrBundle\Event\AbstractSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Event\DocumentSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Solarium\SolariumDocumentTranslation;
+use Solarium\QueryType\Select\Query\Query;
 
 class DocumentSearchHandler extends AbstractSearchHandler
 {
     #[\Override]
-    protected function nativeSearch(
-        string $q,
-        array $args = [],
-        int $rows = 20,
-        bool $searchTags = false,
-        int $page = 1,
-    ): ?array {
-        if (empty($q)) {
-            return null;
-        }
-        $query = $this->createSolrQuery($args, $rows, $page);
-        $queryTxt = $this->buildQuery($q, $args, $searchTags);
-        $query->setQuery($queryTxt);
-
+    protected function getResultFields(): array
+    {
         /*
          * Only need these fields as Doctrine
          * will do the rest.
          */
-        $query->setFields([
+        return [
             'id',
             'sort',
             'document_type_s',
             SolariumDocumentTranslation::IDENTIFIER_KEY,
             'filename_s',
             'locale_s',
-        ]);
+        ];
+    }
 
-        $this->searchEngineLogger->debug('[Solr] Request document search…', [
-            'query' => $queryTxt,
-            'fq' => $args['fq'] ?? [],
-            'params' => $query->getParams(),
-        ]);
-
-        /** @var DocumentSearchQueryEvent $event */
-        $event = $this->eventDispatcher->dispatch(
-            new DocumentSearchQueryEvent($query, $args)
-        );
-        $query = $event->getQuery();
-
-        $solrRequest = $this->getSolr()->execute($query);
-
-        return $solrRequest->getData();
+    #[\Override]
+    protected function createSearchQueryEvent(Query $query, array $args): AbstractSearchQueryEvent
+    {
+        return new DocumentSearchQueryEvent($query, $args);
     }
 
     #[\Override]

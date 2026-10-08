@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,7 @@ final class NodeDuplicateController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -58,6 +60,7 @@ final class NodeDuplicateController extends AbstractController
                 'title' => new UnicodeString($this->translator->trans('duplicate.node')),
                 'headPath' => '@RoadizRozier/nodes/head.html.twig',
                 'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $existingNode->getId()]),
+                'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $existingNode),
                 'alertMessage' => 'are_you_sure.duplicate.node',
                 'messageType' => 'warning',
                 'action_color' => 'success',

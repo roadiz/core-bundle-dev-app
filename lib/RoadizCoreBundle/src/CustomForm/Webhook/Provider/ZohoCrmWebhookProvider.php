@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\CustomForm\Webhook\Provider;
 
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\CustomForm\Webhook\AbstractCustomFormWebhookProvider;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
@@ -25,6 +26,7 @@ final readonly class ZohoCrmWebhookProvider extends AbstractCustomFormWebhookPro
     public function __construct(
         HttpClientInterface $httpClient,
         LoggerInterface $logger,
+        private CacheItemPoolInterface $cacheItemPool,
         private ?string $accountUrl = 'https://accounts.zoho.eu',
         private ?string $soId = null,
         private ?string $clientId = null,
@@ -96,36 +98,52 @@ final readonly class ZohoCrmWebhookProvider extends AbstractCustomFormWebhookPro
         ];
 
         try {
-            $oauth2Response = $this->httpClient->request('POST', $this->accountUrl.'/oauth/v2/token', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                ],
-                'query' => [
-                    'soid' => $this->soId,
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                    'grant_type' => 'client_credentials',
-                    'scope' => 'ZohoCRM.modules.'.$module.'.CREATE',
-                ],
-            ]);
+            $cacheItem = $this->cacheItemPool->getItem('zoho_oauth2_'.$module);
 
-            $oauth2StatusCode = $oauth2Response->getStatusCode();
-            if ($oauth2StatusCode >= 300) {
-                $this->logError($answer, sprintf('Cannot authenticate to Zoho CRM %s module.', $module));
+            if (!$cacheItem->isHit()) {
+                $oauth2Response = $this->httpClient->request('POST', $this->accountUrl.'/oauth/v2/token', [
+                    'headers' => [
+                        'Accept' => 'application/json',
+                    ],
+                    'query' => [
+                        'soid' => $this->soId,
+                        'client_id' => $this->clientId,
+                        'client_secret' => $this->clientSecret,
+                        'grant_type' => 'client_credentials',
+                        'scope' => 'ZohoCRM.modules.'.$module.'.CREATE',
+                    ],
+                ]);
 
-                return false;
+                $oauth2StatusCode = $oauth2Response->getStatusCode();
+                if ($oauth2StatusCode >= 300) {
+                    $this->logError($answer, sprintf('Cannot authenticate to Zoho CRM %s module.', $module));
+
+                    return false;
+                }
+                /**
+                 * {
+                 * "access_token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                 * "scope": "ZohoCRM.modules.leads.CREATE",
+                 * "api_domain": "https://www.zohoapis.eu",
+                 * "token_type": "Bearer",
+                 * "expires_in": 3600
+                 * }.
+                 */
+                $oauth2Data = \json_decode($oauth2Response->getContent(), true, flags: JSON_THROW_ON_ERROR);
+                // Zoho may answer 200 with {"error": "..."}: never cache that
+                if (!is_array($oauth2Data) || empty($oauth2Data['access_token']) || empty($oauth2Data['api_domain'])) {
+                    $this->logError($answer, sprintf('Zoho CRM returned an invalid token response for %s module.', $module));
+
+                    return false;
+                }
+
+                $cacheItem->set($oauth2Data);
+                // expires after 30min (zoho default expiration is 1 hour)
+                $cacheItem->expiresAfter(1800);
+                $this->cacheItemPool->save($cacheItem);
             }
-            /**
-             * {
-             * "access_token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-             * "scope": "ZohoCRM.modules.leads.CREATE",
-             * "api_domain": "https://www.zohoapis.eu",
-             * "token_type": "Bearer",
-             * "expires_in": 3600
-             * }.
-             */
-            $oauth2Data = \json_decode($oauth2Response->getContent(), true, flags: JSON_THROW_ON_ERROR);
 
+            $oauth2Data = $cacheItem->get();
             // Use Zoho CRM v8 API to create records
             $response = $this->httpClient->request('POST', sprintf('%s/crm/v8/%s', $oauth2Data['api_domain'], $module), [
                 'headers' => [
@@ -136,8 +154,22 @@ final readonly class ZohoCrmWebhookProvider extends AbstractCustomFormWebhookPro
             ]);
 
             $statusCode = $response->getStatusCode();
+            if (401 === $statusCode) {
+                // Token revoked or expired early: drop it so the next attempt re-authenticates
+                $this->cacheItemPool->deleteItem('zoho_oauth2_'.$module);
+            }
+            $content = \json_decode($response->getContent(false), true);
             if ($statusCode >= 200 && $statusCode < 300) {
                 $this->logSuccess($answer, sprintf('Record sent to Zoho CRM %s module successfully', $module));
+
+                return true;
+            } elseif (400 === $statusCode && 'DUPLICATE_DATA' === ($content['data'][0]['code'] ?? null)) {
+                // Not retryable: the contact already exists in Zoho CRM
+                $this->logger->warning(sprintf('Record already exists in Zoho CRM %s module', $module), [
+                    'provider' => $this->getName(),
+                    'message' => $content['data'][0]['message'] ?? null,
+                    'entity' => $answer,
+                ]);
 
                 return true;
             }
