@@ -78,7 +78,7 @@ lib/
   RoadizUserBundle/   # User management
   RoadizTwoFactorBundle/
   RoadizSolrBundle/
-  Rozier/             # Frontend source (Vue 3 + Vite, pnpm)
+  Rozier/             # Frontend source (Vue 2.7 + Vite, pnpm)
   Models/             # Shared domain models
   Documents/          # Document/media handling
   Jwt/                # JWT utilities
