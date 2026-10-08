@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
     name: 'solr:init',
-    description: 'Initialize a Solr collection with project schema fields. <info>Only with Solr Cloud</info>',
+    description: 'Initialize a Solr collection with project schema fields. Works with Solr Cloud and standalone',
 )]
 final class SolrInitCommand extends Command
 {
@@ -73,6 +73,52 @@ final class SolrInitCommand extends Command
         ));
         $protocol = $this->solrSecure ? 'https' : 'http';
         $baseUrl = $protocol.'://'.$this->solrHostname.':'.$this->solrPort;
+        $isSolrCloud = $this->isSolrCloud($baseUrl);
+        if ($isSolrCloud) {
+            $this->createCollection($io, $baseUrl, $numShards, $replicationFactor);
+        } else {
+            $io->note('Solr is running in standalone mode, skipping collection creation (core must already exist)');
+        }
+
+        $io->title('Solr Collection Field types Initialization');
+        $this->eventDispatcher->dispatch(new SolrInitializationEvent(
+            $baseUrl,
+            $this->solrCollectionName,
+            $io
+        ));
+
+        /*
+         * Reload once every schema change is done: managed resources (stemmer overrides) are only
+         * initialized by a full reload, and in SolrCloud each schema update triggers a partial one.
+         */
+        $reloadResponse = $isSolrCloud
+            ? $this->client->request('GET', $baseUrl.'/solr/admin/collections', [
+                'query' => ['action' => 'RELOAD', 'name' => $this->solrCollectionName],
+            ])
+            : $this->client->request('GET', $baseUrl.'/solr/admin/cores', [
+                'query' => ['action' => 'RELOAD', 'core' => $this->solrCollectionName],
+            ]);
+        if (200 !== $reloadResponse->getStatusCode()) {
+            $io->warning('Failed to reload '.$this->solrCollectionName.': '.$reloadResponse->getContent(false));
+        }
+
+        $io->success('Solr collection '.$this->solrCollectionName.' has been initialized');
+
+        return Command::SUCCESS;
+    }
+
+    private function isSolrCloud(string $baseUrl): bool
+    {
+        $response = $this->client->request('GET', $baseUrl.'/solr/admin/info/system', [
+            'query' => ['wt' => 'json'],
+        ]);
+        $responseJson = \json_decode($response->getContent(false), true);
+
+        return !\is_array($responseJson) || 'std' !== ($responseJson['mode'] ?? null);
+    }
+
+    private function createCollection(SymfonyStyle $io, string $baseUrl, int $numShards, int $replicationFactor): void
+    {
         $response = $this->client->request('POST', $baseUrl.'/solr/admin/collections', [
             'query' => [
                 'action' => 'CREATE',
@@ -93,16 +139,5 @@ final class SolrInitCommand extends Command
                 $io->warning('Collection '.$this->solrCollectionName.' already exists, skipping creation');
             }
         }
-
-        $io->title('Solr Collection Field types Initialization');
-        $this->eventDispatcher->dispatch(new SolrInitializationEvent(
-            $baseUrl,
-            $this->solrCollectionName,
-            $io
-        ));
-
-        $io->success('Solr collection '.$this->solrCollectionName.' has been initialized');
-
-        return Command::SUCCESS;
     }
 }

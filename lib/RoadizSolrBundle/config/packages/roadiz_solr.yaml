@@ -2,3 +2,11 @@ roadiz_solr:
     search:
         fuzzy_proximity: 2
         fuzzy_min_term_length: 3
+    schema:
+        # Stemmer applied to text_fr by solr:init: light | minimal | none
+        french_stemmer: minimal
+        ascii_folding: true
+        # Words fixed before stemming (lowercase, without accents), e.g. frenchMinimalStem turns "chateaux" into "chateal"
+        french_stemmer_overrides: []
+#            chateaux: chateau
+#            bateaux: bateau

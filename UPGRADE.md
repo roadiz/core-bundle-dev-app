@@ -93,6 +93,7 @@ roadiz_core:
 - Embed/podcast feed fetches (`AbstractEmbedFinder`, `AbstractPodcastFinder`) are now capped at a 5MB response size and a timeout, to prevent a memory/DoS issue on very large or slow feeds.
 - Outbound webhooks now go through the same private-network-blocking HTTP client already used by media finders (SSRF hardening).
 - `CustomForm.color` values are now validated with an anchored hex-color regex and escaped in the backoffice list template.
+- `solr:init` now supports standalone Solr cores (e.g. `solr-precreate`), not only SolrCloud. Before, it reported success on a standalone core but applied nothing: the core kept Solr's default `frenchLightStem` schema. French stemming is now configurable with `roadiz_solr.schema` (`french_stemmer`, `ascii_folding`, `french_stemmer_overrides`), defaulting to `frenchMinimalStem`. **Run `bin/console solr:init` then `bin/console solr:reindex` once on every environment using Solr.** See [Initializing the Solr schema](https://docs.roadiz.io/developer/optional-bundles/solr-bundle.html#initializing-the-solr-schema).
 
 # Upgrade to 2.6
 

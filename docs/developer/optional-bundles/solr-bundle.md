@@ -76,6 +76,14 @@ roadiz_solr:
     search:
         fuzzy_proximity: 2
         fuzzy_min_term_length: 3
+    schema:
+        # Stemmer applied to text_fr by solr:init: light | minimal | none
+        french_stemmer: minimal
+        ascii_folding: true
+        # Words fixed before stemming (lowercase, without accents)
+        french_stemmer_overrides:
+            chateaux: chateau
+            bateaux: bateau
 ```
 
 ::: tip
@@ -86,6 +94,51 @@ You can use Solr in 2 ways:
 
 Fuzzy search options are configured in `roadiz_solr.search`.
 For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
+
+### Schema options
+
+Schema options in `roadiz_solr.schema` are applied by `bin/console solr:init` (see [Initializing the Solr schema](#initializing-the-solr-schema)):
+- `french_stemmer`: `minimal` (default) is less aggressive than Solr's default `light` stemmer (`valerie` → `valeri` instead of `val`). Use `none` to disable French stemming.
+- `ascii_folding`: adds an `asciiFolding` filter (keeping the original token) to `text_de`, `text_en`, `text_fr`, `text_it` and `text_es`, so `chateau` matches `château`.
+- `french_stemmer_overrides`: fixes words the stemmer gets wrong. `frenchMinimalStem` turns every `-aux` into `-al` (`chateaux` → `chateal`), so `chateaux: chateau` makes plural and singular match. Write words lowercase and without accents, they are applied after `asciiFolding`. Overrides are stored as a Solr managed synonyms resource (`french_stemmer_overrides`), one word to one word only. Words removed from the configuration are removed from Solr on the next `solr:init`.
+
+### Initializing the Solr schema
+
+`solr:init` prepares the Solr schema for Roadiz. It works with a **standalone core** (e.g. `solr-precreate` in Docker) and with a **SolrCloud collection**: the Solr mode is detected automatically.
+
+```shell
+bin/console solr:init
+bin/console solr:reindex
+```
+
+It:
+1. creates the collection (SolrCloud only, a standalone core must already exist);
+2. adds `asciiFolding`, configures the French stemmer and its overrides, adds the `rdate` field type and the `*_dtr` dynamic field;
+3. reloads the core or collection, so the stemmer overrides are applied.
+
+`solr:init` is never run automatically, by Roadiz or at deploy time. It is safe to run several times: what already exists is skipped.
+
+::: warning Run `solr:init` then `solr:reindex`…
+- on the **first deployment** of each environment (dev, staging, production);
+- after **changing `roadiz_solr.schema`** (stemmer, ASCII folding or overrides);
+- after the **Solr data volume is recreated** (`solr-precreate` creates a new core from Solr's `_default` configset);
+- after a **Roadiz or project update** that changes what `solr:init` applies (see the upgrade notes).
+
+`solr:reindex` is required each time: already indexed documents keep the previous analysis until they are reindexed.
+:::
+
+::: tip
+Without `solr:init`, a standalone core created by `solr-precreate` still works, but with Solr's default schema (`frenchLightStem`, no ASCII folding, no `*_dtr` date ranges). Search results are then less relevant, and nothing reports it.
+:::
+
+To check what an environment currently uses, query the Solr schema API (replace `roadiz` with your core or collection name):
+
+```shell
+# French stemmer in use
+docker compose exec app curl -s http://solr:8983/solr/roadiz/schema/fieldtypes/text_fr | grep -io '"name":"[a-z]*stem"'
+# Stemmer overrides in place
+docker compose exec app curl -s http://solr:8983/solr/roadiz/schema/analysis/synonyms/french_stemmer_overrides
+```
 
 ### Query parser
 
