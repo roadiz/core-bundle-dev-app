@@ -7,8 +7,8 @@
 {% block content %}
 {# default(), not ??: the globals are '' (not null) when the env vars are empty #}
 {% set front_origin = custom_preview_scheme|default(custom_public_scheme) %}
-{# null on classic Roadiz, when disabled, and for node-sources with no reachable ancestor (menus, footers…) #}
-{% set live_preview_source = (live_preview.enabled and front_origin) ? source.firstReachableParent : null %}
+{# null on classic Roadiz, when disabled, without ROLE_ACCESS_LIVE_PREVIEW, and for node-sources with no reachable ancestor (menus, footers…) #}
+{% set live_preview_source = (live_preview.enabled and front_origin and is_granted('ROLE_ACCESS_LIVE_PREVIEW')) ? source.firstReachableParent : null %}
 <section class="content-global">
     <header class="content-header header-node header-node-edit-source">
         {% include '@RoadizRozier/nodes/breadcrumb.html.twig' with {

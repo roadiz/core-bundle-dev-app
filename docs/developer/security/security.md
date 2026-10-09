@@ -98,6 +98,8 @@ These roles are defined in the `config/packages/security.yaml` file.
 | `ROLE_ACCESS_LOGS`                     | Grants logs access on dashboard and on nodes history                 |
 | `ROLE_ACCESS_REALMS`                   | Grants realms management (creation, update, deletion)                |
 | `ROLE_ACCESS_REALM_NODES`              | Grants attaching nodes to existing realms                            |
+| `ROLE_ACCESS_PREVIEW`                  | Grants preview mode (inherited by `ROLE_BACKEND_USER`)               |
+| `ROLE_ACCESS_LIVE_PREVIEW`             | Grants live preview next to the node-source form (feature flag)      |
 | `ROLE_ALLOWED_TO_SWITCH`               | Grants right to impersonate another user (Symfony default)           |
 
 ## Users and groups

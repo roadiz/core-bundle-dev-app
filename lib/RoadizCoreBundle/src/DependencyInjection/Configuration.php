@@ -61,7 +61,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->scalarNode('previewRequiredRoleName')
                 ->info('Role name required to access preview mode.')
-                ->defaultValue('ROLE_BACKEND_USER')
+                ->defaultValue('ROLE_ACCESS_PREVIEW')
             ->end()
             ->scalarNode('defaultNodeSourceController')
                 ->defaultValue(DefaultNodeSourceController::class)
