@@ -32,6 +32,9 @@ roadiz_rozier:
         viewport_widths: [375, 768, 1440]
 ```
 
+`enabled` is the global switch. Users also need the `ROLE_ACCESS_LIVE_PREVIEW` role (granted to
+`ROLE_SUPERADMIN` by default): add it to a group to roll the feature out to some editors only.
+
 ## Prerequisites on the front
 
 **Content-Security-Policy.** The back-office frames another origin, so its responses must allow it:
