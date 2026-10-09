@@ -2,6 +2,26 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.46...v2.7.47) - 2026-10-09
+
+### Bug Fixes
+
+- update deps - ([283a045](https://github.com/roadiz/core-bundle-dev-app/commit/283a045f7e2f91d4361e6019d63f8c574a8fdfd0))
+
+### Documentation
+
+- **(custom_forms)** update allowed mime types for document fields ([#474](https://github.com/roadiz/core-bundle-dev-app/issues/474)) - ([dc066b9](https://github.com/roadiz/core-bundle-dev-app/commit/dc066b9bdd9f49cfe05ecacc2c2bfb2aaeeadbac))
+
+### Features
+
+- **(api)** add new ROLE_ACCESS_LIVE_PREVIEW and split ROLE_ACCESS_PREVIEW to ROLE_BACKEND_USER - ([0ecc8c2](https://github.com/roadiz/core-bundle-dev-app/commit/0ecc8c2b4ebdc50a2a0c9b100724595af70b9243))
+
+## [2.7.46](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.45...v2.7.46) - 2026-09-29
+
+### Features
+
+- **(zoho)** improve webhookProvider with cache and for duplicate data - ([90611d7](https://github.com/roadiz/core-bundle-dev-app/commit/90611d74229235d496956e83a8bb1b3bf1d52dc1))
+
 ## [2.7.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.44...v2.7.45) - 2026-09-28
 
 ### Bug Fixes
