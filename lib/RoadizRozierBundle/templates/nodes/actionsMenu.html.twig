@@ -82,7 +82,7 @@
                                     <span class="label">{% trans %}see.page{% endtrans %}</span>
                                 </a>
                             {% endif %}
-                            {% if node.published or node.draft or node.pending %}
+                            {% if (node.published or node.draft or node.pending) and is_granted(preview_required_role) %}
                                 <a class="uk-button preview-url-link"
                                    target="_blank"
                                    href="{{ path('nodesSourcesPreviewRedirect', {
