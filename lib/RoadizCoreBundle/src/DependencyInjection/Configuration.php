@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
                 ->defaultValue('{"lat":45.766136, "lng":4.837326, "zoom":14}')
             ->end()
             ->scalarNode('previewRequiredRoleName')
-                ->info('Role name required to access preview mode. Default value will change to ROLE_ACCESS_PREVIEW in Roadiz v2.8, set it explicitly to ROLE_ACCESS_PREVIEW to anticipate this change.')
+                ->info('Role name required to access preview mode. Using ROLE_BACKEND_USER is deprecated, default value will change to ROLE_ACCESS_PREVIEW in Roadiz v2.8.')
                 ->defaultValue('ROLE_BACKEND_USER')
             ->end()
             ->scalarNode('defaultNodeSourceController')
