@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.5...v2.7.49) - 2026-10-14
+
+### Bug Fixes
+
+- **(preview)** restore ROLE_BACKEND_USER default role - ([e3728f4](https://github.com/roadiz/core-bundle-dev-app/commit/e3728f402dc057c488f86511c84187f1fe7e6060))
+- improve deprecated error and info message - ([3def138](https://github.com/roadiz/core-bundle-dev-app/commit/3def1382964446b74ffa72ad6d0125c7f837227a))
+
 ## [2.7.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.46...v2.7.47) - 2026-10-09
 
 ### Bug Fixes
