@@ -71,9 +71,15 @@ Fuzzy search options are configured in `roadiz_solr.search`.
 For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
 
 ::: info
-When using _SolrCloud mode_ you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and 
-`SOLR_COLLECTION_REPLICATION_FACTOR` variables to configure your collection and execute
-`solr:init` command to create the collection.
+When using _SolrCloud mode_ you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and
+`SOLR_COLLECTION_REPLICATION_FACTOR` variables to configure your collection.
+:::
+
+::: warning
+In both modes, run `bin/console solr:init` then `bin/console solr:reindex` on each environment's first deployment.
+`solr:init` creates the SolrCloud collection and configures the Solr schema (French stemmer, ASCII folding, date ranges).
+It is not run automatically: see [Initializing the Solr schema](../optional-bundles/solr-bundle.md#initializing-the-solr-schema)
+for when to run it again.
 :::
 
 ### Register an API operation for search

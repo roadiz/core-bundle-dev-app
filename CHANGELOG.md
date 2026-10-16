@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.50) - 2026-10-16
+
+### Bug Fixes
+
+- **(security)** never output unsanitized SVG ([#503](https://github.com/roadiz/core-bundle-dev-app/issues/503)) - ([26a2a45](https://github.com/roadiz/core-bundle-dev-app/commit/26a2a4597fcc1a090c7a640b76179c1c6adcf3d0))
+- **(solr)** support standalone cores in solr:init ([#498](https://github.com/roadiz/core-bundle-dev-app/issues/498)) - ([5789caf](https://github.com/roadiz/core-bundle-dev-app/commit/5789caf0ff98ec13cfbae1a87206d613a2ecefa4))
+
 ## [2.7.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.5...v2.7.49) - 2026-10-14
 
 ### Bug Fixes

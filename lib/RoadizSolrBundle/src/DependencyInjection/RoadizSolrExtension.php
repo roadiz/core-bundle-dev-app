@@ -28,6 +28,9 @@ class RoadizSolrExtension extends Extension
         $fuzzySearchConfig = $this->resolveFuzzySearchConfig($configs, $config, $container);
         $container->setParameter('roadiz_solr.search.fuzzy_proximity', $fuzzySearchConfig['fuzzy_proximity']);
         $container->setParameter('roadiz_solr.search.fuzzy_min_term_length', $fuzzySearchConfig['fuzzy_min_term_length']);
+        $container->setParameter('roadiz_solr.schema.french_stemmer', $config['schema']['french_stemmer']);
+        $container->setParameter('roadiz_solr.schema.ascii_folding', $config['schema']['ascii_folding']);
+        $container->setParameter('roadiz_solr.schema.french_stemmer_overrides', $config['schema']['french_stemmer_overrides']);
     }
 
     /**
