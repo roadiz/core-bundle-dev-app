@@ -41,7 +41,12 @@ final class ApiTokenTwoFactorTest extends ApiTestCase
         $user = $this->createUser($em);
         $secret = TOTP::create()->getSecret();
         $this->enableTwoFactor($em, $user, $secret);
-        $code = TOTP::create($secret)->now();
+        $totp = TOTP::create($secret);
+        // TOTP leeway is 0: avoid a code expiring before the request is handled
+        if ($totp->expiresIn() < 5) {
+            sleep($totp->expiresIn() + 1);
+        }
+        $code = $totp->now();
 
         $response = self::createClient()->request('POST', self::ENDPOINT, [
             'json' => ['username' => $user->getUsername(), 'password' => self::PASSWORD, '_auth_code' => $code],
