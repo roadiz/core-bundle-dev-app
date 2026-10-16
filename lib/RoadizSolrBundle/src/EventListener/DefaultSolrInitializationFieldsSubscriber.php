@@ -107,11 +107,11 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
             $fieldType['analyzer']['filters'],
             fn (mixed $filter) => !$this->isFilter($filter, 'frenchLightStem')
                 && !$this->isFilter($filter, 'frenchMinimalStem')
-                && !$this->isFilter($filter, 'managedSynonymGraph')
+                && !$this->isFrenchOverridesFilter($filter)
         ));
         if ([] !== $this->frenchStemmerOverrides) {
-            // ponytail: managed synonyms stand in for StemmerOverrideFilter, which needs a configset file
-            // that the Schema API cannot upload. Fine for 1:1 single-word mappings only.
+            // Managed synonyms stand in for StemmerOverrideFilter, which needs a configset file
+            // the Schema API cannot upload: 1:1 single-word mappings only.
             $filters[] = ['name' => 'managedSynonymGraph', 'managed' => self::FRENCH_OVERRIDES_RESOURCE];
         }
         $stemmer = $this->frenchStemmer->getFilterName();
@@ -135,7 +135,10 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
             ? \array_keys($current['synonymMappings']['managedMap'])
             : [];
         foreach (\array_diff($currentWords, \array_keys($this->frenchStemmerOverrides)) as $staleWord) {
-            $this->client->request('DELETE', $resourceUrl.'/'.\rawurlencode((string) $staleWord))->getStatusCode();
+            $deleteResponse = $this->client->request('DELETE', $resourceUrl.'/'.\rawurlencode((string) $staleWord));
+            if (200 !== $deleteResponse->getStatusCode()) {
+                $event->io->warning('Failed to remove stemmer override "'.$staleWord.'": '.$deleteResponse->getContent(false));
+            }
         }
         $response = $this->client->request('PUT', $resourceUrl, [
             'json' => \array_map(fn (string $replacement) => [$replacement], $this->frenchStemmerOverrides),
@@ -144,5 +147,14 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
             $event->io->warning('Failed to upload stemmer overrides: '.$response->getContent(false));
         }
         // Applied by the core/collection reload done by solr:init once every subscriber ran.
+    }
+
+    /**
+     * Only our own managed resource: other managedSynonymGraph filters belong to the project.
+     */
+    private function isFrenchOverridesFilter(mixed $filter): bool
+    {
+        return $this->isFilter($filter, 'managedSynonymGraph')
+            && self::FRENCH_OVERRIDES_RESOURCE === ($filter['managed'] ?? null);
     }
 }

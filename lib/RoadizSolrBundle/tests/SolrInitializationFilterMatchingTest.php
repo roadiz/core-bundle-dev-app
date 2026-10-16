@@ -11,7 +11,10 @@ use Symfony\Component\HttpClient\MockHttpClient;
 
 final class SolrInitializationFilterMatchingTest extends TestCase
 {
-    public function testMatchesSchemaApiAndManagedSchemaXmlDeclarations(): void
+    /**
+     * @dataProvider filterProvider
+     */
+    public function testMatchesSchemaApiAndManagedSchemaXmlDeclarations(mixed $filter, string $filterName, bool $expected): void
     {
         $subscriber = new readonly class(new MockHttpClient()) extends AbstractSolrInitializationSubscriber {
             #[\Override]
@@ -25,16 +28,20 @@ final class SolrInitializationFilterMatchingTest extends TestCase
             }
         };
 
-        // Schema API style
-        $this->assertTrue($subscriber->matches(['name' => 'frenchMinimalStem'], 'frenchMinimalStem'));
-        // managed-schema.xml style (e.g. custom Solr images)
-        $this->assertTrue($subscriber->matches(['class' => 'solr.FrenchMinimalStemFilterFactory'], 'frenchMinimalStem'));
-        $this->assertTrue($subscriber->matches(['class' => 'solr.ASCIIFoldingFilterFactory', 'preserveOriginal' => 'true'], 'asciiFolding'));
-        $this->assertTrue($subscriber->matches(['class' => 'solr.ManagedSynonymGraphFilterFactory'], 'managedSynonymGraph'));
+        $this->assertSame($expected, $subscriber->matches($filter, $filterName));
+    }
 
-        $this->assertFalse($subscriber->matches(['class' => 'solr.FrenchLightStemFilterFactory'], 'frenchMinimalStem'));
-        $this->assertFalse($subscriber->matches(['name' => 'lowercase'], 'asciiFolding'));
-        $this->assertFalse($subscriber->matches('asciiFolding', 'asciiFolding'));
-        $this->assertFalse($subscriber->matches([], 'asciiFolding'));
+    public static function filterProvider(): array
+    {
+        return [
+            'schema api name' => [['name' => 'frenchMinimalStem'], 'frenchMinimalStem', true],
+            'managed-schema.xml class' => [['class' => 'solr.FrenchMinimalStemFilterFactory'], 'frenchMinimalStem', true],
+            'class with options' => [['class' => 'solr.ASCIIFoldingFilterFactory', 'preserveOriginal' => 'true'], 'asciiFolding', true],
+            'managed synonyms class' => [['class' => 'solr.ManagedSynonymGraphFilterFactory'], 'managedSynonymGraph', true],
+            'other stemmer class' => [['class' => 'solr.FrenchLightStemFilterFactory'], 'frenchMinimalStem', false],
+            'other filter name' => [['name' => 'lowercase'], 'asciiFolding', false],
+            'not an array' => ['asciiFolding', 'asciiFolding', false],
+            'empty filter' => [[], 'asciiFolding', false],
+        ];
     }
 }

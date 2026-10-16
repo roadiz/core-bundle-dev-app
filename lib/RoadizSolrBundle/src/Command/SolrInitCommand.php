@@ -98,8 +98,11 @@ final class SolrInitCommand extends Command
             : $this->client->request('GET', $baseUrl.'/solr/admin/cores', [
                 'query' => ['action' => 'RELOAD', 'core' => $this->solrCollectionName],
             ]);
+        // Also fails when the core or collection does not exist: never report success then.
         if (200 !== $reloadResponse->getStatusCode()) {
-            $io->warning('Failed to reload '.$this->solrCollectionName.': '.$reloadResponse->getContent(false));
+            $io->error('Failed to reload '.$this->solrCollectionName.': '.$reloadResponse->getContent(false));
+
+            return Command::FAILURE;
         }
 
         $io->success('Solr collection '.$this->solrCollectionName.' has been initialized');
