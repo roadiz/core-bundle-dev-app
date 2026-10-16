@@ -99,7 +99,7 @@ For backward compatibility, `roadiz_core.solr.search` is still read as a fallbac
 
 Schema options in `roadiz_solr.schema` are applied by `bin/console solr:init` (see [Initializing the Solr schema](#initializing-the-solr-schema)):
 - `french_stemmer`: `minimal` (default) is less aggressive than Solr's default `light` stemmer (`valerie` → `valeri` instead of `val`). Use `none` to disable French stemming.
-- `ascii_folding`: adds an `asciiFolding` filter (keeping the original token) to `text_de`, `text_en`, `text_fr`, `text_it` and `text_es`, so `chateau` matches `château`.
+- `ascii_folding`: adds an `asciiFolding` filter (keeping the original token) to `text_de`, `text_en`, `text_fr`, `text_it` and `text_es`, so `chateau` matches `château`. Set it to `false` to remove `asciiFolding` filters from these field types.
 - `french_stemmer_overrides`: fixes words the stemmer gets wrong. `frenchMinimalStem` turns every `-aux` into `-al` (`chateaux` → `chateal`), so `chateaux: chateau` makes plural and singular match. Write words lowercase and without accents, they are applied after `asciiFolding`. Overrides are stored as a Solr managed synonyms resource (`french_stemmer_overrides`), one word to one word only. Words removed from the configuration are removed from Solr on the next `solr:init`.
 
 ### Initializing the Solr schema
@@ -116,7 +116,7 @@ It:
 2. adds `asciiFolding`, configures the French stemmer and its overrides, adds the `rdate` field type and the `*_dtr` dynamic field;
 3. reloads the core or collection, so the stemmer overrides are applied.
 
-`solr:init` is never run automatically, by Roadiz or at deploy time. It is safe to run several times: what already exists is skipped.
+`solr:init` is never run automatically, by Roadiz or at deploy time. It is safe to run several times: what already exists is skipped. It exits with a failure code when a schema update fails or the core or collection cannot be reloaded.
 
 ::: warning Run `solr:init` then `solr:reindex`…
 - on the **first deployment** of each environment (dev, staging, production);

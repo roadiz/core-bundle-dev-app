@@ -98,6 +98,80 @@ final class DefaultSolrInitializationFieldsSubscriberTest extends TestCase
         $this->assertSame(['chateaux' => ['chateau'], 'chevaux' => ['chev']], $uploaded);
     }
 
+    public function testRemovesAllOverridesWhenConfigIsEmpty(): void
+    {
+        $deletedWords = [];
+        $uploaded = false;
+        $client = new MockHttpClient(function (string $method, string $url) use (&$deletedWords, &$uploaded) {
+            if ('GET' === $method && str_ends_with($url, '/schema/fieldtypes/text_fr')) {
+                return new MockResponse(\json_encode(['fieldType' => [
+                    'name' => 'text_fr',
+                    'analyzer' => ['filters' => [['name' => 'lowercase'], self::OWN_OVERRIDES]],
+                ]], JSON_THROW_ON_ERROR));
+            }
+            if ('GET' === $method && str_ends_with($url, '/schema/analysis/synonyms/french_stemmer_overrides')) {
+                return new MockResponse(\json_encode(['synonymMappings' => ['managedMap' => [
+                    'chateaux' => ['chateau'],
+                ]]], JSON_THROW_ON_ERROR));
+            }
+            if ('DELETE' === $method) {
+                $deletedWords[] = \rawurldecode(\basename($url));
+            }
+            if ('PUT' === $method) {
+                $uploaded = true;
+            }
+
+            return new MockResponse('{}');
+        });
+
+        (new DefaultSolrInitializationFieldsSubscriber($client, SolrFrenchStemmerEnum::MINIMAL, false, []))
+            ->onSolrInitialization(new SolrInitializationEvent(
+                'http://solr:8983',
+                'roadiz',
+                new SymfonyStyle(new ArrayInput([]), new NullOutput()),
+            ));
+
+        $this->assertSame(['chateaux'], $deletedWords);
+        $this->assertFalse($uploaded);
+    }
+
+    public function testRemovesAsciiFoldingWhenDisabled(): void
+    {
+        $replaced = [];
+        $client = new MockHttpClient(function (string $method, string $url, array $options) use (&$replaced) {
+            if ('GET' === $method && str_ends_with($url, '/schema/fieldtypes/text_en')) {
+                return new MockResponse(\json_encode(['fieldType' => [
+                    'name' => 'text_en',
+                    'analyzer' => ['filters' => [['name' => 'lowercase'], ['class' => 'solr.ASCIIFoldingFilterFactory']]],
+                ]], JSON_THROW_ON_ERROR));
+            }
+            if ('GET' === $method && str_ends_with($url, '/schema/fieldtypes/text_de')) {
+                return new MockResponse(\json_encode(['fieldType' => [
+                    'name' => 'text_de',
+                    'analyzer' => ['filters' => [['name' => 'lowercase']]],
+                ]], JSON_THROW_ON_ERROR));
+            }
+            if ('POST' === $method && str_ends_with($url, '/schema')) {
+                $body = \json_decode($options['body'], true, flags: JSON_THROW_ON_ERROR);
+                if (isset($body['replace-field-type'])) {
+                    $replaced[$body['replace-field-type']['name']] = $body['replace-field-type']['analyzer']['filters'];
+                }
+            }
+
+            return new MockResponse('{}');
+        });
+
+        (new DefaultSolrInitializationFieldsSubscriber($client, SolrFrenchStemmerEnum::MINIMAL, false, []))
+            ->onSolrInitialization(new SolrInitializationEvent(
+                'http://solr:8983',
+                'roadiz',
+                new SymfonyStyle(new ArrayInput([]), new NullOutput()),
+            ));
+
+        // text_de had nothing to remove: no schema update sent.
+        $this->assertSame(['text_en' => [['name' => 'lowercase']]], $replaced);
+    }
+
     public static function textFrFiltersProvider(): array
     {
         $base = [['name' => 'lowercase'], ['name' => 'asciiFolding', 'preserveOriginal' => true]];

@@ -54,7 +54,7 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
         if (isset($newFieldType['analyzer'])) {
             foreach ($newFieldType['analyzer']['filters'] as $filter) {
                 if ($this->isFilter($filter, $filterName)) {
-                    $io->warning($filterName.' filter already exists in '.$fieldType.' field type, skipping');
+                    $io->writeln('<info>'.$filterName.'</info> filter already exists in <info>'.$fieldType.'</info> field type, skipping');
 
                     return;
                 }
@@ -63,7 +63,7 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
         } elseif (isset($newFieldType['queryAnalyzer'])) {
             foreach ($newFieldType['queryAnalyzer']['filters'] as $filter) {
                 if ($this->isFilter($filter, $filterName)) {
-                    $io->warning($filterName.' filter already exists in '.$fieldType.' field type, skipping');
+                    $io->writeln('<info>'.$filterName.'</info> filter already exists in <info>'.$fieldType.'</info> field type, skipping');
 
                     return;
                 }
@@ -83,10 +83,12 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
 
         $newFieldType = $this->getFieldType($io, $baseUrl, $solrCollectionName, $fieldType, $filterConfig);
         if (null === $newFieldType) {
-            $io->warning('Field type '.$fieldType.' not found, skipping filter removal');
+            // Nothing to remove: not a failure.
+            $io->writeln('Field type <info>'.$fieldType.'</info> not found, skipping filter removal');
 
             return;
         }
+        $originalFieldType = $newFieldType;
 
         if (isset($newFieldType['analyzer'])) {
             foreach ($newFieldType['analyzer']['filters'] as $index => $filter) {
@@ -102,6 +104,9 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
                 }
             }
             $newFieldType['queryAnalyzer']['filters'] = \array_values($newFieldType['queryAnalyzer']['filters'] ?? []);
+        }
+        if ($newFieldType === $originalFieldType) {
+            return;
         }
 
         $this->requestSchemaApi($io, $baseUrl, $solrCollectionName, [
@@ -120,7 +125,7 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
             return null;
         }
         $responseJson = \json_decode($response->getContent(), true);
-        if (!\is_array($responseJson) || !\is_array($responseJson['fieldType'])) {
+        if (!\is_array($responseJson) || !\is_array($responseJson['fieldType'] ?? null)) {
             return null;
         }
 

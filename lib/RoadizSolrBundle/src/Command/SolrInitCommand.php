@@ -57,7 +57,20 @@ final class SolrInitCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        /*
+         * Subscribers report failures as warnings (schema API errors, missing field types):
+         * any warning makes solr:init fail instead of reporting success.
+         */
+        $io = new class($input, $output) extends SymfonyStyle {
+            public bool $hasWarnings = false;
+
+            #[\Override]
+            public function warning(string|array $message): void
+            {
+                $this->hasWarnings = true;
+                parent::warning($message);
+            }
+        };
         $numShards = is_numeric($input->getOption('numShards'))
             ? intval($input->getOption('numShards'))
             : $this->solrCollectionNumShards;
@@ -105,6 +118,12 @@ final class SolrInitCommand extends Command
             return Command::FAILURE;
         }
 
+        if ($io->hasWarnings) {
+            $io->error('Solr collection '.$this->solrCollectionName.' initialization had errors, see warnings above');
+
+            return Command::FAILURE;
+        }
+
         $io->success('Solr collection '.$this->solrCollectionName.' has been initialized');
 
         return Command::SUCCESS;
@@ -135,11 +154,12 @@ final class SolrInitCommand extends Command
             $responseJson = \json_decode($response->getContent(false), true);
             if (
                 \is_array($responseJson)
-                && \is_array($responseJson['error'])
-                && \is_string($responseJson['error']['msg'])
+                && \is_string($responseJson['error']['msg'] ?? null)
                 && \str_starts_with($responseJson['error']['msg'], 'collection already exists')
             ) {
-                $io->warning('Collection '.$this->solrCollectionName.' already exists, skipping creation');
+                $io->note('Collection '.$this->solrCollectionName.' already exists, skipping creation');
+            } else {
+                $io->warning('Failed to create collection '.$this->solrCollectionName.': '.$response->getContent(false));
             }
         }
     }

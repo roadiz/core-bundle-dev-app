@@ -30,20 +30,16 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
         /*
          * @see https://solr.apache.org/guide/solr/latest/indexing-guide/filters.html#ascii-folding-filter
          */
-        if ($this->asciiFolding) {
-            $event->io->section('Adding asciiFolding filter to localized text field types');
-            $fieldTypes = [
-                'text_de',
-                'text_en',
-                'text_fr',
-                'text_it',
-                'text_es',
-            ];
-            foreach ($fieldTypes as $fieldType) {
-                $this->addFilterToFieldType($event->io, $event->baseUrl, $event->solrCollectionName, $fieldType, [
-                    'name' => 'asciiFolding',
-                    'preserveOriginal' => true,
-                ]);
+        $event->io->section(($this->asciiFolding ? 'Adding' : 'Removing').' asciiFolding filter on localized text field types');
+        $asciiFoldingFilter = [
+            'name' => 'asciiFolding',
+            'preserveOriginal' => true,
+        ];
+        foreach (['text_de', 'text_en', 'text_fr', 'text_it', 'text_es'] as $fieldType) {
+            if ($this->asciiFolding) {
+                $this->addFilterToFieldType($event->io, $event->baseUrl, $event->solrCollectionName, $fieldType, $asciiFoldingFilter);
+            } else {
+                $this->removeFilterFromFieldType($event->io, $event->baseUrl, $event->solrCollectionName, $fieldType, $asciiFoldingFilter);
             }
         }
 
@@ -124,12 +120,9 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
             'replace-field-type' => $fieldType,
         ]);
 
-        if ([] === $this->frenchStemmerOverrides) {
-            return;
-        }
-        $event->io->writeln('Uploading <info>'.\count($this->frenchStemmerOverrides).'</info> text_fr stemmer overrides');
         $resourceUrl = $event->baseUrl.'/solr/'.$event->solrCollectionName.'/schema/analysis/synonyms/'.self::FRENCH_OVERRIDES_RESOURCE;
-        // Solr refuses to delete a resource used by the schema (403): remove stale words one by one instead.
+        // Solr refuses to delete a resource used by the schema (403): remove stale words one by one instead,
+        // even when overrides are emptied, so that a later re-enable does not resurrect them.
         // A changed replacement is stale too: PUT appends to a word's existing mappings instead of replacing them.
         $current = \json_decode($this->client->request('GET', $resourceUrl)->getContent(false), true);
         $currentMap = \is_array($current) && \is_array($current['synonymMappings']['managedMap'] ?? null)
@@ -145,6 +138,10 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
                 $event->io->warning('Failed to remove stemmer override "'.$staleWord.'": '.$deleteResponse->getContent(false));
             }
         }
+        if ([] === $this->frenchStemmerOverrides) {
+            return;
+        }
+        $event->io->writeln('Uploading <info>'.\count($this->frenchStemmerOverrides).'</info> text_fr stemmer overrides');
         $response = $this->client->request('PUT', $resourceUrl, [
             'json' => \array_map(fn (string $replacement) => [$replacement], $this->frenchStemmerOverrides),
         ]);
