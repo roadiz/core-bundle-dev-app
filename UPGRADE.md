@@ -99,6 +99,13 @@ roadiz_core:
   - Core enrichments now all run before any project decorator. Before, `NodesSourcesTypeNormalizer` (decoration priority -10) ran after project decorators with a higher priority.
   - Nested documents and folders (`document_folders`, `tag_documents`, `attribute_documents`, `document_display_sources` groups) are now normalized through the Serializer, so project decorators and enrichers apply to them too.
   - JSON key order may change for keys added by enrichers. There is no semantic impact, but snapshot tests may need updating.
+- **API:** remove `types: [WebResponse]` from the `WebResponse` resource in your `config/api_resources/web_response.yml` (`shortName: WebResponse` already sets the JSON-LD `@type`). API Platform passes operation `types` down to nested objects, so every `AutoChildrenNodeSourceWalker` below the first level of `blocks` was typed `WebResponse` instead of `AutoChildrenNodeSourceWalker`.
+- **API:** tree-walker `children` (any `RZ\TreeWalker\WalkerInterface`, including your own walkers) no longer get a random `@id` skolem IRI (`/api/.well-known/genid/…`). The same content now always serializes to the same JSON, which makes responses cacheable by content (ETag). If your project exposes walkers in an array property (e.g. `CommonContent::$menus`), give it `#[ApiProperty(genId: false)]` **and** type its elements with your concrete walker class, otherwise top-level walkers still get a skolem IRI:
+```php
+#[ApiProperty(genId: false)]
+/** @var array<string, MenuNodeSourceWalker>|null */
+public ?array $menus = null;
+```
 
 # Upgrade to 2.6
 

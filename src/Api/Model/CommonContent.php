@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Api\Model;
 
 use ApiPlatform\Metadata\ApiProperty;
+use App\TreeWalker\MenuNodeSourceWalker;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\TreeWalker\WalkerInterface;
@@ -51,6 +52,9 @@ final class CommonContent
         ],
         genId: false,
     )]
+    /**
+     * @var array<string, MenuNodeSourceWalker>|null
+     */
     public ?array $menus = null;
 
     #[Groups(['common_content'])]
