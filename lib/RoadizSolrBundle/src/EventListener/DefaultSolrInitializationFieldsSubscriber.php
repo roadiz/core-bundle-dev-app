@@ -130,11 +130,16 @@ final readonly class DefaultSolrInitializationFieldsSubscriber extends AbstractS
         $event->io->writeln('Uploading <info>'.\count($this->frenchStemmerOverrides).'</info> text_fr stemmer overrides');
         $resourceUrl = $event->baseUrl.'/solr/'.$event->solrCollectionName.'/schema/analysis/synonyms/'.self::FRENCH_OVERRIDES_RESOURCE;
         // Solr refuses to delete a resource used by the schema (403): remove stale words one by one instead.
+        // A changed replacement is stale too: PUT appends to a word's existing mappings instead of replacing them.
         $current = \json_decode($this->client->request('GET', $resourceUrl)->getContent(false), true);
-        $currentWords = \is_array($current) && \is_array($current['synonymMappings']['managedMap'] ?? null)
-            ? \array_keys($current['synonymMappings']['managedMap'])
+        $currentMap = \is_array($current) && \is_array($current['synonymMappings']['managedMap'] ?? null)
+            ? $current['synonymMappings']['managedMap']
             : [];
-        foreach (\array_diff($currentWords, \array_keys($this->frenchStemmerOverrides)) as $staleWord) {
+        $staleWords = \array_filter(
+            \array_keys($currentMap),
+            fn (int|string $word) => [$this->frenchStemmerOverrides[$word] ?? null] !== $currentMap[$word]
+        );
+        foreach ($staleWords as $staleWord) {
             $deleteResponse = $this->client->request('DELETE', $resourceUrl.'/'.\rawurlencode((string) $staleWord));
             if (200 !== $deleteResponse->getStatusCode()) {
                 $event->io->warning('Failed to remove stemmer override "'.$staleWord.'": '.$deleteResponse->getContent(false));

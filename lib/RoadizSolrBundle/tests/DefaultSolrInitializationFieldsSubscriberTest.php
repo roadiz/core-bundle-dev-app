@@ -56,6 +56,48 @@ final class DefaultSolrInitializationFieldsSubscriberTest extends TestCase
         $this->assertSame($expectedFilters, $replacedFilters);
     }
 
+    public function testDeletesRemovedAndChangedOverridesBeforeUpload(): void
+    {
+        $deletedWords = [];
+        $uploaded = null;
+        $client = new MockHttpClient(function (string $method, string $url, array $options) use (&$deletedWords, &$uploaded) {
+            if ('GET' === $method && str_ends_with($url, '/schema/fieldtypes/text_fr')) {
+                return new MockResponse(\json_encode(['fieldType' => [
+                    'name' => 'text_fr',
+                    'analyzer' => ['filters' => [['name' => 'lowercase']]],
+                ]], JSON_THROW_ON_ERROR));
+            }
+            if ('GET' === $method && str_ends_with($url, '/schema/analysis/synonyms/french_stemmer_overrides')) {
+                return new MockResponse(\json_encode(['synonymMappings' => ['managedMap' => [
+                    'chateaux' => ['chateau'],
+                    'chevaux' => ['cheval'],
+                    'travaux' => ['travail'],
+                ]]], JSON_THROW_ON_ERROR));
+            }
+            if ('DELETE' === $method) {
+                $deletedWords[] = \rawurldecode(\basename($url));
+            }
+            if ('PUT' === $method) {
+                $uploaded = \json_decode($options['body'], true, flags: JSON_THROW_ON_ERROR);
+            }
+
+            return new MockResponse('{}');
+        });
+
+        $subscriber = new DefaultSolrInitializationFieldsSubscriber($client, SolrFrenchStemmerEnum::MINIMAL, false, [
+            'chateaux' => 'chateau', // unchanged
+            'chevaux' => 'chev', // changed: PUT would append to the old mapping
+        ]);
+        $subscriber->onSolrInitialization(new SolrInitializationEvent(
+            'http://solr:8983',
+            'roadiz',
+            new SymfonyStyle(new ArrayInput([]), new NullOutput()),
+        ));
+
+        $this->assertSame(['chevaux', 'travaux'], $deletedWords);
+        $this->assertSame(['chateaux' => ['chateau'], 'chevaux' => ['chev']], $uploaded);
+    }
+
     public static function textFrFiltersProvider(): array
     {
         $base = [['name' => 'lowercase'], ['name' => 'asciiFolding', 'preserveOriginal' => true]];
