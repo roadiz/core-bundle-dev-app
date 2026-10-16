@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.55](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.55) - 2026-10-16
+
+### Bug Fixes
+
+- **(security)** require enshrined/svg-sanitize ^1.0 and never output unsanitized SVG (2.5) ([#502](https://github.com/roadiz/core-bundle-dev-app/issues/502)) - ([dfdd405](https://github.com/roadiz/core-bundle-dev-app/commit/dfdd405bd9f037e8c45d7c5352a7ea6648b44977))
+
 ## [2.5.54](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.53...v2.5.54) - 2026-09-11
 
 ### Bug Fixes
