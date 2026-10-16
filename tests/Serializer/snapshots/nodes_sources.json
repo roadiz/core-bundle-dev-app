@@ -24,7 +24,7 @@
         "layout": null,
         "mainUser": null,
         "title": "Serialization page",
-        "publishedAt": "2020-01-01T00:00:00+01:00",
+        "publishedAt": "2020-01-01T00:00:00+00:00",
         "metaTitle": "",
         "metaDescription": "",
         "noIndex": false,
@@ -148,7 +148,7 @@
                             "@type": "AttributeValueTranslation",
                             "@id": "/api/.well-known/genid/{genid}",
                             "translation": "/api/translations/{id}",
-                            "value": "2021-02-03T04:05:06+01:00"
+                            "value": "2021-02-03T04:05:06+00:00"
                         }
                     ],
                     "type": 1,
@@ -156,7 +156,7 @@
                     "color": "#0000ff",
                     "weight": 10,
                     "label": "Date label",
-                    "value": "2021-02-03T04:05:06+01:00",
+                    "value": "2021-02-03T04:05:06+00:00",
                     "documents": []
                 }
             ],
@@ -196,7 +196,7 @@
         "layout": null,
         "mainUser": null,
         "title": "Serialization page",
-        "publishedAt": "2020-01-01T00:00:00+01:00",
+        "publishedAt": "2020-01-01T00:00:00+00:00",
         "metaTitle": "",
         "metaDescription": "",
         "noIndex": false,
@@ -299,7 +299,7 @@
                     "attributeValueTranslations": [
                         {
                             "translation": [],
-                            "value": "2021-02-03T04:05:06+01:00"
+                            "value": "2021-02-03T04:05:06+00:00"
                         }
                     ],
                     "type": 1,
@@ -307,7 +307,7 @@
                     "color": "#0000ff",
                     "weight": 10,
                     "label": "Date label",
-                    "value": "2021-02-03T04:05:06+01:00",
+                    "value": "2021-02-03T04:05:06+00:00",
                     "documents": []
                 }
             ],

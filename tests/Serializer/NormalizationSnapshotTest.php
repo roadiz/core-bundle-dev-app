@@ -25,6 +25,27 @@ final class NormalizationSnapshotTest extends KernelTestCase
 {
     private const array VOLATILE_KEYS = ['createdAt', 'updatedAt'];
 
+    private string $defaultTimezone;
+
+    /**
+     * Datetimes are stored without timezone and hydrated in PHP default one:
+     * force it so snapshots do not depend on the machine.
+     */
+    #[\Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->defaultTimezone = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        date_default_timezone_set($this->defaultTimezone);
+        parent::tearDown();
+    }
+
     /**
      * @return iterable<string, array{class-string, array<string, mixed>, list<string>}>
      */
