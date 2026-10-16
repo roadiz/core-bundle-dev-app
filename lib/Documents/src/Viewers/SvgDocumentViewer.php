@@ -84,12 +84,12 @@ final class SvgDocumentViewer
          * @var string|false $cleanSVG
          */
         $cleanSVG = $sanitizer->sanitize($dirtySVG);
-        if (false !== $cleanSVG) {
-            // Pass it to the sanitizer and get it back clean
-            return $this->injectAttributes($cleanSVG);
+        if (false === $cleanSVG) {
+            // Never output an SVG the sanitizer rejected
+            throw new \RuntimeException('SVG document could not be sanitized.');
         }
 
-        return $dirtySVG;
+        return $this->injectAttributes($cleanSVG);
     }
 
     /**
