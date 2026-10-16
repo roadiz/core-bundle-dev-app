@@ -1,0 +1,326 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Page",
+        "@id": "/api/pages/{id}",
+        "@type": "Page",
+        "subTitle": null,
+        "content": null,
+        "color": null,
+        "headerImage": [],
+        "overTitle": null,
+        "pictures": [],
+        "sticky": false,
+        "stickytest": false,
+        "customForm": [],
+        "folderReferences": [],
+        "amount": null,
+        "emailTest": null,
+        "settings": null,
+        "contacts": null,
+        "folder": null,
+        "country": null,
+        "geolocation": null,
+        "multiGeolocation": null,
+        "layout": null,
+        "mainUser": null,
+        "title": "Serialization page",
+        "publishedAt": "2020-01-01T00:00:00+01:00",
+        "metaTitle": "",
+        "metaDescription": "",
+        "noIndex": false,
+        "users": [],
+        "node": {
+            "@id": "/api/nodes/{id}",
+            "@type": "Node",
+            "nodeName": "serialization-page",
+            "visible": true,
+            "attributeValues": [
+                {
+                    "@id": "/api/attribute_values/{id}",
+                    "@type": "AttributeValue",
+                    "position": 1,
+                    "attribute": {
+                        "@type": "Attribute",
+                        "@id": "/api/.well-known/genid/{genid}",
+                        "weight": 10,
+                        "code": "serialization-string",
+                        "searchable": false,
+                        "type": 0,
+                        "color": "#0000ff",
+                        "group": null,
+                        "attributeTranslations": [
+                            {
+                                "@type": "AttributeTranslation",
+                                "@id": "/api/.well-known/genid/{genid}",
+                                "translation": "/api/translations/{id}",
+                                "label": "String label",
+                                "options": []
+                            }
+                        ],
+                        "documents": [
+                            {
+                                "@type": "Document",
+                                "@id": "/api/documents/{id}",
+                                "hotspot": null,
+                                "embedId": null,
+                                "embedPlatform": null,
+                                "mimeType": "image/jpeg",
+                                "imageWidth": 0,
+                                "imageHeight": 0,
+                                "mediaDuration": 0,
+                                "imageAverageColor": null,
+                                "alt": "Image name",
+                                "type": "image",
+                                "relativePath": "fixtures/serialization_image.jpg",
+                                "processable": true,
+                                "imageCropAlignment": "top-left",
+                                "name": "Image name",
+                                "description": "Image description",
+                                "copyright": "Image copyright",
+                                "externalUrl": "https://example.test/image"
+                            }
+                        ]
+                    },
+                    "attributeValueTranslations": [
+                        {
+                            "@type": "AttributeValueTranslation",
+                            "@id": "/api/.well-known/genid/{genid}",
+                            "translation": "/api/translations/{id}",
+                            "value": "String value"
+                        }
+                    ],
+                    "type": 0,
+                    "code": "serialization-string",
+                    "color": "#0000ff",
+                    "weight": 10,
+                    "label": "String label",
+                    "value": "String value",
+                    "documents": [
+                        {
+                            "@id": "/api/documents/{id}",
+                            "@type": "Document",
+                            "hotspot": null,
+                            "embedId": null,
+                            "embedPlatform": null,
+                            "mimeType": "image/jpeg",
+                            "imageWidth": 0,
+                            "imageHeight": 0,
+                            "mediaDuration": 0,
+                            "imageAverageColor": null,
+                            "alt": "Image name",
+                            "type": "image",
+                            "relativePath": "fixtures/serialization_image.jpg",
+                            "processable": true,
+                            "imageCropAlignment": "top-left",
+                            "name": "Image name",
+                            "description": "Image description",
+                            "copyright": "Image copyright",
+                            "externalUrl": "https://example.test/image"
+                        }
+                    ]
+                },
+                {
+                    "@id": "/api/attribute_values/{id}",
+                    "@type": "AttributeValue",
+                    "position": 1,
+                    "attribute": {
+                        "@type": "Attribute",
+                        "@id": "/api/.well-known/genid/{genid}",
+                        "weight": 10,
+                        "code": "serialization-date",
+                        "searchable": false,
+                        "type": 1,
+                        "color": "#0000ff",
+                        "group": null,
+                        "attributeTranslations": [
+                            {
+                                "@type": "AttributeTranslation",
+                                "@id": "/api/.well-known/genid/{genid}",
+                                "translation": "/api/translations/{id}",
+                                "label": "Date label",
+                                "options": []
+                            }
+                        ],
+                        "documents": []
+                    },
+                    "attributeValueTranslations": [
+                        {
+                            "@type": "AttributeValueTranslation",
+                            "@id": "/api/.well-known/genid/{genid}",
+                            "translation": "/api/translations/{id}",
+                            "value": "2021-02-03T04:05:06+01:00"
+                        }
+                    ],
+                    "type": 1,
+                    "code": "serialization-date",
+                    "color": "#0000ff",
+                    "weight": 10,
+                    "label": "Date label",
+                    "value": "2021-02-03T04:05:06+01:00",
+                    "documents": []
+                }
+            ],
+            "tags": [
+                {
+                    "@id": "/api/tags/{id}",
+                    "@type": "Tag",
+                    "visible": true,
+                    "slug": "serialization-tag",
+                    "name": "Tag name",
+                    "description": "Tag description"
+                }
+            ]
+        },
+        "slug": "serialization-page",
+        "url": "/serialization-page"
+    },
+    "json": {
+        "subTitle": null,
+        "content": null,
+        "color": null,
+        "headerImage": [],
+        "overTitle": null,
+        "pictures": [],
+        "sticky": false,
+        "stickytest": false,
+        "customForm": [],
+        "folderReferences": [],
+        "amount": null,
+        "emailTest": null,
+        "settings": null,
+        "contacts": null,
+        "folder": null,
+        "country": null,
+        "geolocation": null,
+        "multiGeolocation": null,
+        "layout": null,
+        "mainUser": null,
+        "title": "Serialization page",
+        "publishedAt": "2020-01-01T00:00:00+01:00",
+        "metaTitle": "",
+        "metaDescription": "",
+        "noIndex": false,
+        "users": [],
+        "@type": "Page",
+        "node": {
+            "nodeName": "serialization-page",
+            "visible": true,
+            "attributeValues": [
+                {
+                    "position": 1,
+                    "attribute": {
+                        "weight": 10,
+                        "code": "serialization-string",
+                        "searchable": false,
+                        "type": 0,
+                        "color": "#0000ff",
+                        "group": null,
+                        "attributeTranslations": [
+                            {
+                                "translation": [],
+                                "label": "String label",
+                                "options": []
+                            }
+                        ],
+                        "documents": [
+                            {
+                                "hotspot": null,
+                                "embedId": null,
+                                "embedPlatform": null,
+                                "mimeType": "image/jpeg",
+                                "imageWidth": 0,
+                                "imageHeight": 0,
+                                "mediaDuration": 0,
+                                "imageAverageColor": null,
+                                "alt": "Image name",
+                                "type": "image",
+                                "relativePath": "fixtures/serialization_image.jpg",
+                                "processable": true,
+                                "imageCropAlignment": "top-left",
+                                "name": "Image name",
+                                "description": "Image description",
+                                "copyright": "Image copyright",
+                                "externalUrl": "https://example.test/image"
+                            }
+                        ]
+                    },
+                    "attributeValueTranslations": [
+                        {
+                            "translation": [],
+                            "value": "String value"
+                        }
+                    ],
+                    "type": 0,
+                    "code": "serialization-string",
+                    "color": "#0000ff",
+                    "weight": 10,
+                    "label": "String label",
+                    "value": "String value",
+                    "documents": [
+                        {
+                            "hotspot": null,
+                            "embedId": null,
+                            "embedPlatform": null,
+                            "mimeType": "image/jpeg",
+                            "imageWidth": 0,
+                            "imageHeight": 0,
+                            "mediaDuration": 0,
+                            "imageAverageColor": null,
+                            "alt": "Image name",
+                            "type": "image",
+                            "relativePath": "fixtures/serialization_image.jpg",
+                            "processable": true,
+                            "imageCropAlignment": "top-left",
+                            "name": "Image name",
+                            "description": "Image description",
+                            "copyright": "Image copyright",
+                            "externalUrl": "https://example.test/image"
+                        }
+                    ]
+                },
+                {
+                    "position": 1,
+                    "attribute": {
+                        "weight": 10,
+                        "code": "serialization-date",
+                        "searchable": false,
+                        "type": 1,
+                        "color": "#0000ff",
+                        "group": null,
+                        "attributeTranslations": [
+                            {
+                                "translation": [],
+                                "label": "Date label",
+                                "options": []
+                            }
+                        ],
+                        "documents": []
+                    },
+                    "attributeValueTranslations": [
+                        {
+                            "translation": [],
+                            "value": "2021-02-03T04:05:06+01:00"
+                        }
+                    ],
+                    "type": 1,
+                    "code": "serialization-date",
+                    "color": "#0000ff",
+                    "weight": 10,
+                    "label": "Date label",
+                    "value": "2021-02-03T04:05:06+01:00",
+                    "documents": []
+                }
+            ],
+            "tags": [
+                {
+                    "visible": true,
+                    "slug": "serialization-tag",
+                    "name": "Tag name",
+                    "description": "Tag description"
+                }
+            ]
+        },
+        "slug": "serialization-page",
+        "url": "/serialization-page"
+    }
+}
