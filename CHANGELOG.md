@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.56](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.56) - 2026-10-17
+
+### CI/CD
+
+- create GitHub release from changelog ([#512](https://github.com/roadiz/core-bundle-dev-app/issues/512)) - ([5dc09d3](https://github.com/roadiz/core-bundle-dev-app/commit/5dc09d3785f7561e45e7e4e32397b0e9c4eb029c))
+
 ## [2.5.55](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.55) - 2026-10-16
 
 ### Bug Fixes
