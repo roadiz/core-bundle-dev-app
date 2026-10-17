@@ -164,6 +164,12 @@ services:
     RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface:
         class: RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactory
 
+    RZ\Roadiz\CoreBundle\Api\TreeWalker\WalkerChildrenPropertyMetadataFactory:
+        # After PropertyInfo, attribute and serializer factories, inside the metadata cache (-10)
+        decorates: 'api_platform.metadata.property.metadata_factory'
+        decoration_priority: 0
+        arguments: [ '@.inner' ]
+
     RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
         decorates: 'api_platform.openapi.factory'
         decoration_priority: 100

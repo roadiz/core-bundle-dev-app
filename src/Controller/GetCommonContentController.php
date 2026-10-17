@@ -56,12 +56,14 @@ final class GetCommonContentController extends AbstractController
             $request->attributes->set('data', $resource);
             $resource->home = $this->getHomePage($translation);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
-            $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
+            /** @var array<string, MenuNodeSourceWalker> $menus */
+            $menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
                 'Menu',
                 MenuNodeSourceWalker::class,
                 $translation,
                 3
             );
+            $resource->menus = $menus;
 
             /*
              * Autoprovide all _url and _color settings. Make sure to not create private settings using these keys.
