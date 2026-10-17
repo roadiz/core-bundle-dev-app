@@ -13,6 +13,8 @@
 ## ⚠ Breaking changes
 
 - Upgrade Symfony dependencies to 7.4
+- Requires `api-platform/*` **4.2** minimum (`^4.2`), for TypeInfo-based property metadata.
+- Removed `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` classes from `RZ\Roadiz\CoreBundle\Serializer\Normalizer` (their service ids remain as deprecated aliases). Code type-hinting or instantiating them must use the matching `RZ\Roadiz\CoreBundle\Serializer\Enricher` class.
 - NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
 - Removed `Node::sterile` property and `Node::isSterile()` method.
 - Removed deprecated `Node` status constants in favor of `NodeStatus` enum
@@ -94,6 +96,18 @@ roadiz_core:
 - Outbound webhooks now go through the same private-network-blocking HTTP client already used by media finders (SSRF hardening).
 - `CustomForm.color` values are now validated with an anchored hex-color regex and escaped in the backoffice list template.
 - `solr:init` now supports standalone Solr cores (e.g. `solr-precreate`), not only SolrCloud. Before, it reported success on a standalone core but applied nothing: the core kept Solr's default `frenchLightStem` schema. French stemming is now configurable with `roadiz_solr.schema` (`french_stemmer`, `ascii_folding`, `french_stemmer_overrides`), defaulting to `frenchMinimalStem`. **On standalone cores, run `bin/console solr:init` then `bin/console solr:reindex` once.** SolrCloud collections already initialized keep the same schema with the default configuration: no action needed unless you change `roadiz_solr.schema`. `solr:init` now returns a failure exit code when the core or collection cannot be reloaded (e.g. it does not exist) or when any initialization subscriber prints a warning (schema API error, missing field type): custom subscribers should use `writeln()` or `note()` for benign messages. `AbstractSolrInitializationSubscriber` now calls the `/solr/{name}/schema` endpoint (instead of `/api/collections/{name}/schema`) and gains a protected `isFilter()` method. See [Initializing the Solr schema](https://docs.roadiz.io/developer/optional-bundles/solr-bundle.html#initializing-the-solr-schema).
+- **Serializer:** core API Platform item normalizer decorators are replaced by `NormalizationEnricherInterface` services run by a single `EnrichingItemNormalizer` (since 2.7.51). Each decorator added a layer to every `supportsNormalization()` call, which cost about 10% of uncached API request time on block-heavy pages. `AbstractPathNormalizer` is deprecated but keeps working: migrate your own decorators to enrichers to get the same gain. See [Enriching normalized items](https://docs.roadiz.io/developer/api/serialization.html#enriching-normalized-items).
+  - **Deprecated services:** `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` (class-named ids in `RZ\Roadiz\CoreBundle\Serializer\Normalizer`), and `roadiz_core.serializer.normalizer.{folder,document,document_sources,tag,custom_form,attribute_value,nodes_sources_path}.json` are now deprecated aliases of the `EnrichingItemNormalizer` services. Projects decorating them keep working; to change a core enrichment, decorate or replace the matching enricher in `RZ\Roadiz\CoreBundle\Serializer\Enricher`. The PHP classes themselves are removed.
+  - Core enrichments now all run before any project decorator. Before, `NodesSourcesTypeNormalizer` (decoration priority -10) ran after project decorators with a higher priority.
+  - Nested documents and folders (`document_folders`, `tag_documents`, `attribute_documents`, `document_display_sources` groups) are now normalized through the Serializer, so project decorators and enrichers apply to them too.
+  - JSON key order may change for keys added by enrichers. There is no semantic impact, but snapshot tests may need updating.
+- **API:** remove `types: [WebResponse]` from the `WebResponse` resource in your `config/api_resources/web_response.yml` (`shortName: WebResponse` already sets the JSON-LD `@type`). API Platform passes operation `types` down to nested objects, so every `AutoChildrenNodeSourceWalker` below the first level of `blocks` was typed `WebResponse` instead of `AutoChildrenNodeSourceWalker`.
+- **API:** tree-walker `children` (any `RZ\TreeWalker\WalkerInterface`, including your own walkers) no longer get a random `@id` skolem IRI (`/api/.well-known/genid/…`). The same content now always serializes to the same JSON, which makes responses cacheable by content (ETag). If your project exposes walkers in an array property (e.g. `CommonContent::$menus`), give it `#[ApiProperty(genId: false)]` **and** type its elements with your concrete walker class, otherwise top-level walkers still get a skolem IRI:
+```php
+/** @var array<string, MenuNodeSourceWalker>|null */
+#[ApiProperty(genId: false)]
+public ?array $menus = null;
+```
 
 # Upgrade to 2.6
 

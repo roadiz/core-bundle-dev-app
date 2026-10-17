@@ -1,0 +1,72 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Document",
+        "@id": "/api/documents/{id}",
+        "@type": "Document",
+        "hotspot": null,
+        "embedId": null,
+        "embedPlatform": null,
+        "mimeType": "video/mp4",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "video",
+        "relativePath": "fixtures/serialization_video.mp4",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_video.mp4",
+        "altSources": [
+            {
+                "@context": "/api/contexts/Document",
+                "@id": "/api/documents/{id}",
+                "@type": "Document",
+                "hotspot": null,
+                "embedId": null,
+                "embedPlatform": null,
+                "mimeType": "video/webm",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "imageAverageColor": null,
+                "alt": null,
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.webm",
+                "processable": false,
+                "publicUrl": "/files/fixtures/serialization_video.webm"
+            }
+        ]
+    },
+    "json": {
+        "hotspot": null,
+        "embedId": null,
+        "embedPlatform": null,
+        "mimeType": "video/mp4",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "video",
+        "relativePath": "fixtures/serialization_video.mp4",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_video.mp4",
+        "altSources": [
+            {
+                "hotspot": null,
+                "embedId": null,
+                "embedPlatform": null,
+                "mimeType": "video/webm",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "imageAverageColor": null,
+                "alt": null,
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.webm",
+                "processable": false,
+                "publicUrl": "/files/fixtures/serialization_video.webm"
+            }
+        ]
+    }
+}
