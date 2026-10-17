@@ -26,15 +26,14 @@ final class WalkerChildrenPropertyMetadataFactoryTest extends TestCase
             Type::collection(Type::object(Collection::class), Type::object(AutoChildrenNodeSourceWalker::class), Type::int()),
             $metadata->getNativeType()
         );
-        $this->assertSame(AutoChildrenNodeSourceWalker::class, $metadata->getBuiltinTypes()[0]->getCollectionValueTypes()[0]->getClassName());
     }
 
     public function testOtherPropertiesAndClassesAreUntouched(): void
     {
         $factory = $this->createFactory();
 
-        $this->assertNull($factory->create(AutoChildrenNodeSourceWalker::class, 'metadata')->getGenId());
-        $this->assertNull($factory->create(\stdClass::class, 'children')->getGenId());
+        $this->assertEquals(new ApiProperty(), $factory->create(AutoChildrenNodeSourceWalker::class, 'metadata'));
+        $this->assertEquals(new ApiProperty(), $factory->create(\stdClass::class, 'children'));
     }
 
     private function createFactory(): WalkerChildrenPropertyMetadataFactory

@@ -20,8 +20,8 @@
     "require": {
         "php": ">=8.3",
         "doctrine/orm": "~2.20.0",
-        "api-platform/doctrine-orm": "^4.1.18",
-        "api-platform/metadata": "^4.1.18",
+        "api-platform/doctrine-orm": "^4.2",
+        "api-platform/metadata": "^4.2",
         "roadiz/nodetype-contracts": "^3.1.1",
         "symfony/string": "7.4.*",
         "symfony/translation-contracts": "^3.0",

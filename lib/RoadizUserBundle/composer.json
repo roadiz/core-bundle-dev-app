@@ -20,7 +20,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-        "api-platform/symfony": "^4.1.18",
+        "api-platform/symfony": "^4.2",
         "doctrine/orm": "~2.20.0",
         "roadiz/core-bundle": "2.7.*",
         "roadiz/models": "2.7.*",

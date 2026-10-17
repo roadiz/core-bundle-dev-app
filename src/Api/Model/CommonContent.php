@@ -33,6 +33,9 @@ final class CommonContent
     )]
     public ?NodesSourcesHeadInterface $head = null;
 
+    /**
+     * @var array<string, MenuNodeSourceWalker>|null
+     */
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
@@ -52,9 +55,6 @@ final class CommonContent
         ],
         genId: false,
     )]
-    /**
-     * @var array<string, MenuNodeSourceWalker>|null
-     */
     public ?array $menus = null;
 
     #[Groups(['common_content'])]

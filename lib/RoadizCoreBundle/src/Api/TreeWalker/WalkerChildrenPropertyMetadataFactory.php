@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use Doctrine\Common\Collections\Collection;
 use RZ\TreeWalker\WalkerInterface;
-use Symfony\Component\PropertyInfo\Type as LegacyType;
 use Symfony\Component\TypeInfo\Type;
 
 /**
@@ -34,16 +33,8 @@ final readonly class WalkerChildrenPropertyMetadataFactory implements PropertyMe
             return $propertyMetadata;
         }
 
-        return $propertyMetadata
-            ->withGenId(false)
-            ->withNativeType(Type::collection(Type::object(Collection::class), Type::object($resourceClass), Type::int()))
-            ->withBuiltinTypes([new LegacyType(
-                LegacyType::BUILTIN_TYPE_OBJECT,
-                false,
-                Collection::class,
-                true,
-                new LegacyType(LegacyType::BUILTIN_TYPE_INT),
-                new LegacyType(LegacyType::BUILTIN_TYPE_OBJECT, false, $resourceClass),
-            )]);
+        return $propertyMetadata->withGenId(false)->withNativeType(
+            Type::collection(Type::object(Collection::class), Type::object($resourceClass), Type::int())
+        );
     }
 }
