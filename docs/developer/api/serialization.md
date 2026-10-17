@@ -75,3 +75,84 @@ over any objects, especially *Doctrine* entities.
 | `walker`                     | Serializes a `treeWalker` children.                                                                                                                                                                                                                                                                                                                                                                           |
 | `walker_metadata`            | Serializes a `treeWalker` metadata.                                                                                                                                                                                                                                                                                                                                                                           |
 | `web_response`               | Serialize the top-level `WebResponse` API envelope fields.                                                                                                                                                                                                                                                                                                                                                    |
+
+## Enriching normalized items
+
+To add or change fields in the API Platform output of an entity, implement
+`RZ\Roadiz\CoreBundle\Serializer\Enricher\NormalizationEnricherInterface`. Enrichers are autoconfigured, and a single
+`EnrichingItemNormalizer` (decorating `api_platform.jsonld.normalizer.item` and `api_platform.serializer.normalizer.item`)
+runs them after API Platform has normalized the object.
+
+```php
+namespace App\Serializer\Enricher;
+
+use App\GeneratedEntity\NSMenuLink;
+use RZ\Roadiz\CoreBundle\Serializer\Enricher\NormalizationEnricherInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+final readonly class MenuLinkPathEnricher implements NormalizationEnricherInterface
+{
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    {
+    }
+
+    public function supports(object $data, ?string $format, array $context): bool
+    {
+        return $data instanceof NSMenuLink;
+    }
+
+    /**
+     * @param NSMenuLink $data
+     */
+    public function enrich(array $normalized, object $data, ?string $format, array $context): array
+    {
+        $target = $data->getLinkInternalReferenceSources()[0] ?? null;
+        $normalized['url'] = null !== $target
+            ? $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                RouteObjectInterface::ROUTE_OBJECT => $target,
+            ])
+            : $data->getLinkExternalUrl();
+
+        return $normalized;
+    }
+}
+```
+
+- `supports()` is called for every normalized object: keep it cheap, `instanceof` first.
+- `enrich()` only runs when API Platform returned an array (not an IRI string).
+- Each enricher run is measured in the Symfony profiler under the `serializer` Stopwatch category, there is no need to add your own.
+
+### Ordering
+
+Enrichers run in **descending tag priority**, set with `#[AsTaggedItem(priority: …)]`
+(default `0`). Core enrichers use the following priorities, so pick yours accordingly:
+
+| Priority | Enricher                                                    |
+|---------:|:------------------------------------------------------------|
+|       21 | `FolderEnricher`                                            |
+|       20 | `DocumentEnricher`                                          |
+|       19 | `DocumentSourcesEnricher`                                   |
+|       18 | `TagTranslationEnricher`                                    |
+|       15 | `AttributeValueEnricher`, `CustomFormEnricher`              |
+|        5 | `NodesSourcesPathEnricher` (adds `url` unless already set)  |
+|      -10 | `NodesSourcesTypeEnricher` (JSON-LD `@type` only)           |
+
+### Normalizing nested objects
+
+When an enricher adds related objects (documents, folders…), normalize them **through the Serializer**:
+implement `Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface` (with `NormalizerAwareTrait`) and call
+`$this->normalizer->normalize($related, $format, $context)`. The `EnrichingItemNormalizer` injects the Serializer for you.
+Never call an inner normalizer directly: other enrichers and project decorators would not apply to the nested objects.
+Restrict `$context['groups']` for nested objects to avoid normalization loops.
+
+### Migrating from `AbstractPathNormalizer`
+
+`AbstractPathNormalizer` decorators still work, but are deprecated: each one adds a layer to every `supportsNormalization()`
+call the Serializer makes, for every normalized object. To migrate one:
+
+1. Implement `NormalizationEnricherInterface` instead of extending `AbstractPathNormalizer`.
+2. Move the `instanceof` and context checks into `supports()`.
+3. Move the code that runs after `$this->decorated->normalize()` into `enrich()`, and return the array.
+4. Replace `$this->decorated->normalize($nested, …)` with `$this->normalizer->normalize($nested, …)` (see above).
+5. Remove both `decorates:` service definitions from `config/services.yaml`. Convert their `decoration_priority` into an `#[AsTaggedItem]` priority if order matters.

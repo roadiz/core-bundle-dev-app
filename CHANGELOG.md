@@ -2,6 +2,27 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.51) - 2026-10-17
+
+### Bug Fixes
+
+- **(api)** stable JSON-LD type and ids for walkers ([#508](https://github.com/roadiz/core-bundle-dev-app/issues/508)) - ([ba6f67a](https://github.com/roadiz/core-bundle-dev-app/commit/ba6f67ae7189e07771464dd5e8c1b98d8a46e722))
+- **(serializer)** keep path normalizer uncacheable - ([d82860d](https://github.com/roadiz/core-bundle-dev-app/commit/d82860d4bbf1f015bd16095913eacbb376189996))
+
+### CI/CD
+
+- create GitHub release from changelog ([#510](https://github.com/roadiz/core-bundle-dev-app/issues/510)) - ([dd1cf98](https://github.com/roadiz/core-bundle-dev-app/commit/dd1cf98f467cdf51244db19ef311d5f5aa8e5798))
+
+### Performance
+
+- **(node-types)** compile definitions in cache dir ([#509](https://github.com/roadiz/core-bundle-dev-app/issues/509)) - ([39048b0](https://github.com/roadiz/core-bundle-dev-app/commit/39048b0788189afdaa43aadaeb577cdf2e81aa45))
+- **(serializer)** replace item decorators with enrichers - ([f361992](https://github.com/roadiz/core-bundle-dev-app/commit/f3619928417b5176ab98fbaa92ecae2d337edc06))
+
+### Testing
+
+- **(serializer)** make snapshots timezone-independent - ([c62fe9c](https://github.com/roadiz/core-bundle-dev-app/commit/c62fe9c9210b9e2b9311bc9c00de9d13adc366a2))
+- **(two-factor)** avoid TOTP code expiring mid-test - ([194650f](https://github.com/roadiz/core-bundle-dev-app/commit/194650f043d6078053b31c5554c4112758e56ae8))
+
 ## [2.7.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.50) - 2026-10-16
 
 ### Bug Fixes
