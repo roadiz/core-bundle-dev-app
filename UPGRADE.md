@@ -14,6 +14,7 @@
 
 - Upgrade Symfony dependencies to 7.4
 - Requires `api-platform/*` **4.2** minimum (`^4.2`), for TypeInfo-based property metadata.
+- Removed `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` classes from `RZ\Roadiz\CoreBundle\Serializer\Normalizer` (their service ids remain as deprecated aliases). Code type-hinting or instantiating them must use the matching `RZ\Roadiz\CoreBundle\Serializer\Enricher` class.
 - NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
 - Removed `Node::sterile` property and `Node::isSterile()` method.
 - Removed deprecated `Node` status constants in favor of `NodeStatus` enum

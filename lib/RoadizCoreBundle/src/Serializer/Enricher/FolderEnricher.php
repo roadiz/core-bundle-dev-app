@@ -10,7 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\FolderTranslation;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
 /**
- * Override Folder default normalization (must run BEFORE DocumentEnricher).
+ * Override Folder default normalization.
  */
 #[AsTaggedItem(priority: 21)]
 final readonly class FolderEnricher implements NormalizationEnricherInterface

@@ -63,6 +63,8 @@ abstract class AbstractPathNormalizer implements NormalizerInterface, Denormaliz
     #[\Override]
     public function getSupportedTypes(?string $format): array
     {
-        return $this->decorated->getSupportedTypes($format);
+        return [
+            '*' => false,
+        ];
     }
 }

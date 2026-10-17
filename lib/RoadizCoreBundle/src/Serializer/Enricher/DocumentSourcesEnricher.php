@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
 /**
- * Serialize document sources (must run AFTER DocumentEnricher).
+ * Serialize document sources.
  */
 #[AsTaggedItem(priority: 19)]
 final class DocumentSourcesEnricher implements NormalizationEnricherInterface, NormalizerAwareInterface
