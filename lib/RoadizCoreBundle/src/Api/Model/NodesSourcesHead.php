@@ -118,8 +118,8 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     {
         if (null === $this->nodesSource) {
             return [
-                'title' => $this->settingsBag->get('site_name'),
-                'description' => $this->settingsBag->get('seo_description'),
+                'title' => $this->settingsBag->get('site_name', null),
+                'description' => $this->settingsBag->get('seo_description', null),
             ];
         }
 
