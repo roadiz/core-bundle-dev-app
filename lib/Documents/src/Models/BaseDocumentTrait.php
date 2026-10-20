@@ -65,10 +65,12 @@ trait BaseDocumentTrait
         'audio/mp4' => 'audio',
         'audio/mpeg' => 'audio',
         'audio/ogg' => 'audio',
+        'audio/opus' => 'audio',
         'audio/vorbis' => 'audio',
         'audio/wav' => 'audio',
         'audio/webm' => 'audio',
         'audio/x-m4a' => 'audio',
+        'audio/x-flac' => 'audio',
         'audio/x-matroska' => 'audio',
         'audio/x-wav' => 'audio',
         // Video types
@@ -171,7 +173,7 @@ trait BaseDocumentTrait
     /**
      * Get short type name for current document Mime type.
      */
-    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('type'),]
     public function getShortType(): string
     {
@@ -250,7 +252,7 @@ trait BaseDocumentTrait
         return 'image/webp' === $this->getMimeType();
     }
 
-    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('relativePath'),]
     public function getRelativePath(): ?string
     {

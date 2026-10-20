@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
+use RZ\Roadiz\Documents\AbstractDocumentFinder;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\FolderInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
@@ -103,9 +104,49 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
 
         $this->appendToNormalizedData($data, $normalized, $serializationGroups);
 
+        if (\in_array('document_display_sources', $serializationGroups, true)) {
+            $altSources = $this->normalizeAltSources($data, $format, $context);
+            if (null !== $altSources) {
+                $normalized['altSources'] = $altSources;
+            }
+        }
+
         $this->stopwatch->stop('normalizeDocumentDto');
 
         return $normalized;
+    }
+
+    /**
+     * Same output as DocumentSourcesEnricher, but alternative sources are fetched as DTOs too.
+     *
+     * @return array<mixed>|null null if document cannot have alternative sources
+     */
+    private function normalizeAltSources(DocumentDto $data, ?string $format, array $context): ?array
+    {
+        if (!$data->isLocal()) {
+            return null;
+        }
+        $extensions = match (true) {
+            $data->isVideo() => AbstractDocumentFinder::VIDEO_SOURCE_EXTENSIONS,
+            $data->isAudio() => AbstractDocumentFinder::AUDIO_SOURCE_EXTENSIONS,
+            default => null,
+        };
+        if (null === $extensions) {
+            return null;
+        }
+
+        $relativePath = $data->getRelativePath();
+        $basename = pathinfo($data->getFilename(), \PATHINFO_FILENAME);
+        $sourceFilenames = array_map(fn (string $extension) => $basename.'.'.$extension, $extensions);
+        $altSources = [];
+        foreach ($this->repository->findDtoByFilenames($sourceFilenames) as $source) {
+            // Some extensions (ogg) are shared between audio and video files.
+            if ($source->getRelativePath() !== $relativePath && $source->getShortType() === $data->getShortType()) {
+                $altSources[] = $this->normalize($source, $format, [...$context, 'groups' => ['document_source']]);
+            }
+        }
+
+        return $altSources;
     }
 
     #[\Override]
