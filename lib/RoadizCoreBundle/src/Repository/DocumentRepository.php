@@ -707,13 +707,35 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
     }
 
     /**
-     * @throws NonUniqueResultException
+     * DTO version of DocumentFinder::findAllByFilenames(), without hydrating entities.
+     *
+     * @param array<string> $filenames
+     *
+     * @return array<DocumentDto>
      */
-    public function findFirstThumbnailDtoBy(
-        int|string $originalDocumentId,
-    ): ?DocumentDto {
+    public function findDtoByFilenames(array $filenames): array
+    {
+        if ([] === $filenames) {
+            return [];
+        }
+
         $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+        $qb->select($this->getDocumentDtoSelect())
+            ->andWhere($qb->expr()->in('d.filename', ':filenames'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->setParameter('filenames', array_values($filenames))
+            ->setParameter('raw', false)
+            ->setParameter('nullValue', null);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * DocumentDto select without node-source and translation data.
+     */
+    private function getDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -740,7 +762,17 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
                     d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
+        );
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findFirstThumbnailDtoBy(
+        int|string $originalDocumentId,
+    ): ?DocumentDto {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getDocumentDtoSelect())
             ->andWhere($qb->expr()->eq('d.original', ':original'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)

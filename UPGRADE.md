@@ -116,6 +116,7 @@ public ?array $menus = null;
   - Review `document_folders` in your `common_content` serialization groups: `DocumentDtoNormalizer` then loads the full `Document`, its folders and their translations (3 queries per document). Keep it only if API consumers read `folders` on common content documents.
   - Tree-walker definitions using `NodeSourceDefinitionTrait::getQueryBuilder()` now fetch-join URL aliases. If your own definition paginates this query builder (`setMaxResults()`), a node-source with several URL aliases takes several rows.
   - `GetWebResponseByPathController` now switches locale-aware services to the resolved item locale. Projects that worked around it in a `WebResponseDataTransformerInterface` decorator (calling `TranslatableListener::setTranslatableLocale()`) can remove it.
+- **`DocumentDto` alternative sources** (since 2.7.52): with `roadiz_core.useDocumentDto` enabled, local video and audio `DocumentDto` normalized with the `document_display_sources` group now expose `altSources`, like `Document` entities. Each source is a `DocumentDto` normalized with the `document_display` group only, fetched in one query per document without hydrating entities. Translated fields (`name`, `alt`, `description`, `copyright`…) of alternative sources are always `null`. Sources are looked up with `AbstractDocumentFinder::VIDEO_SOURCE_EXTENSIONS` / `AUDIO_SOURCE_EXTENSIONS` in `DocumentRepository::findDtoByFilenames()`: a custom `DocumentFinderInterface` implementation is not used for DTOs.
 
 # Upgrade to 2.6
 
