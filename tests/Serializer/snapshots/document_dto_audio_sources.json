@@ -46,6 +46,30 @@
                 "relativePath": "fixtures/serialization_sound.ogg",
                 "processable": false,
                 "publicUrl": "/files/fixtures/serialization_sound.ogg"
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "id": "{id}",
+                "filename": "serialization_sound.flac",
+                "mimeType": "audio/x-flac",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "embedId": null,
+                "embedPlatform": null,
+                "imageAverageColor": "#ffffff",
+                "name": null,
+                "description": null,
+                "copyright": null,
+                "externalUrl": null,
+                "alt": null,
+                "imageCropAlignment": null,
+                "hotspot": null,
+                "type": "audio",
+                "relativePath": "fixtures/serialization_sound.flac",
+                "processable": false,
+                "publicUrl": "/files/fixtures/serialization_sound.flac"
             }
         ]
     },
@@ -96,6 +120,30 @@
                 "relativePath": "fixtures/serialization_sound.ogg",
                 "processable": false,
                 "publicUrl": "/files/fixtures/serialization_sound.ogg"
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "id": "{id}",
+                "filename": "serialization_sound.flac",
+                "mimeType": "audio/x-flac",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "embedId": null,
+                "embedPlatform": null,
+                "imageAverageColor": "#ffffff",
+                "name": null,
+                "description": null,
+                "copyright": null,
+                "externalUrl": null,
+                "alt": null,
+                "imageCropAlignment": null,
+                "hotspot": null,
+                "type": "audio",
+                "relativePath": "fixtures/serialization_sound.flac",
+                "processable": false,
+                "publicUrl": "/files/fixtures/serialization_sound.flac"
             }
         ]
     }

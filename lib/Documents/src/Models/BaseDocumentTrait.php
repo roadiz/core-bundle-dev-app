@@ -65,10 +65,12 @@ trait BaseDocumentTrait
         'audio/mp4' => 'audio',
         'audio/mpeg' => 'audio',
         'audio/ogg' => 'audio',
+        'audio/opus' => 'audio',
         'audio/vorbis' => 'audio',
         'audio/wav' => 'audio',
         'audio/webm' => 'audio',
         'audio/x-m4a' => 'audio',
+        'audio/x-flac' => 'audio',
         'audio/x-matroska' => 'audio',
         'audio/x-wav' => 'audio',
         // Video types

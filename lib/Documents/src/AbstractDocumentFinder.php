@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
+use RZ\Roadiz\Documents\Models\DocumentInterface;
+
 abstract class AbstractDocumentFinder implements DocumentFinderInterface
 {
     /**
-     * Extensions of a video alternative sources.
+     * Extensions of a video alternative sources, playable in an HTML <video> element.
      */
-    public const array VIDEO_SOURCE_EXTENSIONS = ['ogg', 'ogv', 'mp4', 'mov', 'avi', 'webm', 'mkv'];
+    public const array VIDEO_SOURCE_EXTENSIONS = ['ogg', 'ogv', 'mp4', 'm4v', 'mov', 'webm', 'mkv'];
 
     /**
-     * Extensions of an audio alternative sources.
+     * Extensions of an audio alternative sources, playable in an HTML <audio> element.
      */
-    public const array AUDIO_SOURCE_EXTENSIONS = ['mp3', 'ogg', 'wav', 'm4a', 'aac'];
+    public const array AUDIO_SOURCE_EXTENSIONS = ['mp3', 'ogg', 'oga', 'opus', 'wav', 'flac', 'm4a', 'aac', 'weba'];
 
     #[\Override]
     public function findVideosWithFilename(string $fileName): iterable
@@ -24,7 +26,13 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
 
         $sourcesDocsName = array_map(fn (string $extension) => $basename.'.'.$extension, self::VIDEO_SOURCE_EXTENSIONS);
 
-        return $this->findAllByFilenames($sourcesDocsName);
+        /*
+         * Some extensions (ogg) are shared between audio and video files.
+         */
+        return array_values(array_filter(
+            iterator_to_array($this->findAllByFilenames($sourcesDocsName), false),
+            fn (DocumentInterface $document) => $document->isVideo()
+        ));
     }
 
     #[\Override]
@@ -35,7 +43,10 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
 
         $sourcesDocsName = array_map(fn (string $extension) => $basename.'.'.$extension, self::AUDIO_SOURCE_EXTENSIONS);
 
-        return $this->findAllByFilenames($sourcesDocsName);
+        return array_values(array_filter(
+            iterator_to_array($this->findAllByFilenames($sourcesDocsName), false),
+            fn (DocumentInterface $document) => $document->isAudio()
+        ));
     }
 
     #[\Override]
