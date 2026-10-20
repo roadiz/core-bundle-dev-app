@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.52) - 2026-10-20
+
+### Bug Fixes
+
+- **(serializer)** add altSources to DocumentDto ([#516](https://github.com/roadiz/core-bundle-dev-app/issues/516)) - ([9f795f3](https://github.com/roadiz/core-bundle-dev-app/commit/9f795f3ad63cd3315126866314c2342d54d7e6e2))
+
+### Performance
+
+- **(api)** prefetch tree-walker media and refs ([#514](https://github.com/roadiz/core-bundle-dev-app/issues/514)) - ([d5ebb17](https://github.com/roadiz/core-bundle-dev-app/commit/d5ebb1702022c31161a239704c8b0b614375379e))
+
 ## [2.7.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.51) - 2026-10-17
 
 ### Bug Fixes
