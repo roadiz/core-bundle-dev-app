@@ -60,18 +60,7 @@ class WebResponsePrefetchFixtures extends Fixture implements DependentFixtureInt
         $unpublished->getNode()->setStatus(NodeStatus::DRAFT);
 
         $denied = $this->createSource($manager, 'Page', 'prefetch-denied');
-        $realm = (new Realm())
-            ->setName('prefetch-deny-realm')
-            ->setType(RealmInterface::TYPE_ROLE)
-            ->setBehaviour(RealmInterface::BEHAVIOUR_DENY)
-            ->setRole(self::DENIED_ROLE);
-        $manager->persist($realm);
-        $manager->persist(
-            (new RealmNode())
-                ->setNode($denied->getNode())
-                ->setRealm($realm)
-                ->setInheritanceType(RealmInterface::INHERITANCE_ROOT)
-        );
+        $this->addRealm($manager, $denied, 'prefetch-deny-realm', RealmInterface::BEHAVIOUR_DENY);
 
         foreach (['prefetch-page' => 1, 'prefetch-page-more' => 3] as $nodeName => $blockCount) {
             $page = $this->createSource($manager, 'Page', $nodeName);
@@ -88,7 +77,44 @@ class WebResponsePrefetchFixtures extends Fixture implements DependentFixtureInt
             }
         }
 
+        foreach (['prefetch-hidden' => 1, 'prefetch-hidden-more' => 3] as $nodeName => $blockCount) {
+            $page = $this->createSource($manager, 'Page', $nodeName);
+            $this->addRealm($manager, $page, $nodeName.'-realm', RealmInterface::BEHAVIOUR_HIDE_BLOCKS);
+            for ($i = 0; $i < $blockCount; ++$i) {
+                $block = $this->createSource($manager, 'BasicBlock', $nodeName.'-block-'.$i, $page->getNode(), $i + 1);
+                $this->addDocuments($manager, $block, 'image', [$first]);
+            }
+        }
+
+        // Common content menu: a reachable walker item with an URL alias, and links referencing the same node.
+        $menu = $this->createSource($manager, 'Menu', 'prefetch-menu');
+        $menuPage = $this->createSource($manager, 'Page', 'prefetch-menu-page', $menu->getNode(), 1);
+        $manager->persist((new UrlAlias())->setAlias('prefetch-menu-alias')->setNodeSource($menuPage));
+        for ($i = 0; $i < 2; ++$i) {
+            $link = $this->createSource($manager, 'MenuLink', 'prefetch-menu-link-'.$i, $menu->getNode(), $i + 2);
+            $this->addReferences($manager, $link, 'link_internal_reference', [$target, $unpublished]);
+        }
+
         $manager->flush();
+    }
+
+    /**
+     * @param RealmInterface::BEHAVIOUR_* $behaviour
+     */
+    private function addRealm(ObjectManager $manager, NodesSources $source, string $name, string $behaviour): void
+    {
+        $realm = (new Realm())
+            ->setName($name)
+            ->setType(RealmInterface::TYPE_ROLE)
+            ->setBehaviour($behaviour)
+            ->setRole(self::DENIED_ROLE);
+        $manager->persist($realm);
+        $manager->persist(
+            (new RealmNode())
+                ->setNode($source->getNode())
+                ->setRealm($realm)
+                ->setInheritanceType(RealmInterface::INHERITANCE_ROOT)
+        );
     }
 
     private function createSource(ObjectManager $manager, string $nodeTypeName, string $nodeName, ?Node $parent = null, int $position = 1): NodesSources
