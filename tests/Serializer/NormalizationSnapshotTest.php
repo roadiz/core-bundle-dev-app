@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -87,6 +88,40 @@ final class NormalizationSnapshotTest extends KernelTestCase
             [
                 'jsonld' => $serializer->normalize($entity, 'jsonld', $context),
                 'json' => $serializer->normalize($entity, 'json', $context),
+            ]
+        );
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function provideDocumentDtoCases(): iterable
+    {
+        yield 'document_dto_video_sources' => ['serialization_video.mp4'];
+        yield 'document_dto_audio_sources' => ['serialization_sound.mp3'];
+    }
+
+    /**
+     * @dataProvider provideDocumentDtoCases
+     */
+    public function testDocumentDtoNormalizationMatchesSnapshot(string $filename): void
+    {
+        /** @var ManagerRegistry $managerRegistry */
+        $managerRegistry = static::getContainer()->get(ManagerRegistry::class);
+        /** @var DocumentRepository $repository */
+        $repository = $managerRegistry->getRepository(Document::class);
+        $dtos = $repository->findDtoByFilenames([$filename]);
+        $this->assertCount(1, $dtos, 'Missing Document fixture, run doctrine:fixtures:load.');
+
+        /** @var NormalizerInterface $serializer */
+        $serializer = static::getContainer()->get('serializer');
+        $context = ['groups' => ['document_display', 'document_display_sources']];
+
+        $this->assertSnapshot(
+            (string) $this->dataName(),
+            [
+                'jsonld' => $serializer->normalize($dtos[0], 'jsonld', $context),
+                'json' => $serializer->normalize($dtos[0], 'json', $context),
             ]
         );
     }
