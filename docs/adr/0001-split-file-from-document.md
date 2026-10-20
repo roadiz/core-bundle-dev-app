@@ -35,6 +35,7 @@ We decided that a **Document** owns zero or more **Files**, each with a **role**
 ## Consequences
 
 - Every `DocumentRepository` query and `DocumentDto` select joins the `main` File: one more join on the hottest API path.
-- Solr indexing, document factories (upload, embed, download), downscaling, private/public moves, duplicate detection by hash, Rozier explorer and document edit screens must work on Files.
+- Document factories (upload, embed, download), downscaling, private/public moves, duplicate detection by hash, Rozier explorer and document edit screens must work on Files.
+- Solr indexing stays on Document translations: its only binary fields (`filename_s`, `mime_type_s`) come from the `main` File through `DocumentInterface` getters. Thumbnails and `raw` rows are no longer Documents, so they can no longer be indexed.
 - `lib/Documents` (separately published) needs a File model and interface; `DocumentFinderInterface` filename methods become deprecated.
 - TypeScript definitions (`DtsGenerator`) must be regenerated if new fields like `files` are exposed.
