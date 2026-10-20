@@ -63,7 +63,11 @@ final class WebResponsePrefetchTest extends ApiTestCase
             $this->markTestIncomplete(sprintf('Snapshot %s created, review it then run the test again.', $file));
         }
 
-        $this->assertSame(file_get_contents($file), $actual);
+        // Key order depends on serializer versions, not on prefetching: compare content only.
+        $this->assertSame(
+            $this->sortKeys(json_decode((string) file_get_contents($file), true, flags: \JSON_THROW_ON_ERROR)),
+            $this->sortKeys(json_decode($actual, true, flags: \JSON_THROW_ON_ERROR))
+        );
     }
 
     public function testMediaReferencesAndUrlAliasesQueriesDoNotGrowWithBlocks(): void
@@ -172,6 +176,22 @@ final class WebResponsePrefetchTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
 
         return $response->toArray(false);
+    }
+
+    /**
+     * Sorts object keys recursively, keeping list order.
+     */
+    private function sortKeys(mixed $data): mixed
+    {
+        if (!\is_array($data)) {
+            return $data;
+        }
+        $data = array_map($this->sortKeys(...), $data);
+        if (!array_is_list($data)) {
+            ksort($data);
+        }
+
+        return $data;
     }
 
     /**
