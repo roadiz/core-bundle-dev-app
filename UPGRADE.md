@@ -108,6 +108,14 @@ roadiz_core:
 #[ApiProperty(genId: false)]
 public ?array $menus = null;
 ```
+- **API performance** (since 2.7.52): tree-walker normalization no longer issues one query per walker item and per documents, nodes reference or URL alias. `WebResponse` blocks are prefetched automatically by the new `NodesSourcesPrefetcher`. See [Avoid N+1 queries in tree-walkers](https://docs.roadiz.io/developer/api/web_response.html#avoid-n-1-queries-in-tree-walkers).
+  - If you extend `WebResponseOutputDataTransformer` with your own constructor, forward its new optional `$nodesSourcesPrefetcher` argument. Classes using `BlocksAwareWebResponseOutputDataTransformerTrait` directly must override `getNodesSourcesPrefetcher()`. Otherwise blocks are not prefetched.
+  - Regenerate node-source entities (`bin/console generate:nsentities`) to get the new `set{Field}Dtos()` documents setters. Until then, documents fields are not prefetched; there is no error, but a warning is logged on cache warmup.
+  - Nodes reference fields are prefetched through the generic `NodesSourcesRepository`, with the same publication, Realm and allowed node-types filters as generated getters. If you override `findByNodesSourcesAndFieldNameAndTranslation()` in a node-type repository to add your own filters, they are bypassed for prefetched fields: filter the result in your node-source getter instead.
+  - Call `NodesSourcesPrefetcher::prefetchWalkers()` in your `GetCommonContentController` for menus and footers walkers.
+  - Review `document_folders` in your `common_content` serialization groups: `DocumentDtoNormalizer` then loads the full `Document`, its folders and their translations (3 queries per document). Keep it only if API consumers read `folders` on common content documents.
+  - Tree-walker definitions using `NodeSourceDefinitionTrait::getQueryBuilder()` now fetch-join URL aliases. If your own definition paginates this query builder (`setMaxResults()`), a node-source with several URL aliases takes several rows.
+  - `GetWebResponseByPathController` now switches locale-aware services to the resolved item locale. Projects that worked around it in a `WebResponseDataTransformerInterface` decorator (calling `TranslatableListener::setTranslatableLocale()`) can remove it.
 
 # Upgrade to 2.6
 

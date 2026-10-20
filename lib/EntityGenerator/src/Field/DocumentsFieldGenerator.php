@@ -8,9 +8,18 @@ use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 
 final class DocumentsFieldGenerator extends AbstractFieldGenerator
 {
+    /**
+     * Name of the generated DocumentDto buffer setter, also called by node-sources prefetching.
+     */
+    public static function getDtoSetterName(NodeTypeFieldInterface $field): string
+    {
+        return 'set'.ucfirst($field->getVarName()).'Dtos';
+    }
+
     #[\Override]
     protected function addFieldAutodoc(Property $property): AbstractFieldGenerator
     {
@@ -107,7 +116,31 @@ return \$this;
 PHP
         );
 
+        if (true === $this->options['use_document_dto']) {
+            $this->addFieldDtoSetter($classType);
+        }
+
         return $this;
+    }
+
+    /**
+     * Fills the DocumentDto buffer, e.g. when documents are prefetched for several node-sources at once.
+     */
+    private function addFieldDtoSetter(ClassType $classType): void
+    {
+        $varName = $this->field->getVarName();
+        $setter = $classType->addMethod(self::getDtoSetterName($this->field))
+            ->setReturnType('static')
+            ->addComment('@param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $'.$varName)
+            ->addComment('@return $this')
+            ->setPublic();
+        $setter->addParameter($varName)
+            ->setType('?array');
+        $setter->setBody(<<<PHP
+\$this->{$varName} = \${$varName};
+return \$this;
+PHP
+        );
     }
 
     #[\Override]
