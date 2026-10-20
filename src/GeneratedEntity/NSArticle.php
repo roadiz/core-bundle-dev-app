@@ -166,6 +166,16 @@ class NSArticle extends NodesSources
     }
 
     /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $images
+     * @return $this
+     */
+    public function setImagesDtos(?array $images): static
+    {
+        $this->images = $images;
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getRealmBSecret(): ?string

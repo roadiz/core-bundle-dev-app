@@ -44,7 +44,7 @@ final class DocumentSourcesEnricher implements NormalizationEnricherInterface, N
          * Reduce serialization group to avoid normalization loop.
          */
         $sourcesContext = $context;
-        $sourcesContext['groups'] = ['document_display'];
+        $sourcesContext['groups'] = ['document_source'];
         if ($data->isLocal() && $data->isVideo()) {
             $normalized['altSources'] = [];
             foreach ($this->documentFinder->findVideosWithFilename($relativePath) as $document) {

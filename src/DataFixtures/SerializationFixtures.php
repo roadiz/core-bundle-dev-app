@@ -75,8 +75,12 @@ class SerializationFixtures extends Fixture implements DependentFixtureInterface
 
         $this->createDocument($manager, 'serialization_video.mp4', 'video/mp4');
         $this->createDocument($manager, 'serialization_video.webm', 'video/webm');
+        $this->createDocument($manager, 'serialization_video.m4v', 'video/x-m4v');
+        // Audio sharing the video basename and an extension of both lists: not a video source.
+        $this->createDocument($manager, 'serialization_video.ogg', 'audio/ogg');
         $this->createDocument($manager, 'serialization_sound.mp3', 'audio/mpeg');
         $this->createDocument($manager, 'serialization_sound.ogg', 'audio/ogg');
+        $this->createDocument($manager, 'serialization_sound.flac', 'audio/x-flac');
         $this->createDocument($manager, 'serialization_file.pdf', 'application/pdf');
         $this->createDocument($manager, 'serialization_embed.jpg', 'image/jpeg')
             ->setEmbedPlatform('youtube')

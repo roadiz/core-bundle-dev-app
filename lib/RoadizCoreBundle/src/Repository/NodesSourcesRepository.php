@@ -16,6 +16,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
@@ -629,7 +630,9 @@ class NodesSourcesRepository extends StatusAwareRepository
     ): array {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->joinNodeOnce($qb);
-        $qb->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
+        $qb->addSelect('ua')
+            ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
+            ->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
             ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
             ->andWhere($qb->expr()->eq(static::NODESSOURCES_ALIAS.'.translation', ':translation'))
@@ -653,6 +656,75 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setParameter('translation', $nodesSources->getTranslation());
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Batch version of findByNodesSourcesAndFieldNameAndTranslation(), for several nodes
+     * sharing the same translation. Same publication and Realm filters.
+     * Allowed node-types are not filtered here.
+     *
+     * @param array<int|string> $nodeIds
+     * @param array<string>     $fieldNames
+     *
+     * @return array<int|string, array<string, array<T>>> Referenced node-sources indexed by referencing node ID and field name, in position order
+     */
+    public function findByNodeIdsAndFieldNamesAndTranslation(
+        array $nodeIds,
+        array $fieldNames,
+        TranslationInterface $translation,
+    ): array {
+        if ([] === $nodeIds || [] === $fieldNames) {
+            return [];
+        }
+
+        /*
+         * Links are fetched as scalars: a node referenced by several nodes or fields must appear
+         * in each list, which an entity hydration of the referenced sources would merge.
+         */
+        $links = $this->getEntityManager()->createQueryBuilder()
+            ->select('IDENTITY(ntn.nodeA) AS nodeAId', 'IDENTITY(ntn.nodeB) AS nodeBId', 'ntn.fieldName AS fieldName')
+            ->from(NodesToNodes::class, 'ntn')
+            ->andWhere('ntn.nodeA IN (:nodeIds)')
+            ->andWhere('ntn.fieldName IN (:fieldNames)')
+            ->addOrderBy('ntn.position', 'ASC')
+            ->setParameter('nodeIds', array_values($nodeIds))
+            ->setParameter('fieldNames', array_values($fieldNames))
+            ->getQuery()
+            ->getScalarResult();
+
+        if ([] === $links) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
+        $this->joinNodeOnce($qb);
+        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
+            ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
+            ->andWhere($qb->expr()->in(static::NODE_ALIAS.'.id', ':referencedNodeIds'))
+            ->andWhere($qb->expr()->eq(static::NODESSOURCES_ALIAS.'.translation', ':translation'))
+            ->setParameter('referencedNodeIds', array_values(array_unique(array_column($links, 'nodeBId'))))
+            ->setParameter('translation', $translation);
+
+        $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
+
+        $sourcesByNodeId = [];
+        /** @var T $nodeSource */
+        foreach ($qb->getQuery()->getResult() as $nodeSource) {
+            // Fetched nodes always have an ID.
+            $sourcesByNodeId[(int) $nodeSource->getNode()->getId()] = $nodeSource;
+        }
+
+        $references = [];
+        foreach ($links as $link) {
+            $reference = $sourcesByNodeId[$link['nodeBId']] ?? null;
+            // Keyed by referenced node ID: duplicate links are merged, as the single-item query hydration does.
+            if (null !== $reference) {
+                $references[$link['nodeAId']][$link['fieldName']][$link['nodeBId']] ??= $reference;
+            }
+        }
+
+        return array_map(fn (array $fields) => array_map(array_values(...), $fields), $references);
     }
 
     /**

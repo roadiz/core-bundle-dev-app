@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Controller\TranslationAwareControllerTrait;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodesSourcesPrefetcher;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -31,6 +32,7 @@ final class GetCommonContentController extends AbstractController
         private readonly PreviewResolverInterface $previewResolver,
         private readonly TreeWalkerGenerator $treeWalkerGenerator,
         private readonly Settings $settingsBag,
+        private readonly NodesSourcesPrefetcher $nodesSourcesPrefetcher,
     ) {
     }
 
@@ -63,6 +65,7 @@ final class GetCommonContentController extends AbstractController
                 $translation,
                 3
             );
+            $this->nodesSourcesPrefetcher->prefetchWalkers($menus);
             $resource->menus = $menus;
 
             /*
