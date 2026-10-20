@@ -8,9 +8,18 @@ use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 
 final class DocumentsFieldGenerator extends AbstractFieldGenerator
 {
+    /**
+     * Name of the generated DocumentDto buffer setter, also called by node-sources prefetching.
+     */
+    public static function getDtoSetterName(NodeTypeFieldInterface $field): string
+    {
+        return 'set'.ucfirst($field->getVarName()).'Dtos';
+    }
+
     #[\Override]
     protected function addFieldAutodoc(Property $property): AbstractFieldGenerator
     {
@@ -120,7 +129,7 @@ PHP
     private function addFieldDtoSetter(ClassType $classType): void
     {
         $varName = $this->field->getVarName();
-        $setter = $classType->addMethod('set'.ucfirst($varName).'Dtos')
+        $setter = $classType->addMethod(self::getDtoSetterName($this->field))
             ->setReturnType('static')
             ->addComment('@param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $'.$varName)
             ->addComment('@return $this')

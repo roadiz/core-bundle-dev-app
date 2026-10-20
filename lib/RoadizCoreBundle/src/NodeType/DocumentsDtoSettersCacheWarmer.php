@@ -6,9 +6,9 @@ namespace RZ\Roadiz\CoreBundle\NodeType;
 
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
-use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodesSourcesPrefetcher;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\EntityGenerator\Field\DocumentsFieldGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
@@ -52,7 +52,7 @@ final readonly class DocumentsDtoSettersCacheWarmer implements CacheWarmerInterf
                 continue;
             }
             foreach ($nodeType->getFields() as $field) {
-                if ($field->isDocuments() && !method_exists($className, NodesSourcesPrefetcher::getDocumentsDtoSetterName($field))) {
+                if ($field->isDocuments() && !method_exists($className, DocumentsFieldGenerator::getDtoSetterName($field))) {
                     $outdatedClasses[] = $className;
                     break;
                 }
