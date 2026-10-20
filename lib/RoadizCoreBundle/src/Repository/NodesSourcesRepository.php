@@ -672,8 +672,8 @@ class NodesSourcesRepository extends StatusAwareRepository
         }
 
         /*
-         * Links are fetched as scalars: a node referenced twice must appear twice,
-         * which an entity hydration of the referenced sources would merge.
+         * Links are fetched as scalars: a node referenced by several nodes or fields must appear
+         * in each list, which an entity hydration of the referenced sources would merge.
          */
         $links = $this->getEntityManager()->createQueryBuilder()
             ->select('IDENTITY(ntn.nodeA) AS nodeAId', 'IDENTITY(ntn.nodeB) AS nodeBId', 'ntn.fieldName AS fieldName')
