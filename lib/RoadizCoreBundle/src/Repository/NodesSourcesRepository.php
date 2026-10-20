@@ -705,7 +705,8 @@ class NodesSourcesRepository extends StatusAwareRepository
         $sourcesByNodeId = [];
         /** @var T $nodeSource */
         foreach ($qb->getQuery()->getResult() as $nodeSource) {
-            $sourcesByNodeId[$nodeSource->getNode()->getId()] = $nodeSource;
+            // Fetched nodes always have an ID.
+            $sourcesByNodeId[(int) $nodeSource->getNode()->getId()] = $nodeSource;
         }
 
         $references = [];

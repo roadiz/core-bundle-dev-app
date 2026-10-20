@@ -232,7 +232,7 @@ $resource->menus = $menus;
 `prefetchWalkers()` accepts extra node-sources as a second argument, and `prefetch(array $sources)` prefetches a plain list of node-sources.
 
 ::: warning
-Documents fields are prefetched only for node-source entities generated since v2.7.52, which have a `set{Field}Dtos()` setter. Run `bin/console generate:nsentities` to regenerate them. Until then, documents fields are loaded lazily as before, without error.
+Documents fields are prefetched only for node-source entities generated since v2.7.52, which have a `set{Field}Dtos()` setter. Run `bin/console generate:nsentities` to regenerate them. Until then, documents fields are loaded lazily as before, without error, and a warning listing outdated classes is logged on cache warmup.
 :::
 
 ### Limits
