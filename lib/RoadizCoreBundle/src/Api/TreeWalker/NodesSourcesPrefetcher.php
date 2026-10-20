@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\EntityGenerator\Field\DocumentsFieldGenerator;
+use RZ\Roadiz\EntityGenerator\Field\NodesFieldGenerator;
 use RZ\TreeWalker\WalkerInterface;
 
 /**
@@ -124,7 +125,7 @@ final readonly class NodesSourcesPrefetcher
             foreach ($this->getFields($source) as $field) {
                 if (
                     $field->isNodes()
-                    && method_exists($source, $field->getSetterName().'Sources')
+                    && method_exists($source, NodesFieldGenerator::getSourcesSetterName($field))
                     && $this->isBufferUninitialized($source, $field->getVarName().'Sources')
                 ) {
                     $fields[$id][$field->getName()] = $field;
@@ -155,7 +156,7 @@ final readonly class NodesSourcesPrefetcher
                     $references[$source->getNode()->getId() ?? 0][$fieldName] ?? [],
                     $field
                 );
-                $source->{$field->getSetterName().'Sources'}($fieldReferences);
+                $source->{NodesFieldGenerator::getSourcesSetterName($field)}($fieldReferences);
                 $loaded = [...$loaded, ...$fieldReferences];
             }
         }

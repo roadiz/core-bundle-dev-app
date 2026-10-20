@@ -39,6 +39,14 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         return $groups;
     }
 
+    /**
+     * Name of the generated sources buffer setter, also called by node-sources prefetching.
+     */
+    public static function getSourcesSetterName(NodeTypeFieldInterface $field): string
+    {
+        return $field->getSetterName().'Sources';
+    }
+
     protected function getFieldSourcesName(): string
     {
         return $this->field->getVarName().'Sources';
@@ -136,7 +144,7 @@ PHP
     #[\Override]
     public function addFieldSetter(ClassType $classType): self
     {
-        $setter = $classType->addMethod($this->field->getSetterName().'Sources')
+        $setter = $classType->addMethod(self::getSourcesSetterName($this->field))
             ->setReturnType('static')
             ->addComment('@param '.$this->getRepositoryClass().'[]|null $'.$this->getFieldSourcesName())
             ->addComment('@return $this')
