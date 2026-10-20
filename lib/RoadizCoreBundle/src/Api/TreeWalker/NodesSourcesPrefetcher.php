@@ -126,7 +126,7 @@ final readonly class NodesSourcesPrefetcher
                 if (
                     $field->isNodes()
                     && method_exists($source, NodesFieldGenerator::getSourcesSetterName($field))
-                    && $this->isBufferUninitialized($source, $field->getVarName().'Sources')
+                    && $this->isBufferUninitialized($source, NodesFieldGenerator::getSourcesPropertyName($field))
                 ) {
                     $fields[$id][$field->getName()] = $field;
                 }

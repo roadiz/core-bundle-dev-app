@@ -712,13 +712,13 @@ class NodesSourcesRepository extends StatusAwareRepository
         $references = [];
         foreach ($links as $link) {
             $reference = $sourcesByNodeId[$link['nodeBId']] ?? null;
-            // Duplicate links are merged, as the single-item query hydration does.
-            if (null !== $reference && !\in_array($reference, $references[$link['nodeAId']][$link['fieldName']] ?? [], true)) {
-                $references[$link['nodeAId']][$link['fieldName']][] = $reference;
+            // Keyed by referenced node ID: duplicate links are merged, as the single-item query hydration does.
+            if (null !== $reference) {
+                $references[$link['nodeAId']][$link['fieldName']][$link['nodeBId']] ??= $reference;
             }
         }
 
-        return $references;
+        return array_map(fn (array $fields) => array_map(array_values(...), $fields), $references);
     }
 
     /**

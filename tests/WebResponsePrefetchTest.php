@@ -166,7 +166,7 @@ final class WebResponsePrefetchTest extends ApiTestCase
         $requestLocale = null;
         $translator = static::getContainer()->get('translator');
         $this->assertInstanceOf(LocaleAwareInterface::class, $translator);
-        // Before API Platform serialization, which builds blocks.
+        // Right after the controller, which switches locales before transform() builds blocks.
         static::getContainer()->get('event_dispatcher')->addListener(
             KernelEvents::VIEW,
             function (ViewEvent $event) use ($translator, &$translatorLocale, &$requestLocale) {

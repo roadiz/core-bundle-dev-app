@@ -47,9 +47,17 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         return $field->getSetterName().'Sources';
     }
 
+    /**
+     * Name of the generated sources buffer property, also read by node-sources prefetching.
+     */
+    public static function getSourcesPropertyName(NodeTypeFieldInterface $field): string
+    {
+        return $field->getVarName().'Sources';
+    }
+
     protected function getFieldSourcesName(): string
     {
-        return $this->field->getVarName().'Sources';
+        return self::getSourcesPropertyName($this->field);
     }
 
     protected function hasOnlyOneNodeType(): bool
