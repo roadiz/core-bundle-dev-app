@@ -173,7 +173,7 @@ trait BaseDocumentTrait
     /**
      * Get short type name for current document Mime type.
      */
-    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('type'),]
     public function getShortType(): string
     {
@@ -252,7 +252,7 @@ trait BaseDocumentTrait
         return 'image/webp' === $this->getMimeType();
     }
 
-    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('relativePath'),]
     public function getRelativePath(): ?string
     {

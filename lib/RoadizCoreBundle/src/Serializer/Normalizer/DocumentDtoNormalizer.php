@@ -142,7 +142,7 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
         foreach ($this->repository->findDtoByFilenames($sourceFilenames) as $source) {
             // Some extensions (ogg) are shared between audio and video files.
             if ($source->getRelativePath() !== $relativePath && $source->getShortType() === $data->getShortType()) {
-                $altSources[] = $this->normalize($source, $format, [...$context, 'groups' => ['document_display']]);
+                $altSources[] = $this->normalize($source, $format, [...$context, 'groups' => ['document_source']]);
             }
         }
 
