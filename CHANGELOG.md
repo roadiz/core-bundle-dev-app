@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.58](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.57...v2.5.58) - 2026-10-27
+
+### Bug Fixes
+
+- **(solr)** dispatch realm reindex on message bus - ([d6fa156](https://github.com/roadiz/core-bundle-dev-app/commit/d6fa1561e8240b1285de5e85486529417ecb8544))
+
 ## [2.5.57](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.56...v2.5.57) - 2026-10-27
 
 ### Bug Fixes
