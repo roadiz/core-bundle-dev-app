@@ -2,7 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.7.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.52) - 2026-10-20
+## [2.7.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.52...v2.7.53) - 2026-10-27
+
+### Bug Fixes
+
+- **(solr)** index only title of realm-protected nodes ([#522](https://github.com/roadiz/core-bundle-dev-app/issues/522)) - ([92541b6](https://github.com/roadiz/core-bundle-dev-app/commit/92541b6188845d94790ad2ad06c51a4ed1750689))
+
+## [2.7.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.51...v2.7.52) - 2026-10-20
 
 ### Bug Fixes
 
@@ -12,7 +18,7 @@ All notable changes to Roadiz will be documented in this file.
 
 - **(api)** prefetch tree-walker media and refs ([#514](https://github.com/roadiz/core-bundle-dev-app/issues/514)) - ([d5ebb17](https://github.com/roadiz/core-bundle-dev-app/commit/d5ebb1702022c31161a239704c8b0b614375379e))
 
-## [2.7.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.51) - 2026-10-17
+## [2.7.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.50...v2.7.51) - 2026-10-17
 
 ### Bug Fixes
 
@@ -33,14 +39,14 @@ All notable changes to Roadiz will be documented in this file.
 - **(serializer)** make snapshots timezone-independent - ([c62fe9c](https://github.com/roadiz/core-bundle-dev-app/commit/c62fe9c9210b9e2b9311bc9c00de9d13adc366a2))
 - **(two-factor)** avoid TOTP code expiring mid-test - ([194650f](https://github.com/roadiz/core-bundle-dev-app/commit/194650f043d6078053b31c5554c4112758e56ae8))
 
-## [2.7.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.7.50) - 2026-10-16
+## [2.7.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.49...v2.7.50) - 2026-10-16
 
 ### Bug Fixes
 
 - **(security)** never output unsanitized SVG ([#503](https://github.com/roadiz/core-bundle-dev-app/issues/503)) - ([26a2a45](https://github.com/roadiz/core-bundle-dev-app/commit/26a2a4597fcc1a090c7a640b76179c1c6adcf3d0))
 - **(solr)** support standalone cores in solr:init ([#498](https://github.com/roadiz/core-bundle-dev-app/issues/498)) - ([5789caf](https://github.com/roadiz/core-bundle-dev-app/commit/5789caf0ff98ec13cfbae1a87206d613a2ecefa4))
 
-## [2.7.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.5...v2.7.49) - 2026-10-14
+## [2.7.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.48...v2.7.49) - 2026-10-14
 
 ### Bug Fixes
 
