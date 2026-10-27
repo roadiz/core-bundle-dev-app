@@ -2,13 +2,19 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.5.56](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.56) - 2026-10-17
+## [2.5.57](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.56...v2.5.57) - 2026-10-27
+
+### Bug Fixes
+
+- **(solr)** index only title of realm-protected nodes ([#522](https://github.com/roadiz/core-bundle-dev-app/issues/522)) - ([888a1e7](https://github.com/roadiz/core-bundle-dev-app/commit/888a1e738352c2c2857963c9213fb1f76296560b))
+
+## [2.5.56](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.55...v2.5.56) - 2026-10-17
 
 ### CI/CD
 
 - create GitHub release from changelog ([#512](https://github.com/roadiz/core-bundle-dev-app/issues/512)) - ([5dc09d3](https://github.com/roadiz/core-bundle-dev-app/commit/5dc09d3785f7561e45e7e4e32397b0e9c4eb029c))
 
-## [2.5.55](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.55) - 2026-10-16
+## [2.5.55](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.54...v2.5.55) - 2026-10-16
 
 ### Bug Fixes
 
