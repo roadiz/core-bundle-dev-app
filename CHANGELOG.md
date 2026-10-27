@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.50...v2.3.51) - 2026-10-27
+
+### Styling
+
+- fix concatenation spacing - ([4bb21bd](https://github.com/roadiz/core-bundle-dev-app/commit/4bb21bd3e4f5d0eeac97c15c26ae21624f06a3e8))
+
 ## [2.3.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.49...v2.3.50) - 2026-10-27
 
 ### Bug Fixes
