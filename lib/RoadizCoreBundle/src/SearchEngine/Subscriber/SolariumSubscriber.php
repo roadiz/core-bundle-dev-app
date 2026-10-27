@@ -114,7 +114,7 @@ final class SolariumSubscriber implements EventSubscriberInterface
 
     public function onSolariumRealmNodeUpdate(AbstractRealmNodeEvent $event): void
     {
-        $this->defer(new SolrReindexMessage(Node::class, $event->getRealmNode()->getNode()->getId()));
+        $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Node::class, $event->getRealmNode()->getNode()->getId())));
     }
 
     /**
