@@ -43,7 +43,7 @@ final class NodeSourceSearchRealmFilterSubscriber implements EventSubscriberInte
         $title = $assoc['title'] ?? '';
         $lang = \Locale::getPrimaryLanguage($event->getNodeSource()->getTranslation()->getLocale());
         $assoc['collection_txt'] = [$title];
-        $assoc['collection_txt_'.$lang] = $title;
+        $assoc['collection_txt_' . $lang] = $title;
 
         $event->setAssociations($assoc);
     }
