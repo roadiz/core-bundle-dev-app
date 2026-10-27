@@ -20,6 +20,9 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeVisibilityChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
+use RZ\Roadiz\CoreBundle\Event\Realm\AbstractRealmNodeEvent;
+use RZ\Roadiz\CoreBundle\Event\Realm\NodeJoinedRealmEvent;
+use RZ\Roadiz\CoreBundle\Event\Realm\NodeLeftRealmEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\SearchEngine\Message\SolrDeleteMessage;
 use RZ\Roadiz\CoreBundle\SearchEngine\Message\SolrReindexMessage;
@@ -51,6 +54,8 @@ final class SolariumSubscriber implements EventSubscriberInterface
             NodeDeletedEvent::class => 'onSolariumNodeDelete',
             NodeUndeletedEvent::class => 'onSolariumNodeUpdate',
             NodeTaggedEvent::class => 'onSolariumNodeUpdate',
+            NodeJoinedRealmEvent::class => 'onSolariumRealmNodeUpdate',
+            NodeLeftRealmEvent::class => 'onSolariumRealmNodeUpdate',
             NodeCreatedEvent::class => 'onSolariumNodeUpdate',
             TagUpdatedEvent::class => 'onSolariumTagUpdate', // Possibly too greedy if lots of nodes tagged
             DocumentCreatedEvent::class => 'onSolariumDocumentUpdate',
@@ -105,6 +110,11 @@ final class SolariumSubscriber implements EventSubscriberInterface
     public function onSolariumNodeUpdate(FilterNodeEvent $event): void
     {
         $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Node::class, $event->getNode()->getId())));
+    }
+
+    public function onSolariumRealmNodeUpdate(AbstractRealmNodeEvent $event): void
+    {
+        $this->defer(new SolrReindexMessage(Node::class, $event->getRealmNode()->getNode()->getId()));
     }
 
     /**
