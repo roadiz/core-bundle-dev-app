@@ -20,7 +20,7 @@ File issues only into the user's own repo. Never file into `mattpocock/skills` (
 
 ## UI redesign conventions
 
-For Rozier backoffice issues (`lib/Rozier`, `lib/RoadizRozierBundle` templates):
+For Rozier backoffice issues (`lib/Rozier`, `lib/RoadizRozierBundle` templates), file through the `rozier-redesign.yml` issue form and apply the Rozier [definition of ready](triage-labels.md#rozier-issues) before labelling `ready-for-agent`:
 
 - **Labels**: `frontend` plus one of `redesign-polish` (fix or improvement on a component the redesign already shipped) or `redesign-new-scope` (zone or task the redesign has not covered yet).
 - **Milestone**: `v2.8` (`gh issue create --milestone v2.8 ...`).
