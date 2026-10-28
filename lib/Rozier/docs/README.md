@@ -17,9 +17,12 @@ Use it as a quick entry point when you touch anything in `lib/Rozier`.
 ## Start here
 
 - `context.md`: what Rozier is, how it is built, and where outputs land
-- `engineering-practices.md`: how we work, review, test, and ship
+- `engineering-practices.md`: how we work, review, verify (feedback loop), and ship
 - `roadmap.md`: current modernization work and priorities
 - `llm-guidelines.md`: guidance for automated code changes
+- `ui-redesign-todo.md`: redesign zones, their order, and the one-active-zone rule
+- `ui-redesign-status.md`: redesign inventory (snapshot of 2026-09-10)
+- `../GLOSSARY.md` and `adr/`: UI vocabulary and decisions, created as they get resolved
 
 ## What this folder is not
 
