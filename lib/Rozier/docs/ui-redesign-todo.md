@@ -56,9 +56,9 @@ cleaning up before merging #396 risks a conflict or an overwritten fix.
 post-merge state, not from the paths/line numbers cited below, which reflect the state as of
 2026-09-10.)*
 
-- [ ] De-duplicate: [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439)/[#440](https://github.com/roadiz/core-bundle-dev-app/issues/440), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415)/[core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462)
-- [ ] Resync board ↔ `v2.8` milestone (13 milestone issues missing from the board)
-- [ ] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): remove from the milestone or explicitly own them
+- [x] De-duplicate: #440 and #447 closed as duplicates of [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) and [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446); `roadiz/roadiz#415` is unreachable (issues disabled on that repo), [#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) is the canonical record
+- [x] Resync board ↔ `v2.8` milestone (done 2026-10-28; every open v2.8 issue is now on the board)
+- [x] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): already removed from the `v2.8` milestone (checked 2026-10-28)
 - [ ] Set a due date on `v2.8`, or open `v2.9` if scope has drifted too far
 - [ ] Clean up the `components/RzButton.vue` (legacy) vs `custom-elements/RzButton.ts` (new) collision — and its cousin `RzTextarea.vue`
 - [ ] Check whether `components/CodeMirror.vue` is dead code (no import found)
@@ -86,7 +86,7 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 ## Phase 2 — Dark mode / contrast (cross-cutting, after the pilot zone)
 
 - [ ] Use the validated pilot zone as the contrast reference
-- [ ] Fix [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436), [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448), [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) against that reference
+- [ ] Fix [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436), [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446), [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448), [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) against that reference
 - [ ] Go back over the nearly-finished zones (Navigation, Tables) to validate their dark mode
 
 ## Phase 3 — Next zones (in the order from the table)

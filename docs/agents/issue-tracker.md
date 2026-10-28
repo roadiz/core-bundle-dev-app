@@ -28,6 +28,7 @@ For Rozier backoffice issues (`lib/Rozier`, `lib/RoadizRozierBundle` templates):
 - **Reuse before creating**: when an open issue already covers a ticket, attach it as a sub-issue of the spec instead of filing a new one.
 - **Figma gaps stay `ready-for-agent`**: a missing mockup value or state is decided by the implementer, following `lib/Rozier/docs/engineering-practices.md` ("Design decisions"). Reserve `ready-for-human` for product decisions that need the team.
 - **Accessibility findings** become follow-up issues (`frontend` + `redesign-polish`), never blockers of the ticket at hand.
+- **Requests superseded by a redesign restructuring**: when an issue asks for a behaviour of the legacy UI that the redesign answers through a functional restructuring rather than the requested change, keep the need, not the solution. Restate the need as an acceptance criterion of the issue carrying the restructuring, attach the issue as its sub-issue, and leave it out of the technical (`ready-for-agent`) view.
 
 ## Pull requests as a triage surface
 
