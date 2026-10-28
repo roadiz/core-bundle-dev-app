@@ -8,6 +8,8 @@ Authoritative instructions
 - Copilot rules: `.github/copilot-instructions.md`.
 - Git commit rules: `.github/git-commit-instructions.md` — note its `Co-authored-by:` trailer suggestion does not apply to agent-authored commits; follow the "Git commit guidance" section below instead, which never adds that footer.
 - Cursor rules: none found in `.cursor/rules/` or `.cursorrules`.
+- Agent skills (issue tracker, triage labels, domain docs): `docs/agents/`.
+- Rozier backoffice work: `lib/Rozier/docs/`.
 
 Project overview
 - Monorepo with Symfony bundles in `lib/` and a dev app in `src/`.

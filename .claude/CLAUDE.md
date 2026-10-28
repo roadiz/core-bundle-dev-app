@@ -151,3 +151,21 @@ PHPStan may misbehave when `lib/*` packages are symlinked — run from inside th
 
 - `.env.local`
 - `.env.*.local` (e.g. `.env.test.local`, `.env.dev.local`)
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues for `roadiz/core-bundle-dev-app`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default canonical vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context: root `GLOSSARY-MAP.md` points to one `GLOSSARY.md` per `lib/<Package>/`; system-wide ADRs in `docs/adr/`, package-scoped ones in `lib/<Package>/docs/adr/`. See `docs/agents/domain.md`.
+
+### Rozier (backoffice UI)
+
+Before any Rozier work, read `lib/Rozier/docs/` (start with its `README.md`): `engineering-practices.md` holds the feedback loop that replaces `/tdd` (no frontend tests), the Figma and accessibility rules, and the standards `/code-review` checks; `ui-redesign-todo.md` holds the redesign zones and their order. UI vocabulary lives in `lib/Rozier/GLOSSARY.md`, UI decisions in `lib/Rozier/docs/adr/`.
