@@ -168,4 +168,4 @@ Multi-context: root `GLOSSARY-MAP.md` points to one `GLOSSARY.md` per `lib/<Pack
 
 ### Rozier (backoffice UI)
 
-Before any Rozier work, read `lib/Rozier/docs/` (start with its `README.md`): `engineering-practices.md` holds the feedback loop that replaces `/tdd` (no frontend tests), the Figma and accessibility rules, and the standards `/code-review` checks; `ui-redesign-todo.md` holds the redesign zones and their order. UI vocabulary lives in `lib/Rozier/GLOSSARY.md`, UI decisions in `lib/Rozier/docs/adr/`.
+Before any Rozier work, read `lib/Rozier/docs/` (start with its `README.md`): `engineering-practices.md` holds the feedback loop that replaces `/tdd` (no frontend tests), the Figma and accessibility rules, and the standards `/code-review` checks; `ui-redesign-todo.md` holds the redesign zones, their order and the component inventory. UI vocabulary (zone names, legacy vs redesigned) lives in `lib/Rozier/GLOSSARY.md`, accepted UI decisions in `lib/Rozier/docs/adr/`. Before labelling a Rozier issue `ready-for-agent`, check the definition of ready in `docs/agents/triage-labels.md`.
