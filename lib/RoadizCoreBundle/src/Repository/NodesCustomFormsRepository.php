@@ -23,7 +23,7 @@ final class NodesCustomFormsRepository extends EntityRepository
 
     public function getLatestPositionForFieldName(Node $node, string $fieldName): int
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT MAX(ncf.position) FROM RZ\Roadiz\CoreBundle\Entity\NodesCustomForms ncf
             WHERE ncf.node = :node AND ncf.fieldName = :fieldName')
                     ->setParameter('node', $node)

@@ -8,10 +8,8 @@ use Doctrine\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\NodeType\ApiResourceGenerator;
-use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\EntityGenerator\EntityGeneratorFactory;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -44,10 +42,8 @@ final class NodeTypeHandler extends AbstractHandler
     public function __construct(
         ObjectManager $objectManager,
         private readonly EntityGeneratorFactory $entityGeneratorFactory,
-        private readonly HandlerFactory $handlerFactory,
         private readonly ApiResourceGenerator $apiResourceGenerator,
         private readonly LoggerInterface $logger,
-        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         private readonly string $generatedEntitiesDir,
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
@@ -190,6 +186,8 @@ final class NodeTypeHandler extends AbstractHandler
      * Delete node-type class from database.
      *
      * @return $this
+     *
+     * @deprecated
      */
     public function deleteSchema(): static
     {
@@ -197,46 +195,6 @@ final class NodeTypeHandler extends AbstractHandler
             $this->apiResourceGenerator->remove($this->nodeType);
         }
         $this->removeSourceEntityClass();
-
-        return $this;
-    }
-
-    /**
-     * Delete node-type inherited nodes and its database schema
-     * before removing it from node-types table.
-     *
-     * @return $this
-     *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function deleteWithAssociations(): static
-    {
-        /*
-         * Delete every nodes
-         */
-        $nodes = $this->notPublishedNodeRepository
-            ->findBy([
-                'nodeTypeName' => $this->getNodeType()->getName(),
-            ]);
-
-        /** @var Node $node */
-        foreach ($nodes as $node) {
-            /** @var NodeHandler $nodeHandler */
-            $nodeHandler = $this->handlerFactory->getHandler($node);
-            $nodeHandler->removeWithChildrenAndAssociations();
-        }
-
-        /*
-         * Remove node type
-         */
-        $this->objectManager->remove($this->getNodeType());
-        $this->objectManager->flush();
-
-        /*
-         * Remove class and database table
-         */
-        $this->deleteSchema();
 
         return $this;
     }

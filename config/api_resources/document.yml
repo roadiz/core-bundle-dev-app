@@ -10,6 +10,8 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
             ApiPlatform\Metadata\Get:
                 method: "GET"
                 normalizationContext:
@@ -19,4 +21,6 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
 

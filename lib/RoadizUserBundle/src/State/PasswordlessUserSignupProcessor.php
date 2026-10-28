@@ -7,7 +7,10 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -25,6 +28,14 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
     use CaptchaProtectedTrait;
     use SignupProcessorTrait;
 
+    /**
+     * Floor (in seconds) below which the "existing account" branch (lookup + send
+     * link) is padded up to roughly match the "new user" branch (create + validate
+     * + persist + send link), so response timing cannot be used to enumerate
+     * registered accounts.
+     */
+    private const float MIN_PROCESSING_TIME = 0.25;
+
     public function __construct(
         private LoginLinkHandlerInterface $loginLinkHandler,
         private ValidatorInterface $validator,
@@ -36,6 +47,8 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
         private LoginLinkSenderInterface $loginLinkSender,
+        private ManagerRegistry $managerRegistry,
+        private LoggerInterface $logger,
         private string $publicUserRoleName,
         private string $passwordlessUserRoleName,
     ) {
@@ -69,38 +82,61 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         $this->validateRequest($request);
         $this->validateCaptchaHeader($request);
 
-        $user = $this->createUser($data);
-        $user->setUserRoles([
-            ...$user->getUserRoles(),
-            $this->publicUserRoleName,
-            $this->passwordlessUserRoleName,
-        ]);
-        /*
-         * We don't want to send an email right now, we will send a login link instead.
-         */
-        $user->sendCreationConfirmationEmail(false);
-        if (null !== $request?->getLocale()) {
-            $user->setLocale($request->getLocale());
+        $startedAt = microtime(true);
+        try {
+            // Do not reveal that this email is already registered: send the
+            // existing account holder a fresh login link out-of-band instead of
+            // returning a 422 that an anonymous caller could use to enumerate accounts.
+            $existingUser = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $data->email]);
+            if ($existingUser instanceof User) {
+                try {
+                    $loginLinkDetails = $this->loginLinkHandler->createLoginLink($existingUser, $request);
+                    $this->loginLinkSender->sendLoginLink($existingUser, $loginLinkDetails);
+                } catch (\Exception $e) {
+                    $this->logger->error($e->getMessage());
+                }
+
+                return new VoidOutput();
+            }
+
+            $user = $this->createUser($data);
+            $user->setUserRoles([
+                ...$user->getUserRoles(),
+                $this->publicUserRoleName,
+                $this->passwordlessUserRoleName,
+            ]);
+            /*
+             * We don't want to send an email right now, we will send a login link instead.
+             */
+            $user->sendCreationConfirmationEmail(false);
+            if (null !== $request?->getLocale()) {
+                $user->setLocale($request->getLocale());
+            }
+
+            $this->validator->validate($user);
+
+            $this->eventDispatcher->dispatch(new PasswordlessUserSignedUp($user));
+            // Process and persist user to database before returning a VoidOutput
+            $user = $this->persistProcessor->process($user, $operation, $uriVariables, $context);
+
+            if (null !== $data->metadata) {
+                $userMetadata = $this->userMetadataManager->createMetadataForUser($user);
+                $userMetadata->setMetadata($data->metadata);
+                $this->persistProcessor->process($userMetadata, $operation, $uriVariables, $context);
+            }
+
+            /*
+             * Send user first login link, this will also set user as EMAIL_VALIDATED
+             */
+            $loginLinkDetails = $this->loginLinkHandler->createLoginLink($user, $request);
+            $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
+
+            return new VoidOutput();
+        } finally {
+            $elapsed = microtime(true) - $startedAt;
+            if ($elapsed < self::MIN_PROCESSING_TIME) {
+                usleep((int) ((self::MIN_PROCESSING_TIME - $elapsed) * 1_000_000));
+            }
         }
-
-        $this->validator->validate($user);
-
-        $this->eventDispatcher->dispatch(new PasswordlessUserSignedUp($user));
-        // Process and persist user to database before returning a VoidOutput
-        $user = $this->persistProcessor->process($user, $operation, $uriVariables, $context);
-
-        if (null !== $data->metadata) {
-            $userMetadata = $this->userMetadataManager->createMetadataForUser($user);
-            $userMetadata->setMetadata($data->metadata);
-            $this->persistProcessor->process($userMetadata, $operation, $uriVariables, $context);
-        }
-
-        /*
-         * Send user first login link, this will also set user as EMAIL_VALIDATED
-         */
-        $loginLinkDetails = $this->loginLinkHandler->createLoginLink($user, $request);
-        $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
-
-        return new VoidOutput();
     }
 }

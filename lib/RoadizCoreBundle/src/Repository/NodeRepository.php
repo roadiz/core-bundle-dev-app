@@ -15,8 +15,6 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderApplyEvent;
-use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -24,7 +22,6 @@ use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -39,24 +36,6 @@ class NodeRepository extends StatusAwareRepository
         Security $security,
     ) {
         parent::__construct($registry, Node::class, $previewResolver, $dispatcher, $security);
-    }
-
-    #[\Override]
-    protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): Event
-    {
-        // @phpstan-ignore-next-line
-        return $this->dispatcher->dispatch(
-            new QueryBuilderBuildEvent($qb, Node::class, $property, $value, $this->getEntityName())
-        );
-    }
-
-    #[\Override]
-    protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): Event
-    {
-        // @phpstan-ignore-next-line
-        return $this->dispatcher->dispatch(
-            new QueryBuilderApplyEvent($qb, Node::class, $property, $value, $this->getEntityName())
-        );
     }
 
     /**
@@ -408,7 +387,8 @@ NEW %s(
     %s.nodeTypeName,
     %s.id,
     %s.title,
-    %s.publishedAt
+    %s.publishedAt,
+    %s.unpublishedAt
 )
 EOT,
             NodeTreeDto::class,
@@ -423,6 +403,7 @@ EOT,
             $alias,
             $alias,
             $alias,
+            self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
@@ -894,12 +875,13 @@ EOT,
         if ($node instanceof NodeInterface) {
             $node = $node->getId();
         }
-        $cacheItem = $this->_em->getConfiguration()->getResultCache()?->getItem('noderepository_findAllAncestors_'.$node);
+        $resultCache = $this->getEntityManager()->getConfiguration()->getResultCache();
+        $cacheItem = $resultCache?->getItem('noderepository_findAllAncestors_'.$node);
         if ($cacheItem?->isHit()) {
             // @phpstan-ignore-next-line
             return $cacheItem->get();
         }
-        $statement = $this->_em->getConnection()->prepare(<<<SQL
+        $statement = $this->getEntityManager()->getConnection()->prepare(<<<SQL
 WITH RECURSIVE
     ancestors ( node, ancestor, level )
         AS
@@ -927,29 +909,21 @@ SQL
         $result = $statement
             ->executeQuery()
             ->fetchAllAssociative();
-        if (null !== $cacheItem) {
+        if (null !== $cacheItem && null !== $resultCache) {
             $cacheItem->set($result);
             $cacheItem->expiresAfter($cacheTtl);
-            $this->_em->getConfiguration()->getResultCache()?->save($cacheItem);
+            $resultCache->save($cacheItem);
         }
 
         return $result;
     }
 
-    /**
-     * Create a Criteria object from a search pattern and additional fields.
-     *
-     * @param string       $pattern  Search pattern
-     * @param QueryBuilder $qb       QueryBuilder to pass
-     * @param array        $criteria Additional criteria
-     * @param string       $alias    SQL query table alias
-     */
     #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = 'obj',
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->classicLikeComparison($pattern, $qb, $alias);
 
@@ -958,7 +932,7 @@ SQL
          */
         $qb->innerJoin($alias.'.nodeSources', self::NODESSOURCES_ALIAS);
         $criteriaFields = [];
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(NodesSources::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(NodesSources::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
         foreach ($criteriaFields as $key => $value) {
@@ -1124,13 +1098,9 @@ SQL
         if ($node->getPosition() <= 1) {
             return null;
         }
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
-        if (null === $criteria) {
-            $criteria = [];
-        }
+        $criteria ??= [];
 
         $criteria['parent'] = $node->getParent();
         /*
@@ -1158,12 +1128,8 @@ SQL
         ?array $criteria = null,
         ?array $order = null,
     ): ?Node {
-        if (null === $criteria) {
-            $criteria = [];
-        }
-        if (null === $order) {
-            $order = [];
-        }
+        $criteria ??= [];
+        $order ??= [];
 
         $criteria['parent'] = $node->getParent();
 

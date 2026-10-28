@@ -101,7 +101,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
          * disable pagination to get all archives
          */
         $paginator->getQuery()->setMaxResults(null);
-        $paginator->getQuery()->setFirstResult(null);
+        $paginator->getQuery()->setFirstResult(0);
 
         foreach ($paginator as $result) {
             $dateTimeField = reset($result);
@@ -109,12 +109,8 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
                 $year = $dateTimeField->format('Y');
                 $month = $dateTimeField->format('Y-m');
 
-                if (!isset($dates[$year])) {
-                    $dates[$year] = [];
-                }
-                if (!isset($dates[$year][$month])) {
-                    $dates[$year][$month] = new \DateTime($dateTimeField->format('Y-m-01'));
-                }
+                $dates[$year] ??= [];
+                $dates[$year][$month] ??= new \DateTime($dateTimeField->format('Y-m-01'));
             }
         }
 

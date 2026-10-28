@@ -14,6 +14,13 @@ interface EmbedFinderInterface
 
     public function getSource(array &$options = []): string;
 
+    /**
+     * Get the original public media URL (permalink), not the iframe/embed source.
+     *
+     * @return string|null Null when the platform has no public URI to build back
+     */
+    public function getPublicUri(): ?string;
+
     public static function supportEmbedUrl(string $embedUrl): bool;
 
     public static function getPlatform(): string;

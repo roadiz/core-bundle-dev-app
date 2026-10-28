@@ -1137,6 +1137,10 @@ class NSMock extends NodesSources
     }
 
     #[Serializer\SerializedName(serializedName: 'fooManyToManyProxied')]
+    #[Serializer\Context(
+        normalizationContext: ['groups' => ['nodes_sources', 'nodes_sources_default', 'foo_many_to_many_proxied']],
+        groups: ['nodes_sources', 'nodes_sources_default'],
+    )]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\MaxDepth(1)]
     public function getFooManyToManyProxied(): array
@@ -1252,6 +1256,16 @@ class NSMock extends NodesSources
      */
     #[\Override]
     public function isPublishable(): bool
+    {
+        return true;
+    }
+
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
     {
         return true;
     }

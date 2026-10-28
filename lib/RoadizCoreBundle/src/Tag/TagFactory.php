@@ -35,9 +35,7 @@ final readonly class TagFactory
             return $tag;
         }
 
-        if (null === $translation) {
-            $translation = $this->managerRegistry->getRepository(TranslationInterface::class)->findDefault();
-        }
+        $translation ??= $this->managerRegistry->getRepository(TranslationInterface::class)->findDefault();
 
         if ($latestPosition <= 0) {
             /*

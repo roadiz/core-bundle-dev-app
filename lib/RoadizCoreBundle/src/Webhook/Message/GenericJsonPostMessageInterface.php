@@ -14,19 +14,27 @@ final readonly class GenericJsonPostMessageInterface implements AsyncMessage, Ht
     public function __construct(
         private string $uri,
         private ?array $payload = null,
+        private ?string $secret = null,
     ) {
     }
 
     #[\Override]
     public function getOptions(): array
     {
+        $body = \json_encode($this->payload ?? [], JSON_NUMERIC_CHECK | JSON_THROW_ON_ERROR);
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ];
+
+        if (null !== $this->secret && '' !== $this->secret) {
+            $headers['X-Roadiz-Signature'] = 'sha256='.\hash_hmac('sha256', $body, $this->secret);
+        }
+
         return [
             'timeout' => 3,
-            'body' => \json_encode($this->payload ?? [], JSON_NUMERIC_CHECK | JSON_THROW_ON_ERROR),
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-            ],
+            'body' => $body,
+            'headers' => $headers,
         ];
     }
 
@@ -38,7 +46,8 @@ final readonly class GenericJsonPostMessageInterface implements AsyncMessage, Ht
     {
         return new self(
             $webhook->getUri() ?? throw new \InvalidArgumentException('Webhook URI cannot be null.'),
-            $webhook->getPayload()
+            $webhook->getPayload(),
+            $webhook->getSecret(),
         );
     }
 

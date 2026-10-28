@@ -40,7 +40,6 @@ final readonly class ArticlesContainerBreadcrumbsItemFactory implements Breadcru
             $this->urlGenerator->generate(
                 'appArticlesListPage'
             ),
-            $item->getNode()->isHome(),
         );
     }
 

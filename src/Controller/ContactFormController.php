@@ -63,7 +63,7 @@ final readonly class ContactFormController
         // the argument of consume() is the number of tokens to consume
         // and returns an object of type Limit
         if (false === $limit->isAccepted()) {
-            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
         }
 
         // Do not forget to disable CSRF and form-name

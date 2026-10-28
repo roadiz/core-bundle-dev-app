@@ -22,6 +22,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     #[Serializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 50),
         RoadizAssert\NonSqlReservedWord(),
+        RoadizAssert\NodeSourceReservedName(),
         RoadizAssert\SimpleLatinString()]
     protected string $name;
 
@@ -36,6 +37,12 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
      */
     #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $excludeFromSearch = false;
+
+    /**
+     * Exclude current field from machine translation.
+     */
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
+    private bool $excludeFromTranslation = false;
 
     #[Serializer\Ignore]
     private NodeTypeInterface $nodeType;
@@ -69,6 +76,21 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
 
     #[Serializer\Groups(['node_type', 'node_type:import']),]
     private bool $required = false;
+
+    /**
+     * Use this field content as a fallback for the node-source meta-description
+     * when it is left empty. At most one field per node-type can be flagged.
+     */
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
+    private bool $metaDescriptionFallback = false;
+
+    /**
+     * Use the first document of this field as the node-source share-image
+     * (Open Graph / social image). Only documents fields can be flagged and at
+     * most one field per node-type can be flagged.
+     */
+    #[Serializer\Groups(['node_type', 'node_type:import']),]
+    private bool $shareImage = false;
 
     #[Serializer\Groups(['node_type'])]
     #[\Override]
@@ -206,6 +228,23 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    public function isExcludedFromTranslation(): bool
+    {
+        return $this->excludeFromTranslation;
+    }
+
+    public function getExcludeFromTranslation(): bool
+    {
+        return $this->excludeFromTranslation;
+    }
+
+    public function setExcludeFromTranslation(bool $excludeFromTranslation): NodeTypeField
+    {
+        $this->excludeFromTranslation = $excludeFromTranslation;
+
+        return $this;
+    }
+
     #[\Override]
     public function getSerializationExclusionExpression(): ?string
     {
@@ -273,6 +312,38 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     public function setRequired(bool $required): NodeTypeField
     {
         $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * Tells if current field content should feed the node-source meta-description
+     * when it is left empty.
+     */
+    public function isMetaDescriptionFallback(): bool
+    {
+        return $this->metaDescriptionFallback;
+    }
+
+    public function setMetaDescriptionFallback(bool $metaDescriptionFallback): NodeTypeField
+    {
+        $this->metaDescriptionFallback = $metaDescriptionFallback;
+
+        return $this;
+    }
+
+    /**
+     * Tells if the first document of current field should feed the node-source
+     * share-image (Open Graph / social image).
+     */
+    public function isShareImage(): bool
+    {
+        return $this->shareImage;
+    }
+
+    public function setShareImage(bool $shareImage): NodeTypeField
+    {
+        $this->shareImage = $shareImage;
 
         return $this;
     }

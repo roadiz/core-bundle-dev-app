@@ -1,0 +1,271 @@
+{
+    "@context": "/api/contexts/WebResponse",
+    "@id": "/api/web_response_by_path",
+    "@type": "WebResponse",
+    "item": {
+        "@type": "Page",
+        "@id": "/api/pages/{id}",
+        "headerImage": [
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "id": "{id}",
+                "filename": "prefetch_second.jpg",
+                "mimeType": "image/jpeg",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "imageAverageColor": "#ffffff",
+                "type": "image",
+                "relativePath": "fixtures/prefetch_second.jpg",
+                "processable": true
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "id": "{id}",
+                "filename": "prefetch_first.jpg",
+                "mimeType": "image/jpeg",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "imageAverageColor": "#ffffff",
+                "type": "image",
+                "relativePath": "fixtures/prefetch_first.jpg",
+                "processable": true
+            }
+        ],
+        "pictures": [],
+        "nodeReferences": [
+            {
+                "@id": "/api/pages/{id}",
+                "@type": "Page",
+                "title": "prefetch-target",
+                "publishedAt": "2020-01-01T00:00:00+00:00",
+                "node": {
+                    "@id": "/api/nodes/{id}",
+                    "@type": "Node",
+                    "nodeName": "prefetch-target",
+                    "visible": true,
+                    "tags": []
+                },
+                "slug": "prefetch-alias",
+                "url": "/prefetch-alias"
+            }
+        ],
+        "sticky": false,
+        "stickytest": false,
+        "customForm": [],
+        "folderReferences": [],
+        "title": "prefetch-page",
+        "publishedAt": "2020-01-01T00:00:00+00:00",
+        "metaTitle": "",
+        "metaDescription": "",
+        "noIndex": false,
+        "users": [],
+        "node": {
+            "@id": "/api/nodes/{id}",
+            "@type": "Node",
+            "nodeName": "prefetch-page",
+            "visible": true,
+            "childrenOrder": "position",
+            "childrenOrderDirection": "ASC",
+            "tags": []
+        },
+        "translation": {
+            "@id": "/api/translations/{id}",
+            "@type": "Translation",
+            "name": "en",
+            "defaultTranslation": true,
+            "available": true,
+            "locale": "en"
+        },
+        "slug": "prefetch-page",
+        "listingSortOptions": {
+            "node.position": "ASC"
+        },
+        "url": "/prefetch-page"
+    },
+    "breadcrumbs": {
+        "@type": "Breadcrumbs",
+        "items": []
+    },
+    "head": {
+        "@type": "NodesSourcesHead",
+        "metaTitle": "prefetch-page – ",
+        "noIndex": false,
+        "shareImage": {
+            "@type": "Document",
+            "@id": "/api/documents/{id}",
+            "id": "{id}",
+            "filename": "prefetch_second.jpg",
+            "mimeType": "image/jpeg",
+            "imageWidth": 0,
+            "imageHeight": 0,
+            "mediaDuration": 0,
+            "imageAverageColor": "#ffffff",
+            "type": "image",
+            "relativePath": "fixtures/prefetch_second.jpg",
+            "processable": true
+        }
+    },
+    "blocks": [
+        {
+            "@type": "AutoChildrenNodeSourceWalker",
+            "children": [],
+            "metadata": [],
+            "item": {
+                "@id": "/api/basic_blocks/{id}",
+                "@type": "BasicBlock",
+                "booleanField": false,
+                "image": [
+                    {
+                        "@type": "Document",
+                        "@id": "/api/documents/{id}",
+                        "id": "{id}",
+                        "filename": "prefetch_second.jpg",
+                        "mimeType": "image/jpeg",
+                        "imageWidth": 0,
+                        "imageHeight": 0,
+                        "mediaDuration": 0,
+                        "imageAverageColor": "#ffffff",
+                        "type": "image",
+                        "relativePath": "fixtures/prefetch_second.jpg",
+                        "processable": true
+                    },
+                    {
+                        "@type": "Document",
+                        "@id": "/api/documents/{id}",
+                        "id": "{id}",
+                        "filename": "prefetch_first.jpg",
+                        "mimeType": "image/jpeg",
+                        "imageWidth": 0,
+                        "imageHeight": 0,
+                        "mediaDuration": 0,
+                        "imageAverageColor": "#ffffff",
+                        "type": "image",
+                        "relativePath": "fixtures/prefetch_first.jpg",
+                        "processable": true
+                    }
+                ],
+                "title": "prefetch-page-block-0",
+                "publishedAt": "2020-01-01T00:00:00+00:00",
+                "metaTitle": "",
+                "metaDescription": "",
+                "noIndex": false,
+                "node": {
+                    "@id": "/api/nodes/{id}",
+                    "@type": "Node",
+                    "nodeName": "prefetch-page-block-0",
+                    "visible": true,
+                    "childrenOrder": "position",
+                    "childrenOrderDirection": "ASC",
+                    "tags": []
+                },
+                "translation": {
+                    "@id": "/api/translations/{id}",
+                    "@type": "Translation",
+                    "name": "en",
+                    "defaultTranslation": true,
+                    "available": true,
+                    "locale": "en"
+                },
+                "slug": "prefetch-page-block-0",
+                "listingSortOptions": {
+                    "node.position": "ASC"
+                }
+            }
+        },
+        {
+            "@type": "AutoChildrenNodeSourceWalker",
+            "children": [
+                {
+                    "@type": "AutoChildrenNodeSourceWalker",
+                    "children": [],
+                    "metadata": [],
+                    "item": {
+                        "@id": "/api/basic_blocks/{id}",
+                        "@type": "BasicBlock",
+                        "booleanField": false,
+                        "image": [
+                            {
+                                "@type": "Document",
+                                "@id": "/api/documents/{id}",
+                                "id": "{id}",
+                                "filename": "prefetch_first.jpg",
+                                "mimeType": "image/jpeg",
+                                "imageWidth": 0,
+                                "imageHeight": 0,
+                                "mediaDuration": 0,
+                                "imageAverageColor": "#ffffff",
+                                "type": "image",
+                                "relativePath": "fixtures/prefetch_first.jpg",
+                                "processable": true
+                            }
+                        ],
+                        "title": "prefetch-page-nested-block-0",
+                        "publishedAt": "2020-01-01T00:00:00+00:00",
+                        "metaTitle": "",
+                        "metaDescription": "",
+                        "noIndex": false,
+                        "node": {
+                            "@id": "/api/nodes/{id}",
+                            "@type": "Node",
+                            "nodeName": "prefetch-page-nested-block-0",
+                            "visible": true,
+                            "childrenOrder": "position",
+                            "childrenOrderDirection": "ASC",
+                            "tags": []
+                        },
+                        "translation": {
+                            "@id": "/api/translations/{id}",
+                            "@type": "Translation",
+                            "name": "en",
+                            "defaultTranslation": true,
+                            "available": true,
+                            "locale": "en"
+                        },
+                        "slug": "prefetch-page-nested-block-0",
+                        "listingSortOptions": {
+                            "node.position": "ASC"
+                        }
+                    }
+                }
+            ],
+            "metadata": [],
+            "item": {
+                "@id": "/api/group_blocks/{id}",
+                "@type": "GroupBlock",
+                "title": "prefetch-page-group",
+                "publishedAt": "2020-01-01T00:00:00+00:00",
+                "metaTitle": "",
+                "metaDescription": "",
+                "noIndex": false,
+                "node": {
+                    "@id": "/api/nodes/{id}",
+                    "@type": "Node",
+                    "nodeName": "prefetch-page-group",
+                    "visible": true,
+                    "childrenOrder": "position",
+                    "childrenOrderDirection": "ASC",
+                    "tags": []
+                },
+                "translation": {
+                    "@id": "/api/translations/{id}",
+                    "@type": "Translation",
+                    "name": "en",
+                    "defaultTranslation": true,
+                    "available": true,
+                    "locale": "en"
+                },
+                "slug": "prefetch-page-group",
+                "listingSortOptions": {
+                    "node.position": "ASC"
+                }
+            }
+        }
+    ],
+    "realms": [],
+    "hidingBlocks": false,
+    "maxAge": 900
+}

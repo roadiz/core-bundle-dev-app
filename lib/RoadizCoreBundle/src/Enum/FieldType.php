@@ -175,6 +175,19 @@ enum FieldType: int
         ];
     }
 
+    /**
+     * @return FieldType[] Types carrying editorial prose, eligible for machine translation
+     */
+    public static function translatableTypes(): array
+    {
+        return [
+            FieldType::STRING_T,
+            FieldType::TEXT_T,
+            FieldType::RICHTEXT_T,
+            FieldType::MARKDOWN_T,
+        ];
+    }
+
     public static function fromHuman(string $type): FieldType
     {
         if (!str_ends_with('.type', $type)) {

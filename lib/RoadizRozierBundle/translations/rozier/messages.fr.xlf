@@ -54,6 +54,14 @@
         <source>document.cannot_persist</source>
         <target state="final">Impossible d’enregistrer le document.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.type_not_allowed" approved="yes">
+        <source>document.type_not_allowed</source>
+        <target state="final">Le type de fichier ".%extension%" n’est pas autorisé.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.upload.invalid_csrf_token" approved="yes">
+        <source>document.upload.invalid_csrf_token</source>
+        <target state="final">Jeton CSRF invalide.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="12" approved="yes">
         <source>name</source>
         <target state="final">Nom</target>
@@ -394,6 +402,10 @@
         <source>indexed</source>
         <target state="final">Indexé</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="excludeFromTranslation" approved="yes">
+        <source>excludeFromTranslation</source>
+        <target state="final">Exclu de la traduction automatique</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="100" approved="yes">
         <source>defaultValues</source>
         <target state="final">Valeur(s) par défaut</target>
@@ -430,6 +442,18 @@
       <trans-unit xml:space="preserve" id="102" approved="yes">
         <source>node.%name%.translated</source>
         <target state="final">Le nœud «%name%» a été traduit.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.translation_in_progress" approved="yes">
+        <source>node.%name%.translation_in_progress</source>
+        <target state="final">La traduction du nœud «%name%» est en cours.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress" approved="yes">
+        <source>translation_in_progress</source>
+        <target state="final">Traduction en cours…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress.taking_longer" approved="yes">
+        <source>translation_in_progress.taking_longer</source>
+        <target state="final">Cette traduction prend plus de temps que prévu. Elle est peut-être encore en cours, ou bien elle a échoué.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="103" approved="yes">
         <source>node_source.%node_source%.updated.%translation%</source>
@@ -1254,6 +1278,18 @@
       <trans-unit xml:space="preserve" id="313" approved="yes">
         <source>see.page</source>
         <target state="final">Voir la page</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview" approved="yes">
+        <source>live_preview</source>
+        <target state="final">Aperçu en direct</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.close" approved="yes">
+        <source>live_preview.close</source>
+        <target state="final">Fermer l'aperçu</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.viewport" approved="yes">
+        <source>live_preview.viewport</source>
+        <target state="final">Largeur d'aperçu</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="preview.page" approved="yes">
         <source>preview.page</source>
@@ -2346,6 +2382,14 @@
         <source>blockquote</source>
         <target state="final">Citation</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb" approved="yes">
+        <source>breadcrumb</source>
+        <target state="final">Fil d’Ariane</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb.show_more" approved="yes">
+        <source>breadcrumb.show_more</source>
+        <target state="final">Afficher les niveaux masqués du fil d’Ariane</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="bold" approved="yes">
         <source>bold</source>
         <target state="final">Gras</target>
@@ -3115,6 +3159,10 @@
       <trans-unit xml:space="preserve" id="changelog" approved="yes">
         <source>changelog</source>
         <target state="final">Notes de mise à jour</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password">
+        <source>current.password</source>
+        <target state="final">Mot de passe actuel</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
         <source>choose.a.new.password</source>
@@ -4206,6 +4254,10 @@
         <source>translate_offspring</source>
         <target state="final">Traduire toute l’arborescence</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="use_translate_assistant" approved="yes">
+        <source>use_translate_assistant</source>
+        <target state="final">Traduire le contenu avec l’assistant de traduction</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="node.%name%.undeleted" approved="yes">
         <source>node.%name%.undeleted</source>
         <target state="final">Le nœud «%name%» a été sorti de la corbeille</target>
@@ -4402,6 +4454,16 @@
         <source>publishable</source>
         <target state="final">Publiable par date et heure</target>
         <note>Field label for node-type publishable status.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unpublishedAt" approved="yes">
+        <source>unpublishedAt</source>
+        <target state="final">Date et heure de dépublication</target>
+        <note>Field label for node-source scheduled expiration date and time.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unpublishable" approved="yes">
+        <source>unpublishable</source>
+        <target state="final">Dépubliable par date et heure</target>
+        <note>Field label for node-type unpublishable status.</note>
       </trans-unit>
       <!-- Node form help messages -->
       <trans-unit xml:space="preserve" id="this_node_type_will_be_available_for_creating_root_nodes" approved="yes">
@@ -5206,10 +5268,6 @@
         <source>node_tree.no_nodes_found</source>
         <target state="final">Aucun nœud trouvé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes-breadcrumb" approved="yes">
-        <source>nodes-breadcrumb</source>
-        <target state="final">Fil d’Ariane des nœuds</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="not.available" approved="yes">
         <source>not.available</source>
         <target state="final">Non disponible</target>
@@ -5273,6 +5331,46 @@
       <trans-unit xml:space="preserve" id="view.node" approved="yes">
         <source>view.node</source>
         <target state="final">Voir le nœud</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage" approved="yes">
+        <source>translate_assistant.usage</source>
+        <target state="final">Quota de l’assistant de traduction</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage.%count%_of_%limit%_characters" approved="yes">
+        <source>translate_assistant.usage.%count%_of_%limit%_characters</source>
+        <target state="final">%count% caractères utilisés sur %limit%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.dry_run" approved="yes">
+        <source>translate_assistant.dry_run</source>
+        <target state="final">Simulation : estimer le coût sans traduire</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%characters%_characters_for_%sources%_sources" approved="yes">
+        <source>translate_assistant.estimate.%characters%_characters_for_%sources%_sources</source>
+        <target state="final">Cette exécution enverrait %characters% caractères pour %sources% source(s) de nœud.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%remaining%_characters_remaining" approved="yes">
+        <source>translate_assistant.estimate.%remaining%_characters_remaining</source>
+        <target state="final">%remaining% caractères restants sur votre quota.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.exceeds_quota" approved="yes">
+        <source>translate_assistant.estimate.exceeds_quota</source>
+        <target state="final">Cette traduction dépasserait votre quota restant. Réduisez le périmètre ou augmentez votre offre chez le prestataire.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.nothing_to_translate" approved="yes">
+        <source>translate_assistant.estimate.nothing_to_translate</source>
+        <target state="final">Rien à traduire : toutes les sources existent déjà dans la langue de destination.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.quota_exceeded" approved="yes">
+        <source>translate_assistant.error.quota_exceeded</source>
+        <target state="final">La traduction de « %name% » s’est arrêtée : le quota de l’assistant de traduction est épuisé. Vérifiez votre offre chez le prestataire, puis relancez la traduction.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.provider_unreachable" approved="yes">
+        <source>translate_assistant.error.provider_unreachable</source>
+        <target state="final">La traduction de « %name% » n’a pas pu joindre l’assistant de traduction. Une nouvelle tentative aura lieu automatiquement.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.check_integration" approved="yes">
+        <source>translate_assistant.error.check_integration</source>
+        <target state="final">La traduction de « %name% » s’est arrêtée : l’assistant de traduction a refusé la requête. Vérifiez votre intégration de l’assistant de traduction.</target>
       </trans-unit>
     </body>
   </file>

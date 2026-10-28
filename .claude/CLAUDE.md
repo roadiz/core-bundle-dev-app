@@ -14,6 +14,8 @@ PHP 8.3+ is required. The stack includes Doctrine ORM 2.20, API Platform 4.1, PH
 
 All development commands assume Docker Compose is running. Use `make bash` to get a shell in the app container.
 
+`compose.yml` gates optional services behind profiles: `tests` (`db-test`, `mariadb-test`), `debug` (`pma`/phpMyAdmin), `frontend` (`node`, `storybook`), `docs` (`vitepress`). Explicitly naming a service on the command line (e.g. `docker compose up node`) auto-activates its profile, so existing `make` targets and the commands below work unchanged; add `--profile <name>` only when starting a profiled service without naming it directly.
+
 **Testing:**
 ```bash
 make phpunit                          # Full PHPUnit suite (MariaDB + MySQL)
@@ -27,6 +29,8 @@ make phpstan          # PHPStan at level 8
 make check            # PHP-CS-Fixer check (no fix)
 make rector_test      # Rector dry run
 make check-architecture  # Deptrac layering rules
+make requirements     # Requirements checker + monorepo-builder validate
+make audit            # Composer audit (dependency vulnerabilities)
 ```
 
 **Fix code style:**
@@ -37,7 +41,8 @@ docker compose run --no-deps --rm --entrypoint= app vendor/bin/php-cs-fixer fix 
 
 **Full CI check:**
 ```bash
-make test             # Monorepo validation, audit, phpstan, rector, deptrac, twig lint, phpunit
+make test             # requirements check, monorepo-builder validate, composer audit,
+                       # phpstan, rector (dry run), deptrac, php-cs-fixer check, twig lint, phpunit
 ```
 
 **Infrastructure:**
@@ -54,6 +59,14 @@ docker compose run --rm node pnpm build   # Build assets
 # Local: cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev
 ```
 
+After `pnpm build`, run `make cache` (the Vite manifest is cached in the Redis `cache.app` pool), restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
+
+**Docs (VitePress):**
+```bash
+docker compose up vitepress   # Dev server (port 5174)
+# Local: cd docs && corepack enable && pnpm install && pnpm docs:dev
+```
+
 ## Architecture
 
 ### Monorepo Package Layout
@@ -65,7 +78,7 @@ lib/
   RoadizUserBundle/   # User management
   RoadizTwoFactorBundle/
   RoadizSolrBundle/
-  Rozier/             # Frontend source (Vue 3 + Vite, pnpm)
+  Rozier/             # Frontend source (Vue 2.7 + Vite, pnpm)
   Models/             # Shared domain models
   Documents/          # Document/media handling
   Jwt/                # JWT utilities
@@ -101,7 +114,9 @@ App\Tests\          → tests/
 
 ### Test Setup
 
-`tests/bootstrap.php` auto-creates the test database and runs migrations. PHPUnit runs against both MariaDB 11.8 and MySQL 8.4 in CI (matrix). Tests in `phpunit.xml.dist` cover `tests/`, `lib/Models/tests/`, `lib/RoadizCoreBundle/tests/`, `lib/Documents/tests/`, and `lib/EntityGenerator/tests/`.
+`tests/bootstrap.php` auto-creates the test database and runs migrations. Tests in `phpunit.xml.dist` cover `tests/`, `lib/Models/tests/`, `lib/RoadizCoreBundle/tests/`, `lib/Documents/tests/`, `lib/EntityGenerator/tests/`, `lib/Markdown/tests/`, `lib/OpenId/tests/`, `lib/RoadizSolrBundle/tests/`, `lib/RoadizUserBundle/tests/`, `lib/RoadizTwoFactorBundle/tests/`, `lib/Jwt/tests/`, and `lib/Random/tests/`.
+
+PHPUnit runs against both MariaDB 11.8 and MySQL 8.4 in CI (matrix, `.github/workflows/run-test.yml`), which provisions real MariaDB/MySQL/Redis/Mailpit services plus a manually-started Varnish container (its VCL lives in the repo, so it can't be a `services:` entry — those start before checkout) and a generated JWT keypair (`config/jwt/*.pem` is gitignored). Redis is flushed between the two DB-engine passes: several repositories use Doctrine's `setCacheable(true)`, and both engines auto-increment entity IDs from 1, so without the flush the MySQL pass can hydrate stale cached entities from the MariaDB pass.
 
 ## Code Style
 
@@ -111,6 +126,7 @@ App\Tests\          → tests/
 - Early returns / guard clauses to reduce nesting
 - Conventional Commits format: `type(scope): subject` (imperative, ≤50 chars header)
 - Allowed commit types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`
+- Never add a `Co-Authored-By` footer to commit messages
 
 ## Monorepo Tooling
 
@@ -127,7 +143,7 @@ PHPStan may misbehave when `lib/*` packages are symlinked — run from inside th
 - `.env.local` for local overrides (never commit)
 - Initial setup: `bin/console install` then `bin/console app:install`
 - Create admin users: `bin/console users:create`
-- Docs dev server: `docker compose up vitepress` (port 5174)
+- PHPUnit uses container databases (`mariadb-test`, `db-test`) and drops them after each run
 
 ## Off-limits files
 

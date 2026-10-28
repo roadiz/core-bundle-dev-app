@@ -900,6 +900,16 @@ class NSFields extends NodesSources
     #[\Override]
     public function isPublishable(): bool
     {
+        return true;
+    }
+
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
+    {
         return false;
     }
 

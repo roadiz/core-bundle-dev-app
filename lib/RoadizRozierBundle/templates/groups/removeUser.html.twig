@@ -1,12 +1,8 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "unlink.user.%name%"|trans({'%name%': user.userName}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
-    'parentBreadcrumb': [
-        {
-            label: 'groups'|trans,
-            type: 'listing',
-            url: path('groupsHomePage'),
-        },
+    'breadcrumb_parents': [
+        breadcrumb_root('groups'),
         {
             label: item.getName,
             url: path('groupsEditPage', { id: item.id }),

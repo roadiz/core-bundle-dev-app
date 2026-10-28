@@ -65,8 +65,13 @@ final readonly class NodeQueryExtension implements QueryItemExtensionInterface, 
         );
         $queryBuilder
             ->andWhere($queryBuilder->expr()->lte($alias.'.publishedAt', ':lte_published_at'))
+            ->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->gt($alias.'.unpublishedAt', ':gt_unpublished_at'),
+                $queryBuilder->expr()->isNull($alias.'.unpublishedAt')
+            ))
             ->andWhere($queryBuilder->expr()->eq('o.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
+            ->setParameter(':gt_unpublished_at', new \DateTime())
             ->setParameter(':status', NodeStatus::PUBLISHED);
     }
 

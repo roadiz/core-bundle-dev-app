@@ -11,7 +11,8 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1.36",
-        "phpstan/phpdoc-parser": "<2"
+        "phpstan/phpdoc-parser": "<2",
+        "phpunit/phpunit": "^9.6"
     },
     "license": "MIT",
     "authors": [
@@ -25,6 +26,11 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\Markdown\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\Markdown\\Tests\\": "tests/"
         }
     },
     "extra": {

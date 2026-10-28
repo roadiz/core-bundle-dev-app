@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -21,7 +21,7 @@ final class Version20210520092543 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+        if ($this->connection->getDatabasePlatform() instanceof AbstractMySQLPlatform) {
             /*
              * MYSQL
              */
@@ -44,7 +44,7 @@ final class Version20210520092543 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+        if ($this->connection->getDatabasePlatform() instanceof AbstractMySQLPlatform) {
             $this->addSql('ALTER TABLE node_type_fields DROP serialization_exclusion_expression, DROP serialization_groups, DROP serialization_max_depth, DROP excluded_from_serialization');
             $this->addSql('DROP INDEX nt_searchable ON node_types');
             $this->addSql('ALTER TABLE node_types DROP searchable');

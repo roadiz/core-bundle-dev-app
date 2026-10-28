@@ -1,12 +1,12 @@
-{% set breadcrumb = {
-    label: 'setting-breadcrumb',
-    parent: [
-        {
-            label: 'settings'|trans,
-            type: 'listing',
-            url: path('settingsHomePage'),
-        }
-    ],
-    current: title
-} %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('settings') %}
+    {% set breadcrumb = {
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(breadcrumb_parents|default([])),
+        current: title,
+    } %}
+{% endif %}
+
 {% include "@RoadizRozier/admin/head.html.twig" %}

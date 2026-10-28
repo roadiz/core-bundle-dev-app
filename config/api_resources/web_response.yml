@@ -1,8 +1,6 @@
 resources:
     RZ\Roadiz\CoreBundle\Api\Model\WebResponse:
         shortName: WebResponse
-        types:
-            - WebResponse
         filters:
             - app.property_filter
         operations:
@@ -26,6 +24,8 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
                         - web_response
                         - walker
                         - walker_metadata
@@ -57,6 +57,8 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
                         - web_response
                         - walker
                         - walker_metadata
@@ -88,6 +90,8 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
                         - web_response
                         - walker
                         - walker_metadata
@@ -119,6 +123,8 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
                         - nodes_sources_images
                         - nodes_sources_boolean
                         - nodes_sources_geo

@@ -6,73 +6,51 @@ namespace RZ\Roadiz\SolrBundle;
 
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\SolrBundle\Event\AbstractSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Event\DocumentSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Solarium\SolariumDocumentTranslation;
+use Solarium\QueryType\Select\Query\Query;
 
 class DocumentSearchHandler extends AbstractSearchHandler
 {
     #[\Override]
-    protected function nativeSearch(
-        string $q,
-        array $args = [],
-        int $rows = 20,
-        bool $searchTags = false,
-        int $page = 1,
-    ): ?array {
-        if (empty($q)) {
-            return null;
-        }
-        $query = $this->createSolrQuery($args, $rows, $page);
-        $queryTxt = $this->buildQuery($q, $args, $searchTags);
-        $query->setQuery($queryTxt);
-
+    protected function getResultFields(): array
+    {
         /*
          * Only need these fields as Doctrine
          * will do the rest.
          */
-        $query->setFields([
+        return [
             'id',
             'sort',
             'document_type_s',
             SolariumDocumentTranslation::IDENTIFIER_KEY,
             'filename_s',
             'locale_s',
-        ]);
+        ];
+    }
 
-        $this->searchEngineLogger->debug('[Solr] Request document search…', [
-            'query' => $queryTxt,
-            'fq' => $args['fq'] ?? [],
-            'params' => $query->getParams(),
-        ]);
-
-        /** @var DocumentSearchQueryEvent $event */
-        $event = $this->eventDispatcher->dispatch(
-            new DocumentSearchQueryEvent($query, $args)
-        );
-        $query = $event->getQuery();
-
-        $solrRequest = $this->getSolr()->execute($query);
-
-        return $solrRequest->getData();
+    #[\Override]
+    protected function createSearchQueryEvent(Query $query, array $args): AbstractSearchQueryEvent
+    {
+        return new DocumentSearchQueryEvent($query, $args);
     }
 
     #[\Override]
     protected function argFqProcess(array &$args): array
     {
-        if (!isset($args['fq'])) {
-            $args['fq'] = [];
-        }
+        $args['fq'] ??= [];
 
         /*
          * `all_tags_slugs_ss` can store all folders, even technical ones, this fields should not user-searchable.
          */
         if (!empty($args['folders'])) {
             if ($args['folders'] instanceof Folder) {
-                $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $args['folders']->getFolderName());
+                $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($args['folders']->getFolderName());
             } elseif (is_array($args['folders'])) {
                 foreach ($args['folders'] as $folder) {
                     if ($folder instanceof Folder) {
-                        $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $folder->getFolderName());
+                        $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($folder->getFolderName());
                     }
                 }
             }
@@ -82,9 +60,12 @@ class DocumentSearchHandler extends AbstractSearchHandler
         if (isset($args['mimeType'])) {
             $tmp = 'mime_type_s:';
             if (!is_array($args['mimeType'])) {
-                $tmp .= (string) $args['mimeType'];
+                $tmp .= $this->escapePhrase((string) $args['mimeType']);
             } else {
-                $value = implode(' AND ', $args['mimeType']);
+                $value = implode(' AND ', array_map(
+                    fn ($mimeType) => $this->escapePhrase((string) $mimeType),
+                    $args['mimeType']
+                ));
                 $tmp .= '('.$value.')';
             }
             unset($args['mimeType']);
@@ -95,24 +76,24 @@ class DocumentSearchHandler extends AbstractSearchHandler
          * Filter by translation or locale
          */
         if (isset($args['translation']) && $args['translation'] instanceof Translation) {
-            $args['fq'][] = 'locale_s:'.$args['translation']->getLocale();
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['translation']->getLocale());
         }
         if (isset($args['locale']) && is_string($args['locale'])) {
-            $args['fq'][] = 'locale_s:'.$args['locale'];
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['locale']);
         }
 
         /*
          * Filter by filename
          */
         if (isset($args['filename'])) {
-            $args['fq'][] = sprintf('filename_s:"%s"', trim((string) $args['filename']));
+            $args['fq'][] = 'filename_s:'.$this->escapePhrase(trim((string) $args['filename']));
         }
 
         /*
          * Filter out non-valid copyright documents
          */
         if (isset($args['copyrightValid'])) {
-            $args['fq'][] = '(copyright_valid_since_dt:[* TO NOW] AND copyright_valid_until_dt:[NOW TO *])';
+            $args['fq'][] = '(copyright_valid_since_dt:[* TO NOW/MINUTE] AND copyright_valid_until_dt:[NOW/MINUTE TO *])';
             unset($args['copyrightValid']);
         }
 

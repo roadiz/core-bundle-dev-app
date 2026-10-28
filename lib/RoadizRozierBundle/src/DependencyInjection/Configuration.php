@@ -82,6 +82,7 @@ final class Configuration implements ConfigurationInterface
             ->append($this->addOpenIdNode())
             ->append($this->addCsvNode())
             ->append($this->addTranslateAssistantNode())
+            ->append($this->addLivePreviewNode())
         ;
 
         return $builder;
@@ -139,6 +140,15 @@ EOD
                     ->defaultValue('email')
                     ->info(<<<EOD
 OpenID identity provider identifier claim field
+EOD
+                    )
+                ->end()
+                ->integerNode('clock_skew')
+                    ->defaultValue(0)
+                    ->info(<<<EOD
+Accepted clock skew in seconds between this server and the identity provider.
+Increase this value (e.g. 30) if you get "token issued in the future" errors
+caused by clock drift between servers.
 EOD
                     )
                 ->end()
@@ -210,6 +220,36 @@ EOD
             ->children()
                 ->scalarNode('deepl_api_key')
                     ->cannotBeEmpty()
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    private function addLivePreviewNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('live_preview');
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet()
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultTrue()
+                    ->info(<<<EOD
+Show the public website next to the node-source edit form.
+Only ever rendered when roadiz_core.customPublicScheme (or customPreviewScheme) is set,
+i.e. on headless installations.
+EOD
+                    )
+                ->end()
+                ->arrayNode('viewport_widths')
+                    ->integerPrototype()->end()
+                    ->defaultValue([375, 768, 1440])
+                    ->info(<<<EOD
+Viewport widths, in pixels, offered in the preview panel. The iframe is laid out at the
+chosen width then scaled down to fit the panel, so the front renders its real breakpoint
+instead of always rendering mobile.
+EOD
+                    )
                 ->end()
             ->end();
 

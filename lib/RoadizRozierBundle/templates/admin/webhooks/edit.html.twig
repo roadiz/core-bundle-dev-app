@@ -7,12 +7,7 @@
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: "edit.webhook.%name%"|trans({'%name%': item}),
         breadcrumb: {
-            label: 'webhooks-breadcrumb',
-            parent: [{
-                label: 'webhooks'|trans,
-                type: 'listing',
-                url: path('webhooksHomePage'),
-            }],
+            parents: [breadcrumb_root('webhooks')],
             current: item.description,
         },
     } only %}

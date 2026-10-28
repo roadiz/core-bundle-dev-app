@@ -160,12 +160,10 @@ final class ContactFormManager
             'constraints' => [
                 new NotNull(),
                 new NotBlank(),
-                new Email([
-                    'message' => 'email.not.valid',
-                    'mode' => $this->isEmailStrictMode() ?
-                        Email::VALIDATION_MODE_STRICT :
-                        Email::VALIDATION_MODE_HTML5,
-                ]),
+                new Email(
+                    message: 'email.not.valid',
+                    mode: $this->isEmailStrictMode() ? Email::VALIDATION_MODE_STRICT : Email::VALIDATION_MODE_HTML5,
+                ),
             ],
         ])
             ->add('name', TextType::class, [
@@ -225,11 +223,9 @@ final class ContactFormManager
 
     public function getFormBuilder(): FormBuilderInterface
     {
-        if (null === $this->formBuilder) {
-            $this->formBuilder = $this->formFactory
-                ->createNamedBuilder($this->getFormName(), FormType::class, null, $this->options)
-                ->setMethod($this->method);
-        }
+        $this->formBuilder ??= $this->formFactory
+            ->createNamedBuilder($this->getFormName(), FormType::class, null, $this->options)
+            ->setMethod($this->method);
 
         return $this->formBuilder;
     }

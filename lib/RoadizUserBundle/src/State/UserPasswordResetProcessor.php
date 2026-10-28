@@ -47,7 +47,7 @@ final readonly class UserPasswordResetProcessor implements ProcessorInterface
             $limiter = $this->passwordResetLimiter->create($request->getClientIp());
             $limit = $limiter->consume();
             if (false === $limit->isAccepted()) {
-                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
             }
         }
 

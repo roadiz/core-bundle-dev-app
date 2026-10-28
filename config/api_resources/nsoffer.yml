@@ -19,6 +19,8 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
             offer_get:
                 method: GET
                 class: ApiPlatform\Metadata\Get
@@ -33,3 +35,5 @@ resources:
                         - document_display
                         - document_thumbnails
                         - document_display_sources
+                        - document_filesize
+                        - document_copyright
