@@ -10,6 +10,17 @@ small, reviewable, and aligned with the monorepo standards.
 - Avoid global state and `window` side effects where possible.
 - Favor native `CustomElements` to attach UI behavior.
 - Keep UI logic close to the component that owns it.
+- No new dependency without an explicit request.
+
+See [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md) for the
+legacy stack being phased out.
+
+## Modernizing incrementally
+
+- Keep changes incremental and easy to review.
+- Avoid large rewrites without a clear migration path.
+- Preserve existing behavior unless the design explicitly changes it: no
+  silent behavior change slipped into a refactor.
 
 ## Reviews and collaboration
 
@@ -37,20 +48,21 @@ Edit sources only; `lib/RoadizRozierBundle/public/` holds build output.
 Figma is the starting point, not a closed spec. When a mockup lacks a value,
 a state or a whole screen, decide in line with the existing `rz-*` components
 and design tokens, keep going, and record the choice (with a screenshot) in
-the issue or PR so the team can revisit it. Escalate to the team only for
-product decisions, never for a missing mockup detail.
+the issue or PR. Escalate only product decisions. Rationale:
+[ADR 0002](adr/0002-figma-is-a-starting-point.md).
 
 ## Accessibility
 
-Treat accessibility as a standing attention point: contrast, visible focus,
-keyboard navigation, accessible labels. Fix what is cheap in the same change;
-open a follow-up issue for the rest. Accessibility findings never block a
-merge or the closing of a redesign zone.
+A standing attention point: contrast, visible focus, keyboard navigation,
+accessible labels. Fix what is cheap in the same change; open a follow-up
+issue for the rest. Findings never block a merge or the closing of a redesign
+zone. Rationale: [ADR 0003](adr/0003-accessibility-never-blocks.md).
 
 ## Localization and UI text
 
 - Avoid hardcoding user-facing strings; use the existing i18n path.
 - Keep text changes consistent with the product tone.
+- Never log sensitive data.
 
 ## Monorepo awareness
 

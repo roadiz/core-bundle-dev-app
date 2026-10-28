@@ -1,0 +1,51 @@
+# Rozier
+
+The Roadiz backoffice UI: the screens editors use to manage nodes, documents, tags and users, and the redesign that brings them onto a new design system.
+
+## Interface
+
+**Zone**:
+A functional area of the backoffice, grouping the screens and components serving one editing task. The redesign plans and closes work zone by zone.
+_Avoid_: Module, section, page
+
+The zones are: **Content editing** (node-source edit page), **Navigation** (tree, main menu, header), **Media library** (documents), **Tables** (listings and bulk actions), **Dialogs** (cross-cutting dialogs and overlays), **Explorer** (drawer picking related entities), **Tags and Folders**, **Custom forms**, **User management**.
+
+**Custom element**:
+A UI component of the new design system, a native web component named `rz-*`.
+_Avoid_: Widget, Vue component, web component
+
+**Redesigned component**:
+A component that follows the new design system, whatever its implementation.
+
+**Legacy component**:
+A component still built on the pre-redesign UI (Vue, UIkit or jQuery), to be migrated or explicitly excluded.
+_Avoid_: Old component, v1 component
+
+**Design token**:
+A named design value (color, spacing, type, radius) shared by every redesigned component and switched by the theme.
+_Avoid_: CSS variable, magic value
+
+**Theme**:
+The light or dark appearance of the backoffice. A zone is not done until both themes are checked.
+_Avoid_: Dark mode (when meaning both themes)
+
+**Story**:
+The Storybook entry documenting a component and its states.
+
+## Redesign process
+
+**Active zone**:
+The single zone currently being redesigned. Ideas outside it go to the backlog.
+
+**Pilot zone**:
+The first active zone (Content editing), whose validated themes serve as the reference for cross-cutting contrast work.
+
+**Done zone**:
+A zone whose legacy components are migrated or excluded, whose themes are checked, which has been compared against its Figma section, whose stories are up to date and whose related issues are closed.
+_Avoid_: Finished, complete (without the criteria)
+
+**Polish**:
+Work on a component or zone the redesign already shipped. Labelled `redesign-polish`.
+
+**New scope**:
+Work on a zone or task the redesign has not covered yet. Labelled `redesign-new-scope`.

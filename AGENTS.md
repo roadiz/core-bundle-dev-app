@@ -68,7 +68,7 @@ Frontend and docs commands
 - Docs dev (local): `cd docs && corepack enable && pnpm install && pnpm docs:dev`.
 - Frontend source lives in `lib/Rozier`; built assets go to `lib/RoadizRozierBundle/public/`.
 - Avoid editing generated assets in `lib/RoadizRozierBundle/public/`.
-- After `pnpm build`, restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
+- After `pnpm build`, run `make cache` (the Vite manifest is cached in the Redis `cache.app` pool), restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
 
 Code style guidelines (PHP)
 - Follow PSR-12 and Symfony conventions; PHP-CS-Fixer uses `@Symfony` rules.
