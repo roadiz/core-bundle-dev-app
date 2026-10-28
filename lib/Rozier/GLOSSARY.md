@@ -8,7 +8,7 @@ The Roadiz backoffice UI: the screens editors use to manage nodes, documents, ta
 A functional area of the backoffice, grouping the screens and components serving one editing task. The redesign plans and closes work zone by zone.
 _Avoid_: Module, section, page
 
-The zones are: **Content editing** (node-source edit page), **Navigation** (tree, main menu, header), **Media library** (documents), **Tables** (listings and bulk actions), **Dialogs** (cross-cutting dialogs and overlays), **Explorer** (drawer picking related entities), **Tags and Folders**, **Custom forms**, **User management**.
+The zones are: **Content editing** (node-source edit page), **Navigation** (tree, main menu, header), **Media library** (documents), **Tables** (listings and bulk actions), **Dialogs** (cross-cutting dialogs and overlays), **Explorer** (drawer picking related entities), **Tags and Folders**, **Custom forms**, **User management**. Work tied to no zone (themes, design tokens, technical foundations) is not a zone: it belongs to a **Phase**.
 
 **Custom element**:
 A UI component of the new design system, a native web component named `rz-*`.
@@ -43,6 +43,14 @@ The first active zone (Content editing), whose validated themes serve as the ref
 **Done zone**:
 A zone whose legacy components are migrated or excluded, whose themes are checked, which has been compared against its Figma section, whose stories are up to date and whose related issues are closed.
 _Avoid_: Finished, complete (without the criteria)
+
+**Phase**:
+An ordered step of the redesign roadmap, grouping work that is not tied to a single zone (hygiene, cross-cutting contrast, technical foundations) or that sequences the zones.
+_Avoid_: Batch, lot, sprint
+
+**Closed phase**:
+A phase whose every item is either done or explicitly excluded (moved to another phase or milestone, or dropped) with a written trace.
+_Avoid_: Finished phase, done phase
 
 **Polish**:
 Work on a component or zone the redesign already shipped. Labelled `redesign-polish`.
