@@ -1,7 +1,7 @@
 # TODO — Methodical resumption of the Rozier redesign
 
-> Built from [`ui-redesign-status.md`](ui-redesign-status.md) (status report, component inventory,
-> Figma sample). Goal: give a precise framework so we don't work on several big fronts at once —
+> Built from a status report of 2026-09-10, whose component inventory is kept in the
+> [appendix](#appendix--component-inventory-2026-09-10). Goal: give a precise framework so we don't work on several big fronts at once —
 > Rozier is a large interface, spreading thin across it produces a lot of zones at 60% rather than
 > finished zones.
 
@@ -20,7 +20,7 @@ Rules to avoid spreading thin:
 
 ## Zone order and rationale
 
-Based on the component inventory (see status report): the nearly-finished zones close quickly and
+Based on the [component inventory](#appendix--component-inventory-2026-09-10): the nearly-finished zones close quickly and
 build momentum; the heavily legacy zones need a real effort, not just touch-ups.
 
 | Order | Zone | Progress | Why this order |
@@ -62,7 +62,7 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 - [ ] Set a due date on `v2.8`, or open `v2.9` if scope has drifted too far
 - [ ] Clean up the `components/RzButton.vue` (legacy) vs `custom-elements/RzButton.ts` (new) collision — and its cousin `RzTextarea.vue`
 - [ ] Check whether `components/CodeMirror.vue` is dead code (no import found)
-- [ ] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
+- [x] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
 - [ ] Look in Figma for a dedicated dark mode section/variants (none seen in the sample reviewed — confirm before concluding dark mode isn't mocked up)
 - [ ] **Fix the `window.Rozier.initNestables()` bug** ([StackNodeTree.js:194](../app/widgets/StackNodeTree.js#L194)) — method no longer exists on `Rozier.ts`, crashes on every drag-and-drop tree reorder and blocks the rebind that follows. Independent of any removal effort, likely an active user-facing bug
 - [ ] Remove the 6 dead Vue files: `DrawerContainer.vue`, `NodeTypesDrawerContainer.vue`, `TagsEditorContainer.vue`, `RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
@@ -107,7 +107,7 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 
 ## Phase 5 — The Vue+Vuex block and the actual jQuery/UIkit removal
 
-Investigation done (see status report): this is no longer an open question of "should we remove
+Investigation done (see the [appendix](#appendix--component-inventory-2026-09-10)): this is no longer an open question of "should we remove
 Vue/UIkit", it's a precise, bounded scope. Treat it as a dedicated phase, after 1-2 visual zones
 have been stabilized (not urgent, but not to be forgotten):
 
@@ -117,7 +117,7 @@ have been stabilized (not urgent, but not to be forgotten):
 - [ ] Clean up the 4 files with a UIkit/native double dependency (`RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `base.html.twig`)
 - [ ] Remove jQuery + UIkit from the bundle (`main.js`, `vendor.less`) — only possible once the two previous points are done, since jQuery and UIkit 2.x are coupled at runtime
 - [ ] Write a manual QA checklist per removed behaviour (no automated test exists in `lib/Rozier` to safety-net these removals)
-- [ ] Update `roadmap.md` once this scope is handled (it still documents this effort as not started, even though it's already largely underway)
+- [ ] Mark [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md) as fully applied once this scope is handled
 
 ## Phase 6 — Remaining heavy zones
 
@@ -130,3 +130,47 @@ have been stabilized (not urgent, but not to be forgotten):
 - Only one "active" zone visible at a time (e.g. in the current milestone).
 - Don't open a redesign PR on a new zone until the active zone is "done".
 - Any idea outside the active zone goes to the `v2.9` backlog, not into the current sprint.
+
+## Appendix — Component inventory (2026-09-10)
+
+Inventory carried out on 2026-09-10 (67 tracked UI files: 21 Vue components in `app/components/`
+and `app/containers/`, 38 CustomElements in `app/custom-elements/`, auto-registered via
+`import.meta.glob`). Dating cross-checked between `git show --name-status 024c2d9e` (exact file
+list of the redesign commit) and each file's full history, to avoid being misled by merge commits
+that would skew `git log -1`.
+
+**Overall tally: 49 redesigned files / 18 legacy** (untouched since before 2026-02-02).
+
+| Functional area | Total | Redesigned | Legacy | Storybook story |
+|---|---|---|---|---|
+| Tables/listings/bulk actions (`RzTable`, `RzBulkActions`, `RzActionsMenu`) | 4 | 4 | 0 | 2/4 |
+| Content editing page / node-source (`RzInput`, `RzFormField`, `RzMarkdownEditor`, `RzRepeatable`...) | ~14 | ~13 | 0 net | 7+/14 |
+| Navigation/tree (`RzAside`, `RzTree`, `RzHeader*`) | 9 | 8 | 1 (`AdminMenuNav.js`) | 4/9 |
+| Media library/documents (`RzFileUpload`, `Blanchette*`) | 8 | 7 | 1 (`DocumentAlignmentWidget.js`) | 2/8 |
+| Cross-cutting dialogs/overlays (`RzDialog`, `RzPopover`, `RzTooltip`...) | 13 | 7 | 6 | 7/13 |
+| Explorer/Drawer (related-entity picker) | 9 | 6 | 3 (incl. `NodeTypesDrawerContainer.vue`, still heavily UIkit despite being touched by the squash commit) | 2/9 |
+| Tags/Folders | 6 | 1 | 5 | 0/6 |
+| Login/search | 2 | 1 | 1 | 2/2 |
+| Custom forms | 1 | 0 | 1 | 0/1 |
+| User management | 0 dedicated component (Symfony/Twig + legacy `assets/less/users/`) | — | — | — |
+
+**Quantified technical debt** (scope of [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md)):
+- **19 files** still use UIkit classes (`uk-*`), including some already "redesigned" files
+  (e.g. `custom-elements/RzAside.ts`, `RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`).
+- **5 files** still use jQuery directly; jQuery/jQuery UI/UIkit remain loaded globally on every
+  page via `main.js`.
+- The global `window.Rozier` singleton (targeted by ADR 0001) is still used by ~15 files,
+  including already-redesigned components.
+- 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
+  files from the new design system.
+- **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
+  alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up.
+- **Acknowledged methodological uncertainty**: `custom-elements/RzSelect.ts` has CSS updated by the
+  redesign but JS logic unchanged since before the project — visually current, architecturally
+  legacy. This kind of case can't be settled by Git analysis alone; a visual check per zone remains
+  necessary (see the methodology above).
+
+Storybook documents 24 of the 67 files (~36%, ~49% of the redesigned ones, **0% of the legacy
+ones**): a good indicator of coverage per zone, but not a complete functional inventory on its own.
+
+This is a dated snapshot: re-audit before relying on the numbers several weeks later.
