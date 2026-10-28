@@ -35,10 +35,6 @@ final class NodesOrphansCommand extends Command
             );
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

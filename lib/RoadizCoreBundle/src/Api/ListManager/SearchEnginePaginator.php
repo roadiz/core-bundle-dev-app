@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\ListManager;
 
 use ApiPlatform\State\Pagination\PaginatorInterface;
+use RZ\Roadiz\CoreBundle\SearchEngine\FacetedSearchResultsInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-final class SearchEnginePaginator implements PaginatorInterface, \IteratorAggregate
+final class SearchEnginePaginator implements PaginatorInterface, FacetedSearchResultsInterface, \IteratorAggregate
 {
     private bool $handled = false;
 
@@ -72,5 +73,13 @@ final class SearchEnginePaginator implements PaginatorInterface, \IteratorAggreg
         $entities = $this->listManager->getEntities();
 
         return new \ArrayIterator($entities);
+    }
+
+    #[\Override]
+    public function getFacets(): array
+    {
+        $this->handleOnce();
+
+        return $this->listManager->getFacets();
     }
 }

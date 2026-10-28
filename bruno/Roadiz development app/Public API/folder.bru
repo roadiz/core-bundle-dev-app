@@ -1,0 +1,16 @@
+meta {
+  name: Public API
+  seq: 1
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  API Platform endpoints exposed under `/api`.
+
+  Mostly public reads; write operations use a JWT bearer token — see `Login Check` to mint one
+  into the `token` variable. These do **not** use the backoffice session cookie (that is the
+  `Ajax legacy (write)` and `rz-admin` folders).
+}

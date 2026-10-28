@@ -1,0 +1,20 @@
+meta {
+  name: Attribute value - Update position
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/rz-admin/ajax/attribute-values/edit/position
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  csrfToken: {{ajaxToken}}
+  id: 1
+  ~prevId: 2
+  ~nextId: 3
+  ~firstPosition: true
+  ~lastPosition: true
+}

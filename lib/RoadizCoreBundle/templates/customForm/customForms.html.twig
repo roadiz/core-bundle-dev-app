@@ -166,3 +166,13 @@
         data-callback="javascriptCallback"
     ></div>
 {%- endblock cf_turnstile_widget %}
+
+{% block cap_widget -%}
+    {# Cap (https://trycap.dev) self-hosted captcha. Endpoint is derived from verify_url. #}
+    <script type="module" src="https://cdn.jsdelivr.net/npm/cap-widget@0.1.57" async defer></script>
+    <cap-widget
+        id="{{ form.vars.id }}"
+        data-cap-api-endpoint="{{ configs.publicKey }}"
+        data-cap-hidden-field-name="{{ form.vars.full_name }}"
+    ></cap-widget>
+{%- endblock cap_widget %}

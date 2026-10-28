@@ -131,6 +131,10 @@ export default ({ mode }) => {
                                     text: "Web response",
                                     link: "/developer/api/web_response",
                                 },
+                                {
+                                    text: "Live preview",
+                                    link: "/developer/api/live_preview",
+                                },
                             ],
                         },
                         {

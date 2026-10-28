@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -23,6 +25,7 @@ final class LoginResetController extends AbstractController
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
+        private readonly RateLimiterFactoryInterface $loginResetLimiter,
     ) {
     }
 
@@ -34,6 +37,11 @@ final class LoginResetController extends AbstractController
     )]
     public function resetAction(Request $request, string $token): Response
     {
+        $limit = $this->loginResetLimiter->create($request->getClientIp())->consume();
+        if (false === $limit->isAccepted()) {
+            throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
+        }
+
         /** @var User|null $user */
         $user = $this->getUserByToken($this->managerRegistry->getManager(), $token);
         $assignation = [];

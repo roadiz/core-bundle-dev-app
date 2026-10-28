@@ -2,6 +2,388 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.52...v2.7.53) - 2026-10-27
+
+### Bug Fixes
+
+- **(solr)** index only title of realm-protected nodes ([#522](https://github.com/roadiz/core-bundle-dev-app/issues/522)) - ([92541b6](https://github.com/roadiz/core-bundle-dev-app/commit/92541b6188845d94790ad2ad06c51a4ed1750689))
+
+## [2.7.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.51...v2.7.52) - 2026-10-20
+
+### Bug Fixes
+
+- **(serializer)** add altSources to DocumentDto ([#516](https://github.com/roadiz/core-bundle-dev-app/issues/516)) - ([9f795f3](https://github.com/roadiz/core-bundle-dev-app/commit/9f795f3ad63cd3315126866314c2342d54d7e6e2))
+
+### Performance
+
+- **(api)** prefetch tree-walker media and refs ([#514](https://github.com/roadiz/core-bundle-dev-app/issues/514)) - ([d5ebb17](https://github.com/roadiz/core-bundle-dev-app/commit/d5ebb1702022c31161a239704c8b0b614375379e))
+
+## [2.7.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.50...v2.7.51) - 2026-10-17
+
+### Bug Fixes
+
+- **(api)** stable JSON-LD type and ids for walkers ([#508](https://github.com/roadiz/core-bundle-dev-app/issues/508)) - ([ba6f67a](https://github.com/roadiz/core-bundle-dev-app/commit/ba6f67ae7189e07771464dd5e8c1b98d8a46e722))
+- **(serializer)** keep path normalizer uncacheable - ([d82860d](https://github.com/roadiz/core-bundle-dev-app/commit/d82860d4bbf1f015bd16095913eacbb376189996))
+
+### CI/CD
+
+- create GitHub release from changelog ([#510](https://github.com/roadiz/core-bundle-dev-app/issues/510)) - ([dd1cf98](https://github.com/roadiz/core-bundle-dev-app/commit/dd1cf98f467cdf51244db19ef311d5f5aa8e5798))
+
+### Performance
+
+- **(node-types)** compile definitions in cache dir ([#509](https://github.com/roadiz/core-bundle-dev-app/issues/509)) - ([39048b0](https://github.com/roadiz/core-bundle-dev-app/commit/39048b0788189afdaa43aadaeb577cdf2e81aa45))
+- **(serializer)** replace item decorators with enrichers - ([f361992](https://github.com/roadiz/core-bundle-dev-app/commit/f3619928417b5176ab98fbaa92ecae2d337edc06))
+
+### Testing
+
+- **(serializer)** make snapshots timezone-independent - ([c62fe9c](https://github.com/roadiz/core-bundle-dev-app/commit/c62fe9c9210b9e2b9311bc9c00de9d13adc366a2))
+- **(two-factor)** avoid TOTP code expiring mid-test - ([194650f](https://github.com/roadiz/core-bundle-dev-app/commit/194650f043d6078053b31c5554c4112758e56ae8))
+
+## [2.7.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.49...v2.7.50) - 2026-10-16
+
+### Bug Fixes
+
+- **(security)** never output unsanitized SVG ([#503](https://github.com/roadiz/core-bundle-dev-app/issues/503)) - ([26a2a45](https://github.com/roadiz/core-bundle-dev-app/commit/26a2a4597fcc1a090c7a640b76179c1c6adcf3d0))
+- **(solr)** support standalone cores in solr:init ([#498](https://github.com/roadiz/core-bundle-dev-app/issues/498)) - ([5789caf](https://github.com/roadiz/core-bundle-dev-app/commit/5789caf0ff98ec13cfbae1a87206d613a2ecefa4))
+
+## [2.7.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.48...v2.7.49) - 2026-10-14
+
+### Bug Fixes
+
+- **(preview)** restore ROLE_BACKEND_USER default role - ([e3728f4](https://github.com/roadiz/core-bundle-dev-app/commit/e3728f402dc057c488f86511c84187f1fe7e6060))
+- improve deprecated error and info message - ([3def138](https://github.com/roadiz/core-bundle-dev-app/commit/3def1382964446b74ffa72ad6d0125c7f837227a))
+
+## [2.7.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.46...v2.7.47) - 2026-10-09
+
+### Bug Fixes
+
+- update deps - ([283a045](https://github.com/roadiz/core-bundle-dev-app/commit/283a045f7e2f91d4361e6019d63f8c574a8fdfd0))
+
+### Documentation
+
+- **(custom_forms)** update allowed mime types for document fields ([#474](https://github.com/roadiz/core-bundle-dev-app/issues/474)) - ([dc066b9](https://github.com/roadiz/core-bundle-dev-app/commit/dc066b9bdd9f49cfe05ecacc2c2bfb2aaeeadbac))
+
+### Features
+
+- **(api)** add new ROLE_ACCESS_LIVE_PREVIEW and split ROLE_ACCESS_PREVIEW to ROLE_BACKEND_USER - ([0ecc8c2](https://github.com/roadiz/core-bundle-dev-app/commit/0ecc8c2b4ebdc50a2a0c9b100724595af70b9243))
+
+## [2.7.46](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.45...v2.7.46) - 2026-09-29
+
+### Features
+
+- **(zoho)** improve webhookProvider with cache and for duplicate data - ([90611d7](https://github.com/roadiz/core-bundle-dev-app/commit/90611d74229235d496956e83a8bb1b3bf1d52dc1))
+
+## [2.7.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.44...v2.7.45) - 2026-09-28
+
+### Bug Fixes
+
+- **(users)** require current password on own change ([#491](https://github.com/roadiz/core-bundle-dev-app/issues/491)) - ([79cd6df](https://github.com/roadiz/core-bundle-dev-app/commit/79cd6dfc3b8f57f20cd30e844a2b59de4dd3845e))
+
+### Features
+
+- **(api)** add fallback character quota ([#483](https://github.com/roadiz/core-bundle-dev-app/issues/483)) - ([276183f](https://github.com/roadiz/core-bundle-dev-app/commit/276183fbe775526432a32eee6ced695079ef994f))
+- **(rozier)** add headless live preview column ([#490](https://github.com/roadiz/core-bundle-dev-app/issues/490)) - ([2ae5826](https://github.com/roadiz/core-bundle-dev-app/commit/2ae5826b8550fc213be7bf15662e53cfcc970d60))
+
+## [2.7.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.43...v2.7.44) - 2026-09-11
+
+### Bug Fixes
+
+- **(solr)** relax mm when analysis drops words ([#479](https://github.com/roadiz/core-bundle-dev-app/issues/479)) - ([e34b8f9](https://github.com/roadiz/core-bundle-dev-app/commit/e34b8f98078938b4b5de4c068732fdfee632f9ac))
+
+## [2.7.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.42...v2.7.43) - 2026-09-11
+
+### ⚠ Breaking changes
+
+- Switched to edismax query filter by default,
+AbstractSearchHandler has new methods
+
+### Bug Fixes
+
+- **(Rozier)** handle ajax response error with getResponseErrorMessage util ([#472](https://github.com/roadiz/core-bundle-dev-app/issues/472)) - ([8b89d8f](https://github.com/roadiz/core-bundle-dev-app/commit/8b89d8f848b1505e32d03248da6d2817bb229454))
+- **(realm)** skip DENY filter for back-end users ([#478](https://github.com/roadiz/core-bundle-dev-app/issues/478)) - ([59528a1](https://github.com/roadiz/core-bundle-dev-app/commit/59528a153c97476b958b929473c4d6e238eead6d))
+- **(solr)** [**breaking**] restore Lucene phrase query for multi-word search ([#475](https://github.com/roadiz/core-bundle-dev-app/issues/475)) - ([4c056fb](https://github.com/roadiz/core-bundle-dev-app/commit/4c056fbb0dc6bb23f34136d44bde1bdb90e13f68))
+
+### Features
+
+- **(documents)** prefer YouTube maxresdefault cover ([#473](https://github.com/roadiz/core-bundle-dev-app/issues/473)) - ([0c77c7f](https://github.com/roadiz/core-bundle-dev-app/commit/0c77c7f363c0207a4b5bcf7ca4a84e57ea3d3fc4))
+- machine translation automation on node-tree ([#471](https://github.com/roadiz/core-bundle-dev-app/issues/471)) - ([601fb87](https://github.com/roadiz/core-bundle-dev-app/commit/601fb87bfc11a309005d535c09f76c02e5a71484))
+
+## [2.7.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.41...v2.7.42) - 2026-08-28
+
+### Features
+
+- **(captcha)** add self-hosted Cap provider - ([a405429](https://github.com/roadiz/core-bundle-dev-app/commit/a405429db77a0edcc20105fa8e49f67a643bc3ef))
+
+## [2.7.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.40...v2.7.41) - 2026-08-28
+
+### Bug Fixes
+
+- **(migrations)** switch MySQLPlatform to AbstractMySQLPlatform to support latest MariaDB driver - ([bfaca99](https://github.com/roadiz/core-bundle-dev-app/commit/bfaca99333fbea20785408f73fc79fb4d7ccede2))
+
+### Documentation
+
+- add upgrade notice to register LimeniusLiformBundle bundle in projects - ([2316c82](https://github.com/roadiz/core-bundle-dev-app/commit/2316c8216ddd422ec2ef81737961d2bd929b1114))
+
+## [2.7.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.39...v2.7.40) - 2026-08-28
+
+### Documentation
+
+- uniformize packages README - ([be39a5a](https://github.com/roadiz/core-bundle-dev-app/commit/be39a5aee524a9b31e4c203eba98287ba0378d00))
+
+## [2.7.39](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.38...v2.7.39) - 2026-08-28
+
+### Bug Fixes
+
+- **(forms)** replace rezozero/liform-bundle with official limenius/liform-bundle and injecting missing features - ([7a8d2f5](https://github.com/roadiz/core-bundle-dev-app/commit/7a8d2f574111207be1eb2babb42cdac2fdef57c1))
+- use null coalescing assignement operator when possible - ([a20c58f](https://github.com/roadiz/core-bundle-dev-app/commit/a20c58f6bc66ce20c2dceb994762c61168a77fef))
+
+### Documentation
+
+- improve UPGRADE.md - ([1246926](https://github.com/roadiz/core-bundle-dev-app/commit/12469263dc36df46d10612a271570522ed5fbfbc))
+- aligned copilot instructions - ([428ea38](https://github.com/roadiz/core-bundle-dev-app/commit/428ea3807ecafb2c43099c708f42d7bbf856025f))
+- align AGENTS.md - ([d5e3145](https://github.com/roadiz/core-bundle-dev-app/commit/d5e3145c918d6aac207ba7782a6e74065fb47a0e))
+- update LICENSE year - ([bc55f8e](https://github.com/roadiz/core-bundle-dev-app/commit/bc55f8e39444ca287eaf0dfd881620c8f714b3b5))
+
+### Testing
+
+- add LiformInterface regression test - ([2ff8a26](https://github.com/roadiz/core-bundle-dev-app/commit/2ff8a2600fff26c01a4c147833c5c5490b2cfdef))
+- remove packages github actions for consistency with monorepo - ([3d22c91](https://github.com/roadiz/core-bundle-dev-app/commit/3d22c91de11f3c0b2be1e7a41ddb8965473f1922))
+
+## [2.7.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.37...v2.7.38) - 2026-08-24
+
+### Bug Fixes
+
+- **(captcha)** do not require captcha header if service is disabled/not configured - ([bbb723a](https://github.com/roadiz/core-bundle-dev-app/commit/bbb723a1c1e1b5d5f735bc4808a6400755c7aaba))
+- **(core-bundle)** enforce realm DENY on direct node reads - ([54ef2d5](https://github.com/roadiz/core-bundle-dev-app/commit/54ef2d5de763fa966c0aa5dcfc7a631f5e42142f))
+- **(core-bundle)** bind login links to password and require POST confirmation - ([3e3d534](https://github.com/roadiz/core-bundle-dev-app/commit/3e3d534dd46c029d8eaecdcb745fa21ffbd5b0b9))
+- **(core-bundle)** dispatch admin password-reset email asynchronously - ([f007fcd](https://github.com/roadiz/core-bundle-dev-app/commit/f007fcdc8ef2d9f480ce8fbe369ffd34104cc5c4))
+- **(core-bundle)** block webhook SSRF and enforce NotFilter allowlist - ([b28fe83](https://github.com/roadiz/core-bundle-dev-app/commit/b28fe83abc54f039d4c6d552b52dbaa83286650f))
+- **(documents)** display real upload error messages, not [object Object] - ([f26f10a](https://github.com/roadiz/core-bundle-dev-app/commit/f26f10a9d468374f33b11d439c191bb8a2caeead))
+- **(documents)** send the upload CSRF token as form data, not a header - ([bc5bb56](https://github.com/roadiz/core-bundle-dev-app/commit/bc5bb5684429c7ab4afeb454849fbfddcfa7abc1))
+- **(documents)** cap feed fetch size and fix Apple Podcast id check - ([4b3c3b2](https://github.com/roadiz/core-bundle-dev-app/commit/4b3c3b29657407baf1948fa265d007b8e425bc6e))
+- **(documents)** reject forbidden file extensions on upload - ([1a60aee](https://github.com/roadiz/core-bundle-dev-app/commit/1a60aee84f5516028717f17e1e0c0ee6e6c85ade))
+- **(open-id)** verify id_token signature and email_verified claim - ([5c281bb](https://github.com/roadiz/core-bundle-dev-app/commit/5c281bb29615b48b7c7c5e6d529f7bddc60fb3dc))
+- **(rozier-bundle)** rate-limit admin login flows - ([fcd0aad](https://github.com/roadiz/core-bundle-dev-app/commit/fcd0aad8b554ce26ad61fc9ca406298c37275f11))
+- **(tests)** fail loudly on DB errors instead of silently skipping - ([7edd3c5](https://github.com/roadiz/core-bundle-dev-app/commit/7edd3c519c755c5af120eda09d111f3443a4e27a))
+- **(two-factor-bundle)** require 2FA code at API token issuance - ([4aaa2f7](https://github.com/roadiz/core-bundle-dev-app/commit/4aaa2f74e97594fe40b17b0a01052ff836f84beb))
+- **(two-factor-bundle)** stronger backup codes and throttle 2fa check - ([7570c40](https://github.com/roadiz/core-bundle-dev-app/commit/7570c40c60c3258e29ef5767f09eab1ab0993fd2))
+- **(user-bundle)** do not reveal existing accounts on signup - ([27ec111](https://github.com/roadiz/core-bundle-dev-app/commit/27ec111010162f8b9b3991e5ffe9c24e179fea91))
+- **(user-bundle)** rate-limit per-email and async the reset email - ([1135ce7](https://github.com/roadiz/core-bundle-dev-app/commit/1135ce7e8439ce09030ec03626cde985ba8d2712))
+- validate main_color at the source instead of escaping per sink - ([19899b1](https://github.com/roadiz/core-bundle-dev-app/commit/19899b1c28d1d714b6d8a86f277bc1196a4fcafb))
+- escape custom-form color and anchor hex color regex - ([6f231e4](https://github.com/roadiz/core-bundle-dev-app/commit/6f231e42758032df51f41a2d7a47f3e2920ae620))
+- escape main_color output and drop script from iframe allowlist - ([b1c7ad9](https://github.com/roadiz/core-bundle-dev-app/commit/b1c7ad9a9ffd2c17a6ef1613c22d99b178229930))
+
+### CI/CD
+
+- stub Rozier admin asset manifest before running phpunit - ([e42c2b1](https://github.com/roadiz/core-bundle-dev-app/commit/e42c2b1df9d570c8689bb67d8a15527937fcd28b))
+- flush Doctrine 2nd-level cache between DB engine passes - ([78851bb](https://github.com/roadiz/core-bundle-dev-app/commit/78851bb5f18a86434bdb0ad059570430256bf5f2))
+- provision database, redis, mailer and varnish for tests - ([81a1805](https://github.com/roadiz/core-bundle-dev-app/commit/81a1805e860268103b87d86d13b78d7185acb72e))
+
+### Documentation
+
+- document remaining security-audit fixes in UPGRADE.md - ([340fb0c](https://github.com/roadiz/core-bundle-dev-app/commit/340fb0c7ddc838cfbcd7f3f95e0779ed3c28aed0))
+- note asset manifest caching after pnpm build - ([e8923c3](https://github.com/roadiz/core-bundle-dev-app/commit/e8923c35c3ccd1eacf4540d8911ebc937b9950eb))
+- document security-audit hardening in UPGRADE.md - ([0bd4418](https://github.com/roadiz/core-bundle-dev-app/commit/0bd4418cd76a5d13c7f849fae406d2c04bd884b7))
+- update LLMs instructions - ([ca23fe7](https://github.com/roadiz/core-bundle-dev-app/commit/ca23fe74f23727dbed48f3f6536d44be604f65e8))
+
+### Features
+
+- **(core-bundle)** sign outbound webhook payloads with HMAC - ([7e16eb3](https://github.com/roadiz/core-bundle-dev-app/commit/7e16eb365b1f6546fdcd0d710f363c2517e24e00))
+
+### Refactor
+
+- **(user-bundle)** reuse core-bundle password-reset-link message - ([adb2445](https://github.com/roadiz/core-bundle-dev-app/commit/adb244577c2e4985035de6cfc1a573d23ddbc72f))
+
+### Styling
+
+- fix php-cs-fixer ordering in LoginRequestAsyncEmailTest - ([c158832](https://github.com/roadiz/core-bundle-dev-app/commit/c1588325e65798575087af21f23ab512ce651615))
+
+### Testing
+
+- **(core-bundle)** confirm custom-form POST is captcha-protected - ([e96c695](https://github.com/roadiz/core-bundle-dev-app/commit/e96c6955917ec360d0a0ca4267e80e34ed6e2654))
+- **(core-bundle)** cover authorization voters and realm query filtering - ([982a90b](https://github.com/roadiz/core-bundle-dev-app/commit/982a90b9fd440ba5be35a93d071f1108f51a0751))
+- **(jwt)** cover HostedDomain and UserInfoEndpoint constraints - ([fcb96f0](https://github.com/roadiz/core-bundle-dev-app/commit/fcb96f000fe7d19ae020d70c20c9529f8eca507b))
+- **(openid)** pin id_token validation constraint assembly - ([0952c80](https://github.com/roadiz/core-bundle-dev-app/commit/0952c80ce595a8b63bb5010bf6503c4567d67fca))
+- **(random)** cover token generator length, charset and uniqueness - ([9ff90d4](https://github.com/roadiz/core-bundle-dev-app/commit/9ff90d45ee2a7036ecdb7e58002f20201b4f7ab4))
+- **(two-factor-bundle)** cover 2FA skip-branch and backup codes - ([bae1ce9](https://github.com/roadiz/core-bundle-dev-app/commit/bae1ce9208d2f7d452b687bc16e066c76c54318a))
+- **(user-bundle)** cover password reset, request and email validation - ([88de71e](https://github.com/roadiz/core-bundle-dev-app/commit/88de71e5954b79ca7c16d132190c4694ce632e47))
+- silence api-platform alwaysBootKernel deprecation, surface real error on CI page-render failures - ([9a7d1ba](https://github.com/roadiz/core-bundle-dev-app/commit/9a7d1bae75589e01686837022e7cc2d670265a06))
+- register test suites for 4 previously unwired bundles - ([dba4629](https://github.com/roadiz/core-bundle-dev-app/commit/dba46293e168795da9f80ff2aa12af51fcdfbfe9))
+
+## [2.7.37](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.36...v2.7.37) - 2026-08-16
+
+### Bug Fixes
+
+- **(security)** pin remote fetches to validated IP ([#465](https://github.com/roadiz/core-bundle-dev-app/issues/465)) - ([bbdabb4](https://github.com/roadiz/core-bundle-dev-app/commit/bbdabb418ec26841892ea76817128219becb04bd))
+- address direct deprecation notices - ([9b489e0](https://github.com/roadiz/core-bundle-dev-app/commit/9b489e091561e2b3d7009edda1fca07dfb9b019a))
+
+## [2.7.36](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.35...v2.7.36) - 2026-07-31
+
+### Features
+
+- **(solr)** add tags on solr filter-query and facet-query ([#464](https://github.com/roadiz/core-bundle-dev-app/issues/464)) - ([708920a](https://github.com/roadiz/core-bundle-dev-app/commit/708920ac66119ce43dcfe7a25bf16d931afaf8a5))
+
+## [2.7.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.34...v2.7.35) - 2026-07-21
+
+### Bug Fixes
+
+- **(command)** reimplemented `nodes:force-universal` CLI command - ([bf284e1](https://github.com/roadiz/core-bundle-dev-app/commit/bf284e11297e959a273f2acc58ee106da570b87b))
+- **(folders)** fixed missing folder color in FolderExplorerItem.php - ([49d8bac](https://github.com/roadiz/core-bundle-dev-app/commit/49d8bac33a21120edcafb1b71372d488fce50180))
+- **(repositories)** fixed duplicated FolderRepository::countSearchBy which did not call applyFilterByCriteria - ([bd5e3f1](https://github.com/roadiz/core-bundle-dev-app/commit/bd5e3f1f071738e6bbe8e26f18562ebc3b4869df))
+
+## [2.7.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.33...v2.7.34) - 2026-07-08
+
+### Features
+
+- **(seo)** add declarative shareImage node-type field - ([860de92](https://github.com/roadiz/core-bundle-dev-app/commit/860de923bb22bbe23871c4e824286d1bd57c49a0))
+
+## [2.7.33](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.32...v2.7.33) - 2026-07-08
+
+### Bug Fixes
+
+- **(nodes)** use decorated node-type display name ([#461](https://github.com/roadiz/core-bundle-dev-app/issues/461)) - ([9a35080](https://github.com/roadiz/core-bundle-dev-app/commit/9a35080cd7db18e213e81e8df0c0c2afdbebf6fa))
+
+### Features
+
+- **(seo)** replace title-duplicating meta-description fallback with an explicit node-type field ([#460](https://github.com/roadiz/core-bundle-dev-app/issues/460)) - ([0ac40e0](https://github.com/roadiz/core-bundle-dev-app/commit/0ac40e020f211eaf8eb80c40d78ce04165b10198))
+
+## [2.7.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.31...v2.7.32) - 2026-07-03
+
+### Features
+
+- **(documents)** add getPublicUri to media finders - ([0ad306e](https://github.com/roadiz/core-bundle-dev-app/commit/0ad306e9016fe7515dfd62af538b3f720a1f17db))
+
+## [2.7.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.30...v2.7.31) - 2026-07-01
+
+### Bug Fixes
+
+- **(Rozier)** downgrade cropperjs ([#453](https://github.com/roadiz/core-bundle-dev-app/issues/453)) - ([ec41dae](https://github.com/roadiz/core-bundle-dev-app/commit/ec41dae6597066a1450c03a8a8bfdfe75e1d8aa2))
+- update compose env with profiles ([#456](https://github.com/roadiz/core-bundle-dev-app/issues/456)) - ([735399e](https://github.com/roadiz/core-bundle-dev-app/commit/735399ebefb22443b2b1e69f38bfc8bdf4891c74))
+
+### Features
+
+- **(solr)** default node source search to exclude embargoed content and added facets support ([#455](https://github.com/roadiz/core-bundle-dev-app/issues/455)) - ([3253c24](https://github.com/roadiz/core-bundle-dev-app/commit/3253c2421e073499f4180fdc93de5f4bc60d00fb))
+
+## [2.7.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.28...v2.7.29) - 2026-06-29
+
+### Bug Fixes
+
+- **(markdown editor)** auto focus with URL anchor - ([dcfd09f](https://github.com/roadiz/core-bundle-dev-app/commit/dcfd09f8e3f735f92d83d0da24a5a908a1f421ed))
+
+## [2.7.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.27...v2.7.28) - 2026-06-10
+
+### Bug Fixes
+
+- ensure RealmNode::$node and RealmNode::$realm properties are not null or set - ([a355fa3](https://github.com/roadiz/core-bundle-dev-app/commit/a355fa35b4d82030f88602002a511a0f34ea3365))
+
+## [2.7.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.26...v2.7.27) - 2026-06-10
+
+### Features
+
+- add new CompactTagPurger to reduce Cache-Tags header size with very large API responses with lots of resources. - ([64a8457](https://github.com/roadiz/core-bundle-dev-app/commit/64a84570df0efabbcd823ee8964fcf551adf5bc0))
+
+## [2.7.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.25...v2.7.26) - 2026-05-29
+
+### Bug Fixes
+
+- **(Search)** resolve DQL error when sorting NodesSources by Node fields - ([e743cd2](https://github.com/roadiz/core-bundle-dev-app/commit/e743cd29a16893035cf1bd24fb80d7bb30309d17))
+- use Lazyload AJAX navigation for document edit links in modals - ([e6844a6](https://github.com/roadiz/core-bundle-dev-app/commit/e6844a6f144e0fea1d471d16a4588c95814bd83a))
+- fix DocumentPreviewListItem.vue edit button behaviour for non-images documents. - ([c0bbca0](https://github.com/roadiz/core-bundle-dev-app/commit/c0bbca082ac314ef24cecf86a2f2992d2749d94d))
+
+### CI/CD
+
+- align GitHub Actions workflows across all sub-packages - ([0c00a9b](https://github.com/roadiz/core-bundle-dev-app/commit/0c00a9b24c72bb2e66889eb384079ddb40f985bf))
+
+## [2.7.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.24...v2.7.25) - 2026-05-27
+
+### Bug Fixes
+
+- **(Form)** guard against null and non-array value in JoinDataTransformer - ([0d6de48](https://github.com/roadiz/core-bundle-dev-app/commit/0d6de482d0d035c7b1ad9cb120710cd3e2d42bea))
+
+## [2.7.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.23...v2.7.24) - 2026-05-27
+
+### Bug Fixes
+
+- **(Document)** missing xlsm mime-type mapping - ([62a353d](https://github.com/roadiz/core-bundle-dev-app/commit/62a353d976d2d67e77c13c598aefcbb6c5826bd7))
+- **(Form)** cast joined entities ID to string before searching them in array - ([37667cf](https://github.com/roadiz/core-bundle-dev-app/commit/37667cfb651a136c117f126243a83d7d2afd5bad))
+
+## [2.7.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.22...v2.7.23) - 2026-05-26
+
+### Bug Fixes
+
+- **(search)** never add fuzzy suffix on highlighting - ([52d609d](https://github.com/roadiz/core-bundle-dev-app/commit/52d609d105d2d45c52bade92dd4d8f26a4d28ebd))
+- **(search)** extract Solr boost values as named constants and widen fuzzify method visibility ([#431](https://github.com/roadiz/core-bundle-dev-app/issues/431)) - ([1e1c4df](https://github.com/roadiz/core-bundle-dev-app/commit/1e1c4df39cbd86af4893119a49218e853548df8c))
+
+## [2.7.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.21...v2.7.22) - 2026-05-20
+
+### Features
+
+- **(document)** add filesize and copyright dates to DocumentDto - ([dbd4391](https://github.com/roadiz/core-bundle-dev-app/commit/dbd4391bdb356e7bdb780f49d4b383166d80dce9))
+
+## [2.7.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.20...v2.7.21) - 2026-05-18
+
+### Bug Fixes
+
+- **(walker)** stop recursing into reachable children in AutoChildrenNodeSourceWalker - ([70320ac](https://github.com/roadiz/core-bundle-dev-app/commit/70320ac5ef1974e6ef54397f8be8e01e304d5c61))
+
+## [2.7.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.19...v2.7.20) - 2026-04-29
+
+### Features
+
+- **(solr)** add fuzzy search configuration options ([#408](https://github.com/roadiz/core-bundle-dev-app/issues/408)) - ([35d31d2](https://github.com/roadiz/core-bundle-dev-app/commit/35d31d2e0e2a2360b14f3ef76ecacb98431beb12))
+- **(solr)** add fuzzy search configuration options - ([66685fc](https://github.com/roadiz/core-bundle-dev-app/commit/66685fcad030ac04d11b55ed732d16ecfaca9d37))
+
+## [2.7.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.18...v2.7.19) - 2026-04-29
+
+### Bug Fixes
+
+- **(EntityGenerator)** apply normalizationContext on proxied many-to-many getters - ([136187e](https://github.com/roadiz/core-bundle-dev-app/commit/136187ed29dd1a4428992c8b044c48bf77d36e9a))
+- phpstan - ([ddb00bb](https://github.com/roadiz/core-bundle-dev-app/commit/ddb00bb203b3b30912a805ff88fabf3276b7f027))
+- use width and height for document adjust - ([9c260f2](https://github.com/roadiz/core-bundle-dev-app/commit/9c260f28e6dbded597889c6664da2a19e6e1d1b2))
+
+## [2.7.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.17...v2.7.18) - 2026-04-20
+
+### Bug Fixes
+
+- **(OpenID)** generate and validate OpenID Connect nonce - ([28035ed](https://github.com/roadiz/core-bundle-dev-app/commit/28035ed6706823fcad015cf8ffecf783205993f6))
+- **(tests)** improve assertions in ArticleTest - ([5c95700](https://github.com/roadiz/core-bundle-dev-app/commit/5c95700feaf672674898cb4633529f5a13a9bda3))
+
+## [2.7.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.16...v2.7.17) - 2026-04-20
+
+### Bug Fixes
+
+- refactor flysystem local adapter definition creation - ([03af5a3](https://github.com/roadiz/core-bundle-dev-app/commit/03af5a302da035752c58ddaa5d8bb0cc1ee5e241))
+
+## [2.7.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.15...v2.7.16) - 2026-04-15
+
+### Bug Fixes
+
+- **(rozier)** use function-based exclude in postcss-pxtorem to prevent px-to-rem conversion in Less files - ([c2ec937](https://github.com/roadiz/core-bundle-dev-app/commit/c2ec9372e2b7c3cc7d457f901ce3a3010273cfad))
+
+## [2.7.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.14...v2.7.15) - 2026-04-15
+
+### Bug Fixes
+
+- **(rozier)** update newParentId assignment logic to avoid sending "null" or "undefined" query-string ([#421](https://github.com/roadiz/core-bundle-dev-app/issues/421)) - ([0eef181](https://github.com/roadiz/core-bundle-dev-app/commit/0eef1810470ba34420791a8ac90b3df36b8441ec))
+
+## [2.7.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.13...v2.7.14) - 2026-04-10
+
+### Bug Fixes
+
+- remove unnecessary null coalescing and limit PHPStan parallel workers - ([d8f968b](https://github.com/roadiz/core-bundle-dev-app/commit/d8f968bd489c819e9971b6e22da4726f95fc784a))
+
+## [2.7.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.12...v2.7.13) - 2026-04-08
+
+### Bug Fixes
+
+- **(api)** return empty array instead of null in WebResponseTrait::getBlocks() - ([477168f](https://github.com/roadiz/core-bundle-dev-app/commit/477168f85d8b9d774605e657db8638d8ca74ca69))
+
+## [2.7.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.11...v2.7.12) - 2026-03-29
+
+### Bug Fixes
+
+- **(rozier)** implement ResetInterface on RozierServiceRegistry ([#418](https://github.com/roadiz/core-bundle-dev-app/issues/418)) - ([e85e4fb](https://github.com/roadiz/core-bundle-dev-app/commit/e85e4fbfd575c33b6a7aa1c2a9cd486566a394a0))
+
 ## [2.7.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.10...v2.7.11) - 2026-03-25
 
 ### Features

@@ -20,7 +20,7 @@ final class RealmNodeType extends AbstractType
             'label' => 'realm_node.realm',
             'help' => 'realm_node.realm.help',
             'placeholder' => 'realm_node.realm.placeholder',
-            'required' => false,
+            'required' => true,
         ])->add('inheritanceType', ChoiceType::class, [
             'label' => 'realm_node.inheritanceType',
             'help' => 'realm_node.inheritanceType.help',

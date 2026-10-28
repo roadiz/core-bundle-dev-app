@@ -1,83 +1,49 @@
+{% set breadcrumb_html %}
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {% import '@RoadizRozier/macros/rz_breadcrumb.html.twig' as rz_breadcrumb %}
+            {{ rz_breadcrumb.root(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+{% endset %}
+{% set buttons_html %}{% block buttons %}{% endblock %}{% endset %}
+{% set badges_html %}{% block badges %}{% endblock %}{% endset %}
+{% set translation_html %}{% block translation %}{% endblock %}{% endset %}
+{% set title_html %}{% block title %}{% endblock %}{% endset %}
+{% set subtitle_html %}{% block subtitle %}{% endblock %}{% endset %}
+{% set nav_bar_html %}{% block nav_bar %}{% endblock %}{% endset %}
+
 <div class="rz-page-header">
-    {% if block('breadcrumb')|trim is not empty or block('buttons')|trim is not empty %}
+    {% if breadcrumb_html|trim is not empty or buttons_html|trim is not empty %}
         <div class="rz-page-header__row rz-page-header__row--border">
-            {% block breadcrumb %}
-            {% endblock %}
-            {% block buttons %}
-            {% endblock %}
+            {{- breadcrumb_html -}}
+            {{- buttons_html -}}
         </div>
     {% endif %}
-    {% if block('badges')|trim is not empty or block('translation')|trim is not empty %}
+    {% if badges_html|trim is not empty or translation_html|trim is not empty %}
         <div class="rz-page-header__row">
-            {% block badges %}
-            {% endblock %}
-            {% block translation %}
-            {% endblock %}
+            {{- badges_html -}}
+            {{- translation_html -}}
         </div>
     {% endif %}
-    {% if block('title')|trim is not empty %}
+    {% if title_html|trim is not empty %}
         <div class="rz-page-header__row">
-            {% block title %}
-            {% endblock %}
+            {{- title_html -}}
         </div>
     {% endif %}
-    {% if block('subtitle')|trim is not empty %}
+    {% if subtitle_html|trim is not empty %}
         <div class="rz-page-header__row">
-            {% block subtitle %}
-            {% endblock %}
+            {{- subtitle_html -}}
         </div>
     {% endif %}
-    {% if block('nav_bar')|trim is not empty %}
+    {% if nav_bar_html|trim is not empty %}
         <div class="rz-page-header__row">
-            {% block nav_bar %}
-            {% endblock %}
+            {{- nav_bar_html -}}
         </div>
     {% endif %}
     {% block additional_row %}
     {% endblock %}
 </div>
-
-{% macro breadcrumb(breadcrumb) %}
-    <nav class="rz-breadcrumb" aria-label="{{ breadcrumb.label }}">
-        <ol class="rz-breadcrumb__list">
-            {% for parent in breadcrumb.parent %}
-                {% if parent is iterable and parent.url is defined and parent.label is defined %}
-                    <li class="rz-breadcrumb__list-item">
-                        <a class="rz-breadcrumb__item" href="{{ parent.url }}">
-                            {% if parent.type == 'listing' %}
-                                <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
-                            {% endif %}
-                         {{- parent.label -}}
-                        </a>
-                    </li>
-                {% else %}
-                    {% set breadcrumbsItem = getBreadcrumbsItem(parent) %}
-                    {% if breadcrumbsItem != null %}
-                        <li class="rz-breadcrumb__list-item">
-                            <a class="rz-breadcrumb__item" href="{{ breadcrumbsItem.url }}">
-                                {%- if breadcrumbsItem.home -%}
-                                    <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
-                                {%- endif -%}
-                                {% if 'list' in breadcrumbsItem.url %}
-                                    <span class="rz-button__icon rz-icon-ri--list-unordered"></span>
-                                {% endif %}
-                                {{- breadcrumbsItem.label|truncate_title -}}
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-            <li class="rz-breadcrumb__list-item">
-                <a href="" class="rz-breadcrumb__item" aria-current="page">
-                    {%- if breadcrumb.home -%}
-                        <span class="rz-button__icon rz-icon-ri--home-2-fill"></span>
-                    {%- endif -%}
-                    {{ breadcrumb.current|truncate_title }}
-                </a>
-            </li>
-        </ol>
-    </nav>
-{% endmacro %}
 
 {% macro translations_bar(available_translations, path, pathParams, current, pathAddTranslations, pathAddTranslationsTitle) %}
     {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}

@@ -40,9 +40,7 @@ final readonly class NodeFactory
             throw new \RuntimeException('Cannot create node from null NodeType and null Node.');
         }
 
-        if (null === $translation) {
-            $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        }
+        $translation ??= $this->managerRegistry->getRepository(Translation::class)->findDefault();
 
         if (null === $node) {
             $node = new Node();

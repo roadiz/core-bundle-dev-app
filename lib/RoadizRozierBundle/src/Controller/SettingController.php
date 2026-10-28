@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
@@ -20,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Form\SettingType;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -45,6 +45,7 @@ final class SettingController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
         private readonly Settings $settingsBag,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -255,11 +256,6 @@ final class SettingController extends AbstractController
             if ($resultCache instanceof ResettableInterface) {
                 $resultCache->reset();
             }
-
-            // Legacy Doctrine result cache provider
-            if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
-                $configuration->getResultCacheImpl()->deleteAll();
-            }
         }
 
         $this->eventDispatcher->dispatch(new CachePurgeRequestEvent());
@@ -344,12 +340,8 @@ final class SettingController extends AbstractController
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/admin/head.html.twig',
-            'parentBreadcrumb' => [
-                [
-                    'label' => $this->translator->trans('settings'),
-                    'type' => 'listing',
-                    'url' => $this->generateUrl('settingsHomePage'),
-                ],
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('settings'),
                 [
                     'label' => $setting->getName(),
                     'url' => $this->generateUrl('settingsEditPage', ['settingId' => $setting->getId()]),

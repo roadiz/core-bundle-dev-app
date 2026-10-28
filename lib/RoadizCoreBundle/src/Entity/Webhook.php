@@ -14,12 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WebhookRepository::class),
     ORM\Table(name: 'webhooks'),
-    ORM\Index(columns: ['message_type'], name: 'webhook_message_type'),
-    ORM\Index(columns: ['created_at'], name: 'webhook_created_at'),
-    ORM\Index(columns: ['updated_at'], name: 'webhook_updated_at'),
-    ORM\Index(columns: ['automatic'], name: 'webhook_automatic'),
-    ORM\Index(columns: ['root_node'], name: 'webhook_root_node'),
-    ORM\Index(columns: ['last_triggered_at'], name: 'webhook_last_triggered_at'),
+    ORM\Index(name: 'webhook_message_type', columns: ['message_type']),
+    ORM\Index(name: 'webhook_created_at', columns: ['created_at']),
+    ORM\Index(name: 'webhook_updated_at', columns: ['updated_at']),
+    ORM\Index(name: 'webhook_automatic', columns: ['automatic']),
+    ORM\Index(name: 'webhook_root_node', columns: ['root_node']),
+    ORM\Index(name: 'webhook_last_triggered_at', columns: ['last_triggered_at']),
     ORM\HasLifecycleCallbacks]
 class Webhook implements \Stringable, WebhookInterface
 {
@@ -42,6 +42,14 @@ class Webhook implements \Stringable, WebhookInterface
 
     #[ORM\Column(type: 'json', nullable: true)]
     protected ?array $payload = null;
+
+    /**
+     * Shared secret used to sign outbound payloads with an HMAC-SHA256
+     * X-Roadiz-Signature header, so receivers can verify authenticity.
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[SymfonySerializer\Ignore]
+    protected ?string $secret = null;
 
     /**
      * @var int wait between webhook call and webhook triggering request
@@ -114,6 +122,19 @@ class Webhook implements \Stringable, WebhookInterface
     public function setPayload(?array $payload): Webhook
     {
         $this->payload = $payload;
+
+        return $this;
+    }
+
+    #[\Override]
+    public function getSecret(): ?string
+    {
+        return $this->secret;
+    }
+
+    public function setSecret(?string $secret): Webhook
+    {
+        $this->secret = $secret;
 
         return $this;
     }

@@ -84,12 +84,9 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
         }
 
         try {
-            $nodeSource = $event->getNodeSource();
-            while (!$nodeSource->isReachable()) {
-                $nodeSource = $nodeSource->getParent();
-                if (null === $nodeSource) {
-                    return;
-                }
+            $nodeSource = $event->getNodeSource()->getFirstReachableParent();
+            if (null === $nodeSource) {
+                return;
             }
 
             $purgeRequest = $this->createPurgeRequest([$this->urlGenerator->generate(

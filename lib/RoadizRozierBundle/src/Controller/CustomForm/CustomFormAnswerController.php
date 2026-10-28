@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
@@ -28,6 +29,7 @@ final class CustomFormAnswerController extends AbstractController
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -98,6 +100,15 @@ final class CustomFormAnswerController extends AbstractController
             'cancelPath' => $this->generateUrl('customFormAnswersHomePage', [
                 'customFormId' => $customFormAnswer->getCustomForm()->getId(),
             ]),
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('customForms'),
+                [
+                    'label' => $customFormAnswer->getCustomForm()->getDisplayName(),
+                    'url' => $this->generateUrl('customFormAnswersHomePage', [
+                        'customFormId' => $customFormAnswer->getCustomForm()->getId(),
+                    ]),
+                ],
+            ],
             'alertMessage' => 'are_you_sure.delete.customFormAnswer',
             'form' => $form->createView(),
         ]);

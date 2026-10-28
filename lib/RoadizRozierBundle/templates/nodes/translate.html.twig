@@ -21,6 +21,35 @@
             {{ form_start(form) }}
                 {{ form_widget(form) }}
                 {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+                {% if form.use_translate_assistant is defined %}
+                    <div class="rz-form-field">
+                        {% include '@RoadizRozier/includes/translateAssistantUsage.html.twig' with {
+                            label: 'translate_assistant.usage',
+                            estimate: estimate|default(null),
+                        } %}
+                        {% if estimate is defined %}
+                            {% if estimate.isEmpty %}
+                                <div class="rz-message rz-message--warning rz-form-field__message">
+                                    <p class="rz-message__text">{% trans %}translate_assistant.estimate.nothing_to_translate{% endtrans %}</p>
+                                </div>
+                            {% else %}
+                                <div class="rz-message rz-form-field__message">
+                                    <p class="rz-message__text">
+                                        {{- 'translate_assistant.estimate.%characters%_characters_for_%sources%_sources'|trans({
+                                            '%characters%': estimate.characterCount|number_format(0, '.', ' '),
+                                            '%sources%': estimate.sourceCount,
+                                        }) -}}
+                                        {% if estimate.charactersRemaining is not null %}
+                                            {{ ' ' ~ 'translate_assistant.estimate.%remaining%_characters_remaining'|trans({
+                                                '%remaining%': estimate.charactersRemaining|number_format(0, '.', ' '),
+                                            }) }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endif %}
                 {{ actions_menu.saveItem('#' ~ field_id(form)) }}
             {{ form_end(form) }}
         {% else %}

@@ -29,6 +29,7 @@ final class UserLogEntryRepository extends LogEntryRepository implements Service
             throw new \LogicException(sprintf('Could not find the entity manager for class "%s". Check your Doctrine configuration to make sure it is configured to load this entity’s metadata.', $entityClass));
         }
 
+        // @phpstan-ignore argument.type (UserLogEntry implements LogEntryInterface, not AbstractLogEntry)
         parent::__construct($manager, $manager->getClassMetadata($entityClass));
     }
 

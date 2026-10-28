@@ -188,9 +188,7 @@ abstract class AbstractSingleNodeTypeController extends AbstractAdminWithBulkCon
 
     protected function getShadowContainer(): Node
     {
-        if (null === $this->shadowContainer) {
-            $this->shadowContainer = $this->nodeRepository->findOneByNodeName($this->getShadowRootNodeName()) ?? throw new \RuntimeException(sprintf('No shadow root node "%s" found.', $this->getShadowRootNodeName()));
-        }
+        $this->shadowContainer ??= $this->nodeRepository->findOneByNodeName($this->getShadowRootNodeName()) ?? throw new \RuntimeException(sprintf('No shadow root node "%s" found.', $this->getShadowRootNodeName()));
 
         return $this->shadowContainer;
     }

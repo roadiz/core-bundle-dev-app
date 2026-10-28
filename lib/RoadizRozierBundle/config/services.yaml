@@ -16,6 +16,8 @@ services:
             $forceSslOnRedirectUri: '%roadiz_rozier.open_id.force_ssl_on_redirect_uri%'
             $useGravatar: '%roadiz_core.use_gravatar%'
             $csvEncoderOptions: '%roadiz_rozier.csv_encoder_options%'
+            $livePreviewEnabled: '%roadiz_rozier.live_preview.enabled%'
+            $livePreviewViewportWidths: '%roadiz_rozier.live_preview.viewport_widths%'
 
     RZ\Roadiz\RozierBundle\:
         resource: '../src/'

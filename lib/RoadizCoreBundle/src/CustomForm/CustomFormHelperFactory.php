@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\CustomForm;
 
 use Doctrine\Persistence\ObjectManager;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\PrivateDocumentFactory;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -17,6 +18,7 @@ final readonly class CustomFormHelperFactory
         private ObjectManager $em,
         private FormFactoryInterface $formFactory,
         private EventDispatcherInterface $eventDispatcher,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -27,7 +29,8 @@ final readonly class CustomFormHelperFactory
             $customForm,
             $this->privateDocumentFactory,
             $this->formFactory,
-            $this->eventDispatcher
+            $this->eventDispatcher,
+            $this->logger
         );
     }
 }

@@ -6,7 +6,6 @@
     <section class="content-global content-nav-and-filters">
         {% include '@RoadizRozier/node-types/head.html.twig' with {
             title: "edit.nodeTypeFields.for.nodeType.%name%"|trans({'%name%': nodeType.displayName}),
-            with_breadcrumb: true,
             item: nodeType,
         } only %}
 
@@ -42,6 +41,9 @@
                                 {% endif %}
                                 {% if field.indexed %}
                                     {{ rz_node_badge.item('indexed', false) }}
+                                {% endif %}
+                                {% if field.ExcludedFromTranslation %}
+                                    {{ rz_node_badge.item('excludeFromTranslation', false) }}
                                 {% endif %}
                             </td>
                             {% if actions_available %}

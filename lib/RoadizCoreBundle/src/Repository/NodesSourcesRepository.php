@@ -16,11 +16,16 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
+use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use RZ\Roadiz\CoreBundle\Realm\RealmResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * @template T of NodesSources
@@ -32,6 +37,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class NodesSourcesRepository extends StatusAwareRepository
 {
     /**
+     * Setter-injected (not constructor-injected) so this reaches the generated
+     * per-node-type NS*Repository subclasses, whose hand-generated constructors
+     * forward a fixed 5-argument call to parent::__construct() and would silently
+     * drop any new constructor parameter added here.
+     */
+    private ?RealmResolverInterface $realmResolver = null;
+
+    /**
      * @param class-string<NodesSources> $entityClass
      */
     public function __construct(
@@ -42,6 +55,12 @@ class NodesSourcesRepository extends StatusAwareRepository
         string $entityClass = NodesSources::class,
     ) {
         parent::__construct($registry, $entityClass, $previewResolver, $dispatcher, $security);
+    }
+
+    #[Required]
+    public function setRealmResolver(RealmResolverInterface $realmResolver): void
+    {
+        $this->realmResolver = $realmResolver;
     }
 
     /**
@@ -226,6 +245,12 @@ class NodesSourcesRepository extends StatusAwareRepository
          * Forbid unpublished node for anonymous and not backend users.
          */
         $qb->andWhere($qb->expr()->lte($prefix.'.publishedAt', ':now'));
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->gt($prefix.'.unpublishedAt', ':now'),
+                $qb->expr()->isNull($prefix.'.unpublishedAt')
+            )
+        );
         $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS.'.status', ':node_status'));
         $qb->setParameter('node_status', NodeStatus::PUBLISHED);
         $qb->setParameter('now', new \DateTime('now'));
@@ -243,6 +268,54 @@ class NodesSourcesRepository extends StatusAwareRepository
     }
 
     /**
+     * Excludes NodesSources gated by a DENY-behaviour Realm the current user isn't
+     * granted, mirroring NodesSourcesRealmExtension so findBy/findOneBy/searchBy/countBy
+     * offer the same protection as the API Platform endpoints.
+     *
+     * Skipped for back-end users: see the note on ROLE_BACKEND_USER below.
+     *
+     * Deliberately NOT called from findOneByIdentifierAndTranslation(): that method
+     * only backs NodesSourcesPathResolver, whose caller (web_response_by_path) already
+     * performs an equivalent, more specific DENY-realm check via
+     * RealmsAwareWebResponseOutputDataTransformerTrait::injectRealms() and returns 401.
+     * Filtering here too would make the row invisible earlier and surface as a 404 instead.
+     */
+    private function filterByDeniedRealms(QueryBuilder $qb): void
+    {
+        if (null === $this->realmResolver) {
+            return;
+        }
+
+        /*
+         * Realms gate public delivery, not backoffice edition. A back-end user
+         * already goes through NodeVoter for every node they open, whereas a
+         * plain-password Realm can never be granted from Rozier — no challenge is
+         * ever submitted there — so filtering here makes every gated node
+         * uneditable, surfacing as a 404 instead of a 403.
+         */
+        if ($this->security->isGranted('ROLE_BACKEND_USER')) {
+            return;
+        }
+
+        $deniedRealmIds = array_values(array_map(
+            fn (RealmInterface $realm) => $realm->getId(),
+            array_filter(
+                $this->realmResolver->getDeniedRealms(),
+                fn (RealmInterface $realm) => RealmInterface::BEHAVIOUR_DENY === $realm->getBehaviour()
+            )
+        ));
+
+        if ([] === $deniedRealmIds) {
+            return;
+        }
+
+        $qb->andWhere($qb->expr()->notIn(
+            static::NODE_ALIAS.'.id',
+            sprintf('SELECT IDENTITY(rn.node) FROM %s rn WHERE rn.realm IN (:deniedRealmIds)', RealmNode::class)
+        ))->setParameter('deniedRealmIds', $deniedRealmIds);
+    }
+
+    /**
      * Create a secure query with node.published = true if user is
      * not a Backend user.
      */
@@ -255,6 +328,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->joinNodeOnce($qb);
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
         $qb->addSelect(static::NODE_ALIAS);
 
         /*
@@ -269,6 +343,12 @@ class NodesSourcesRepository extends StatusAwareRepository
                 if (\str_contains((string) $key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS.'.'.$simpleKey, $value);
+                } elseif (
+                    !$this->getClassMetadata()->hasField($key)
+                    && !$this->getClassMetadata()->hasAssociation($key)
+                    && $this->hasJoinedNode($qb, static::NODESSOURCES_ALIAS)
+                ) {
+                    $qb->addOrderBy(static::NODE_ALIAS.'.'.$key, $value);
                 } else {
                     $qb->addOrderBy(static::NODESSOURCES_ALIAS.'.'.$key, $value);
                 }
@@ -294,7 +374,9 @@ class NodesSourcesRepository extends StatusAwareRepository
     protected function getCountContextualQuery(array &$criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
+        $this->joinNodeOnce($qb);
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
         /*
          * Filtering by tag
          */
@@ -494,7 +576,9 @@ class NodesSourcesRepository extends StatusAwareRepository
         string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $qb = parent::createSearchBy($pattern, $qb, $criteria, $alias);
+        $this->joinNodeOnce($qb, $alias);
         $this->alterQueryBuilderWithAuthorizationChecker($qb, $alias);
+        $this->filterByDeniedRealms($qb);
 
         return $qb;
     }
@@ -508,7 +592,30 @@ class NodesSourcesRepository extends StatusAwareRepository
         ?int $offset = null,
         string $alias = EntityRepository::DEFAULT_ALIAS,
     ): array {
-        return parent::searchBy($pattern, $criteria, $orders, $limit, $offset, static::NODESSOURCES_ALIAS);
+        return parent::searchBy($pattern, $criteria, $this->prefixNodeOrderFields($orders), $limit, $offset, static::NODESSOURCES_ALIAS);
+    }
+
+    /**
+     * @param array<non-empty-string, 'ASC'|'DESC'> $orders
+     *
+     * @return array<non-empty-string, 'ASC'|'DESC'>
+     */
+    private function prefixNodeOrderFields(array $orders): array
+    {
+        $prefixed = [];
+        foreach ($orders as $key => $value) {
+            if (
+                !\str_contains($key, '.')
+                && !$this->getClassMetadata()->hasField($key)
+                && !$this->getClassMetadata()->hasAssociation($key)
+            ) {
+                $prefixed['node.'.$key] = $value;
+            } else {
+                $prefixed[$key] = $value;
+            }
+        }
+
+        return $prefixed;
     }
 
     /**
@@ -523,7 +630,9 @@ class NodesSourcesRepository extends StatusAwareRepository
     ): array {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->joinNodeOnce($qb);
-        $qb->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
+        $qb->addSelect('ua')
+            ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
+            ->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
             ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
             ->andWhere($qb->expr()->eq(static::NODESSOURCES_ALIAS.'.translation', ':translation'))
@@ -531,6 +640,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setCacheable(true);
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
 
         if (count($nodeSourceClasses) > 0) {
             $qb->andWhere($qb->expr()->orX(
@@ -546,6 +656,75 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setParameter('translation', $nodesSources->getTranslation());
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Batch version of findByNodesSourcesAndFieldNameAndTranslation(), for several nodes
+     * sharing the same translation. Same publication and Realm filters.
+     * Allowed node-types are not filtered here.
+     *
+     * @param array<int|string> $nodeIds
+     * @param array<string>     $fieldNames
+     *
+     * @return array<int|string, array<string, array<T>>> Referenced node-sources indexed by referencing node ID and field name, in position order
+     */
+    public function findByNodeIdsAndFieldNamesAndTranslation(
+        array $nodeIds,
+        array $fieldNames,
+        TranslationInterface $translation,
+    ): array {
+        if ([] === $nodeIds || [] === $fieldNames) {
+            return [];
+        }
+
+        /*
+         * Links are fetched as scalars: a node referenced by several nodes or fields must appear
+         * in each list, which an entity hydration of the referenced sources would merge.
+         */
+        $links = $this->getEntityManager()->createQueryBuilder()
+            ->select('IDENTITY(ntn.nodeA) AS nodeAId', 'IDENTITY(ntn.nodeB) AS nodeBId', 'ntn.fieldName AS fieldName')
+            ->from(NodesToNodes::class, 'ntn')
+            ->andWhere('ntn.nodeA IN (:nodeIds)')
+            ->andWhere('ntn.fieldName IN (:fieldNames)')
+            ->addOrderBy('ntn.position', 'ASC')
+            ->setParameter('nodeIds', array_values($nodeIds))
+            ->setParameter('fieldNames', array_values($fieldNames))
+            ->getQuery()
+            ->getScalarResult();
+
+        if ([] === $links) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
+        $this->joinNodeOnce($qb);
+        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
+            ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
+            ->andWhere($qb->expr()->in(static::NODE_ALIAS.'.id', ':referencedNodeIds'))
+            ->andWhere($qb->expr()->eq(static::NODESSOURCES_ALIAS.'.translation', ':translation'))
+            ->setParameter('referencedNodeIds', array_values(array_unique(array_column($links, 'nodeBId'))))
+            ->setParameter('translation', $translation);
+
+        $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
+
+        $sourcesByNodeId = [];
+        /** @var T $nodeSource */
+        foreach ($qb->getQuery()->getResult() as $nodeSource) {
+            // Fetched nodes always have an ID.
+            $sourcesByNodeId[(int) $nodeSource->getNode()->getId()] = $nodeSource;
+        }
+
+        $references = [];
+        foreach ($links as $link) {
+            $reference = $sourcesByNodeId[$link['nodeBId']] ?? null;
+            // Keyed by referenced node ID: duplicate links are merged, as the single-item query hydration does.
+            if (null !== $reference) {
+                $references[$link['nodeAId']][$link['fieldName']][$link['nodeBId']] ??= $reference;
+            }
+        }
+
+        return array_map(fn (array $fields) => array_map(array_values(...), $fields), $references);
     }
 
     /**
@@ -565,6 +744,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setCacheable(true);
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $this->filterByDeniedRealms($qb);
         if (!$this->previewResolver->isPreview() && !$this->isDisplayingAllNodesStatuses()) {
             $qb->andWhere($qb->expr()->eq(static::TRANSLATION_ALIAS.'.available', ':available'))
                 ->setParameter('available', true);
@@ -605,9 +785,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     ): array {
         $parentsNodeSources = [];
 
-        if (null === $criteria) {
-            $criteria = [];
-        }
+        $criteria ??= [];
 
         $parent = $nodeSource;
 
@@ -808,9 +986,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             $defaultCriteria = array_merge($defaultCriteria, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'DESC';
 
@@ -848,9 +1024,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             $defaultCriteria = array_merge($defaultCriteria, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'ASC';
 

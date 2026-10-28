@@ -1,0 +1,66 @@
+resources:
+    RZ\Roadiz\SolrBundle\SearchResultItem:
+        shortName: SearchResultItem
+        description: 'A single Solr search result, wrapping a matched resource and its highlighting.'
+        types:
+            - SearchResultItem
+        # Virtual, read-only resource: no identifier and no item operation, so each
+        # member is serialized with a unique skolem IRI (`/.well-known/genid/...`)
+        # instead of reusing the same `@id`.
+        stateless: true
+        operations:
+            search_collection:
+                class: ApiPlatform\Metadata\GetCollection
+                method: 'GET'
+                uriTemplate: '/search'
+                controller: RZ\Roadiz\SolrBundle\Controller\NodesSourcesSearchController
+                read: false
+                stateless: true
+                normalizationContext:
+                    groups:
+                        - get
+                        - nodes_sources_base
+                        - nodes_sources_default
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                openapi:
+                    summary: Search NodesSources resources
+                    description: |
+                        Search all website NodesSources resources using **Solr** full-text search engine
+                    tags:
+                        - Search
+                    parameters:
+                        -   type: string
+                            name: search
+                            in: query
+                            required: true
+                            description: Search pattern
+                            schema:
+                                type: string
+                        -   name: tag_name
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more visible tag names (matches the
+                                `facet_tags_ss` facet). Repeat the param to filter on several tags.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
+                        -   name: node_type
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more node types (matches the
+                                `node_type_s` facet). Only node types within the endpoint allowlist
+                                are returned. Repeat the param to filter on several node types.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true

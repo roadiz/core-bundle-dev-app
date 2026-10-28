@@ -23,6 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Translation\LocaleSwitcher;
 
 final class GetWebResponseByPathController extends AbstractController
 {
@@ -34,6 +35,7 @@ final class GetWebResponseByPathController extends AbstractController
         private readonly PreviewResolverInterface $previewResolver,
         private readonly ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
         private readonly LoggerInterface $logger,
+        private readonly LocaleSwitcher $localeSwitcher,
     ) {
     }
 
@@ -94,6 +96,16 @@ final class GetWebResponseByPathController extends AbstractController
             if ($isNodeSource) {
                 $request->attributes->set('_translation', $resource->getTranslation());
                 $request->attributes->set('_locale', $resource->getTranslation()->getPreferredLocale());
+            }
+
+            /*
+             * The resource is resolved after kernel.request: LocaleAwareListener has already set
+             * every locale-aware service (translator, Gedmo translatable bridges…) on the default locale.
+             */
+            $locale = $request->attributes->get('_locale');
+            if (\is_string($locale) && '' !== $locale) {
+                $request->setLocale($locale);
+                $this->localeSwitcher->setLocale($locale);
             }
 
             $data = $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);

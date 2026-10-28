@@ -24,6 +24,12 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
         $property->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
             'serializedName' => $this->field->getVarName(),
         ]);
+        if (null !== $this->getNormalizationContext()) {
+            $property->addAttribute(\Symfony\Component\Serializer\Attribute\Context::class, [
+                'normalizationContext' => $this->getNormalizationContext(),
+                'groups' => $this->getSerializationGroups(),
+            ]);
+        }
         $property->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [
             $this->getSerializationGroups(),
         ]);

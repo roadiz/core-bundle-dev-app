@@ -12,12 +12,10 @@
         {% include '@RoadizRozier/node-types/head.html.twig' with {
             title: headerTitle,
             subtitle: nodeType ? nodeType.displayName : null,
-            with_breadcrumb: true,
             item: {displayName: headerTitle},
             breadcrumb_parents: [
                 {
-                    displayName: 'nodeTypeDecorator'|trans,
-                    type: 'listing',
+                    label: 'nodeTypeDecorator'|trans,
                     url: path('nodeTypeDecoratorsListPage')
                 },
             ],

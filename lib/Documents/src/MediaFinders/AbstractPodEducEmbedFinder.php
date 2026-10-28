@@ -155,4 +155,10 @@ abstract class AbstractPodEducEmbedFinder extends AbstractEmbedFinder
 
         return $this->embedId.'?'.http_build_query($queryString);
     }
+
+    #[\Override]
+    public function getPublicUri(): ?string
+    {
+        return $this->embedId;
+    }
 }

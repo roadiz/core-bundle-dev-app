@@ -62,6 +62,7 @@ final class NodeSourceType extends AbstractType
         if (true === $options['withTitle']) {
             $builder->add('base', NodeSourceBaseType::class, [
                 'publishable' => $options['nodeType']->isPublishable(),
+                'unpublishable' => $options['nodeType']->isUnpublishable(),
                 'translation' => $builder->getData()->getTranslation(),
             ]);
         }
@@ -292,6 +293,11 @@ final class NodeSourceType extends AbstractType
                     ],
                     'locale' => $nodeSource->getTranslation()->getLocale(),
                 ], $additionalOptions);
+                if ($field->isExcludedFromTranslation()) {
+                    // A field kept out of machine translation must not offer a one-click AI
+                    // translation either, whatever its defaultValues say.
+                    $options['allow_translate_assistant_translate'] = false;
+                }
                 break;
             case FieldType::CHILDREN_T:
                 $options = array_merge_recursive($options, [
@@ -372,6 +378,9 @@ final class NodeSourceType extends AbstractType
         ];
         if ($field->isUniversal()) {
             $options['attr']['data-universal'] = true;
+        }
+        if ($field->isExcludedFromTranslation()) {
+            $options['attr']['data-exclude-from-translation'] = true;
         }
         if ('' !== $field->getDescription()) {
             $options['help'] = $field->getDescription();

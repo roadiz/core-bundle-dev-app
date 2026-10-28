@@ -269,19 +269,6 @@ abstract class PrefixAwareRepository extends EntityRepository
         return $query->getResult();
     }
 
-    #[\Override]
-    public function countSearchBy(string $pattern, array $criteria = []): int
-    {
-        $qb = $this->createQueryBuilder($this->getDefaultPrefix());
-        $qb->select($qb->expr()->countDistinct($this->getDefaultPrefix().'.id'));
-        $qb = $this->createSearchBy($pattern, $qb, $criteria);
-
-        $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
-        $this->applyFilterByCriteria($criteria, $qb);
-
-        return (int) $qb->getQuery()->getSingleScalarResult();
-    }
-
     /**
      * Create a LIKE comparison with entity texts columns.
      */

@@ -71,7 +71,7 @@ to populate all data during the `asyncData()` routine in `_.vue` page
         "matomoSiteId": null,
         "siteName": "Roadiz dev website",
         "metaTitle": "Contact – Roadiz dev website",
-        "metaDescription": "Contact, Roadiz dev website",
+        "metaDescription": null,
         "policyUrl": null,
         "mainColor": null,
         "facebookUrl": null,
@@ -167,6 +167,84 @@ resources:
                     parameters:
                         - { type: string, name: path, in: query, required: true, description: 'Resource path, or `/` for home page', schema: { type: string } }
 ```
+
+## Reachable node-types and tree-walker depth
+
+::: warning
+Since **v2.7.21**, `AutoChildrenNodeSourceWalker` **stops walking into children of reachable node-types** (node-types that have their own URL) when they appear at level > 0 in the tree.
+:::
+
+### The problem
+
+When a `WebResponse` is built, `WebResponseOutputDataTransformer` calls `injectBlocks()` which creates an `AutoChildrenNodeSourceWalker` with a **max depth of 5** (defined by `getChildrenNodeSourceWalkerMaxLevel()`). Before v2.7.21, the walker recursed into *every* child node — including children that are themselves **reachable** (i.e. node-types that have their own URL).
+
+This means that if a reachable *Page* contains children that are also reachable *Pages*, all their sub-trees (blocks, sub-pages, sub-blocks…) were serialized recursively up to 5 levels deep.
+
+And that could return a very large JSON payload containing the entire tree of all sub-pages and their blocks, even though each of those sub-pages has its own URL and can be fetched individually.
+
+### The fix
+
+`AutoChildrenNodeSourceWalker::getChildren()` now returns an empty collection when the current item is a reachable `NodesSources` at level > 0. The walker still walks into **non-reachable** children (blocks, content sections, etc.) as before.
+
+### Impact on existing projects
+
+If your content architecture nests reachable node-types as children of other reachable node-types (e.g. a *Section* page containing *Article* sub-pages), their blocks and children **will no longer appear** in the parent `WebResponse` `blocks` tree.
+
+This is the intended behavior: each reachable node should be fetched through its own `WebResponse` call using its URL.
+
+If you need to restore the previous behavior for a specific use-case, create a custom walker that extends `AbstractCycleAwareWalker` directly (replicating the definition logic from `AutoChildrenNodeSourceWalker` without the reachable guard in `getChildren()`) and override `getChildrenNodeSourceWalkerClassname()` in your `WebResponseOutputDataTransformer` decorator to return your custom class.
+
+## Avoid N+1 queries in tree-walkers
+
+::: tip
+Since **v2.7.52**, blocks of every `WebResponse` are prefetched: no project code is required.
+:::
+
+Generated node-source getters (`getImage()`, `getLinkInternalReferenceSources()`…) load their documents and nodes references lazily, then keep them in a private buffer. Normalizing a tree-walker would issue one query per walker item and per field, plus one URL aliases query per generated path.
+
+`NodesSourcesPrefetcher` fills those buffers for a whole tree in a few queries, before serialization:
+
+- **documents** fields, one query per translation;
+- **nodes** reference fields, two queries per translation, with the same publication and Realm filters as the generated getters, filtered on the field allowed node-types;
+- then the same for the referenced node-sources, whose media and URLs are often normalized too (menu link media, cross links);
+- **URL aliases** are fetch-joined by tree-walker definitions queries and by references queries.
+
+`WebResponseOutputDataTransformer` prefetches the `WebResponse` item and its blocks, unless they are hidden by a Realm.
+
+### Prefetch your own walkers
+
+Call `prefetchWalkers()` on any walkers you expose outside a `WebResponse`, e.g. menus in your `GetCommonContentController`:
+
+```php
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodesSourcesPrefetcher;
+
+$menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
+    'Menu',
+    MenuNodeSourceWalker::class,
+    $translation,
+    3
+);
+// Walks every menu down to its max level, then prefetches all items.
+$this->nodesSourcesPrefetcher->prefetchWalkers($menus);
+$resource->menus = $menus;
+```
+
+`prefetchWalkers()` accepts extra node-sources as a second argument, and `prefetch(array $sources)` prefetches a plain list of node-sources.
+
+::: warning
+Documents fields are prefetched only for node-source entities generated since v2.7.52, which have a `set{Field}Dtos()` setter. Run `bin/console generate:nsentities` to regenerate them. Until then, documents fields are loaded lazily as before, without error, and a warning listing outdated classes is logged on cache warmup.
+:::
+
+### Limits
+
+- Prefetching runs **after** the walk. Definitions calling getters while walking (e.g. an alias block definition calling `getBlockSources()`, or a feed block definition calling `get…Sources()`) are not covered.
+- Children are still queried once per walker item, and node tags once per tagged item.
+- Only `NodesSources` documents and references fields are prefetched. Other entities, such as Gedmo-translatable entities from third-party bundles, are still lazily loaded.
+- Prefetching fills buffers only when their getter has not been called yet.
+
+### Locale of `web_response_by_path`
+
+`GetWebResponseByPathController` resolves its resource after Symfony `kernel.request` listeners. Since v2.7.52, once the resource is resolved, it sets the request locale and switches every locale-aware service (translator, Gedmo translatable listener bridges…) to the resource translation locale with Symfony `LocaleSwitcher`. Before, they stayed on the default locale: entities lazily loaded on a translated path (`/en/…`) could come out in the default locale.
 
 ## Override WebResponse block walker
 
@@ -354,6 +432,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodesSourcesPrefetcher;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -377,6 +456,7 @@ final class GetCommonContentController extends AbstractController
         private readonly WalkerContextInterface $walkerContext,
         private readonly CacheItemPoolInterface $cacheItemPool,
         private readonly Settings $settingsBag,
+        private readonly NodesSourcesPrefetcher $nodesSourcesPrefetcher,
     ) {
     }
 
@@ -403,6 +483,8 @@ final class GetCommonContentController extends AbstractController
                 $translation,
                 4
             );
+            // Avoid N+1 queries when normalizing menus and footers
+            $this->nodesSourcesPrefetcher->prefetchWalkers([...$resource->menus, ...$resource->footers]);
 
             /*
              * Provide all *_url and *_color settings. Make sure to not create private settings using these keys.
@@ -599,7 +681,7 @@ Then, the following resource will be exposed:
         "matomoSiteId": null,
         "siteName": "Roadiz dev website",
         "metaTitle": "Contact – Roadiz dev website",
-        "metaDescription": "Contact, Roadiz dev website",
+        "metaDescription": null,
         "homePageUrl": "/",
         "shareImage": null
     },

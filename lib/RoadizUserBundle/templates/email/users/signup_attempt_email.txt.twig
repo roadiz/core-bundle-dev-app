@@ -1,0 +1,9 @@
+{% extends '@RoadizUser/email/users/reset_password_email.txt.twig' %}
+
+{% block title %}{% trans %}signup.email_already_used.notification{% endtrans %}{% endblock %}
+
+{% block content_subtitle %}{{ 'someone.tried.to.sign.up.with.your.email.on.%site%'|trans({'%site%':meta.siteName}) }}{% endblock %}
+
+{% block content_disclaimer %}
+{% trans %}if.this.wasnt.you.ignore.this.email{% endtrans %}
+{% endblock %}

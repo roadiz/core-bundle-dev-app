@@ -13,6 +13,8 @@ use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
+use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
@@ -36,9 +38,14 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly TranslationRepository $translationRepository,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly bool $livePreviewEnabled,
+        /** @var int[] */
+        private readonly array $livePreviewViewportWidths,
     ) {
     }
 
@@ -61,6 +68,11 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             ],
             'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
             'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
+            'preview_required_role' => $this->previewResolver->getRequiredRole(),
+            'live_preview' => [
+                'enabled' => $this->livePreviewEnabled,
+                'viewport_widths' => $this->livePreviewViewportWidths,
+            ],
         ];
     }
 
@@ -78,7 +90,10 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return [
             new TwigFunction('getNodeType', $this->getNodeType(...)),
+            new TwigFunction('translateAssistantUsage', $this->translateAssistant->usage(...)),
             new TwigFunction('getBreadcrumbsItem', $this->getBreadcrumbsItem(...)),
+            new TwigFunction('breadcrumb_root', $this->breadcrumbRoots->get(...)),
+            new TwigFunction('breadcrumb_trail', $this->breadcrumbRoots->trailTo(...)),
             new TwigFunction('getExplorerItem', $this->getExplorerItem(...)),
             new TwigFunction('getNodeSourceHref', $this->getNodeSourceHref(...)),
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
