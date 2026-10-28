@@ -42,11 +42,11 @@ validated: it clears the ground and rebuilds some rhythm before the pilot zone. 
 2-3 days** — several items below need a quick manual check before removal (no automated tests in
 `lib/Rozier`); don't let it drift into an exhaustive verification effort that delays Phase 1.
 
-**Closing it**: the phase is closed when every item is done or excluded with a written trace. One PR per item, in this order: #396, then the `initNestables()` fix, then the Vue, UIkit and `Lazyload.ts` removals. A file counts as dead when nothing references it and a manual click-through of the related screens shows no regression; record that QA checklist in the PR.
+**Closing it**: the phase is closed when every item is done or excluded with a written trace. One PR per item, in this order: #396, then the dead stack-tree refresh, then the Vue, UIkit and `Lazyload.ts` removals. A file counts as dead when nothing references it and a manual click-through of the related screens shows no regression; record that QA checklist in the PR.
 
 **The order below matters**: merge the PRs first, *before* touching the legacy cleanup/bugfix work —
 PR [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) directly modifies `Rozier.ts`, `RzAside.ts`, and `RzTree.ts`,
-exactly the files where the `initNestables()` bug and the Vue/UIkit cleanup below live. Fixing/
+exactly the files where the stack-tree refresh and the Vue/UIkit cleanup below live. Fixing/
 cleaning up before merging #396 risks a conflict or an overwritten fix.
 
 - [x] Merge [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (near-zero risk)
@@ -63,9 +63,9 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 - [x] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): already removed from the `v2.8` milestone (checked 2026-10-28)
 - [x] ~~Set a due date on `v2.8`~~ excluded from Phase 0 (2026-10-28): `v2.8` keeps its whole scope, the team sets the date separately
 - [x] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
-- [ ] **Fix the `window.Rozier.initNestables()` bug** ([StackNodeTree.js:195](../app/widgets/StackNodeTree.js#L195)) — method no longer exists on `Rozier.ts`, crashes on every drag-and-drop tree reorder and blocks the rebind that follows. Independent of any removal effort, likely an active user-facing bug
+- [ ] Remove the dead stack-tree refresh: `refreshNodeTree()`, `fetchNodeTree()` and `treeAvailable()` in [StackNodeTree.js](../app/widgets/StackNodeTree.js) (with their `window.Rozier.initNestables()` call) and the matching branch of `RzAside.refreshAllNodeTrees()`. Not a user-facing crash: `treeAvailable()` looks for `.nodetree-widget`, which no template renders since #279 (checked in code and in the browser, 2026-10-28). Keep the quick-add flow, still live
 - [ ] Remove the 6 dead Vue files (also settles the `RzButton.vue`/`RzTextarea.vue` collision with their custom elements, and unregisters the containers from `App.js`): `containers/DrawerContainer.vue`, `containers/NodeTypesDrawerContainer.vue`, `containers/TagsEditorContainer.vue`, `components/RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
-- [ ] Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `switcher`, `sortable`, `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files
+- [ ] Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files. `switcher` and `sortable` move to Phase 5: JS still references them (`[data-uk-switcher]` in `RzMarkdownEditor.ts`, `JsonEditor.js`, `CssEditor.js`, `YamlEditor.js`; `change.uk.sortable` in `CustomFormFieldsPosition.js`)
 - [ ] Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
 
 ## Phase 1 — Pilot zone: content editing page (node-source)
@@ -122,7 +122,7 @@ have been stabilized (not urgent, but not to be forgotten):
 ## Phase 6 — Remaining heavy zones
 
 - [ ] Scope Tags/Folders with a real Figma design pass (not just code catch-up)
-- [ ] Scope Custom forms
+- [ ] Scope Custom forms — includes a v2.8 regression: since #279 the custom-form fields list can no longer be reordered by drag-and-drop (v2.7 used `data-uk-sortable`; the `rz_table` sortable option from #217 is not wired on it, and `CustomFormFieldsPosition.js` listens to markup no template renders)
 - [ ] Scope User management (no existing dedicated component — the biggest remaining effort)
 
 ## Rules to avoid spreading thin (reminder)
