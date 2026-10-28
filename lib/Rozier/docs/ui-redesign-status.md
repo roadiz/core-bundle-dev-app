@@ -86,10 +86,10 @@ and handle #398 last (conflict resolution + check the link with #377).
 
 24 tickets currently sit on the board under `v2.8`, all not started. Grouped by theme:
 
-**Dark mode / contrast** (the most recurring topic — 5 tickets, one of them a duplicate)
+**Dark mode / contrast** (the most recurring topic — 5 tickets)
 - [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436) — Too much contrast/visible borders in dark mode
 - [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445) — Misleading contrast between page background and controls (looks disabled)
-- [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) / [#447](https://github.com/roadiz/core-bundle-dev-app/issues/447) *(duplicate)* — Font colors/sizes and background hard to read
+- [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) — Font colors/sizes and background hard to read
 - [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448) — Layout perceived as more cluttered and less legible
 - [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) — Insufficient contrast on action menu / content in dark mode
 
@@ -126,10 +126,10 @@ and handle #398 last (conflict resolution + check the link with #377).
 The board (24 `v2.8` items) and the real GitHub `v2.8` milestone (31 issues) have diverged:
 **13 open issues in the milestone aren't on the board**.
 
-- **Duplicates to resolve**:
-  - [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) / [#440](https://github.com/roadiz/core-bundle-dev-app/issues/440) — same title, custom-form menu icon
-  - [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) / [#447](https://github.com/roadiz/core-bundle-dev-app/issues/447) — same title, UI contrast (already listed above)
-  - [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415) / [core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) — same bug (uploader drag-and-drop zone) reported in two different repos of the org; the board aggregates several repos, `#415` here has nothing to do with the `core-bundle-dev-app` PR `#415` cited above (a plain numbering collision across repos). Both are already on the board, without a milestone.
+- **Duplicates** (resolved 2026-10-28):
+  - #440 closed as a duplicate of [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) — custom-form menu icon
+  - #447 closed as a duplicate of [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446) — UI contrast (listed above)
+  - `roadiz/roadiz#415` / [#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) — uploader drag-and-drop zone; issues are disabled on `roadiz/roadiz`, so #462 is the canonical record, now in the `v2.8` milestone.
 - **Issues related to the redesign but never triaged onto the board**: #128, #134, #171, #409 (listed above).
 - **Old backend tickets unrelated to the visual redesign**, in the `v2.8` milestone but never triaged onto the board: [#16](https://github.com/roadiz/core-bundle-dev-app/issues/16), [#393](https://github.com/roadiz/core-bundle-dev-app/issues/393), [#399](https://github.com/roadiz/core-bundle-dev-app/issues/399), [#406](https://github.com/roadiz/core-bundle-dev-app/issues/406), [#428](https://github.com/roadiz/core-bundle-dev-app/issues/428), [#457](https://github.com/roadiz/core-bundle-dev-app/issues/457), [#470](https://github.com/roadiz/core-bundle-dev-app/issues/470) — probably to be taken out of the milestone rather than handled in this effort.
 - `v2.8` has **no due date** (`due_on: null`), unlike `v2.7`.
