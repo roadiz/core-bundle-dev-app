@@ -54,7 +54,7 @@ final class DocumentDto implements \Stringable, BaseDocumentInterface
         return $this->folder ?? 'documents';
     }
 
-    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute'])]
     #[\Override]
     public function getMimeType(): string
     {

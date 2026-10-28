@@ -101,7 +101,7 @@
                                     rightIcon: 'rz-icon-ri--arrow-right-s-line',
                                 }) }}
                             {% endif %}
-                            {% if node.published or node.draft or node.pending %}
+                            {% if (node.published or node.draft or node.pending) and is_granted(preview_required_role) %}
                                 {{ _self.item({
                                     label: 'preview.page',
                                     href: path('nodesSourcesPreviewRedirect', {

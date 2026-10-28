@@ -69,6 +69,9 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.hide_roadiz_version', $config['hideRoadizVersion']);
         $container->setParameter('roadiz_core.use_accept_language_header', $config['useAcceptLanguageHeader']);
         $container->setParameter('roadiz_core.web_response_class', $config['webResponseClass']);
+        if ('ROLE_BACKEND_USER' === $config['previewRequiredRoleName']) {
+            @trigger_error('Using ROLE_BACKEND_USER as "roadiz_core.previewRequiredRoleName" is deprecated, default value will change to ROLE_ACCESS_PREVIEW in Roadiz v2.8. Set it explicitly to ROLE_ACCESS_PREVIEW (or any other role) to anticipate this change.', \E_USER_DEPRECATED);
+        }
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
         $container->setParameter('roadiz_core.force_locale', $config['forceLocale']);
         $container->setParameter('roadiz_core.force_locale_with_url_aliases', $config['forceLocaleWithUrlAliases']);

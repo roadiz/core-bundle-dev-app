@@ -1,0 +1,64 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Tag",
+        "@id": "/api/tags/{id}",
+        "@type": "Tag",
+        "color": "#00ff00",
+        "visible": true,
+        "slug": "serialization-tag",
+        "name": "Tag name",
+        "description": "Tag description",
+        "documents": [
+            {
+                "@context": "/api/contexts/Document",
+                "@id": "/api/documents/{id}",
+                "@type": "Document",
+                "hotspot": null,
+                "embedId": null,
+                "embedPlatform": null,
+                "mimeType": "image/jpeg",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "imageAverageColor": null,
+                "alt": "Image name",
+                "type": "image",
+                "relativePath": "fixtures/serialization_image.jpg",
+                "processable": true,
+                "imageCropAlignment": "top-left",
+                "name": "Image name",
+                "description": "Image description",
+                "copyright": "Image copyright",
+                "externalUrl": "https://example.test/image"
+            }
+        ]
+    },
+    "json": {
+        "color": "#00ff00",
+        "visible": true,
+        "slug": "serialization-tag",
+        "name": "Tag name",
+        "description": "Tag description",
+        "documents": [
+            {
+                "hotspot": null,
+                "embedId": null,
+                "embedPlatform": null,
+                "mimeType": "image/jpeg",
+                "imageWidth": 0,
+                "imageHeight": 0,
+                "mediaDuration": 0,
+                "imageAverageColor": null,
+                "alt": "Image name",
+                "type": "image",
+                "relativePath": "fixtures/serialization_image.jpg",
+                "processable": true,
+                "imageCropAlignment": "top-left",
+                "name": "Image name",
+                "description": "Image description",
+                "copyright": "Image copyright",
+                "externalUrl": "https://example.test/image"
+            }
+        ]
+    }
+}
