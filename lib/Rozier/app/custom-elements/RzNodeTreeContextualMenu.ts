@@ -6,22 +6,6 @@ type UpdatePayloadDict = Record<string, string | number | boolean | null>
 export default class RzNodeTreeContextualMenu extends HTMLElement {
     popoverInstance: Popover | null = null
 
-    private hidePopover() {
-        const popover = this.popoverElement as unknown as {
-            hidePopover?: () => void
-        } | null
-        popover?.hidePopover?.()
-    }
-
-    private closePopoverIfRequested(source: HTMLElement | null) {
-        if (!source) return
-        if (source.getAttribute('data-close-popover-on-click') !== 'true') {
-            return
-        }
-
-        this.hidePopover()
-    }
-
     static get observedAttributes() {
         return [...ATTRIBUTES_OPTIONS]
     }
@@ -177,6 +161,8 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
     async onCommand(event: CommandEvent) {
         event.preventDefault()
 
+        // Close before any request to prevent triggering the same action twice
+        this.popoverElement?.hidePopover()
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
         try {
@@ -197,14 +183,14 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
                     await this.changeStatus(event)
                     break
                 case '--move-first':
-                    await this.moveNodeToPosition('first', event)
+                    await this.moveNodeToPosition('first')
                     break
                 case '--move-last':
-                    await this.moveNodeToPosition('last', event)
+                    await this.moveNodeToPosition('last')
                     break
             }
         } finally {
-            this.closePopoverIfRequested(event.source)
+            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
         }
     }
 
@@ -223,14 +209,11 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
                 statusValue: statusValue,
             })
         } finally {
-            // Force to reload contextual menu content to update action buttons
+            // Force to reload contextual menu content on next opening to update action buttons
             this.popoverElement!.setAttribute(
                 'data-popover-content-state',
                 'need-update',
             )
-
-            await this.replacePopoverContent()
-            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
         }
     }
 
@@ -247,7 +230,6 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
                 },
             }),
         )
-        window.dispatchEvent(new CustomEvent('requestLoaderHide'))
     }
 
     async pasteInsideNode() {
@@ -271,50 +253,40 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
         }
         payload[propName] = this.nodeId
 
-        try {
-            await this.postNodeUpdate(this.pastePath, payload)
-            window.sessionStorage.removeItem('rozier_copied_node_id')
-        } finally {
-            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
-        }
+        await this.postNodeUpdate(this.pastePath, payload)
+        window.sessionStorage.removeItem('rozier_copied_node_id')
     }
 
     async duplicateNode() {
         if (!Number.isSafeInteger(this.nodeId)) {
             return
         }
-        try {
-            await this.postNodeUpdate(this.duplicatePath, {
-                csrfToken: window.RozierConfig.ajaxToken,
-                nodeId: this.nodeId,
-            })
-        } finally {
-            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
-        }
+        await this.postNodeUpdate(this.duplicatePath, {
+            csrfToken: window.RozierConfig.ajaxToken,
+            nodeId: this.nodeId,
+        })
     }
 
-    async moveNodeToPosition(
-        position: Position | undefined,
-        event: CommandEvent,
-    ) {
+    async moveNodeToPosition(position: Position | undefined) {
         if (!Number.isSafeInteger(this.nodeId)) {
             return
         }
-        window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        const nodeTreeElement = (event.currentTarget as HTMLElement).closest(
-            '.nodetree-element, .rz-tree__item',
+        const parentList = this.closest('.rz-tree__item')?.closest('ul')
+        // Without its parent list, sending no newParentId would move the node to root
+        if (!parentList) {
+            console.warn('NodeTreeContextualMenu: missing parent tree list')
+            return
+        }
+
+        // Empty data-parent-id means the node is at tree root
+        const parsedParentId = parseInt(
+            parentList.getAttribute('data-parent-id') || '',
+            10,
         )
-
-        const parentNodeTreeElement =
-            nodeTreeElement
-                ?.closest('ul')
-                ?.getAttribute('data-parent-node-id') ??
-            nodeTreeElement?.closest('ul')?.getAttribute('data-parent-id')
-
-        const parentNodeId = parentNodeTreeElement
-            ? parseInt(parentNodeTreeElement)
-            : null
+        const parentNodeId = Number.isNaN(parsedParentId)
+            ? null
+            : parsedParentId
 
         const postData: UpdatePayloadDict = {
             csrfToken: window.RozierConfig.ajaxToken,
@@ -332,11 +304,7 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             Object.assign(postData, { newParentId: parentNodeId })
         }
 
-        try {
-            await this.postNodeUpdate(this.editPositionPath, postData)
-        } finally {
-            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
-        }
+        await this.postNodeUpdate(this.editPositionPath, postData)
     }
 
     async postNodeUpdate(url: string | null, postData: UpdatePayloadDict) {
