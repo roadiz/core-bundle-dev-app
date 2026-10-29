@@ -9,9 +9,9 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,55 +33,60 @@ class NodeType extends AbstractType
         $isReachable = null !== $node && $this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable();
         $isShadow = null !== $node && $node->isShadow();
 
-        $nameGroup = $builder->create('groupName', FormType::class, [
+        $nodeNameGroup = $builder->create('nodeNameGroup', FormType::class, [
             'label' => false,
             'required' => false,
             'inherit_data' => true,
             'attr' => [
                 'class' => 'rz-form rz-form--horizontal',
-            ]
-        ])->add('nodeName', TextType::class, [
-            'label' => 'nodeName',
-            'empty_data' => '',
-            'help' => 'node.nodeName.help',
+            ],
         ])
-        ->add('dynamicNodeName', CheckboxType::class, [
-            'label' => 'node.dynamicNodeName',
-            'required' => false,
-            'help' => 'dynamic_node_name_will_follow_any_title_change_on_default_translation',
-            'disabled' => $isShadow,
-        ]);
-
-        $builder->add($nameGroup);
+            ->add('nodeName', TextType::class, [
+                'label' => 'nodeName',
+                'empty_data' => '',
+                'help' => 'node.nodeName.help',
+            ])
+            ->add('dynamicNodeName', CheckboxType::class, [
+                'label' => 'node.dynamicNodeName',
+                'required' => false,
+                'help' => 'dynamic_node_name_will_follow_any_title_change_on_default_translation',
+                'disabled' => $isShadow,
+            ])
+        ;
+        $builder->add($nodeNameGroup);
 
         if ($this->security->isGranted(NodeVoter::EDIT_STATUS, $node)) {
-            $paramsGroup = $builder->create('parameters', FormType::class, [
+            $parametersGroup = $builder->create('parameters', FormType::class, [
                 'label' => 'node.parameters',
                 'required' => false,
                 'inherit_data' => true,
                 'attr' => [
                     'class' => 'rz-fieldset rz-fieldset--horizontal',
-                ]
-                ])->add('visible', CheckboxType::class, [
+                ],
+            ])
+                ->add('visible', CheckboxType::class, [
                     'label' => 'node.visible',
                     'help' => 'node.visible.help',
                     'required' => false,
-                ])->add('hideChildren', CheckboxType::class, [
+                ])
+                ->add('hideChildren', CheckboxType::class, [
                     'label' => 'node.hideChildren',
                     'help' => 'node.hideChildren.help',
                     'required' => false,
-                ])->add('locked', CheckboxType::class, [
+                ])
+                ->add('locked', CheckboxType::class, [
                     'label' => 'node.locked',
                     'help' => 'node.locked.help',
                     'required' => false,
                     'disabled' => $isShadow,
-                ])->add('shadow', CheckboxType::class, [
+                ])
+                ->add('shadow', CheckboxType::class, [
                     'label' => 'node.shadow',
                     'help' => 'node.shadow.help',
                     'required' => false,
-            ]);
-
-            $builder->add($paramsGroup);
+                ])
+            ;
+            $builder->add($parametersGroup);
         }
 
         $builder->add('childrenOrder', ChoiceType::class, [

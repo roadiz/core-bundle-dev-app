@@ -62,6 +62,17 @@ Example:
 +new BreadcrumbsItem($label, $url)
 ```
 
+- `RZ\Roadiz\RozierBundle\Form\NodeType` (the `roadiz_rozier.node_form` default) now nests its fields in two
+  `inherit_data` groups: `nodeName` and `dynamicNodeName` live under `nodeNameGroup`; `visible`, `hideChildren`,
+  `locked` and `shadow` live under `parameters`. Submitted names become `node[nodeNameGroup][nodeName]`,
+  `node[parameters][visible]`, etc. Custom node forms extending it, form type extensions on the `node` block
+  prefix, and functional tests posting the form must target the nested children.
+
+```diff
+-$builder->get('visible')
++$builder->get('parameters')->get('visible')
+```
+
 ## ⚠ Rozier menu icons changed
 
 All backoffice menu icon classes now use the new UI icon set.
