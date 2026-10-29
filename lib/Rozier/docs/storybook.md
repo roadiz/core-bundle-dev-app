@@ -5,10 +5,11 @@ How stories are organised, named and written in `lib/Rozier/stories/`. Vocabular
 
 ## Markup source
 
-Stories build their markup with TypeScript renderers, never from Twig. When a PR
-changes the markup of an `rz-*` root in a Twig template, it updates the matching
-renderer in the same PR, and the other way round. Rationale:
-[ADR 0004](adr/0004-typescript-renderers-for-story-markup.md).
+Stories build their markup with TypeScript renderers, whose `Options` share their
+keys with the Twig component options. Synchronising the two renderings is the goal;
+until a mechanism is chosen, a PR that changes the markup or options of an `rz-*`
+root on one side updates the other in the same PR. Rationale:
+[ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md).
 
 ## Tree
 

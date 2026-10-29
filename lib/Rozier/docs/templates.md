@@ -45,7 +45,7 @@ One file per `rz-*` root, never duplicated across folders.
 - `options` keys are the keys of the renderer's `Options` type
   (`app/utils/component-renderer/` or `app/utils/storybook/renderer/`):
   `iconClass`, not `icon`; `tag`, not `tagName`. A PR that changes one changes
-  the other ([ADR 0004](adr/0004-typescript-renderers-for-story-markup.md)).
+  the other ([ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md)).
 - The file opens with a one-line comment naming the `Options` type and the story:
 
 ```twig
