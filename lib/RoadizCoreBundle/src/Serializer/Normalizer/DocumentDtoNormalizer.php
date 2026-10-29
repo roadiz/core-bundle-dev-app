@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
-use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use League\Flysystem\FilesystemOperator;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\AbstractDocumentFinder;

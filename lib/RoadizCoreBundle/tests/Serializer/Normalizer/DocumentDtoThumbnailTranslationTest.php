@@ -42,27 +42,47 @@ final class DocumentDtoThumbnailTranslationTest extends KernelTestCase
     {
         $secondary = $this->createSecondaryTranslation();
         $video = $this->createVideoWithThumbnail([
-            $this->defaultTranslation()->getLocale() => ['Poster', '© Default'],
-            $secondary->getLocale() => ['Affiche', '© Secondaire'],
+            $this->defaultTranslation()->getLocale() => ['Poster', '© Default', 'Default description'],
+            $secondary->getLocale() => ['Affiche', '© Secondaire', 'Description secondaire'],
         ]);
 
         $thumbnail = $this->normalizeThumbnail($video, $secondary);
 
         self::assertSame('Affiche', $thumbnail['name'] ?? null);
+        self::assertSame('Affiche', $thumbnail['alt'] ?? null);
         self::assertSame('© Secondaire', $thumbnail['copyright'] ?? null);
+        self::assertSame('Description secondaire', $thumbnail['description'] ?? null);
+    }
+
+    public function testThumbnailDoesNotMixTranslationFields(): void
+    {
+        $secondary = $this->createSecondaryTranslation();
+        $video = $this->createVideoWithThumbnail([
+            $this->defaultTranslation()->getLocale() => ['Poster', '© Default', 'Default description'],
+            $secondary->getLocale() => ['Affiche', null, null],
+        ]);
+
+        $thumbnail = $this->normalizeThumbnail($video, $secondary);
+
+        // Like DocumentEnricher, an existing context translation row is used as a whole.
+        self::assertSame('Affiche', $thumbnail['name'] ?? null);
+        self::assertNull($thumbnail['copyright'] ?? null);
+        self::assertNull($thumbnail['description'] ?? null);
     }
 
     public function testThumbnailFallsBackToDefaultTranslationFields(): void
     {
         $secondary = $this->createSecondaryTranslation();
         $video = $this->createVideoWithThumbnail([
-            $this->defaultTranslation()->getLocale() => ['Poster', '© Default'],
+            $this->defaultTranslation()->getLocale() => ['Poster', '© Default', 'Default description'],
         ]);
 
         $thumbnail = $this->normalizeThumbnail($video, $secondary);
 
         self::assertSame('Poster', $thumbnail['name'] ?? null);
+        self::assertSame('Poster', $thumbnail['alt'] ?? null);
         self::assertSame('© Default', $thumbnail['copyright'] ?? null);
+        self::assertSame('Default description', $thumbnail['description'] ?? null);
     }
 
     private function defaultTranslation(): Translation
@@ -87,7 +107,7 @@ final class DocumentDtoThumbnailTranslationTest extends KernelTestCase
     }
 
     /**
-     * @param array<string, array{0: string, 1: string}> $thumbnailTranslations name and copyright per locale
+     * @param array<string, array{0: string, 1: ?string, 2: ?string}> $thumbnailTranslations name, copyright and description per locale
      */
     private function createVideoWithThumbnail(array $thumbnailTranslations): Document
     {
@@ -106,11 +126,11 @@ final class DocumentDtoThumbnailTranslationTest extends KernelTestCase
 
         /** @var TranslationRepository $translationRepository */
         $translationRepository = static::getContainer()->get(TranslationRepository::class);
-        foreach ($thumbnailTranslations as $locale => [$name, $copyright]) {
+        foreach ($thumbnailTranslations as $locale => [$name, $copyright, $description]) {
             $translation = $translationRepository->findOneByLocale($locale);
             self::assertInstanceOf(Translation::class, $translation);
             $documentTranslation = new DocumentTranslation();
-            $documentTranslation->setDocument($thumbnail)->setTranslation($translation)->setName($name)->setCopyright($copyright);
+            $documentTranslation->setDocument($thumbnail)->setTranslation($translation)->setName($name)->setCopyright($copyright)->setDescription($description);
             $this->entityManager->persist($documentTranslation);
         }
         $this->entityManager->flush();

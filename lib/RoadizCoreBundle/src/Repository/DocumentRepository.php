@@ -18,10 +18,10 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\Documents\Repository\DocumentRepositoryInterface;
@@ -733,7 +733,7 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
 
     /**
      * DocumentDto select without node-source data, translated fields from the `dt` join
-     * with a fallback on the `dtd` (default translation) join.
+     * with a whole-row fallback on the `dtd` (default translation) join, like DocumentEnricher.
      */
     private function getTranslatedDocumentDtoSelect(): string
     {
@@ -755,10 +755,10 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
                     d.hotspot,
                     :nullValue,
                     :nullValue,
-                    COALESCE(dt.name, dtd.name),
-                    COALESCE(dt.description, dtd.description),
-                    COALESCE(dt.copyright, dtd.copyright),
-                    COALESCE(dt.externalUrl, dtd.externalUrl),
+                    CASE WHEN dt.id IS NOT NULL THEN dt.name ELSE dtd.name END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.description ELSE dtd.description END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.copyright ELSE dtd.copyright END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.externalUrl ELSE dtd.externalUrl END,
                     d.filesize,
                     d.copyrightValidSince,
                     d.copyrightValidUntil
@@ -803,10 +803,9 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
     }
 
     /**
-     * @throws NonUniqueResultException
-     */
-    /**
      * Translated fields come from $translation, falling back to the default translation.
+     *
+     * @throws NonUniqueResultException
      */
     public function findFirstThumbnailDtoBy(
         int|string $originalDocumentId,
