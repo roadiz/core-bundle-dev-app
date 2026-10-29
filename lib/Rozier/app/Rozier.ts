@@ -51,7 +51,7 @@ export default class Rozier {
 
     /**
      * No-op: rz-tree elements bind themselves when connected.
-     * Kept for legacy callers (Lazyload, StackNodeTree).
+     * Kept for legacy callers (Lazyload).
      */
     bindMainTrees() {}
 
