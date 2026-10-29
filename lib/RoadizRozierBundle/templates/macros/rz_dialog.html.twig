@@ -64,8 +64,10 @@
             <footer class="{{ html_classes(element_class ~ '__footer', {
                 (element_class ~ '__footer--justify-end'): footer.justifyEnd|default(false),
             }) }}">
+                {# Footer actions close the dialog, unless a button opts out with closetarget: false #}
                 {% for button in footer.buttons %}
-                    {{ rz_button.root(button) }}
+                    {% set button_attributes = {closetarget: ''}|merge(button.attributes|default({}))|filter(v => v is not same as(false)) %}
+                    {{ rz_button.root(button|merge({attributes: button_attributes})) }}
                 {% endfor %}
             </footer>
         {% endif %}

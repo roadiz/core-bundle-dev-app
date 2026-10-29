@@ -90,8 +90,12 @@ function rzDialogFooterRenderer(args: Args['footer']) {
         wrapper.classList.add('rz-dialog__footer--justify-end')
     }
 
+    // Footer actions close the dialog, unless a button opts out with closetarget: undefined
     args?.buttons?.forEach((buttonArgs) => {
-        const button = rzButtonRenderer(buttonArgs)
+        const button = rzButtonRenderer({
+            ...buttonArgs,
+            attributes: { closetarget: '', ...buttonArgs.attributes },
+        })
         wrapper.appendChild(button)
     })
 

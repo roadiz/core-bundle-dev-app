@@ -87,7 +87,7 @@
             <document-preview-container></document-preview-container>
         </div>
         <div id="codemirror-preview-containers"></div>
-        {# Blocking dialogs opened by LoginCheckService #}
+        {# Blocking dialogs opened by LoginCheckService. The login link skips ajax navigation: the login page is a full page. #}
         {% import '@RoadizRozier/macros/rz_dialog.html.twig' as rz_dialog %}
         {{ rz_dialog.root({
             dialogId: 'rz-session-expired-dialog',
@@ -103,6 +103,7 @@
                 buttons: [{
                     label: 'login',
                     iconClass: 'rz-icon-ri--arrow-right-s-line',
+                    class: 'rz-no-ajax-link',
                     emphasis: 'primary',
                     size: 'lg',
                     attributes: {
