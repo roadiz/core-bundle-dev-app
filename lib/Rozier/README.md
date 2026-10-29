@@ -11,4 +11,7 @@ folder and is built into `lib/RoadizRozierBundle/public/` for Symfony to serve.
 
 - Do not edit generated assets in `lib/RoadizRozierBundle/public/`.
 - Use `pnpm dev` in `lib/Rozier` (or `docker compose up node`) for local dev.
-- Use `pnpm build` (or `docker compose run --rm node pnpm build`) for builds.
+- Use `pnpm build:check` to check that the build passes without touching
+  `lib/RoadizRozierBundle/public/`.
+- Use `pnpm build` (or `docker compose run --rm node pnpm build`) only to
+  update the committed assets.
