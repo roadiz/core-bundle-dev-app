@@ -304,7 +304,18 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             Object.assign(postData, { newParentId: parentNodeId })
         }
 
-        await this.postNodeUpdate(this.editPositionPath, postData)
+        const data = await this.postNodeUpdate(this.editPositionPath, postData)
+        // The position route stores no flash message, show its response instead
+        if (data?.responseText) {
+            window.dispatchEvent(
+                new CustomEvent('pushToast', {
+                    detail: {
+                        message: data.responseText,
+                        status: data.status,
+                    },
+                }),
+            )
+        }
     }
 
     async postNodeUpdate(url: string | null, postData: UpdatePayloadDict) {
