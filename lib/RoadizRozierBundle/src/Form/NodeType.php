@@ -44,14 +44,6 @@ class NodeType extends AbstractType
                 'disabled' => $isShadow,
             ])
         ;
-        if ($isReachable) {
-            $builder->add('home', CheckboxType::class, [
-                'label' => 'node.isHome',
-                'help' => 'node.isHome.help',
-                'required' => false,
-                'disabled' => $isShadow,
-            ]);
-        }
 
         if ($this->security->isGranted(NodeVoter::EDIT_STATUS, $node)) {
             $builder->add('visible', CheckboxType::class, [
@@ -94,6 +86,12 @@ class NodeType extends AbstractType
             $builder->add('ttl', NumberType::class, [
                 'label' => 'node.ttl',
                 'help' => 'node_time_to_live_cache_on_front_controller',
+                'disabled' => $isShadow,
+            ]);
+            $builder->add('home', CheckboxType::class, [
+                'label' => 'node.isHome',
+                'help' => 'node.isHome.help',
+                'required' => false,
                 'disabled' => $isShadow,
             ]);
         }
