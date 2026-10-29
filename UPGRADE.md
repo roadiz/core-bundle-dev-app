@@ -208,6 +208,26 @@ ORM 3 rejects `#[ORM\JoinTable]` on the inverse side (`mappedBy`) of a ManyToMan
 
 These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc annotations referencing them.
 
+## ⚠ Rozier session and health check dialogs
+
+The session expiration and health check warning modals no longer use Vue: they are plain
+`<dialog is="rz-dialog">` elements rendered in `@RoadizRozier/base.html.twig` by the new
+`@RoadizRozier/macros/rz_dialog.html.twig` component and opened by `LoginCheckService`. The session expired dialog no longer shows the splash screen image.
+
+Removed from the Rozier front-end:
+
+- `app/components/WarningModal.vue` and `app/containers/ModalContainer.vue`, the `<modal-container>`
+  element in `base.html.twig`, and the `vue-js-modal` dependency
+- `app/api/SplashScreenApi.js` and its `getImage()` function
+- `connected` and `healthChecked` Vuex state, and the `LOGIN_CHECK_*` / `HEALTH_CHECK_*` mutation types
+- `sessionExpireTitle`, `sessionExpireContent`, `healthCheckedFailedTitle` and
+  `healthCheckedFailedContent` from `window.RozierConfig.messages`
+
+Overriding those messages from JavaScript no longer has any effect. Override the
+`session.expire.title`, `session.expire.content`, `health_check.failed.title` and
+`health_check.failed.content` translation keys in your project catalogue instead, or override
+`templates/bundles/RoadizRozierBundle/macros/rz_dialog.html.twig` to change the markup.
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

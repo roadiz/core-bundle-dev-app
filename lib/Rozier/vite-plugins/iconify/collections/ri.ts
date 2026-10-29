@@ -102,6 +102,7 @@ export default [
     'list-unordered',
     'loader-line',
     'lock-2-line',
+    'lock-line',
     'lock-password-line',
     'logout-box-line',
     'loop-left-line',

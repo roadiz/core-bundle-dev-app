@@ -14,10 +14,6 @@ export interface RozierConfig {
     defaultMapLocation?: unknown
     messages?: {
         login?: string
-        sessionExpireTitle?: string
-        sessionExpireContent?: string
-        healthCheckedFailedTitle?: string
-        healthCheckedFailedContent?: string
         createTag?: string
         explorer?: string
         forbiddenPage?: string

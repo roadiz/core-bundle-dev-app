@@ -85,9 +85,44 @@
             <filter-explorer-container></filter-explorer-container>
             <explorer-container></explorer-container>
             <document-preview-container></document-preview-container>
-            <modal-container></modal-container>
         </div>
         <div id="codemirror-preview-containers"></div>
+        {# Blocking dialogs opened by LoginCheckService. The login link skips ajax navigation: the login page is a full page. #}
+        {% import '@RoadizRozier/macros/rz_dialog.html.twig' as rz_dialog %}
+        {{ rz_dialog.root({
+            dialogId: 'rz-session-expired-dialog',
+            variant: 'warning',
+            closedby: 'none',
+            alert: {
+                iconClass: 'rz-icon-ri--lock-line',
+                title: 'session.expire.title'|trans,
+                text: 'session.expire.content'|trans,
+                closeIconClass: 'rz-icon-ri--close-line',
+            },
+            footer: {
+                buttons: [{
+                    label: 'login',
+                    iconClass: 'rz-icon-ri--arrow-right-s-line',
+                    class: 'rz-no-ajax-link',
+                    emphasis: 'primary',
+                    size: 'lg',
+                    attributes: {
+                        href: path('loginPage') ~ '?_home=1',
+                        autofocus: '',
+                    },
+                }],
+            },
+        }) }}
+        {{ rz_dialog.root({
+            dialogId: 'rz-health-check-dialog',
+            variant: 'danger',
+            closedby: 'none',
+            alert: {
+                iconClass: 'rz-icon-ri--information-line',
+                title: 'health_check.failed.title'|trans,
+                text: 'health_check.failed.content'|trans,
+            },
+        }) }}
         <rz-toast-list role="status" class="rz-toast-list--bottom-right"></rz-toast-list>
         <script>
             /**
@@ -105,10 +140,6 @@
                 'messages': {
                     'close':                  '{{ 'close'|trans|trim|escape }}',
                     'login':                  '{{ 'login'|trans|trim|escape }}',
-                    'sessionExpireTitle':     '{{ 'session.expire.title'|trans|trim|escape }}',
-                    'sessionExpireContent':   '{{ 'session.expire.content'|trans|trim|escape }}',
-                    'healthCheckedFailedTitle':     '{{ 'health_check.failed.title'|trans|trim|escape }}',
-                    'healthCheckedFailedContent':   '{{ 'health_check.failed.content'|trans|trim|escape }}',
                     'createTag':              '{{ 'explorer.create_tag'|trans|trim|escape }}',
                     'explorer':               '{{ 'documents.toggle-explorer'|trans|trim|escape }}',
                     'forbiddenPage':          '{{ 'forbidden.page'|trans|trim|escape }}',
