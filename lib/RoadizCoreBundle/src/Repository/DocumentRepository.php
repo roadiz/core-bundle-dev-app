@@ -18,6 +18,7 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
@@ -731,6 +732,42 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
     }
 
     /**
+     * DocumentDto select without node-source data, translated fields from the `dt` join
+     * with a fallback on the `dtd` (default translation) join.
+     */
+    private function getTranslatedDocumentDtoSelect(): string
+    {
+        return sprintf(
+            'NEW %s(
+                    d.id,
+                    d.filename,
+                    d.mimeType,
+                    d.private,
+                    d.raw,
+                    d.imageWidth,
+                    d.imageHeight,
+                    d.mediaDuration,
+                    d.embedId,
+                    d.embedPlatform,
+                    d.imageAverageColor,
+                    d.folder,
+                    d.imageCropAlignment,
+                    d.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    COALESCE(dt.name, dtd.name),
+                    COALESCE(dt.description, dtd.description),
+                    COALESCE(dt.copyright, dtd.copyright),
+                    COALESCE(dt.externalUrl, dtd.externalUrl),
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
+                )',
+            DocumentDto::class
+        );
+    }
+
+    /**
      * DocumentDto select without node-source and translation data.
      */
     private function getDocumentDtoSelect(): string
@@ -768,14 +805,22 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
     /**
      * @throws NonUniqueResultException
      */
+    /**
+     * Translated fields come from $translation, falling back to the default translation.
+     */
     public function findFirstThumbnailDtoBy(
         int|string $originalDocumentId,
+        ?TranslationInterface $translation = null,
     ): ?DocumentDto {
         $qb = $this->createQueryBuilder('d');
-        $qb->select($this->getDocumentDtoSelect())
+        $qb->select($this->getTranslatedDocumentDtoSelect())
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->leftJoin(Translation::class, 'td', 'WITH', 'td.defaultTranslation = true')
+            ->leftJoin('d.documentTranslations', 'dtd', 'WITH', 'dtd.translation = td')
             ->andWhere($qb->expr()->eq('d.original', ':original'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)
+            ->setParameter('translation', $translation)
             ->setParameter('raw', false)
             ->setParameter('nullValue', null)
             ->setMaxResults(1)
