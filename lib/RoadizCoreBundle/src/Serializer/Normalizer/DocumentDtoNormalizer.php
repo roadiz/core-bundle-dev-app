@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use League\Flysystem\FilesystemOperator;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\AbstractDocumentFinder;
@@ -89,7 +90,11 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
             \in_array('document_thumbnails', $serializationGroups, true)
             && ($data->isEmbed() || !$data->isImage())
         ) {
-            $thumbnail = $this->repository->findFirstThumbnailDtoBy($data->getId());
+            $translation = $context['translation'] ?? null;
+            $thumbnail = $this->repository->findFirstThumbnailDtoBy(
+                $data->getId(),
+                $translation instanceof TranslationInterface ? $translation : null,
+            );
             if (null !== $thumbnail) {
                 $normalized['thumbnail'] = $this->normalize(
                     $thumbnail,
