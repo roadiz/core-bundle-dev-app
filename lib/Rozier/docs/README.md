@@ -10,7 +10,9 @@ Use it as a quick entry point when you touch anything in `lib/Rozier`.
 
 - `engineering-practices.md`: how we work, review, verify (feedback loop), and ship
 - `ui-redesign-todo.md`: redesign zones, their order, the one-active-zone rule, and the component inventory
-- `adr/`: accepted UI decisions (CustomElements over Vue/UIkit/jQuery, Figma as a starting point, accessibility never blocks)
+- `storybook.md`: how stories are organised, named and written
+- `templates.md`: how the `RoadizRozierBundle` Twig templates are organised and how components are written
+- `adr/`: accepted UI decisions (CustomElements over Vue/UIkit/jQuery, Figma as a starting point, accessibility never blocks, Twig components and stories sharing one options contract, Twig components moving to a role-based tree in v2.8)
 - `../GLOSSARY.md`: UI and redesign vocabulary
 
 ## Scope and boundaries

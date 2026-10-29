@@ -42,15 +42,17 @@ validated: it clears the ground and rebuilds some rhythm before the pilot zone. 
 2-3 days** — several items below need a quick manual check before removal (no automated tests in
 `lib/Rozier`); don't let it drift into an exhaustive verification effort that delays Phase 1.
 
+**Closing it** (tracked in [#531](https://github.com/roadiz/core-bundle-dev-app/issues/531)): the phase is closed when every item is done or excluded with a written trace. One PR per item, in this order: #396, then the dead stack-tree refresh, then the Vue, UIkit and `Lazyload.ts` removals. A file counts as dead when nothing references it and a manual click-through of the related screens shows no regression; record that QA checklist in the PR.
+
 **The order below matters**: merge the PRs first, *before* touching the legacy cleanup/bugfix work —
 PR [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) directly modifies `Rozier.ts`, `RzAside.ts`, and `RzTree.ts`,
-exactly the files where the `initNestables()` bug and the Vue/UIkit cleanup below live. Fixing/
+exactly the files where the stack-tree refresh and the Vue/UIkit cleanup below live. Fixing/
 cleaning up before merging #396 risks a conflict or an overwritten fix.
 
-- [ ] Merge [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (near-zero risk)
-- [ ] Review + merge [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) and [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417)
-- [ ] Retest (stale ~7 months) then merge [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396)
-- [ ] Check the link with the closed PR #377, resolve conflicts, then merge [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398)
+- [x] Merge [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (near-zero risk)
+- [x] Review + merge [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) and [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417)
+- [ ] [#532](https://github.com/roadiz/core-bundle-dev-app/issues/532) Rebase, retest (stale since 2026-02-13) then merge [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) — conflicts with `develop` on `RzNodeTreeContextualMenu.ts` (checked 2026-10-28). Time-boxed to half a day: past that, move it to the Navigation zone (Phase 3) and carry on without it
+- [x] ~~Merge [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398)~~ closed as superseded: `develop` already ships the draggable `RzActionsMenu` (2026-10-28)
 
 *(From here on, the code in `Rozier.ts`/`RzAside.ts`/`RzTree.ts` has moved — work from the
 post-merge state, not from the paths/line numbers cited below, which reflect the state as of
@@ -59,19 +61,19 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 - [x] De-duplicate: #440 and #447 closed as duplicates of [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) and [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446); `roadiz/roadiz#415` is unreachable (issues disabled on that repo), [#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) is the canonical record
 - [x] Resync board ↔ `v2.8` milestone (done 2026-10-28; every open v2.8 issue is now on the board)
 - [x] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): already removed from the `v2.8` milestone (checked 2026-10-28)
-- [ ] Set a due date on `v2.8`, or open `v2.9` if scope has drifted too far
-- [ ] Clean up the `components/RzButton.vue` (legacy) vs `custom-elements/RzButton.ts` (new) collision — and its cousin `RzTextarea.vue`
-- [ ] Check whether `components/CodeMirror.vue` is dead code (no import found)
+- [x] ~~Set a due date on `v2.8`~~ excluded from Phase 0 (2026-10-28): `v2.8` keeps its whole scope, the team sets the date separately
 - [x] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
-- [ ] Look in Figma for a dedicated dark mode section/variants (none seen in the sample reviewed — confirm before concluding dark mode isn't mocked up)
-- [ ] **Fix the `window.Rozier.initNestables()` bug** ([StackNodeTree.js:194](../app/widgets/StackNodeTree.js#L194)) — method no longer exists on `Rozier.ts`, crashes on every drag-and-drop tree reorder and blocks the rebind that follows. Independent of any removal effort, likely an active user-facing bug
-- [ ] Remove the 6 dead Vue files: `DrawerContainer.vue`, `NodeTypesDrawerContainer.vue`, `TagsEditorContainer.vue`, `RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
-- [ ] Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `switcher`, `sortable`, `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files
-- [ ] Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
+- [ ] [#533](https://github.com/roadiz/core-bundle-dev-app/issues/533) Remove the dead stack-tree refresh: `refreshNodeTree()`, `fetchNodeTree()` and `treeAvailable()` in [StackNodeTree.js](../app/widgets/StackNodeTree.js) (with their `window.Rozier.initNestables()` call) and the matching branch of `RzAside.refreshAllNodeTrees()`. Not a user-facing crash: `treeAvailable()` looks for `.nodetree-widget`, which no template renders since #279 (checked in code and in the browser, 2026-10-28). Keep the quick-add flow, still live
+- [ ] [#534](https://github.com/roadiz/core-bundle-dev-app/issues/534) Remove the 6 dead Vue files (also settles the `RzButton.vue`/`RzTextarea.vue` collision with their custom elements, and unregisters the containers from `App.js`): `containers/DrawerContainer.vue`, `containers/NodeTypesDrawerContainer.vue`, `containers/TagsEditorContainer.vue`, `components/RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
+- [ ] [#535](https://github.com/roadiz/core-bundle-dev-app/issues/535) Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files. `switcher` and `sortable` move to Phase 5: JS still references them (`[data-uk-switcher]` in `RzMarkdownEditor.ts`, `JsonEditor.js`, `CssEditor.js`, `YamlEditor.js`; `change.uk.sortable` in `CustomFormFieldsPosition.js`)
+- [ ] [#536](https://github.com/roadiz/core-bundle-dev-app/issues/536) Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
+- [ ] [#539](https://github.com/roadiz/core-bundle-dev-app/issues/539) Bring Storybook to the [`storybook.md`](storybook.md) convention. **Outside the 2-3 day time-box**, but done before Phase 1 so the pilot zone starts from a clean Storybook. Three PRs: (1) docs: `storybook.md`, [ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md), glossary, pre-PR `build-storybook` check; (2) migrate the 51 story files (tree, naming, args, renderers), fix the broken `rzButton` import in `RzLivePreview.stories.ts`, drop the dead `a11y` block from `.storybook/preview.ts`; (3) add the missing stories for `rz-page`, `rz-bulk-section`, `rz-bulk-actions`, `rz-aside`, `rz-geotag`, `rz-node-tree-contextual-menu`, `rz-save-button`, cover `rz-header-nav-item-button` in `Components/Navigation/HeaderNavItem`, and file `Header` and `Aside` under `Patterns/` (`rz-toast-list` is already covered by `Toast`)
+- [ ] [#540](https://github.com/roadiz/core-bundle-dev-app/issues/540) Move the `RoadizRozierBundle` Twig templates to the [`templates.md`](templates.md) tree. Blocked by #539, outside the 2-3 day time-box, before Phase 1. Three PRs: (1) tree: `layouts/`, `patterns/`, `components/`, duplicates merged, the 14 unreferenced templates removed, `UPGRADE.md` updated ([ADR 0005](adr/0005-twig-components-move-in-v2-8.md)); (2) component options aligned on the renderer `Options` types; (3) components for the hand-written `rz-*` roots and their replacement. Legacy trees stay in `widgets/` until the Navigation zone
 
 ## Phase 1 — Pilot zone: content editing page (node-source)
 
 - [ ] Compare the zone's components against the Figma "Structure" and "Markdown" sections
+- [ ] Look in Figma for a dedicated dark mode section/variants (none seen in the sample reviewed — confirm before concluding dark mode isn't mocked up)
 - [ ] Implement the `MarkdownQuickView` panel per the existing Figma design ([#443](https://github.com/roadiz/core-bundle-dev-app/issues/443))
 - [ ] Fix [#444](https://github.com/roadiz/core-bundle-dev-app/issues/444) — lost syntax highlighting
 - [ ] Fix [#434](https://github.com/roadiz/core-bundle-dev-app/issues/434) — version disclaimer
@@ -99,9 +101,10 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 ## Phase 4 — Technical foundations
 
 - [ ] [#205](https://github.com/roadiz/core-bundle-dev-app/issues/205) Vite: dedicated CSS entry point
-- [ ] [#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) `MutationObserver`
+- [ ] [#541](https://github.com/roadiz/core-bundle-dev-app/issues/541) Spike: synchronise Twig and Storybook component rendering (endpoint, generated fixtures or Twig in the browser); recommend a mechanism and its timing, or postpone ([ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md))
+- [x] ~~[#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) `MutationObserver`~~ closed as wontfix
 - [ ] [#230](https://github.com/roadiz/core-bundle-dev-app/issues/230) remove global config
-- [ ] [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) status icons
+- [x] [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) status icons
 - [ ] [#255](https://github.com/roadiz/core-bundle-dev-app/issues/255) embedded backoffice via iframe
 - [ ] [#332](https://github.com/roadiz/core-bundle-dev-app/issues/332) native OIDC migration
 
@@ -122,7 +125,7 @@ have been stabilized (not urgent, but not to be forgotten):
 ## Phase 6 — Remaining heavy zones
 
 - [ ] Scope Tags/Folders with a real Figma design pass (not just code catch-up)
-- [ ] Scope Custom forms
+- [ ] Scope Custom forms — includes a v2.8 regression ([#537](https://github.com/roadiz/core-bundle-dev-app/issues/537)): since #279 the custom-form fields list can no longer be reordered by drag-and-drop (v2.7 used `data-uk-sortable`; the `rz_table` sortable option from #217 is not wired on it, and `CustomFormFieldsPosition.js` listens to markup no template renders)
 - [ ] Scope User management (no existing dedicated component — the biggest remaining effort)
 
 ## Rules to avoid spreading thin (reminder)
