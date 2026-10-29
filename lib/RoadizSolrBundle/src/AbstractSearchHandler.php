@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
+use RZ\Roadiz\SolrBundle\Event\AbstractSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\SolrBundle\Exception\SolrServerNotConfiguredException;
 use Solarium\Core\Client\Client;
@@ -19,6 +20,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
+    protected const int DEFAULT_TITLE_BOOST = 10;
+    protected const int EXACT_TITLE_BOOST = 20;
+    protected const int EXACT_COLLECTION_BOOST = 2;
+    /**
+     * Word distance tolerance of the phrase boost query.
+     */
+    protected const int EXACT_PHRASE_SLOP = 2;
     protected int $highlightingFragmentSize = 150;
     /**
      * Specifies the breakiterator type for dividing the document into passages.
@@ -34,6 +42,8 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         protected readonly ObjectManager $em,
         protected readonly LoggerInterface $searchEngineLogger,
         protected readonly EventDispatcherInterface $eventDispatcher,
+        protected readonly int $fuzzyProximity,
+        protected readonly int $fuzzyMinTermLength,
     ) {
     }
 
@@ -164,13 +174,113 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return $this;
     }
 
-    abstract protected function nativeSearch(
+    /**
+     * Fields to fetch back from Solr: just enough for Doctrine to hydrate the
+     * real entities.
+     *
+     * @return string[]
+     */
+    abstract protected function getResultFields(): array;
+
+    /**
+     * @param array<string, mixed> $args
+     */
+    abstract protected function createSearchQueryEvent(Query $query, array $args): AbstractSearchQueryEvent;
+
+    /**
+     * Multiplicative boost function applied to the whole query (eDisMax `boost`
+     * parameter). Null disables it.
+     */
+    protected function getBoostFunction(): ?string
+    {
+        return null;
+    }
+
+    protected function nativeSearch(
         string $q,
         array $args = [],
         int $rows = 20,
         bool $searchTags = false,
         int $page = 1,
-    ): ?array;
+    ): ?array {
+        if ('' === trim($q)) {
+            return null;
+        }
+        $queryTxt = $this->buildQuery($q, $args, $searchTags);
+        if ('' === $queryTxt) {
+            return null;
+        }
+        $query = $this->createSolrQuery($args, $rows, $page);
+        $query->setQuery($queryTxt);
+        $this->configureQueryParser($query, $q, $args, $searchTags);
+        $query->setFields($this->getResultFields());
+
+        $this->searchEngineLogger->debug(sprintf('[Solr] Request %s search…', $this->getDocumentType()), [
+            'query' => $queryTxt,
+            'fq' => $args['fq'] ?? [],
+            'params' => $query->getParams(),
+        ]);
+
+        $event = $this->eventDispatcher->dispatch($this->createSearchQueryEvent($query, $args));
+        $query = $event->getQuery();
+
+        $response = $this->getSolr()->execute($query)->getData();
+
+        $fuzzyQueryTxt = $this->buildFuzzyQuery($q);
+        if ($fuzzyQueryTxt === $queryTxt || 0 !== ($response['response']['numFound'] ?? 0)) {
+            return $response;
+        }
+
+        /*
+         * Nothing matched: give typos a second chance on the very same query, with
+         * every long-enough word fuzzified. This cannot be the first pass: a fuzzy
+         * term is a MultiTermQuery, which Solr does *not* run through the field
+         * analyzer — no stopword removal, so `mm` keeps requiring "pas" or "sur"
+         * and a plain French sentence matches nothing.
+         */
+        $query->setQuery($fuzzyQueryTxt);
+        $this->searchEngineLogger->debug(sprintf('[Solr] Retry %s search with fuzzy terms…', $this->getDocumentType()), [
+            'query' => $fuzzyQueryTxt,
+        ]);
+
+        return $this->getSolr()->execute($query)->getData();
+    }
+
+    /**
+     * Set up the eDisMax query parser: which fields are searched and how they
+     * are weighted lives here, not in the query string itself.
+     */
+    protected function configureQueryParser(Query $query, string $q, array &$args, bool $searchTags = false): void
+    {
+        $edisMax = $query->getEDisMax();
+        $edisMax->setQueryFields($this->buildQueryFields($args, $searchTags));
+        $edisMax->setBoostQuery($this->buildPhraseBoostQuery($q, $args));
+        $edisMax->setMinimumMatch($this->getMinimumMatch());
+        /*
+         * `qf` mixes analyzed text fields with raw `string` ones (`slug_s`): the
+         * latter keep the stopwords the former drop, so under mm=100% a query
+         * like "le roi Lear" also required a slug literally equal to "le" and
+         * returned nothing. autoRelax lowers mm by the number of clauses that
+         * analysis removed, restoring "every *meaningful* word must match".
+         *
+         * @see https://solr.apache.org/guide/solr/latest/query-guide/dismax-query-parser.html#mm-minimum-should-match-parameter
+         */
+        $query->addParam('mm.autoRelax', 'true');
+
+        $boostFunction = $this->getBoostFunction();
+        if (null !== $boostFunction) {
+            $edisMax->setBoostFunctionsMult($boostFunction);
+        }
+    }
+
+    /**
+     * eDisMax `mm`: how many of the query words a document must match. Defaults
+     * to every one of them, override to loosen it.
+     */
+    protected function getMinimumMatch(): string
+    {
+        return '100%';
+    }
 
     /**
      * ## Search on Solr.
@@ -232,39 +342,60 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     }
 
     /**
-     * @return array [$exactQuery, $fuzzyQuery, $wildcardQuery]
+     * Escape a free-string value as a quoted Lucene phrase for use in a filter
+     * query (`field:<escaped>`). Surrounds the value with double quotes and
+     * backslash-escapes any `"`/`\`, preventing injection of boolean operators,
+     * local params or additional `field:value` clauses.
+     *
+     * Only use this for free strings, never for range/numeric/structural syntax.
+     */
+    protected function escapePhrase(string $input): string
+    {
+        $qHelper = new Helper();
+        $input = $qHelper->filterControlCharacters($input);
+
+        return $qHelper->escapePhrase($input);
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function splitQuery(string $q): array
+    {
+        $words = preg_split('#[\s,]+#', trim($q), -1, PREG_SPLIT_NO_EMPTY);
+        if (false === $words) {
+            throw new \RuntimeException('Cannot split query string.');
+        }
+
+        return $words;
+    }
+
+    /**
+     * Build the three query forms the standard Lucene parser needed: a quoted
+     * PhraseQuery, an AND-joined fuzzy group and a wildcard variant.
+     *
+     * @return array{0: string, 1: string, 2: string} [$exactQuery, $fuzzyQuery, $wildcardQuery]
+     *
+     * @deprecated since 2.7, eDisMax builds these clauses itself. Declare the
+     *             searched fields through buildQueryFields() and the phrase boost
+     *             through buildPhraseBoostQuery() instead of composing a
+     *             field-scoped query string by hand.
      */
     protected function getFormattedQuery(string $q): array
     {
         $q = trim($q);
-        /**
-         * Generate a fuzzy query by appending proximity to each word.
-         *
-         * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
-         */
-        $words = preg_split('#[\s,]+#', $q, -1, PREG_SPLIT_NO_EMPTY);
-        if (false === $words) {
-            throw new \RuntimeException('Cannot split query string.');
-        }
-        $fuzzyiedQuery = implode(' ', array_map(function (string $word) {
-            /*
-             * Do not fuzz short words: Solr crashes
-             * Proximity is set to 1 by default for single-words
-             */
-            if (\mb_strlen($word) > 3) {
-                return $this->escapeQuery($word).'~2';
+        $fuzzyiedQuery = '('.implode(' AND ', array_map(function (string $word) {
+            if ($this->shouldFuzzify($word)) {
+                return $this->escapeQuery($word).$this->getFuzzySuffix();
             }
 
             return $this->escapeQuery($word);
-        }, $words));
-        /*
-         * Only escape exact query
-         */
-        $exactQuery = $this->escapeQuery($q);
-        /*
-         * Wildcard search for allowing autocomplete
-         */
-        $wildcardQuery = $this->escapeQuery($q).'*~2';
+        }, $this->splitQuery($q))).')';
+        $exactQuery = $this->escapePhrase($q).'~'.static::EXACT_PHRASE_SLOP;
+        $wildcardQuery = $this->escapeQuery($q).'*';
+        if ($this->shouldFuzzify($q)) {
+            $wildcardQuery .= $this->getFuzzySuffix();
+        }
 
         return [$exactQuery, $fuzzyiedQuery, $wildcardQuery];
     }
@@ -272,66 +403,101 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     /**
      * Default Solr query builder.
      *
-     * Extends this method to customize your Solr queries. Eg. to boost custom fields.
+     * Under eDisMax the query string carries the terms only: fields, weights and
+     * phrase boosting are declared through `qf`/`bq` in configureQueryParser().
+     * Extend this method to customize how user words are turned into terms.
+     *
+     * Terms are left plain so that Solr analyses them: stopwords are dropped and
+     * `mm` then only requires the meaningful words. buildFuzzyQuery() carries the
+     * typo-tolerant variant, used as a second pass when this one finds nothing.
      */
     protected function buildQuery(string $q, array &$args, bool $searchTags = false): string
     {
-        $titleField = $this->getTitleField($args);
-        $collectionField = $this->getCollectionField($args);
-        $tagsField = $this->getTagsField($args);
-        [$exactQuery, $fuzzyiedQuery, $wildcardQuery] = $this->getFormattedQuery($q);
+        return implode(' ', array_map(
+            $this->escapeQuery(...),
+            $this->splitQuery($q)
+        ));
+    }
 
-        /*
-         * Search in node-sources tags name…
-         */
-        if ($searchTags) {
-            // Need to use Fuzzy search AND Exact search
-            return sprintf(
-                '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s) ('.$tagsField.':%s) ('.$tagsField.':%s)',
-                $exactQuery,
-                $fuzzyiedQuery,
-                $wildcardQuery,
-                $exactQuery,
-                $fuzzyiedQuery,
-                $exactQuery,
-                $fuzzyiedQuery
-            );
-        }
+    /**
+     * Same terms as buildQuery(), with every long-enough word fuzzified.
+     *
+     * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
+     */
+    protected function buildFuzzyQuery(string $q): string
+    {
+        return implode(' ', array_map(function (string $word) {
+            /*
+             * Do not fuzz short words: Solr crashes
+             * Proximity is configurable and can be disabled.
+             */
+            if ($this->shouldFuzzify($word)) {
+                return $this->escapeQuery($word).$this->getFuzzySuffix();
+            }
 
-        return sprintf(
-            '('.$titleField.':%s)^10 ('.$titleField.':%s) ('.$titleField.':%s) ('.$collectionField.':%s)^2 ('.$collectionField.':%s)',
-            $exactQuery,
-            $fuzzyiedQuery,
-            $wildcardQuery,
-            $exactQuery,
-            $fuzzyiedQuery
-        );
+            return $this->escapeQuery($word);
+        }, $this->splitQuery($q)));
     }
 
     protected function buildHighlightingQuery(string $q): string
     {
-        $q = trim($q);
-        $words = preg_split('#[\s,]+#', $q, -1, PREG_SPLIT_NO_EMPTY);
-        if (\is_array($words) && \count($words) > 1) {
-            return $this->escapeQuery($q);
-        }
-
-        $q = $this->escapeQuery($q);
-
-        return sprintf('%s~2', $q);
+        return $this->escapeQuery(trim($q));
     }
 
+    final protected function shouldFuzzify(string $word): bool
+    {
+        return $this->fuzzyProximity > 0
+            && \mb_strlen($word) >= $this->fuzzyMinTermLength;
+    }
+
+    final protected function getFuzzySuffix(): string
+    {
+        return '~'.$this->fuzzyProximity;
+    }
+
+    /**
+     * eDisMax `qf`: searched fields and their weights.
+     *
+     * Only declare fields that this document type actually indexes: a field the
+     * schema does not know at all (directly or through a dynamic field) makes
+     * Solr reject the whole request, and one that is merely never populated
+     * just dilutes the query for nothing.
+     */
     protected function buildQueryFields(array &$args, bool $searchTags = true): string
     {
-        $titleField = $this->getTitleField($args);
-        $collectionField = $this->getCollectionField($args);
-        $tagsField = $this->getTagsField($args);
+        $fields = [
+            sprintf('%s^%d', $this->getTitleField($args), static::DEFAULT_TITLE_BOOST),
+            sprintf('%s^%d', $this->getCollectionField($args), static::EXACT_COLLECTION_BOOST),
+        ];
 
         if ($searchTags) {
-            return $titleField.'^10 '.$collectionField.'^2 '.$tagsField.' slug_s';
+            $fields[] = $this->getTagsField($args);
         }
 
-        return $titleField.' '.$collectionField.' slug_s';
+        return implode(' ', $fields);
+    }
+
+    /**
+     * eDisMax `bq`: matching the user words as a phrase earns a boost.
+     *
+     * This is *not* declared through `pf`: eDisMax derives that phrase from `q`,
+     * which the fuzzy second pass rewrites into `Pas~2 de souci~2` — Solr then
+     * analyses it into `"pa 2 de souci 2"`, a phrase no title can ever match.
+     * Built from the raw user query, the boost holds on both passes.
+     */
+    protected function buildPhraseBoostQuery(string $q, array &$args): string
+    {
+        $phrase = $this->escapePhrase(trim($q)).'~'.static::EXACT_PHRASE_SLOP;
+
+        return sprintf(
+            '%s:%s^%d %s:%s^%d',
+            $this->getTitleField($args),
+            $phrase,
+            static::EXACT_TITLE_BOOST,
+            $this->getCollectionField($args),
+            $phrase,
+            static::EXACT_COLLECTION_BOOST
+        );
     }
 
     protected function isQuerySingleWord(string $q): bool

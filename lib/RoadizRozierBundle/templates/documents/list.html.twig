@@ -31,11 +31,13 @@
         with_nav_bar: with_nav_bar,
         current: current,
         translation: translation,
-        filters: filters
+        filters: filters,
     } only %}
 
     {% include '@RoadizRozier/documents/filtersBar.html.twig' with {
         filters: filters,
+        availablePlatforms: availablePlatforms,
+        embedPlatform: embedPlatform,
     } %}
 
     {% include '@RoadizRozier/documents/bulkActions.html.twig' with {

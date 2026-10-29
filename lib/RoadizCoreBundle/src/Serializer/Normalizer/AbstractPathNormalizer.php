@@ -11,6 +11,10 @@ use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+/**
+ * @deprecated since 2.7.51, implement RZ\Roadiz\CoreBundle\Serializer\Enricher\NormalizationEnricherInterface instead.
+ *             Each decorator adds a layer to every supportsNormalization() call made by the Serializer.
+ */
 abstract class AbstractPathNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
 {
     /**

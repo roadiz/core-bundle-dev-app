@@ -1,8 +1,10 @@
 {% extends "@RoadizRozier/admin/base.html.twig" %}
 
 {%- block header -%}
+    {# This page is the section root, so the trail is just its own name. #}
     {% include '@RoadizRozier/admin/head.html.twig' with {
         title: 'articles'|trans,
+        breadcrumb: { current: 'articles'|trans },
         filters: filters,
         buttons: [
             {

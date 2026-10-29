@@ -1,0 +1,73 @@
+/*
+ * Split view on the node-source edit page: the form keeps the left of .rz-page__body,
+ * <rz-live-preview> takes a sticky column on the right. The window is the scroll container.
+ */
+@media (--screen-lg-min) {
+	.rz-page__body:has(> .rz-live-preview[open]) {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) var(--rz-live-preview-width, clamp(360px, 40%, 720px));
+		gap: var(--spacing-2xs, 12px);
+		align-items: start;
+	}
+}
+
+.rz-live-preview {
+	/* Room for the fixed .rz-actions-menu, which overlays the right edge of .rz-page. */
+	--rz-live-preview-gutter: 52px;
+
+	display: none;
+	position: sticky;
+	top: var(--rz-app-padding-block, 8px);
+	box-sizing: border-box;
+	height: calc(100vh - var(--rz-app-padding-block, 8px) * 2);
+	margin-right: var(--rz-live-preview-gutter);
+	overflow: hidden;
+	border: 1px solid var(--line-on-light-secondary, #DADADA);
+	border-radius: var(--radius-sm, 8px);
+	background-color: var(--surface-light-tertiary, #F2F2F2);
+
+	&[open] {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+/* The split view needs the lg breakpoint; below it the form keeps its full width. */
+@media (--screen-md-max) {
+	.rz-live-preview,
+	.rz-live-preview-toggle {
+		display: none !important;
+	}
+}
+
+.rz-live-preview__toolbar {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs, 8px);
+	padding: var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
+	border-bottom: 1px solid var(--line-on-light-secondary, #DADADA);
+	background-color: var(--surface-light-primary, #FFFFFF);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size);
+	line-height: var(--text-label-sm-line-height);
+}
+
+.rz-live-preview__scale {
+	margin-left: auto;
+	font-variant-numeric: tabular-nums;
+}
+
+.rz-live-preview__viewport {
+	position: relative;
+	flex: 1;
+	overflow: hidden;
+}
+
+.rz-live-preview__viewport iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 0;
+	background-color: #FFFFFF;
+	transform-origin: top left;
+}

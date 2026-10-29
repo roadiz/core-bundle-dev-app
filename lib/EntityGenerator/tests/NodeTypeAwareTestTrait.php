@@ -255,6 +255,7 @@ EOT)
                         ->setTypeName('many_to_many')
                         ->setVirtual(false)
                         ->setSerializationMaxDepth(1)
+                        ->setNormalizationContext(['groups' => ['nodes_sources', 'nodes_sources_default', 'foo_many_to_many_proxied']])
                         ->setLabel('For many_to_many proxied field')
                         ->setDefaultValues(<<<EOT
 classname: \MyCustomEntity
@@ -290,6 +291,9 @@ EOT)
             ->willReturn(true);
         $mockNodeType
             ->method('isPublishable')
+            ->willReturn(true);
+        $mockNodeType
+            ->method('isUnpublishable')
             ->willReturn(true);
 
         return $mockNodeType;
@@ -327,6 +331,9 @@ EOT)
             ->willReturn(true);
         $mockNodeType
             ->method('isPublishable')
+            ->willReturn(true);
+        $mockNodeType
+            ->method('isUnpublishable')
             ->willReturn(true);
 
         return $mockNodeType;

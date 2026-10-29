@@ -36,7 +36,7 @@
             {% elseif document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
                 {% set icon_centered = 'rz-icon-ri--file-4-line' %}
             {% elseif document.embedPlatform %}
-                {% set icon_centered = 'rz-icon-rz--social-' ~ document.embedPlatform %}
+                {% set icon_centered = 'rz-icon-logo--' ~ document.embedPlatform %}
             {% endif %}
 
             {% if icon_centered %}

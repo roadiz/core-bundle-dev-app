@@ -30,8 +30,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @extends EntityRepository<Document>
  *
  * @implements DocumentRepositoryInterface<Document>
+ *
+ * @final not declared final so it can be mocked
  */
-final class DocumentRepository extends EntityRepository implements DocumentRepositoryInterface
+class DocumentRepository extends EntityRepository implements DocumentRepositoryInterface
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -192,20 +194,12 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         }
     }
 
-    /**
-     * Create a Criteria object from a search pattern and additional fields.
-     *
-     * @param string       $pattern  Search pattern
-     * @param QueryBuilder $qb       QueryBuilder to pass
-     * @param array        $criteria Additional criteria
-     * @param string       $alias    SQL query table alias
-     */
     #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = 'obj',
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->filterByFolder($criteria, $qb, $alias);
         $this->applyFilterByFolder($criteria, $qb);
@@ -217,7 +211,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $qb->leftJoin($alias.'.documentTranslations', 'dt');
         $criteriaFields = [];
 
-        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(DocumentTranslation::class)) as $field) {
+        foreach (self::getSearchableColumnsNames($this->getEntityManager()->getClassMetadata(DocumentTranslation::class)) as $field) {
             $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 
@@ -267,7 +261,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     }
 
     /**
-     * Bind translation parameter to final query.
+     * @deprecated
      */
     protected function applyTranslationByFolder(
         QueryBuilder $qb,
@@ -542,7 +536,14 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageCropAlignment,
                     d.hotspot,
                     nsf.imageCropAlignment,
-                    nsf.hotspot
+                    nsf.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
         ))
@@ -553,6 +554,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('raw', false)
             ->setParameter('private', false)
+            ->setParameter('nullValue', null)
             ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
             ->setMaxResults(1)
             ->setCacheable(true);
@@ -616,7 +618,65 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         string $fieldName,
     ): array {
         $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+        $qb->select($this->getNodeSourceDocumentDtoSelect())
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('fieldName', $fieldName)
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('raw', false)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Batch version of findDocumentDtoByNodeSourceAndFieldName(), for several node-sources
+     * sharing the same translation.
+     *
+     * @param array<int|string> $nodeSourceIds
+     * @param array<string>     $fieldNames
+     *
+     * @return array<int|string, array<string, array<DocumentDto>>> DocumentDto lists indexed by node-source ID and field name, in position order
+     */
+    public function findDocumentDtoByNodeSourceIdsAndFieldNames(
+        array $nodeSourceIds,
+        array $fieldNames,
+        TranslationInterface $translation,
+    ): array {
+        if ([] === $nodeSourceIds || [] === $fieldNames) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getNodeSourceDocumentDtoSelect())
+            ->addSelect('IDENTITY(nsf.nodeSource) AS nodeSourceId', 'nsf.fieldName AS fieldName')
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf')
+            ->andWhere($qb->expr()->in('nsf.nodeSource', ':nodeSourceIds'))
+            ->andWhere($qb->expr()->in('nsf.fieldName', ':fieldNames'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('nodeSourceIds', array_values($nodeSourceIds))
+            ->setParameter('fieldNames', array_values($fieldNames))
+            ->setParameter('translation', $translation)
+            ->setParameter('raw', false);
+
+        $documents = [];
+        /** @var array{0: DocumentDto, nodeSourceId: int|string, fieldName: string} $row */
+        foreach ($qb->getQuery()->getResult() as $row) {
+            $documents[$row['nodeSourceId']][$row['fieldName']][] = $row[0];
+        }
+
+        return $documents;
+    }
+
+    private function getNodeSourceDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -637,32 +697,45 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     dt.name,
                     dt.description,
                     dt.copyright,
-                    dt.externalUrl
+                    dt.externalUrl,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
-            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
-            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
-            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+        );
+    }
+
+    /**
+     * DTO version of DocumentFinder::findAllByFilenames(), without hydrating entities.
+     *
+     * @param array<string> $filenames
+     *
+     * @return array<DocumentDto>
+     */
+    public function findDtoByFilenames(array $filenames): array
+    {
+        if ([] === $filenames) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getDocumentDtoSelect())
+            ->andWhere($qb->expr()->in('d.filename', ':filenames'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
-            ->addOrderBy('nsf.position', 'ASC')
-            ->setParameter('fieldName', $fieldName)
-            ->setParameter('nodeSource', $nodeSource)
-            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('filenames', array_values($filenames))
             ->setParameter('raw', false)
-            ->setCacheable(true);
+            ->setParameter('nullValue', null);
 
         return $qb->getQuery()->getResult();
     }
 
     /**
-     * @throws NonUniqueResultException
+     * DocumentDto select without node-source and translation data.
      */
-    public function findFirstThumbnailDtoBy(
-        int|string $originalDocumentId,
-    ): ?DocumentDto {
-        $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+    private function getDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -677,14 +750,34 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageAverageColor,
                     d.folder,
                     d.imageCropAlignment,
-                    d.hotspot
+                    d.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    :nullValue,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
+        );
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findFirstThumbnailDtoBy(
+        int|string $originalDocumentId,
+    ): ?DocumentDto {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getDocumentDtoSelect())
             ->andWhere($qb->expr()->eq('d.original', ':original'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)
             ->setParameter('raw', false)
+            ->setParameter('nullValue', null)
             ->setMaxResults(1)
             ->setCacheable(true);
 
@@ -698,7 +791,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      */
     public function findAllSettingDocuments(): array
     {
-        $query = $this->_em->createQuery('
+        $query = $this->getEntityManager()->createQuery('
             SELECT d FROM RZ\Roadiz\CoreBundle\Entity\Document d
             WHERE d.id IN (
                 SELECT s.value FROM RZ\Roadiz\CoreBundle\Entity\Setting s
@@ -723,7 +816,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInSettings(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings
@@ -747,7 +840,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     protected function getAllDocumentsIdUsedInCustomFormAnswers(): array
     {
-        $qb2 = $this->_em->createQueryBuilder();
+        $qb2 = $this->getEntityManager()->createQueryBuilder();
 
         /*
          * Get documents used by settings

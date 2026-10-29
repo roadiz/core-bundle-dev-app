@@ -4,7 +4,7 @@
 	--rz-form-field-list-gap: var(--spacing-md);
 
 	display: flex;
-	flex-direction: column;
+	flex-direction: var(--rz-form-flex-direction, column);
 	gap: var(--rz-form-gap, var(--spacing-md));
 	align-items: var(--rz-form-align-items);
 }

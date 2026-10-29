@@ -65,10 +65,12 @@ trait BaseDocumentTrait
         'audio/mp4' => 'audio',
         'audio/mpeg' => 'audio',
         'audio/ogg' => 'audio',
+        'audio/opus' => 'audio',
         'audio/vorbis' => 'audio',
         'audio/wav' => 'audio',
         'audio/webm' => 'audio',
         'audio/x-m4a' => 'audio',
+        'audio/x-flac' => 'audio',
         'audio/x-matroska' => 'audio',
         'audio/x-wav' => 'audio',
         // Video types
@@ -107,6 +109,7 @@ trait BaseDocumentTrait
         'application/vnd.oasis.opendocument.text ' => 'word',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'powerpoint',
         'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'powerpoint',
+        'application/vnd.ms-excel.sheet.macroenabled.12' => 'excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'excel',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'word',
@@ -170,11 +173,12 @@ trait BaseDocumentTrait
     /**
      * Get short type name for current document Mime type.
      */
-    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('type'),]
     public function getShortType(): string
     {
         $mimeType = (string) $this->getMimeType();
+        $mimeType = strtolower($mimeType);
         if ('' !== $mimeType && isset(static::$mimeToIcon[$mimeType])) {
             return static::$mimeToIcon[$mimeType];
         }
@@ -248,7 +252,7 @@ trait BaseDocumentTrait
         return 'image/webp' === $this->getMimeType();
     }
 
-    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+    #[Serializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute']),
         Serializer\SerializedName('relativePath'),]
     public function getRelativePath(): ?string
     {

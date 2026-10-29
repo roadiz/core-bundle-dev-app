@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\TwigExtension;
 
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
+use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem;
 use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItemFactoryInterface;
 use RZ\Roadiz\RozierBundle\Model\BookmarkCollection;
@@ -18,6 +22,7 @@ use RZ\Roadiz\RozierBundle\RozierServiceRegistry;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\NullTranslateAssistant;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\TranslateAssistantInterface;
 use RZ\Roadiz\RozierBundle\Vite\JsonManifestResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\UnicodeString;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -33,7 +38,14 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         private readonly TranslateAssistantInterface $translateAssistant,
         private readonly BookmarkCollection $bookmarkCollection,
         private readonly BreadcrumbsItemFactoryInterface $breadcrumbItemFactory,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly TranslationRepository $translationRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly bool $livePreviewEnabled,
+        /** @var int[] */
+        private readonly array $livePreviewViewportWidths,
     ) {
     }
 
@@ -56,6 +68,11 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             ],
             'translateAssistantEnabled' => !$this->translateAssistant instanceof NullTranslateAssistant,
             'translateAssistantSupportRephrase' => $this->translateAssistant->supportRephrase(),
+            'preview_required_role' => $this->previewResolver->getRequiredRole(),
+            'live_preview' => [
+                'enabled' => $this->livePreviewEnabled,
+                'viewport_widths' => $this->livePreviewViewportWidths,
+            ],
         ];
     }
 
@@ -73,7 +90,12 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return [
             new TwigFunction('getNodeType', $this->getNodeType(...)),
+            new TwigFunction('translateAssistantUsage', $this->translateAssistant->usage(...)),
             new TwigFunction('getBreadcrumbsItem', $this->getBreadcrumbsItem(...)),
+            new TwigFunction('breadcrumb_root', $this->breadcrumbRoots->get(...)),
+            new TwigFunction('breadcrumb_trail', $this->breadcrumbRoots->trailTo(...)),
+            new TwigFunction('getExplorerItem', $this->getExplorerItem(...)),
+            new TwigFunction('getNodeSourceHref', $this->getNodeSourceHref(...)),
             new TwigFunction('manifest_script_tags', $this->getManifestScriptTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_style_tags', $this->getManifestStyleTags(...), ['is_safe' => ['html']]),
             new TwigFunction('manifest_preload_tags', $this->getManifestPreloadTags(...), ['is_safe' => ['html']]),
@@ -85,12 +107,12 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
      * Truncate a title string to a maximum length with an ellipsis suffix.
      *
      * @param string $title  The title string to truncate
-     * @param int    $length Maximum length of the truncated string (default: 25)
+     * @param int    $length Maximum length of the truncated string (default: 45)
      * @param string $suffix Suffix to append when truncated (default: '[…]')
      *
      * @return string The truncated title
      */
-    public function truncateTitle(string $title, int $length = 25, string $suffix = '[…]'): string
+    public function truncateTitle(string $title, int $length = 45, string $suffix = '[…]'): string
     {
         return (new UnicodeString($title))->truncate($length, $suffix, true)->toString();
     }
@@ -98,6 +120,11 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getBreadcrumbsItem(?object $item): ?BreadcrumbsItem
     {
         return $this->breadcrumbItemFactory->createBreadcrumbsItem($item);
+    }
+
+    public function getExplorerItem(mixed $item): array
+    {
+        return $this->explorerItemFactory->createForEntity($item)->toArray();
     }
 
     public function getManifestScriptTags(string $name): string
@@ -153,6 +180,41 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function getAllAvailableTranslations(): array
     {
         return $this->translationRepository->findAllAvailable();
+    }
+
+    /**
+     * Define the main backoffice page for a node source based on node settings.
+     */
+    public function getNodeSourceHref(mixed $node, ?TranslationInterface $translation, ?NodeInterface $parent = null): ?string
+    {
+        if (null === $translation) {
+            return null;
+        }
+
+        if (!$node instanceof NodeInterface || !method_exists($node, 'isHidingChildren')) {
+            return null;
+        }
+
+        if ($node->isHidingChildren()) {
+            return $this->urlGenerator->generate('nodesTreePage', [
+                'nodeId' => $node->getId(),
+                'translationId' => $translation->getId(),
+            ]);
+        }
+
+        $referer = null;
+        if (null !== $parent) {
+            $referer = $this->urlGenerator->generate('nodesEditSourcePage', [
+                'nodeId' => $parent->getId(),
+                'translationId' => $translation->getId(),
+            ]);
+        }
+
+        return $this->urlGenerator->generate('nodesEditSourcePage', [
+            'nodeId' => $node->getId(),
+            'translationId' => $translation->getId(),
+            'referer' => $referer,
+        ]);
     }
 
     /**

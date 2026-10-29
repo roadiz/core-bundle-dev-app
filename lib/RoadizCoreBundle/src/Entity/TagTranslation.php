@@ -48,7 +48,7 @@ class TagTranslation implements PersistableInterface
     #[ORM\OneToMany(
         mappedBy: 'tagTranslation',
         targetEntity: TagTranslationDocuments::class,
-        cascade: ['persist', 'merge'],
+        cascade: ['persist'],
         orphanRemoval: true
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]

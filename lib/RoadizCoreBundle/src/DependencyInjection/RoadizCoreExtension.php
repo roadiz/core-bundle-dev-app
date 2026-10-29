@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessageInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Markdown\CommonMark;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Symfony\Component\Config\FileLocator;
@@ -68,6 +69,9 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.hide_roadiz_version', $config['hideRoadizVersion']);
         $container->setParameter('roadiz_core.use_accept_language_header', $config['useAcceptLanguageHeader']);
         $container->setParameter('roadiz_core.web_response_class', $config['webResponseClass']);
+        if ('ROLE_BACKEND_USER' === $config['previewRequiredRoleName']) {
+            @trigger_error('Using ROLE_BACKEND_USER as "roadiz_core.previewRequiredRoleName" is deprecated, default value will change to ROLE_ACCESS_PREVIEW in Roadiz v2.8. Set it explicitly to ROLE_ACCESS_PREVIEW (or any other role) to anticipate this change.', \E_USER_DEPRECATED);
+        }
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
         $container->setParameter('roadiz_core.force_locale', $config['forceLocale']);
         $container->setParameter('roadiz_core.force_locale_with_url_aliases', $config['forceLocaleWithUrlAliases']);
@@ -129,6 +133,10 @@ class RoadizCoreExtension extends Extension
     private function registerCaptcha(array $config, ContainerBuilder $container): void
     {
         $verifyUrl = $config['captcha']['verify_url'] ?? $config['medias']['recaptcha_verify_url'] ?? null;
+        $container->setParameter(
+            'roadiz_core.captcha.provider',
+            $config['captcha']['provider'] ?? null
+        );
         $container->setParameter(
             'roadiz_core.captcha.private_key',
             $config['captcha']['private_key'] ?? $config['medias']['recaptcha_private_key'] ?? null
@@ -205,6 +213,7 @@ class RoadizCoreExtension extends Extension
             'repository_class' => NodesSourcesRepository::class,
             'node_class' => Node::class,
             'document_class' => Document::class,
+            'document_base_class' => BaseDocumentInterface::class,
             'document_proxy_class' => NodesSourcesDocuments::class,
             'custom_form_class' => CustomForm::class,
             'custom_form_proxy_class' => NodesCustomForms::class,
@@ -230,19 +239,32 @@ class RoadizCoreExtension extends Extension
         $container->setParameter(
             'roadiz_core.markdown_config_text_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'allow',
+                'html_input' => 'strip',
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_text_extra_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'allow',
+                'html_input' => 'strip',
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_line_converter',
             array_merge($defaultConfig, [
                 'html_input' => 'escape',
+            ])
+        );
+        // html_input='allow' variants — used only when |markdown(true) is explicitly requested
+        $container->setParameter(
+            'roadiz_core.markdown_config_text_html_converter',
+            array_merge($defaultConfig, [
+                'html_input' => 'allow',
+            ])
+        );
+        $container->setParameter(
+            'roadiz_core.markdown_config_text_extra_html_converter',
+            array_merge($defaultConfig, [
+                'html_input' => 'allow',
             ])
         );
 
@@ -313,6 +335,50 @@ class RoadizCoreExtension extends Extension
         );
 
         $container->setDefinition(
+            'roadiz_core.markdown.environments.text_html_converter',
+            (new Definition())
+                ->setClass(Environment::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    '%roadiz_core.markdown_config_text_html_converter%',
+                ])
+        );
+
+        $container->setDefinition(
+            'roadiz_core.markdown.converters.text_html_converter',
+            (new Definition())
+                ->setClass(MarkdownConverter::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    new Reference('roadiz_core.markdown.environments.text_html_converter'),
+                ])
+        );
+
+        $container->setDefinition(
+            'roadiz_core.markdown.environments.text_extra_html_converter',
+            (new Definition())
+                ->setClass(Environment::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    '%roadiz_core.markdown_config_text_extra_html_converter%',
+                ])
+        );
+
+        $container->setDefinition(
+            'roadiz_core.markdown.converters.text_extra_html_converter',
+            (new Definition())
+                ->setClass(MarkdownConverter::class)
+                ->setShared(true)
+                ->setPublic(true)
+                ->setArguments([
+                    new Reference('roadiz_core.markdown.environments.text_extra_html_converter'),
+                ])
+        );
+
+        $container->setDefinition(
             MarkdownInterface::class,
             (new Definition())
                 ->setClass(CommonMark::class)
@@ -321,6 +387,8 @@ class RoadizCoreExtension extends Extension
                     new Reference('roadiz_core.markdown.converters.text_converter'),
                     new Reference('roadiz_core.markdown.converters.text_extra_converter'),
                     new Reference('roadiz_core.markdown.converters.line_converter'),
+                    new Reference('roadiz_core.markdown.converters.text_html_converter'),
+                    new Reference('roadiz_core.markdown.converters.text_extra_html_converter'),
                     new Reference(Stopwatch::class),
                 ])
         );

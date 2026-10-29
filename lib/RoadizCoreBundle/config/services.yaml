@@ -1,12 +1,13 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.7.1'
-    roadiz_core.cms_version_prefix: 'main'
+    roadiz_core.cms_version: '2.7.53'
+    roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
     env(APP_UNSPLASH_CLIENT_ID): ~
     env(APP_SOUNDCLOUD_CLIENT_ID): ~
+    env(APP_CAPTCHA_PROVIDER): ~
     env(APP_CAPTCHA_PRIVATE_KEY): ~
     env(APP_CAPTCHA_PUBLIC_KEY): ~
     env(APP_CAPTCHA_VERIFY_URL): ~
@@ -112,6 +113,8 @@ services:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'podcast' } ]
     RZ\Roadiz\CoreBundle\Document\MediaFinder\ApplePodcastEmbedFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'apple_podcast' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\PodEducEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'podeduc' } ]
 
     # Removed DataTransformers
     RZ\Roadiz\CoreBundle\Api\DataTransformer\:
@@ -161,6 +164,12 @@ services:
     RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface:
         class: RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactory
 
+    RZ\Roadiz\CoreBundle\Api\TreeWalker\WalkerChildrenPropertyMetadataFactory:
+        # After PropertyInfo, attribute and serializer factories, inside the metadata cache (-10)
+        decorates: 'api_platform.metadata.property.metadata_factory'
+        decoration_priority: 0
+        arguments: [ '@.inner' ]
+
     RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
         decorates: 'api_platform.openapi.factory'
         decoration_priority: 100
@@ -184,87 +193,120 @@ services:
         tags:
             - { name: 'serializer.normalizer', priority: 64 }
 
-    # Folder (must be decorate BEFORE DocumentNormalizer)
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer:
-        # By default, .inner is passed as argument
+    # Single decorator running every NormalizationEnricherInterface service.
+    # Innermost (highest decoration_priority), so project decorators still get enriched data.
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer:
         decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 21
+        decoration_priority: 32
+        arguments:
+            $decorated: '@.inner'
+            $enrichers: !tagged_iterator { tag: 'roadiz_core.normalization_enricher' }
     # Need a different name to avoid duplicate YAML key
-    roadiz_core.serializer.normalizer.folder.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer'
+    roadiz_core.serializer.normalizer.enriching_item.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 21
+        decoration_priority: 32
+        arguments:
+            $decorated: '@.inner'
+            $enrichers: !tagged_iterator { tag: 'roadiz_core.normalization_enricher' }
 
-    # Document
+    # Deprecated ids of the former per-entity decorators, kept as aliases for projects decorating them
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer:
-        # By default, .inner is passed as argument
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 20
-    # Need a different name to avoid duplicate YAML key
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\CustomFormNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeValueNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesTypeNormalizer:
+        alias: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "RZ\Roadiz\CoreBundle\Serializer\Normalizer\EnrichingItemNormalizer" or write a NormalizationEnricherInterface instead.'
+    roadiz_core.serializer.normalizer.folder.json:
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
     roadiz_core.serializer.normalizer.document.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer'
-        decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 20
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
+    roadiz_core.serializer.normalizer.document_sources.json:
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
+    roadiz_core.serializer.normalizer.tag.json:
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
+    roadiz_core.serializer.normalizer.custom_form.json:
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
+    roadiz_core.serializer.normalizer.attribute_value.json:
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
+    roadiz_core.serializer.normalizer.nodes_sources_path.json:
+        alias: 'roadiz_core.serializer.normalizer.enriching_item.json'
+        deprecated:
+            package: 'roadiz/core-bundle'
+            version: '2.7.51'
+            message: 'The "%alias_id%" service is deprecated, decorate "roadiz_core.serializer.normalizer.enriching_item.json" or write a NormalizationEnricherInterface instead.'
+
     # DocumentDto
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentDtoNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 20 }
 
-    # Serialize document sources (must be decorate AFTER DocumentNormalizer)
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer:
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 19
-    # Need a different name to avoid duplicate YAML key
-    roadiz_core.serializer.normalizer.document_sources.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer'
-        decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 19
-
-    # Tag
-    # requires DocumentNormalizer
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer:
-        # By default, .inner is passed as argument
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 18
-    # Need a different name to avoid duplicate YAML key
-    roadiz_core.serializer.normalizer.tag.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer'
-        decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 18
-
-    # CustomForm
-    # requires DocumentNormalizer
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\CustomFormNormalizer:
-        # By default, .inner is passed as argument
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 15
-    # Need a different name to avoid duplicate YAML key
-    roadiz_core.serializer.normalizer.custom_form.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\CustomFormNormalizer'
-        decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 15
-
-    # AttributeValue
-    # requires DocumentNormalizer
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeValueNormalizer:
-        # By default, .inner is passed as argument
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 15
-    # Need a different name to avoid duplicate YAML key
-    roadiz_core.serializer.normalizer.attribute_value.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeValueNormalizer'
-        decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 15
-
-    # NodesSources
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer:
-        # By default, .inner is passed as argument
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: 5
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesTypeNormalizer:
-        # By default, .inner is passed as argument
-        decorates: 'api_platform.jsonld.normalizer.item'
-        decoration_priority: -10
     # NodesTypes
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
         tags:
@@ -289,11 +331,6 @@ services:
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\TranslationNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
-    # Need a different name to avoid duplicate YAML key
-    roadiz_core.serializer.normalizer.nodes_sources_path.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
-        decorates: 'api_platform.serializer.normalizer.item'
-        decoration_priority: 5
 
     Limenius\Liform\LiformInterface:
         alias: liform
@@ -309,6 +346,17 @@ services:
         parent: Limenius\Liform\Transformer\AbstractTransformer
         tags:
             - { name: liform.transformer, form_type: date, widget: date }
+
+    # Re-homed from the former rezozero/liform fork: upstream limenius/liform
+    # ships neither a file transformer nor placeholder translation.
+    RZ\Roadiz\CoreBundle\Liform\FileTransformer:
+        parent: Limenius\Liform\Transformer\AbstractTransformer
+        tags:
+            - { name: liform.transformer, form_type: file, widget: file }
+
+    RZ\Roadiz\CoreBundle\Liform\PlaceholderTranslationExtension:
+        tags:
+            - { name: liform.extension }
 
     RZ\Roadiz\CoreBundle\Serializer\TranslationAwareContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
@@ -463,12 +511,27 @@ services:
     #
     # Media finders
     #
-    RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder:
+    # Media finders fetch user-supplied URLs (podcast feeds, oEmbed endpoints): never give them the raw
+    # http_client, or they become an SSRF pivot into the private network.
+    roadiz_core.no_private_network_http_client:
+        class: Symfony\Component\HttpClient\NoPrivateNetworkHttpClient
+        # autoconfigure would inject a logger through the setLogger() deprecated since symfony/http-client 7.1;
+        # the wrapped http_client already logs. kernel.reset is kept to flush its DNS cache between requests.
+        autoconfigure: false
         arguments:
             - '@http_client'
+        tags:
+            - { name: kernel.reset, method: reset }
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder:
+        arguments:
+            - '@roadiz_core.no_private_network_http_client'
             - '%roadiz_core.medias.unsplash_client_id%'
     RZ\Roadiz\Documents\MediaFinders\RandomImageFinder:
         alias: RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder
+    # Webhook URIs are admin-set but still attacker-reachable (SSRF pivot into the private network) — same guard as media finders.
+    RZ\Roadiz\CoreBundle\Message\Handler\HttpRequestMessageHandler:
+        arguments:
+            $client: '@roadiz_core.no_private_network_http_client'
     RZ\Roadiz\Documents\Renderer\ImageRenderer:
         tags: [ 'roadiz_core.document_renderer' ]
     RZ\Roadiz\Documents\Renderer\PictureRenderer:
@@ -588,7 +651,7 @@ services:
 
     RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory:
         arguments:
-            - '@http_client'
+            - '@roadiz_core.no_private_network_http_client'
             - '%roadiz_core.medias.supported_platforms%'
 
     RZ\Roadiz\Documents\Renderer\ChainRenderer:

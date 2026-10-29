@@ -134,9 +134,14 @@ final class NodesTagsFilter extends AbstractFilter
             $ntgQb
                 ->innerJoin('n.nodeSources', 'ns')
                 ->andWhere($ntgQb->expr()->lte('ns.publishedAt', ':lte_published_at'))
+                ->andWhere($ntgQb->expr()->orX(
+                    $ntgQb->expr()->gt('ns.unpublishedAt', ':gt_unpublished_at'),
+                    $ntgQb->expr()->isNull('ns.unpublishedAt')
+                ))
                 ->andWhere($ntgQb->expr()->eq('n.status', ':status'));
             $queryBuilder
                 ->setParameter(':lte_published_at', new \DateTime())
+                ->setParameter(':gt_unpublished_at', new \DateTime())
                 ->setParameter(':status', NodeStatus::PUBLISHED);
         }
 

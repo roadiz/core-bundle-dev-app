@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
 
-use enshrined\svgSanitize\Sanitizer;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentSvgMessage;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -34,27 +33,14 @@ final class DocumentSvgMessageHandler extends AbstractLockingDocumentMessageHand
             throw new UnrecoverableMessageHandlingException('Document mount path is null.');
         }
 
-        // Create a new sanitizer instance
-        $sanitizer = new Sanitizer();
-        $sanitizer->minify(true);
-
         if (!$this->documentsStorage->fileExists($mountPath)) {
             return;
         }
 
-        // Load the dirty svg
-        $dirtySVG = $this->documentsStorage->read($mountPath);
-        $cleanSVG = $sanitizer->sanitize($dirtySVG);
-
-        if (false === $cleanSVG) {
-            throw new UnrecoverableMessageHandlingException('SVG document could not be sanitized.');
-        }
-
-        $this->documentsStorage->write($mountPath, $cleanSVG);
-        $this->messengerLogger->info('Svg document sanitized.');
-
         /*
-         * Resolve SVG size
+         * SVG content is already sanitized synchronously by
+         * AbstractDocumentFactory::sanitizeSvgFileIfNeeded() before storage,
+         * so this handler only resolves the SVG size.
          */
         try {
             $svgSizeResolver = new SvgSizeResolver($document, $this->documentsStorage);

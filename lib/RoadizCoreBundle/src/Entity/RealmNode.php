@@ -34,6 +34,7 @@ class RealmNode implements PersistableInterface
         onDelete: 'CASCADE'
     )]
     #[SymfonySerializer\Ignore]
+    #[Assert\NotNull]
     private Node $node;
 
     #[ORM\ManyToOne(targetEntity: Realm::class, inversedBy: 'realmNodes')]
@@ -45,6 +46,7 @@ class RealmNode implements PersistableInterface
         onDelete: 'CASCADE'
     )]
     #[SymfonySerializer\Ignore]
+    #[Assert\NotNull]
     private Realm $realm;
 
     #[ORM\Column(name: 'inheritance_type', type: 'string', length: 10, nullable: false)]

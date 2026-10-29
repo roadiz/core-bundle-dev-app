@@ -124,7 +124,11 @@ final class SvgSizeResolver
             }
             $this->xmlDocument = new \DOMDocument();
             $svgSource = $this->documentsStorage->read($mountPath);
-            if (false === $this->xmlDocument->loadXML($svgSource)) {
+            // LIBXML_NONET prevents network entity resolution; LIBXML_NOENT keeps
+            // entities unexpanded (defense-in-depth against XXE on PHP < 8 and any
+            // future regression — PHP 8 disables external entities by default but
+            // explicit flags make the intent clear and version-independent).
+            if (false === $this->xmlDocument->loadXML($svgSource, \LIBXML_NONET | \LIBXML_NOENT)) {
                 throw new \RuntimeException(sprintf('SVG (%s) could not be loaded.', $mountPath));
             }
         }

@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Event\Translation\TranslationDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationUpdatedEvent;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Form\TranslationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -36,6 +37,7 @@ final class TranslationController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
         private readonly FormFactoryInterface $formFactory,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -192,10 +194,18 @@ final class TranslationController extends AbstractController
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
-            'headPath' => '@RoadizRozier/translations/head.html.twig',
+            'headPath' => '@RoadizRozier/admin/head.html.twig',
             'cancelPath' => $this->generateUrl('translationsHomePage'),
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('translations'),
+                [
+                    'label' => $translation->getName(),
+                    'url' => $this->generateUrl('translationsEditPage', ['translationId' => $translation->getId()]),
+                ],
+            ],
             'alertMessage' => 'are_you_sure.delete.translation',
             'form' => $form->createView(),
+            'items' => [$translation],
         ]);
     }
 }

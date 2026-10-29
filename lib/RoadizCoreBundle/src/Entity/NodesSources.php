@@ -23,6 +23,7 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypeReachableFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute as SymfonySerializer;
@@ -36,15 +37,20 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['discr']),
     ORM\Index(columns: ['title']),
     ORM\Index(columns: ['published_at']),
+    ORM\Index(columns: ['unpublished_at'], name: 'ns_unpublished_at'),
     ORM\Index(columns: ['no_index'], name: 'ns_no_index'),
     ORM\Index(columns: ['node_id', 'translation_id', 'published_at'], name: 'ns_node_translation_published'),
+    ORM\Index(columns: ['node_id', 'translation_id', 'unpublished_at'], name: 'ns_node_translation_unpublished'),
     ORM\Index(columns: ['node_id', 'discr', 'translation_id'], name: 'ns_node_discr_translation'),
     ORM\Index(columns: ['node_id', 'discr', 'translation_id', 'published_at'], name: 'ns_node_discr_translation_published'),
+    ORM\Index(columns: ['node_id', 'discr', 'translation_id', 'unpublished_at'], name: 'ns_node_discr_translation_unpublished'),
     ORM\Index(columns: ['translation_id', 'published_at'], name: 'ns_translation_published'),
     ORM\Index(columns: ['discr', 'translation_id'], name: 'ns_discr_translation'),
     ORM\Index(columns: ['discr', 'translation_id', 'published_at'], name: 'ns_discr_translation_published'),
+    ORM\Index(columns: ['discr', 'translation_id', 'unpublished_at'], name: 'ns_discr_translation_unpublished'),
     ORM\Index(columns: ['title', 'published_at'], name: 'ns_title_published'),
     ORM\Index(columns: ['title', 'translation_id', 'published_at'], name: 'ns_title_translation_published'),
+    ORM\Index(columns: ['title', 'translation_id', 'unpublished_at'], name: 'ns_title_translation_unpublished'),
     ORM\UniqueConstraint(columns: ['node_id', 'translation_id']),
     ORM\InheritanceType('JOINED'),
     // Limit discriminator column to 30 characters for indexing optimization
@@ -93,6 +99,16 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     )]
     protected ?\DateTime $publishedAt = null;
 
+    #[ApiFilter(BaseFilter\DateFilter::class)]
+    #[ApiFilter(BaseFilter\OrderFilter::class)]
+    #[ORM\Column(name: 'unpublished_at', type: 'datetime', unique: false, nullable: true)]
+    #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
+    #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Content unpublication date and time',
+    )]
+    protected ?\DateTime $unpublishedAt = null;
+
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
     #[SymfonySerializer\Groups(['nodes_sources'])]
@@ -130,7 +146,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     #[ORM\OneToMany(
         mappedBy: 'nodeSource',
         targetEntity: UrlAlias::class,
-        cascade: ['all']
+        cascade: ['persist', 'remove']
     )]
     #[SymfonySerializer\Ignore]
     private Collection $urlAliases;
@@ -385,7 +401,24 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         return $this;
     }
 
-    public function getMetaTitle(): string
+    public function getUnpublishedAt(): ?\DateTime
+    {
+        return $this->unpublishedAt;
+    }
+
+    public function setUnpublishedAt(?\DateTime $unpublishedAt = null): NodesSources
+    {
+        $this->unpublishedAt = $unpublishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Final on purpose: like getMetaDescription(), this raw getter is bound to
+     * the admin SEO form and its setter round-trip, so it must never become a
+     * computed value (that would persist the computed value on save).
+     */
+    final public function getMetaTitle(): string
     {
         return $this->metaTitle;
     }
@@ -400,7 +433,13 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         return $this;
     }
 
-    public function getMetaDescription(): string
+    /**
+     * Final on purpose: this raw getter is bound to the admin SEO form and its
+     * setter round-trip, so it must never become a computed value (that would
+     * persist the computed value on save). Use getMetaDescriptionOrFallback()
+     * to expose a fallback-aware value instead.
+     */
+    final public function getMetaDescription(): string
     {
         return $this->metaDescription;
     }
@@ -413,6 +452,35 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         $this->metaDescription = null !== $metaDescription ? trim($metaDescription) : '';
 
         return $this;
+    }
+
+    /**
+     * Meta-description to expose for SEO, falling back on the content of a
+     * node-type field flagged as "metaDescriptionFallback" when the stored
+     * meta-description is empty.
+     *
+     * This base implementation returns the raw stored meta-description; it is
+     * overridden in generated node-source entities when a field is flagged.
+     * Unlike getMetaDescription(), this computed value is never persisted back,
+     * so it is safe to expose without polluting the real meta-description field.
+     */
+    public function getMetaDescriptionOrFallback(): string
+    {
+        return $this->getMetaDescription();
+    }
+
+    /**
+     * Document to expose as the node-source share-image (Open Graph / social
+     * image), taken from the first document of a node-type field flagged as
+     * "shareImage".
+     *
+     * This base implementation returns null; it is overridden in generated
+     * node-source entities when a documents field is flagged. The head then
+     * falls back on the global "share_image" setting when this is null.
+     */
+    public function getShareImage(): ?BaseDocumentInterface
+    {
+        return null;
     }
 
     public function isNoIndex(): bool
@@ -518,9 +586,12 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     #[SymfonySerializer\Groups(['nodes_sources_published'])]
     public function isPublished(): bool
     {
+        $now = new \DateTime();
+
         return $this->getNode()->isPublished()
             && null !== $this->getPublishedAt()
-            && $this->getPublishedAt() <= new \DateTime();
+            && $this->getPublishedAt() <= $now
+            && (null === $this->getUnpublishedAt() || $this->getUnpublishedAt() > $now);
     }
 
     /**
@@ -534,9 +605,37 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * Overridden in NS classes.
      */
+    public function isUnpublishable(): bool
+    {
+        throw new \RuntimeException('This method should only be called from children classes');
+    }
+
+    /**
+     * Overridden in NS classes.
+     */
     public function isReachable(): bool
     {
         throw new \RuntimeException('This method should only be called from children classes');
+    }
+
+    /**
+     * Walks up the node-source tree until a node-source with a URL is found.
+     *
+     * Blocks and other non-reachable node-sources are only ever rendered inside a page:
+     * this returns the page they belong to, or null when no ancestor is reachable.
+     */
+    #[SymfonySerializer\Groups(['nodes_sources_first_reachable_parent'])]
+    public function getFirstReachableParent(): ?NodesSources
+    {
+        $nodeSource = $this;
+        while (!$nodeSource->isReachable()) {
+            $nodeSource = $nodeSource->getParent();
+            if (null === $nodeSource) {
+                return null;
+            }
+        }
+
+        return $nodeSource;
     }
 
     /**

@@ -501,7 +501,7 @@
                                 attributes: {
                                     title: 'add.children_node'|trans,
                                 },
-                                label: 'Add'|trans,
+                                label: 'add'|trans,
                                 icon: 'rz-icon-ri--add-line',
                             }
                     } %}
@@ -702,10 +702,10 @@
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
-            '%name%': name,
-            '%id%': id,
-            }) %}
-        {%- else -%}
+                '%name%': name,
+                '%id%': id,
+                }) %}
+        {%- elseif label is not same as(false) -%}
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
@@ -714,7 +714,7 @@
             <span class="rz-button__label">
             {{ label_html is same as(false) ? label : label|raw }}
         </span>
-        {% else %}
+        {% elseif label %}
             <span class="rz-button__label">
             {{ label_html is same as(false)
             ? label|trans(label_translation_parameters, translation_domain)
@@ -728,12 +728,16 @@
 {%- endblock button_widget -%}
 
 {%- block widget_attributes -%}
-    id="{{ id }}" name="{{ full_name }}"
+    id="{{ id }}"
+    name="{{ full_name }}"
     {%- if disabled %} disabled="disabled"{% endif -%}
     {%- if required %} required="required"{% endif -%}
     {%- if form.vars.help ?? false -%}
         aria-describedby="{{ form.vars.id }}_help"
     {%- endif -%}
+    {%- if attr['data-max-length'] is not defined and nodeTypeField.type.name == 'MANY_TO_ONE_T' %}
+        data-max-length="1"
+    {% endif -%}
     {{ block('attributes') }}
 {%- endblock widget_attributes -%}
 

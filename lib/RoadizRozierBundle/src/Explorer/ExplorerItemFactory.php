@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemInterface;
@@ -78,6 +79,10 @@ final readonly class ExplorerItemFactory implements ExplorerItemFactoryInterface
                 $this->security,
             ),
             $entity instanceof Tag => new TagExplorerItem(
+                $entity,
+                $this->urlGenerator,
+            ),
+            $entity instanceof Translation => new TranslationExplorerItem(
                 $entity,
                 $this->urlGenerator,
             ),

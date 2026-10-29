@@ -160,7 +160,7 @@ class UserController extends AbstractAdminWithBulkController
     {
         $this->additionalAssignation($request);
 
-        /** @var mixed|object|null $item */
+        /** @var object|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
         if (!$item instanceof PersistableInterface) {
             throw $this->createNotFoundException();

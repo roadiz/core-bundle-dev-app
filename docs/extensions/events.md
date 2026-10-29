@@ -36,6 +36,23 @@ Each `RZ\Roadiz\CoreBundle\Event\NodesSourcesEvents` object contains the current
 generates a path for your node-source using the `path()` Twig method or the `$this->urlGenerator->generate()` controller method.
 The default subscriber will generate the complete hierarchical path for any node-source using its identifier (available URL alias or node name).
 
+## Search engine events
+
+These events are dispatched by the [Solr Bundle](../developer/optional-bundles/solr-bundle.md)
+while building a Solarium query. Get the query with `$event->getQuery()` and the
+handler arguments with `$event->getArgs()`, then append filter queries or facets.
+
+- `RZ\Roadiz\SolrBundle\Event\NodeSourceSearchQueryEvent`: dispatched when searching `NodesSources`.
+- `RZ\Roadiz\SolrBundle\Event\DocumentSearchQueryEvent`: dispatched when searching `Documents`.
+
+::: tip
+The SolrBundle ships default subscribers for `NodeSourceSearchQueryEvent`:
+`NodeSourceSearchFacetSubscriber` (adds `node_type`, `document_type` and
+`tag_name` facets), `NodeSourceSearchTagsFilterSubscriber` (filters on the
+`tag_name` request param) and `NodeSourceSearchNodeTypeFilterSubscriber` (filters
+on the `node_type` request param). See the Solr Bundle documentation for details.
+:::
+
 ## Tags events
 
 - `RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent`

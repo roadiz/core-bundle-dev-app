@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Form\CustomFormFieldType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -28,6 +29,7 @@ final class CustomFormFieldController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -206,6 +208,15 @@ final class CustomFormFieldController extends AbstractController
             'cancelPath' => $this->generateUrl('customFormFieldsListPage', [
                 'customFormId' => $field->getCustomForm()->getId(),
             ]),
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('customForms'),
+                [
+                    'label' => $field->getCustomForm()->getDisplayName(),
+                    'url' => $this->generateUrl('customFormFieldsListPage', [
+                        'customFormId' => $field->getCustomForm()->getId(),
+                    ]),
+                ],
+            ],
             'alertMessage' => 'are_you_sure.delete.customFormField',
             'form' => $form->createView(),
         ]);

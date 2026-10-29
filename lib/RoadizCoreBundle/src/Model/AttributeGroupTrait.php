@@ -31,9 +31,9 @@ trait AttributeGroupTrait
      * @var Collection<int, AttributeGroupTranslationInterface>
      */
     #[ORM\OneToMany(
-        mappedBy: 'attributeGroup',
         targetEntity: AttributeGroupTranslationInterface::class,
-        cascade: ['all'],
+        mappedBy: 'attributeGroup',
+        cascade: ['persist', 'remove'],
         orphanRemoval: true
     ),
         Serializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),]

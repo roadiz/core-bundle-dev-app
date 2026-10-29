@@ -7,6 +7,18 @@
         <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ meta.siteName }}{% endblock %}</title>
         <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <script>
+            (function () {
+                try {
+                    const stored = localStorage.getItem('rz-color-scheme')
+                    if (stored === 'light' || stored === 'dark') {
+                        document.documentElement.setAttribute('data-theme', stored)
+                    }
+                } catch (error) {
+                    return
+                }
+            })()
+        </script>
         {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
         {# CSS scripts inclusions / Using webpack #}
         {{ manifest_preload_tags('shared') }}
@@ -18,7 +30,7 @@
         {% if main_color %}
             <style>
                 :root {
-                    --rz-accent-color: {{ main_color|raw }};
+                    --rz-accent-color: {{ main_color }};
                     --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
                     --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
                     --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
@@ -116,6 +128,7 @@
                     'moreTags':               '{{ 'more.tags'|trans|trim|escape }}',
                     'moreEntities':           '{{ 'more.entities'|trans|trim|escape }}',
                     'moreCustomForms':        '{{ 'more.custom_forms'|trans|trim|escape }}',
+                    'form.field.invalid':     '{{ 'form.field.invalid'|trans|trim|escape }}',
                     'documentEditDialogSubmit':        '{{ 'documentEditDialog.submit'|trans|trim|escape }}',
                     'documentEditDialogCancel':        '{{ 'documentEditDialog.cancel'|trans|trim|escape }}',
                     'documentEditDialogEdit':        '{{ 'documentEditDialog.edit'|trans|trim|escape }}',

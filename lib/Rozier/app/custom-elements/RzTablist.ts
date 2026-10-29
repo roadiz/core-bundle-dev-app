@@ -8,6 +8,20 @@ export default class RzTablist extends HTMLElement {
         this.onTabClick = this.onTabClick.bind(this)
     }
 
+    setTabVisibilityFromElement(element: HTMLElement) {
+        const panel = element.closest('.rz-tabpanel')
+        const panelId = panel?.id
+        const tab = this.querySelector(
+            `.${this.tabClassName}[aria-controls="${panelId}"]`,
+        ) as HTMLElement | null
+
+        if (tab) {
+            this.tabElements.forEach((tabElement) => {
+                this.toggleTabVisibility(tabElement, tabElement === tab)
+            })
+        }
+    }
+
     toggleTabVisibility(tab: HTMLElement, selected: boolean) {
         const panelId = tab.getAttribute('aria-controls')
         const panel = panelId ? document.getElementById(panelId) : null

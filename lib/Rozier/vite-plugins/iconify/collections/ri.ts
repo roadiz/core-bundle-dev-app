@@ -142,9 +142,11 @@ export default [
     'stack-line',
     'star-line',
     'subtract-line',
+    'suitcase-line',
     'sun-line',
     'survey-line',
     'thumb-up-line',
+    'ticket-line',
     'translate-ai-2',
     'translate-ai',
     'translate',
@@ -157,4 +159,6 @@ export default [
     'youtube-fill',
     'zoom-in-line',
     'zoom-out-line',
+    'smartphone-line',
+    'tablet-line',
 ]

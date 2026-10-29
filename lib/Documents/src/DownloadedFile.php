@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\NoPrivateNetworkHttpClient;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class DownloadedFile extends File
 {
@@ -66,9 +69,17 @@ class DownloadedFile extends File
     public static function fromUrl(string $url, ?string $originalName = null): ?DownloadedFile
     {
         try {
+            if (!self::isSafeRemoteScheme($url)) {
+                return null;
+            }
+
             $baseName = static::sanitizeFilename(pathinfo($url, PATHINFO_BASENAME));
-            $distantResource = fopen($url, 'r');
-            if (false === $distantResource) {
+            $client = static::createHttpClient();
+            $response = $client->request('GET', $url, [
+                'max_redirects' => 3,
+                'timeout' => 10,
+            ]);
+            if (200 !== $response->getStatusCode()) {
                 return null;
             }
 
@@ -80,9 +91,15 @@ class DownloadedFile extends File
             if (false === $localResource) {
                 throw new \RuntimeException('Unable to open local resource.');
             }
-            $result = \stream_copy_to_stream($distantResource, $localResource);
-            if (false === $result) {
-                throw new \RuntimeException('Unable to copy distant stream to local resource.');
+            try {
+                foreach ($client->stream($response) as $chunk) {
+                    fwrite($localResource, $chunk->getContent());
+                }
+                fclose($localResource);
+            } catch (\Throwable $exception) {
+                fclose($localResource);
+                unlink($tmpFile);
+                throw $exception;
             }
 
             $file = new static($tmpFile);
@@ -106,5 +123,40 @@ class DownloadedFile extends File
         }
 
         return null;
+    }
+
+    /**
+     * Any override MUST keep blocking private networks: NoPrivateNetworkHttpClient pins the connection to the
+     * address it validated and re-checks every redirect hop, which is what stops a DNS rebind between the
+     * check and the fetch.
+     */
+    protected static function createHttpClient(): HttpClientInterface
+    {
+        return new NoPrivateNetworkHttpClient(HttpClient::create());
+    }
+
+    /**
+     * Cheap pre-flight, before any network call. Non-HTTP schemes must be rejected here because Symfony
+     * HttpClient throws an InvalidArgumentException — not a RuntimeException — on file:// and php:// URLs.
+     *
+     * Private-address filtering is deliberately NOT done here: resolving the host up front cannot bind the
+     * socket to what it validated (CVE-2026-33486 follow-up). NoPrivateNetworkHttpClient pins the connection
+     * to the address it checked and re-checks every redirect hop, so it owns that responsibility.
+     */
+    private static function isSafeRemoteScheme(string $url): bool
+    {
+        $parts = parse_url($url);
+        if (false === $parts) {
+            return false;
+        }
+
+        if (!\in_array(strtolower((string) ($parts['scheme'] ?? '')), ['http', 'https'], true)) {
+            return false;
+        }
+
+        $host = strtolower((string) ($parts['host'] ?? ''));
+
+        // Short-circuit localhost so we never pay a pointless DNS lookup for a host that can only be blocked.
+        return '' !== $host && 'localhost' !== $host && !str_ends_with($host, '.localhost');
     }
 }

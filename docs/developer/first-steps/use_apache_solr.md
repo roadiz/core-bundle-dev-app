@@ -53,28 +53,58 @@ nelmio_solarium:
             adapter_timeout: 5
 ```
 
+Then configure fuzzy search options in `config/packages/roadiz_solr.yaml`:
+
+```yaml
+# config/packages/roadiz_solr.yaml
+roadiz_solr:
+    search:
+        fuzzy_proximity: 2
+        fuzzy_min_term_length: 3
+```
+
 You can use Solr in 2 ways: as a core or as a collection:
 - If you are using Solr as a single core, you can set the `SOLR_CORE_NAME` environment variable.
 - If you are using _SolrCloud mode_, you can set the `SOLR_COLLECTION_NAME`
 
+Fuzzy search options are configured in `roadiz_solr.search`.
+For backward compatibility, `roadiz_core.solr.search` is still read as a fallback during migration.
+
 ::: info
-When using _SolrCloud mode_ you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and 
-`SOLR_COLLECTION_REPLICATION_FACTOR` variables to configure your collection and execute
-`solr:init` command to create the collection.
+When using _SolrCloud mode_ you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and
+`SOLR_COLLECTION_REPLICATION_FACTOR` variables to configure your collection.
+:::
+
+::: warning
+In both modes, run `bin/console solr:init` then `bin/console solr:reindex` on each environment's first deployment.
+`solr:init` creates the SolrCloud collection and configures the Solr schema (French stemmer, ASCII folding, date ranges).
+It is not run automatically: see [Initializing the Solr schema](../optional-bundles/solr-bundle.md#initializing-the-solr-schema)
+for when to run it again.
 :::
 
 ### Register an API operation for search
 
-Add `api_nodes_sources_search` API operation to expose `NodesSourcesSearchController`
+Expose `NodesSourcesSearchController` at `/api/search` through the virtual,
+read-only `SearchResultItem` resource. Each result is serialized with a unique
+skolem IRI (`/.well-known/genid/...`) and the matched entity is nested under the
+`item` property, alongside its `highlighting`.
+
 ```yaml
-# config/api_resources/nodes_sources.yml
+# config/api_resources/search.yml
 resources:
-    RZ\Roadiz\CoreBundle\Entity\NodesSources:
+    RZ\Roadiz\SolrBundle\SearchResultItem:
+        shortName: SearchResultItem
+        description: 'A single Solr search result, wrapping a matched resource and its highlighting.'
+        types:
+            - SearchResultItem
+        # Virtual, read-only resource: no identifier and no item operation, so each
+        # member is serialized with a unique skolem IRI (`/.well-known/genid/...`).
+        stateless: true
         operations:
-            api_nodes_sources_search:
+            search_collection:
                 class: ApiPlatform\Metadata\GetCollection
                 method: 'GET'
-                uriTemplate: '/nodes_sources/search'
+                uriTemplate: '/search'
                 controller: RZ\Roadiz\SolrBundle\Controller\NodesSourcesSearchController
                 read: false
                 normalizationContext:
@@ -90,6 +120,8 @@ resources:
                     summary: Search NodesSources resources
                     description: |
                         Search all website NodesSources resources using **Solr** full-text search engine
+                    tags:
+                        - Search
                     parameters:
                         -   type: string
                             name: search
@@ -98,7 +130,37 @@ resources:
                             description: Search pattern
                             schema:
                                 type: string
+                        -   name: tag_name
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more visible tag names.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
+                        -   name: node_type
+                            in: query
+                            required: false
+                            description: |
+                                Filter search results on one or more allowlisted node types.
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            style: form
+                            explode: true
 ```
+
+::: tip
+The endpoint returns embedded `facets` and accepts `tag_name` / `node_type`
+filter params. Only published content is returned by default (previewers also see
+draft, pending and embargoed content). See the
+[Solr Bundle](../optional-bundles/solr-bundle.md) documentation for the full
+faceting and filtering reference.
+:::
 
 ### Register a Monolog handler
 
@@ -236,5 +298,5 @@ If you want to add/remove fields and update filters during `solr:init` command, 
 An abstract subscriber is provided in the bundle to provide helper methods to add fields and filters: `RZ\Roadiz\SolrBundle\EventListener\AbstractSolrInitializationSubscriber`.
 
 ::: tip
-You can take a look at the `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationSubscriber` class to see how to extend Solr configuration.
+You can take a look at the `RZ\Roadiz\SolrBundle\EventListener\DefaultSolrInitializationFieldsSubscriber` class to see how to extend Solr configuration.
 :::

@@ -1,13 +1,13 @@
 ARG UID=1000
 ARG GID=${UID}
 
-ARG PHP_VERSION=8.5.1
-ARG MYSQL_VERSION=8.4.7
-ARG NGINX_VERSION=1.28.1
-ARG MARIADB_VERSION=11.8.3
-ARG VARNISH_VERSION=7.7.3
-ARG COMPOSER_VERSION=2.9.2
-ARG NODE_VERSION=22.19.0
+ARG PHP_VERSION=8.3.33
+ARG MYSQL_VERSION=8.4.11
+ARG NGINX_VERSION=1.30.4
+ARG MARIADB_VERSION=11.8.9
+ARG VARNISH_VERSION=8.0.2
+ARG COMPOSER_VERSION=2.10.2
+ARG NODE_VERSION=22.23.2
 ARG PHP_EXTENSION_REDIS_VERSION=6.3.0
 
 ###########
@@ -83,6 +83,7 @@ apt-get --quiet --yes --purge --autoremove upgrade
 # Packages - System
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     less \
+    git \
     ffmpeg
 rm -rf /var/lib/apt/lists/*
 
@@ -235,6 +236,10 @@ RUN ln -sf ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini
 COPY --link docker/php/conf.d/app.dev.ini   ${PHP_INI_DIR}/conf.d/zz-app.ini
 COPY --link docker/php/fpm.d/www.dev.conf   ${PHP_INI_DIR}-fpm.d/zz-www.conf
 
+# Coverage driver for `vendor/bin/phpunit` (matches CI's shivammathur/setup-php default);
+# off by default, enabled per-run via XDEBUG_MODE=coverage (see `make phpunit`)
+RUN install-php-extensions xdebug
+
 # Entrypoint
 COPY --link --chmod=755 docker/php/docker-entrypoint.dev /usr/local/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]
@@ -354,7 +359,8 @@ corepack enable pnpm
 pnpm install --config.platform=linux --config.architecture=x64
 EOF
 
-CMD ["pnpm", "dev", "--host", "0.0.0.0"]
+# Run vite directly (not through pnpm) so SIGTERM reaches it and manifest.dev.json is cleaned up
+CMD ["node_modules/.bin/vite"]
 
 
 ####################

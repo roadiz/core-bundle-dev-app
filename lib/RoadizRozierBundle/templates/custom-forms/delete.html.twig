@@ -1,6 +1,13 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.customForm.%name%"|trans({'%name%': item.displayName}),
     'headPath': '@RoadizRozier/custom-forms/head.html.twig',
+    'breadcrumb_parents': [
+        breadcrumb_root('customForms'),
+        {
+            label: item.displayName,
+            url: path('customFormsEditPage', { id: item.id }),
+        },
+    ],
     'cancelPath': path('customFormsHomePage'),
     'alertMessage': 'are_you_sure.delete.customForm'|trans,
     'form': form,

@@ -40,6 +40,8 @@ final class NodeType implements NodeTypeInterface, \Stringable
     private bool $visible = true;
     #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
     private bool $publishable = false;
+    #[SymfonySerializer\Groups(['node_type', 'node_type:import']),]
+    private bool $unpublishable = false;
 
     /**
      * @var bool define if this node-type produces nodes that will have attributes
@@ -150,6 +152,19 @@ final class NodeType implements NodeTypeInterface, \Stringable
     public function setPublishable(bool $publishable): NodeType
     {
         $this->publishable = $publishable;
+
+        return $this;
+    }
+
+    #[\Override]
+    public function isUnpublishable(): bool
+    {
+        return $this->unpublishable;
+    }
+
+    public function setUnpublishable(bool $unpublishable): NodeType
+    {
+        $this->unpublishable = $unpublishable;
 
         return $this;
     }

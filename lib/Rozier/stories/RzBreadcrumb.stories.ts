@@ -1,127 +1,117 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 
-const COMPONENT_CLASS_NAME = 'rz-breadcrumb'
+import {
+    type BreadcrumbArgs,
+    rzBreadcrumbRenderer,
+} from '~/utils/storybook/renderer/rzBreadcrumb'
 
-type BreadcrumbItem = {
-    innerText?: string
-    attributes?: Record<string, string>
-    children?: BreadcrumbItem[]
-    id?: string
-}
-
-type Args = {
-    items: BreadcrumbItem[]
-    ariaLabel: string
-}
+export type Args = BreadcrumbArgs
 
 const meta: Meta<Args> = {
     title: 'Components/Breadcrumb',
     tags: ['autodocs'],
+    render: (args) => rzBreadcrumbRenderer(args),
     args: {
-        ariaLabel: "Fil d'arianne principal",
-        items: [
-            { innerText: 'Home', attributes: { href: '#' } },
-            { innerText: 'Category', attributes: { href: '#' } },
-            { innerText: 'Subcategory', attributes: { href: '#' } },
-            {
-                innerText: 'Current Page',
-                attributes: { 'aria-current': 'page' },
-            },
+        ariaLabel: 'Breadcrumb',
+        overflowLabel: 'Show hidden breadcrumb levels',
+        parents: [
+            { label: 'All nodes', url: '#' },
+            { label: 'Home', url: '#' },
+            { label: 'Category', url: '#' },
         ],
+        current: 'Current page',
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
-function itemRenderer(item: BreadcrumbItem) {
-    const link = document.createElement(item.attributes?.href ? 'a' : 'span')
-    link.classList.add(`${COMPONENT_CLASS_NAME}__item`)
-    link.innerText = item.innerText || ''
+export const Default: Story = {}
 
-    if (item.attributes) {
-        for (const [key, value] of Object.entries(item.attributes)) {
-            link.setAttribute(key, value)
-        }
-    }
-    return link
-}
-
-function rzBreadcrumbRenderer(args: Args) {
-    const nav = document.createElement('nav')
-    nav.classList.add(COMPONENT_CLASS_NAME)
-    nav.setAttribute('aria-label', args.ariaLabel)
-
-    const ol = document.createElement('ol')
-    ol.classList.add(`${COMPONENT_CLASS_NAME}__list`)
-    nav.appendChild(ol)
-
-    args.items.forEach((item) => {
-        const li = document.createElement('li')
-        li.classList.add(`${COMPONENT_CLASS_NAME}__list-item`)
-        ol.appendChild(li)
-
-        if (item.children && item.children.length > 0) {
-            const popover = document.createElement('rz-popover')
-            popover.setAttribute('data-popover-placement', 'bottom-start')
-            popover.setAttribute('data-popover-offset', '12px')
-            popover.classList.add(`${COMPONENT_CLASS_NAME}__dropdown`)
-
-            const listId = item.id || 'popover-1'
-            const target = document.createElement('button')
-            target.classList.add('rz-button', 'rz-button--xs')
-            target.innerHTML =
-                '<span class="rz-button__icon rz-icon-ri--more-line"></span>'
-            target.setAttribute('popovertarget', listId)
-            popover.appendChild(target)
-
-            const list = document.createElement('div')
-            list.classList.add(`${COMPONENT_CLASS_NAME}__popover-content`)
-            list.id = listId
-            list.setAttribute('popover', 'auto')
-            popover.appendChild(list)
-
-            item.children.forEach((item) => {
-                const itemElement = itemRenderer(item)
-                list.appendChild(itemElement)
-            })
-
-            li.appendChild(popover)
-        } else {
-            const itemElement = itemRenderer(item)
-            li.appendChild(itemElement)
-        }
-    })
-
-    return nav
-}
-
-export const Default: Story = {
-    render: (args) => {
-        return rzBreadcrumbRenderer(args)
-    },
-}
-
-export const WithPopover: Story = {
-    render: (args) => {
-        return rzBreadcrumbRenderer(args)
-    },
+/** Past six ancestors the levels after the root fold into a popover, so a deep node tree stays on one line. */
+export const Collapsed: Story = {
     args: {
-        items: [
-            { innerText: 'Home', attributes: { href: '#' } },
-            { innerText: 'Category', attributes: { href: '#' } },
-            { innerText: 'Subcategory', attributes: { href: '#' } },
-            {
-                id: 'more-children-hidden',
-                children: [
-                    { innerText: 'Hidden item 1', attributes: { href: '#' } },
-                    { innerText: 'Hidden item 2', attributes: { href: '#' } },
-                ],
-            },
-            {
-                innerText: 'Current Page',
-                attributes: { 'aria-current': 'page', href: '#' },
-            },
+        parents: [
+            { label: 'All nodes', url: '#' },
+            { label: 'Home', url: '#' },
+            { label: 'Category', url: '#' },
+            { label: 'Subcategory', url: '#' },
+            { label: 'Sub-subcategory', url: '#' },
+            { label: 'Deeper', url: '#' },
+            { label: 'Deeper still', url: '#' },
+            { label: 'Deepest', url: '#' },
         ],
+    },
+}
+
+/** Server-side truncation caps each label, the trail still has to survive a narrow viewport. */
+export const LongLabels: Story = {
+    args: {
+        parents: [
+            { label: 'All nodes', url: '#' },
+            { label: 'A page whose title goes on and on and on […]', url: '#' },
+        ],
+        current: 'Another remarkably long page title […]',
+    },
+}
+
+const nextFrame = () => new Promise(requestAnimationFrame)
+
+/**
+ * Drag the resize handle: levels fold into the popover as the row narrows and come back as it
+ * widens, up to the six the server left inline. The trail never wraps.
+ */
+export const Responsive: Story = {
+    args: {
+        parents: [
+            { label: 'All nodes', url: '#' },
+            { label: 'Home', url: '#' },
+            { label: 'Category', url: '#' },
+            { label: 'Subcategory', url: '#' },
+            { label: 'Sub-subcategory', url: '#' },
+            { label: 'Deeper', url: '#' },
+        ],
+    },
+    decorators: [
+        (story) => {
+            const container = document.createElement('div')
+            container.style.cssText =
+                'display: flex; resize: horizontal; overflow: hidden; width: 480px; max-width: 100%; padding: 8px; border: 1px dashed #ccc;'
+            container.appendChild(story() as HTMLElement)
+
+            return container
+        },
+    ],
+    play: async ({ canvasElement, args }) => {
+        await nextFrame()
+        await nextFrame()
+
+        const trail = Array.from(
+            canvasElement.querySelectorAll<HTMLElement>(
+                '.rz-breadcrumb__list > .rz-breadcrumb__list-item:not(.rz-overflow-list)',
+            ),
+        )
+        const labels = trail.map((li) => li.textContent?.trim())
+        const expected = [
+            args.parents[0].label,
+            args.parents[args.parents.length - 1].label,
+            args.current,
+        ]
+        for (const label of expected) {
+            if (!labels.includes(label)) {
+                throw new Error(`"${label}" must stay in the trail`)
+            }
+        }
+        // The current page is not an ancestor.
+        if (trail.length - 1 > 6) {
+            throw new Error(
+                `${trail.length - 1} ancestors on screen, 6 at most`,
+            )
+        }
+        for (const li of trail) {
+            if (li.scrollWidth > li.clientWidth + 1) {
+                throw new Error(`"${li.textContent?.trim()}" is squeezed`)
+            }
+        }
     },
 }

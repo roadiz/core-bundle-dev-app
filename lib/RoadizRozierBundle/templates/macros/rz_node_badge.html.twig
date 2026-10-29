@@ -1,7 +1,13 @@
 {% macro item(type = 'unknown', display_label = true, badgeOptions = {}) %}
     {% set default_options = { size: 'sm'}|merge(badgeOptions) %}
 
-    {% if type == 'not-published-yet' %}
+
+    {% if type == 'home' %}
+        {% set type_options = {
+            label: 'node.home'|trans,
+            icon: 'rz-icon-ri--home-2-fill',
+        } %}
+    {% elseif type == 'not-published-yet' %}
         {% set type_options = {
             label: 'not_published_yet'|trans,
             icon: 'rz-icon-ri--history-line',
@@ -122,6 +128,10 @@
 
 {% macro parameters(node, options = { display_label: true }, badgeOptions = {}) %}
 
+
+    {% if node.isHome == true %}
+        {{ _self.item('home', options.display_label, badgeOptions) }}
+    {% endif %}
 
     {% if node.isVisible == false %}
         {{ _self.item('hidden', options.display_label, badgeOptions) }}

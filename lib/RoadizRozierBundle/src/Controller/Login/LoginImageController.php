@@ -62,7 +62,7 @@ final class LoginImageController extends AbstractController
         }
 
         return $response->setData([
-            'url' => $url ?? '/themes/Rozier/static/assets/img/default_login.jpg',
+            'url' => $url ?? '/bundles/roadizrozier/default_login.jpg',
         ]);
     }
 }
