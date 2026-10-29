@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\Documents\Repository\DocumentRepositoryInterface;
@@ -731,6 +732,42 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
     }
 
     /**
+     * DocumentDto select without node-source data, translated fields from the `dt` join
+     * with a whole-row fallback on the `dtd` (default translation) join, like DocumentEnricher.
+     */
+    private function getTranslatedDocumentDtoSelect(): string
+    {
+        return sprintf(
+            'NEW %s(
+                    d.id,
+                    d.filename,
+                    d.mimeType,
+                    d.private,
+                    d.raw,
+                    d.imageWidth,
+                    d.imageHeight,
+                    d.mediaDuration,
+                    d.embedId,
+                    d.embedPlatform,
+                    d.imageAverageColor,
+                    d.folder,
+                    d.imageCropAlignment,
+                    d.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.name ELSE dtd.name END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.description ELSE dtd.description END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.copyright ELSE dtd.copyright END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.externalUrl ELSE dtd.externalUrl END,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
+                )',
+            DocumentDto::class
+        );
+    }
+
+    /**
      * DocumentDto select without node-source and translation data.
      */
     private function getDocumentDtoSelect(): string
@@ -766,16 +803,23 @@ class DocumentRepository extends EntityRepository implements DocumentRepositoryI
     }
 
     /**
+     * Translated fields come from $translation, falling back to the default translation.
+     *
      * @throws NonUniqueResultException
      */
     public function findFirstThumbnailDtoBy(
         int|string $originalDocumentId,
+        ?TranslationInterface $translation = null,
     ): ?DocumentDto {
         $qb = $this->createQueryBuilder('d');
-        $qb->select($this->getDocumentDtoSelect())
+        $qb->select($this->getTranslatedDocumentDtoSelect())
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->leftJoin(Translation::class, 'td', 'WITH', 'td.defaultTranslation = true')
+            ->leftJoin('d.documentTranslations', 'dtd', 'WITH', 'dtd.translation = td')
             ->andWhere($qb->expr()->eq('d.original', ':original'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)
+            ->setParameter('translation', $translation)
             ->setParameter('raw', false)
             ->setParameter('nullValue', null)
             ->setMaxResults(1)

@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.54](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.53...v2.7.54) - 2026-10-29
+
+### Bug Fixes
+
+- **(serializer)** translate DTO thumbnail fields ([#547](https://github.com/roadiz/core-bundle-dev-app/issues/547)) - ([6f6f4d8](https://github.com/roadiz/core-bundle-dev-app/commit/6f6f4d8955ec5c4264b5dee383049397fdec5a44))
+
 ## [2.7.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.52...v2.7.53) - 2026-10-27
 
 ### Bug Fixes
