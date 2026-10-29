@@ -30,7 +30,15 @@ The light or dark appearance of the backoffice. A zone is not done until both th
 _Avoid_: Dark mode (when meaning both themes)
 
 **Story**:
-The Storybook entry documenting a component and its states.
+The Storybook entry documenting a foundation, a component or a pattern, and its states.
+
+**Foundation**:
+A base of the design system shown on its own rather than as a component: colors, typography, icons.
+_Avoid_: Integration, base styles
+
+**Pattern**:
+A whole screen or a layout region of the backoffice, documented as an assembly of components (login screen, dashboard, application layout, menu bar). A building block reused across several screens is a component, not a pattern.
+_Avoid_: Integration, template, page
 
 ## Redesign process
 

@@ -36,10 +36,13 @@ Rozier has no automated tests, so every change is verified through this loop
 1. Run `docker compose up node` and check the change live on the backoffice
    (HMR, see the README "Backoffice frontend development" section), in both
    light and dark themes.
-2. Add or update the component's Storybook story (`docker compose up storybook`).
+2. Add or update the component's Storybook story (`docker compose up storybook`),
+   following [`storybook.md`](storybook.md).
 3. Compare with the matching Figma section when one exists.
 4. Before opening the PR: `docker compose run --rm node pnpm lint` and
-   `docker compose run --rm node pnpm build` pass.
+   `docker compose run --rm node pnpm build` pass, and so does
+   `docker compose run --rm node pnpm build-storybook` when the change touches
+   stories or renderers.
 
 Edit sources only; `lib/RoadizRozierBundle/public/` holds build output.
 
