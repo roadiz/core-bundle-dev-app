@@ -136,6 +136,12 @@ If your backoffice is not reachable on `localhost`, set the URL the browser must
 
 Note: `./lib/Rozier` is mounted over the container's `/app`, so `lib/Rozier/node_modules` must exist on the host (`make build_assets` installs them).
 
+To check that the build passes without touching the committed assets in `lib/RoadizRozierBundle/public/`, build into `/tmp`:
+
+```shell
+docker compose run --rm node pnpm build:check
+```
+
 Do not forget to build final assets for production before shipping a new Roadiz version:
 
 ```shell

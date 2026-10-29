@@ -62,7 +62,8 @@ Environment notes
 
 Frontend and docs commands
 - Backoffice dev server (Docker): `docker compose up node`.
-- Backoffice build (Docker): `docker compose run --rm node pnpm build`.
+- Backoffice build check (Docker): `docker compose run --rm node pnpm build:check` (builds into `/tmp`, leaves `lib/RoadizRozierBundle/public/` untouched; use it to verify a change).
+- Backoffice build (Docker): `docker compose run --rm node pnpm build` (only to update the committed assets).
 - Backoffice dev (local): `cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev`.
 - Docs dev server (Docker): `docker compose up vitepress`.
 - Docs dev (local): `cd docs && corepack enable && pnpm install && pnpm docs:dev`.

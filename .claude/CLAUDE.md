@@ -55,7 +55,8 @@ make update           # Non-interactive migrations + fixtures
 **Frontend (Rozier admin UI):**
 ```bash
 docker compose up node                    # Dev server (HMR on port 5173)
-docker compose run --rm node pnpm build   # Build assets
+docker compose run --rm node pnpm build:check   # Check the build, writes to /tmp only
+docker compose run --rm node pnpm build   # Build assets into lib/RoadizRozierBundle/public/
 # Local: cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev
 ```
 
