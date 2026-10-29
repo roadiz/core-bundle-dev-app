@@ -72,6 +72,10 @@ export default class RzTree extends HTMLElement {
             'requestAllNodeTreeChange',
             this.onRequestAllNodeTreeChange,
         )
+        window.addEventListener(
+            'requestAllNodeTreeRefresh',
+            this.onRequestAllNodeTreeChange,
+        )
     }
 
     disconnectedCallback() {
@@ -82,9 +86,16 @@ export default class RzTree extends HTMLElement {
             'requestAllNodeTreeChange',
             this.onRequestAllNodeTreeChange,
         )
+        window.removeEventListener(
+            'requestAllNodeTreeRefresh',
+            this.onRequestAllNodeTreeChange,
+        )
     }
 
     onRequestAllNodeTreeChange() {
+        // Tag and folder trees would be replaced by a node tree response
+        if (this.entityType && this.entityType !== 'node') return
+
         this.refreshNodeTree()
     }
 
@@ -281,15 +292,16 @@ export default class RzTree extends HTMLElement {
                         nextTree.setAttribute(attr.name, attr.value)
                     })
 
+                    // nextTree binds its own expand buttons in connectedCallback
                     this.replaceWith(nextTree)
                     await fadeIn(nextTree)
                 } else {
                     this.innerHTML = data.nodeTree
                     this.rootNode = this.querySelector('[role="tree"]')
+                    this.bindExpandButtonsId()
                     await fadeIn(this)
                 }
 
-                this.bindExpandButtonsId()
                 window.Rozier?.lazyload?.bindAjaxLink?.()
             }
         } catch (error) {

@@ -12,9 +12,9 @@ export default class Rozier {
 
     onDocumentReady(): void
     bindMainTrees(): void
-    refreshMainNodeTree(translationId?: number): Promise<void> | void
-    refreshMainTagTree(translationId?: number): Promise<void> | void
-    refreshMainFolderTree(translationId?: number): Promise<void> | void
+    refreshMainNodeTree(translationId?: string): Promise<void> | void
+    refreshMainTagTree(translationId?: string): Promise<void> | void
+    refreshMainFolderTree(translationId?: string): Promise<void> | void
     getMessages(): Promise<void>
     resize(): void
 }

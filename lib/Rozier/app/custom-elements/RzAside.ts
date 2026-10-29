@@ -9,6 +9,7 @@ export default class RzAside extends HTMLElement {
         super()
 
         this.onPageShowEnd = this.onPageShowEnd.bind(this)
+        this.onMainTreeRefresh = this.onMainTreeRefresh.bind(this)
         this.onCommand = this.onCommand.bind(this)
     }
 
@@ -23,11 +24,19 @@ export default class RzAside extends HTMLElement {
             'data-default-translation-id',
         )
         window.addEventListener('pageshowend', this.onPageShowEnd)
+        window.addEventListener(
+            'requestMainTreeRefresh',
+            this.onMainTreeRefresh,
+        )
         this.addEventListener('command', this.onCommand)
     }
 
     disconnectedCallback() {
         window.removeEventListener('pageshowend', this.onPageShowEnd)
+        window.removeEventListener(
+            'requestMainTreeRefresh',
+            this.onMainTreeRefresh,
+        )
         this.removeEventListener('command', this.onCommand)
     }
 
@@ -41,6 +50,11 @@ export default class RzAside extends HTMLElement {
 
     private onPageShowEnd() {
         this.refreshAsideMainTree()
+    }
+
+    private onMainTreeRefresh() {
+        // The tree content changed: refresh even if type and translation did not
+        this.refreshAsideMainTree(null, {}, true)
     }
 
     private onLangButtonClick(event: CommandEvent) {
@@ -65,6 +79,7 @@ export default class RzAside extends HTMLElement {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.nodesTreeAjax || null,
             { translationId },
+            true,
         )
     }
 
@@ -72,6 +87,7 @@ export default class RzAside extends HTMLElement {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.tagsTreeAjax || null,
             { translationId },
+            true,
         )
     }
 
@@ -79,21 +95,23 @@ export default class RzAside extends HTMLElement {
         await this.refreshAsideMainTree(
             window.RozierConfig.routes?.foldersTreeAjax || null,
             { translationId },
+            true,
         )
     }
 
     async refreshAsideMainTree(
         baseUrl: string | null = null,
         query: Record<string, string> = {},
+        force = false,
     ) {
         try {
-            await this.refreshMainTree(baseUrl, query)
+            await this.refreshMainTree(baseUrl, query, force)
         } catch {
             console.debug(
                 '[RzAside.refreshAsideMainTree] Retrying in 3 seconds',
             )
             await sleep(3000)
-            await this.refreshMainTree(baseUrl, query)
+            await this.refreshMainTree(baseUrl, query, force)
         }
 
         window.dispatchEvent(new CustomEvent('requestLoaderHide'))
@@ -142,6 +160,7 @@ export default class RzAside extends HTMLElement {
     async refreshMainTree(
         baseUrl?: string | null,
         queryOptions: Record<string, string> = {},
+        force = false,
     ) {
         const options = {
             _token: window.RozierConfig.ajaxToken,
@@ -187,11 +206,11 @@ export default class RzAside extends HTMLElement {
             data?.['tree']
 
         if (data && typeof treeHTML !== 'undefined') {
-            // refresh only when new tree will be diferent (translation or type changed)
+            // Unless forced, refresh only when the tree type or translation changed
             const isSameType = data.tree_type === this.entityType
             const isSameTranslation =
                 translationId === this.currentTranslationId
-            if (isSameType && isSameTranslation) {
+            if (!force && isSameType && isSameTranslation) {
                 return
             }
 

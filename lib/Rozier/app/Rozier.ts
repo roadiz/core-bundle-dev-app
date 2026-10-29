@@ -49,9 +49,11 @@ export default class Rozier {
         return document.querySelector('rz-aside') as RzAside | null
     }
 
-    bindMainTrees() {
-        // this.getAsideElement()?.bindMainTrees?.()
-    }
+    /**
+     * No-op: rz-tree elements bind themselves when connected.
+     * Kept for legacy callers (Lazyload, StackNodeTree).
+     */
+    bindMainTrees() {}
 
     refreshMainNodeTree(translationId?: string) {
         return this.getAsideElement()?.refreshMainNodeTree?.(translationId)

@@ -343,6 +343,8 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
                 window.dispatchEvent(
                     new CustomEvent('requestAllNodeTreeChange'),
                 )
+                // Show the flash messages the action stored in session
+                window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
                 return data
             }
         } catch (error) {
