@@ -14,6 +14,8 @@
 ## ⚠ Twig breaking changes
 
 - Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
+- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `widgets/rz_tree_wrapper_auto.html.twig`; it now renders node, tag and folder trees alike
+- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `widgets/rz_tree_wrapper_auto.html.twig` instead
 
 For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
 - `content_title`

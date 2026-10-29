@@ -18,11 +18,11 @@ export default class RzAside extends HTMLElement {
     }
 
     connectedCallback() {
-        this.refreshAsideMainTree()
-
         this.currentTranslationId = this.getAttribute(
             'data-default-translation-id',
         )
+        this.refreshAsideMainTree()
+
         window.addEventListener('pageshowend', this.onPageShowEnd)
         window.addEventListener(
             'requestMainTreeRefresh',
@@ -101,7 +101,7 @@ export default class RzAside extends HTMLElement {
 
     async refreshAsideMainTree(
         baseUrl: string | null = null,
-        query: Record<string, string> = {},
+        query: Record<string, string | undefined> = {},
         force = false,
     ) {
         try {
@@ -112,9 +112,9 @@ export default class RzAside extends HTMLElement {
             )
             await sleep(3000)
             await this.refreshMainTree(baseUrl, query, force)
+        } finally {
+            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
         }
-
-        window.dispatchEvent(new CustomEvent('requestLoaderHide'))
     }
 
     async refreshTreeContent(treeHTML = '') {
@@ -152,22 +152,25 @@ export default class RzAside extends HTMLElement {
         return (
             this.getAttribute('data-translation-id') ||
             this.innerElement
-                .querySelector('.rz-tree__list')
+                ?.querySelector('.rz-tree__list')
                 ?.getAttribute('data-translation-id')
         )
     }
 
     async refreshMainTree(
         baseUrl?: string | null,
-        queryOptions: Record<string, string> = {},
+        queryOptions: Record<string, string | undefined> = {},
         force = false,
     ) {
-        const options = {
+        const options: Record<string, string> = {
             _token: window.RozierConfig.ajaxToken,
             _action: 'requestMainTree',
             url: window.location.pathname,
-            ...queryOptions,
         }
+        // Skip undefined values, URLSearchParams would send them as "undefined"
+        Object.entries(queryOptions).forEach(([key, value]) => {
+            if (value !== undefined) options[key] = value
+        })
 
         const translationId =
             queryOptions?.translationId ||

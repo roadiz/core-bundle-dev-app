@@ -19,7 +19,8 @@
 				label: translation.preferredLocale|capitalize,
 			} %}
 
-		{% if tree is defined %}
+		{% set button_attr = {} %}
+		{% if tree %}
 			{% set button_data = button_data|merge({ selected: translation.id == tree.translation.id }) %}
 			{% set button_attr = {
 				'data-translation-id': translation.id,
