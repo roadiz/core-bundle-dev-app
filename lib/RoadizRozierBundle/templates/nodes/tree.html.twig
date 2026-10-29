@@ -48,7 +48,7 @@
     {% endif %}
 
     {% include '@RoadizRozier/nodes/filtersBar.html.twig' with {
-        filters: filters,
+        filters: specificNodeTree.filters,
         tags: tags,
     } only %}
 
@@ -61,18 +61,27 @@
     } only %}
 
     <section class="rz-page__body">
-        <rz-tree
-            class="rz-tree"
-            group="nodeTree"
-            data-entity-type="node"
-            data-is-sortable="{{ specificNodeTree.canReorder ? 'true' : 'false' }}"
-            id="children-stack-{{ specificNodeTree.id ?? node.id ?? 'root' }}"
-        >
-            {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
-                nodeTree: specificNodeTree,
-                node: specificNodeTree.getRootNode,
-            } only %}
-        </rz-tree>
+        {% if specificNodeTree.nodes|length %}
+            <rz-tree
+                class="rz-tree"
+                group="nodeTree"
+                data-entity-type="node"
+                data-stack-tree="true"
+                data-is-sortable="{{ specificNodeTree.canReorder ? 'true' : 'false' }}"
+                id="children-stack-{{ specificNodeTree.id ?? node.id ?? 'root' }}"
+            >
+                {% include '@RoadizRozier/widgets/nodeTree/nodeTree.html.twig' with {
+                    nodeTree: specificNodeTree,
+                    node: specificNodeTree.getRootNode,
+                    isMainTree: false,
+                    layout: 'condensed',
+                } only %}
+            </rz-tree>
+        {% else %}
+            <div class="rz-message">
+                <p class="rz-message__text">{{ 'node_tree.no_nodes_found'|trans }}</p>
+            </div>
+        {% endif %}
     </section>
 
     {% if node %}

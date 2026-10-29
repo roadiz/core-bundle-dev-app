@@ -73,6 +73,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             'node_class',
             'translation_class',
             'document_class',
+            'document_base_class',
             'document_proxy_class',
             'custom_form_class',
             'custom_form_proxy_class',
@@ -85,6 +86,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setAllowedTypes('node_class', 'string');
         $resolver->setAllowedTypes('translation_class', 'string');
         $resolver->setAllowedTypes('document_class', 'string');
+        $resolver->setAllowedTypes('document_base_class', 'string');
         $resolver->setAllowedTypes('document_proxy_class', 'string');
         $resolver->setAllowedTypes('custom_form_class', 'string');
         $resolver->setAllowedTypes('custom_form_proxy_class', 'string');
@@ -101,6 +103,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setNormalizer('node_class', $normalizeClassName);
         $resolver->setNormalizer('translation_class', $normalizeClassName);
         $resolver->setNormalizer('document_class', $normalizeClassName);
+        $resolver->setNormalizer('document_base_class', $normalizeClassName);
         $resolver->setNormalizer('document_proxy_class', $normalizeClassName);
         $resolver->setNormalizer('custom_form_class', $normalizeClassName);
         $resolver->setNormalizer('custom_form_proxy_class', $normalizeClassName);
@@ -320,12 +323,96 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->setBody('return '.($this->nodeType->isPublishable() ? 'true' : 'false').';')
         ;
 
+        $classType->addMethod('isUnpublishable')
+            ->addComment('$this->nodeType->isUnpublishable() proxy.')
+            ->addComment('@return bool Does this nodeSource is unpublishable with date and time?')
+            ->addAttribute(\Override::class)
+            ->setReturnType('bool')
+            ->setBody('return '.($this->nodeType->isUnpublishable() ? 'true' : 'false').';')
+        ;
+
         $classType->addMethod('__toString')
             ->setReturnType('string')
             ->addAttribute(\Override::class)
             ->setBody('return \'['.$this->nodeTypeClassLocator->getSourceEntityClassName($this->nodeType).'] \' . parent::__toString();')
         ;
 
+        $this->addMetaDescriptionFallbackMethod($classType);
+        $this->addShareImageMethod($classType);
+
         return $this;
+    }
+
+    /**
+     * Override getMetaDescriptionOrFallback to fall back on a text field flagged
+     * as "metaDescriptionFallback" when the stored meta-description is empty.
+     *
+     * This intentionally does NOT override getMetaDescription() itself: that
+     * raw getter is used by the admin SEO form and its setter round-trip, so
+     * exposing a computed value there would persist the fallback into the real
+     * meta-description column on save.
+     *
+     * The flag lives on the concrete NodeTypeField (not the contracts
+     * interface), so it is read here by duck typing to avoid coupling this
+     * split package to roadiz/core-bundle.
+     */
+    private function addMetaDescriptionFallbackMethod(ClassType $classType): void
+    {
+        $fallbackGetter = null;
+        foreach ($this->nodeType->getFields() as $field) {
+            if (method_exists($field, 'isMetaDescriptionFallback') && $field->isMetaDescriptionFallback()) {
+                $fallbackGetter = $field->getGetterName();
+                break;
+            }
+        }
+
+        if (null === $fallbackGetter) {
+            return;
+        }
+
+        $classType->addMethod('getMetaDescriptionOrFallback')
+            ->setReturnType('string')
+            ->addAttribute(\Override::class)
+            ->setBody(
+                "\$metaDescription = \$this->getMetaDescription();\n"
+                ."if ('' !== \$metaDescription) {\n"
+                ."    return \$metaDescription;\n"
+                ."}\n\n"
+                .'return (string) ($this->'.$fallbackGetter."() ?? '');"
+            )
+        ;
+    }
+
+    /**
+     * Override getShareImage to return the first document of a documents field
+     * flagged as "shareImage", exposing it as the node-source share-image
+     * (Open Graph / social image).
+     *
+     * The flag lives on the concrete NodeTypeField (not the contracts
+     * interface), so it is read here by duck typing; and the return type is
+     * taken from the injected "document_base_class" option rather than a
+     * hard-coded FQCN, to avoid coupling this split package to the Documents
+     * (and core-bundle) layers.
+     */
+    private function addShareImageMethod(ClassType $classType): void
+    {
+        $shareImageGetter = null;
+        foreach ($this->nodeType->getFields() as $field) {
+            if (method_exists($field, 'isShareImage') && $field->isShareImage()) {
+                $shareImageGetter = $field->getGetterName();
+                break;
+            }
+        }
+
+        if (null === $shareImageGetter) {
+            return;
+        }
+
+        $classType->addMethod('getShareImage')
+            ->setReturnType($this->options['document_base_class'])
+            ->setReturnNullable(true)
+            ->addAttribute(\Override::class)
+            ->setBody('return $this->'.$shareImageGetter.'()[0] ?? null;')
+        ;
     }
 }

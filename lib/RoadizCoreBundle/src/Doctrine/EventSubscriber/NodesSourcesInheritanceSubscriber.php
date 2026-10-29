@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
@@ -74,15 +74,20 @@ final readonly class NodesSourcesInheritanceSubscriber
                     ['columns' => ['discr']],
                     ['columns' => ['title']],
                     ['columns' => ['published_at']],
+                    'ns_unpublished_at' => ['columns' => ['unpublished_at']],
                     'ns_no_index' => ['columns' => ['no_index']],
                     'ns_node_translation_published' => ['columns' => ['node_id', 'translation_id', 'published_at']],
+                    'ns_node_translation_unpublished' => ['columns' => ['node_id', 'translation_id', 'unpublished_at']],
                     'ns_node_discr_translation' => ['columns' => ['node_id', 'discr', 'translation_id']],
                     'ns_node_discr_translation_published' => ['columns' => ['node_id', 'discr', 'translation_id', 'published_at']],
+                    'ns_node_discr_translation_unpublished' => ['columns' => ['node_id', 'discr', 'translation_id', 'unpublished_at']],
                     'ns_translation_published' => ['columns' => ['translation_id', 'published_at']],
                     'ns_discr_translation' => ['columns' => ['discr', 'translation_id']],
                     'ns_discr_translation_published' => ['columns' => ['discr', 'translation_id', 'published_at']],
+                    'ns_discr_translation_unpublished' => ['columns' => ['discr', 'translation_id', 'unpublished_at']],
                     'ns_title_published' => ['columns' => ['title', 'published_at']],
                     'ns_title_translation_published' => ['columns' => ['title', 'translation_id', 'published_at']],
+                    'ns_title_translation_unpublished' => ['columns' => ['title', 'translation_id', 'unpublished_at']],
                 ],
                 'uniqueConstraints' => [
                     ['columns' => ['node_id', 'translation_id']],
@@ -90,9 +95,9 @@ final readonly class NodesSourcesInheritanceSubscriber
             ];
 
             if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
-                $metadata->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
+                $metadata->setInheritanceType(ClassMetadata::INHERITANCE_TYPE_JOINED);
             } elseif (Configuration::INHERITANCE_TYPE_SINGLE_TABLE === $this->inheritanceType) {
-                $metadata->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE);
+                $metadata->setInheritanceType(ClassMetadata::INHERITANCE_TYPE_SINGLE_TABLE);
                 /*
                  * If inheritance type is single table, we need to set indexes on parent class: NodesSources
                  */

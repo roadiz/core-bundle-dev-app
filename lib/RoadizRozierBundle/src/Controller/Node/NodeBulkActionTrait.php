@@ -64,7 +64,7 @@ trait NodeBulkActionTrait
 
         $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($nodesIds);
+        $nodesIds = array_filter($nodesIds);
 
         /** @var Node[] $nodes */
         $nodes = $this->allStatusesNodeRepository->findBy([
@@ -75,10 +75,8 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
-            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkDeleteForm(
@@ -109,9 +107,10 @@ trait NodeBulkActionTrait
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $cancelPath,
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('nodes')],
             'alertMessage' => 'are_you_sure.delete.these.nodes',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $nodes,
         ]);
     }
 
@@ -126,7 +125,7 @@ trait NodeBulkActionTrait
 
         $nodesIds = trim((string) $request->get('statusForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($nodesIds);
+        $nodesIds = array_filter($nodesIds);
 
         /** @var Node[] $nodes */
         $nodes = $this->allStatusesNodeRepository
@@ -175,6 +174,7 @@ trait NodeBulkActionTrait
             'action_label' => 'change.nodes.status.all',
             'cancelPath' => $cancelPath,
             'messageType' => 'neutral',
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('nodes')],
             'alertMessage' => 'are_you_sure.change-status.these.nodes',
             'form' => $form->createView(),
             'items' => $items,
@@ -213,7 +213,7 @@ trait NodeBulkActionTrait
         if (!empty($data['nodesIds'])) {
             $nodesIds = trim((string) $data['nodesIds']);
             $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-            array_filter($nodesIds);
+            $nodesIds = array_filter($nodesIds);
 
             $nodes = $this->allStatusesNodeRepository
                 ->findBy([
@@ -239,7 +239,7 @@ trait NodeBulkActionTrait
     {
         if (!empty($data['nodesIds'])) {
             $nodesIds = \json_decode((string) $data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
-            array_filter($nodesIds);
+            $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
             $nodes = $this->allStatusesNodeRepository
@@ -266,7 +266,7 @@ trait NodeBulkActionTrait
     {
         /** @var FormBuilder $builder */
         $builder = $this->formFactory
-            ->createNamedBuilder('tagForm', options: ['attr' => ['class' => 'rz-form--horizontal']])
+            ->createNamedBuilder('tagForm')
             ->add('nodesIds', HiddenType::class, [
                 'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [
@@ -286,7 +286,7 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitTag', SubmitType::class, [
-                'label' => null,
+                'label' => false,
                 'attr' => [
                     'is' => 'rz-button',
                     'class' => 'rz-button rz-button--secondary',
@@ -295,7 +295,7 @@ trait NodeBulkActionTrait
                 ],
             ])
             ->add('submitUntag', SubmitType::class, [
-                'label' => null,
+                'label' => false,
                 'attr' => [
                     'is' => 'rz-button',
                     'class' => 'rz-button rz-button--secondary',
@@ -438,7 +438,7 @@ trait NodeBulkActionTrait
 
         $nodesIds = trim((string) $request->get('undeleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($nodesIds);
+        $nodesIds = array_filter($nodesIds);
 
         /** @var Node[] $nodes */
         $nodes = $this->allStatusesNodeRepository->findBy([
@@ -449,10 +449,8 @@ trait NodeBulkActionTrait
             throw new ResourceNotFoundException();
         }
 
-        $items = [];
         foreach ($nodes as $node) {
             $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
-            $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
         $form = $this->buildBulkUndeleteForm(
@@ -470,11 +468,12 @@ trait NodeBulkActionTrait
             'title' => new UnicodeString($this->translator->trans('undelete.nodes')),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesHomePage'),
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('nodes')],
             'alertMessage' => 'are_you_sure.undelete.these.nodes',
             'action_label' => 'undelete.nodes.all',
             'action_icon' => 'rz-icon-ri--device-recover-line',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $nodes,
         ]);
     }
 
@@ -503,7 +502,7 @@ trait NodeBulkActionTrait
         if (!empty($data['nodesIds'])) {
             $nodesIds = trim((string) $data['nodesIds']);
             $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
-            array_filter($nodesIds);
+            $nodesIds = array_filter($nodesIds);
 
             $nodes = $this->allStatusesNodeRepository
                 ->findBy([

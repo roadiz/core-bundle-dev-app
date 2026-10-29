@@ -37,7 +37,7 @@
                             :placeholder="searchPlaceHolder || 'Search...'"
                         />
                     </form>
-                    <button class="rz-button rz-button--primary" @click.prevent="explorerClose">
+                    <button class="rz-button rz-button--secondary" @click.prevent="explorerClose">
                         <span class="rz-button__icon uk-icon-rz-close-explorer"></span>
                     </button>
                 </div>

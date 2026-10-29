@@ -16,7 +16,6 @@
 				'column_ordering_class': column_ordering_class,
 			} only %}
 		</th>
-		<th></th>
 		<th>
 			{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
 				'field': 'closeDate',
@@ -25,6 +24,7 @@
 				'column_ordering_class': column_ordering_class,
 			} only %}
 		</th>
+		<th></th>
 	{% endblock %}
 
 	{% block tbody_content %}
@@ -34,10 +34,10 @@
 				{{ _self.colored_row_attrs({'color': item.color }) }}
 			>
 				{% if selection_available %}
-				<td>
-					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-					{{ rz_bulk.select_input({ value: item.id }) }}
-				</td>
+					<td>
+						{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+						{{ rz_bulk.select_input({ value: item.id }) }}
+					</td>
 				{% endif %}
 				<td>
 					{{ rz_link.root({

@@ -1,4 +1,9 @@
 
+.rz-table-container {
+	/* overflow-x: auto; */
+	max-width: 100%;
+}
+
 .rz-table,
 [is='rz-table'] {
 	width: var(--rz-table-width, 100%);
@@ -176,4 +181,14 @@
 
 .rz-table__cell--muted {
 	color: var(--content-on-light-tertiary, #9a9a9a);
+}
+
+.rz-table__actions {
+    display: flex;
+	gap: var(--spacing-5xs);
+	/* justify-content: flex-end; */
+
+	& > *:first-child {
+		margin-left: auto;
+	}
 }

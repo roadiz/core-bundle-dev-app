@@ -22,6 +22,10 @@
                 <source>User logged in successfully.</source>
                 <target state="final">L'utilisateur s'est connecté avec succès.</target>
             </trans-unit>
+      <trans-unit id="Two-factor authentication code required" xml:space="preserve" approved="yes">
+                <source>Two-factor authentication code required.</source>
+                <target state="final">Un code d'authentification à deux facteurs est requis.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

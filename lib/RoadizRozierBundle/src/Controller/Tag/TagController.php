@@ -17,11 +17,11 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Controller\VersionedControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\TagTranslationType;
 use RZ\Roadiz\RozierBundle\Form\TagType;
@@ -61,8 +61,8 @@ final class TagController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -269,7 +269,7 @@ final class TagController extends AbstractController
 
         $tagsIds = trim((string) $request->get('deleteForm')['tagsIds']);
         $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($tagsIds);
+        $tagsIds = array_filter($tagsIds);
 
         $tags = $this->managerRegistry->getRepository(Tag::class)
             ->findBy([
@@ -299,8 +299,6 @@ final class TagController extends AbstractController
         }
 
         $assignation = [];
-        $assignation['tags'] = $tags;
-        $assignation['form'] = $form->createView();
 
         if (!empty($request->get('deleteForm')['referer'])) {
             $assignation['referer'] = $request->get('deleteForm')['referer'];
@@ -308,18 +306,14 @@ final class TagController extends AbstractController
 
         $title = $this->translator->trans('delete.tags');
 
-        $items = [];
-        foreach ($tags as $tag) {
-            $items[] = $this->explorerItemFactory->createForEntity($tag)->toArray();
-        }
-
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/admin/head.html.twig',
             'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
+            'breadcrumb_parents' => [$this->breadcrumbRoots->get('tags')],
             'alertMessage' => 'are_you_sure.delete.these.tags',
             'form' => $form->createView(),
-            'items' => $items,
+            'items' => $tags,
         ]);
     }
 
@@ -505,10 +499,12 @@ final class TagController extends AbstractController
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('tags', $tag),
             'headPath' => '@RoadizRozier/tags/head.html.twig',
             'cancelPath' => $this->generateUrl('tagsHomePage'),
             'alertMessage' => 'are_you_sure.delete.tag',
             'form' => $form->createView(),
+            'items' => [$tag],
         ]);
     }
 
@@ -667,7 +663,7 @@ final class TagController extends AbstractController
 
         $tagsIds = trim((string) $data['tagsIds']);
         $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
-        array_filter($tagsIds);
+        $tagsIds = array_filter($tagsIds);
 
         $tags = $this->managerRegistry->getRepository(Tag::class)
             ->findBy([

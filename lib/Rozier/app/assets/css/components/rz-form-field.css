@@ -100,7 +100,7 @@ rz-form-field,
     flex-grow: var(--rz-form-field-body-flex-grow, 1);
 
     .rz-form-field--head-hidden & {
-        margin-top: 0;
+        margin-top: var(--rz-form-field-body-margin-top);
     }
 }
 

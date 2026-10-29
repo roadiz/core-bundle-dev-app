@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en" datatype="plaintext" target-language="en">
+  <file original="" source-language="en" datatype="plaintext" target-language="en">
     <body>
       <trans-unit xml:space="preserve" id="%namespace%.imported" approved="yes">
         <source>%namespace%.imported</source>
@@ -42,6 +42,10 @@
         <source>document.%name%.cannot_delete</source>
         <target state="final">Document "%name%" can't be deleted.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="drag.actions.menu" approved="yes">
+        <source>drag.actions.menu</source>
+        <target state="final">Drag actions menu</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="10" approved="yes">
         <source>document.%name%.uploaded</source>
         <target state="final">Document "%name%" has been uploaded.</target>
@@ -49,6 +53,14 @@
       <trans-unit xml:space="preserve" id="11" approved="yes">
         <source>document.cannot_persist</source>
         <target state="final">Document can't be saved to database.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.type_not_allowed" approved="yes">
+        <source>document.type_not_allowed</source>
+        <target state="final">File type ".%extension%" is not allowed.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.upload.invalid_csrf_token" approved="yes">
+        <source>document.upload.invalid_csrf_token</source>
+        <target state="final">Invalid CSRF token.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="12" approved="yes">
         <source>name</source>
@@ -390,6 +402,10 @@
         <source>indexed</source>
         <target state="final">Indexed</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="excludeFromTranslation" approved="yes">
+        <source>excludeFromTranslation</source>
+        <target state="final">Excluded from machine translation</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="100" approved="yes">
         <source>defaultValues</source>
         <target state="final">Default values</target>
@@ -426,6 +442,18 @@
       <trans-unit xml:space="preserve" id="102" approved="yes">
         <source>node.%name%.translated</source>
         <target state="final">Node %name% has been translated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.translation_in_progress" approved="yes">
+        <source>node.%name%.translation_in_progress</source>
+        <target state="final">Translation of node %name% is in progress.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress" approved="yes">
+        <source>translation_in_progress</source>
+        <target state="final">Translation in progress…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translation_in_progress.taking_longer" approved="yes">
+        <source>translation_in_progress.taking_longer</source>
+        <target state="final">This translation is taking longer than expected. It may still be running, or it may have failed.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="103" approved="yes">
         <source>node_source.%node_source%.updated.%translation%</source>
@@ -1250,6 +1278,18 @@
       <trans-unit xml:space="preserve" id="313" approved="yes">
         <source>see.page</source>
         <target state="final">See page</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview" approved="yes">
+        <source>live_preview</source>
+        <target state="final">Live preview</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.close" approved="yes">
+        <source>live_preview.close</source>
+        <target state="final">Close live preview</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.viewport" approved="yes">
+        <source>live_preview.viewport</source>
+        <target state="final">Preview viewport</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="preview.page" approved="yes">
         <source>preview.page</source>
@@ -2342,6 +2382,14 @@
         <source>blockquote</source>
         <target state="final">Blockquote</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb" approved="yes">
+        <source>breadcrumb</source>
+        <target state="final">Breadcrumb</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb.show_more" approved="yes">
+        <source>breadcrumb.show_more</source>
+        <target state="final">Show hidden breadcrumb levels</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="bold" approved="yes">
         <source>bold</source>
         <target state="final">Bold</target>
@@ -3111,6 +3159,10 @@
       <trans-unit xml:space="preserve" id="changelog" approved="yes">
         <source>changelog</source>
         <target state="final">Changelog</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password">
+        <source>current.password</source>
+        <target state="final">Current password</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
         <source>choose.a.new.password</source>
@@ -4190,6 +4242,10 @@
         <source>form_has_errors.check_you_fields</source>
         <target state="final">Your form has errors, check highlighted fields.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="form.field.invalid" approved="yes">
+        <source>form.field.invalid</source>
+        <target state="final">Field "%label%" is invalid.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="no_more_translation_available" approved="yes">
         <source>no_more_translation_available</source>
         <target state="final">No more translation is available for current node.</target>
@@ -4197,6 +4253,10 @@
       <trans-unit xml:space="preserve" id="translate_offspring" approved="yes">
         <source>translate_offspring</source>
         <target state="final">Translate node hierarchy</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="use_translate_assistant" approved="yes">
+        <source>use_translate_assistant</source>
+        <target state="final">Translate content with translation assistant</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="node.%name%.undeleted" approved="yes">
         <source>node.%name%.undeleted</source>
@@ -4394,6 +4454,16 @@
         <source>publishable</source>
         <target state="final">Date and time publishable</target>
         <note>Field label for node-type publishable status.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unpublishedAt" approved="yes">
+        <source>unpublishedAt</source>
+        <target state="final">Unpublication date and time</target>
+        <note>Field label for node-source scheduled expiration date and time.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unpublishable" approved="yes">
+        <source>unpublishable</source>
+        <target state="final">Date and time unpublishable</target>
+        <note>Field label for node-type unpublishable status.</note>
       </trans-unit>
       <!-- Node form help messages -->
       <trans-unit xml:space="preserve" id="this_node_type_will_be_available_for_creating_root_nodes" approved="yes">
@@ -5077,6 +5147,230 @@
       <trans-unit xml:space="preserve" id="bookmarks.links" approved="yes">
         <source>bookmarks.links</source>
         <target state="final">Bookmarks</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="-- Select a tag --" approved="yes">
+        <source>-- Select a tag --</source>
+        <target state="final">-- Select a tag --</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add" approved="yes">
+        <source>add</source>
+        <target state="final">Add</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.children_node" approved="yes">
+        <source>add.children_node</source>
+        <target state="final">Add child node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.no_group" approved="yes">
+        <source>attributes.no_group</source>
+        <target state="final">No group</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.values" approved="yes">
+        <source>attributes.values</source>
+        <target state="final">Values</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="close" approved="yes">
+        <source>close</source>
+        <target state="final">Close</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.delete_item" approved="yes">
+        <source>collection.delete_item</source>
+        <target state="final">Delete item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.insert_item" approved="yes">
+        <source>collection.insert_item</source>
+        <target state="final">Insert item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.move_down_item" approved="yes">
+        <source>collection.move_down_item</source>
+        <target state="final">Move item down</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="collection.move_up_item" approved="yes">
+        <source>collection.move_up_item</source>
+        <target state="final">Move item up</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForms" approved="yes">
+        <source>customForms</source>
+        <target state="final">Custom forms</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="date" approved="yes">
+        <source>date</source>
+        <target state="final">Date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all_locations" approved="yes">
+        <source>delete.all_locations</source>
+        <target state="final">Delete all locations</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.locations" approved="yes">
+        <source>delete.locations</source>
+        <target state="final">Delete locations</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="disabled" approved="yes">
+        <source>disabled</source>
+        <target state="final">Disabled</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enabled" approved="yes">
+        <source>enabled</source>
+        <target state="final">Enabled</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="entity" approved="yes">
+        <source>entity</source>
+        <target state="final">Entity</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hidden" approved="yes">
+        <source>hidden</source>
+        <target state="final">Hidden</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.details.title" approved="yes">
+        <source>history.details.title</source>
+        <target state="final">History details</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="import.attributes" approved="yes">
+        <source>import.attributes</source>
+        <target state="final">Import attributes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="inherited.roles.caption" approved="yes">
+        <source>inherited.roles.caption</source>
+        <target state="final">Inherited roles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="insert.zone" approved="yes">
+        <source>insert.zone</source>
+        <target state="final">Insert zone</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ip.address" approved="yes">
+        <source>ip.address</source>
+        <target state="final">IP address</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="loading" approved="yes">
+        <source>loading</source>
+        <target state="final">Loading</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.down" approved="yes">
+        <source>move.down</source>
+        <target state="final">Move down</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.up" approved="yes">
+        <source>move.up</source>
+        <target state="final">Move up</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.result.found" approved="yes">
+        <source>no.result.found</source>
+        <target state="final">No result found</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.home" approved="yes">
+        <source>node.home</source>
+        <target state="final">Home node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.meta_table.caption" approved="yes">
+        <source>node_source.meta_table.caption</source>
+        <target state="final">Node source metadata</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_tree.no_nodes_found" approved="yes">
+        <source>node_tree.no_nodes_found</source>
+        <target state="final">No nodes found</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.available" approved="yes">
+        <source>not.available</source>
+        <target state="final">Not available</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not_published_yet" approved="yes">
+        <source>not_published_yet</source>
+        <target state="final">Not published yet</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="pending.validation" approved="yes">
+        <source>pending.validation</source>
+        <target state="final">Pending validation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="remove.item" approved="yes">
+        <source>remove.item</source>
+        <target state="final">Remove item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="repeatable.add" approved="yes">
+        <source>repeatable.add</source>
+        <target state="final">Add item</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="rz_aside.title" approved="yes">
+        <source>rz_aside.title</source>
+        <target state="final">Navigation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.location" approved="yes">
+        <source>search.location</source>
+        <target state="final">Search location</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.location.placeholder" approved="yes">
+        <source>search.location.placeholder</source>
+        <target state="final">Search for a location</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.row" approved="yes">
+        <source>select.row</source>
+        <target state="final">Select row</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="shadow" approved="yes">
+        <source>shadow</source>
+        <target state="final">Shadow</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="show.actions" approved="yes">
+        <source>show.actions</source>
+        <target state="final">Show actions</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="show.color.theme" approved="yes">
+        <source>show.color.theme</source>
+        <target state="final">Show color theme</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="specific.roles.caption" approved="yes">
+        <source>specific.roles.caption</source>
+        <target state="final">Specific roles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.security.meta_table.caption" approved="yes">
+        <source>user.security.meta_table.caption</source>
+        <target state="final">User security</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="view.details" approved="yes">
+        <source>view.details</source>
+        <target state="final">View details</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="view.node" approved="yes">
+        <source>view.node</source>
+        <target state="final">View node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage" approved="yes">
+        <source>translate_assistant.usage</source>
+        <target state="final">Translation assistant quota</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.usage.%count%_of_%limit%_characters" approved="yes">
+        <source>translate_assistant.usage.%count%_of_%limit%_characters</source>
+        <target state="final">%count% of %limit% characters used</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.dry_run" approved="yes">
+        <source>translate_assistant.dry_run</source>
+        <target state="final">Dry run: estimate the cost without translating</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%characters%_characters_for_%sources%_sources" approved="yes">
+        <source>translate_assistant.estimate.%characters%_characters_for_%sources%_sources</source>
+        <target state="final">This run would send %characters% characters for %sources% node-source(s).</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.%remaining%_characters_remaining" approved="yes">
+        <source>translate_assistant.estimate.%remaining%_characters_remaining</source>
+        <target state="final">%remaining% characters remaining on your quota.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.exceeds_quota" approved="yes">
+        <source>translate_assistant.estimate.exceeds_quota</source>
+        <target state="final">This translation would exceed your remaining quota. Reduce the scope or top up your provider plan.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.estimate.nothing_to_translate" approved="yes">
+        <source>translate_assistant.estimate.nothing_to_translate</source>
+        <target state="final">Nothing to translate: every node-source already exists in the destination language.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.quota_exceeded" approved="yes">
+        <source>translate_assistant.error.quota_exceeded</source>
+        <target state="final">Translation of "%name%" stopped: the translation-assistant quota is exhausted. Check your provider plan, then start the translation again.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.provider_unreachable" approved="yes">
+        <source>translate_assistant.error.provider_unreachable</source>
+        <target state="final">Translation of "%name%" could not reach the translation assistant. It will be retried automatically.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="translate_assistant.error.check_integration" approved="yes">
+        <source>translate_assistant.error.check_integration</source>
+        <target state="final">Translation of "%name%" stopped: the translation assistant refused the request. Check your translation-assistant integration.</target>
       </trans-unit>
     </body>
   </file>

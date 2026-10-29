@@ -267,12 +267,13 @@ class NSPage extends NodesSources
 
     /**
      * Contacts.
+     * Sub-title description.
      * Default values:
      * entry_type: App\Form\ContactFormType
      */
     #[Serializer\SerializedName(serializedName: 'contacts')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Contacts')]
+    #[ApiProperty(description: 'Contacts: Sub-title description')]
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'contacts', type: 'json', nullable: true)]
@@ -463,6 +464,16 @@ class NSPage extends NodesSources
     }
 
     /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $images
+     * @return $this
+     */
+    public function setImagesDtos(?array $images): static
+    {
+        $this->images = $images;
+        return $this;
+    }
+
+    /**
      * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
     public function getHeaderImage(): array
@@ -500,6 +511,16 @@ class NSPage extends NodesSources
             $this->addDocumentsByFields($nodeSourceDocument);
             $this->headerImage = null;
         }
+        return $this;
+    }
+
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $headerImage
+     * @return $this
+     */
+    public function setHeaderImageDtos(?array $headerImage): static
+    {
+        $this->headerImage = $headerImage;
         return $this;
     }
 
@@ -560,6 +581,16 @@ class NSPage extends NodesSources
             $this->addDocumentsByFields($nodeSourceDocument);
             $this->pictures = null;
         }
+        return $this;
+    }
+
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $pictures
+     * @return $this
+     */
+    public function setPicturesDtos(?array $pictures): static
+    {
+        $this->pictures = $pictures;
         return $this;
     }
 
@@ -971,9 +1002,36 @@ class NSPage extends NodesSources
         return false;
     }
 
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
+    {
+        return false;
+    }
+
     #[\Override]
     public function __toString(): string
     {
         return '[NSPage] ' . parent::__toString();
+    }
+
+    #[\Override]
+    public function getMetaDescriptionOrFallback(): string
+    {
+        $metaDescription = $this->getMetaDescription();
+        if ('' !== $metaDescription) {
+            return $metaDescription;
+        }
+
+        return (string) ($this->getContent() ?? '');
+    }
+
+    #[\Override]
+    public function getShareImage(): ?\RZ\Roadiz\Documents\Models\BaseDocumentInterface
+    {
+        return $this->getHeaderImage()[0] ?? null;
     }
 }

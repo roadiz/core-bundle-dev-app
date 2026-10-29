@@ -40,22 +40,46 @@
 {% set drawer_attributes = [] %}
 {% set drawer_attributes_map = {} %}
 
-{# Parse widget_attributes string into a map for easy access #}
+{# Extract all attributes from widget_attributes safely #}
 {% if widget_attributes is defined and widget_attributes is not empty %}
-    {% set attribute_pairs = widget_attributes|split(' ') %}
+    {% set normalized_attributes = widget_attributes|replace({'" ': '"\n'}) %}
+    {% set attribute_pairs = normalized_attributes|split('\n') %}
+
     {% for pair in attribute_pairs %}
         {% if '=' in pair %}
             {% set parts = pair|split('=', 2) %}
             {% set attr_key = parts[0]|trim %}
-            {% set attr_value = parts[1]|trim('"')|trim("'") %}
-            {% set drawer_attributes_map = drawer_attributes_map|merge({ (attr_key): attr_value }) %}
-            {% set drawer_attributes = drawer_attributes|merge([pair]) %}
+            {% set attr_value = parts[1]|trim('"') %}
+            {% if attr_key != 'id' and attr_key not in field_attributes_whitelist %}
+                {% set drawer_attributes_map = drawer_attributes_map|merge({ (attr_key): attr_value }) %}
+            {% endif %}
         {% endif %}
     {% endfor %}
 {% endif %}
 
-{% set drawer_id = drawer_attributes_map['id']|default('drawer-' ~ random()) %}
+{# Rebuild attributes list from map #}
+{% for key, value in drawer_attributes_map %}
+    {% set drawer_attributes = drawer_attributes|merge([
+        key ~ '="' ~ value|escape ~ '"'
+    ]) %}
+{% endfor %}
+
+
+
 {% set file_upload_id = drawer_id ~ '-file-upload' %}
+{% set input_id = form.vars.id|default('drawer-' ~ random()) %}
+{% set drawer_base_id = input_id %}
+{% set drawer_id = drawer_base_id ~ '-drawer' %}
+
+{% set drawer_required = form.vars.required ?? false %}
+{% if drawer_required %}
+    {% set field_attributes = field_attributes|merge(['class="rz-form-field--required"']) %}
+{% endif %}
+
+{% set min_length = form.vars.attr['data-min-length']|default(null) %}
+{% if drawer_required and not min_length %}
+    {% set min_length = 1 %}
+{% endif %}
 
 
 {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
@@ -69,7 +93,7 @@
             {% set label = name|humanize %}
         {%- endif -%}
         <div class="rz-form-field__head">
-            {{ rz_form_field.inner_head(label, label_attr, form, icon, attr, entity_ids|length) }}
+            {{ rz_form_field.inner_head(label, label_attr|merge({for: input_id}), form, icon, attr, entity_ids|length) }}
             <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                 {% if enableDropzone %}
                     {{ rz_button.root({
@@ -114,17 +138,32 @@
 
     <rz-drawer
         {{ drawer_attributes|join(' ')|raw }}
+        id="{{ drawer_id }}"
         class="rz-drawer--grid{% if entity == 'document' %}-larger{% endif %} rz-form-field__body"
-        {% if entity %}accept-entity="{{ entity }}"{% endif %}
-        {% if is_sortable %}sortable="" {% endif %}
-        {% if provider_class %}provider-class="{{ provider_class }}" {% endif %}
-        {% if provider_options %}provider-options="{{ provider_options|json_encode }}" {% endif %}
         entity-types="[]"
         items="{{ entity_ids|json_encode }}"
         entity-name="{{ entityName }}"
         locale="{{ form.vars._locale }}"
         document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
+        {% if entity %}accept-entity="{{ entity }}"{% endif %}
+        {% if is_sortable %}sortable="" {% endif %}
+        {% if provider_class %}provider-class="{{ provider_class }}" {% endif %}
+        {% if provider_options %}provider-options="{{ provider_options|json_encode }}" {% endif %}
     >
+        <select
+            class="rz-visually-hidden"
+            id="{{ input_id }}"
+            data-drawer-validation-proxy
+            multiple="multiple"
+            aria-hidden="true"
+            tabindex="-1"
+            {% if drawer_required %}required="required"{% endif %}
+            {% if min_length %}data-min-length="{{ min_length }}"{% endif %}
+        >
+            {% for entity_id in entity_ids %}
+                <option value="{{ entity_id.document ?? entity_id.id ?? entity_id }}" selected></option>
+            {% endfor %}
+        </select>
         <ul class="rz-drawer__body" data-list></ul>
         {% if enableDropzone %}
             <rz-file-upload id="{{ file_upload_id }}" hidden></rz-file-upload>

@@ -1,0 +1,21 @@
+meta {
+  name: Tag - Update position
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/rz-admin/ajax/tag/position
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  csrfToken: {{ajaxToken}}
+  id: 1
+  ~newParentId: 2
+  ~prevId: 3
+  ~nextId: 4
+  ~firstPosition: true
+  ~lastPosition: true
+}

@@ -11,8 +11,10 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
+use RZ\Roadiz\SolrBundle\Event\AbstractSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Event\NodeSourceSearchQueryEvent;
 use RZ\Roadiz\SolrBundle\Solarium\SolariumNodeSource;
+use Solarium\QueryType\Select\Query\Query;
 
 class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourceSearchHandlerInterface
 {
@@ -21,70 +23,57 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
     protected bool $boostByCreationDate = false;
 
     #[\Override]
-    protected function nativeSearch(
-        string $q,
-        array $args = [],
-        int $rows = 20,
-        bool $searchTags = false,
-        int $page = 1,
-    ): ?array {
-        if (empty($q)) {
-            return null;
-        }
-        $query = $this->createSolrQuery($args, $rows, $page);
-        $queryTxt = $this->buildQuery($q, $args, $searchTags);
-
-        if ($this->boostByPublicationDate) {
-            $boost = '{!boost b=recip(ms(NOW,published_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost.$queryTxt;
-        }
-        if ($this->boostByUpdateDate) {
-            $boost = '{!boost b=recip(ms(NOW,updated_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost.$queryTxt;
-        }
-        if ($this->boostByCreationDate) {
-            $boost = '{!boost b=recip(ms(NOW,created_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost.$queryTxt;
-        }
-
-        $query->setQuery($queryTxt);
-
+    protected function getResultFields(): array
+    {
         /*
          * Only need these fields as Doctrine
          * will do the rest.
          */
-        $query->setFields([
+        return [
             'score',
             'id',
             'document_type_s',
             SolariumNodeSource::IDENTIFIER_KEY,
             'node_name_s',
             'locale_s',
-        ]);
+        ];
+    }
 
-        $this->searchEngineLogger->debug('[Solr] Request node-sources search…', [
-            'query' => $queryTxt,
-            'fq' => $args['fq'] ?? [],
-            'params' => $query->getParams(),
-        ]);
+    #[\Override]
+    protected function createSearchQueryEvent(Query $query, array $args): AbstractSearchQueryEvent
+    {
+        return new NodeSourceSearchQueryEvent($query, $args);
+    }
 
-        /** @var NodeSourceSearchQueryEvent $event */
-        $event = $this->eventDispatcher->dispatch(
-            new NodeSourceSearchQueryEvent($query, $args)
-        );
-        $query = $event->getQuery();
+    /**
+     * Node-sources also index their slug, which document translations do not.
+     */
+    #[\Override]
+    protected function buildQueryFields(array &$args, bool $searchTags = true): string
+    {
+        return parent::buildQueryFields($args, $searchTags).' slug_s';
+    }
 
-        $solrRequest = $this->getSolr()->execute($query);
+    #[\Override]
+    protected function getBoostFunction(): ?string
+    {
+        if ($this->boostByPublicationDate) {
+            return 'recip(ms(NOW,published_at_dt),3.16e-11,1,1)';
+        }
+        if ($this->boostByUpdateDate) {
+            return 'recip(ms(NOW,updated_at_dt),3.16e-11,1,1)';
+        }
+        if ($this->boostByCreationDate) {
+            return 'recip(ms(NOW,created_at_dt),3.16e-11,1,1)';
+        }
 
-        return $solrRequest->getData();
+        return null;
     }
 
     #[\Override]
     protected function argFqProcess(array &$args): array
     {
-        if (!isset($args['fq'])) {
-            $args['fq'] = [];
-        }
+        $args['fq'] ??= [];
 
         $visible = $args['visible'] ?? $args['node.visible'] ?? null;
         if (isset($visible)) {
@@ -100,11 +89,11 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
          */
         if (!empty($args['tags'])) {
             if ($args['tags'] instanceof Tag) {
-                $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $args['tags']->getTagName());
+                $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($args['tags']->getTagName());
             } elseif (is_array($args['tags'])) {
                 foreach ($args['tags'] as $tag) {
                     if ($tag instanceof Tag) {
-                        $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $tag->getTagName());
+                        $args['fq'][] = 'all_tags_slugs_ss:'.$this->escapePhrase($tag->getTagName());
                     }
                 }
             }
@@ -120,16 +109,16 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
                 $orQuery = [];
                 foreach ($nodeType as $singleNodeType) {
                     if ($singleNodeType instanceof NodeTypeInterface) {
-                        $orQuery[] = $singleNodeType->getName();
+                        $orQuery[] = $this->escapePhrase($singleNodeType->getName());
                     } elseif (is_string($singleNodeType)) {
-                        $orQuery[] = $singleNodeType;
+                        $orQuery[] = $this->escapePhrase($singleNodeType);
                     }
                 }
                 $args['fq'][] = 'node_type_s:('.implode(' OR ', $orQuery).')';
             } elseif ($nodeType instanceof NodeTypeInterface) {
-                $args['fq'][] = 'node_type_s:'.$nodeType->getName();
+                $args['fq'][] = 'node_type_s:'.$this->escapePhrase($nodeType->getName());
             } else {
-                $args['fq'][] = 'node_type_s:'.$nodeType;
+                $args['fq'][] = 'node_type_s:'.$this->escapePhrase((string) $nodeType);
             }
             unset($args['nodeType']);
             unset($args['node.nodeType']);
@@ -145,7 +134,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             if ($parent instanceof Node) {
                 $args['fq'][] = 'node_parent_i:'.$parent->getId();
             } elseif (is_string($parent)) {
-                $args['fq'][] = 'node_parent_s:'.trim($parent);
+                $args['fq'][] = 'node_parent_s:'.$this->escapePhrase(trim($parent));
             } elseif (is_numeric($parent)) {
                 $args['fq'][] = 'node_parent_i:'.(int) $parent;
             }
@@ -156,6 +145,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         /*
          * Handle publication date-time filtering
          */
+        $hasExplicitPublishedAtFilter = isset($args['publishedAt']);
         if (isset($args['publishedAt'])) {
             $tmp = 'published_at_dt:';
             if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTimeInterface) {
@@ -191,33 +181,87 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             $args['fq'][] = $tmp;
         }
 
+        /*
+         * Handle unpublication (expiration) date-time filtering
+         */
+        $hasExplicitUnpublishedAtFilter = isset($args['unpublishedAt']);
+        if (isset($args['unpublishedAt'])) {
+            $tmp = 'unpublished_at_dt:';
+            if (!is_array($args['unpublishedAt']) && $args['unpublishedAt'] instanceof \DateTimeInterface) {
+                $tmp .= $this->formatDateTimeToUTC($args['unpublishedAt']);
+            } elseif (
+                isset($args['unpublishedAt'][0])
+                && 'BETWEEN' === $args['unpublishedAt'][0]
+                && isset($args['unpublishedAt'][1])
+                && $args['unpublishedAt'][1] instanceof \DateTimeInterface
+                && isset($args['unpublishedAt'][2])
+                && $args['unpublishedAt'][2] instanceof \DateTimeInterface
+            ) {
+                $tmp .= '['.
+                    $this->formatDateTimeToUTC($args['unpublishedAt'][1]).
+                    ' TO '.
+                    $this->formatDateTimeToUTC($args['unpublishedAt'][2]).']';
+            } elseif (
+                isset($args['unpublishedAt'][0])
+                && '<=' === $args['unpublishedAt'][0]
+                && isset($args['unpublishedAt'][1])
+                && $args['unpublishedAt'][1] instanceof \DateTimeInterface
+            ) {
+                $tmp .= '[* TO '.$this->formatDateTimeToUTC($args['unpublishedAt'][1]).']';
+            } elseif (
+                isset($args['unpublishedAt'][0])
+                && '>=' === $args['unpublishedAt'][0]
+                && isset($args['unpublishedAt'][1])
+                && $args['unpublishedAt'][1] instanceof \DateTimeInterface
+            ) {
+                $tmp .= '['.$this->formatDateTimeToUTC($args['unpublishedAt'][1]).' TO *]';
+            }
+            unset($args['unpublishedAt']);
+            $args['fq'][] = $tmp;
+        }
+
         $status = $args['status'] ?? $args['node.status'] ?? null;
         if (isset($status)) {
             $tmp = 'node_status_i:';
-            if ($status  instanceof NodeStatus) {
+            if ($status instanceof NodeStatus) {
                 $tmp .= (string) $status->value;
             } elseif (is_numeric($status)) {
                 $tmp .= (string) $status;
             } elseif (is_array($status) && '<=' == $status[0] && $status[1] instanceof NodeStatus) {
                 $tmp .= '[* TO '.(string) $status[1]->value.']';
-            } elseif (is_array($status) && '>=' == $status[0]->value && $status[1] instanceof NodeStatus) {
+            } elseif (is_array($status) && '>=' == $status[0] && $status[1] instanceof NodeStatus) {
                 $tmp .= '['.(string) $status[1]->value.' TO *]';
             }
             unset($args['status']);
             unset($args['node.status']);
             $args['fq'][] = $tmp;
         } else {
+            /*
+             * No explicit status requested: default to public visibility,
+             * excluding embargoed content not yet published, same as
+             * NodesSourcesRepository::alterQueryBuilderWithAuthorizationChecker.
+             */
             $args['fq'][] = 'node_status_i:'.(string) NodeStatus::PUBLISHED->value;
+            if (!$hasExplicitPublishedAtFilter) {
+                $args['fq'][] = 'published_at_dt:[* TO NOW/MINUTE]';
+            }
+            if (!$hasExplicitUnpublishedAtFilter) {
+                /*
+                 * Exclude expired content: keep documents whose unpublished_at_dt is in the
+                 * future or missing (unpublishedAt IS NULL OR unpublishedAt > now).
+                 */
+                $args['fq'][] = '(*:* -unpublished_at_dt:[* TO NOW/MINUTE])';
+            }
         }
 
         /*
          * Filter by translation or locale
          */
         if (isset($args['translation']) && $args['translation'] instanceof TranslationInterface) {
-            $args['fq'][] = 'locale_s:'.$args['translation']->getLocale();
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['translation']->getLocale());
         }
         if (isset($args['locale']) && is_string($args['locale'])) {
-            $args['fq'][] = 'locale_s:'.$args['locale'];
+            $args['fq'][] = 'locale_s:'.$this->escapePhrase($args['locale']);
         }
 
         return $args;

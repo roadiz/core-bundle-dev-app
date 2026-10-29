@@ -2,29 +2,33 @@
     filters: filters,
     display_select_all_button: true,
     display_layout_fields: true,
+    availablePlatforms: availablePlatforms,
+    embedPlatform: embedPlatform,
 } only %}
     {% block before_submit %}
-        <select
-            class="rz-select"
-            onchange="this.form.submit()"
-            name="embedPlatform"
-            id="embedPlatform"
-        >
-            <option value="">{{ 'document.no_embed_platform'|trans }}</option>
-            <option
-                {% if embedPlatform == 'unsplash' %} selected{% endif %}
-                value="unsplash"
+        {% if availablePlatforms is defined and availablePlatforms|length > 0 %}
+            <select
+                class="rz-select"
+                onchange="this.form.submit()"
+                name="embedPlatform"
+                id="embedPlatform"
             >
-                    {{ 'random.document'|trans }}
-            </option>
-            {% for availablePlatform, class in availablePlatforms %}
+                <option value="">{{ 'document.no_embed_platform'|trans }}</option>
                 <option
-                    {% if embedPlatform == availablePlatform %} selected{% endif %}
-                    value="{{ availablePlatform }}"
+                    {% if embedPlatform == 'unsplash' %} selected{% endif %}
+                    value="unsplash"
                 >
-                    {{ availablePlatform|capitalize }}
+                        {{ 'random.document'|trans }}
                 </option>
-            {% endfor %}
-        </select>
+                {% for availablePlatform, class in availablePlatforms %}
+                    <option
+                        {% if embedPlatform == availablePlatform %} selected{% endif %}
+                        value="{{ availablePlatform }}"
+                    >
+                        {{ availablePlatform|capitalize }}
+                    </option>
+                {% endfor %}
+            </select>
+        {% endif %}
     {% endblock %}
 {% endembed %}

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
@@ -19,7 +19,9 @@ use RZ\Roadiz\CoreBundle\Form\SettingType;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -43,6 +45,7 @@ final class SettingController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
         private readonly Settings $settingsBag,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -55,7 +58,7 @@ final class SettingController extends AbstractController
         $assignation = [];
 
         if (null !== $response = $this->commonSettingList($request, null, $assignation)) {
-            return $response->send();
+            return $response;
         }
 
         return $this->render('@RoadizRozier/settings/list.html.twig', $assignation);
@@ -77,7 +80,7 @@ final class SettingController extends AbstractController
         $assignation['settingGroup'] = $settingGroup;
 
         if (null !== $response = $this->commonSettingList($request, $settingGroup, $assignation)) {
-            return $response->send();
+            return $response;
         }
 
         return $this->render('@RoadizRozier/settings/list.html.twig', $assignation);
@@ -241,12 +244,20 @@ final class SettingController extends AbstractController
     protected function resetSettingsCache(): void
     {
         $this->settingsBag->reset();
-        /** @var CacheProvider|null $cacheDriver */
-        $cacheDriver = $this->managerRegistry
-            ->getManagerForClass(Setting::class)
-            ?->getConfiguration()
-            ->getResultCacheImpl();
-        $cacheDriver?->deleteAll();
+
+        $manager = $this->managerRegistry->getManagerForClass(Setting::class);
+
+        if ($manager instanceof EntityManagerInterface) {
+            $configuration = $manager->getConfiguration();
+
+            // Doctrine ORM result cache pool (PSR-6, Doctrine ORM 2.7+)
+            $resultCache = $configuration->getResultCache();
+            $resultCache?->clear();
+            if ($resultCache instanceof ResettableInterface) {
+                $resultCache->reset();
+            }
+        }
+
         $this->eventDispatcher->dispatch(new CachePurgeRequestEvent());
     }
 
@@ -328,10 +339,18 @@ final class SettingController extends AbstractController
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
-            'headPath' => '@RoadizRozier/settings/head.html.twig',
+            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('settings'),
+                [
+                    'label' => $setting->getName(),
+                    'url' => $this->generateUrl('settingsEditPage', ['settingId' => $setting->getId()]),
+                ],
+            ],
             'cancelPath' => $this->generateUrl('settingsHomePage'),
             'alertMessage' => 'are_you_sure.delete.setting',
             'form' => $form->createView(),
+            'items' => [$setting],
         ]);
     }
 }

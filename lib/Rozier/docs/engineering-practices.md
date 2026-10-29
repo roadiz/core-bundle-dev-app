@@ -10,6 +10,17 @@ small, reviewable, and aligned with the monorepo standards.
 - Avoid global state and `window` side effects where possible.
 - Favor native `CustomElements` to attach UI behavior.
 - Keep UI logic close to the component that owns it.
+- No new dependency without an explicit request.
+
+See [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md) for the
+legacy stack being phased out.
+
+## Modernizing incrementally
+
+- Keep changes incremental and easy to review.
+- Avoid large rewrites without a clear migration path.
+- Preserve existing behavior unless the design explicitly changes it: no
+  silent behavior change slipped into a refactor.
 
 ## Reviews and collaboration
 
@@ -17,16 +28,46 @@ small, reviewable, and aligned with the monorepo standards.
 - Explain intent, not only the mechanics of the change.
 - Call out risky areas or follow-ups explicitly.
 
-## Testing and build workflow
+## Feedback loop
 
-- Local dev: `pnpm dev` in `lib/Rozier` or `docker compose up node`.
-- Build: `pnpm build` or `docker compose run --rm node pnpm build`.
-- Avoid editing compiled assets in `lib/RoadizRozierBundle/public/`.
+Rozier has no automated tests, so every change is verified through this loop
+(it replaces test-first work on the PHP side):
+
+1. Run `docker compose up node` and check the change live on the backoffice
+   (HMR, see the README "Backoffice frontend development" section), in both
+   light and dark themes.
+2. Add or update the component's Storybook story (`docker compose up storybook`),
+   following [`storybook.md`](storybook.md).
+3. Compare with the matching Figma section when one exists.
+4. Before opening the PR: `docker compose run --rm node pnpm lint` and
+   `docker compose run --rm node pnpm build:check` pass, and so does
+   `docker compose run --rm node pnpm build-storybook` when the change touches
+   stories or renderers.
+
+Edit sources only; `lib/RoadizRozierBundle/public/` holds build output.
+`pnpm build:check` builds into `/tmp` so it leaves that folder untouched; run
+`pnpm build` only when you mean to update the committed assets.
+
+## Design decisions
+
+Figma is the starting point, not a closed spec. When a mockup lacks a value,
+a state or a whole screen, decide in line with the existing `rz-*` components
+and design tokens, keep going, and record the choice (with a screenshot) in
+the issue or PR. Escalate only product decisions. Rationale:
+[ADR 0002](adr/0002-figma-is-a-starting-point.md).
+
+## Accessibility
+
+A standing attention point: contrast, visible focus, keyboard navigation,
+accessible labels. Fix what is cheap in the same change; open a follow-up
+issue for the rest. Findings never block a merge or the closing of a redesign
+zone. Rationale: [ADR 0003](adr/0003-accessibility-never-blocks.md).
 
 ## Localization and UI text
 
 - Avoid hardcoding user-facing strings; use the existing i18n path.
 - Keep text changes consistent with the product tone.
+- Never log sensitive data.
 
 ## Monorepo awareness
 

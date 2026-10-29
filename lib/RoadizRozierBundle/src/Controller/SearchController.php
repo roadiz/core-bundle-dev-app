@@ -24,6 +24,7 @@ use RZ\Roadiz\CoreBundle\Form\SeparatorType;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Controller\Node\NodeBulkActionTrait;
 use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,6 +71,7 @@ final class SearchController extends AbstractController
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly array $csvEncoderOptions,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -96,7 +98,7 @@ final class SearchController extends AbstractController
         if (null !== $response = $this->handleNodeTypeForm($nodeTypeForm)) {
             $response->prepare($request);
 
-            return $response->send();
+            return $response;
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -292,7 +294,7 @@ final class SearchController extends AbstractController
             foreach ($data['tags'] as $key => $value) {
                 $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
             }
-            array_filter($data['tags']);
+            $data['tags'] = array_filter($data['tags']);
         }
 
         return $data;

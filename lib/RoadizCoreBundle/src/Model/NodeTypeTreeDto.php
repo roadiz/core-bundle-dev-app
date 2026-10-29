@@ -13,6 +13,7 @@ final readonly class NodeTypeTreeDto implements NodeTypeInterface
     public function __construct(
         private string $name,
         private bool $publishable,
+        private bool $unpublishable,
         private bool $reachable,
         private string $displayName,
         private string $color,
@@ -31,6 +32,12 @@ final readonly class NodeTypeTreeDto implements NodeTypeInterface
     public function isPublishable(): bool
     {
         return $this->publishable;
+    }
+
+    #[\Override]
+    public function isUnpublishable(): bool
+    {
+        return $this->unpublishable;
     }
 
     public function getDisplayName(): string

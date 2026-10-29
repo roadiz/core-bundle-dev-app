@@ -1,4 +1,4 @@
-# Roadiz - Agent guidelines
+# Roadiz - Agents guidelines
 
 Purpose
 - Provide project-specific guidance for automated coding agents.
@@ -6,8 +6,10 @@ Purpose
 
 Authoritative instructions
 - Copilot rules: `.github/copilot-instructions.md`.
-- Git commit rules: `.github/git-commit-instructions.md`.
+- Git commit rules: `.github/git-commit-instructions.md` — note its `Co-authored-by:` trailer suggestion does not apply to agent-authored commits; follow the "Git commit guidance" section below instead, which never adds that footer.
 - Cursor rules: none found in `.cursor/rules/` or `.cursorrules`.
+- Agent skills (issue tracker, triage labels, domain docs): `docs/agents/`.
+- Rozier backoffice work: `lib/Rozier/docs/`.
 
 Project overview
 - Monorepo with Symfony bundles in `lib/` and a dev app in `src/`.
@@ -21,6 +23,10 @@ Repository layout
 - `tests/`: application tests; bundle tests live under each bundle.
 - `docs/`: VitePress documentation site.
 
+**NEVER read, search, or output the contents of any of the following files** — they contain local secrets (API keys, OAuth credentials, passphrases) and must not be inspected by any tool or agent:
+- `.env.local`
+- `.env.*.local` (e.g. `.env.test.local`, `.env.dev.local`)
+
 Build, lint, and test commands
 - Install deps (Docker): `docker compose run --rm --no-deps --entrypoint= app composer install`.
 - Requirements check only: `make requirements`.
@@ -33,17 +39,19 @@ Build, lint, and test commands
 - Rector apply: `make rector` (also runs PHP-CS-Fixer fix).
 - Architecture rules: `make check-architecture` (Deptrac).
 - PHPUnit full suite: `make phpunit` (runs against MariaDB + MySQL containers).
+- CI (`run-test.yml`) provisions real MariaDB/MySQL/Redis/Mailpit services plus a manually-started Varnish container and a generated JWT keypair (`config/jwt/*.pem` is gitignored). It flushes Redis between the MariaDB and MySQL passes to avoid `setCacheable(true)` query-cache pollution across engines (both auto-increment entity IDs from 1).
 - Twig lint: part of `make test`, or run `bin/console lint:twig` for bundle templates.
 - Single test file (Docker): `docker compose exec app vendor/bin/phpunit tests/SomeTest.php`.
 - Single test by name: `docker compose exec app vendor/bin/phpunit --filter SomeTest`.
 - Bundle tests: use bundle paths listed in `phpunit.xml.dist` (for example `lib/RoadizCoreBundle/tests`).
-- CI note: `make test` runs PHPStan, Rector, Deptrac, Twig lint, and PHPUnit.
+- CI note: `make test` runs requirements-checker, monorepo-builder validate, composer audit, PHPStan, Rector (dry run), Deptrac, PHP-CS-Fixer check, Twig lint, and PHPUnit, in that order.
 - PHPStan can misbehave when `lib/*` bundles are symlinked.
 
 Docker helpers
 - Shell in container: `make bash`.
 - Cache reset: `make cache` (clears caches and restarts workers).
 - Migrations: `make migrate` (interactive) or `make update` (non-interactive).
+- Profiles: `compose.yml` gates optional services behind profiles — `tests` (`db-test`, `mariadb-test`), `debug` (`pma`/phpMyAdmin), `frontend` (`node`, `storybook`), `docs` (`vitepress`). Naming a service explicitly (e.g. `docker compose up node`) auto-activates its profile, so existing commands work unchanged; add `--profile <name>` only when starting a profiled service without naming it directly.
 
 Environment notes
 - Use `.env.local` for local overrides; never commit it.
@@ -54,12 +62,14 @@ Environment notes
 
 Frontend and docs commands
 - Backoffice dev server (Docker): `docker compose up node`.
-- Backoffice build (Docker): `docker compose run --rm node pnpm build`.
+- Backoffice build check (Docker): `docker compose run --rm node pnpm build:check` (builds into `/tmp`, leaves `lib/RoadizRozierBundle/public/` untouched; use it to verify a change).
+- Backoffice build (Docker): `docker compose run --rm node pnpm build` (only to update the committed assets).
 - Backoffice dev (local): `cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev`.
 - Docs dev server (Docker): `docker compose up vitepress`.
 - Docs dev (local): `cd docs && corepack enable && pnpm install && pnpm docs:dev`.
 - Frontend source lives in `lib/Rozier`; built assets go to `lib/RoadizRozierBundle/public/`.
 - Avoid editing generated assets in `lib/RoadizRozierBundle/public/`.
+- After `pnpm build`, run `make cache` (the Vite manifest is cached in the Redis `cache.app` pool), restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
 
 Code style guidelines (PHP)
 - Follow PSR-12 and Symfony conventions; PHP-CS-Fixer uses `@Symfony` rules.
@@ -105,6 +115,7 @@ Symfony and Doctrine practices
 - Validate user input with Symfony Validator; avoid custom ad-hoc checks.
 - Use repository methods for query reuse and clear intent.
 - Keep entities focused on state, not heavy business logic.
+- Keep services stateless: Roadiz can run on a long-running runtime (FrankenPHP worker mode, Messenger workers), where a service instance is reused across many requests/messages. Mutable request-scoped properties leak between them. Pass per-request data as method arguments; if a service must hold mutable state, implement `Symfony\Contracts\Service\ResetInterface` so the runtime clears it between requests. Objects built fresh per use (e.g. `EmbedFinderFactory` returns `new` finders per embed) are exempt.
 
 Testing guidelines
 - Add or update PHPUnit tests for functional changes.
@@ -117,7 +128,7 @@ Testing guidelines
 Static analysis
 - PHPStan runs at level 8; fix new issues instead of adding ignores.
 - Use phpdoc generics where needed; avoid broad `mixed` types.
-- Keep `phpstan.neon` consistent across bundles when adding rules.
+- A single root `phpstan.neon` analyses all `lib/*/src` and `src`; bundles have no per-package config.
 
 Localization and user-facing text
 - Avoid hardcoding UI strings; use translation keys and Crowdin workflow.
@@ -127,7 +138,7 @@ Localization and user-facing text
 Monorepo tooling
 - `vendor/bin/monorepo-builder merge` for dependency syncing across bundles.
 - `vendor/bin/monorepo-builder validate` to keep versions aligned.
-- Update Deptrac rules when adding a new bundle layer.
+- Deptrac enforces strict layering: `Models` has no internal deps; `RoadizCoreBundle` depends on `Models`; `RoadizRozierBundle` depends on `RoadizCoreBundle`. Run `make check-architecture` after adding cross-bundle dependencies or a new bundle layer.
 
 Copilot formatting rules (must follow when generating suggestions)
 - Start with a short step-by-step plan.
@@ -142,6 +153,7 @@ Git commit guidance (Conventional Commits)
 - Allowed types: feat, fix, docs, style, refactor, perf, test, chore, ci.
 - Use footer for issues or BREAKING CHANGE notes.
 - Wrap body lines around 72 characters.
+- Never add a `Co-Authored-By` (or `Co-authored-by`) footer to commit messages.
 
 Notes for agents
 - Keep changes minimal, focused, and aligned with CI tooling.

@@ -152,4 +152,16 @@ abstract class AbstractDailymotionEmbedFinder extends AbstractEmbedFinder
 
         return 'https://geo.dailymotion.com/player.html?'.http_build_query($queryString);
     }
+
+    #[\Override]
+    public function getPublicUri(): ?string
+    {
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
+            $embedId = $matches['id'];
+        } else {
+            $embedId = $this->embedId;
+        }
+
+        return 'https://www.dailymotion.com/video/'.$embedId;
+    }
 }

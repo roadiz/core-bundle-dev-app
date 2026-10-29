@@ -1,22 +1,39 @@
+# Upgrade guide
+
+- [Upgrade to 2.8](#upgrade-to-28)
+- [Upgrade to 2.7](#upgrade-to-27)
+- [Upgrade to 2.6](#upgrade-to-26)
+- [Upgrade to 2.5](#upgrade-to-25)
+- [Upgrade to 2.4](#upgrade-to-24)
+- [Upgrade to 2.3](#upgrade-to-23)
+- [Upgrade to 2.2](#upgrade-to-22)
+- [Upgrade to 2.1](#upgrade-to-21)
+
 # Upgrade to 2.8
 
-## ⚠ Twig Breaking changes
-For twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
+## ⚠ Twig breaking changes
+
+- Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
+- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `widgets/rz_tree_wrapper_auto.html.twig`; it now renders node, tag and folder trees alike
+- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `widgets/rz_tree_wrapper_auto.html.twig` instead
+
+For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
 - `content_title`
 - `content_count_filters`
 - `content_header_nav`
-  blocks to use new `header` block instead.
 
-example:
+blocks to use new `header` block instead.
+
+Example:
 ```twig
 {%- block header -%}
     {% include '@RoadizRozier/admin/head.html.twig' with {
-        title: 'articles'|trans,
+        title: 'my_entities'|trans,
         filters: filters,
-        buttons : [
+        buttons: [
             {
-                label: 'articles.add'|trans,
-                href: path('appArticlesAddPage'),
+                label: 'add.entity'|trans,
+                href: path('my_entity_add'),
                 icon: 'rz-icon-ri--add-line',
             }
         ]
@@ -26,7 +43,7 @@ example:
 
 You need to update your `content_filters` block to use new `widgets/rz_filters_bar.html.twig` inside this block.
 
-example:
+Example:
 ```twig
 {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
     filters: filters,
@@ -34,13 +51,24 @@ example:
 } only %}
 ```
 
+## ⚠ PHP breaking changes
+
+- `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem` now takes only `$label` and `$url`. The unused
+  `bool $enabled` property and the `bool $home` flag are both gone — the trail no longer draws icons.
+  Custom `BreadcrumbsItemFactoryInterface` implementations must drop those arguments.
+
+```diff
+-new BreadcrumbsItem($label, $url, $node->isHome())
++new BreadcrumbsItem($label, $url)
+```
+
 ## ⚠ Rozier menu icons changed
 
 All backoffice menu icon classes now use the new UI icon set.
 If your project overrides menu entries in `config/packages/roadiz_rozier.yaml` and still uses old `uk-icon-*` classes, those icons will no longer display.
 
-Update your menu entries to use `rz-icon-ri--<name>` classes (or `rz-icon-rz--<name>`for Roadiz-specific icons).
-Icon names was based on Remix Icon names: https://remixicon.com/
+Update your menu entries to use `rz-icon-ri--<name>` classes (or `rz-icon-rz--<name>` for Roadiz-specific icons).
+Icon names are based on Remix Icon names: https://remixicon.com/
 
 Example migration:
 
@@ -63,11 +91,150 @@ Example migration:
 +                    icon: rz-icon-rz--status-draft-line
 ```
 
+## ⚠ Doctrine ORM 3 upgrade
+
+Roadiz 2.8 upgrades to **Doctrine ORM 3.6**, **Doctrine DBAL 4.4**, and **Doctrine Persistence 4.2**. This is a major dependency change that requires updates in your project code.
+
+### Updated packages
+
+| Package | Old version | New version |
+|---------|------------|-------------|
+| `doctrine/orm` | `~2.20.0` | `^3.6` |
+| `doctrine/dbal` | `^3.10` | `^4.4` |
+| `doctrine/persistence` | `^3.4` | `^4.2` |
+| `doctrine/doctrine-bundle` | `^2.8` | `^2.19` |
+| `doctrine/doctrine-fixtures-bundle` | `^3.6` | `^4.3` |
+| `scienta/doctrine-json-functions` | `^4.2` | `^6.0` |
+
+Update your `composer.json` accordingly:
+
+```diff
+ "require": {
+-    "doctrine/doctrine-bundle": "^2.8.1",
+-    "doctrine/orm": "~2.20.0",
+-    "scienta/doctrine-json-functions": "^4.2",
++    "doctrine/doctrine-bundle": "^2.19",
++    "doctrine/orm": "^3.6",
++    "scienta/doctrine-json-functions": "^6.0",
+ },
+ "require-dev": {
+-    "doctrine/doctrine-fixtures-bundle": "^3.6",
++    "doctrine/doctrine-fixtures-bundle": "^4.3",
+ }
+```
+
+### Doctrine configuration changes
+
+Remove `enable_lazy_ghost_objects` from your `config/packages/doctrine.yaml` (always-on in ORM 3):
+
+```diff
+ doctrine:
+     orm:
+         auto_generate_proxy_classes: true
+-        enable_lazy_ghost_objects: true
+```
+
+Register the backward-compatible `array` Doctrine DBAL type. The built-in `array` type was removed in DBAL 4, but `gedmo/doctrine-extensions` `AbstractLogEntry` still references it. Roadiz now ships a replacement type that extends `JsonType` (always writes JSON, reads both JSON and legacy PHP-serialized data):
+
+```diff
+ doctrine:
+     dbal:
+         url: '%env(resolve:DATABASE_URL)%'
++        types:
++            array:
++                class: RZ\Roadiz\CoreBundle\Doctrine\DBAL\Types\ArrayType
+```
+
+### Code changes required in your project
+
+**1. Replace `$this->_em` with `$this->getEntityManager()` in custom repositories**
+
+The protected `$_em` property is no longer accessible on `ServiceEntityRepository`. Use `$this->getEntityManager()` instead.
+
+```diff
+-$query = $this->_em->createQuery('...');
++$query = $this->getEntityManager()->createQuery('...');
+```
+
+**2. Remove `cascade: ['merge']` and `cascade: ['all']` from entity mappings**
+
+The `merge` cascade operation is removed in ORM 3. Replace:
+- `cascade: ['persist', 'merge']` with `cascade: ['persist']`
+- `cascade: ['all']` with explicit cascades: `cascade: ['persist', 'remove']` (or just `cascade: ['persist']` for ManyToOne)
+
+**3. Replace `ClassMetadataInfo` with `ClassMetadata`**
+
+`Doctrine\ORM\Mapping\ClassMetadataInfo` is removed. Use `Doctrine\ORM\Mapping\ClassMetadata` instead.
+
+**4. Replace `EntityManager::detach()` calls**
+
+`EntityManager::detach()` is removed in ORM 3. Use `$em->clear()` for batch processing memory management, or extract entity data into plain arrays before removal.
+
+**5. Remove `JoinTable` from inverse ManyToMany sides**
+
+ORM 3 rejects `#[ORM\JoinTable]` on the inverse side (`mappedBy`) of a ManyToMany relationship. Only the owning side (`inversedBy`) should define the join table.
+
+**6. Replace `setParameters(array)` with individual `setParameter()` calls**
+
+`QueryBuilder::setParameters()` no longer accepts plain arrays. Use chained `setParameter()` calls instead:
+
+```diff
+-$qb->setParameters([
+-    'foo' => $foo,
+-    'bar' => $bar,
+-]);
++$qb->setParameter('foo', $foo)
++   ->setParameter('bar', $bar);
+```
+
+**7. Replace `setFirstResult(null)` with `setFirstResult(0)`**
+
+`Query::setFirstResult()` no longer accepts `null`.
+
+**8. Remove legacy Doctrine Cache API usage**
+
+`Configuration::getResultCacheImpl()` and `Doctrine\Common\Cache\CacheProvider` are removed. Use `Configuration::getResultCache()` (PSR-6) instead:
+
+```diff
+-use Doctrine\Common\Cache\CacheProvider;
+-if ($configuration->getResultCacheImpl() instanceof CacheProvider) {
+-    $configuration->getResultCacheImpl()->deleteAll();
+-}
++$resultCache = $configuration->getResultCache();
++$resultCache?->clear();
+```
+
+**9. Remove `@throws` annotations for `ORMException` and `OptimisticLockException`**
+
+These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc annotations referencing them.
+
+## New admin templates
+
+New reusable templates for building back-office pages:
+- `admin/head.html.twig` - Page header with title, breadcrumb, buttons
+- `admin/confirm_action.html.twig` - Generic confirmation page
+- `macros/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
+  `{ parents, current }`, rendered automatically by `admin/head.html.twig` as soon as that
+  variable is in context. Ancestors are either `{label, url}` hashes or entities resolved by a
+  `BreadcrumbsItemFactory`; past three of them the middle ones fold into a popover.
+- `breadcrumb_root('<section>')` Twig function, backed by the `BreadcrumbRoots` service - the single
+  table of back-office section roots. A page never declares the root of its own section: the section
+  head does, and detects on its own whether the page *is* that root. Use the function only outside a
+  section head. Its companion `breadcrumb_trail('<section>', item)` returns the whole path down to a
+  tree entity — root, ancestors, then the item — which confirmation pages show above their own title.
+  It covers the sections Rozier ships; a project's own section writes its root inline. See
+  `docs/developer/contributing/contributing.md` and `docs/extensions/custom_backoffice_entry.md`.
+- `widgets/rz_filters_bar.html.twig` - Filter bar widget
+- `widgets/rz_bulk_actions.html.twig` - Bulk actions widget
+- New macros: `rz_button`, `rz_badge`, `rz_actions_menu`, `rz_card`
+
 # Upgrade to 2.7
 
 ## ⚠ Breaking changes
 
 - Upgrade Symfony dependencies to 7.4
+- Requires `api-platform/*` **4.2** minimum (`^4.2`), for TypeInfo-based property metadata.
+- Removed `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` classes from `RZ\Roadiz\CoreBundle\Serializer\Normalizer` (their service ids remain as deprecated aliases). Code type-hinting or instantiating them must use the matching `RZ\Roadiz\CoreBundle\Serializer\Enricher` class.
 - NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
 - Removed `Node::sterile` property and `Node::isSterile()` method.
 - Removed deprecated `Node` status constants in favor of `NodeStatus` enum
@@ -83,7 +250,48 @@ Example migration:
   - PositionedInterface
   - RealmsAwareWebResponseInterface
 - Removed obsolete `roadiz/fonts-bundle`
+- Replaced the `rezozero/liform-bundle` fork with the official `limenius/liform-bundle`. It ships no Symfony Flex recipe, so it is **not** auto-registered — add it to your `config/bundles.php` or `cache:clear` fails with *"Parent definition `Limenius\Liform\Transformer\AbstractTransformer` does not exist"*:
+  ```php
+  Limenius\LiformBundle\LimeniusLiformBundle::class => ['all' => true],
+  ```
+- `POST /api/token` now rejects (401) a 2FA-enabled account authenticating with username+password only — a valid TOTP or backup code must be sent as an additional `_auth_code` field in the request body. Any API client (mobile app, SPA, script) authenticating a 2FA-enabled user must be updated to prompt for and send this field. Accounts without 2FA are unaffected.
+- `POST /api/users/signup` with an email that's already registered now returns the same success response as a fresh signup (the existing account holder is notified out-of-band instead) — it no longer returns a 422 identifying the email as taken. Frontend signup forms relying on that 422 to show an inline "email already used" message must be updated to rely on the out-of-band email instead.
 - Removed `getFontsFilesPath` and `getFontsFilesBasePath` methods from `RZ\Roadiz\Documents\Models\FileAwareInterface`
+- `NodesSources` now ships a **built-in `unpublishedAt`** date-time field and `unpublishedAt` becomes a **reserved node-type field name**. Projects that already declared an `unpublished_at` (as a custom node-type field, or as a project-level column) must migrate — see [Built-in `unpublishedAt` scheduled expiration field](#built-in-unpublishedat-scheduled-expiration-field).
+- `NodeTypeInterface` gained an `isUnpublishable(): bool` method. Any custom implementation must add it.
+
+## Security-audit hardening (no configuration required)
+
+A batch of quick security fixes landed with sensible built-in defaults — **no project changes are required to upgrade**, but you may want to review or tune them:
+
+- **New rate limiters, pre-configured:** `RoadizUserBundle` and `RoadizTwoFactorBundle` now each prepend a default `framework.rate_limiter` entry and dedicated `framework.cache` pool (`password_request_email` and `two_factor_login` respectively) via `PrependExtensionInterface`, so the container compiles out of the box. Declare a limiter/pool of the same name yourself to override the default (project config always takes precedence over the bundle's):
+  ```yaml
+  # config/packages/framework.yaml — optional, only to override the bundled defaults
+  framework:
+      rate_limiter:
+          password_request_email:
+              policy: 'fixed_window'
+              limit: 5
+              interval: '1 hour'
+              cache_pool: 'cache.password_request_email_limiter'
+          two_factor_login:
+              policy: 'token_bucket'
+              limit: 5
+              rate: { interval: '1 minutes', amount: 5 }
+              cache_pool: 'cache.two_factor_login_limiter'
+  ```
+  - `password_request_email` caps password-reset requests **per targeted email address**, in addition to the pre-existing per-IP limiter — closes an IP-rotating mailbox-flooding gap in `UserPasswordRequestProcessor`.
+  - `two_factor_login` throttles the `2fa_login_check` step (Scheb 2FA ships no built-in throttling for that step); the subscriber is auto-registered by `RoadizTwoFactorBundle`, so it applies as soon as the bundle is enabled.
+  - Each limiter gets its own bundle-provided cache pool (`cache.password_request_email_limiter`, `cache.two_factor_login_limiter`), so you don't need to touch `config/packages/cache.yaml` either — only add a pool of the same name there if you want a different adapter/backend for it.
+- Document uploads (backoffice and public custom-form fields) now reject a denylist of web-executable file extensions (`.php`, `.phtml`, `.html`, `.js`, `.htaccess`, etc. — see `AbstractDocumentFactory::getForbiddenFileExtensions()`); SVG uploads are sanitized server-side before storage.
+- The backoffice document upload endpoint (`DocumentController::uploadAction`) requires a valid CSRF token again (it was previously disabled). The built-in Dropzone uploader already sends one via the existing ajax token header; only a custom uploader built directly against this endpoint would need updating.
+- OpenID Connect id_token signatures are now actually verified (`SignedWith` was missing from the validation constraints), and a token asserting `email_verified: false` is now rejected. Review your IdP's JWKS endpoint and key rotation if you use OpenID login.
+- API Platform's `NotFilter` now respects the same `isPropertyEnabled()` allowlist as other filters (parity with `IntersectionFilter`) — filtering on a non-searchable property is now a no-op instead of silently building a working predicate.
+- Nodes/NodesSources gated by a DENY-behaviour `Realm` are now excluded from every read path (`GET /api/nodes`, `/api/nodes_sources`, `/api/pages/{id}`, `/api/articles`, etc.), not just `GET /api/web_response_by_path` — closes a gap where a realm-protected page's raw NodesSources data was still readable directly.
+- `POST /api/token` for a 2FA-enabled account now requires a valid TOTP/backup code as an extra `_auth_code` field (see Breaking changes above) — Scheb 2FA is session-based and could not previously run on the stateless `api_login` firewall.
+- Both `login_link` firewalls (`api` and `main`) now bind `password` into `signature_properties`, so a password change invalidates any outstanding login-link email. The `main` firewall's link also gained `check_post_only: true` (parity with the API link) — clicking the raw emailed link now lands on a small "confirm sign-in" page that auto-submits a POST, instead of authenticating on a plain GET, so a mail-scanner's link prefetch can no longer consume it.
+- `POST /api/users/signup` with an already-registered email now returns the same success response as a fresh signup instead of a 422 (see Breaking changes above) — the existing account holder gets a "someone tried to sign up with your email" notification with a password-reset link instead.
+- `Webhook` entities gained an optional `secret` field: when set, outbound webhook POSTs carry an `X-Roadiz-Signature: sha256=<hmac>` header (HMAC-SHA256 of the raw JSON body) so receivers can verify the payload came from this instance. Existing webhooks without a secret are unaffected (no header sent).
 
 ## New custom-form webhook system
 
@@ -92,6 +300,66 @@ Example migration:
 - Built-in providers include Brevo, Mailchimp, HubSpot, Zoho CRM, and a generic HTTP option; you can also plug in custom providers.
 - Field mapping and provider settings are configured per form in the admin UI; this controls how form fields map to provider-specific fields.
 - The system is idempotent per CustomFormAnswer ID and uses Messenger retry policies on failure
+
+## Built-in `unpublishedAt` scheduled expiration field
+
+`NodesSources` now provides a built-in, nullable `unpublishedAt` date-time column (`nodes_sources.unpublished_at`),
+symmetrical to `publishedAt`. It lets editors schedule content **expiration**: a node-source is publicly
+visible only when
+
+```
+node.status = PUBLISHED
+AND publishedAt <= now
+AND (unpublishedAt IS NULL OR unpublishedAt > now)
+```
+
+Enable it per node-type with the new `unpublishable: true` option (mirroring `publishable`). `unpublishedAt`
+defaults to `null` (*never expires*), so enabling it is backward-compatible for existing content.
+
+A core bundle migration adds the column and its indexes. It is **guarded**: if `nodes_sources.unpublished_at`
+already exists it is a no-op, so it will not clash with a column you added yourself.
+
+### If your project already has an `unpublished_at`
+
+`unpublishedAt` is now a reserved name and a built-in property, so an existing project-level `unpublished_at`
+**will collide** (a custom node-type field named `unpublished_at` would generate a duplicate `$unpublishedAt`
+property on the generated entity). You must remove the legacy definition and reconcile the schema:
+
+1. **Remove the custom field from your node-type(s).** Delete the `unpublished_at` field from every
+   `config/node_types/*.yaml` (or from the node-type definition in database), then regenerate entities:
+
+   ```bash
+   bin/console app:node-types:regenerate   # or your project's node-type sync/update command
+   ```
+
+2. **Add a project migration** (`bin/console make:migration`, then adjust it) to preserve legacy data and
+   drop the legacy schema. Adapt the table name(s) to your node-type(s):
+
+   ```php
+   public function up(Schema $schema): void
+   {
+       // Copy legacy per-node-type values up into the built-in column, then drop the custom column.
+       if ($schema->hasTable('ns_article') && $schema->getTable('ns_article')->hasColumn('unpublished_at')) {
+           $this->addSql('UPDATE nodes_sources ns INNER JOIN ns_article a ON a.id = ns.id SET ns.unpublished_at = a.unpublished_at WHERE a.unpublished_at IS NOT NULL');
+           $this->addSql('ALTER TABLE ns_article DROP unpublished_at');
+       }
+
+       // If you previously added a project-level column/index on nodes_sources, drop the redundant index
+       // so it does not conflict with the built-in one created by the core bundle migration.
+       if ($schema->getTable('nodes_sources')->hasIndex('nsapp_unpublished_at')) {
+           $this->addSql('DROP INDEX nsapp_unpublished_at ON nodes_sources');
+       }
+   }
+   ```
+
+3. **Run the migrations** and verify the schema is in sync:
+
+   ```bash
+   bin/console doctrine:migrations:migrate
+   bin/console doctrine:schema:validate
+   ```
+
+If you implement `NodeTypeInterface` yourself, also add the new `isUnpublishable(): bool` method.
 
 ## Other changes
 
@@ -105,6 +373,33 @@ roadiz_core:
     projectLogoUrl: '%env(string:APP_PROJECT_LOGO_URL)%'
 ```
 - New `RZ\Roadiz\RozierBundle\EntityThumbnail\EntityThumbnailProviderInterface` system to get a thumbnail URL for any Roadiz entity.
+- Password-reset confirmation emails are now dispatched asynchronously via Messenger instead of synchronously, closing a timing side-channel that let an attacker distinguish existing from non-existing accounts.
+- Embed/podcast feed fetches (`AbstractEmbedFinder`, `AbstractPodcastFinder`) are now capped at a 5MB response size and a timeout, to prevent a memory/DoS issue on very large or slow feeds.
+- Outbound webhooks now go through the same private-network-blocking HTTP client already used by media finders (SSRF hardening).
+- `CustomForm.color` values are now validated with an anchored hex-color regex and escaped in the backoffice list template.
+- `solr:init` now supports standalone Solr cores (e.g. `solr-precreate`), not only SolrCloud. Before, it reported success on a standalone core but applied nothing: the core kept Solr's default `frenchLightStem` schema. French stemming is now configurable with `roadiz_solr.schema` (`french_stemmer`, `ascii_folding`, `french_stemmer_overrides`), defaulting to `frenchMinimalStem`. **On standalone cores, run `bin/console solr:init` then `bin/console solr:reindex` once.** SolrCloud collections already initialized keep the same schema with the default configuration: no action needed unless you change `roadiz_solr.schema`. `solr:init` now returns a failure exit code when the core or collection cannot be reloaded (e.g. it does not exist) or when any initialization subscriber prints a warning (schema API error, missing field type): custom subscribers should use `writeln()` or `note()` for benign messages. `AbstractSolrInitializationSubscriber` now calls the `/solr/{name}/schema` endpoint (instead of `/api/collections/{name}/schema`) and gains a protected `isFilter()` method. See [Initializing the Solr schema](https://docs.roadiz.io/developer/optional-bundles/solr-bundle.html#initializing-the-solr-schema).
+- **Serializer:** core API Platform item normalizer decorators are replaced by `NormalizationEnricherInterface` services run by a single `EnrichingItemNormalizer` (since 2.7.51). Each decorator added a layer to every `supportsNormalization()` call, which cost about 10% of uncached API request time on block-heavy pages. `AbstractPathNormalizer` is deprecated but keeps working: migrate your own decorators to enrichers to get the same gain. See [Enriching normalized items](https://docs.roadiz.io/developer/api/serialization.html#enriching-normalized-items).
+  - **Deprecated services:** `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` (class-named ids in `RZ\Roadiz\CoreBundle\Serializer\Normalizer`), and `roadiz_core.serializer.normalizer.{folder,document,document_sources,tag,custom_form,attribute_value,nodes_sources_path}.json` are now deprecated aliases of the `EnrichingItemNormalizer` services. Projects decorating them keep working; to change a core enrichment, decorate or replace the matching enricher in `RZ\Roadiz\CoreBundle\Serializer\Enricher`. The PHP classes themselves are removed.
+  - Core enrichments now all run before any project decorator. Before, `NodesSourcesTypeNormalizer` (decoration priority -10) ran after project decorators with a higher priority.
+  - Nested documents and folders (`document_folders`, `tag_documents`, `attribute_documents`, `document_display_sources` groups) are now normalized through the Serializer, so project decorators and enrichers apply to them too.
+  - JSON key order may change for keys added by enrichers. There is no semantic impact, but snapshot tests may need updating.
+- **API:** remove `types: [WebResponse]` from the `WebResponse` resource in your `config/api_resources/web_response.yml` (`shortName: WebResponse` already sets the JSON-LD `@type`). API Platform passes operation `types` down to nested objects, so every `AutoChildrenNodeSourceWalker` below the first level of `blocks` was typed `WebResponse` instead of `AutoChildrenNodeSourceWalker`.
+- **API:** tree-walker `children` (any `RZ\TreeWalker\WalkerInterface`, including your own walkers) no longer get a random `@id` skolem IRI (`/api/.well-known/genid/…`). The same content now always serializes to the same JSON, which makes responses cacheable by content (ETag). If your project exposes walkers in an array property (e.g. `CommonContent::$menus`), give it `#[ApiProperty(genId: false)]` **and** type its elements with your concrete walker class, otherwise top-level walkers still get a skolem IRI:
+```php
+/** @var array<string, MenuNodeSourceWalker>|null */
+#[ApiProperty(genId: false)]
+public ?array $menus = null;
+```
+- **API performance** (since 2.7.52): tree-walker normalization no longer issues one query per walker item and per documents, nodes reference or URL alias. `WebResponse` blocks are prefetched automatically by the new `NodesSourcesPrefetcher`. See [Avoid N+1 queries in tree-walkers](https://docs.roadiz.io/developer/api/web_response.html#avoid-n-1-queries-in-tree-walkers).
+  - If you extend `WebResponseOutputDataTransformer` with your own constructor, forward its new optional `$nodesSourcesPrefetcher` argument. Classes using `BlocksAwareWebResponseOutputDataTransformerTrait` directly must override `getNodesSourcesPrefetcher()`. Otherwise blocks are not prefetched.
+  - Regenerate node-source entities (`bin/console generate:nsentities`) to get the new `set{Field}Dtos()` documents setters. Until then, documents fields are not prefetched; there is no error, but a warning is logged on cache warmup.
+  - Nodes reference fields are prefetched through the generic `NodesSourcesRepository`, with the same publication, Realm and allowed node-types filters as generated getters. If you override `findByNodesSourcesAndFieldNameAndTranslation()` in a node-type repository to add your own filters, they are bypassed for prefetched fields: filter the result in your node-source getter instead.
+  - Call `NodesSourcesPrefetcher::prefetchWalkers()` in your `GetCommonContentController` for menus and footers walkers.
+  - Review `document_folders` in your `common_content` serialization groups: `DocumentDtoNormalizer` then loads the full `Document`, its folders and their translations (3 queries per document). Keep it only if API consumers read `folders` on common content documents.
+  - Tree-walker definitions using `NodeSourceDefinitionTrait::getQueryBuilder()` now fetch-join URL aliases. If your own definition paginates this query builder (`setMaxResults()`), a node-source with several URL aliases takes several rows.
+  - `GetWebResponseByPathController` now switches locale-aware services to the resolved item locale. Projects that worked around it in a `WebResponseDataTransformerInterface` decorator (calling `TranslatableListener::setTranslatableLocale()`) can remove it.
+- **`DocumentDto` alternative sources** (since 2.7.52): with `roadiz_core.useDocumentDto` enabled, local video and audio `DocumentDto` normalized with the `document_display_sources` group now expose `altSources`, like `Document` entities. Each source is a `DocumentDto` normalized with the `document_source` group only, fetched in one query per document without hydrating entities. Sources are looked up with `AbstractDocumentFinder::VIDEO_SOURCE_EXTENSIONS` / `AUDIO_SOURCE_EXTENSIONS` in `DocumentRepository::findDtoByFilenames()`: a custom `DocumentFinderInterface` implementation is not used for DTOs.
+- **Document alternative sources** (since 2.7.52): `AbstractDocumentFinder::findVideosWithFilename()` / `findAudiosWithFilename()` (used by `altSources`, video/audio Twig renderers and backoffice preview) now only return documents of the same type: an `audio/ogg` file is no longer a video source. Video sources accept `.m4v` and no longer `.avi` (not playable in browsers, and `video/x-msvideo` was never a Roadiz video). Audio sources accept `.oga`, `.opus`, `.flac` and `.weba`. Both methods now return arrays. `audio/opus` and `audio/x-flac` MIME types are now recognized as audio documents. `altSources` items (entities and DTOs) are now normalized with the new minimal `document_source` group: only `mimeType`, `type`, `relativePath` and `publicUrl` remain (sources only differ by encoding), `imageWidth`, `imageHeight`, `mediaDuration`, `hotspot`, `alt`, `embedId`, `embedPlatform`, `imageAverageColor` and `processable` are no longer exposed on sources.
 
 # Upgrade to 2.6
 
@@ -530,9 +825,13 @@ composer require roadiz/solr-bundle
 
 ## Removed node_types and node_type_fields tables
 
-- Make sure to upgrade to **v2.4.11** first. And perform `bin/console nodetypes:export-files` before upgrading to 2.5.
-- A backup of your database is highly recommended before upgrading to 2.5.
-- Run new migrations
+2.5 drops the `node_types` and `node_type_fields` database tables: node-type definitions now live in static configuration files, not in the database. **You cannot jump straight to 2.5** — you must stop on the 2.4 line first to export them, otherwise your node-type definitions are lost with the dropped tables.
+
+1. **Upgrade to v2.4.11 first** (required intermediate stop — do not skip it).
+2. Run `bin/console nodetypes:export-files` on 2.4.11 to generate the static node-type configuration files from the database.
+3. Commit the generated files.
+4. Back up your database (highly recommended before proceeding).
+5. Upgrade to 2.5 and run the new migrations, which drop the now-exported tables.
 
 ## Removed useless user properties
 
@@ -599,6 +898,35 @@ Make sure to upgrade `bundles.php` file and `api_platform.yaml` configuration:
 
 * Merge `collectionOperations` and `itemOperations` into `operations` for each resource using `ApiPlatform\Metadata\Get` or `ApiPlatform\Metadata\GetCollection` classes
 * Regenerate your api platform resource YAML files, or rename `getByPath` operation to `%entity%_get_by_path`
+* `@type` in API responses for NodesSources may contain `NS` prefix: for example for a `Page` node-type, `@type` will be `NSPage`, make sure to upgrade frontend project to support this **or** create a `NodesSourcesTypeNormalizer` in your project which unset `resource_class` from context to avoid this:
+
+```php
+/**
+ * Roadiz WebResponse::$item and tree-walker items are typed against interfaces
+ * (PersistableInterface, Collection). API Platform 3 puts that declared interface
+ * into `resource_class`, so embedded NodesSources go through the anonymous JSON-LD
+ * context builder, which stamps `@type` from the PHP class short name (e.g. "NSPage"
+ * instead of "Page"). Resetting `resource_class` when it is not a NodesSources lets
+ * API Platform resolve the real resource and emit the correct `@type`.
+ 
+ * @param array<string, mixed> $context
+ *
+ * @return array<mixed>|string|int|float|bool|\ArrayObject<int|string, mixed>|null
+ */
+public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+{
+    if (
+        $object instanceof NodesSources
+        && isset($context['resource_class'])
+        && is_string($context['resource_class'])
+        && !is_a($context['resource_class'], NodesSources::class, true)
+    ) {
+        unset($context['resource_class']);
+    }
+
+    return $this->decorated->normalize($object, $format, $context);
+}
+```
 
 ### Other changes
 * **Solr:** Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods

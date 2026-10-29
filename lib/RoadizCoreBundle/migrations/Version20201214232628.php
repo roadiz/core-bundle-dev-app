@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -18,7 +18,7 @@ final class Version20201214232628 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->skipIf(
-            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform,
+            !$this->connection->getDatabasePlatform() instanceof AbstractMySQLPlatform,
             'Migration can only be executed safely on \'mysql\'.'
         );
         $this->skipIf($schema->hasTable('usergroups'), 'Table `usergroups` already exists.');
@@ -38,7 +38,7 @@ final class Version20201214232628 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->skipIf(
-            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform,
+            !$this->connection->getDatabasePlatform() instanceof AbstractMySQLPlatform,
             'Migration can only be executed safely on \'mysql\'.'
         );
         $this->skipIf($schema->hasTable('groups'), 'Table `groups` already exists.');

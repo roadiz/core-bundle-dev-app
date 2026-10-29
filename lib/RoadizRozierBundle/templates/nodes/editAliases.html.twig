@@ -65,11 +65,11 @@
                         <tr>
                             <td>
                                 {% form_theme form '@RoadizRozier/forms.html.twig' %}
-                                {{ form_start(form) }}
+                                {{ form_start(form, { attr: { class: 'rz-form-field--head-hidden' } }) }}
                                     {{ form_row(form.alias) }}
                                 {{ form_end(form, { render_rest: false }) }}
                             </td>
-                            <td>
+                            <td class="rz-form-field--head-hidden">
                                 {{ form_row(form.translation, { attr: { form: field_id(form) }}) }}
                                 {{ form_row(form._token, { attr: { form: field_id(form) }}) }}
                             </td>
@@ -125,7 +125,7 @@
                     <tr>
                         <td>
                             {% form_theme addRedirection '@RoadizRozier/forms.html.twig' %}
-                            {{ form_start(addRedirection) }}
+                            {{ form_start(addRedirection, { attr: { class: 'rz-form-field--head-hidden' } }) }}
                                 {{ form_widget(addRedirection) }}
                             {{ form_end(addRedirection) }}
                         </td>

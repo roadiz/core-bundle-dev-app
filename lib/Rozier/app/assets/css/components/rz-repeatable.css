@@ -39,6 +39,7 @@
 }
 
 .rz-repeatable__item--align-end {
+	position: relative; /* Move button need wrapper to be position relative for tooltip content */
 	margin-left: auto;
 }
 

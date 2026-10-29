@@ -13,7 +13,10 @@
                 href: path('webhooksAddPage'),
             },
             icon: 'rz-icon-ri--add-line'
-        }]
+        }],
+        breadcrumb: {
+            current: 'webhooks'|trans,
+        },
     } only %}
 
     {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {

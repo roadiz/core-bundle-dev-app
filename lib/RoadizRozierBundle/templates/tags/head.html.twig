@@ -1,26 +1,17 @@
-{% if with_breadcrumb is defined and with_breadcrumb %}
-    {% set parents = [
-        {
-            label: 'tags'|trans,
-            type: 'listing',
-            url: path('tagsHomePage'),
-        }
-    ] %}
-    {% for parent in tag.parents %}
-        {% set parents = parents|merge([{
-            label: parent.getTagName,
-            type: 'tag',
-            url: path('tagsTreePage', { tagId: parent.getId }),
-        }]) %}
-    {% endfor %}
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('tags') %}
+    {% set tag = tag is defined and tag ? tag : null %}
     {% set breadcrumb = {
-        label: 'tags-breadcrumb',
-        parent: parents,
-        current: tag.getTagName,
+        parents: app.request.attributes.get('_route') == root.route
+            ? []
+            : [root]|merge(tag ? tag.parents(null, true) : breadcrumb_parents|default([])),
+        current: tag ? tag.getTagName : title,
     } %}
 {% endif %}
 
 {% include "@RoadizRozier/admin/head.html.twig" with {
+    item: tag,
     translation_route: 'tagsEditTranslatedPage',
     translation_params: {tagId: tag.id},
     available_translations: available_translations,

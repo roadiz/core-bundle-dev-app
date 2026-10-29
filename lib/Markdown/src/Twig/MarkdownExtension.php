@@ -23,16 +23,23 @@ final class MarkdownExtension extends AbstractExtension
             new TwigFilter('inline_markdown', $this->inlineMarkdown(...), ['is_safe' => ['html']]),
             new TwigFilter('markdownExtra', $this->markdownExtra(...), ['is_safe' => ['html']]),
             new TwigFilter('markdown_extra', $this->markdownExtra(...), ['is_safe' => ['html']]),
+            new TwigFilter('strip_markdown', $this->strip(...)),
+            new TwigFilter('stripMarkdown', $this->strip(...)),
         ];
     }
 
-    public function markdown(?string $input): string
+    /**
+     * @param bool $allowHtml Set to true to allow raw HTML (including script/style tags) through
+     *                        unchanged. Defaults to false — raw HTML is stripped.
+     *                        Usage: {{ content|markdown(true) }}
+     */
+    public function markdown(?string $input, bool $allowHtml = false): string
     {
         if (null === $input) {
             return '';
         }
 
-        return $this->markdown->text($input);
+        return $this->markdown->text($input, $allowHtml);
     }
 
     public function inlineMarkdown(?string $input): string
@@ -44,12 +51,26 @@ final class MarkdownExtension extends AbstractExtension
         return $this->markdown->line($input);
     }
 
-    public function markdownExtra(?string $input): string
+    /**
+     * @param bool $allowHtml Set to true to allow raw HTML (including script/style tags) through
+     *                        unchanged. Defaults to false — raw HTML is stripped.
+     *                        Usage: {{ content|markdownExtra(true) }}
+     */
+    public function markdownExtra(?string $input, bool $allowHtml = false): string
     {
         if (null === $input) {
             return '';
         }
 
-        return $this->markdown->textExtra($input);
+        return $this->markdown->textExtra($input, $allowHtml);
+    }
+
+    public function strip(?string $input): string
+    {
+        if (null === $input) {
+            return '';
+        }
+
+        return $this->markdown->strip($input) ?? '';
     }
 }

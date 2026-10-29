@@ -61,7 +61,13 @@
     ) }}
 {% endmacro %}
 
-<div class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}">
+<rz-actions-menu
+    class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}"
+    data-axis="y"
+>
     {% block items %}
     {% endblock %}
-</div>
+    <button class="rz-actions-menu__handle" type="button" aria-label="{{ 'drag.actions.menu'|trans }}">
+        <span class="rz-icon-rz--draggable-2"></span>
+    </button>
+</rz-actions-menu>

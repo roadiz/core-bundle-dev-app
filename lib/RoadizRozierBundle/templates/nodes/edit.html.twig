@@ -85,8 +85,8 @@
                     {% if stackTypesForm %}
                         <td>
                             {% form_theme stackTypesForm '@RoadizRozier/forms.html.twig' %}
-                            {{ form_start(stackTypesForm) }}
-                            {{ form_widget(stackTypesForm) }}
+                            {{ form_start(stackTypesForm, { attr: { 'no-field-group': true }}) }}
+                                {{ form_widget(stackTypesForm) }}
                             {{ form_end(stackTypesForm) }}
                         </td>
                         <td class="rz-table__cell--align-right">

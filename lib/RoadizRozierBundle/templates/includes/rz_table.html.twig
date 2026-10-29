@@ -25,41 +25,42 @@
 {% set _thead_cells %}{% block thead_cells %}{% endblock %}{% endset %}
 {% set _has_thead_cells = _thead_cells|trim is not empty %}
 {% set has_thead_content = _has_thead_cells or selection_available %}
-<table
-	is="rz-table"
-	{{ el_attr.print(_table_attributes|merge({ class: classes|join(' ') })) }}
->
-	{% block caption %}
-		{% if caption is defined %}
-			<caption class="rz-table__caption">{{ caption }}</caption>
-		{% endif %}
-	{% endblock %}
-	{% block thead %}
-		{% if has_thead_content %}
-			<thead>
-				<tr>
-					{% if selection_available %}
-						<th>
-						{{ rz_bulk.select_all_input() }}
-						</th>
-					{% endif %}
-					{{ _thead_cells|raw }}
-					{% if actions_available %}
-						<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
-					{% endif %}
-				</tr>
-			</thead>
-		{% endif %}
-	{% endblock %}
+<div class="rz-table-container">
+	<table
+		is="rz-table"
+		{{ el_attr.print(_table_attributes|merge({ class: classes|join(' ') })) }}
+	>
+		{% block caption %}
+			{% if caption is defined %}
+				<caption class="rz-table__caption">{{ caption }}</caption>
+			{% endif %}
+		{% endblock %}
+		{% block thead %}
+			{% if has_thead_content %}
+				<thead>
+					<tr>
+						{% if selection_available %}
+							<th>
+							{{ rz_bulk.select_all_input() }}
+							</th>
+						{% endif %}
+						{{ _thead_cells|raw }}
+						{% if actions_available %}
+							<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
+						{% endif %}
+					</tr>
+				</thead>
+			{% endif %}
+		{% endblock %}
 
-    <tbody {{ el_attr.print(_tbody_attributes) }}>
-        {% block tbody_content %}{% endblock %}
-    </tbody>
-	<tfoot>
-        {% block tfoot_content %}{% endblock %}
-	</tfoot>
-</table>
-
+		<tbody {{ el_attr.print(_tbody_attributes) }}>
+			{% block tbody_content %}{% endblock %}
+		</tbody>
+		<tfoot>
+			{% block tfoot_content %}{% endblock %}
+		</tfoot>
+	</table>
+</div>
 
 {% macro selection_input(selection_available, value, disabled = false) %}
 	{% set attrs = {} %}

@@ -4,7 +4,7 @@
     <td>
         {% form_theme urlAlias.editForm '@RoadizRozier/forms.html.twig' %}
 
-        {{ form_start(urlAlias.editForm) }}
+        {{ form_start(urlAlias.editForm, { attr: { class: 'rz-form-field--head-hidden' } }) }}
             {{ form_widget(urlAlias.editForm) }}
         {{ form_end(urlAlias.editForm) }}
     </td>

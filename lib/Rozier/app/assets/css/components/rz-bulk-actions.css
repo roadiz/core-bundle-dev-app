@@ -11,7 +11,7 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	margin-block-end: var(--spacing-xs);
+	margin-block: 0 var(--spacing-xs);
 	white-space: nowrap;
 	text-align: center;
 	font-family: var(--font-family-os-title);
@@ -59,4 +59,16 @@
 
 .rz-bulk-actions__group--visible {
 	display: flex;
+}
+
+
+/* Add priority to override if .rz-form is already used */
+.rz-bulk-actions .rz-bulk-actions__form-inline {
+	--rz-form-field-body-margin-top: 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	gap: var(--spacing-5xs);
+	align-items: center;
 }

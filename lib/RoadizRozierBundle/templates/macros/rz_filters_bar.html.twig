@@ -39,7 +39,7 @@
 {% endmacro %}
 
 {% macro pagination(filters = {}) %}
-    {% set pageCount = filters.pageCount %}
+    {% set pageCount = filters.pageCount == 0 ? 1 : filters.pageCount %}
     {% set currentPage = filters.currentPage %}
     {% set previousPageQuery = filters.previousPageQuery %}
     {% set nextPageQuery = filters.nextPageQuery %}

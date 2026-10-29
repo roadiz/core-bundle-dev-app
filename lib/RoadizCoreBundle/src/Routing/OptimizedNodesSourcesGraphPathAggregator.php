@@ -82,12 +82,10 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
                 ->andWhere($qb->expr()->eq('n.visible', ':visible'))
                 ->andWhere($qb->expr()->eq('n.home', ':home'))
                 ->andWhere($qb->expr()->eq('ns.translation', ':translation'))
-                ->setParameters([
-                    'parentIds' => $parentIds,
-                    'visible' => true,
-                    'home' => false,
-                    'translation' => $source->getTranslation(),
-                ])
+                ->setParameter('parentIds', $parentIds)
+                ->setParameter('visible', true)
+                ->setParameter('home', false)
+                ->setParameter('translation', $source->getTranslation())
                 ->getQuery()
                 ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
                 ->setCacheable(true)

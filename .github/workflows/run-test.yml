@@ -20,11 +20,71 @@ jobs:
         strategy:
             matrix:
                 php-version: ['8.3', '8.4', '8.5']
+        services:
+            mariadb:
+                image: mariadb:11.8.3
+                env:
+                    MARIADB_ROOT_PASSWORD: db_password
+                    # Doctrine's `dbname_suffix: '_test'` (config/packages/doctrine.yaml, when@test)
+                    # means the real connection target is `db_name_test`, not `db_name`.
+                    MARIADB_DATABASE: db_name_test
+                    MARIADB_USER: db_user
+                    MARIADB_PASSWORD: db_password
+                ports:
+                    - 3306:3306
+                options: >-
+                    --health-cmd="healthcheck.sh --connect --innodb_initialized"
+                    --health-interval=10s --health-timeout=5s --health-retries=10
+            mysql:
+                image: mysql:8.4.7
+                env:
+                    MYSQL_ROOT_PASSWORD: db_password
+                    MYSQL_DATABASE: db_name_test
+                    MYSQL_USER: db_user
+                    MYSQL_PASSWORD: db_password
+                ports:
+                    - 3307:3306
+                options: >-
+                    --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pdb_password"
+                    --health-interval=10s --health-timeout=5s --health-retries=10
+            redis:
+                image: redis:7-alpine
+                ports:
+                    - 6379:6379
+                options: >-
+                    --health-cmd="redis-cli ping"
+                    --health-interval=10s --health-timeout=5s --health-retries=5
+            mailpit:
+                image: axllent/mailpit
+                ports:
+                    - 1025:1025
+        env:
+            REDIS_DSN: redis://127.0.0.1:6379
+            MESSENGER_TRANSPORT_DSN: redis://127.0.0.1:6379/messages
+            MAILER_DSN: smtp://127.0.0.1:1025
+            VARNISH_URL: http://127.0.0.1:8080
         steps:
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-version }}
             - uses: actions/checkout@v3
+            - name: Start Varnish
+              # Not a `services:` container: its VCL lives in the repo (checked out above) and
+              # points at an `nginx` backend that doesn't exist in CI. We only need it to accept
+              # BAN/PURGE requests (api_platform's http_cache invalidation), never to actually
+              # proxy a request, so an unresolvable backend is fine as long as the VCL loads.
+              # The VCL's `local` ACL only allows this project's own compose subnet
+              # (172.58.0.0/16), so BAN/PURGE from the runner's default docker bridge
+              # (172.17.0.0/16) needs adding to a CI-only copy — the tracked
+              # docker/varnish/default.vcl is left untouched.
+              run: |
+                  sed '/"172.58.0.0\/16";/a\    "172.17.0.0/16";' docker/varnish/default.vcl > /tmp/ci-default.vcl
+                  docker run -d --name varnish \
+                      --add-host=nginx:127.0.0.1 \
+                      -p 8080:80 \
+                      -v /tmp/ci-default.vcl:/etc/varnish/default.vcl:ro \
+                      varnish:7.7.3
+                  timeout 30 bash -c 'until nc -z 127.0.0.1 8080; do sleep 1; done'
             - name: Cache Composer packages
               id: composer-cache
               uses: actions/cache@v3
@@ -37,15 +97,48 @@ jobs:
               run: composer install --no-scripts --no-ansi --no-interaction --no-progress
             - name: Audit Dependencies
               run: composer audit --abandoned=report --format=plain
+            - name: Generate JWT keypair
+              # config/jwt/*.pem is gitignored (generated per-environment); several tests
+              # authenticate against the stateless JWT-provider `/api` firewall and need a
+              # real keypair matching phpunit.xml.dist's fixed JWT_PASSPHRASE.
+              env:
+                  JWT_PASSPHRASE: 6e5690ad7417d7b8dea7d497e6d552f1
+              run: |
+                  php bin/console lexik:jwt:generate-keypair --overwrite -n
+            - name: Stub Rozier admin asset manifest
+              # lib/RoadizRozierBundle/public/manifest.json (behind the public/bundles/roadizrozier/
+              # symlink) is a pnpm-build artifact, gitignored, and this workflow never runs the
+              # separate build-assets.yml job. Without it, JsonManifestResolver throws and any test
+              # that renders an @RoadizRozier admin page (base.html.twig, simple.html.twig, ...) 500s.
+              # A test run doesn't need real CSS/JS, just a manifest file that exists and parses.
+              run: |
+                  mkdir -p public/bundles/roadizrozier
+                  echo '{}' > public/bundles/roadizrozier/manifest.json
             - name: Validate monorepo
               run: |
                   vendor/bin/monorepo-builder validate
             - name: Run rector
               run: |
                   php -d "memory_limit=-1" vendor/bin/rector process --dry-run
-            - name: Run unit tests
+            - name: Run unit tests (MariaDB)
+              env:
+                  XDEBUG_MODE: coverage
+                  DATABASE_URL: "mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=mariadb-11.8.3&charset=utf8mb4"
               run: |
-                  XDEBUG_MODE=coverage vendor/bin/phpunit -v
+                  vendor/bin/phpunit -v
+            - name: Flush Doctrine 2nd-level cache (Redis)
+              # Both DB passes share this Redis instance and both engines auto-increment
+              # entity IDs from 1, so without flushing, the MySQL pass can hydrate
+              # stale cached entities from the MariaDB pass under the same ID (mirrors
+              # `make phpunit`'s own `redis-cli FLUSHALL` between its two passes).
+              run: |
+                  docker run --rm --network host redis:7-alpine redis-cli -h 127.0.0.1 FLUSHALL
+            - name: Run unit tests (MySQL)
+              env:
+                  XDEBUG_MODE: coverage
+                  DATABASE_URL: "mysql://db_user:db_password@127.0.0.1:3307/db_name?serverVersion=8.4.7&charset=utf8mb4"
+              run: |
+                  vendor/bin/phpunit -v
             - name: Run PHP Code Sniffer
               run: |
                   php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv

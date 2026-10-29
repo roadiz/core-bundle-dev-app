@@ -20,8 +20,8 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-        "api-platform/symfony": "^4.1.18",
-        "doctrine/orm": "~2.20.0",
+        "api-platform/symfony": "^4.2",
+        "doctrine/orm": "^3.6",
         "roadiz/core-bundle": "2.8.x-dev",
         "roadiz/models": "2.8.x-dev",
         "symfony/framework-bundle": "7.4.*",
@@ -36,7 +36,9 @@
         "roadiz/doc-generator": "2.8.x-dev",
         "roadiz/entity-generator": "2.8.x-dev",
         "roadiz/jwt": "2.8.x-dev",
-        "roadiz/random": "2.8.x-dev"
+        "roadiz/random": "2.8.x-dev",
+        "phpunit/phpunit": "^9.6",
+        "symfony/phpunit-bridge": "^7.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -54,6 +56,11 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\UserBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\UserBundle\\Tests\\": "tests/"
         }
     },
     "extra": {

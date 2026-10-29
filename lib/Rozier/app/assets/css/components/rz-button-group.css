@@ -1,7 +1,11 @@
 .rz-button-group {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: var(--rz-button-group-wrap, wrap);
 	gap: var(--rz-button-group-gap, var(--spacing-5xs));
+}
+
+.rz-button-group--nowrap {
+	--rz-button-group-wrap: nowrap;
 }
 
 .rz-button-group--end {

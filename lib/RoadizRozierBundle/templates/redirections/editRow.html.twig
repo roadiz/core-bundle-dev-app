@@ -2,7 +2,7 @@
     <td>
         {# Update URL alias #}
         {% form_theme redirection.editForm '@RoadizRozier/forms.html.twig' %}
-        {{ form_start(redirection.editForm) }}
+        {{ form_start(redirection.editForm, { attr: { class: 'rz-form-field--head-hidden' } }) }}
             {{ form_widget(redirection.editForm) }}
         {{ form_end(redirection.editForm) }}
     </td>
