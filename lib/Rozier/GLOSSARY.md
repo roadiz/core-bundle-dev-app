@@ -10,6 +10,10 @@ _Avoid_: Module, section, page
 
 The zones are: **Content editing** (node-source edit page), **Navigation** (tree, main menu, header), **Media library** (documents), **Tables** (listings and bulk actions), **Dialogs** (cross-cutting dialogs and overlays), **Explorer** (drawer picking related entities), **Tags and Folders**, **Custom forms**, **User management**. Work tied to no zone (themes, design tokens, technical foundations) is not a zone: it belongs to a **Phase**.
 
+**Component**:
+A reusable building block of the backoffice UI, named after its `rz-*` root and used across several screens; its markup, styles, behaviour and story share that name.
+_Avoid_: Widget, macro, partial
+
 **Custom element**:
 A UI component of the new design system, a native web component named `rz-*`.
 _Avoid_: Widget, Vue component, web component
@@ -35,6 +39,10 @@ The Storybook entry documenting a foundation, a component or a pattern, and its 
 **Foundation**:
 A base of the design system shown on its own rather than as a component: colors, typography, icons.
 _Avoid_: Integration, base styles
+
+**Layout**:
+The skeleton a backoffice page is rendered into, around its own content: document head, header, menu bar, aside. The main layout is the one editing pages use; the login and the dashboard have their own.
+_Avoid_: Base, master page
 
 **Pattern**:
 A whole screen or a layout region of the backoffice, documented as an assembly of components (login screen, dashboard, application layout, menu bar). A building block reused across several screens is a component, not a pattern.
