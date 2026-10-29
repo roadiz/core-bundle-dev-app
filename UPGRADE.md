@@ -198,8 +198,8 @@ These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc an
 ## ⚠ Rozier session and health check dialogs
 
 The session expiration and health check warning modals no longer use Vue: they are plain
-`<dialog is="rz-dialog">` markup rendered by `@RoadizRozier/base.html.twig` and opened by
-`LoginCheckService`. The session expired dialog no longer shows the splash screen image.
+`<dialog is="rz-dialog">` elements rendered in `@RoadizRozier/base.html.twig` by the new
+`@RoadizRozier/macros/rz_dialog.html.twig` component and opened by `LoginCheckService`. The session expired dialog no longer shows the splash screen image.
 
 Removed from the Rozier front-end:
 
@@ -212,7 +212,8 @@ Removed from the Rozier front-end:
 
 Overriding those messages from JavaScript no longer has any effect. Override the
 `session.expire.title`, `session.expire.content`, `health_check.failed.title` and
-`health_check.failed.content` translation keys in your project catalogue instead.
+`health_check.failed.content` translation keys in your project catalogue instead, or override
+`templates/bundles/RoadizRozierBundle/macros/rz_dialog.html.twig` to change the markup.
 
 ## New admin templates
 
