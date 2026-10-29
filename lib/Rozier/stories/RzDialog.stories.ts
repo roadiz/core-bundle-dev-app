@@ -7,6 +7,7 @@ import { RzElement } from '~/utils/component-renderer/rzElement'
 // 'closerequest' = dialog can be closed only by close button or calling close() method
 // 'any' = dialog can be closed by clicking outside, pressing ESC, close button or calling close() method
 const CLOSED_BY_VALUES = ['none', 'closerequest', 'any'] as const
+const VARIANTS = ['warning', 'danger'] as const
 
 export type Args = {
     tag?: string
@@ -16,6 +17,14 @@ export type Args = {
         closeIconClass?: string
     }
     body?: RzElement
+    /** Centered alert layout: status medallion, title and text, no header bar. */
+    alert?: {
+        iconClass: string
+        title: string
+        text: string
+        closeIconClass?: string
+    }
+    variant?: (typeof VARIANTS)[number]
     footer?: {
         justifyEnd?: boolean
         buttons?: RzButtonOptions[]
@@ -65,6 +74,10 @@ const meta: Meta<Args> = {
         dialogId: 'meta-default-dialog',
     },
     argTypes: {
+        variant: {
+            control: { type: 'radio' },
+            options: VARIANTS,
+        },
         closedby: {
             control: { type: 'select' },
             options: CLOSED_BY_VALUES,
@@ -158,5 +171,55 @@ export const NonModal: Story = {
         dialogId: 'non-modal-dialog',
         modal: false,
         closedby: 'none',
+    },
+}
+
+// Mirrors the session expired dialog of base.html.twig, opened by LoginCheckService.
+export const SessionExpired: Story = {
+    render: (args) => {
+        return rzDialogWrapperRenderer(args)
+    },
+    args: {
+        dialogId: 'session-expired-dialog',
+        variant: 'warning',
+        closedby: 'none',
+        header: undefined,
+        alert: {
+            iconClass: 'rz-icon-ri--lock-line',
+            title: 'Your session has expired',
+            text: 'You have been logged out after a period of inactivity. Log in again to keep working, your unsaved changes will be lost.',
+            closeIconClass: 'rz-icon-ri--close-line',
+        },
+        footer: {
+            buttons: [
+                {
+                    label: 'Login',
+                    iconClass: 'rz-icon-ri--arrow-right-s-line',
+                    emphasis: 'primary',
+                    size: 'lg',
+                    tag: 'a',
+                    attributes: { href: '#', autofocus: '' },
+                },
+            ],
+        },
+    },
+}
+
+// Mirrors the health check dialog of base.html.twig: no close button, no action.
+export const HealthCheckFailed: Story = {
+    render: (args) => {
+        return rzDialogWrapperRenderer(args)
+    },
+    args: {
+        dialogId: 'health-check-dialog',
+        variant: 'danger',
+        closedby: 'none',
+        header: undefined,
+        alert: {
+            iconClass: 'rz-icon-ri--information-line',
+            title: 'Back-office unreachable',
+            text: 'The administration back-end stopped answering. Wait for it to come back, this dialog will close on its own.',
+        },
+        footer: undefined,
     },
 }

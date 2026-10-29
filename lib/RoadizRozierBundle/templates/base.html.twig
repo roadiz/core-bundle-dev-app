@@ -87,7 +87,68 @@
             <document-preview-container></document-preview-container>
         </div>
         <div id="codemirror-preview-containers"></div>
-        {% include '@RoadizRozier/includes/rz_warning_dialogs.html.twig' %}
+        {# Blocking dialogs opened by LoginCheckService, story Components/Overlay/Dialog (SessionExpired, HealthCheckFailed) #}
+        <dialog
+            is="rz-dialog"
+            id="rz-session-expired-dialog"
+            class="rz-dialog rz-dialog--warning"
+            modal="true"
+            closedby="none"
+            aria-labelledby="rz-session-expired-dialog-title"
+            aria-describedby="rz-session-expired-dialog-text"
+        >
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--close-line',
+                emphasis: 'tertiary',
+                size: 'sm',
+                class: 'rz-dialog__close',
+                attributes: {
+                    'aria-label': 'close'|trans,
+                    type: 'button',
+                    closetarget: '',
+                }
+            }) }}
+            <div class="rz-dialog__body">
+                <span class="rz-dialog__medallion">
+                    <span class="rz-icon-ri--lock-line" aria-hidden="true"></span>
+                </span>
+                <div class="rz-dialog__group">
+                    <h1 class="rz-dialog__title" id="rz-session-expired-dialog-title">{{ 'session.expire.title'|trans }}</h1>
+                    <p class="rz-dialog__text" id="rz-session-expired-dialog-text">{{ 'session.expire.content'|trans }}</p>
+                </div>
+            </div>
+            <footer class="rz-dialog__footer">
+                {{ rz_button.root({
+                    label: 'login',
+                    icon: 'rz-icon-ri--arrow-right-s-line',
+                    emphasis: 'primary',
+                    size: 'lg',
+                    attributes: {
+                        href: path('loginPage') ~ '?_home=1',
+                        autofocus: '',
+                    }
+                }) }}
+            </footer>
+        </dialog>
+        <dialog
+            is="rz-dialog"
+            id="rz-health-check-dialog"
+            class="rz-dialog rz-dialog--warning rz-dialog--danger"
+            modal="true"
+            closedby="none"
+            aria-labelledby="rz-health-check-dialog-title"
+            aria-describedby="rz-health-check-dialog-text"
+        >
+            <div class="rz-dialog__body">
+                <span class="rz-dialog__medallion">
+                    <span class="rz-icon-ri--information-line" aria-hidden="true"></span>
+                </span>
+                <div class="rz-dialog__group">
+                    <h1 class="rz-dialog__title" id="rz-health-check-dialog-title">{{ 'health_check.failed.title'|trans }}</h1>
+                    <p class="rz-dialog__text" id="rz-health-check-dialog-text">{{ 'health_check.failed.content'|trans }}</p>
+                </div>
+            </div>
+        </dialog>
         <rz-toast-list role="status" class="rz-toast-list--bottom-right"></rz-toast-list>
         <script>
             /**

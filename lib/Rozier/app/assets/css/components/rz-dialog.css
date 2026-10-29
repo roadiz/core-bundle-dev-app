@@ -80,6 +80,18 @@
 		padding: var(--spacing-md) var(--spacing-2xl);
 	}
 
+	.rz-dialog__medallion {
+		display: grid;
+		place-items: center;
+		width: var(--spacing-2xl);
+		height: var(--spacing-2xl);
+		margin-inline: auto;
+		border-radius: 50%;
+		background-color: var(--rz-dialog-accent-container);
+		color: var(--rz-dialog-accent-on-container);
+		font-size: var(--spacing-md);
+	}
+
 	.rz-dialog__group {
 		display: flex;
 		flex-direction: column;
@@ -126,18 +138,6 @@
 			margin-top: var(--spacing-5xs);
 		}
 	}
-}
-
-.rz-dialog__medallion {
-	display: grid;
-	place-items: center;
-	width: 48px;
-	height: 48px;
-	margin-inline: auto;
-	border-radius: 50%;
-	background-color: var(--rz-dialog-accent-container);
-	color: var(--rz-dialog-accent-on-container);
-	font-size: 24px;
 }
 
 .rz-dialog__header {

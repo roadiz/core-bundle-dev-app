@@ -93,7 +93,7 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 
 - [ ] Navigation/tree: [#469](https://github.com/roadiz/core-bundle-dev-app/issues/469), [#437](https://github.com/roadiz/core-bundle-dev-app/issues/437), migrate `AdminMenuNav.js`
 - [ ] Media library/documents: migrate `DocumentAlignmentWidget.js`
-- [ ] Dialogs/overlays: clean up the remaining legacy components (`WarningModal`, `ModalContainer`, `Overlay`, `FilterExplorerItem`, `JoinPreviewItem`)
+- [ ] Dialogs/overlays: clean up the remaining legacy components (`Overlay`, `FilterExplorerItem`, `JoinPreviewItem`); `WarningModal` and `ModalContainer` are replaced by native `rz-dialog` ([#482](https://github.com/roadiz/core-bundle-dev-app/pull/482))
 - [ ] Explorer/Drawer: revisit `NodeTypesDrawerContainer.vue` (still heavily UIkit)
 
 ## Phase 4 — Technical foundations
@@ -111,7 +111,7 @@ Investigation done (see status report): this is no longer an open question of "s
 Vue/UIkit", it's a precise, bounded scope. Treat it as a dedicated phase, after 1-2 visual zones
 have been stabilized (not urgent, but not to be forgotten):
 
-- [ ] Replace the Vuex store (6 modules) and migrate the coupled 8-file block: `ExplorerContainer.vue`, `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue`, `ModalContainer.vue` and their dynamic children
+- [ ] Replace the Vuex store (6 modules) and migrate the coupled block: `ExplorerContainer.vue`, `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue` and their dynamic children
 - [ ] Migrate the 7 remaining isolated Vue files (`Overlay.vue`, `BlanchetteEditorContainer.vue`/`BlanchetteToolbar.vue`...) following the event-driven pattern already proven on `rz-drawer` — doable along the way, zone by zone, no need to wait for this phase
 - [ ] Handle the last 2 genuinely live UIkit behaviours: dismissible alert (`data-uk-alert` × 8, no native equivalent yet — needs designing) and finish wiring `RzTooltip.ts` everywhere
 - [ ] Clean up the 4 files with a UIkit/native double dependency (`RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `base.html.twig`)
