@@ -7,6 +7,18 @@
         <source>welcome.user.email.%site%</source>
         <target state="final">A user account has been created for you on %site%.</target>
       </trans-unit>
+      <trans-unit id="password.changed.notification">
+        <source>password.changed.notification</source>
+        <target state="final">Your password has been changed</target>
+      </trans-unit>
+      <trans-unit id="your.password.was.changed.on.%site%">
+        <source>your.password.was.changed.on.%site%</source>
+        <target state="final">Your account password was changed on %site%.</target>
+      </trans-unit>
+      <trans-unit id="if.you.did.not.change.your.password.reset.it.now">
+        <source>if.you.did.not.change.your.password.reset.it.now</source>
+        <target state="final">If you did not make this change, reset your password immediately and contact your administrator.</target>
+      </trans-unit>
       <trans-unit id="your.user.account" approved="yes">
         <source>your.user.account</source>
         <target state="final">Your user account</target>

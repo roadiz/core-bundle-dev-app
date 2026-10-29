@@ -1,6 +1,13 @@
 {% include '@RoadizRozier/admin/confirm_action.html.twig' with {
     'title': "delete.nodeTypeDecorator.%name%"|trans({'%name%': item.displayName}),
     'headPath': '@RoadizRozier/admin/head.html.twig',
+    'breadcrumb_parents': [
+        breadcrumb_root('nodeTypes'),
+        {
+            label: 'nodeTypeDecorator'|trans,
+            url: path('nodeTypeDecoratorsListPage'),
+        },
+    ],
     'cancelPath': path('nodeTypeDecoratorsListPage'),
     'alertMessage': 'are_you_sure.delete.nodeTypeDecorator'|trans,
     'form': form,

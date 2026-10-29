@@ -1279,6 +1279,18 @@
         <source>see.page</source>
         <target state="final">Voir la page</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview" approved="yes">
+        <source>live_preview</source>
+        <target state="final">Aperçu en direct</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.close" approved="yes">
+        <source>live_preview.close</source>
+        <target state="final">Fermer l'aperçu</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="live_preview.viewport" approved="yes">
+        <source>live_preview.viewport</source>
+        <target state="final">Largeur d'aperçu</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="preview.page" approved="yes">
         <source>preview.page</source>
         <target state="final">Prévisualiser la page</target>
@@ -2370,6 +2382,14 @@
         <source>blockquote</source>
         <target state="final">Citation</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb" approved="yes">
+        <source>breadcrumb</source>
+        <target state="final">Fil d’Ariane</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="breadcrumb.show_more" approved="yes">
+        <source>breadcrumb.show_more</source>
+        <target state="final">Afficher les niveaux masqués du fil d’Ariane</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="bold" approved="yes">
         <source>bold</source>
         <target state="final">Gras</target>
@@ -3139,6 +3159,10 @@
       <trans-unit xml:space="preserve" id="changelog" approved="yes">
         <source>changelog</source>
         <target state="final">Notes de mise à jour</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="current.password">
+        <source>current.password</source>
+        <target state="final">Mot de passe actuel</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
         <source>choose.a.new.password</source>
@@ -5243,10 +5267,6 @@
       <trans-unit xml:space="preserve" id="node_tree.no_nodes_found" approved="yes">
         <source>node_tree.no_nodes_found</source>
         <target state="final">Aucun nœud trouvé</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes-breadcrumb" approved="yes">
-        <source>nodes-breadcrumb</source>
-        <target state="final">Fil d’Ariane des nœuds</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="not.available" approved="yes">
         <source>not.available</source>

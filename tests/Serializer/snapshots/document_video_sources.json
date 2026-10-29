@@ -1,0 +1,69 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Document",
+        "@id": "/api/documents/{id}",
+        "@type": "Document",
+        "hotspot": null,
+        "embedId": null,
+        "embedPlatform": null,
+        "mimeType": "video/mp4",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "video",
+        "relativePath": "fixtures/serialization_video.mp4",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_video.mp4",
+        "altSources": [
+            {
+                "@context": "/api/contexts/Document",
+                "@id": "/api/documents/{id}",
+                "@type": "Document",
+                "mimeType": "video/webm",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.webm",
+                "publicUrl": "/files/fixtures/serialization_video.webm"
+            },
+            {
+                "@context": "/api/contexts/Document",
+                "@id": "/api/documents/{id}",
+                "@type": "Document",
+                "mimeType": "video/x-m4v",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.m4v",
+                "publicUrl": "/files/fixtures/serialization_video.m4v"
+            }
+        ]
+    },
+    "json": {
+        "hotspot": null,
+        "embedId": null,
+        "embedPlatform": null,
+        "mimeType": "video/mp4",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "video",
+        "relativePath": "fixtures/serialization_video.mp4",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_video.mp4",
+        "altSources": [
+            {
+                "mimeType": "video/webm",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.webm",
+                "publicUrl": "/files/fixtures/serialization_video.webm"
+            },
+            {
+                "mimeType": "video/x-m4v",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.m4v",
+                "publicUrl": "/files/fixtures/serialization_video.m4v"
+            }
+        ]
+    }
+}

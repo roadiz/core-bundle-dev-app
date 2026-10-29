@@ -30,8 +30,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @extends EntityRepository<Document>
  *
  * @implements DocumentRepositoryInterface<Document>
+ *
+ * @final not declared final so it can be mocked
  */
-final class DocumentRepository extends EntityRepository implements DocumentRepositoryInterface
+class DocumentRepository extends EntityRepository implements DocumentRepositoryInterface
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -616,7 +618,65 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         string $fieldName,
     ): array {
         $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+        $qb->select($this->getNodeSourceDocumentDtoSelect())
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('fieldName', $fieldName)
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('raw', false)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Batch version of findDocumentDtoByNodeSourceAndFieldName(), for several node-sources
+     * sharing the same translation.
+     *
+     * @param array<int|string> $nodeSourceIds
+     * @param array<string>     $fieldNames
+     *
+     * @return array<int|string, array<string, array<DocumentDto>>> DocumentDto lists indexed by node-source ID and field name, in position order
+     */
+    public function findDocumentDtoByNodeSourceIdsAndFieldNames(
+        array $nodeSourceIds,
+        array $fieldNames,
+        TranslationInterface $translation,
+    ): array {
+        if ([] === $nodeSourceIds || [] === $fieldNames) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getNodeSourceDocumentDtoSelect())
+            ->addSelect('IDENTITY(nsf.nodeSource) AS nodeSourceId', 'nsf.fieldName AS fieldName')
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf')
+            ->andWhere($qb->expr()->in('nsf.nodeSource', ':nodeSourceIds'))
+            ->andWhere($qb->expr()->in('nsf.fieldName', ':fieldNames'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('nodeSourceIds', array_values($nodeSourceIds))
+            ->setParameter('fieldNames', array_values($fieldNames))
+            ->setParameter('translation', $translation)
+            ->setParameter('raw', false);
+
+        $documents = [];
+        /** @var array{0: DocumentDto, nodeSourceId: int|string, fieldName: string} $row */
+        foreach ($qb->getQuery()->getResult() as $row) {
+            $documents[$row['nodeSourceId']][$row['fieldName']][] = $row[0];
+        }
+
+        return $documents;
+    }
+
+    private function getNodeSourceDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -643,29 +703,39 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
-            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
-            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
-            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+        );
+    }
+
+    /**
+     * DTO version of DocumentFinder::findAllByFilenames(), without hydrating entities.
+     *
+     * @param array<string> $filenames
+     *
+     * @return array<DocumentDto>
+     */
+    public function findDtoByFilenames(array $filenames): array
+    {
+        if ([] === $filenames) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getDocumentDtoSelect())
+            ->andWhere($qb->expr()->in('d.filename', ':filenames'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
-            ->addOrderBy('nsf.position', 'ASC')
-            ->setParameter('fieldName', $fieldName)
-            ->setParameter('nodeSource', $nodeSource)
-            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('filenames', array_values($filenames))
             ->setParameter('raw', false)
-            ->setCacheable(true);
+            ->setParameter('nullValue', null);
 
         return $qb->getQuery()->getResult();
     }
 
     /**
-     * @throws NonUniqueResultException
+     * DocumentDto select without node-source and translation data.
      */
-    public function findFirstThumbnailDtoBy(
-        int|string $originalDocumentId,
-    ): ?DocumentDto {
-        $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+    private function getDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -692,7 +762,17 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
+        );
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findFirstThumbnailDtoBy(
+        int|string $originalDocumentId,
+    ): ?DocumentDto {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getDocumentDtoSelect())
             ->andWhere($qb->expr()->eq('d.original', ':original'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)

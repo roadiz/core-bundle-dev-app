@@ -55,11 +55,12 @@ make update           # Non-interactive migrations + fixtures
 **Frontend (Rozier admin UI):**
 ```bash
 docker compose up node                    # Dev server (HMR on port 5173)
-docker compose run --rm node pnpm build   # Build assets
+docker compose run --rm node pnpm build:check   # Check the build, writes to /tmp only
+docker compose run --rm node pnpm build   # Build assets into lib/RoadizRozierBundle/public/
 # Local: cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev
 ```
 
-After `pnpm build`, restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
+After `pnpm build`, run `make cache` (the Vite manifest is cached in the Redis `cache.app` pool), restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
 
 **Docs (VitePress):**
 ```bash
@@ -78,7 +79,7 @@ lib/
   RoadizUserBundle/   # User management
   RoadizTwoFactorBundle/
   RoadizSolrBundle/
-  Rozier/             # Frontend source (Vue 3 + Vite, pnpm)
+  Rozier/             # Frontend source (Vue 2.7 + Vite, pnpm)
   Models/             # Shared domain models
   Documents/          # Document/media handling
   Jwt/                # JWT utilities
@@ -151,3 +152,21 @@ PHPStan may misbehave when `lib/*` packages are symlinked — run from inside th
 
 - `.env.local`
 - `.env.*.local` (e.g. `.env.test.local`, `.env.dev.local`)
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues for `roadiz/core-bundle-dev-app`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default canonical vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context: root `GLOSSARY-MAP.md` points to one `GLOSSARY.md` per `lib/<Package>/`; system-wide ADRs in `docs/adr/`, package-scoped ones in `lib/<Package>/docs/adr/`. See `docs/agents/domain.md`.
+
+### Rozier (backoffice UI)
+
+Before any Rozier work, read `lib/Rozier/docs/` (start with its `README.md`): `engineering-practices.md` holds the feedback loop that replaces `/tdd` (no frontend tests), the Figma and accessibility rules, and the standards `/code-review` checks; `ui-redesign-todo.md` holds the redesign zones, their order and the component inventory. UI vocabulary (zone names, legacy vs redesigned) lives in `lib/Rozier/GLOSSARY.md`, accepted UI decisions in `lib/Rozier/docs/adr/`. Before labelling a Rozier issue `ready-for-agent`, check the definition of ready in `docs/agents/triage-labels.md`.

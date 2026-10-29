@@ -169,9 +169,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
                 $this->renderer->render($this->document, self::$previewArray) :
                 null,
             'embedPlatform' => $this->document->getEmbedPlatform(),
-            'icon' => null !== $embedFinder
-                ? $embedFinder->getShortType()
-                : $this->document->getShortType(),
+            'icon' => $embedFinder?->getShortType() ?? $this->document->getShortType(),
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail80' => $thumbnail80Url,
             'editImageUrl' => $editImageUrl,

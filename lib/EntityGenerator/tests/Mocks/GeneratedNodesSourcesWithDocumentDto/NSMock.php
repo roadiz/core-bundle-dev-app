@@ -85,6 +85,16 @@ class NSMock extends NodesSources
         return $this;
     }
 
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $bar
+     * @return $this
+     */
+    public function setBarDtos(?array $bar): static
+    {
+        $this->bar = $bar;
+        return $this;
+    }
+
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     #[\Override]

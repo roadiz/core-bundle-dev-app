@@ -14,6 +14,8 @@
 ## ⚠ Twig breaking changes
 
 - Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
+- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `widgets/rz_tree_wrapper_auto.html.twig`; it now renders node, tag and folder trees alike
+- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `widgets/rz_tree_wrapper_auto.html.twig` instead
 
 For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
 - `content_title`
@@ -47,6 +49,17 @@ Example:
     filters: filters,
     display_select_all_button: true,
 } only %}
+```
+
+## ⚠ PHP breaking changes
+
+- `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem` now takes only `$label` and `$url`. The unused
+  `bool $enabled` property and the `bool $home` flag are both gone — the trail no longer draws icons.
+  Custom `BreadcrumbsItemFactoryInterface` implementations must drop those arguments.
+
+```diff
+-new BreadcrumbsItem($label, $url, $node->isHome())
++new BreadcrumbsItem($label, $url)
 ```
 
 ## ⚠ Rozier menu icons changed
@@ -220,6 +233,17 @@ Overriding those messages from JavaScript no longer has any effect. Override the
 New reusable templates for building back-office pages:
 - `admin/head.html.twig` - Page header with title, breadcrumb, buttons
 - `admin/confirm_action.html.twig` - Generic confirmation page
+- `macros/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
+  `{ parents, current }`, rendered automatically by `admin/head.html.twig` as soon as that
+  variable is in context. Ancestors are either `{label, url}` hashes or entities resolved by a
+  `BreadcrumbsItemFactory`; past three of them the middle ones fold into a popover.
+- `breadcrumb_root('<section>')` Twig function, backed by the `BreadcrumbRoots` service - the single
+  table of back-office section roots. A page never declares the root of its own section: the section
+  head does, and detects on its own whether the page *is* that root. Use the function only outside a
+  section head. Its companion `breadcrumb_trail('<section>', item)` returns the whole path down to a
+  tree entity — root, ancestors, then the item — which confirmation pages show above their own title.
+  It covers the sections Rozier ships; a project's own section writes its root inline. See
+  `docs/developer/contributing/contributing.md` and `docs/extensions/custom_backoffice_entry.md`.
 - `widgets/rz_filters_bar.html.twig` - Filter bar widget
 - `widgets/rz_bulk_actions.html.twig` - Bulk actions widget
 - New macros: `rz_button`, `rz_badge`, `rz_actions_menu`, `rz_card`
@@ -229,6 +253,8 @@ New reusable templates for building back-office pages:
 ## ⚠ Breaking changes
 
 - Upgrade Symfony dependencies to 7.4
+- Requires `api-platform/*` **4.2** minimum (`^4.2`), for TypeInfo-based property metadata.
+- Removed `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` classes from `RZ\Roadiz\CoreBundle\Serializer\Normalizer` (their service ids remain as deprecated aliases). Code type-hinting or instantiating them must use the matching `RZ\Roadiz\CoreBundle\Serializer\Enricher` class.
 - NodeSourceWalkerContext requires a new service `NodeTypeClassLocatorInterface` in its constructor.
 - Removed `Node::sterile` property and `Node::isSterile()` method.
 - Removed deprecated `Node` status constants in favor of `NodeStatus` enum
@@ -371,6 +397,29 @@ roadiz_core:
 - Embed/podcast feed fetches (`AbstractEmbedFinder`, `AbstractPodcastFinder`) are now capped at a 5MB response size and a timeout, to prevent a memory/DoS issue on very large or slow feeds.
 - Outbound webhooks now go through the same private-network-blocking HTTP client already used by media finders (SSRF hardening).
 - `CustomForm.color` values are now validated with an anchored hex-color regex and escaped in the backoffice list template.
+- `solr:init` now supports standalone Solr cores (e.g. `solr-precreate`), not only SolrCloud. Before, it reported success on a standalone core but applied nothing: the core kept Solr's default `frenchLightStem` schema. French stemming is now configurable with `roadiz_solr.schema` (`french_stemmer`, `ascii_folding`, `french_stemmer_overrides`), defaulting to `frenchMinimalStem`. **On standalone cores, run `bin/console solr:init` then `bin/console solr:reindex` once.** SolrCloud collections already initialized keep the same schema with the default configuration: no action needed unless you change `roadiz_solr.schema`. `solr:init` now returns a failure exit code when the core or collection cannot be reloaded (e.g. it does not exist) or when any initialization subscriber prints a warning (schema API error, missing field type): custom subscribers should use `writeln()` or `note()` for benign messages. `AbstractSolrInitializationSubscriber` now calls the `/solr/{name}/schema` endpoint (instead of `/api/collections/{name}/schema`) and gains a protected `isFilter()` method. See [Initializing the Solr schema](https://docs.roadiz.io/developer/optional-bundles/solr-bundle.html#initializing-the-solr-schema).
+- **Serializer:** core API Platform item normalizer decorators are replaced by `NormalizationEnricherInterface` services run by a single `EnrichingItemNormalizer` (since 2.7.51). Each decorator added a layer to every `supportsNormalization()` call, which cost about 10% of uncached API request time on block-heavy pages. `AbstractPathNormalizer` is deprecated but keeps working: migrate your own decorators to enrichers to get the same gain. See [Enriching normalized items](https://docs.roadiz.io/developer/api/serialization.html#enriching-normalized-items).
+  - **Deprecated services:** `FolderNormalizer`, `DocumentNormalizer`, `DocumentSourcesNormalizer`, `TagTranslationNormalizer`, `CustomFormNormalizer`, `AttributeValueNormalizer`, `NodesSourcesPathNormalizer` and `NodesSourcesTypeNormalizer` (class-named ids in `RZ\Roadiz\CoreBundle\Serializer\Normalizer`), and `roadiz_core.serializer.normalizer.{folder,document,document_sources,tag,custom_form,attribute_value,nodes_sources_path}.json` are now deprecated aliases of the `EnrichingItemNormalizer` services. Projects decorating them keep working; to change a core enrichment, decorate or replace the matching enricher in `RZ\Roadiz\CoreBundle\Serializer\Enricher`. The PHP classes themselves are removed.
+  - Core enrichments now all run before any project decorator. Before, `NodesSourcesTypeNormalizer` (decoration priority -10) ran after project decorators with a higher priority.
+  - Nested documents and folders (`document_folders`, `tag_documents`, `attribute_documents`, `document_display_sources` groups) are now normalized through the Serializer, so project decorators and enrichers apply to them too.
+  - JSON key order may change for keys added by enrichers. There is no semantic impact, but snapshot tests may need updating.
+- **API:** remove `types: [WebResponse]` from the `WebResponse` resource in your `config/api_resources/web_response.yml` (`shortName: WebResponse` already sets the JSON-LD `@type`). API Platform passes operation `types` down to nested objects, so every `AutoChildrenNodeSourceWalker` below the first level of `blocks` was typed `WebResponse` instead of `AutoChildrenNodeSourceWalker`.
+- **API:** tree-walker `children` (any `RZ\TreeWalker\WalkerInterface`, including your own walkers) no longer get a random `@id` skolem IRI (`/api/.well-known/genid/…`). The same content now always serializes to the same JSON, which makes responses cacheable by content (ETag). If your project exposes walkers in an array property (e.g. `CommonContent::$menus`), give it `#[ApiProperty(genId: false)]` **and** type its elements with your concrete walker class, otherwise top-level walkers still get a skolem IRI:
+```php
+/** @var array<string, MenuNodeSourceWalker>|null */
+#[ApiProperty(genId: false)]
+public ?array $menus = null;
+```
+- **API performance** (since 2.7.52): tree-walker normalization no longer issues one query per walker item and per documents, nodes reference or URL alias. `WebResponse` blocks are prefetched automatically by the new `NodesSourcesPrefetcher`. See [Avoid N+1 queries in tree-walkers](https://docs.roadiz.io/developer/api/web_response.html#avoid-n-1-queries-in-tree-walkers).
+  - If you extend `WebResponseOutputDataTransformer` with your own constructor, forward its new optional `$nodesSourcesPrefetcher` argument. Classes using `BlocksAwareWebResponseOutputDataTransformerTrait` directly must override `getNodesSourcesPrefetcher()`. Otherwise blocks are not prefetched.
+  - Regenerate node-source entities (`bin/console generate:nsentities`) to get the new `set{Field}Dtos()` documents setters. Until then, documents fields are not prefetched; there is no error, but a warning is logged on cache warmup.
+  - Nodes reference fields are prefetched through the generic `NodesSourcesRepository`, with the same publication, Realm and allowed node-types filters as generated getters. If you override `findByNodesSourcesAndFieldNameAndTranslation()` in a node-type repository to add your own filters, they are bypassed for prefetched fields: filter the result in your node-source getter instead.
+  - Call `NodesSourcesPrefetcher::prefetchWalkers()` in your `GetCommonContentController` for menus and footers walkers.
+  - Review `document_folders` in your `common_content` serialization groups: `DocumentDtoNormalizer` then loads the full `Document`, its folders and their translations (3 queries per document). Keep it only if API consumers read `folders` on common content documents.
+  - Tree-walker definitions using `NodeSourceDefinitionTrait::getQueryBuilder()` now fetch-join URL aliases. If your own definition paginates this query builder (`setMaxResults()`), a node-source with several URL aliases takes several rows.
+  - `GetWebResponseByPathController` now switches locale-aware services to the resolved item locale. Projects that worked around it in a `WebResponseDataTransformerInterface` decorator (calling `TranslatableListener::setTranslatableLocale()`) can remove it.
+- **`DocumentDto` alternative sources** (since 2.7.52): with `roadiz_core.useDocumentDto` enabled, local video and audio `DocumentDto` normalized with the `document_display_sources` group now expose `altSources`, like `Document` entities. Each source is a `DocumentDto` normalized with the `document_source` group only, fetched in one query per document without hydrating entities. Sources are looked up with `AbstractDocumentFinder::VIDEO_SOURCE_EXTENSIONS` / `AUDIO_SOURCE_EXTENSIONS` in `DocumentRepository::findDtoByFilenames()`: a custom `DocumentFinderInterface` implementation is not used for DTOs.
+- **Document alternative sources** (since 2.7.52): `AbstractDocumentFinder::findVideosWithFilename()` / `findAudiosWithFilename()` (used by `altSources`, video/audio Twig renderers and backoffice preview) now only return documents of the same type: an `audio/ogg` file is no longer a video source. Video sources accept `.m4v` and no longer `.avi` (not playable in browsers, and `video/x-msvideo` was never a Roadiz video). Audio sources accept `.oga`, `.opus`, `.flac` and `.weba`. Both methods now return arrays. `audio/opus` and `audio/x-flac` MIME types are now recognized as audio documents. `altSources` items (entities and DTOs) are now normalized with the new minimal `document_source` group: only `mimeType`, `type`, `relativePath` and `publicUrl` remain (sources only differ by encoding), `imageWidth`, `imageHeight`, `mediaDuration`, `hotspot`, `alt`, `embedId`, `embedPlatform`, `imageAverageColor` and `processable` are no longer exposed on sources.
 
 # Upgrade to 2.6
 

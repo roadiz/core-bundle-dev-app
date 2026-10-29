@@ -160,4 +160,6 @@ export default [
     'youtube-fill',
     'zoom-in-line',
     'zoom-out-line',
+    'smartphone-line',
+    'tablet-line',
 ]

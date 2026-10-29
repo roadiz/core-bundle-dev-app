@@ -1,7 +1,7 @@
 # TODO — Methodical resumption of the Rozier redesign
 
-> Built from [`ui-redesign-status.md`](ui-redesign-status.md) (status report, component inventory,
-> Figma sample). Goal: give a precise framework so we don't work on several big fronts at once —
+> Built from a status report of 2026-09-10, whose component inventory is kept in the
+> [appendix](#appendix--component-inventory-2026-09-10). Goal: give a precise framework so we don't work on several big fronts at once —
 > Rozier is a large interface, spreading thin across it produces a lot of zones at 60% rather than
 > finished zones.
 
@@ -20,7 +20,7 @@ Rules to avoid spreading thin:
 
 ## Zone order and rationale
 
-Based on the component inventory (see status report): the nearly-finished zones close quickly and
+Based on the [component inventory](#appendix--component-inventory-2026-09-10): the nearly-finished zones close quickly and
 build momentum; the heavily legacy zones need a real effort, not just touch-ups.
 
 | Order | Zone | Progress | Why this order |
@@ -42,36 +42,38 @@ validated: it clears the ground and rebuilds some rhythm before the pilot zone. 
 2-3 days** — several items below need a quick manual check before removal (no automated tests in
 `lib/Rozier`); don't let it drift into an exhaustive verification effort that delays Phase 1.
 
+**Closing it** (tracked in [#531](https://github.com/roadiz/core-bundle-dev-app/issues/531)): the phase is closed when every item is done or excluded with a written trace. One PR per item, in this order: #396, then the dead stack-tree refresh, then the Vue, UIkit and `Lazyload.ts` removals. A file counts as dead when nothing references it and a manual click-through of the related screens shows no regression; record that QA checklist in the PR.
+
 **The order below matters**: merge the PRs first, *before* touching the legacy cleanup/bugfix work —
 PR [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) directly modifies `Rozier.ts`, `RzAside.ts`, and `RzTree.ts`,
-exactly the files where the `initNestables()` bug and the Vue/UIkit cleanup below live. Fixing/
+exactly the files where the stack-tree refresh and the Vue/UIkit cleanup below live. Fixing/
 cleaning up before merging #396 risks a conflict or an overwritten fix.
 
-- [ ] Merge [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (near-zero risk)
-- [ ] Review + merge [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) and [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417)
-- [ ] Retest (stale ~7 months) then merge [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396)
-- [ ] Check the link with the closed PR #377, resolve conflicts, then merge [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398)
+- [x] Merge [#416](https://github.com/roadiz/core-bundle-dev-app/pull/416) (near-zero risk)
+- [x] Review + merge [#415](https://github.com/roadiz/core-bundle-dev-app/pull/415) and [#417](https://github.com/roadiz/core-bundle-dev-app/pull/417)
+- [x] [#532](https://github.com/roadiz/core-bundle-dev-app/issues/532) [#396](https://github.com/roadiz/core-bundle-dev-app/pull/396) merged on 2026-10-29 after merging `develop` (conflict on `RzNodeTreeContextualMenu.ts` resolved by keeping `develop`'s version) and review fixes (flash messages, main-tree refresh listeners)
+- [x] ~~Merge [#398](https://github.com/roadiz/core-bundle-dev-app/pull/398)~~ closed as superseded: `develop` already ships the draggable `RzActionsMenu` (2026-10-28)
 
 *(From here on, the code in `Rozier.ts`/`RzAside.ts`/`RzTree.ts` has moved — work from the
 post-merge state, not from the paths/line numbers cited below, which reflect the state as of
 2026-09-10.)*
 
-- [ ] De-duplicate: [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439)/[#440](https://github.com/roadiz/core-bundle-dev-app/issues/440), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [roadiz/roadiz#415](https://github.com/roadiz/roadiz/issues/415)/[core-bundle-dev-app#462](https://github.com/roadiz/core-bundle-dev-app/issues/462)
-- [ ] Resync board ↔ `v2.8` milestone (13 milestone issues missing from the board)
-- [ ] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): remove from the milestone or explicitly own them
-- [ ] Set a due date on `v2.8`, or open `v2.9` if scope has drifted too far
-- [ ] Clean up the `components/RzButton.vue` (legacy) vs `custom-elements/RzButton.ts` (new) collision — and its cousin `RzTextarea.vue`
-- [ ] Check whether `components/CodeMirror.vue` is dead code (no import found)
-- [ ] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
-- [ ] Look in Figma for a dedicated dark mode section/variants (none seen in the sample reviewed — confirm before concluding dark mode isn't mocked up)
-- [ ] **Fix the `window.Rozier.initNestables()` bug** ([StackNodeTree.js:194](../app/widgets/StackNodeTree.js#L194)) — method no longer exists on `Rozier.ts`, crashes on every drag-and-drop tree reorder and blocks the rebind that follows. Independent of any removal effort, likely an active user-facing bug
-- [ ] Remove the 6 dead Vue files: `DrawerContainer.vue`, `NodeTypesDrawerContainer.vue`, `TagsEditorContainer.vue`, `RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
-- [ ] Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `switcher`, `sortable`, `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files
-- [ ] Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
+- [x] De-duplicate: #440 and #447 closed as duplicates of [#439](https://github.com/roadiz/core-bundle-dev-app/issues/439) and [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446); `roadiz/roadiz#415` is unreachable (issues disabled on that repo), [#462](https://github.com/roadiz/core-bundle-dev-app/issues/462) is the canonical record
+- [x] Resync board ↔ `v2.8` milestone (done 2026-10-28; every open v2.8 issue is now on the board)
+- [x] Decide on the 7 old, off-topic backend tickets (#16, #393, #399, #406, #428, #457, #470): already removed from the `v2.8` milestone (checked 2026-10-28)
+- [x] ~~Set a due date on `v2.8`~~ excluded from Phase 0 (2026-10-28): `v2.8` keeps its whole scope, the team sets the date separately
+- [x] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
+- [ ] [#533](https://github.com/roadiz/core-bundle-dev-app/issues/533) Remove the dead stack-tree refresh: `refreshNodeTree()`, `fetchNodeTree()` and `treeAvailable()` in [StackNodeTree.js](../app/widgets/StackNodeTree.js) (with their `window.Rozier.initNestables()` call) (the matching branch of `RzAside.refreshAllNodeTrees()` went away with #396). Not a user-facing crash: `treeAvailable()` looks for `.nodetree-widget`, which no template renders since #279 (checked in code and in the browser, 2026-10-28). Keep the quick-add flow, still live
+- [ ] [#534](https://github.com/roadiz/core-bundle-dev-app/issues/534) Remove the 6 dead Vue files (also settles the `RzButton.vue`/`RzTextarea.vue` collision with their custom elements, and unregisters the containers from `App.js`): `containers/DrawerContainer.vue`, `containers/NodeTypesDrawerContainer.vue`, `containers/TagsEditorContainer.vue`, `components/RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
+- [ ] [#535](https://github.com/roadiz/core-bundle-dev-app/issues/535) Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files. `switcher` and `sortable` move to Phase 5: JS still references them (`[data-uk-switcher]` in `RzMarkdownEditor.ts`, `JsonEditor.js`, `CssEditor.js`, `YamlEditor.js`; `change.uk.sortable` in `CustomFormFieldsPosition.js`)
+- [ ] [#536](https://github.com/roadiz/core-bundle-dev-app/issues/536) Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
+- [ ] [#539](https://github.com/roadiz/core-bundle-dev-app/issues/539) Bring Storybook to the [`storybook.md`](storybook.md) convention. **Outside the 2-3 day time-box**, but done before Phase 1 so the pilot zone starts from a clean Storybook. Three PRs: (1) docs: `storybook.md`, [ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md), glossary, pre-PR `build-storybook` check; (2) migrate the 51 story files (tree, naming, args, renderers), fix the broken `rzButton` import in `RzLivePreview.stories.ts`, drop the dead `a11y` block from `.storybook/preview.ts`; (3) add the missing stories for `rz-page`, `rz-bulk-section`, `rz-bulk-actions`, `rz-aside`, `rz-geotag`, `rz-node-tree-contextual-menu`, `rz-save-button`, cover `rz-header-nav-item-button` in `Components/Navigation/HeaderNavItem`, and file `Header` and `Aside` under `Patterns/` (`rz-toast-list` is already covered by `Toast`)
+- [ ] [#540](https://github.com/roadiz/core-bundle-dev-app/issues/540) Move the `RoadizRozierBundle` Twig templates to the [`templates.md`](templates.md) tree. Blocked by #539, outside the 2-3 day time-box, before Phase 1. Three PRs: (1) tree: `layouts/`, `patterns/`, `components/`, duplicates merged, the 14 unreferenced templates removed, `UPGRADE.md` updated ([ADR 0005](adr/0005-twig-components-move-in-v2-8.md)); (2) component options aligned on the renderer `Options` types; (3) components for the hand-written `rz-*` roots and their replacement. Legacy trees stay in `widgets/` until the Navigation zone
 
 ## Phase 1 — Pilot zone: content editing page (node-source)
 
 - [ ] Compare the zone's components against the Figma "Structure" and "Markdown" sections
+- [ ] Look in Figma for a dedicated dark mode section/variants (none seen in the sample reviewed — confirm before concluding dark mode isn't mocked up)
 - [ ] Implement the `MarkdownQuickView` panel per the existing Figma design ([#443](https://github.com/roadiz/core-bundle-dev-app/issues/443))
 - [ ] Fix [#444](https://github.com/roadiz/core-bundle-dev-app/issues/444) — lost syntax highlighting
 - [ ] Fix [#434](https://github.com/roadiz/core-bundle-dev-app/issues/434) — version disclaimer
@@ -86,7 +88,7 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 ## Phase 2 — Dark mode / contrast (cross-cutting, after the pilot zone)
 
 - [ ] Use the validated pilot zone as the contrast reference
-- [ ] Fix [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436), [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446)/[#447](https://github.com/roadiz/core-bundle-dev-app/issues/447), [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448), [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) against that reference
+- [ ] Fix [#436](https://github.com/roadiz/core-bundle-dev-app/issues/436), [#445](https://github.com/roadiz/core-bundle-dev-app/issues/445), [#446](https://github.com/roadiz/core-bundle-dev-app/issues/446), [#448](https://github.com/roadiz/core-bundle-dev-app/issues/448), [#449](https://github.com/roadiz/core-bundle-dev-app/issues/449) against that reference
 - [ ] Go back over the nearly-finished zones (Navigation, Tables) to validate their dark mode
 
 ## Phase 3 — Next zones (in the order from the table)
@@ -99,15 +101,16 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 ## Phase 4 — Technical foundations
 
 - [ ] [#205](https://github.com/roadiz/core-bundle-dev-app/issues/205) Vite: dedicated CSS entry point
-- [ ] [#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) `MutationObserver`
+- [ ] [#541](https://github.com/roadiz/core-bundle-dev-app/issues/541) Spike: synchronise Twig and Storybook component rendering (endpoint, generated fixtures or Twig in the browser); recommend a mechanism and its timing, or postpone ([ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md))
+- [x] ~~[#218](https://github.com/roadiz/core-bundle-dev-app/issues/218) `MutationObserver`~~ closed as wontfix
 - [ ] [#230](https://github.com/roadiz/core-bundle-dev-app/issues/230) remove global config
-- [ ] [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) status icons
+- [x] [#248](https://github.com/roadiz/core-bundle-dev-app/issues/248) status icons
 - [ ] [#255](https://github.com/roadiz/core-bundle-dev-app/issues/255) embedded backoffice via iframe
 - [ ] [#332](https://github.com/roadiz/core-bundle-dev-app/issues/332) native OIDC migration
 
 ## Phase 5 — The Vue+Vuex block and the actual jQuery/UIkit removal
 
-Investigation done (see status report): this is no longer an open question of "should we remove
+Investigation done (see the [appendix](#appendix--component-inventory-2026-09-10)): this is no longer an open question of "should we remove
 Vue/UIkit", it's a precise, bounded scope. Treat it as a dedicated phase, after 1-2 visual zones
 have been stabilized (not urgent, but not to be forgotten):
 
@@ -117,12 +120,12 @@ have been stabilized (not urgent, but not to be forgotten):
 - [ ] Clean up the 4 files with a UIkit/native double dependency (`RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `base.html.twig`)
 - [ ] Remove jQuery + UIkit from the bundle (`main.js`, `vendor.less`) — only possible once the two previous points are done, since jQuery and UIkit 2.x are coupled at runtime
 - [ ] Write a manual QA checklist per removed behaviour (no automated test exists in `lib/Rozier` to safety-net these removals)
-- [ ] Update `roadmap.md` once this scope is handled (it still documents this effort as not started, even though it's already largely underway)
+- [ ] Mark [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md) as fully applied once this scope is handled
 
 ## Phase 6 — Remaining heavy zones
 
 - [ ] Scope Tags/Folders with a real Figma design pass (not just code catch-up)
-- [ ] Scope Custom forms
+- [ ] Scope Custom forms — includes a v2.8 regression ([#537](https://github.com/roadiz/core-bundle-dev-app/issues/537)): since #279 the custom-form fields list can no longer be reordered by drag-and-drop (v2.7 used `data-uk-sortable`; the `rz_table` sortable option from #217 is not wired on it, and `CustomFormFieldsPosition.js` listens to markup no template renders)
 - [ ] Scope User management (no existing dedicated component — the biggest remaining effort)
 
 ## Rules to avoid spreading thin (reminder)
@@ -130,3 +133,47 @@ have been stabilized (not urgent, but not to be forgotten):
 - Only one "active" zone visible at a time (e.g. in the current milestone).
 - Don't open a redesign PR on a new zone until the active zone is "done".
 - Any idea outside the active zone goes to the `v2.9` backlog, not into the current sprint.
+
+## Appendix — Component inventory (2026-09-10)
+
+Inventory carried out on 2026-09-10 (67 tracked UI files: 21 Vue components in `app/components/`
+and `app/containers/`, 38 CustomElements in `app/custom-elements/`, auto-registered via
+`import.meta.glob`). Dating cross-checked between `git show --name-status 024c2d9e` (exact file
+list of the redesign commit) and each file's full history, to avoid being misled by merge commits
+that would skew `git log -1`.
+
+**Overall tally: 49 redesigned files / 18 legacy** (untouched since before 2026-02-02).
+
+| Functional area | Total | Redesigned | Legacy | Storybook story |
+|---|---|---|---|---|
+| Tables/listings/bulk actions (`RzTable`, `RzBulkActions`, `RzActionsMenu`) | 4 | 4 | 0 | 2/4 |
+| Content editing page / node-source (`RzInput`, `RzFormField`, `RzMarkdownEditor`, `RzRepeatable`...) | ~14 | ~13 | 0 net | 7+/14 |
+| Navigation/tree (`RzAside`, `RzTree`, `RzHeader*`) | 9 | 8 | 1 (`AdminMenuNav.js`) | 4/9 |
+| Media library/documents (`RzFileUpload`, `Blanchette*`) | 8 | 7 | 1 (`DocumentAlignmentWidget.js`) | 2/8 |
+| Cross-cutting dialogs/overlays (`RzDialog`, `RzPopover`, `RzTooltip`...) | 13 | 7 | 6 | 7/13 |
+| Explorer/Drawer (related-entity picker) | 9 | 6 | 3 (incl. `NodeTypesDrawerContainer.vue`, still heavily UIkit despite being touched by the squash commit) | 2/9 |
+| Tags/Folders | 6 | 1 | 5 | 0/6 |
+| Login/search | 2 | 1 | 1 | 2/2 |
+| Custom forms | 1 | 0 | 1 | 0/1 |
+| User management | 0 dedicated component (Symfony/Twig + legacy `assets/less/users/`) | — | — | — |
+
+**Quantified technical debt** (scope of [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md)):
+- **19 files** still use UIkit classes (`uk-*`), including some already "redesigned" files
+  (e.g. `custom-elements/RzAside.ts`, `RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`).
+- **5 files** still use jQuery directly; jQuery/jQuery UI/UIkit remain loaded globally on every
+  page via `main.js`.
+- The global `window.Rozier` singleton (targeted by ADR 0001) is still used by ~15 files,
+  including already-redesigned components.
+- 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
+  files from the new design system.
+- **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
+  alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up.
+- **Acknowledged methodological uncertainty**: `custom-elements/RzSelect.ts` has CSS updated by the
+  redesign but JS logic unchanged since before the project — visually current, architecturally
+  legacy. This kind of case can't be settled by Git analysis alone; a visual check per zone remains
+  necessary (see the methodology above).
+
+Storybook documents 24 of the 67 files (~36%, ~49% of the redesigned ones, **0% of the legacy
+ones**): a good indicator of coverage per zone, but not a complete functional inventory on its own.
+
+This is a dated snapshot: re-audit before relying on the numbers several weeks later.

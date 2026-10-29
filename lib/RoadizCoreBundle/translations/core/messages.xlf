@@ -7,6 +7,18 @@
                 <source>welcome.user.email.%site%</source>
                 <target/>
             </trans-unit>
+            <trans-unit id="password.changed.notification">
+                <source>password.changed.notification</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="your.password.was.changed.on.%site%">
+                <source>your.password.was.changed.on.%site%</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="if.you.did.not.change.your.password.reset.it.now">
+                <source>if.you.did.not.change.your.password.reset.it.now</source>
+                <target/>
+            </trans-unit>
             <trans-unit id="your.user.account">
                 <source>your.user.account</source>
                 <target/>

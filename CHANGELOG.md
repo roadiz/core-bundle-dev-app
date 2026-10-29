@@ -2,6 +2,94 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.52...v2.7.53) - 2026-10-27
+
+### Bug Fixes
+
+- **(solr)** index only title of realm-protected nodes ([#522](https://github.com/roadiz/core-bundle-dev-app/issues/522)) - ([92541b6](https://github.com/roadiz/core-bundle-dev-app/commit/92541b6188845d94790ad2ad06c51a4ed1750689))
+
+## [2.7.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.51...v2.7.52) - 2026-10-20
+
+### Bug Fixes
+
+- **(serializer)** add altSources to DocumentDto ([#516](https://github.com/roadiz/core-bundle-dev-app/issues/516)) - ([9f795f3](https://github.com/roadiz/core-bundle-dev-app/commit/9f795f3ad63cd3315126866314c2342d54d7e6e2))
+
+### Performance
+
+- **(api)** prefetch tree-walker media and refs ([#514](https://github.com/roadiz/core-bundle-dev-app/issues/514)) - ([d5ebb17](https://github.com/roadiz/core-bundle-dev-app/commit/d5ebb1702022c31161a239704c8b0b614375379e))
+
+## [2.7.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.50...v2.7.51) - 2026-10-17
+
+### Bug Fixes
+
+- **(api)** stable JSON-LD type and ids for walkers ([#508](https://github.com/roadiz/core-bundle-dev-app/issues/508)) - ([ba6f67a](https://github.com/roadiz/core-bundle-dev-app/commit/ba6f67ae7189e07771464dd5e8c1b98d8a46e722))
+- **(serializer)** keep path normalizer uncacheable - ([d82860d](https://github.com/roadiz/core-bundle-dev-app/commit/d82860d4bbf1f015bd16095913eacbb376189996))
+
+### CI/CD
+
+- create GitHub release from changelog ([#510](https://github.com/roadiz/core-bundle-dev-app/issues/510)) - ([dd1cf98](https://github.com/roadiz/core-bundle-dev-app/commit/dd1cf98f467cdf51244db19ef311d5f5aa8e5798))
+
+### Performance
+
+- **(node-types)** compile definitions in cache dir ([#509](https://github.com/roadiz/core-bundle-dev-app/issues/509)) - ([39048b0](https://github.com/roadiz/core-bundle-dev-app/commit/39048b0788189afdaa43aadaeb577cdf2e81aa45))
+- **(serializer)** replace item decorators with enrichers - ([f361992](https://github.com/roadiz/core-bundle-dev-app/commit/f3619928417b5176ab98fbaa92ecae2d337edc06))
+
+### Testing
+
+- **(serializer)** make snapshots timezone-independent - ([c62fe9c](https://github.com/roadiz/core-bundle-dev-app/commit/c62fe9c9210b9e2b9311bc9c00de9d13adc366a2))
+- **(two-factor)** avoid TOTP code expiring mid-test - ([194650f](https://github.com/roadiz/core-bundle-dev-app/commit/194650f043d6078053b31c5554c4112758e56ae8))
+
+## [2.7.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.49...v2.7.50) - 2026-10-16
+
+### Bug Fixes
+
+- **(security)** never output unsanitized SVG ([#503](https://github.com/roadiz/core-bundle-dev-app/issues/503)) - ([26a2a45](https://github.com/roadiz/core-bundle-dev-app/commit/26a2a4597fcc1a090c7a640b76179c1c6adcf3d0))
+- **(solr)** support standalone cores in solr:init ([#498](https://github.com/roadiz/core-bundle-dev-app/issues/498)) - ([5789caf](https://github.com/roadiz/core-bundle-dev-app/commit/5789caf0ff98ec13cfbae1a87206d613a2ecefa4))
+
+## [2.7.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.48...v2.7.49) - 2026-10-14
+
+### Bug Fixes
+
+- **(preview)** restore ROLE_BACKEND_USER default role - ([e3728f4](https://github.com/roadiz/core-bundle-dev-app/commit/e3728f402dc057c488f86511c84187f1fe7e6060))
+- improve deprecated error and info message - ([3def138](https://github.com/roadiz/core-bundle-dev-app/commit/3def1382964446b74ffa72ad6d0125c7f837227a))
+
+## [2.7.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.46...v2.7.47) - 2026-10-09
+
+### Bug Fixes
+
+- update deps - ([283a045](https://github.com/roadiz/core-bundle-dev-app/commit/283a045f7e2f91d4361e6019d63f8c574a8fdfd0))
+
+### Documentation
+
+- **(custom_forms)** update allowed mime types for document fields ([#474](https://github.com/roadiz/core-bundle-dev-app/issues/474)) - ([dc066b9](https://github.com/roadiz/core-bundle-dev-app/commit/dc066b9bdd9f49cfe05ecacc2c2bfb2aaeeadbac))
+
+### Features
+
+- **(api)** add new ROLE_ACCESS_LIVE_PREVIEW and split ROLE_ACCESS_PREVIEW to ROLE_BACKEND_USER - ([0ecc8c2](https://github.com/roadiz/core-bundle-dev-app/commit/0ecc8c2b4ebdc50a2a0c9b100724595af70b9243))
+
+## [2.7.46](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.45...v2.7.46) - 2026-09-29
+
+### Features
+
+- **(zoho)** improve webhookProvider with cache and for duplicate data - ([90611d7](https://github.com/roadiz/core-bundle-dev-app/commit/90611d74229235d496956e83a8bb1b3bf1d52dc1))
+
+## [2.7.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.44...v2.7.45) - 2026-09-28
+
+### Bug Fixes
+
+- **(users)** require current password on own change ([#491](https://github.com/roadiz/core-bundle-dev-app/issues/491)) - ([79cd6df](https://github.com/roadiz/core-bundle-dev-app/commit/79cd6dfc3b8f57f20cd30e844a2b59de4dd3845e))
+
+### Features
+
+- **(api)** add fallback character quota ([#483](https://github.com/roadiz/core-bundle-dev-app/issues/483)) - ([276183f](https://github.com/roadiz/core-bundle-dev-app/commit/276183fbe775526432a32eee6ced695079ef994f))
+- **(rozier)** add headless live preview column ([#490](https://github.com/roadiz/core-bundle-dev-app/issues/490)) - ([2ae5826](https://github.com/roadiz/core-bundle-dev-app/commit/2ae5826b8550fc213be7bf15662e53cfcc970d60))
+
+## [2.7.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.43...v2.7.44) - 2026-09-11
+
+### Bug Fixes
+
+- **(solr)** relax mm when analysis drops words ([#479](https://github.com/roadiz/core-bundle-dev-app/issues/479)) - ([e34b8f9](https://github.com/roadiz/core-bundle-dev-app/commit/e34b8f98078938b4b5de4c068732fdfee632f9ac))
+
 ## [2.7.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.42...v2.7.43) - 2026-09-11
 
 ### ⚠ Breaking changes

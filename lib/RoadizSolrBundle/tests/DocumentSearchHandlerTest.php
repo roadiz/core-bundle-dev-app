@@ -37,7 +37,7 @@ final class DocumentSearchHandlerTest extends TestCase
         $query = new Query();
         $args = [];
         $method = new \ReflectionMethod($handler, 'configureQueryParser');
-        $method->invokeArgs($handler, [$query, &$args, true]);
+        $method->invokeArgs($handler, [$query, 'King Lear', &$args, true]);
 
         $this->assertSame('title^10 collection_txt^2 tags_txt', $query->getEDisMax()->getQueryFields());
         $this->assertStringNotContainsString('slug_s', $query->getEDisMax()->getQueryFields());

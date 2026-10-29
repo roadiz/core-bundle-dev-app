@@ -1,0 +1,19 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Folder",
+        "@id": "/api/folders/{id}",
+        "@type": "Folder",
+        "color": "#000000",
+        "slug": "serialization-visible",
+        "visible": true,
+        "locked": false,
+        "name": "Visible folder"
+    },
+    "json": {
+        "color": "#000000",
+        "slug": "serialization-visible",
+        "visible": true,
+        "locked": false,
+        "name": "Visible folder"
+    }
+}

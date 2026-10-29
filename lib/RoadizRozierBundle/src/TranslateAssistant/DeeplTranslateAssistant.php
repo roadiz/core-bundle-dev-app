@@ -17,11 +17,15 @@ use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantAccoun
 use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantException;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantTransportException;
 use RZ\Roadiz\RozierBundle\TranslateAssistant\Exception\TranslateAssistantUsageException;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class DeeplTranslateAssistant implements TranslateAssistantInterface
 {
     public function __construct(
         private CacheItemPoolInterface $cache,
+        private HttpClientInterface $httpClient,
+        #[\SensitiveParameter]
         private string $apiKey,
     ) {
     }
@@ -164,8 +168,7 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
             // Shorter TTL than denyNotAvailableLanguages: the quota moves at every translation.
             $cacheItem = $this->cache->getItem('DeeplTranslateAssistant_usage');
             if (!$cacheItem->isHit()) {
-                $character = (new DeepLClient($this->apiKey))->getUsage()->character;
-                $cacheItem->set(null !== $character ? new TranslateAssistantUsage($character->count, $character->limit) : null);
+                $cacheItem->set($this->fetchUsage());
                 $cacheItem->expiresAfter(300);
                 $this->cache->save($cacheItem);
             }
@@ -173,9 +176,33 @@ final readonly class DeeplTranslateAssistant implements TranslateAssistantInterf
             $usage = $cacheItem->get();
 
             return $usage instanceof TranslateAssistantUsage ? $usage : null;
-        } catch (DeepLException|InvalidArgumentException) {
+        } catch (HttpClientExceptionInterface|InvalidArgumentException) {
             // An unreachable quota must break neither the dashboard nor an edit form.
             return null;
         }
+    }
+
+    /**
+     * DeepL scopes the quota per API key on some plans, but deepl-php does not expose those fields
+     * yet (https://github.com/DeepL/deepl-php/pull/87), hence the raw call instead of getUsage().
+     * Update this method once the SDK ships Usage::$apiKeyCharacter.
+     *
+     * @throws HttpClientExceptionInterface
+     */
+    private function fetchUsage(): ?TranslateAssistantUsage
+    {
+        $host = str_ends_with($this->apiKey, ':fx') ? 'api-free.deepl.com' : 'api.deepl.com';
+        $payload = $this->httpClient->request('GET', 'https://'.$host.'/v2/usage', [
+            'headers' => ['Authorization' => 'DeepL-Auth-Key '.$this->apiKey],
+        ])->toArray();
+
+        $count = $payload['api_key_character_count'] ?? $payload['character_count'] ?? null;
+        $limit = $payload['api_key_character_limit'] ?? $payload['character_limit'] ?? null;
+
+        if (!is_numeric($count) || !is_numeric($limit)) {
+            return null;
+        }
+
+        return new TranslateAssistantUsage((int) $count, (int) $limit);
     }
 }

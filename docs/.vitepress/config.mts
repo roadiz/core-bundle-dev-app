@@ -22,6 +22,8 @@ export default ({ mode }) => {
         cacheDir: env.VITE_CONFIG_BASE
             ? "./.vitepress/cache/" + env.VITE_CONFIG_BASE
             : "./.vitepress/cache",
+        // Agent workflow config, not user-facing documentation.
+        srcExclude: ["agents/**"],
         lastUpdated: true,
         head: [["link", { rel: "icon", href: "/favicon.ico" }]],
         themeConfig: {
@@ -130,6 +132,10 @@ export default ({ mode }) => {
                                 {
                                     text: "Web response",
                                     link: "/developer/api/web_response",
+                                },
+                                {
+                                    text: "Live preview",
+                                    link: "/developer/api/live_preview",
                                 },
                             ],
                         },

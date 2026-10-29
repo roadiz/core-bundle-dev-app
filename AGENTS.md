@@ -8,6 +8,8 @@ Authoritative instructions
 - Copilot rules: `.github/copilot-instructions.md`.
 - Git commit rules: `.github/git-commit-instructions.md` — note its `Co-authored-by:` trailer suggestion does not apply to agent-authored commits; follow the "Git commit guidance" section below instead, which never adds that footer.
 - Cursor rules: none found in `.cursor/rules/` or `.cursorrules`.
+- Agent skills (issue tracker, triage labels, domain docs): `docs/agents/`.
+- Rozier backoffice work: `lib/Rozier/docs/`.
 
 Project overview
 - Monorepo with Symfony bundles in `lib/` and a dev app in `src/`.
@@ -60,13 +62,14 @@ Environment notes
 
 Frontend and docs commands
 - Backoffice dev server (Docker): `docker compose up node`.
-- Backoffice build (Docker): `docker compose run --rm node pnpm build`.
+- Backoffice build check (Docker): `docker compose run --rm node pnpm build:check` (builds into `/tmp`, leaves `lib/RoadizRozierBundle/public/` untouched; use it to verify a change).
+- Backoffice build (Docker): `docker compose run --rm node pnpm build` (only to update the committed assets).
 - Backoffice dev (local): `cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev`.
 - Docs dev server (Docker): `docker compose up vitepress`.
 - Docs dev (local): `cd docs && corepack enable && pnpm install && pnpm docs:dev`.
 - Frontend source lives in `lib/Rozier`; built assets go to `lib/RoadizRozierBundle/public/`.
 - Avoid editing generated assets in `lib/RoadizRozierBundle/public/`.
-- After `pnpm build`, restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
+- After `pnpm build`, run `make cache` (the Vite manifest is cached in the Redis `cache.app` pool), restart the `app` container (`docker compose restart app`), then restart `nginx` too. Full rationale (manifest cache, `nginx` IP caching, `502` symptom) in the README's "Backoffice frontend development" section — the canonical source for the dev-env workflow.
 
 Code style guidelines (PHP)
 - Follow PSR-12 and Symfony conventions; PHP-CS-Fixer uses `@Symfony` rules.

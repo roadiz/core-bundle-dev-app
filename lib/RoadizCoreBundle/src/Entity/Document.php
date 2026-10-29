@@ -227,7 +227,7 @@ class Document implements \Stringable, AdvancedDocumentInterface, HasThumbnailIn
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
     #[ORM\Column(name: 'mime_type', type: 'string', length: 255, nullable: true)]
-    #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[SymfonySerializer\Groups(['document', 'document_display', 'document_source', 'nodes_sources', 'tag', 'attribute'])]
     #[Assert\Length(max: 255)]
     #[ApiProperty(
         description: 'Document file mime type',

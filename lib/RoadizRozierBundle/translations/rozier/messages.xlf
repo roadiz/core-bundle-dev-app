@@ -821,6 +821,7 @@
             <trans-unit xml:space="preserve" id="change.nodes.status.all"><source>change.nodes.status.all</source></trans-unit>
             <trans-unit xml:space="preserve" id="changelog"><source>changelog</source></trans-unit>
             <trans-unit xml:space="preserve" id="choose.a.new.password"><source>choose.a.new.password</source></trans-unit>
+            <trans-unit xml:space="preserve" id="current.password"><source>current.password</source></trans-unit>
             <trans-unit xml:space="preserve" id="chroot"><source>chroot</source></trans-unit>
             <trans-unit xml:space="preserve" id="chroot.limited.one"><source>chroot.limited.one</source></trans-unit>
             <trans-unit xml:space="preserve" id="confirmation.token.has.expired"><source>confirmation.token.has.expired</source></trans-unit>

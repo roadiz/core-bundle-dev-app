@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
     name: 'solr:init',
-    description: 'Initialize a Solr collection with project schema fields. <info>Only with Solr Cloud</info>',
+    description: 'Initialize a Solr collection with project schema fields. Works with Solr Cloud and standalone',
 )]
 final class SolrInitCommand extends Command
 {
@@ -57,7 +57,20 @@ final class SolrInitCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        /*
+         * Subscribers report failures as warnings (schema API errors, missing field types):
+         * any warning makes solr:init fail instead of reporting success.
+         */
+        $io = new class($input, $output) extends SymfonyStyle {
+            public bool $hasWarnings = false;
+
+            #[\Override]
+            public function warning(string|array $message): void
+            {
+                $this->hasWarnings = true;
+                parent::warning($message);
+            }
+        };
         $numShards = is_numeric($input->getOption('numShards'))
             ? intval($input->getOption('numShards'))
             : $this->solrCollectionNumShards;
@@ -73,6 +86,61 @@ final class SolrInitCommand extends Command
         ));
         $protocol = $this->solrSecure ? 'https' : 'http';
         $baseUrl = $protocol.'://'.$this->solrHostname.':'.$this->solrPort;
+        $isSolrCloud = $this->isSolrCloud($baseUrl);
+        if ($isSolrCloud) {
+            $this->createCollection($io, $baseUrl, $numShards, $replicationFactor);
+        } else {
+            $io->note('Solr is running in standalone mode, skipping collection creation (core must already exist)');
+        }
+
+        $io->title('Solr Collection Field types Initialization');
+        $this->eventDispatcher->dispatch(new SolrInitializationEvent(
+            $baseUrl,
+            $this->solrCollectionName,
+            $io
+        ));
+
+        /*
+         * Reload once every schema change is done: managed resources (stemmer overrides) are only
+         * initialized by a full reload, and in SolrCloud each schema update triggers a partial one.
+         */
+        $reloadResponse = $isSolrCloud
+            ? $this->client->request('GET', $baseUrl.'/solr/admin/collections', [
+                'query' => ['action' => 'RELOAD', 'name' => $this->solrCollectionName],
+            ])
+            : $this->client->request('GET', $baseUrl.'/solr/admin/cores', [
+                'query' => ['action' => 'RELOAD', 'core' => $this->solrCollectionName],
+            ]);
+        // Also fails when the core or collection does not exist: never report success then.
+        if (200 !== $reloadResponse->getStatusCode()) {
+            $io->error('Failed to reload '.$this->solrCollectionName.': '.$reloadResponse->getContent(false));
+
+            return Command::FAILURE;
+        }
+
+        if ($io->hasWarnings) {
+            $io->error('Solr collection '.$this->solrCollectionName.' initialization had errors, see warnings above');
+
+            return Command::FAILURE;
+        }
+
+        $io->success('Solr collection '.$this->solrCollectionName.' has been initialized');
+
+        return Command::SUCCESS;
+    }
+
+    private function isSolrCloud(string $baseUrl): bool
+    {
+        $response = $this->client->request('GET', $baseUrl.'/solr/admin/info/system', [
+            'query' => ['wt' => 'json'],
+        ]);
+        $responseJson = \json_decode($response->getContent(false), true);
+
+        return !\is_array($responseJson) || 'std' !== ($responseJson['mode'] ?? null);
+    }
+
+    private function createCollection(SymfonyStyle $io, string $baseUrl, int $numShards, int $replicationFactor): void
+    {
         $response = $this->client->request('POST', $baseUrl.'/solr/admin/collections', [
             'query' => [
                 'action' => 'CREATE',
@@ -86,23 +154,13 @@ final class SolrInitCommand extends Command
             $responseJson = \json_decode($response->getContent(false), true);
             if (
                 \is_array($responseJson)
-                && \is_array($responseJson['error'])
-                && \is_string($responseJson['error']['msg'])
+                && \is_string($responseJson['error']['msg'] ?? null)
                 && \str_starts_with($responseJson['error']['msg'], 'collection already exists')
             ) {
-                $io->warning('Collection '.$this->solrCollectionName.' already exists, skipping creation');
+                $io->note('Collection '.$this->solrCollectionName.' already exists, skipping creation');
+            } else {
+                $io->warning('Failed to create collection '.$this->solrCollectionName.': '.$response->getContent(false));
             }
         }
-
-        $io->title('Solr Collection Field types Initialization');
-        $this->eventDispatcher->dispatch(new SolrInitializationEvent(
-            $baseUrl,
-            $this->solrCollectionName,
-            $io
-        ));
-
-        $io->success('Solr collection '.$this->solrCollectionName.' has been initialized');
-
-        return Command::SUCCESS;
     }
 }

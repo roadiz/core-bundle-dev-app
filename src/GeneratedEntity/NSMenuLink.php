@@ -166,6 +166,16 @@ class NSMenuLink extends NodesSources
         return $this;
     }
 
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $image
+     * @return $this
+     */
+    public function setImageDtos(?array $image): static
+    {
+        $this->image = $image;
+        return $this;
+    }
+
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     #[\Override]
