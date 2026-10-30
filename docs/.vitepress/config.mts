@@ -211,6 +211,10 @@ export default ({ mode }) => {
                                     link: "/extensions/extending_roadiz",
                                 },
                                 {
+                                    text: "Backoffice extension points",
+                                    link: "/extensions/backoffice_extension_points",
+                                },
+                                {
                                     text: "Backoffice templates",
                                     link: "/extensions/backoffice_templates",
                                 },

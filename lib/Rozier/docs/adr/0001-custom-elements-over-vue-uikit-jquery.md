@@ -9,5 +9,5 @@ New and touched Rozier code is written in TypeScript and attaches its behaviour 
 ## Consequences
 
 - No new Vue component, UIkit behaviour (`data-uk-*`, `uk-*` classes) or jQuery call. Touching a legacy file is an opportunity to migrate it, not an obligation.
-- jQuery and UIkit can only leave the bundle together, once their last live behaviours have a native replacement. Phase 5 of [`ui-redesign-todo.md`](../ui-redesign-todo.md) tracks that bounded scope.
+- jQuery and UIkit can only leave the bundle together, once their last live behaviours have a native replacement. Phase 1 of [`ui-redesign-todo.md`](../ui-redesign-todo.md) tracks that bounded scope.
 - Rozier has no automated tests, so each removed behaviour needs a manual QA check.

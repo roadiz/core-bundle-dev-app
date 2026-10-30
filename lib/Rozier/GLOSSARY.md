@@ -48,6 +48,10 @@ _Avoid_: Base, master page
 A whole screen or a layout region of the backoffice, documented as an assembly of components (login screen, dashboard, application layout, menu bar). A building block reused across several screens is a component, not a pattern.
 _Avoid_: Integration, template, page
 
+**Extension point**:
+A mechanism through which a project built on Roadiz customises the backoffice, and on which Roadiz promises stability. A mechanism is an extension point only once it is documented for projects; anything else is internal.
+_Avoid_: Hook, override (when meaning any template a project replaces)
+
 ## Redesign process
 
 **Active zone**:
