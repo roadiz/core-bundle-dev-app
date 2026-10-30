@@ -1,4 +1,3 @@
-import CustomFormFieldsPosition from '~/components/custom-form-fields/CustomFormFieldsPosition'
 import StackNodeTree from '~/widgets/StackNodeTree'
 import SettingsSaveButtons from '~/widgets/SettingsSaveButtons'
 import NodeStatuses from '~/widgets/NodeStatuses'
@@ -22,7 +21,6 @@ export default class Lazyload {
     linksSelector: HTMLAnchorElement[]
     currentRequest: AbortController | null
     currentTimeout: number | null
-    customFormFieldsPosition: Unbindable
     settingsSaveButtons: Unbindable
     jsonEditors: JsonEditor[]
     cssEditors: CssEditor[]
@@ -34,7 +32,6 @@ export default class Lazyload {
         this.linksSelector = []
         this.currentRequest = null
         this.currentTimeout = null
-        this.customFormFieldsPosition = null
         this.settingsSaveButtons = null
         this.jsonEditors = []
         this.cssEditors = []
@@ -275,11 +272,7 @@ export default class Lazyload {
      * General bind on page load
      */
     generalBind() {
-        this.generalUnbind([
-            this.stackNodeTrees,
-            this.customFormFieldsPosition,
-            this.settingsSaveButtons,
-        ])
+        this.generalUnbind([this.stackNodeTrees, this.settingsSaveButtons])
         this.bindAjaxLink()
         this.jsonEditors = []
         this.cssEditors = []
@@ -287,7 +280,6 @@ export default class Lazyload {
 
         this.stackNodeTrees = new StackNodeTree()
 
-        this.customFormFieldsPosition = new CustomFormFieldsPosition()
         this.settingsSaveButtons = new SettingsSaveButtons()
 
         this.initJsonEditors()
