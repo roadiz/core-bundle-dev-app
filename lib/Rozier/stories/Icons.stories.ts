@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzIconRenderer } from '~/utils/component-renderer/rzIcon'
 
-export type IconArgs = {
+type Args = {
     className: string
     prefix?: string
     name?: string
@@ -19,13 +19,13 @@ type IconData = {
 }
 
 // HELPERS
-function getClassName(args: IconArgs) {
+function getClassName(args: Args) {
     if (args.className) return args.className
     if (args.prefix && args.name) return `rz-icon-${args.prefix}--${args.name}`
     return ''
 }
 
-function iconRenderer(args: IconArgs) {
+function iconRenderer(args: Args) {
     const iconNode = rzIconRenderer({
         class: getClassName(args),
     })
@@ -35,7 +35,7 @@ function iconRenderer(args: IconArgs) {
     return iconNode
 }
 
-function iconItemRenderer(args: IconArgs) {
+function iconItemRenderer(args: Args) {
     const item = document.createElement('div')
     item.style = `
       display: grid;
@@ -103,8 +103,42 @@ const svgList = Object.keys(svgModules).reduce(
     {},
 )
 
-const meta: Meta<IconArgs> = {
-    title: 'Integration/Icon',
+function iconGalleryRenderer(args: Args) {
+    const wrapper = document.createElement('div')
+
+    Object.values(svgList).forEach((icons) => {
+        const collectionNode = document.createElement('div')
+        collectionNode.style = `
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 42px;
+            margin-inline: auto;
+            max-width: 1000px;
+            margin-block: 100px;
+        `
+        wrapper.appendChild(collectionNode)
+
+        const collectionTitle = document.createElement('h3')
+        collectionTitle.innerText = `Collection: ${icons[0].folder || 'unknown'}`
+        collectionNode.appendChild(collectionTitle)
+
+        icons.forEach((icon) => {
+            const iconNode = iconItemRenderer({
+                className: icon.className,
+                prefix: icon.folder,
+                name: icon.fileName,
+                fontSize: args.fontSize,
+            })
+            collectionNode.appendChild(iconNode)
+        })
+    })
+
+    return wrapper
+}
+
+const meta: Meta<Args> = {
+    title: 'Foundations/Icons',
+    render: (args) => iconGalleryRenderer(args),
     argTypes: {
         fontSize: {
             control: 'text',
@@ -114,42 +148,9 @@ const meta: Meta<IconArgs> = {
 }
 
 export default meta
-type Story = StoryObj<IconArgs>
+type Story = StoryObj<Args>
 
-export const All: Story = {
-    render: (args) => {
-        const wrapper = document.createElement('div')
-
-        Object.values(svgList).forEach((icons) => {
-            const collectionNode = document.createElement('div')
-            collectionNode.style = `
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 42px;
-                margin-inline: auto;
-                max-width: 1000px;
-                margin-block: 100px;
-            `
-            wrapper.appendChild(collectionNode)
-
-            const collectionTitle = document.createElement('h3')
-            collectionTitle.innerText = `Collection: ${icons[0].folder || 'unknown'}`
-            collectionNode.appendChild(collectionTitle)
-
-            icons.forEach((icon) => {
-                const iconNode = iconItemRenderer({
-                    className: icon.className,
-                    prefix: icon.folder,
-                    name: icon.fileName,
-                    fontSize: args.fontSize,
-                })
-                collectionNode.appendChild(iconNode)
-            })
-        })
-
-        return wrapper
-    },
-}
+export const Default: Story = {}
 
 export const FromClassName: Story = {
     render: (args) => {

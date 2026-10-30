@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-
 import {
-    type BreadcrumbArgs,
+    type RzBreadcrumbOptions,
     rzBreadcrumbRenderer,
 } from '~/utils/storybook/renderer/rzBreadcrumb'
 
-export type Args = BreadcrumbArgs
+type Args = RzBreadcrumbOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Breadcrumb',
+    title: 'Components/Navigation/Breadcrumb',
     tags: ['autodocs'],
     render: (args) => rzBreadcrumbRenderer(args),
     args: {

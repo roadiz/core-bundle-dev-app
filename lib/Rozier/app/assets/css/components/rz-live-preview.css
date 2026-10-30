@@ -2,7 +2,7 @@
  * Split view on the node-source edit page: the form keeps the left of .rz-page__body,
  * <rz-live-preview> takes a sticky column on the right. The window is the scroll container.
  */
-@media (--screen-lg-min) {
+@media (--screen-md-min) {
 	.rz-page__body:has(> .rz-live-preview[open]) {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) var(--rz-live-preview-width, clamp(360px, 40%, 720px));
@@ -32,8 +32,8 @@
 	}
 }
 
-/* The split view needs the lg breakpoint; below it the form keeps its full width. */
-@media (--screen-md-max) {
+/* The split view needs the md breakpoint; below it the form keeps its full width. */
+@media (--screen-sm-max) {
 	.rz-live-preview,
 	.rz-live-preview-toggle {
 		display: none !important;

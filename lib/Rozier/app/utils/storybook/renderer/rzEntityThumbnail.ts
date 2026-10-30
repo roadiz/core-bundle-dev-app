@@ -1,6 +1,12 @@
-import type { Args } from '../../../../stories/RzEntityThumbnail.stories'
+export const SIZES = ['small', 'medium', 'large'] as const
 
-export function rzEntityThumbnailRenderer(args: Args) {
+export type RzEntityThumbnailOptions = {
+    entityClass: string
+    entityId: string
+    size?: (typeof SIZES)[number]
+}
+
+export function rzEntityThumbnailRenderer(args: RzEntityThumbnailOptions) {
     const thumbnail = document.createElement('rz-entity-thumbnail')
 
     thumbnail.setAttribute('entity-class', args.entityClass)

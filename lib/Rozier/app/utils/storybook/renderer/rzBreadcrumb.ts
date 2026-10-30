@@ -15,7 +15,7 @@ export type BreadcrumbItem = {
     url?: string
 }
 
-export type BreadcrumbArgs = {
+export type RzBreadcrumbOptions = {
     /** Ancestors, from the root down. The current page is not one of them. */
     parents: BreadcrumbItem[]
     current: string
@@ -94,7 +94,7 @@ function overflowRenderer(
     return li
 }
 
-export function rzBreadcrumbRenderer(args: BreadcrumbArgs) {
+export function rzBreadcrumbRenderer(args: RzBreadcrumbOptions) {
     const { parents } = args
     // Root and last ancestor never fold; everything in between is the popover's to manage.
     const middle = parents.length > 2 ? parents.slice(1, -1) : []

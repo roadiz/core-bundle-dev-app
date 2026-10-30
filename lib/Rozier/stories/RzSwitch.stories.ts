@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzSwitchRenderer } from '../app/utils/storybook/renderer/rzSwitch'
-import { Args as RzInputArgs } from './RzInput.stories'
+import {
+    type RzSwitchOptions,
+    rzSwitchRenderer,
+} from '~/utils/storybook/renderer/rzSwitch'
 
-export type Args = RzInputArgs & {
-    checked?: boolean
-}
+type Args = RzSwitchOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Switch',
     tags: ['autodocs'],
+    render: (args) => rzSwitchRenderer(args),
     args: {
         checked: false,
     },
@@ -17,16 +18,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzSwitchRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const Checked: Story = {
-    render: (args) => {
-        return rzSwitchRenderer(args)
-    },
     args: {
         checked: true,
     },

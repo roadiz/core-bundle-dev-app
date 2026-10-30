@@ -204,8 +204,43 @@ const nodeList = {
     },
 } as Record<string, nodeAttribute>
 
+function textGalleryRenderer() {
+    const container = document.createElement('div')
+    container.style = 'max-width: 1000px; margin-inline: auto;'
+
+    Object.entries(nodeList).forEach((entry) => {
+        const nodeData = entry[1]
+        const item = document.createElement('div')
+        item.style.marginBlock = '60px'
+        container.appendChild(item)
+
+        const classLabel = elementRenderer({
+            tag: 'span',
+            class: '',
+            content: `.${nodeData.class}`,
+        })
+        classLabel.style = `float: right;`
+        item.appendChild(classLabel)
+
+        const node = elementRenderer(nodeData)
+        item.appendChild(node)
+
+        const hr = document.createElement('hr')
+        item.appendChild(hr)
+
+        const paragraph = document.createElement('div')
+        paragraph.innerText =
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        paragraph.classList.add(nodeData.class)
+        item.appendChild(paragraph)
+    })
+
+    return container
+}
+
 const meta: Meta = {
-    title: 'Integration/Text',
+    title: 'Foundations/Typography/Text',
+    render: () => textGalleryRenderer(),
 }
 
 export default meta
@@ -218,39 +253,4 @@ function elementRenderer(attribute: nodeAttribute) {
     return node
 }
 
-export const Default: Story = {
-    render: () => {
-        const container = document.createElement('div')
-        container.style = 'max-width: 1000px; margin-inline: auto;'
-
-        Object.entries(nodeList).forEach((entry) => {
-            const nodeData = entry[1]
-            const item = document.createElement('div')
-            item.style.marginBlock = '60px'
-            container.appendChild(item)
-
-            const classLabel = elementRenderer({
-                tag: 'span',
-                class: '',
-                content: `.${nodeData.class}`,
-            })
-            classLabel.style = `float: right;`
-            item.appendChild(classLabel)
-
-            const node = elementRenderer(nodeData)
-            item.appendChild(node)
-
-            const hr = document.createElement('hr')
-            item.appendChild(hr)
-
-            const paragraph = document.createElement('div')
-            paragraph.innerText =
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-            paragraph.classList.add(nodeData.class)
-            item.appendChild(paragraph)
-        })
-
-        return container
-    },
-    args: {},
-}
+export const Default: Story = {}

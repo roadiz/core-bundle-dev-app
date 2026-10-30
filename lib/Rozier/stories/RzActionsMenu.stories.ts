@@ -6,7 +6,7 @@ import {
 
 const COMPONENT_CLASS_NAME = 'rz-actions-menu'
 
-export type Args = {
+type Args = {
     vertical?: boolean
     items: {
         popoverContent?: string
@@ -15,8 +15,9 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/ActionsMenu',
+    title: 'Components/Actions/ActionsMenu',
     tags: ['autodocs'],
+    render: (args) => rzActionsMenuRenderer(args),
     args: {
         vertical: false,
         items: [
@@ -90,7 +91,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function rzActionsMenu(args: Args) {
+function rzActionsMenuRenderer(args: Args) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
     if (args.vertical) {
@@ -116,16 +117,9 @@ function rzActionsMenu(args: Args) {
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzActionsMenu(args)
-    },
-}
+export const Default: Story = {}
 
 export const Vertical: Story = {
-    render: (args) => {
-        return rzActionsMenu(args)
-    },
     args: {
         vertical: true,
     },

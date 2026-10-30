@@ -1,18 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as TabArgs } from './RzTablistItem.stories'
 import {
-    TABLIST_CLASS_NAME,
-    rzTablistRenderer,
+    type RzTablistOptions,
     rzTablistItemRenderer,
-} from '../app/utils/storybook/renderer/rzTablist'
+    rzTablistRenderer,
+    TABLIST_CLASS_NAME,
+} from '~/utils/storybook/renderer/rzTablist'
 
-export type Args = {
-    tabs: TabArgs[]
-}
+type Args = RzTablistOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Tablist/root',
+    title: 'Components/Navigation/Tablist/Root',
     tags: ['autodocs'],
+    render: (args) => rzTablistRenderer(args),
     args: {
         tabs: Array(3)
             .fill(null)
@@ -35,11 +34,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzTablistRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const WithSeparator: Story = {
     render: (args) => {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 type Args = {
     open: boolean
@@ -7,8 +7,9 @@ type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/LivePreview',
+    title: 'Patterns/LivePreview',
     tags: ['autodocs'],
+    render: (args) => rzLivePreviewRenderer(args),
     args: {
         open: true,
         widths: [375, 768, 1440],
@@ -16,7 +17,7 @@ const meta: Meta<Args> = {
     argTypes: {
         open: {
             description:
-                'Initial state. The element persists it in localStorage (rz-live-preview-open).',
+                'Initial state. The element persists it in localStorage (rz-live-preview-open). The preview and its toggle are hidden below 960px (--screen-md-min): widen the canvas to see them.',
         },
         widths: {
             description:
@@ -25,6 +26,8 @@ const meta: Meta<Args> = {
     },
     parameters: {
         layout: 'fullscreen',
+        // One iframe per story: the fixed actions menus would stack on the docs page.
+        docs: { story: { inline: false, iframeHeight: 600 } },
     },
 }
 
@@ -50,7 +53,7 @@ function el(tag: string, className: string, innerHTML = '') {
     return node
 }
 
-function render(args: Args) {
+function rzLivePreviewRenderer(args: Args) {
     try {
         localStorage.setItem('rz-live-preview-open', args.open ? '1' : '0')
         localStorage.removeItem('rz-live-preview-width')
@@ -58,35 +61,52 @@ function render(args: Args) {
         // private mode
     }
 
-    // Same nesting as editSource.html.twig: #main-content > .content-global > header + form + preview
-    const main = el('div', '')
-    main.id = 'main-content'
-    main.style.cssText = 'height: 100vh; overflow-y: auto; position: relative;'
-
-    const page = el('section', 'content-global')
-    const header = el('header', 'content-header')
-    header.style.minHeight = '120px'
-    const slot = el('div', 'content-header-action-menu')
-    const nav = document.createElement('nav')
-    const toggle = document.createElement('button')
-    toggle.type = 'button'
-    toggle.className = 'uk-button rz-live-preview-toggle'
-    toggle.setAttribute('aria-controls', 'live-preview')
-    toggle.setAttribute('aria-expanded', 'false')
-    toggle.innerHTML =
-        '<i class="uk-icon-rz-visibility"></i> <span class="label">Live preview</span>'
-    nav.appendChild(toggle)
-    slot.appendChild(nav)
-    header.appendChild(slot)
-
+    // Same nesting as base.html.twig + nodes/editSource.html.twig: .rz-page > .rz-page__body > form + preview
+    const page = el('main', 'rz-page')
+    const body = el('section', 'rz-page__body')
     const form = el(
         'form',
-        'content',
+        '',
         Array(12)
             .fill(
-                '<div style="height:96px;margin:16px;border-radius:6px;background:var(--surface-light-tertiary)"></div>',
+                '<div style="height:96px;margin:16px 0;border-radius:6px;background:var(--surface-light-tertiary)"></div>',
             )
             .join(''),
+    )
+
+    // Same toggle as nodes/actionsMenu.html.twig, in the fixed actions menu.
+    // The save item keeps the menu visible below 960px, where the toggle is hidden.
+    const actionsMenu = el(
+        'rz-actions-menu',
+        'rz-actions-menu rz-actions-menu--vertical actions-menu',
+    )
+    actionsMenu.append(
+        rzButtonRenderer({
+            emphasis: 'primary',
+            size: 'md',
+            onDark: true,
+            iconClass: 'rz-icon-ri--eye-line',
+            attributes: {
+                type: 'button',
+                class: 'rz-live-preview-toggle',
+                title: 'Live preview',
+                'aria-label': 'Live preview',
+                'aria-controls': 'live-preview',
+                'aria-expanded': 'false',
+            },
+        }),
+        rzButtonRenderer({
+            emphasis: 'primary',
+            size: 'md',
+            onDark: true,
+            color: 'success',
+            iconClass: 'rz-icon-ri--save-line',
+            attributes: {
+                type: 'button',
+                title: 'Save',
+                'aria-label': 'Save',
+            },
+        }),
     )
 
     const preview = el('rz-live-preview', 'rz-live-preview')
@@ -100,40 +120,40 @@ function render(args: Args) {
     group.setAttribute('aria-label', 'Preview viewport')
     args.widths.forEach((width) => {
         group.appendChild(
-            rzButtonRenderer(
-                { emphasis: 'low', size: 'sm', iconClass: iconFor(width) },
-                {
+            rzButtonRenderer({
+                emphasis: 'tertiary',
+                size: 'sm',
+                iconClass: iconFor(width),
+                attributes: {
                     type: 'button',
                     'data-width': String(width),
                     'aria-pressed': 'false',
                     'aria-label': `${width} px`,
                     title: `${width} px`,
                 },
-            ),
+            }),
         )
     })
     toolbar.appendChild(group)
     toolbar.appendChild(
         el(
             'span',
-            'rz-badge rz-badge--size-xs rz-live-preview__scale',
+            'rz-badge rz-badge--xs rz-live-preview__scale',
             '<span class="rz-badge__label">100 %</span>',
         ),
     )
     toolbar.appendChild(
-        rzButtonRenderer(
-            {
-                emphasis: 'low',
-                size: 'sm',
-                iconClass: 'rz-icon-ri--close-line',
-            },
-            {
+        rzButtonRenderer({
+            emphasis: 'tertiary',
+            size: 'sm',
+            iconClass: 'rz-icon-ri--close-line',
+            attributes: {
                 type: 'button',
                 'data-close': '',
                 'aria-label': 'Close live preview',
                 title: 'Close live preview',
             },
-        ),
+        }),
     )
 
     const viewport = el('div', 'rz-live-preview__viewport')
@@ -143,20 +163,21 @@ function render(args: Args) {
     viewport.appendChild(iframe)
     preview.append(toolbar, viewport)
 
-    page.append(header, form, preview)
-    main.appendChild(page)
+    body.append(form, preview)
+    page.appendChild(body)
 
-    return main
+    const wrapper = el('div', '')
+    wrapper.append(page, actionsMenu)
+
+    return wrapper
 }
 
-export const Open: Story = { render }
+export const Default: Story = {}
 
 export const Closed: Story = {
-    render,
     args: { open: false },
 }
 
 export const SingleViewport: Story = {
-    render,
     args: { widths: [1024] },
 }

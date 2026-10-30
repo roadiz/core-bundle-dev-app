@@ -29,8 +29,40 @@ const nodeList = {
     },
 } as Record<string, nodeAttribute>
 
+function fontFamilyTableRenderer() {
+    const table = document.createElement('table')
+    const header = headerRenderer(['Class name', 'Name'])
+    table.appendChild(header)
+
+    const body = document.createElement('tbody')
+    table.appendChild(body)
+
+    Object.entries(nodeList).forEach(([key, values]) => {
+        const tr = document.createElement('tr')
+        body.appendChild(tr)
+
+        const classNameEL = elementRenderer({
+            ...values,
+            innerText: '.' + values.class,
+            tag: 'td',
+        })
+
+        tr.appendChild(classNameEL)
+
+        const nameEl = elementRenderer({
+            ...values,
+            innerText: key,
+            tag: 'td',
+        })
+        nameEl.style.paddingInline = '20px'
+        tr.appendChild(nameEl)
+    })
+    return table
+}
+
 const meta: Meta = {
-    title: 'Integration/Text/font-family',
+    title: 'Foundations/Typography/FontFamily',
+    render: () => fontFamilyTableRenderer(),
 }
 
 export default meta
@@ -59,35 +91,4 @@ function headerRenderer(cols: string[]) {
     return thead
 }
 
-export const Default: Story = {
-    render: () => {
-        const table = document.createElement('table')
-        const header = headerRenderer(['Class name', 'Name'])
-        table.appendChild(header)
-
-        const body = document.createElement('tbody')
-        table.appendChild(body)
-
-        Object.entries(nodeList).forEach(([key, values]) => {
-            const tr = document.createElement('tr')
-            body.appendChild(tr)
-
-            const classNameEL = elementRenderer({
-                ...values,
-                innerText: '.' + values.class,
-                tag: 'td',
-            })
-
-            tr.appendChild(classNameEL)
-
-            const nameEl = elementRenderer({
-                ...values,
-                innerText: key,
-                tag: 'td',
-            })
-            nameEl.style.paddingInline = '20px'
-            tr.appendChild(nameEl)
-        })
-        return table
-    },
-}
+export const Default: Story = {}

@@ -8,8 +8,9 @@ import {
 type Args = RzProgressOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Progress',
+    title: 'Components/Feedback/Progress',
     tags: ['autodocs'],
+    render: (args) => rzProgressRenderer(args),
     args: {
         label: 'Translation quota',
         value: 1712400,
@@ -41,12 +42,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => rzProgressRenderer(args),
-}
+export const Default: Story = {}
 
 export const Warning: Story = {
-    render: (args) => rzProgressRenderer(args),
     args: {
         value: 4351900,
         state: 'warning',
@@ -55,7 +53,6 @@ export const Warning: Story = {
 }
 
 export const LimitReached: Story = {
-    render: (args) => rzProgressRenderer(args),
     args: {
         value: 5000000,
         state: 'error',
@@ -69,7 +66,6 @@ export const LimitReached: Story = {
  * announces the consumed value, and the projection is carried by the hint text.
  */
 export const WithProjection: Story = {
-    render: (args) => rzProgressRenderer(args),
     args: {
         projection: 902300,
         hint: 'This translation will consume 902 300 characters for 46 sources. 2 385 300 will remain.',
@@ -77,7 +73,6 @@ export const WithProjection: Story = {
 }
 
 export const ProjectionOverQuota: Story = {
-    render: (args) => rzProgressRenderer(args),
     args: {
         value: 4351900,
         projection: 902300,
@@ -87,7 +82,6 @@ export const ProjectionOverQuota: Story = {
 }
 
 export const Stat: Story = {
-    render: (args) => rzProgressRenderer(args),
     args: {
         value: 4351900,
         state: 'warning',

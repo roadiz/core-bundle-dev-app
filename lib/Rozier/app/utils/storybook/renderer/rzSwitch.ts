@@ -1,8 +1,12 @@
-import type { Args } from '../../../../stories/RzSwitch.stories'
+import type { RzInputOptions } from '~/utils/storybook/renderer/rzInput'
+
+export type RzSwitchOptions = RzInputOptions & {
+    checked?: boolean
+}
 
 const COMPONENT_CLASS_NAME = 'rz-switch'
 
-export function rzSwitchRenderer(args: Args) {
+export function rzSwitchRenderer(args: RzSwitchOptions) {
     const input = document.createElement('input')
     input.setAttribute('type', 'checkbox')
     input.classList.add(COMPONENT_CLASS_NAME)
