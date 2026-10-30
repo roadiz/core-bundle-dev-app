@@ -134,7 +134,7 @@ roadiz_rozier:
         customAdmin:
             name: customAdmin
             route: adminTestPage
-            icon: uk-icon-cube
+            icon: rz-icon-ri--layout-grid-line
             roles: ~
 ```
 
@@ -146,13 +146,13 @@ roadiz_rozier:
         customAdmin:
             name: customAdmin
             route: ~
-            icon: uk-icon-cube
+            icon: rz-icon-ri--folder-line
             roles: ~
             subentries:
                 customAdminPage:
                     name: 'customAdmin page'
                     route: adminTestPage
-                    icon: uk-icon-cube
+                    icon: rz-icon-ri--file-list-3-line
                     roles: ~
 ```
 
