@@ -17,7 +17,7 @@ const meta: Meta<Args> = {
     argTypes: {
         open: {
             description:
-                'Initial state. The element persists it in localStorage (rz-live-preview-open). The preview and its toggle are hidden below 1280px (--screen-lg-min): widen the canvas to see them.',
+                'Initial state. The element persists it in localStorage (rz-live-preview-open). The preview and its toggle are hidden below 960px (--screen-md-min): widen the canvas to see them.',
         },
         widths: {
             description:
@@ -75,7 +75,7 @@ function rzLivePreviewRenderer(args: Args) {
     )
 
     // Same toggle as nodes/actionsMenu.html.twig, in the fixed actions menu.
-    // The save item keeps the menu visible below 1280px, where the toggle is hidden.
+    // The save item keeps the menu visible below 960px, where the toggle is hidden.
     const actionsMenu = el(
         'rz-actions-menu',
         'rz-actions-menu rz-actions-menu--vertical actions-menu',
