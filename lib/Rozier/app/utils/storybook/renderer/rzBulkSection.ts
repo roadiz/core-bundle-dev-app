@@ -12,11 +12,11 @@ export type RzBulkSectionItemOptions = {
 export type RzBulkSectionOptions = {
     items: RzBulkSectionItemOptions[]
     bulkActions: RzBulkActionsOptions
-    /** Select-all button of widgets/rz_filters_bar.html.twig (`display_select_all_button`). */
+    /** Select-all button of components/rz_filters_bar.html.twig (`display_select_all_button`). */
     selectAllButton?: boolean
 }
 
-/** Mirrors rz_bulk.select_all_input and rz_bulk.select_input (macros/rz_bulk.html.twig). */
+/** Mirrors rz_bulk_actions.select_all_input and rz_bulk_actions.select_input (components/rz_bulk_actions.html.twig). */
 function selectInputRenderer(name: string, label: string, value?: string) {
     const input = document.createElement('input', { is: 'rz-input' })
     input.setAttribute('is', 'rz-input')
