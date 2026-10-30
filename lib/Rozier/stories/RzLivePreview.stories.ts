@@ -26,6 +26,8 @@ const meta: Meta<Args> = {
     },
     parameters: {
         layout: 'fullscreen',
+        // One iframe per story: the fixed actions menus would stack on the docs page.
+        docs: { story: { inline: false, iframeHeight: 600 } },
     },
 }
 
@@ -72,12 +74,13 @@ function rzLivePreviewRenderer(args: Args) {
             .join(''),
     )
 
-    // Same toggle as nodes/actionsMenu.html.twig, in the fixed actions menu
+    // Same toggle as nodes/actionsMenu.html.twig, in the fixed actions menu.
+    // The save item keeps the menu visible below 1280px, where the toggle is hidden.
     const actionsMenu = el(
         'rz-actions-menu',
         'rz-actions-menu rz-actions-menu--vertical actions-menu',
     )
-    actionsMenu.appendChild(
+    actionsMenu.append(
         rzButtonRenderer({
             emphasis: 'primary',
             size: 'md',
@@ -90,6 +93,18 @@ function rzLivePreviewRenderer(args: Args) {
                 'aria-label': 'Live preview',
                 'aria-controls': 'live-preview',
                 'aria-expanded': 'false',
+            },
+        }),
+        rzButtonRenderer({
+            emphasis: 'primary',
+            size: 'md',
+            onDark: true,
+            color: 'success',
+            iconClass: 'rz-icon-ri--save-line',
+            attributes: {
+                type: 'button',
+                title: 'Save',
+                'aria-label': 'Save',
             },
         }),
     )
