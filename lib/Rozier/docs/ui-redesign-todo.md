@@ -29,8 +29,8 @@ build momentum; the heavily legacy zones need a real effort, not just touch-ups.
 | 2 | Navigation / tree | 8/9 | Nearly done, 2 tickets to close out |
 | 3 | Media library / documents | 7/8 | Nearly done |
 | — | Tables / listings / bulk actions | 4/4 | Already done — just re-validate dark mode when it's tackled in phase 2 |
-| 4 | Cross-cutting dialogs / overlays | 7/13 | Used by every other zone — the legacy duplicates (`RzButton.vue`/`RzTextarea.vue`) also pollute the "finished" zones |
-| 5 | Explorer / Drawer | 6/9 | `NodeTypesDrawerContainer.vue` remains heavily UIkit despite being touched by the redesign commit |
+| 4 | Cross-cutting dialogs / overlays | 7/13 | Used by every other zone — the legacy duplicates (`RzButton.vue`/`RzTextarea.vue`) were removed as dead code in #534 |
+| 5 | Explorer / Drawer | 6/9 | `NodeTypesDrawerContainer.vue`, the heaviest UIkit user, was dead and removed in #534; the remaining legacy files still need migrating |
 | 6 | Tags / Folders | 1/6 | The biggest gap — probably not just catch-up work, needs a real design pass before coding |
 | 7 | Custom forms | 0/1 | Small footprint but never started |
 | 8 | User management | 0 dedicated component | No existing foundation, the biggest remaining effort — to be scoped separately with a dedicated Figma mockup |
@@ -64,9 +64,9 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 - [x] ~~Set a due date on `v2.8`~~ excluded from Phase 0 (2026-10-28): `v2.8` keeps its whole scope, the team sets the date separately
 - [x] Fix `CLAUDE.md`: Rozier runs on Vue 2.7, not Vue 3
 - [x] [#533](https://github.com/roadiz/core-bundle-dev-app/issues/533) Remove the dead stack-tree refresh: `refreshNodeTree()`, `fetchNodeTree()` and `treeAvailable()` in [StackNodeTree.js](../app/widgets/StackNodeTree.js) (with their `window.Rozier.initNestables()` call) (the matching branch of `RzAside.refreshAllNodeTrees()` went away with #396). Not a user-facing crash: `treeAvailable()` looks for `.nodetree-widget`, which no template renders since #279 (checked in code and in the browser, 2026-10-28). Keep the quick-add flow, still live
-- [ ] [#534](https://github.com/roadiz/core-bundle-dev-app/issues/534) Remove the 6 dead Vue files (also settles the `RzButton.vue`/`RzTextarea.vue` collision with their custom elements, and unregisters the containers from `App.js`): `containers/DrawerContainer.vue`, `containers/NodeTypesDrawerContainer.vue`, `containers/TagsEditorContainer.vue`, `components/RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
+- [x] [#534](https://github.com/roadiz/core-bundle-dev-app/issues/534) Remove the 6 dead Vue files (also settles the `RzButton.vue`/`RzTextarea.vue` collision with their custom elements, and unregisters the containers from `App.js`): `containers/DrawerContainer.vue`, `containers/NodeTypesDrawerContainer.vue`, `containers/TagsEditorContainer.vue`, `components/RzButton.vue`, `RzTextarea.vue`, `CodeMirror.vue`
 - [ ] [#535](https://github.com/roadiz/core-bundle-dev-app/issues/535) Remove the dead UIkit behaviours/imports in `main.js`/`vendor.less`: `nestable`, `datepicker`, `pagination`, `notify`, `htmleditor`, + the 12 orphaned vendored CSS files. `switcher` and `sortable` move to Phase 5: JS still references them (`[data-uk-switcher]` in `RzMarkdownEditor.ts`, `JsonEditor.js`, `CssEditor.js`, `YamlEditor.js`; `change.uk.sortable` in `CustomFormFieldsPosition.js`)
-- [ ] [#536](https://github.com/roadiz/core-bundle-dev-app/issues/536) Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
+- [x] [#536](https://github.com/roadiz/core-bundle-dev-app/issues/536) Clean up the dead fields in `Lazyload.ts` (`inputLengthWatcher`, `documentUploader`, `geotagField`, `multiGeotagField`, `tagAutocomplete`)
 - [ ] [#539](https://github.com/roadiz/core-bundle-dev-app/issues/539) Bring Storybook to the [`storybook.md`](storybook.md) convention. **Outside the 2-3 day time-box**, but done before Phase 1 so the pilot zone starts from a clean Storybook. Three PRs: (1) docs: `storybook.md`, [ADR 0004](adr/0004-shared-options-contract-for-twig-and-stories.md), glossary, pre-PR `build-storybook` check; (2) migrate the 51 story files (tree, naming, args, renderers), fix the broken `rzButton` import in `RzLivePreview.stories.ts`, drop the dead `a11y` block from `.storybook/preview.ts`; (3) add the missing stories for `rz-page`, `rz-bulk-section`, `rz-bulk-actions`, `rz-aside`, `rz-geotag`, `rz-node-tree-contextual-menu`, `rz-save-button`, cover `rz-header-nav-item-button` in `Components/Navigation/HeaderNavItem`, and file `Header` and `Aside` under `Patterns/` (`rz-toast-list` is already covered by `Toast`)
 - [ ] [#540](https://github.com/roadiz/core-bundle-dev-app/issues/540) Move the `RoadizRozierBundle` Twig templates to the [`templates.md`](templates.md) tree. Blocked by #539, outside the 2-3 day time-box, before Phase 1. Three PRs: (1) tree: `layouts/`, `patterns/`, `components/`, duplicates merged, the 14 unreferenced templates removed, `UPGRADE.md` updated ([ADR 0005](adr/0005-twig-components-move-in-v2-8.md)); (2) component options aligned on the renderer `Options` types; (3) components for the hand-written `rz-*` roots and their replacement. Legacy trees stay in `widgets/` until the Navigation zone
 
@@ -96,7 +96,7 @@ post-merge state, not from the paths/line numbers cited below, which reflect the
 - [ ] Navigation/tree: [#469](https://github.com/roadiz/core-bundle-dev-app/issues/469), [#437](https://github.com/roadiz/core-bundle-dev-app/issues/437), migrate `AdminMenuNav.js`
 - [ ] Media library/documents: migrate `DocumentAlignmentWidget.js`
 - [ ] Dialogs/overlays: clean up the remaining legacy components (`Overlay`, `FilterExplorerItem`, `JoinPreviewItem`); `WarningModal` and `ModalContainer` are replaced by native `rz-dialog` ([#482](https://github.com/roadiz/core-bundle-dev-app/pull/482))
-- [ ] Explorer/Drawer: revisit `NodeTypesDrawerContainer.vue` (still heavily UIkit)
+- [ ] Explorer/Drawer: migrate the remaining legacy files (`NodeTypesDrawerContainer.vue` was dead and removed in #534)
 
 ## Phase 4 — Technical foundations
 
@@ -151,7 +151,7 @@ that would skew `git log -1`.
 | Navigation/tree (`RzAside`, `RzTree`, `RzHeader*`) | 9 | 8 | 1 (`AdminMenuNav.js`) | 4/9 |
 | Media library/documents (`RzFileUpload`, `Blanchette*`) | 8 | 7 | 1 (`DocumentAlignmentWidget.js`) | 2/8 |
 | Cross-cutting dialogs/overlays (`RzDialog`, `RzPopover`, `RzTooltip`...) | 13 | 7 | 6 | 7/13 |
-| Explorer/Drawer (related-entity picker) | 9 | 6 | 3 (incl. `NodeTypesDrawerContainer.vue`, still heavily UIkit despite being touched by the squash commit) | 2/9 |
+| Explorer/Drawer (related-entity picker) | 9 | 6 | 3 (incl. `NodeTypesDrawerContainer.vue`, still heavily UIkit despite being touched by the squash commit; removed as dead code in #534) | 2/9 |
 | Tags/Folders | 6 | 1 | 5 | 0/6 |
 | Login/search | 2 | 1 | 1 | 2/2 |
 | Custom forms | 1 | 0 | 1 | 0/1 |
@@ -167,7 +167,8 @@ that would skew `git log -1`.
 - 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
   files from the new design system.
 - **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
-  alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up.
+  alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up
+  (settled in #534: the Vue file was dead and removed).
 - **Acknowledged methodological uncertainty**: `custom-elements/RzSelect.ts` has CSS updated by the
   redesign but JS logic unchanged since before the project — visually current, architecturally
   legacy. This kind of case can't be settled by Git analysis alone; a visual check per zone remains
