@@ -286,7 +286,7 @@ roadiz_rozier:
         articles:
             name: articles
             route: admin_article_list  # This should match your route name in routes.yaml
-            icon: uk-icon-paper-plane  # Choose an icon from UIkit or Roadiz icon set
+            icon: rz-icon-ri--mail-send-line  # Choose a backoffice icon class (rz-icon-ri--*, rz-icon-rz--*)
             roles: [ 'ROLE_BACKEND_USER' ] # Optional: restrict access to specific roles
 ```
 

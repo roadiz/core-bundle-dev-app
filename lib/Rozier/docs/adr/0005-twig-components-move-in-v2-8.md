@@ -8,6 +8,7 @@ The Twig templates of `lib/RoadizRozierBundle` scatter each role (layouts, patte
 
 ## Consequences
 
-- `layout.html.twig` and `forms.html.twig` stay at the root: they are the public entry points projects extend or reference, and are not moved.
+- `layout.html.twig` and `forms.html.twig` stay at the root: they are the public entry points projects extend or reference, and are not moved. `dashboard/index.html.twig` is a public entry point too and stays in place ([ADR 0006](0006-projects-customise-through-public-mechanisms.md)).
+- Once moved, components and patterns are public with their options ([ADR 0006](0006-projects-customise-through-public-mechanisms.md)): this move is the last break of their paths without the deprecation rules of that ADR.
 - Every other moved or removed path, and every renamed component option, is listed in the "Upgrade to 2.8" section of `UPGRADE.md`.
 - Twig component options and renderer `Options` share their keys, so drift between the two is checked key by key in review.
