@@ -6,6 +6,7 @@ import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
+import { rzColorSchemeSwitcherRenderer } from '~/utils/storybook/renderer/rzColorSchemeSwitcher'
 
 const COMPONENT_CLASS_NAME = 'rz-header'
 
@@ -289,8 +290,16 @@ function rzHeaderHeadRenderer() {
     const burger = burgerRenderer()
     head.appendChild(burger)
 
+    const colorSchemeSwitcher = rzColorSchemeSwitcherRenderer({
+        id: `color-theme-switcher-${Math.random().toString(36).slice(2, 8)}`,
+        attributes: {
+            class: `${COMPONENT_CLASS_NAME}__color-switcher ${COMPONENT_CLASS_NAME}__head__item--end`,
+        },
+    })
+    head.appendChild(colorSchemeSwitcher)
+
     const badge = rzBadgeRenderer({ label: 'Production', size: 'sm' })
-    badge.classList.add(`${COMPONENT_CLASS_NAME}__head__item--end`)
+    badge.classList.add(`${COMPONENT_CLASS_NAME}__head__item`)
     head.appendChild(badge)
 
     return head
