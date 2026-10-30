@@ -22,11 +22,6 @@ export default class Lazyload {
     linksSelector: HTMLAnchorElement[]
     currentRequest: AbortController | null
     currentTimeout: number | null
-    inputLengthWatcher: Unbindable
-    documentUploader: Unbindable
-    geotagField: Unbindable
-    multiGeotagField: Unbindable
-    tagAutocomplete: Unbindable
     customFormFieldsPosition: Unbindable
     settingsSaveButtons: Unbindable
     jsonEditors: JsonEditor[]
@@ -39,11 +34,6 @@ export default class Lazyload {
         this.linksSelector = []
         this.currentRequest = null
         this.currentTimeout = null
-        this.inputLengthWatcher = null
-        this.documentUploader = null
-        this.geotagField = null
-        this.multiGeotagField = null
-        this.tagAutocomplete = null
         this.customFormFieldsPosition = null
         this.settingsSaveButtons = null
         this.jsonEditors = []
@@ -286,11 +276,7 @@ export default class Lazyload {
      */
     generalBind() {
         this.generalUnbind([
-            this.inputLengthWatcher,
-            this.geotagField,
-            this.multiGeotagField,
             this.stackNodeTrees,
-            this.tagAutocomplete,
             this.customFormFieldsPosition,
             this.settingsSaveButtons,
         ])
