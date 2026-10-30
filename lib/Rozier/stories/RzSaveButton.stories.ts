@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import { rzActionsMenuRenderer } from '~/utils/storybook/renderer/rzActionsMenu'
 import {
     type RzSaveButtonOptions,
     rzSaveButtonRenderer,
@@ -26,12 +27,7 @@ const meta: Meta<Args> = {
         wrapper.appendChild(form)
 
         // The button moves itself into the first .rz-actions-menu of the document
-        const actionsMenu = document.createElement('rz-actions-menu')
-        actionsMenu.className = 'rz-actions-menu'
-        actionsMenu.setAttribute('data-axis', 'y')
-        actionsMenu.innerHTML =
-            '<button class="rz-actions-menu__handle" type="button" aria-label="Drag actions menu"><span class="rz-icon-rz--draggable-2"></span></button>'
-        wrapper.appendChild(actionsMenu)
+        wrapper.appendChild(rzActionsMenuRenderer({ items: [] }))
 
         wrapper.appendChild(rzSaveButtonRenderer(args))
 
