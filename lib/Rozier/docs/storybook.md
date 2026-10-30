@@ -20,20 +20,23 @@ Three roots:
   functional, never redesign zones: `Actions`, `Form`, `Overlay`, `Navigation`,
   `Data display`, `Feedback`.
 - `Patterns/<Name>`: a whole screen or a layout region (app layout, login,
-  dashboard, header, aside, menu bar, live preview). An item of a pattern that is
+  dashboard, header, aside, page, menu bar, live preview). An item of a pattern that is
   reused elsewhere is a component of its own (`Components/Navigation/HeaderNavItem`).
 
 ```
 Foundations/   Colors, Typography/Text, Typography/FontFamily, Icons, Brand
 Components/
-  Actions/       Button, ButtonGroup, ActionsMenu, ColorSchemeSwitcher
+  Actions/       Button, ButtonGroup, ActionsMenu, SaveButton, ColorSchemeSwitcher,
+                 BulkSection, BulkActions
   Form/          Input, Textarea, Select, Switch, ColorInput, Field, Fieldset,
-                 Form, MarkdownEditor, Repeatable, FileUpload, ChildrenNodes/{Root,Item}
-  Overlay/       Dialog, Drawer, Dropdown/{Root,Item}, Popover, Tooltip, Search
+                 Form, MarkdownEditor, Repeatable, FileUpload, Geotag,
+                 ChildrenNodes/{Root,Item}
+  Overlay/       Dialog, Drawer, Dropdown/{Root,Item}, Popover, Tooltip, Search,
+                 NodeTreeContextualMenu
   Navigation/    HeaderNavItem, Breadcrumb, Tablist/{Root,Item}, Tree, Link, PageHeader
   Data display/  Table, Card, Badge, EntityThumbnail, NodeIcon, FiltersBar
   Feedback/      Message, Toast, Progress
-Patterns/        App, Login, Dashboard, Header, Aside, MenuBar, LivePreview
+Patterns/        App, Login, Dashboard, Header, Aside, Page, MenuBar, LivePreview
 ```
 
 A new story picks an existing group; adding a group is a deliberate change to this file.
