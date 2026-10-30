@@ -23,8 +23,11 @@ templates/
   widgets/            legacy trees only, until the Navigation zone replaces them
 ```
 
-- `layout.html.twig` and `forms.html.twig` are the only paths projects can rely
-  on across versions. Everything else is internal to the bundle.
+- Projects can rely on `layout.html.twig`, `forms.html.twig` and
+  `dashboard/index.html.twig`, and on the components and patterns of
+  `components/` and `patterns/` with their options, once documented in
+  `docs/extensions/`. Everything else is internal to the bundle
+  ([ADR 0006](adr/0006-projects-customise-through-public-mechanisms.md)).
 - Page templates keep their current names and folders: controllers resolve many
   of them through `getTemplateFolder()`.
 - New files in `layouts/`, `patterns/`, `components/`, `form/`, `macros/` and

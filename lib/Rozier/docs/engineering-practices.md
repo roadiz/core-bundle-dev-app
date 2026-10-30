@@ -15,6 +15,24 @@ small, reviewable, and aligned with the monorepo standards.
 See [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md) for the
 legacy stack being phased out.
 
+## Rendering
+
+- Render on the server what the page already knows. When content is known at
+  page load or reachable through a URL without user interaction (prefilled
+  values, list items, thumbnails, flash messages), Twig renders it and the
+  custom element only adds behaviour. The screen does not have to work with
+  JavaScript disabled.
+- HTML rendered by Twig and fetched later (a tree loaded after the page, a
+  refreshed fragment) follows this rule: the markup still has a single source.
+  What the rule rules out is markup built in JavaScript from JSON.
+- Content that only exists after a user action (search results, a Markdown
+  preview, a dialog opened on click) may be rendered in JavaScript.
+- The TypeScript renderers (`app/utils/component-renderer/`) exist for stories
+  and for that interaction-driven content; they are not a way to render what
+  Twig can render.
+- Existing code is brought in line when its zone is worked on; there is no
+  dedicated migration.
+
 ## Modernizing incrementally
 
 - Keep changes incremental and easy to review.

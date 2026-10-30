@@ -72,7 +72,7 @@ final class AdminController extends AbstractController
 Now let\'s have a look to your twig template file `templates/admin/test.html.twig`.
 
 ```twig
-{% extends '@Rozier/layout.html.twig' %}
+{% extends '@RoadizRozier/layout.html.twig' %}
 
 {% block customStyles %}
 <style>
@@ -99,11 +99,11 @@ Now let\'s have a look to your twig template file `templates/admin/test.html.twi
 {% endblock %}
 ```
 
-The first line is for inheriting from Rozier base template, you can notice that we explicitly choose [\@Rozier]{.title-ref} namespace.
+The first line inherits from the Rozier base template, through the `@RoadizRozier` namespace.
 
 The two next blocks are made for you to add some CSS or Javascript.
-For CSS, the block `customStyle` can be use to link an external file with a `<link>` tag, the path must be something like that `asset('static/css/customstyle.css', 'MyTheme')`, or add directly some CSS with \"\<style\>\" tag.
-For JS, the block `customScripts` work as is, just link an external JS file or write your `<script>` tag.
+For CSS, the `customStyles` block can link an external file with a `<link>` tag, for example `asset('css/customstyle.css')`, or hold CSS directly in a `<style>` tag.
+For JS, the `customScripts` block works the same way: link an external JS file or write your `<script>` tag. Both blocks are [extension points](./backoffice_extension_points.md).
 
 Then create your own content, do not hesitate to give a look at Rozier back-stage theme Twig files to use the right DOM structure.
 For simple features, you wouldn't have to extend JS nor CSS if you follow the same HTML coding style.
