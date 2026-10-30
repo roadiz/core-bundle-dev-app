@@ -71,9 +71,6 @@ importers:
       vue-cropperjs:
         specifier: 2.1.0
         version: 2.1.0(vue@2.7.16)
-      vue-multiselect:
-        specifier: 2.0.0-beta.15
-        version: 2.0.0-beta.15
       vue2-dropzone:
         specifier: ^2.2.4
         version: 2.3.6
@@ -2324,10 +2321,6 @@ packages:
     peerDependencies:
       vue: '>=2.0.0'
 
-  vue-multiselect@2.0.0-beta.15:
-    resolution: {integrity: sha512-aE7lcdKsnbL6DEtG+TFl96OwLAGq3E8yS6eukgvsKgY32q+0ausZMMQY7AUYUjX6ZIKyHqjkeYTZeXO7s9iI2g==}
-    engines: {node: '>= 4.0.0', npm: '>= 3.0.0'}
-
   vue2-dropzone@2.3.6:
     resolution: {integrity: sha512-2UJuz2UYlmFGg/9kLS7fLHqYN8OCHbjZVWWB+2XIzULJ2H3MM98305KrzAY0jT1AaBP6g4xLxVL8rEJ5DT0bKA==}
 
@@ -4577,8 +4570,6 @@ snapshots:
       cropperjs: 0.8.1
       lodash.omit: 4.5.0
       vue: 2.7.16
-
-  vue-multiselect@2.0.0-beta.15: {}
 
   vue2-dropzone@2.3.6:
     dependencies:
