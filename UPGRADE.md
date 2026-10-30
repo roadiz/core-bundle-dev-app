@@ -228,6 +228,20 @@ Overriding those messages from JavaScript no longer has any effect. Override the
 `health_check.failed.content` translation keys in your project catalogue instead, or override
 `templates/bundles/RoadizRozierBundle/macros/rz_dialog.html.twig` to change the markup.
 
+## ⚠ Rozier dead Vue containers and components removed
+
+These Vue files were no longer rendered by any Rozier template since the new UI (the drawer widget
+now renders `<rz-drawer>`), and are removed:
+
+- `app/containers/DrawerContainer.vue` (`<drawer-container>`), `app/containers/NodeTypesDrawerContainer.vue`
+  and `app/containers/TagsEditorContainer.vue` (`<tags-editor-container>`)
+- `app/components/RzButton.vue`, `app/components/RzTextarea.vue` and `app/components/CodeMirror.vue`
+- the `vue-multiselect` dependency
+
+If a project template still renders `<drawer-container data-vuejs>` (copied from the v2.7
+`widgets/drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
+`<rz-drawer>`, as `@RoadizRozier/widgets/drawer.html.twig` does.
+
 ## New admin templates
 
 New reusable templates for building back-office pages:
