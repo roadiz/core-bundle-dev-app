@@ -20,6 +20,10 @@
 
     <section class="rz-page__body">
         {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            sortable: {
+                enabled: true,
+                url: path('customFormFieldPositionAjax'),
+            },
             actions_available: true,
         }%}
             {% block thead_cells %}
@@ -33,9 +37,9 @@
                 {% for field in fields %}
                     <tr
                         data-position="{{ field.position }}"
-                        data-field-id="{{ field.getId }}"
+                        data-id="{{ field.getId }}"
                     >
-                        <td>
+                        <td class="rz-table__handle">
                             {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: field.label,

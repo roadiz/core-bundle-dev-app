@@ -32,7 +32,7 @@ build momentum; the heavily legacy zones need a real effort, not just touch-ups.
 | 4 | Cross-cutting dialogs / overlays | 7/13 | Used by every other zone — the legacy duplicates (`RzButton.vue`/`RzTextarea.vue`) were removed as dead code in #534 |
 | 5 | Explorer / Drawer | 6/9 | `NodeTypesDrawerContainer.vue`, the heaviest UIkit user, was dead and removed in #534; the remaining legacy files still need migrating |
 | 6 | Tags / Folders | 1/6 | The biggest gap — probably not just catch-up work, needs a real design pass before coding |
-| 7 | Custom forms | 0/1 | Small footprint but never started |
+| 7 | Custom forms | 1/1 | Small footprint but never started; its only legacy script (`CustomFormFieldsPosition.js`) was replaced by the `RzTable` sortable in #537 |
 | 8 | User management | 0 dedicated component | No existing foundation, the biggest remaining effort — to be scoped separately with a dedicated Figma mockup |
 
 ## Phase order
@@ -133,7 +133,7 @@ The dismissible alert is the one exception: it has no native equivalent and need
 ## Phase 6 — Remaining heavy zones
 
 - [ ] Scope Tags/Folders with a real Figma design pass (not just code catch-up)
-- [ ] Scope Custom forms (the v2.8 regression [#537](https://github.com/roadiz/core-bundle-dev-app/issues/537), lost drag-and-drop reordering of fields, is fixed beforehand as a regression)
+- [ ] Scope Custom forms (the v2.8 regression [#537](https://github.com/roadiz/core-bundle-dev-app/issues/537), lost drag-and-drop reordering of fields, is fixed: the fields list uses the `rz_table` sortable option and `CustomFormFieldsPosition.js` is removed)
 - [ ] Scope User management (no existing dedicated component — the biggest remaining effort)
 
 ## Phase 7 — New features
@@ -167,7 +167,7 @@ that would skew `git log -1`.
 | Explorer/Drawer (related-entity picker) | 9 | 6 | 3 (incl. `NodeTypesDrawerContainer.vue`, still heavily UIkit despite being touched by the squash commit; removed as dead code in #534) | 2/9 |
 | Tags/Folders | 6 | 1 | 5 | 0/6 |
 | Login/search | 2 | 1 | 1 | 2/2 |
-| Custom forms | 1 | 0 | 1 | 0/1 |
+| Custom forms (fields reordering, via `RzTable`) | 1 | 1 | 0 | 0/1 |
 | User management | 0 dedicated component (Symfony/Twig + legacy `assets/less/users/`) | — | — | — |
 
 **Quantified technical debt** (scope of [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md)):
