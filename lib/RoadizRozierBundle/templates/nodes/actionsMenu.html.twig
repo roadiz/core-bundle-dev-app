@@ -1,4 +1,4 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     node: node,
@@ -67,7 +67,7 @@
             {% endif %}
         {% endif %}
 
-        {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+        {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
         {% set canPublish = workflow_can(node, 'publish') %}
         {% if not node.isDeleted %}
             <rz-popover
@@ -84,7 +84,7 @@
                             'popover-placement': 'left',
                         }
                     }) }}
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
                     title: 'actions',
                     reverse: true,
                     targetId: 'action-menu'
@@ -241,7 +241,7 @@
                         'popover-placement': 'left',
                     }
                 }) }}
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
                     title: 'versions',
                     reverse: true,
                     targetId: 'version-menu'

@@ -134,7 +134,7 @@ export const NonModal: Story = {
     },
 }
 
-// Mirrors the session expired dialog of base.html.twig, opened by LoginCheckService.
+// Mirrors the session expired dialog of layouts/base.html.twig, opened by LoginCheckService.
 export const SessionExpired: Story = {
     args: {
         dialogId: 'session-expired-dialog',
@@ -162,7 +162,7 @@ export const SessionExpired: Story = {
     },
 }
 
-// Mirrors the health check dialog of base.html.twig: no close button, no action.
+// Mirrors the health check dialog of layouts/base.html.twig: no close button, no action.
 export const HealthCheckFailed: Story = {
     args: {
         dialogId: 'health-check-dialog',

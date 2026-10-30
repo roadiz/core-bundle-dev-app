@@ -1,4 +1,4 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/components/rz_table.html.twig' %}
 	{% block thead_cells %}
         <th>{% trans %}name{% endtrans %}</th>
         <th>{% trans %}realm.type{% endtrans %}</th>
@@ -12,7 +12,7 @@
                 <td>
                     {% if nodeRealm.realm %}
                         {% if accessRealms %}
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: nodeRealm.realm.name,
                                 attributes: { href: path('realmsEditPage', { id: nodeRealm.realm.id }) },
@@ -29,7 +29,7 @@
                 <td>{{ ('realm_node.' ~ nodeRealm.inheritanceType)|trans }}</td>
                  {% if actions_available %}
                     <td>
-                        {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                        {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                             edit_href: path('realmsEditPage', {  id: nodeRealm.realm.id }),
                             edit_title: 'edit.realm'|trans,
                             delete_href: path('nodesRealmsDeletePage', { id: node.id, realmNodeId: nodeRealm.id }),

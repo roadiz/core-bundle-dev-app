@@ -95,7 +95,7 @@ type Story = StoryObj<Args>
 
 export const Default: Story = {}
 
-/** The gateway never answers: the loading state rendered by rz_aside.html.twig stays. */
+/** The gateway never answers: the loading state rendered by patterns/aside.html.twig stays. */
 export const Loading: Story = {
     parameters: {
         controls: { include: [] },

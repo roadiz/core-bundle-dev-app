@@ -20,14 +20,14 @@
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             sortable: {
                 enabled: not order_by_weight,
                 url: path('attributeValuePositionAjax'),
             },
             actions_available: true,
         } %}
-            {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+            {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
 
             {% block thead_cells %}
                 <th>{{'name'|trans}}</th>
@@ -77,7 +77,7 @@
                         </td>
                         <td>
                             {% set display_delete_button = translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
-                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                 delete_title: 'attributes.delete_value'|trans,
                                 delete_href: display_delete_button ? path('nodesDeleteAttributesPage', { nodeId : node.id, translationId : translation.id, attributeValueId : attributeValue.id }) : null,
                                 save_href: '#',
@@ -149,7 +149,7 @@
     </section>
 
     <hr />
-    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+    {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
     {{ rz_button.root({
         icon: 'rz-icon-ri--add-large-line',
         label: 'add.a.attribute'|trans,

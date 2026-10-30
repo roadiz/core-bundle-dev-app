@@ -17,12 +17,12 @@
             icon: 'rz-icon-ri--download-line'
         }],
     } only %}
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
     }  only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             actions_available: true,
         }%}
             {% block thead_cells %}
@@ -54,7 +54,7 @@
                         <td class="mobile-hidden">{{ type.email }}</td>
                         <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
                         <td class="table-actions-row table-actions-row-2">
-                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                 'delete_href': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
                             } %}
                                 {% block other_actions %}

@@ -7,7 +7,7 @@
     <title>{% block title %}{{ meta.siteName }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
+    {% include '@RoadizRozier/layouts/meta_icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
     {{ manifest_preload_tags('shared') }}
     {{ manifest_preload_tags('simple') }}

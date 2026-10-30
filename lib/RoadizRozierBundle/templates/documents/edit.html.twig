@@ -67,7 +67,7 @@
                         {{ form_row(form.filename) }}
                         {{ form_row(form.mimeType) }}
                         {{ form_row(form.newDocument) }}
-                        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                             bordered: true,
                             attributes: {
                                 class: 'rz-table--td-ellipsis',
@@ -75,7 +75,7 @@
                             }
                         } %}
                             {% block tbody_content %}
-                                {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+                                {% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
                                 {% if not document.private and document.filename %}
                                     <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url}}</td></tr>
                                     <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url({absolute:true}) }}</td></tr>
@@ -165,7 +165,7 @@
             <div class="rz-form__field-list">
                 {{ form_rest(form) }}
             </div>
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+        {% import "@RoadizRozier/components/rz_actions_menu.html.twig" as actions_menu %}
         {{ actions_menu.saveItem('#edit-document-form') }}
         {{ form_end(form, { render_rest: false }) }}
     </article>

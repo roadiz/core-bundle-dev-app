@@ -1,5 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
 
 {% block title %}{{- "edit.group.%name%.roles"|trans({'%name%': item.getName})|truncate_title }} | {{ parent() }}{% endblock %}
 
@@ -13,7 +13,7 @@
     } only %}
 
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             selection_available: false,
             actions_available: true,
         } %}
@@ -27,7 +27,7 @@
                         <td>{{ role }}</td>
                         {% if actions_available %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'delete_href': is_granted(role) ? path('groupsRemoveRolesPage', { id: item.id, role: role }) : null,
                                     'delete_title': 'unlink.role'|trans,
                                 } %}

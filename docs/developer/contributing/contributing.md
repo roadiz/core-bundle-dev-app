@@ -59,7 +59,7 @@ and do not rename them opportunistically either: a template variable is a public
 is a breaking change that belongs in a major release and in `UPGRADE.md`.
 
 Finally, document the options a template expects in a `{# Variables: #}` comment at the top of the
-file, the way `admin/head.html.twig` does. It is the only place a caller can discover them.
+file, the way `layouts/head.html.twig` does. It is the only place a caller can discover them.
 
 ## Building a back-office breadcrumb
 

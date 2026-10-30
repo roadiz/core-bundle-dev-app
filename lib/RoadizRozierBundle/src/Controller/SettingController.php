@@ -339,7 +339,7 @@ final class SettingController extends AbstractController
 
         return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
             'title' => $title,
-            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'headPath' => '@RoadizRozier/layouts/head.html.twig',
             'breadcrumb_parents' => [
                 $this->breadcrumbRoots->get('settings'),
                 [

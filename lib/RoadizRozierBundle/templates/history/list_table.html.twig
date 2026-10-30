@@ -1,4 +1,4 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+{% embed '@RoadizRozier/components/rz_table.html.twig' with {
 	actions_available: true,
 } %}
 	{% block thead_cells %}
@@ -82,13 +82,13 @@
 				</td>
 				<td>
 					{% if log.channel and log.channel != 'roadiz' and log.channel != 'app' %}
-                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                        {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
 						{{ rz_badge.item({
 							label: log.channel|trans,
 						}) }}
 					{% endif %}
 					{% if log.level and log.level >= 300 %}
-                        {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                        {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
 						{{ rz_badge.item({
 							label: levels[log.level]|trans,
 							color: log.level >= 400 ? 'danger' : log.level >= 300 ? 'warning' : null,
@@ -97,9 +97,9 @@
 					<span>{{ log.message|u.truncate(90, '[…]') -}}</span>
 				</td>
 				<td>
-					{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+					{% embed '@RoadizRozier/components/rz_table_actions.html.twig' %}
 						{% block other_actions %}
-						{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+						{% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
 						{% set dialog_id = 'history-dialog-details-' ~ loop.index ~ '-' ~ log.id %}
 						<dialog
 							is="rz-dialog"

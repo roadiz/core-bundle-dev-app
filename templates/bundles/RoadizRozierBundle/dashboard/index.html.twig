@@ -1,11 +1,11 @@
 {% extends "@!RoadizRozier/dashboard/index.html.twig" %}
-{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+{% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
 
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/layouts/head.html.twig' with {
         title: "hello.%name%"|trans({'%name%': displayName}),
         with_nav_bar: true,
-        nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
+        nav_bar_template: '@RoadizRozier/patterns/dashboard_nav.html.twig',
         nav_bar_context: {'current':'dashboard'},
         breadcrumb: {
             label: 'breadcrumb',
@@ -25,7 +25,7 @@
 
 {%- block dashboard_panels -%}
     <div class="rz-dashboard__row">
-        {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+        {% embed '@RoadizRozier/patterns/dashboard_panel.html.twig' with {
             icon: 'rz-icon-ri--computer-line',
             title: 'roadiz.dashboard.my_last_articles'|trans,
             button: {
@@ -38,7 +38,7 @@
             }
         } %}
             {% block content %}
-                {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                {% embed '@RoadizRozier/components/rz_table.html.twig' %}
                     {% block tbody_content %}
                         {% for article in articles %}
                             <tr>
@@ -51,7 +51,7 @@
                                     ></rz-entity-thumbnail>
                                 </td>
                                 <td>
-                                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                    {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                                     {{ rz_link.root({
                                         label: article.title,
                                         attributes: {
@@ -76,7 +76,7 @@
         {% endembed %}
 
         {% if clientsTag is not null %}
-            {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+            {% embed '@RoadizRozier/patterns/dashboard_panel.html.twig' with {
                 icon: 'rz-icon-ri--price-tag-3-line',
                 title: 'roadiz.dashboard.clients'|trans,
                 button: {

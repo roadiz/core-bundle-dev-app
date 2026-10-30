@@ -25,10 +25,10 @@
     {% endif %}
 {% endif %}
 
-{% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+{% embed "@RoadizRozier/components/rz_page_header.html.twig" with {
     breadcrumb: breadcrumb
 } %}
-    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+    {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             {% if not route %}
@@ -86,7 +86,7 @@
                             <span class="rz-button__icon rz-icon-ri--download-cloud-2-line"></span>
                         </button>
 
-                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                        {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
                             targetId: 'nodeExport-menu',
                             tagList: 'ul',
                             items: availableTranslations,
@@ -133,7 +133,7 @@
             </div>
         {% endif %}
         {% if with_status_badge is defined and with_status_badge %}
-            {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+            {% import "@RoadizRozier/components/rz_node_badge.html.twig" as rz_node_badge %}
             <div class="rz-page-header__item">
                 {{ rz_node_badge.status(node) }}
                 {{ rz_node_badge.parameters(node, { display_label:  false }) }}

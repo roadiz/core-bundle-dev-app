@@ -1,4 +1,4 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     versions: versions,
@@ -19,7 +19,7 @@
                 popover-placement="left-start"
                 popover-offset="18px"
             >
-                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
                 {{ rz_button.root({
                     icon: 'rz-icon-ri--git-fork-line',
                     emphasis: 'tertiary',
@@ -29,7 +29,7 @@
                         'popovertarget': version_popover_id,
                     }
                 }) }}
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
                     title: 'versions',
                     reverse: true,
                     targetId: version_popover_id,

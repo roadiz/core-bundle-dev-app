@@ -19,7 +19,7 @@
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             sortable: {
                 enabled: true,
                 url: path('customFormFieldPositionAjax'),
@@ -40,7 +40,7 @@
                         data-id="{{ field.getId }}"
                     >
                         <td class="rz-table__handle">
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: field.label,
                                 attributes: {
@@ -53,7 +53,7 @@
                         <td class="mobile-hidden">{{ field.groupName|trans }}</td>
                         <td class="mobile-hidden">
                             {% if field.required %}
-                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                                {% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
                                 {{ rz_badge.item({
                                     icon: 'rz-icon-ri--asterisk',
                                     attributes: {
@@ -63,7 +63,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                 'edit_href': path('customFormFieldsEditPage', { customFormFieldId: field.getId }),
                                 'delete_href': path('customFormFieldsDeletePage', { customFormFieldId: field.getId }),
                             } %}

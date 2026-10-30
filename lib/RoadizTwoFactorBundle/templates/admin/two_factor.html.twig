@@ -1,11 +1,11 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
 
 {% block title %}{% trans %}two_factor_authentication{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
     <section class="rz-page__body">
-        {% include '@RoadizRozier/admin/head.html.twig' with {
+        {% include '@RoadizRozier/layouts/head.html.twig' with {
             title: 'two_factor_authentication'|trans,
             subtitle: 'start_two_factor_activation'|trans,
             breadcrumb: {

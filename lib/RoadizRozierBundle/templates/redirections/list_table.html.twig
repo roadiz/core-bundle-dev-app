@@ -1,4 +1,4 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/components/rz_table.html.twig' %}
     {% block thead_cells %}
         <th>
             {% set label = 'redirection.query'|trans %}
@@ -43,7 +43,7 @@
     {% endblock %}
 
     {% block tbody_content %}
-        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+        {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
         {% for item in items %}
             <tr>
                 {% set url = path('redirectionsEditPage', { id: item.id }) %}
@@ -55,8 +55,8 @@
                 {% endif %}
                 {% if selection_available %}
                     <td>
-                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                        {{ rz_bulk.select_input({ value: item.id }) }}
+                        {% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                        {{ rz_bulk_actions.select_input({ value: item.id }) }}
                     </td>
                 {% endif %}
                 <td>
@@ -77,7 +77,7 @@
                 <td class="mobile-hidden">{{ item.useCount }}</td>
                 {% if actions_available %}
                     <td>
-                        {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                        {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                             'edit_href': url,
                             'delete_href':path('redirectionsDeletePage', { id: item.id }),
                         } %}

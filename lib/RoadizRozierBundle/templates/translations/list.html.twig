@@ -19,13 +19,13 @@
         }],
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
     }  only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
         } %}
@@ -59,8 +59,8 @@
             {% endblock %}
 
             {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
-                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
+                {% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
 
                 {% for t in translations %}
                     <tr>
@@ -88,7 +88,7 @@
                         {% if actions_available %}
                             {% set is_not_default = t.translation.isDefaultTranslation == false %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': path('translationsEditPage', { translationId: t.translation.getId }),
                                     'delete_href': is_not_default ? path('translationsDeletePage', { translationId: t.translation.getId }) : null,
                                 } %}

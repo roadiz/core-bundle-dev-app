@@ -1,4 +1,0 @@
-<a class="uk-button{% if currentVersion.id == version.id %} uk-active{% endif %}" href="{{ url }}">
-    <time>{{- version.loggedAt|format_datetime('short', 'short', locale=app.request.locale) -}}</time><br />
-    <span class="uk-text-small">{{- version.username -}}</span>
-</a>
