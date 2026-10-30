@@ -17,7 +17,7 @@ const meta: Meta<Args> = {
     argTypes: {
         open: {
             description:
-                'Initial state. The element persists it in localStorage (rz-live-preview-open).',
+                'Initial state. The element persists it in localStorage (rz-live-preview-open). The preview and its toggle are hidden below 1280px (--screen-lg-min): widen the canvas to see them.',
         },
         widths: {
             description:
@@ -59,35 +59,39 @@ function rzLivePreviewRenderer(args: Args) {
         // private mode
     }
 
-    // Same nesting as editSource.html.twig: #main-content > .content-global > header + form + preview
-    const main = el('div', '')
-    main.id = 'main-content'
-    main.style.cssText = 'height: 100vh; overflow-y: auto; position: relative;'
-
-    const page = el('section', 'content-global')
-    const header = el('header', 'content-header')
-    header.style.minHeight = '120px'
-    const slot = el('div', 'content-header-action-menu')
-    const nav = document.createElement('nav')
-    const toggle = document.createElement('button')
-    toggle.type = 'button'
-    toggle.className = 'uk-button rz-live-preview-toggle'
-    toggle.setAttribute('aria-controls', 'live-preview')
-    toggle.setAttribute('aria-expanded', 'false')
-    toggle.innerHTML =
-        '<i class="uk-icon-rz-visibility"></i> <span class="label">Live preview</span>'
-    nav.appendChild(toggle)
-    slot.appendChild(nav)
-    header.appendChild(slot)
-
+    // Same nesting as base.html.twig + nodes/editSource.html.twig: .rz-page > .rz-page__body > form + preview
+    const page = el('main', 'rz-page')
+    const body = el('section', 'rz-page__body')
     const form = el(
         'form',
-        'content',
+        '',
         Array(12)
             .fill(
-                '<div style="height:96px;margin:16px;border-radius:6px;background:var(--surface-light-tertiary)"></div>',
+                '<div style="height:96px;margin:16px 0;border-radius:6px;background:var(--surface-light-tertiary)"></div>',
             )
             .join(''),
+    )
+
+    // Same toggle as nodes/actionsMenu.html.twig, in the fixed actions menu
+    const actionsMenu = el(
+        'rz-actions-menu',
+        'rz-actions-menu rz-actions-menu--vertical actions-menu',
+    )
+    actionsMenu.appendChild(
+        rzButtonRenderer({
+            emphasis: 'primary',
+            size: 'md',
+            onDark: true,
+            iconClass: 'rz-icon-ri--eye-line',
+            attributes: {
+                type: 'button',
+                class: 'rz-live-preview-toggle',
+                title: 'Live preview',
+                'aria-label': 'Live preview',
+                'aria-controls': 'live-preview',
+                'aria-expanded': 'false',
+            },
+        }),
     )
 
     const preview = el('rz-live-preview', 'rz-live-preview')
@@ -144,10 +148,13 @@ function rzLivePreviewRenderer(args: Args) {
     viewport.appendChild(iframe)
     preview.append(toolbar, viewport)
 
-    page.append(header, form, preview)
-    main.appendChild(page)
+    body.append(form, preview)
+    page.appendChild(body)
 
-    return main
+    const wrapper = el('div', '')
+    wrapper.append(page, actionsMenu)
+
+    return wrapper
 }
 
 export const Default: Story = {}
