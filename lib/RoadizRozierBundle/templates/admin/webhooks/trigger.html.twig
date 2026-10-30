@@ -1,5 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
 
 {% set title = "trigger.webhook.%name%"|trans({'%name%': item}) %}
 
@@ -7,7 +7,7 @@
 
 {% block content %}
     <section class="content-global">
-        {% include '@RoadizRozier/admin/head.html.twig' with {
+        {% include '@RoadizRozier/layouts/head.html.twig' with {
             title: title,
             breadcrumb: {
                 parents: [breadcrumb_root('webhooks'), {

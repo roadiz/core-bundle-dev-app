@@ -1,4 +1,4 @@
-{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+{% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
 
 <tr>
     <td>
@@ -13,7 +13,7 @@
     </td>
     {% if actions_available %}
         <td>
-            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+            {% embed '@RoadizRozier/components/rz_table_actions.html.twig' %}
                 {% block other_actions %}
                     {# Submit editForm #}
                     {{ _self.button({

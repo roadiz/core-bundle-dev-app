@@ -4,7 +4,7 @@
     <article>
         {% block pre_content_body %}{% endblock %}
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             selection_available: true,
             actions_available: true,
         } %}
@@ -63,15 +63,15 @@
             {% endblock %}
 
             {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
                 {% for document in documents %}
                     <tr
                      {{ _self.colored_row_attrs({'color': document.imageAverageColor }) }}
                     >
                         {% if selection_available %}
                         <td>
-					        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                            {{ rz_bulk.select_input({ value: document.id }) }}
+					        {% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                            {{ rz_bulk_actions.select_input({ value: document.id }) }}
                         </td>
                         {% endif %}
                         <td class="mobile-hidden rz-table__cell rz-table__cell--flex-center">
@@ -93,7 +93,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: document|centralTruncate(30, -4),
                                 attributes: { href: path('documentsEditPage', { documentId: document.id }) },
@@ -121,7 +121,7 @@
                                 {% if document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
                                     {% set iconName = 'documents' %}
                                 {% endif %}
-                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                                {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
                                 {{ rz_badge.item({
                                     label: iconName,
                                     icon: 'rz-icon-logo--' ~ iconName,
@@ -132,7 +132,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                 'edit_href': path('documentsEditPage', { documentId: document.id }),
                                 'delete_href': path('documentsDeletePage', { documentId: document.id }),
                             } %}

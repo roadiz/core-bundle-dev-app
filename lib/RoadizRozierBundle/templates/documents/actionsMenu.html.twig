@@ -1,4 +1,4 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     document: document,
@@ -29,7 +29,7 @@
                     <span class="rz-button__icon rz-icon-ri--git-fork-line"></span>
                 </button>
 
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
                     title: 'versions',
                     reverse: true,
                     targetId: 'version-menu',

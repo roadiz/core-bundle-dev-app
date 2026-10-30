@@ -15,7 +15,7 @@
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             roles: user.roles,
             caption: 'inherited.roles.caption'|trans,
         } only %}
@@ -41,7 +41,7 @@
 
         <hr />
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             userRoles: user.userRoles,
             selection_available: false,
             actions_available: true,
@@ -58,7 +58,7 @@
                         <td>{{ role }}</td>
                         {% if actions_available %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': null,
                                     'delete_href': is_granted(role) ? path('usersRemoveRolesPage', { userId: userId, role: role }) : null,
                                     'delete_title': 'remove'|trans,
@@ -84,7 +84,7 @@
         {{ form_start(form) }}
             {{ form_widget(form) }}
             <div class="rz-form-field rz-form-field--align-start">
-                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
                 {{ rz_button.root({
                     size: 'md',
                     label: 'add.role'|trans,

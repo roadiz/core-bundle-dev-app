@@ -12,7 +12,7 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: "embed-dropzone-document" }}) }}
             {{ form_widget(form) }}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {% import "@RoadizRozier/components/rz_actions_menu.html.twig" as actions_menu %}
             {{ actions_menu.saveItem('#embed-dropzone-document') }}
         {{ form_end(form) }}
     </article>

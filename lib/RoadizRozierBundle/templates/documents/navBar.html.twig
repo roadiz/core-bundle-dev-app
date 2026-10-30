@@ -48,7 +48,7 @@ set listItems = [
     {% block additional_entries %}{% endblock %}
 {% endset %}
 
-{% embed "@RoadizRozier/macros/rz_menu_bar.html.twig" with {listItems : listItems, current: current} %}
+{% embed "@RoadizRozier/patterns/menu_bar.html.twig" with {listItems : listItems, current: current} %}
     {% block additional_entries %}
         {{ custom_entries_content|raw }}
     {% endblock %}

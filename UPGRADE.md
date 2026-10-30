@@ -14,10 +14,70 @@
 ## ⚠ Twig breaking changes
 
 - Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
-- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `widgets/rz_tree_wrapper_auto.html.twig`; it now renders node, tag and folder trees alike
-- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `widgets/rz_tree_wrapper_auto.html.twig` instead
+- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `components/rz_tree.html.twig`; it now renders node, tag and folder trees alike
+- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `components/rz_tree.html.twig` instead
 
-For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
+### Templates moved to the role-based tree
+
+Shared templates now live in `layouts/`, `patterns/`, `components/` (one file per `rz-*` element), `form/`, `macros/` and `includes/`. `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` do not move. Update every `include`, `embed`, `import`, `extends` and every override under `templates/bundles/RoadizRozierBundle/`:
+
+| Old path | New path |
+|----------|----------|
+| `admin/base.html.twig` | `layouts/admin.html.twig` |
+| `base.html.twig` | `layouts/base.html.twig` |
+| `admin/head.html.twig` | `layouts/head.html.twig` |
+| `login/base.html.twig` | `layouts/login.html.twig` |
+| `admin/meta-icon.html.twig` | `layouts/meta_icon.html.twig` |
+| `simple.html.twig` | `layouts/simple.html.twig` |
+| `widgets/rz_aside.html.twig` | `patterns/aside.html.twig` |
+| `dashboard/navBar.html.twig` | `patterns/dashboard_nav.html.twig` |
+| `dashboard/panel.html.twig` | `patterns/dashboard_panel.html.twig` |
+| `admin/rz_header.html.twig` | `patterns/header.html.twig` |
+| `macros/rz_menu_bar.html.twig` | `patterns/menu_bar.html.twig` |
+| `macros/rz_actions_menu.html.twig` | `components/rz_actions_menu.html.twig` |
+| `macros/rz_badge.html.twig` | `components/rz_badge.html.twig` |
+| `includes/rz_breadcrumb_item.html.twig` | `components/rz_breadcrumb.html.twig` (its `item` macro) |
+| `macros/rz_breadcrumb.html.twig` | `components/rz_breadcrumb.html.twig` |
+| `macros/rz_bulk.html.twig` | `components/rz_bulk_actions.html.twig` |
+| `widgets/rz_bulk_actions.html.twig` | `components/rz_bulk_actions.html.twig` |
+| `macros/rz_button.html.twig` | `components/rz_button.html.twig` |
+| `macros/rz_card.html.twig` | `components/rz_card.html.twig` |
+| `includes/rz_color_scheme_switcher.html.twig` | `components/rz_color_scheme_switcher.html.twig` |
+| `macros/rz_dialog.html.twig` | `components/rz_dialog.html.twig` |
+| `widgets/drawer.html.twig` | `components/rz_drawer.html.twig` |
+| `includes/rz_dropdown.html.twig` | `components/rz_dropdown.html.twig` |
+| `macros/rz_dropdown_menu.html.twig` | `components/rz_dropdown.html.twig` |
+| `macros/rz_filters_bar.html.twig` | `components/rz_filters_bar.html.twig` |
+| `widgets/rz_filters_bar.html.twig` | `components/rz_filters_bar.html.twig` |
+| `macros/rz_form_field.html.twig` | `components/rz_form_field.html.twig` |
+| `widgets/rz_geotag_field.html.twig` | `components/rz_geotag.html.twig` |
+| `macros/rz_header.html.twig` | `components/rz_header_nav_item.html.twig` |
+| `widgets/rz_language_switcher.html.twig` | `components/rz_language_switcher.html.twig` |
+| `macros/rz_link.html.twig` | `components/rz_link.html.twig` |
+| `macros/rz_node_badge.html.twig` | `components/rz_node_badge.html.twig` |
+| `macros/rz_overflow_list.html.twig` | `components/rz_overflow_list.html.twig` |
+| `macros/rz_page_header.html.twig` | `components/rz_page_header.html.twig` |
+| `macros/rz_progress.html.twig` | `components/rz_progress.html.twig` |
+| `widgets/rz_repeatable.html.twig` | `components/rz_repeatable.html.twig` |
+| `macros/rz_repeatable.html.twig` (embedded, `inner_body` block) | `components/rz_repeatable.html.twig` (`item(options)` macro, `content` option) |
+| `includes/rz_table.html.twig` | `components/rz_table.html.twig` |
+| `includes/rz_table_actions.html.twig` | `components/rz_table_actions.html.twig` |
+| `widgets/rz_tree_wrapper_auto.html.twig` | `components/rz_tree.html.twig` |
+| `widgets/rz_tree_item_inner.html.twig` | `components/rz_tree_item.html.twig` |
+| `widgets/documentAlignment.html.twig` | `form/document_alignment.html.twig` |
+| `horizontalForms.html.twig` | `form/horizontal_forms.html.twig` |
+| `includes/rz_meta_item_table.html.twig` | `includes/meta_item_table.html.twig` |
+| `includes/translateAssistantUsage.html.twig` | `includes/translate_assistant_usage.html.twig` |
+
+Merged templates:
+
+- `includes/rz_dropdown.html.twig` (popover + trigger) and `macros/rz_dropdown_menu.html.twig` (menu) are one embed: pass `target_options` to `components/rz_dropdown.html.twig` to get the trigger, `targetId` instead of `id`, and `popover_attributes` instead of the popover `attributes`. Drop the nested `popover` block, override `items` directly.
+- The `rz_bulk` macros (`select_input`, `select_all_input`, `select_all_button`, `deselect_all_button`) are imported from `components/rz_bulk_actions.html.twig`.
+- The `rz_filters_bar` macros are part of `components/rz_filters_bar.html.twig`.
+
+Removed templates, unused by the backoffice: `admin/blocks/adminImage.html.twig`, `admin/blocks/loginImage.html.twig`, `custom-form-fields/ajaxEditBase.html.twig`, `documents/backLink.html.twig`, `documents/itemPerPage.html.twig`, `login/check.html.twig`, `nodes/redirection_table.html.twig`, `nodes/widgets/node-header.html.twig`, `tags/navBack.html.twig`, `widgets/backlink.html.twig`, `widgets/countFiltersBar.html.twig`, `widgets/itemPerPage.html.twig`, `widgets/versionItem.html.twig`.
+
+For Twig templates using `@RoadizRozier/layouts/admin.html.twig` as parent template, make sure to update
 - `content_title`
 - `content_count_filters`
 - `content_header_nav`
@@ -27,7 +87,7 @@ blocks to use new `header` block instead.
 Example:
 ```twig
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/layouts/head.html.twig' with {
         title: 'my_entities'|trans,
         filters: filters,
         buttons: [
@@ -41,11 +101,11 @@ Example:
 {%- endblock -%}
 ```
 
-You need to update your `content_filters` block to use new `widgets/rz_filters_bar.html.twig` inside this block.
+You need to update your `content_filters` block to use new `components/rz_filters_bar.html.twig` inside this block.
 
 Example:
 ```twig
-{% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+{% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
     filters: filters,
     display_select_all_button: true,
 } only %}
@@ -211,13 +271,13 @@ These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc an
 ## ⚠ Rozier session and health check dialogs
 
 The session expiration and health check warning modals no longer use Vue: they are plain
-`<dialog is="rz-dialog">` elements rendered in `@RoadizRozier/base.html.twig` by the new
-`@RoadizRozier/macros/rz_dialog.html.twig` component and opened by `LoginCheckService`. The session expired dialog no longer shows the splash screen image.
+`<dialog is="rz-dialog">` elements rendered in `@RoadizRozier/layouts/base.html.twig` by the new
+`@RoadizRozier/components/rz_dialog.html.twig` component and opened by `LoginCheckService`. The session expired dialog no longer shows the splash screen image.
 
 Removed from the Rozier front-end:
 
 - `app/components/WarningModal.vue` and `app/containers/ModalContainer.vue`, the `<modal-container>`
-  element in `base.html.twig`, and the `vue-js-modal` dependency
+  element in `layouts/base.html.twig`, and the `vue-js-modal` dependency
 - `app/api/SplashScreenApi.js` and its `getImage()` function
 - `connected` and `healthChecked` Vuex state, and the `LOGIN_CHECK_*` / `HEALTH_CHECK_*` mutation types
 - `sessionExpireTitle`, `sessionExpireContent`, `healthCheckedFailedTitle` and
@@ -226,7 +286,7 @@ Removed from the Rozier front-end:
 Overriding those messages from JavaScript no longer has any effect. Override the
 `session.expire.title`, `session.expire.content`, `health_check.failed.title` and
 `health_check.failed.content` translation keys in your project catalogue instead, or override
-`templates/bundles/RoadizRozierBundle/macros/rz_dialog.html.twig` to change the markup.
+`templates/bundles/RoadizRozierBundle/components/rz_dialog.html.twig` to change the markup.
 
 ## ⚠ Rozier dead Vue containers and components removed
 
@@ -239,16 +299,16 @@ now renders `<rz-drawer>`), and are removed:
 - the `vue-multiselect` dependency
 
 If a project template still renders `<drawer-container data-vuejs>` (copied from the v2.7
-`widgets/drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
-`<rz-drawer>`, as `@RoadizRozier/widgets/drawer.html.twig` does.
+`components/rz_drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
+`<rz-drawer>`, as `@RoadizRozier/components/rz_drawer.html.twig` does.
 
 ## New admin templates
 
 New reusable templates for building back-office pages:
-- `admin/head.html.twig` - Page header with title, breadcrumb, buttons
+- `layouts/head.html.twig` - Page header with title, breadcrumb, buttons
 - `admin/confirm_action.html.twig` - Generic confirmation page
-- `macros/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
-  `{ parents, current }`, rendered automatically by `admin/head.html.twig` as soon as that
+- `components/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
+  `{ parents, current }`, rendered automatically by `layouts/head.html.twig` as soon as that
   variable is in context. Ancestors are either `{label, url}` hashes or entities resolved by a
   `BreadcrumbsItemFactory`; past three of them the middle ones fold into a popover.
 - `breadcrumb_root('<section>')` Twig function, backed by the `BreadcrumbRoots` service - the single
@@ -258,8 +318,8 @@ New reusable templates for building back-office pages:
   tree entity — root, ancestors, then the item — which confirmation pages show above their own title.
   It covers the sections Rozier ships; a project's own section writes its root inline. See
   `docs/developer/contributing/contributing.md` and `docs/extensions/custom_backoffice_entry.md`.
-- `widgets/rz_filters_bar.html.twig` - Filter bar widget
-- `widgets/rz_bulk_actions.html.twig` - Bulk actions widget
+- `components/rz_filters_bar.html.twig` - Filter bar widget
+- `components/rz_bulk_actions.html.twig` - Bulk actions widget
 - New macros: `rz_button`, `rz_badge`, `rz_actions_menu`, `rz_card`
 
 # Upgrade to 2.7

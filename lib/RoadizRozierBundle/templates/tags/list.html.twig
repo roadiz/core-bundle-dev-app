@@ -24,14 +24,14 @@
         filters: filters,
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_bulk_actions.html.twig" with {
+    {% include "@RoadizRozier/components/rz_bulk_actions.html.twig" with {
         delete_form_data: deleteTagsForm,
         delete_form_action: path('tagsBulkDeletePage'),
         delete_form_method: 'GET',
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             sortable: false,
             selection_available: true,
             actions_available: true,
@@ -49,8 +49,8 @@
             {% endblock %}
 
             {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
-                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                {% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
 
                 {% for tag in tags %}
                     {% set translated_tag = tag.getTranslatedTags.first %}
@@ -81,7 +81,7 @@
                         <td>{{ tag.id }}</td>
                         {% if actions_available %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': edit_link,
                                     'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
                                 } only %}

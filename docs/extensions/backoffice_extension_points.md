@@ -113,7 +113,7 @@ services:
 
 {%- block dashboard_panels -%}
     <div class="rz-dashboard__row">
-        {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+        {% embed '@RoadizRozier/patterns/dashboard_panel.html.twig' with {
             icon: 'rz-icon-ri--computer-line',
             title: 'My latest articles'|trans,
         } %}

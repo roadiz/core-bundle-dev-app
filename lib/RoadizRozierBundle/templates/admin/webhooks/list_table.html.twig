@@ -1,4 +1,4 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/components/rz_table.html.twig' %}
 	{% block thead_cells %}
 		<th>{% trans %}webhooks.description{% endtrans %}</th>
 		<th>
@@ -33,8 +33,8 @@
 			<tr>
 				{% if selection_available %}
 				<td>
-					{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-					{{ rz_bulk.select_input({ value: item.id }) }}
+					{% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+					{{ rz_bulk_actions.select_input({ value: item.id }) }}
 				</td>
 				{% endif %}
 				<td title="{{ item.description }}">{{- item.description|centralTruncate(30) -}}</td>
@@ -55,7 +55,7 @@
 				<td>{{- item.lastTriggeredAt ? item.lastTriggeredAt|format_datetime(locale=app.request.locale) : 'never'|trans -}}</td>
 				{% if actions_available %}
 					<td>
-						{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+						{% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
 							'edit_href': path('webhooksEditPage', { id: item.id }),
 							'delete_href': path('webhooksDeletePage', { id: item.id }),
 						} %}

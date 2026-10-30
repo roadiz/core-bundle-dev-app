@@ -6,7 +6,7 @@ const COMPONENT_CLASS_NAME = 'rz-breadcrumb'
 
 /**
  * At most this many ancestors stay in the trail, the levels after the root fold into a popover
- * past that. Mirrors `max_visible` in templates/macros/rz_breadcrumb.html.twig — keep both in step.
+ * past that. Mirrors `max_visible` in templates/components/rz_breadcrumb.html.twig — keep both in step.
  */
 export const MAX_VISIBLE = 6
 

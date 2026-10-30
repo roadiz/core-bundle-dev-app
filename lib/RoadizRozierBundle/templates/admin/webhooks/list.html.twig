@@ -4,7 +4,7 @@
 
 {% block content %}
 <rz-bulk-section>
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/layouts/head.html.twig' with {
         title: 'webhooks'|trans,
         filters: filters,
         buttons: [{
@@ -19,7 +19,7 @@
         },
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: true,
     }  only %}

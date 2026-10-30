@@ -15,14 +15,14 @@
             item: {displayName: 'nodeTypeDecorator'|trans},
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
             filters: filters,
             display_select_all_button: false,
         }  only %}
         {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
 
         <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                 selection_available: hasBulkActions,
                 actions_available: true,
             } %}
@@ -55,8 +55,8 @@
                 {% endblock %}
 
                 {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                {% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
 
                 {%- for item in items -%}
                     {% set path = item.path|split('.') %}
@@ -70,11 +70,11 @@
                     <tr {{ _self.colored_row_attrs({'color': color }) }}>
                         {% if selection_available %}
                             <td>
-                                {{ rz_bulk.select_input({ value: item.id }) }}
+                                {{ rz_bulk_actions.select_input({ value: item.id }) }}
                             </td>
                         {% endif %}
                         <td>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: entity,
                                 attributes: { href: path('nodeTypeDecoratorsEditPage', { id: item.getId }) },
@@ -108,7 +108,7 @@
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': path('nodeTypeDecoratorsEditPage', { id: item.getId }),
                                     'delete_href': path('nodeTypeDecoratorsDeletePage', { id: item.getId }),
                                 } %}

@@ -116,7 +116,7 @@ final class UserRoleController extends AbstractController
                 '%name%' => $user->getUserName(),
                 '%role%' => $role,
             ]),
-            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'headPath' => '@RoadizRozier/layouts/head.html.twig',
             'breadcrumb_parents' => [
                 $this->breadcrumbRoots->get('users'),
                 [
