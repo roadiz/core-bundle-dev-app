@@ -10,7 +10,7 @@
         } only %}
 
         <article>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                 selection_available: false,
                 actions_available: true,
                 fields: fields,
@@ -32,7 +32,7 @@
                             <td class="mobile-hidden">{{ field.typeName|trans }}</td>
                             <td class="mobile-hidden">{{ field.groupName|trans }}</td>
                             <td class="mobile-hidden">
-                                {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
+                                {% import '@RoadizRozier/components/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not field.visible %}
                                     {{ rz_node_badge.item('hidden', false) }}
                                 {% endif %}
@@ -48,7 +48,7 @@
                             </td>
                             {% if actions_available %}
                                 <td>
-                                    {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+                                    {% embed '@RoadizRozier/components/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
                                             {{ _self.button({
                                                 icon: 'rz-icon-ri--edit-line',

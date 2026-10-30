@@ -19,7 +19,7 @@ export type RzColorSchemeSwitcherOptions = {
     attributes?: Record<string, string>
 }
 
-// Mirrors includes/rz_color_scheme_switcher.html.twig
+// Mirrors components/rz_color_scheme_switcher.html.twig
 export function rzColorSchemeSwitcherRenderer(
     args: RzColorSchemeSwitcherOptions = {},
 ) {

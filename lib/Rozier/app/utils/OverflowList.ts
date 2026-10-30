@@ -3,7 +3,7 @@
  * narrow for them, and unfolds them again as it widens, never beyond what the server left
  * inline. The server state is the maximum, so the page is right without JS on a wide screen.
  *
- * Two DOM shapes, told apart by `overflow-inline-side` (macros/rz_overflow_list.html.twig):
+ * Two DOM shapes, told apart by `overflow-inline-side` (components/rz_overflow_list.html.twig):
  *
  * - `after` (breadcrumb): the N inline items are siblings *after* the wrapper, the popover holds
  *   the *first* levels. Folding takes the first inline item; the whole wrapper hides once nothing

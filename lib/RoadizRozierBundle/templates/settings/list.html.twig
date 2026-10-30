@@ -43,12 +43,12 @@
                 }
             ],
         } only %}
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
             filters: filters,
         }  only %}
 
         <article>
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                 actions_available: true,
                 selection_available: false,
             } %}
@@ -82,10 +82,10 @@
                                 {% if setting.document %}
                                     <figure>{{- setting.document|display({height:30}) -}}</figure>
                                 {% endif %}
-                                {% form_theme setting.form '@RoadizRozier/horizontalForms.html.twig' %}
+                                {% form_theme setting.form '@RoadizRozier/form/horizontal_forms.html.twig' %}
                                 {{ form_start(setting.form, { attr: { class: 'rz-form-field--head-hidden'}}) }}
                                     {{ form_widget(setting.form) }}
-                                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                                    {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
                                     {{ rz_button.root({
                                         icon: 'rz-icon-ri--save-line',
                                         attributes: {
@@ -98,7 +98,7 @@
                             </td>
                             {% if actions_available %}
                                 <td>
-                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                    {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                         'edit_href': edit_href,
                                         'delete_href': path('settingsDeletePage', { settingId: setting.setting.getId }),
                                         'save_href': '#',

@@ -1,8 +1,8 @@
 {% set currentTitle = source.title|default(node.nodeName) %}
 
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-{% import "@RoadizRozier/macros/rz_page_header.html.twig" as page_header %}
+{% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
+{% import "@RoadizRozier/components/rz_page_header.html.twig" as page_header %}
 
 {% block content %}
     {# default(), not ??: the globals are '' (not null) when the env vars are empty #}
@@ -105,7 +105,7 @@
                 {% endif %}
             {% endfor %}
         {% if not readOnly %}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+            {% import "@RoadizRozier/components/rz_actions_menu.html.twig" as actions_menu %}
             {{ actions_menu.saveItem('#edit-node-source-form') }}
         {% endif %}
         {{ form_end(form) }}

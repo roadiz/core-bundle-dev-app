@@ -1,0 +1,125 @@
+{% import "@RoadizRozier/components/rz_form_field.html.twig" as rz_form_field %}
+{% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
+
+{% set repeatable_id = id ~ '_repeatable'|default(random() ~ '_repeatable') %}
+<rz-repeatable
+	input-index-placeholder="{{ prototype.vars.name }}"
+	input-base-name="{{ full_name }}"
+	id-base-name="{{ id }}"
+	id="{{ repeatable_id }}"
+>
+	{% if label is not same as(false) -%}
+		{% if label is empty -%}
+			{% set label = name|humanize %}
+		{%- endif -%}
+		<div class="rz-form-field__head">
+			{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
+
+			{{ rz_button.root({
+				label: 'repeatable.add'|trans,
+				icon: 'rz-icon-ri--add-line',
+				size: 'sm',
+				class: 'rz-form-field__head__end',
+				attributes: {
+					type: 'button',
+					'command': '--add',
+					'commandfor': repeatable_id,
+					'data-insert-index': '0',
+				},
+			}) }}
+		</div>
+
+		<template data-item="">
+			{{ _self.item({
+				repeatable_id: repeatable_id,
+				icon: icon|default(null),
+				label: label,
+				content: data_prototype,
+			}) }}
+		</template>
+
+		<div class="rz-form-field__body rz-repeatable__body">
+			<ol data-list="" class="rz-repeatable__list">
+				{% if stored_items_form is not null %}
+                    {% for item in stored_items_form %}
+                        {{ _self.item({
+                            repeatable_id: repeatable_id,
+                            icon: icon|default(null),
+                            label: label,
+                            content: form_widget(item),
+                        }) }}
+                    {% endfor %}
+				{% endif %}
+			</ol>
+			<div class="rz-repeatable__insert-zone">
+				{{ rz_button.root({
+					icon: 'rz-icon-ri--add-line',
+					attributes: {
+						type: 'button',
+						'command': '--add',
+						'commandfor': repeatable_id,
+						'tooltip-text': 'insert.zone'|trans,
+						'aria-label': 'collection.insert_item'|trans,
+					},
+				}) }}
+			</div>
+		</div>
+	{% endif %}
+</rz-repeatable>
+
+{#
+    One entry of the list, also used as the <template data-item> the element clones.
+    options: repeatable_id, icon, label, content (the entry's form, already rendered).
+#}
+{% macro item(options = {}) %}
+    {% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
+    <li class="rz-repeatable__item">
+        <div class="rz-repeatable__item__header">
+            {% set _icon = options.icon|default('rz-icon-ri--list-unordered') %}
+            <span class="{{ _icon }}"></span>
+            {% if options.label is not empty %}
+                <span class="rz-repeatable__item__title">{{ options.label|trans }}</span>
+            {% endif %}
+            <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
+                {{ rz_button.root({
+                    icon: 'rz-icon-ri--arrow-up-line',
+                    size: 'sm',
+                    attributes: {
+                        type: 'button',
+                        'command': '--move-up',
+                        'commandfor': options.repeatable_id,
+                        'tooltip-text': 'move.up'|trans,
+                        'aria-label': 'collection.move_up_item'|trans,
+                    },
+                }) }}
+                {{ rz_button.root({
+                    icon: 'rz-icon-ri--arrow-down-line',
+                    size: 'sm',
+                    attributes: {
+                        type: 'button',
+                        'command': '--move-down',
+                        'commandfor': options.repeatable_id,
+                        'tooltip-text': 'move.down'|trans,
+                        'aria-label': 'collection.move_down_item'|trans,
+                    },
+                }) }}
+            </div>
+            {{ rz_button.root({
+                icon: 'rz-icon-ri--delete-bin-7-line',
+                size: 'sm',
+                color: 'danger',
+                emphasis: 'primary',
+                attributes: {
+                    type: 'button',
+                    'command': '--remove',
+                    'commandfor': options.repeatable_id,
+                    'tooltip-text': 'remove.item'|trans,
+                    'aria-label': 'collection.delete_item'|trans,
+                },
+            }) }}
+        </div>
+        <div data-form class="rz-repeatable__item__body">
+            {{ options.content|raw }}
+        </div>
+    </li>
+{% endmacro %}

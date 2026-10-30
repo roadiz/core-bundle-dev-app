@@ -54,7 +54,7 @@
         {% endif %}
         {% set contextual_menu_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ node.id %}
 
-        {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_tree_item.html.twig' with {
             item: node,
             has_children: children is defined and children|length > 0,
             icon_class: icon_class,
@@ -85,7 +85,7 @@
 
                 {% set node_href = getNodeSourceHref(item, nodeTree.translation, parent) %}
                 {% if node_href is not null %}
-                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                    {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
 					{{ rz_link.root({
 						label: node_label,
 						attributes: {
@@ -101,7 +101,7 @@
             {% block before_actions %}
                 {% set tags = nodeTree.getTags(item) %}
                 {% if tags|length and nodeTree.isStackTree %}
-                    {% embed "@RoadizRozier/macros/rz_overflow_list.html.twig" with {
+                    {% embed "@RoadizRozier/components/rz_overflow_list.html.twig" with {
                         items: tags,
                         visibleCount: 6,
                         responsive: true,
@@ -121,7 +121,7 @@
                         {% block item %}
                             {% set label = item.name|default(item.tagName) %}
                             {% if item and label %}
-                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                                {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
                                 {{ rz_badge.item({
                                     label: label,
                                     size: 'sm',
@@ -150,7 +150,7 @@
                     popover-placement="bottom-end"
                     id="{{ contextual_menu_id }}"
                 >
-                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                    {% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
                         icon: 'rz-icon-ri--more-line',
                         size: 'sm',

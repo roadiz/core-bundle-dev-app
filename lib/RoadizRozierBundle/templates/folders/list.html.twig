@@ -16,12 +16,12 @@
         }],
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
     }  only %}
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             selection_available: false,
             actions_available: true,
             folders: folders,
@@ -44,8 +44,8 @@
                     >
                         {% if selection_available %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: folder.id }) }}
+                                {% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                                {{ rz_bulk_actions.select_input({ value: folder.id }) }}
                             </td>
                         {% endif %}
                         <td>
@@ -53,7 +53,7 @@
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': path('foldersEditPage', { folderId: folder.id }),
                                     'delete_href': path('foldersDeletePage', { folderId: folder.id }),
                                 } %}

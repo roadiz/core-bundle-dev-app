@@ -9,7 +9,7 @@
     } %}
 {% endif %}
 
-{% embed "@RoadizRozier/macros/rz_page_header.html.twig" %}
+{% embed "@RoadizRozier/components/rz_page_header.html.twig" %}
     {% block buttons %}
         {% if buttons is defined and buttons %}
             {{ _self.button_group(buttons) }}
@@ -26,7 +26,7 @@
                     <span class="rz-button__icon {{ popover.icon }}"></span>
                 </button>
 
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
                     targetId: 'nodeType-menu',
                     tagList: 'ul',
                     items: popover.items,
@@ -50,7 +50,7 @@
 
     {% block badges %}
         {% if filters is defined and filters.itemCount %}
-            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
             <div class="rz-page-header__item">
                 {{ rz_badge.item({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,

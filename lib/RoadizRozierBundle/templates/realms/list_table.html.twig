@@ -1,4 +1,4 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/components/rz_table.html.twig' %}
     {% block thead_cells %}
         <th>
             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
@@ -30,7 +30,7 @@
     {% endblock %}
 
     {% block tbody_content %}
-        {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+        {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
         {% for item in items %}
             <tr>
                 <td>
@@ -44,7 +44,7 @@
                 <td>{{ item.serializationGroup }}</td>
                 {% if actions_available %}
                     <td>
-                        {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                        {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                             'edit_href': path('realmsEditPage', { id: item.id }),
                             'delete_href': path('realmsDeletePage', { id: item.id }),
                         } %}

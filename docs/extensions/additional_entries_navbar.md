@@ -21,7 +21,7 @@ Here is how to add a button. You simply need to change the template you extend (
 {% extends "@!RoadizRozier/users/navBar.html.twig" %}
 
 {# 2. Import the macro #}
-{% import "@!RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
+{% import "@!RoadizRozier/patterns/menu_bar.html.twig" as rz_menu_bar %}
 
 {# 3. Add your content #}
 {% block additional_entries %}
@@ -79,7 +79,7 @@ You can replace a default button with your own implementation:
 
 ```twig
 {% extends "@RoadizRozier/nodes/navBar.html.twig" %}
-{% import "@!RoadizRozier/macros/rz_menu_bar.html.twig" as rz_menu_bar %}
+{% import "@!RoadizRozier/patterns/menu_bar.html.twig" as rz_menu_bar %}
 
 {# Overrides the SEO button display #}
 {% block node_seo %}

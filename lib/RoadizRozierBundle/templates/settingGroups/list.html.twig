@@ -20,12 +20,12 @@
             }],
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
             filters: filters,
         }  only %}
 
         <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             actions_available: true,
             selection_available: false,
         } %}
@@ -47,7 +47,7 @@
                         <td><a href="{{ edit_href }}">{{ item.getName }}</a></td>
                         <td class="mobile-hidden">
                             {% if item.isInMenu %}
-                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                                {% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
                                 {{ rz_badge.item({
                                     icon: 'rz-icon-ri--check-line',
                                     attributes: {
@@ -58,7 +58,7 @@
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': edit_href,
                                     'delete_href': path('settingGroupsDeletePage', { id: item.id }),
                                 } %}

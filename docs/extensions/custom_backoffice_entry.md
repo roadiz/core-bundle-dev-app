@@ -387,13 +387,13 @@ instead of retyping it:
 
 ```twig
 {# templates/admin/article/list.html.twig #}
-{% include '@RoadizRozier/admin/head.html.twig' with {
+{% include '@RoadizRozier/layouts/head.html.twig' with {
     title: 'articles'|trans,
     breadcrumb: { current: 'articles'|trans },
 } only %}
 
 {# templates/admin/article/add.html.twig #}
-{% include '@RoadizRozier/admin/head.html.twig' with {
+{% include '@RoadizRozier/layouts/head.html.twig' with {
     title: 'articles.add'|trans,
     breadcrumb: {
         parents: [breadcrumb_root('articles')],

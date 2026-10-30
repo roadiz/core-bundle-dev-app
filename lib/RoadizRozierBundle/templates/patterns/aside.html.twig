@@ -1,0 +1,10 @@
+{% set default_translation = getAvailableTranslations()|find(t => t.defaultTranslation) %}
+<rz-aside
+    class="rz-aside"
+    id="rz-aside"
+    data-default-translation-id="{{ default_translation.id }}"
+>
+    <div class="rz-aside__body">
+        {% include '@RoadizRozier/components/rz_tree.html.twig' only %}
+    </div>
+</rz-aside>

@@ -11,7 +11,7 @@
     } %}
 {% endif %}
 
-{% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+{% embed "@RoadizRozier/components/rz_page_header.html.twig" with {
     breadcrumb: breadcrumb,
 } %}
     {% block translation %}
@@ -55,7 +55,7 @@
 
     {% block badges %}
         {% if filters and filters.itemCount %}
-            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+            {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
             <div class="rz-page-header__item">
                 {{ rz_badge.item({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,

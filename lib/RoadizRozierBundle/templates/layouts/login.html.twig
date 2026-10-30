@@ -1,0 +1,41 @@
+{% extends '@RoadizRozier/layouts/simple.html.twig' %}
+
+{% block content %}
+    <div class="rz-login">
+        <section class="rz-login__section">
+            <header class="rz-login__header">
+                <span class="rz-brand">RZ</span>
+                <span class="rz-badge">
+                    <span class="rz-badge__label">{{ cms_prefix }} {{ cms_version }}</span>
+                </span>
+                {% if not hide_website %}
+                    {% set publicUrl = '/' %}
+                    {% if app.request.basePath %}
+                        {% set publicUrl = app.request.basePath %}
+                    {% endif %}
+                    {% if custom_public_scheme %}
+                        {% set publicUrl = custom_public_scheme %}
+                    {% endif %}
+                    <a target="_blank" class="rz-button rz-button--secondary rz-login__item--end" href="{{ publicUrl }}">
+                        <span class="rz-button__label">{% trans %}view.site{% endtrans %}</span>
+                        <span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
+                    </a>
+                {% endif %}
+            </header>
+            <div class="rz-login__body">
+                <h1 class="rz-login__title">{% block login_title %}{% trans %}back_office{% endtrans %}{% endblock %}</h1>
+                {% block login_content %}{% endblock %}
+
+                {% set login_footer %}
+                    {% block login_footer %}{% endblock %}
+                {% endset %}
+
+                {% if login_footer|trim is not empty %}
+                    <footer class="rz-login__group rz-login__group--last">
+                        {{ login_footer|raw }}
+                    </footer>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endblock %}

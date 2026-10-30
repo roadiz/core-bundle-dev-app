@@ -18,12 +18,12 @@
         ],
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
     }  only %}
 
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
         } %}
@@ -46,7 +46,7 @@
                         <td>{{- item.name -}}</td>
                         {% if actions_available %}
                         <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                            {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                 'edit_href': path('attributeGroupsEditPage', { id: item.id }),
                                 'delete_href': is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ?  path('attributeGroupsDeletePage', { id: item.id }) : null,
                             } %}

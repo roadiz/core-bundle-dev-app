@@ -43,7 +43,7 @@
         {{ form_start(form, { attr: { id: "edit-document-form"}}) }}
             {{ form_widget(form) }}
             {% if not readOnly %}
-                {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
+                {% import "@RoadizRozier/components/rz_actions_menu.html.twig" as actions_menu %}
                 {{ actions_menu.saveItem('#edit-document-form') }}
             {% endif %}
         {{ form_end(form) }}

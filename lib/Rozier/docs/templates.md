@@ -15,10 +15,11 @@ templates/
   patterns/           layout regions and screen parts: header, aside, menu_bar,
                       dashboard_nav, dashboard_panel
   components/         one file per rz-* root: rz_button.html.twig, rz_table.html.twig…
-  form/               form theme variants: horizontal_forms
+  form/               form theme variants and partials: horizontal_forms,
+                      document_alignment
   macros/             helpers without an rz-* root: element_attributes
   includes/           shared partials without an rz-* root: column_ordering,
-                      messages, translate_assistant_usage
+                      meta_item_table, messages, translate_assistant_usage
   <feature>/          pages and their local partials (nodes/, documents/, users/…)
   widgets/            legacy trees only, until the Navigation zone replaces them
 ```

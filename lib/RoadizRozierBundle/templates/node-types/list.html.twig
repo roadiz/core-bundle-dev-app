@@ -35,7 +35,7 @@
         } only %}
 
         <article>
-             {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+             {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                 selection_available: false,
                 actions_available: true,
             } %}
@@ -69,7 +69,7 @@
                              {{ _self.colored_row_attrs({'color': type.color }) }}
                         >
                             <td>
-                                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                                 {{ rz_link.root({
                                     label: type.getName,
                                     attributes: { href: path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) },
@@ -81,7 +81,7 @@
                                 {% transchoice type.getFields|length %}{0} no.nodeTypeField|{1} 1.nodeTypeField|]1,Inf] %count%.nodeTypeFields{% endtranschoice %}
                             </td>
                             <td class="mobile-hidden uk-hidden-small uk-visible-large">
-                                {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
+                                {% import '@RoadizRozier/components/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not type.visible %}
                                     {{ rz_node_badge.item('hidden', false) }}
                                 {% endif %}
@@ -94,7 +94,7 @@
                             </td>
                             {% if actions_available %}
                                 <td>
-                                    {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+                                    {% embed '@RoadizRozier/components/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
                                             {{ _self.button({
                                                 icon: 'uk-icon-rz-node-type-field',

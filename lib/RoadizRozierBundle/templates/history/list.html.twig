@@ -17,18 +17,18 @@
     {% else %}
         {% set pageTitle = 'history'|trans %}
     {% endif %}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/layouts/head.html.twig' with {
         title: pageTitle,
         filters: filters,
         with_nav_bar: true,
-        nav_bar_template: user ? '@RoadizRozier/users/navBar.html.twig' : '@RoadizRozier/dashboard/navBar.html.twig',
+        nav_bar_template: user ? '@RoadizRozier/users/navBar.html.twig' : '@RoadizRozier/patterns/dashboard_nav.html.twig',
         nav_bar_context: user ? {'user':user, 'current':'history'} : {'current':'history'},
         breadcrumb: {
             current: pageTitle,
         },
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
     }  only %}

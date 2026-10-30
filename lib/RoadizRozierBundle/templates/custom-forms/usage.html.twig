@@ -11,7 +11,7 @@
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             actions_available: true,
         } %}
             {% block thead_cells %}
@@ -31,7 +31,7 @@
                         <td>{{ usage.fieldName }}</td>
                         {% if actions_available %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': nodeHref,
                                     'edit_icon': 'rz-icon-ri--eye-line',
                                     'edit_title': 'view.node'|trans,

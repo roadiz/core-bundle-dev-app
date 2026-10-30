@@ -1,6 +1,6 @@
 {% if hasBulkActions %}
-    {% embed "@RoadizRozier/widgets/rz_bulk_actions.html.twig" %}
-        {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+    {% embed "@RoadizRozier/components/rz_bulk_actions.html.twig" %}
+        {% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
         {% block other_actions %}
             {% if bulkPublishForm %}
                 {% form_theme bulkPublishForm '@RoadizRozier/forms.html.twig' %}

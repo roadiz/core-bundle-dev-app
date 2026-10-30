@@ -214,7 +214,7 @@
 
 {%- block textarea_widget -%}
     {% if attr.class is defined and 'rz-geotag-field' in attr.class %}
-        {% include '@RoadizRozier/widgets/rz_geotag_field.html.twig' with {
+        {% include '@RoadizRozier/components/rz_geotag.html.twig' with {
             form: form,
             vars: form.vars,
             widget_attributes: block('widget_attributes'),
@@ -251,7 +251,7 @@
 {% endblock dynamic_widget %}
 
 {%- block collection_widget -%}
-    {% include '@RoadizRozier/widgets/rz_repeatable.html.twig' with {
+    {% include '@RoadizRozier/components/rz_repeatable.html.twig' with {
         widget_attributes: block('widget_attributes'),
         data_prototype: form_row(prototype, { attr: { 'no-field-group': true } }),
         stored_items_form: form.vars.value is not empty ? form.children : null,
@@ -259,7 +259,7 @@
 {%- endblock collection_widget -%}
 
 {% block tags_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'tag',
@@ -269,7 +269,7 @@
 {% endblock tags_widget %}
 
 {% block sortable_tags_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'tag',
@@ -278,7 +278,7 @@
 {% endblock sortable_tags_widget %}
 
 {% block documents_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: true,
         entity: 'document',
@@ -287,7 +287,7 @@
 {% endblock documents_widget %}
 
 {% block node_source_documents_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: true,
         entity: 'document',
@@ -296,7 +296,7 @@
 {% endblock node_source_documents_widget %}
 
 {% block folders_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'explorer-provider',
@@ -305,7 +305,7 @@
 {% endblock folders_widget %}
 
 {% block nodes_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'node',
@@ -314,7 +314,7 @@
 {% endblock nodes_widget %}
 
 {% block join_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'join',
@@ -323,7 +323,7 @@
 {% endblock join_widget %}
 
 {% block provider_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'explorer-provider',
@@ -332,7 +332,7 @@
 {% endblock provider_widget %}
 
 {% block explorer_provider_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'explorer-provider',
@@ -341,7 +341,7 @@
 {% endblock explorer_provider_widget %}
 
 {% block custom_forms_widget %}
-    {% include '@RoadizRozier/widgets/drawer.html.twig' with {
+    {% include '@RoadizRozier/components/rz_drawer.html.twig' with {
         widget_attributes: block('widget_attributes'),
         enableDropzone: false,
         entity: 'custom-form',
@@ -363,7 +363,7 @@
 {%- endblock radio_widget -%}
 
 {%- block document_alignment_widget -%}
-    {% include '@RoadizRozier/widgets/documentAlignment.html.twig' with {
+    {% include '@RoadizRozier/form/document_alignment.html.twig' with {
         widget_attributes: block('widget_attributes'),
         widget_class: 'rz-form-field__body',
         id: 'document-edit',
@@ -477,7 +477,7 @@
 
 {# Children node tree field #}
 {% block childrennodes_widget %}
-    {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+    {% import "@RoadizRozier/components/rz_form_field.html.twig" as rz_form_field %}
     <rz-form-field
         class="rz-form-field"
         data-translation-id="{{ nodeTree.translation.id }}"
@@ -493,8 +493,9 @@
             {% if linkedTypes|length %}
                 <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                     {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
-                    {% embed "@RoadizRozier/includes/rz_dropdown.html.twig" with {
-                            id: popover_id,
+                    {% embed "@RoadizRozier/components/rz_dropdown.html.twig" with {
+                            targetId: popover_id,
+                            class: 'children-nodes-quick-creation',
                             placement: 'bottom-end',
                             offset: '12',
                             target_options: {
@@ -505,28 +506,21 @@
                                 icon: 'rz-icon-ri--add-line',
                             }
                     } %}
-                        {% block popover %}
-                            {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
-                                    targetId: popover_id,
-                                    class: 'children-nodes-quick-creation',
-                                } %}
-                                {% block items %}
-                                    {% for linkedType in linkedTypes %}
-                                        {{ _self.item({
-                                            label: linkedType.displayName,
-                                            rightIcon: 'rz-icon-ri--add-line',
-                                            attributes: {
-                                                type: 'button',
-                                                command: '--quick-add-child-node',
-                                                commandfor: 'form-children-' ~ (nodeTree.id ?? form.vars.unique_block_prefix),
-                                                'data-children-node-type': linkedType.name,
-                                                'data-children-parent-node': nodeTree.rootNode.id,
-                                                'data-translation-id': nodeTree.translation.id,
-                                            }
-                                        }) }}
-                                    {% endfor %}
-                                {% endblock %}
-                            {% endembed %}
+                        {% block items %}
+                            {% for linkedType in linkedTypes %}
+                                {{ _self.item({
+                                    label: linkedType.displayName,
+                                    rightIcon: 'rz-icon-ri--add-line',
+                                    attributes: {
+                                        type: 'button',
+                                        command: '--quick-add-child-node',
+                                        commandfor: 'form-children-' ~ (nodeTree.id ?? form.vars.unique_block_prefix),
+                                        'data-children-node-type': linkedType.name,
+                                        'data-children-parent-node': nodeTree.rootNode.id,
+                                        'data-translation-id': nodeTree.translation.id,
+                                    }
+                                }) }}
+                            {% endfor %}
                         {% endblock %}
                     {% endembed %}
                 </div>
@@ -593,7 +587,7 @@
 {%- endblock form_start %}
 
 {% block form_label -%}
-    {% import "@RoadizRozier/macros/rz_form_field.html.twig" as rz_form_field %}
+    {% import "@RoadizRozier/components/rz_form_field.html.twig" as rz_form_field %}
     {% if not compound -%}
         {% set label_attr = label_attr|merge({'for': id}) %}
     {%- endif %}

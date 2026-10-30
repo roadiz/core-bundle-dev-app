@@ -3,7 +3,7 @@
 {% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+    {% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
 
     <section class="content-global manage-document">
         {% include '@RoadizRozier/documents/head.html.twig' with {
@@ -56,7 +56,7 @@
             </div>
         </article>
         <article class="content content-document-infos">
-            {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+            {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                 bordered: true
             } %}
                 {% block tbody_content %}
@@ -79,7 +79,7 @@
             {% if otherVideos|length %}
                 <hr>
                 <h4>{% trans %}document.video_sources{% endtrans %}</h4>
-                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                     bordered: true
                 } %}
                     {% block tbody_content %}
@@ -105,7 +105,7 @@
             {% if otherAudios|length %}
                 <hr>
                 <h4>{% trans %}document.audio_sources{% endtrans %}</h4>
-                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                     bordered: true
                 } %}
                     {% block tbody_content %}
@@ -131,7 +131,7 @@
             {% if otherPictures|length %}
                 <hr>
                 <h4>{% trans %}document.picture_sources{% endtrans %}</h4>
-                {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                {% embed '@RoadizRozier/components/rz_table.html.twig' with {
                     bordered: true
                 } %}
                     {% block tbody_content %}

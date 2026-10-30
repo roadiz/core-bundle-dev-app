@@ -1,4 +1,4 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/components/rz_table.html.twig' %}
 	{% block thead_cells %}
 		<th>
 			{% if not no_sort %}
@@ -36,7 +36,7 @@
 			>
 				{{ _self.selection_input(selection_available, item.id) }}
 				<td>
-					{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+					{% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
 					{{ rz_link.root({
 						label: item.code,
 						attributes: { href: path('attributesEditPage', { id: item.id }) },
@@ -50,7 +50,7 @@
 				<td>{{- item.typeLabel|trans -}}</td>
 
 				<td>
-					{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+					{% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
 					{{ rz_badge.item({
 						label: ' ' ~ (item.attributeValues|length),
 					}) }}
@@ -61,7 +61,7 @@
 				{% if actions_available %}
 					<td>
 						{% set delete_href = is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ? path('attributesDeletePage', { id: item.id }) : null %}
-						{% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+						{% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
 							'edit_href': path('attributesEditPage', { id: item.id }),
 							'delete_href': delete_href,
 						} %}

@@ -1,5 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
 
 {% set title = 'disable_two_factor_authentication'|trans %}
 
@@ -7,7 +7,7 @@
 
 {% block content %}
     <section class="content-global delete-document">
-        {% include '@RoadizRozier/admin/head.html.twig' with {
+        {% include '@RoadizRozier/layouts/head.html.twig' with {
             title: title,
             breadcrumb: {
                 label: 'two-factor-breadcrumb',

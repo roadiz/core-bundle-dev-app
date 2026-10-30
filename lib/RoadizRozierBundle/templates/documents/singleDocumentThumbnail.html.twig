@@ -1,6 +1,6 @@
-{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
-{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+{% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+{% import '@RoadizRozier/components/rz_button.html.twig' as rz_button %}
+{% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
 
 <div class="rz-document-card">
     <div class="rz-document-card__asset">
@@ -74,7 +74,7 @@
     <div class="rz-document-card__name">
         {% if controls %}
             {% set input_id = 'bulk-selection-' ~ document.id %}
-            {{ rz_bulk.select_input({
+            {{ rz_bulk_actions.select_input({
                 value: document.id,
                 id: input_id,
             }) }}

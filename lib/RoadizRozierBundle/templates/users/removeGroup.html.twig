@@ -9,7 +9,7 @@
 {% block content %}
 <section class="content-global delete-user">
     {% set page_title = "remove.user.%name%.from.group.%group%"|trans({'%name%': user.username, '%group%': group.getName})|truncate_title %}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/layouts/head.html.twig' with {
         title: page_title,
         breadcrumb: {
             parents: [breadcrumb_root('users'), {

@@ -60,7 +60,7 @@ one keeps the old name working, deprecated, for one minor release, and goes in `
 ([ADR 0002](../../adr/0002-avoid-breaking-changes.md)).
 
 Finally, document the options a template expects in a `{# Variables: #}` comment at the top of the
-file, the way `admin/head.html.twig` does. It is the only place a caller can discover them.
+file, the way `layouts/head.html.twig` does. It is the only place a caller can discover them.
 
 ## Building a back-office breadcrumb
 

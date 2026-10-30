@@ -1,8 +1,8 @@
-{% extends "@RoadizRozier/admin/base.html.twig" %}
+{% extends "@RoadizRozier/layouts/admin.html.twig" %}
 
 {%- block header -%}
     {# This page is the section root, so the trail is just its own name. #}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/layouts/head.html.twig' with {
         title: 'articles'|trans,
         breadcrumb: { current: 'articles'|trans },
         filters: filters,
@@ -19,7 +19,7 @@
 {%- endblock -%}
 
 {%- block content_filters -%}
-    {% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: true,
         tags: tags,
@@ -45,7 +45,7 @@
 
 {%- block content_body -%}
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
             selection_available: true,
             actions_available: true,
             items: items
@@ -89,7 +89,7 @@
                                 entity-class="App\GeneratedEntity\NSArticle"
                                 entity-id="{{ item.id }}"
                             ></rz-entity-thumbnail>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: item.title,
                                 class: "rz-table__cell--ellipsis",
@@ -99,11 +99,11 @@
                         <td>{{- item.publishedAt ? item.publishedAt|format_datetime('short', 'short', locale=app.request.locale) : '-' -}}</td>
                         <td>{{- item.node.createdAt|format_datetime('short', 'short', locale=app.request.locale) -}}</td>
                         <td>
-                            {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+                            {% import "@RoadizRozier/components/rz_node_badge.html.twig" as rz_node_badge %}
                             {{ rz_node_badge.all(item.node, { display_label: false }) }}
                         </td>
                         <td>
-                            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                            {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
                             {%- for tag in item.node.tags -%}
                                 {{ rz_badge.item({
                                     label: tag.name,
@@ -112,7 +112,7 @@
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
                                     'edit_href': itemEditUrl,
                                     'delete_href': workflow_can(item.node, 'delete') ? path('nodesDeletePage', { nodeId: item.node.id }) : null,
                                 } %}
