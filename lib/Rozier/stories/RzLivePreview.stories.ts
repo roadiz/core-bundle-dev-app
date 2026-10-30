@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonRenderer } from '../app/utils/storybook/renderer/rzButton'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
 type Args = {
     open: boolean
@@ -7,8 +7,9 @@ type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/LivePreview',
+    title: 'Patterns/LivePreview',
     tags: ['autodocs'],
+    render: (args) => rzLivePreviewRenderer(args),
     args: {
         open: true,
         widths: [375, 768, 1440],
@@ -50,7 +51,7 @@ function el(tag: string, className: string, innerHTML = '') {
     return node
 }
 
-function render(args: Args) {
+function rzLivePreviewRenderer(args: Args) {
     try {
         localStorage.setItem('rz-live-preview-open', args.open ? '1' : '0')
         localStorage.removeItem('rz-live-preview-width')
@@ -100,40 +101,40 @@ function render(args: Args) {
     group.setAttribute('aria-label', 'Preview viewport')
     args.widths.forEach((width) => {
         group.appendChild(
-            rzButtonRenderer(
-                { emphasis: 'low', size: 'sm', iconClass: iconFor(width) },
-                {
+            rzButtonRenderer({
+                emphasis: 'tertiary',
+                size: 'sm',
+                iconClass: iconFor(width),
+                attributes: {
                     type: 'button',
                     'data-width': String(width),
                     'aria-pressed': 'false',
                     'aria-label': `${width} px`,
                     title: `${width} px`,
                 },
-            ),
+            }),
         )
     })
     toolbar.appendChild(group)
     toolbar.appendChild(
         el(
             'span',
-            'rz-badge rz-badge--size-xs rz-live-preview__scale',
+            'rz-badge rz-badge--xs rz-live-preview__scale',
             '<span class="rz-badge__label">100 %</span>',
         ),
     )
     toolbar.appendChild(
-        rzButtonRenderer(
-            {
-                emphasis: 'low',
-                size: 'sm',
-                iconClass: 'rz-icon-ri--close-line',
-            },
-            {
+        rzButtonRenderer({
+            emphasis: 'tertiary',
+            size: 'sm',
+            iconClass: 'rz-icon-ri--close-line',
+            attributes: {
                 type: 'button',
                 'data-close': '',
                 'aria-label': 'Close live preview',
                 title: 'Close live preview',
             },
-        ),
+        }),
     )
 
     const viewport = el('div', 'rz-live-preview__viewport')
@@ -149,14 +150,12 @@ function render(args: Args) {
     return main
 }
 
-export const Open: Story = { render }
+export const Default: Story = {}
 
 export const Closed: Story = {
-    render,
     args: { open: false },
 }
 
 export const SingleViewport: Story = {
-    render,
     args: { widths: [1024] },
 }
