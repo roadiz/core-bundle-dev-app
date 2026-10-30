@@ -1,20 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzMessageRenderer } from '../app/utils/storybook/renderer/rzMessage'
+import {
+    COLORS,
+    type RzMessageOptions,
+    rzMessageRenderer,
+    VARIANTS,
+} from '~/utils/storybook/renderer/rzMessage'
 
-/* Think about accessibility during integration, e.g., role="alert" when creating error messages */
-const COLORS = ['neutral', 'error'] as const
-const VARIANTS = ['filled', 'ghost'] as const
-
-export type Args = {
-    text: string
-    innerHTML?: string
-    variant?: (typeof VARIANTS)[number]
-    color?: (typeof COLORS)[number]
-}
+type Args = RzMessageOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Message',
+    title: 'Components/Feedback/Message',
     tags: ['autodocs'],
+    render: (args) => rzMessageRenderer(args),
     args: {
         text: 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur',
     },
@@ -33,11 +30,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzMessageRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const WithMoreContent: Story = {
     render: (args) => {

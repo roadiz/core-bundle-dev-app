@@ -1,45 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzDialogWrapperRenderer } from '~/utils/storybook/renderer/rzDialog'
-import { type RzButtonOptions } from '~/utils/component-renderer/rzButton'
-import { RzElement } from '~/utils/component-renderer/rzElement'
+import {
+    CLOSED_BY_VALUES,
+    type RzDialogOptions,
+    rzDialogWrapperRenderer,
+    VARIANTS,
+} from '~/utils/storybook/renderer/rzDialog'
 
-// 'none' = dialog cannot be closed by user interaction
-// 'closerequest' = dialog can be closed only by close button or calling close() method
-// 'any' = dialog can be closed by clicking outside, pressing ESC, close button or calling close() method
-const CLOSED_BY_VALUES = ['none', 'closerequest', 'any'] as const
-const VARIANTS = ['warning', 'danger'] as const
-
-export type Args = {
-    tag?: string
-    header?: {
-        title?: string
-        iconClass?: string
-        closeIconClass?: string
-    }
-    body?: RzElement
-    /** Centered alert layout: status medallion, title and text, no header bar. */
-    alert?: {
-        iconClass: string
-        title: string
-        text: string
-        closeIconClass?: string
-    }
-    variant?: (typeof VARIANTS)[number]
-    footer?: {
-        justifyEnd?: boolean
-        buttons?: RzButtonOptions[]
-    }
-    innerHTML?: string
-    closedby?: (typeof CLOSED_BY_VALUES)[number]
-    dialogId?: string
-    modal?: boolean
-    defaultOpen?: boolean
-    attributes?: Record<string, string>
-}
+type Args = RzDialogOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Overlay/Dialog',
     tags: ['autodocs'],
+    render: (args) => rzDialogWrapperRenderer(args),
     args: {
         tag: 'dialog',
         defaultOpen: false,
@@ -91,18 +63,12 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         dialogId: 'default-dialog',
     },
 }
 
 export const WithoutHead: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         header: undefined,
         dialogId: 'without-head-dialog',
@@ -110,9 +76,6 @@ export const WithoutHead: Story = {
 }
 
 export const WithoutFooter: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         footer: undefined,
         dialogId: 'without-footer-dialog',
@@ -120,9 +83,6 @@ export const WithoutFooter: Story = {
 }
 
 export const FooterJustifyEnd: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         footer: {
             ...meta.args.footer,
@@ -176,9 +136,6 @@ export const NonModal: Story = {
 
 // Mirrors the session expired dialog of base.html.twig, opened by LoginCheckService.
 export const SessionExpired: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         dialogId: 'session-expired-dialog',
         variant: 'warning',
@@ -207,9 +164,6 @@ export const SessionExpired: Story = {
 
 // Mirrors the health check dialog of base.html.twig: no close button, no action.
 export const HealthCheckFailed: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         dialogId: 'health-check-dialog',
         variant: 'danger',

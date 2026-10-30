@@ -20,17 +20,21 @@ type Item = {
 /** Mirrors `visibleCount` in widgets/nodeTree/singleNode.html.twig — keep both in step. */
 const MAX_VISIBLE_TAGS = 6
 
-export type Args = {
+type Args = {
     items: Item[]
     iconColor?: string
+    /** Adds rz-tree--child-nodes, the layout of the children nodes tree. */
+    childNodes?: boolean
 }
 
 const COMPONENT_CLASS_NAME = 'rz-tree'
 const meta: Meta<Args> = {
-    title: 'Components/Tree',
+    title: 'Components/Navigation/Tree',
     tags: ['autodocs'],
+    render: (args) => rzTreeRenderer(args),
     args: {
         iconColor: '',
+        childNodes: false,
     },
 }
 
@@ -184,7 +188,7 @@ function listRenderer(items: Item[]) {
     return element
 }
 
-function rootRenderer(args: Args) {
+function rzTreeRenderer(args: Args) {
     const element = document.createElement('rz-tree')
     element.classList.add(COMPONENT_CLASS_NAME)
 
@@ -194,6 +198,10 @@ function rootRenderer(args: Args) {
 
     if (args.iconColor) {
         element.style.setProperty('--rz-tree-icon-color', args.iconColor)
+    }
+
+    if (args.childNodes) {
+        element.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
     }
 
     return element
@@ -318,13 +326,11 @@ export const Default: Story = {
             },
         ],
     },
-    render: (args) => {
-        return rootRenderer(args)
-    },
 }
 
 export const ChildNodes: Story = {
     args: {
+        childNodes: true,
         items: [
             {
                 label: 'Menu 1',
@@ -380,11 +386,6 @@ export const ChildNodes: Story = {
                 ],
             },
         ],
-    },
-    render: (args) => {
-        const tree = rootRenderer(args)
-        tree.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
-        return tree
     },
 }
 
@@ -550,13 +551,11 @@ export const WithContextualMenu: Story = {
             },
         ],
     },
-    render: (args) => {
-        return rootRenderer(args)
-    },
 }
 
 export const WithThumbnail: Story = {
     args: {
+        childNodes: true,
         items: [
             {
                 label: 'Gallery',
@@ -616,11 +615,6 @@ export const WithThumbnail: Story = {
             },
         ],
     },
-    render: (args) => {
-        const tree = rootRenderer(args)
-        tree.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
-        return tree
-    },
 }
 
 const nextFrame = () => new Promise(requestAnimationFrame)
@@ -667,7 +661,6 @@ export const WithTags: Story = {
             return container
         },
     ],
-    render: (args) => rootRenderer(args),
     play: async ({ canvasElement, args }) => {
         await nextFrame()
         await nextFrame()

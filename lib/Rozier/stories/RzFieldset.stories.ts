@@ -1,16 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as FormFieldArgs } from './RzFormField.stories'
-import { rzFieldsetRenderer } from '~/utils/storybook/renderer/rzFieldset'
+import {
+    type RzFieldsetOptions,
+    rzFieldsetRenderer,
+} from '~/utils/storybook/renderer/rzFieldset'
 
-export type Args = {
-    legend: string
-    formFieldsData?: (FormFieldArgs | Args)[]
-    horizontal?: boolean
-}
+type Args = RzFieldsetOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Fieldset',
     tags: ['autodocs'],
+    render: (args) => rzFieldsetRenderer(args),
     args: {
         legend: 'Fieldset Legend',
         horizontal: false,
@@ -21,9 +20,6 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzFieldsetRenderer(args)
-    },
     args: {
         formFieldsData: [
             {
@@ -50,9 +46,6 @@ export const Default: Story = {
 }
 
 export const CheckboxGroup: Story = {
-    render: (args) => {
-        return rzFieldsetRenderer(args)
-    },
     args: {
         legend: 'Checkbox Group Legend',
         formFieldsData: Array.from({ length: 4 }, (_, i) => ({
@@ -69,9 +62,6 @@ export const CheckboxGroup: Story = {
 }
 
 export const HorizontalCheckboxGroup: Story = {
-    render: (args) => {
-        return rzFieldsetRenderer(args)
-    },
     args: {
         legend: 'Checkbox Group Legend',
         horizontal: true,
@@ -89,9 +79,6 @@ export const HorizontalCheckboxGroup: Story = {
 }
 
 export const HorizontalSwitchGroup: Story = {
-    render: (args) => {
-        return rzFieldsetRenderer(args)
-    },
     args: {
         legend: 'Switch Group Legend',
         horizontal: true,
@@ -110,9 +97,6 @@ export const HorizontalSwitchGroup: Story = {
 }
 
 export const Mixed: Story = {
-    render: (args) => {
-        return rzFieldsetRenderer(args)
-    },
     args: {
         legend: 'Switch Group Legend',
         formFieldsData: [

@@ -1,14 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    type Args,
-    rzChildrenNodesItemRenderer,
     defaultItemData,
     MODIFIERS,
+    type RzChildrenNodesItemOptions,
+    rzChildrenNodesItemRenderer,
 } from '~/utils/storybook/renderer/rzChildrenNodesItem'
 
+type Args = RzChildrenNodesItemOptions
+
 const meta: Meta<Args> = {
-    title: 'Components/Form/ChildrenNodesWidget/Item',
+    title: 'Components/Form/ChildrenNodes/Item',
     tags: ['autodocs'],
+    render: (args) => rzChildrenNodesItemRenderer(args),
     args: {
         ...defaultItemData,
     },
@@ -25,8 +28,4 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzChildrenNodesItemRenderer(args)
-    },
-}
+export const Default: Story = {}

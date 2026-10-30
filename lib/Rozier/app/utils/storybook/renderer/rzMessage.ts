@@ -1,6 +1,15 @@
-import type { Args } from '../../../../stories/RzMessage.stories'
+/* Think about accessibility during integration, e.g., role="alert" when creating error messages */
+export const COLORS = ['neutral', 'error'] as const
+export const VARIANTS = ['filled', 'ghost'] as const
 
-export function rzMessageRenderer(args: Args) {
+export type RzMessageOptions = {
+    text: string
+    innerHTML?: string
+    variant?: (typeof VARIANTS)[number]
+    color?: (typeof COLORS)[number]
+}
+
+export function rzMessageRenderer(args: RzMessageOptions) {
     const className = 'rz-message'
 
     const wrapper = document.createElement('div')

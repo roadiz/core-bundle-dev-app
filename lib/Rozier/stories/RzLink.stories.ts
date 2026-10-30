@@ -9,14 +9,15 @@ type Attributes = {
     is?: string
 } & Partial<typeof ATTRIBUTES_OPTIONS_MAP>
 
-export type Args = {
+type Args = {
     label?: string
     attributes?: Attributes
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Link',
+    title: 'Components/Navigation/Link',
     tags: ['autodocs'],
+    render: (args) => rzLinkRenderer(args),
     args: {
         label: 'My link',
         attributes: {
@@ -51,22 +52,13 @@ function rzLinkRenderer(args: Args) {
     return el
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzLinkRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const TooltipLinkButton: Story = {
-    render: (args) => {
-        const link = rzLinkRenderer(args)
-        link.classList.add('rz-button')
-
-        return link
-    },
     args: {
         attributes: {
             is: 'rz-link',
+            class: 'rz-button',
             href: '#',
             'tooltip-text': 'I am a tooltip on a link button',
             'popover-placement': 'top',

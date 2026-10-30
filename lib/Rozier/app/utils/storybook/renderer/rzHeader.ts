@@ -1,11 +1,22 @@
-import type { Args } from '../../../../stories/RzHeader.stories'
-import { rzHeaderNavItemRenderer } from '~/utils/storybook/renderer/rzHeaderNavItem'
+import {
+    rzHeaderNavItemRenderer,
+    type RzHeaderNavItemOptions,
+} from '~/utils/storybook/renderer/rzHeaderNavItem'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-header'
+
+export type RzHeaderNavItem = RzHeaderNavItemOptions & {
+    children?: RzHeaderNavItemOptions[]
+    additionalClass?: string
+}
+
+export type RzHeaderOptions = {
+    navItems: RzHeaderNavItem[]
+}
 
 export const DEFAULT_NAV_ITEMS = [
     {
@@ -157,7 +168,7 @@ export const DEFAULT_NAV_ITEMS = [
     },
 ]
 
-function itemRenderer(itemArgs: Args['navItems'][number]) {
+function itemRenderer(itemArgs: RzHeaderNavItem) {
     const listItem = document.createElement('li')
     listItem.classList.add(`${COMPONENT_CLASS_NAME}__li`)
 
@@ -177,7 +188,7 @@ function itemRenderer(itemArgs: Args['navItems'][number]) {
     return listItem
 }
 
-function listRenderer(items: Args['navItems'], subList?: boolean) {
+function listRenderer(items: RzHeaderNavItem[], subList?: boolean) {
     const list = document.createElement('ul')
     list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
@@ -285,7 +296,7 @@ function rzHeaderHeadRenderer() {
     return head
 }
 
-export function rzHeaderRenderer(args: Args) {
+export function rzHeaderRenderer(args: RzHeaderOptions) {
     const wrapper = document.createElement('header')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 

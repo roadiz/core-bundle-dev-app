@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
-import { type Args as FormFieldArgs } from './RzFormField.stories'
+import {
+    type RzFormFieldOptions,
+    rzFormFieldRenderer,
+} from '~/utils/storybook/renderer/rzFormField'
 import { useArgs } from 'storybook/preview-api'
 import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
@@ -12,14 +14,15 @@ type ItemOptions = {
     onAddClicked: () => void
 }
 
-export type Args = {
-    schema: FormFieldArgs[]
+type Args = {
+    schema: RzFormFieldOptions[]
     length: number
-} & FormFieldArgs
+} & RzFormFieldOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Repeatable',
     tags: ['autodocs'],
+    render: (args) => rzRepeatableRenderer(args),
     args: {
         length: 0,
         label: 'Repeatable',
@@ -198,41 +201,41 @@ function rzFormCollectionItemRenderer(
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => {
-        const [{ length }, updateArgs] = useArgs()
+function rzRepeatableRenderer(args: Args) {
+    const [{ length }, updateArgs] = useArgs()
 
-        function addItem() {
-            updateArgs({ length: length + 1 })
-        }
-        function removeItem() {
-            updateArgs({ length: length - 1 })
-        }
+    function addItem() {
+        updateArgs({ length: length + 1 })
+    }
+    function removeItem() {
+        updateArgs({ length: length - 1 })
+    }
 
-        const list = document.createElement('ul')
-        list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
+    const list = document.createElement('ul')
+    list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
-        const insertZone = insertZoneRenderer({
-            tag: 'li',
+    const insertZone = insertZoneRenderer({
+        tag: 'li',
+        onAddClicked: addItem,
+        onDeleteClicked: removeItem,
+    })
+    list.appendChild(insertZone)
+
+    const field = rzFormFieldRenderer(args, list)
+    const button = field.querySelector('.rz-button')
+    button?.addEventListener('click', addItem)
+
+    for (let i = 0; i < args.length; i++) {
+        const item = rzFormCollectionItemRenderer(args.schema, {
+            itemIndex: i,
+            totalItems: args.length,
             onAddClicked: addItem,
             onDeleteClicked: removeItem,
         })
-        list.appendChild(insertZone)
+        list.appendChild(item)
+    }
 
-        const field = rzFormFieldRenderer(args, list)
-        const button = field.querySelector('.rz-button')
-        button?.addEventListener('click', addItem)
-
-        for (let i = 0; i < args.length; i++) {
-            const item = rzFormCollectionItemRenderer(args.schema, {
-                itemIndex: i,
-                totalItems: args.length,
-                onAddClicked: addItem,
-                onDeleteClicked: removeItem,
-            })
-            list.appendChild(item)
-        }
-
-        return field
-    },
+    return field
 }
+
+export const Default: Story = {}

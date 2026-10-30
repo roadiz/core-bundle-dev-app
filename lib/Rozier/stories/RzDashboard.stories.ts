@@ -15,13 +15,14 @@ type Panel = {
     content: string
 }
 
-export type Args = {
+type Args = {
     rows: Panel[][]
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Dashboard',
+    title: 'Patterns/Dashboard',
     tags: ['autodocs'],
+    render: (args) => rzDashboardRenderer(args),
     args: {
         rows: [
             [
@@ -144,8 +145,4 @@ function rzDashboardRenderer(args: Args) {
     return dashboard
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzDashboardRenderer(args)
-    },
-}
+export const Default: Story = {}

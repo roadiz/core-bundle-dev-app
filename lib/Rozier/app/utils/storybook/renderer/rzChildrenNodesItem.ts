@@ -20,7 +20,7 @@ export const MODIFIERS = [
     'datetime-publishable-future',
 ]
 
-export type Args = {
+export type RzChildrenNodesItemOptions = {
     modifiers?: typeof MODIFIERS
     image?: RzImageOptions
     title: string
@@ -28,7 +28,7 @@ export type Args = {
     tag?: string
 }
 
-export const defaultItemData: Args = {
+export const defaultItemData: RzChildrenNodesItemOptions = {
     title: 'Node Item 1',
     buttonGroup: {
         size: 'sm',
@@ -49,7 +49,7 @@ export const defaultItemData: Args = {
 }
 
 export function rzChildrenNodesItemRenderer(
-    args: Args,
+    args: RzChildrenNodesItemOptions,
     itemClass: string = COMPONENT_CLASS_NAME,
 ) {
     const wrapper = document.createElement(args.tag || 'div')

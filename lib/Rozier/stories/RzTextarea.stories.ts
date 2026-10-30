@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { Args as RzInputArgs } from './RzInput.stories'
+import type { RzInputOptions } from '~/utils/storybook/renderer/rzInput'
 
-export type Args = RzInputArgs & {
+type Args = RzInputOptions & {
     rows?: number
     cols?: number
     maxlength?: number
@@ -22,6 +22,7 @@ export type Args = RzInputArgs & {
 const meta: Meta<Args> = {
     title: 'Components/Form/Textarea',
     tags: ['autodocs'],
+    render: (args) => rzTextareaRenderer(args),
     args: {
         rows: 4,
         cols: 50,
@@ -77,8 +78,4 @@ function rzTextareaRenderer(args: Args) {
     return textarea
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzTextareaRenderer(args)
-    },
-}
+export const Default: Story = {}

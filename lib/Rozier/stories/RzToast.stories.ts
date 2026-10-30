@@ -4,11 +4,12 @@ import {
     type ToastDetail,
 } from '~/utils/component-renderer/rzToast'
 
-export type Args = ToastDetail & {}
+type Args = ToastDetail
 
 const meta: Meta<Args> = {
-    title: 'Components/Overlay/Toast',
+    title: 'Components/Feedback/Toast',
     tags: ['autodocs'],
+    render: (args) => rzToastListRenderer(args),
     args: {
         id: 1,
         status: 'success',
@@ -43,12 +44,9 @@ function rzToastListRenderer(items: ToastDetail | ToastDetail[]) {
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => rzToastListRenderer(args),
-}
+export const Default: Story = {}
 
 export const Warning: Story = {
-    render: (args) => rzToastListRenderer(args),
     args: {
         id: 2,
         status: 'warning',
@@ -59,7 +57,6 @@ export const Warning: Story = {
 }
 
 export const Danger: Story = {
-    render: (args) => rzToastListRenderer(args),
     args: {
         id: 3,
         status: 'danger',
@@ -69,16 +66,13 @@ export const Danger: Story = {
     },
 }
 
+/**
+ * The first toast is driven by the controls, the next ones are fixed.
+ */
 export const Stacked: Story = {
-    render: () => {
+    render: (args) => {
         const toasts = [
-            {
-                id: 10,
-                status: 'success' as const,
-                title: 'Success',
-                iconClass: 'rz-icon rz-icon-ri--check-line',
-                message: 'Content published successfully.',
-            },
+            args,
             {
                 id: 11,
                 status: 'warning' as const,
@@ -96,5 +90,9 @@ export const Stacked: Story = {
         ]
 
         return rzToastListRenderer(toasts)
+    },
+    args: {
+        id: 10,
+        message: 'Content published successfully.',
     },
 }

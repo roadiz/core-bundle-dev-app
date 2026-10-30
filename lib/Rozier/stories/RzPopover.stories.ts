@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 import type { Placement } from '@floating-ui/dom'
 import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/Popover'
 
-export type Args = {
+type Args = {
     targetElement: {
         tag?: string
         text: string
@@ -20,6 +20,15 @@ export type Args = {
 const meta: Meta<Args> = {
     title: 'Components/Overlay/Popover',
     tags: ['autodocs'],
+    render: (args) => {
+        const el = rzPopoverRenderer(args)
+        el.style = `
+		    display: block;
+    		margin-inline: auto;
+    		width: fit-content;
+		`
+        return el
+    },
     args: {
         targetElement: {
             text: 'Click me',
@@ -87,17 +96,7 @@ function rzPopoverRenderer(args: Args) {
     return popover
 }
 
-export const Default: Story = {
-    render: (args) => {
-        const el = rzPopoverRenderer(args)
-        el.style = `
-		    display: block;
-    		margin-inline: auto;
-    		width: fit-content;
-		`
-        return el
-    },
-}
+export const Default: Story = {}
 
 export const LeftPositionWithFlip: Story = {
     render: (args) => {

@@ -2,8 +2,41 @@ import {
     RzButtonOptions,
     rzButtonRenderer,
 } from '~/utils/component-renderer/rzButton'
-import type { Args } from '../../../../stories/RzDialog.stories'
-import { rzElement } from '~/utils/component-renderer/rzElement'
+import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
+
+// 'none' = dialog cannot be closed by user interaction
+// 'closerequest' = dialog can be closed only by close button or calling close() method
+// 'any' = dialog can be closed by clicking outside, pressing ESC, close button or calling close() method
+export const CLOSED_BY_VALUES = ['none', 'closerequest', 'any'] as const
+export const VARIANTS = ['warning', 'danger'] as const
+
+export type RzDialogOptions = {
+    tag?: string
+    header?: {
+        title?: string
+        iconClass?: string
+        closeIconClass?: string
+    }
+    body?: RzElement
+    /** Centered alert layout: status medallion, title and text, no header bar. */
+    alert?: {
+        iconClass: string
+        title: string
+        text: string
+        closeIconClass?: string
+    }
+    variant?: (typeof VARIANTS)[number]
+    footer?: {
+        justifyEnd?: boolean
+        buttons?: RzButtonOptions[]
+    }
+    innerHTML?: string
+    closedby?: (typeof CLOSED_BY_VALUES)[number]
+    dialogId?: string
+    modal?: boolean
+    defaultOpen?: boolean
+    attributes?: Record<string, string>
+}
 
 function rzDialogCloseRenderer(closeIconClass: string) {
     const button = rzButtonRenderer({
@@ -21,7 +54,7 @@ function rzDialogCloseRenderer(closeIconClass: string) {
     return button
 }
 
-function rzDialogHeaderRenderer(args: Args['header']) {
+function rzDialogHeaderRenderer(args: RzDialogOptions['header']) {
     const wrapper = document.createElement('header')
     wrapper.classList.add('rz-dialog__header')
 
@@ -46,7 +79,7 @@ function rzDialogHeaderRenderer(args: Args['header']) {
 }
 
 function rzDialogAlertRenderer(
-    args: NonNullable<Args['alert']>,
+    args: NonNullable<RzDialogOptions['alert']>,
     idPrefix: string,
 ) {
     const medallion = rzElement({
@@ -79,7 +112,7 @@ function rzDialogAlertRenderer(
     return [medallion, group]
 }
 
-function rzDialogFooterRenderer(args: Args['footer']) {
+function rzDialogFooterRenderer(args: RzDialogOptions['footer']) {
     if (!args?.buttons?.length) {
         return
     }
@@ -102,7 +135,7 @@ function rzDialogFooterRenderer(args: Args['footer']) {
     return wrapper
 }
 
-export function rzDialogRenderer(args: Args) {
+export function rzDialogRenderer(args: RzDialogOptions) {
     const dialog = document.createElement('dialog', { is: 'rz-dialog' })
     dialog.setAttribute('is', 'rz-dialog')
     dialog.classList.add('rz-dialog')
@@ -162,7 +195,7 @@ export function rzDialogRenderer(args: Args) {
 }
 
 export function rzDialogWrapperRenderer(
-    dialogArgs: Args,
+    dialogArgs: RzDialogOptions,
     target: Partial<RzButtonOptions> = {},
 ) {
     const wrapper = document.createElement('div')

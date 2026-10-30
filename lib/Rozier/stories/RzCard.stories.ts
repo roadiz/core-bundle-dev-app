@@ -12,8 +12,9 @@ type Args = RzCardOptions
  * Layout is auto determined based on presence of `rz-card__title` `rz-card__overtitle` `rz-card__img` classes.
  */
 const meta: Meta<Args> = {
-    title: 'Components/Card',
+    title: 'Components/Data display/Card',
     tags: ['autodocs'],
+    render: (args) => rzCardRenderer(args),
     args: {
         overtitle: 'Overtitle example',
         title: 'Title example',
@@ -57,18 +58,12 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzCardRenderer(args)
-    },
     args: {
         buttonGroupTop: undefined,
     },
 }
 
 export const WithoutImg: Story = {
-    render: (args) => {
-        return rzCardRenderer(args)
-    },
     args: {
         buttonGroupTop: undefined,
         image: undefined,
@@ -77,9 +72,6 @@ export const WithoutImg: Story = {
 }
 
 export const PrivateDocument: Story = {
-    render: (args) => {
-        return rzCardRenderer(args)
-    },
     args: {
         overtitle: undefined,
         title: undefined,
@@ -93,9 +85,6 @@ export const PrivateDocument: Story = {
 }
 
 export const OnlyImg: Story = {
-    render: (args) => {
-        return rzCardRenderer(args)
-    },
     args: {
         overtitle: undefined,
         title: undefined,

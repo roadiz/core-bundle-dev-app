@@ -1,18 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzHeaderNavItemRenderer } from '~/utils/storybook/renderer/rzHeaderNavItem'
+import {
+    type RzHeaderNavItemOptions,
+    rzHeaderNavItemRenderer,
+} from '~/utils/storybook/renderer/rzHeaderNavItem'
 
-export type Args = {
-    label: string
-    iconClass?: string
-    active?: boolean
-    subItem?: boolean
-    tag?: string
-    attributes?: { [key: string]: string }
-}
+type Args = RzHeaderNavItemOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Header/Item',
+    title: 'Components/Navigation/HeaderNavItem',
     tags: ['autodocs'],
+    render: (args) => rzHeaderNavItemRenderer(args),
     args: {
         label: 'Workspace item label',
         active: false,
@@ -28,16 +25,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzHeaderNavItemRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const Link: Story = {
-    render: (args) => {
-        return rzHeaderNavItemRenderer(args)
-    },
     args: {
         tag: 'a',
         attributes: { href: window.location.href },
@@ -45,9 +35,6 @@ export const Link: Story = {
 }
 
 export const ButtonCustomElement: Story = {
-    render: (args) => {
-        return rzHeaderNavItemRenderer(args)
-    },
     args: {
         tag: 'button',
         iconClass: 'rz-icon-ri--computer-line',

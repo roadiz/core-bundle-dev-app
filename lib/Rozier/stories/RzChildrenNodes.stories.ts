@@ -1,21 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    type Args as ItemArgs,
     defaultItemData,
+    type RzChildrenNodesItemOptions,
     rzChildrenNodesItemRenderer,
 } from '~/utils/storybook/renderer/rzChildrenNodesItem'
-import type { Args as FormFieldArgs } from './RzFormField.stories'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+import {
+    type RzFormFieldOptions,
+    rzFormFieldRenderer,
+} from '~/utils/storybook/renderer/rzFormField'
 
-export type Args = FormFieldArgs & {
-    items: (ItemArgs | ItemArgs[])[]
+type Args = RzFormFieldOptions & {
+    items: (RzChildrenNodesItemOptions | RzChildrenNodesItemOptions[])[]
 }
 
 const COMPONENT_CLASS_NAME = 'rz-children-nodes'
 
 const meta: Meta<Args> = {
-    title: 'Components/Form/ChildrenNodesWidget/Root',
+    title: 'Components/Form/ChildrenNodes/Root',
     tags: ['autodocs'],
+    render: (args) => rzChildrenNodesRenderer(args),
     args: {
         input: undefined,
         badge: undefined,
@@ -81,8 +84,4 @@ function rzChildrenNodesRenderer(args: Args) {
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzChildrenNodesRenderer(args)
-    },
-}
+export const Default: Story = {}

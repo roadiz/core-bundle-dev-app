@@ -10,7 +10,7 @@ type Element = {
     children?: Element[]
 }
 
-export type Args = {
+type Args = {
     elements: Element[]
 }
 
@@ -195,8 +195,9 @@ function rzLoginRenderer(args: Args) {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Login',
+    title: 'Patterns/Login',
     tags: ['autodocs'],
+    render: (args) => rzLoginRenderer(args),
     args: {
         elements: getDefaultElements(1),
     },
@@ -209,18 +210,12 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzLoginRenderer(args)
-    },
     args: {
         elements: getDefaultElements(2),
     },
 }
 
 export const NoFooter: Story = {
-    render: (args) => {
-        return rzLoginRenderer(args)
-    },
     args: {
         elements: [
             {

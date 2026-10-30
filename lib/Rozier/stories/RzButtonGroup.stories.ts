@@ -1,20 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { ButtonArgs } from './RzButton.stories'
-import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
+import {
+    GAPS,
+    type RzButtonGroupOptions,
+    rzButtonGroupRenderer,
+    SIZES,
+} from '~/utils/component-renderer/rzButtonGroup'
 
-const GAPS = ['sm', 'md', 'lg'] as const
-const SIZES = ['xs', 'sm', 'md', 'lg'] as const
-
-export type Args = {
-    collapsed?: boolean
-    gap?: (typeof GAPS)[number]
-    size?: (typeof SIZES)[number]
-    buttons?: ButtonArgs[]
-}
+type Args = RzButtonGroupOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/ButtonGroup',
+    title: 'Components/Actions/ButtonGroup',
     tags: ['autodocs'],
+    render: (args) => rzButtonGroupRenderer(args),
     args: {
         collapsed: false,
         gap: 'md',
@@ -57,16 +54,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzButtonGroupRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const IconOnly: Story = {
-    render: (args) => {
-        return rzButtonGroupRenderer(args)
-    },
     args: {
         size: 'sm',
         gap: 'sm',
@@ -89,9 +79,6 @@ export const IconOnly: Story = {
 }
 
 export const Collapsed: Story = {
-    render: (args) => {
-        return rzButtonGroupRenderer(args)
-    },
     args: {
         collapsed: true,
         size: 'lg',
