@@ -1,33 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
-import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
-import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
-import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
 import { rzNodeIconRenderer } from '~/utils/storybook/renderer/rzNodeIcon'
+import {
+    rzNodeTreeContextualMenuRenderer,
+    DEFAULT_CONTEXTUAL_MENU_CONTENT,
+} from '~/utils/storybook/renderer/rzNodeTreeContextualMenu'
+import {
+    COMPONENT_CLASS_NAME,
+    type RzTreeOptions,
+    rzTreeRenderer,
+} from '~/utils/storybook/renderer/rzTree'
 
-type Item = {
-    label: string
-    iconClass?: string
-    icon?: HTMLElement
-    href?: string
-    expanded?: boolean
-    children?: Item[]
-    actions?: HTMLElement[]
-    /** Stack tree only: tags fold into a popover past MAX_VISIBLE_TAGS or when the row is narrow. */
-    tags?: string[]
-}
+type Args = RzTreeOptions
 
-/** Mirrors `visibleCount` in widgets/nodeTree/singleNode.html.twig — keep both in step. */
-const MAX_VISIBLE_TAGS = 6
-
-type Args = {
-    items: Item[]
-    iconColor?: string
-    /** Adds rz-tree--child-nodes, the layout of the children nodes tree. */
-    childNodes?: boolean
-}
-
-const COMPONENT_CLASS_NAME = 'rz-tree'
 const meta: Meta<Args> = {
     title: 'Components/Navigation/Tree',
     tags: ['autodocs'],
@@ -40,172 +24,6 @@ const meta: Meta<Args> = {
 
 export default meta
 type Story = StoryObj<Args>
-
-function itemNodeRenderer(item: Item) {
-    const hasChildren = item.children && item.children.length > 0
-    const tag = item.href ? 'a' : 'div'
-
-    const node = document.createElement(tag)
-    node.setAttribute('role', 'treeitem')
-    node.setAttribute('aria-expanded', item.expanded ? 'true' : 'false')
-    node.classList.add(`${COMPONENT_CLASS_NAME}__item__node`)
-
-    const innerEl = document.createElement('div')
-    innerEl.classList.add(`${COMPONENT_CLASS_NAME}__item__node__inner`)
-    node.appendChild(innerEl)
-
-    const handle = document.createElement('span')
-    handle.classList.add(`${COMPONENT_CLASS_NAME}__item__handle`)
-    handle.classList.add('rz-icon-ri--draggable')
-    innerEl.appendChild(handle)
-
-    // Icon slot - use custom element if provided, otherwise use icon class
-    if (item.icon) {
-        item.icon.classList.add(`${COMPONENT_CLASS_NAME}__item__icon`)
-        innerEl.appendChild(item.icon)
-    } else if (item.iconClass) {
-        const icon = document.createElement('span')
-        icon.classList.add(`${COMPONENT_CLASS_NAME}__item__icon`)
-        icon.classList.add(item.iconClass)
-        innerEl.appendChild(icon)
-    }
-
-    const label = document.createElement('span')
-    label.classList.add(`${COMPONENT_CLASS_NAME}__item__label`)
-    label.textContent = item.label
-    innerEl.appendChild(label)
-
-    if (item.tags && item.tags.length > 0) {
-        innerEl.appendChild(tagsRenderer(item.tags))
-    }
-
-    if (hasChildren) {
-        const expandButton = rzButtonRenderer({
-            tag: 'span',
-            iconClass: 'rz-icon-ri--arrow-down-s-line',
-            emphasis: 'tertiary',
-            size: 'xs',
-        })
-        expandButton.classList.add(
-            `${COMPONENT_CLASS_NAME}__item__expand-button`,
-        )
-
-        innerEl.appendChild(expandButton)
-    }
-
-    // Actions slot - populated from item.actions
-    if (item.actions && item.actions.length > 0) {
-        const actionsSlot = document.createElement('div')
-        actionsSlot.classList.add(`${COMPONENT_CLASS_NAME}__item__actions`)
-        item.actions.forEach((action) => actionsSlot.appendChild(action))
-        innerEl.appendChild(actionsSlot)
-    }
-
-    return node
-}
-
-/** Mirrors what rz_overflow_list.html.twig emits for singleNode.html.twig with `responsive`. */
-function tagsRenderer(tags: string[]) {
-    const badge = (tag: string) =>
-        rzBadgeRenderer({ tag: 'rz-badge', label: tag, size: 'sm' })
-    const inline = tags.slice(0, MAX_VISIBLE_TAGS)
-    const folded = tags.slice(MAX_VISIBLE_TAGS)
-
-    const wrapper = document.createElement('div')
-    wrapper.className = `rz-overflow-list ${COMPONENT_CLASS_NAME}__item__tags`
-    inline.forEach((tag) => wrapper.appendChild(badge(tag)))
-
-    const list = document.createElement('div')
-    list.className = 'rz-dropdown__list rz-overflow-list__list'
-    folded.forEach((tag) => list.appendChild(badge(tag)))
-    const content = document.createElement('div')
-    content.className = `rz-dropdown rz-overflow-list__popover ${COMPONENT_CLASS_NAME}__item__tags__popover`
-    content.appendChild(list)
-
-    const { popover } = rzPopoverRenderer({
-        targetElement: {
-            element: rzButtonRenderer({
-                iconClass: 'rz-icon-ri--price-tag-3-line',
-                emphasis: 'secondary',
-                size: 'sm',
-                label: folded.length ? String(folded.length) : undefined,
-                attributes: {
-                    type: 'button',
-                    'aria-label': 'More tags',
-                    class: 'rz-overflow-list__button',
-                },
-            }),
-        },
-        popoverElement: {
-            element: content,
-            id: `rz-tree-tags-${Math.random().toString(36).slice(2, 8)}`,
-        },
-        offset: 8,
-    })
-    popover.setAttribute('overflow-responsive', '')
-    popover.setAttribute('overflow-inline', String(inline.length))
-    popover.setAttribute('overflow-inline-side', 'before')
-    popover.setAttribute('overflow-count', '')
-    popover.hidden = folded.length === 0
-    wrapper.appendChild(popover)
-
-    return wrapper
-}
-
-function itemRenderer(item: Item) {
-    const ITEM_LIST_CLASS = 'rz-tree-item'
-
-    const li = document.createElement('li', { is: ITEM_LIST_CLASS })
-    li.setAttribute('is', ITEM_LIST_CLASS)
-    li.classList.add(`${COMPONENT_CLASS_NAME}__item`)
-
-    const content = itemNodeRenderer(item)
-    li.appendChild(content)
-
-    if (item.children) {
-        li.classList.add(`${COMPONENT_CLASS_NAME}__item--parent`)
-
-        const list = listRenderer(item.children)
-        list.setAttribute('role', 'group')
-        li.appendChild(list)
-    } else {
-        li.classList.add(`${COMPONENT_CLASS_NAME}__item--end`)
-    }
-
-    return li
-}
-
-function listRenderer(items: Item[]) {
-    const element = document.createElement('ul')
-
-    element.classList.add(`${COMPONENT_CLASS_NAME}__list`)
-
-    items.forEach((item) => {
-        const itemEl = itemRenderer(item)
-        element.appendChild(itemEl)
-    })
-
-    return element
-}
-
-function rzTreeRenderer(args: Args) {
-    const element = document.createElement('rz-tree')
-    element.classList.add(COMPONENT_CLASS_NAME)
-
-    const list = listRenderer(args.items)
-    list.setAttribute('role', 'tree')
-    element.appendChild(list)
-
-    if (args.iconColor) {
-        element.style.setProperty('--rz-tree-icon-color', args.iconColor)
-    }
-
-    if (args.childNodes) {
-        element.classList.add(`${COMPONENT_CLASS_NAME}--child-nodes`)
-    }
-
-    return element
-}
 
 export const Default: Story = {
     args: {
@@ -389,103 +207,14 @@ export const ChildNodes: Story = {
     },
 }
 
-/**
- * Generates a unique ID for contextual menu instances
- */
-let contextualMenuCounter = 0
-function generateContextualMenuId() {
-    return `node-contextual-menu-${++contextualMenuCounter}`
-}
-
-/**
- * Creates a RzNodeTreeContextualMenu element with a popover trigger button
- */
 function createContextualMenuAction(): HTMLElement {
-    const contextualId = generateContextualMenuId()
-    const popoverId = `${contextualId}-popover`
-
-    // Create the contextual menu wrapper element
-    const contextualMenu = document.createElement(
-        'rz-node-tree-contextual-menu',
-    )
-    contextualMenu.classList.add('rz-node-contextual-menu')
-    contextualMenu.setAttribute('id', contextualId)
-    contextualMenu.setAttribute('popover-placement', 'bottom-end')
-    // These paths won't work in Storybook but are included for demonstration
-    contextualMenu.setAttribute('data-node-id', '1')
-    contextualMenu.setAttribute('data-contextual-menu-path', '#')
-    contextualMenu.setAttribute('data-node-status-path', '#')
-    contextualMenu.setAttribute('data-node-duplicate-path', '#')
-    contextualMenu.setAttribute('data-node-paste-path', '#')
-    contextualMenu.setAttribute(
-        'data-node-copied-trans',
-        'Node copied to clipboard',
-    )
-    contextualMenu.setAttribute('data-node-edit-position-path', '#')
-
-    // Create the trigger button
-    const triggerButton = rzButtonRenderer({
-        iconClass: 'rz-icon-ri--more-line',
-        emphasis: 'tertiary',
-        size: 'xs',
-        attributes: {
-            'aria-label': 'Show actions',
-            popovertarget: popoverId,
-            type: 'button',
-        },
+    // Prefilled content: the contextual menu path does not exist in Storybook
+    return rzNodeTreeContextualMenuRenderer({
+        nodeId: '1',
+        contextualMenuPath: '#',
+        copiedTrans: 'Node copied to clipboard',
+        content: DEFAULT_CONTEXTUAL_MENU_CONTENT,
     })
-    contextualMenu.appendChild(triggerButton)
-
-    // Create the popover placeholder (content is fetched on open)
-    const popoverPlaceholder = document.createElement('div')
-    popoverPlaceholder.id = popoverId
-    popoverPlaceholder.setAttribute('popover', '')
-    popoverPlaceholder.setAttribute('data-popover-content-state', 'idle')
-    popoverPlaceholder.setAttribute('data-contextual-menu-popover', '')
-
-    // Use rzDropdownRenderer for popover content
-    const dropdown = rzDropdownRenderer(
-        {
-            title: 'Actions',
-            items: [
-                [
-                    {
-                        tag: 'button',
-                        iconClass: 'rz-icon-ri--file-copy-line',
-                        label: 'Duplicate',
-                        attributes: { command: '--duplicate' },
-                    },
-                    {
-                        tag: 'button',
-                        iconClass: 'rz-icon-ri--clipboard-line',
-                        label: 'Copy',
-                        attributes: { command: '--copy' },
-                    },
-                ],
-                [
-                    {
-                        tag: 'button',
-                        iconClass: 'rz-icon-ri--arrow-up-line',
-                        label: 'Move to first',
-                        attributes: { command: '--move-first' },
-                    },
-                    {
-                        tag: 'button',
-                        iconClass: 'rz-icon-ri--arrow-down-line',
-                        label: 'Move to last',
-                        attributes: { command: '--move-last' },
-                    },
-                ],
-            ],
-        },
-        popoverPlaceholder,
-    )
-    dropdown.classList.add('rz-dropdown')
-
-    popoverPlaceholder.setAttribute('data-popover-content-state', 'fetched')
-    contextualMenu.appendChild(popoverPlaceholder)
-
-    return contextualMenu
 }
 
 export const WithContextualMenu: Story = {

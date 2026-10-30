@@ -38,7 +38,7 @@ export const ButtonCustomElement: Story = {
     args: {
         tag: 'button',
         iconClass: 'rz-icon-ri--computer-line',
-        attributes: { is: 'rz-header-nav-button' },
+        attributes: { is: 'rz-header-nav-item-button' },
     },
     parameters: {
         controls: { exclude: ['tag'] },

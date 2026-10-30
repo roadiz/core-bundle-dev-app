@@ -1,18 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    type RzButtonOptions,
-    rzButtonRenderer,
-} from '~/utils/component-renderer/rzButton'
+    type RzActionsMenuOptions,
+    rzActionsMenuRenderer,
+} from '~/utils/storybook/renderer/rzActionsMenu'
 
-const COMPONENT_CLASS_NAME = 'rz-actions-menu'
-
-type Args = {
-    vertical?: boolean
-    items: {
-        popoverContent?: string
-        button: RzButtonOptions
-    }[]
-}
+type Args = RzActionsMenuOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Actions/ActionsMenu',
@@ -90,32 +82,6 @@ const meta: Meta<Args> = {
 
 export default meta
 type Story = StoryObj<Args>
-
-function rzActionsMenuRenderer(args: Args) {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add(COMPONENT_CLASS_NAME)
-    if (args.vertical) {
-        wrapper.classList.add(`${COMPONENT_CLASS_NAME}--vertical`)
-    }
-
-    args.items.forEach((item) => {
-        const button = rzButtonRenderer(item.button)
-
-        if (item.popoverContent) {
-            const popoverWrapper = document.createElement('rz-popover')
-            popoverWrapper.setAttribute('data-popover-offset', '24px')
-            popoverWrapper.setAttribute('data-popover-placement', 'top-start')
-            popoverWrapper.innerHTML = item.popoverContent
-            popoverWrapper.appendChild(button)
-
-            wrapper.appendChild(popoverWrapper)
-        } else {
-            wrapper.appendChild(button)
-        }
-    })
-
-    return wrapper
-}
 
 export const Default: Story = {}
 

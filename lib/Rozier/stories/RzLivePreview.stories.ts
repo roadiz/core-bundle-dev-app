@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import { rzActionsMenuRenderer } from '~/utils/storybook/renderer/rzActionsMenu'
 
 type Args = {
     open: boolean
@@ -76,38 +77,42 @@ function rzLivePreviewRenderer(args: Args) {
 
     // Same toggle as nodes/actionsMenu.html.twig, in the fixed actions menu.
     // The save item keeps the menu visible below 960px, where the toggle is hidden.
-    const actionsMenu = el(
-        'rz-actions-menu',
-        'rz-actions-menu rz-actions-menu--vertical actions-menu',
-    )
-    actionsMenu.append(
-        rzButtonRenderer({
-            emphasis: 'primary',
-            size: 'md',
-            onDark: true,
-            iconClass: 'rz-icon-ri--eye-line',
-            attributes: {
-                type: 'button',
-                class: 'rz-live-preview-toggle',
-                title: 'Live preview',
-                'aria-label': 'Live preview',
-                'aria-controls': 'live-preview',
-                'aria-expanded': 'false',
+    const actionsMenu = rzActionsMenuRenderer({
+        vertical: true,
+        class: 'actions-menu',
+        items: [
+            {
+                button: {
+                    emphasis: 'primary',
+                    size: 'md',
+                    onDark: true,
+                    iconClass: 'rz-icon-ri--eye-line',
+                    attributes: {
+                        type: 'button',
+                        class: 'rz-live-preview-toggle',
+                        title: 'Live preview',
+                        'aria-label': 'Live preview',
+                        'aria-controls': 'live-preview',
+                        'aria-expanded': 'false',
+                    },
+                },
             },
-        }),
-        rzButtonRenderer({
-            emphasis: 'primary',
-            size: 'md',
-            onDark: true,
-            color: 'success',
-            iconClass: 'rz-icon-ri--save-line',
-            attributes: {
-                type: 'button',
-                title: 'Save',
-                'aria-label': 'Save',
+            {
+                button: {
+                    emphasis: 'primary',
+                    size: 'md',
+                    onDark: true,
+                    color: 'success',
+                    iconClass: 'rz-icon-ri--save-line',
+                    attributes: {
+                        type: 'button',
+                        title: 'Save',
+                        'aria-label': 'Save',
+                    },
+                },
             },
-        }),
-    )
+        ],
+    })
 
     const preview = el('rz-live-preview', 'rz-live-preview')
     preview.id = 'live-preview'
