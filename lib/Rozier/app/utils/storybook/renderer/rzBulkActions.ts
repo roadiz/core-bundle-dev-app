@@ -48,7 +48,7 @@ export const DEFAULT_BULK_ACTIONS: RzBulkActionsOptions = {
 
 let instanceCounter = 0
 
-/** Mirrors widgets/rz_bulk_actions.html.twig. */
+/** Mirrors components/rz_bulk_actions.html.twig. */
 export function rzBulkActionsRenderer(args: RzBulkActionsOptions) {
     const prefix = `${COMPONENT_CLASS_NAME}-${++instanceCounter}`
     const element = document.createElement('rz-bulk-actions')

@@ -17,7 +17,7 @@ export type RzActionsMenuOptions = {
 
 const COMPONENT_CLASS_NAME = 'rz-actions-menu'
 
-/** Mirrors macros/rz_actions_menu.html.twig. */
+/** Mirrors components/rz_actions_menu.html.twig. */
 export function rzActionsMenuRenderer(args: RzActionsMenuOptions) {
     const element = document.createElement('rz-actions-menu')
     element.classList.add(COMPONENT_CLASS_NAME)

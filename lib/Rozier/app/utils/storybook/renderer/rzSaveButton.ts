@@ -6,7 +6,7 @@ export type RzSaveButtonOptions = {
     label?: string
 }
 
-/** Mirrors rz_actions_menu.saveItem (macros/rz_actions_menu.html.twig). */
+/** Mirrors rz_actions_menu.saveItem (components/rz_actions_menu.html.twig). */
 export function rzSaveButtonRenderer(args: RzSaveButtonOptions) {
     return rzButtonRenderer({
         is: 'rz-save-button',

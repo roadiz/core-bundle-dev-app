@@ -62,7 +62,7 @@ function rzLivePreviewRenderer(args: Args) {
         // private mode
     }
 
-    // Same nesting as base.html.twig + nodes/editSource.html.twig: .rz-page > .rz-page__body > form + preview
+    // Same nesting as layouts/base.html.twig + nodes/editSource.html.twig: .rz-page > .rz-page__body > form + preview
     const page = el('main', 'rz-page')
     const body = el('section', 'rz-page__body')
     const form = el(

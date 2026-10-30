@@ -18,7 +18,7 @@ const meta: Meta<Args> = {
     tags: ['autodocs'],
     render: (args) => {
         const page = rzPageRenderer(args)
-        // The back-to-top button of base.html.twig is hidden: any button can send --scroll-top
+        // The back-to-top button of layouts/base.html.twig is hidden: any button can send --scroll-top
         page.querySelector('#main-content-scrollable')?.appendChild(
             rzButtonRenderer({
                 label: 'Scroll to top',

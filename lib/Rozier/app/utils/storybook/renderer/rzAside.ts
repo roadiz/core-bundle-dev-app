@@ -24,7 +24,7 @@ const TREE_LABELS = {
     folder: { title: 'Folder tree', add: 'Add a folder' },
 }
 
-/** Mirrors widgets/rz_tree_wrapper_auto.html.twig for a root tree, without the language switcher. */
+/** Mirrors components/rz_tree.html.twig for a root tree, without the language switcher. */
 export function rzAsideTreeWrapperRenderer(args: RzAsideTreeWrapperOptions) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(
@@ -77,7 +77,7 @@ export function rzAsideTreeWrapperRenderer(args: RzAsideTreeWrapperOptions) {
     return wrapper
 }
 
-/** Mirrors widgets/rz_aside.html.twig: the element then fetches its tree. */
+/** Mirrors patterns/aside.html.twig: the element then fetches its tree. */
 export function rzAsideRenderer(args: RzAsideOptions) {
     const element = document.createElement('rz-aside')
     element.classList.add(COMPONENT_CLASS_NAME)

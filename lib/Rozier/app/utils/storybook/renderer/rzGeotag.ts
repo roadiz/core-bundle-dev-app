@@ -12,7 +12,7 @@ export type RzGeotagOptions = {
 
 const COMPONENT_CLASS_NAME = 'rz-geotag'
 
-/** Mirrors the item_detail macro of widgets/rz_geotag_field.html.twig. */
+/** Mirrors the item_detail macro of components/rz_geotag.html.twig. */
 function itemDetailRenderer(
     componentId: string,
     itemId = '',
@@ -71,7 +71,7 @@ function parseValue(value?: string) {
     }
 }
 
-/** Mirrors widgets/rz_geotag_field.html.twig. */
+/** Mirrors components/rz_geotag.html.twig. */
 export function rzGeotagRenderer(args: RzGeotagOptions) {
     const fieldId = args.id
     const wrapperId = `${fieldId}-wrapper`
@@ -140,7 +140,7 @@ export function rzGeotagRenderer(args: RzGeotagOptions) {
     )
 
     if (args.help) {
-        // rz_form_field.help (macros/rz_form_field.html.twig)
+        // rz_form_field.help (components/rz_form_field.html.twig)
         const help = document.createElement('p')
         help.id = `${fieldId}_help`
         help.classList.add('rz-form-field__description')
