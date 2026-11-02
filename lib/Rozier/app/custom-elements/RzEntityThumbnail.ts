@@ -31,6 +31,12 @@ export default class RzEntityThumbnail extends RoadizElement {
         this.entityClass = this.getAttribute('entity-class')
         this.entityId = this.getAttribute('entity-id')
 
+        // Documented `size` attribute (small, medium, large): maps to the size modifier class
+        const size = this.getAttribute('size')
+        if (size === 'small' || size === 'medium' || size === 'large') {
+            this.classList.add(`rz-entity-thumbnail--${size}`)
+        }
+
         // Defer fetching until element is visible; show placeholder (not loading spinner yet)
         this.loading = false
         this.render()
