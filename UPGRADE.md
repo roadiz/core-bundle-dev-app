@@ -59,6 +59,31 @@ Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr
 
 Shared templates are now sorted by role: design system building blocks under `ui/` (`ui/layouts/`, `ui/patterns/`, `ui/components/` with one file per `rz-*` element, `ui/utils/`), form themes under `form/`, pages in their feature folder. `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` do not move. The rules are in `lib/Rozier/docs/templates.md`.
 
+What may still break in a project, and how to check it:
+
+- **Calls to a moved 2.7 template without a stub** (`include`, `embed`, `import`, `extends`) fail with a
+  "template not found" error: use the new path from the table below.
+- **Overrides of a moved template are silently ignored**, stub or not. Rozier now renders the new path, so a file
+  left under `templates/bundles/RoadizRozierBundle/<old path>` is never loaded and its customisation disappears
+  without any error. Move every override to the new path (for example `admin/base.html.twig` →
+  `ui/layouts/admin.html.twig`), then compare it with the new template: overriding a template other than
+  `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` is not a supported mechanism, and its
+  content may have changed.
+- **Templates extending `admin/base.html.twig` through its stub** still need the block migration below
+  (`content_title`, `content_header_nav`… replaced by `header`).
+- **Projects following the unreleased 2.8 development branch**: every template path added since 2.7.54 moved too
+  (`macros/rz_*`, `includes/rz_*`, `widgets/rz_*`, `layouts/`, `patterns/`, `components/` → `ui/…`), without a stub.
+
+To find what to update, list the Rozier paths your project uses and the overrides it ships:
+
+```shell
+grep -rhoE "@!?RoadizRozier/[A-Za-z0-9_./-]+\.html\.twig" templates src config | sort -u
+find templates/bundles/RoadizRozierBundle -name '*.twig'
+```
+
+Each path must exist under `vendor/roadiz/rozier-bundle/templates/`; a deprecated stub still resolves but triggers
+a deprecation, visible in the Symfony profiler and logs.
+
 These 2.7 templates were internal: they move without a stub. Update every `include`, `embed`, `import`, `extends` and every override under `templates/bundles/RoadizRozierBundle/`:
 
 | Old path | New path |
