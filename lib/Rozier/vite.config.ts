@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
             origin: process.env.VITE_DEV_ORIGIN ?? 'http://localhost:5173',
         },
         optimizeDeps: {
+            // No index.html to crawl: scan every entry so the cold start pre-bundles all deps up front
+            entries: ['app/main.js', 'app/simple.js', 'app/shared.js'],
             exclude: ['uikit'], // fix a bug on dev mode + CommonJS require() used in UIkit
         },
         build: {
