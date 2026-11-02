@@ -1,6 +1,6 @@
-{% include '@RoadizRozier/admin/confirm_action.html.twig' with {
+{% include '@RoadizRozier/ui/patterns/confirm_action.html.twig' with {
     'title': "unlink.role.%name%"|trans({'%name%': role}),
-    'headPath': '@RoadizRozier/layouts/head.html.twig',
+    'headPath': '@RoadizRozier/ui/patterns/page_header.html.twig',
     'breadcrumb_parents': [
         breadcrumb_root('groups'),
         {

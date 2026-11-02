@@ -17,33 +17,32 @@
             icon: 'rz-icon-ri--download-line'
         }],
     } only %}
-    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
     }  only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             actions_available: true,
         }%}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th class="mobile-hidden">
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'ip',
-                        'filters': filters,
-                        'label': 'ip.address'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'ip',
+                        filters: filters,
+                        label: 'ip.address'|trans,
+                    }) }}
                 </th>
                 <th class="mobile-hidden">
                     {% trans %}email{% endtrans %}
                 </th>
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'submittedAt',
-                        'filters': filters,
-                        'label': 'submitted.date'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'submittedAt',
+                        filters: filters,
+                        label: 'submitted.date'|trans,
+                    }) }}
                 </th>
             {% endblock %}
 
@@ -54,7 +53,7 @@
                         <td class="mobile-hidden">{{ type.email }}</td>
                         <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
                         <td class="table-actions-row table-actions-row-2">
-                            {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
+                            {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
                                 'delete_href': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
                             } %}
                                 {% block other_actions %}

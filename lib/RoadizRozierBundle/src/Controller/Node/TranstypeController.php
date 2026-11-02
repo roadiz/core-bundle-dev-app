@@ -118,7 +118,7 @@ final class TranstypeController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $this->translator->trans('transtype.a.node'),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'action_icon' => 'rz-icon-ri--command-line',

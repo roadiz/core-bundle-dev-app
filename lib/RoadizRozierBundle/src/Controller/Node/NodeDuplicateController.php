@@ -56,7 +56,7 @@ final class NodeDuplicateController extends AbstractController
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
-            return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+            return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
                 'title' => new UnicodeString($this->translator->trans('duplicate.node')),
                 'headPath' => '@RoadizRozier/nodes/head.html.twig',
                 'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $existingNode->getId()]),

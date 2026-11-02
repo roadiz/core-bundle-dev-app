@@ -337,9 +337,9 @@ final class SettingController extends AbstractController
             ['%name%' => $setting->getName()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
-            'headPath' => '@RoadizRozier/layouts/head.html.twig',
+            'headPath' => '@RoadizRozier/ui/patterns/page_header.html.twig',
             'breadcrumb_parents' => [
                 $this->breadcrumbRoots->get('settings'),
                 [

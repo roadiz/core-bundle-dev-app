@@ -1,14 +1,14 @@
-{% embed '@RoadizRozier/components/rz_table.html.twig' %}
+{% embed '@RoadizRozier/ui/components/rz_table.html.twig' %}
 	{% block thead_cells %}
+		{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
 		<th class="mobile-hidden uk-visible-xlarge">
 			{% set label = 'user.username'|trans %}
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'username',
-					'filters': filters,
-					'label': label,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'username',
+					filters: filters,
+					label: label,
+				}) }}
 			{% else %}
 				{{ label }}
 			{% endif %}
@@ -16,12 +16,11 @@
 		<th class="mobile-hidden">
 			{% set label = 'user.email'|trans %}
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'email',
-					'filters': filters,
-					'label': label,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'email',
+					filters: filters,
+					label: label,
+				}) }}
 			{% else %}
 				{{ label }}
 			{% endif %}
@@ -29,12 +28,11 @@
 		<th class="mobile-hidden">
 			{% set label = 'user.lastLogin'|trans %}
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'lastLogin',
-					'filters': filters,
-					'label': label,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'lastLogin',
+					filters: filters,
+					label: label,
+				}) }}
 			{% else %}
 				{{ label }}
 			{% endif %}
@@ -48,9 +46,9 @@
 	{% endblock %}
 
 	{% block tbody_content %}
-		{% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
-		{% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
-		{% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
+		{% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
+		{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+		{% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
 
 		{% for item in items %}
 			<tr>
@@ -126,7 +124,7 @@
 				{% if actions_available %}
                     <td>
 						{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
-							{% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
+							{% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
 								'edit_href': path('usersEditPage', { id: item.id }),
 								'delete_href': is_granted('ROLE_ACCESS_USERS_DELETE') ? path('usersDeletePage', { id: item.id }) : null,
 							} %}

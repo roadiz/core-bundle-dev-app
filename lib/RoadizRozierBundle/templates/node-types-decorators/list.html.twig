@@ -15,48 +15,46 @@
             item: {displayName: 'nodeTypeDecorator'|trans},
         } only %}
 
-        {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
+        {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
             display_select_all_button: false,
         }  only %}
-        {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+        {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 
         <article>
-        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
                 selection_available: hasBulkActions,
                 actions_available: true,
             } %}
                 {% block thead_cells %}
+                    {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'path',
-                            'filters': filters,
-                            'label': 'nodeTypeDecorator.entity'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
+                        {{ rz_table.column_ordering({
+                            field: 'path',
+                            filters: filters,
+                            label: 'nodeTypeDecorator.entity'|trans,
+                        }) }}
                     </th>
                     <th>{% trans %}nodeTypeDecorator.field{% endtrans %}</th>
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'property',
-                            'filters': filters,
-                            'label': 'nodeTypeDecorator.property'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
+                        {{ rz_table.column_ordering({
+                            field: 'property',
+                            filters: filters,
+                            label: 'nodeTypeDecorator.property'|trans,
+                        }) }}
                     </th>
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'value',
-                            'filters': filters,
-                            'label': 'nodeTypeDecorator.value'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
+                        {{ rz_table.column_ordering({
+                            field: 'value',
+                            filters: filters,
+                            label: 'nodeTypeDecorator.value'|trans,
+                        }) }}
                     </th>
                 {% endblock %}
 
                 {% block tbody_content %}
-                {% import '@RoadizRozier/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
-                {% import "@RoadizRozier/components/rz_badge.html.twig" as rz_badge %}
+                {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
 
                 {%- for item in items -%}
                     {% set path = item.path|split('.') %}
@@ -74,7 +72,7 @@
                             </td>
                         {% endif %}
                         <td>
-                            {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: entity,
                                 attributes: { href: path('nodeTypeDecoratorsEditPage', { id: item.getId }) },
@@ -108,7 +106,7 @@
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
                                     'edit_href': path('nodeTypeDecoratorsEditPage', { id: item.getId }),
                                     'delete_href': path('nodeTypeDecoratorsDeletePage', { id: item.getId }),
                                 } %}

@@ -1,13 +1,13 @@
-{% embed '@RoadizRozier/components/rz_table.html.twig' %}
+{% embed '@RoadizRozier/ui/components/rz_table.html.twig' %}
 	{% block thead_cells %}
+		{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
 		<th>
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'code',
-					'filters': filters,
-					'label': 'attributes.code'|trans,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'code',
+					filters: filters,
+					label: 'attributes.code'|trans,
+				}) }}
 			{% else %}
 				{% trans %}attributes.code{% endtrans %}
 			{% endif %}
@@ -18,12 +18,11 @@
 		<th>{% trans %}attributes.usage{% endtrans %}</th>
 		<th>
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'weight',
-					'filters': filters,
-					'label': 'attributes.weight'|trans,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'weight',
+					filters: filters,
+					label: 'attributes.weight'|trans,
+				}) }}
 			{% else %}
 				{% trans %}attributes.weight{% endtrans %}
 			{% endif %}
@@ -36,7 +35,7 @@
 			>
 				{{ _self.selection_input(selection_available, item.id) }}
 				<td>
-					{% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
+					{% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
 					{{ rz_link.root({
 						label: item.code,
 						attributes: { href: path('attributesEditPage', { id: item.id }) },
@@ -50,7 +49,7 @@
 				<td>{{- item.typeLabel|trans -}}</td>
 
 				<td>
-					{% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
+					{% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
 					{{ rz_badge.item({
 						label: ' ' ~ (item.attributeValues|length),
 					}) }}
@@ -61,7 +60,7 @@
 				{% if actions_available %}
 					<td>
 						{% set delete_href = is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ? path('attributesDeletePage', { id: item.id }) : null %}
-						{% include '@RoadizRozier/components/rz_table_actions.html.twig' with {
+						{% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
 							'edit_href': path('attributesEditPage', { id: item.id }),
 							'delete_href': delete_href,
 						} %}

@@ -20,22 +20,23 @@
             }],
         } only %}
 
-        {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
+        {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
         }  only %}
 
         <article>
-        {% embed '@RoadizRozier/components/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             actions_available: true,
             selection_available: false,
         } %}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'name',
-                        'filters': filters,
-                        'label': 'name'|trans,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'name',
+                        filters: filters,
+                        label: 'name'|trans,
+                    }) }}
                 </th>
                 <th class="mobile-hidden">{% trans %}settingGroup.in.menu{% endtrans %}</th>
             {% endblock %}
@@ -47,7 +48,7 @@
                         <td><a href="{{ edit_href }}">{{ item.getName }}</a></td>
                         <td class="mobile-hidden">
                             {% if item.isInMenu %}
-                                {% import '@RoadizRozier/components/rz_badge.html.twig' as rz_badge %}
+                                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
                                 {{ rz_badge.item({
                                     icon: 'rz-icon-ri--check-line',
                                     attributes: {
@@ -58,7 +59,7 @@
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
+                                {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
                                     'edit_href': edit_href,
                                     'delete_href': path('settingGroupsDeletePage', { id: item.id }),
                                 } %}

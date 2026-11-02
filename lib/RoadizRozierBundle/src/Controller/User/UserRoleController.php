@@ -111,12 +111,12 @@ final class UserRoleController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $this->translator->trans('remove.user.%name%.role.%role%', [
                 '%name%' => $user->getUserName(),
                 '%role%' => $role,
             ]),
-            'headPath' => '@RoadizRozier/layouts/head.html.twig',
+            'headPath' => '@RoadizRozier/ui/patterns/page_header.html.twig',
             'breadcrumb_parents' => [
                 $this->breadcrumbRoots->get('users'),
                 [

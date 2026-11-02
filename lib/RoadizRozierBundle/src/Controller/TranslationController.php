@@ -192,9 +192,9 @@ final class TranslationController extends AbstractController
             ['%name%' => $translation->getName()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
-            'headPath' => '@RoadizRozier/layouts/head.html.twig',
+            'headPath' => '@RoadizRozier/ui/patterns/page_header.html.twig',
             'cancelPath' => $this->generateUrl('translationsHomePage'),
             'breadcrumb_parents' => [
                 $this->breadcrumbRoots->get('translations'),

@@ -100,7 +100,7 @@ final class DocumentController extends AbstractController
             ['%name%' => $document->getFilename()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'breadcrumb_parents' => [
@@ -158,7 +158,7 @@ final class DocumentController extends AbstractController
 
         $title = $this->translator->trans('delete.documents');
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/documents/head.html.twig',
             'cancelPath' => $this->generateUrl('documentsHomePage'),

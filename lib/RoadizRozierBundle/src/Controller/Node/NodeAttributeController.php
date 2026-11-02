@@ -317,7 +317,7 @@ final class NodeAttributeController extends AbstractController
             ]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesEditAttributesPage', [

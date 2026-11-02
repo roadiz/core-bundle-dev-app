@@ -1,7 +1,7 @@
-{% extends "@RoadizRozier/layouts/admin.html.twig" %}
+{% extends "@RoadizRozier/ui/layouts/admin.html.twig" %}
 
 {%- block header -%}
-    {% include '@RoadizRozier/layouts/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: 'articles.add'|trans,
         breadcrumb: {
             parents: [breadcrumb_root('articles')],
@@ -17,7 +17,7 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            {% import "@RoadizRozier/components/rz_button.html.twig" as rz_button %}
+            {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
             {{ rz_button.root({
                 label: 'articles.form.add'|trans,
                 emphasis: 'primary',

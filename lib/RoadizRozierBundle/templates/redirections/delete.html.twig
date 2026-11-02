@@ -9,9 +9,9 @@
     }]) %}
 {% endif %}
 
-{% include '@RoadizRozier/admin/confirm_action.html.twig' with {
+{% include '@RoadizRozier/ui/patterns/confirm_action.html.twig' with {
     'title': "delete.redirection"|trans,
-    'headPath': '@RoadizRozier/layouts/head.html.twig',
+    'headPath': '@RoadizRozier/ui/patterns/page_header.html.twig',
     'breadcrumb_parents': breadcrumb_parents,
     'cancelPath': path('redirectionsHomePage'),
     'alertMessage': 'are_you_sure.delete.redirection'|trans,

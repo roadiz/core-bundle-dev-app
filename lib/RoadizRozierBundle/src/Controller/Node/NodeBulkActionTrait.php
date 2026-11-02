@@ -103,7 +103,7 @@ trait NodeBulkActionTrait
         $title = new UnicodeString($this->translator->trans('delete.nodes'));
         $cancelPath = $referer ?? $this->generateUrl('nodesHomePage');
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $cancelPath,
@@ -166,7 +166,7 @@ trait NodeBulkActionTrait
             $cancelPath = $request->get('statusForm')['referer'];
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $this->translator->trans('change.nodes.status'),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'action_icon' => 'rz-icon-ri--check-line',
@@ -464,7 +464,7 @@ trait NodeBulkActionTrait
             return $this->redirectToRoute('nodesHomePage');
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => new UnicodeString($this->translator->trans('undelete.nodes')),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesHomePage'),

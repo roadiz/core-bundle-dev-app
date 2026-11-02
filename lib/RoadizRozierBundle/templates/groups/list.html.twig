@@ -31,26 +31,26 @@
         ],
     } only %}
 
-    {% include "@RoadizRozier/components/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: false,
         items: items
     }  only %}
 
     <section>
-         {% embed '@RoadizRozier/components/rz_table.html.twig' with {
+         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             selection_available: false,
             actions_available: true,
             items: items,
         } only %}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'name',
-                        'filters': filters,
-                        'label': 'name'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'name',
+                        filters: filters,
+                        label: 'name'|trans,
+                    }) }}
                 </th>
                 <th class="mobile-hidden">{% trans %}roles{% endtrans %}</th>
                 <th class="mobile-hidden">{% trans %}users{% endtrans %}</th>
@@ -62,7 +62,7 @@
                         <tr>
                             <td>
                                 {% if not item.required %}
-                                    {% import '@RoadizRozier/components/rz_link.html.twig' as rz_link %}
+                                    {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                                     {{ rz_link.root({
                                         label: item.name,
                                         attributes: { href: path('groupsEditPage', { id: item.id })  },
@@ -80,7 +80,7 @@
                             {% if actions_available %}
                                 <td>
                                     {% if not item.required %}
-                                        {% embed '@RoadizRozier/components/rz_table_actions.html.twig' with {
+                                        {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
                                             'edit_href': is_granted(item) ? path('groupsEditPage', { id: item.id }) : null,
                                             'delete_href': is_granted(item) ? path('groupsDeletePage', { id: item.id }) : null,
                                         } %}
