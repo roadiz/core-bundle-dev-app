@@ -19,65 +19,31 @@
 
 ### Templates moved to the role-based tree
 
-Shared templates now live in `layouts/`, `patterns/`, `components/` (one file per `rz-*` element), `form/`, `macros/` and `includes/`. `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` do not move. Update every `include`, `embed`, `import`, `extends` and every override under `templates/bundles/RoadizRozierBundle/`:
+Shared templates now live in `layouts/`, `patterns/`, `components/` (one file per `rz-*` element), `form/`, `macros/` and `includes/`. `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` do not move.
+
+#### Deprecated
+
+- `admin/base.html.twig` is deprecated, extend `layouts/admin.html.twig` instead. The old path keeps working as a stub that extends the new one, and is removed in 2.9.
+
+#### Removed
+
+These 2.7 templates were internal: they move without a stub. Update every `include`, `embed`, `import`, `extends` and every override under `templates/bundles/RoadizRozierBundle/`:
 
 | Old path | New path |
 |----------|----------|
-| `admin/base.html.twig` | `layouts/admin.html.twig` |
 | `base.html.twig` | `layouts/base.html.twig` |
-| `admin/head.html.twig` | `layouts/head.html.twig` |
 | `login/base.html.twig` | `layouts/login.html.twig` |
 | `admin/meta-icon.html.twig` | `layouts/meta_icon.html.twig` |
 | `simple.html.twig` | `layouts/simple.html.twig` |
-| `widgets/rz_aside.html.twig` | `patterns/aside.html.twig` |
 | `dashboard/navBar.html.twig` | `patterns/dashboard_nav.html.twig` |
-| `dashboard/panel.html.twig` | `patterns/dashboard_panel.html.twig` |
-| `admin/rz_header.html.twig` | `patterns/header.html.twig` |
-| `macros/rz_menu_bar.html.twig` | `patterns/menu_bar.html.twig` |
-| `macros/rz_actions_menu.html.twig` | `components/rz_actions_menu.html.twig` |
-| `macros/rz_badge.html.twig` | `components/rz_badge.html.twig` |
-| `includes/rz_breadcrumb_item.html.twig` | `components/rz_breadcrumb.html.twig` (its `item` macro) |
-| `macros/rz_breadcrumb.html.twig` | `components/rz_breadcrumb.html.twig` |
-| `macros/rz_bulk.html.twig` | `components/rz_bulk_actions.html.twig` |
-| `widgets/rz_bulk_actions.html.twig` | `components/rz_bulk_actions.html.twig` |
-| `macros/rz_button.html.twig` | `components/rz_button.html.twig` |
-| `macros/rz_card.html.twig` | `components/rz_card.html.twig` |
-| `includes/rz_color_scheme_switcher.html.twig` | `components/rz_color_scheme_switcher.html.twig` |
-| `macros/rz_dialog.html.twig` | `components/rz_dialog.html.twig` |
 | `widgets/drawer.html.twig` | `components/rz_drawer.html.twig` |
-| `includes/rz_dropdown.html.twig` | `components/rz_dropdown.html.twig` |
-| `macros/rz_dropdown_menu.html.twig` | `components/rz_dropdown.html.twig` |
-| `macros/rz_filters_bar.html.twig` | `components/rz_filters_bar.html.twig` |
-| `widgets/rz_filters_bar.html.twig` | `components/rz_filters_bar.html.twig` |
-| `macros/rz_form_field.html.twig` | `components/rz_form_field.html.twig` |
-| `widgets/rz_geotag_field.html.twig` | `components/rz_geotag.html.twig` |
-| `macros/rz_header.html.twig` | `components/rz_header_nav_item.html.twig` |
-| `widgets/rz_language_switcher.html.twig` | `components/rz_language_switcher.html.twig` |
-| `macros/rz_link.html.twig` | `components/rz_link.html.twig` |
-| `macros/rz_node_badge.html.twig` | `components/rz_node_badge.html.twig` |
-| `macros/rz_overflow_list.html.twig` | `components/rz_overflow_list.html.twig` |
-| `macros/rz_page_header.html.twig` | `components/rz_page_header.html.twig` |
-| `macros/rz_progress.html.twig` | `components/rz_progress.html.twig` |
-| `widgets/rz_repeatable.html.twig` | `components/rz_repeatable.html.twig` |
-| `macros/rz_repeatable.html.twig` (embedded, `inner_body` block) | `components/rz_repeatable.html.twig` (`item(options)` macro, `content` option) |
-| `includes/rz_table.html.twig` | `components/rz_table.html.twig` |
-| `includes/rz_table_actions.html.twig` | `components/rz_table_actions.html.twig` |
-| `widgets/rz_tree_wrapper_auto.html.twig` | `components/rz_tree.html.twig` |
-| `widgets/rz_tree_item_inner.html.twig` | `components/rz_tree_item.html.twig` |
 | `widgets/documentAlignment.html.twig` | `form/document_alignment.html.twig` |
 | `horizontalForms.html.twig` | `form/horizontal_forms.html.twig` |
-| `includes/rz_meta_item_table.html.twig` | `includes/meta_item_table.html.twig` |
 | `includes/translateAssistantUsage.html.twig` | `includes/translate_assistant_usage.html.twig` |
 
-Merged templates:
+Removed 2.7 templates, unused by the backoffice: `admin/blocks/adminImage.html.twig`, `admin/blocks/loginImage.html.twig`, `custom-form-fields/ajaxEditBase.html.twig`, `documents/backLink.html.twig`, `documents/itemPerPage.html.twig`, `login/check.html.twig`, `nodes/widgets/node-header.html.twig`, `tags/navBack.html.twig`, `widgets/backlink.html.twig`, `widgets/itemPerPage.html.twig`, `widgets/versionItem.html.twig`.
 
-- `includes/rz_dropdown.html.twig` (popover + trigger) and `macros/rz_dropdown_menu.html.twig` (menu) are one embed: pass `target_options` to `components/rz_dropdown.html.twig` to get the trigger, `targetId` instead of `id`, and `popover_attributes` instead of the popover `attributes`. Drop the nested `popover` block, override `items` directly.
-- The `rz_bulk` macros (`select_input`, `select_all_input`, `select_all_button`, `deselect_all_button`) are imported from `components/rz_bulk_actions.html.twig`.
-- The `rz_filters_bar` macros are part of `components/rz_filters_bar.html.twig`.
-
-Removed templates, unused by the backoffice: `admin/blocks/adminImage.html.twig`, `admin/blocks/loginImage.html.twig`, `custom-form-fields/ajaxEditBase.html.twig`, `documents/backLink.html.twig`, `documents/itemPerPage.html.twig`, `login/check.html.twig`, `nodes/redirection_table.html.twig`, `nodes/widgets/node-header.html.twig`, `tags/navBack.html.twig`, `widgets/backlink.html.twig`, `widgets/countFiltersBar.html.twig`, `widgets/itemPerPage.html.twig`, `widgets/versionItem.html.twig`.
-
-For Twig templates using `@RoadizRozier/layouts/admin.html.twig` as parent template, make sure to update
+For Twig templates using `@RoadizRozier/admin/base.html.twig` (now `@RoadizRozier/layouts/admin.html.twig`) as parent template, make sure to update
 - `content_title`
 - `content_count_filters`
 - `content_header_nav`
@@ -299,7 +265,7 @@ now renders `<rz-drawer>`), and are removed:
 - the `vue-multiselect` dependency
 
 If a project template still renders `<drawer-container data-vuejs>` (copied from the v2.7
-`components/rz_drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
+`widgets/drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
 `<rz-drawer>`, as `@RoadizRozier/components/rz_drawer.html.twig` does.
 
 ## New admin templates

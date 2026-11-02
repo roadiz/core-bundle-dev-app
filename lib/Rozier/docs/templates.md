@@ -22,13 +22,18 @@ templates/
                       meta_item_table, messages, translate_assistant_usage
   <feature>/          pages and their local partials (nodes/, documents/, users/…)
   widgets/            legacy trees only, until the Navigation zone replaces them
+                      (plus countFiltersBar, kept for 2.7 projects)
 ```
 
 - Projects can rely on `layout.html.twig`, `forms.html.twig` and
   `dashboard/index.html.twig`, and on the components and patterns of
-  `components/` and `patterns/` with their options, once documented in
-  `docs/extensions/`. Everything else is internal to the bundle
-  ([ADR 0006](adr/0006-projects-customise-through-public-mechanisms.md)).
+  `components/` and `patterns/` with their options, once a page of `docs/`
+  written for projects documents them. Everything else is internal to the bundle
+  ([ADR 0006](adr/0006-projects-customise-through-public-mechanisms.md),
+  [ADR 0002](../../../docs/adr/0002-avoid-breaking-changes.md)).
+- A moved template the 2.7 docs led projects to include keeps a stub at its
+  old path until 2.9: `{% deprecated %}` then `{% extends %}` of the new path
+  (`admin/base.html.twig` → `layouts/admin.html.twig`).
 - Page templates keep their current names and folders: controllers resolve many
   of them through `getTemplateFolder()`.
 - New files in `layouts/`, `patterns/`, `components/`, `form/`, `macros/` and
