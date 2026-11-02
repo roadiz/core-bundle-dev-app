@@ -38,9 +38,6 @@ importers:
       jquery-ui:
         specifier: ^1.12.1
         version: 1.14.1
-      jquery.actual:
-        specifier: ^1.0.19
-        version: 1.0.19(jquery@3.7.1)
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -1590,11 +1587,6 @@ packages:
 
   jquery-ui@1.14.1:
     resolution: {integrity: sha512-DhzsYH8VeIvOaxwi+B/2BCsFFT5EGjShdzOcm5DssWjtcpGWIMsn66rJciDA6jBruzNiLf1q0KvwMoX1uGNvnQ==}
-
-  jquery.actual@1.0.19:
-    resolution: {integrity: sha512-S1QFm4yKYpIDXClxsnAoMBdyPjBnixnaOOwcBto7IB9JVWDcxiH74zviQl5JSNgbM4zzNezPf1hq9JmVeeFHmA==}
-    peerDependencies:
-      jquery: '>=1.2.3'
 
   jquery@3.7.1:
     resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
@@ -3825,10 +3817,6 @@ snapshots:
   jiti@2.6.1: {}
 
   jquery-ui@1.14.1:
-    dependencies:
-      jquery: 3.7.1
-
-  jquery.actual@1.0.19(jquery@3.7.1):
     dependencies:
       jquery: 3.7.1
 

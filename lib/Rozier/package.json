@@ -22,7 +22,6 @@
     "invokers-polyfill": "^0.5.7",
     "jquery": "^3.5.0",
     "jquery-ui": "^1.12.1",
-    "jquery.actual": "^1.0.19",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.13",
     "markdown-it": "^14.1.0",
