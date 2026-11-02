@@ -48,7 +48,7 @@ is fed both by `folders/head.html.twig` and by `FolderController`, and is read r
 `with_breadcrumb`, so it stays `snake_case` on both sides:
 
 ```php
-return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
     'headPath' => '@RoadizRozier/folders/head.html.twig', // controller parameter
     'breadcrumb_parents' => [/* … */],                    // head.html.twig option
 ]);
@@ -60,7 +60,7 @@ one keeps the old name working, deprecated, for one minor release, and goes in `
 ([ADR 0002](../../adr/0002-avoid-breaking-changes.md)).
 
 Finally, document the options a template expects in a `{# Variables: #}` comment at the top of the
-file, the way `layouts/head.html.twig` does. It is the only place a caller can discover them.
+file, the way `ui/patterns/page_header.html.twig` does. It is the only place a caller can discover them.
 
 ## Building a back-office breadcrumb
 
@@ -85,7 +85,7 @@ root by comparing the current route to the root's — which is why a listing pag
 } only %}
 ```
 
-Outside a section head — a confirmation page rendered through `admin/confirm_action.html.twig`, or a
+Outside a section head — a confirmation page rendered through `ui/patterns/confirm_action.html.twig`, or a
 section that has no head of its own — ask for the root instead of retyping it:
 
 ```twig
