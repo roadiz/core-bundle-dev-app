@@ -268,7 +268,7 @@ templates/
         └── row_header.html.twig
 ```
 
-You can start by copying and customizing templates from the Rozier bundle, adapting them to your fields and UI needs. Use Twig to loop through your node-sources and render forms using Symfony's form helpers.
+Build them from the documented [backoffice templates and components](./backoffice_templates.md), adapted to your fields. Do not copy Rozier's own templates: they are internal and may change in any release. Use Twig to loop through your node-sources and render forms using Symfony's form helpers.
 
 ::: info
 There is no `edit.html.twig` template required, as `AbstractSingleNodeTypeController` redirects users to the classic Roadiz edit nodes-sources page for editing actions.

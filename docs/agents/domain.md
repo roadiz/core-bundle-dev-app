@@ -4,7 +4,7 @@ How the engineering skills should consume this repo's domain documentation when 
 
 ## Before exploring, read these
 
-- **`GLOSSARY-MAP.md`** at the repo root: it points at one `GLOSSARY.md` per context (one per `lib/<Package>/`). Read each one relevant to the topic.
+- **`GLOSSARY-MAP.md`** at the repo root: it points at the root `GLOSSARY.md` (terms shared by every package) and at one `GLOSSARY.md` per context (one per `lib/<Package>/`). Read each one relevant to the topic.
 - **`docs/adr/`**: system-wide ADRs. Read those that touch the area you're about to work in. Also check `lib/<Package>/docs/adr/` for package-scoped decisions.
 
 If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
@@ -16,6 +16,7 @@ This is a multi-context monorepo: each package under `lib/` is a context.
 ```
 /
 ├── GLOSSARY-MAP.md
+├── GLOSSARY.md                        ← terms shared by every package
 ├── docs/adr/                          ← system-wide decisions
 └── lib/
     ├── RoadizCoreBundle/

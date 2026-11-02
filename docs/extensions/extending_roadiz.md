@@ -105,8 +105,7 @@ The two next blocks are made for you to add some CSS or Javascript.
 For CSS, the `customStyles` block can link an external file with a `<link>` tag, for example `asset('css/customstyle.css')`, or hold CSS directly in a `<style>` tag.
 For JS, the `customScripts` block works the same way: link an external JS file or write your `<script>` tag. Both blocks are [extension points](./backoffice_extension_points.md).
 
-Then create your own content, do not hesitate to give a look at Rozier back-stage theme Twig files to use the right DOM structure.
-For simple features, you wouldn't have to extend JS nor CSS if you follow the same HTML coding style.
+Then build your content from the documented [backoffice templates and components](./backoffice_templates.md) rather than your own markup. Do not copy the markup or CSS classes of Rozier's own templates: they are internal and may change in any release.
 
 ### Linking things together
 

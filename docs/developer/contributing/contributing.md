@@ -55,8 +55,9 @@ return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
 ```
 
 A few older templates predate this rule and still mix both styles in the same call. Do not copy them,
-and do not rename them opportunistically either: a template variable is a public API, so renaming one
-is a breaking change that belongs in a major release and in `UPGRADE.md`.
+and do not rename them opportunistically either: a variable of a template documented for projects is a public API, so renaming
+one keeps the old name working, deprecated, for one minor release, and goes in `UPGRADE.md`
+([ADR 0002](../../adr/0002-avoid-breaking-changes.md)).
 
 Finally, document the options a template expects in a `{# Variables: #}` comment at the top of the
 file, the way `admin/head.html.twig` does. It is the only place a caller can discover them.

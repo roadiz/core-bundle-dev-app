@@ -4,6 +4,8 @@ status: accepted
 
 # Projects customise the backoffice through public mechanisms
 
+> Partly superseded by [ADR 0002](../../../../docs/adr/0002-avoid-breaking-changes.md): a public extension point changing in a minor release is deprecated for one minor release first, except for a security fix or a dependency's major upgrade that forces the break; and a mechanism is public once any page of `docs/` written for projects documents it, not only `docs/extensions/`.
+
 Projects built on Roadiz need to customise strategic parts of the backoffice (menu, dashboard, listings of their own node types) without breaking on every release. Rather than listing the screens a project may touch, we promise stability on **extension points**: the mechanisms a project customises through. An extension point is public when it is documented in `docs/extensions/`; anything undocumented is internal and may change in any release. Projects compose their screens from Rozier's components, as with a design system, instead of shipping their own `rz-*` elements.
 
 The public mechanisms are:
@@ -20,7 +22,7 @@ We rejected making every `@RoadizRozier` template overridable (any markup change
 
 ## Consequences
 
-- A public extension point never changes in a patch release. It may change in a minor release, always listed in `UPGRADE.md`, with a one-minor deprecation when it costs little. Roadiz already breaks in minors (2.8 ships the redesign), so a strict semver promise would be false.
+- A public extension point never changes in a patch release. It may change in a minor release, listed in `UPGRADE.md`, after a one-minor deprecation ([ADR 0002](../../../../docs/adr/0002-avoid-breaking-changes.md)).
 - Documenting a mechanism in `docs/extensions/` makes it public; a PR that documents one takes on that promise, and a PR that changes one updates its page and `UPGRADE.md`.
 - The dashboard is customised by overriding its template and decorating its controller; `dashboard/index.html.twig` therefore stays in place like `layout.html.twig` and `forms.html.twig`.
 - A strategic screen that projects cannot customise through a public mechanism is a gap to open as an issue, not an invitation to override an internal template.
