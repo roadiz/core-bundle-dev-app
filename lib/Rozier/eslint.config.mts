@@ -10,6 +10,7 @@ export default defineConfig([
         ignores: [
             '**/vendor/**',
             '**/*.min.js',
+            'storybook-static/**',
             './vite-plugins/iconify/collections/*.ts',
         ],
     },
