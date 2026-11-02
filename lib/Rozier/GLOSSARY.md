@@ -49,7 +49,7 @@ A whole screen or a layout region of the backoffice, documented as an assembly o
 _Avoid_: Integration, template, page
 
 **Extension point**:
-A mechanism through which a project built on Roadiz customises the backoffice, and on which Roadiz promises stability. A mechanism is an extension point only once it is documented for projects; anything else is internal.
+In the backoffice, a mechanism through which a project customises it: menu entries, entry-point blocks, Twig components and their options, design tokens. The term is defined for the whole repository in the [root glossary](../../GLOSSARY.md).
 _Avoid_: Hook, override (when meaning any template a project replaces)
 
 ## Redesign process

@@ -1,11 +1,11 @@
 # Backoffice extension points
 
-Projects built on Roadiz customise the backoffice through **extension points**: the mechanisms listed on this page and on the pages it links to. They are public:
+Projects built on Roadiz customise the backoffice through **extension points**: the mechanisms this documentation describes for projects, starting with those listed on this page and on the pages it links to ([glossary](../../GLOSSARY.md)). They are public:
 
 - an extension point never changes in a patch release;
-- when it changes in a minor release, the change is listed in `UPGRADE.md`, with a deprecation period of one minor release when it costs little.
+- when it changes in a minor release, the old form keeps working, deprecated, for one minor release, and the change is listed in `UPGRADE.md`.
 
-Anything not documented here is internal and may change in any release: template paths outside the entry points below, markup, CSS classes, the backoffice JavaScript and the raw color palette. Override an internal template only if you accept to check it on every upgrade.
+Only a security fix, or a major upgrade of a dependency that forces it, may break an extension point without deprecation. Anything not documented for projects is internal and may change in any release: template paths outside the entry points below, markup, CSS classes, the backoffice JavaScript and the raw color palette. Override an internal template only if you accept to check it on every upgrade.
 
 Build your screens from the backoffice components rather than your own markup or custom elements. If a component you need is missing, ask for it in Roadiz.
 
