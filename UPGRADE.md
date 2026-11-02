@@ -11,16 +11,35 @@
 
 # Upgrade to 2.8
 
+## Deprecated
+
+Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr/0002-avoid-breaking-changes.md)).
+
+- UIkit menu icons (`uk-icon-*`) in `roadiz_rozier.entries` and their `subentries` are rendered as a generic
+  icon (`rz-icon-ri--layout-grid-line`) and trigger a deprecation. See [Rozier menu icons changed](#rozier-menu-icons-changed).
+- `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem`: the `$home` and `$enabled` constructor arguments are
+  ignored and trigger a deprecation; the trail no longer draws icons. Pass only `$label` and `$url`:
+
+```diff
+-new BreadcrumbsItem($label, $url, $node->isHome())
++new BreadcrumbsItem($label, $url)
+```
+
 ## ⚠ Twig breaking changes
 
 - Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
 - Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `widgets/rz_tree_wrapper_auto.html.twig`; it now renders node, tag and folder trees alike
+- Removed `widgets/filtersBar.html.twig`, use `widgets/rz_filters_bar.html.twig` instead. Its `filter_content`,
+  `filter_search_form` and `filter_pagination_form` blocks have no equivalent: put extra filter fields in the
+  `before_submit` block of `rz_filters_bar` (see `templates/admin/article/list.html.twig` in the dev app)
 - Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `widgets/rz_tree_wrapper_auto.html.twig` instead
 
 For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
 - `content_title`
+- `content_sub_title`
 - `content_count_filters`
 - `content_header_nav`
+- `content_header_actions`
 
 blocks to use new `header` block instead.
 
@@ -51,21 +70,11 @@ Example:
 } only %}
 ```
 
-## ⚠ PHP breaking changes
-
-- `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem` now takes only `$label` and `$url`. The unused
-  `bool $enabled` property and the `bool $home` flag are both gone — the trail no longer draws icons.
-  Custom `BreadcrumbsItemFactoryInterface` implementations must drop those arguments.
-
-```diff
--new BreadcrumbsItem($label, $url, $node->isHome())
-+new BreadcrumbsItem($label, $url)
-```
-
-## ⚠ Rozier menu icons changed
+## Rozier menu icons changed
 
 All backoffice menu icon classes now use the new UI icon set.
-If your project overrides menu entries in `config/packages/roadiz_rozier.yaml` and still uses old `uk-icon-*` classes, those icons will no longer display.
+If your project declares menu entries in `config/packages/roadiz_rozier.yaml` with old `uk-icon-*` classes, they are
+deprecated: 2.8 renders them as a generic icon and 2.9 rejects them.
 
 Update your menu entries to use `rz-icon-ri--<name>` classes (or `rz-icon-rz--<name>` for Roadiz-specific icons).
 Icon names are based on Remix Icon names: https://remixicon.com/
