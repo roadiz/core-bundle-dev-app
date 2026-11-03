@@ -1,0 +1,39 @@
+.rz-image-editor {
+    display: block;
+    margin-bottom: 25px;
+}
+
+.rz-image-editor__toolbar {
+    margin-block: 20px;
+}
+
+.rz-image-editor__select {
+    --rz-input-width: auto;
+}
+
+.rz-image-editor__canvas {
+    position: relative;
+    overflow: hidden;
+}
+
+.rz-image-editor__loader {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--surface-light-primary, #fff) 50%, transparent);
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.rz-image-editor__image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    margin: auto;
+}

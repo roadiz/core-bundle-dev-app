@@ -1,0 +1,366 @@
+import Cropper from 'cropperjs'
+import 'cropperjs/dist/cropper.css'
+import { dataURItoBlob } from '~/utils'
+import { setDocument } from '~/api/DocumentApi'
+
+type ImageEditorAction =
+    | 'drag-move'
+    | 'drag-crop'
+    | 'zoom-in'
+    | 'zoom-out'
+    | 'rotate-left'
+    | 'rotate-right'
+    | 'flip-horizontal'
+    | 'flip-vertical'
+    | 'crop'
+    | 'undo'
+    | 'overwrite'
+
+interface AdjustResponse {
+    message?: string
+    path?: string
+    imageWidth?: number
+    imageHeight?: number
+    errors?: Record<string, string[]>
+}
+
+const ASPECT_RATIOS: Record<string, number> = {
+    '1:1': 1,
+    '4:3': 4 / 3,
+    '16:9': 16 / 9,
+    '21:9': 21 / 9,
+    '9:16': 9 / 16,
+    '9:21': 9 / 21,
+}
+
+/**
+ * Image editor (crop, rotate, flip, zoom) of the document "adjust" screen.
+ *
+ * Twig renders the whole markup (toolbar, image, hidden file form); this element only
+ * drives `cropperjs` over it and posts the edited image back through the file form.
+ *
+ * Expected children:
+ * - `[data-image]`: the `<img>` to edit
+ * - `[data-action="…"]`: toolbar buttons (see `ImageEditorAction`)
+ * - `[data-aspect-ratio]`: the aspect ratio `<select>` (`free` or `W:H`)
+ * - `[data-state="editing"]` / `[data-state="cropped"]`: toolbar items shown in each state
+ * - `[data-loader]`: shown while the image loads or saves
+ * - a `<form>`: the document file form, posted with the edited image
+ *
+ * Attributes: `filename` and `mime-type` of the document.
+ *
+ * Keyboard shortcuts while editing: Enter crops, Escape clears the crop box, arrows move
+ * the image, C / M switch to crop / move, I / O zoom, L / R rotate, H / V flip.
+ * Ctrl/Cmd + Z restores the original image.
+ */
+export default class RzImageEditor extends HTMLElement {
+    private image: HTMLImageElement | null = null
+    private cropper: Cropper | null = null
+    private cropped = false
+    private aspectRatio = NaN
+    private originalUrl = ''
+    private originalMimeType = ''
+    private outputMimeType = 'image/png'
+
+    constructor() {
+        super()
+
+        this.onClick = this.onClick.bind(this)
+        this.onAspectRatioChange = this.onAspectRatioChange.bind(this)
+        this.onImageLoad = this.onImageLoad.bind(this)
+        this.onKeydown = this.onKeydown.bind(this)
+    }
+
+    connectedCallback() {
+        this.image = this.querySelector<HTMLImageElement>('[data-image]')
+        if (!this.image) return
+
+        this.originalUrl = this.image.src
+        this.originalMimeType = (
+            this.getAttribute('mime-type') || ''
+        ).toLowerCase()
+        this.outputMimeType = this.resolveOutputMimeType(this.originalMimeType)
+
+        this.addEventListener('click', this.onClick)
+        this.querySelector('[data-aspect-ratio]')?.addEventListener(
+            'change',
+            this.onAspectRatioChange,
+        )
+        this.image.addEventListener('load', this.onImageLoad)
+        window.addEventListener('keydown', this.onKeydown)
+
+        this.render()
+        this.setLoading(true)
+
+        if (this.image.complete && this.image.naturalWidth > 0) {
+            this.onImageLoad()
+        }
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('click', this.onClick)
+        this.querySelector('[data-aspect-ratio]')?.removeEventListener(
+            'change',
+            this.onAspectRatioChange,
+        )
+        this.image?.removeEventListener('load', this.onImageLoad)
+        window.removeEventListener('keydown', this.onKeydown)
+        this.stop()
+    }
+
+    // EDITOR
+
+    private onImageLoad() {
+        // The cropped preview is a plain image: only the original one is editable.
+        if (this.cropped) return
+
+        this.start()
+    }
+
+    private start() {
+        if (this.cropper || !this.image) return
+
+        this.cropper = new Cropper(this.image, {
+            autoCrop: false,
+            dragMode: 'move',
+            background: false,
+            aspectRatio: this.aspectRatio,
+            viewMode: 1,
+            zoomOnWheel: false,
+            ready: () => this.setLoading(false),
+        })
+    }
+
+    private stop() {
+        this.cropper?.destroy()
+        this.cropper = null
+    }
+
+    private crop() {
+        if (!this.cropper || !this.image) return
+
+        const canvas = this.cropper.getCroppedCanvas(
+            this.outputMimeType === 'image/png' ? {} : { fillColor: '#fff' },
+        )
+
+        this.stop()
+        this.cropped = true
+        this.image.src = canvas.toDataURL(this.outputMimeType)
+        this.render()
+    }
+
+    private undo() {
+        if (!this.cropped || !this.image) return
+
+        this.cropped = false
+        this.setLoading(true)
+        this.image.src = this.originalUrl
+        this.render()
+    }
+
+    private async overwrite() {
+        if (!this.cropped || !this.image) return
+
+        const form = this.querySelector('form')
+        if (!form) return
+
+        const formData = new FormData(form)
+        formData.append(
+            'form[editDocument]',
+            dataURItoBlob(this.image.src),
+            this.getOverwriteFilename(),
+        )
+
+        this.setLoading(true)
+
+        let data: AdjustResponse = {}
+        try {
+            const response = await setDocument(formData)
+            data = await response.json()
+        } catch (error) {
+            console.error('RzImageEditor: saving the image failed', error)
+        }
+
+        if (!data.path) {
+            this.setLoading(false)
+            const message = this.getErrorMessage(data)
+            if (message) this.toast(message, 'danger')
+            return
+        }
+
+        if (data.message) this.toast(data.message, 'success')
+
+        if (data.imageWidth !== undefined && data.imageHeight !== undefined) {
+            this.image.setAttribute('width', String(data.imageWidth))
+            this.image.setAttribute('height', String(data.imageHeight))
+        }
+
+        this.originalUrl = data.path
+        this.undo()
+    }
+
+    // TOOLBAR
+
+    private onClick(event: MouseEvent) {
+        const button = (event.target as Element | null)?.closest<HTMLElement>(
+            '[data-action]',
+        )
+        if (!button || !this.contains(button)) return
+
+        event.preventDefault()
+        this.runAction(button.dataset.action as ImageEditorAction)
+    }
+
+    private onAspectRatioChange(event: Event) {
+        const value = (event.target as HTMLSelectElement).value
+        this.aspectRatio = ASPECT_RATIOS[value] ?? NaN
+        this.cropper?.setAspectRatio(this.aspectRatio)
+    }
+
+    private runAction(action: ImageEditorAction) {
+        switch (action) {
+            case 'crop':
+                return this.crop()
+            case 'undo':
+                return this.undo()
+            case 'overwrite':
+                return this.overwrite()
+        }
+
+        const cropper = this.cropper
+        if (!cropper) return
+
+        switch (action) {
+            case 'drag-move':
+                return cropper.setDragMode('move')
+            case 'drag-crop':
+                return cropper.setDragMode('crop')
+            case 'zoom-in':
+                return cropper.zoom(0.1)
+            case 'zoom-out':
+                return cropper.zoom(-0.1)
+            case 'rotate-left':
+                return cropper.rotate(-90)
+            case 'rotate-right':
+                return cropper.rotate(90)
+            case 'flip-horizontal':
+                return cropper.scaleX(-cropper.getData().scaleX || -1)
+            case 'flip-vertical':
+                return cropper.scaleY(-cropper.getData().scaleY || -1)
+        }
+    }
+
+    private onKeydown(event: KeyboardEvent) {
+        const target = event.target as Element | null
+        if (target?.closest('input, select, textarea, [contenteditable]')) {
+            return
+        }
+
+        if (
+            event.key.toLowerCase() === 'z' &&
+            (event.ctrlKey || event.metaKey)
+        ) {
+            event.preventDefault()
+            this.undo()
+            return
+        }
+
+        if (this.cropped || !this.cropper) return
+        if (event.ctrlKey || event.metaKey || event.altKey) return
+
+        switch (event.key) {
+            case 'Enter':
+                // Enter on a focused toolbar button already clicks it.
+                if (target?.closest('button, a')) return
+                return this.crop()
+            case 'Escape':
+                this.cropper.clear()
+                return
+            case 'ArrowLeft':
+                event.preventDefault()
+                this.cropper.move(-1, 0)
+                return
+            case 'ArrowUp':
+                event.preventDefault()
+                this.cropper.move(0, -1)
+                return
+            case 'ArrowRight':
+                event.preventDefault()
+                this.cropper.move(1, 0)
+                return
+            case 'ArrowDown':
+                event.preventDefault()
+                this.cropper.move(0, 1)
+                return
+        }
+
+        const shortcuts: Record<string, ImageEditorAction> = {
+            c: 'drag-crop',
+            m: 'drag-move',
+            i: 'zoom-in',
+            o: 'zoom-out',
+            l: 'rotate-left',
+            r: 'rotate-right',
+            h: 'flip-horizontal',
+            v: 'flip-vertical',
+        }
+        const action = shortcuts[event.key.toLowerCase()]
+        if (action) this.runAction(action)
+    }
+
+    // HELPERS
+
+    private render() {
+        const state = this.cropped ? 'cropped' : 'editing'
+        this.querySelectorAll<HTMLElement>('[data-state]').forEach(
+            (element) => {
+                element.hidden = element.dataset.state !== state
+            },
+        )
+    }
+
+    private setLoading(isLoading: boolean) {
+        const loader = this.querySelector<HTMLElement>('[data-loader]')
+        if (loader) loader.hidden = !isLoading
+        this.toggleAttribute('aria-busy', isLoading)
+    }
+
+    /**
+     * JPEG, PNG and WebP keep their format; anything else (GIF, unknown) is saved as PNG.
+     */
+    private resolveOutputMimeType(mimeType: string): string {
+        return ['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)
+            ? mimeType
+            : 'image/png'
+    }
+
+    private getOverwriteFilename(): string {
+        const filename = this.getAttribute('filename') || 'image'
+        if (
+            this.outputMimeType !== 'image/png' ||
+            this.originalMimeType === 'image/png'
+        ) {
+            return filename
+        }
+
+        const extensionPosition = filename.lastIndexOf('.')
+        const basename =
+            extensionPosition > 0
+                ? filename.slice(0, extensionPosition)
+                : filename
+
+        return `${basename}.png`
+    }
+
+    private getErrorMessage(data: AdjustResponse): string {
+        const messages = Object.values(data.errors || {}).flat()
+
+        return messages.length ? messages.join(' ') : data.message || ''
+    }
+
+    private toast(message: string, status: 'success' | 'danger') {
+        window.dispatchEvent(
+            new CustomEvent('pushToast', { detail: { message, status } }),
+        )
+    }
+}
