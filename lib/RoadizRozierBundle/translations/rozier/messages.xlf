@@ -1226,6 +1226,8 @@
             <trans-unit xml:space="preserve" id="blanchetteEditor.undo"><source>blanchetteEditor.undo</source><note>Blanchette Editor message button label</note></trans-unit>
             <trans-unit xml:space="preserve" id="blanchetteEditor.aspectRatio"><source>blanchetteEditor.aspectRatio</source><note>Blanchette Editor message button label</note></trans-unit>
             <trans-unit xml:space="preserve" id="blanchetteEditor.saveAndOverwrite"><source>blanchetteEditor.saveAndOverwrite</source><note>Blanchette Editor message button label</note></trans-unit>
+            <trans-unit xml:space="preserve" id="blanchetteEditor.reset"><source>blanchetteEditor.reset</source><note>Blanchette Editor button resetting rotation, flip, zoom and crop box</note></trans-unit>
+            <trans-unit xml:space="preserve" id="blanchetteEditor.saveFailed"><source>blanchetteEditor.saveFailed</source><note>Blanchette Editor toast when saving the edited image fails</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="blanchetteEditor.other"><source>blanchetteEditor.other</source><note>Blanchette Editor aspect ratio group name</note></trans-unit>
             <trans-unit xml:space="preserve" id="blanchetteEditor.portrait"><source>blanchetteEditor.portrait</source><note>Blanchette Editor aspect ratio group name</note></trans-unit>

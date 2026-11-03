@@ -251,6 +251,23 @@ If a project template still renders `<drawer-container data-vuejs>` (copied from
 `widgets/drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
 `<rz-drawer>`, as `@RoadizRozier/widgets/drawer.html.twig` does.
 
+## ⚠ Rozier image editor no longer uses Vue
+
+`@RoadizRozier/documents/adjust.html.twig` now renders `<rz-image-editor>` instead of
+`<blanchette-editor-container data-vuejs>`. A project overriding this template must copy the new markup.
+
+Removed from the Rozier front-end:
+
+- `app/containers/BlanchetteEditorContainer.vue` and `app/components/BlanchetteToolbar.vue`
+- the `blanchetteEditor` Vuex module and the `BLANCHETTE_EDITOR_*` mutation types
+- the `vue-cropperjs` dependency
+
+Editor labels are no longer read from `window.RozierConfig.messages.blanchetteEditor`: override the
+`blanchetteEditor.*` translation keys instead.
+
+Edited JPEG and WebP images are now saved in their own format; they were converted to PNG and
+renamed to `.png`.
+
 ## New admin templates
 
 New reusable templates for building back-office pages:
