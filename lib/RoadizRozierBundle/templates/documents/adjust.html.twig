@@ -2,18 +2,8 @@
 
 {% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
-{% macro tool(action, title, icon, shortcut) %}
-    <button type="button"
-            class="rz-button"
-            data-action="{{ action }}"
-            title="{{ title|trans }} ({{ shortcut }})"
-            aria-label="{{ title|trans }}"
-            data-state="editing">
-        <span class="rz-button__icon {{ icon }}" aria-hidden="true"></span>
-    </button>
-{% endmacro %}
-
 {% block content %}
+    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
     <section class="content-global manage-document">
         {% include '@RoadizRozier/documents/head.html.twig' with {
             document: document,
@@ -28,14 +18,27 @@
                                  filename="{{ document.filename }}"
                                  mime-type="{{ document.mimeType }}">
                     <div class="rz-image-editor__toolbar rz-button-group">
-                        {{ _self.tool('drag-move', 'blanchetteEditor.move', 'rz-icon-ri--drag-move-2-line', 'M') }}
-                        {{ _self.tool('drag-crop', 'blanchetteEditor.crop', 'rz-icon-ri--crop-line', 'C') }}
-                        {{ _self.tool('zoom-in', 'blanchetteEditor.zoomIn', 'rz-icon-ri--zoom-in-line', 'I') }}
-                        {{ _self.tool('zoom-out', 'blanchetteEditor.zoomOut', 'rz-icon-ri--zoom-out-line', 'O') }}
-                        {{ _self.tool('rotate-left', 'blanchetteEditor.rotateLeft', 'rz-icon-ri--loop-left-line', 'L') }}
-                        {{ _self.tool('rotate-right', 'blanchetteEditor.rotateRight', 'rz-icon-ri--loop-right-line', 'R') }}
-                        {{ _self.tool('flip-horizontal', 'blanchetteEditor.flipHorizontal', 'rz-icon-ri--flip-horizontal-2-line', 'H') }}
-                        {{ _self.tool('flip-vertical', 'blanchetteEditor.flipVertical', 'rz-icon-ri--flip-vertical-2-line', 'V') }}
+                        {% for tool in [
+                            { action: 'drag-move', title: 'blanchetteEditor.move', icon: 'rz-icon-ri--drag-move-2-line', shortcut: 'M' },
+                            { action: 'drag-crop', title: 'blanchetteEditor.crop', icon: 'rz-icon-ri--crop-line', shortcut: 'C' },
+                            { action: 'zoom-in', title: 'blanchetteEditor.zoomIn', icon: 'rz-icon-ri--zoom-in-line', shortcut: 'I' },
+                            { action: 'zoom-out', title: 'blanchetteEditor.zoomOut', icon: 'rz-icon-ri--zoom-out-line', shortcut: 'O' },
+                            { action: 'rotate-left', title: 'blanchetteEditor.rotateLeft', icon: 'rz-icon-ri--loop-left-line', shortcut: 'L' },
+                            { action: 'rotate-right', title: 'blanchetteEditor.rotateRight', icon: 'rz-icon-ri--loop-right-line', shortcut: 'R' },
+                            { action: 'flip-horizontal', title: 'blanchetteEditor.flipHorizontal', icon: 'rz-icon-ri--flip-horizontal-2-line', shortcut: 'H' },
+                            { action: 'flip-vertical', title: 'blanchetteEditor.flipVertical', icon: 'rz-icon-ri--flip-vertical-2-line', shortcut: 'V' },
+                        ] %}
+                            {{ rz_button.root({
+                                icon: tool.icon,
+                                attributes: {
+                                    type: 'button',
+                                    title: tool.title|trans ~ ' (' ~ tool.shortcut ~ ')',
+                                    'aria-label': tool.title|trans,
+                                    'data-action': tool.action,
+                                    'data-state': 'editing',
+                                },
+                            }) }}
+                        {% endfor %}
 
                         <select class="rz-select rz-image-editor__select"
                                 data-aspect-ratio
@@ -57,19 +60,21 @@
                             </optgroup>
                         </select>
 
-                        <button type="button" class="rz-button" data-action="crop" data-state="editing">
-                            <span class="rz-button__label">{{ 'blanchetteEditor.applyChange'|trans }}</span>
-                            <span class="rz-button__icon rz-icon-ri--check-line" aria-hidden="true"></span>
-                        </button>
-
-                        <button type="button" class="rz-button" data-action="undo" data-state="cropped" hidden>
-                            <span class="rz-button__label">{{ 'blanchetteEditor.undo'|trans }}</span>
-                            <span class="rz-button__icon rz-icon-ri--arrow-go-back-line" aria-hidden="true"></span>
-                        </button>
-                        <button type="button" class="rz-button" data-action="overwrite" data-state="cropped" hidden>
-                            <span class="rz-button__label">{{ 'blanchetteEditor.saveAndOverwrite'|trans }}</span>
-                            <span class="rz-button__icon rz-icon-ri--save-line" aria-hidden="true"></span>
-                        </button>
+                        {{ rz_button.root({
+                            label: 'blanchetteEditor.applyChange',
+                            icon: 'rz-icon-ri--check-line',
+                            attributes: { type: 'button', 'data-action': 'crop', 'data-state': 'editing' },
+                        }) }}
+                        {{ rz_button.root({
+                            label: 'blanchetteEditor.undo',
+                            icon: 'rz-icon-ri--arrow-go-back-line',
+                            attributes: { type: 'button', 'data-action': 'undo', 'data-state': 'cropped', hidden: true },
+                        }) }}
+                        {{ rz_button.root({
+                            label: 'blanchetteEditor.saveAndOverwrite',
+                            icon: 'rz-icon-ri--save-line',
+                            attributes: { type: 'button', 'data-action': 'overwrite', 'data-state': 'cropped', hidden: true },
+                        }) }}
                     </div>
 
                     <div class="rz-image-editor__canvas">
