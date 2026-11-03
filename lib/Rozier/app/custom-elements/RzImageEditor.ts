@@ -42,6 +42,7 @@ const ASPECT_RATIOS: Record<string, number> = {
  * Expected children:
  * - `[data-image]`: the `<img>` to edit
  * - `[data-action="…"]`: toolbar buttons (see `ImageEditorAction`)
+ * - `[data-drag-mode="move|crop"]`: the drag mode buttons, marked selected for the current mode
  * - `[data-aspect-ratio]`: the aspect ratio `<select>` (`free` or `W:H`)
  * - `[data-state="editing"]` / `[data-state="cropped"]`: toolbar items shown in each state
  * - `[data-loader]`: shown while the image loads or saves
@@ -50,7 +51,7 @@ const ASPECT_RATIOS: Record<string, number> = {
  * Attributes: `filename` and `mime-type` of the document, `error-message` shown when a save
  * fails without a message from the server (network error, non-JSON response).
  *
- * Keyboard shortcuts while editing: Enter crops, Escape clears the crop box, arrows move
+ * Keyboard shortcuts, only while the pointer is over the editor or the focus inside it: Enter crops, Escape clears the crop box, arrows move
  * the image, C / M switch to crop / move, I / O zoom, L / R rotate, H / V flip.
  * Ctrl/Cmd + Z restores the original image.
  */
@@ -71,6 +72,7 @@ export default class RzImageEditor extends HTMLElement {
         this.onImageLoad = this.onImageLoad.bind(this)
         this.onImageError = this.onImageError.bind(this)
         this.onKeydown = this.onKeydown.bind(this)
+        this.syncDragMode = this.syncDragMode.bind(this)
     }
 
     connectedCallback() {
@@ -84,6 +86,8 @@ export default class RzImageEditor extends HTMLElement {
         this.outputMimeType = this.resolveOutputMimeType(this.originalMimeType)
 
         this.addEventListener('click', this.onClick)
+        // cropperjs toggles the drag mode on double click
+        this.addEventListener('dblclick', this.syncDragMode)
         this.querySelector('[data-aspect-ratio]')?.addEventListener(
             'change',
             this.onAspectRatioChange,
@@ -104,6 +108,7 @@ export default class RzImageEditor extends HTMLElement {
 
     disconnectedCallback() {
         this.removeEventListener('click', this.onClick)
+        this.removeEventListener('dblclick', this.syncDragMode)
         this.querySelector('[data-aspect-ratio]')?.removeEventListener(
             'change',
             this.onAspectRatioChange,
@@ -137,7 +142,10 @@ export default class RzImageEditor extends HTMLElement {
             aspectRatio: this.aspectRatio,
             viewMode: 1,
             zoomOnWheel: false,
-            ready: () => this.setLoading(false),
+            ready: () => {
+                this.setLoading(false)
+                this.syncDragMode()
+            },
         })
     }
 
@@ -254,9 +262,11 @@ export default class RzImageEditor extends HTMLElement {
 
         switch (action) {
             case 'drag-move':
-                return cropper.setDragMode('move')
+                cropper.setDragMode('move')
+                return this.syncDragMode()
             case 'drag-crop':
-                return cropper.setDragMode('crop')
+                cropper.setDragMode('crop')
+                return this.syncDragMode()
             case 'zoom-in':
                 return cropper.zoom(0.1)
             case 'zoom-out':
@@ -273,6 +283,12 @@ export default class RzImageEditor extends HTMLElement {
     }
 
     private onKeydown(event: KeyboardEvent) {
+        // The page has other keyboard users (dialogs, drawers, scroll): stay out of their way
+        // unless the editor is the one being used.
+        if (!this.matches(':hover') && !this.contains(document.activeElement)) {
+            return
+        }
+
         const target = event.target as Element | null
         if (target?.closest('input, select, textarea, [contenteditable]')) {
             return
@@ -337,6 +353,23 @@ export default class RzImageEditor extends HTMLElement {
         this.querySelectorAll<HTMLElement>('[data-state]').forEach(
             (element) => {
                 element.hidden = element.dataset.state !== state
+            },
+        )
+    }
+
+    /**
+     * Marks the drag mode button matching the cropper's current mode as selected.
+     */
+    private syncDragMode() {
+        const mode =
+            this.querySelector<HTMLElement>('.cropper-drag-box')?.dataset
+                .cropperAction || 'move'
+
+        this.querySelectorAll<HTMLElement>('[data-drag-mode]').forEach(
+            (button) => {
+                const isActive = button.dataset.dragMode === mode
+                button.classList.toggle('rz-button--selected', isActive)
+                button.setAttribute('aria-pressed', String(isActive))
             },
         )
     }

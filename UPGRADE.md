@@ -260,8 +260,11 @@ behaviour fixes:
 
 - JPEG and WebP images are saved in their own format under their own filename. The Vue editor never
   received the document MIME type, so it saved every edit as PNG and renamed the file to `.png`.
-- Undo needs Ctrl/Cmd + Z (plain Z used to undo), and keyboard shortcuts are ignored while typing
-  in a form field or when a modifier key is held.
+- Undo needs Ctrl/Cmd + Z (plain Z used to undo). Keyboard shortcuts only apply while the pointer
+  is over the editor or the focus is inside it, and never while typing in a form field or with a
+  modifier key held: arrows no longer block page scrolling elsewhere.
+- The image is capped at 70% of the viewport height, so the crop handles stay on screen, and the
+  current drag mode (move / crop) is shown as a selected button.
 - A failed save shows an error toast instead of failing silently.
 
 Removed from the Rozier front-end:

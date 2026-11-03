@@ -20,8 +20,8 @@
                                  error-message="{{ 'blanchetteEditor.saveFailed'|trans }}">
                     <div class="rz-image-editor__toolbar rz-button-group">
                         {% for tool in [
-                            { action: 'drag-move', title: 'blanchetteEditor.move', icon: 'rz-icon-ri--drag-move-2-line', shortcut: 'M' },
-                            { action: 'drag-crop', title: 'blanchetteEditor.crop', icon: 'rz-icon-ri--crop-line', shortcut: 'C' },
+                            { action: 'drag-move', title: 'blanchetteEditor.move', icon: 'rz-icon-ri--drag-move-2-line', shortcut: 'M', mode: 'move' },
+                            { action: 'drag-crop', title: 'blanchetteEditor.crop', icon: 'rz-icon-ri--crop-line', shortcut: 'C', mode: 'crop' },
                             { action: 'zoom-in', title: 'blanchetteEditor.zoomIn', icon: 'rz-icon-ri--zoom-in-line', shortcut: 'I' },
                             { action: 'zoom-out', title: 'blanchetteEditor.zoomOut', icon: 'rz-icon-ri--zoom-out-line', shortcut: 'O' },
                             { action: 'rotate-left', title: 'blanchetteEditor.rotateLeft', icon: 'rz-icon-ri--loop-left-line', shortcut: 'L' },
@@ -29,15 +29,27 @@
                             { action: 'flip-horizontal', title: 'blanchetteEditor.flipHorizontal', icon: 'rz-icon-ri--flip-horizontal-2-line', shortcut: 'H' },
                             { action: 'flip-vertical', title: 'blanchetteEditor.flipVertical', icon: 'rz-icon-ri--flip-vertical-2-line', shortcut: 'V' },
                         ] %}
+                            {% set attributes = {
+                                type: 'button',
+                                title: tool.title|trans ~ ' (' ~ tool.shortcut ~ ')',
+                                'aria-label': tool.title|trans,
+                                'data-action': tool.action,
+                                'data-state': 'editing',
+                            } %}
+                            {# The cropper starts in move mode #}
+                            {% set is_active_mode = tool.mode is defined and tool.mode == 'move' %}
+                            {% if tool.mode is defined %}
+                                {% set attributes = attributes|merge({
+                                    'aria-pressed': is_active_mode ? 'true' : 'false',
+                                    'data-drag-mode': tool.mode,
+                                }) %}
+                            {% endif %}
+                            {# --selected is only styled with an emphasis; secondary looks like the default #}
                             {{ rz_button.root({
                                 icon: tool.icon,
-                                attributes: {
-                                    type: 'button',
-                                    title: tool.title|trans ~ ' (' ~ tool.shortcut ~ ')',
-                                    'aria-label': tool.title|trans,
-                                    'data-action': tool.action,
-                                    'data-state': 'editing',
-                                },
+                                emphasis: tool.mode is defined ? 'secondary' : null,
+                                selected: is_active_mode,
+                                attributes: attributes,
                             }) }}
                         {% endfor %}
 
