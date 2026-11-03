@@ -20,8 +20,6 @@ type ImageEditorAction =
 interface AdjustResponse {
     message?: string
     path?: string
-    imageWidth?: number
-    imageHeight?: number
     errors?: Record<string, string[]>
 }
 
@@ -225,11 +223,6 @@ export default class RzImageEditor extends HTMLElement {
         }
 
         if (data.message) this.toast(data.message, 'success')
-
-        if (data.imageWidth !== undefined && data.imageHeight !== undefined) {
-            this.image.setAttribute('width', String(data.imageWidth))
-            this.image.setAttribute('height', String(data.imageHeight))
-        }
 
         this.originalUrl = data.path
         this.reloadOriginal()
