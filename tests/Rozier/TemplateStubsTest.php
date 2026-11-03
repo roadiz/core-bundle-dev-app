@@ -64,6 +64,45 @@ final class TemplateStubsTest extends KernelTestCase
         $this->assertSame('', trim($html));
     }
 
+    /**
+     * @group legacy
+     */
+    public function testFiltersBarStubKeepsItsBlocks(): void
+    {
+        $this->expectDeprecation('Since roadiz/rozier-bundle 2.8: The "@RoadizRozier/widgets/filtersBar.html.twig" template is deprecated%s');
+
+        $twig = $this->twig();
+        $template = $twig->createTemplate(<<<'TWIG'
+            {% embed '@RoadizRozier/widgets/filtersBar.html.twig' %}
+                {% block filter_search_form %}
+                    <select name="tag"></select>
+                    {{ parent() }}
+                {% endblock %}
+            {% endembed %}
+            TWIG);
+
+        $html = $template->render([
+            'filters' => [
+                'description' => null,
+                'searchDisable' => false,
+                'search' => 'castle',
+                'itemCount' => 40,
+                'itemPerPage' => 20,
+                'currentPage' => 1,
+                'pageCount' => 2,
+                'previousPageQuery' => null,
+                'nextPageQuery' => 'page=2',
+            ],
+        ]);
+
+        $this->assertStringContainsString('<rz-filters-bar>', $html);
+        $this->assertStringContainsString('<select name="tag">', $html);
+        $this->assertStringContainsString('name="search"', $html);
+        $this->assertStringContainsString('value="castle"', $html);
+        $this->assertStringContainsString('href="?page=2"', $html);
+        $this->assertStringContainsString('name="item_per_page"', $html);
+    }
+
     private function twig(): Environment
     {
         self::bootKernel();

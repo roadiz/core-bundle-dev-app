@@ -36,6 +36,10 @@ Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr
 +    filters: filters,
 +}) }}
 ```
+- `@RoadizRozier/widgets/filtersBar.html.twig` is a stub rendering the `rz-filters-bar` markup and triggers a
+  deprecation. Its `filter_content`, `filter_search_form` and `filter_pagination_form` blocks still work. Embed
+  `@RoadizRozier/ui/components/rz_filters_bar.html.twig` instead: it renders its own search field and submit button,
+  put extra filter fields in its `before_submit` block (see `templates/admin/article/list.html.twig` in the dev app).
 - UIkit menu icons (`uk-icon-*`) in `roadiz_rozier.entries` and their `subentries` are rendered as a generic
   icon (`rz-icon-ri--layout-grid-line`) and trigger a deprecation. See [Rozier menu icons changed](#rozier-menu-icons-changed).
 - `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem`: the `$home` and `$enabled` constructor arguments are
@@ -50,9 +54,6 @@ Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr
 
 - Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `ui/patterns/confirm_action.html.twig` instead
 - Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `ui/components/rz_tree.html.twig`; it now renders node, tag and folder trees alike
-- Removed `widgets/filtersBar.html.twig`, use `ui/components/rz_filters_bar.html.twig` instead. Its `filter_content`,
-  `filter_search_form` and `filter_pagination_form` blocks have no equivalent: put extra filter fields in the
-  `before_submit` block of `rz_filters_bar` (see `templates/admin/article/list.html.twig` in the dev app)
 - Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `ui/components/rz_tree.html.twig` instead
 
 ### Templates moved to the role-based tree

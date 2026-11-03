@@ -22,7 +22,8 @@ templates/
                       document_alignment
   <feature>/          pages and their local partials (nodes/, documents/, webhooks/…)
   widgets/            legacy only: trees until the Navigation zone replaces them,
-                      countFiltersBar kept for 2.7 projects
+                      countFiltersBar kept and filtersBar deprecated stub for 2.7
+                      projects
   admin/, includes/   deprecated stubs only, removed in 2.9
 ```
 
