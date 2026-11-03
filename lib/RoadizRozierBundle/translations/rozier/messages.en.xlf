@@ -4700,6 +4700,11 @@
         <target state="final">Save and override file</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="blanchetteEditor.saveFailed" approved="yes">
+        <source>blanchetteEditor.saveFailed</source>
+        <target state="final">The image could not be saved.</target>
+        <note>Blanchette Editor toast when saving the edited image fails</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="blanchetteEditor.other" approved="yes">
         <source>blanchetteEditor.other</source>
         <target state="final">Others</target>

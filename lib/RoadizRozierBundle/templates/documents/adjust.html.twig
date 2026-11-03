@@ -16,7 +16,8 @@
             {% if document and document.image %}
                 <rz-image-editor class="rz-image-editor"
                                  filename="{{ document.filename }}"
-                                 mime-type="{{ document.mimeType }}">
+                                 mime-type="{{ document.mimeType }}"
+                                 error-message="{{ 'blanchetteEditor.saveFailed'|trans }}">
                     <div class="rz-image-editor__toolbar rz-button-group">
                         {% for tool in [
                             { action: 'drag-move', title: 'blanchetteEditor.move', icon: 'rz-icon-ri--drag-move-2-line', shortcut: 'M' },
@@ -84,7 +85,7 @@
                         <img class="rz-image-editor__image"
                              data-image
                              src="{{ document|url({ 'noProcess': true }) }}"
-                             alt=""
+                             alt="{{ document.filename }}"
                              {% if document.imageWidth %}width="{{ document.imageWidth }}"{% endif %}
                              {% if document.imageHeight %}height="{{ document.imageHeight }}"{% endif %}>
                     </div>

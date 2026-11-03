@@ -47,7 +47,8 @@ const ASPECT_RATIOS: Record<string, number> = {
  * - `[data-loader]`: shown while the image loads or saves
  * - a `<form>`: the document file form, posted with the edited image
  *
- * Attributes: `filename` and `mime-type` of the document.
+ * Attributes: `filename` and `mime-type` of the document, `error-message` shown when a save
+ * fails without a message from the server (network error, non-JSON response).
  *
  * Keyboard shortcuts while editing: Enter crops, Escape clears the crop box, arrows move
  * the image, C / M switch to crop / move, I / O zoom, L / R rotate, H / V flip.
@@ -94,8 +95,10 @@ export default class RzImageEditor extends HTMLElement {
         this.syncStateVisibility()
         this.setLoading(true)
 
-        if (this.image.complete && this.image.naturalWidth > 0) {
-            this.onImageLoad()
+        // The image may have loaded, or failed, before the element upgraded (Lazyload).
+        if (this.image.complete) {
+            if (this.image.naturalWidth > 0) this.onImageLoad()
+            else this.onImageError()
         }
     }
 
@@ -147,6 +150,7 @@ export default class RzImageEditor extends HTMLElement {
         if (!this.cropper || !this.image) return
 
         const canvas = this.cropper.getCroppedCanvas(
+            // JPEG/WebP have no alpha channel: fill transparent areas left by rotation in white
             this.outputMimeType === 'image/png' ? {} : { fillColor: '#fff' },
         )
         // null until the cropper is ready
@@ -202,8 +206,7 @@ export default class RzImageEditor extends HTMLElement {
 
         if (!data.path) {
             this.setLoading(false)
-            const message = this.getErrorMessage(data)
-            if (message) this.toast(message, 'danger')
+            this.toast(this.getErrorMessage(data), 'danger')
             return
         }
 
@@ -374,7 +377,9 @@ export default class RzImageEditor extends HTMLElement {
     private getErrorMessage(data: AdjustResponse): string {
         const messages = Object.values(data.errors || {}).flat()
 
-        return messages.length ? messages.join(' ') : data.message || ''
+        if (messages.length) return messages.join(' ')
+
+        return data.message || this.getAttribute('error-message') || ''
     }
 
     private toast(message: string, status: 'success' | 'danger') {

@@ -1,10 +1,10 @@
 .rz-image-editor {
     display: block;
-    margin-bottom: 25px;
+    margin-bottom: var(--spacing-md);
 }
 
 .rz-image-editor__toolbar {
-    margin-block: 20px;
+    margin-block: var(--spacing-sm);
 
     /* [hidden] is a UA rule, beaten by the `display` of .rz-button and .rz-select */
     & [data-state][hidden] {
