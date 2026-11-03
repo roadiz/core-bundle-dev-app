@@ -61,6 +61,7 @@ export default class RzImageEditor extends HTMLElement {
     private image: HTMLImageElement | null = null
     private cropper: Cropper | null = null
     private cropped = false
+    private saving = false
     private aspectRatio = NaN
     private originalUrl = ''
     private originalMimeType = ''
@@ -192,7 +193,7 @@ export default class RzImageEditor extends HTMLElement {
     }
 
     private async overwrite() {
-        if (!this.cropped || !this.image) return
+        if (!this.cropped || !this.image || this.saving) return
 
         const form = this.querySelector('form')
         if (!form) return
@@ -205,6 +206,7 @@ export default class RzImageEditor extends HTMLElement {
         )
 
         this.setLoading(true)
+        this.setSaving(true)
 
         let data: AdjustResponse = {}
         try {
@@ -212,6 +214,8 @@ export default class RzImageEditor extends HTMLElement {
             data = await response.json()
         } catch (error) {
             console.error('RzImageEditor: saving the image failed', error)
+        } finally {
+            this.setSaving(false)
         }
 
         if (!data.path) {
@@ -291,6 +295,7 @@ export default class RzImageEditor extends HTMLElement {
     private onKeydown(event: KeyboardEvent) {
         // The page has other keyboard users (dialogs, drawers, scroll): stay out of their way
         // unless the editor is the one being used.
+        if (this.saving) return
         if (!this.matches(':hover') && !this.contains(document.activeElement)) {
             return
         }
@@ -379,6 +384,19 @@ export default class RzImageEditor extends HTMLElement {
                 button.setAttribute('aria-pressed', String(isActive))
             },
         )
+    }
+
+    /**
+     * Locks the toolbar while a save is in flight: a second click would post the file twice,
+     * and the server keeps one `original_…` copy per request.
+     */
+    private setSaving(isSaving: boolean) {
+        this.saving = isSaving
+        this.querySelectorAll<HTMLButtonElement | HTMLSelectElement>(
+            '.rz-image-editor__toolbar button, .rz-image-editor__toolbar select',
+        ).forEach((control) => {
+            control.disabled = isSaving
+        })
     }
 
     private setLoading(isLoading: boolean) {
