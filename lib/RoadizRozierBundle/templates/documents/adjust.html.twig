@@ -3,7 +3,7 @@
 {% block title %}{{ "edit.document.%name%"|trans({'%name%': document})|truncate_title }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
     <section class="content-global manage-document">
         {% include '@RoadizRozier/documents/head.html.twig' with {
             document: document,
