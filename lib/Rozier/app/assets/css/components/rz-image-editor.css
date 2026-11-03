@@ -1,0 +1,61 @@
+.rz-image-editor {
+    display: block;
+    margin-bottom: var(--spacing-md);
+}
+
+.rz-image-editor__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-block: var(--spacing-sm);
+
+    /* [hidden] is a UA rule, beaten by the `display` of .rz-button and .rz-select */
+    & [data-state][hidden] {
+        display: none;
+    }
+}
+
+.rz-image-editor__group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4xs);
+}
+
+/* Apply / reset, and undo / save once cropped, sit at the end of the toolbar */
+.rz-image-editor__actions {
+    margin-inline-start: auto;
+}
+
+.rz-image-editor__select {
+    --rz-input-width: auto;
+}
+
+.rz-image-editor__canvas {
+    position: relative;
+    overflow: hidden;
+}
+
+.rz-image-editor__loader {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--surface-light-primary, #fff) 50%, transparent);
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.rz-image-editor__image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    /* Keeps the crop handles on screen; portrait images get side margins instead */
+    max-height: 70vh;
+    height: auto;
+    margin: auto;
+}

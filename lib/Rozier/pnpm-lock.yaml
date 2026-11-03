@@ -65,9 +65,6 @@ importers:
       vue:
         specifier: 2.7.16
         version: 2.7.16
-      vue-cropperjs:
-        specifier: 2.1.0
-        version: 2.1.0(vue@2.7.16)
       vue2-dropzone:
         specifier: ^2.2.4
         version: 2.3.6
@@ -1106,9 +1103,6 @@ packages:
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
 
-  cropperjs@0.8.1:
-    resolution: {integrity: sha512-ClbOgGHiK0KQEdVboqbyDxKgMOtogBOhzBdqEMV3304IXZTo/ggAUUpfY0sfLs3ZuhMUpVUAhYZ3048uqigwag==}
-
   cropperjs@1.6.2:
     resolution: {integrity: sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==}
 
@@ -1658,10 +1652,6 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-
-  lodash.omit@4.5.0:
-    resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
-    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -2307,11 +2297,6 @@ packages:
         optional: true
       yaml:
         optional: true
-
-  vue-cropperjs@2.1.0:
-    resolution: {integrity: sha512-UUjC3+Q3IoHGLx8CJT/xUaLfHkpLYM7JYFyz6yYLGx0NMR4SttUOYI1EMMITshoR7nb3rjituz7pDJCdEVyJOQ==}
-    peerDependencies:
-      vue: '>=2.0.0'
 
   vue2-dropzone@2.3.6:
     resolution: {integrity: sha512-2UJuz2UYlmFGg/9kLS7fLHqYN8OCHbjZVWWB+2XIzULJ2H3MM98305KrzAY0jT1AaBP6g4xLxVL8rEJ5DT0bKA==}
@@ -3319,8 +3304,6 @@ snapshots:
   core-util-is@1.0.2:
     optional: true
 
-  cropperjs@0.8.1: {}
-
   cropperjs@1.6.2: {}
 
   cross-spawn@7.0.6:
@@ -3898,8 +3881,6 @@ snapshots:
       p-locate: 5.0.0
 
   lodash.merge@4.6.2: {}
-
-  lodash.omit@4.5.0: {}
 
   lodash@4.17.21: {}
 
@@ -4552,12 +4533,6 @@ snapshots:
       jiti: 2.6.1
       less: 2.7.3
       terser: 5.44.0
-
-  vue-cropperjs@2.1.0(vue@2.7.16):
-    dependencies:
-      cropperjs: 0.8.1
-      lodash.omit: 4.5.0
-      vue: 2.7.16
 
   vue2-dropzone@2.3.6:
     dependencies:
