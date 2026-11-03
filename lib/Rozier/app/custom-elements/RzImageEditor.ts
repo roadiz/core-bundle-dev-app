@@ -68,6 +68,7 @@ export default class RzImageEditor extends HTMLElement {
         this.onClick = this.onClick.bind(this)
         this.onAspectRatioChange = this.onAspectRatioChange.bind(this)
         this.onImageLoad = this.onImageLoad.bind(this)
+        this.onImageError = this.onImageError.bind(this)
         this.onKeydown = this.onKeydown.bind(this)
     }
 
@@ -87,9 +88,10 @@ export default class RzImageEditor extends HTMLElement {
             this.onAspectRatioChange,
         )
         this.image.addEventListener('load', this.onImageLoad)
+        this.image.addEventListener('error', this.onImageError)
         window.addEventListener('keydown', this.onKeydown)
 
-        this.render()
+        this.syncStateVisibility()
         this.setLoading(true)
 
         if (this.image.complete && this.image.naturalWidth > 0) {
@@ -104,6 +106,7 @@ export default class RzImageEditor extends HTMLElement {
             this.onAspectRatioChange,
         )
         this.image?.removeEventListener('load', this.onImageLoad)
+        this.image?.removeEventListener('error', this.onImageError)
         window.removeEventListener('keydown', this.onKeydown)
         this.stop()
     }
@@ -115,6 +118,10 @@ export default class RzImageEditor extends HTMLElement {
         if (this.cropped) return
 
         this.start()
+    }
+
+    private onImageError() {
+        this.setLoading(false)
     }
 
     private start() {
@@ -142,20 +149,32 @@ export default class RzImageEditor extends HTMLElement {
         const canvas = this.cropper.getCroppedCanvas(
             this.outputMimeType === 'image/png' ? {} : { fillColor: '#fff' },
         )
+        // null until the cropper is ready
+        if (!canvas) return
 
         this.stop()
         this.cropped = true
         this.image.src = canvas.toDataURL(this.outputMimeType)
-        this.render()
+        this.syncStateVisibility()
     }
 
     private undo() {
-        if (!this.cropped || !this.image) return
+        if (!this.cropped) return
+
+        this.reloadOriginal()
+    }
+
+    /**
+     * Shows the original image again (the saved one after an overwrite); the cropper
+     * restarts once it has loaded.
+     */
+    private reloadOriginal() {
+        if (!this.image) return
 
         this.cropped = false
         this.setLoading(true)
         this.image.src = this.originalUrl
-        this.render()
+        this.syncStateVisibility()
     }
 
     private async overwrite() {
@@ -196,7 +215,7 @@ export default class RzImageEditor extends HTMLElement {
         }
 
         this.originalUrl = data.path
-        this.undo()
+        this.reloadOriginal()
     }
 
     // TOOLBAR
@@ -310,7 +329,7 @@ export default class RzImageEditor extends HTMLElement {
 
     // HELPERS
 
-    private render() {
+    private syncStateVisibility() {
         const state = this.cropped ? 'cropped' : 'editing'
         this.querySelectorAll<HTMLElement>('[data-state]').forEach(
             (element) => {

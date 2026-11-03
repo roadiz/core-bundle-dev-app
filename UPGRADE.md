@@ -255,7 +255,14 @@ If a project template still renders `<drawer-container data-vuejs>` (copied from
 
 The document "adjust" screen (`@RoadizRozier/documents/adjust.html.twig`) now renders a
 `<rz-image-editor>` custom element: Twig renders the toolbar, the image and the file form, and the
-element drives `cropperjs` directly. Same tools, same save request.
+element drives `cropperjs` directly. The tools and the save endpoint are unchanged, with a few
+behaviour fixes:
+
+- JPEG and WebP images are saved in their own format under their own filename. The Vue editor never
+  received the document MIME type, so it saved every edit as PNG and renamed the file to `.png`.
+- Undo needs Ctrl/Cmd + Z (plain Z used to undo), and keyboard shortcuts are ignored while typing
+  in a form field or when a modifier key is held.
+- A failed save shows an error toast instead of failing silently.
 
 Removed from the Rozier front-end:
 

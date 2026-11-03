@@ -5,6 +5,11 @@
 
 .rz-image-editor__toolbar {
     margin-block: 20px;
+
+    /* [hidden] is a UA rule, beaten by the `display` of .rz-button and .rz-select */
+    & [data-state][hidden] {
+        display: none;
+    }
 }
 
 .rz-image-editor__select {
