@@ -253,32 +253,20 @@ If a project template still renders `<drawer-container data-vuejs>` (copied from
 
 ## ⚠ Rozier image editor no longer uses Vue
 
-The document "adjust" screen (`@RoadizRozier/documents/adjust.html.twig`) now renders a
-`<rz-image-editor>` custom element: Twig renders the toolbar, the image and the file form, and the
-element drives `cropperjs` directly. The tools and the save endpoint are unchanged, with a few
-behaviour fixes:
-
-- JPEG and WebP images are saved in their own format under their own filename. The Vue editor never
-  received the document MIME type, so it saved every edit as PNG and renamed the file to `.png`.
-- Undo needs Ctrl/Cmd + Z (plain Z used to undo). Keyboard shortcuts only apply while the pointer
-  is over the editor or the focus is inside it, and never while typing in a form field or with a
-  modifier key held: arrows no longer block page scrolling elsewhere.
-- The image is capped at 70% of the viewport height, so the crop handles stay on screen, and the
-  current drag mode (move / crop) is shown as a selected button.
-- A failed save shows an error toast instead of failing silently.
-- A new reset tool (key 0) clears rotation, flip, zoom, position and crop box before applying.
+`@RoadizRozier/documents/adjust.html.twig` now renders `<rz-image-editor>` instead of
+`<blanchette-editor-container data-vuejs>`. A project overriding this template must copy the new markup.
 
 Removed from the Rozier front-end:
 
-- `app/containers/BlanchetteEditorContainer.vue` (`<blanchette-editor-container>`) and
-  `app/components/BlanchetteToolbar.vue`
+- `app/containers/BlanchetteEditorContainer.vue` and `app/components/BlanchetteToolbar.vue`
 - the `blanchetteEditor` Vuex module and the `BLANCHETTE_EDITOR_*` mutation types
 - the `vue-cropperjs` dependency
 
-A project overriding `documents/adjust.html.twig` with `<blanchette-editor-container data-vuejs>`
-renders nothing anymore: copy the new markup from the bundle template instead. Toolbar labels now
-come from the `blanchetteEditor.*` translation keys rendered by Twig, no longer from
-`window.RozierConfig.messages.blanchetteEditor`.
+Editor labels are no longer read from `window.RozierConfig.messages.blanchetteEditor`: override the
+`blanchetteEditor.*` translation keys instead.
+
+Edited JPEG and WebP images are now saved in their own format; they were converted to PNG and
+renamed to `.png`.
 
 ## New admin templates
 
