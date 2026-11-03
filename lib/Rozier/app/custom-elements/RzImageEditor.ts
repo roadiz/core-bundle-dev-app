@@ -45,7 +45,7 @@ const ASPECT_RATIOS: Record<string, number> = {
  * - `[data-action="…"]`: toolbar buttons (see `ImageEditorAction`)
  * - `[data-drag-mode="move|crop"]`: the drag mode buttons, marked selected for the current mode
  * - `[data-aspect-ratio]`: the aspect ratio `<select>` (`free` or `W:H`)
- * - `[data-state="editing"]` / `[data-state="cropped"]`: toolbar items shown in each state
+ * - `[data-state="editing"]` / `[data-state="cropped"]`: toolbar items or groups shown in each state
  * - `[data-loader]`: shown while the image loads or saves
  * - a `<form>`: the document file form, posted with the edited image
  *

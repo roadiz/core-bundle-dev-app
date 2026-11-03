@@ -18,77 +18,104 @@
                                  filename="{{ document.filename }}"
                                  mime-type="{{ document.mimeType }}"
                                  error-message="{{ 'blanchetteEditor.saveFailed'|trans }}">
-                    <div class="rz-image-editor__toolbar rz-button-group">
-                        {% for tool in [
-                            { action: 'drag-move', title: 'blanchetteEditor.move', icon: 'rz-icon-ri--drag-move-2-line', shortcut: 'M', mode: 'move' },
-                            { action: 'drag-crop', title: 'blanchetteEditor.crop', icon: 'rz-icon-ri--crop-line', shortcut: 'C', mode: 'crop' },
-                            { action: 'zoom-in', title: 'blanchetteEditor.zoomIn', icon: 'rz-icon-ri--zoom-in-line', shortcut: 'I' },
-                            { action: 'zoom-out', title: 'blanchetteEditor.zoomOut', icon: 'rz-icon-ri--zoom-out-line', shortcut: 'O' },
-                            { action: 'rotate-left', title: 'blanchetteEditor.rotateLeft', icon: 'rz-icon-ri--loop-left-line', shortcut: 'L' },
-                            { action: 'rotate-right', title: 'blanchetteEditor.rotateRight', icon: 'rz-icon-ri--loop-right-line', shortcut: 'R' },
-                            { action: 'flip-horizontal', title: 'blanchetteEditor.flipHorizontal', icon: 'rz-icon-ri--flip-horizontal-2-line', shortcut: 'H' },
-                            { action: 'flip-vertical', title: 'blanchetteEditor.flipVertical', icon: 'rz-icon-ri--flip-vertical-2-line', shortcut: 'V' },
-                            { action: 'reset', title: 'blanchetteEditor.reset', icon: 'rz-icon-ri--arrow-go-back-line', shortcut: '0' },
+                    <div class="rz-image-editor__toolbar">
+                        {% set tool_groups = [
+                            { name: 'mode', tools: [
+                                { action: 'drag-move', title: 'blanchetteEditor.move', icon: 'rz-icon-ri--drag-move-2-line', shortcut: 'M', mode: 'move' },
+                                { action: 'drag-crop', title: 'blanchetteEditor.crop', icon: 'rz-icon-ri--crop-line', shortcut: 'C', mode: 'crop' },
+                            ] },
+                            { name: 'zoom', tools: [
+                                { action: 'zoom-in', title: 'blanchetteEditor.zoomIn', icon: 'rz-icon-ri--zoom-in-line', shortcut: 'I' },
+                                { action: 'zoom-out', title: 'blanchetteEditor.zoomOut', icon: 'rz-icon-ri--zoom-out-line', shortcut: 'O' },
+                            ] },
+                            { name: 'transform', tools: [
+                                { action: 'rotate-left', title: 'blanchetteEditor.rotateLeft', icon: 'rz-icon-ri--loop-left-line', shortcut: 'L' },
+                                { action: 'rotate-right', title: 'blanchetteEditor.rotateRight', icon: 'rz-icon-ri--loop-right-line', shortcut: 'R' },
+                                { action: 'flip-horizontal', title: 'blanchetteEditor.flipHorizontal', icon: 'rz-icon-ri--flip-horizontal-2-line', shortcut: 'H' },
+                                { action: 'flip-vertical', title: 'blanchetteEditor.flipVertical', icon: 'rz-icon-ri--flip-vertical-2-line', shortcut: 'V' },
+                            ] },
                         ] %}
-                            {% set attributes = {
-                                type: 'button',
-                                title: tool.title|trans ~ ' (' ~ tool.shortcut ~ ')',
-                                'aria-label': tool.title|trans,
-                                'data-action': tool.action,
-                                'data-state': 'editing',
-                            } %}
-                            {# The cropper starts in move mode #}
-                            {% set is_active_mode = tool.mode is defined and tool.mode == 'move' %}
-                            {% if tool.mode is defined %}
-                                {% set attributes = attributes|merge({
-                                    'aria-pressed': is_active_mode ? 'true' : 'false',
-                                    'data-drag-mode': tool.mode,
-                                }) %}
-                            {% endif %}
-                            {# --selected is only styled with an emphasis; secondary looks like the default #}
-                            {{ rz_button.root({
-                                icon: tool.icon,
-                                emphasis: tool.mode is defined ? 'secondary' : null,
-                                selected: is_active_mode,
-                                attributes: attributes,
-                            }) }}
+
+                        {% for group in tool_groups %}
+                            <div class="rz-image-editor__group" data-state="editing">
+                                <div class="rz-button-group rz-button-group--collapsed">
+                                    {% for tool in group.tools %}
+                                        {% set attributes = {
+                                            type: 'button',
+                                            title: tool.title|trans ~ ' (' ~ tool.shortcut ~ ')',
+                                            'aria-label': tool.title|trans,
+                                            'data-action': tool.action,
+                                        } %}
+                                        {# The cropper starts in move mode #}
+                                        {% set is_active_mode = tool.mode is defined and tool.mode == 'move' %}
+                                        {% if tool.mode is defined %}
+                                            {% set attributes = attributes|merge({
+                                                'aria-pressed': is_active_mode ? 'true' : 'false',
+                                                'data-drag-mode': tool.mode,
+                                            }) %}
+                                        {% endif %}
+                                        {# --selected is only styled with an emphasis; secondary looks like the default #}
+                                        {{ rz_button.root({
+                                            icon: tool.icon,
+                                            emphasis: tool.mode is defined ? 'secondary' : null,
+                                            selected: is_active_mode,
+                                            attributes: attributes,
+                                        }) }}
+                                    {% endfor %}
+                                </div>
+
+                                {% if group.name == 'mode' %}
+                                    <select class="rz-select rz-image-editor__select"
+                                            data-aspect-ratio
+                                            title="{{ 'blanchetteEditor.aspectRatio'|trans }}"
+                                            aria-label="{{ 'blanchetteEditor.aspectRatio'|trans }}">
+                                        <optgroup label="{{ 'blanchetteEditor.other'|trans }}">
+                                            <option value="free">{{ 'blanchetteEditor.free'|trans }}</option>
+                                            <option value="1:1">1:1</option>
+                                            <option value="4:3">4:3</option>
+                                        </optgroup>
+                                        <optgroup label="{{ 'blanchetteEditor.landscape'|trans }}">
+                                            <option value="16:9">16:9</option>
+                                            <option value="21:9">21:9</option>
+                                        </optgroup>
+                                        <optgroup label="{{ 'blanchetteEditor.portrait'|trans }}">
+                                            <option value="9:16">9:16</option>
+                                            <option value="9:21">9:21</option>
+                                        </optgroup>
+                                    </select>
+                                {% endif %}
+                            </div>
                         {% endfor %}
 
-                        <select class="rz-select rz-image-editor__select"
-                                data-aspect-ratio
-                                data-state="editing"
-                                title="{{ 'blanchetteEditor.aspectRatio'|trans }}"
-                                aria-label="{{ 'blanchetteEditor.aspectRatio'|trans }}">
-                            <optgroup label="{{ 'blanchetteEditor.other'|trans }}">
-                                <option value="free">{{ 'blanchetteEditor.free'|trans }}</option>
-                                <option value="1:1">1:1</option>
-                                <option value="4:3">4:3</option>
-                            </optgroup>
-                            <optgroup label="{{ 'blanchetteEditor.landscape'|trans }}">
-                                <option value="16:9">16:9</option>
-                                <option value="21:9">21:9</option>
-                            </optgroup>
-                            <optgroup label="{{ 'blanchetteEditor.portrait'|trans }}">
-                                <option value="9:16">9:16</option>
-                                <option value="9:21">9:21</option>
-                            </optgroup>
-                        </select>
+                        <div class="rz-image-editor__actions rz-button-group" data-state="editing">
+                            {{ rz_button.root({
+                                label: 'blanchetteEditor.reset',
+                                icon: 'rz-icon-ri--arrow-go-back-line',
+                                attributes: {
+                                    type: 'button',
+                                    title: 'blanchetteEditor.reset'|trans ~ ' (0)',
+                                    'data-action': 'reset',
+                                },
+                            }) }}
+                            {{ rz_button.root({
+                                label: 'blanchetteEditor.applyChange',
+                                icon: 'rz-icon-ri--check-line',
+                                attributes: { type: 'button', 'data-action': 'crop' },
+                            }) }}
+                        </div>
 
-                        {{ rz_button.root({
-                            label: 'blanchetteEditor.applyChange',
-                            icon: 'rz-icon-ri--check-line',
-                            attributes: { type: 'button', 'data-action': 'crop', 'data-state': 'editing' },
-                        }) }}
-                        {{ rz_button.root({
-                            label: 'blanchetteEditor.undo',
-                            icon: 'rz-icon-ri--arrow-go-back-line',
-                            attributes: { type: 'button', 'data-action': 'undo', 'data-state': 'cropped', hidden: true },
-                        }) }}
-                        {{ rz_button.root({
-                            label: 'blanchetteEditor.saveAndOverwrite',
-                            icon: 'rz-icon-ri--save-line',
-                            attributes: { type: 'button', 'data-action': 'overwrite', 'data-state': 'cropped', hidden: true },
-                        }) }}
+                        <div class="rz-image-editor__actions rz-button-group" data-state="cropped" hidden>
+                            {{ rz_button.root({
+                                label: 'blanchetteEditor.undo',
+                                icon: 'rz-icon-ri--arrow-go-back-line',
+                                attributes: { type: 'button', 'data-action': 'undo' },
+                            }) }}
+                            {{ rz_button.root({
+                                label: 'blanchetteEditor.saveAndOverwrite',
+                                icon: 'rz-icon-ri--save-line',
+                                attributes: { type: 'button', 'data-action': 'overwrite' },
+                            }) }}
+                        </div>
                     </div>
 
                     <div class="rz-image-editor__canvas">

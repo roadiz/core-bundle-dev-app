@@ -4,12 +4,27 @@
 }
 
 .rz-image-editor__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-xs);
     margin-block: var(--spacing-sm);
 
     /* [hidden] is a UA rule, beaten by the `display` of .rz-button and .rz-select */
     & [data-state][hidden] {
         display: none;
     }
+}
+
+.rz-image-editor__group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4xs);
+}
+
+/* Apply / reset, and undo / save once cropped, sit at the end of the toolbar */
+.rz-image-editor__actions {
+    margin-inline-start: auto;
 }
 
 .rz-image-editor__select {
