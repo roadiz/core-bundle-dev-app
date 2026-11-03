@@ -48,6 +48,7 @@ final class TemplateStubsTest extends KernelTestCase
 
         $this->assertStringContainsString('ordering=DESC', html_entity_decode($html));
         $this->assertStringContainsString('class="rz-link active', $html);
+        $this->assertStringContainsString('rz-table__ordering-link', $html);
         $this->assertStringContainsString('Title', $html);
     }
 
