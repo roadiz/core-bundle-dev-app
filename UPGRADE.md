@@ -15,8 +15,10 @@
 
 Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr/0002-avoid-breaking-changes.md)).
 
-- `@RoadizRozier/admin/base.html.twig` is a stub extending `@RoadizRozier/ui/layouts/admin.html.twig` and triggers a deprecation:
-  extend the new path. See [Templates moved to the role-based tree](#templates-moved-to-the-role-based-tree).
+- `@RoadizRozier/admin/base.html.twig` is a stub extending `@RoadizRozier/ui/layouts/admin.html.twig` and triggers a deprecation.
+  It still renders the 2.7 `content_title`, `content_sub_title`, `content_count_filters`, `content_header_actions` and
+  `content_header_nav` blocks in the new page header, unless the template overrides `header`; their 2.7 UIkit markup is no longer styled. Extend the new path and
+  move those blocks to `header` (see the migration below). See [Templates moved to the role-based tree](#templates-moved-to-the-role-based-tree).
 - `@RoadizRozier/admin/bulk_actions.html.twig` is a stub including `@RoadizRozier/ui/patterns/bulk_actions.html.twig` and
   triggers a deprecation: include the new path.
 - `@RoadizRozier/includes/column_ordering.html.twig` is a stub calling the `column_ordering` macro of
@@ -70,8 +72,6 @@ What may still break in a project, and how to check it:
   `ui/layouts/admin.html.twig`), then compare it with the new template: overriding a template other than
   `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` is not a supported mechanism, and its
   content may have changed.
-- **Templates extending `admin/base.html.twig` through its stub** still need the block migration below
-  (`content_title`, `content_header_nav`… replaced by `header`).
 - **Projects following the unreleased 2.8 development branch**: every template path added since 2.7.54 moved too
   (`macros/rz_*`, `includes/rz_*`, `widgets/rz_*`, `layouts/`, `patterns/`, `components/` → `ui/…`), without a stub.
 
@@ -103,7 +103,7 @@ These 2.7 templates were internal: they move without a stub. Update every `inclu
 
 Removed 2.7 templates, unused by the backoffice: `admin/blocks/adminImage.html.twig`, `admin/blocks/loginImage.html.twig`, `custom-form-fields/ajaxEditBase.html.twig`, `documents/backLink.html.twig`, `documents/itemPerPage.html.twig`, `login/check.html.twig`, `nodes/widgets/node-header.html.twig`, `tags/navBack.html.twig`, `widgets/backlink.html.twig`, `widgets/itemPerPage.html.twig`, `widgets/versionItem.html.twig`.
 
-For Twig templates using `@RoadizRozier/admin/base.html.twig` (now `@RoadizRozier/ui/layouts/admin.html.twig`) as parent template, make sure to update
+For Twig templates using `@RoadizRozier/admin/base.html.twig` (now `@RoadizRozier/ui/layouts/admin.html.twig`) as parent template, before 2.9 make sure to update
 - `content_title`
 - `content_sub_title`
 - `content_count_filters`

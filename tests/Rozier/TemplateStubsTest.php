@@ -29,6 +29,30 @@ final class TemplateStubsTest extends KernelTestCase
     }
 
     /**
+     * renderBlock() skips the stub body, so its deprecation is not triggered here.
+     */
+    public function testAdminBaseRendersThe27HeaderBlocks(): void
+    {
+        $twig = $this->twig();
+        $template = $twig->createTemplate(<<<'TWIG'
+            {% extends '@RoadizRozier/admin/base.html.twig' %}
+            {% block content_title %}Bulk delete{% endblock %}
+            {% block content_sub_title %}<p>Sub title</p>{% endblock %}
+            {% block content_header_actions %}<a href="/add">Add</a>{% endblock %}
+            {% block content_header_nav %}<a href="/back">Back</a>{% endblock %}
+            TWIG);
+
+        $html = $template->renderBlock('header', ['filters' => ['itemCount' => 3]]);
+
+        $this->assertStringContainsString('class="rz-page-header"', $html);
+        $this->assertMatchesRegularExpression('#<h1 class="rz-page-header__title[^"]*">\s*Bulk delete\s*</h1>#', $html);
+        $this->assertStringContainsString('<p>Sub title</p>', $html);
+        $this->assertStringContainsString('<a href="/add">Add</a>', $html);
+        $this->assertStringContainsString('<a href="/back">Back</a>', $html);
+        $this->assertStringContainsString('rz-badge', $html);
+    }
+
+    /**
      * @group legacy
      */
     public function testColumnOrderingStubRendersTheRzTableMacro(): void
