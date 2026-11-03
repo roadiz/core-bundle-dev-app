@@ -266,6 +266,7 @@ behaviour fixes:
 - The image is capped at 70% of the viewport height, so the crop handles stay on screen, and the
   current drag mode (move / crop) is shown as a selected button.
 - A failed save shows an error toast instead of failing silently.
+- A new reset tool (key 0) clears rotation, flip, zoom, position and crop box before applying.
 
 Removed from the Rozier front-end:
 

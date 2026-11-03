@@ -12,6 +12,7 @@ type ImageEditorAction =
     | 'rotate-right'
     | 'flip-horizontal'
     | 'flip-vertical'
+    | 'reset'
     | 'crop'
     | 'undo'
     | 'overwrite'
@@ -52,7 +53,8 @@ const ASPECT_RATIOS: Record<string, number> = {
  * fails without a message from the server (network error, non-JSON response).
  *
  * Keyboard shortcuts, only while the pointer is over the editor or the focus inside it: Enter crops, Escape clears the crop box, arrows move
- * the image, C / M switch to crop / move, I / O zoom, L / R rotate, H / V flip.
+ * the image, C / M switch to crop / move, I / O zoom, L / R rotate, H / V flip, 0 resets
+ * rotation, flip, zoom, position and crop box.
  * Ctrl/Cmd + Z restores the original image.
  */
 export default class RzImageEditor extends HTMLElement {
@@ -279,6 +281,10 @@ export default class RzImageEditor extends HTMLElement {
                 return cropper.scaleX(-cropper.getData().scaleX || -1)
             case 'flip-vertical':
                 return cropper.scaleY(-cropper.getData().scaleY || -1)
+            case 'reset':
+                cropper.reset()
+                cropper.clear()
+                return
         }
     }
 
@@ -341,6 +347,7 @@ export default class RzImageEditor extends HTMLElement {
             r: 'rotate-right',
             h: 'flip-horizontal',
             v: 'flip-vertical',
+            0: 'reset',
         }
         const action = shortcuts[event.key.toLowerCase()]
         if (action) this.runAction(action)
