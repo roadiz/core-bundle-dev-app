@@ -1,7 +1,8 @@
+{# rz-breadcrumb: options = RzBreadcrumbOptions (storybook/renderer/rzBreadcrumb.ts), story Components/Navigation/Breadcrumb #}
 {#
     Breadcrumb trail.
 
-    breadcrumb:
+    options:
     - parents (optional): ancestors, from the root down. Each entry is a hash
       {label, url} or an entity supported by a BreadcrumbsItemFactory.
     - current (required): label of the current page, rendered as plain text.
@@ -24,15 +25,15 @@
     A section head keeps a `breadcrumb` its caller already composed: that is how
     ui/patterns/confirm_action.html.twig puts the deleted item and its ancestry above its own title.
 #}
-{% macro root(breadcrumb) %}
-    {% set parents = breadcrumb.parents|default([]) %}
+{% macro root(options = {}) %}
+    {% set parents = options.parents|default([]) %}
     {# Counts ancestors only, the current page excluded. #}
     {% set max_visible = 6 %}
     {# Root and last ancestor never fold; everything in between is the popover's to manage. #}
     {% set middle = parents|length > 2 ? parents|slice(1, parents|length - 2) : [] %}
     {% set folded_count = max(0, parents|length - max_visible) %}
 
-    <nav class="rz-breadcrumb" aria-label="{{ 'breadcrumb'|trans }}">
+    <nav class="rz-breadcrumb" aria-label="{{ options.ariaLabel|default('breadcrumb'|trans) }}">
         <ol class="rz-breadcrumb__list">
             {% if middle is empty %}
                 {% for item in parents %}
@@ -49,11 +50,11 @@
                     responsive: true,
                     responsiveInline: middle|length - folded_count,
                     popover: {
-                        tagList: 'ul',
+                        listTag: 'ul',
                     },
                     button: {
                         label: '',
-                        ariaLabel: 'breadcrumb.show_more',
+                        ariaLabel: options.overflowLabel|default('breadcrumb.show_more'),
                     },
                 } only %}
                     {% block item %}
@@ -71,7 +72,7 @@
                 {{ _self.item(parents|last) }}
             {% endif %}
 
-            {{ _self.item({ label: breadcrumb.current }, true) }}
+            {{ _self.item({ label: options.current }, true) }}
         </ol>
     </nav>
 {% endmacro %}

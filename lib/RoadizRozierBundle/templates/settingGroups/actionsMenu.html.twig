@@ -5,7 +5,7 @@
 } only %}
     {% block items %}
         {% if item.getId %}
-            {{ _self.deleteItem(href: path('settingGroupsDeletePage', { id: item.getId})) }}
+            {{ _self.deleteItem({ attributes: { href: path('settingGroupsDeletePage', { id: item.getId}) } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

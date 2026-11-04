@@ -5,8 +5,8 @@
         {% block pre_content_body %}{% endblock %}
 
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: true,
-            actions_available: true,
+            selectionAvailable: true,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
                 {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
@@ -74,7 +74,7 @@
                     <tr
                      {{ _self.colored_row_attrs({'color': document.imageAverageColor }) }}
                     >
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                         <td>
 					        {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
                             {{ rz_bulk_actions.select_input({ value: document.id }) }}
@@ -92,8 +92,8 @@
                                 }) }}
                             {% endif %}
                             {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
                                     size: 'md',
                                 })}}
                             {% endif %}
@@ -128,9 +128,9 @@
                                     {% set iconName = 'documents' %}
                                 {% endif %}
                                 {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
-                                {{ rz_badge.item({
+                                {{ rz_badge.root({
                                     label: iconName,
-                                    icon: 'rz-icon-logo--' ~ iconName,
+                                    iconClass: 'rz-icon-logo--' ~ iconName,
                                     attributes: {
                                         title: document.embedPlatform|trans|capitalize,
                                     }
@@ -139,8 +139,8 @@
                         </td>
                         <td>
                             {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                'edit_href': path('documentsEditPage', { documentId: document.id }),
-                                'delete_href': path('documentsDeletePage', { documentId: document.id }),
+                                'editHref': path('documentsEditPage', { documentId: document.id }),
+                                'deleteHref': path('documentsDeletePage', { documentId: document.id }),
                             } %}
                         </td>
                     </tr>

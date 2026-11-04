@@ -10,7 +10,7 @@
 
 		{% if button %}
 		    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
-			{{ rz_button.root(button|merge({ class: 'rz-dashboard__header__button'})) }}
+			{{ rz_button.root(button|merge({ attributes: button.attributes|default({})|merge({ class: html_classes('rz-dashboard__header__button', button.attributes.class|default('')) }) })) }}
 		{% endif %}
 	</div>
 {% endmacro %}

@@ -33,10 +33,10 @@
     >
         {% embed '@RoadizRozier/ui/components/rz_tree_item.html.twig' with {
             item: tag,
-            has_children: children|length > 0,
-            icon_class: 'rz-icon-ri--price-tag-3-fill',
-            can_reorder: canReorder and not tag.isLocked,
-            has_selection: false,
+            hasChildren: children|length > 0,
+            iconClass: 'rz-icon-ri--price-tag-3-fill',
+            canReorder: canReorder and not tag.isLocked,
+            hasSelection: false,
             tagTree: tagTree,
             tagName: tagName,
             isMainTree: isMainTree,
@@ -50,11 +50,11 @@
                     {% set popover_id = 'tag-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ item.id %}
                     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--more-line',
+                        iconClass: 'rz-icon-ri--more-line',
                         size: 'sm',
                         emphasis: 'tertiary',
-                        class: 'tree-contextualmenu-button',
                         attributes: {
+                            class: 'tree-contextualmenu-button',
                             'aria-label': 'show.actions'|trans,
                             type: 'button',
                             popovertarget: popover_id,
@@ -62,31 +62,31 @@
                     })}}
                         {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                             targetId: popover_id,
-                            tagList: 'ul',
+                            listTag: 'ul',
                         } %}
                             {% block items %}
                                 {{ _self.item({
                                     label: 'edit.tag'|trans,
-                                    href: editUrl,
-                                    rightIcon: 'rz-icon-ri--edit-line',
+                                    rightIconClass: 'rz-icon-ri--edit-line',
                                     attributes: {
+                                        href: editUrl,
                                         title: "edit.tag.%name%"|trans({'%name%': tagName })
                                     }
                                 }) }}
                                 {{ _self.item({
                                     label: 'add.a.child.tag'|trans,
-                                    href: path('tagsAddChildPage', { tagId:item.id }),
-                                    rightIcon: 'rz-icon-ri--add-line',
+                                    rightIconClass: 'rz-icon-ri--add-line',
                                     attributes: {
+                                        href: path('tagsAddChildPage', { tagId:item.id }),
                                         title: "add.tag.%name%.child"|trans({'%name%': tagName})
                                     }
                                 }) }}
                                 {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not item.locked %}
                                     {{ _self.item({
                                         label: 'delete.tag'|trans,
-                                        href: path('tagsDeletePage', { tagId:item.id }) ,
-                                        rightIcon: 'rz-icon-ri--delete-bin-7-line',
+                                        rightIconClass: 'rz-icon-ri--delete-bin-7-line',
                                         attributes: {
+                                            href: path('tagsDeletePage', { tagId:item.id }),
                                             title: "delete.tag.%name%"|trans({'%name%': tagName })
                                         }
                                     }) }}

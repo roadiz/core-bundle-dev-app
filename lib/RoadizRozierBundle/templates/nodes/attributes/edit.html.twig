@@ -25,7 +25,7 @@
                 enabled: not order_by_weight,
                 url: path('attributeValuePositionAjax'),
             },
-            actions_available: true,
+            actionsAvailable: true,
         } %}
             {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
 
@@ -66,7 +66,7 @@
                                     'class': 'rz-form-field--head-hidden rz-form__field-list rz-form__field-list--horizontal',
                                 }}) }}
                                 {{ rz_button.root({
-                                    icon: 'rz-icon-ri--edit-line',
+                                    iconClass: 'rz-icon-ri--edit-line',
                                     label: 'edit'|trans,
                                     attributes: {
                                         type: 'submit',
@@ -78,15 +78,15 @@
                         <td>
                             {% set display_delete_button = translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
                             {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                delete_title: 'attributes.delete_value'|trans,
-                                delete_href: display_delete_button ? path('nodesDeleteAttributesPage', { nodeId : node.id, translationId : translation.id, attributeValueId : attributeValue.id }) : null,
-                                save_href: '#',
-                                save_class: 'rz-button-settings-save no-ajax-link',
+                                deleteTitle: 'attributes.delete_value'|trans,
+                                deleteHref: display_delete_button ? path('nodesDeleteAttributesPage', { nodeId : node.id, translationId : translation.id, attributeValueId : attributeValue.id }) : null,
+                                saveHref: '#',
+                                saveClass: 'rz-button-settings-save no-ajax-link',
                             } %}
                                 {% block other_actions %}
                                     {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
                                         {{ _self.button({
-                                            icon: 'rz-icon-ri--refresh-line',
+                                            iconClass: 'rz-icon-ri--refresh-line',
                                             attributes: {
                                                 href: path('nodesResetAttributesPage', {
                                                     nodeId : node.id,
@@ -104,8 +104,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 3,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_attributes',
                     }) }}
                 {% endfor %}
@@ -131,7 +131,7 @@
                         </td>
                         <td class="rz-table__cell--align-right">
                             {{ rz_button.root({
-                                icon: 'rz-icon-ri--add-line',
+                                iconClass: 'rz-icon-ri--add-line',
                                 emphasis: 'primary',
                                 size: 'md',
                                 attributes: {
@@ -151,7 +151,7 @@
     <hr />
     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
     {{ rz_button.root({
-        icon: 'rz-icon-ri--add-large-line',
+        iconClass: 'rz-icon-ri--add-large-line',
         label: 'add.a.attribute'|trans,
         attributes: {
             href: path('attributesAddPage', {

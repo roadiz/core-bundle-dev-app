@@ -26,7 +26,7 @@
         {{ form_start(form, { attr: { id: "edit-folder-form" }}) }}
             {{ form_widget(form) }}
             {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#edit-folder-form') }}
+            {{ actions_menu.saveItem({ dataActionSave: '#edit-folder-form' }) }}
         {{ form_end(form) }}
 
         <div class="content-table-cont metadata-list">

@@ -1,15 +1,15 @@
-
+{# rz-tree item row: embed vars = item, canReorder, iconClass, hasChildren, hasSelection (RzTreeItemOptions keys where they exist, storybook/renderer/rzTree.ts); blocks icon_content, label, before_actions, contextual_menu #}
 <div
     class="rz-tree__item__node__inner"
 >
-    {% if can_reorder %}
+    {% if canReorder|default(false) %}
         <span class="rz-tree__item__handle rz-icon-rz--draggable-2"></span>
     {% else %}
         <span class="rz-tree__item__handle rz-tree__item__handle-locked rz-icon-ri--lock-2-line"></span>
     {% endif %}
 
 
-    <div class="rz-node-icon rz-tree__item__icon {{ icon_class }}">
+    <div class="rz-node-icon rz-tree__item__icon {{ iconClass|default('') }}">
         {% block icon_content %}{% endblock %}
     </div>
 
@@ -23,15 +23,15 @@
 
     {% block before_actions %}{% endblock %}
 
-    {% if has_children %}
+    {% if hasChildren|default(false) %}
         {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
         {{
             rz_button.root({
                 emphasis: 'tertiary',
                 size: 'xs',
-                icon: 'rz-icon-ri--arrow-down-s-line',
-                class: 'rz-tree__item__expand-button',
+                iconClass: 'rz-icon-ri--arrow-down-s-line',
                 attributes: {
+                    class: 'rz-tree__item__expand-button',
                     type: 'button',
                     command: '--toggle-children',
                     'aria-expanded': 'false',
@@ -42,7 +42,7 @@
 
     {% block contextual_menu %}{% endblock %}
 
-    {% if has_selection %}
+    {% if hasSelection|default(false) %}
         <div class="nodetree-bulk-selection">
             {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
             {{ rz_bulk_actions.select_input({ value: item.id }) }}

@@ -13,7 +13,7 @@
     <section>
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             usages: usages,
-            actions_available: true,
+            actionsAvailable: true,
         } only %}
             {% block thead_cells %}
                 <th>{% trans %}node.name{% endtrans %}</th>
@@ -32,11 +32,11 @@
                             }) }}
                         </td>
                         <td>{{ usage.fieldName }}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'edit_href': edit_source_link,
-                                    'edit_icon': 'rz-icon-ri--eye-line',
+                                    'editHref': edit_source_link,
+                                    'editIconClass': 'rz-icon-ri--eye-line',
                                 } %}
                             </td>
                         {% endif %}
@@ -44,8 +44,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 2,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_results',
                     }) }}
                 {% endfor %}

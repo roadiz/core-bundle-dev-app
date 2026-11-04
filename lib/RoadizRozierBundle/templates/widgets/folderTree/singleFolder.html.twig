@@ -26,10 +26,10 @@
     >
         {% embed '@RoadizRozier/ui/components/rz_tree_item.html.twig' with {
             item: folder,
-            has_children: subFolders|length > 0,
-            icon_class: 'rz-icon-ri--folder-fill',
-            can_reorder: not folder.isLocked,
-            has_selection: false,
+            hasChildren: subFolders|length > 0,
+            iconClass: 'rz-icon-ri--folder-fill',
+            canReorder: not folder.isLocked,
+            hasSelection: false,
             folderTree: folderTree,
             folderName: folderName,
         } only %}
@@ -42,11 +42,11 @@
                     {% set popover_id = "folder-contextual-menu-" ~ item.id %}
                     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--more-line',
+                        iconClass: 'rz-icon-ri--more-line',
                         size: 'sm',
                         emphasis: 'tertiary',
-                        class: 'tree-contextualmenu-button',
                         attributes: {
+                            class: 'tree-contextualmenu-button',
                             'aria-label': 'show.actions'|trans,
                             type: 'button',
                             popovertarget: popover_id,
@@ -54,31 +54,31 @@
                     })}}
                         {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                             targetId: popover_id,
-                            tagList: 'ul',
+                            listTag: 'ul',
                         } %}
                             {% block items %}
                                 {{ _self.item({
                                     label: 'edit.folder'|trans,
-                                    href: path('foldersEditPage', { folderId: item.id }),
-                                    rightIcon: 'rz-icon-ri--edit-line',
+                                    rightIconClass: 'rz-icon-ri--edit-line',
                                     attributes: {
+                                        href: path('foldersEditPage', { folderId: item.id }),
                                         title: "edit.folder.%name%"|trans({'%name%': folderName })
                                     }
                                 }) }}
                                 {{ _self.item({
                                     label: 'add.child.folder'|trans,
-                                    href: path('foldersAddPage', { parentFolderId: item.id }),
-                                    rightIcon: 'rz-icon-ri--add-line',
+                                    rightIconClass: 'rz-icon-ri--add-line',
                                     attributes: {
+                                        href: path('foldersAddPage', { parentFolderId: item.id }),
                                         title: "add.folder.%name%.child"|trans({'%name%': folderName})
                                     }
                                 }) }}
                                 {% if not item.locked %}
                                     {{ _self.item({
                                         label: 'delete.folder'|trans,
-                                        href: path('foldersDeletePage', { folderId: item.id }) ,
-                                        rightIcon: 'rz-icon-ri--delete-bin-7-line',
+                                        rightIconClass: 'rz-icon-ri--delete-bin-7-line',
                                         attributes: {
+                                            href: path('foldersDeletePage', { folderId: item.id }),
                                             title: "delete.folder.%name%"|trans({'%name%': folderName })
                                         }
                                     }) }}

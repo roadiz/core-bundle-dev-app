@@ -51,7 +51,7 @@
                         'translationId': item.redirectNodeSource.translation.id
                     }) ~ '#manage-redirections' %}
                 {% endif %}
-                {% if selection_available %}
+                {% if selectionAvailable %}
                     <td>
                         {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
                         {{ rz_bulk_actions.select_input({ value: item.id }) }}
@@ -73,11 +73,11 @@
                 </td>
                 <td class="mobile-hidden">{{ item.typeAsString|trans }}</td>
                 <td class="mobile-hidden">{{ item.useCount }}</td>
-                {% if actions_available %}
+                {% if actionsAvailable %}
                     <td>
                         {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                            'edit_href': url,
-                            'delete_href':path('redirectionsDeletePage', { id: item.id }),
+                            'editHref': url,
+                            'deleteHref':path('redirectionsDeletePage', { id: item.id }),
                         } %}
                     </td>
                 {% endif %}
@@ -85,8 +85,8 @@
         {% else %}
             {{ _self.fallback_row({
                 length: 4,
-                selection_available: selection_available,
-                actions_available: actions_available,
+                selectionAvailable: selectionAvailable,
+                actionsAvailable: actionsAvailable,
                 message: 'no_redirections',
             }) }}
         {% endfor %}

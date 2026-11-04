@@ -13,7 +13,7 @@
             {% if filters is defined and filters.itemCount %}
                 {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
                 <div class="rz-page-header__item">
-                    {{ rz_badge.item({
+                    {{ rz_badge.root({
                         label: '%count%.items'|transchoice(filters.itemCount)|raw,
                         size: 'sm',
                         color: 'default'

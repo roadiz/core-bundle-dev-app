@@ -20,7 +20,7 @@
         {{ form_start(form, { attr: {id: 'edit-user-form'}}) }}
             {{ form_widget(form) }}
             {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#edit-user-form') }}
+            {{ actions_menu.saveItem({ dataActionSave: '#edit-user-form' }) }}
         {{ form_end(form) }}
     </article>
 

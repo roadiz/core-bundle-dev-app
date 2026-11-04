@@ -17,7 +17,7 @@
         {{ form_start(form, {attr:{id: 'edit-redirection-form'}}) }}
         {{ form_widget(form) }}
         {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#edit-redirection-form') }}
+        {{ actions_menu.saveItem({ dataActionSave: '#edit-redirection-form' }) }}
         {{ form_end(form) }}
     </article>
 

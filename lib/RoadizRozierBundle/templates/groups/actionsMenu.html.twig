@@ -5,7 +5,7 @@
 } only %}
     {% block items %}
         {% if is_granted('ROLE_ACCESS_GROUPS') and is_granted(item) and item.id %}
-            {{ _self.deleteItem(href: path('groupsDeletePage', { id: item.getId})) }}
+            {{ _self.deleteItem({ attributes: { href: path('groupsDeletePage', { id: item.getId}) } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

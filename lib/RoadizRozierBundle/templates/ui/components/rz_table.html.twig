@@ -1,30 +1,30 @@
-
+{# rz-table: embed vars (no renderer yet) = attributes, bordered, marginTop, tbodyAttributes, sortable {enabled, url, handleClass, dragCustomClass}, caption, selectionAvailable, actionsAvailable; blocks caption, thead, thead_cells, tbody_content, tfoot_content; story Components/Data display/Table #}
 {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attr %}
 {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
 
-{% set classes = ["rz-table"]|merge(attr.class is defined ? [attr.class] : []) %}
+{% set _table_attributes = attributes|default({}) %}
+{% set classes = ["rz-table"]|merge(_table_attributes.class is defined ? [_table_attributes.class] : []) %}
 {% set layout_class = bordered is defined and bordered ? 'rz-table--bordered' : 'rz-table--default' %}
 {% set classes = classes|merge([layout_class]) %}
-{% if margin_top is defined and margin_top %}
-	{% set classes = classes|merge(['rz-table--margin-top-' ~ margin_top]) %}
+{% if marginTop is defined and marginTop %}
+	{% set classes = classes|merge(['rz-table--margin-top-' ~ marginTop]) %}
 {% endif %}
 
 {% set column_ordering_class = 'rz-table__ordering-link' %}
-{% set _tbody_attributes = tbody_attributes|default({}) %}
-{% set _table_attributes = attr|default({}) %}
+{% set _tbody_attributes = tbodyAttributes|default({}) %}
 
 {% if sortable.enabled is defined and sortable.enabled is same as(true) %}
 	{% set _table_attributes = _table_attributes|merge({
 		'data-sortable': 'true',
 		'data-sortable-url': sortable.url,
-		'data-sortable-handle': sortable.handle_class,
-		'data-sortable-drag-class': sortable.drag_custom_class,
+		'data-sortable-handle': sortable.handleClass,
+		'data-sortable-drag-class': sortable.dragCustomClass,
 	}) %}
 {% endif %}
 
 {% set _thead_cells %}{% block thead_cells %}{% endblock %}{% endset %}
 {% set _has_thead_cells = _thead_cells|trim is not empty %}
-{% set has_thead_content = _has_thead_cells or selection_available %}
+{% set has_thead_content = _has_thead_cells or selectionAvailable|default(false) %}
 <div class="rz-table-container">
 	<table
 		is="rz-table"
@@ -39,13 +39,13 @@
 			{% if has_thead_content %}
 				<thead>
 					<tr>
-						{% if selection_available %}
+						{% if selectionAvailable|default(false) %}
 							<th>
 							{{ rz_bulk_actions.select_all_input() }}
 							</th>
 						{% endif %}
 						{{ _thead_cells|raw }}
-						{% if actions_available %}
+						{% if actionsAvailable|default(false) %}
 							<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
 						{% endif %}
 					</tr>
@@ -62,25 +62,24 @@
 	</table>
 </div>
 
-{% macro selection_input(selection_available, value, disabled = false) %}
-	{% set attrs = {} %}
-	{% if disabled is same as(true) %}
-		{% set attrs = attrs|merge({ disabled: '' }) %}
-	{% endif %}
-
-	{% if selection_available %}
+{# Twig-only options: selectionAvailable, value, disabled #}
+{% macro selection_input(options = {}) %}
+	{% if options.selectionAvailable|default(false) %}
 		{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
-		<td>{{ rz_bulk_actions.select_input({ value: value }|merge(attrs)) }}</td>
+		<td>{{ rz_bulk_actions.select_input({
+			value: options.value,
+			attributes: options.disabled|default(false) is same as(true) ? { disabled: '' } : {},
+		}) }}</td>
 	{% endif %}
 
 {% endmacro %}
 
 {% macro fallback_row(options) %}
 	{% set colspan = options.length|default(1) %}
-	{% if options.selection_available|default(false) %}
+	{% if options.selectionAvailable|default(false) %}
 		{% set colspan = colspan + 1 %}
 	{% endif %}
-	{% if options.actions_available|default(false) %}
+	{% if options.actionsAvailable|default(false) %}
 		{% set colspan = colspan + 1 %}
 	{% endif %}
 	<tr>
@@ -89,13 +88,15 @@
 {% endmacro %}
 
 
-{% macro colored_row_attrs(options = {}, attrs = {}) %}
+{# Twig-only options: color, entity (row aria-label), attributes #}
+{% macro colored_row_attrs(options = {}) %}
 	{% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+	{% set attrs = options.attributes|default({}) %}
 
-	{% if not options.color or options.color is empty %}
+	{% if options.color is not defined or not options.color %}
 		{{ el_attrs.print(attrs) }}
 	{% else %}
-		{% set aria_label = options.entity and options.entity is defined ? { 'aria-label': options.entity } : {} %}
+		{% set aria_label = options.entity is defined and options.entity ? { 'aria-label': options.entity } : {} %}
 		{% set color_style = options.color and options.color is not empty ? {'style': '--rz-table-row-color: ' ~ options.color ~ ';'} : {} %}
 		{% set classes = { class: attrs.class|default('') ~ ' rz-table__row--colored' } %}
 
@@ -151,10 +152,10 @@
             'ordering': 'ASC'
         }) %}
         {{ rz_link.root({
-            class: 'active ' ~ link_class,
             label: options.label ?? null,
-            icon: 'rz-icon-ri--arrow-down-s-fill',
+            iconClass: 'rz-icon-ri--arrow-down-s-fill',
             attributes: {
+                class: 'active ' ~ link_class,
                 href: '?' ~ localOrderingParams|url_encode,
                 title: 'sort_asc'|trans,
             }
@@ -165,10 +166,10 @@
             'ordering': 'DESC'
         }) %}
         {{ rz_link.root({
-            class: 'active ' ~ link_class,
             label: options.label ?? null,
-            icon: 'rz-icon-ri--arrow-up-s-fill',
+            iconClass: 'rz-icon-ri--arrow-up-s-fill',
             attributes: {
+                class: 'active ' ~ link_class,
                 href: '?' ~ localOrderingParams|url_encode,
                 title: 'sort_desc'|trans,
             }
@@ -179,10 +180,10 @@
             'ordering': 'ASC'
         }) %}
         {{ rz_link.root({
-            class: link_class,
             label: options.label ?? null,
-            content: '&bull;',
+            innerHTML: '&bull;',
             attributes: {
+                class: link_class,
                 href: '?' ~ localOrderingParams|url_encode,
                 title: 'sort_asc'|trans,
             }

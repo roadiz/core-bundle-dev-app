@@ -30,7 +30,7 @@
             }}
                 {{ form_widget(form) }}
                 {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-                {{ actions_menu.saveItem('#edit-nodetypedecorator-form') }}
+                {{ actions_menu.saveItem({ dataActionSave: '#edit-nodetypedecorator-form' }) }}
             {{ form_end(form) }}
         </article>
         {% include '@RoadizRozier/node-types-decorators/actionsMenu.html.twig' %}

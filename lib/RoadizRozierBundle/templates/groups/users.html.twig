@@ -13,8 +13,8 @@
 
     <article>
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
                 <th>{% trans %}user{% endtrans %}</th>
@@ -24,11 +24,11 @@
                 {% for user in item.getUsers %}
                 <tr>
                     <td>{{ user.userName }}</td>
-                    {% if actions_available %}
+                    {% if actionsAvailable %}
                         <td>
                             {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                'delete_href': path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }),
-                                'delete_title': 'unlink.user'|trans,
+                                'deleteHref': path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }),
+                                'deleteTitle': 'unlink.user'|trans,
                             } %}
                             {% endembed %}
                         </td>
@@ -45,7 +45,7 @@
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#' ~ field_id(form)) }}
+        {{ actions_menu.saveItem({ dataActionSave: '#' ~ field_id(form) }) }}
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/groups/actionsMenu.html.twig' %}

@@ -14,7 +14,7 @@
             attributes: {
                 href: path('customFormFieldsAddPage', {customFormId: customForm.id}),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
     } only %}
 
@@ -24,7 +24,7 @@
                 enabled: true,
                 url: path('customFormFieldPositionAjax'),
             },
-            actions_available: true,
+            actionsAvailable: true,
         }%}
             {% block thead_cells %}
                 <th>{% trans %}label{% endtrans %}</th>
@@ -54,8 +54,8 @@
                         <td class="mobile-hidden">
                             {% if field.required %}
                                 {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--asterisk',
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--asterisk',
                                     attributes: {
                                         title: 'required'|trans,
                                     }
@@ -64,16 +64,16 @@
                         </td>
                         <td>
                             {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                'edit_href': path('customFormFieldsEditPage', { customFormFieldId: field.getId }),
-                                'delete_href': path('customFormFieldsDeletePage', { customFormFieldId: field.getId }),
+                                'editHref': path('customFormFieldsEditPage', { customFormFieldId: field.getId }),
+                                'deleteHref': path('customFormFieldsDeletePage', { customFormFieldId: field.getId }),
                             } %}
                         </td>
                     </tr>
                     {% else %}
                         {{ _self.fallback_row({
                             length: 4,
-                            selection_available: selection_available,
-                            actions_available: actions_available,
+                            selectionAvailable: selectionAvailable,
+                            actionsAvailable: actionsAvailable,
                             message: 'no_questions',
                         }) }}
                     {% endfor %}

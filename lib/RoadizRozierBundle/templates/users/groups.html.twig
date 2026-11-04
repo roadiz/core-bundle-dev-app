@@ -16,8 +16,8 @@
 
     <section class="rz-page__body">
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
         }%}
             {% block thead_cells %}
                 <th>{% trans %}group{% endtrans %}</th>
@@ -26,7 +26,7 @@
             {% block tbody_content %}
                 {% for group in user.getGroups %}
                     <tr>
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                             <td>
                                 {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
                                 {{ rz_bulk_actions.select_input({ value: group.getId }) }}
@@ -39,14 +39,14 @@
                                 attributes: { href: path('groupsEditPage', { id: group.getId })  },
                             }) }}
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% if is_granted(group) %}
                                     {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                        'edit_href': path('groupsEditRolesPage', { id: group.getId }),
-                                        'edit_title': 'roles'|trans,
-                                        'delete_href': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
-                                        'delete_title': 'unlink'|trans,
+                                        'editHref': path('groupsEditRolesPage', { id: group.getId }),
+                                        'editTitle': 'roles'|trans,
+                                        'deleteHref': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
+                                        'deleteTitle': 'unlink'|trans,
                                     } only %}
                                 {% endif %}
                             </td>
@@ -55,8 +55,8 @@
                     {% else %}
                         {{ _self.fallback_row({
                             length: 1,
-                            selection_available: selection_available,
-                            actions_available: actions_available,
+                            selectionAvailable: selectionAvailable,
+                            actionsAvailable: actionsAvailable,
                             message: 'no_groups',
                         }) }}
                     {% endfor %}
@@ -74,7 +74,7 @@
                 {{ rz_button.root({
                     size: 'md',
                     label: 'add.group'|trans,
-                    icon: 'rz-icon-ri--add-line',
+                    iconClass: 'rz-icon-ri--add-line',
                     attributes: {
                         type: 'submit'
                     }

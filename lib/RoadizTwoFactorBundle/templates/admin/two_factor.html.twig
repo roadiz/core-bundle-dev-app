@@ -27,13 +27,13 @@
                 <div class="rz-button-group rz-button-group--gap-md">
                     {{
                         rz_button.root({
-                            tagName: 'a',
+                            tag: 'a',
                             attributes: {
                                 href:  path('usersHomePage'),
                             },
                             emphasis: 'secondary',
                             label: 'cancel',
-                            icon: 'rz-icon-ri--corner-down-left-line',
+                            iconClass: 'rz-icon-ri--corner-down-left-line',
                         })
                     }}
                     {{
@@ -43,7 +43,7 @@
                             },
                             emphasis: 'primary',
                             label: 'begin_activation'|trans,
-                            icon: 'rz-icon-ri--arrow-drop-right-line',
+                            iconClass: 'rz-icon-ri--arrow-drop-right-line',
                         })
                     }}
                 </div>
@@ -63,7 +63,7 @@
                             },
                             emphasis: 'primary',
                             label: 'submit_totp_code',
-                            icon: 'rz-icon-ri--arrow-drop-right-line',
+                            iconClass: 'rz-icon-ri--arrow-drop-right-line',
                         })
                     }}
                 </div>
@@ -78,25 +78,25 @@
                     <div class="rz-button-group rz-button-group--gap-md">
                         {{
                             rz_button.root({
-                                tagName: 'a',
+                                tag: 'a',
                                 attributes: {
                                     href:  path('2fa_admin_two_factor_backup_codes'),
                                 },
                                 emphasis: 'secondary',
                                 label: 'generate_backup_codes',
-                                icon: 'rz-icon-ri--corner-down-left-line',
+                                iconClass: 'rz-icon-ri--corner-down-left-line',
                             })
                         }}
                         {{
                             rz_button.root({
-                                tagName: 'a',
+                                tag: 'a',
                                 attributes: {
                                     href:  path('2fa_admin_two_factor_disable'),
                                 },
                                 emphasis: 'primary',
                                 color: 'danger',
                                 label: 'disable_two_factor_authentication',
-                                icon: 'rz-icon-ri--lock-2-line',
+                                iconClass: 'rz-icon-ri--lock-2-line',
                             })
                         }}
                     </div>

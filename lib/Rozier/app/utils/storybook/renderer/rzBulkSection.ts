@@ -12,7 +12,7 @@ export type RzBulkSectionItemOptions = {
 export type RzBulkSectionOptions = {
     items: RzBulkSectionItemOptions[]
     bulkActions: RzBulkActionsOptions
-    /** Select-all button of ui/components/rz_filters_bar.html.twig (`display_select_all_button`). */
+    /** Select-all button of ui/components/rz_filters_bar.html.twig (`displaySelectAllButton`). */
     selectAllButton?: boolean
 }
 

@@ -1,3 +1,4 @@
+{# rz-filters-bar: embed vars (no renderer yet) = filters, withFilterForm, displayLayoutFields, displaySelectAllButton; block before_submit; story Components/Data display/FiltersBar #}
 {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 <rz-filters-bar>
@@ -5,9 +6,9 @@
         <p class="rz-filters-bar__description">{{ filters.description }}</p>
     {% endif %}
 
-    {% if with_filter_form is not same as(false) %}
+    {% if withFilterForm|default(true) is not same as(false) %}
         <form method="get" class="rz-filters-bar__group">
-            {% if display_layout_fields %}
+            {% if displayLayoutFields|default(false) %}
                 {% set value = filters.layout ?? app.request.query.get('layout') %}
                 {{ _self.layout_fields(value) }}
             {% endif %}
@@ -28,10 +29,10 @@
                     },
                     emphasis: 'secondary',
                     label: 'filter'|trans,
-                    icon: 'rz-icon-ri--search-line'
+                    iconClass: 'rz-icon-ri--search-line'
                 })
             }}
-            {% if display_select_all_button %}
+            {% if displaySelectAllButton|default(false) %}
                 {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
                 {{ rz_bulk_actions.select_all_button() }}
             {% endif %}

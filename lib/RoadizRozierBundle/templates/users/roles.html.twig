@@ -31,8 +31,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 1,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_roles',
                     }) }}
                 {% endfor %}
@@ -43,8 +43,8 @@
 
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             userRoles: user.userRoles,
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
             caption: 'specific.roles.caption'|trans,
             userId: user.id,
         } only %}
@@ -56,12 +56,12 @@
                 {% for role in userRoles %}
                     <tr>
                         <td>{{ role }}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'edit_href': null,
-                                    'delete_href': is_granted(role) ? path('usersRemoveRolesPage', { userId: userId, role: role }) : null,
-                                    'delete_title': 'remove'|trans,
+                                    'editHref': null,
+                                    'deleteHref': is_granted(role) ? path('usersRemoveRolesPage', { userId: userId, role: role }) : null,
+                                    'deleteTitle': 'remove'|trans,
                                 } only %}
                             </td>
                         {% endif %}
@@ -69,8 +69,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 1,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_specific_roles',
                     }) }}
                 {% endfor %}
@@ -88,7 +88,7 @@
                 {{ rz_button.root({
                     size: 'md',
                     label: 'add.role'|trans,
-                    icon: 'rz-icon-ri--add-line',
+                    iconClass: 'rz-icon-ri--add-line',
                     attributes: {
                         type: 'submit'
                     }

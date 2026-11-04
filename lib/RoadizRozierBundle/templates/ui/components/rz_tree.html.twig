@@ -1,3 +1,4 @@
+{# rz-tree aside wrapper: rendered by the Ajax tree controllers and ui/patterns/aside with context vars tree, tree_type, mainTree, icon, linkedTypes, isMainTree (RzAsideTreeWrapperOptions, storybook/renderer/rzAside.ts), story Patterns/Aside #}
 {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 {% set type_prefix = tree_type|default('node') %}
@@ -6,13 +7,13 @@
 <div class="{{ root_classes|join(' ') }}">
     {% if not tree %}
 		{{ rz_button.root({
-			tagName: 'div',
+			tag: 'div',
 			label: 'loading'|trans,
 			emphasis: 'secondary',
 			size: 'md',
 			iconClass: 'rz-spinner',
-			class: 'rz-aside__loading-button',
 			attributes: {
+				class: 'rz-aside__loading-button',
 				'aria-live': 'polite',
 				'role': 'status',
 			}
@@ -59,23 +60,24 @@
             {% endif %}
 
             {{ rz_button.root({
-                icon: 'rz-icon-ri--add-line',
+                iconClass: 'rz-icon-ri--add-line',
                 size: 'sm',
                 label: btn_label,
-                class: 'rz-aside__button',
                 attributes: {
+                    class: 'rz-aside__button',
                     href: btn_href,
                 }
             }) }}
         </div>
 
 		{% if mainTree %}
-			{% include '@RoadizRozier/ui/components/rz_language_switcher.html.twig' with {
+			{% import '@RoadizRozier/ui/components/rz_language_switcher.html.twig' as rz_language_switcher %}
+			{{ rz_language_switcher.root({
 				tree: tree,
-				type_prefix: type_prefix,
-				classes: ['rz-aside__langs', type_prefix ~ '-tree-langs'],
-                btn_attr: { 'commandfor': 'rz-aside' },
-			} only %}
+				treeType: type_prefix,
+				attributes: { class: 'rz-aside__langs ' ~ type_prefix ~ '-tree-langs' },
+				buttonAttributes: { commandfor: 'rz-aside' },
+			}) }}
 		{% endif %}
 
 		{% set tree_wrapper_classes = ['rz-tree', 'rz-tree--' ~ type_prefix ] %}

@@ -53,13 +53,13 @@
             <div class="rz-button-group rz-button-group--gap-md">
                 {{
                     rz_button.root({
-                        tagName: 'a',
+                        tag: 'a',
                         attributes: {
                             href: cancelPath,
                         },
                         emphasis: 'secondary',
                         label: 'cancel',
-                        icon: 'rz-icon-ri--corner-down-left-line',
+                        iconClass: 'rz-icon-ri--corner-down-left-line',
                     })
                 }}
                 {{
@@ -70,15 +70,13 @@
                         emphasis: 'primary',
                         color: action_color|default('danger'),
                         label: action_label|default('delete'),
-                        icon: action_icon|default('rz-icon-ri--delete-bin-7-line'),
+                        iconClass: action_icon|default('rz-icon-ri--delete-bin-7-line'),
                     })
                 }}
             </div>
             {{ form_end(form) }}
 
             {% if items is defined and items|length > 0 %}
-                {% import '@RoadizRozier/ui/components/rz_card.html.twig' as card %}
-
                 <ul class="rz-delete-page__body rz-layout-grid">
                     {% for item in items %}
                         {% if item is iterable %}
@@ -86,10 +84,44 @@
                         {% else %}
                             {% set itemExplorer = getExplorerItem(item) %}
                         {% endif %}
-                        {{ card.render(itemExplorer, thumbnailFormat) }}
+                        {{ _self.explorer_card(itemExplorer, thumbnailFormat) }}
                     {% endfor %}
                 </ul>
             {% endif %}
         </article>
     </section>
 {% endblock %}
+
+{# Maps an explorer item (getExplorerItem) to the rz-card options #}
+{% macro explorer_card(item, thumbnailFormat) %}
+    {% import '@RoadizRozier/ui/components/rz_card.html.twig' as rz_card %}
+
+    {% set is_image = item.isImage is defined %}
+    {% set image = null %}
+    {% set badge = null %}
+
+    {% if item.thumbnail is defined and item.thumbnail is not empty %}
+        {% set image = { innerHTML: item.thumbnail|display(thumbnailFormat|merge({ class: 'rz-image rz-card__img' })) } %}
+    {% elseif item.pictureUrl is defined %}
+        {% if item.pictureUrl is null %}
+            {% set badge = { size: 'md', iconClass: 'rz-icon-ri--user-line' } %}
+        {% else %}
+            {% set image = { src: item.pictureUrl, alt: item.displayable|default('Thumbnail') } %}
+        {% endif %}
+    {% elseif item.thumbnail80 is defined %}
+        {% set image = { src: item.thumbnail80, alt: item.displayable|default('Thumbnail'), width: 110, height: 94 } %}
+        {% if item.isPrivate %}
+            {% set badge = { size: 'md', iconClass: 'rz-icon-ri--lock-2-line' } %}
+        {% elseif item.isPdf %}
+            {% set badge = { size: 'md', iconClass: 'rz-icon-ri--file-pdf-2-line' } %}
+        {% endif %}
+    {% endif %}
+
+    {{ rz_card.root({
+        tag: 'li',
+        overtitle: not is_image and item.classname is defined ? item.classname : null,
+        title: not is_image and item.displayable is defined ? item.displayable : null,
+        image: image,
+        badge: badge,
+    }) }}
+{% endmacro %}

@@ -1,3 +1,4 @@
+{# rz-repeatable: form widget partial, included by forms.html.twig with the form theme context (form, vars, label, attr, prototype…); no options hash yet, story Components/Form/Repeatable #}
 {% import "@RoadizRozier/ui/components/rz_form_field.html.twig" as rz_form_field %}
 {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
@@ -13,14 +14,14 @@
 			{% set label = name|humanize %}
 		{%- endif -%}
 		<div class="rz-form-field__head">
-			{{ rz_form_field.inner_head(label, label_attr, form, icon|default('rz-icon-ri--repeat-2-line'), attr, entityIds|length) }}
+			{{ rz_form_field.inner_head({ label: label, labelAttributes: label_attr, form: form, iconClass: icon|default('rz-icon-ri--repeat-2-line'), widgetAttributes: attr, itemsLength: entityIds|length }) }}
 
 			{{ rz_button.root({
 				label: 'repeatable.add'|trans,
-				icon: 'rz-icon-ri--add-line',
+				iconClass: 'rz-icon-ri--add-line',
 				size: 'sm',
-				class: 'rz-form-field__head__end',
 				attributes: {
+					class: 'rz-form-field__head__end',
 					type: 'button',
 					'command': '--add',
 					'commandfor': repeatable_id,
@@ -32,7 +33,7 @@
 		<template data-item="">
 			{{ _self.item({
 				repeatable_id: repeatable_id,
-				icon: icon|default(null),
+				iconClass: icon|default(null),
 				label: label,
 				content: data_prototype,
 			}) }}
@@ -44,7 +45,7 @@
                     {% for item in stored_items_form %}
                         {{ _self.item({
                             repeatable_id: repeatable_id,
-                            icon: icon|default(null),
+                            iconClass: icon|default(null),
                             label: label,
                             content: form_widget(item),
                         }) }}
@@ -53,7 +54,7 @@
 			</ol>
 			<div class="rz-repeatable__insert-zone">
 				{{ rz_button.root({
-					icon: 'rz-icon-ri--add-line',
+					iconClass: 'rz-icon-ri--add-line',
 					attributes: {
 						type: 'button',
 						'command': '--add',
@@ -75,14 +76,14 @@
     {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
     <li class="rz-repeatable__item">
         <div class="rz-repeatable__item__header">
-            {% set _icon = options.icon|default('rz-icon-ri--list-unordered') %}
+            {% set _icon = options.iconClass|default('rz-icon-ri--list-unordered') %}
             <span class="{{ _icon }}"></span>
             {% if options.label is not empty %}
                 <span class="rz-repeatable__item__title">{{ options.label|trans }}</span>
             {% endif %}
             <div class="rz-button-group rz-button-group--collapsed rz-repeatable__item--align-end">
                 {{ rz_button.root({
-                    icon: 'rz-icon-ri--arrow-up-line',
+                    iconClass: 'rz-icon-ri--arrow-up-line',
                     size: 'sm',
                     attributes: {
                         type: 'button',
@@ -93,7 +94,7 @@
                     },
                 }) }}
                 {{ rz_button.root({
-                    icon: 'rz-icon-ri--arrow-down-line',
+                    iconClass: 'rz-icon-ri--arrow-down-line',
                     size: 'sm',
                     attributes: {
                         type: 'button',
@@ -105,7 +106,7 @@
                 }) }}
             </div>
             {{ rz_button.root({
-                icon: 'rz-icon-ri--delete-bin-7-line',
+                iconClass: 'rz-icon-ri--delete-bin-7-line',
                 size: 'sm',
                 color: 'danger',
                 emphasis: 'primary',

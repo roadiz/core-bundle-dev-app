@@ -26,7 +26,7 @@
         }) }}
         {{ form_widget(form) }}
         {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#add-node-form') }}
+        {{ actions_menu.saveItem({ dataActionSave: '#add-node-form' }) }}
         {{ form_end(form) }}
     </section>
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}

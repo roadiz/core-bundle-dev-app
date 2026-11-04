@@ -18,7 +18,7 @@
         {{ form_start(form, { attr: { id: 'edit-translation-form'}}) }}
         {{ form_widget(form) }}
         {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#edit-translation-form') }}
+        {{ actions_menu.saveItem({ dataActionSave: '#edit-translation-form' }) }}
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/translations/actionsMenu.html.twig' %}

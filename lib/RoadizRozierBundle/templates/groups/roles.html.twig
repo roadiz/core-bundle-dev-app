@@ -14,8 +14,8 @@
 
     <article>
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
                 <th>{% trans %}role{% endtrans %}</th>
@@ -25,11 +25,11 @@
                 {%- for role in item.roles -%}
                     <tr>
                         <td>{{ role }}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'delete_href': is_granted(role) ? path('groupsRemoveRolesPage', { id: item.id, role: role }) : null,
-                                    'delete_title': 'unlink.role'|trans,
+                                    'deleteHref': is_granted(role) ? path('groupsRemoveRolesPage', { id: item.id, role: role }) : null,
+                                    'deleteTitle': 'unlink.role'|trans,
                                 } %}
                                 {% endembed %}
                             </td>
@@ -52,7 +52,7 @@
                 },
                 emphasis: 'primary',
                 label: 'add.role',
-                icon: 'rz-icon-ri--add-line',
+                iconClass: 'rz-icon-ri--add-line',
             })
             }}
         </div>

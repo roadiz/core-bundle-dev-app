@@ -68,10 +68,10 @@
 
                 {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                 {{ rz_button.root({
-                    class: 'rz-back-to-top-button',
-                    icon: 'rz-icon-ri--arrow-up-line',
+                    iconClass: 'rz-icon-ri--arrow-up-line',
                     size: 'xs',
                     attributes: {
+                        class: 'rz-back-to-top-button',
                         title: 'back_to.top'|trans,
                         'command': '--scroll-top',
                         'commandfor': 'rz-page',
@@ -103,10 +103,10 @@
                 buttons: [{
                     label: 'login',
                     iconClass: 'rz-icon-ri--arrow-right-s-line',
-                    class: 'rz-no-ajax-link',
                     emphasis: 'primary',
                     size: 'lg',
                     attributes: {
+                        class: 'rz-no-ajax-link',
                         href: path('loginPage') ~ '?_home=1',
                         autofocus: '',
                     },

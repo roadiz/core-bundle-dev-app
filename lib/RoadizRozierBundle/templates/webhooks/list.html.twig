@@ -12,23 +12,23 @@
             attributes: {
                 href: path('webhooksAddPage'),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
         breadcrumb: {
             current: 'webhooks'|trans,
         },
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: true,
-    }  only %}
+        displaySelectAllButton: true,
+    }  only %}{% endembed %}
     {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 
     <article>
         {% include '@RoadizRozier/webhooks/list_table.html.twig' with {
-            selection_available: hasBulkActions,
-            actions_available: true,
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
             filters: filters,
             items: items,
         } only %}

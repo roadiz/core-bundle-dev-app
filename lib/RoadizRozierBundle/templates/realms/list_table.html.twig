@@ -40,11 +40,11 @@
                 <td>{{ ('realm.' ~ item.type)|trans }}</td>
                 <td>{{ ('realm.behaviour_' ~ item.behaviour)|trans }}</td>
                 <td>{{ item.serializationGroup }}</td>
-                {% if actions_available %}
+                {% if actionsAvailable %}
                     <td>
                         {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                            'edit_href': path('realmsEditPage', { id: item.id }),
-                            'delete_href': path('realmsDeletePage', { id: item.id }),
+                            'editHref': path('realmsEditPage', { id: item.id }),
+                            'deleteHref': path('realmsDeletePage', { id: item.id }),
                         } %}
                     {% endembed %}
                     </td>
@@ -53,8 +53,8 @@
         {% else %}
             {{ _self.fallback_row({
                 length: 4,
-                selection_available: selection_available,
-                actions_available: actions_available,
+                selectionAvailable: selectionAvailable,
+                actionsAvailable: actionsAvailable,
                 message: 'no_realms',
             }) }}
         {% endfor %}

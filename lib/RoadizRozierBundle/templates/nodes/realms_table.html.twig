@@ -27,13 +27,13 @@
                 <td>{{ nodeRealm.realm.type ? ('realm.' ~ nodeRealm.realm.type)|trans : '' }}</td>
                 <td>{{ nodeRealm.realm.behaviour ? ('realm.behaviour_' ~ nodeRealm.realm.behaviour)|trans : '' }}</td>
                 <td>{{ ('realm_node.' ~ nodeRealm.inheritanceType)|trans }}</td>
-                 {% if actions_available %}
+                 {% if actionsAvailable %}
                     <td>
                         {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                            edit_href: path('realmsEditPage', {  id: nodeRealm.realm.id }),
-                            edit_title: 'edit.realm'|trans,
-                            delete_href: path('nodesRealmsDeletePage', { id: node.id, realmNodeId: nodeRealm.id }),
-                            delete_title: 'leave.realm'|trans,
+                            editHref: path('realmsEditPage', {  id: nodeRealm.realm.id }),
+                            editTitle: 'edit.realm'|trans,
+                            deleteHref: path('nodesRealmsDeletePage', { id: node.id, realmNodeId: nodeRealm.id }),
+                            deleteTitle: 'leave.realm'|trans,
                         } %}
                     </td>
                 {% endif %}
@@ -41,7 +41,7 @@
 		{% else %}
 			<tr>
                 {% set colspan = 4 %}
-                {% if actions_available %}
+                {% if actionsAvailable %}
                     {% set colspan = colspan + 1 %}
                 {% endif %}
 				<td colspan="{{ colspan }}">{% trans %}no_realm_found{% endtrans %}</td>

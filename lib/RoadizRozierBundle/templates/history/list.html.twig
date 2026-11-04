@@ -28,10 +28,10 @@
         },
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: false,
-    }  only %}
+        displaySelectAllButton: false,
+    }  only %}{% endembed %}
 
     <article>
         {% include '@RoadizRozier/history/list_table.html.twig' with {

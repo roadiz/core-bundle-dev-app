@@ -1,3 +1,4 @@
+{# rz-geotag (on rz-form-field): form widget partial, included by forms.html.twig with the form theme context (form, vars); no options hash yet (RzGeotagOptions, storybook/renderer/rzGeotag.ts), story Components/Form/Geotag #}
 {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 {% import "@RoadizRozier/ui/components/rz_form_field.html.twig" as rz_form_field %}
 
@@ -28,14 +29,13 @@
     {{ field_attributes|join(' ')|raw }}
 >
     <div class="rz-form-field__head">
-        {{ rz_form_field.inner_head(
-            vars.label,
-            { for: field_id },
-            form,
-            'rz-icon-ri--compass-3-line',
-            vars.attr,
-            0
-        ) }}
+        {{ rz_form_field.inner_head({
+            label: vars.label,
+            labelAttributes: { for: field_id },
+            form: form,
+            iconClass: 'rz-icon-ri--compass-3-line',
+            widgetAttributes: vars.attr,
+        }) }}
         <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
             {# Decode vars.value as JSON (assoc array) for clean access #}
             {% set geo = (vars.value is defined and vars.value) ? (vars.value|json_decode) : null %}
@@ -54,9 +54,9 @@
             >
             {{ rz_button.root({
                 size: 'sm',
-                icon: 'rz-icon-ri--search-line',
-                class: 'rz-form-field__head__button',
+                iconClass: 'rz-icon-ri--search-line',
                 attributes: {
+                    class: 'rz-form-field__head__button',
                     type: 'button',
                     id: field_id ~ '-search',
                     title: 'search.location'|trans,
@@ -68,9 +68,9 @@
                 size: 'sm',
                 color: 'danger',
                 emphasis: 'tertiary',
-                icon: 'rz-icon-ri--delete-bin-7-line',
-                class: 'rz-form-field__head__button',
+                iconClass: 'rz-icon-ri--delete-bin-7-line',
                 attributes: {
+                    class: 'rz-form-field__head__button',
                     type: 'button',
                     id: field_id ~ '-delete',
                     title: is_multiple ? 'delete.all_locations'|trans : 'delete.locations'|trans,
@@ -82,9 +82,7 @@
     </div>
 
     {%- if form.vars.help ?? false -%}
-        {{ rz_form_field.help(
-            form: form,
-        ) }}
+        {{ rz_form_field.help({ form: form }) }}
     {%- endif -%}
 
     <template data-item-detail>
@@ -137,9 +135,9 @@
         {{ rz_button.root({
             size: 'xs',
             emphasis: 'tertiary',
-            icon: 'rz-icon-ri--crosshair-line',
-            class: 'rz-geotag__item__button',
+            iconClass: 'rz-icon-ri--crosshair-line',
             attributes: {
+                class: 'rz-geotag__item__button',
                 type: 'button',
                 commandfor: component_id,
                 command: '--target-marker',
@@ -150,9 +148,9 @@
             size: 'xs',
             color: 'danger',
             emphasis: 'tertiary',
-            icon: 'rz-icon-ri--delete-bin-7-line',
-            class: 'rz-geotag__item__button',
+            iconClass: 'rz-icon-ri--delete-bin-7-line',
             attributes: {
+                class: 'rz-geotag__item__button',
                 type: 'button',
                 commandfor: component_id,
                 command: '--delete-marker',

@@ -31,7 +31,7 @@
 			<tr
 				{{ _self.colored_row_attrs({'color': item.color }) }}
 			>
-				{% if selection_available %}
+				{% if selectionAvailable %}
 					<td>
 						{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
 						{{ rz_bulk_actions.select_input({ value: item.id }) }}
@@ -50,15 +50,15 @@
 				<td>
 					<div class="rz-badge">{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers{% endtranschoice %}</div>
 				</td>
-				{% if actions_available %}
+				{% if actionsAvailable %}
 					<td>
 						{% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-							'edit_href': path('customFormsEditPage', { id: item.getId }),
-							'delete_href': path('customFormsDeletePage', { id: item.getId }),
+							'editHref': path('customFormsEditPage', { id: item.getId }),
+							'deleteHref': path('customFormsDeletePage', { id: item.getId }),
 						} %}
 							{% block other_actions %}
 								{{ _self.button({
-									icon: 'uk-icon-rz-custom-form-fields',
+									iconClass: 'uk-icon-rz-custom-form-fields',
 									attributes: {
 										href: path('customFormFieldsListPage', { customFormId: item.getId }),
 										title: 'manage.customFormFields'|trans,
@@ -66,7 +66,7 @@
 								}) }}
 
 								{{ _self.button({
-									icon: 'uk-icon-rz-custom-form-answers',
+									iconClass: 'uk-icon-rz-custom-form-answers',
 									attributes: {
 										href: path('customFormAnswersHomePage', { customFormId: item.getId }),
 										title: 'customForm.answers'|trans,
@@ -74,9 +74,9 @@
 								}) }}
 
 								{{ _self.button({
-									icon: 'uk-icon-rz-visibility',
-									class: 'rz-no-ajax-link',
+									iconClass: 'uk-icon-rz-visibility',
 									attributes: {
+										class: 'rz-no-ajax-link',
 										href: path('customFormSendAction', { customFormId: item.getId }),
 										title: 'customForm.show'|trans,
 										target: '_blank',
@@ -84,7 +84,7 @@
 								}) }}
 
 								{{ _self.button({
-									icon: 'uk-icon-rz-duplicate',
+									iconClass: 'uk-icon-rz-duplicate',
 									attributes: {
 										href: path('customFormsDuplicatePage', { id: item.getId }),
 										title: 'customForm.duplicate'|trans,
@@ -92,9 +92,9 @@
 								}) }}
 
 								{{ _self.button({
-									icon: 'uk-icon-rz-download',
-									class: 'rz-no-ajax-link',
+									iconClass: 'uk-icon-rz-download',
 									attributes: {
+										class: 'rz-no-ajax-link',
 										href: path('customFormsExportPage', { id: item.getId }),
 										title: 'export'|trans,
 									}
@@ -106,10 +106,10 @@
 			</tr>
 		{% else %}
 			{% set colspan = 3 %}
-			{% if actions_available %}
+			{% if actionsAvailable %}
 				{% set colspan = colspan + 1 %}
 			{% endif %}
-			{% if selection_available %}
+			{% if selectionAvailable %}
 				{% set colspan = colspan + 1 %}
 			{% endif %}
 			<tr><td colspan="{{ colspan }}">{% trans %}no_custom_forms{% endtrans %}</td></tr>

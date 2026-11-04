@@ -53,9 +53,9 @@
     } only %}
 
     {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
-        delete_form_data: deleteNodesForm|default(null),
-        delete_form_action: path('nodesBulkDeletePage'),
-        delete_form_method: 'post',
+        deleteFormData: deleteNodesForm|default(null),
+        deleteFormAction: path('nodesBulkDeletePage'),
+        deleteFormMethod: 'post',
         tagNodesForm: tagNodesForm,
         statusNodesForm: statusNodesForm,
     } only %}

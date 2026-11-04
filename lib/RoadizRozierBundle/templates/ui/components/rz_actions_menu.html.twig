@@ -1,68 +1,61 @@
-{% macro item(label, class, href, icon, attr = {} ) %}
-    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+{# rz-actions-menu: embed vars = RzActionsMenuOptions (storybook/renderer/rzActionsMenu.ts), item = RzActionsMenuItemOptions, story Components/Actions/ActionsMenu #}
+{#
+    Embedded: `vertical` and `class` follow RzActionsMenuOptions; the `items` block holds the items.
+    Items are icon-only buttons: `button.label` becomes their translated aria-label.
+#}
+{% macro item(options = {}) %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
 
-    {% set button_base_classes = 'rz-button rz-button--md rz-button--on-dark' %}
-    {% set extra_classes = '' %}
-    {% if class is not empty %}
-        {% set extra_classes = class %}
-    {% elseif attr.class is defined and attr.class is not empty %}
-        {% set extra_classes = attr.class %}
+    {% set button = options.button|default({}) %}
+    {% set attributes = button.attributes|default({}) %}
+    {% set aria_label = attributes['aria-label']|default(button.label|default('')) %}
+    {% if aria_label %}
+        {% set attributes = attributes|merge({ 'aria-label': aria_label|trans }) %}
     {% endif %}
-    {% set attrs = attr|merge({
-        class: button_base_classes ~ (extra_classes ? ' ' ~ extra_classes : ''),
-    }) %}
 
-    {% if href is defined and href %}
-        {% set attrs = attrs|merge({'href': href,  is: attr.is|default('rz-link') }) %}
+    {% set button_markup = rz_button.root({ size: 'md', onDark: true }|merge(button)|merge({
+        label: null,
+        attributes: attributes,
+    })) %}
+
+    {% if options.popoverContent is defined and options.popoverContent %}
+        <rz-popover data-popover-offset="24px" data-popover-placement="top-start">
+            {{ options.popoverContent|raw }}
+            {{ button_markup }}
+        </rz-popover>
     {% else %}
-        {% set attrs = attrs|merge({ is: attr.is|default('rz-button') }) %}
-    {% endif %}
-
-    {% set aria_label = attr['aria-label']|default(label) %}
-    {% if aria_label and aria_label != '' %}
-        {% set attrs = attrs|merge({ 'aria-label': aria_label|trans }) %}
-    {% endif %}
-
-    {% if href is defined and href %}
-        <a
-            {{ el_attrs.print(attrs) }}
-        >
-            <span class="rz-button__icon {{ icon }}"></span>
-        </a>
-    {% else %}
-        <button
-            {{ el_attrs.print(attrs) }}
-        >
-            <span class="rz-button__icon {{ icon }}"></span>
-        </button>
+        {{ button_markup }}
     {% endif %}
 {% endmacro %}
 
-{% macro saveItem(dataActionSave, label = 'save') %}
-    {{ _self.item(
-        class: 'rz-button--primary rz-button--success',
-        icon: 'rz-icon-ri--save-line',
-        attr: {
-            'is': 'rz-save-button',
-            'data-action-save': dataActionSave,
-            'type': 'submit',
-            'title': label|trans,
-        }
-    ) }}
+{# options = RzSaveButtonOptions (storybook/renderer/rzSaveButton.ts) #}
+{% macro saveItem(options = {}) %}
+    {{ _self.item({ button: {
+        emphasis: 'primary',
+        color: 'success',
+        iconClass: 'rz-icon-ri--save-line',
+        is: 'rz-save-button',
+        attributes: {
+            'data-action-save': options.dataActionSave,
+            type: 'submit',
+            title: options.label|default('save')|trans,
+        },
+    } }) }}
 {% endmacro %}
 
-{% macro deleteItem(label = 'delete', href, attr = {}) %}
-    {{ _self.item(
-        label: label,
-        class: 'rz-button--primary rz-button--danger',
-        href: href,
-        icon: 'rz-icon-ri--delete-bin-7-line',
-        attr: attr
-    ) }}
+{# Twig-only helper: `label` (aria-label, default "delete") and `attributes` (with `href`) of the delete button #}
+{% macro deleteItem(options = {}) %}
+    {{ _self.item({ button: {
+        label: options.label|default('delete'),
+        emphasis: 'primary',
+        color: 'danger',
+        iconClass: 'rz-icon-ri--delete-bin-7-line',
+        attributes: options.attributes|default({}),
+    } }) }}
 {% endmacro %}
 
 <rz-actions-menu
-    class="rz-actions-menu{{ vertical ? ' rz-actions-menu--vertical' : '' }}{{ class is defined and class ? ' ' ~ class : '' }}"
+    class="{{ html_classes('rz-actions-menu', class|default(''), { 'rz-actions-menu--vertical': vertical|default(false) }) }}"
     data-axis="y"
 >
     {% block items %}

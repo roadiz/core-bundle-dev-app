@@ -56,10 +56,10 @@
 
         {% embed '@RoadizRozier/ui/components/rz_tree_item.html.twig' with {
             item: node,
-            has_children: children is defined and children|length > 0,
-            icon_class: icon_class,
-            can_reorder: canReorder and not node.isLocked,
-            has_selection: layout == 'condensed' and not isMainTree and nodeTree.isStackTree,
+            hasChildren: children is defined and children|length > 0,
+            iconClass: icon_class,
+            canReorder: canReorder and not node.isLocked,
+            hasSelection: layout == 'condensed' and not isMainTree and nodeTree.isStackTree,
             nodeTree: nodeTree,
             isMainTree: isMainTree,
             contextual_menu_id: contextual_menu_id,
@@ -112,7 +112,7 @@
                             class: 'rz-tree__item__tags__popover',
                         },
                         button: {
-                            icon: 'rz-icon-ri--price-tag-3-line',
+                            iconClass: 'rz-icon-ri--price-tag-3-line',
                             size: 'sm',
                             emphasis: 'secondary',
                             ariaLabel: 'more.tags'|trans,
@@ -122,7 +122,7 @@
                             {% set label = item.name|default(item.tagName) %}
                             {% if item and label %}
                                 {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
-                                {{ rz_badge.item({
+                                {{ rz_badge.root({
                                     label: label,
                                     size: 'sm',
                                     color: 'default',
@@ -152,11 +152,11 @@
                 >
                     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--more-line',
+                        iconClass: 'rz-icon-ri--more-line',
                         size: 'sm',
                         emphasis: 'tertiary',
-                        class: 'tree-contextualmenu-button',
                         attributes: {
+                            class: 'tree-contextualmenu-button',
                             'aria-label': 'show.actions'|trans,
                             popovertarget: contextual_menu_id ~ '-popover',
                             type: 'button',

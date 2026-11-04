@@ -1,4 +1,4 @@
-{# rz-dialog: options = Args (storybook/renderer/rzDialog.ts), story Components/Overlay/Dialog #}
+{# rz-dialog: options = RzDialogOptions (storybook/renderer/rzDialog.ts), story Components/Overlay/Dialog #}
 {% macro root(options = {}) %}
     {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
@@ -81,8 +81,8 @@
         iconClass: closeIconClass,
         emphasis: 'tertiary',
         size: 'sm',
-        class: 'rz-dialog__close',
         attributes: {
+            class: 'rz-dialog__close',
             'aria-label': 'close'|trans,
             type: 'button',
             closetarget: '',

@@ -39,10 +39,10 @@
 
     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
     {{ rz_button.root({
-        class: 'document-alignment-widget__reset',
-        icon: 'rz-icon-ri--refresh-line',
+        iconClass: 'rz-icon-ri--refresh-line',
         label: 'document.imageAlignment.reset'|trans,
         attributes: {
+            class: 'document-alignment-widget__reset',
             type: 'button'
         }
     }) }}

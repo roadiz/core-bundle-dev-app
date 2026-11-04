@@ -12,7 +12,7 @@
 
     <section class="rz-page__body">
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            actions_available: true,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
                 <th>{% trans %}title{% endtrans %}</th>
@@ -29,12 +29,12 @@
                             <a href="{{ nodeHref }}">{{ nodeName }}</a>
                         </td>
                         <td>{{ usage.fieldName }}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'edit_href': nodeHref,
-                                    'edit_icon': 'rz-icon-ri--eye-line',
-                                    'edit_title': 'view.node'|trans,
+                                    'editHref': nodeHref,
+                                    'editIconClass': 'rz-icon-ri--eye-line',
+                                    'editTitle': 'view.node'|trans,
                                 } only %}
                             </td>
                         {% endif %}
@@ -42,8 +42,8 @@
                     {% else %}
                         {{ _self.fallback_row({
                             length: 2,
-                            selection_available: selection_available,
-                            actions_available: actions_available,
+                            selectionAvailable: selectionAvailable,
+                            actionsAvailable: actionsAvailable,
                             message: 'no_usages',
                         }) }}
                     {% endfor %}

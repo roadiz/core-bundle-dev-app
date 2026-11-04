@@ -1,3 +1,4 @@
+{# rz-bulk-actions: embed vars = deleteFormAction (RzBulkActionsOptions, storybook/renderer/rzBulkActions.ts) + Twig-only deleteFormMethod, deleteFormData, deleteTitle; blocks title_content, other_actions, delete_form, delete_form_content, panels #}
 {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 <rz-bulk-actions
@@ -18,24 +19,24 @@
 		{% block delete_form %}
 			<form
 				class="rz-bulk-actions__form-button"
-				action="{{ delete_form_action }}"
-				method="{{ delete_form_method|default('POST') }}"
+				action="{{ deleteFormAction|default('') }}"
+				method="{{ deleteFormMethod|default('POST') }}"
 			>
 				{% block delete_form_content %}
-					{% if delete_form_data %}
-						{% form_theme delete_form_data '@RoadizRozier/forms.html.twig' %}
-						{{ form_widget(delete_form_data) }}
+					{% if deleteFormData|default(null) %}
+						{% form_theme deleteFormData '@RoadizRozier/forms.html.twig' %}
+						{{ form_widget(deleteFormData) }}
 					{% endif %}
 				{% endblock %}
 				{{
 					rz_button.root({
 						attributes: {
 							type: 'submit',
-							title: title
+							title: deleteTitle|default('bulk.delete'|trans),
 						},
 						color: 'danger',
 						emphasis: 'primary',
-						icon: 'rz-icon-ri--delete-bin-7-line',
+						iconClass: 'rz-icon-ri--delete-bin-7-line',
 					})
 				}}
 			</form>
@@ -45,7 +46,8 @@
 	{% block panels %}{% endblock %}
 </rz-bulk-actions>
 
-{% macro select_all_button(attributes = {}) %}
+{# Sub-parts take `attributes`; select_input also takes `value` (RzBulkSectionItemOptions) #}
+{% macro select_all_button(options = {}) %}
     {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
         {{
             rz_button.root({
@@ -54,15 +56,15 @@
                     'aria-selected': 'false',
                     'data-bulk-select-all-button': '',
                     'selected-class': 'rz-button--selected',
-                },
+                }|merge(options.attributes|default({})),
                 emphasis: 'secondary',
                 label: 'select.all',
-                icon: 'rz-icon-ri--checkbox-line'
+                iconClass: 'rz-icon-ri--checkbox-line'
             })
         }}
 {% endmacro %}
 
-{% macro deselect_all_button(attributes = {}) %}
+{% macro deselect_all_button(options = {}) %}
     {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
     {{
         rz_button.root({
@@ -70,31 +72,32 @@
                 type: 'button',
                 title: "deselect.all"|trans,
                 'data-bulk-deselect-all-button': '',
-            },
+            }|merge(options.attributes|default({})),
             emphasis: 'primary',
-            icon: 'rz-icon-ri--checkbox-blank-line',
+            iconClass: 'rz-icon-ri--checkbox-blank-line',
         })
     }}
 {% endmacro %}
 
-{% macro select_all_input(attributes = {}) %}
+{% macro select_all_input(options = {}) %}
     {% import "@RoadizRozier/ui/utils/element_attributes.html.twig" as el_attr %}
     <input
         is="rz-input"
         type="checkbox"
         name="bulk-selection-all"
         aria-label="{{ "select.all"|trans }}"
-        {{ el_attr.print(attributes|default({})) }}
+        {{ el_attr.print(options.attributes|default({})) }}
     />
 {% endmacro %}
 
-{% macro select_input(attributes = {}) %}
+{% macro select_input(options = {}) %}
     {% import "@RoadizRozier/ui/utils/element_attributes.html.twig" as el_attr %}
     <input
         is="rz-input"
         type="checkbox"
         name="bulk-selection[]"
         aria-label="{{ "select.row"|trans }}"
-        {{ el_attr.print(attributes|default({})) }}
+        {% if options.value is defined %}value="{{ options.value }}"{% endif %}
+        {{ el_attr.print(options.attributes|default({})) }}
     />
 {% endmacro %}
