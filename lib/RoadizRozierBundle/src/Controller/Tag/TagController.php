@@ -306,9 +306,9 @@ final class TagController extends AbstractController
 
         $title = $this->translator->trans('delete.tags');
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
-            'headPath' => '@RoadizRozier/admin/head.html.twig',
+            'headPath' => '@RoadizRozier/ui/patterns/page_header.html.twig',
             'cancelPath' => $assignation['referer'] ?? $this->generateUrl('tagsHomePage'),
             'breadcrumb_parents' => [$this->breadcrumbRoots->get('tags')],
             'alertMessage' => 'are_you_sure.delete.these.tags',
@@ -497,7 +497,7 @@ final class TagController extends AbstractController
             ['%name%' => $tag->getTagName()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('tags', $tag),
             'headPath' => '@RoadizRozier/tags/head.html.twig',

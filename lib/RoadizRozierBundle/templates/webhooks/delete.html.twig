@@ -1,0 +1,14 @@
+{% include '@RoadizRozier/ui/patterns/confirm_action.html.twig' with {
+    'title': "delete.webhook.%name%"|trans({'%name%': item.getName()}),
+    'headPath': '@RoadizRozier/ui/patterns/page_header.html.twig',
+    'breadcrumb_parents': [
+        breadcrumb_root('webhooks'),
+        {
+            label: item.description,
+            url: path('webhooksEditPage', { id: item.id }),
+        },
+    ],
+    'cancelPath': path('webhooksHomePage'),
+    'alertMessage': 'are_you_sure.delete.webhook'|trans,
+    'form': form,
+} %}

@@ -265,7 +265,7 @@ final class NodesSourcesController extends AbstractController
 
         $title = $this->translator->trans('delete.translation');
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'subtitle' => $ns->getTitle().' - '.$ns->getTranslation()->getName(),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',

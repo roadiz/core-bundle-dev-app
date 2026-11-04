@@ -602,7 +602,7 @@ final class NodeController extends AbstractController
             ['%name%' => $node->getNodeName()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $node),
@@ -654,7 +654,7 @@ final class NodeController extends AbstractController
             $items[] = $this->explorerItemFactory->createForEntity($node)->toArray();
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $this->translator->trans('empty.node.trash'),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'messageType' => 'neutral',
@@ -821,7 +821,7 @@ final class NodeController extends AbstractController
             ['%name%' => $node->getNodeName()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'messageType' => 'neutral',

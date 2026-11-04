@@ -1,21 +1,21 @@
 # Backoffice Templates System
 
-Roadiz provides a modular template system for building custom back-office pages. This system is based on reusable templates, Twig macros, and embeddable widgets that ensure visual consistency across the admin interface.
+Roadiz provides a modular template system for building custom back-office pages. Its building blocks live under `@RoadizRozier/ui/` and ensure visual consistency across the admin interface.
 
 ## Overview
 
-The template system is organized into several layers:
+Templates are sorted by their role in the interface:
 
-| Layer | Namespace | Purpose |
-|-------|-----------|---------|
-| **Generic templates** | `@RoadizRozier/admin/` | Base layouts for common page types |
-| **Macros** | `@RoadizRozier/macros/` | Reusable UI components (buttons, badges, etc.) |
-| **Widgets** | `@RoadizRozier/widgets/` | Complex reusable blocks (filters, bulk actions) |
-| **Includes** | `@RoadizRozier/includes/` | Table structures, meta displays |
+| Layer | Path | Purpose |
+|-------|------|---------|
+| **Layouts** | `@RoadizRozier/ui/layouts/` | Page skeletons your pages extend (`admin`) |
+| **Patterns** | `@RoadizRozier/ui/patterns/` | Screens and screen parts (page header, confirmation page, bulk actions bar) |
+| **Components** | `@RoadizRozier/ui/components/` | One file per `rz-*` element (buttons, badges, tables, filters bar…) |
+| **Utils** | `@RoadizRozier/ui/utils/` | Helpers with no rendering of their own |
 
 ## Generic Admin Templates
 
-### `admin/base.html.twig`
+### `ui/layouts/admin.html.twig`
 
 The base layout for listing pages. Extends `@RoadizRozier/layout.html.twig` and provides a structured content area with bulk selection support.
 
@@ -30,10 +30,10 @@ The base layout for listing pages. Extends `@RoadizRozier/layout.html.twig` and 
 **Example usage:**
 
 ```twig
-{% extends "@RoadizRozier/admin/base.html.twig" %}
+{% extends "@RoadizRozier/ui/layouts/admin.html.twig" %}
 
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: 'my_entities'|trans,
         filters: filters,
         buttons: [{
@@ -45,7 +45,7 @@ The base layout for listing pages. Extends `@RoadizRozier/layout.html.twig` and 
 {%- endblock -%}
 
 {%- block content_filters -%}
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: true,
     } only %}
@@ -58,7 +58,7 @@ The base layout for listing pages. Extends `@RoadizRozier/layout.html.twig` and 
 {%- endblock -%}
 ```
 
-### `admin/head.html.twig`
+### `ui/patterns/page_header.html.twig`
 
 A generic and reusable header template for admin pages. It handles page titles, breadcrumbs, action buttons, item counts, and translation switching.
 
@@ -111,7 +111,7 @@ A generic and reusable header template for admin pages. It handles page titles, 
 **Full example:**
 
 ```twig
-{% include '@RoadizRozier/admin/head.html.twig' with {
+{% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
     title: 'edit.article'|trans ~ ' "' ~ item.title ~ '"',
     filters: filters,
     buttons: [
@@ -137,7 +137,7 @@ A generic and reusable header template for admin pages. It handles page titles, 
 } only %}
 ```
 
-### `admin/confirm_action.html.twig`
+### `ui/patterns/confirm_action.html.twig`
 
 Template for confirmation pages (delete, bulk actions). Displays a warning message, affected items preview, and confirm/cancel buttons.
 
@@ -159,7 +159,7 @@ Template for confirmation pages (delete, bulk actions). Displays a warning messa
 **Example usage in controller:**
 
 ```php
-return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
     'title' => $this->translator->trans('delete.article'),
     'form' => $form->createView(),
     'alertMessage' => 'are.you.sure.delete.article',
@@ -178,7 +178,7 @@ The `items` variable displays preview cards for entities affected by the action.
 Pass an array of Doctrine entities and let the template convert them automatically:
 
 ```php
-return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
     // ...
     'items' => $documents,  // Array of Document entities
 ]);
@@ -207,7 +207,7 @@ public function deleteAction(): Response
         ])->toArray();
     }
 
-    return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+    return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
         // ...
         'items' => $items,
     ]);
@@ -306,18 +306,18 @@ Items are rendered using the `rz_card.html.twig` macro which supports three thum
 {% endif %}
 ```
 
-## Macros System
+## Components
 
-Macros are reusable Twig components for rendering UI elements consistently.
+Components live in `components/`, one file per `rz-*` element. Leaf components are macros you import; the ones with content slots are templates you embed.
 
-### `rz_button.html.twig`
+### `ui/components/rz_button.html.twig`
 
 Renders buttons and button-like links.
 
 **Import and usage:**
 
 ```twig
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 {# Basic submit button #}
 {{ rz_button.root({
@@ -356,12 +356,12 @@ Renders buttons and button-like links.
 | `attributes` | object | HTML attributes (`href`, `type`, `title`, etc.) |
 | `tagName` | string | HTML tag (default: `button`, auto `a` if `href`) |
 
-### `rz_badge.html.twig`
+### `ui/components/rz_badge.html.twig`
 
 Renders badges for status indicators, counts, or labels.
 
 ```twig
-{% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+{% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
 
 {{ rz_badge.item({
     label: 'published',
@@ -387,12 +387,12 @@ Renders badges for status indicators, counts, or labels.
 | `color` | string | `success`, `danger`, `warning`, `default` |
 | `attributes` | object | HTML attributes (use `href` for link badge) |
 
-### `rz_actions_menu.html.twig`
+### `ui/components/rz_actions_menu.html.twig`
 
 An embeddable template for action menus (typically positioned on the side of edit pages).
 
 ```twig
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
 } only %}
@@ -411,12 +411,12 @@ An embeddable template for action menus (typically positioned on the side of edi
 | `deleteItem(label, href, attr)` | Delete button/link |
 | `item(label, class, href, icon, attr)` | Generic action item |
 
-### `rz_dropdown_menu.html.twig`
+### `ui/components/rz_dropdown.html.twig`
 
 Creates dropdown menus with customizable items.
 
 ```twig
-{% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
     targetId: 'my-dropdown',
     title: 'actions'|trans,
 } %}
@@ -447,12 +447,14 @@ Creates dropdown menus with customizable items.
 | `badgeLabel` | string | Badge text |
 | `selected` | bool | Highlight as selected |
 
-### `rz_link.html.twig`
+Pass `target_options` (the options of the `rz_button` that opens it) and the menu comes with its own trigger, wrapped in an `<rz-popover>`; `placement`, `offset`, `shift` and `popover_attributes` tune the popover. Without `target_options`, render the trigger yourself and point it at `targetId`.
+
+### `ui/components/rz_link.html.twig`
 
 Simple link component.
 
 ```twig
-{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+{% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
 
 {{ rz_link.root({
     label: 'see.details',
@@ -461,28 +463,28 @@ Simple link component.
 }) }}
 ```
 
-### `rz_bulk.html.twig`
+### Bulk selection inputs (`ui/components/rz_bulk_actions.html.twig`)
 
 Utilities for bulk selection in tables.
 
 ```twig
-{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
+{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
 
 {# In table header #}
-{{ rz_bulk.select_all_input() }}
+{{ rz_bulk_actions.select_all_input() }}
 
 {# In table row #}
-{{ rz_bulk.select_input({ value: item.id }) }}
+{{ rz_bulk_actions.select_input({ value: item.id }) }}
 ```
 
 ## Reusable Widgets
 
-### `widgets/rz_filters_bar.html.twig`
+### `ui/components/rz_filters_bar.html.twig`
 
 Complete filter bar with search, pagination, and bulk selection controls.
 
 ```twig
-{% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+{% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
     filters: filters,
     display_select_all_button: true,
     display_layout_fields: false,
@@ -492,7 +494,7 @@ Complete filter bar with search, pagination, and bulk selection controls.
 **With custom filters using embed:**
 
 ```twig
-{% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
     filters: filters,
     display_select_all_button: true,
 } only %}
@@ -515,13 +517,13 @@ Complete filter bar with search, pagination, and bulk selection controls.
 | `display_layout_fields` | bool | Show grid/list toggle |
 | `with_filter_form` | bool | Enable search form (default: true) |
 
-### `widgets/rz_bulk_actions.html.twig`
+### `ui/components/rz_bulk_actions.html.twig`
 
 Floating action bar that appears when items are selected.
 
 ```twig
-{% embed "@RoadizRozier/widgets/rz_bulk_actions.html.twig" %}
-    {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% embed "@RoadizRozier/ui/components/rz_bulk_actions.html.twig" %}
+    {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
     
     {% block other_actions %}
         {{ rz_button.root({
@@ -546,21 +548,21 @@ Floating action bar that appears when items are selected.
 ```
 
 ::: tip
-For standard bulk actions (publish, unpublish, delete), use the pre-built `@RoadizRozier/admin/bulk_actions.html.twig` which handles form integration automatically:
+For standard bulk actions (publish, unpublish, delete), use the pre-built `@RoadizRozier/ui/patterns/bulk_actions.html.twig` which handles form integration automatically:
 
 ```twig
-{% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+{% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 ```
 
 This requires `hasBulkActions`, `bulkPublishForm`, `bulkUnpublishForm`, and `bulkDeleteForm` variables from your controller.
 :::
 
-### `includes/rz_table.html.twig`
+### `ui/components/rz_table.html.twig`
 
 Embeddable table component with sorting, selection, and action columns.
 
 ```twig
-{% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+{% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
     selection_available: true,
     actions_available: true,
     items: items,
@@ -576,19 +578,19 @@ Embeddable table component with sorting, selection, and action columns.
             <tr>
                 {% if selection_available %}
                     <td>
-                        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                        {{ rz_bulk.select_input({ value: item.id }) }}
+                        {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                        {{ rz_bulk_actions.select_input({ value: item.id }) }}
                     </td>
                 {% endif %}
                 <td>{{ item.title }}</td>
                 <td>{{ item.createdAt|format_datetime('short', 'short') }}</td>
                 <td>
-                    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                    {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
                     {{ rz_badge.item({ label: item.status }) }}
                 </td>
                 {% if actions_available %}
                     <td>
-                        {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                        {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
                             edit_href: path('entity_edit', { id: item.id }),
                             delete_href: path('entity_delete', { id: item.id }),
                         } %}
@@ -614,12 +616,12 @@ Embeddable table component with sorting, selection, and action columns.
 | `sortable.enabled` | bool | Enable drag-and-drop sorting |
 | `sortable.url` | string | URL for sort updates |
 
-### `includes/rz_table_actions.html.twig`
+### `ui/components/rz_table_actions.html.twig`
 
 Row action buttons (edit, delete, custom).
 
 ```twig
-{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+{% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
     edit_href: path('entity_edit', { id: item.id }),
     delete_href: path('entity_delete', { id: item.id }),
 } %}
@@ -647,7 +649,7 @@ Understanding when to use `{% include %}` versus `{% embed %}` is essential for 
 
 ```twig
 {# Simple inclusion with variables #}
-{% include '@RoadizRozier/admin/head.html.twig' with {
+{% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
     title: 'My Page',
     buttons: [...]
 } only %}
@@ -661,7 +663,7 @@ Understanding when to use `{% include %}` versus `{% embed %}` is essential for 
 
 ```twig
 {# Embedding with block customization #}
-{% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
     filters: filters,
 } only %}
     {% block before_submit %}
@@ -707,10 +709,10 @@ Use the `@!` prefix to extend the original template while adding customizations:
 ```twig
 {# templates/bundles/RoadizRozierBundle/dashboard/index.html.twig #}
 {% extends "@!RoadizRozier/dashboard/index.html.twig" %}
-{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+{% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
 
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: "hello.%name%"|trans({'%name%': displayName}),
         breadcrumb: {
             label: 'breadcrumb',
@@ -730,7 +732,7 @@ Use the `@!` prefix to extend the original template while adding customizations:
     {{ parent() }}
     
     {# Add custom panel #}
-    {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+    {% embed '@RoadizRozier/ui/patterns/dashboard_panel.html.twig' with {
         icon: 'rz-icon-ri--bar-chart-line',
         title: 'my.custom.stats'|trans,
     } %}
@@ -747,7 +749,7 @@ For complete replacement without inheritance:
 
 ```twig
 {# templates/bundles/RoadizRozierBundle/redirections/list.html.twig #}
-{% extends '@RoadizRozier/admin/base.html.twig' %}
+{% extends '@RoadizRozier/ui/layouts/admin.html.twig' %}
 
 {# Completely custom implementation #}
 {%- block header -%}
@@ -796,10 +798,10 @@ Here's a complete example of a custom listing page:
 
 ```twig
 {# templates/admin/product/list.html.twig #}
-{% extends "@RoadizRozier/admin/base.html.twig" %}
+{% extends "@RoadizRozier/ui/layouts/admin.html.twig" %}
 
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: 'products'|trans,
         filters: filters,
         buttons: [{
@@ -815,7 +817,7 @@ Here's a complete example of a custom listing page:
 {%- endblock -%}
 
 {%- block content_filters -%}
-    {% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
         display_select_all_button: hasBulkActions,
     } only %}
@@ -831,12 +833,12 @@ Here's a complete example of a custom listing page:
         {% endblock %}
     {% endembed %}
     
-    {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+    {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 {%- endblock -%}
 
 {%- block content_body -%}
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             selection_available: hasBulkActions,
             actions_available: true,
             items: products,
@@ -852,8 +854,8 @@ Here's a complete example of a custom listing page:
                     <tr>
                         {% if selection_available %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: product.id }) }}
+                                {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                                {{ rz_bulk_actions.select_input({ value: product.id }) }}
                             </td>
                         {% endif %}
                         <td>
@@ -863,7 +865,7 @@ Here's a complete example of a custom listing page:
                         </td>
                         <td>{{ product.price|format_currency('EUR') }}</td>
                         <td>
-                            {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                            {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
                             {{ rz_badge.item({
                                 label: product.status,
                                 color: product.isPublished ? 'success' : 'warning',
@@ -871,7 +873,7 @@ Here's a complete example of a custom listing page:
                         </td>
                         {% if actions_available %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
+                                {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
                                     edit_href: path('product_edit', { id: product.id }),
                                     delete_href: path('product_delete', { id: product.id }),
                                 } %}

@@ -15,6 +15,33 @@
 
 Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr/0002-avoid-breaking-changes.md)).
 
+- `@RoadizRozier/admin/base.html.twig` is a stub extending `@RoadizRozier/ui/layouts/admin.html.twig` and triggers a deprecation.
+  It still renders the 2.7 `content_title`, `content_sub_title`, `content_count_filters`, `content_header_actions` and
+  `content_header_nav` blocks in the new page header, unless the template overrides `header`; their 2.7 UIkit markup is no longer styled. Extend the new path and
+  move those blocks to `header` (see the migration below). See [Templates moved to the role-based tree](#templates-moved-to-the-role-based-tree).
+- `@RoadizRozier/admin/bulk_actions.html.twig` is a stub including `@RoadizRozier/ui/patterns/bulk_actions.html.twig` and
+  triggers a deprecation: include the new path.
+- `@RoadizRozier/includes/column_ordering.html.twig` is a stub calling the `column_ordering` macro of
+  `@RoadizRozier/ui/components/rz_table.html.twig` and triggers a deprecation. Call the macro with the same keys, except
+  `column_ordering_class`, now `class` (defaults to `rz-table__ordering-link`). A macro does not read the page context:
+  pass `filters` explicitly.
+
+```diff
+-{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+-    'field': 'title',
+-    'label': 'article.title'|trans,
+-} %}
++{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
++{{ rz_table.column_ordering({
++    field: 'title',
++    label: 'article.title'|trans,
++    filters: filters,
++}) }}
+```
+- `@RoadizRozier/widgets/filtersBar.html.twig` is a stub rendering the `rz-filters-bar` markup and triggers a
+  deprecation. Its `filter_content`, `filter_search_form` and `filter_pagination_form` blocks still work. Embed
+  `@RoadizRozier/ui/components/rz_filters_bar.html.twig` instead: it renders its own search field and submit button,
+  put extra filter fields in its `before_submit` block (see `templates/admin/article/list.html.twig` in the dev app).
 - UIkit menu icons (`uk-icon-*`) in `roadiz_rozier.entries` and their `subentries` are rendered as a generic
   icon (`rz-icon-ri--layout-grid-line`) and trigger a deprecation. See [Rozier menu icons changed](#rozier-menu-icons-changed).
 - `RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbsItem`: the `$home` and `$enabled` constructor arguments are
@@ -27,14 +54,56 @@ Deprecated forms keep working in 2.8 and are removed in 2.9 ([ADR 0002](docs/adr
 
 ## ⚠ Twig breaking changes
 
-- Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `admin/confirm_action.html.twig` instead
-- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `widgets/rz_tree_wrapper_auto.html.twig`; it now renders node, tag and folder trees alike
-- Removed `widgets/filtersBar.html.twig`, use `widgets/rz_filters_bar.html.twig` instead. Its `filter_content`,
-  `filter_search_form` and `filter_pagination_form` blocks have no equivalent: put extra filter fields in the
-  `before_submit` block of `rz_filters_bar` (see `templates/admin/article/list.html.twig` in the dev app)
-- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `widgets/rz_tree_wrapper_auto.html.twig` instead
+- Removed bulk confirmation templates (`bulk_base.html.twig`, `bulk_delete.html.twig`), use `ui/patterns/confirm_action.html.twig` instead
+- Moved `widgets/tree/rz_tree_wrapper_auto.html.twig` to `ui/components/rz_tree.html.twig`; it now renders node, tag and folder trees alike
+- Removed `widgets/rz_tree_wrapper.html.twig`, `widgets/nodeTree/rz_node_tree_wrapper.html.twig`, `widgets/tagTree/rz_tag_tree_wrapper.html.twig` and `widgets/folderTree/rz_folder_tree_wrapper.html.twig`, use `ui/components/rz_tree.html.twig` instead
 
-For Twig templates using `@RoadizRozier/admin/base.html.twig` as parent template, make sure to update
+### Templates moved to the role-based tree
+
+Shared templates are now sorted by role: design system building blocks under `ui/` (`ui/layouts/`, `ui/patterns/`, `ui/components/` with one file per `rz-*` element, `ui/utils/`), form themes under `form/`, pages in their feature folder. `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` do not move. The rules are in `lib/Rozier/docs/templates.md`.
+
+What may still break in a project, and how to check it:
+
+- **Calls to a moved 2.7 template without a stub** (`include`, `embed`, `import`, `extends`) fail with a
+  "template not found" error: use the new path from the table below.
+- **Overrides of a moved template are silently ignored**, stub or not. Rozier now renders the new path, so a file
+  left under `templates/bundles/RoadizRozierBundle/<old path>` is never loaded and its customisation disappears
+  without any error. Move every override to the new path (for example `admin/base.html.twig` →
+  `ui/layouts/admin.html.twig`), then compare it with the new template: overriding a template other than
+  `layout.html.twig`, `forms.html.twig` and `dashboard/index.html.twig` is not a supported mechanism, and its
+  content may have changed.
+- **Projects following the unreleased 2.8 development branch**: every template path added since 2.7.54 moved too
+  (`macros/rz_*`, `includes/rz_*`, `widgets/rz_*`, `layouts/`, `patterns/`, `components/` → `ui/…`), without a stub.
+
+To find what to update, list the Rozier paths your project uses and the overrides it ships:
+
+```shell
+grep -rhoE "@!?RoadizRozier/[A-Za-z0-9_./-]+\.html\.twig" templates src config | sort -u
+find templates/bundles/RoadizRozierBundle -name '*.twig'
+```
+
+Each path must exist under `vendor/roadiz/rozier-bundle/templates/`; a deprecated stub still resolves but triggers
+a deprecation, visible in the Symfony profiler and logs.
+
+These 2.7 templates were internal: they move without a stub. Update every `include`, `embed`, `import`, `extends` and every override under `templates/bundles/RoadizRozierBundle/`:
+
+| Old path | New path |
+|----------|----------|
+| `base.html.twig` | `ui/layouts/base.html.twig` |
+| `login/base.html.twig` | `ui/layouts/login.html.twig` |
+| `admin/meta-icon.html.twig` | `ui/layouts/meta_icon.html.twig` |
+| `simple.html.twig` | `ui/layouts/simple.html.twig` |
+| `dashboard/navBar.html.twig` | `ui/patterns/dashboard_nav.html.twig` |
+| `widgets/drawer.html.twig` | `ui/components/rz_drawer.html.twig` |
+| `widgets/documentAlignment.html.twig` | `form/document_alignment.html.twig` |
+| `horizontalForms.html.twig` | `form/horizontal_forms.html.twig` |
+| `includes/translateAssistantUsage.html.twig` | `ui/patterns/translate_assistant_usage.html.twig` |
+| `includes/messages.html.twig` | `ui/patterns/messages.html.twig` |
+| `admin/webhooks/*.html.twig` | `webhooks/*.html.twig` |
+
+Removed 2.7 templates, unused by the backoffice: `admin/blocks/adminImage.html.twig`, `admin/blocks/loginImage.html.twig`, `custom-form-fields/ajaxEditBase.html.twig`, `documents/backLink.html.twig`, `documents/itemPerPage.html.twig`, `login/check.html.twig`, `nodes/widgets/node-header.html.twig`, `tags/navBack.html.twig`, `widgets/backlink.html.twig`, `widgets/itemPerPage.html.twig`, `widgets/versionItem.html.twig`.
+
+For Twig templates using `@RoadizRozier/admin/base.html.twig` (now `@RoadizRozier/ui/layouts/admin.html.twig`) as parent template, before 2.9 make sure to update
 - `content_title`
 - `content_sub_title`
 - `content_count_filters`
@@ -46,7 +115,7 @@ blocks to use new `header` block instead.
 Example:
 ```twig
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: 'my_entities'|trans,
         filters: filters,
         buttons: [
@@ -60,11 +129,11 @@ Example:
 {%- endblock -%}
 ```
 
-You need to update your `content_filters` block to use new `widgets/rz_filters_bar.html.twig` inside this block.
+You need to update your `content_filters` block to use new `ui/components/rz_filters_bar.html.twig` inside this block.
 
 Example:
 ```twig
-{% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+{% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
     filters: filters,
     display_select_all_button: true,
 } only %}
@@ -220,13 +289,13 @@ These classes are no longer `Throwable` in ORM 3. Remove any `@throws` PHPDoc an
 ## ⚠ Rozier session and health check dialogs
 
 The session expiration and health check warning modals no longer use Vue: they are plain
-`<dialog is="rz-dialog">` elements rendered in `@RoadizRozier/base.html.twig` by the new
-`@RoadizRozier/macros/rz_dialog.html.twig` component and opened by `LoginCheckService`. The session expired dialog no longer shows the splash screen image.
+`<dialog is="rz-dialog">` elements rendered in `@RoadizRozier/ui/layouts/base.html.twig` by the new
+`@RoadizRozier/ui/components/rz_dialog.html.twig` component and opened by `LoginCheckService`. The session expired dialog no longer shows the splash screen image.
 
 Removed from the Rozier front-end:
 
 - `app/components/WarningModal.vue` and `app/containers/ModalContainer.vue`, the `<modal-container>`
-  element in `base.html.twig`, and the `vue-js-modal` dependency
+  element in `ui/layouts/base.html.twig`, and the `vue-js-modal` dependency
 - `app/api/SplashScreenApi.js` and its `getImage()` function
 - `connected` and `healthChecked` Vuex state, and the `LOGIN_CHECK_*` / `HEALTH_CHECK_*` mutation types
 - `sessionExpireTitle`, `sessionExpireContent`, `healthCheckedFailedTitle` and
@@ -235,7 +304,7 @@ Removed from the Rozier front-end:
 Overriding those messages from JavaScript no longer has any effect. Override the
 `session.expire.title`, `session.expire.content`, `health_check.failed.title` and
 `health_check.failed.content` translation keys in your project catalogue instead, or override
-`templates/bundles/RoadizRozierBundle/macros/rz_dialog.html.twig` to change the markup.
+`templates/bundles/RoadizRozierBundle/ui/components/rz_dialog.html.twig` to change the markup.
 
 ## ⚠ Rozier dead Vue containers and components removed
 
@@ -249,7 +318,7 @@ now renders `<rz-drawer>`), and are removed:
 
 If a project template still renders `<drawer-container data-vuejs>` (copied from the v2.7
 `widgets/drawer.html.twig`) or `<tags-editor-container>`, it renders nothing anymore: migrate it to
-`<rz-drawer>`, as `@RoadizRozier/widgets/drawer.html.twig` does.
+`<rz-drawer>`, as `@RoadizRozier/ui/components/rz_drawer.html.twig` does.
 
 ## ⚠ Rozier image editor no longer uses Vue
 
@@ -271,10 +340,10 @@ renamed to `.png`.
 ## New admin templates
 
 New reusable templates for building back-office pages:
-- `admin/head.html.twig` - Page header with title, breadcrumb, buttons
-- `admin/confirm_action.html.twig` - Generic confirmation page
-- `macros/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
-  `{ parents, current }`, rendered automatically by `admin/head.html.twig` as soon as that
+- `ui/patterns/page_header.html.twig` - Page header with title, breadcrumb, buttons
+- `ui/patterns/confirm_action.html.twig` - Generic confirmation page
+- `ui/components/rz_breadcrumb.html.twig` - Breadcrumb trail. Fed by a `breadcrumb` variable
+  `{ parents, current }`, rendered automatically by `ui/patterns/page_header.html.twig` as soon as that
   variable is in context. Ancestors are either `{label, url}` hashes or entities resolved by a
   `BreadcrumbsItemFactory`; past three of them the middle ones fold into a popover.
 - `breadcrumb_root('<section>')` Twig function, backed by the `BreadcrumbRoots` service - the single
@@ -284,8 +353,8 @@ New reusable templates for building back-office pages:
   tree entity — root, ancestors, then the item — which confirmation pages show above their own title.
   It covers the sections Rozier ships; a project's own section writes its root inline. See
   `docs/developer/contributing/contributing.md` and `docs/extensions/custom_backoffice_entry.md`.
-- `widgets/rz_filters_bar.html.twig` - Filter bar widget
-- `widgets/rz_bulk_actions.html.twig` - Bulk actions widget
+- `ui/components/rz_filters_bar.html.twig` - Filter bar widget
+- `ui/components/rz_bulk_actions.html.twig` - Bulk actions widget
 - New macros: `rz_button`, `rz_badge`, `rz_actions_menu`, `rz_card`
 
 # Upgrade to 2.7

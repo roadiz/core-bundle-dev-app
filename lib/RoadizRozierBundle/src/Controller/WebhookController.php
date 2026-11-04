@@ -109,7 +109,7 @@ final class WebhookController extends AbstractAdminWithBulkController
     #[\Override]
     protected function getTemplateFolder(): string
     {
-        return '@RoadizRozier/admin/webhooks';
+        return '@RoadizRozier/webhooks';
     }
 
     #[\Override]

@@ -40,11 +40,11 @@
             ],
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
             display_select_all_button: true,
         }  only %}
-        {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+        {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 
         <article>
             {% include '@RoadizRozier/attributes/list_table.html.twig' with {

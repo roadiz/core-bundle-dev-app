@@ -155,7 +155,7 @@ final class RealmNodeController extends AbstractController
 
         $subtitle = $nodeSource->getTitle().' - '.$realmNode->getRealm()->getName();
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'subtitle' => $subtitle,
             'headPath' => '@RoadizRozier/nodes/head.html.twig',

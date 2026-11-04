@@ -7,7 +7,7 @@
     <title>{% block title %}{{ meta.siteName }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
+    {% include '@RoadizRozier/ui/layouts/meta_icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
     {{ manifest_preload_tags('shared') }}
     {{ manifest_preload_tags('simple') }}
@@ -26,7 +26,7 @@
     {% endif %}
 </head>
 <body id="custom-form-front">
-{% include '@RoadizRozier/includes/messages.html.twig' %}
+{% include '@RoadizRozier/ui/patterns/messages.html.twig' %}
     <section id="main-content">
         {% block content %}
             <h1>{% trans %}Welcome{% endtrans %}</h1>

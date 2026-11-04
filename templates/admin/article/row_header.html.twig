@@ -1,29 +1,30 @@
+{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
 <th class="thumbnail mobile-hidden uk-visible-xlarge"></th>
 <th>
     {% trans %}article.title{% endtrans %}
     {% if not no_sort %}
-        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-            'field': 'title',
-            'filters': filters,
-        } only %}
+        {{ rz_table.column_ordering({
+            field: 'title',
+            filters: filters,
+        }) }}
     {% endif %}
 </th>
 <th class="uk-visible-xlarge">
     {% trans %}article.published_at{% endtrans %}
     {% if not no_sort %}
-        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-            'field': 'publishedAt',
-            'filters': filters,
-        } only %}
+        {{ rz_table.column_ordering({
+            field: 'publishedAt',
+            filters: filters,
+        }) }}
     {% endif %}
 </th>
 <th class="uk-visible-xlarge">
     {% trans %}article.created_at{% endtrans %}
     {% if not no_sort %}
-        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-            'field': 'node.createdAt',
-            'filters': filters,
-        } only %}
+        {{ rz_table.column_ordering({
+            field: 'node.createdAt',
+            filters: filters,
+        }) }}
     {% endif %}
 </th>
 <th class="uk-visible-xlarge">
