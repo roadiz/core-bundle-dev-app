@@ -475,6 +475,16 @@ class NSFields extends NodesSources
     }
 
     /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $images
+     * @return $this
+     */
+    public function setImagesDtos(?array $images): static
+    {
+        $this->images = $images;
+        return $this;
+    }
+
+    /**
      * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
     public function getNodeReferencesSources(): array
