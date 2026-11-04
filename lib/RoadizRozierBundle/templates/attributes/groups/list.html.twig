@@ -13,19 +13,19 @@
                 attributes: {
                     href: path('attributeGroupsAddPage'),
                 },
-                icon: 'rz-icon-ri--add-line'
+                iconClass: 'rz-icon-ri--add-line'
             },
         ],
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-    }  only %}
+    }  only %}{% endembed %}
 
     <article>
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: hasBulkActions,
-            actions_available: true,
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
                 {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
@@ -45,11 +45,11 @@
                     <tr>
                         <td>{{- item.canonicalName -}}</td>
                         <td>{{- item.name -}}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                         <td>
                             {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                'edit_href': path('attributeGroupsEditPage', { id: item.id }),
-                                'delete_href': is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ?  path('attributeGroupsDeletePage', { id: item.id }) : null,
+                                'editHref': path('attributeGroupsEditPage', { id: item.id }),
+                                'deleteHref': is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ?  path('attributeGroupsDeletePage', { id: item.id }) : null,
                             } %}
                         </td>
                         {% endif %}

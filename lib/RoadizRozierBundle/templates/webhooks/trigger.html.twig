@@ -34,13 +34,13 @@
             <div class="rz-button-group rz-button-group--gap-md">
                 {{
                     rz_button.root({
-                        tagName: 'a',
+                        tag: 'a',
                         attributes: {
                             href: path('webhooksHomePage'),
                         },
                         emphasis: 'secondary',
                         label: 'cancel',
-                        icon: 'rz-icon-ri--corner-down-left-line',
+                        iconClass: 'rz-icon-ri--corner-down-left-line',
                     })
                 }}
                 {{
@@ -50,7 +50,7 @@
                         },
                         emphasis: 'primary',
                         label: delete_label|default('delete'),
-                        icon: delete_icon|default('rz-icon-ri--space-ship-line'),
+                        iconClass: delete_icon|default('rz-icon-ri--space-ship-line'),
                     })
                 }}
             </div>

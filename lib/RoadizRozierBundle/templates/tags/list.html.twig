@@ -16,7 +16,7 @@
             attributes: {
                 href: path('tagsAddPage'),
             },
-            icon: 'rz-icon-ri--add-line',
+            iconClass: 'rz-icon-ri--add-line',
         }],
     } only %}
 
@@ -24,17 +24,17 @@
         filters: filters,
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_bulk_actions.html.twig" with {
-        delete_form_data: deleteTagsForm,
-        delete_form_action: path('tagsBulkDeletePage'),
-        delete_form_method: 'GET',
-    } only %}
+    {% embed "@RoadizRozier/ui/components/rz_bulk_actions.html.twig" with {
+        deleteFormData: deleteTagsForm,
+        deleteFormAction: path('tagsBulkDeletePage'),
+        deleteFormMethod: 'GET',
+    } only %}{% endembed %}
 
     <section class="rz-page__body">
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             sortable: false,
-            selection_available: true,
-            actions_available: true,
+            selectionAvailable: true,
+            actionsAvailable: true,
         } %}
 
             {% block thead_cells %}
@@ -63,15 +63,15 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': tag.color }) }}
                     >
-                        {{ _self.selection_input(selection_available, tag.id, disabled: not can_delete) }}
+                        {{ _self.selection_input({ selectionAvailable: selectionAvailable, value: tag.id, disabled: not can_delete }) }}
                         <td>
                             {{ rz_link.root({
                                 label: translated_tag.getName|default('tag_' ~ tag.id),
                                 attributes: { href: edit_link },
                             }) }}
                             {% if not translated_tag %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--error-warning-line',
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--error-warning-line',
                                     color: 'warning',
                                     attributes: {
                                         title: 'notranslation_available.tag'|trans,
@@ -80,11 +80,11 @@
                             {% endif %}
                         </td>
                         <td>{{ tag.id }}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'edit_href': edit_link,
-                                    'delete_href': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
+                                    'editHref': edit_link,
+                                    'deleteHref': can_delete ? path('tagsDeletePage', { tagId: tag.id }) : null,
                                 } only %}
                             </td>
                         {% endif %}
@@ -92,8 +92,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 2,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_tags',
                     }) }}
                 {% endfor %}

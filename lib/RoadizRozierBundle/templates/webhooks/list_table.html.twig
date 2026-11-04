@@ -30,7 +30,7 @@
 	{% block tbody_content %}
 		{% for item in items %}
 			<tr>
-				{% if selection_available %}
+				{% if selectionAvailable %}
 				<td>
 					{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
 					{{ rz_bulk_actions.select_input({ value: item.id }) }}
@@ -52,15 +52,15 @@
 					{% endif %}
 				</td>
 				<td>{{- item.lastTriggeredAt ? item.lastTriggeredAt|format_datetime(locale=app.request.locale) : 'never'|trans -}}</td>
-				{% if actions_available %}
+				{% if actionsAvailable %}
 					<td>
 						{% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-							'edit_href': path('webhooksEditPage', { id: item.id }),
-							'delete_href': path('webhooksDeletePage', { id: item.id }),
+							'editHref': path('webhooksEditPage', { id: item.id }),
+							'deleteHref': path('webhooksDeletePage', { id: item.id }),
 						} %}
 							{% block other_actions %}
 								{{ _self.button({
-									icon: 'rz-icon-ri--space-ship-line',
+									iconClass: 'rz-icon-ri--space-ship-line',
 									attributes: {
 										href: path('webhooksTriggerPage', { id: item.id }),
 										title: 'webhook.trigger'|trans,
@@ -74,8 +74,8 @@
 		{% else %}
 			{{ _self.fallback_row({
 				length: 4,
-				selection_available: selection_available,
-				actions_available: actions_available,
+				selectionAvailable: selectionAvailable,
+				actionsAvailable: actionsAvailable,
 				message: 'no_webhooks',
 			}) }}
 		{% endfor %}

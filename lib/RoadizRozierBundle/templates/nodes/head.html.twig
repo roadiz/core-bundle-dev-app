@@ -35,14 +35,14 @@
                 {% set route = 'nodesEditSourcePage' %}
             {% endif %}
             <div class="rz-page-header__item--right">
-                {{ _self.translations_bar(
-                    available_translations: available_translations,
+                {{ _self.translations_bar({
+                    availableTranslations: available_translations,
                     current: translation.id,
                     path: route,
                     pathParams: {nodeId: node.getId},
                     pathAddTranslations: path('nodesTranslatePage', { nodeId: node.getId }),
                     pathAddTranslationsTitle: 'translate.node'|trans,
-                ) }}
+                }) }}
             </div>
         {% endif %}
     {% endblock %}
@@ -88,17 +88,17 @@
 
                         {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                             targetId: 'nodeExport-menu',
-                            tagList: 'ul',
+                            listTag: 'ul',
                             items: availableTranslations,
                         } only %}
                             {% block items %}
                                 {% for item in items %}
                                     {{ _self.item({
                                         label: 'export_format.csv.%language%'|trans({'%language%':item.name }),
-                                        href: path('nodesExportAllCsvPage', {
+                                        attributes: { href: path('nodesExportAllCsvPage', {
                                             translationId: item.id
-                                        }),
-                                        rightIcon: 'rz-icon-ri--file-download-line'
+                                        }) },
+                                        rightIconClass: 'rz-icon-ri--file-download-line'
                                     }) }}
                                 {% endfor %}
                             {% endblock %}
@@ -117,7 +117,7 @@
     {% block badges %}
         {% if app.debug and with_debug_badge %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     label: 'NS #' ~ source.id,
                     size: 'sm',
                     color: 'information'
@@ -126,7 +126,7 @@
         {% endif %}
         {% if filters and filters.itemCount %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,
                     size: 'sm',
                 }) }}
@@ -135,8 +135,8 @@
         {% if with_status_badge is defined and with_status_badge %}
             {% import "@RoadizRozier/ui/components/rz_node_badge.html.twig" as rz_node_badge %}
             <div class="rz-page-header__item">
-                {{ rz_node_badge.status(node) }}
-                {{ rz_node_badge.parameters(node, { display_label:  false }) }}
+                {{ rz_node_badge.status({ node: node }) }}
+                {{ rz_node_badge.parameters({ node: node, displayLabel: false }) }}
             </div>
         {% endif %}
     {% endblock %}
@@ -147,9 +147,9 @@
         </h1>
         {% if with_info_badge is defined and with_info_badge and node != null %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     size: 'sm',
-                    icon: 'rz-icon-ri--information-line',
+                    iconClass: 'rz-icon-ri--information-line',
                     attributes: {
                         is: 'rz-link',
                         href: path('nodeTypeFieldsListPage', {'nodeTypeName': node.nodeTypeName}),

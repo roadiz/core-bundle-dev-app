@@ -12,12 +12,15 @@
     {% block items %}
         {% if (is_granted('ROLE_ACCESS_DOCUMENTS_DELETE') and not readOnly) %}
             {% if document.id %}
-                {{ _self.item(
+                {{ _self.item({ button: {
                     label: 'delete.document',
-                    class: 'rz-button--primary rz-button--danger',
-                    href: path('documentsDeletePage', { documentId: document.id}),
-                    icon: 'rz-icon-ri--delete-bin-7-line'
-                ) }}
+                    emphasis: 'primary',
+                    color: 'danger',
+                    iconClass: 'rz-icon-ri--delete-bin-7-line',
+                    attributes: {
+                        href: path('documentsDeletePage', { documentId: document.id}),
+                    },
+                } }) }}
             {% endif %}
         {% endif %}
 
@@ -37,10 +40,10 @@
                     {% block items %}
                         {{ _self.item({
                             label: 'versions.working_copy',
-                            href: path('documentsMetaPage', {
+                            attributes: { href: path('documentsMetaPage', {
                                 documentId: document.id,
                                 translationId: translation.id
-                            }),
+                            }) },
                             selected: not currentVersion,
                         }) }}
                         {% for version in versions %}
@@ -48,11 +51,11 @@
                                 {{ _self.item({
                                     label: version.loggedAt|format_datetime('short', 'short', locale=app.request.locale),
                                     description: version.username,
-                                    href: path('documentsMetaPage', {
+                                    attributes: { href: path('documentsMetaPage', {
                                         documentId: document.id,
                                         translationId: translation.id,
                                         version: version.version
-                                    }),
+                                    }) },
                                     selected: currentVersion and currentVersion.id == version.id,
                                 }) }}
                             {% endif %}
@@ -63,12 +66,15 @@
         {% endif %}
 
         {% if document.id %}
-            {{ _self.item(
+            {{ _self.item({ button: {
                 label: 'download.document',
-                class: 'rz-button--tertiary rz-no-ajax-link',
-                href: path('documentsDownloadPage', { documentId: document.id}),
-                icon: 'rz-icon-ri--download-line'
-            ) }}
+                emphasis: 'tertiary',
+                iconClass: 'rz-icon-ri--download-line',
+                attributes: {
+                    href: path('documentsDownloadPage', { documentId: document.id}),
+                    class: 'rz-no-ajax-link',
+                },
+            } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

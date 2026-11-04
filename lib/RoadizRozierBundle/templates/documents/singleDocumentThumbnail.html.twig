@@ -22,9 +22,9 @@
         <div class="rz-document-card__overflow">
             {% set type = document.isEmbed ? document.embedPlatform : document.shortMimeType|u.truncate(13, '…') %}
 
-            {{ rz_badge.item({
+            {{ rz_badge.root({
                 label: type,
-                class: 'rz-document-card__type',
+                attributes: { class: 'rz-document-card__type' },
             }) }}
 
             {% set icon_centered = '' %}
@@ -40,17 +40,17 @@
             {% endif %}
 
             {% if icon_centered %}
-                {{ rz_badge.item({
-                    icon: icon_centered,
+                {{ rz_badge.root({
+                    iconClass: icon_centered,
                     size: 'md',
-                    class: 'rz-document-card__icon-centered',
+                    attributes: { class: 'rz-document-card__icon-centered' },
                 }) }}
             {% endif %}
 
             {% if controls %}
                 <div class="rz-document-card__controls rz-button-group rz-button-group--sm">
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--edit-line',
+                        iconClass: 'rz-icon-ri--edit-line',
                         emphasis: 'primary',
                         attributes: {
                             title: 'edit.document'|trans,
@@ -58,7 +58,7 @@
                         }
                     }) }}
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--delete-bin-7-line',
+                        iconClass: 'rz-icon-ri--delete-bin-7-line',
                         emphasis: 'primary',
                         color: 'danger',
                         attributes: {
@@ -76,7 +76,7 @@
             {% set input_id = 'bulk-selection-' ~ document.id %}
             {{ rz_bulk_actions.select_input({
                 value: document.id,
-                id: input_id,
+                attributes: { id: input_id },
             }) }}
             <label class="rz-document-card__bulk-label" for="{{ input_id }}">{{ document|centralTruncate(18, -4) }}</label>
         {% else %}

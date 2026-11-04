@@ -5,12 +5,14 @@
 } only %}
     {% block items %}
         {% if item.id and is_granted('ROLE_ACCESS_WEBHOOKS') %}
-            {{ _self.deleteItem(href: path('webhooksDeletePage', { id: item.id })) }}
-            {{ _self.item(
+            {{ _self.deleteItem({ attributes: { href: path('webhooksDeletePage', { id: item.id }) } }) }}
+            {{ _self.item({ button: {
                 label: 'webhook.trigger',
-                href: path('webhooksTriggerPage', { id: item.id }),
-                icon: 'rz-icon-ri--space-ship-line'
-            ) }}
+                iconClass: 'rz-icon-ri--space-ship-line',
+                attributes: {
+                    href: path('webhooksTriggerPage', { id: item.id }),
+                },
+            } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

@@ -15,19 +15,19 @@
             attributes: {
                 href: path('translationsAddPage'),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: false,
-    }  only %}
+        displaySelectAllButton: false,
+    }  only %}{% endembed %}
 
     <section class="rz-page__body">
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: hasBulkActions,
-            actions_available: true,
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
         } %}
 
             {% block thead_cells %}
@@ -72,23 +72,23 @@
                         <td>{{ t.translation.overrideLocale }}</td>
                         <td>
                             {% if t.translation.isAvailable == false %}
-                                {{ rz_badge.item({ label: 'not_available'|trans })}}
+                                {{ rz_badge.root({ label: 'not_available'|trans })}}
                             {% endif %}
                             {% if t.translation.isDefaultTranslation == true %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--star-line',
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--star-line',
                                     attributes: {
                                         'title': 'default.translation'|trans
                                     }
                                     }) }}
                             {% endif %}
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             {% set is_not_default = t.translation.isDefaultTranslation == false %}
                             <td>
                                 {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'edit_href': path('translationsEditPage', { translationId: t.translation.getId }),
-                                    'delete_href': is_not_default ? path('translationsDeletePage', { translationId: t.translation.getId }) : null,
+                                    'editHref': path('translationsEditPage', { translationId: t.translation.getId }),
+                                    'deleteHref': is_not_default ? path('translationsDeletePage', { translationId: t.translation.getId }) : null,
                                 } %}
                                     {% block other_actions %}
                                         {% if is_not_default is same as(true) %}
@@ -96,7 +96,7 @@
                                             <form class="rz-form" action="#" method="post">
                                                 {{ form_widget(t.defaultForm, { attr: { style: 'display: none;' }}) }}
                                                 {{ _self.button({
-                                                    icon: 'rz-icon-ri--star-line',
+                                                    iconClass: 'rz-icon-ri--star-line',
                                                     attributes: {
                                                         type: 'submit',
                                                         title: 'set.default'|trans,

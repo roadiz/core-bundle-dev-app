@@ -28,7 +28,7 @@
             {{ form_start(seoForm, { action: '#' }) }}
                 {{ form_widget(seoForm, {'attr': { 'class': 'rz-form__field-list' }}) }}
                 {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-                {{ actions_menu.saveItem('#' ~ field_id(seoForm)) }}
+                {{ actions_menu.saveItem({ dataActionSave: '#' ~ field_id(seoForm) }) }}
             {{ form_end(seoForm) }}
             <hr />
         {% endif %}
@@ -37,8 +37,8 @@
         <p class="text-body-md">{% trans %}nodeSource.urlAlias.help{% endtrans %}</p>
 
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
                 <th>{% trans %}urlAlias{% endtrans %}</th>
@@ -53,8 +53,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 2,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_alias_found',
                     }) }}
                 {% endfor %}
@@ -76,7 +76,7 @@
                             <td class="rz-table__cell--align-right">
                                 {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                                 {{ rz_button.root({
-                                    icon: 'rz-icon-ri--add-large-line',
+                                    iconClass: 'rz-icon-ri--add-large-line',
                                     emphasis: 'primary',
                                     label: 'add.urlAlias'|trans,
                                     attributes: {
@@ -96,7 +96,7 @@
         <p class="text-body-md">{% trans %}nodeSource.redirections.help{% endtrans %}</p>
 
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            actions_available: true,
+            actionsAvailable: true,
             filters: filters,
             redirections: redirections,
         } %}
@@ -113,8 +113,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 4,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_redirection_found',
                     }) }}
                 {% endfor %}
@@ -134,7 +134,7 @@
                         <td class="rz-table__cell--align-right">
                             {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                             {{ rz_button.root({
-                                icon: 'rz-icon-ri--add-large-line',
+                                iconClass: 'rz-icon-ri--add-large-line',
                                 emphasis: 'primary',
                                 label: 'add.a.redirection'|trans,
                                 attributes: {

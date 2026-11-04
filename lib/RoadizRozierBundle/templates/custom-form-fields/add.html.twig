@@ -18,7 +18,7 @@
         {{- form_start(form, { 'attr': { 'id': "add-custom-form-field-form" }}) -}}
         {{ form_widget(form) }}
             {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#add-custom-form-field-form') }}
+            {{ actions_menu.saveItem({ dataActionSave: '#add-custom-form-field-form' }) }}
         {{- form_end(form) -}}
     </article>
 

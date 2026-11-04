@@ -12,20 +12,20 @@
             attributes: {
                 href: path('realmsAddPage'),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: false,
-    }  only %}
+        displaySelectAllButton: false,
+    }  only %}{% endembed %}
 
     <article>
         {% include '@RoadizRozier/realms/list_table.html.twig' with {
             items: items,
             filters: filters,
-            actions_available: true,
+            actionsAvailable: true,
         } only %}
     </article>
 </section>

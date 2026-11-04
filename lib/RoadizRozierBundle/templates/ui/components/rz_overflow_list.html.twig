@@ -1,3 +1,4 @@
+{# rz-overflow-list: embed vars (no renderer yet) = items, visibleCount, wrapperTag, wrapperClass, wrapperAttributes, responsive, responsiveInline, popover {id, placement, offset, shift, listTag, class, attributes}, button (RzButtonOptions + ariaLabel); block item #}
 {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
 {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
 
@@ -9,7 +10,7 @@
 {% set placement = popover.placement|default('bottom-start') %}
 {% set offset = popover.offset|default('8') %}
 {% set shift = popover.shift|default(null) %}
-{% set popover_tag_list = popover.tagList|default('div') %}
+{% set popover_tag_list = popover.listTag|default('div') %}
 {% set popover_attributes = popover.attributes|default({}) %}
 {# 'rz-dropdown' belongs here, not hardcoded on the element: a second class attribute
    would silently win and drop every caller class. #}
@@ -42,7 +43,7 @@
 
 {% set overflow_button_class = html_classes(
     'rz-overflow-list__button',
-    button.class|default('')
+    button.attributes.class|default('')
 ) %}
 
 {% set visible_items = items|slice(0, visible_count) %}
@@ -87,12 +88,11 @@
         >
             {# Defaults to the number of folded items; pass an empty label for the icon alone. #}
             {{ rz_button.root(button|merge({
-                icon: button.icon|default('rz-icon-ri--more-line'),
+                iconClass: button.iconClass|default('rz-icon-ri--more-line'),
                 size: button.size|default('sm'),
                 label: button.label is defined ? button.label : overflow_items|length,
                 emphasis: button.emphasis|default('tertiary'),
-                class: overflow_button_class,
-                attributes: button_attributes,
+                attributes: button_attributes|merge({ class: overflow_button_class }),
             })) }}
 
             <div

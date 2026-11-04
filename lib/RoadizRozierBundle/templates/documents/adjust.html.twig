@@ -56,7 +56,7 @@
                                         {% endif %}
                                         {# --selected is only styled with an emphasis; secondary looks like the default #}
                                         {{ rz_button.root({
-                                            icon: tool.icon,
+                                            iconClass: tool.icon,
                                             emphasis: tool.mode is defined ? 'secondary' : null,
                                             selected: is_active_mode,
                                             attributes: attributes,
@@ -90,7 +90,7 @@
                         <div class="rz-image-editor__actions rz-button-group" data-state="editing">
                             {{ rz_button.root({
                                 label: 'blanchetteEditor.reset',
-                                icon: 'rz-icon-ri--arrow-go-back-line',
+                                iconClass: 'rz-icon-ri--arrow-go-back-line',
                                 attributes: {
                                     type: 'button',
                                     title: 'blanchetteEditor.reset'|trans ~ ' (0)',
@@ -99,7 +99,7 @@
                             }) }}
                             {{ rz_button.root({
                                 label: 'blanchetteEditor.applyChange',
-                                icon: 'rz-icon-ri--check-line',
+                                iconClass: 'rz-icon-ri--check-line',
                                 attributes: { type: 'button', 'data-action': 'crop' },
                             }) }}
                         </div>
@@ -107,12 +107,12 @@
                         <div class="rz-image-editor__actions rz-button-group" data-state="cropped" hidden>
                             {{ rz_button.root({
                                 label: 'blanchetteEditor.undo',
-                                icon: 'rz-icon-ri--arrow-go-back-line',
+                                iconClass: 'rz-icon-ri--arrow-go-back-line',
                                 attributes: { type: 'button', 'data-action': 'undo' },
                             }) }}
                             {{ rz_button.root({
                                 label: 'blanchetteEditor.saveAndOverwrite',
-                                icon: 'rz-icon-ri--save-line',
+                                iconClass: 'rz-icon-ri--save-line',
                                 attributes: { type: 'button', 'data-action': 'overwrite' },
                             }) }}
                         </div>

@@ -486,7 +486,7 @@
         data-dev-name="{{ form.vars.attr['data-dev-name'] }}"
     >
         <div class="rz-form-field__head">
-            {{ rz_form_field.inner_head(form.vars.label, {}, form, 'rz-icon-ri--stack-line', form.vars.attr,) }}
+            {{ rz_form_field.inner_head({ label: form.vars.label, form: form, iconClass: 'rz-icon-ri--stack-line', widgetAttributes: form.vars.attr }) }}
             {% if label is empty -%}
                 {% set label = name|humanize %}
             {%- endif -%}
@@ -495,7 +495,7 @@
                     {% set popover_id = "ChildrenNodesQuickCreation_" ~ nodeTree.rootNode.id %}
                     {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                             targetId: popover_id,
-                            class: 'children-nodes-quick-creation',
+                            attributes: { class: 'children-nodes-quick-creation' },
                             placement: 'bottom-end',
                             offset: '12',
                             target_options: {
@@ -503,14 +503,14 @@
                                     title: 'add.children_node'|trans,
                                 },
                                 label: 'add'|trans,
-                                icon: 'rz-icon-ri--add-line',
+                                iconClass: 'rz-icon-ri--add-line',
                             }
                     } %}
                         {% block items %}
                             {% for linkedType in linkedTypes %}
                                 {{ _self.item({
                                     label: linkedType.displayName,
-                                    rightIcon: 'rz-icon-ri--add-line',
+                                    rightIconClass: 'rz-icon-ri--add-line',
                                     attributes: {
                                         type: 'button',
                                         command: '--quick-add-child-node',
@@ -527,9 +527,7 @@
             {% endif %}
         </div>
         {%- if form.vars.help ?? false -%}
-            {{ rz_form_field.help(
-                form: form,
-            ) }}
+            {{ rz_form_field.help({ form: form }) }}
         {%- endif -%}
         <rz-tree
             class="rz-tree rz-tree--child-nodes rz-form-field__body"
@@ -599,7 +597,7 @@
     {% if label is empty -%}
         {% set label = name|humanize %}
     {%- endif -%}
-    {{ rz_form_field.head(label, label_attr, form, attr: attr) }}
+    {{ rz_form_field.head({ label: label, labelAttributes: label_attr, form: form, widgetAttributes: attr }) }}
 {%- endblock form_label %}
 
 {% block form_widget_compound -%}

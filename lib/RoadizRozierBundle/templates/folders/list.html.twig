@@ -12,18 +12,18 @@
             attributes: {
                 href: path('foldersAddPage'),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
     } only %}
 
-    {% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: false,
-    }  only %}
+        displaySelectAllButton: false,
+    }  only %}{% endembed %}
     <article>
         {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
             folders: folders,
         } only %}
             {% block thead_cells %}
@@ -42,7 +42,7 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': folder.color }) }}
                     >
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                             <td>
                                 {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
                                 {{ rz_bulk_actions.select_input({ value: folder.id }) }}
@@ -51,15 +51,15 @@
                         <td>
                             <a href="{{ path('foldersEditPage', { folderId: folder.id }) }}">{{ folder.folderName }}</a>
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                                    'edit_href': path('foldersEditPage', { folderId: folder.id }),
-                                    'delete_href': path('foldersDeletePage', { folderId: folder.id }),
+                                    'editHref': path('foldersEditPage', { folderId: folder.id }),
+                                    'deleteHref': path('foldersDeletePage', { folderId: folder.id }),
                                 } %}
                                     {% block other_actions %}
                                         {{ _self.button({
-                                            icon: 'uk-icon-rz-download',
+                                            iconClass: 'uk-icon-rz-download',
                                             attributes: {
                                                 href: path('foldersDownloadPage', { folderId: folder.id }),
                                                 title: 'download.folder.content'|trans,

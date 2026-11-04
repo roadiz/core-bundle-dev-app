@@ -1,3 +1,4 @@
+{# rz-drawer (on rz-form-field): form widget partial, included by forms.html.twig with the form theme context (form, label, attr…); no options hash yet, story Components/Overlay/Drawer #}
 {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 {% set entity_ids = [] %}
@@ -93,15 +94,15 @@
             {% set label = name|humanize %}
         {%- endif -%}
         <div class="rz-form-field__head">
-            {{ rz_form_field.inner_head(label, label_attr|merge({for: input_id}), form, icon, attr, entity_ids|length) }}
+            {{ rz_form_field.inner_head({ label: label, labelAttributes: label_attr|merge({ for: input_id }), form: form, iconClass: icon, widgetAttributes: attr, itemsLength: entity_ids|length }) }}
             <div class="rz-button-group rz-button-group--md rz-form-field__head__end">
                 {% if enableDropzone %}
                     {{ rz_button.root({
                         size: 'sm',
-                        class: 'rz-button-group__button',
                         label: 'documents.toggle-uploader',
-                        icon: 'rz-icon-ri--upload-line',
+                        iconClass: 'rz-icon-ri--upload-line',
                         attributes: {
+                            class: 'rz-button-group__button',
                             'type': 'button',
                             'command': '--toggle-file-upload',
                             'commandfor': drawer_id,
@@ -112,10 +113,10 @@
                 {% endif %}
                 {{ rz_button.root({
                     size: 'sm',
-                    class: 'rz-button-group__button',
                     label: 'documents.toggle-explorer',
-                    icon: 'rz-icon-ri--add-line',
+                    iconClass: 'rz-icon-ri--add-line',
                     attributes: {
+                        class: 'rz-button-group__button',
                         'type': 'button',
                         'command': '--open-explorer',
                         'commandfor': drawer_id,
@@ -131,9 +132,7 @@
     {% endif %}
 
     {%- if form.vars.help ?? false -%}
-        {{ rz_form_field.help(
-            form: form,
-        ) }}
+        {{ rz_form_field.help({ form: form }) }}
     {%- endif -%}
 
     <rz-drawer

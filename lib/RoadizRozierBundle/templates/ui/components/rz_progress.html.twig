@@ -1,8 +1,9 @@
+{# rz-progress: options = RzProgressOptions (component-renderer/rzProgress.ts), story Components/Feedback/Progress #}
 {% macro root(options = {}) %}
     {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
 
     {% set element_class = 'rz-progress' %}
-    {% set class = options.class|default('') %}
+    {% set attributes = options.attributes|default({}) %}
     {% set label = options.label|default(null) %}
     {% set hint = options.hint|default(null) %}
     {% set state = options.state|default(null) %}
@@ -16,11 +17,11 @@
         ? min(100 - percentage, projection / max * 100)
         : 0 %}
 
-    <div class="{{ html_classes(element_class, class, {
+    <div class="{{ html_classes(element_class, attributes.class|default(''), {
         (element_class ~ '--' ~ state): state,
         (element_class ~ '--stat'): stat,
     }) }}"
-		{{ el_attrs.print(options.attributes|default({})) }}
+		{{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
     >
         {% if label %}
             <div class="{{ element_class ~ '__header' }}">

@@ -1,5 +1,5 @@
 {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-	actions_available: true,
+	actionsAvailable: true,
 } %}
 	{% block thead_cells %}
 		<th>{{ 'date'|trans }}</th>
@@ -83,13 +83,13 @@
 				<td>
 					{% if log.channel and log.channel != 'roadiz' and log.channel != 'app' %}
                         {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							label: log.channel|trans,
 						}) }}
 					{% endif %}
 					{% if log.level and log.level >= 300 %}
                         {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							label: levels[log.level]|trans,
 							color: log.level >= 400 ? 'danger' : log.level >= 300 ? 'warning' : null,
 						}) }}
@@ -111,11 +111,11 @@
 								<span class="rz-dialog__icon rz-icon-ri--history-line"></span>
 								<h1 class="rz-dialog__title">{{ 'history.details.title'|trans }}</h1>
 								{{ rz_button.root({
-									icon: 'rz-icon-ri--close-line',
+									iconClass: 'rz-icon-ri--close-line',
 									emphasis: 'tertiary',
 									size: 'sm',
-									class: 'rz-dialog__close',
 									attributes: {
+										class: 'rz-dialog__close',
 										'aria-label': 'Close dialog',
 										autofocus: '',
 										closetarget: '',
@@ -141,7 +141,7 @@
 							{% if entityPath or userPath %}
 								<footer class="rz-dialog__footer rz-dialog__footer--justify-end">
 									{{ rz_button.root({
-										icon: 'rz-icon-ri--arrow-right-s-line',
+										iconClass: 'rz-icon-ri--arrow-right-s-line',
 										label: 'entity'|trans,
 										emphasis: 'secondary',
 										size: 'lg',
@@ -150,7 +150,7 @@
 										}
 									}) }}
 									{{ rz_button.root({
-											icon: 'rz-icon-ri--arrow-right-s-line',
+											iconClass: 'rz-icon-ri--arrow-right-s-line',
 										label: 'user'|trans,
 										emphasis: 'secondary',
 										size: 'lg',
@@ -162,7 +162,7 @@
 							{% endif %}
 						</dialog>
 						{{ _self.button({
-							icon: 'rz-icon-ri--eye-line',
+							iconClass: 'rz-icon-ri--eye-line',
 							attributes: {
 								title: 'view.details'|trans,
 								type: 'button',
@@ -176,7 +176,7 @@
 		{% else %}
 			<tr>
 				{% set col_span = 4 %}
-				{% if actions_available %}
+				{% if actionsAvailable %}
 					{% set col_span = col_span + 1 %}
 				{% endif %}
 				<td colspan="{{col_span}}">{{ 'no.result.found'|trans }}</td>

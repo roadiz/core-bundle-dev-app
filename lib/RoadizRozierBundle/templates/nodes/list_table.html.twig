@@ -1,7 +1,7 @@
 {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
     nodes: nodes,
-    selection_available: selection_available,
-    actions_available: actions_available,
+    selectionAvailable: selectionAvailable,
+    actionsAvailable: actionsAvailable,
 } only %}
     {% block thead_cells %}
         {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
@@ -38,7 +38,7 @@
             <tr
                 {{ _self.colored_row_attrs({'color': getNodeType(node).color }) }}
             >
-                {{ _self.selection_input(selection_available, node.id, node.locked) }}
+                {{ _self.selection_input({ selectionAvailable: selectionAvailable, value: node.id, disabled: node.locked }) }}
                 <td class="rz-table__cell--flex">
                     <rz-entity-thumbnail
                         class="mobile-hidden uk-visible-large rz-entity-thumbnail--medium"
@@ -59,19 +59,19 @@
                 <td class="rz-table__cell">
                     <div class="rz-button-group rz-button-group--nowrap">
                         {% import "@RoadizRozier/ui/components/rz_node_badge.html.twig" as rz_node_badge %}
-                        {{ rz_node_badge.all(node, { display_label: false }) }}
+                        {{ rz_node_badge.all({ node: node, displayLabel: false }) }}
                     </div>
                 </td>
                 <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
-                {% if actions_available %}
+                {% if actionsAvailable %}
                     <td>
                         {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-                            'edit_href': path('nodesEditPage', { nodeId: node.id }),
-                            'delete_href': workflow_can(node, 'delete') ? path('nodesDeletePage', { nodeId: node.id }) : null,
+                            'editHref': path('nodesEditPage', { nodeId: node.id }),
+                            'deleteHref': workflow_can(node, 'delete') ? path('nodesDeletePage', { nodeId: node.id }) : null,
                         } %}
                             {% block other_actions %}
                                 {{ _self.button({
-                                    icon: 'uk-icon-rz-node-tree-mini',
+                                    iconClass: 'uk-icon-rz-node-tree-mini',
                                     attributes: {
                                         href: path('nodesTreePage', { nodeId: node.id }),
                                         title: 'see.nodetree'|trans,
@@ -79,7 +79,7 @@
                                 }) }}
                                 {% if workflow_can(node, 'undelete') %}
                                     {{ _self.button({
-                                        icon: 'uk-icon-rz-untrash',
+                                        iconClass: 'uk-icon-rz-untrash',
                                         attributes: {
                                             href: path('nodesUndeletePage', { nodeId: node.id }),
                                             title: 'undelete'|trans,
@@ -94,8 +94,8 @@
         {% else %}
             {{ _self.fallback_row({
                 length: 4,
-                selection_available: selection_available,
-                actions_available: actions_available,
+                selectionAvailable: selectionAvailable,
+                actionsAvailable: actionsAvailable,
                 message: 'no_nodes',
             }) }}
         {% endfor %}

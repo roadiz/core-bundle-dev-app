@@ -1,60 +1,65 @@
-{% macro head(label, label_attr, form, icon, attr, items_length) %}
-    {% if label is not same as(false) -%}
+{# rz-form-field head: options = label, iconClass (RzFormFieldOptions, storybook/renderer/rzFormField.ts) + Twig-only labelAttributes, form, widgetAttributes (the form widget attr), itemsLength #}
+{% macro head(options = {}) %}
+    {% if options.label is not same as(false) -%}
         <div class="rz-form-field__head">
-            {{ _self.inner_head(label, label_attr, form, icon, attr, items_length) }}
+            {{ _self.inner_head(options) }}
         </div>
-        {{ _self.help(form) }}
+        {{ _self.help({ form: options.form }) }}
     {%- endif %}
 {% endmacro %}
 
-{% macro inner_head(label, label_attr, form, icon, attr, items_length) %}
-    {% if icon is defined and icon %}
-        <span class="rz-form-field__head__icon {{ icon }}"></span>
+{% macro inner_head(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% set attr = options.widgetAttributes|default({}) %}
+    {% set items_length = options.itemsLength|default(0) %}
+
+    {% if options.iconClass is defined and options.iconClass %}
+        <span class="rz-form-field__head__icon {{ options.iconClass }}"></span>
     {% endif %}
     <label
         class="rz-form-field__head__label"
-        {% for attrname, attrvalue in label_attr %}
-            {{ attrname }}="{{ attrvalue }}"
-        {% endfor %}>
-    {{- label|trans -}}
+        {{ el_attrs.print(options.labelAttributes|default({})) }}>
+    {{- options.label|trans -}}
     </label>
-    {% if attr['data-universal'] %}
+    {% if attr['data-universal'] is defined and attr['data-universal'] %}
         {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
-        {{ rz_badge.item({
+        {{ rz_badge.root({
             size: 'xs',
             color: 'default',
-            icon: 'rz-icon-ri--earth-line',
-            class: 'rz-form-field__head__badge',
+            iconClass: 'rz-icon-ri--earth-line',
             attributes: {
+                class: 'rz-form-field__head__badge',
                 title: 'universal'|trans,
             }
         }) }}
     {% endif %}
-    {% if attr['data-max-length'] or attr['data-min-length'] -%}
+    {% if attr['data-max-length'] is defined or attr['data-min-length'] is defined -%}
         {% set has_error = false %}
-        {% if attr['data-max-length'] and items_length > attr['data-max-length'] %}
+        {% if attr['data-max-length'] is defined and attr['data-max-length'] and items_length > attr['data-max-length'] %}
             {% set has_error = true %}
-        {% elseif attr['data-min-length'] and items_length < attr['data-min-length'] %}
+        {% elseif attr['data-min-length'] is defined and attr['data-min-length'] and items_length < attr['data-min-length'] %}
             {% set has_error = true %}
         {% endif %}
         {% set error_class = 'rz-badge--danger' %}
         <div class="rz-badge rz-badge--xs {{ has_error ? error_class : '' }} rz-form-field__head__badge" data-length-indicator="{{ error_class }}">
             <span class="rz-badge__label">
                 <span data-length-indicator-current>{{ items_length ? items_length : 0 }}</span>
-                {%- if attr['data-max-length'] -%}/<span>{{ attr['data-max-length'] }}</span>
+                {%- if attr['data-max-length'] is defined and attr['data-max-length'] -%}/<span>{{ attr['data-max-length'] }}</span>
                 {%- endif -%}
             </span>
         </div>
     {% endif %}
-    {% if attr['data-min-length'] %}
+    {% if attr['data-min-length'] is defined and attr['data-min-length'] %}
         <div class="rz-badge rz-badge--xs rz-badge--information rz-form-field__head__badge">
             <span class="rz-badge__label">({% trans %}min{% endtrans %}: {{ attr['data-min-length'] }})</span>
         </div>
     {% endif %}
 {% endmacro %}
 
-{% macro help(form, class = 'rz-form-field') %}
+{# Twig-only options: form, elementClass (BEM block of the description, default rz-form-field) #}
+{% macro help(options = {}) %}
+    {% set form = options.form %}
     {%- if form.vars.help ?? false -%}
-        <p id="{{ form.vars.id }}_help" class="{{ class }}__description">{{ form.vars.help|trans|inlineMarkdown }}</p>
+        <p id="{{ form.vars.id }}_help" class="{{ options.elementClass|default('rz-form-field') }}__description">{{ form.vars.help|trans|inlineMarkdown }}</p>
     {%- endif -%}
 {% endmacro %}

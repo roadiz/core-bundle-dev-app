@@ -11,8 +11,8 @@
 
         <article>
             {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
-                selection_available: false,
-                actions_available: true,
+                selectionAvailable: false,
+                actionsAvailable: true,
                 fields: fields,
                 nodeType: nodeType,
             } only %}
@@ -34,24 +34,24 @@
                             <td class="mobile-hidden">
                                 {% import '@RoadizRozier/ui/components/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not field.visible %}
-                                    {{ rz_node_badge.item('hidden', false) }}
+                                    {{ rz_node_badge.root({ type: 'hidden', displayLabel: false }) }}
                                 {% endif %}
                                 {% if field.universal %}
-                                    {{ rz_node_badge.item('universal', false) }}
+                                    {{ rz_node_badge.root({ type: 'universal', displayLabel: false }) }}
                                 {% endif %}
                                 {% if field.indexed %}
-                                    {{ rz_node_badge.item('indexed', false) }}
+                                    {{ rz_node_badge.root({ type: 'indexed', displayLabel: false }) }}
                                 {% endif %}
                                 {% if field.ExcludedFromTranslation %}
-                                    {{ rz_node_badge.item('excludeFromTranslation', false) }}
+                                    {{ rz_node_badge.root({ type: 'excludeFromTranslation', displayLabel: false }) }}
                                 {% endif %}
                             </td>
-                            {% if actions_available %}
+                            {% if actionsAvailable %}
                                 <td>
                                     {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
                                             {{ _self.button({
-                                                icon: 'rz-icon-ri--edit-line',
+                                                iconClass: 'rz-icon-ri--edit-line',
                                                 attributes: {
                                                     href: path('nodeTypeDecoratorsAddPage', {'nodeTypeName': nodeType.name, 'nodeTypeFieldName': field.name }),
                                                     title: 'add.a.nodeTypeDecorator'|trans,

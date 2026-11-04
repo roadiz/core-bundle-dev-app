@@ -5,7 +5,7 @@
 } only %}
     {% block items %}
         {% if setting.getId %}
-            {{ _self.deleteItem(href: path('settingsDeletePage', { settingId: setting.getId})) }}
+            {{ _self.deleteItem({ attributes: { href: path('settingsDeletePage', { settingId: setting.getId}) } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

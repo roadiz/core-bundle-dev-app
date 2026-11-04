@@ -1,6 +1,46 @@
-{% macro item(buttonOptions = {}, children = [], end) %}
-    <li class="rz-header__li{{ end ? ' rz-header__li--end' : '' }}">
-        {{ _self.button(buttonOptions, children|length > 0) }}
+{# rz-header-nav-item: options = RzHeaderNavItemOptions (storybook/renderer/rzHeaderNavItem.ts), story Components/Navigation/HeaderNavItem #}
+{#
+    Twig-only keys: `hasChildren` (shows the dropdown arrow), `rightElement` (HTML rendered after the label).
+    `item` also takes `children` (rendered items HTML) and `end` (pushes the item to the end of the list).
+#}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-header-nav-item' %}
+    {% set tag = options.tag|default('div') %}
+    {% set attributes = options.attributes|default({}) %}
+
+    {% if tag == 'button' %}
+        {% set attributes = { is: 'rz-header-nav-item-button', 'aria-expanded': 'false' }|merge(attributes) %}
+    {% endif %}
+
+    <{{ tag }}
+        class="{{ html_classes(element_class, attributes.class|default(''), {
+            (element_class ~ '--sub-item'): options.subItem|default(false),
+            (element_class ~ '--active'): options.active|default(false),
+        }) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class' and v is not null)) }}
+    >
+        {% if options.iconClass is defined and options.iconClass %}
+            <span class="{{ element_class }}__icon {{ options.iconClass }}"></span>
+        {% endif %}
+        <span class="{{ element_class }}__label">{{ options.label|default('') }}</span>
+        {% if tag == 'a' %}
+            <span class="{{ element_class }}__arrow rz-icon-ri--arrow-right-line"></span>
+        {% elseif options.hasChildren|default(false) %}
+            <span class="{{ element_class }}__arrow rz-icon-ri--arrow-down-s-line"></span>
+        {% endif %}
+        {% if options.rightElement is defined and options.rightElement %}
+            {{ options.rightElement|raw }}
+        {% endif %}
+    </{{ tag }}>
+{% endmacro %}
+
+{% macro item(options = {}) %}
+    {% set children = options.children|default('') %}
+
+    <li class="{{ html_classes('rz-header__li', { 'rz-header__li--end': options.end|default(false) }) }}">
+        {{ _self.root(options|filter((v, k) => k not in ['children', 'end'])|merge({ hasChildren: children|length > 0 })) }}
 
         {% if children|length %}
             <ul class="rz-header__list rz-header__sub-list">
@@ -8,42 +48,4 @@
             </ul>
         {% endif %}
     </li>
-{% endmacro %}
-
-{% macro button(buttonOptions = {}, hasChildren = false) %}
-    {% set label = buttonOptions.label|default('') %}
-    {% set active = buttonOptions.active|default(false) %}
-    {% set icon = buttonOptions.icon|default('') %}
-    {% set component = buttonOptions.component|default('') %}
-    {% set href = buttonOptions.href|default(null) %}
-    {% set subItem = buttonOptions.subItem|default(false) %}
-    {% set tag = buttonOptions.tag|default('div') %}
-    {% set opentarget = buttonOptions.opentarget|default(null) %}
-
-    {% set buttonClass = "rz-header-nav-item" ~ (subItem ? " rz-header-nav-item--sub-item" : "") ~ (active ? " rz-header-nav-item--active" : "") %}
-
-    <{{ tag }}
-        class="{{ buttonClass }}"
-        {% if href is defined and href %} href="{{ href }}"{% endif %}
-        {% if tag == 'button' %}aria-expanded="false"{% endif %}
-        {% if component %}
-            is="{{ component }}"
-        {% elseif tag == 'button' %}
-            is="rz-header-nav-item-button"
-        {% endif %}
-        {% if opentarget %}opentarget="{{ opentarget }}"{% endif %}
-    >
-        {% if icon is not empty %}
-            <span class="rz-header-nav-item__icon {{ icon }}"></span>
-        {% endif %}
-        <span class="rz-header-nav-item__label">{{ label }}</span>
-        {% if tag == 'a' %}
-            <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-right-line"></span>
-        {% elseif hasChildren %}
-            <span class="rz-header-nav-item__arrow rz-icon-ri--arrow-down-s-line"></span>
-        {% endif %}
-        {% if buttonOptions.rightElement %}
-            {{ buttonOptions.rightElement|raw }}
-        {% endif %}
-    </{{ tag }}>
 {% endmacro %}

@@ -52,7 +52,7 @@
 
 		{% for item in items %}
 			<tr>
-				{% if selection_available %}
+				{% if selectionAvailable %}
                     <td>
                         {{ rz_bulk_actions.select_input({ value: item.id }) }}
                     </td>
@@ -90,9 +90,9 @@
 					{% set icon_status = item.enabled ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
 
 					{% if item.enabled is defined %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							color: color_status,
-							icon: icon_status,
+							iconClass: icon_status,
 							attributes: {
 								title: label_status|trans,
 							}
@@ -100,9 +100,9 @@
 					{% endif %}
 
 					{% if item.accountNonLocked is defined and not item.accountNonLocked %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							color: 'warning',
-							icon: 'rz-icon-ri--lock-2-line',
+							iconClass: 'rz-icon-ri--lock-2-line',
 							attributes: {
 								title: 'user.locked'|trans,
 							}
@@ -112,26 +112,26 @@
 					{% if
 						(item.credentialsNonExpired is defined and not item.credentialsNonExpired)
 					 or (item.accountNonExpired is defined and not item.accountNonExpired) %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							color: 'danger',
-							icon: 'rz-icon-rz--status-pending-line',
+							iconClass: 'rz-icon-rz--status-pending-line',
 							attributes: {
 								title: 'user.expired'|trans,
 							}
 						}) }}
 					{% endif %}
 				</td>
-				{% if actions_available %}
+				{% if actionsAvailable %}
                     <td>
 						{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
 							{% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
-								'edit_href': path('usersEditPage', { id: item.id }),
-								'delete_href': is_granted('ROLE_ACCESS_USERS_DELETE') ? path('usersDeletePage', { id: item.id }) : null,
+								'editHref': path('usersEditPage', { id: item.id }),
+								'deleteHref': is_granted('ROLE_ACCESS_USERS_DELETE') ? path('usersDeletePage', { id: item.id }) : null,
 							} %}
 								{% block other_actions %}
 									{% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
 										{{ _self.button({
-											icon: 'uk-icon-rz-sudo',
+											iconClass: 'uk-icon-rz-sudo',
 											attributes: {
 												href: path('adminHomePage') ~ '?_su=' ~ item.username|url_encode,
 												title: 'start.test.user.right'|trans,
@@ -147,8 +147,8 @@
 		{% else %}
 			{{ _self.fallback_row({
 				length: 5,
-				selection_available: selection_available,
-				actions_available: actions_available,
+				selectionAvailable: selectionAvailable,
+				actionsAvailable: actionsAvailable,
 				message: 'no_users',
 			}) }}
 		{% endfor %}

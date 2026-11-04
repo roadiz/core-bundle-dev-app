@@ -16,7 +16,7 @@
             {% block other_actions %}
 
                 {{ _self.button({
-                    icon: 'rz-icon-ri--save-line',
+                    iconClass: 'rz-icon-ri--save-line',
                     color: 'success',
                     attributes: {
                         type: 'submit',
@@ -29,7 +29,7 @@
                 {{ form_start(redirection.deleteForm) }}
                     {{ form_widget(redirection.deleteForm, { attr: { style: 'display: none;' }}) }}
                     {{ _self.button({
-                        icon: 'rz-icon-ri--delete-bin-7-line',
+                        iconClass: 'rz-icon-ri--delete-bin-7-line',
                         color: 'danger',
                         attributes: {
                             type: 'submit',

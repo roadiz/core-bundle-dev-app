@@ -14,7 +14,7 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#' ~ field_id(form)) }}
+            {{ actions_menu.saveItem({ dataActionSave: '#' ~ field_id(form) }) }}
         {{ form_end(form) }}
 
         {% include '@RoadizRozier/ui/patterns/meta_item_table.html.twig' with {

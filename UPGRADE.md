@@ -121,8 +121,8 @@ Example:
         buttons: [
             {
                 label: 'add.entity'|trans,
-                href: path('my_entity_add'),
-                icon: 'rz-icon-ri--add-line',
+                attributes: { href: path('my_entity_add') },
+                iconClass: 'rz-icon-ri--add-line',
             }
         ]
     } only %}
@@ -133,10 +133,10 @@ You need to update your `content_filters` block to use new `ui/components/rz_fil
 
 Example:
 ```twig
-{% include "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
     filters: filters,
-    display_select_all_button: true,
-} only %}
+    displaySelectAllButton: true,
+} only %}{% endembed %}
 ```
 
 ## Rozier menu icons changed

@@ -28,13 +28,13 @@
                 <div class="rz-button-group rz-button-group--gap-md">
                     {{
                         rz_button.root({
-                            tagName: 'a',
+                            tag: 'a',
                             attributes: {
                                 href: path('2fa_admin_two_factor'),
                             },
                             emphasis: 'secondary',
                             label: 'back_to.two_factor',
-                            icon: 'rz-icon-ri--corner-down-left-line',
+                            iconClass: 'rz-icon-ri--corner-down-left-line',
                         })
                     }}
                 </div>
@@ -50,13 +50,13 @@
                 <div class="rz-button-group rz-button-group--gap-md">
                     {{
                         rz_button.root({
-                            tagName: 'a',
+                            tag: 'a',
                             attributes: {
                                 href: path('2fa_admin_two_factor'),
                             },
                             emphasis: 'secondary',
                             label: 'cancel',
-                            icon: 'rz-icon-ri--corner-down-left-line',
+                            iconClass: 'rz-icon-ri--corner-down-left-line',
                         })
                     }}
                     {{
@@ -67,7 +67,7 @@
                             emphasis: 'primary',
                             color: 'danger',
                             label: 'generate_backup_codes',
-                            icon: 'rz-icon-ri--refresh-line',
+                            iconClass: 'rz-icon-ri--refresh-line',
                         })
                     }}
                 </div>

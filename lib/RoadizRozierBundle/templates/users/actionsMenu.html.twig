@@ -5,7 +5,7 @@
 } only %}
     {% block items %}
         {% if is_granted('ROLE_ACCESS_USERS_DELETE') and user.id %}
-            {{ _self.deleteItem(href: path('usersDeletePage', { id: user.id})) }}
+            {{ _self.deleteItem({ attributes: { href: path('usersDeletePage', { id: user.id}) } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

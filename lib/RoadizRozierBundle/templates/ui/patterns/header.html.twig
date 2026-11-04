@@ -15,16 +15,16 @@
         {%- if bookmarks|length -%}
             {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                 targetId: 'QuickAccessNav',
-                tagList: 'ul',
+                listTag: 'ul',
             } %}
                 {% block items %}
                     {% for bookmark in bookmarks %}
                         {{ _self.item({
                             label: bookmark.label,
-                            href: bookmark.url,
+                            attributes: { href: bookmark.url },
                             selected: currentVersion and currentVersion.id == version.id,
-                            leftIcon: 'rz-icon-ri--link',
-                            rightIcon: 'rz-icon-ri--arrow-right-up-line',
+                            iconClass: 'rz-icon-ri--link',
+                            rightIconClass: 'rz-icon-ri--arrow-right-up-line',
                         }) }}
                     {% endfor %}
                 {% endblock %}
@@ -35,7 +35,8 @@
         <span class="rz-icon-ri--menu-line"></span>
         <input name="burger-menu" id="burger-menu" type="checkbox"/>
     </div>
-    {% include '@RoadizRozier/ui/components/rz_color_scheme_switcher.html.twig' with { class: 'rz-header__color-switcher rz-header__head__item--end'} %}
+    {% import '@RoadizRozier/ui/components/rz_color_scheme_switcher.html.twig' as rz_color_scheme_switcher %}
+    {{ rz_color_scheme_switcher.root({ attributes: { class: 'rz-header__color-switcher rz-header__head__item--end' } }) }}
     <div class="rz-header__head__item rz-badge rz-badge--sm">
         <span class="rz-badge__label">{{ cms_prefix }} {{ cms_version }}</span>
     </div>
@@ -55,14 +56,15 @@
         <div class="rz-header__li">
             {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
             {{
-                header.button({
+                header.root({
                     label: "search"|trans,
-                    icon: "rz-icon-ri--search-line",
-                    rightIcon: "rz-icon-ri--arrow-right-up-line",
+                    iconClass: "rz-icon-ri--search-line",
                     tag: 'button',
-                    opentarget: search_dialog_id,
-                    component: "rz-button",
-                    rightElement: rz_badge.item({ label: 'Cmd+k', size: 'sm', color: 'default', class: 'rz-header-nav-item__right-el' }),
+                    attributes: {
+                        is: "rz-button",
+                        opentarget: search_dialog_id,
+                    },
+                    rightElement: rz_badge.root({ label: 'Cmd+k', size: 'sm', color: 'default', attributes: { class: 'rz-header-nav-item__right-el' }}),
                 })
             }}
         </div>
@@ -111,15 +113,15 @@
                 {% endif %}
             {% endfor %}
 
+            {% set children = '' %}
             {% if mainEntry.subentries %}
-                {% set children = '' %}
                 {% for subEntry in mainEntry.subentries %}
                     {% if subEntry.name == 'setting.groups.dynamic' %}
                         {% for group in rozier.settingGroups %}
                             {% set children = children ~ header.item({
                                 label: group.name|trans,
-                                icon: 'uk-icon-rz-settings-group',
-                                href: path('settingGroupsSettingsPage', {'settingGroupId': group.id}),
+                                iconClass: 'uk-icon-rz-settings-group',
+                                attributes: { href: path('settingGroupsSettingsPage', {'settingGroupId': group.id}) },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
@@ -127,16 +129,16 @@
                         {% if is_granted('IS_IMPERSONATOR') %}
                             {% set children = children ~ header.item({
                                 label: 'stop.test.user.right'|trans,
-                                icon: 'rz-icon-ri--logout-circle-line',
-                                href: '?_su=_exit',
+                                iconClass: 'rz-icon-ri--logout-circle-line',
+                                attributes: { href: '?_su=_exit' },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
                         {% else %}
                             {% set children = children ~ header.item({
                                 label: 'logout'|trans,
-                                icon: 'rz-icon-ri--logout-box-line',
-                                href: path('logoutPage'),
+                                iconClass: 'rz-icon-ri--logout-box-line',
+                                attributes: { href: path('logoutPage') },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
@@ -144,8 +146,8 @@
                         {% for action in rozier.userActions %}
                             {% set children = children ~ header.item({
                                 label: action.label|trans,
-                                icon: action.icon,
-                                href: action.path,
+                                iconClass: action.icon,
+                                attributes: { href: action.path },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
@@ -153,8 +155,8 @@
                         {% if app.user and app.user.id %}
                             {% set children = children ~ header.item({
                                 label: 'edit.account'|trans,
-                                icon: 'uk-icon-rz-user',
-                                href: path('usersEditPage', {'id':app.user.id }),
+                                iconClass: 'uk-icon-rz-user',
+                                attributes: { href: path('usersEditPage', {'id':app.user.id }) },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
@@ -162,8 +164,8 @@
                         {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
                             {% set children = children ~ header.item({
                                 label: 'delete.caches'|trans,
-                                icon: 'rz-icon-ri--flashlight-line',
-                                href: path('deleteDoctrineCache'),
+                                iconClass: 'rz-icon-ri--flashlight-line',
+                                attributes: { href: path('deleteDoctrineCache') },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
@@ -171,8 +173,8 @@
                         {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
                             {% set children = children ~ header.item({
                                 label: 'delete.generated_images.cache'|trans,
-                                icon: 'rz-icon-ri--sd-card-line',
-                                href: path('deleteAssetsCache'),
+                                iconClass: 'rz-icon-ri--sd-card-line',
+                                attributes: { href: path('deleteAssetsCache') },
                                 subItem: true,
                                 tag: 'a',
                             }) %}
@@ -192,8 +194,8 @@
                             {% endif %}
                             {% set children = children ~ header.item({
                                 label: subEntry.name|trans,
-                                icon: subEntry.icon,
-                                href: path,
+                                iconClass: subEntry.icon,
+                                attributes: { href: path },
                                 subItem: true,
                                 tag: 'a'
                             }) %}
@@ -216,13 +218,12 @@
 
             {{ header.item({
                     label: mainEntry.name|trans,
-                    icon: mainEntry.icon,
-                    href: path,
-                    tag: tag
-                },
-                children: children,
-                end: (mainEntry.name == 'settings') ? true : false,
-            ) }}
+                    iconClass: mainEntry.icon,
+                    attributes: { href: path },
+                    tag: tag,
+                    children: children,
+                    end: mainEntry.name == 'settings',
+                }) }}
         {% endfor %}
     </ul>
 </nav>

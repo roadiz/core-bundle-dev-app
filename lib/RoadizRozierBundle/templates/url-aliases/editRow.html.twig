@@ -11,13 +11,13 @@
     <td>
         {{ urlAlias.alias.getNodeSource.getTranslation.getName }}
     </td>
-    {% if actions_available %}
+    {% if actionsAvailable %}
         <td>
             {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' %}
                 {% block other_actions %}
                     {# Submit editForm #}
                     {{ _self.button({
-                        icon: 'rz-icon-ri--save-line',
+                        iconClass: 'rz-icon-ri--save-line',
                         color: 'success',
                         attributes: {
                             type: 'submit',
@@ -31,7 +31,7 @@
                     {{ form_start(urlAlias.deleteForm) }}
                          {{ form_widget(urlAlias.deleteForm, { attr: { style: 'display: none;' }}) }}
                         {{ _self.button({
-                            icon: 'rz-icon-ri--delete-bin-7-line',
+                            iconClass: 'rz-icon-ri--delete-bin-7-line',
                             color: 'danger',
                             attributes: {
                                 type: 'submit',

@@ -17,14 +17,14 @@
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             <div class="rz-page-header__item--right">
-                {{ _self.translations_bar(
-                    available_translations: available_translations,
+                {{ _self.translations_bar({
+                    availableTranslations: available_translations,
                     current: translation.id,
                     path: 'documentsMetaPage',
                     pathParams: {
                         documentId: document.id,
-                    }
-                ) }}
+                    },
+                }) }}
             </div>
         {% endif %}
     {% endblock %}
@@ -57,7 +57,7 @@
         {% if filters and filters.itemCount %}
             {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,
                     size: 'sm',
                 }) }}

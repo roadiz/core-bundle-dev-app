@@ -16,7 +16,7 @@
         {{ form_start(form, { attr: { id: "edit-attribute-form" }}) }}
             {{ form_widget(form) }}
             {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#edit-attribute-form') }}
+            {{ actions_menu.saveItem({ dataActionSave: '#edit-attribute-form' }) }}
         {{ form_end(form) }}
     </article>
 
