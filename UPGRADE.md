@@ -139,52 +139,6 @@ Example:
 } only %}{% endembed %}
 ```
 
-### Component options follow the Storybook renderers
-
-The `ui/components/` options now use the keys of their TypeScript renderer `Options` type
-(`lib/Rozier/app/utils/component-renderer/`, `lib/Rozier/app/utils/storybook/renderer/`), and every
-component file opens with a comment naming them. Components without a renderer use the same conventions
-(camelCase, `iconClass`, `tag`, `attributes`). These components are new in 2.8, so only code written
-against a 2.8 pre-release needs the changes below:
-
-- Everywhere: `icon` → `iconClass`, `tagName` → `tag`, `component` → `is`, and `class` moves into
-  `attributes.class` (`rz_button`, `rz_badge`, `rz_link`, `rz_progress`, `rz_card`, dropdown items,
-  `rz_table_actions` buttons, page header `buttons`). `rz_link`: `content` → `innerHTML`.
-- `rz_badge.item()` → `rz_badge.root()`; `rz_card.render(item, thumbnailFormat)` → `rz_card.root(RzCardOptions)`.
-- `rz_dropdown` items: `leftIcon` → `iconClass`, `rightIcon` → `rightIconClass`, `href` and `title` move into
-  `attributes`, `badgeLabel`/`badgeIcon` → `badge` (`rz_badge` options). Embed: `tagList` → `listTag`,
-  `class` → `attributes.class`, head `items` → `headElements`; `head(title, items)` → `head({ title, headElements })`.
-- `rz_actions_menu`: `item(label, class, href, icon, attr)` → `item({ button: <rz_button options> })`,
-  `saveItem(dataActionSave, label)` → `saveItem({ dataActionSave, label })`,
-  `deleteItem(label, href, attr)` → `deleteItem({ label, attributes: { href } })`.
-- `rz_header_nav_item`: `button(options, hasChildren)` → `root(options)`, `item(options, children, end)` →
-  `item(options)` with `children` and `end` keys; `href`, `opentarget` and `component` move into `attributes`
-  (`component` as `attributes.is`).
-- `rz_color_scheme_switcher` and `rz_language_switcher` are macros: `rz_*.root({ attributes })` instead of
-  `include`; `rz_language_switcher` takes `tree`, `treeType`, `buttonAttributes`.
-- `rz_breadcrumb.root(breadcrumb)` takes the same hash, plus optional `ariaLabel` and `overflowLabel`.
-- `rz_form_field`: `head()`/`inner_head()` take `{ label, labelAttributes, form, iconClass, widgetAttributes, itemsLength }`,
-  `help(form, class)` → `help({ form, elementClass })`.
-- `rz_node_badge`: `item(type, display_label, badgeOptions)` → `root({ type, displayLabel, badge })`;
-  `status`, `parameters` and `all` take `{ node, displayLabel }`.
-- `rz_page_header`: `translations_bar(...)` takes `{ availableTranslations, path, pathParams, current,
-  pathAddTranslations, pathAddTranslationsTitle }`, `button_group(buttons)` → `button_group({ buttons })`.
-- `rz_bulk_actions`: `delete_form_action`, `delete_form_method`, `delete_form_data` → `deleteFormAction`,
-  `deleteFormMethod`, `deleteFormData`; the delete button title is `deleteTitle`; the `select_*` macros take
-  `{ attributes }` (`select_input` also `value`).
-- `rz_filters_bar` (embed it, do not include it): `display_select_all_button`, `display_layout_fields`,
-  `with_filter_form` → `displaySelectAllButton`, `displayLayoutFields`, `withFilterForm`.
-- `rz_table`: `selection_available`, `actions_available`, `margin_top`, `tbody_attributes`, `attr` →
-  `selectionAvailable`, `actionsAvailable`, `marginTop`, `tbodyAttributes`, `attributes`; `sortable.handle_class`
-  and `sortable.drag_custom_class` → `handleClass` and `dragCustomClass`;
-  `selection_input(selection_available, value, disabled)` → `selection_input({ selectionAvailable, value, disabled })`,
-  `colored_row_attrs(options, attrs)` → `colored_row_attrs({ color, entity, attributes })`.
-- `rz_table_actions`: `save_href`, `save_title`, `save_class`, `edit_href`, `edit_title`, `edit_icon`,
-  `delete_href`, `delete_title` → `saveHref`, `saveTitle`, `saveClass`, `editHref`, `editTitle`, `editIconClass`,
-  `deleteHref`, `deleteTitle`.
-- `rz_tree_item`: `can_reorder`, `icon_class`, `has_children`, `has_selection` → `canReorder`, `iconClass`,
-  `hasChildren`, `hasSelection`.
-
 ## Rozier menu icons changed
 
 All backoffice menu icon classes now use the new UI icon set.
