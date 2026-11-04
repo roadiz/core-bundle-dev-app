@@ -1,0 +1,19 @@
+{# rz-switch: options = RzSwitchOptions (storybook/renderer/rzSwitch.ts), story Components/Form/Switch #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set attributes = options.attributes|default({}) %}
+    {% set input_attributes = {
+        id: options.id|default(null),
+        name: options.name|default(null),
+        value: options.value ?? null,
+        required: options.required|default(false),
+        checked: options.checked|default(false),
+    }|filter(v => v is not null and v is not same as(false)) %}
+
+    <input
+        type="checkbox"
+        class="{{ html_classes('rz-switch', options.className|default(''), attributes.class|default('')) }}"
+        {{ el_attrs.print(input_attributes|merge(attributes|filter((v, k) => k != 'class'))) }}
+    />
+{% endmacro %}

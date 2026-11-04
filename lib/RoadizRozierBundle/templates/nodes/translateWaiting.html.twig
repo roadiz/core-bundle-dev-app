@@ -23,16 +23,20 @@
 
     <section class="rz-page__body">
         {% if try < 30 %}
-            <div class="rz-message rz-message--ghost">
-                <span class="rz-spinner"></span>
-                <p class="rz-message__text">{% trans %}translation_in_progress{% endtrans %}</p>
-            </div>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                variant: 'ghost',
+                iconClass: 'rz-spinner',
+                text: 'translation_in_progress'|trans,
+            }) }}
         {% else %}
             {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
-            <div class="rz-message rz-message--warning">
-                <span class="rz-icon-ri--error-warning-line"></span>
-                <p class="rz-message__text">{% trans %}translation_in_progress.taking_longer{% endtrans %}</p>
-            </div>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                color: 'warning',
+                iconClass: 'rz-icon-ri--error-warning-line',
+                text: 'translation_in_progress.taking_longer'|trans,
+            }) }}
             <div class="rz-button-group rz-button-group--gap-md">
                 {{
                     rz_button.root({

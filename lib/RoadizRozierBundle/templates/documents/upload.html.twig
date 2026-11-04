@@ -18,22 +18,30 @@
                 enctype="multipart/form-data"
             >
                 <div class="rz-form__field-list">
-                    <div class="rz-form-field">
-                        <rz-file-upload
-                            {% if folder.id %}
-                                url="{{ path('documentsUploadPage', {_format: 'json', folderId: folder.id}) }}"
-                                style="--rz-accent-color: {{ folder.color }};"
-                            {% endif %}
-                        >
-                            <noscript>
-                                {{ form_widget(form) }}
-                                <div class="rz-form-field rz-form-field--align-start">
-                                    <input class="rz-input" type="submit" value="{% trans %}upload{% endtrans %}" />
-                                </div>
-                            </noscript>
-                            {{ form_rest(form) }}
-                        </rz-file-upload>
-                    </div>
+                    {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with {
+                        folder: folder,
+                        form: form,
+                    } only %}
+                        {% block body %}
+                            <rz-file-upload
+                                {% if folder.id %}
+                                    url="{{ path('documentsUploadPage', {_format: 'json', folderId: folder.id}) }}"
+                                    style="--rz-accent-color: {{ folder.color }};"
+                                {% endif %}
+                            >
+                                <noscript>
+                                    {{ form_widget(form) }}
+                                    {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+                                        {% block body %}
+                                            {% import '@RoadizRozier/ui/components/rz_input.html.twig' as rz_input %}
+                                            {{ rz_input.root({ type: 'submit', value: 'upload'|trans }) }}
+                                        {% endblock %}
+                                    {% endembed %}
+                                </noscript>
+                                {{ form_rest(form) }}
+                            </rz-file-upload>
+                        {% endblock %}
+                    {% endembed %}
                 </div>
             </form>
         </div>

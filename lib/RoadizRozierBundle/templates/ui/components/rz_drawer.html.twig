@@ -123,9 +123,12 @@
                     }
                 }) }}
                 <template v-if="drawer.errorMessage">
-                    <div class="rz-message rz-message--error rz-form-field__message">
-                        <p class="rz-message__text">{ drawer.errorMessage }}</p>
-                    </div>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({
+                        color: 'error',
+                        text: '{ drawer.errorMessage }}',
+                        attributes: { class: 'rz-form-field__message' },
+                    }) }}
                 </template>
             </div>
         </div>

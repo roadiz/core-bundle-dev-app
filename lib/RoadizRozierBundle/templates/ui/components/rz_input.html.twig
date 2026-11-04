@@ -1,0 +1,22 @@
+{# rz-input: options = RzInputOptions (storybook/renderer/rzInput.ts), story Components/Form/Input #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-input' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set is = attributes.is|default(element_class) %}
+    {% set input_attributes = {
+        type: options.type|default('text'),
+        name: options.name|default(null),
+        id: options.id|default(null),
+        placeholder: options.placeholder|default(null),
+        value: options.value ?? null,
+        required: options.required|default(false),
+    }|filter(v => v is not null and v is not same as(false)) %}
+
+    <input
+        is="{{ is }}"
+        class="{{ html_classes(element_class, options.className|default(''), attributes.class|default('')) }}"
+        {{ el_attrs.print(input_attributes|merge(attributes|filter((v, k) => k != 'class' and k != 'is'))) }}
+    />
+{% endmacro %}

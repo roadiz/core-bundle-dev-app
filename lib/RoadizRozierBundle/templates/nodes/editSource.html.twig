@@ -63,24 +63,18 @@
             {% endif %}
 
             {% if orderedGroups|length > 1 %}
-            <rz-tablist class="rz-tablist">
-                {% for g in orderedGroups %}
-                    {% set code = g.code %}
-                    {% set data = g.data %}
-                    {% set safeCode = code|replace({' ':'-', '_':'-'})|lower %}
-                    {% set tabId = 'tab-' ~ safeCode %}
-                    {% set panelId = 'group-' ~ safeCode %}
-                    <button type="button" id="{{ tabId }}" role="tab"
-                            class="rz-tablist__item"
-                            aria-controls="{{ panelId }}"{% if loop.first %} aria-selected="true"{% endif %}>
-                        {% if code == 'default' %}
-                            <span class="rz-icon-ri--star-line"></span>
-                        {% else %}
-                            {{ data.label|trans }}
-                        {% endif %}
-                    </button>
-                {% endfor %}
-            </rz-tablist>
+            {% import '@RoadizRozier/ui/components/rz_tablist.html.twig' as rz_tablist %}
+            {% set tabs = [] %}
+            {% for g in orderedGroups %}
+                {% set safeCode = g.code|replace({' ':'-', '_':'-'})|lower %}
+                {% set tabs = tabs|merge([{
+                    innerHTML: g.code == 'default' ? '<span class="rz-icon-ri--star-line"></span>' : g.data.label|trans|e,
+                    selected: loop.first,
+                    attributes: { id: 'tab-' ~ safeCode },
+                    panel: { id: 'group-' ~ safeCode },
+                }]) %}
+            {% endfor %}
+            {{ rz_tablist.root({ tabs: tabs }) }}
             {% endif %}
 
             {% for g in orderedGroups %}
@@ -116,28 +110,42 @@
                              data-front-origin="{{ front_origin }}"
                 {# Only a block is singled out in the preview: the page itself needs no target. #}
                 {% if source.id != live_preview_source.id %}data-node-source-id="{{ source.id }}"{% endif %}>
+                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
                 <div class="rz-live-preview__toolbar">
                     <div class="rz-button-group" role="group" aria-label="{% trans %}live_preview.viewport{% endtrans %}">
                         {% for width in live_preview.viewport_widths %}
                             {% set icon = width < 600 ? 'smartphone-line' : (width < 1024 ? 'tablet-line' : 'computer-line') %}
-                            <button type="button"
-                                    class="rz-button rz-button--tertiary rz-button--sm"
-                                    data-width="{{ width }}"
-                                    aria-pressed="false"
-                                    aria-label="{{ width }} px"
-                                    title="{{ width }} px">
-                                <span class="rz-button__icon rz-icon-ri--{{ icon }}"></span>
-                            </button>
+                            {{ rz_button.root({
+                                emphasis: 'tertiary',
+                                size: 'sm',
+                                iconClass: 'rz-icon-ri--' ~ icon,
+                                attributes: {
+                                    type: 'button',
+                                    'data-width': width,
+                                    'aria-pressed': 'false',
+                                    'aria-label': width ~ ' px',
+                                    title: width ~ ' px',
+                                },
+                            }) }}
                         {% endfor %}
                     </div>
-                    <span class="rz-badge rz-badge--xs rz-live-preview__scale"><span class="rz-badge__label">100 %</span></span>
-                    <button type="button"
-                            class="rz-button rz-button--tertiary rz-button--sm"
-                            data-close
-                            aria-label="{% trans %}live_preview.close{% endtrans %}"
-                            title="{% trans %}live_preview.close{% endtrans %}">
-                        <span class="rz-button__icon rz-icon-ri--close-line"></span>
-                    </button>
+                    {{ rz_badge.root({
+                        size: 'xs',
+                        label: '100 %',
+                        attributes: { class: 'rz-live-preview__scale' },
+                    }) }}
+                    {{ rz_button.root({
+                        emphasis: 'tertiary',
+                        size: 'sm',
+                        iconClass: 'rz-icon-ri--close-line',
+                        attributes: {
+                            type: 'button',
+                            'data-close': true,
+                            'aria-label': 'live_preview.close'|trans,
+                            title: 'live_preview.close'|trans,
+                        },
+                    }) }}
                 </div>
                 <div class="rz-live-preview__viewport">
                     <iframe title="{% trans %}live_preview{% endtrans %}"></iframe>

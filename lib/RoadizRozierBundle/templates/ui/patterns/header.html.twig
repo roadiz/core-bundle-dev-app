@@ -68,41 +68,45 @@
                 })
             }}
         </div>
-        <dialog
-            is="rz-dialog"
-            class="rz-dialog"
-            id="{{ search_dialog_id }}"
-            modal="true"
-            closedby="any"
-        >
-            <div data-search-body="" class="rz-dialog__body">
-                <form
-                    class="rz-search__search-form"
-                    method="GET"
-                    action="{{ path('searchAjax') }}"
-                    data-prevent-submit=""
-                    role="search"
-                    aria-label="{% trans %}search_form.ariaLabel{% endtrans %}"
-                >
-                    <input
-                        is="rz-input"
-                        name="searchTerms"
-                        id="nodes-sources-search-input"
-                        type="search"
-                        placeholder="{% trans %}search.placeholder{% endtrans %}"
-                        value="{{ app.request.query.get('searchTerms')|default('') }}"
-                    />
-                </form>
-            </div>
-            <footer class="rz-dialog__footer rz-dialog__footer--justify-end">
-                <a
-                    href="/rz-admin/search"
-                    class="rz-dialog__item--end rz-button rz-button--primary"
-                >
-                    <span class="rz-button__label">Advanced search</span>
-                </a>
-            </footer>
-        </dialog>
+        {% import '@RoadizRozier/ui/components/rz_dialog.html.twig' as rz_dialog %}
+        {% import '@RoadizRozier/ui/components/rz_input.html.twig' as rz_input %}
+        {% set search_form %}
+            <form
+                class="rz-search__search-form"
+                method="GET"
+                action="{{ path('searchAjax') }}"
+                data-prevent-submit=""
+                role="search"
+                aria-label="{% trans %}search_form.ariaLabel{% endtrans %}"
+            >
+                {{ rz_input.root({
+                    type: 'search',
+                    name: 'searchTerms',
+                    id: 'nodes-sources-search-input',
+                    placeholder: 'search.placeholder'|trans,
+                    value: app.request.query.get('searchTerms')|default(''),
+                }) }}
+            </form>
+        {% endset %}
+        {{ rz_dialog.root({
+            dialogId: search_dialog_id,
+            body: {
+                innerHTML: search_form,
+                attributes: { 'data-search-body': '' },
+            },
+            footer: {
+                justifyEnd: true,
+                buttons: [{
+                    emphasis: 'primary',
+                    label: 'Advanced search',
+                    attributes: {
+                        class: 'rz-dialog__item--end',
+                        href: '/rz-admin/search',
+                        closetarget: false,
+                    },
+                }],
+            },
+        }) }}
     </rz-search>
     <ul class="rz-header__list">
         {% for mainEntry in rozier.backofficeMenuEntries %}

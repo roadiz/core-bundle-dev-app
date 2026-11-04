@@ -7,29 +7,38 @@
           action="{{ path('roadiz_rozier_login_link') }}"
           class="rz-login__group"
           method="post">
-        <rz-form-field class="rz-form-field rz-form-field--required">
-            <div class="rz-form-field__head">
-                <label class="rz-form-field__head__label" for="email">{% trans %}email{% endtrans %}</label>
-            </div>
-            <input is="rz-input"
-                   name="email"
-                   id="email"
-                   type="email"
-                   autocomplete="email"
-                   placeholder="{% trans %}email{% endtrans %}"
-                   class="rz-form-field__body"
-                   required
-                   autofocus />
-        </rz-form-field>
+        {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with {
+            label: 'email',
+            labelAttributes: { for: 'email' },
+            required: true,
+        } only %}
+            {% block body %}
+                {% import '@RoadizRozier/ui/components/rz_input.html.twig' as rz_input %}
+                {{ rz_input.root({
+                    type: 'email',
+                    name: 'email',
+                    id: 'email',
+                    placeholder: 'email'|trans,
+                    required: true,
+                    className: 'rz-form-field__body',
+                    attributes: { autocomplete: 'email', autofocus: true },
+                }) }}
+            {% endblock %}
+        {% endembed %}
+        {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
         <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
-            <a href="{{ path('loginPage') }}" class="rz-button rz-button--secondary">
-                <span class="rz-button__label">{% trans %}classic.login_password{% endtrans %}</span>
-                <span class="rz-button__icon rz-icon-ri--lock-password-line"></span>
-            </a>
-            <button class="rz-button rz-button--primary" type="submit">
-                <span class="rz-button__label">{% trans %}request_login_link{% endtrans %}</span>
-                <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
-            </button>
+            {{ rz_button.root({
+                emphasis: 'secondary',
+                label: 'classic.login_password',
+                iconClass: 'rz-icon-ri--lock-password-line',
+                attributes: { href: path('loginPage') },
+            }) }}
+            {{ rz_button.root({
+                emphasis: 'primary',
+                label: 'request_login_link',
+                iconClass: 'rz-icon-ri--arrow-right-s-line',
+                attributes: { type: 'submit' },
+            }) }}
         </div>
     </form>
 {% endblock %}

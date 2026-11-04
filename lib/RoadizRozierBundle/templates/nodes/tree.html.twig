@@ -78,9 +78,8 @@
                 } only %}
             </rz-tree>
         {% else %}
-            <div class="rz-message">
-                <p class="rz-message__text">{{ 'node_tree.no_nodes_found'|trans }}</p>
-            </div>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({ text: 'node_tree.no_nodes_found'|trans }) }}
         {% endif %}
     </section>
 

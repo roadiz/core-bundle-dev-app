@@ -80,24 +80,20 @@
 {% endmacro %}
 
 {% macro select_all_input(options = {}) %}
-    {% import "@RoadizRozier/ui/utils/element_attributes.html.twig" as el_attr %}
-    <input
-        is="rz-input"
-        type="checkbox"
-        name="bulk-selection-all"
-        aria-label="{{ "select.all"|trans }}"
-        {{ el_attr.print(options.attributes|default({})) }}
-    />
+    {% import "@RoadizRozier/ui/components/rz_input.html.twig" as rz_input %}
+    {{ rz_input.root({
+        type: 'checkbox',
+        name: 'bulk-selection-all',
+        attributes: { 'aria-label': 'select.all'|trans }|merge(options.attributes|default({})),
+    }) }}
 {% endmacro %}
 
 {% macro select_input(options = {}) %}
-    {% import "@RoadizRozier/ui/utils/element_attributes.html.twig" as el_attr %}
-    <input
-        is="rz-input"
-        type="checkbox"
-        name="bulk-selection[]"
-        aria-label="{{ "select.row"|trans }}"
-        {% if options.value is defined %}value="{{ options.value }}"{% endif %}
-        {{ el_attr.print(options.attributes|default({})) }}
-    />
+    {% import "@RoadizRozier/ui/components/rz_input.html.twig" as rz_input %}
+    {{ rz_input.root({
+        type: 'checkbox',
+        name: 'bulk-selection[]',
+        value: options.value ?? null,
+        attributes: { 'aria-label': 'select.row'|trans }|merge(options.attributes|default({})),
+    }) }}
 {% endmacro %}

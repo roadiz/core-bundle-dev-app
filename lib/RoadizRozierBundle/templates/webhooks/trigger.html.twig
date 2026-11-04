@@ -26,11 +26,12 @@
                 }
             }) }}
             {{ form_widget(form) }}
-            <div class="rz-message rz-message--warning rz-form-field__message">
-                <p class="rz-message__text">
-                    {% trans %}are_you_sure.trigger.webhook{% endtrans %}
-                </p>
-            </div>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                color: 'warning',
+                text: 'are_you_sure.trigger.webhook'|trans,
+                attributes: { class: 'rz-form-field__message' },
+            }) }}
             <div class="rz-button-group rz-button-group--gap-md">
                 {{
                     rz_button.root({

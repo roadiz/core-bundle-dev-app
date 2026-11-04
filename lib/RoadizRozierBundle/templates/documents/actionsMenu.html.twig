@@ -26,11 +26,17 @@
 
         {% if versions and versions|length > 1 %}
             <rz-popover popover-placement="left-start" popover-offset="18px">
-                <button popovertarget="version-menu"
-                        class="rz-button rz-button--tertiary rz-button--md rz-button--on-dark"
-                        aria-label="{% trans %}versions{% endtrans %}">
-                    <span class="rz-button__icon rz-icon-ri--git-fork-line"></span>
-                </button>
+                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    emphasis: 'tertiary',
+                    size: 'md',
+                    onDark: true,
+                    iconClass: 'rz-icon-ri--git-fork-line',
+                    attributes: {
+                        popovertarget: 'version-menu',
+                        'aria-label': 'versions'|trans,
+                    },
+                }) }}
 
                 {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                     title: 'versions',

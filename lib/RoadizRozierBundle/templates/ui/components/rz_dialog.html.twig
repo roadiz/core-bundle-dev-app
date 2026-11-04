@@ -48,7 +48,14 @@
             {{ _self.close(alert.closeIconClass) }}
         {% endif %}
 
-        <div class="{{ element_class }}__body">
+        {% set body_attributes = options.body.attributes ?? {} %}
+        <div
+            class="{{ html_classes(element_class ~ '__body', body_attributes.class|default('')) }}"
+            {{ el_attrs.print(body_attributes|filter((v, k) => k != 'class')) }}
+        >
+            {%- if options.body.innerHTML ?? false -%}
+                {{- options.body.innerHTML|raw -}}
+            {%- endif -%}
             {% if alert %}
                 <span class="{{ element_class }}__medallion">
                     <span class="{{ alert.iconClass }}" aria-hidden="true"></span>

@@ -22,41 +22,50 @@
                 {{ form_widget(form) }}
                 {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
                 {% if form.use_translate_assistant is defined %}
-                    <div class="rz-form-field">
-                        {% include '@RoadizRozier/ui/patterns/translate_assistant_usage.html.twig' with {
-                            label: 'translate_assistant.usage',
-                            estimate: estimate|default(null),
-                        } %}
-                        {% if estimate is defined %}
-                            {% if estimate.isEmpty %}
-                                <div class="rz-message rz-message--warning rz-form-field__message">
-                                    <p class="rz-message__text">{% trans %}translate_assistant.estimate.nothing_to_translate{% endtrans %}</p>
-                                </div>
-                            {% else %}
-                                <div class="rz-message rz-form-field__message">
-                                    <p class="rz-message__text">
-                                        {{- 'translate_assistant.estimate.%characters%_characters_for_%sources%_sources'|trans({
-                                            '%characters%': estimate.characterCount|number_format(0, '.', ' '),
-                                            '%sources%': estimate.sourceCount,
-                                        }) -}}
-                                        {% if estimate.charactersRemaining is not null %}
-                                            {{ ' ' ~ 'translate_assistant.estimate.%remaining%_characters_remaining'|trans({
-                                                '%remaining%': estimate.charactersRemaining|number_format(0, '.', ' '),
-                                            }) }}
-                                        {% endif %}
-                                    </p>
-                                </div>
+                    {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with {
+                        estimate: estimate ?? null,
+                    } only %}
+                        {% block body %}
+                            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                            {% include '@RoadizRozier/ui/patterns/translate_assistant_usage.html.twig' with {
+                                label: 'translate_assistant.usage',
+                                estimate: estimate,
+                            } %}
+                            {% if estimate is not null %}
+                                {% if estimate.isEmpty %}
+                                    {{ rz_message.root({
+                                        color: 'warning',
+                                        text: 'translate_assistant.estimate.nothing_to_translate'|trans,
+                                        attributes: { class: 'rz-form-field__message' },
+                                    }) }}
+                                {% else %}
+                                    {% set estimate_text = 'translate_assistant.estimate.%characters%_characters_for_%sources%_sources'|trans({
+                                        '%characters%': estimate.characterCount|number_format(0, '.', ' '),
+                                        '%sources%': estimate.sourceCount,
+                                    }) %}
+                                    {% if estimate.charactersRemaining is not null %}
+                                        {% set estimate_text = estimate_text ~ ' ' ~ 'translate_assistant.estimate.%remaining%_characters_remaining'|trans({
+                                            '%remaining%': estimate.charactersRemaining|number_format(0, '.', ' '),
+                                        }) %}
+                                    {% endif %}
+                                    {{ rz_message.root({
+                                        text: estimate_text,
+                                        attributes: { class: 'rz-form-field__message' },
+                                    }) }}
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </div>
+                        {% endblock %}
+                    {% endembed %}
                 {% endif %}
                 {{ actions_menu.saveItem({ dataActionSave: '#' ~ field_id(form) }) }}
             {{ form_end(form) }}
         {% else %}
-            <div class="rz-message rz-message--error">
-                <span class="rz-icon-ri--error-warning-line"></span>
-                <p class="rz-message__text">{% trans %}no_more_translation_available{% endtrans %}</p>
-            </div>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                color: 'error',
+                iconClass: 'rz-icon-ri--error-warning-line',
+                text: 'no_more_translation_available'|trans,
+            }) }}
         {% endif %}
     </section>
 

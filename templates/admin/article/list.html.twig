@@ -26,18 +26,26 @@
         currentTag: currentTag,
     } only %}
         {% block before_submit %}
-            <select aria-label="{% trans %}filter.by_tag{% endtrans %}"
-                    is="rz-select"
-                    name="tag">
-                <option value>{% trans %}filter.by_tag.all{% endtrans %}</option>
-                {% for tagGroupName, tagGroup in tags %}
-                    <optgroup label="{{ tagGroupName }}">
-                        {% for tag in tagGroup %}
-                            <option {% if currentTag.id == tag.id %}selected {% endif %}value="{{ tag.id }}">{{ tag.name }}</option>
-                        {% endfor %}
-                    </optgroup>
+            {% import '@RoadizRozier/ui/components/rz_select.html.twig' as rz_select %}
+            {% set tag_options = [{ value: '', label: 'filter.by_tag.all'|trans }] %}
+            {% for tagGroupName, tagGroup in tags %}
+                {% set group_options = [] %}
+                {% for tag in tagGroup %}
+                    {% set group_options = group_options|merge([{
+                        value: tag.id,
+                        label: tag.name,
+                        selected: currentTag.id is defined and currentTag.id == tag.id,
+                    }]) %}
                 {% endfor %}
-            </select>
+                {% set tag_options = tag_options|merge([{ label: tagGroupName, options: group_options }]) %}
+            {% endfor %}
+            {{ rz_select.root({
+                options: tag_options,
+                attributes: {
+                    name: 'tag',
+                    'aria-label': 'filter.by_tag'|trans,
+                },
+            }) }}
         {% endblock %}
     {% endembed %}
     {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
