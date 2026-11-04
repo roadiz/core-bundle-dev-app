@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 
@@ -34,7 +35,7 @@ final class CustomFormHandler extends AbstractHandler
         }
 
         $criteria = Criteria::create();
-        $criteria->orderBy(['position' => 'ASC']);
+        $criteria->orderBy(['position' => Order::Ascending]);
         $fields = $this->customForm->getFields()->matching($criteria);
         $i = 1;
         foreach ($fields as $field) {

@@ -11,6 +11,7 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
@@ -345,7 +346,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     public function getDocumentsByFieldsWithField(NodeTypeFieldInterface $field): array
     {
         $criteria = Criteria::create();
-        $criteria->orderBy(['position' => 'ASC']);
+        $criteria->orderBy(['position' => Order::Ascending]);
 
         return $this->getDocumentsByFields()
             ->matching($criteria)
@@ -361,7 +362,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     public function getDocumentsByFieldsWithName(string $fieldName): array
     {
         $criteria = Criteria::create();
-        $criteria->orderBy(['position' => 'ASC']);
+        $criteria->orderBy(['position' => Order::Ascending]);
 
         return $this->getDocumentsByFields()
             ->matching($criteria)
