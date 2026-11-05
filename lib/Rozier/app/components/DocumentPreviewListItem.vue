@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
 import filters from '../filters'
 import AjaxLink from '../components/AjaxLink.vue'
 import DynamicImg from '../directives/DynamicImg'
@@ -79,9 +78,6 @@ export default {
     filters: filters,
     props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
     computed: {
-        ...mapState({
-            previewIsVisible: (state) => state.documentPreview.isVisible,
-        }),
         shortMimeType: function () {
             return centralTruncate(this.document.shortMimeType, 13)
         },
@@ -105,7 +101,6 @@ export default {
         },
     },
     methods: {
-        ...mapActions(['documentPreviewInit', 'documentPreviewOpen', 'documentPreviewDestroy']),
         onAddItemButtonClick() {
             // If document is in the explorer panel
             if (this.isItemExplorer) {
@@ -120,7 +115,12 @@ export default {
             return '?referer=' + window.location.pathname
         },
         onPreviewClick() {
-            this.documentPreviewOpen({ document: this.document })
+            // Rendered by <rz-document-preview>, the item only emits
+            document.dispatchEvent(
+                new CustomEvent('show-preview', {
+                    detail: { document: this.document },
+                }),
+            )
         },
         onEditClick(event) {
             if (!this.document.processable) {
@@ -131,14 +131,6 @@ export default {
             }
 
             this.$emit('edit', { document: this.document, index: this.index, currentTarget: event.currentTarget })
-        },
-        onMouseover() {
-            this.documentPreviewInit({ document: this.item.document })
-        },
-        onMouseleave() {
-            if (this.previewIsVisible) return
-
-            this.documentPreviewDestroy({ document: this.item.document })
         },
     },
     components: {
