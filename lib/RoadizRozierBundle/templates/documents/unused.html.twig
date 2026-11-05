@@ -5,7 +5,10 @@
 {% block header_action_menu %}{% endblock %}
 
 {% block pre_content_body %}
-    <div class="rz-message rz-message--warning rz-message__text">
-        {{- 'unused_documents.help'|trans|markdown -}}
-    </div>
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+    {{ rz_message.root({
+        color: 'warning',
+        textTag: 'div',
+        innerHTML: 'unused_documents.help'|trans|markdown,
+    }) }}
 {% endblock %}

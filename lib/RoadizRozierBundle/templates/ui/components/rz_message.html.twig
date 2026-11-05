@@ -1,0 +1,29 @@
+{# rz-message: options = RzMessageOptions (storybook/renderer/rzMessage.ts), story Components/Feedback/Message #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-message' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set color = options.color|default(null) %}
+    {% set variant = options.variant|default(null) %}
+    {% set text_tag = options.textTag|default('p') %}
+
+    <div
+        class="{{ html_classes(element_class, {
+            (element_class ~ '--' ~ color): color,
+            (element_class ~ '--' ~ variant): variant,
+        }, attributes.class|default('')) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        {% if options.iconClass is defined and options.iconClass %}
+            <span class="{{ options.iconClass }}" aria-hidden="true"></span>
+        {% endif %}
+        <{{ text_tag }} class="{{ element_class }}__text">
+            {%- if options.innerHTML is defined and options.innerHTML -%}
+                {{- options.innerHTML|raw -}}
+            {%- else -%}
+                {{- options.text|default('') -}}
+            {%- endif -%}
+        </{{ text_tag }}>
+    </div>
+{% endmacro %}

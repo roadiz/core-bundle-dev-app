@@ -56,11 +56,12 @@
                                 </figure>
                             {% endif %}
                         {% else %}
-                            <div class="rz-message rz-message--error rz-message--filled">
-                                <p class="rz-message__text">
-                                    {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
-                                </p>
-                            </div>
+                            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                            {{ rz_message.root({
+                                color: 'error',
+                                variant: 'filled',
+                                text: 'current.document.is.private.you.cannot.preview.it'|trans,
+                            }) }}
                         {% endif %}
                     </div>
                     <div class="rz-layout-column__second-column rz-form__field-list">

@@ -5,8 +5,11 @@
 {% endblock %}
 
 {% block login_footer %}
-    <a class="rz-button rz-button--primary" href="{{ path('loginPage') }}">
-        <span class="rz-button__icon rz-icon-ri--arrow-left-s-line"></span>
-        <span class="rz-button__label">{% trans %}back_to.login{% endtrans %}</span>
-    </a>
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+    {{ rz_button.root({
+        emphasis: 'primary',
+        label: 'back_to.login',
+        iconClass: 'rz-icon-ri--arrow-left-s-line',
+        attributes: { href: path('loginPage') },
+    }) }}
 {% endblock %}

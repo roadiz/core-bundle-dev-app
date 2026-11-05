@@ -5,9 +5,9 @@
         <section class="rz-login__section">
             <header class="rz-login__header">
                 <span class="rz-brand">RZ</span>
-                <span class="rz-badge">
-                    <span class="rz-badge__label">{{ cms_prefix }} {{ cms_version }}</span>
-                </span>
+                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                {{ rz_badge.root({ label: cms_prefix ~ ' ' ~ cms_version }) }}
                 {% if not hide_website %}
                     {% set publicUrl = '/' %}
                     {% if app.request.basePath %}
@@ -16,10 +16,16 @@
                     {% if custom_public_scheme %}
                         {% set publicUrl = custom_public_scheme %}
                     {% endif %}
-                    <a target="_blank" class="rz-button rz-button--secondary rz-login__item--end" href="{{ publicUrl }}">
-                        <span class="rz-button__label">{% trans %}view.site{% endtrans %}</span>
-                        <span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
-                    </a>
+                    {{ rz_button.root({
+                        emphasis: 'secondary',
+                        label: 'view.site',
+                        iconClass: 'rz-icon-ri--arrow-right-up-line',
+                        attributes: {
+                            class: 'rz-login__item--end',
+                            href: publicUrl,
+                            target: '_blank',
+                        },
+                    }) }}
                 {% endif %}
             </header>
             <div class="rz-login__body">

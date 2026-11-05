@@ -1,20 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import {
+    type RzSelectOption,
+    type RzSelectOptions,
+    rzSelectRenderer,
+} from '~/utils/storybook/renderer/rzSelect'
 
-const COMPONENT_CLASS = 'rz-select'
-
-type Option = {
-    value: string
-    label: string
-    disabled?: boolean
-    selected?: boolean
-    hidden?: boolean
-}
-
-type Args = {
-    options: Option[]
-    datalist?: string
-    required?: boolean
-}
+type Option = RzSelectOption
+type Args = RzSelectOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Select',
@@ -43,26 +35,6 @@ const meta: Meta<Args> = {
 
 export default meta
 type Story = StoryObj<Args>
-
-function rzSelectRenderer(args: Args) {
-    const select = document.createElement('select', { is: COMPONENT_CLASS })
-    select.setAttribute('is', COMPONENT_CLASS)
-    select.required = args.required ?? false
-
-    args.options.forEach((optionData) => {
-        const option = document.createElement('option')
-
-        const optionKeys = Object.keys(optionData) as (keyof Option)[]
-        optionKeys.forEach((key) => {
-            const value = optionData[key]
-            if (value) option.setAttribute(key, value.toString())
-        })
-
-        select.appendChild(option)
-    })
-
-    return select
-}
 
 export const Default: Story = {}
 

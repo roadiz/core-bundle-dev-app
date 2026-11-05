@@ -69,17 +69,19 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <div class="rz-form-field rz-form-field--align-start">
-                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
-                {{ rz_button.root({
-                    size: 'md',
-                    label: 'add.group'|trans,
-                    iconClass: 'rz-icon-ri--add-line',
-                    attributes: {
-                        type: 'submit'
-                    }
-                }) }}
-            </div>
+            {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+                {% block body %}
+                    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                    {{ rz_button.root({
+                        size: 'md',
+                        label: 'add.group'|trans,
+                        iconClass: 'rz-icon-ri--add-line',
+                        attributes: {
+                            type: 'submit'
+                        }
+                    }) }}
+                {% endblock %}
+            {% endembed %}
         {{ form_end(form) }}
     </section>
 

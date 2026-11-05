@@ -355,7 +355,8 @@ Renders buttons and button-like links.
 | `size` | string | `sm`, `md`, `xs` |
 | `attributes` | object | HTML attributes (`class`, `href`, `type`, `title`, etc.) |
 | `tag` | string | HTML tag (default: `button`, auto `a` if `href`) |
-| `is` | string | Custom element (default: `rz-button`, `rz-link` with `href`) |
+| `is` | string \| false | Custom element (default: `rz-button`, `rz-link` with `href`); `false` for a `label` or `span` root |
+| `innerHTML` | string | Markup rendered before the label and icon (e.g. a radio inside a `label` root) |
 | `selected`, `disabled`, `onDark`, `hasPill` | bool | Modifiers |
 
 The options are the keys of `RzButtonOptions` (`lib/Rozier/app/utils/component-renderer/rzButton.ts`); extra classes go in `attributes.class`.
@@ -389,6 +390,7 @@ Renders badges for status indicators, counts, or labels.
 | `iconClass` | string | Icon class |
 | `size` | string | `xs`, `sm` |
 | `color` | string | `success`, `danger`, `warning`, `default` |
+| `innerHTML` | string | Markup rendered before the icon and label |
 | `attributes` | object | HTML attributes (`class`, or `href` for a link badge) |
 
 ### `ui/components/rz_actions_menu.html.twig`
@@ -477,6 +479,101 @@ Simple link component.
 ```
 
 Options: `label`, `iconClass`, `innerHTML` and `attributes` (with `class` and `href`).
+
+### `ui/components/rz_message.html.twig`
+
+Renders an inline message. Options are the keys of `RzMessageOptions` (`lib/Rozier/app/utils/storybook/renderer/rzMessage.ts`).
+
+```twig
+{% import "@RoadizRozier/ui/components/rz_message.html.twig" as rz_message %}
+
+{{ rz_message.root({
+    color: 'warning',
+    iconClass: 'rz-icon-ri--error-warning-line',
+    text: 'are_you_sure'|trans,
+}) }}
+```
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `text` | string | Message text (not translated, escaped unless it is markup) |
+| `innerHTML` | string | Raw markup, used instead of `text` |
+| `color` | string | `neutral`, `warning`, `error` |
+| `variant` | string | `filled`, `ghost` |
+| `iconClass` | string | Icon class, before the text |
+| `textTag` | string | Tag of the text element (default `p`, `div` for block markup) |
+| `attributes` | object | HTML attributes (`class`, etc.) |
+
+### `ui/components/rz_form_field.html.twig`
+
+Wraps a form control that is not rendered by the form theme. Embed it and put the control in the `body` block; the variables are the keys of `RzFormFieldOptions` (`lib/Rozier/app/utils/storybook/renderer/rzFormField.ts`).
+
+```twig
+{% embed "@RoadizRozier/ui/components/rz_form_field.html.twig" with {
+    label: 'email',
+    labelAttributes: { for: 'email' },
+    required: true,
+} only %}
+    {% block body %}
+        {% import "@RoadizRozier/ui/components/rz_input.html.twig" as rz_input %}
+        {{ rz_input.root({ type: 'email', name: 'email', id: 'email', className: 'rz-form-field__body' }) }}
+    {% endblock %}
+{% endembed %}
+```
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `label` | string | Label (auto-translated) |
+| `labelAttributes` | object | Label attributes (`for`, etc.) |
+| `iconClass` | string | Icon before the label |
+| `description` | string | Text under the label |
+| `help` | string | Ghost message under the control |
+| `error` | string | Error message under the control |
+| `required`, `horizontal`, `alignStart` | bool | Modifiers |
+| `attributes` | object | HTML attributes of the `rz-form-field` element |
+
+Pass `only` and every variable the `body` block needs: an embed without `only` would read `label`, `error` or `help` from the page context. Macros imported outside the embed are not visible in the block: import them inside it.
+
+### Form controls: `rz_input`, `rz_select`, `rz_switch`
+
+Leaf macros for controls outside the form theme. Options are the keys of `RzInputOptions`, `RzSelectOptions` and `RzSwitchOptions` (`lib/Rozier/app/utils/storybook/renderer/`).
+
+```twig
+{% import "@RoadizRozier/ui/components/rz_input.html.twig" as rz_input %}
+{% import "@RoadizRozier/ui/components/rz_select.html.twig" as rz_select %}
+{% import "@RoadizRozier/ui/components/rz_switch.html.twig" as rz_switch %}
+
+{{ rz_input.root({ type: 'search', name: 'search', placeholder: 'search'|trans }) }}
+
+{{ rz_select.root({
+    options: [
+        { value: '', label: 'filter.by_tag.all'|trans },
+        { label: 'Group', options: [{ value: '1', label: 'Tag 1', selected: true }] },
+    ],
+    attributes: { name: 'tag', 'data-submit-on-change': true },
+}) }}
+
+{{ rz_switch.root({ id: 'remember_me', name: 'remember_me', checked: true }) }}
+```
+
+`rz_input` and `rz_switch` take `type` (input only), `name`, `id`, `placeholder`, `value`, `required`, `className`, `checked` (switch only) and `attributes`. `rz_select` takes `options` (an option, or a group with `label` and `options`), `required` and `attributes`.
+
+### `ui/components/rz_tablist.html.twig`
+
+Renders a tab list. Options are the keys of `RzTablistOptions` (`lib/Rozier/app/utils/storybook/renderer/rzTablist.ts`).
+
+```twig
+{% import "@RoadizRozier/ui/components/rz_tablist.html.twig" as rz_tablist %}
+
+{{ rz_tablist.root({
+    tabs: [
+        { innerHTML: 'general'|trans|e, selected: true, attributes: { id: 'tab-general' }, panel: { id: 'panel-general' } },
+        { innerHTML: 'seo'|trans|e, attributes: { id: 'tab-seo' }, panel: { id: 'panel-seo' } },
+    ],
+}) }}
+```
+
+`innerHTML` is raw markup: escape text with `|e`.
 
 ### Bulk selection inputs (`ui/components/rz_bulk_actions.html.twig`)
 

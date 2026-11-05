@@ -45,11 +45,12 @@
             {% form_theme form '@RoadizRozier/forms.html.twig' %}
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <div class="rz-message rz-message--{{ messageType|default('error') }} rz-form-field__message">
-                <p class="rz-message__text">
-                    {{ alertMessage|trans }}
-                </p>
-            </div>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                color: messageType|default('error'),
+                text: alertMessage|trans,
+                attributes: { class: 'rz-form-field__message' },
+            }) }}
             <div class="rz-button-group rz-button-group--gap-md">
                 {{
                     rz_button.root({

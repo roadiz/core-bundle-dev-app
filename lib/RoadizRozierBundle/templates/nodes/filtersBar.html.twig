@@ -6,17 +6,18 @@
 }  only %}
     {% block before_submit %}
         {% if tags|length > 0 %}
-            <select class="rz-select" name="tagId" data-submit-on-change>
-                <option value="">{{ '-- Select a tag --'|trans }}</option>
-                {% for tag in tags %}
-                    <option
-                        value="{{ tag.id }}"
-                        {% if tag.selected %}selected{% endif %}
-                    >
-                        {{- tag.name -}}
-                    </option>
-                {% endfor %}
-            </select>
+            {% import '@RoadizRozier/ui/components/rz_select.html.twig' as rz_select %}
+            {% set tag_options = [{ value: '', label: '-- Select a tag --'|trans }] %}
+            {% for tag in tags %}
+                {% set tag_options = tag_options|merge([{ value: tag.id, label: tag.name, selected: tag.selected }]) %}
+            {% endfor %}
+            {{ rz_select.root({
+                options: tag_options,
+                attributes: {
+                    name: 'tagId',
+                    'data-submit-on-change': true,
+                },
+            }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

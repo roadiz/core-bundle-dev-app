@@ -48,7 +48,9 @@
 				<td>{{ item.createdAt|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
 				<td>{{ item.closeDate|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
 				<td>
-					<div class="rz-badge">{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers{% endtranschoice %}</div>
+					{% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+					{% set answers_label %}{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers{% endtranschoice %}{% endset %}
+					{{ rz_badge.root({ label: answers_label }) }}
 				</td>
 				{% if actionsAvailable %}
 					<td>

@@ -27,6 +27,9 @@
         }) }}"
         {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
     >
+        {%- if options.innerHTML is defined and options.innerHTML -%}
+            {{- options.innerHTML|raw -}}
+        {%- endif -%}
         {{ _self.inner(options) }}
     </{{ tag }}>
 {% endmacro %}

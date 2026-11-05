@@ -5,12 +5,13 @@
     {% set element_class = 'rz-button' %}
     {% set attributes = options.attributes|default({}) %}
     {% set tag = options.tag|default('button') %}
-    {% set is = options.is|default('rz-button') %}
+    {# is: false renders no is attribute, for a root that is neither a button nor a link (label, span) #}
+    {% set is = options.is is defined ? options.is : 'rz-button' %}
 
     {# A button with a href renders a link #}
     {% if attributes.href is defined %}
         {% set tag = 'a' %}
-        {% set is = options.is|default('rz-link') %}
+        {% set is = options.is is defined ? options.is : 'rz-link' %}
     {% endif %}
 
     {% set size = options.size|default(null) %}
@@ -18,7 +19,7 @@
     {% set color = options.color|default(null) %}
 
     <{{ tag }}
-        is="{{ is }}"
+        {% if is %}is="{{ is }}"{% endif %}
         class="{{ html_classes(element_class, attributes.class|default(''), {
             (element_class ~ '--' ~ size): size,
             (element_class ~ '--' ~ emphasis): emphasis,
@@ -30,6 +31,9 @@
         }) }}"
         {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
     >
+        {%- if options.innerHTML is defined and options.innerHTML -%}
+            {{- options.innerHTML|raw -}}
+        {%- endif -%}
         {{ _self.inner(options) }}
     </{{ tag }}>
 {% endmacro %}

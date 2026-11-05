@@ -104,8 +104,10 @@ Before opening a PR that moves, renames or removes a template:
    catch an `include` towards a missing path, hence step 1).
 3. Click through every touched screen in both themes; list them as a checklist
    in the PR.
-4. The "Upgrade to 2.8" section of `UPGRADE.md` lists the moved or removed path
-   or the renamed option.
+4. The "Upgrade to 2.8" section of `UPGRADE.md` lists what a project on the
+   previous release must change: a moved or removed path, a renamed option of
+   an element that existed in that release. A change to an element new in 2.8
+   is not upgrade information: leave it out.
 
 ## Guidelines
 

@@ -19,12 +19,16 @@
                         popover-offset="10" popover-shift="10"
                         class="rz-page-header__item--right"
             >
-                <button popovertarget="nodeType-menu"
-                        class="rz-button rz-button--primary"
-                        aria-label="{{ popover.title|trans }}">
-                    <span class="rz-button__label">{{ popover.title|trans }}</span>
-                    <span class="rz-button__icon {{ popover.icon }}"></span>
-                </button>
+                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                {{ rz_button.root({
+                    emphasis: 'primary',
+                    label: popover.title,
+                    iconClass: popover.icon,
+                    attributes: {
+                        popovertarget: 'nodeType-menu',
+                        'aria-label': popover.title|trans,
+                    },
+                }) }}
 
                 {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                     targetId: 'nodeType-menu',
