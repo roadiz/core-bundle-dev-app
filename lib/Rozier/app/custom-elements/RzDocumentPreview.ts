@@ -17,7 +17,7 @@ export type ShowPreviewDetail = {
 }
 
 /**
- * Full-screen document preview, placed once in the shared layout.
+ * Document preview dialog, placed once in the shared layout.
  *
  * Twig renders the shell (dialog, information bar, close button); this element fills it with
  * the document's preview HTML when asked to, and empties it on close (stops a playing video).
@@ -113,8 +113,11 @@ export default class RzDocumentPreview extends HTMLElement {
         if (event.target === this.dialog) this.close()
     }
 
+    // `close` fires asynchronously: skip it when the preview was reopened in the meantime
     onDialogClose() {
-        if (this.preview) this.preview.innerHTML = ''
+        if (this.dialog?.open || !this.preview) return
+
+        this.preview.innerHTML = ''
     }
 
     connectedCallback() {
