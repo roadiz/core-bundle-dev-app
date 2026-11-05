@@ -58,10 +58,10 @@
     {% endfor %}
 {% endif %}
 
-{# Rebuild attributes list from map #}
+{# Rebuild attributes list from map. Values come from the widget_attributes HTML, already escaped: escaping them again turned JSON values (data-nodetypes) into &amp;quot; #}
 {% for key, value in drawer_attributes_map %}
     {% set drawer_attributes = drawer_attributes|merge([
-        key ~ '="' ~ value|escape ~ '"'
+        key ~ '="' ~ value ~ '"'
     ]) %}
 {% endfor %}
 
