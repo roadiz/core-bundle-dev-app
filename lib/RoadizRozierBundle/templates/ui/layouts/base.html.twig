@@ -84,8 +84,31 @@
         <div id="vue-containers">
             <filter-explorer-container></filter-explorer-container>
             <explorer-container></explorer-container>
-            <document-preview-container></document-preview-container>
         </div>
+        {# Full-screen document preview, opened by a `show-preview` event on document (RzDocumentPreview.ts) #}
+        {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+        <rz-document-preview>
+            <dialog class="rz-document-preview" aria-label="{{ 'document.preview'|trans }}">
+                <div class="rz-document-preview__information">
+                    <span class="rz-document-preview__info" data-info="classname" hidden></span>
+                    <span class="rz-document-preview__info" data-info="displayable" hidden></span>
+                    <span class="rz-document-preview__info" data-info="embedPlatform" hidden></span>
+                    {{ rz_button.root({
+                        iconClass: 'rz-icon-ri--close-line',
+                        emphasis: 'tertiary',
+                        size: 'sm',
+                        onDark: true,
+                        attributes: {
+                            class: 'rz-document-preview__close',
+                            type: 'button',
+                            'aria-label': 'close'|trans,
+                            'data-close': true,
+                        },
+                    }) }}
+                </div>
+                <div class="rz-document-preview__container" data-preview></div>
+            </dialog>
+        </rz-document-preview>
         <div id="codemirror-preview-containers"></div>
         {# Blocking dialogs opened by LoginCheckService. The login link skips ajax navigation: the login page is a full page. #}
         {% import '@RoadizRozier/ui/components/rz_dialog.html.twig' as rz_dialog %}

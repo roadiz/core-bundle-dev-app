@@ -1,0 +1,98 @@
+/* Full-screen document preview (RzDocumentPreview.ts). Like-for-like port of the Vue
+   DocumentPreviewContainer: no redesign yet. */
+.rz-document-preview {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+	background: transparent;
+
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.5);
+	}
+
+	object,
+	iframe,
+	video,
+	img {
+		width: auto;
+		height: auto;
+		max-width: 80vw;
+		max-height: 80vh;
+	}
+
+	iframe {
+		min-width: 640px;
+		min-height: 360px;
+	}
+}
+
+.rz-document-preview__information {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: flex;
+	align-items: center;
+	height: 31px;
+	padding: 0 6px 0 15px;
+	border-radius: 16px;
+	font-family: var(--font-family-os-label);
+	font-size: 12px;
+	line-height: 30px;
+	color: #7d7d7d;
+	background: #000;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.31);
+}
+
+.rz-document-preview__info + .rz-document-preview__info,
+.rz-document-preview__close {
+	margin-left: 10px;
+	padding-left: 10px;
+	border-left: 1px solid #2d2d2d;
+}
+
+.rz-document-preview__info[hidden] {
+	display: none;
+}
+
+.rz-document-preview__container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: inline-block;
+	width: auto;
+	height: auto;
+	max-width: 80vw;
+	max-height: 80vh;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	background: #dadada;
+	box-shadow: 0 0 320px rgba(0, 0, 0, 0.7);
+
+	& > * {
+		height: 100%;
+	}
+
+	&.rz-document-preview__container--svg {
+		width: 500px;
+		height: 500px;
+		pointer-events: none;
+	}
+
+	&.rz-document-preview__container--svg object,
+	&.rz-document-preview__container--pdf object {
+		width: 100%;
+		height: 100%;
+	}
+
+	&.rz-document-preview__container--pdf {
+		width: 80vw;
+		height: 80vh;
+		background: #000;
+	}
+}

@@ -337,6 +337,18 @@ Editor labels are no longer read from `window.RozierConfig.messages.blanchetteEd
 Edited JPEG and WebP images are now saved in their own format; they were converted to PNG and
 renamed to `.png`.
 
+## ⚠ Rozier document preview no longer uses Vue
+
+`@RoadizRozier/ui/layouts/base.html.twig` now renders `<rz-document-preview>` instead of
+`<document-preview-container>` (inside `#vue-containers`). A project overriding this layout must copy
+the new markup. To open the preview, dispatch a `show-preview` event on `document` with the document in
+`detail.document`, as the drawer items do.
+
+Removed from the Rozier front-end:
+
+- `app/containers/DocumentPreviewContainer.vue` (`<document-preview-container>`)
+- the `documentPreview` Vuex module, the `DOCUMENT_PREVIEW_*` and `KEYBOARD_EVENT_SPACE` mutation types
+
 ## New admin templates
 
 New reusable templates for building back-office pages:
