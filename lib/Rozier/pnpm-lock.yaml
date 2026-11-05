@@ -65,12 +65,6 @@ importers:
       vue:
         specifier: 2.7.16
         version: 2.7.16
-      vue2-dropzone:
-        specifier: ^2.2.4
-        version: 2.3.6
-      vuedraggable:
-        specifier: ^2.15.0
-        version: 2.24.3
       vuex:
         specifier: 3.0.1
         version: 3.0.1
@@ -2051,9 +2045,6 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  sortablejs@1.10.2:
-    resolution: {integrity: sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A==}
-
   sortablejs@1.15.6:
     resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
 
@@ -2298,15 +2289,9 @@ packages:
       yaml:
         optional: true
 
-  vue2-dropzone@2.3.6:
-    resolution: {integrity: sha512-2UJuz2UYlmFGg/9kLS7fLHqYN8OCHbjZVWWB+2XIzULJ2H3MM98305KrzAY0jT1AaBP6g4xLxVL8rEJ5DT0bKA==}
-
   vue@2.7.16:
     resolution: {integrity: sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw==}
     deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
-
-  vuedraggable@2.24.3:
-    resolution: {integrity: sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g==}
 
   vuex@3.0.1:
     resolution: {integrity: sha512-wLoqz0B7DSZtgbWL1ShIBBCjv22GV5U+vcBFox658g6V0s4wZV9P4YjCNyoHSyIBpj1f29JBoNQIqD82cR4O3w==}
@@ -4293,8 +4278,6 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  sortablejs@1.10.2: {}
-
   sortablejs@1.15.6: {}
 
   source-map-js@1.2.1: {}
@@ -4534,19 +4517,10 @@ snapshots:
       less: 2.7.3
       terser: 5.44.0
 
-  vue2-dropzone@2.3.6:
-    dependencies:
-      dropzone: 5.5.1
-      vue: 2.7.16
-
   vue@2.7.16:
     dependencies:
       '@vue/compiler-sfc': 2.7.16
       csstype: 3.1.3
-
-  vuedraggable@2.24.3:
-    dependencies:
-      sortablejs: 1.10.2
 
   vuex@3.0.1: {}
 

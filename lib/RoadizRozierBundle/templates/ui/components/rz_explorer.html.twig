@@ -1,0 +1,116 @@
+{# rz-explorer: options = attributes (no renderer: items and filters are rendered by RzExplorer.ts); placed once in ui/layouts/base #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+    {% import '@RoadizRozier/ui/components/rz_input.html.twig' as rz_input %}
+
+    {% set attributes = {
+        'data-more-label': 'more.entities'|trans,
+        'data-more-label-document': 'more.documents'|trans,
+        'data-more-label-node': 'more.nodes'|trans,
+        'data-more-label-node-type': 'more.node_types'|trans,
+        'data-more-label-tag': 'more.tags'|trans,
+        'data-item-label': 'item'|trans,
+        'data-items-label': 'items'|trans,
+    }|merge(options.attributes|default({})) %}
+
+    <rz-explorer hidden {{ el_attrs.print(attributes) }}>
+        <aside class="filter-widget-explorer" data-filter-panel hidden>
+            <ul class="filters-items" data-filter-list>
+                <li class="filters-infos">
+                    <span class="number" data-item-count></span>
+                    <span data-item-count-label></span>
+                    {{ rz_button.root({
+                        iconClass: 'rz-icon-ri--close-line',
+                        emphasis: 'tertiary',
+                        size: 'xs',
+                        attributes: {
+                            type: 'button',
+                            'aria-label': 'close'|trans,
+                            'data-action': 'toggle-filters',
+                        },
+                    }) }}
+                </li>
+                <li class="item">
+                    <button type="button" class="filter-item-link active" data-action="reset-filter">
+                        <i class="uk-icon-rz-unordered-list"></i> {{ 'see_all'|trans }}
+                    </button>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="rz-explorer" data-panel>
+            <div class="rz-explorer__inner">
+                <div class="rz-explorer__header">
+                    {{ rz_button.root({
+                        iconClass: 'rz-icon-ri--folders-line',
+                        attributes: {
+                            type: 'button',
+                            hidden: true,
+                            'aria-label': 'filter'|trans,
+                            'data-action': 'toggle-filters',
+                            'data-filter-toggle': true,
+                        },
+                    }) }}
+                    <form action="#" method="POST" class="rz-explorer__search" role="search">
+                        {{ rz_input.root({
+                            type: 'search',
+                            name: 'searchTerms',
+                            placeholder: 'search'|trans,
+                            attributes: {
+                                autocomplete: 'off',
+                                'aria-label': 'search'|trans,
+                                'data-search': true,
+                            },
+                        }) }}
+                    </form>
+                    {{ rz_button.root({
+                        iconClass: 'rz-icon-ri--close-line',
+                        emphasis: 'secondary',
+                        attributes: {
+                            type: 'button',
+                            'aria-label': 'close'|trans,
+                            'data-action': 'close',
+                        },
+                    }) }}
+                </div>
+
+                <div class="spinner light" data-loader hidden></div>
+                <div class="rz-explorer__main">
+                    <ul class="rz-explorer__list" data-list></ul>
+                </div>
+
+                {% set load_more_label %}
+                    <span class="rz-button__label" data-load-more-label></span>
+                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                    <span class="rz-button__icon rz-spinner"></span>
+                {% endset %}
+                {{ rz_button.root({
+                    emphasis: 'primary',
+                    innerHTML: load_more_label,
+                    attributes: {
+                        class: 'rz-explorer__load-more',
+                        type: 'button',
+                        hidden: true,
+                        'data-action': 'load-more',
+                    },
+                }) }}
+
+                <div class="rz-explorer__pagination" data-pagination hidden></div>
+
+                <div class="rz-explorer__tag-creator" data-tag-creator hidden>
+                    <div class="rz-explorer__tag-creator-infos">{{ 'explorer.create_tag'|trans }}</div>
+                    {{ rz_button.root({
+                        iconClass: 'rz-icon-ri--add-line',
+                        emphasis: 'primary',
+                        innerHTML: '<span class="rz-button__label" data-tag-name></span>',
+                        attributes: {
+                            type: 'button',
+                            'data-action': 'create-tag',
+                        },
+                    }) }}
+                </div>
+            </div>
+        </div>
+    </rz-explorer>
+{% endmacro %}

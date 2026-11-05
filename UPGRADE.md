@@ -339,15 +339,34 @@ renamed to `.png`.
 
 ## ⚠ Rozier document preview no longer uses Vue
 
-`@RoadizRozier/ui/layouts/base.html.twig` now renders `<rz-document-preview>` instead of
-`<document-preview-container>` (inside `#vue-containers`). A project overriding this layout must copy
-the new markup. To open the preview, dispatch a `show-preview` event on `document` with the document in
+`@RoadizRozier/ui/layouts/base.html.twig` now renders `<rz-document-preview>` (through
+`@RoadizRozier/ui/components/rz_document_preview.html.twig`) instead of `<document-preview-container>`
+(inside `#vue-containers`). A project overriding this layout must call that component instead. To open the preview, dispatch a `show-preview` event on `document` with the document in
 `detail.document`, as the drawer items do.
 
 Removed from the Rozier front-end:
 
 - `app/containers/DocumentPreviewContainer.vue` (`<document-preview-container>`)
 - the `documentPreview` Vuex module, the `DOCUMENT_PREVIEW_*` and `KEYBOARD_EVENT_SPACE` mutation types
+
+## ⚠ Rozier explorer no longer uses Vue
+
+`@RoadizRozier/ui/layouts/base.html.twig` now renders `<rz-explorer>` (through
+`@RoadizRozier/ui/components/rz_explorer.html.twig`) instead of `<explorer-container>` and
+`<filter-explorer-container>`, and the `#vue-containers` wrapper is gone. Its `permanentComponents` block
+no longer renders `<overlay data-vuejs>` and is empty. A project overriding this layout must call the
+component instead and drop these tags, which render nothing anymore. The `show-explorer` and
+`add-drawer-item` events keep their payloads.
+
+Removed from the Rozier front-end:
+
+- `app/containers/ExplorerContainer.vue`, `FilterExplorerContainer.vue` and `TagCreatorContainer.vue`
+- `app/components/AjaxLink.vue`, `DrawerItem.vue`, `DocumentPreviewListItem.vue`, `FilterExplorerItem.vue`,
+  `JoinPreviewItem.vue`, `Overlay.vue` and `TagCreatorItem.vue`
+- `app/factories/EntityAwareFactory.js`, `app/filters/` and `app/directives/`
+- the `explorer`, `filterExplorer`, `tags` and `drawers` Vuex modules, `app/types/mutationTypes.js` and
+  `app/services/KeyboardEventService.js`
+- the `vuedraggable` and `vue2-dropzone` dependencies
 
 ## New admin templates
 

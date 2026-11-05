@@ -59,9 +59,7 @@
             <main is="rz-page" id="rz-page" class="rz-page" data-uk-observe>
                 <div id="main-content-overlay"></div>
                 <div id="main-content-scrollable" data-ajax-root>
-                    {% block permanentComponents %}
-                        <overlay data-vuejs></overlay>
-                    {% endblock %}
+                    {% block permanentComponents %}{% endblock %}
                     {% block content %}{% endblock %}
                 </div>
                 <div id="canvasloader-container"></div>
@@ -81,33 +79,11 @@
             </main>
         </div>
 
-        <div id="vue-containers">
-            <filter-explorer-container></filter-explorer-container>
-            <explorer-container></explorer-container>
-        </div>
-        {# Document preview, opened by a `show-preview` event on document (RzDocumentPreview.ts) #}
-        {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
-        <rz-document-preview>
-            <dialog class="rz-dialog rz-document-preview" aria-label="{{ 'document.preview'|trans }}">
-                <header class="rz-dialog__header">
-                    <span class="rz-dialog__title rz-document-preview__info" data-info="classname" hidden></span>
-                    <span class="rz-document-preview__info rz-document-preview__info--secondary" data-info="displayable" hidden></span>
-                    <span class="rz-document-preview__info rz-document-preview__info--secondary" data-info="embedPlatform" hidden></span>
-                    {{ rz_button.root({
-                        iconClass: 'rz-icon-ri--close-line',
-                        emphasis: 'tertiary',
-                        size: 'sm',
-                        attributes: {
-                            class: 'rz-dialog__close',
-                            type: 'button',
-                            'aria-label': 'close'|trans,
-                            'data-close': true,
-                        },
-                    }) }}
-                </header>
-                <div class="rz-dialog__body rz-document-preview__container" data-preview></div>
-            </dialog>
-        </rz-document-preview>
+        {# Explorer panel opened by drawers (`show-explorer`), document preview (`show-preview`) #}
+        {% import '@RoadizRozier/ui/components/rz_explorer.html.twig' as rz_explorer %}
+        {% import '@RoadizRozier/ui/components/rz_document_preview.html.twig' as rz_document_preview %}
+        {{ rz_explorer.root() }}
+        {{ rz_document_preview.root() }}
         <div id="codemirror-preview-containers"></div>
         {# Blocking dialogs opened by LoginCheckService. The login link skips ajax navigation: the login page is a full page. #}
         {% import '@RoadizRozier/ui/components/rz_dialog.html.twig' as rz_dialog %}
