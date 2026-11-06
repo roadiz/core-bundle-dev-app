@@ -377,11 +377,9 @@ elements.
 Removed from the Rozier front-end:
 
 - `app/App.js` and `window.Rozier.vueApp` (with its `buildComponent()` method and
-  `mainContentComponents` list); `LoginCheckService` now starts from `window.Rozier.loginCheckService`
+  `mainContentComponents` list)
 - the Vuex store (`app/store/`) and its `translations` state
 - the `vue`, `vuex` and `@vitejs/plugin-vue2` dependencies, and the `vue` chunk in the Vite build
-
-Node and tag names containing `${` are now shown as is in the trees; they were rewritten to `--`.
 
 ## New admin templates
 

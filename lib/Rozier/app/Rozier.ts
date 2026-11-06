@@ -12,7 +12,6 @@ export default class Rozier {
     resizeFirst: boolean
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload | null = null
-    loginCheckService: LoginCheckService | null = null
     nodeStatuses = null
 
     constructor() {
@@ -28,7 +27,7 @@ export default class Rozier {
     onDocumentReady() {
         this.initLoader()
         this.lazyload = new Lazyload()
-        this.loginCheckService = new LoginCheckService()
+        new LoginCheckService()
 
         window.addEventListener('resize', this.resize)
         this.resize()
