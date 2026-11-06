@@ -1,0 +1,27 @@
+{# rz-document-preview: options = attributes (no renderer: the preview is filled by RzDocumentPreview.ts on a `show-preview` event); placed once in ui/layouts/base #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+
+    <rz-document-preview {{ el_attrs.print(options.attributes|default({})) }}>
+        <dialog class="rz-dialog rz-document-preview" aria-label="{{ 'document.preview'|trans }}">
+            <header class="rz-dialog__header">
+                <span class="rz-dialog__title rz-document-preview__info" data-info="classname" hidden></span>
+                <span class="rz-document-preview__info rz-document-preview__info--secondary" data-info="displayable" hidden></span>
+                <span class="rz-document-preview__info rz-document-preview__info--secondary" data-info="embedPlatform" hidden></span>
+                {{ rz_button.root({
+                    iconClass: 'rz-icon-ri--close-line',
+                    emphasis: 'tertiary',
+                    size: 'sm',
+                    attributes: {
+                        class: 'rz-dialog__close',
+                        type: 'button',
+                        'aria-label': 'close'|trans,
+                        'data-close': true,
+                    },
+                }) }}
+            </header>
+            <div class="rz-dialog__body rz-document-preview__container" data-preview></div>
+        </dialog>
+    </rz-document-preview>
+{% endmacro %}
