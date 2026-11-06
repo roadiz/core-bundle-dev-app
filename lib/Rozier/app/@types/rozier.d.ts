@@ -1,5 +1,5 @@
 import type Lazyload from '~/Lazyload'
-import type VueApp from '~/App'
+import type LoginCheckService from '~/services/LoginCheckService'
 
 export default class Rozier {
     windowWidth: number | null
@@ -7,7 +7,7 @@ export default class Rozier {
     resizeFirst: boolean
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload
-    vueApp: VueApp
+    loginCheckService: LoginCheckService | null
     nodeStatuses?: unknown
 
     onDocumentReady(): void

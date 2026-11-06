@@ -1,5 +1,5 @@
 import Lazyload from '~/Lazyload'
-import VueApp from '~/App'
+import LoginCheckService from '~/services/LoginCheckService'
 import { dispatchSessionToast } from '~/session-message'
 import type RzAside from './custom-elements/RzAside'
 
@@ -12,7 +12,7 @@ export default class Rozier {
     resizeFirst: boolean
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload | null = null
-    vueApp: VueApp | null = null
+    loginCheckService: LoginCheckService | null = null
     nodeStatuses = null
 
     constructor() {
@@ -28,7 +28,7 @@ export default class Rozier {
     onDocumentReady() {
         this.initLoader()
         this.lazyload = new Lazyload()
-        this.vueApp = new VueApp()
+        this.loginCheckService = new LoginCheckService()
 
         window.addEventListener('resize', this.resize)
         this.resize()

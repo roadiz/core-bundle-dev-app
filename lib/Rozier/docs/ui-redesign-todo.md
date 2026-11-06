@@ -86,8 +86,8 @@ Vue/UIkit", it's a precise, bounded scope. It runs before the zones are redesign
 [`engineering-practices.md`](engineering-practices.md#rendering)), and the zone's redesign comes later.
 The dismissible alert is the one exception: it has no native equivalent and needs a minimal design.
 
-- [ ] Replace the Vuex store (6 modules) and migrate the coupled block: `ExplorerContainer.vue`, `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue` and their dynamic children
-- [ ] Migrate the 7 remaining isolated Vue files (`Overlay.vue`, `BlanchetteEditorContainer.vue`/`BlanchetteToolbar.vue`...) following the event-driven pattern already proven on `rz-drawer`
+- [x] Replace the Vuex store (6 modules) and migrate the coupled block: `ExplorerContainer.vue`, `FilterExplorerContainer.vue`, `DocumentPreviewContainer.vue` and their dynamic children ([#566](https://github.com/roadiz/core-bundle-dev-app/issues/566), [#567](https://github.com/roadiz/core-bundle-dev-app/issues/567); Vue runtime, store and dependencies removed in [#568](https://github.com/roadiz/core-bundle-dev-app/issues/568))
+- [x] Migrate the 7 remaining isolated Vue files (`Overlay.vue`, `BlanchetteEditorContainer.vue`/`BlanchetteToolbar.vue`...) following the event-driven pattern already proven on `rz-drawer` ([#565](https://github.com/roadiz/core-bundle-dev-app/issues/565), [#567](https://github.com/roadiz/core-bundle-dev-app/issues/567))
 - [ ] Handle the last genuinely live UIkit behaviours: dismissible alert (`data-uk-alert` × 8, no native equivalent yet — needs a minimal design), `switcher` and `sortable` (moved here from Phase 0, [#535](https://github.com/roadiz/core-bundle-dev-app/issues/535)), and finish wiring `RzTooltip.ts` everywhere
 - [ ] Clean up the 4 files with a UIkit/native double dependency (`RzEntityThumbnail.ts`, `RzMarkdownEditor.ts`, `RzAside.ts`, `ui/layouts/base.html.twig`)
 - [ ] Remove jQuery + UIkit from the bundle (`main.js`, `vendor.less`) — only possible once the two previous points are done, since jQuery and UIkit 2.x are coupled at runtime
