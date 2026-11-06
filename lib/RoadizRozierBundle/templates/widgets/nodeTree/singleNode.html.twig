@@ -78,9 +78,9 @@
                 {% set node_label = '' %}
                 {% set source = item.nodeSource|default(item.nodeSources.first) %}
                 {% if source.title %}
-                    {% set node_label = source.title|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
+                    {% set node_label = source.title %}
                 {% else %}
-                    {% set node_label = item.nodeName|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
+                    {% set node_label = item.nodeName %}
                 {% endif %}
 
                 {% set node_href = getNodeSourceHref(item, nodeTree.translation, parent) %}

@@ -1,5 +1,4 @@
 import type Lazyload from '~/Lazyload'
-import type VueApp from '~/App'
 
 export default class Rozier {
     windowWidth: number | null
@@ -7,7 +6,6 @@ export default class Rozier {
     resizeFirst: boolean
     canvasLoader: CanvasLoader | null
     lazyload: Lazyload
-    vueApp: VueApp
     nodeStatuses?: unknown
 
     onDocumentReady(): void

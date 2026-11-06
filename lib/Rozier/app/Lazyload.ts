@@ -319,14 +319,6 @@ export default class Lazyload {
                     this.initCssEditors(el)
                     this.initYamlEditors(el)
                     this.initCollectionsForms(el)
-
-                    const vueComponents = el.querySelectorAll('[data-vuejs]')
-                    vueComponents.forEach((vueEl) => {
-                        if (!window.Rozier) return
-                        window.Rozier.vueApp.mainContentComponents.push(
-                            window.Rozier.vueApp.buildComponent(vueEl),
-                        )
-                    })
                     return true
                 },
             })
