@@ -368,6 +368,19 @@ Removed from the Rozier front-end:
   `app/services/KeyboardEventService.js`
 - the `vuedraggable` and `vue2-dropzone` dependencies
 
+## ⚠ Rozier no longer ships Vue
+
+Vue and Vuex are no longer loaded in the backoffice. Elements marked with `data-vuejs`, inside
+`#rz-page` or in a collection form row, are no longer mounted as Vue roots: migrate them to custom
+elements.
+
+Removed from the Rozier front-end:
+
+- `app/App.js` and `window.Rozier.vueApp` (with its `buildComponent()` method and
+  `mainContentComponents` list)
+- the Vuex store (`app/store/`) and its `translations` state
+- the `vue`, `vuex` and `@vitejs/plugin-vue2` dependencies, and the `vue` chunk in the Vite build
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

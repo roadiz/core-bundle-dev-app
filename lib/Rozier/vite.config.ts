@@ -1,4 +1,3 @@
-import vue from '@vitejs/plugin-vue2'
 import { resolve } from 'path'
 import { defineConfig, normalizePath } from 'vite'
 import devManifest from './vite-plugins/dev-manifest'
@@ -40,20 +39,17 @@ export default defineConfig(({ mode }) => {
                     assetFileNames: `[name]-[hash].[ext]`,
                     manualChunks: {
                         jquery: ['jquery'],
-                        vue: ['vue', 'vuex'],
                     },
                 },
             },
         },
         resolve: {
             alias: {
-                vue: 'vue/dist/vue.esm.js',
                 '~': resolve(__dirname, './app'),
                 assets: resolve(__dirname, './app/assets'),
             },
         },
         plugins: [
-            vue(),
             devManifest(),
             initCollections([
                 {
