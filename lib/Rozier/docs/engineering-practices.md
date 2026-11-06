@@ -58,13 +58,13 @@ Rozier has no automated tests, so every change is verified through this loop
    following [`storybook.md`](storybook.md).
 3. Compare with the matching Figma section when one exists.
 4. Before opening the PR: `docker compose run --rm node pnpm lint` and
-   `docker compose run --rm node pnpm build:check` pass, and so does
+   `docker compose run --rm node pnpm build` pass, and so does
    `docker compose run --rm node pnpm build-storybook` when the change touches
    stories or renderers.
 
-Edit sources only; `lib/RoadizRozierBundle/public/` holds build output.
-`pnpm build:check` builds into `/tmp` so it leaves that folder untouched; run
-`pnpm build` only when you mean to update the committed assets.
+Edit sources only; `lib/RoadizRozierBundle/public/` holds build output. It is
+not committed: CI builds it when splitting `roadiz/rozier-bundle`
+([ADR 0003](../../../docs/adr/0003-build-rozier-assets-at-split.md)).
 
 ## Design decisions
 

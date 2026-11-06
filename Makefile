@@ -75,4 +75,5 @@ update:
 build_assets:
 	docker compose run --rm --no-deps --entrypoint= node pnpm install --frozen-lockfile
 	docker compose run --rm --no-deps --entrypoint= node pnpm build
+	docker compose exec app bin/console assets:install public --relative --symlink
 	make cache
