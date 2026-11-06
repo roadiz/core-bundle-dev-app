@@ -86,6 +86,25 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
+            # Rozier assets are not committed (root .gitignore): build them into
+            # lib/RoadizRozierBundle/public/ so the split ships them (docs/adr/0003).
+            -   if: matrix.package.local_path == 'RoadizRozierBundle'
+                name: Install Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version-file: 'lib/Rozier/package.json'
+            -   if: matrix.package.local_path == 'RoadizRozierBundle'
+                name: Install pnpm
+                uses: pnpm/action-setup@v4
+                with:
+                    package_json_file: 'lib/Rozier/package.json'
+            -   if: matrix.package.local_path == 'RoadizRozierBundle'
+                name: Build Rozier assets
+                working-directory: ./lib/Rozier
+                run: |
+                    pnpm install --frozen-lockfile
+                    pnpm build
+
             # no tag
             -   if: github.ref == 'refs/heads/develop'
                 uses: "danharrin/monorepo-split-github-action@v2.3.0"

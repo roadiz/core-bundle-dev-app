@@ -38,6 +38,7 @@ If you want to start a new headless project with Roadiz, check https://github.co
 ## Run development server
 
 - Run docker compose to get a local database and Solr server: `docker compose up -d`
+- Build the backoffice assets, which are not committed: `make build_assets`
 - Install Roadiz database fixture: `docker compose exec app bin/console install`
 - Install development fixtures: `docker compose exec app bin/console app:install`
 - Create a user: `docker compose exec app bin/console users:create -s -b -m $EMAIL $EMAIL`
@@ -136,13 +137,7 @@ If your backoffice is not reachable on `localhost`, set the URL the browser must
 
 Note: `./lib/Rozier` is mounted over the container's `/app`, so `lib/Rozier/node_modules` must exist on the host (`make build_assets` installs them).
 
-To check that the build passes without touching the committed assets in `lib/RoadizRozierBundle/public/`, build into `/tmp`:
-
-```shell
-docker compose run --rm node pnpm build:check
-```
-
-Do not forget to build final assets for production before shipping a new Roadiz version:
+Built assets in `lib/RoadizRozierBundle/public/` are not committed: the `split.yaml` workflow builds them before splitting `roadiz/rozier-bundle`, on `develop`, `main` and tags ([ADR 0003](docs/adr/0003-build-rozier-assets-at-split.md)). To build them locally, run `make build_assets`, or only the build step:
 
 ```shell
 docker compose run --rm node pnpm build

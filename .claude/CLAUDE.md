@@ -55,8 +55,8 @@ make update           # Non-interactive migrations + fixtures
 **Frontend (Rozier admin UI):**
 ```bash
 docker compose up node                    # Dev server (HMR on port 5173)
-docker compose run --rm node pnpm build:check   # Check the build, writes to /tmp only
-docker compose run --rm node pnpm build   # Build assets into lib/RoadizRozierBundle/public/
+docker compose run --rm node pnpm build   # Build assets into lib/RoadizRozierBundle/public/ (gitignored)
+make build_assets                         # pnpm install + build + assets:install + make cache
 # Local: cd lib/Rozier && corepack install && pnpm install --frozen-lockfile && pnpm dev
 ```
 
@@ -111,7 +111,7 @@ App\Tests\          → tests/
 - **Messages/Commands** use Symfony Messenger for async work.
 - **API resources** use API Platform with custom state providers/processors in `src/Api/` and `lib/RoadizCoreBundle/src/Api/`.
 - **Generated entities** (`src/GeneratedEntity/`) are auto-generated — do not edit manually.
-- **Frontend assets** in `lib/RoadizRozierBundle/public/` are build artifacts — edit source in `lib/Rozier/` instead.
+- **Frontend assets** in `lib/RoadizRozierBundle/public/` are gitignored build artifacts, built by CI at split time (`docs/adr/0003`) — edit source in `lib/Rozier/` instead.
 
 ### Test Setup
 

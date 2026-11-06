@@ -185,3 +185,7 @@ fabric.properties
 
 config/reference.php
 .phpactor.json
+
+# Rozier backoffice assets: built at split time (split.yaml), see docs/adr/0003.
+# Keep this rule here: lib/RoadizRozierBundle/.gitignore is copied into the split.
+/lib/RoadizRozierBundle/public/
