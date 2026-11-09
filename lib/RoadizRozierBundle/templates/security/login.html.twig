@@ -4,8 +4,9 @@
 
 {% block login_content %}
     {% if error %}
-        <div class="uk-alert uk-alert-danger">
-            {{- error.messageKey|default(error.message)|trans(error.messageData, 'security') -}}
+        {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+        <div class="rz-login__group">
+            {{ rz_message.root({ color: 'error', text: error.messageKey|default(error.message)|trans(error.messageData, 'security'), attributes: { role: 'alert' } }) }}
         </div>
     {% endif %}
 

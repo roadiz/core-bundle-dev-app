@@ -19,25 +19,11 @@
 
     <tag-edit-page class="content content-tag-edit">
         {% if readOnly %}
-            <div class="uk-alert uk-alert-warning">
-                <h4>{% trans %}versions.viewing_a_previous_version{% endtrans %}</h4>
-                <p>{{ currentVersion.loggedAt|format_datetime('full', 'short', locale=app.request.locale) }} - {{ currentVersion.username }}</p>
-                {%- if revertForm -%}
-                    {{- form_start(revertForm, { attr: {id: 'revert-node-source-form'}}) -}}
-                    {{- form_widget(revertForm) -}}
-                    <div class="uk-button-group">
-                        <button class="uk-button uk-button-warning" type="submit">
-                            <span class="icon-container"><i class="uk-icon-rz-back-parent"></i></span>
-                            <span class="label"><span class="label-text">{% trans %}versions.revert_to_this_version{% endtrans %}</span></span>
-                        </button>
-                        <a class="uk-button" href="{{ path('tagsEditTranslatedPage', {
-                            tagId: tag.id,
-                            translationId: translation.id
-                        }) }}"><i class="uk-icon-rz-home"></i> {% trans %}versions.back_to_working_copy{% endtrans %}</a>
-                    </div>
-                    {{- form_end(revertForm) -}}
-                {%- endif -%}
-            </div>
+            {% include '@RoadizRozier/ui/patterns/version_banner.html.twig' with {
+                current_version: currentVersion,
+                revert_form: revertForm,
+                working_copy_url: path('tagsEditTranslatedPage', { tagId: tag.id, translationId: translation.id }),
+            } only %}
         {% endif %}
 
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

@@ -23,6 +23,12 @@
     --rz-message-background-color: var(--status-error-container, #FFD3DA);
 }
 
+.rz-message--success {
+    --rz-message-ghost-color: var(--status-success, #16A867);
+    --rz-message-color: var(--status-success-on-container, #298059);
+    --rz-message-background-color: var(--status-success-container, #D5FFEC);
+}
+
 .rz-message__text {
     margin: initial;
     font-family: var(--font-family-os-text);

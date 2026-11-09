@@ -387,7 +387,10 @@ jQuery and UIkit core are still loaded for now, but none of their plugins or JS 
 If an overridden template or a custom script relies on one of them, migrate it to a custom element:
 
 - `data-uk-tooltip` does nothing: keep a `title`, or wrap the element in `<rz-tooltip>`
-- `data-uk-alert` and its `.uk-alert-close` link no longer dismiss the alert
+- `data-uk-alert` and its `.uk-alert-close` link no longer dismiss the alert. Login and version
+  alerts render `rz-message` (new `success` color) instead of `uk-alert`, and the session flash
+  messages (`ui/patterns/messages.html.twig`) moved from `ui/layouts/simple.html.twig` into the
+  login card of `ui/layouts/login.html.twig`
 - `data-uk-switcher` / `show.uk.switcher` and `data-uk-sortable` are no longer handled
 - the UIkit `sortable` and `tooltip` components, jQuery UI (and its autocomplete widget), and the
   `jquery.tag-editor` and `jquery.caret` plugins are no longer imported

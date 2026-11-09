@@ -1,0 +1,6 @@
+.rz-version-banner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+    margin-block-end: var(--spacing-md);
+}

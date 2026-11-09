@@ -1,8 +1,11 @@
+{# Session flash messages, rendered at the top of the login card (ui/layouts/login.html.twig) #}
 {% if app.request.hasPreviousSession %}
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
     {% for type, messages in app.flashes %}
+        {% set color = type == 'confirm' ? 'success' : (type == 'warning' ? 'warning' : 'error') %}
         {% for message in messages %}
-            <div class="uk-alert uk-alert-{% if type == "confirm" %}success{% elseif type == "warning" %}warning{% else %}danger{% endif %}">
-                <p>{{ message }}</p>
+            <div class="rz-login__group">
+                {{ rz_message.root({ color: color, text: message, attributes: { role: color == 'success' ? 'status' : 'alert' } }) }}
             </div>
         {% endfor %}
     {% endfor %}

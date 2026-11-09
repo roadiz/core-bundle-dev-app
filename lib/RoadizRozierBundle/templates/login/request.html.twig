@@ -6,7 +6,10 @@
     {% endif %}
 
     {% if error %}
-    <div class="uk-alert uk-alert-danger">{{ error }}</div>
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+    <div class="rz-login__group">
+        {{ rz_message.root({ color: 'error', text: error, attributes: { role: 'alert' } }) }}
+    </div>
     {% endif %}
 
     {% form_theme form '@RoadizRozier/forms.html.twig' %}

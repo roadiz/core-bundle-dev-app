@@ -139,7 +139,7 @@ export default class RzEntityThumbnail extends RoadizElement {
         const title = this.thumbnailData.title || ''
 
         this.innerHTML = `<img
-            class="uk-thumbnail rz-entity-thumbnail__image"
+            class="rz-entity-thumbnail__image"
             src="${this.thumbnailData.url}"
             alt="${alt}"
             width="${this.thumbnailData.width || ''}"

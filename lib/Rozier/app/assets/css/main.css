@@ -66,6 +66,7 @@
 @import './components/rz-toast.css';
 @import './components/rz-tooltip.css';
 @import './components/rz-tree.css';
+@import './components/rz-version-banner.css';
 
 /* Components: Form */
 @import './components/rz-repeatable.css';
