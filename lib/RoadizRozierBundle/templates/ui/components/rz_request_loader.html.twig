@@ -1,0 +1,23 @@
+{# rz-request-loader: options = RzRequestLoaderOptions (component-renderer/rzRequestLoader.ts), story Components/Feedback/RequestLoader #}
+{# Driven by the requestLoaderShow / requestLoaderHide window events (custom-elements/RzRequestLoader.ts). #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-request-loader' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set label = options.label|default('loading')|trans %}
+    {% set active = options.active|default(false) %}
+
+    <rz-request-loader
+        class="{{ html_classes(element_class, attributes.class|default(''), {
+            (element_class ~ '--active'): active,
+        }) }}"
+        role="status"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        <span class="{{ element_class ~ '__bar' }}" aria-hidden="true"></span>
+        <span class="{{ element_class ~ '__label' }} rz-visually-hidden" data-label="{{ label }}">
+            {%- if active %}{{ label }}{% endif -%}
+        </span>
+    </rz-request-loader>
+{% endmacro %}

@@ -35,7 +35,7 @@ Components/
                  NodeTreeContextualMenu
   Navigation/    HeaderNavItem, Breadcrumb, Tablist/{Root,Item}, Tree, Link, PageHeader
   Data display/  Table, Card, Badge, EntityThumbnail, NodeIcon, FiltersBar
-  Feedback/      Message, Toast, Progress
+  Feedback/      Message, Toast, Progress, RequestLoader
 Patterns/        App, Login, Dashboard, Header, Aside, Page, PagePreview, MenuBar, LivePreview
 ```
 

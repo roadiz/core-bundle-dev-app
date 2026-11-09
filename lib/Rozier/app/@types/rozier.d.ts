@@ -4,7 +4,6 @@ export default class Rozier {
     windowWidth: number | null
     windowHeight: number | null
     resizeFirst: boolean
-    canvasLoader: CanvasLoader | null
     lazyload: Lazyload
     nodeStatuses?: unknown
 
@@ -18,23 +17,11 @@ export default class Rozier {
 }
 
 declare global {
-    interface CanvasLoader {
-        setColor(color: string): void
-        setShape(shape: string): void
-        setDensity(density: number): void
-        setRange(range: number): void
-        setSpeed(speed: number): void
-        setFPS(fps: number): void
-        show(): void
-        hide(): void
-    }
-
     interface HTMLElement {
         setHTMLUnsafe(value: string): void
     }
 
     interface Window {
         Rozier?: InstanceType<typeof Rozier>
-        CanvasLoader: { new (containerId: string): CanvasLoader }
     }
 }

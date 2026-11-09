@@ -62,7 +62,6 @@
                     {% block permanentComponents %}{% endblock %}
                     {% block content %}{% endblock %}
                 </div>
-                <div id="canvasloader-container"></div>
 
                 {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                 {{ rz_button.root({
@@ -121,6 +120,8 @@
                 text: 'health_check.failed.content'|trans,
             },
         }) }}
+        {% import '@RoadizRozier/ui/components/rz_request_loader.html.twig' as rz_request_loader %}
+        {{ rz_request_loader.root() }}
         <rz-toast-list role="status" class="rz-toast-list--bottom-right"></rz-toast-list>
         <script>
             /**

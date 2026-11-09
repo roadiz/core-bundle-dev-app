@@ -1,0 +1,56 @@
+/* Global loader: a thin indeterminate bar on top of the viewport, driven by RzRequestLoader. */
+.rz-request-loader {
+	--rz-request-loader-height: 3px;
+	--rz-request-loader-color: var(--brand-primary, #2050F5);
+
+	position: fixed;
+	inset-block-start: 0;
+	inset-inline: 0;
+	z-index: 1002; /* Above toasts, tooltips and actions menus */
+	display: block;
+	height: var(--rz-request-loader-height);
+	overflow: hidden;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+}
+
+.rz-request-loader--active {
+	opacity: 1;
+}
+
+.rz-request-loader__bar {
+	position: absolute;
+	inset-block: 0;
+	left: 0;
+	width: 40%;
+	background-color: var(--rz-request-loader-color);
+	animation: rz-request-loader-slide 1.2s ease-in-out infinite;
+	animation-play-state: paused;
+
+	.rz-request-loader--active & {
+		animation-play-state: running;
+	}
+}
+
+@keyframes rz-request-loader-slide {
+	from {
+		translate: -100% 0;
+	}
+
+	to {
+		translate: 250% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rz-request-loader {
+		transition: none;
+	}
+
+	/* No movement: a full-width bar marks the loading state. */
+	.rz-request-loader__bar {
+		width: 100%;
+		animation: none;
+	}
+}
