@@ -32,7 +32,7 @@ const meta: Meta<Args> = {
     argTypes: {
         active: {
             description:
-                'Initial state. At runtime the requestLoaderShow / requestLoaderHide window events toggle rz-request-loader--active.',
+                'Initial state, shown at once. At runtime requestLoaderShow adds rz-request-loader--active (bar), then rz-request-loader--slow (pill, announcement) after 500 ms; requestLoaderHide removes both, once the pill has stayed at least 600 ms.',
         },
     },
     parameters: {

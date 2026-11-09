@@ -66,18 +66,19 @@ Global loader driven by RzRequestLoader, rendered as the first child of the page
 }
 
 .rz-request-loader--active {
-	.rz-request-loader__bar,
-	.rz-request-loader__pill {
+	.rz-request-loader__bar {
 		opacity: 1;
-	}
-
-	.rz-request-loader__pill {
-		translate: -50% 0;
 	}
 
 	.rz-request-loader__bar::before {
 		animation-play-state: running;
 	}
+}
+
+/* Added by RzRequestLoader once the request outlasts SLOW_DELAY_MS: quick loads show the bar only. */
+.rz-request-loader--slow .rz-request-loader__pill {
+	opacity: 1;
+	translate: -50% 0;
 }
 
 @keyframes rz-request-loader-slide {
@@ -97,7 +98,7 @@ Global loader driven by RzRequestLoader, rendered as the first child of the page
 	}
 
 	.rz-request-loader__pill,
-	.rz-request-loader--active .rz-request-loader__pill {
+	.rz-request-loader--slow .rz-request-loader__pill {
 		translate: -50% 0;
 	}
 

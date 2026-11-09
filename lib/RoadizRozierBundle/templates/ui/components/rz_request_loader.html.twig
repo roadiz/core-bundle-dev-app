@@ -11,16 +11,19 @@
     <rz-request-loader
         class="{{ html_classes(element_class, attributes.class|default(''), {
             (element_class ~ '--active'): active,
+            (element_class ~ '--slow'): active,
         }) }}"
         role="status"
         {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
     >
         <span class="{{ element_class ~ '__bar' }}" aria-hidden="true"></span>
-        <span class="{{ element_class ~ '__pill' }}">
-            <span class="rz-spinner" aria-hidden="true"></span>
-            <span class="{{ element_class ~ '__label' }}" data-label="{{ label }}">
-                {%- if active %}{{ label }}{% endif -%}
-            </span>
+        {# The pill text never changes, the status label below carries the announcement #}
+        <span class="{{ element_class ~ '__pill' }}" aria-hidden="true">
+            <span class="rz-spinner"></span>
+            <span class="{{ element_class ~ '__text' }}">{{ label }}</span>
+        </span>
+        <span class="{{ element_class ~ '__label' }} rz-visually-hidden" data-label="{{ label }}">
+            {%- if active %}{{ label }}{% endif -%}
         </span>
     </rz-request-loader>
 {% endmacro %}

@@ -1,10 +1,33 @@
+import { debounce } from 'lodash'
+
 export const ACTIVE_CLASS_NAME = 'rz-request-loader--active'
+export const SLOW_CLASS_NAME = 'rz-request-loader--slow'
+
+/** A request shorter than this shows the bar only: no pill, no announcement. */
+export const SLOW_DELAY_MS = 500
+/** Once shown, the pill stays at least this long, so it never flashes. */
+export const SLOW_MIN_DURATION_MS = 600
 
 /**
  * Global loader shown while an AJAX navigation or a long action runs.
  * Any module drives it through the `requestLoaderShow` / `requestLoaderHide` window events.
  */
 export default class RzRequestLoader extends HTMLElement {
+    private hideTimeoutId: number | null = null
+    private slowShownAt: number | null = null
+
+    // Debounced: each requestLoaderShow restarts the delay
+    private showPill = debounce(() => {
+        this.slowShownAt = performance.now()
+        this.classList.add(SLOW_CLASS_NAME)
+
+        // The status region announces text inserted while it is in the DOM
+        const label = this.labelElement
+        if (label) {
+            label.textContent = label.dataset.label || ''
+        }
+    }, SLOW_DELAY_MS)
+
     constructor() {
         super()
 
@@ -24,24 +47,53 @@ export default class RzRequestLoader extends HTMLElement {
     disconnectedCallback() {
         window.removeEventListener('requestLoaderShow', this.show)
         window.removeEventListener('requestLoaderHide', this.hide)
+        this.showPill.cancel()
+        this.clearHideTimeout()
     }
 
     show() {
+        // A new request during the minimum duration keeps the pill on
+        this.clearHideTimeout()
         this.classList.add(ACTIVE_CLASS_NAME)
 
-        // The status region announces text inserted while it is in the DOM
-        const label = this.labelElement
-        if (label && !label.textContent) {
-            label.textContent = label.dataset.label || ''
+        if (this.slowShownAt === null) {
+            this.showPill()
         }
     }
 
     hide() {
-        this.classList.remove(ACTIVE_CLASS_NAME)
+        this.showPill.cancel()
 
+        const remaining =
+            this.slowShownAt === null
+                ? 0
+                : SLOW_MIN_DURATION_MS - (performance.now() - this.slowShownAt)
+
+        if (remaining <= 0) {
+            this.reset()
+            return
+        }
+
+        this.clearHideTimeout()
+        this.hideTimeoutId = window.setTimeout(() => this.reset(), remaining)
+    }
+
+    private reset() {
+        this.hideTimeoutId = null
+        this.slowShownAt = null
+        this.classList.remove(ACTIVE_CLASS_NAME, SLOW_CLASS_NAME)
+
+        // Visually hidden: clearing it never resizes the pill
         const label = this.labelElement
         if (label) {
             label.textContent = ''
+        }
+    }
+
+    private clearHideTimeout() {
+        if (this.hideTimeoutId !== null) {
+            window.clearTimeout(this.hideTimeoutId)
+            this.hideTimeoutId = null
         }
     }
 }
