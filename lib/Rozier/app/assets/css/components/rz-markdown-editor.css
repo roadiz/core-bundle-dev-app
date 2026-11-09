@@ -59,6 +59,7 @@ rz-markdown-editor,
 
 /*
  * Markdown syntax colouring (CodeMirror `gfm` mode with `highlightFormatting`).
+ * Colours alias the shared `--rz-code-syntax-*` palette (rz-code-editor.css).
  * Scoped to the Markdown editor so other CodeMirror usages (YAML, CSS, JSON) keep their own styles.
  * `.rz-markdown-editor .CodeMirror` outranks the vendor `.cm-s-default .cm-*` rules.
  * Order matters: `.cm-formatting` comes after token rules so markers are muted, list markers last.
@@ -66,12 +67,12 @@ rz-markdown-editor,
 :where(.rz-markdown-editor, rz-markdown-editor) {
 	--rz-markdown-editor-syntax-heading: var(--content-on-light-primary);
 	--rz-markdown-editor-syntax-marker: var(--content-on-light-secondary);
-	--rz-markdown-editor-syntax-link: light-dark(var(--color-brand-brand-blue), var(--color-basic-blue));
+	--rz-markdown-editor-syntax-link: var(--rz-code-syntax-key);
 	--rz-markdown-editor-syntax-url: var(--content-on-light-secondary);
-	--rz-markdown-editor-syntax-code: light-dark(var(--color-basic-dark-orange), var(--color-basic-orange));
-	--rz-markdown-editor-syntax-code-bg: var(--surface-light-tertiary);
-	--rz-markdown-editor-syntax-quote: light-dark(var(--color-basic-dark-green), var(--color-basic-green));
-	--rz-markdown-editor-syntax-list: light-dark(var(--color-brand-brand-blue), var(--color-basic-blue));
+	--rz-markdown-editor-syntax-code: var(--rz-code-syntax-number);
+	--rz-markdown-editor-syntax-code-bg: var(--rz-code-syntax-code-bg);
+	--rz-markdown-editor-syntax-quote: var(--rz-code-syntax-string);
+	--rz-markdown-editor-syntax-list: var(--rz-code-syntax-key);
 }
 
 .rz-markdown-editor .CodeMirror {
