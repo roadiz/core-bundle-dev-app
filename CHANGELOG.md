@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.59](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.58...v2.5.59) - 2026-11-09
+
+### Bug Fixes
+
+- **(rozier)** authorize destination when moving a node - ([50f0625](https://github.com/roadiz/core-bundle-dev-app/commit/50f062580aa80616d1717337e39ebf3a630f759f))
+
 ## [2.5.58](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.57...v2.5.58) - 2026-10-27
 
 ### Bug Fixes
