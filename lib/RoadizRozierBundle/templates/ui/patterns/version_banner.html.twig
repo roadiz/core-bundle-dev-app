@@ -1,0 +1,47 @@
+{#
+    Warning shown while an entity is displayed at a previous version (read-only).
+
+    Template options (snake_case):
+    - current_version (required): the displayed version (loggedAt, username)
+    - working_copy_url (required): URL of the current version, the way out of the banner
+    - revert_form (optional): form restoring the displayed version
+#}
+{% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+{% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+
+{% set banner_content %}
+    <strong>{% trans %}versions.viewing_a_previous_version{% endtrans %}</strong><br>
+    {{ current_version.loggedAt|format_datetime('full', 'short', locale=app.request.locale) }}
+    {%- if current_version.username %} - {{ current_version.username }}{% endif %}
+{% endset %}
+
+<div class="rz-version-banner">
+    {{ rz_message.root({
+        color: 'warning',
+        innerHTML: banner_content,
+        attributes: { role: 'status' },
+    }) }}
+
+    {% if revert_form %}
+        {{ form_start(revert_form, { attr: { id: 'revert-node-source-form' } }) }}
+        {{ form_widget(revert_form) }}
+    {% endif %}
+    <div class="rz-button-group rz-button-group--gap-sm">
+        {% if revert_form %}
+            {{ rz_button.root({
+                label: 'versions.revert_to_this_version',
+                iconClass: 'rz-icon-ri--arrow-go-back-line',
+                emphasis: 'primary',
+                size: 'sm',
+                attributes: { type: 'submit' },
+            }) }}
+        {% endif %}
+        {{ rz_button.root({
+            label: 'versions.back_to_working_copy',
+            emphasis: 'secondary',
+            size: 'sm',
+            attributes: { href: working_copy_url },
+        }) }}
+    </div>
+    {% if revert_form %}{{ form_end(revert_form) }}{% endif %}
+</div>

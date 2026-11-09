@@ -1,5 +1,5 @@
 /* Think about accessibility during integration, e.g., role="alert" when creating error messages */
-export const COLORS = ['neutral', 'warning', 'error'] as const
+export const COLORS = ['neutral', 'success', 'warning', 'error'] as const
 export const VARIANTS = ['filled', 'ghost'] as const
 
 export type RzMessageOptions = {

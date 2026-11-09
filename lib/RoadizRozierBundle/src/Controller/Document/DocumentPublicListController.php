@@ -188,17 +188,19 @@ class DocumentPublicListController extends AbstractController
             ->add('submitFolder', SubmitType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'uk-button uk-button-primary',
-                    'title' => 'link.folders',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('link.folders'),
+                    'icon' => 'rz-icon-ri--add-line',
                 ],
             ])
             ->add('submitUnfolder', SubmitType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'uk-button',
-                    'title' => 'unlink.folders',
-                    'data-uk-tooltip' => '{animation:true}',
+                    'is' => 'rz-button',
+                    'class' => 'rz-button rz-button--secondary',
+                    'title' => $this->translator->trans('unlink.folders'),
+                    'icon' => 'rz-icon-ri--subtract-line',
                 ],
             ]);
 

@@ -3,8 +3,9 @@
 {% block login_content %}
     {# Authentication errors #}
     {% if authenticationError %}
-    <div data-uk-alert class="uk-alert uk-alert-danger">
-        <p>{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</p>
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+    <div class="rz-login__group">
+        {{ rz_message.root({ color: 'error', text: authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle'), attributes: { role: 'alert' } }) }}
     </div>
     {% endif %}
 

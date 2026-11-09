@@ -42,13 +42,12 @@
 				</td>
 				<td>
 					{% if item.Automatic %}
-						<span
-							data-uk-tooltip="{animation:true}"
-							title="{% trans %}webhooks.automatic.help{% endtrans %}"
-							class="uk-button-status"
-						>
-							<i class="uk-icon-flag-checkered"></i>
-						</span>
+						{% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+						{{ rz_badge.root({
+							iconClass: 'rz-icon-ri--flag-line',
+							size: 'sm',
+							title: 'webhooks.automatic.help'|trans,
+						}) }}
 					{% endif %}
 				</td>
 				<td>{{- item.lastTriggeredAt ? item.lastTriggeredAt|format_datetime(locale=app.request.locale) : 'never'|trans -}}</td>
