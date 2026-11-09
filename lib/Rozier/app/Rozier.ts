@@ -10,7 +10,6 @@ export default class Rozier {
     windowWidth: number | null
     windowHeight: number | null
     resizeFirst: boolean
-    canvasLoader: CanvasLoader | null
     lazyload: Lazyload | null = null
     nodeStatuses = null
 
@@ -19,13 +18,10 @@ export default class Rozier {
         this.windowHeight = null
         this.resizeFirst = true
 
-        this.canvasLoader = null
-
         this.resize = this.resize.bind(this)
     }
 
     onDocumentReady() {
-        this.initLoader()
         this.lazyload = new Lazyload()
         new LoginCheckService()
 
@@ -33,12 +29,6 @@ export default class Rozier {
         this.resize()
 
         this.lazyload.generalBind()
-        window.addEventListener('requestLoaderShow', () => {
-            this.canvasLoader?.show()
-        })
-        window.addEventListener('requestLoaderHide', () => {
-            this.canvasLoader?.hide()
-        })
         window.addEventListener('requestMessagesRefresh', () => {
             this.getMessages()
         })
@@ -64,23 +54,6 @@ export default class Rozier {
 
     refreshMainFolderTree(translationId?: string) {
         return this.getAsideElement()?.refreshMainFolderTree?.(translationId)
-    }
-
-    /**
-     * Init loader
-     */
-    initLoader() {
-        this.canvasLoader = new window.CanvasLoader('canvasloader-container')
-        this.canvasLoader.setColor(
-            window
-                .getComputedStyle(document.documentElement)
-                .getPropertyValue('--rz-accent-color'),
-        )
-        this.canvasLoader.setShape('square')
-        this.canvasLoader.setDensity(90)
-        this.canvasLoader.setRange(0.8)
-        this.canvasLoader.setSpeed(4)
-        this.canvasLoader.setFPS(30)
     }
 
     async getMessages() {

@@ -1,0 +1,29 @@
+{# rz-request-loader: options = RzRequestLoaderOptions (storybook/renderer/rzRequestLoader.ts), story Components/Feedback/RequestLoader #}
+{# Driven by the requestLoaderShow / requestLoaderHide window events (custom-elements/RzRequestLoader.ts). Rendered as the first child of rz-page: the pill centers on the page. #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-request-loader' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set label = options.label|default('loading')|trans %}
+    {% set active = options.active|default(false) %}
+
+    <rz-request-loader
+        class="{{ html_classes(element_class, attributes.class|default(''), {
+            (element_class ~ '--active'): active,
+            (element_class ~ '--slow'): active,
+        }) }}"
+        role="status"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        <span class="{{ element_class ~ '__bar' }}" aria-hidden="true"></span>
+        {# The pill text never changes, the status label below carries the announcement #}
+        <span class="{{ element_class ~ '__pill' }}" aria-hidden="true">
+            <span class="rz-spinner"></span>
+            <span class="{{ element_class ~ '__text' }}">{{ label }}</span>
+        </span>
+        <span class="{{ element_class ~ '__label' }} rz-visually-hidden" data-label="{{ label }}">
+            {%- if active %}{{ label }}{% endif -%}
+        </span>
+    </rz-request-loader>
+{% endmacro %}

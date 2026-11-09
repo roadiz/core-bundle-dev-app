@@ -57,12 +57,13 @@
             {% endif %}
             <!-- Add your site or application content here -->
             <main is="rz-page" id="rz-page" class="rz-page">
+                {% import '@RoadizRozier/ui/components/rz_request_loader.html.twig' as rz_request_loader %}
+                {{ rz_request_loader.root() }}
                 <div id="main-content-overlay"></div>
                 <div id="main-content-scrollable" data-ajax-root>
                     {% block permanentComponents %}{% endblock %}
                     {% block content %}{% endblock %}
                 </div>
-                <div id="canvasloader-container"></div>
 
                 {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                 {{ rz_button.root({
