@@ -178,7 +178,8 @@ that would skew `git log -1`.
 - The global `window.Rozier` singleton (targeted by ADR 0001) is still used by ~15 files,
   including already-redesigned components.
 - 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
-  files from the new design system.
+  files from the new design system. Since [#586](https://github.com/roadiz/core-bundle-dev-app/issues/586)'s
+  first pass, 21 remain (19 still styling live markup, plus `style.less` and `vendor.less`).
 - **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
   alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up
   (settled in #534: the Vue file was dead and removed).
