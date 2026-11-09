@@ -8,3 +8,13 @@
         {{ rz_message.root({ color: 'success', text: 'login_link_sent_if_email_exists.check_inbox'|trans, attributes: { role: 'status' } }) }}
     </div>
 {% endblock %}
+
+{% block login_footer %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+    {{ rz_button.root({
+        emphasis: 'primary',
+        label: 'back_to.login',
+        iconClass: 'rz-icon-ri--arrow-left-s-line',
+        attributes: { href: path('loginPage') },
+    }) }}
+{% endblock %}
