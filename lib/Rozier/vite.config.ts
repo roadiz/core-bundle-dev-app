@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         },
         optimizeDeps: {
             // No index.html to crawl: scan every entry so the cold start pre-bundles all deps up front
-            entries: ['app/main.js', 'app/simple.js', 'app/shared.js'],
+            entries: ['app/main.js', 'app/shared.js'],
         },
         build: {
             outDir: normalizePath(
@@ -29,7 +29,6 @@ export default defineConfig(({ mode }) => {
             rollupOptions: {
                 input: {
                     main: resolve(__dirname, 'app/main.js'),
-                    simple: resolve(__dirname, 'app/simple.js'),
                     shared: resolve(__dirname, 'app/shared.js'),
                 },
                 output: {

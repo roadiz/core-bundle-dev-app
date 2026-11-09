@@ -69,13 +69,13 @@
                         {% set edit_href = path('settingsEditPage', { settingId: setting.setting.getId }) %}
                         <tr class="setting-row">
                             <td class="rz-table__cell rz-table__cell--sm">
-                                <p>
+                                <div>
                                     <a href="{{ edit_href }}">
                                         {{ setting.setting.name|trans|inlineMarkdown -}}
                                     </a>
-                                </p>
+                                </div>
                                 {% if setting.setting.description %}
-                                    <p class="rz-table__cell--muted">{{ setting.setting.description|trans|inlineMarkdown }}</p>
+                                    <div class="rz-table__cell--muted">{{ setting.setting.description|trans|inlineMarkdown }}</div>
                                 {% endif %}
                             </td>
                             <td class="mobile-hidden">

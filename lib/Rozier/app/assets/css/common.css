@@ -1,3 +1,15 @@
+/* Accent color, overridden by the layouts when the main_color setting is set */
+:root {
+	--color-light-mix: 70%;
+	--color-darker-mix: 95%;
+	--color-darkest-mix: 85%;
+
+	--rz-accent-color: #00deab;
+	--rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+	--rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+	--rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+}
+
 body {
 	margin: 0;
 	background-color: var(--surface-light-tertiary, #F2F2F2);

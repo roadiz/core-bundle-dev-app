@@ -380,7 +380,20 @@ span.CodeMirror-selectedtext {
 **/
 .markdown-editor-preview {
     display: none;
-    width: calc(var(--user-panel-width) + var(--entries-panel-width) + var(--trees-panel-width));
+    /* Former user panel + entries panel + trees panel widths */
+    width: 420px;
+
+    @media (min-width: 1280px) {
+        width: 430px;
+    }
+
+    @media (min-width: 1450px) {
+        width: 510px;
+    }
+
+    @media (min-width: 1920px) {
+        width: 610px;
+    }
     box-sizing: border-box;
     padding: 10px 20px;
     border-right: 1px solid var(--line-on-light-secondary, #DADADA);

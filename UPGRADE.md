@@ -408,6 +408,17 @@ custom script relies on one of them, migrate it to a custom element and the `rz-
   rendered by `rz-repeatable`. Use `window.Rozier.lazyload.initCodeEditors(element)` to set up the
   JSON, CSS and YAML editors of markup added at runtime
 
+## ⚠ Rozier login background image removed
+
+The login pages no longer show a background image (the redesigned login card has its own
+background):
+
+- the `login_image` setting is no longer read; you can delete it from your settings
+- the `loginImagePage` route (`/css/login/image`) and `LoginImageController` are removed, as well as
+  `window.RozierConfig.routes.splashRequest`
+- `ui/layouts/simple.html.twig` no longer renders the `#main-container`, `#splash-container` and
+  `#main_content` wrappers, nor loads the `simple` Vite entry (removed)
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

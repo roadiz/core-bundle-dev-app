@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import 'leaflet/dist/leaflet.css' // The backoffice loads it through vendor.less
+import 'leaflet/dist/leaflet.css' // The backoffice loads it through app/shared.js
 import {
     type RzGeotagOptions,
     rzGeotagRenderer,
