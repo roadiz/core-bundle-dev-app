@@ -413,7 +413,8 @@ custom script relies on one of them, migrate it to a custom element and the `rz-
 The login pages no longer show a background image (the redesigned login card has its own
 background):
 
-- the `login_image` setting is no longer read; you can delete it from your settings
+- the `login_image` setting is no longer read nor created by the settings fixtures; you can delete it
+  from your settings
 - the `loginImagePage` route (`/css/login/image`) and `LoginImageController` are removed, as well as
   `window.RozierConfig.routes.splashRequest`
 - `ui/layouts/simple.html.twig` no longer renders the `#main-container`, `#splash-container` and
