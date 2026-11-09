@@ -59,6 +59,7 @@
 @import './components/rz-page.css';
 @import './components/rz-popover.css';
 @import './components/rz-progress.css';
+@import './components/rz-request-loader.css';
 @import './components/rz-search.css';
 @import './components/rz-spinner.css';
 @import './components/rz-table.css';
