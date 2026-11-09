@@ -381,6 +381,20 @@ Removed from the Rozier front-end:
 - the Vuex store (`app/store/`) and its `translations` state
 - the `vue`, `vuex` and `@vitejs/plugin-vue2` dependencies, and the `vue` chunk in the Vite build
 
+## ⚠ Rozier no longer runs jQuery plugins or UIkit components
+
+jQuery and UIkit core are still loaded for now, but none of their plugins or JS components are.
+If an overridden template or a custom script relies on one of them, migrate it to a custom element:
+
+- `data-uk-tooltip` does nothing: keep a `title`, or wrap the element in `<rz-tooltip>`
+- `data-uk-alert` and its `.uk-alert-close` link no longer dismiss the alert
+- `data-uk-switcher` / `show.uk.switcher` and `data-uk-sortable` are no longer handled
+- the UIkit `sortable` and `tooltip` components, jQuery UI (and its autocomplete widget), and the
+  `jquery.tag-editor` and `jquery.caret` plugins are no longer imported
+- `Lazyload.initCollectionsForms()` (jQuery `symfony-collection`) is removed: collection fields are
+  rendered by `rz-repeatable`. Use `window.Rozier.lazyload.initCodeEditors(element)` to set up the
+  JSON, CSS and YAML editors of markup added at runtime
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

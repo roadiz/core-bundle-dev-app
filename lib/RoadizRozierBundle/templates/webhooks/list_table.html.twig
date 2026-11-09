@@ -42,13 +42,12 @@
 				</td>
 				<td>
 					{% if item.Automatic %}
-						<span
-							data-uk-tooltip="{animation:true}"
+						<rz-tooltip
 							title="{% trans %}webhooks.automatic.help{% endtrans %}"
 							class="uk-button-status"
 						>
 							<i class="uk-icon-flag-checkered"></i>
-						</span>
+						</rz-tooltip>
 					{% endif %}
 				</td>
 				<td>{{- item.lastTriggeredAt ? item.lastTriggeredAt|format_datetime(locale=app.request.locale) : 'never'|trans -}}</td>

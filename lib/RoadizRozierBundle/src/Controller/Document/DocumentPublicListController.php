@@ -190,7 +190,6 @@ class DocumentPublicListController extends AbstractController
                 'attr' => [
                     'class' => 'uk-button uk-button-primary',
                     'title' => 'link.folders',
-                    'data-uk-tooltip' => '{animation:true}',
                 ],
             ])
             ->add('submitUnfolder', SubmitType::class, [
@@ -198,7 +197,6 @@ class DocumentPublicListController extends AbstractController
                 'attr' => [
                     'class' => 'uk-button',
                     'title' => 'unlink.folders',
-                    'data-uk-tooltip' => '{animation:true}',
                 ],
             ]);
 

@@ -2,7 +2,7 @@
 
 {% block login_content %}
     {% if error %}
-        <div data-uk-alert class="uk-alert uk-alert-danger">{{ error }}</div>
+        <div class="uk-alert uk-alert-danger">{{ error }}</div>
     {% endif %}
     {% if form %}
         {% form_theme form '@RoadizRozier/forms.html.twig' %}

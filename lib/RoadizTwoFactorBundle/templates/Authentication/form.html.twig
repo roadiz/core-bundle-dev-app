@@ -3,7 +3,7 @@
 {% block login_content %}
     {# Authentication errors #}
     {% if authenticationError %}
-    <div data-uk-alert class="uk-alert uk-alert-danger">
+    <div class="uk-alert uk-alert-danger">
         <p>{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</p>
     </div>
     {% endif %}

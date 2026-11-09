@@ -4,7 +4,7 @@
 
 {% block login_content %}
     {% if error %}
-        <div data-uk-alert class="uk-alert uk-alert-danger">
+        <div class="uk-alert uk-alert-danger">
             {{- error.messageKey|default(error.message)|trans(error.messageData, 'security') -}}
         </div>
     {% endif %}

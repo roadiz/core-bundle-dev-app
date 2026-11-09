@@ -15,11 +15,7 @@
 
     <article class="content content-document-edit">
         {% if readOnly %}
-            <div class="uk-alert uk-alert-warning" data-uk-alert>
-                <a href="{{ path('documentsMetaPage', {
-                    documentId: document.id,
-                    translationId: translation.id
-                }) }}" class="uk-alert-close uk-close"></a>
+            <div class="uk-alert uk-alert-warning">
                 <h4>{% trans %}versions.viewing_a_previous_version{% endtrans %}</h4>
                 <p>{{ currentVersion.loggedAt|format_datetime('full', 'short', locale=app.request.locale) }} - {{ currentVersion.username }}</p>
                 {% if revertForm %}
