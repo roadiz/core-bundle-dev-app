@@ -9,7 +9,12 @@
     iframe,
     object {
         max-width: 100%;
-        height: auto;
         border: 0;
+    }
+
+    /* Keep the ratio of media scaled down by max-width; iframes and objects keep their height attribute */
+    img,
+    video {
+        height: auto;
     }
 }
