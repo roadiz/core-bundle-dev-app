@@ -81,7 +81,9 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.usePreview = false
 
         const editorConfig: ExtendedEditorConfiguration = {
-            mode: 'gfm',
+            // highlightFormatting emits `cm-formatting-*` classes on Markdown
+            // markers (`#`, `**`, `-`, `>`…) so they can be styled apart.
+            mode: { name: 'gfm', highlightFormatting: true },
             lineNumbers: false,
             tabSize: 4,
             styleActiveLine: true,

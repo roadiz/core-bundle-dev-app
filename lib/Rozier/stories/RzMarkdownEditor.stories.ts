@@ -3,6 +3,8 @@ import {
     type RzButtonGroupOptions,
     rzButtonGroupRenderer,
 } from '~/utils/component-renderer/rzButtonGroup'
+// Loaded globally by `main.js` in the backoffice, not by the Storybook preview
+import 'assets/css/vendor/codemirror.css'
 
 const COMPONENT_CLASS_NAME = 'rz-markdown-editor'
 
@@ -236,6 +238,39 @@ function rzMarkdownEditorRenderer(args: Args) {
 export const Default: Story = {
     args: {
         name: 'text-area-markdown-input',
+    },
+}
+
+const SYNTAX_SAMPLE = `# Heading 1
+## Heading 2
+
+Paragraph with **bold**, _italic_, ~~strikethrough~~ and \`inline code\`.
+A [link to Roadiz](https://www.roadiz.io) and an autolink <https://www.roadiz.io>.
+
+> A quote spanning
+> two lines.
+
+- First item
+- Second item
+    - Nested item
+
+1. Ordered item
+2. Another one
+
+\`\`\`
+Fenced code block
+\`\`\`
+
+---
+`
+
+/**
+ * Syntax colouring of every Markdown token handled by the editor.
+ */
+export const SyntaxHighlighting: Story = {
+    args: {
+        name: 'text-area-markdown-input',
+        value: SYNTAX_SAMPLE,
     },
 }
 
