@@ -2,7 +2,6 @@
    NODE TREE
 \*------------------------------------*/
 
-
 /* -------- STYLES -------- */
 .nodetree-bulk-selection {
     position: absolute;
@@ -35,9 +34,6 @@
         }
     }
     &:hover {
-        & > .uk-nestable-panel > .nodetree-contextualmenu {
-            opacity: 1;
-        }
         .nodetree-bulk-selection {
             input[type="checkbox"] {
                 display: block;
@@ -63,15 +59,6 @@
     top: 0;
     opacity: 0;
 
-    .uk-icon-caret-down {
-        font-size: 10px;
-        margin: 0 0 0 1px;
-    }
-    &.uk-open {
-        .uk-button-mini {
-            background: @contextualdropdown-p-bg-color;
-        }
-    }
     .smaller-text {
         font-size: 10px;
     }

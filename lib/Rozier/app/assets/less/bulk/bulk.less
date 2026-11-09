@@ -4,30 +4,6 @@
 .bulk-actions{
     text-align: center;
     padding: 20px 0 10px 0;
-
-    .uk-form{
-        input[type="text"],
-        input[type="password"],
-        input[type="search"],
-        input[type="email"],
-        input[type="number"] {
-            min-width: 230px;
-            height: 32px;
-            padding: 9px 8px 5px 8px;
-        }
-
-        .uk-button-bulk-primary {
-            [class*=uk-icon-rz-] {
-                color:#fff;
-            }
-        }
-
-
-        .rz-select {
-            vertical-align: middle;
-            margin-right: 4px;
-        }
-    }
 }
 
 .bulk-actions-title-cont {
@@ -51,7 +27,6 @@
         top: 5px; right: 0;  bottom:-5px;
         background:  #cbcbcb;
     }
-
 }
 
 .bulk-actions-title{
@@ -65,18 +40,10 @@
 
 .tags-bulk-folder-cont,
 .documents-bulk-folder-cont {
-
-    .uk-form .data-uk-margin > div{
-        display: inline-block;
-        vertical-align: middle;
-        margin-bottom:0;
-    }
-
     .tag-editor {
         max-width: 400px;
     }
 }
-
 
 #tagForm_submitTag,
 #statusForm_submitStatus,
@@ -101,7 +68,6 @@
         text-align: center;
     }
 
-
     .button-text {
         display: none;
     }
@@ -118,7 +84,6 @@
         content:@minus;
     }
 }
-
 
 #statusForm_submitStatus {
     &:before{
@@ -163,7 +128,6 @@
     }
 }
 
-
 // You must prefix you item container with .bulk-layout
 .bulk-layout {
     .bulk-actions {
@@ -191,10 +155,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
-        .data-uk-margin {
-            margin: 0;
-        }
     }
 
     // Sub-forms inside the bulk actions

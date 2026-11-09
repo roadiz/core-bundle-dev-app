@@ -11,6 +11,9 @@ small, reviewable, and aligned with the monorepo standards.
 - Favor native `CustomElements` to attach UI behavior.
 - Keep UI logic close to the component that owns it.
 - No new dependency without an explicit request.
+- Write styles in native CSS (`app/assets/css/`). The `.less` files under
+  `app/assets/less/` are legacy: never add or change a rule there, only delete
+  dead ones. A legacy style that is still needed moves to native CSS.
 
 See [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md) for the
 legacy stack being phased out.

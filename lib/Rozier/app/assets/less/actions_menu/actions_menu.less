@@ -2,7 +2,6 @@
    ACTIONS MENU
 \*------------------------------------*/
 
-
 /* -------- VARS -------- */
 @action-menu-border-size: 4px;
 @action-menu-H: 46px;
@@ -79,8 +78,7 @@
             }
         }
 
-        header,
-        .uk-button {
+        header {
             position: relative;
             border-radius: 0;
             .box-sizing();
@@ -96,11 +94,6 @@
             z-index: 999;
             justify-content: inherit;
 
-            &.uk-button:first-child,
-            &.uk-button:first-child .label {
-                border-top: 0 none !important;
-            }
-
             i {
                 .action-menu-icon();
                 transition: ~'border-color ease 0.3s, color ease 0.3s';
@@ -108,13 +101,6 @@
 
             &:focus,
             &:hover {
-                &.uk-button-danger,
-                &.uk-button-success,
-                &.uk-button-warning,
-                &.uk-button-primary {
-                    border-color: var(--global-border-lighter-color) !important;
-                    background: var(--contrasted-bg);
-                }
                 i {
                     border-color: darken(@item-global-border-color, 10%) !important;
                     color: darken(@item-global-color, 20%) !important;
@@ -131,76 +117,9 @@
                 background-color: @item-global-label-color;
                 z-index: 99999;
             }
-            &.uk-button-primary:before {
-                background-color: var(--rz-accent-color-darker);
-            }
-            &.uk-button-success:before {
-                background-color: @success-color;
-            }
-            &.uk-button-warning:before {
-                background-color: @warning-color;
-            }
-            &.uk-button-danger:before {
-                background-color: @alert-color;
-            }
         }
 
         // for Save button and other too !
-        .uk-button {
-            .icon-container {
-                position: absolute;
-                background-color: var(--contrasted-bg);
-                top: 0;
-                right:0;
-                bottom:0;
-                left: 0;
-                text-align: center;
-                padding: 6px 6px 6px (6px + @action-menu-border-size);
-                .box-sizing();
-                display: block;
-                z-index: 2;
-            }
-            .label {
-                z-index: 0;
-            }
-            .label-text {
-                background-color: #999999;
-            }
-            &:hover {
-                border-color: transparent;
-                .label-text {
-                    transform: translateX(-100%);
-                }
-            }
-
-            &.uk-button-primary {
-                .label-text {
-                    background-color: var(--rz-accent-color-darker);
-                }
-            }
-            &.uk-button-success {
-                .label-text {
-                    background-color: @success-color;
-                }
-            }
-            &.uk-button-warning {
-                .label-text {
-                    background-color: @warning-color;
-                }
-            }
-            &.uk-button-danger {
-                .label-text {
-                    background-color: @alert-color;
-                }
-            }
-        }
-
-        &.uk-active {
-            box-shadow: none;
-            background-color: #e2e1e1 !important;
-            color: #716d6d;
-            text-shadow: none;
-        }
     }
 
     // for Classic button
@@ -334,7 +253,6 @@
                 box-shadow: 3px 5px 20px rgba(0,0,0,0.1);
             }
 
-            .uk-button,
             li {
                 position: relative;
                 border: 0 none;
@@ -398,29 +316,6 @@
                 top: 8px;
             }
         }
-        nav {
-            .uk-button {
-                line-height: 1.4em;
-                white-space: normal;
-                flex-wrap: wrap;
-                align-content: center;
-
-                time {
-                    margin-right: 1em;
-                }
-            }
-
-            &.versions-nav {
-                .uk-button {
-                    line-height: 1.4em;
-                    white-space: normal;
-                    flex-wrap: wrap;
-                    align-content: center;
-                    height: auto;
-                    padding: 5px 15px;
-                }
-            }
-        }
 
         &:focus,
         &:hover {
@@ -458,12 +353,7 @@
         border-top: 3px solid #E5E5E5;
         z-index:4;
 
-        .uk-button {
-            width: 100%;
-        }
-
-        header,
-        .uk-button {
+        header {
             display: block;
             margin: 0 8px 8px 0;
 

@@ -292,7 +292,7 @@ roadiz_rozier:
 
 - `name`: The label shown in the menu.
 - `route`: The Symfony route name for your controller action (e.g., `admin_article_list`).
-- `icon`: The icon for your entry (UIkit or Roadiz icon class).
+- `icon`: The icon class of your entry, `rz-icon-ri--*` (Remix icons) or `rz-icon-rz--*`. UIkit `uk-icon-*` classes are deprecated since 2.8 and render a generic icon.
 - `roles`: (Optional) Array of roles required to see this entry.
 
 ::: tip

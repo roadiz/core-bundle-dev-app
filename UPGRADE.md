@@ -381,11 +381,21 @@ Removed from the Rozier front-end:
 - the Vuex store (`app/store/`) and its `translations` state
 - the `vue`, `vuex` and `@vitejs/plugin-vue2` dependencies, and the `vue` chunk in the Vite build
 
-## ⚠ Rozier no longer runs jQuery plugins or UIkit components
+## ⚠ Rozier no longer ships jQuery or UIkit
 
-jQuery and UIkit core are still loaded for now, but none of their plugins or JS components are.
-If an overridden template or a custom script relies on one of them, migrate it to a custom element:
+jQuery, jQuery UI and UIkit 2 are no longer loaded in the backoffice. If an overridden template or a
+custom script relies on one of them, migrate it to a custom element and the `rz-*` components:
 
+- `window.jQuery`, `window.$` and `window.UIkit` are no longer defined; the `jquery`, `jquery-ui`,
+  `uikit` and `symfony-collection` dependencies, `app/jquery-bootstrap.js`, the inlined UIkit
+  component styles of `vendor.less` and the `jquery` chunk of the Vite build are removed
+- `uk-*` classes are no longer styled: Rozier templates render `rz-*` components and `rz-icon-ri--*`
+  icons instead (`uk-icon-*` font icons, `uk-button`, `uk-alert`, `uk-badge`, `uk-thumbnail`,
+  `uk-form*`, `uk-visible-*` / `uk-hidden-*`, `uk-text-*`, `uk-panel*`, `uk-navbar*`…). Table cells
+  hidden below large screens use `rz-table__cell--from-lg`
+- the filters bar search input id is `rz-filters-bar-search` (was `uk-form-filter-input-search`)
+- the unused `admin-menu-nav` custom element is removed
+- `data-uk-margin` and `data-uk-observe` are no longer handled
 - `data-uk-tooltip` does nothing: keep a `title`, or wrap the element in `<rz-tooltip>`
 - `data-uk-alert` and its `.uk-alert-close` link no longer dismiss the alert. Login and version
   alerts render `rz-message` (new `success` color) instead of `uk-alert`, and the session flash
