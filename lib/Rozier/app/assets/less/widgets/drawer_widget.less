@@ -2,6 +2,7 @@
     DOCUMENTS WIDGET
 \*------------------------------------*/
 
+
 /* -------- VARS -------- */
 @documents-widget-border :         #cbcbcb;
 @documents-widget-btn-bg :         #ededed;
@@ -44,6 +45,22 @@
     &__title {
         .widgetNavBarBrand();
         height: auto;
+
+        .uk-text-muted {
+            margin: 0 0 0 1em;
+            font-size: 11px;
+        }
+
+        [class*=uk-icon-] {
+            font-size: 22px;
+        }
+        [class*=uk-icon-rz-] {
+            font-size: 28px;
+        }
+
+        .uk-icon-flag {
+            font-size: 14px;
+        }
     }
 
     .documents-widget-quick-creation{
@@ -54,6 +71,31 @@
         padding: 0 10px;
         height: auto;
         margin-left: auto;
+    }
+
+    .uk-button{
+        background: @documents-widget-btn-bg;
+        margin-right:6px;
+        border: 1px solid @documents-widget-btn-border;
+        color: @documents-widget-btn-color;
+
+        &:last-child{
+            margin-right:0;
+        }
+
+        &.uk-active,
+        &:active,
+        &:focus,
+        &:hover {
+            border-color:darken(@documents-widget-btn-border, 15%);
+            background-color:darken(@documents-widget-btn-bg, 10%);
+            color: darken(@documents-widget-btn-color, 15%);
+        }
+
+        &.rz-coming-soon {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     }
 }
 

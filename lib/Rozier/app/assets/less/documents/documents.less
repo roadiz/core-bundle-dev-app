@@ -2,16 +2,20 @@
    DOCUMENTS
 \*------------------------------------*/
 
+
 /*
  * Styles for documents pages
  */
 
+
 /* -------- STYLES -------- */
+
 
 // List
 
 table.documents {
     .platform-icon {
+
         i {
             font-size: 35px;
         }
@@ -32,6 +36,38 @@ table.documents {
 .node-bulk-tag-form,
 .document-bulk-folder-form {
     display: inline-block;
+
+    .data-uk-margin {
+        display: inline-block;
+
+        .uk-form-row {
+            margin-top: 0;
+        }
+
+        .form-col-text {
+
+        }
+    }
+}
+@media screen and (min-width: 1281px) {
+    .node-bulk-tag-form,
+    .document-bulk-folder-form {
+        .data-uk-margin {
+            .form-col-text {
+                width: 400px;
+            }
+        }
+    }
+}
+@media screen and (min-width: 1380px) {
+    .node-bulk-tag-form,
+    .document-bulk-folder-form {
+        .data-uk-margin {
+            .form-col-text {
+                width: 500px;
+            }
+        }
+    }
 }
 
 .documents-list {
@@ -199,6 +235,17 @@ table.documents {
     padding-bottom: 0;
     text-align: center;
 
+    .uk-thumbnail{
+        height:auto;
+        background: none;
+        box-shadow: none;
+
+        iframe {
+            max-width: 100%;
+            border: 0;
+        }
+    }
+
     .document-source{
         margin-top:20px;
         font-size: var(--default-font-size);
@@ -214,6 +261,7 @@ table.documents {
 
 .content-document-edit {
     .document-paths {
+
         dt, dd {
             font-size: var(--default-font-size);
             color: #555555;

@@ -2,6 +2,7 @@
     EXPLORER
 \*------------------------------------*/
 
+
 /* -------- STYLES -------- */
 @sortable-margin: 40px;
 
@@ -111,6 +112,21 @@
 
         &:hover {
             background: #6C6C6C;
+        }
+
+        .uk-badge-notification {
+            position: absolute;
+            display: inline-block;
+            top: -5px;
+            right: -5px;
+            background: #000000;
+            border: none;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            color: #EEEEEE;
+            text-shadow: none;
+            font-size: 9px;
         }
     }
 
@@ -251,6 +267,7 @@
         }
 
         &.not-image {
+
             .document-name {
                 display: block;
                 position: absolute;
@@ -296,6 +313,10 @@
             .label {
                 display: none;
             }
+        }
+
+        .uk-sortable-handle {
+            display: none;
         }
     }
 

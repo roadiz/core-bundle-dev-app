@@ -2,9 +2,11 @@
    USER PANELs
 \*------------------------------------*/
 
+
 /*
  * Override ui kit buttons styles & colors
  */
+
 
 /* -------- STYLES -------- */
 
@@ -31,6 +33,39 @@
 
         @media (max-width: @screen-xs-max) {
             height: auto !important;
+        }
+    }
+
+    .uk-icon-button {
+        text-shadow: 0 1px 0 rgba(0,0,0,.8);
+        font-size: 12px;
+        width: 30px;
+        height: 30px;
+        line-height: 29px;
+        opacity: 0.3;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        &:focus{
+            background: darken(#333, 5%);
+            color:#b7b7b7;
+            opacity: 0.9;
+        }
+
+        &.uk-icon-rz-turn-off,
+        &.uk-icon-rz-user {
+            border-color: var(--rz-accent-color-lighter);
+            opacity: 0.5;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+
+        &.uk-icon-rz-earth, &.uk-icon-rz-user{
+            display: none;
         }
     }
 
@@ -147,6 +182,12 @@
         }
 
         // Center vertically Default icon when no-image
+        &.uk-icon-rz-roadiz-icon:before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
     }
 }
 
@@ -235,6 +276,13 @@
             border: 0 none;
             background-color: #383838;
         }
+
+        &.uk-thumbnail {
+            padding: 0px;
+        }
+    }
+    .uk-icon {
+        color: rgba(255, 255, 255, 0.5);
     }
 }
 #cms-version {
@@ -256,6 +304,12 @@
             padding-top: 10px;
             border-top: 1px solid var(--user-panel-border-color);
         }
+    }
+
+    .uk-icon-rz-roadiz-icon,
+    .uk-icon-rz-rezozero {
+        font-size: 16px;
+        color: var(--global-text-lighter-color);
     }
 }
 

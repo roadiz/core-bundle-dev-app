@@ -61,6 +61,15 @@
         font-weight: normal;
     }
 
+    .uk-form legend,
+    .uk-form-row > label,
+    .uk-form-label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 5px;
+        padding: 0;
+    }
+
     div[data-group-wrapper] {
         &:before {
             content: '';
@@ -71,8 +80,35 @@
         }
     }
 
+    .uk-form-description {
+        font-size: var(--default-font-size);
+        line-height: 16px;
+        margin-bottom: 5px;
+
+        p {
+            margin: 5px 0;
+            color: #555555;
+        }
+    }
+
     .custom-form-group {
         border-left: 1px solid #e8e7e7;
         padding-left: 1.5em;
+
+        .uk-form-label {
+            font-size: 14px;
+        }
+    }
+
+    .form-col-choice {
+        div {
+            .uk-form-label {
+                font-size: var(--default-font-size);
+
+                &:before {
+                    content: '';
+                }
+            }
+        }
     }
 }

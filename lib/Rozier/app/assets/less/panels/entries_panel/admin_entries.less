@@ -6,12 +6,30 @@
  * Override ui kit buttons styles & colors
  */
 
+
+
 /* -------- STYLES -------- */
 #admin-menu {
     position: relative;
     background: var(--contrasted-bg);
     z-index:5;
 
+    .uk-nav {
+        display: block;
+        padding-top: 16px;
+
+        a, p, button {
+            padding: 0px;
+            margin: 0px;
+            color: var(--admin-menu-color);
+            transition: color ease 0.2s;
+        }
+
+        button {
+            background: transparent;
+            border: 0 none;
+        }
+    }
     header {
         height: var(--global-header-height);
         .box-sizing();
@@ -49,6 +67,17 @@
                 display: none;
             }
         }
+        &.uk-parent {
+            p .info {
+                min-width: 211px;
+            }
+            .info {
+                padding: 0 42px 0 20px;
+            }
+            & > p > .info {
+                font-weight: bold;
+            }
+        }
 
         i {
             font-size: 28px;
@@ -75,6 +104,61 @@
             color: #CCC;
             display: none;
         }
+        .uk-nav-sub {
+            display: none;
+            position: absolute;
+            left: var(--entries-panel-width);
+            top: 52px;
+            z-index: 999;
+            background-color: var(--contrasted-bg);
+            border-left: 1px dashed #c3c3c3;
+            padding: 0;
+            min-width: 210px;
+            .box-shadow(3px 6px 7px rgba(0,0,0,0.05));
+
+            li {
+                border-top: 1px solid var(--admin-entries-line-horizontal);
+                padding: 5px 10px;
+                min-width: 210px;
+                .box-sizing();
+                text-align: left;
+                transition: background ease 0.3s;
+
+                &:before, &:after {
+                    display: none;
+                }
+                & > a {
+                    padding: 0;
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                }
+                i {
+                    font-size: 16px;
+                    width: 16px;
+                }
+                .info {
+                    display: block;
+                    position: relative;
+                    background-color: transparent;
+                    height: auto;
+                    line-height: 1.2em;
+                    left: 0;
+                    padding: 5px 0;
+                    white-space: normal;
+                    font-size: var(--default-font-size);
+                    color: var(--admin-entries-subnav-text-color);
+                    .box-shadow(0px 0px 0px rgba(0,0,0,0));
+
+                    &:after {
+                       display: none;
+                    }
+                }
+                &:hover {
+                    background-color: #F5F5F5;
+                }
+            }
+        }
 
         &.reversed-nav {
             .info {
@@ -82,6 +166,12 @@
                     .transform(rotate(180deg));
                     top: 26px;
                 }
+            }
+
+            .uk-nav-sub {
+                top: auto;
+                bottom: 50px;
+                .box-shadow(3px -7px 7px rgba(0,0,0,0.05));
             }
         }
 
@@ -94,6 +184,10 @@
                 .info {
                     display: inline-block;
                 }
+            }
+
+            .uk-nav-sub {
+                display: block;
             }
 
             &:after {
@@ -109,6 +203,19 @@
                 left: ~'calc(var(--entries-panel-width) - 10px)';
                 top: 16px;
             }
+        }
+    }
+}
+
+.uk-rz-coming-soon{
+    opacity: 0.5;
+    z-index:2;
+
+    .uk-nav-sub{
+        opacity: 1;
+
+        &> li > a{
+            cursor: default;
         }
     }
 }

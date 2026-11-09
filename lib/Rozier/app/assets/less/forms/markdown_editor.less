@@ -2,7 +2,14 @@
    MARKDOWN
 \*------------------------------------*/
 
+
 /* -------- STYLES -------- */
+.uk-form-row {
+    .CodeMirror {
+        font-size: var(--default-font-size);
+        height: auto;
+    }
+}
 
 .markdown-editor-preview {
     display: none;
@@ -163,6 +170,7 @@
                     transition: opacity ease 0.2s;
                 }
 
+                &.uk-active,
                 &:hover {
                     border-color: @grey-form-submit-border-hover;
                     background-color: @grey-form-submit-hover;
@@ -176,6 +184,10 @@
                 button {
                     border-left: 1px solid @grey-form-border;
                 }
+            }
+
+            &.uk-active button {
+                background-color: @grey-form-submit;
             }
         }
         &-flip {
@@ -230,6 +242,7 @@
     }
 
     &.markdown-editor__disabled {
+
         .CodeMirror {
             background-color: #f8f8f8;
         }

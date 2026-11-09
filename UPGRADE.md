@@ -389,10 +389,11 @@ custom script relies on one of them, migrate it to a custom element and the `rz-
 - `window.jQuery`, `window.$` and `window.UIkit` are no longer defined; the `jquery`, `jquery-ui`,
   `uikit` and `symfony-collection` dependencies, `app/jquery-bootstrap.js`, the inlined UIkit
   component styles of `vendor.less` and the `jquery` chunk of the Vite build are removed
-- `uk-*` classes are no longer styled: Rozier templates render `rz-*` components and `rz-icon-ri--*`
-  icons instead (`uk-icon-*` font icons, `uk-button`, `uk-alert`, `uk-badge`, `uk-thumbnail`,
-  `uk-form*`, `uk-visible-*` / `uk-hidden-*`, `uk-text-*`, `uk-panel*`, `uk-navbar*`…). Table cells
-  hidden below large screens use `rz-table__cell--from-lg`
+- Rozier templates no longer render `uk-*` classes (`uk-icon-*` font icons, `uk-button`, `uk-alert`,
+  `uk-badge`, `uk-thumbnail`, `uk-form*`, `uk-visible-*` / `uk-hidden-*`, `uk-text-*`, `uk-panel*`,
+  `uk-navbar*`…): they render `rz-*` components and `rz-icon-ri--*` icons instead. Table cells hidden
+  below large screens use `rz-table__cell--from-lg`. The legacy `.less` styles still targeting `uk-*`
+  classes are deprecated and will be removed with those files
 - the filters bar search input id is `rz-filters-bar-search` (was `uk-form-filter-input-search`)
 - the unused `admin-menu-nav` custom element is removed
 - `data-uk-margin` and `data-uk-observe` are no longer handled
