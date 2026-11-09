@@ -1,0 +1,15 @@
+/* Document rendered at its preview size (document preview page) */
+.rz-document-figure {
+    display: inline-block;
+    max-width: 100%;
+    margin: 0;
+
+    img,
+    video,
+    iframe,
+    object {
+        max-width: 100%;
+        height: auto;
+        border: 0;
+    }
+}

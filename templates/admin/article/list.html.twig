@@ -129,7 +129,7 @@
                                 } %}
                                     {% block other_actions %}
                                         {{ _self.button({
-                                            iconClass: 'uk-icon-rz-node-tree-mini',
+                                            iconClass: 'rz-icon-ri--node-tree',
                                             attributes: {
                                                 href: path('nodesTreePage', { nodeId: item.node.id }),
                                                 title: 'see.nodetree'|trans,
@@ -137,7 +137,7 @@
                                         }) }}
                                         {% if workflow_can(item.node, 'undelete') %}
                                             {{ _self.button({
-                                                iconClass: 'uk-icon-rz-untrash',
+                                                iconClass: 'rz-icon-ri--device-recover-line',
                                                 attributes: {
                                                     href: path('nodesUndeletePage', { nodeId: item.node.id }),
                                                     title: 'undelete'|trans,

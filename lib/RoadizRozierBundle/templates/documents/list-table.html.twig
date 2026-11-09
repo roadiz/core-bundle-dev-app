@@ -47,7 +47,7 @@
                         }) }}
                     {% endif %}
                 </th>
-                <th class="mobile-hidden uk-visible-xlarge">
+                <th class="mobile-hidden rz-table__cell--from-lg">
                     {% if not no_sorting %}
                         {{ rz_table.column_ordering({
                             field: 'imageWidth',
@@ -56,7 +56,7 @@
                         }) }}
                     {% endif %}
                 </th>
-                <th class="mobile-hidden uk-visible-xlarge">
+                <th class="mobile-hidden rz-table__cell--from-lg">
                     {% if not no_sorting %}
                         {{ rz_table.column_ordering({
                             field: 'imageHeight',
@@ -65,7 +65,7 @@
                         }) }}
                     {% endif %}
                 </th>
-                <th class="mobile-hidden uk-visible-xlarge"></th>
+                <th class="mobile-hidden rz-table__cell--from-lg"></th>
             {% endblock %}
 
             {% block tbody_content %}
@@ -119,9 +119,9 @@
                                 {{ document.rawDocument.filesize|formatBytes }}
                             {% endif %}
                         </td>
-                        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
-                        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageHeight > 0 %}{{ document.imageHeight }}px{% endif %}</td>
-                        <td class="mobile-hidden uk-visible-xlarge">
+                        <td class="mobile-hidden rz-table__cell--from-lg">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
+                        <td class="mobile-hidden rz-table__cell--from-lg">{% if document.imageHeight > 0 %}{{ document.imageHeight }}px{% endif %}</td>
+                        <td class="mobile-hidden rz-table__cell--from-lg">
                             {% if document.embedPlatform %}
                                 {% set iconName = (document|embedFinder).shortType %}
                                 {% if document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}

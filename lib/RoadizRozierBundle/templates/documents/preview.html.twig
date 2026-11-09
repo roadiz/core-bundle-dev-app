@@ -16,26 +16,28 @@
         <article class="content content-document-preview">
             <div class="content-inner">
                 {% if not document|exists %}
-                    <p class="uk-alert uk-alert-danger"><i class="uk-icon-error"></i> {% trans %}current.document.file.does.not.exist{% endtrans %}</p>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({ color: 'error', text: 'current.document.file.does.not.exist'|trans }) }}
                 {% elseif not document.filename %}
-                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_only_external{% endtrans %}</p>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({ color: 'warning', text: 'document.is_only_external'|trans }) }}
                 {% endif %}
                 {% if not document.private %}
                     {% if document.image or document.svg or document.video or document.audio or document.pdf %}
                         {% if document.pdf %}
                             {% set thumbnailFormat = thumbnailFormat|merge({'height': 700, 'embed': true}) %}
                         {% endif %}
-                        <figure class="uk-thumbnail">{{ document|display(thumbnailFormat) }}</figure>
+                        <figure class="rz-document-figure">{{ document|display(thumbnailFormat) }}</figure>
                         {% if document.mimeType == 'image/gif' %}
                             <hr />
-                            <figure class="uk-thumbnail">{{ document|display({noProcess:true}) }}</figure>
+                            <figure class="rz-document-figure">{{ document|display({noProcess:true}) }}</figure>
                         {% endif %}
                     {% endif %}
 
                     {% if document.isEmbed %}
                         <hr />
                         <h3>{% trans %}embed.preview{% endtrans %}</h3>
-                        <figure class="uk-thumbnail">{{ document|display(thumbnailFormat|merge({
+                        <figure class="rz-document-figure">{{ document|display(thumbnailFormat|merge({
                                 embed: true,
                                 autoplay: false,
                                 controls: true,
@@ -47,10 +49,8 @@
                         {# Try to download PDF using private route #}
                         <object width="100%" height="700px" data="{{ path('documentsDownloadInlinePage', { documentId: document.id}) }}" type="application/pdf"></object>
                     {% else %}
-                        <p class="uk-alert uk-alert-warning">
-                            <i class="uk-icon-warning"></i>
-                            {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
-                        </p>
+                        {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                        {{ rz_message.root({ color: 'warning', text: 'current.document.is.private.you.cannot.preview.it'|trans }) }}
                     {% endif %}
                 {% endif %}
             </div>

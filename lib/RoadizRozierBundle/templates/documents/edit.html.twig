@@ -18,9 +18,11 @@
         {{ form_start(form, { attr: {id: "edit-document-form"}}) }}
             {% if document.isLocal %}
                 {% if not document|exists %}
-                    <p class="uk-alert uk-alert-danger"><i class="uk-icon-error"></i> {% trans %}current.document.file.does.not.exist{% endtrans %}</p>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({ color: 'error', text: 'current.document.file.does.not.exist'|trans }) }}
                 {% elseif not document.filename %}
-                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_only_external{% endtrans %}</p>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({ color: 'warning', text: 'document.is_only_external'|trans }) }}
                 {% endif %}
 
                 <div class="rz-layout-column">
@@ -147,13 +149,16 @@
                                         <th>{% trans %}original.document{% endtrans %}</th>
                                         <td>
                                             <p>{{ document.original.filename }}</p>
-                                            <p><a
-                                                    href="{{ path('documentsEditPage', { documentId: document.original.id}) }}"
-                                                    class="uk-button uk-button-small rz-no-ajax-link">
-                                                    <i class="uk-icon-rz-link"></i>
-                                                    {% trans %}see.original.document{%- endtrans -%}
-                                                </a>
-                                            </p>
+                                            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                                            {{ rz_button.root({
+                                                label: 'see.original.document',
+                                                iconClass: 'rz-icon-ri--link',
+                                                size: 'sm',
+                                                attributes: {
+                                                    href: path('documentsEditPage', { documentId: document.original.id }),
+                                                    class: 'rz-no-ajax-link',
+                                                },
+                                            }) }}
                                         </td>
                                     </tr>
                                 {% endif %}

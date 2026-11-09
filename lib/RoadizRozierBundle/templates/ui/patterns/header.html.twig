@@ -124,7 +124,7 @@
                         {% for group in rozier.settingGroups %}
                             {% set children = children ~ header.item({
                                 label: group.name|trans,
-                                iconClass: 'uk-icon-rz-settings-group',
+                                iconClass: 'rz-icon-ri--settings-4-line',
                                 attributes: { href: path('settingGroupsSettingsPage', {'settingGroupId': group.id}) },
                                 subItem: true,
                                 tag: 'a',
@@ -159,7 +159,7 @@
                         {% if app.user and app.user.id %}
                             {% set children = children ~ header.item({
                                 label: 'edit.account'|trans,
-                                iconClass: 'uk-icon-rz-user',
+                                iconClass: 'rz-icon-ri--user-line',
                                 attributes: { href: path('usersEditPage', {'id':app.user.id }) },
                                 subItem: true,
                                 tag: 'a',

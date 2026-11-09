@@ -65,7 +65,7 @@
                 </td>
                 <td>
                     {% if item.redirectNodeSource %}
-                        <i class="uk-icon uk-icon-magic"></i>
+                        <span class="rz-icon-ri--node-tree" aria-hidden="true"></span>
                         {{ path(item.redirectNodeSource) -}}
                     {% else %}
                         {{- item.redirectUri|u.truncate(80, '…') -}}

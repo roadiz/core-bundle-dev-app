@@ -46,10 +46,10 @@
                             filters: filters|default(null),
                         }) }}
                     </th>
-                    <th class="mobile-hidden uk-hidden-small">{% trans %}nodeType.displayName{% endtrans %}</th>
-                    <th class="mobile-hidden uk-hidden-small uk-visible-xlarge">{% trans %}nodeType.entityName{% endtrans %}</th>
-                    <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.numberFields{% endtrans %}</th>
-                    <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.status{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}nodeType.displayName{% endtrans %}</th>
+                    <th class="mobile-hidden rz-table__cell--from-lg">{% trans %}nodeType.entityName{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}nodeType.numberFields{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}nodeType.status{% endtrans %}</th>
                 {% endblock %}
 
                 {% block tbody_content %}
@@ -75,12 +75,12 @@
                                     attributes: { href: path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) },
                                 }) }}
                             </td>
-                            <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
-                            <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>
-                            <td class="mobile-hidden uk-hidden-small uk-visible-large">
+                            <td class="mobile-hidden">{{ type.getDisplayName }}</td>
+                            <td class="mobile-hidden rz-table__cell--from-lg">{{ type.getSourceEntityClassName }}</td>
+                            <td class="mobile-hidden">
                                 {% transchoice type.getFields|length %}{0} no.nodeTypeField|{1} 1.nodeTypeField|]1,Inf] %count%.nodeTypeFields{% endtranschoice %}
                             </td>
-                            <td class="mobile-hidden uk-hidden-small uk-visible-large">
+                            <td class="mobile-hidden">
                                 {% import '@RoadizRozier/ui/components/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not type.visible %}
                                     {{ rz_node_badge.root({ type: 'hidden', displayLabel: false }) }}
@@ -97,7 +97,7 @@
                                     {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
                                             {{ _self.button({
-                                                iconClass: 'uk-icon-rz-node-type-field',
+                                                iconClass: 'rz-icon-ri--input-field',
                                                 attributes: {
                                                     href: path('nodeTypeFieldsListPage', { nodeTypeName: type.name }),
                                                     title: 'manage.nodeTypeFields'|trans,
