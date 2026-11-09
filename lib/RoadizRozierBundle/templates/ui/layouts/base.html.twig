@@ -57,6 +57,8 @@
             {% endif %}
             <!-- Add your site or application content here -->
             <main is="rz-page" id="rz-page" class="rz-page">
+                {% import '@RoadizRozier/ui/components/rz_request_loader.html.twig' as rz_request_loader %}
+                {{ rz_request_loader.root() }}
                 <div id="main-content-overlay"></div>
                 <div id="main-content-scrollable" data-ajax-root>
                     {% block permanentComponents %}{% endblock %}
@@ -120,8 +122,6 @@
                 text: 'health_check.failed.content'|trans,
             },
         }) }}
-        {% import '@RoadizRozier/ui/components/rz_request_loader.html.twig' as rz_request_loader %}
-        {{ rz_request_loader.root() }}
         <rz-toast-list role="status" class="rz-toast-list--bottom-right"></rz-toast-list>
         <script>
             /**

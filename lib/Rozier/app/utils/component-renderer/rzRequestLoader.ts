@@ -17,10 +17,19 @@ export function rzRequestLoaderRenderer(options: RzRequestLoaderOptions = {}) {
     bar.setAttribute('aria-hidden', 'true')
     root.appendChild(bar)
 
+    const pill = document.createElement('span')
+    pill.classList.add(`${COMPONENT_CLASS_NAME}__pill`)
+    root.appendChild(pill)
+
+    const spinner = document.createElement('span')
+    spinner.classList.add('rz-spinner')
+    spinner.setAttribute('aria-hidden', 'true')
+    pill.appendChild(spinner)
+
     const label = document.createElement('span')
-    label.classList.add(`${COMPONENT_CLASS_NAME}__label`, 'rz-visually-hidden')
+    label.classList.add(`${COMPONENT_CLASS_NAME}__label`)
     label.dataset.label = options.label || 'Loading'
-    root.appendChild(label)
+    pill.appendChild(label)
 
     if (options.active) {
         root.classList.add(`${COMPONENT_CLASS_NAME}--active`)

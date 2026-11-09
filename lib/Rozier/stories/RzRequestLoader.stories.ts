@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import { rzPageRenderer } from '~/utils/storybook/renderer/rzPage'
 import {
     type RzRequestLoaderOptions,
     rzRequestLoaderRenderer,
@@ -7,10 +8,23 @@ import {
 
 type Args = RzRequestLoaderOptions
 
+const PLACEHOLDER_CONTENT = Array(12)
+    .fill(
+        '<div style="height:96px;margin:16px 0;border-radius:6px;background:var(--surface-light-tertiary)"></div>',
+    )
+    .join('')
+
+function withPage(loader: HTMLElement, content: string = PLACEHOLDER_CONTENT) {
+    const page = rzPageRenderer({ content })
+    page.prepend(loader)
+    return page
+}
+
 const meta: Meta<Args> = {
     title: 'Components/Feedback/RequestLoader',
     tags: ['autodocs'],
-    render: (args) => rzRequestLoaderRenderer(args),
+    // Rendered as the first child of the page, as in ui/layouts/base.html.twig
+    render: (args) => withPage(rzRequestLoaderRenderer(args)),
     args: {
         label: 'Loading',
         active: true,
@@ -23,8 +37,8 @@ const meta: Meta<Args> = {
     },
     parameters: {
         layout: 'fullscreen',
-        // The loader is fixed on top of the viewport: one iframe per story
-        docs: { story: { inline: false, iframeHeight: 120 } },
+        // The bar is fixed on top of the viewport and the page uses the rz-page ID: one iframe per story
+        docs: { story: { inline: false, iframeHeight: 400 } },
     },
 }
 
@@ -44,8 +58,7 @@ export const DrivenByEvents: Story = {
     render: (args) => {
         const wrapper = document.createElement('div')
         wrapper.style.cssText =
-            'display:flex;gap:8px;padding:24px 16px 16px;flex-wrap:wrap'
-        wrapper.appendChild(rzRequestLoaderRenderer(args))
+            'display:flex;gap:8px;padding:64px 0 16px;flex-wrap:wrap'
         ;[
             ['Show loader', 'requestLoaderShow'],
             ['Hide loader', 'requestLoaderHide'],
@@ -62,6 +75,8 @@ export const DrivenByEvents: Story = {
                 }),
             )
         })
-        return wrapper
+        const page = withPage(rzRequestLoaderRenderer(args), '')
+        page.querySelector('#main-content-scrollable')?.prepend(wrapper)
+        return page
     },
 }
