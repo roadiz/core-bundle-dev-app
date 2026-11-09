@@ -14,18 +14,13 @@ export const SLOW_MIN_DURATION_MS = 600
  */
 export default class RzRequestLoader extends HTMLElement {
     private hideTimeoutId: number | null = null
-    private slowShownAt: number | null = null
+    private pillShownAt: number | null = null
 
     // Debounced: each requestLoaderShow restarts the delay
     private showPill = debounce(() => {
-        this.slowShownAt = performance.now()
+        this.pillShownAt = performance.now()
         this.classList.add(SLOW_CLASS_NAME)
-
-        // The status region announces text inserted while it is in the DOM
-        const label = this.labelElement
-        if (label) {
-            label.textContent = label.dataset.label || ''
-        }
+        this.setAnnouncement(this.labelElement?.dataset.label || '')
     }, SLOW_DELAY_MS)
 
     constructor() {
@@ -56,7 +51,7 @@ export default class RzRequestLoader extends HTMLElement {
         this.clearHideTimeout()
         this.classList.add(ACTIVE_CLASS_NAME)
 
-        if (this.slowShownAt === null) {
+        if (this.pillShownAt === null) {
             this.showPill()
         }
     }
@@ -65,9 +60,9 @@ export default class RzRequestLoader extends HTMLElement {
         this.showPill.cancel()
 
         const remaining =
-            this.slowShownAt === null
+            this.pillShownAt === null
                 ? 0
-                : SLOW_MIN_DURATION_MS - (performance.now() - this.slowShownAt)
+                : SLOW_MIN_DURATION_MS - (performance.now() - this.pillShownAt)
 
         if (remaining <= 0) {
             this.reset()
@@ -80,13 +75,19 @@ export default class RzRequestLoader extends HTMLElement {
 
     private reset() {
         this.hideTimeoutId = null
-        this.slowShownAt = null
+        this.pillShownAt = null
         this.classList.remove(ACTIVE_CLASS_NAME, SLOW_CLASS_NAME)
+        this.setAnnouncement('')
+    }
 
-        // Visually hidden: clearing it never resizes the pill
+    /**
+     * The status region announces text inserted while it is in the DOM.
+     * The label is visually hidden: changing it never resizes the pill.
+     */
+    private setAnnouncement(text: string) {
         const label = this.labelElement
         if (label) {
-            label.textContent = ''
+            label.textContent = text
         }
     }
 

@@ -4,7 +4,7 @@ import { rzPageRenderer } from '~/utils/storybook/renderer/rzPage'
 import {
     type RzRequestLoaderOptions,
     rzRequestLoaderRenderer,
-} from '~/utils/component-renderer/rzRequestLoader'
+} from '~/utils/storybook/renderer/rzRequestLoader'
 
 type Args = RzRequestLoaderOptions
 
