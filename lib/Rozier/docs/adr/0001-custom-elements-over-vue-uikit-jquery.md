@@ -2,6 +2,8 @@
 status: accepted
 ---
 
+> Applied for Vue, Vuex, UIkit and jQuery in 2.8 (Phase 1 of [`ui-redesign-todo.md`](../ui-redesign-todo.md), [#549](https://github.com/roadiz/core-bundle-dev-app/issues/549), [#579](https://github.com/roadiz/core-bundle-dev-app/issues/579)). The global `window.Rozier` singleton and `Lazyload.js` are still to be phased out.
+
 # CustomElements over Vue, UIkit and jQuery
 
 New and touched Rozier code is written in TypeScript and attaches its behaviour to the server-rendered Twig markup through native **CustomElements** (`rz-*`). The legacy stack is phased out incrementally rather than rewritten at once: Vue 2.7 and Vuex (end of life since late 2023), UIkit 2.x and the jQuery it depends on at runtime, the global `window.Rozier` singleton, and `Lazyload.js` (replaced by native `loading="lazy"`, `IntersectionObserver` or small TypeScript utilities).

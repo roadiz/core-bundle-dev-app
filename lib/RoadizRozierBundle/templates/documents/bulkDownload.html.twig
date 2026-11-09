@@ -14,11 +14,23 @@
             'attr': { id: "documents-bulk-download-form"}
         }) }}
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <legend class="uk-alert uk-alert-info"><i class="uk-icon uk-icon-info-circle"></i> {% trans %}are_you_sure.download.these.documents{% endtrans %}</legend>
-                <a href="{{ path('documentsHomePage') }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                <button class="uk-button uk-button-primary" type="submit"><i class="uk-icon-rz-download"></i> {% trans %}download{% endtrans %}</button>
-            </fieldset>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+            {{ rz_message.root({ text: 'are_you_sure.download.these.documents'|trans, attributes: { class: 'rz-form-field__message' } }) }}
+            <div class="rz-button-group rz-button-group--gap-md">
+                {{ rz_button.root({
+                    emphasis: 'secondary',
+                    label: 'cancel',
+                    iconClass: 'rz-icon-ri--corner-down-left-line',
+                    attributes: { href: path('documentsHomePage') },
+                }) }}
+                {{ rz_button.root({
+                    emphasis: 'primary',
+                    label: 'download',
+                    iconClass: 'rz-icon-ri--download-line',
+                    attributes: { type: 'submit' },
+                }) }}
+            </div>
         {{ form_end(form) }}
 
         <div class="documents-list">

@@ -82,7 +82,7 @@ final class AttributeType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
-                        'class' => 'rz-form uk-form-horizontal',
+                        'class' => 'rz-form',
                     ],
                 ],
                 'attr' => [

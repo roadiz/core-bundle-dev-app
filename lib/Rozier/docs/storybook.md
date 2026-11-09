@@ -20,7 +20,7 @@ Three roots:
   functional, never redesign zones: `Actions`, `Form`, `Overlay`, `Navigation`,
   `Data display`, `Feedback`.
 - `Patterns/<Name>`: a whole screen or a layout region (app layout, login,
-  dashboard, header, aside, page, menu bar, live preview). An item of a pattern that is
+  dashboard, header, aside, page, page preview, menu bar, live preview). An item of a pattern that is
   reused elsewhere is a component of its own (`Components/Navigation/HeaderNavItem`).
 
 ```
@@ -36,7 +36,7 @@ Components/
   Navigation/    HeaderNavItem, Breadcrumb, Tablist/{Root,Item}, Tree, Link, PageHeader
   Data display/  Table, Card, Badge, EntityThumbnail, NodeIcon, FiltersBar
   Feedback/      Message, Toast, Progress
-Patterns/        App, Login, Dashboard, Header, Aside, Page, MenuBar, LivePreview
+Patterns/        App, Login, Dashboard, Header, Aside, Page, PagePreview, MenuBar, LivePreview
 ```
 
 A new story picks an existing group; adding a group is a deliberate change to this file.

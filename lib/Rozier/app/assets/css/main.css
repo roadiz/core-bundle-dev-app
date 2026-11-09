@@ -17,6 +17,7 @@
 @import './rz-app.css';
 @import './rz-layout-grid.css';
 @import './rz-layout-column.css';
+@import './rz-page-preview.css';
 
 /* Icons */
 @import './icons/index.css';

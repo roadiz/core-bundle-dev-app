@@ -41,7 +41,7 @@
                 {{ _self.selection_input({ selectionAvailable: selectionAvailable, value: node.id, disabled: node.locked }) }}
                 <td class="rz-table__cell--flex">
                     <rz-entity-thumbnail
-                        class="mobile-hidden uk-visible-large rz-entity-thumbnail--medium"
+                        class="mobile-hidden rz-entity-thumbnail--medium"
                         entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
                         entity-id="{{ node.id }}"
                     >
@@ -62,7 +62,7 @@
                         {{ rz_node_badge.all({ node: node, displayLabel: false }) }}
                     </div>
                 </td>
-                <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
+                <td class="mobile-hidden rz-table__cell--from-lg">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
                 {% if actionsAvailable %}
                     <td>
                         {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
@@ -71,7 +71,7 @@
                         } %}
                             {% block other_actions %}
                                 {{ _self.button({
-                                    iconClass: 'uk-icon-rz-node-tree-mini',
+                                    iconClass: 'rz-icon-ri--node-tree',
                                     attributes: {
                                         href: path('nodesTreePage', { nodeId: node.id }),
                                         title: 'see.nodetree'|trans,
@@ -79,7 +79,7 @@
                                 }) }}
                                 {% if workflow_can(node, 'undelete') %}
                                     {{ _self.button({
-                                        iconClass: 'uk-icon-rz-untrash',
+                                        iconClass: 'rz-icon-ri--device-recover-line',
                                         attributes: {
                                             href: path('nodesUndeletePage', { nodeId: node.id }),
                                             title: 'undelete'|trans,

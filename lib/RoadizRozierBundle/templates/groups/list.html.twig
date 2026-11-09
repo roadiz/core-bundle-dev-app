@@ -86,7 +86,7 @@
                                         } %}
                                             {% block other_actions %}
                                                 {{ _self.button({
-                                                    iconClass: 'uk-icon-rz-download',
+                                                    iconClass: 'rz-icon-ri--download-line',
                                                     attributes: {
                                                         href: path('groupsExportPage', { id: item.id }),
                                                         title: 'export'|trans,
@@ -95,10 +95,12 @@
                                             {% endblock %}
                                         {% endembed %}
                                     {% else %}
-                                        <div class="uk-badge uk-badge-table">
-                                            <span class="uk-icon-rz-lock"></span>
-                                            {% trans %}group.required{% endtrans %}
-                                        </div>
+                                        {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+                                        {{ rz_badge.root({
+                                            label: 'group.required',
+                                            iconClass: 'rz-icon-ri--lock-2-line',
+                                            size: 'sm',
+                                        }) }}
                                     {% endif %}
                                 </td>
                             {% endif %}

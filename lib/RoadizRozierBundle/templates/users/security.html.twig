@@ -31,12 +31,12 @@
             {% block tbody_content %}
                 {% if not user.isAccountNonExpired %}
                     <tr>
-                        <td colspan="2" class="uk-alert-danger">{% trans %}user.account.has-expired{% endtrans %}</td>
+                        <td colspan="2">{% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}{{ rz_message.root({ color: 'error', text: 'user.account.has-expired'|trans }) }}</td>
                     </tr>
                 {% endif %}
                 {% if not user.isCredentialsNonExpired %}
                     <tr>
-                        <td colspan="2" class="uk-alert-danger">{% trans %}user.crendentials.has-expired{% endtrans %}</td>
+                        <td colspan="2">{% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}{{ rz_message.root({ color: 'error', text: 'user.crendentials.has-expired'|trans }) }}</td>
                     </tr>
                 {% endif %}
                 <tr>

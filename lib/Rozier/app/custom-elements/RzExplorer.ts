@@ -44,17 +44,23 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     document: {
         filterIconClass: 'rz-icon-ri--folders-line',
         filterItemIcons: {
-            normal: 'uk-icon-folder',
-            active: 'uk-icon-folder-open',
+            normal: 'rz-icon-ri--folder-line',
+            active: 'rz-icon-ri--folder-fill',
         },
     },
     node: {
         filterIconClass: 'rz-icon-ri--price-tag-3-line',
-        filterItemIcons: { normal: 'uk-icon-tag', active: 'uk-icon-tag' },
+        filterItemIcons: {
+            normal: 'rz-icon-ri--price-tag-3-line',
+            active: 'rz-icon-ri--price-tag-3-line',
+        },
     },
     tag: {
         filterIconClass: 'rz-icon-ri--price-tag-3-line',
-        filterItemIcons: { normal: 'uk-icon-tag', active: 'uk-icon-tag' },
+        filterItemIcons: {
+            normal: 'rz-icon-ri--price-tag-3-line',
+            active: 'rz-icon-ri--price-tag-3-line',
+        },
         tagCreator: true,
     },
 }

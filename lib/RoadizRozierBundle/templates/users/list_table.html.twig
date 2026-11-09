@@ -1,7 +1,7 @@
 {% embed '@RoadizRozier/ui/components/rz_table.html.twig' %}
 	{% block thead_cells %}
 		{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
-		<th class="mobile-hidden uk-visible-xlarge">
+		<th class="mobile-hidden rz-table__cell--from-lg">
 			{% set label = 'user.username'|trans %}
 			{% if not no_sort %}
 				{{ rz_table.column_ordering({
@@ -37,10 +37,10 @@
 				{{ label }}
 			{% endif %}
 		</th>
-		<th class="mobile-hidden uk-visible-xlarge">
+		<th class="mobile-hidden rz-table__cell--from-lg">
 			{% trans %}user.roles{% endtrans %}
 		</th>
-		<th class="mobile-hidden uk-visible-large">
+		<th class="mobile-hidden">
 			{% trans %}user.status{% endtrans %}
 		</th>
 	{% endblock %}
@@ -81,10 +81,10 @@
 						{% trans %}user.neverLoggedIn{% endtrans %}
 					{% endif %}
 				</td>
-				<td class="mobile-hidden uk-visible-xlarge">
+				<td class="mobile-hidden rz-table__cell--from-lg">
 					{% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
 				</td>
-				<td class="mobile-hidden uk-visible-large">
+				<td class="mobile-hidden">
 					{% set label_status = item.enabled ? 'user.enabled' : 'user.disabled' %}
 					{% set color_status = item.enabled ? 'success' : 'danger' %}
 					{% set icon_status = item.enabled ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
@@ -131,7 +131,7 @@
 								{% block other_actions %}
 									{% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
 										{{ _self.button({
-											iconClass: 'uk-icon-rz-sudo',
+											iconClass: 'rz-icon-ri--spy-line',
 											attributes: {
 												href: path('adminHomePage') ~ '?_su=' ~ item.username|url_encode,
 												title: 'start.test.user.right'|trans,

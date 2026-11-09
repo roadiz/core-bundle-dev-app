@@ -60,7 +60,7 @@
 						} %}
 							{% block other_actions %}
 								{{ _self.button({
-									iconClass: 'uk-icon-rz-custom-form-fields',
+									iconClass: 'rz-icon-ri--input-field',
 									attributes: {
 										href: path('customFormFieldsListPage', { customFormId: item.getId }),
 										title: 'manage.customFormFields'|trans,
@@ -68,7 +68,7 @@
 								}) }}
 
 								{{ _self.button({
-									iconClass: 'uk-icon-rz-custom-form-answers',
+									iconClass: 'rz-icon-ri--survey-line',
 									attributes: {
 										href: path('customFormAnswersHomePage', { customFormId: item.getId }),
 										title: 'customForm.answers'|trans,
@@ -76,7 +76,7 @@
 								}) }}
 
 								{{ _self.button({
-									iconClass: 'uk-icon-rz-visibility',
+									iconClass: 'rz-icon-ri--eye-line',
 									attributes: {
 										class: 'rz-no-ajax-link',
 										href: path('customFormSendAction', { customFormId: item.getId }),
@@ -86,7 +86,7 @@
 								}) }}
 
 								{{ _self.button({
-									iconClass: 'uk-icon-rz-duplicate',
+									iconClass: 'rz-icon-ri--file-copy-line',
 									attributes: {
 										href: path('customFormsDuplicatePage', { id: item.getId }),
 										title: 'customForm.duplicate'|trans,
@@ -94,7 +94,7 @@
 								}) }}
 
 								{{ _self.button({
-									iconClass: 'uk-icon-rz-download',
+									iconClass: 'rz-icon-ri--download-line',
 									attributes: {
 										class: 'rz-no-ajax-link',
 										href: path('customFormsExportPage', { id: item.getId }),

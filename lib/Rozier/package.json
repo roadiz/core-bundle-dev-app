@@ -20,16 +20,12 @@
     "codemirror": "^5.25.0",
     "dropzone": "~5.5.1",
     "invokers-polyfill": "^0.5.7",
-    "jquery": "^3.5.0",
-    "jquery-ui": "^1.12.1",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.13",
     "markdown-it": "^14.1.0",
     "markdown-it-footnote": "^4.0.0",
     "mousetrap": "^1.6.5",
-    "sortablejs": "^1.15.6",
-    "symfony-collection": "^2.1.26",
-    "uikit": "2.27.4"
+    "sortablejs": "^1.15.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
