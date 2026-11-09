@@ -3,26 +3,23 @@
 {% block title %}{{ customForm.displayName }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
-    <header class="content-header header-custom-form header-custom-form-add">
-        <h1 class="content-title">{{ customForm.displayName }}</h1>
-        <div class="content-desc">{{ customForm.description|markdown }}</div>
-        <p class="required-mention">{% trans %}*.required.fields{% endtrans %}</p>
-    </header>
+    <h1 class="rz-login__title">{{ customForm.displayName }}</h1>
+    {% if customForm.description %}
+        <div class="text-body-md rz-login__group">{{ customForm.description|markdown }}</div>
+    {% endif %}
+    <p class="text-body-sm rz-login__group">{% trans %}*.required.fields{% endtrans %}</p>
 
-    <article class="content">
-        {% form_theme form '@RoadizCore/customForm/customForms.html.twig' %}
-        {{ form_start(form, { attr: {id: 'add-custom-form-form'}}) }}
-            {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                {% apply spaceless %}
-                <button is="rz-save-button" data-action-save="#add-custom-form-form" class="uk-button uk-button-success" type="submit">
-                    <span class="icon-container"><i class="uk-icon-send"></i></span>
-                    <span class="label"><span class="label-text">{% trans %}form.submit{% endtrans %}</span></span>
-                </button>
-                {% endapply %}
-            </fieldset>
-        {{ form_end(form) }}
-    </article>
-</section>
+    {% form_theme form '@RoadizRozier/forms.html.twig' '@RoadizCore/customForm/customForms.html.twig' %}
+    {{ form_start(form, { attr: { id: 'add-custom-form-form', class: 'rz-login__group' } }) }}
+        {{ form_widget(form) }}
+        <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
+            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+            {{ rz_button.root({
+                emphasis: 'primary',
+                label: 'form.submit',
+                iconClass: 'rz-icon-ri--mail-send-line',
+                attributes: { type: 'submit' },
+            }) }}
+        </div>
+    {{ form_end(form) }}
 {% endblock %}

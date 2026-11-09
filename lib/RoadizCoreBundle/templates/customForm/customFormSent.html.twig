@@ -3,14 +3,12 @@
 {% block title %}{{ customForm.displayName }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
-    <header class="content-header header-custom-form header-custom-form-add">
-        <h1 class="content-title">{{ customForm.displayName }}</h1>
-        <div class="content-desc">{{ customForm.description|markdown }}</div>
-    </header>
-
-    <article class="content">
-        <p><strong>{% trans %}customForm.answer.sent{% endtrans %}</strong></p>
-    </article>
-</section>
+    <h1 class="rz-login__title">{{ customForm.displayName }}</h1>
+    {% if customForm.description %}
+        <div class="text-body-md rz-login__group">{{ customForm.description|markdown }}</div>
+    {% endif %}
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+    <div class="rz-login__group">
+        {{ rz_message.root({ color: 'success', text: 'customForm.answer.sent'|trans, attributes: { role: 'status' } }) }}
+    </div>
 {% endblock %}

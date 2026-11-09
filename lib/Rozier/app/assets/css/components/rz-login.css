@@ -88,6 +88,11 @@
 	}
 }
 
+/* Card without footer: keep room under the last group */
+.rz-login__body > .rz-login__group:last-child:not(.rz-login__group--last) {
+	padding-bottom: var(--spacing-sm);
+}
+
 .rz-login__group--last {
 	--rz-login-group-flex-direction: row;
 

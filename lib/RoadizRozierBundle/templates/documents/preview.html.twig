@@ -27,17 +27,17 @@
                         {% if document.pdf %}
                             {% set thumbnailFormat = thumbnailFormat|merge({'height': 700, 'embed': true}) %}
                         {% endif %}
-                        <figure class="rz-document-figure">{{ document|display(thumbnailFormat) }}</figure>
+                        <figure class="document-preview__figure">{{ document|display(thumbnailFormat) }}</figure>
                         {% if document.mimeType == 'image/gif' %}
                             <hr />
-                            <figure class="rz-document-figure">{{ document|display({noProcess:true}) }}</figure>
+                            <figure class="document-preview__figure">{{ document|display({noProcess:true}) }}</figure>
                         {% endif %}
                     {% endif %}
 
                     {% if document.isEmbed %}
                         <hr />
                         <h3>{% trans %}embed.preview{% endtrans %}</h3>
-                        <figure class="rz-document-figure">{{ document|display(thumbnailFormat|merge({
+                        <figure class="document-preview__figure">{{ document|display(thumbnailFormat|merge({
                                 embed: true,
                                 autoplay: false,
                                 controls: true,

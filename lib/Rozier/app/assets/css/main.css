@@ -17,6 +17,7 @@
 @import './rz-app.css';
 @import './rz-layout-grid.css';
 @import './rz-layout-column.css';
+@import './document-preview.css';
 
 /* Icons */
 @import './icons/index.css';
@@ -36,7 +37,6 @@
 @import './components/rz-dialog.css';
 @import './components/rz-document-alignment-widget.css';
 @import './components/rz-document-card.css';
-@import './components/rz-document-figure.css';
 @import './components/rz-document-preview.css';
 @import './components/rz-dropdown.css';
 @import './components/rz-entity-thumbnail.css';

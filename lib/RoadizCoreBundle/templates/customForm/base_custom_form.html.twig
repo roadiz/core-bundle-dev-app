@@ -26,12 +26,17 @@
     {% endif %}
 </head>
 <body id="custom-form-front">
-{% include '@RoadizRozier/ui/patterns/messages.html.twig' %}
-    <section id="main-content">
-        {% block content %}
-            <h1>{% trans %}Welcome{% endtrans %}</h1>
-        {% endblock %}
-    </section>
+    {# Same card as the backoffice login (ui/layouts/login.html.twig) #}
+    <div class="rz-login">
+        <section id="main-content" class="rz-login__section">
+            <div class="rz-login__body">
+                {% include '@RoadizRozier/ui/patterns/messages.html.twig' %}
+                {% block content %}
+                    <h1 class="rz-login__title">{% trans %}Welcome{% endtrans %}</h1>
+                {% endblock %}
+            </div>
+        </section>
+    </div>
 {# JS scripts inclusions / Using Vite manifest #}
 {{ manifest_script_tags('@vite/client') }}
 {{ manifest_script_tags('shared') }}

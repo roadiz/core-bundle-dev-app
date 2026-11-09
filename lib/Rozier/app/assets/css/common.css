@@ -28,11 +28,6 @@ figure {
 ** Remove when legacy styles will be refactored
 */
 
-/* Fix contextualmenu modal prevent tree item to be clicked*/
-.tree-contextualmenu .uk-dropdown {
-	position: absolute;
-}
-
 /* Fix overflow item in ChildrenNodesTree */
 .tree-element-name.nodetree-element-name {
 	flex: 1;
