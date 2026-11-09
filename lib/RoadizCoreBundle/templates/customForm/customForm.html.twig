@@ -2,17 +2,13 @@
 
 {% block title %}{{ customForm.displayName }} | {{ parent() }}{% endblock %}
 
-{% block content %}
-    <h1 class="rz-login__title">{{ customForm.displayName }}</h1>
-    {% if customForm.description %}
-        <div class="text-body-md rz-login__group">{{ customForm.description|markdown }}</div>
-    {% endif %}
-    <p class="text-body-sm rz-login__group">{% trans %}*.required.fields{% endtrans %}</p>
+{% block page_note %}{% trans %}*.required.fields{% endtrans %}{% endblock %}
 
+{% block content %}
     {% form_theme form '@RoadizRozier/forms.html.twig' '@RoadizCore/customForm/customForms.html.twig' %}
-    {{ form_start(form, { attr: { id: 'add-custom-form-form', class: 'rz-login__group' } }) }}
+    {{ form_start(form, { attr: { id: 'add-custom-form-form' } }) }}
         {{ form_widget(form) }}
-        <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
+        <div class="rz-page-preview__actions">
             {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
             {{ rz_button.root({
                 emphasis: 'primary',

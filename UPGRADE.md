@@ -392,8 +392,7 @@ custom script relies on one of them, migrate it to a custom element and the `rz-
 - Rozier templates no longer render `uk-*` classes (`uk-icon-*` font icons, `uk-button`, `uk-alert`,
   `uk-badge`, `uk-thumbnail`, `uk-form*`, `uk-visible-*` / `uk-hidden-*`, `uk-text-*`, `uk-panel*`,
   `uk-navbar*`…): they render `rz-*` components and `rz-icon-ri--*` icons instead. Table cells hidden
-  below large screens use `rz-table__cell--from-lg`. The legacy `.less` styles still targeting `uk-*`
-  classes are deprecated and will be removed with those files
+  below large screens use `rz-table__cell--from-lg`
 - the filters bar search input id is `rz-filters-bar-search` (was `uk-form-filter-input-search`)
 - the unused `admin-menu-nav` custom element is removed
 - `data-uk-margin` and `data-uk-observe` are no longer handled

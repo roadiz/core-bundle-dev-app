@@ -22,7 +22,7 @@ templates/
   layout.html.twig    public entry point: pages extend it
   forms.html.twig     public form theme
   ui/                 design system building blocks, public once documented
-    layouts/          document and page skeletons: base, simple, admin, login, meta_icon
+    layouts/          document and page skeletons: base, simple, admin, login, page_preview, meta_icon
     patterns/         layout regions, screens and screen parts: header, aside,
                       menu_bar, page_header, confirm_action, bulk_actions,
                       messages, meta_item_table, dashboard_nav, dashboard_panel…
@@ -52,6 +52,10 @@ projects override any file the usual way, under
   (`rz_table.column_ordering`, `rz_breadcrumb.item`).
 - Markup with an `rz-*` root goes through its component, in pages, patterns
   and layouts alike; it is not written by hand.
+- A layout of `ui/layouts/` owns the `rz-*` root of its page skeleton
+  (`rz-page` in `base`, `rz-login` in `login`, `rz-page-preview` in
+  `page_preview`), styled by its own native CSS file: pages extend the layout
+  instead of rewriting that root.
 - **Leaf component**: a macro named `root`, taking a single `options` hash.
   Named sub-parts (`item`, `inner`) are extra macros in the same file.
 - **Component with content slots** (table, actions menu): the file is embedded

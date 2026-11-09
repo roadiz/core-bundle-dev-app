@@ -1,0 +1,69 @@
+{#
+    Page preview layout: a simple standalone page (title, description, note, flash messages,
+    content) rendered with the backoffice styles, outside the backoffice shell.
+    Usage example: the public custom form pages (RoadizCoreBundle customForm/base_custom_form.html.twig).
+    Root rz-page-preview, styled by lib/Rozier/app/assets/css/rz-page-preview.css, story Patterns/PagePreview.
+
+    Blocks: title, description (meta), header (holds page_title, page_description, page_note), content, customScripts.
+#}
+{% set formattedLocale = app.request.locale|replace({'_': '-'})|lower %}
+<!DOCTYPE html>
+<html class="no-js" lang="{{ formattedLocale }}"{% if app.request.locale is rtl %} dir="rtl"{% endif %}>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}{{ meta.siteName }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    {% include '@RoadizRozier/ui/layouts/meta_icon.html.twig' %}
+    {{ manifest_preload_tags('shared') }}
+    {{ manifest_preload_tags('simple') }}
+
+    {{ manifest_style_tags('shared') }}
+    {{ manifest_style_tags('simple') }}
+    {% if main_color %}
+        <style>
+            :root {
+                --rz-accent-color: {{ main_color }};
+                --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+                --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+                --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+            }
+        </style>
+    {% endif %}
+</head>
+<body class="rz-page-preview">
+    <main id="main-content" class="rz-page-preview__content">
+        <header class="rz-page-preview__header">
+            {% block header %}
+                <h1 class="rz-page-preview__title text-h1-md">{% block page_title %}{% endblock %}</h1>
+                {% set page_description %}{% block page_description %}{% endblock %}{% endset %}
+                {% if page_description|trim is not empty %}
+                    <div class="rz-page-preview__description text-body-md">{{ page_description }}</div>
+                {% endif %}
+                {% set page_note %}{% block page_note %}{% endblock %}{% endset %}
+                {% if page_note|trim is not empty %}
+                    <p class="rz-page-preview__note text-body-sm">{{ page_note }}</p>
+                {% endif %}
+            {% endblock %}
+        </header>
+        {% if app.request.hasPreviousSession %}
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    {{ rz_message.root({
+                        color: type == 'confirm' ? 'success' : (type == 'warning' ? 'warning' : 'error'),
+                        text: message,
+                        attributes: { role: type == 'confirm' ? 'status' : 'alert' },
+                    }) }}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+{{ manifest_script_tags('@vite/client') }}
+{{ manifest_script_tags('shared') }}
+{{ manifest_script_tags('simple') }}
+{% block customScripts %}{% endblock %}
+</body>
+</html>
