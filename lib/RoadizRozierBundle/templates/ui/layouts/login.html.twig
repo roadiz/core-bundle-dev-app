@@ -30,6 +30,7 @@
             </header>
             <div class="rz-login__body">
                 <h1 class="rz-login__title">{% block login_title %}{% trans %}back_office{% endtrans %}{% endblock %}</h1>
+                {% include '@RoadizRozier/ui/patterns/messages.html.twig' %}
                 {% block login_content %}{% endblock %}
 
                 {% set login_footer %}

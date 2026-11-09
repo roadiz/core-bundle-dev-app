@@ -249,9 +249,6 @@ export default class RzMarkdownEditor extends HTMLElement {
         })
 
         window.requestAnimationFrame(() => {
-            document.querySelectorAll('[data-uk-switcher]').forEach((el) => {
-                el.addEventListener('show.uk.switcher', this.forceEditorUpdate)
-            })
             this.forceEditorUpdate()
 
             // When the URL hash targets this textarea, focus the CodeMirror
@@ -594,9 +591,6 @@ export default class RzMarkdownEditor extends HTMLElement {
         })
 
         window.removeEventListener('keyup', this.closePreview)
-        document.querySelectorAll('[data-uk-switcher]').forEach((el) => {
-            el.removeEventListener('show.uk.switcher', this.forceEditorUpdate)
-        })
 
         this.preview?.remove()
         this.tabs?.remove()

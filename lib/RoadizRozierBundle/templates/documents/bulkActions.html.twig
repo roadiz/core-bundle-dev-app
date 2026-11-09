@@ -66,7 +66,7 @@
             >
                 {% form_theme joinFolderForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
-                {{ form_widget(joinFolderForm) }}
+                {{ form_widget(joinFolderForm, { attr: { class: 'rz-bulk-actions__form-inline' } }) }}
                 {{ form_end(joinFolderForm) }}
             </folder-autocomplete>
         {% endif %}
