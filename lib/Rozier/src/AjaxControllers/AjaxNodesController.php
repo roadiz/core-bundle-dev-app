@@ -147,6 +147,12 @@ final class AjaxNodesController extends AbstractAjaxController
          * First, we set the new parent
          */
         $parent = $this->parseParentNode($parameters);
+        // Destination must be authorized too, otherwise a chrooted user could move nodes out of their jail.
+        if (null === $parent) {
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE_AT_ROOT);
+        } else {
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE, $parent);
+        }
         /*
          * Then compute new position
          */
