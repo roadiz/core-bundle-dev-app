@@ -7,7 +7,7 @@ export type RzPageOptions = {
 
 const COMPONENT_CLASS_NAME = 'rz-page'
 
-/** Mirrors the <main is="rz-page"> of ui/layouts/base.html.twig, without its legacy overlay, loader and UIkit hooks. */
+/** Mirrors the <main is="rz-page"> of ui/layouts/base.html.twig, without its legacy overlay and loader. */
 export function rzPageRenderer(args: RzPageOptions) {
     const id = args.id || COMPONENT_CLASS_NAME
     const page = document.createElement('main', { is: COMPONENT_CLASS_NAME })

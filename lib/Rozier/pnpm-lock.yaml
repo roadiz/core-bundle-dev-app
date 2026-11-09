@@ -32,12 +32,6 @@ importers:
       invokers-polyfill:
         specifier: ^0.5.7
         version: 0.5.7
-      jquery:
-        specifier: ^3.5.0
-        version: 3.7.1
-      jquery-ui:
-        specifier: ^1.12.1
-        version: 1.14.1
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -56,12 +50,6 @@ importers:
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.6
-      symfony-collection:
-        specifier: ^2.1.26
-        version: 2.1.30
-      uikit:
-        specifier: 2.27.4
-        version: 2.27.4
     devDependencies:
       '@eslint/js':
         specifier: ^9.36.0
@@ -1481,6 +1469,7 @@ packages:
   image-size@0.5.5:
     resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please migrate to image-size@2.x
     hasBin: true
 
   import-fresh@3.3.1:
@@ -1533,12 +1522,6 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
-
-  jquery-ui@1.14.1:
-    resolution: {integrity: sha512-DhzsYH8VeIvOaxwi+B/2BCsFFT5EGjShdzOcm5DssWjtcpGWIMsn66rJciDA6jBruzNiLf1q0KvwMoX1uGNvnQ==}
-
-  jquery@3.7.1:
-    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -1736,9 +1719,6 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
-
-  node-promise@0.5.14:
-    resolution: {integrity: sha512-kbd+ABY2XRdByRVHPcBDemymfNL8+msGyKNxG/ziZnh9RjneuuGQl3/CE5UkNWxCInkJS+ztc5B31/t2kIO4Yw==}
 
   node-releases@2.0.21:
     resolution: {integrity: sha512-5b0pgg78U3hwXkCM8Z9b2FJdPZlr9Psr9V2gQPESdGHqbntyFJKFW4r5TeWGFzafGY3hzs1JC62VEQMbl1JFkw==}
@@ -2072,9 +2052,6 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  symfony-collection@2.1.30:
-    resolution: {integrity: sha512-IkTiqKbfDkR6kZD1Fg6JkZFErMSx8wyu/PQt87UPGkcjeDrVxMmuGviLZys0FSdCReYc6oa94uuIOZS10OBzDw==}
-
   synckit@0.11.11:
     resolution: {integrity: sha512-MeQTA1r0litLUf0Rp/iisCaL8761lKAZHaimlbGK4j0HysC4PLfqygQj9srcs0m2RdtDYnF8UuYyKpbjHYp7Jw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -2169,9 +2146,6 @@ packages:
 
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
-
-  uikit@2.27.4:
-    resolution: {integrity: sha512-dylNikIJ8sB6Sd1AP6YETb+R5bIkjTnGeuu/yLhO9elQ4oLu8CIA+u5zCC7a9m7axbDUALy12qr32nvgRyO5HA==}
 
   undici-types@7.13.0:
     resolution: {integrity: sha512-Ov2Rr9Sx+fRgagJ5AX0qvItZG/JKKoBRAVITs1zk7IqZGTJUwgUr7qoYBpWwakpWilTZFM98rG/AFRocu10iIQ==}
@@ -3705,12 +3679,6 @@ snapshots:
 
   jiti@2.6.1: {}
 
-  jquery-ui@1.14.1:
-    dependencies:
-      jquery: 3.7.1
-
-  jquery@3.7.1: {}
-
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -3912,8 +3880,6 @@ snapshots:
   nanoid@3.3.11: {}
 
   natural-compare@1.4.0: {}
-
-  node-promise@0.5.14: {}
 
   node-releases@2.0.21: {}
 
@@ -4287,11 +4253,6 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
 
-  symfony-collection@2.1.30:
-    dependencies:
-      jquery: 3.7.1
-      jquery-ui: 1.14.1
-
   synckit@0.11.11:
     dependencies:
       '@pkgr/core': 0.2.9
@@ -4382,10 +4343,6 @@ snapshots:
   uc.micro@2.1.0: {}
 
   ufo@1.6.1: {}
-
-  uikit@2.27.4:
-    dependencies:
-      node-promise: 0.5.14
 
   undici-types@7.13.0: {}
 
