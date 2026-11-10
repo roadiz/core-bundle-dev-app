@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         },
         optimizeDeps: {
             // No index.html to crawl: scan every entry so the cold start pre-bundles all deps up front
-            entries: ['app/main.js', 'app/shared.js'],
+            entries: ['app/main.js'],
         },
         build: {
             outDir: normalizePath(
@@ -29,7 +29,8 @@ export default defineConfig(({ mode }) => {
             rollupOptions: {
                 input: {
                     main: resolve(__dirname, 'app/main.js'),
-                    shared: resolve(__dirname, 'app/shared.js'),
+                    // Stylesheet entry, linked by the layouts (no JS, no FOUC in development)
+                    shared: resolve(__dirname, 'app/assets/css/main.css'),
                 },
                 output: {
                     entryFileNames: `[name]-[hash].js`,

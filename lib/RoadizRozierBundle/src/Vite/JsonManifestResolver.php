@@ -60,16 +60,51 @@ final readonly class JsonManifestResolver
         $manifest = $this->getManifest();
         foreach ($manifest as $value) {
             if (is_array($value)
-                && isset($value['name'])
                 && isset($value['isEntry'])
                 && true === $value['isEntry']
-                && $value['name'] === $name
+                && $this->isNamed($value, $name)
             ) {
                 return $value;
             }
         }
 
         return null;
+    }
+
+    /**
+     * Vite writes `name` for a script entry and only `names` (`<name>.css`) for a stylesheet entry.
+     * The dev server manifest always sets `name`.
+     */
+    private function isNamed(array $entrypoint, string $name): bool
+    {
+        if (isset($entrypoint['name'])) {
+            return $entrypoint['name'] === $name;
+        }
+
+        return isset($entrypoint['names'])
+            && is_array($entrypoint['names'])
+            && in_array($name.'.css', $entrypoint['names'], true);
+    }
+
+    /**
+     * @return string[] the entry's own files: its script, or its stylesheet for a CSS entry
+     */
+    private function getEntrypointOwnFiles(?array $entrypoint): array
+    {
+        $file = $entrypoint['file'] ?? null;
+        if (is_string($file)) {
+            return [$file];
+        }
+        if (is_array($file)) {
+            return array_values(array_filter($file, is_string(...)));
+        }
+
+        return [];
+    }
+
+    private function isStylesheet(string $path): bool
+    {
+        return 'css' === pathinfo((string) parse_url($path, PHP_URL_PATH), PATHINFO_EXTENSION);
     }
 
     private function getBundlePrefixedPath(string $path): string
@@ -86,11 +121,12 @@ final readonly class JsonManifestResolver
     public function getEntrypointCssFiles(string $name = 'main'): array
     {
         $entrypoint = $this->getEntrypoint($name);
-        if (null !== $entrypoint && isset($entrypoint['css']) && is_array($entrypoint['css'])) {
-            return array_map($this->getBundlePrefixedPath(...), $entrypoint['css']);
+        $files = array_filter($this->getEntrypointOwnFiles($entrypoint), $this->isStylesheet(...));
+        if (isset($entrypoint['css']) && is_array($entrypoint['css'])) {
+            $files = [...$files, ...$entrypoint['css']];
         }
 
-        return [];
+        return array_values(array_map($this->getBundlePrefixedPath(...), $files));
     }
 
     public function getEntrypointPreloadFiles(string $name = 'main'): array
@@ -115,16 +151,11 @@ final readonly class JsonManifestResolver
 
     public function getEntrypointScriptFiles(string $name = 'main'): array
     {
-        $entrypoint = $this->getEntrypoint($name);
-        if (null !== $entrypoint && isset($entrypoint['file'])) {
-            if (is_string($entrypoint['file'])) {
-                return [$this->getBundlePrefixedPath($entrypoint['file'])];
-            }
-            if (is_array($entrypoint['file'])) {
-                return array_map($this->getBundlePrefixedPath(...), $entrypoint['file']);
-            }
-        }
+        $files = array_filter(
+            $this->getEntrypointOwnFiles($this->getEntrypoint($name)),
+            fn (string $file) => !$this->isStylesheet($file),
+        );
 
-        return [];
+        return array_values(array_map($this->getBundlePrefixedPath(...), $files));
     }
 }

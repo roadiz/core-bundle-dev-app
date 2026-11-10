@@ -9,8 +9,6 @@ import type {
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm'
 import 'codemirror/mode/markdown/markdown'
-// already load in main.js
-// import 'assets/css/vendor/codemirror.css'
 
 interface TranslationResponse {
     originalText: string

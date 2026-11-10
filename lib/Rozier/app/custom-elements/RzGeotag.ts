@@ -1,3 +1,5 @@
+// Kept out of the stylesheet entry: node_modules CSS keeps its px (postcss.config.mts)
+import 'leaflet/dist/leaflet.css'
 import type { LatLng, Map, Marker, LeafletMouseEvent } from 'leaflet'
 import type { Point, Feature, FeatureCollection } from 'geojson'
 import {
