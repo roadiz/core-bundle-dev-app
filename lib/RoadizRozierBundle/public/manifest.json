@@ -11,11 +11,10 @@
       "_DocumentApi-6x0kiO5e.js"
     ]
   },
-  "_FilterExplorerApi-CMG5JYZd.js": {
-    "file": "FilterExplorerApi-CMG5JYZd.js",
+  "_FilterExplorerApi-COG7uukT.js": {
+    "file": "FilterExplorerApi-COG7uukT.js",
     "name": "FilterExplorerApi",
     "imports": [
-      "_jquery-DfmBFPEX.js",
       "_rzCard-C-vU19jI.js",
       "_DocumentApi-6x0kiO5e.js"
     ]
@@ -39,23 +38,19 @@
     "file": "animation-DwVQ2eic.js",
     "name": "animation"
   },
-  "_jquery-DfmBFPEX.js": {
-    "file": "jquery-DfmBFPEX.js",
-    "name": "jquery"
-  },
-  "_jquery-bootstrap-Beu1fwR-.js": {
-    "file": "jquery-bootstrap-Beu1fwR-.js",
-    "name": "jquery-bootstrap",
-    "imports": [
-      "_jquery-DfmBFPEX.js"
-    ]
-  },
-  "_leaflet-src-CGnUb_Nu.js": {
-    "file": "leaflet-src-CGnUb_Nu.js",
+  "_leaflet-src-D2U2JB1S.js": {
+    "file": "leaflet-src-D2U2JB1S.js",
     "name": "leaflet-src",
     "isDynamicEntry": true,
     "imports": [
-      "_jquery-DfmBFPEX.js"
+      "app/main.js"
+    ]
+  },
+  "_lodash-Ba8LfRjV.js": {
+    "file": "lodash-Ba8LfRjV.js",
+    "name": "lodash",
+    "imports": [
+      "app/main.js"
     ]
   },
   "_plugins-DaBpnC88.js": {
@@ -85,30 +80,6 @@
     "file": "sortable.core.esm-Bjnw44Mn.js",
     "name": "sortable.core.esm"
   },
-  "app/assets/fonts/fa-brands-400.woff": {
-    "file": "fa-brands-400-llyXKB-1.woff",
-    "src": "app/assets/fonts/fa-brands-400.woff"
-  },
-  "app/assets/fonts/fa-brands-400.woff2": {
-    "file": "fa-brands-400-CfPCoubI.woff2",
-    "src": "app/assets/fonts/fa-brands-400.woff2"
-  },
-  "app/assets/fonts/fontawesome-webfont.woff": {
-    "file": "fontawesome-webfont-7YG-f3YT.woff",
-    "src": "app/assets/fonts/fontawesome-webfont.woff"
-  },
-  "app/assets/fonts/fontawesome-webfont.woff2": {
-    "file": "fontawesome-webfont-Bsy9_7N6.woff2",
-    "src": "app/assets/fonts/fontawesome-webfont.woff2"
-  },
-  "app/assets/fonts/rz-icons.woff": {
-    "file": "rz-icons-BOx9IpnW.woff",
-    "src": "app/assets/fonts/rz-icons.woff"
-  },
-  "app/assets/fonts/rz-icons.woff2": {
-    "file": "rz-icons-BSa7Mah2.woff2",
-    "src": "app/assets/fonts/rz-icons.woff2"
-  },
   "app/assets/img/login-page-background.png": {
     "file": "login-page-background-DYwPeqRb.png",
     "src": "app/assets/img/login-page-background.png"
@@ -116,12 +87,6 @@
   "app/assets/img/spritemap@2x.png": {
     "file": "spritemap@2x-Bd7qNsVN.png",
     "src": "app/assets/img/spritemap@2x.png"
-  },
-  "app/custom-elements/AdminMenuNav.js": {
-    "file": "AdminMenuNav-D6p84238.js",
-    "name": "AdminMenuNav",
-    "src": "app/custom-elements/AdminMenuNav.js",
-    "isDynamicEntry": true
   },
   "app/custom-elements/DocumentAlignmentWidget.js": {
     "file": "DocumentAlignmentWidget-CUmZZQpA.js",
@@ -234,7 +199,7 @@
     ]
   },
   "app/custom-elements/RzEntityThumbnail.ts": {
-    "file": "RzEntityThumbnail-CZ_fGjTB.js",
+    "file": "RzEntityThumbnail-36NOYA0u.js",
     "name": "RzEntityThumbnail",
     "src": "app/custom-elements/RzEntityThumbnail.ts",
     "isDynamicEntry": true,
@@ -243,26 +208,27 @@
     ]
   },
   "app/custom-elements/RzExplorer.ts": {
-    "file": "RzExplorer-UVD-cCWA.js",
+    "file": "RzExplorer-CNUnatuk.js",
     "name": "RzExplorer",
     "src": "app/custom-elements/RzExplorer.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_FilterExplorerApi-CMG5JYZd.js",
+      "_lodash-Ba8LfRjV.js",
+      "_FilterExplorerApi-COG7uukT.js",
       "_rzCard-C-vU19jI.js",
-      "_jquery-DfmBFPEX.js",
+      "app/main.js",
       "_DocumentApi-6x0kiO5e.js",
       "_rzButton-J_yTZFMr.js",
       "_rzBadge-BmGDcOV7.js"
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-DGjTPiz_.js",
+    "file": "RzFileUpload-CDCqOTFt.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_jquery-DfmBFPEX.js",
+      "app/main.js",
       "_animation-DwVQ2eic.js"
     ]
   },
@@ -279,17 +245,15 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzGeotag.ts": {
-    "file": "RzGeotag-BzAGvjmB.js",
+    "file": "RzGeotag-yp2jzNPs.js",
     "name": "RzGeotag",
     "src": "app/custom-elements/RzGeotag.ts",
     "isDynamicEntry": true,
     "imports": [
-      "app/main.js",
-      "_jquery-bootstrap-Beu1fwR-.js",
-      "_jquery-DfmBFPEX.js"
+      "app/main.js"
     ],
     "dynamicImports": [
-      "_leaflet-src-CGnUb_Nu.js"
+      "_leaflet-src-D2U2JB1S.js"
     ]
   },
   "app/custom-elements/RzHeader.ts": {
@@ -305,15 +269,13 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzImageEditor.ts": {
-    "file": "RzImageEditor-Bk3TAg9m.js",
+    "file": "RzImageEditor-BI3PqV-_.js",
     "name": "RzImageEditor",
     "src": "app/custom-elements/RzImageEditor.ts",
     "isDynamicEntry": true,
     "imports": [
       "app/main.js",
-      "_DocumentApi-6x0kiO5e.js",
-      "_jquery-bootstrap-Beu1fwR-.js",
-      "_jquery-DfmBFPEX.js"
+      "_DocumentApi-6x0kiO5e.js"
     ],
     "css": [
       "RzImageEditor-Bs3gl52x.css"
@@ -345,15 +307,13 @@
     ]
   },
   "app/custom-elements/RzMarkdownEditor.ts": {
-    "file": "RzMarkdownEditor-CN2j5Mpc.js",
+    "file": "RzMarkdownEditor-ZMSnjQSq.js",
     "name": "RzMarkdownEditor",
     "src": "app/custom-elements/RzMarkdownEditor.ts",
     "isDynamicEntry": true,
     "imports": [
       "_plugins-DaBpnC88.js",
-      "app/main.js",
-      "_jquery-bootstrap-Beu1fwR-.js",
-      "_jquery-DfmBFPEX.js"
+      "app/main.js"
     ]
   },
   "app/custom-elements/RzNodeTreeContextualMenu.ts": {
@@ -372,25 +332,33 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzPopover.ts": {
-    "file": "RzPopover-B4OXNSoa.js",
+    "file": "RzPopover-BBknyz2_.js",
     "name": "RzPopover",
     "src": "app/custom-elements/RzPopover.ts",
     "isDynamicEntry": true,
     "imports": [
       "app/main.js",
-      "_Popover-BH-MR4c1.js",
-      "_jquery-bootstrap-Beu1fwR-.js",
-      "_jquery-DfmBFPEX.js"
+      "_Popover-BH-MR4c1.js"
     ],
     "dynamicImports": [
       "app/utils/OverflowList.ts"
     ]
   },
   "app/custom-elements/RzRepeatable.ts": {
-    "file": "RzRepeatable-3s1Yv9Ru.js",
+    "file": "RzRepeatable-CLlfs9Fq.js",
     "name": "RzRepeatable",
     "src": "app/custom-elements/RzRepeatable.ts",
     "isDynamicEntry": true
+  },
+  "app/custom-elements/RzRequestLoader.ts": {
+    "file": "RzRequestLoader-B7NRbwer.js",
+    "name": "RzRequestLoader",
+    "src": "app/custom-elements/RzRequestLoader.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_lodash-Ba8LfRjV.js",
+      "app/main.js"
+    ]
   },
   "app/custom-elements/RzSaveButton.js": {
     "file": "RzSaveButton-HQtQJo5R.js",
@@ -399,18 +367,19 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzSearch.ts": {
-    "file": "RzSearch-BwgPycRa.js",
+    "file": "RzSearch-CvhaVA5z.js",
     "name": "RzSearch",
     "src": "app/custom-elements/RzSearch.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_FilterExplorerApi-CMG5JYZd.js",
+      "_FilterExplorerApi-COG7uukT.js",
       "_DrawerApi-DSX4MZwJ.js",
       "_rzCard-C-vU19jI.js",
-      "_jquery-DfmBFPEX.js",
+      "_lodash-Ba8LfRjV.js",
       "_DocumentApi-6x0kiO5e.js",
       "_rzButton-J_yTZFMr.js",
-      "_rzBadge-BmGDcOV7.js"
+      "_rzBadge-BmGDcOV7.js",
+      "app/main.js"
     ]
   },
   "app/custom-elements/RzSelect.ts": {
@@ -471,7 +440,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/TagEditPage.js": {
-    "file": "TagEditPage-DsDD6pUd.js",
+    "file": "TagEditPage-Cl2WPRGg.js",
     "name": "TagEditPage",
     "src": "app/custom-elements/TagEditPage.js",
     "isDynamicEntry": true,
@@ -480,16 +449,11 @@
     ]
   },
   "app/main.js": {
-    "file": "main-tGGXfj1N.js",
+    "file": "main-B81bplM3.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
-    "imports": [
-      "_jquery-bootstrap-Beu1fwR-.js",
-      "_jquery-DfmBFPEX.js"
-    ],
     "dynamicImports": [
-      "app/custom-elements/AdminMenuNav.js",
       "app/custom-elements/DocumentAlignmentWidget.js",
       "app/custom-elements/DocumentEditDialog.js",
       "app/custom-elements/FolderAutocomplete.js",
@@ -521,6 +485,7 @@
       "app/custom-elements/RzPage.ts",
       "app/custom-elements/RzPopover.ts",
       "app/custom-elements/RzRepeatable.ts",
+      "app/custom-elements/RzRequestLoader.ts",
       "app/custom-elements/RzSaveButton.js",
       "app/custom-elements/RzSearch.ts",
       "app/custom-elements/RzSelect.ts",
@@ -537,30 +502,20 @@
     ]
   },
   "app/shared.js": {
-    "file": "shared-CalOn3ys.js",
+    "file": "shared-CyMPBBdm.js",
     "name": "shared",
     "src": "app/shared.js",
     "isEntry": true,
-    "imports": [
-      "_jquery-bootstrap-Beu1fwR-.js",
-      "_jquery-DfmBFPEX.js"
-    ],
     "css": [
-      "shared-DNzvT4ax.css"
+      "shared-9HV5xOVL.css"
     ],
     "assets": [
-      "fontawesome-webfont-Bsy9_7N6.woff2",
-      "fontawesome-webfont-7YG-f3YT.woff",
-      "fa-brands-400-CfPCoubI.woff2",
-      "fa-brands-400-llyXKB-1.woff",
-      "rz-icons-BSa7Mah2.woff2",
-      "rz-icons-BOx9IpnW.woff",
       "spritemap@2x-Bd7qNsVN.png",
       "login-page-background-DYwPeqRb.png"
     ]
   },
   "app/simple.js": {
-    "file": "simple-utnrOcuB.js",
+    "file": "simple-Djkfth3S.js",
     "name": "simple",
     "src": "app/simple.js",
     "isEntry": true
