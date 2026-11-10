@@ -1,5 +1,5 @@
-/* Suggestion menu of <tag-autocomplete> and <folder-autocomplete>: the surface comes from
-   .rz-dropdown, the Popover util places it under the input. */
+/* Suggestion menu of <rz-autocomplete>: the surface comes from .rz-dropdown, the Popover
+   util places it under the input. */
 .rz-autocomplete__menu[popover] {
 	position: absolute;
 	inset: initial;

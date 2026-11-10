@@ -1,14 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { http, HttpResponse } from 'msw'
+import {
+    RZ_AUTOCOMPLETE_ACTIONS,
+    type RzAutocompleteAction,
+    type RzAutocompleteOptions,
+    rzAutocompleteRenderer,
+} from '~/utils/storybook/renderer/rzAutocomplete'
 
-type Args = {
-    element: 'tag-autocomplete' | 'folder-autocomplete'
-    placeholder: string
-}
+type Args = RzAutocompleteOptions
 
 const SEARCH_PATH = '/rz-admin/ajax/autocomplete'
 
-const SUGGESTIONS: Record<string, string[]> = {
+const SUGGESTIONS: Record<RzAutocompleteAction, string[]> = {
     tagAutocomplete: [
         'news',
         'news/culture',
@@ -20,34 +23,20 @@ const SUGGESTIONS: Record<string, string[]> = {
 }
 
 /*
- * <tag-autocomplete> and <folder-autocomplete> wrap the Symfony form of the node and
- * document bulk actions. Type two letters to open the suggestion menu (mocked search).
+ * Type two letters to open the suggestion menu (mocked search).
  */
 const meta: Meta<Args> = {
     title: 'Components/Form/Autocomplete',
     tags: ['autodocs'],
-    render: (args) => {
-        const host = document.createElement(args.element)
-        host.setAttribute('data-search-path', SEARCH_PATH)
-        host.setAttribute('data-csrf-token', 'storybook')
-
-        const input = document.createElement('input')
-        input.type = 'text'
-        input.className = `rz-input rz-${args.element}`
-        input.placeholder = args.placeholder
-        host.appendChild(input)
-
-        return host
-    },
+    render: (args) => rzAutocompleteRenderer(args),
     args: {
-        element: 'tag-autocomplete',
+        action: 'tagAutocomplete',
+        searchPath: SEARCH_PATH,
+        csrfToken: 'storybook',
         placeholder: 'Tags to link or unlink',
     },
     argTypes: {
-        element: {
-            control: 'select',
-            options: ['tag-autocomplete', 'folder-autocomplete'],
-        },
+        action: { control: 'select', options: RZ_AUTOCOMPLETE_ACTIONS },
     },
     parameters: {
         msw: {
@@ -55,8 +44,8 @@ const meta: Meta<Args> = {
                 http.get(SEARCH_PATH, ({ request }) => {
                     const params = new URL(request.url).searchParams
                     const search = params.get('search')?.toLowerCase() || ''
-                    const values =
-                        SUGGESTIONS[params.get('_action') || ''] || []
+                    const action = params.get('_action') as RzAutocompleteAction
+                    const values = SUGGESTIONS[action] || []
 
                     return HttpResponse.json(
                         values.filter((value) => value.includes(search)),
@@ -74,7 +63,7 @@ export const Default: Story = {}
 
 export const Folder: Story = {
     args: {
-        element: 'folder-autocomplete',
+        action: 'folderAutocomplete',
         placeholder: 'Folders to link or unlink',
     },
 }
