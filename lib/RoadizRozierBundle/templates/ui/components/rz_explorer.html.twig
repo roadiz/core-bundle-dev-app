@@ -32,6 +32,7 @@
                         {{ rz_input.root({
                             type: 'search',
                             name: 'searchTerms',
+                            id: 'rz-explorer-search',
                             placeholder: 'search'|trans,
                             attributes: {
                                 autocomplete: 'off',
@@ -83,7 +84,7 @@
                                         attributes: {
                                             class: 'rz-explorer__filter',
                                             type: 'button',
-                                            'aria-pressed': 'true',
+                                            'aria-current': 'true',
                                             'data-action': 'reset-filter',
                                         },
                                     }) }}

@@ -1,4 +1,5 @@
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
+import { rzElement } from '~/utils/component-renderer/rzElement'
 import { rzInputRenderer } from '~/utils/storybook/renderer/rzInput'
 
 /** Same options as ui/components/rz_explorer.html.twig: the root attributes (translated labels) */
@@ -16,17 +17,18 @@ const DEFAULT_ATTRIBUTES: Record<string, string> = {
     'data-items-label': 'items',
 }
 
+/** Shorthand over rzElement for the many class + attributes nodes of the shell */
 function element(
     tag: string,
     className = '',
     attributes: Record<string, string> = {},
 ) {
-    const node = document.createElement(tag)
-    if (className) node.className = className
-    Object.entries(attributes).forEach(([key, value]) =>
-        node.setAttribute(key, value),
-    )
-    return node
+    return rzElement({
+        tag,
+        attributes: className
+            ? { class: className, ...attributes }
+            : attributes,
+    })
 }
 
 function filtersRenderer() {
@@ -71,7 +73,7 @@ function filtersRenderer() {
             attributes: {
                 class: 'rz-explorer__filter',
                 type: 'button',
-                'aria-pressed': 'true',
+                'aria-current': 'true',
                 'data-action': 'reset-filter',
             },
         }),

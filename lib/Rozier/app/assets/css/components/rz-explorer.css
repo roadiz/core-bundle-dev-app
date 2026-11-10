@@ -98,7 +98,7 @@
 /* Content of the filter column: stays in view while the items scroll, with its own scroll */
 .rz-explorer__filters-inner {
 	box-sizing: border-box;
-	padding-block-end: 10px;
+	padding-block-end: var(--spacing-3xs);
 	overflow-y: auto;
 
 	@media (--screen-sm-min) {
@@ -119,9 +119,9 @@
 	justify-content: space-between;
 	gap: var(--spacing-3xs);
 	/* Same vertical space above and below; same inline padding as the filter buttons (rz-button sm) */
-	padding-block: 10px;
+	padding-block: var(--spacing-3xs);
 	padding-inline: var(--spacing-5xs);
-	margin-block-end: 10px;
+	margin-block-end: var(--spacing-3xs);
 	border-bottom: 1px solid var(--form-basic-border);
 
 	font-family: var(--font-family-os-text);
