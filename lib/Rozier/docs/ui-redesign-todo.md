@@ -168,7 +168,7 @@ that would skew `git log -1`.
 | Tags/Folders | 6 | 1 | 5 | 0/6 |
 | Login/search | 2 | 1 | 1 | 2/2 |
 | Custom forms (fields reordering, via `RzTable`) | 1 | 1 | 0 | 0/1 |
-| User management | 0 dedicated component (Symfony/Twig + legacy `assets/less/users/`) | — | — | — |
+| User management | 0 dedicated component (Symfony/Twig) | — | — | — |
 
 **Quantified technical debt** (scope of [ADR 0001](adr/0001-custom-elements-over-vue-uikit-jquery.md)):
 - **19 files** still use UIkit classes (`uk-*`), including some already "redesigned" files
@@ -179,7 +179,7 @@ that would skew `git log -1`.
   including already-redesigned components.
 - 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
   files from the new design system. Since [#586](https://github.com/roadiz/core-bundle-dev-app/issues/586)'s
-  first pass, 21 remain; after the second, 6; after #602, 5; after [#601](https://github.com/roadiz/core-bundle-dev-app/issues/601), 4; after [#590](https://github.com/roadiz/core-bundle-dev-app/issues/590), none: Rozier no longer loads any LESS ([#603](https://github.com/roadiz/core-bundle-dev-app/issues/603)).
+  first pass, 21 remain; after the second, 6; after #602, 5; after [#601](https://github.com/roadiz/core-bundle-dev-app/issues/601), 4; after [#590](https://github.com/roadiz/core-bundle-dev-app/issues/590), none: Rozier no longer loads any LESS, and the `less` dependency is removed ([#603](https://github.com/roadiz/core-bundle-dev-app/issues/603)).
 - **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
   alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up
   (settled in #534: the Vue file was dead and removed).
