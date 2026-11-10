@@ -10,12 +10,6 @@
 	--rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
 }
 
-/* Read by the legacy autocomplete.less, removed with it (#601) */
-:root {
-	--global-border-lighter-color: #e2e2e2;
-	--default-font-size: 13px;
-}
-
 body {
 	margin: 0;
 	background-color: var(--surface-light-tertiary, #F2F2F2);

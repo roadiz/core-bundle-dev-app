@@ -61,7 +61,8 @@
 
     {% block panels %}
         {% if tagNodesForm %}
-            <tag-autocomplete
+            <rz-autocomplete
+                data-action="tagAutocomplete"
                 id="{{ tags_panel_id }}"
                 class="rz-bulk-actions__group"
                 data-search-path="{{ path('tagAjaxSearch') }}"
@@ -71,7 +72,7 @@
                 {{ form_start(tagNodesForm) }}
                 {{ form_widget(tagNodesForm, { attr: { class: 'rz-bulk-actions__form-inline' } }) }}
                 {{ form_end(tagNodesForm) }}
-            </tag-autocomplete>
+            </rz-autocomplete>
         {% endif %}
         {% if statusNodesForm %}
             <div

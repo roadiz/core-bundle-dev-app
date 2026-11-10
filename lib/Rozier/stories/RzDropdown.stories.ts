@@ -3,7 +3,7 @@ import {
     DEFAULT_ITEM,
     type RzDropdownOptions,
     rzDropdownRenderer,
-} from '~/utils/storybook/renderer/rzDropDown'
+} from '~/utils/component-renderer/rzDropdown'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'

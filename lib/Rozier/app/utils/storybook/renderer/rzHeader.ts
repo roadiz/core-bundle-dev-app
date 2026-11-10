@@ -4,7 +4,7 @@ import {
 } from '~/utils/storybook/renderer/rzHeaderNavItem'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
-import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
+import { rzDropdownRenderer } from '~/utils/component-renderer/rzDropdown'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 import { rzColorSchemeSwitcherRenderer } from '~/utils/storybook/renderer/rzColorSchemeSwitcher'
 

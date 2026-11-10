@@ -58,7 +58,8 @@
 
 	{% block panels %}
         {% if joinFolderForm %}
-            <folder-autocomplete
+            <rz-autocomplete
+                data-action="folderAutocomplete"
                 id="{{ folder_id }}"
                 class="rz-bulk-actions__group"
                 data-search-path="{{ path('foldersAjaxSearch') }}"
@@ -68,7 +69,7 @@
                 {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
                 {{ form_widget(joinFolderForm, { attr: { class: 'rz-bulk-actions__form-inline' } }) }}
                 {{ form_end(joinFolderForm) }}
-            </folder-autocomplete>
+            </rz-autocomplete>
         {% endif %}
 	{% endblock %}
 {% endembed %}

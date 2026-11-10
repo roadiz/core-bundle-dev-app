@@ -277,7 +277,7 @@ trait NodeBulkActionTrait
             ->add('tagsPaths', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'rz-tag-autocomplete',
+                    'class' => 'rz-autocomplete__input',
                     'placeholder' => 'list.tags.to_link.or_unlink',
                 ],
                 'constraints' => [

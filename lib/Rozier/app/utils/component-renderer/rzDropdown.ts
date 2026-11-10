@@ -75,14 +75,14 @@ export function rzDropdownItemRenderer(
         if (args.label) {
             const label = document.createElement('span')
             label.classList.add(`${itemClass}__label`)
-            label.innerHTML = args.label
+            label.textContent = args.label
             textWrapper.appendChild(label)
         }
 
         if (args.description) {
             const description = document.createElement('div')
             description.classList.add(`${itemClass}__description`)
-            description.innerHTML = args.description
+            description.textContent = args.description
             textWrapper.appendChild(description)
         }
     }

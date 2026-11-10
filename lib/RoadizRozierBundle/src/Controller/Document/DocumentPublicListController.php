@@ -177,7 +177,7 @@ class DocumentPublicListController extends AbstractController
             ->add('folderPaths', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'rz-folder-autocomplete',
+                    'class' => 'rz-autocomplete__input',
                     'placeholder' => 'list.folders.to_link',
                 ],
                 'constraints' => [
