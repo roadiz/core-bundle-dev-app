@@ -4,8 +4,8 @@
 
 /*
  * Legacy entry point. Never add or change a rule here: styles are native CSS
- * (app/assets/css/). What is left goes away with the explorer filters, the
- * autocomplete menus and the settings list (#586).
+ * (app/assets/css/). What is left goes away with the explorer filters (#590)
+ * and the autocomplete menus (#601), see #603.
  */
 @import 'base/elements.less';
 
@@ -15,6 +15,3 @@
 /* Explorer: loader and filters */
 @import 'widgets/spinner.less';
 @import 'widgets/filter_explorer.less';
-
-/* Settings list: document thumbnail and description */
-@import 'settings/global.less';
