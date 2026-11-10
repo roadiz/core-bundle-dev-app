@@ -1,9 +1,6 @@
 import StackNodeTree from '~/widgets/StackNodeTree'
 import SettingsSaveButtons from '~/widgets/SettingsSaveButtons'
 import NodeStatuses from '~/widgets/NodeStatuses'
-import YamlEditor from '~/widgets/YamlEditor'
-import JsonEditor from '~/widgets/JsonEditor'
-import CssEditor from '~/widgets/CssEditor'
 
 type Unbindable = { unbind?: () => void } | null
 
@@ -12,9 +9,6 @@ export default class Lazyload {
     currentRequest: AbortController | null
     currentTimeout: number | null
     settingsSaveButtons: Unbindable
-    jsonEditors: JsonEditor[]
-    cssEditors: CssEditor[]
-    yamlEditors: YamlEditor[]
     stackNodeTrees: StackNodeTree | null
     nodeStatuses: NodeStatuses | null
 
@@ -23,9 +17,6 @@ export default class Lazyload {
         this.currentRequest = null
         this.currentTimeout = null
         this.settingsSaveButtons = null
-        this.jsonEditors = []
-        this.cssEditors = []
-        this.yamlEditors = []
         this.stackNodeTrees = null
         this.nodeStatuses = null
 
@@ -185,30 +176,6 @@ export default class Lazyload {
         })
     }
 
-    refreshCodemirrorEditor() {
-        for (const editor of this.yamlEditors) {
-            editor.forceEditorUpdate()
-        }
-        for (const editor of this.cssEditors) {
-            editor.forceEditorUpdate()
-        }
-        for (const editor of this.jsonEditors) {
-            editor.forceEditorUpdate()
-        }
-    }
-
-    destroyCodemirrorEditor() {
-        for (const editor of this.yamlEditors) {
-            editor.destroy()
-        }
-        for (const editor of this.cssEditors) {
-            editor.destroy()
-        }
-        for (const editor of this.jsonEditors) {
-            editor.destroy()
-        }
-    }
-
     /**
      * Apply content to main content.
      */
@@ -264,15 +231,10 @@ export default class Lazyload {
     generalBind() {
         this.generalUnbind([this.stackNodeTrees, this.settingsSaveButtons])
         this.bindAjaxLink()
-        this.jsonEditors = []
-        this.cssEditors = []
-        this.yamlEditors = []
 
         this.stackNodeTrees = new StackNodeTree()
 
         this.settingsSaveButtons = new SettingsSaveButtons()
-
-        this.initCodeEditors()
 
         window.Rozier?.bindMainTrees()
         window.Rozier!.nodeStatuses = new NodeStatuses()
@@ -280,77 +242,9 @@ export default class Lazyload {
     }
 
     generalUnbind(objects: Unbindable[]) {
-        this.destroyCodemirrorEditor()
         for (const object of objects) {
             if (object?.unbind) {
                 object.unbind()
-            }
-        }
-    }
-
-    /**
-     * Turn the JSON, CSS and YAML textareas of a scope into CodeMirror editors.
-     * Called on page load and by rz-repeatable for each added item.
-     */
-    initCodeEditors(scope?: HTMLElement) {
-        this.initJsonEditors(scope)
-        this.initCssEditors(scope)
-        this.initYamlEditors(scope)
-    }
-
-    initJsonEditors(scope?: HTMLElement) {
-        let textareasJson: NodeListOf<HTMLTextAreaElement>
-        if (scope) {
-            textareasJson = scope.querySelectorAll(
-                'textarea[data-rz-jsoneditor]',
-            )
-        } else {
-            textareasJson = document.querySelectorAll(
-                'textarea[data-rz-jsoneditor]',
-            )
-        }
-        const editorCount = textareasJson.length
-        if (editorCount) {
-            for (let i = 0; i < editorCount; i++) {
-                this.jsonEditors.push(new JsonEditor(textareasJson[i], i))
-            }
-        }
-    }
-
-    initCssEditors(scope?: HTMLElement) {
-        let textareasCss: NodeListOf<HTMLTextAreaElement>
-        if (scope) {
-            textareasCss = scope.querySelectorAll('textarea[data-rz-csseditor]')
-        } else {
-            textareasCss = document.querySelectorAll(
-                'textarea[data-rz-csseditor]',
-            )
-        }
-        const editorCount = textareasCss.length
-
-        if (editorCount) {
-            for (let i = 0; i < editorCount; i++) {
-                this.cssEditors.push(new CssEditor(textareasCss[i], i))
-            }
-        }
-    }
-
-    initYamlEditors(scope?: HTMLElement) {
-        let textareasYaml: NodeListOf<HTMLTextAreaElement>
-        if (scope) {
-            textareasYaml = scope.querySelectorAll(
-                'textarea[data-rz-yamleditor]',
-            )
-        } else {
-            textareasYaml = document.querySelectorAll(
-                'textarea[data-rz-yamleditor]',
-            )
-        }
-        const editorCount = textareasYaml.length
-
-        if (editorCount) {
-            for (let i = 0; i < editorCount; i++) {
-                this.yamlEditors.push(new YamlEditor(textareasYaml[i], i))
             }
         }
     }
