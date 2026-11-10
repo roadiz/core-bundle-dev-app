@@ -1,5 +1,5 @@
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
-import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
+import { rzDropdownRenderer } from '~/utils/component-renderer/rzDropdown'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 
 const COMMAND = '--update-color-scheme'

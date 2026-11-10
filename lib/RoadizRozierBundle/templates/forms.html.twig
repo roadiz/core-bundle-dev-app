@@ -10,7 +10,8 @@
 {%- block date_widget -%}
      {%- if widget == 'single_text' -%}
          {%- set type = type|default('text') -%}
-         <input class="rz-form-field__body" is="rz-input" type="date" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+         {% set widget_base_class = 'rz-form-field__body' %}
+         <input is="rz-input" type="date" {{ block('widget_attributes_with_base_class') }} {% if value is defined %} value="{{ value }}"{% endif %}>
      {%- else -%}
          <div {{ block('widget_container_attributes') }}>
              {{- date_pattern|replace({
@@ -24,7 +25,8 @@
 
 {%- block datetime_widget -%}
     {% if widget == 'single_text' %}
-        <input is="rz-input" class="rz-form-field__body" type="datetime-local" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+        {% set widget_base_class = 'rz-form-field__body' %}
+        <input is="rz-input" type="datetime-local" {{ block('widget_attributes_with_base_class') }} {% if value is defined %} value="{{ value }}"{% endif %}>
     {%- else -%}
         <div {{ block('widget_container_attributes') }}>
             {{- form_errors(form.date) -}}
@@ -208,7 +210,8 @@
             {% endif %}
         </div>
     </div>
-    <textarea class="rz-markdown-editor__textarea" {{ block('widget_attributes') }}>{{- value -}}</textarea>
+    {% set widget_base_class = 'rz-markdown-editor__textarea' %}
+    <textarea {{ block('widget_attributes_with_base_class') }}>{{- value -}}</textarea>
 </rz-markdown-editor>
 {% endblock markdown_widget %}
 
@@ -220,7 +223,8 @@
             widget_attributes: block('widget_attributes'),
         } only %}
     {% else %}
-        <textarea {{ block('widget_attributes') }} class="rz-textarea rz-form-field__body">{{ value }}</textarea>
+        {% set widget_base_class = 'rz-textarea rz-form-field__body' %}
+        <textarea {{ block('widget_attributes_with_base_class') }}>{{ value }}</textarea>
     {% endif %}
 {%- endblock textarea_widget -%}
 
@@ -410,7 +414,8 @@
 {% endblock %}
 
 {% block checkbox_widget -%}
-    <input class="rz-switch rz-form-field__body" {{ block('widget_attributes') }} {% if checked %}checked{% endif %} type="checkbox" />
+    {% set widget_base_class = 'rz-switch rz-form-field__body' %}
+    <input {{ block('widget_attributes_with_base_class') }} {% if checked %}checked{% endif %} type="checkbox" />
 {%- endblock checkbox_widget %}
 
 {%- block choice_widget_expanded -%}
@@ -439,33 +444,40 @@
 {%- endblock choice_widget_expanded -%}
 
 {% block text_widget %}
-    <input is="rz-input" class="rz-form-field__body" type="text" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+    {% set widget_base_class = 'rz-form-field__body' %}
+    <input is="rz-input" type="text" {{ block('widget_attributes_with_base_class') }} {% if value is defined %} value="{{ value }}"{% endif %}>
 {%- endblock text_widget -%}
 
 {% block url_widget %}
-    <input is="rz-input" class="rz-form-field__body" type="text" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}>
+    {% set widget_base_class = 'rz-form-field__body' %}
+    <input is="rz-input" type="text" {{ block('widget_attributes_with_base_class') }} {% if value is defined %} value="{{ value }}"{% endif %}>
 {%- endblock url_widget -%}
 
 {% block integer_widget -%}
     {%- set type = type|default('number') -%}
-    <input is="rz-input" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
+    {% set widget_base_class = 'rz-form-field__body rz-form-input' %}
+    <input is="rz-input" type="{{ type }}" {{ block('widget_attributes_with_base_class') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
 {%- endblock integer_widget %}
 
 {% block number_widget -%}
     {%- set type = type|default('number') -%}
-    <input is="rz-input" type="{{ type }}" class="rz-form-field__body rz-form-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
+    {% set widget_base_class = 'rz-form-field__body rz-form-input' %}
+    <input is="rz-input" type="{{ type }}" {{ block('widget_attributes_with_base_class') }}{% if value is defined %} value="{{ value|replace({',': '.'}) }}"{% endif %} />
 {%- endblock number_widget %}
 
 {%- block email_widget -%}
-    <input is="rz-input" class="rz-form-field__body rz-form-input" type="email" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+    {% set widget_base_class = 'rz-form-field__body rz-form-input' %}
+    <input is="rz-input" type="email" {{ block('widget_attributes_with_base_class') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock email_widget -%}
 
 {%- block file_widget -%}
-    <input is="rz-input" class="rz-form-field__body" type="file" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %} />
+    {% set widget_base_class = 'rz-form-field__body' %}
+    <input is="rz-input" type="file" {{ block('widget_attributes_with_base_class') }}{% if value is defined %} value="{{ value }}"{% endif %} />
 {%- endblock file_widget -%}
 
 {%- block password_widget -%}
-    <input is="rz-input" class="rz-form-field__body" type="password" {{ block('widget_attributes') }}>
+    {% set widget_base_class = 'rz-form-field__body' %}
+    <input is="rz-input" type="password" {{ block('widget_attributes_with_base_class') }}>
 {%- endblock password_widget -%}
 
 {% block separator_widget %}
@@ -636,7 +648,8 @@
     {%- endif -%}
 
     {% if multiple %}
-        <select is="rz-select" class="rz-form-field__body" {{ block('widget_attributes') }} multiple="multiple">
+        {% set widget_base_class = 'rz-form-field__body' %}
+        <select is="rz-select" {{ block('widget_attributes_with_base_class') }} multiple="multiple">
             {% if placeholder is not none -%}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
             {%- endif %}
@@ -651,7 +664,8 @@
             {{- block('choice_widget_options') -}}
         </select>
     {% else %}
-        <select is="rz-select" class="rz-form-field__body" v-model="selected" {{ block('widget_attributes') }}>
+        {% set widget_base_class = 'rz-form-field__body' %}
+        <select is="rz-select" v-model="selected" {{ block('widget_attributes_with_base_class') }}>
             {% if placeholder is not none -%}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
             {%- endif %}
@@ -752,6 +766,12 @@
     {% endif -%}
     {{ block('attributes') }}
 {%- endblock widget_attributes -%}
+
+{# widget_attributes, with `widget_base_class` (set by the widget) merged into attr.class #}
+{%- block widget_attributes_with_base_class -%}
+    {%- set attr = attr|merge({ class: html_classes(widget_base_class, attr.class|default('')) }) -%}
+    {{- block('widget_attributes') -}}
+{%- endblock widget_attributes_with_base_class -%}
 
 {%- block nodesourcebase_widget -%}
     <div class="rz-form__field-list rz-form__field-list--horizontal">

@@ -1,0 +1,13 @@
+/* Suggestion menu of <rz-autocomplete>: the surface comes from .rz-dropdown, the Popover
+   util places it under the input. */
+.rz-autocomplete__menu[popover] {
+	position: absolute;
+	inset: initial;
+	max-height: min(320px, 50vh);
+	margin: 0;
+}
+
+.rz-autocomplete__menu .rz-dropdown__list {
+	min-height: 0;
+	overflow-y: auto;
+}

@@ -2,7 +2,7 @@ import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import {
     type RzDropdownOptions,
     rzDropdownRenderer,
-} from '~/utils/storybook/renderer/rzDropDown'
+} from '~/utils/component-renderer/rzDropdown'
 
 export const POPOVER_PLACEMENTS = [
     'bottom-end',

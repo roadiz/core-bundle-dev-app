@@ -179,7 +179,7 @@ that would skew `git log -1`.
   including already-redesigned components.
 - 78 legacy `.less` files (including all vendored UIkit) vs. 54 `assets/css/components/rz-*.css`
   files from the new design system. Since [#586](https://github.com/roadiz/core-bundle-dev-app/issues/586)'s
-  first pass, 21 remain; after the second, 6; after #602, 5 (`style.less`, `base/elements.less`, `autocomplete/autocomplete.less`, `widgets/filter_explorer.less`, `widgets/spinner.less`: the explorer and autocomplete styles, tracked by [#603](https://github.com/roadiz/core-bundle-dev-app/issues/603)).
+  first pass, 21 remain; after the second, 6; after #602, 5; after [#601](https://github.com/roadiz/core-bundle-dev-app/issues/601), 4 (`style.less`, `base/elements.less`, `widgets/filter_explorer.less`, `widgets/spinner.less`: the explorer styles, tracked by [#603](https://github.com/roadiz/core-bundle-dev-app/issues/603)).
 - **Notable case**: `components/RzButton.vue` (legacy, `uk-button` markup) is still imported
   alongside the real redesigned `custom-elements/RzButton.ts` — a naming collision to clean up
   (settled in #534: the Vue file was dead and removed).

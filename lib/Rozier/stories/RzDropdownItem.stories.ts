@@ -3,7 +3,7 @@ import {
     DEFAULT_ITEM,
     type RzDropdownItemOptions,
     rzDropdownItemRenderer,
-} from '~/utils/storybook/renderer/rzDropDown'
+} from '~/utils/component-renderer/rzDropdown'
 
 type Args = RzDropdownItemOptions
 
