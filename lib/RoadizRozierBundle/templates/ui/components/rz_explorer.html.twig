@@ -54,39 +54,42 @@
                 <div class="rz-explorer__body">
                     {# Filter column: widens the explorer when open, filter items rendered by RzExplorer.ts #}
                     <aside class="rz-explorer__filters" data-filter-panel hidden aria-label="{{ 'filter'|trans }}">
-                        <div class="rz-explorer__filters-header">
-                            <span class="rz-explorer__filters-count">
-                                <span data-item-count></span>
-                                <span data-item-count-label></span>
-                            </span>
-                            {{ rz_button.root({
-                                iconClass: 'rz-icon-ri--close-line',
-                                emphasis: 'tertiary',
-                                size: 'xs',
-                                attributes: {
-                                    type: 'button',
-                                    'aria-label': 'close'|trans,
-                                    'data-action': 'toggle-filters',
-                                },
-                            }) }}
-                        </div>
-                        <ul class="rz-explorer__filters-list" data-filter-list>
-                            <li class="rz-explorer__filters-item">
+                        {# The column takes the full height (its border reaches the bottom), its content stays in view #}
+                        <div class="rz-explorer__filters-inner">
+                            <div class="rz-explorer__filters-header">
+                                <span class="rz-explorer__filters-count">
+                                    <span data-item-count></span>
+                                    <span data-item-count-label></span>
+                                </span>
                                 {{ rz_button.root({
-                                    label: 'see_all',
-                                    iconClass: 'rz-icon-ri--list-unordered',
+                                    iconClass: 'rz-icon-ri--close-line',
                                     emphasis: 'tertiary',
-                                    size: 'sm',
-                                    selected: true,
+                                    size: 'xs',
                                     attributes: {
-                                        class: 'rz-explorer__filter',
                                         type: 'button',
-                                        'aria-pressed': 'true',
-                                        'data-action': 'reset-filter',
+                                        'aria-label': 'close'|trans,
+                                        'data-action': 'toggle-filters',
                                     },
                                 }) }}
-                            </li>
-                        </ul>
+                            </div>
+                            <ul class="rz-explorer__filters-list" data-filter-list>
+                                <li class="rz-explorer__filters-item">
+                                    {{ rz_button.root({
+                                        label: 'see_all',
+                                        iconClass: 'rz-icon-ri--list-unordered',
+                                        emphasis: 'tertiary',
+                                        size: 'sm',
+                                        selected: true,
+                                        attributes: {
+                                            class: 'rz-explorer__filter',
+                                            type: 'button',
+                                            'aria-pressed': 'true',
+                                            'data-action': 'reset-filter',
+                                        },
+                                    }) }}
+                                </li>
+                            </ul>
+                        </div>
                     </aside>
 
                     <div class="rz-explorer__main">

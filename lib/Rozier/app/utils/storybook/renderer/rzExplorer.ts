@@ -78,7 +78,9 @@ function filtersRenderer() {
     )
     list.append(seeAll)
 
-    aside.append(header, list)
+    const inner = element('div', 'rz-explorer__filters-inner')
+    inner.append(header, list)
+    aside.append(inner)
     return aside
 }
 

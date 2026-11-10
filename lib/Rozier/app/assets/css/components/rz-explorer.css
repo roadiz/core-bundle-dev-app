@@ -80,26 +80,36 @@
 /* Filter column (folders, tags), items rendered by RzExplorer.ts */
 .rz-explorer__filters {
 	box-sizing: border-box;
-	padding-block: 10px;
 	color: var(--form-basic-input-text, #383838);
+
+	/* Full height column: its border reaches the bottom of the explorer */
+	@media (--screen-sm-min) {
+		flex: none;
+		width: calc(var(--rz-explorer-filters-width) - var(--spacing-xs));
+		margin-inline-end: var(--spacing-xs);
+		border-inline-end: 1px solid var(--form-basic-border);
+	}
+
+	@media (--screen-xs-max) {
+		border-bottom: 1px solid var(--form-basic-border);
+	}
+}
+
+/* Content of the filter column: stays in view while the items scroll, with its own scroll */
+.rz-explorer__filters-inner {
+	box-sizing: border-box;
+	padding-block-end: 10px;
+	overflow-y: auto;
 
 	@media (--screen-sm-min) {
 		position: sticky;
 		top: 0;
-		align-self: flex-start;
-		flex: none;
-		width: calc(var(--rz-explorer-filters-width) - var(--spacing-xs));
 		max-height: 100dvh;
-		margin-inline-end: var(--spacing-xs);
 		padding-inline-end: var(--spacing-xs);
-		border-inline-end: 1px solid var(--form-basic-border);
-		overflow-y: auto;
 	}
 
 	@media (--screen-xs-max) {
 		max-height: 40dvh;
-		overflow-y: auto;
-		border-bottom: 1px solid var(--form-basic-border);
 	}
 }
 
@@ -108,7 +118,9 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--spacing-3xs);
-	padding-block-end: 10px;
+	/* Same vertical space above and below; same inline padding as the filter buttons (rz-button sm) */
+	padding-block: 10px;
+	padding-inline: var(--spacing-5xs);
 	margin-block-end: 10px;
 	border-bottom: 1px solid var(--form-basic-border);
 
