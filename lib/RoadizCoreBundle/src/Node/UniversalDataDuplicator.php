@@ -132,6 +132,9 @@ final readonly class UniversalDataDuplicator
         /* Delete former documents */
         if (count($formerDocuments) > 0) {
             foreach ($formerDocuments as $formerDocument) {
+                // Detach it from the destination collection too: persisting the new documents cascades
+                // to it, and Doctrine would manage the removed ones again if it is already loaded.
+                $destSource->getDocumentsByFields()->removeElement($formerDocument);
                 $manager->remove($formerDocument);
             }
         }
