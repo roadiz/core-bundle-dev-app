@@ -1,0 +1,10 @@
+{# rz-code-editor: options = RzCodeEditorOptions (storybook/renderer/rzCodeEditor.ts), story Components/Form/CodeEditor #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set attributes = options.attributes|default({})|filter(v => v is not null and v is not same as(false)) %}
+
+    <rz-code-editor class="rz-code-editor" mode="{{ options.mode|default('yaml') }}">
+        <textarea {{ el_attrs.print(attributes) }}>{{ options.value|default('') }}</textarea>
+    </rz-code-editor>
+{% endmacro %}

@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 // Loaded globally by `main.js` in the backoffice, not by the Storybook preview
 import 'assets/css/vendor/codemirror.css'
+import {
+    RZ_CODE_EDITOR_MODES,
+    type RzCodeEditorOptions,
+    rzCodeEditorRenderer,
+} from '~/utils/storybook/renderer/rzCodeEditor'
 
-const MODES = ['yaml', 'css', 'json'] as const
-
-type Args = {
-    mode: (typeof MODES)[number]
-    value: string
-    disabled: boolean
-}
+type Args = RzCodeEditorOptions
 
 const YAML_SAMPLE = `# Site settings
 ---
@@ -54,26 +53,15 @@ const meta: Meta<Args> = {
     render: (args) => {
         const field = document.createElement('div')
         field.classList.add('rz-form-field')
-
-        const editor = document.createElement('rz-code-editor')
-        editor.classList.add('rz-code-editor')
-        editor.setAttribute('mode', args.mode)
-
-        const textarea = document.createElement('textarea')
-        textarea.name = `code-editor-${args.mode}`
-        textarea.value = args.value
-        textarea.disabled = args.disabled
-
-        editor.appendChild(textarea)
-        field.appendChild(editor)
+        field.appendChild(rzCodeEditorRenderer(args))
 
         return field
     },
     args: {
-        disabled: false,
+        attributes: { name: 'code-editor' },
     },
     argTypes: {
-        mode: { control: 'select', options: MODES },
+        mode: { control: 'select', options: RZ_CODE_EDITOR_MODES },
     },
 }
 
@@ -93,5 +81,9 @@ export const Json: Story = {
 }
 
 export const Disabled: Story = {
-    args: { mode: 'yaml', value: YAML_SAMPLE, disabled: true },
+    args: {
+        mode: 'yaml',
+        value: YAML_SAMPLE,
+        attributes: { name: 'code-editor', disabled: true },
+    },
 }

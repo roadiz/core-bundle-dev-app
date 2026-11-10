@@ -14,7 +14,11 @@ const MODES = {
     yaml: 'yaml',
 } satisfies Record<string, EditorConfiguration['mode']>
 
-type Mode = keyof typeof MODES
+export type RzCodeEditorMode = keyof typeof MODES
+
+export const RZ_CODE_EDITOR_MODES = Object.keys(MODES) as RzCodeEditorMode[]
+
+const DEFAULT_MODE: RzCodeEditorMode = 'yaml'
 
 type Ruler = {
     column: number
@@ -39,10 +43,14 @@ export default class RzCodeEditor extends HTMLElement {
         this.refresh = this.refresh.bind(this)
     }
 
-    get mode(): Mode {
+    get mode(): RzCodeEditorMode {
         const mode = this.getAttribute('mode')
+        if (mode !== null && mode in MODES) return mode as RzCodeEditorMode
 
-        return mode !== null && mode in MODES ? (mode as Mode) : 'yaml'
+        console.warn(
+            `Unknown rz-code-editor mode "${mode}", falling back to "${DEFAULT_MODE}"`,
+        )
+        return DEFAULT_MODE
     }
 
     connectedCallback() {
@@ -91,8 +99,9 @@ export default class RzCodeEditor extends HTMLElement {
     }
 
     editorConfiguration(textarea: HTMLTextAreaElement): EditorConfiguration {
+        const mode = this.mode
         const options: EditorConfiguration & { rulers?: Ruler[] } = {
-            mode: MODES[this.mode],
+            mode: MODES[mode],
             theme: 'rz',
             // Settings rows are too narrow for a gutter
             lineNumbers: !textarea.closest('.setting-row'),
@@ -108,7 +117,7 @@ export default class RzCodeEditor extends HTMLElement {
             },
         }
 
-        if (this.mode === 'yaml') {
+        if (mode === 'yaml') {
             options.rulers = Array.from(
                 { length: YAML_RULER_COUNT },
                 (_, i) => ({

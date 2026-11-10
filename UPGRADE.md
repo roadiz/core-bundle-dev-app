@@ -407,6 +407,17 @@ custom script relies on one of them, migrate it to a custom element and the `rz-
 - `Lazyload.initCollectionsForms()` (jQuery `symfony-collection`) is removed: collection fields are
   rendered by `rz-repeatable`
 
+## ⚠ Rozier code editors are a custom element
+
+The JSON, CSS and YAML form widgets (`json_widget`, `css_widget` and `yaml_widget` of
+`forms.html.twig`) render the `ui/components/rz_code_editor.html.twig` component, an
+`rz-code-editor` element wrapping the textarea:
+
+- `window.CodeMirror` is no longer defined: CodeMirror is loaded by `rz-code-editor` only
+- `data-rz-jsoneditor`, `data-rz-csseditor` and `data-rz-yamleditor` are no longer handled. A form
+  theme overriding one of these blocks calls `rz_code_editor.root({ mode: 'json', value: value,
+  attributes: {…} })` instead
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

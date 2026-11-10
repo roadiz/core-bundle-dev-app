@@ -225,22 +225,39 @@
 {%- endblock textarea_widget -%}
 
 {% block json_widget %}
-<rz-code-editor class="rz-code-editor" mode="json">
-    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
-</rz-code-editor>
+{%- set code_editor_mode = 'json' -%}
+{{- block('code_editor_widget') -}}
 {% endblock json_widget %}
 
 {% block css_widget %}
-<rz-code-editor class="rz-code-editor" mode="css">
-    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
-</rz-code-editor>
+{%- set code_editor_mode = 'css' -%}
+{{- block('code_editor_widget') -}}
 {% endblock css_widget %}
 
 {% block yaml_widget %}
-<rz-code-editor class="rz-code-editor" mode="yaml">
-    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
-</rz-code-editor>
+{%- set code_editor_mode = 'yaml' -%}
+{{- block('code_editor_widget') -}}
 {% endblock yaml_widget %}
+
+{# Shared by json_widget, css_widget and yaml_widget #}
+{% block code_editor_widget %}
+    {% import '@RoadizRozier/ui/components/rz_code_editor.html.twig' as rz_code_editor %}
+    {# Same attributes as the widget_attributes block, as a hash #}
+    {% set code_editor_attributes = {
+        id: id,
+        name: full_name,
+        disabled: disabled,
+        required: required,
+    }|merge(attr|map((v, k) => k in ['placeholder', 'title'] and translation_domain is not same as(false)
+        ? v|trans(attr_translation_parameters, translation_domain)
+        : v
+    )) %}
+    {{ rz_code_editor.root({
+        mode: code_editor_mode,
+        value: value,
+        attributes: code_editor_attributes,
+    }) }}
+{% endblock code_editor_widget %}
 
 {% block dynamic_widget %}
 {# just let the textarea widget render the select tag #}
