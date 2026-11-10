@@ -4,10 +4,9 @@
 
 /*
  * Legacy entry point. Never add or change a rule here: styles are native CSS
- * (app/assets/css/). What is left goes away with the explorer filters and the
- * autocomplete menus (#586).
+ * (app/assets/css/). What is left goes away with the explorer filters, the
+ * autocomplete menus and the settings list (#586).
  */
-@import 'vars.less';
 @import 'base/elements.less';
 
 /* Autocomplete menus of TagAutocomplete / FolderAutocomplete */
@@ -16,3 +15,6 @@
 /* Explorer: loader and filters */
 @import 'widgets/spinner.less';
 @import 'widgets/filter_explorer.less';
+
+/* Settings list: document thumbnail and description */
+@import 'settings/global.less';
