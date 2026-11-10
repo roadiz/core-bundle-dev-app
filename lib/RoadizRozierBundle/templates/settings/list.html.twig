@@ -69,18 +69,20 @@
                         {% set edit_href = path('settingsEditPage', { settingId: setting.setting.getId }) %}
                         <tr class="setting-row">
                             <td class="rz-table__cell rz-table__cell--sm">
-                                <p>
+                                <div>
                                     <a href="{{ edit_href }}">
                                         {{ setting.setting.name|trans|inlineMarkdown -}}
                                     </a>
-                                </p>
+                                </div>
                                 {% if setting.setting.description %}
-                                    <p class="rz-table__cell--muted">{{ setting.setting.description|trans|inlineMarkdown }}</p>
+                                    <div class="rz-table__cell--muted">{{ setting.setting.description|trans|inlineMarkdown }}</div>
                                 {% endif %}
                             </td>
-                            <td class="mobile-hidden">
+                            <td class="mobile-hidden{% if setting.document %} rz-table__cell--flex{% endif %}">
                                 {% if setting.document %}
-                                    <figure>{{- setting.document|display({height:30}) -}}</figure>
+                                    <figure class="rz-entity-thumbnail rz-entity-thumbnail--medium">
+                                        {{- setting.document|display({ height: 76, class: 'rz-entity-thumbnail__image' }) -}}
+                                    </figure>
                                 {% endif %}
                                 {% form_theme setting.form '@RoadizRozier/form/horizontal_forms.html.twig' %}
                                 {{ form_start(setting.form, { attr: { class: 'rz-form-field--head-hidden'}}) }}
