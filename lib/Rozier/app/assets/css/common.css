@@ -10,9 +10,8 @@
 	--rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
 }
 
-/* Read by the legacy LESS files left (autocomplete, spinner, filter_explorer), removed with them */
+/* Read by the legacy LESS files left (spinner, filter_explorer), removed with them */
 :root {
-	--global-border-lighter-color: #e2e2e2;
 	--contrasted-bg: #ffffff;
 	--default-font-size: 13px;
 }

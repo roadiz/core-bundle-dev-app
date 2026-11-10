@@ -29,7 +29,7 @@ Components/
   Actions/       Button, ButtonGroup, ActionsMenu, SaveButton, ColorSchemeSwitcher,
                  BulkSection, BulkActions
   Form/          Input, Textarea, Select, Switch, ColorInput, Field, Fieldset,
-                 Form, CodeEditor, MarkdownEditor, Repeatable, FileUpload, Geotag,
+                 Form, CodeEditor, MarkdownEditor, Repeatable, FileUpload, Geotag, Autocomplete,
                  ChildrenNodes/{Root,Item}
   Overlay/       Dialog, Drawer, Dropdown/{Root,Item}, Popover, Tooltip, Search,
                  NodeTreeContextualMenu
