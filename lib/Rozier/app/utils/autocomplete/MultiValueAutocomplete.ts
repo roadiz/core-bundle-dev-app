@@ -1,4 +1,8 @@
 import { Popover } from '~/utils/Popover'
+import {
+    rzDropdownItemRenderer,
+    rzDropdownRenderer,
+} from '~/utils/component-renderer/rzDropdown'
 
 const MIN_TERM_LENGTH = 2
 const DEBOUNCE_DELAY = 300
@@ -72,12 +76,14 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
     }
 
     private createMenu(input: HTMLInputElement) {
-        const menu = document.createElement('div')
-        menu.className = 'rz-dropdown rz-autocomplete__menu'
+        // A single, empty list: options are added once suggestions come back
+        const menu = rzDropdownRenderer({ items: [[]], listTag: 'ul' })
+        menu.classList.add('rz-autocomplete__menu')
         menu.setAttribute('popover', 'manual')
 
-        const list = document.createElement('ul')
-        list.className = 'rz-dropdown__list'
+        const list = menu.querySelector<HTMLElement>('.rz-dropdown__list')
+        if (!list) return
+
         list.id = this.listId
         list.setAttribute('role', 'listbox')
         this.labelList(list, input)
@@ -196,18 +202,15 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
     }
 
     private createOption(suggestion: string, index: number) {
-        const option = document.createElement('li')
-        option.id = `${this.listId}-option-${index}`
-        option.className = 'rz-dropdown__item'
-        option.setAttribute('role', 'option')
-        option.setAttribute('aria-selected', 'false')
-
-        const label = document.createElement('span')
-        label.className = 'rz-dropdown__item__label'
-        label.textContent = suggestion
-        option.appendChild(label)
-
-        return option
+        return rzDropdownItemRenderer({
+            tag: 'li',
+            label: suggestion,
+            attributes: {
+                id: `${this.listId}-option-${index}`,
+                role: 'option',
+                'aria-selected': 'false',
+            },
+        })
     }
 
     private close() {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { http, HttpResponse } from 'msw'
-import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
+import { rzDropdownRenderer } from '~/utils/component-renderer/rzDropdown'
 import {
     DEFAULT_CONTEXTUAL_MENU_CONTENT,
     POPOVER_PLACEMENTS,
