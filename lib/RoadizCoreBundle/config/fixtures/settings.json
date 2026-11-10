@@ -113,17 +113,6 @@
         "defaultValues": ""
     },
     {
-        "name": "login_image",
-        "visible": true,
-        "description": "Replace random *Splashbase* login images with your own.",
-        "settingGroup": {
-            "name": "Site information",
-            "inMenu": true
-        },
-        "type": 9,
-        "defaultValues": ""
-    },
-    {
         "name": "facebook_url",
         "visible": true,
         "settingGroup": {

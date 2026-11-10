@@ -1,3 +1,22 @@
+/* Accent color, overridden by the layouts when the main_color setting is set */
+:root {
+	--color-light-mix: 70%;
+	--color-darker-mix: 95%;
+	--color-darkest-mix: 85%;
+
+	--rz-accent-color: #00deab;
+	--rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+	--rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+	--rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+}
+
+/* Read by the legacy LESS files left (autocomplete, spinner, filter_explorer), removed with them */
+:root {
+	--global-border-lighter-color: #e2e2e2;
+	--contrasted-bg: #ffffff;
+	--default-font-size: 13px;
+}
+
 body {
 	margin: 0;
 	background-color: var(--surface-light-tertiary, #F2F2F2);

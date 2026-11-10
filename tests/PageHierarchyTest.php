@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\GeneratedEntity\Repository\NSPageRepository;
+use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
@@ -87,23 +88,23 @@ class PageHierarchyTest extends KernelTestCase
 
         $this->assertNotNull($rootPage);
         $this->assertSame('Page level 1', $rootPage->getNodeSources()[0]?->getTitle());
-        $this->assertCount(1, $rootPage->getChildren());
+        $this->assertCount(1, $this->pageChildren($rootPage));
 
-        $level2Page = $rootPage->getChildren()[0];
+        $level2Page = $this->pageChildren($rootPage)[0];
         $this->assertSame('Page level 2', $level2Page->getNodeSources()[0]?->getTitle());
-        $this->assertCount(1, $level2Page->getChildren());
+        $this->assertCount(1, $this->pageChildren($level2Page));
 
-        $level3Page = $level2Page->getChildren()[0];
+        $level3Page = $this->pageChildren($level2Page)[0];
         $this->assertSame('Page level 3', $level3Page->getNodeSources()[0]?->getTitle());
-        $this->assertCount(1, $level3Page->getChildren());
+        $this->assertCount(1, $this->pageChildren($level3Page));
 
-        $level4Page = $level3Page->getChildren()[0];
+        $level4Page = $this->pageChildren($level3Page)[0];
         $this->assertSame('Page level 4', $level4Page->getNodeSources()[0]?->getTitle());
-        $this->assertCount(1, $level4Page->getChildren());
+        $this->assertCount(1, $this->pageChildren($level4Page));
 
-        $level5Page = $level4Page->getChildren()[0];
+        $level5Page = $this->pageChildren($level4Page)[0];
         $this->assertSame('Page level 5', $level5Page->getNodeSources()[0]?->getTitle());
-        $this->assertCount(0, $level5Page->getChildren());
+        $this->assertCount(0, $this->pageChildren($level5Page));
 
         $graphAncestors5 = [$level4Page->getId(), $level3Page->getId(), $level2Page->getId(), $rootPage->getId()];
         $this->assertSame(
@@ -134,5 +135,17 @@ class PageHierarchyTest extends KernelTestCase
             $graphAncestors1,
             $nodeRepository->findAllParentsIdByNode($rootPage)
         );
+    }
+
+    /**
+     * Home page also holds blocks, fields and offers: only follow the Page chain.
+     *
+     * @return list<Node>
+     */
+    private function pageChildren(Node $node): array
+    {
+        return array_values($node->getChildren()->filter(
+            fn (Node $child) => 'Page' === $child->getNodeTypeName()
+        )->toArray());
     }
 }

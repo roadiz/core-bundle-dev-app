@@ -1,3 +1,6 @@
+/* Imported by main.js, outside main.css: load the custom media it uses */
+@import '../custom-media.css';
+
 /* BASICS */
 .CodeMirror {
     --codemirror-selection-background-color: light-dark(var(--color-black-100), var(--color-white-100));
@@ -378,7 +381,8 @@ span.CodeMirror-selectedtext {
 **/
 .markdown-editor-preview {
     display: none;
-    width: calc(var(--user-panel-width) + var(--entries-panel-width) + var(--trees-panel-width));
+    /* Preview panel width, unchanged since the legacy layout (sum of its side panels) */
+    width: 420px;
     box-sizing: border-box;
     padding: 10px 20px;
     border-right: 1px solid var(--line-on-light-secondary, #DADADA);
@@ -393,6 +397,18 @@ span.CodeMirror-selectedtext {
     right: auto;
     z-index: 101;
     overflow-y: auto;
+
+    @media (--screen-lg-min) {
+        width: 430px;
+    }
+
+    @media (--screen-xl-min) {
+        width: 510px;
+    }
+
+    @media (--screen-xxl-min) {
+        width: 610px;
+    }
 
     &.active {
         display: block;

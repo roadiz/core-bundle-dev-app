@@ -418,6 +418,18 @@ The JSON, CSS and YAML form widgets (`json_widget`, `css_widget` and `yaml_widge
   theme overriding one of these blocks calls `rz_code_editor.root({ mode: 'json', value: value,
   attributes: {…} })` instead
 
+## ⚠ Rozier login background image removed
+
+The login pages no longer show a background image (the redesigned login card has its own
+background):
+
+- the `login_image` setting is no longer read nor created by the settings fixtures; you can delete it
+  from your settings
+- the `loginImagePage` route (`/css/login/image`) and `LoginImageController` are removed, as well as
+  `window.RozierConfig.routes.splashRequest`
+- `ui/layouts/simple.html.twig` no longer renders the `#main-container`, `#splash-container` and
+  `#main_content` wrappers, nor loads the `simple` Vite entry (removed)
+
 ## New admin templates
 
 New reusable templates for building back-office pages:

@@ -124,7 +124,6 @@ export interface RozierConfig {
         providerAjaxByArray?: string
         providerAjaxExplorer?: string
         searchAjax?: string
-        splashRequest?: string
         tagAjaxSearch?: string
         tagPositionAjax?: string
         tagsAjaxByArray?: string
