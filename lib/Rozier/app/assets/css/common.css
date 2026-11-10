@@ -10,12 +10,6 @@
 	--rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
 }
 
-/* Read by the legacy LESS files left (spinner, filter_explorer), removed with them */
-:root {
-	--contrasted-bg: #ffffff;
-	--default-font-size: 13px;
-}
-
 body {
 	margin: 0;
 	background-color: var(--surface-light-tertiary, #F2F2F2);

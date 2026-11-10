@@ -2,6 +2,7 @@ import { debounce } from 'lodash'
 import { getExplorerItems } from '~/api/ExplorerApi'
 import { getFilters } from '~/api/FilterExplorerApi'
 import { createTag } from '~/api/TagApi'
+import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import {
     rzCardRenderer,
     type RzCardOptions,
@@ -67,6 +68,16 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
 
 const SEARCH_DEBOUNCE = 450
 
+/** Single selection among the filters: the current one is marked, not toggled */
+function setFilterSelected(button: HTMLElement, selected: boolean) {
+    button.classList.toggle('rz-button--selected', selected)
+    if (selected) {
+        button.setAttribute('aria-current', 'true')
+    } else {
+        button.removeAttribute('aria-current')
+    }
+}
+
 /**
  * Explorer panel: lets a drawer (`rz-drawer`) pick entities (documents, nodes, node types, tags,
  * custom forms, joins and explorer provider items), placed once in the shared layout.
@@ -82,7 +93,8 @@ const SEARCH_DEBOUNCE = 450
  *   picked or a tag is created
  *
  * Expected children:
- * - `[data-panel]`: the explorer panel, `[data-filter-panel]`: the filter panel
+ * - `[data-panel]`: the explorer panel, `[data-filter-panel]`: the filter column inside it,
+ *   which widens the panel when shown (`rz-explorer.css`)
  * - `[data-search]`: the search input; `[data-list]`: the item list; `[data-loader]`
  * - `[data-action="close|toggle-filters|load-more|reset-filter|create-tag"]`; `[data-filter-toggle]`:
  *   the header button toggling the filter panel (hidden for entities without filters)
@@ -465,6 +477,13 @@ export default class RzExplorer extends HTMLElement {
         // The filter list keeps its Twig-rendered head (count, "see all"); filter items follow it
         const list = this.child('filter-list')
         if (list) {
+            // Rebuilding the buttons drops the focus: give it back to the same filter
+            const focusedId =
+                document.activeElement instanceof HTMLElement &&
+                list.contains(document.activeElement)
+                    ? document.activeElement.dataset.filterId
+                    : undefined
+
             list.querySelectorAll(':scope > [data-filter-item]').forEach(
                 (item) => item.remove(),
             )
@@ -473,12 +492,17 @@ export default class RzExplorer extends HTMLElement {
                     this.createFilterElement(item),
                 ),
             )
+
+            if (focusedId) {
+                list.querySelector<HTMLElement>(
+                    `[data-filter-id="${CSS.escape(focusedId)}"]`,
+                )?.focus()
+            }
         }
 
-        this.action('reset-filter')?.classList.toggle(
-            'active',
-            !this.selectedFilter,
-        )
+        const resetFilter = this.action('reset-filter')
+        if (resetFilter) setFilterSelected(resetFilter, !this.selectedFilter)
+
         this.child('filter-toggle')?.classList.toggle(
             'rz-button--pill',
             !!this.selectedFilter,
@@ -490,34 +514,42 @@ export default class RzExplorer extends HTMLElement {
         const isCurrent = this.selectedFilter?.id === item.id
 
         const li = document.createElement('li')
-        li.classList.add('item')
+        li.classList.add('rz-explorer__filters-item')
         li.dataset.filterItem = ''
 
-        const button = document.createElement('button')
-        button.type = 'button'
-        button.classList.add('filter-item-link')
-        button.classList.toggle('active', isCurrent)
+        const button = rzButtonRenderer({
+            emphasis: 'tertiary',
+            size: 'sm',
+            iconClass: isCurrent ? icons.active : icons.normal,
+            attributes: {
+                type: 'button',
+                class: 'rz-explorer__filter',
+                'data-filter-id': String(item.id),
+            },
+        })
+        setFilterSelected(button, isCurrent)
+        // Folder and tag names are user content: text, never HTML
+        const label = document.createElement('span')
+        label.className = 'rz-button__label'
+        label.textContent = item.name
+        button.prepend(label)
         button.addEventListener('click', (event) => {
             event.preventDefault()
             this.selectFilter(item)
         })
 
-        const icon = document.createElement('i')
-        icon.className = `icon ${isCurrent ? icons.active : icons.normal}`
-        const text = document.createElement('span')
-        text.classList.add('text')
-        text.textContent = item.name
-        button.append(icon, text)
+        li.append(button)
 
-        const children = document.createElement('ul')
-        children.classList.add('sub-filters')
-        children.append(
-            ...(item.children || []).map((child) =>
-                this.createFilterElement(child),
-            ),
-        )
-
-        li.append(button, children)
+        if (item.children?.length) {
+            const children = document.createElement('ul')
+            children.classList.add('rz-explorer__filters-list')
+            children.append(
+                ...item.children.map((child) =>
+                    this.createFilterElement(child),
+                ),
+            )
+            li.append(children)
+        }
 
         return li
     }
@@ -557,13 +589,14 @@ export default class RzExplorer extends HTMLElement {
         if (event.key === 'Escape') this.close()
     }
 
-    // A pointer down outside both panels closes the explorer (the opening click already happened)
+    // A pointer down outside the panel (filter column included) closes the explorer
+    // (the opening click already happened)
     onDocumentPointerDown(event: PointerEvent) {
         if (!this.isOpen) return
 
         const path = event.composedPath()
-        const panels = [this.child('panel'), this.filterPanel]
-        if (panels.some((panel) => panel && path.includes(panel))) return
+        const panel = this.child('panel')
+        if (panel && path.includes(panel)) return
 
         // Leave the drawer button that opened the explorer toggle it as before
         const drawer = this.drawerId

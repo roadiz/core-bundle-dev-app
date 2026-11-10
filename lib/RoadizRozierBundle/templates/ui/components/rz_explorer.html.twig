@@ -1,4 +1,4 @@
-{# rz-explorer: options = attributes (no renderer: items and filters are rendered by RzExplorer.ts); placed once in ui/layouts/base #}
+{# rz-explorer: options = RzExplorerOptions (storybook/renderer/rzExplorer.ts), story Components/Overlay/Explorer; items and filters are rendered by RzExplorer.ts; placed once in ui/layouts/base #}
 {% macro root(options = {}) %}
     {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
     {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
@@ -15,30 +15,6 @@
     }|merge(options.attributes|default({})) %}
 
     <rz-explorer hidden {{ el_attrs.print(attributes) }}>
-        <aside class="filter-widget-explorer" data-filter-panel hidden>
-            <ul class="filters-items" data-filter-list>
-                <li class="filters-infos">
-                    <span class="number" data-item-count></span>
-                    <span data-item-count-label></span>
-                    {{ rz_button.root({
-                        iconClass: 'rz-icon-ri--close-line',
-                        emphasis: 'tertiary',
-                        size: 'xs',
-                        attributes: {
-                            type: 'button',
-                            'aria-label': 'close'|trans,
-                            'data-action': 'toggle-filters',
-                        },
-                    }) }}
-                </li>
-                <li class="item">
-                    <button type="button" class="filter-item-link active" data-action="reset-filter">
-                        <span class="rz-icon-ri--list-unordered" aria-hidden="true"></span> {{ 'see_all'|trans }}
-                    </button>
-                </li>
-            </ul>
-        </aside>
-
         <div class="rz-explorer" data-panel>
             <div class="rz-explorer__inner">
                 <div class="rz-explorer__header">
@@ -56,6 +32,7 @@
                         {{ rz_input.root({
                             type: 'search',
                             name: 'searchTerms',
+                            id: 'rz-explorer-search',
                             placeholder: 'search'|trans,
                             attributes: {
                                 autocomplete: 'off',
@@ -75,40 +52,85 @@
                     }) }}
                 </div>
 
-                <div class="spinner light" data-loader hidden></div>
-                <div class="rz-explorer__main">
-                    <ul class="rz-explorer__list" data-list></ul>
-                </div>
+                <div class="rz-explorer__body">
+                    {# Filter column: widens the explorer when open, filter items rendered by RzExplorer.ts #}
+                    <aside class="rz-explorer__filters" data-filter-panel hidden aria-label="{{ 'filter'|trans }}">
+                        {# The column takes the full height (its border reaches the bottom), its content stays in view #}
+                        <div class="rz-explorer__filters-inner">
+                            <div class="rz-explorer__filters-header">
+                                <span class="rz-explorer__filters-count">
+                                    <span data-item-count></span>
+                                    <span data-item-count-label></span>
+                                </span>
+                                {{ rz_button.root({
+                                    iconClass: 'rz-icon-ri--close-line',
+                                    emphasis: 'tertiary',
+                                    size: 'xs',
+                                    attributes: {
+                                        type: 'button',
+                                        'aria-label': 'close'|trans,
+                                        'data-action': 'toggle-filters',
+                                    },
+                                }) }}
+                            </div>
+                            <ul class="rz-explorer__filters-list" data-filter-list>
+                                <li class="rz-explorer__filters-item">
+                                    {{ rz_button.root({
+                                        label: 'see_all',
+                                        iconClass: 'rz-icon-ri--list-unordered',
+                                        emphasis: 'tertiary',
+                                        size: 'sm',
+                                        selected: true,
+                                        attributes: {
+                                            class: 'rz-explorer__filter',
+                                            type: 'button',
+                                            'aria-current': 'true',
+                                            'data-action': 'reset-filter',
+                                        },
+                                    }) }}
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
 
-                {% set load_more_label %}
-                    <span class="rz-button__label" data-load-more-label></span>
-                    <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                    <span class="rz-button__icon rz-spinner"></span>
-                {% endset %}
-                {{ rz_button.root({
-                    emphasis: 'primary',
-                    innerHTML: load_more_label,
-                    attributes: {
-                        class: 'rz-explorer__load-more',
-                        type: 'button',
-                        hidden: true,
-                        'data-action': 'load-more',
-                    },
-                }) }}
+                    <div class="rz-explorer__main">
+                        <div class="rz-explorer__loader" data-loader role="status" hidden>
+                            <span class="rz-spinner rz-spinner--lg" aria-hidden="true"></span>
+                            <span class="rz-visually-hidden">{{ 'loading'|trans }}</span>
+                        </div>
+                        <ul class="rz-explorer__list" data-list></ul>
 
-                <div class="rz-explorer__pagination" data-pagination hidden></div>
+                        {% set load_more_label %}
+                            <span class="rz-button__label" data-load-more-label></span>
+                            <span class="rz-button__icon rz-icon-ri--add-line"></span>
+                            <span class="rz-button__icon rz-spinner"></span>
+                        {% endset %}
+                        {{ rz_button.root({
+                            emphasis: 'primary',
+                            innerHTML: load_more_label,
+                            attributes: {
+                                class: 'rz-explorer__load-more',
+                                type: 'button',
+                                hidden: true,
+                                'data-action': 'load-more',
+                            },
+                        }) }}
 
-                <div class="rz-explorer__tag-creator" data-tag-creator hidden>
-                    <div class="rz-explorer__tag-creator-infos">{{ 'explorer.create_tag'|trans }}</div>
-                    {{ rz_button.root({
-                        iconClass: 'rz-icon-ri--add-line',
-                        emphasis: 'primary',
-                        innerHTML: '<span class="rz-button__label" data-tag-name></span>',
-                        attributes: {
-                            type: 'button',
-                            'data-action': 'create-tag',
-                        },
-                    }) }}
+                        <div class="rz-explorer__pagination" data-pagination hidden></div>
+
+                        <div class="rz-explorer__tag-creator" data-tag-creator hidden>
+                            <div class="rz-explorer__tag-creator-infos">{{ 'explorer.create_tag'|trans }}</div>
+                            {{ rz_button.root({
+                                iconClass: 'rz-icon-ri--add-line',
+                                emphasis: 'primary',
+                                innerHTML: '<span class="rz-button__label" data-tag-name></span>',
+                                attributes: {
+                                    type: 'button',
+                                    'data-action': 'create-tag',
+                                },
+                            }) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

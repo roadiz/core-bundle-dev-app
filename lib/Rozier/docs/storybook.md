@@ -31,7 +31,7 @@ Components/
   Form/          Input, Textarea, Select, Switch, ColorInput, Field, Fieldset,
                  Form, CodeEditor, MarkdownEditor, Repeatable, FileUpload, Geotag, Autocomplete,
                  ChildrenNodes/{Root,Item}
-  Overlay/       Dialog, Drawer, Dropdown/{Root,Item}, Popover, Tooltip, Search,
+  Overlay/       Dialog, Drawer, Explorer, Dropdown/{Root,Item}, Popover, Tooltip, Search,
                  NodeTreeContextualMenu
   Navigation/    HeaderNavItem, Breadcrumb, Tablist/{Root,Item}, Tree, Link, PageHeader
   Data display/  Table, Card, Badge, EntityThumbnail, NodeIcon, FiltersBar
