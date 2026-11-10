@@ -16,6 +16,26 @@
 	display: block;
 }
 
+/* Disabled textarea: grey out the code and its syntax colours, like a disabled input */
+.rz-code-editor:has(> textarea:disabled) {
+	--rz-code-syntax-key: var(--form-basic-input-text-disabled);
+	--rz-code-syntax-string: var(--form-basic-input-text-disabled);
+	--rz-code-syntax-number: var(--form-basic-input-text-disabled);
+	--rz-code-syntax-keyword: var(--form-basic-input-text-disabled);
+	--rz-code-syntax-comment: var(--form-basic-input-text-disabled);
+	--rz-code-syntax-punctuation: var(--form-basic-input-text-disabled);
+
+	> .CodeMirror {
+		color: var(--form-basic-input-text-disabled);
+		background-color: transparent;
+		border-style: dashed;
+	}
+
+	.CodeMirror-lines {
+		cursor: not-allowed;
+	}
+}
+
 .cm-s-rz {
 	/* Values: strings first so JSON keys (`cm-string cm-property`) end up with the key colour */
 	.cm-string,

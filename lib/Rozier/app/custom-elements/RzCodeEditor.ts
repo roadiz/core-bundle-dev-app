@@ -110,7 +110,8 @@ export default class RzCodeEditor extends HTMLElement {
             indentWithTabs: false,
             lineWrapping: true,
             dragDrop: false,
-            readOnly: textarea.disabled,
+            // Like a disabled textarea: no caret, not focusable
+            readOnly: textarea.disabled ? 'nocursor' : false,
             extraKeys: {
                 Tab: 'indentMore',
                 'Shift-Tab': 'indentLess',
