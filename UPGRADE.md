@@ -405,8 +405,7 @@ custom script relies on one of them, migrate it to a custom element and the `rz-
 - the UIkit `sortable` and `tooltip` components, jQuery UI (and its autocomplete widget), and the
   `jquery.tag-editor` and `jquery.caret` plugins are no longer imported
 - `Lazyload.initCollectionsForms()` (jQuery `symfony-collection`) is removed: collection fields are
-  rendered by `rz-repeatable`. Use `window.Rozier.lazyload.initCodeEditors(element)` to set up the
-  JSON, CSS and YAML editors of markup added at runtime
+  rendered by `rz-repeatable`
 
 ## New admin templates
 

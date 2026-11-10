@@ -57,7 +57,6 @@ export class RzRepeatable extends HTMLElement {
 
         this.updateAllInputAttributes()
         this.updateMoveButtonsState()
-        window.Rozier?.lazyload?.initCodeEditors(newItem as HTMLElement)
     }
 
     onCommand(event: CommandEvent) {

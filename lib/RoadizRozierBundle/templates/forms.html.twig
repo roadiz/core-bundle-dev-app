@@ -225,18 +225,21 @@
 {%- endblock textarea_widget -%}
 
 {% block json_widget %}
-{# just let the textarea widget render the select tag #}
-<textarea {{ block('widget_attributes') }} data-rz-jsoneditor>{{ value }}</textarea>
+<rz-code-editor class="rz-code-editor" mode="json">
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+</rz-code-editor>
 {% endblock json_widget %}
 
 {% block css_widget %}
-{# just let the textarea widget render the select tag #}
-<textarea {{ block('widget_attributes') }} data-rz-csseditor>{{ value }}</textarea>
+<rz-code-editor class="rz-code-editor" mode="css">
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+</rz-code-editor>
 {% endblock css_widget %}
 
 {% block yaml_widget %}
-{# just let the textarea widget render the select tag #}
-<textarea {{ block('widget_attributes') }} data-rz-yamleditor>{{ value }}</textarea>
+<rz-code-editor class="rz-code-editor" mode="yaml">
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+</rz-code-editor>
 {% endblock yaml_widget %}
 
 {% block dynamic_widget %}

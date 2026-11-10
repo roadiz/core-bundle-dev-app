@@ -12,6 +12,10 @@
 	--rz-code-syntax-code-bg: var(--surface-light-tertiary);
 }
 
+.rz-code-editor {
+	display: block;
+}
+
 .cm-s-rz {
 	/* Values: strings first so JSON keys (`cm-string cm-property`) end up with the key colour */
 	.cm-string,
@@ -52,7 +56,7 @@
 }
 
 /* YAML mode tokenizes keys as `atom` and booleans as `keyword`: align them with CSS/JSON */
-[data-rz-yamleditor] + .cm-s-rz {
+.rz-code-editor[mode='yaml'] .cm-s-rz {
 	.cm-atom {
 		color: var(--rz-code-syntax-key);
 	}

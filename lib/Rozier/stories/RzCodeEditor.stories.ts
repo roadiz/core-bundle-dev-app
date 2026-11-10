@@ -1,27 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/javascript/javascript'
-import 'codemirror/mode/css/css'
-import 'codemirror/mode/yaml/yaml'
-import 'codemirror/addon/display/rulers'
 // Loaded globally by `main.js` in the backoffice, not by the Storybook preview
 import 'assets/css/vendor/codemirror.css'
-import YamlEditor from '~/widgets/YamlEditor'
-import CssEditor from '~/widgets/CssEditor'
-import JsonEditor from '~/widgets/JsonEditor'
 
-// The legacy widgets read CodeMirror from `window`, as set by `main.js`
-Object.assign(window, { CodeMirror })
-
-const EDITORS = {
-    yaml: { attribute: 'data-rz-yamleditor', widget: YamlEditor },
-    css: { attribute: 'data-rz-csseditor', widget: CssEditor },
-    json: { attribute: 'data-rz-jsoneditor', widget: JsonEditor },
-}
+const MODES = ['yaml', 'css', 'json'] as const
 
 type Args = {
-    language: keyof typeof EDITORS
+    mode: (typeof MODES)[number]
     value: string
+    disabled: boolean
 }
 
 const YAML_SAMPLE = `# Site settings
@@ -66,37 +52,46 @@ const meta: Meta<Args> = {
     title: 'Components/Form/CodeEditor',
     tags: ['autodocs'],
     render: (args) => {
-        const editor = EDITORS[args.language]
         const field = document.createElement('div')
         field.classList.add('rz-form-field')
 
-        const textarea = document.createElement('textarea')
-        textarea.setAttribute(editor.attribute, '')
-        textarea.name = `code-editor-${args.language}`
-        textarea.value = args.value
-        field.appendChild(textarea)
+        const editor = document.createElement('rz-code-editor')
+        editor.classList.add('rz-code-editor')
+        editor.setAttribute('mode', args.mode)
 
-        // Widgets need the textarea in the document to measure CodeMirror
-        window.requestAnimationFrame(() => new editor.widget(textarea))
+        const textarea = document.createElement('textarea')
+        textarea.name = `code-editor-${args.mode}`
+        textarea.value = args.value
+        textarea.disabled = args.disabled
+
+        editor.appendChild(textarea)
+        field.appendChild(editor)
 
         return field
     },
+    args: {
+        disabled: false,
+    },
     argTypes: {
-        language: { control: 'select', options: Object.keys(EDITORS) },
+        mode: { control: 'select', options: MODES },
     },
 }
 
 export default meta
 type Story = StoryObj<Args>
 
-export const Yaml: Story = {
-    args: { language: 'yaml', value: YAML_SAMPLE },
+export const Default: Story = {
+    args: { mode: 'yaml', value: YAML_SAMPLE },
 }
 
 export const Css: Story = {
-    args: { language: 'css', value: CSS_SAMPLE },
+    args: { mode: 'css', value: CSS_SAMPLE },
 }
 
 export const Json: Story = {
-    args: { language: 'json', value: JSON_SAMPLE },
+    args: { mode: 'json', value: JSON_SAMPLE },
+}
+
+export const Disabled: Story = {
+    args: { mode: 'yaml', value: YAML_SAMPLE, disabled: true },
 }
