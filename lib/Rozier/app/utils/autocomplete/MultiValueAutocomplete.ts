@@ -26,7 +26,7 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
     private menu: HTMLElement | null = null
     private list: HTMLElement | null = null
     private positioner: Popover | null = null
-    private debounce: number | null = null
+    private debounceTimer: number | null = null
     private abortController: AbortController | null = null
     private activeIndex = -1
     private readonly listId = `rz-autocomplete-${++instanceCount}`
@@ -49,6 +49,7 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
         this.input.setAttribute('role', 'combobox')
         this.input.setAttribute('aria-autocomplete', 'list')
         this.input.setAttribute('aria-controls', this.listId)
+        // The Popover util keeps aria-expanded in sync on the input (its target) when the menu toggles
         this.input.setAttribute('aria-expanded', 'false')
 
         this.input.addEventListener('input', this.onInput)
@@ -128,7 +129,7 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
         }
 
         // Always debounce fetch calls triggered by user input
-        this.debounce = window.setTimeout(
+        this.debounceTimer = window.setTimeout(
             () => this.search(term),
             DEBOUNCE_DELAY,
         )
@@ -163,9 +164,9 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
     }
 
     private cancelPendingSearch() {
-        if (this.debounce) {
-            window.clearTimeout(this.debounce)
-            this.debounce = null
+        if (this.debounceTimer) {
+            window.clearTimeout(this.debounceTimer)
+            this.debounceTimer = null
         }
         this.abortController?.abort()
         this.abortController = null
@@ -260,17 +261,10 @@ export abstract class MultiValueAutocomplete extends HTMLElement {
                 event.preventDefault()
                 this.setActive(hasActive ? this.activeIndex - 1 : count - 1)
                 break
+            // With an active option, pick it and stay in the field to type the next value.
+            // Without one, Enter submits the form and Tab moves on, as usual.
             case 'Enter':
-                // Without an active option, Enter submits the form as usual
-                if (!hasActive) {
-                    this.close()
-                    break
-                }
-                event.preventDefault()
-                this.select(this.activeIndex)
-                break
             case 'Tab':
-                // Stay in the field to type the next value; without an active option, move on
                 if (!hasActive) {
                     this.close()
                     break

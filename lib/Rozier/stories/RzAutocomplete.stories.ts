@@ -70,7 +70,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Tag: Story = {}
+export const Default: Story = {}
 
 export const Folder: Story = {
     args: {
