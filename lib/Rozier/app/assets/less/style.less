@@ -4,62 +4,15 @@
 
 /*
  * Legacy entry point. Never add or change a rule here: styles are native CSS
- * (app/assets/css/). Each file below is still used and moves to native CSS
- * with its zone (#586).
+ * (app/assets/css/). What is left goes away with the explorer filters and the
+ * autocomplete menus (#586).
  */
-/* -------- VARS -------- */
 @import 'vars.less';
-
-/* -------- BASE -------- */
-
 @import 'base/elements.less';
-@import 'base/easing.less';
 
-/* -------- FORMS -------- */
-
-@import 'forms/forms.less';
-@import 'forms/crop-alignment.less';
-@import 'forms/checkbox.less';
-
-/* -------- AUTOCOMPLETE -------- */
-
+/* Autocomplete menus of TagAutocomplete / FolderAutocomplete */
 @import 'autocomplete/autocomplete.less';
-@import 'autocomplete/tag-autocomplete.less';
 
-/* -------- WIDGETS -------- */
-
+/* Explorer: loader and filters */
 @import 'widgets/spinner.less';
-
-/* Entities drawers, explorers */
 @import 'widgets/filter_explorer.less';
-
-/* -------- PAGES -------- */
-
-@import 'users/users.less';
-@import 'login/login.less';
-
-/* -------- NODES -------- */
-
-@import 'nodes/global.less';
-@import 'nodes/edit.less';
-
-/* -------- TAGS -------- */
-
-@import 'tags/global.less';
-
-/* -------- CUSTOM FORMS  -------- */
-
-@import 'custom-forms/custom-forms.less';
-
-/* -------- SETTINGS  -------- */
-
-@import 'settings/global.less';
-
-/* -------- SEARCH  -------- */
-
-@import 'search/search.less';
-
-/* -------- RESPONSIVE  -------- */
-
-/* Width < 768 */
-@import 'responsive/less-768.less';

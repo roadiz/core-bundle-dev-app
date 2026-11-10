@@ -8,12 +8,8 @@
     <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/ui/layouts/meta_icon.html.twig' %}
-    {# CSS scripts inclusions / Using webpack #}
     {{ manifest_preload_tags('shared') }}
-    {{ manifest_preload_tags('simple') }}
-
     {{ manifest_style_tags('shared') }}
-    {{ manifest_style_tags('simple') }}
     {% if main_color %}
         <style>
             :root {
@@ -26,25 +22,12 @@
     {% endif %}
 </head>
 <body id="simple-body">
-<div id="main-container">
-    <div id="splash-container"></div>
-    <div id="main_content">
-        {% block content %}
-            <h1>{% trans %}welcome{% endtrans %}</h1>
-        {% endblock %}
-    </div>
-</div>
-<script>
-    window.RozierConfig = {
-        "routes": {
-            "splashRequest": "{{ path('loginImagePage') }}"
-        }
-    };
-</script>
+{% block content %}
+    <h1>{% trans %}welcome{% endtrans %}</h1>
+{% endblock %}
 {# JS scripts inclusions / Using Vite manifest #}
 {{ manifest_script_tags('@vite/client') }}
 {{ manifest_script_tags('shared') }}
-{{ manifest_script_tags('simple') }}
 {% block customScripts %}{% endblock %}
 </body>
 </html>

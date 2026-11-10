@@ -380,7 +380,12 @@ span.CodeMirror-selectedtext {
 **/
 .markdown-editor-preview {
     display: none;
-    width: calc(var(--user-panel-width) + var(--entries-panel-width) + var(--trees-panel-width));
+    /*
+     * Preview panel width, unchanged since the legacy layout (sum of its side panels).
+     * Plain media queries: this file is imported by main.js, outside main.css, so the
+     * custom media of custom-media.css are not available here.
+     */
+    width: 420px;
     box-sizing: border-box;
     padding: 10px 20px;
     border-right: 1px solid var(--line-on-light-secondary, #DADADA);
@@ -395,6 +400,18 @@ span.CodeMirror-selectedtext {
     right: auto;
     z-index: 101;
     overflow-y: auto;
+
+    @media (min-width: 1280px) {
+        width: 430px;
+    }
+
+    @media (min-width: 1450px) {
+        width: 510px;
+    }
+
+    @media (min-width: 1920px) {
+        width: 610px;
+    }
 
     &.active {
         display: block;
