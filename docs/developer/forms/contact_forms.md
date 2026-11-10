@@ -141,9 +141,10 @@ Roadiz can seamlessly use a Captcha service to secure your contact form against 
 All you need to do is to register on one of the supported Captcha services to ask for a *sitekey* and a *secret*.
 Once you've got these two keys, add them to your `.env.local` or Symfony secrets.
 
+-   `APP_CAPTCHA_PROVIDER`: Optional. Leave empty to infer the service from `APP_CAPTCHA_VERIFY_URL`; set to `cap` for a self-hosted [Cap](https://trycap.dev) instance whose domain cannot be inferred.
 -   `APP_CAPTCHA_PRIVATE_KEY`: Your reCAPTCHA or Friendly Captcha secret key.
--   `APP_CAPTCHA_PUBLIC_KEY`: Your reCAPTCHA or Friendly Captcha sitekey.
--   `APP_CAPTCHA_VERIFY_URL`: The URL to verify the captcha response, for example `https://www.google.com/recaptcha/api/siteverify` for reCAPTCHA or `https://global.frcapi.com/api/v2/captcha/siteverify` for Friendly Captcha.
+-   `APP_CAPTCHA_PUBLIC_KEY`: Your reCAPTCHA or Friendly Captcha sitekey. Not needed for Cap (its site key is part of `APP_CAPTCHA_VERIFY_URL`).
+-   `APP_CAPTCHA_VERIFY_URL`: The URL to verify the captcha response, for example `https://www.google.com/recaptcha/api/siteverify` for reCAPTCHA, `https://global.frcapi.com/api/v2/captcha/siteverify` for Friendly Captcha, or `https://<your-instance>/<site-key>/siteverify` for Cap.
 
 Then, you can use the `withCaptcha()` method on your contact-form manager to add a captcha field to your form.
 
@@ -201,4 +202,11 @@ Do not forget to add captcha form-template.
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <div class="h-captcha" id="{{ form.vars.id }}" data-sitekey="{{ configs.publicKey }}" data-form-field-name="{{ form.vars.full_name }}"></div>
 {%- endblock hcaptcha_widget %}
+
+{% block cap_widget -%}
+    {# Cap (https://trycap.dev) self-hosted captcha. #}
+    {# configs.publicKey holds the widget endpoint derived from APP_CAPTCHA_VERIFY_URL. #}
+    <script type="module" src="https://cdn.jsdelivr.net/npm/cap-widget@0.1.57" async defer></script>
+    <cap-widget id="{{ form.vars.id }}" data-cap-api-endpoint="{{ configs.publicKey }}" data-cap-hidden-field-name="{{ form.vars.full_name }}"></cap-widget>
+{%- endblock cap_widget %}
 ```

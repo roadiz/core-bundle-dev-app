@@ -1,0 +1,51 @@
+{# rz-button: options = RzButtonOptions (component-renderer/rzButton.ts), story Components/Actions/Button #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-button' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set tag = options.tag|default('button') %}
+    {# is: false renders no is attribute, for a root that is neither a button nor a link (label, span) #}
+    {% set is = options.is is defined ? options.is : 'rz-button' %}
+
+    {# A button with a href renders a link #}
+    {% if attributes.href is defined %}
+        {% set tag = 'a' %}
+        {% set is = options.is is defined ? options.is : 'rz-link' %}
+    {% endif %}
+
+    {% set size = options.size|default(null) %}
+    {% set emphasis = options.emphasis|default(null) %}
+    {% set color = options.color|default(null) %}
+
+    <{{ tag }}
+        {% if is %}is="{{ is }}"{% endif %}
+        class="{{ html_classes(element_class, attributes.class|default(''), {
+            (element_class ~ '--' ~ size): size,
+            (element_class ~ '--' ~ emphasis): emphasis,
+            (element_class ~ '--' ~ color): color,
+            (element_class ~ '--disabled'): options.disabled|default(false),
+            (element_class ~ '--selected'): options.selected|default(false),
+            (element_class ~ '--on-dark'): options.onDark|default(false),
+            (element_class ~ '--pill'): options.hasPill|default(false),
+        }) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        {%- if options.innerHTML is defined and options.innerHTML -%}
+            {{- options.innerHTML|raw -}}
+        {%- endif -%}
+        {{ _self.inner(options) }}
+    </{{ tag }}>
+{% endmacro %}
+
+{# Label and icon of a button, for markup that reuses the rz-button inner parts #}
+{% macro inner(options = {}) %}
+    {% set element_class = options.elementClass|default('rz-button') %}
+
+    {% if options.label is defined and options.label %}
+        <span class="{{ element_class ~ '__label' }}">{{- options.label|trans -}}</span>
+    {% endif %}
+    {% if options.iconClass is defined and options.iconClass %}
+        <span class="{{ element_class ~ '__icon' }} {{ options.iconClass }}"></span>
+    {% endif %}
+{% endmacro %}

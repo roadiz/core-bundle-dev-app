@@ -1,7 +1,7 @@
-# dts-generator
-Roadiz sub-package which generates Typescript interface declaration skeleton based on your schema.
+dts-generator
+=============
 
-[![Unit tests, static analysis and code style](https://github.com/roadiz/dts-generator/actions/workflows/run-test.yml/badge.svg?branch=develop)](https://github.com/roadiz/dts-generator/actions/workflows/run-test.yml)
+Roadiz sub-package which generates Typescript interface declaration skeleton based on your schema.
 
 ### Usage
 
@@ -20,6 +20,10 @@ $declaration = new DeclarationGenerator($declarationFactory);
 echo $declaration->getContents();
 ```
 
-## Contributing
+Resources
+---------
 
-Report [issues](https://github.com/roadiz/core-bundle-dev-app/issues) and send [Pull Requests](https://github.com/roadiz/core-bundle-dev-app/pulls) in the [main Roadiz repository](https://github.com/roadiz/core-bundle-dev-app)
+ * [Documentation](https://docs.roadiz.io/)
+ * [Report issues](https://github.com/roadiz/core-bundle-dev-app/issues) and
+   [send Pull Requests](https://github.com/roadiz/core-bundle-dev-app/pulls)
+   in the [main Roadiz repository](https://github.com/roadiz/core-bundle-dev-app)

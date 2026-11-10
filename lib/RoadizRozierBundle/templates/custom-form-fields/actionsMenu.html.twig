@@ -1,14 +1,11 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     field: field
 } only %}
     {% block items %}
         {%- if is_granted('ROLE_ACCESS_CUSTOMFORMS_DELETE') and field.id -%}
-            {{ _self.deleteItem(
-                label: 'delete.customFormField',
-                href: path('customFormFieldsDeletePage', { customFormFieldId: field.id}),
-            ) }}
+            {{ _self.deleteItem({ label: 'delete.customFormField', attributes: { href: path('customFormFieldsDeletePage', { customFormFieldId: field.id}) } }) }}
         {%- endif -%}
     {% endblock %}
 {% endembed %}

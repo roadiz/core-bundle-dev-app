@@ -9,15 +9,10 @@
 {% block content %}
 <section class="content-global delete-user">
     {% set page_title = "remove.user.%name%.from.group.%group%"|trans({'%name%': user.username, '%group%': group.getName})|truncate_title %}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: page_title,
         breadcrumb: {
-            label: 'users-breadcrumb',
-            parent: [{
-                label: 'users'|trans,
-                type: 'listing',
-                url: path('usersHomePage'),
-            }, {
+            parents: [breadcrumb_root('users'), {
                 label: user.username,
                 url: path('usersEditPage', { id: user.id }),
             }],
@@ -27,13 +22,26 @@
 
     <article class="content content-delete content-no-action-menu">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
-        <form class="uk-form uk-form-stacked" action="#" method="post">
+        <form action="#" method="post">
             {{ form_widget(form) }}
-            <fieldset data-uk-margin>
-                <legend class="uk-alert uk-alert-danger"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.remove.user.from.group{% endtrans %}</legend>
-                <a href="{{ path('usersEditGroupsPage', { userId: user.getId }) }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                <button class="uk-button uk-button-danger" type="submit"><i class="uk-icon-trash-o"></i> {% trans %}remove{% endtrans %}</button>
-            </fieldset>
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+            {{ rz_message.root({ color: 'error', text: 'are_you_sure.remove.user.from.group'|trans, attributes: { class: 'rz-form-field__message' } }) }}
+            <div class="rz-button-group rz-button-group--gap-md">
+                {{ rz_button.root({
+                    emphasis: 'secondary',
+                    label: 'cancel',
+                    iconClass: 'rz-icon-ri--corner-down-left-line',
+                    attributes: { href: path('usersEditGroupsPage', { userId: user.getId }) },
+                }) }}
+                {{ rz_button.root({
+                    emphasis: 'primary',
+                    color: 'danger',
+                    label: 'remove',
+                    iconClass: 'rz-icon-ri--delete-bin-7-line',
+                    attributes: { type: 'submit' },
+                }) }}
+            </div>
         </form>
     </article>
 </section>

@@ -123,6 +123,7 @@ Update CORS configuration to allow required headers:
 # config/packages/nelmio_cors.yaml
 nelmio_cors:
     defaults:
+        # Use the header matching your captcha service, e.g. 'x-cap-token' for Cap or 'x-cf-turnstile-response' for Turnstile.
         allow_headers: ['Content-Type', 'Authorization', 'Www-Authenticate', 'x-g-recaptcha-response']
         expose_headers: ['Link', 'Www-Authenticate']
 ```

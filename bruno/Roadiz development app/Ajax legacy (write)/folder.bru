@@ -1,0 +1,37 @@
+meta {
+  name: Ajax legacy (write)
+  seq: 29
+}
+
+headers {
+  Origin: {{baseUrl}}
+  Host: localhost:8681
+  Accept: application/json
+  X-Requested-With: XMLHttpRequest
+  Cookie: {{admin_cookie}}
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  # Ajax legacy write endpoints
+  
+  Session-cookie protected `POST` endpoints from `RoadizRozierBundle` `Controller/Ajax/*`.
+  Unlike the API Platform endpoints, these are **not** JWT-based: they need the Rozier
+  backoffice **session cookie** and a **CSRF token** bound to that session.
+  
+  Bodies are `application/x-www-form-urlencoded`, exactly as the Rozier frontend sends them
+  (`new URLSearchParams(...)`).
+  
+  ## Required variables (Local Dev environment)
+  
+  - `admin_cookie` — the whole `Cookie` header value of a logged-in backoffice session.
+    Grab it from your browser DevTools (Network tab, any `/rz-admin/ajax/...` request → request
+    header `Cookie`), e.g. `PHPSESSID=...; REMEMBERME=...`.
+  - `ajaxToken` — the CSRF token for the `rozier_ajax` intention. In the backoffice, open the
+    browser console and run `window.RozierConfig.ajaxToken`. It stays valid for the session.
+  
+  Both are session-scoped: refresh them together when the session expires.
+}

@@ -56,3 +56,66 @@ rz-markdown-editor,
 		--rz-markdown-editor-textarea-color: var(--form-basic-placeholder, #9A9A9A);
 	}
 }
+
+/*
+ * Markdown syntax colouring (CodeMirror `gfm` mode with `highlightFormatting`).
+ * Colours alias the shared `--rz-code-syntax-*` palette (rz-code-editor.css).
+ * Scoped to the Markdown editor so other CodeMirror usages (YAML, CSS, JSON) keep their own styles.
+ * `.rz-markdown-editor .CodeMirror` outranks the vendor `.cm-s-default .cm-*` rules.
+ * Order matters: `.cm-formatting` comes after token rules so markers are muted, list markers last.
+ */
+:where(.rz-markdown-editor, rz-markdown-editor) {
+	--rz-markdown-editor-syntax-heading: var(--content-on-light-primary);
+	--rz-markdown-editor-syntax-marker: var(--content-on-light-secondary);
+	--rz-markdown-editor-syntax-link: var(--rz-code-syntax-key);
+	--rz-markdown-editor-syntax-url: var(--content-on-light-secondary);
+	--rz-markdown-editor-syntax-code: var(--rz-code-syntax-number);
+	--rz-markdown-editor-syntax-code-bg: var(--rz-code-syntax-code-bg);
+	--rz-markdown-editor-syntax-quote: var(--rz-code-syntax-string);
+	--rz-markdown-editor-syntax-list: var(--rz-code-syntax-key);
+}
+
+.rz-markdown-editor .CodeMirror {
+	.cm-header {
+		color: var(--rz-markdown-editor-syntax-heading);
+		font-weight: bold;
+	}
+
+	.cm-strong {
+		font-weight: bold;
+	}
+
+	.cm-link {
+		color: var(--rz-markdown-editor-syntax-link);
+	}
+
+	.cm-url {
+		color: var(--rz-markdown-editor-syntax-url);
+		text-decoration: none;
+	}
+
+	/* Inline code and code blocks (`comment` token in markdown mode) */
+	.cm-comment {
+		color: var(--rz-markdown-editor-syntax-code);
+		background-color: var(--rz-markdown-editor-syntax-code-bg);
+	}
+
+	.cm-quote {
+		color: var(--rz-markdown-editor-syntax-quote);
+		font-style: italic;
+	}
+
+	/* Markers: `#`, `**`, `_`, `` ` ``, `[`, `](`… */
+	.cm-formatting {
+		color: var(--rz-markdown-editor-syntax-marker);
+	}
+
+	.cm-formatting-list {
+		color: var(--rz-markdown-editor-syntax-list);
+		font-weight: bold;
+	}
+
+	.cm-hr {
+		color: var(--rz-markdown-editor-syntax-marker);
+	}
+}

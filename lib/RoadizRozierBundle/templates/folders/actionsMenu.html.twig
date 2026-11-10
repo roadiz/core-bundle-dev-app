@@ -1,4 +1,4 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     folder: folder
@@ -6,17 +6,16 @@
     {% block items %}
         {% if folder.getId %}
             {% if not folder.locked %}
-                {{ _self.deleteItem(
-                    label: 'delete.folder',
-                    href: path('foldersDeletePage', { folderId: folder.getId }),
-                ) }}
+                {{ _self.deleteItem({ label: 'delete.folder', attributes: { href: path('foldersDeletePage', { folderId: folder.getId }) } }) }}
             {% endif  %}
-            {{ _self.item(
+            {{ _self.item({ button: {
                 label: 'download',
-                class: 'rz-button--tertiary',
-                href: path('foldersDownloadPage', { folderId: folder.getId }),
-                icon: 'rz-icon-ri--download-line'
-            ) }}
+                emphasis: 'tertiary',
+                iconClass: 'rz-icon-ri--download-line',
+                attributes: {
+                    href: path('foldersDownloadPage', { folderId: folder.getId }),
+                },
+            } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

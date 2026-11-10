@@ -34,7 +34,6 @@ final readonly class TagBreadcrumbsItemFactory implements BreadcrumbsItemFactory
                     'tagId' => $item->getId(),
                 ]
             ),
-            false,
         );
     }
 

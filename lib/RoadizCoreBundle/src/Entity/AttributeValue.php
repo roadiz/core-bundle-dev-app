@@ -68,7 +68,7 @@ class AttributeValue implements AttributeValueInterface
 
     /*
      * Override method to add serialization groups and
-     * enable RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeValueNormalizer
+     * enable RZ\Roadiz\CoreBundle\Serializer\Enricher\AttributeValueEnricher
      * to perform a custom serialization
      */
     #[SymfonySerializer\Groups(['position', 'attribute', 'node_attributes'])]

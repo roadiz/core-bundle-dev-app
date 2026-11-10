@@ -12,52 +12,49 @@
                 icon: 'rz-icon-ri--arrow-drop-down-line',
                 items: nodeTypes,
             },
-            with_breadcrumb: true,
             item: {displayName: 'nodeTypeDecorator'|trans},
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
-            display_select_all_button: false,
-        }  only %}
-        {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+            displaySelectAllButton: false,
+        }  only %}{% endembed %}
+        {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 
         <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                selection_available: hasBulkActions,
-                actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+                selectionAvailable: hasBulkActions,
+                actionsAvailable: true,
             } %}
                 {% block thead_cells %}
+                    {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'path',
-                            'filters': filters,
-                            'label': 'nodeTypeDecorator.entity'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
+                        {{ rz_table.column_ordering({
+                            field: 'path',
+                            filters: filters,
+                            label: 'nodeTypeDecorator.entity'|trans,
+                        }) }}
                     </th>
                     <th>{% trans %}nodeTypeDecorator.field{% endtrans %}</th>
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'property',
-                            'filters': filters,
-                            'label': 'nodeTypeDecorator.property'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
+                        {{ rz_table.column_ordering({
+                            field: 'property',
+                            filters: filters,
+                            label: 'nodeTypeDecorator.property'|trans,
+                        }) }}
                     </th>
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'value',
-                            'filters': filters,
-                            'label': 'nodeTypeDecorator.value'|trans,
-                            'column_ordering_class': column_ordering_class,
-                        } only %}
+                        {{ rz_table.column_ordering({
+                            field: 'value',
+                            filters: filters,
+                            label: 'nodeTypeDecorator.value'|trans,
+                        }) }}
                     </th>
                 {% endblock %}
 
                 {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+                {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
 
                 {%- for item in items -%}
                     {% set path = item.path|split('.') %}
@@ -69,13 +66,13 @@
                     {% endif %}
 
                     <tr {{ _self.colored_row_attrs({'color': color }) }}>
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                             <td>
-                                {{ rz_bulk.select_input({ value: item.id }) }}
+                                {{ rz_bulk_actions.select_input({ value: item.id }) }}
                             </td>
                         {% endif %}
                         <td>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: entity,
                                 attributes: { href: path('nodeTypeDecoratorsEditPage', { id: item.getId }) },
@@ -99,19 +96,19 @@
                             {% endif %}
 
                             {% if label != '' and label != null %}
-                                {{ rz_badge.item({
+                                {{ rz_badge.root({
                                     size: 'sm',
                                     color: 'default',
                                     label: label,
-                                    icon: icon,
+                                    iconClass: icon,
                                 }) }}
                             {% endif %}
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': path('nodeTypeDecoratorsEditPage', { id: item.getId }),
-                                    'delete_href': path('nodeTypeDecoratorsDeletePage', { id: item.getId }),
+                                {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                    'editHref': path('nodeTypeDecoratorsEditPage', { id: item.getId }),
+                                    'deleteHref': path('nodeTypeDecoratorsDeletePage', { id: item.getId }),
                                 } %}
                             </td>
                         {% endif %}

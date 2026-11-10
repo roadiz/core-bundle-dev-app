@@ -38,6 +38,10 @@ final class WebhookType extends AbstractType
         ])->add('payload', YamlType::class, [
             'required' => false,
             'label' => 'webhooks.payload',
+        ])->add('secret', TextType::class, [
+            'required' => false,
+            'label' => 'webhooks.secret',
+            'help' => 'webhooks.secret.help',
         ])->add('throttleSeconds', IntegerType::class, [
             'required' => true,
             'label' => 'webhooks.throttleSeconds',

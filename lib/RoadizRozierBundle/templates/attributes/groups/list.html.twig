@@ -13,28 +13,28 @@
                 attributes: {
                     href: path('attributeGroupsAddPage'),
                 },
-                icon: 'rz-icon-ri--add-line'
+                iconClass: 'rz-icon-ri--add-line'
             },
         ],
-        with_breadcrumb: true,
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-    }  only %}
+    }  only %}{% endembed %}
 
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            selection_available: hasBulkActions,
-            actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'canonicalName',
-                        'filters': filters,
-                        'label': 'attribute_group.form.canonicalName'|trans,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'canonicalName',
+                        filters: filters,
+                        label: 'attribute_group.form.canonicalName'|trans,
+                    }) }}
                 </th>
                 <th>
                     {% trans %}attribute_groups.name{% endtrans %}
@@ -45,11 +45,11 @@
                     <tr>
                         <td>{{- item.canonicalName -}}</td>
                         <td>{{- item.name -}}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                         <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                'edit_href': path('attributeGroupsEditPage', { id: item.id }),
-                                'delete_href': is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ?  path('attributeGroupsDeletePage', { id: item.id }) : null,
+                            {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                'editHref': path('attributeGroupsEditPage', { id: item.id }),
+                                'deleteHref': is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ?  path('attributeGroupsDeletePage', { id: item.id }) : null,
                             } %}
                         </td>
                         {% endif %}

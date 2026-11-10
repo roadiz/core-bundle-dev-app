@@ -1,8 +1,14 @@
-import type { Args } from '../../../../stories/RzBrand.stories'
+export type RzBrandOptions = {
+    tag?: string
+    innerText?: string
+    iconClass?: string
+    color?: string
+    attributes?: Record<string, string>
+}
 
 const COMPONENT_CLASS_NAME = 'rz-brand'
 
-export function rzBrandRenderer(args: Args) {
+export function rzBrandRenderer(args: RzBrandOptions) {
     const wrapper = document.createElement(args.tag || 'div')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 

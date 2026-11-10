@@ -6,14 +6,19 @@
 <section class="content-global import-group">
     {% include '@RoadizRozier/groups/head.html.twig' with {
         title: 'import.group'|trans,
-        with_breadcrumb: true,
     } only %}
 
     <article class="content content-import">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: "import-group-form" }}) }}
             {{ form_widget(form) }}
-            <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-rz-upload"></i> {% trans %}import{% endtrans %}</button>
+            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+            {{ rz_button.root({
+                emphasis: 'primary',
+                label: 'import',
+                iconClass: 'rz-icon-ri--upload-line',
+                attributes: { type: 'submit' },
+            }) }}
         {{ form_end(form) }}
     </article>
 </section>

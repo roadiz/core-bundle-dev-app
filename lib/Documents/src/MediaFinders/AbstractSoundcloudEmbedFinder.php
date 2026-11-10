@@ -150,6 +150,14 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
     }
 
     #[\Override]
+    public function getPublicUri(): ?string
+    {
+        // getFeed() mutates $embedId to an api.soundcloud.com URL,
+        // so prefer the original public URL captured in $embedUrl.
+        return $this->embedUrl ?? $this->embedId;
+    }
+
+    #[\Override]
     protected function areDuplicatesAllowed(): bool
     {
         return true;

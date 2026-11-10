@@ -267,18 +267,14 @@ abstract class AbstractSolarium
 
     public function cleanTextContent(?string $content, bool $stripMarkdown = true): ?string
     {
+        if (true === $stripMarkdown) {
+            return $this->markdown->strip($content);
+        }
+
         if (!is_string($content)) {
             return null;
         }
-        /*
-         * Strip Markdown syntax
-         */
-        if (true === $stripMarkdown) {
-            $content = $this->markdown->textExtra($content);
-            // replace BR with space to avoid merged words.
-            $content = str_replace(['<br>', '<br />', '<br/>'], ' ', $content);
-            $content = strip_tags($content);
-        }
+
         /*
          * Remove ctrl characters
          */

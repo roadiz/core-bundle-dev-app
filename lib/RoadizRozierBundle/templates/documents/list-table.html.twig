@@ -4,74 +4,80 @@
     <article>
         {% block pre_content_body %}{% endblock %}
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            selection_available: true,
-            actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            selectionAvailable: true,
+            actionsAvailable: true,
         } %}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th class="mobile-hidden"></th>
                 <th>
                     {% if not no_sorting %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'filename',
-                            'label': 'document.filename'|trans,
-                        } %}
+                        {{ rz_table.column_ordering({
+                            field: 'filename',
+                            label: 'document.filename'|trans,
+                            filters: filters|default(null),
+                        }) }}
                     {% endif %}
                 </th>
                 <th class="mobile-hidden">
                     {% if not no_sorting %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'createdAt',
-                            'label': 'document.createdAt'|trans,
-                        } %}
+                        {{ rz_table.column_ordering({
+                            field: 'createdAt',
+                            label: 'document.createdAt'|trans,
+                            filters: filters|default(null),
+                        }) }}
                     {% endif %}
                 </th>
                 <th class="mobile-hidden">
                     {% if not no_sorting %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'mimeType',
-                            'label': 'document.mimeType'|trans,
-                        } %}
+                        {{ rz_table.column_ordering({
+                            field: 'mimeType',
+                            label: 'document.mimeType'|trans,
+                            filters: filters|default(null),
+                        }) }}
                     {% endif %}
                 </th>
                 <th>
                     {% if not no_sorting %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'filesize',
-                            'label': 'document.filesize'|trans,
-                        } %}
+                        {{ rz_table.column_ordering({
+                            field: 'filesize',
+                            label: 'document.filesize'|trans,
+                            filters: filters|default(null),
+                        }) }}
                     {% endif %}
                 </th>
-                <th class="mobile-hidden uk-visible-xlarge">
+                <th class="mobile-hidden rz-table__cell--from-lg">
                     {% if not no_sorting %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'imageWidth',
-                            'label': 'document.width'|trans,
-                        } %}
+                        {{ rz_table.column_ordering({
+                            field: 'imageWidth',
+                            label: 'document.width'|trans,
+                            filters: filters|default(null),
+                        }) }}
                     {% endif %}
                 </th>
-                <th class="mobile-hidden uk-visible-xlarge">
+                <th class="mobile-hidden rz-table__cell--from-lg">
                     {% if not no_sorting %}
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'field': 'imageHeight',
-                            'filters': filters,
-                            'label': 'document.height'|trans
-                        } %}
+                        {{ rz_table.column_ordering({
+                            field: 'imageHeight',
+                            filters: filters,
+                            label: 'document.height'|trans
+                        }) }}
                     {% endif %}
                 </th>
-                <th class="mobile-hidden uk-visible-xlarge"></th>
+                <th class="mobile-hidden rz-table__cell--from-lg"></th>
             {% endblock %}
 
             {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
                 {% for document in documents %}
                     <tr
                      {{ _self.colored_row_attrs({'color': document.imageAverageColor }) }}
                     >
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                         <td>
-					        {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                            {{ rz_bulk.select_input({ value: document.id }) }}
+					        {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                            {{ rz_bulk_actions.select_input({ value: document.id }) }}
                         </td>
                         {% endif %}
                         <td class="mobile-hidden rz-table__cell rz-table__cell--flex-center">
@@ -86,14 +92,14 @@
                                 }) }}
                             {% endif %}
                             {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--file-' ~ document.shortType ~ '-line',
                                     size: 'md',
                                 })}}
                             {% endif %}
                         </td>
                         <td>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: document|centralTruncate(30, -4),
                                 attributes: { href: path('documentsEditPage', { documentId: document.id }) },
@@ -113,18 +119,18 @@
                                 {{ document.rawDocument.filesize|formatBytes }}
                             {% endif %}
                         </td>
-                        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
-                        <td class="mobile-hidden uk-visible-xlarge">{% if document.imageHeight > 0 %}{{ document.imageHeight }}px{% endif %}</td>
-                        <td class="mobile-hidden uk-visible-xlarge">
+                        <td class="mobile-hidden rz-table__cell--from-lg">{% if document.imageWidth > 0 %}{{ document.imageWidth }}px{% endif %}</td>
+                        <td class="mobile-hidden rz-table__cell--from-lg">{% if document.imageHeight > 0 %}{{ document.imageHeight }}px{% endif %}</td>
+                        <td class="mobile-hidden rz-table__cell--from-lg">
                             {% if document.embedPlatform %}
                                 {% set iconName = (document|embedFinder).shortType %}
                                 {% if document.embedPlatform == 'unsplash' or document.embedPlatform == 'splashbase' %}
                                     {% set iconName = 'documents' %}
                                 {% endif %}
-                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                                {{ rz_badge.item({
+                                {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
+                                {{ rz_badge.root({
                                     label: iconName,
-                                    icon: 'rz-icon-logo--' ~ iconName,
+                                    iconClass: 'rz-icon-logo--' ~ iconName,
                                     attributes: {
                                         title: document.embedPlatform|trans|capitalize,
                                     }
@@ -132,9 +138,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                'edit_href': path('documentsEditPage', { documentId: document.id }),
-                                'delete_href': path('documentsDeletePage', { documentId: document.id }),
+                            {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                'editHref': path('documentsEditPage', { documentId: document.id }),
+                                'deleteHref': path('documentsDeletePage', { documentId: document.id }),
                             } %}
                         </td>
                     </tr>

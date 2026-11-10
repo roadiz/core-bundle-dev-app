@@ -1,20 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzTablistItemRenderer } from '../app/utils/storybook/renderer/rzTablist'
+import {
+    type RzTablistItemOptions,
+    rzTablistItemRenderer,
+} from '~/utils/storybook/renderer/rzTablist'
 
-export type Args = {
-    innerHTML: string
-    selected?: boolean
-    tag?: string
-    attributes?: Record<string, string>
-    panel?: {
-        id: string
-        hidden?: boolean
-    }
-}
+type Args = RzTablistItemOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Tablist/Item',
+    title: 'Components/Navigation/Tablist/Item',
     tags: ['autodocs'],
+    render: (args) => rzTablistItemRenderer(args),
     args: {
         innerHTML: 'Tab label',
         tag: 'button',
@@ -28,25 +23,15 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzTablistItemRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const WithIcon: Story = {
-    render: (args) => {
-        return rzTablistItemRenderer(args)
-    },
     args: {
         innerHTML: `tab with icon<span class="rz-icon-ri--edit-line"></span>`,
     },
 }
 
 export const UnderlineSelected: Story = {
-    render: (args) => {
-        return rzTablistItemRenderer(args)
-    },
     args: {
         selected: true,
         innerHTML: 'Underlined Selected Tab',
@@ -54,9 +39,6 @@ export const UnderlineSelected: Story = {
 }
 
 export const Link: Story = {
-    render: (args) => {
-        return rzTablistItemRenderer(args)
-    },
     args: {
         tag: 'a',
         innerHTML: 'Link Tab',
@@ -65,9 +47,6 @@ export const Link: Story = {
 }
 
 export const IconOnly: Story = {
-    render: (args) => {
-        return rzTablistItemRenderer(args)
-    },
     args: {
         attributes: { 'aria-label': 'Icon tab label' },
         innerHTML: `<span class="rz-icon-ri--edit-line"></span>`,

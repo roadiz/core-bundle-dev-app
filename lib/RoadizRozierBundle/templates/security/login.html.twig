@@ -1,75 +1,100 @@
-{% extends '@RoadizRozier/login/base.html.twig' %}
+{% extends '@RoadizRozier/ui/layouts/login.html.twig' %}
 
 {% block title %}{% trans %}login{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block login_content %}
     {% if error %}
-        <div data-uk-alert class="uk-alert uk-alert-danger">
-            {{- error.messageKey|default(error.message)|trans(error.messageData, 'security') -}}
+        {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+        <div class="rz-login__group">
+            {{ rz_message.root({ color: 'error', text: error.messageKey|default(error.message)|trans(error.messageData, 'security'), attributes: { role: 'alert' } }) }}
         </div>
     {% endif %}
 
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
     <div class="rz-login__group rz-login__group--row">
         {% if openid %}
-            <a class="rz-button rz-button--secondary" href="{{ openid }}">
-                <span class="rz-button__label">{{ (openid_button_label|default('login_with_openid'))|trans -}}</span>
-                <span class="rz-button__icon rz-icon-ri--arrow-right-up-line"></span>
-            </a>
+            {{ rz_button.root({
+                emphasis: 'secondary',
+                label: openid_button_label|default('login_with_openid'),
+                iconClass: 'rz-icon-ri--arrow-right-up-line',
+                attributes: { href: openid },
+            }) }}
         {% endif %}
-        <a class="rz-button rz-button--secondary" href="{{ path('roadiz_rozier_login_link') }}">
-            <span class="rz-button__label">{% trans %}request_login_link{% endtrans %}</span>
-            <span class="rz-button__icon rz-icon-ri--link"></span>
-        </a>
+        {{ rz_button.root({
+            emphasis: 'secondary',
+            label: 'request_login_link',
+            iconClass: 'rz-icon-ri--link',
+            attributes: { href: path('roadiz_rozier_login_link') },
+        }) }}
     </div>
     <hr class="rz-login__divider" />
     <form id="login-form"
         class="rz-login__group"
         method="post">
-        <rz-form-field class="rz-form-field rz-form-field--required">
-            <div class="rz-form-field__head">
-                <label class="rz-form-field__head__label" for="_username">{% trans %}username{% endtrans %}</label>
-            </div>
-            <input is="rz-input"
-                   name="username"
-                   id="_username"
-                   type="text"
-                   autocomplete="username email"
-                   placeholder="{% trans %}username{% endtrans %}"
-                   class="rz-form-field__body"
-                   required
-                   value="{{ last_username }}" />
-        </rz-form-field>
-        <rz-form-field class="rz-form-field rz-form-field--required">
-            <div class="rz-form-field__head">
-                <label class="rz-form-field__head__label" for="_password">Password</label>
-            </div>
-            <input
-                is="rz-input"
-                name="password"
-                id="_password"
-                type="password"
-                autocomplete="current-password"
-                placeholder="{% trans %}password{% endtrans %}"
-                class="rz-form-field__body"
-                required>
-            <div class="rz-message rz-message--ghost rz-form-field__message">
-                <p class="rz-message__text">
-                    <a href="{{ path('loginRequestPage') }}">{% trans %}forgot.password{% endtrans %}</a>
-                </p>
-            </div>
-        </rz-form-field>
-        <rz-form-field class="rz-form-field">
-            <div class="rz-form-field__head">
-                <label class="rz-form-field__head__label" for="_remember_me">{% trans %}keep_me_logged_in{% endtrans %}</label>
-            </div>
-            <input type="checkbox" class="rz-switch rz-form-field__body" id="_remember_me" name="_remember_me" checked />
-        </rz-form-field>
+        {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with {
+            label: 'username',
+            labelAttributes: { for: '_username' },
+            required: true,
+            last_username: last_username,
+        } only %}
+            {% block body %}
+                {% import '@RoadizRozier/ui/components/rz_input.html.twig' as rz_input %}
+                {{ rz_input.root({
+                    type: 'text',
+                    name: 'username',
+                    id: '_username',
+                    placeholder: 'username'|trans,
+                    value: last_username,
+                    required: true,
+                    className: 'rz-form-field__body',
+                    attributes: { autocomplete: 'username email' },
+                }) }}
+            {% endblock %}
+        {% endembed %}
+        {% set forgot_password %}
+            <a href="{{ path('loginRequestPage') }}">{% trans %}forgot.password{% endtrans %}</a>
+        {% endset %}
+        {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with {
+            label: 'password',
+            labelAttributes: { for: '_password' },
+            required: true,
+            help: forgot_password,
+        } only %}
+            {% block body %}
+                {% import '@RoadizRozier/ui/components/rz_input.html.twig' as rz_input %}
+                {{ rz_input.root({
+                    type: 'password',
+                    name: 'password',
+                    id: '_password',
+                    placeholder: 'password'|trans,
+                    required: true,
+                    className: 'rz-form-field__body',
+                    attributes: { autocomplete: 'current-password' },
+                }) }}
+            {% endblock %}
+        {% endembed %}
+        {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with {
+            label: 'keep_me_logged_in',
+            labelAttributes: { for: '_remember_me' },
+        } only %}
+            {% block body %}
+                {% import '@RoadizRozier/ui/components/rz_switch.html.twig' as rz_switch %}
+                {{ rz_switch.root({
+                    id: '_remember_me',
+                    name: '_remember_me',
+                    checked: true,
+                    className: 'rz-form-field__body',
+                }) }}
+            {% endblock %}
+        {% endembed %}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <div class="rz-login__group rz-login__group--last rz-login__group--full-width">
-            <button type="submit" class="rz-button rz-button--primary">
-                <span class="rz-button__label">{% trans %}login{% endtrans %}</span>
-                <span class="rz-button__icon rz-icon-ri--arrow-right-s-line"></span>
-            </button>
+            {{ rz_button.root({
+                emphasis: 'primary',
+                label: 'login',
+                iconClass: 'rz-icon-ri--arrow-right-s-line',
+                attributes: { type: 'submit' },
+            }) }}
         </div>
     </form>
 {% endblock %}

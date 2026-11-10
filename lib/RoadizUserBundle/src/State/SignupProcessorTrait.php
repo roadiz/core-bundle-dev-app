@@ -28,7 +28,7 @@ trait SignupProcessorTrait
             $limiter = $this->getUserSignupLimiter()->create($request->getClientIp());
             $limit = $limiter->consume();
             if (false === $limit->isAccepted()) {
-                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
+                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp() - time());
             }
         }
     }

@@ -29,9 +29,8 @@
 <section>
     {% include '@RoadizRozier/custom-forms/head.html.twig' with {
         title: 'customFormFieldAttribute'|trans,
-        with_breadcrumb: true,
         breadcrumb_parents: [{
-            displayName: customForm.displayName|truncate_title,
+            label: customForm.displayName|truncate_title,
             type: 'customFormFields',
             url: path('customFormAnswersHomePage', {customFormId: customForm.id})
         }],
@@ -39,7 +38,7 @@
 
     <article>
         {% set table_classes = "rz-table rz-table--bordered" %}
-        <div class="data-uk-margin metadata-list">
+        <div class="metadata-list">
             <table class="{{ table_classes }}">
                 {% for groupName, answers in fields %}
                     {% if answers is iterable %}

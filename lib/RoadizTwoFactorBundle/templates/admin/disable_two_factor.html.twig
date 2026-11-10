@@ -1,5 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 {% set title = 'disable_two_factor_authentication'|trans %}
 
@@ -7,7 +7,7 @@
 
 {% block content %}
     <section class="content-global delete-document">
-        {% include '@RoadizRozier/admin/head.html.twig' with {
+        {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
             title: title,
             breadcrumb: {
                 label: 'two-factor-breadcrumb',
@@ -27,13 +27,13 @@
             <div class="rz-button-group rz-button-group--gap-md">
                 {{
                 rz_button.root({
-                    tagName: 'a',
+                    tag: 'a',
                     attributes: {
                         href: path('2fa_admin_two_factor'),
                     },
                     emphasis: 'secondary',
                     label: 'cancel',
-                    icon: 'rz-icon-ri--corner-down-left-line',
+                    iconClass: 'rz-icon-ri--corner-down-left-line',
                 })
                 }}
                 {{

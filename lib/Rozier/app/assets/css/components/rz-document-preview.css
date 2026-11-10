@@ -1,0 +1,75 @@
+/* Document preview (RzDocumentPreview.ts): an rz-dialog (surface, border, header, reveal
+   animation) sized to the window minus a margin, the preview centred in its body. */
+.rz-document-preview {
+	--rz-document-preview-margin: var(--spacing-2xl);
+	--rz-dialog-width: calc(100vw - var(--rz-document-preview-margin) * 2);
+
+	height: calc(100vh - var(--rz-document-preview-margin) * 2);
+	max-height: none;
+	overflow: hidden;
+
+	&:open {
+		display: flex;
+		flex-direction: column;
+	}
+
+	@media (--screen-xs-max) {
+		--rz-document-preview-margin: var(--spacing-xs);
+	}
+}
+
+.rz-document-preview__info--secondary {
+	padding-right: var(--spacing-xs);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-form-label-font-size);
+	color: var(--content-on-light-secondary);
+}
+
+.rz-document-preview__info[hidden] {
+	display: none;
+}
+
+.rz-document-preview__container {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	min-height: 0;
+	padding: var(--spacing-xs);
+	overflow: hidden;
+	text-align: center;
+
+	/* Server-rendered preview: a picture, img, video, object (PDF/SVG) or iframe (embed) */
+	& > *,
+	picture,
+	img,
+	video,
+	object,
+	iframe {
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	img,
+	video {
+		width: auto;
+		height: auto;
+		object-fit: contain;
+	}
+
+	iframe {
+		width: min(100%, 960px);
+		height: auto;
+		aspect-ratio: 16 / 9;
+	}
+}
+
+/* PDF and SVG fill the body */
+.rz-document-preview__container--pdf,
+.rz-document-preview__container--svg {
+	& > *,
+	object {
+		width: 100%;
+		height: 100%;
+	}
+}

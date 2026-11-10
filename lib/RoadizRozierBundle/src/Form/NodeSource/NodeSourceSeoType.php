@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\AtLeastOneOf;
+use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\Length;
 
 final class NodeSourceSeoType extends AbstractType
@@ -26,15 +28,35 @@ final class NodeSourceSeoType extends AbstractType
                 'data-max-length' => 80,
             ],
             'constraints' => [
-                new Length([
-                    'max' => 80,
-                ]),
+                new Length(max: 80),
             ],
         ])
             ->add('metaDescription', TextareaType::class, [
                 'label' => 'metaDescription',
                 'help' => 'nodeSource.metaDescription.help',
                 'required' => false,
+                'attr' => [
+                    'data-max-length' => 160,
+                ],
+                'constraints' => [
+                    /*
+                     * Either leave it empty (a "metaDescriptionFallback" field
+                     * then feeds the head) or write a relevant description: a
+                     * too-short meta-description is discarded at exposition
+                     * (see NodesSourcesHead), so reject it at input time
+                     * instead of silently dropping the editor's text.
+                     */
+                    new AtLeastOneOf(
+                        constraints: [
+                            new Blank(),
+                            // NodesSourcesHead discards candidates of 20 chars or
+                            // fewer (mb_strlen > 20), so require strictly more.
+                            new Length(min: 21),
+                        ],
+                        message: 'A meta-description should either be left empty or be longer than 20 characters to stay relevant for SEO.',
+                        includeInternalMessages: false,
+                    ),
+                ],
             ])
             ->add('noIndex', CheckboxType::class, [
                 'label' => 'nodeSource.noIndex',

@@ -1,17 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
+import {
+    type RzBrandOptions,
+    rzBrandRenderer,
+} from '~/utils/storybook/renderer/rzBrand'
 
-export type Args = {
-    tag?: string
-    innerText?: string
-    iconClass?: string
-    color?: string
-    attributes?: Record<string, string>
-}
+type Args = RzBrandOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Brand',
+    title: 'Foundations/Brand',
     tags: ['autodocs'],
+    render: (args) => rzBrandRenderer(args),
     args: {
         tag: 'button',
         innerText: 'RZ',
@@ -26,8 +24,4 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzBrandRenderer(args)
-    },
-}
+export const Default: Story = {}

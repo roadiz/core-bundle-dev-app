@@ -13,47 +13,43 @@
                     attributes: {
                         href: path('nodeTypeDecoratorsListPage'),
                     },
-                    icon: 'rz-icon-ri--paint-brush-line',
+                    iconClass: 'rz-icon-ri--paint-brush-line',
                 },
                 {
                     label: 'export.documentation'|trans,
                     attributes: {
+                        class: 'rz-no-ajax-link',
                         href: path('nodesTypesExportDocumentationPage'),
                     },
-                    icon: 'rz-icon-ri--download-cloud-2-line',
-                    class: 'rz-no-ajax-link'
-                },
+                    iconClass: 'rz-icon-ri--download-cloud-2-line',},
                 {
                     label: 'export.typescript_declaration'|trans,
                     attributes: {
+                        class: 'rz-no-ajax-link',
                         href: path('nodesTypesExportTypeScriptPage'),
                     },
-                    icon: 'rz-icon-ri--download-cloud-2-line',
-                    class: 'rz-no-ajax-link'
-                }
+                    iconClass: 'rz-icon-ri--download-cloud-2-line',}
             ],
-            breadcrumb: {
-                label: 'node-types-breadcrumb',
-                current: 'nodeTypes'|trans,
-            },
         } only %}
 
         <article>
-             {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-                selection_available: false,
-                actions_available: true,
+             {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+                selectionAvailable: false,
+                actionsAvailable: true,
             } %}
                 {% block thead_cells %}
+                    {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                     <th>
-                        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                            'label': 'name'|trans,
-                            'field': 'name',
-                        } %}
+                        {{ rz_table.column_ordering({
+                            label: 'name'|trans,
+                            field: 'name',
+                            filters: filters|default(null),
+                        }) }}
                     </th>
-                    <th class="mobile-hidden uk-hidden-small">{% trans %}nodeType.displayName{% endtrans %}</th>
-                    <th class="mobile-hidden uk-hidden-small uk-visible-xlarge">{% trans %}nodeType.entityName{% endtrans %}</th>
-                    <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.numberFields{% endtrans %}</th>
-                    <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.status{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}nodeType.displayName{% endtrans %}</th>
+                    <th class="mobile-hidden rz-table__cell--from-lg">{% trans %}nodeType.entityName{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}nodeType.numberFields{% endtrans %}</th>
+                    <th class="mobile-hidden">{% trans %}nodeType.status{% endtrans %}</th>
                 {% endblock %}
 
                 {% block tbody_content %}
@@ -73,42 +69,42 @@
                              {{ _self.colored_row_attrs({'color': type.color }) }}
                         >
                             <td>
-                                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                                 {{ rz_link.root({
                                     label: type.getName,
                                     attributes: { href: path('nodeTypeFieldsListPage', { nodeTypeName: type.getName }) },
                                 }) }}
                             </td>
-                            <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
-                            <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>
-                            <td class="mobile-hidden uk-hidden-small uk-visible-large">
+                            <td class="mobile-hidden">{{ type.getDisplayName }}</td>
+                            <td class="mobile-hidden rz-table__cell--from-lg">{{ type.getSourceEntityClassName }}</td>
+                            <td class="mobile-hidden">
                                 {% transchoice type.getFields|length %}{0} no.nodeTypeField|{1} 1.nodeTypeField|]1,Inf] %count%.nodeTypeFields{% endtranschoice %}
                             </td>
-                            <td class="mobile-hidden uk-hidden-small uk-visible-large">
-                                {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
+                            <td class="mobile-hidden">
+                                {% import '@RoadizRozier/ui/components/rz_node_badge.html.twig' as rz_node_badge %}
                                 {% if not type.visible %}
-                                    {{ rz_node_badge.item('hidden', false) }}
+                                    {{ rz_node_badge.root({ type: 'hidden', displayLabel: false }) }}
                                 {% endif %}
                                 {% if type.hidingNodes %}
-                                    {{ rz_node_badge.item('hiding-nodes', false) }}
+                                    {{ rz_node_badge.root({ type: 'hiding-nodes', displayLabel: false }) }}
                                 {% endif %}
                                 {%- if type.highlighted -%}
-                                    {{ rz_node_badge.item('highlighted', false) }}
+                                    {{ rz_node_badge.root({ type: 'highlighted', displayLabel: false }) }}
                                 {%- endif -%}
                             </td>
-                            {% if actions_available %}
+                            {% if actionsAvailable %}
                                 <td>
-                                    {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' %}
+                                    {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' %}
                                         {% block other_actions %}
                                             {{ _self.button({
-                                                icon: 'uk-icon-rz-node-type-field',
+                                                iconClass: 'rz-icon-ri--input-field',
                                                 attributes: {
                                                     href: path('nodeTypeFieldsListPage', { nodeTypeName: type.name }),
                                                     title: 'manage.nodeTypeFields'|trans,
                                                 }
                                             }) }}
                                             {{ _self.button({
-                                                icon: 'rz-icon-ri--add-line',
+                                                iconClass: 'rz-icon-ri--add-line',
                                                 attributes: {
                                                     href: path('nodeTypeDecoratorsAddPage', {'nodeTypeName': type.name}),
                                                     title: 'add.a.nodeTypeDecorator'|trans,

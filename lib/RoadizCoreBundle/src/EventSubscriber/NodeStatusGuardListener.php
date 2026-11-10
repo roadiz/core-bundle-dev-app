@@ -49,6 +49,14 @@ final readonly class NodeStatusGuardListener implements EventSubscriberInterface
 
     public function guard(GuardEvent $event): void
     {
+        /** @var Node $node */
+        $node = $event->getSubject();
+        if ($node->isLocked()) {
+            $event->addTransitionBlocker(new TransitionBlocker(
+                'A locked node cannot change its status.',
+                '1'
+            ));
+        }
         if (!$this->security->isGranted(NodeVoter::EDIT_CONTENT, $event->getSubject())) {
             $event->addTransitionBlocker(new TransitionBlocker(
                 'User is not allowed to edit this node.',
@@ -69,14 +77,6 @@ final readonly class NodeStatusGuardListener implements EventSubscriberInterface
 
     public function guardArchive(GuardEvent $event): void
     {
-        /** @var Node $node */
-        $node = $event->getSubject();
-        if ($node->isLocked()) {
-            $event->addTransitionBlocker(new TransitionBlocker(
-                'A locked node cannot be archived.',
-                '1'
-            ));
-        }
         if (!$this->security->isGranted(NodeVoter::EDIT_STATUS, $event->getSubject())) {
             $event->addTransitionBlocker(new TransitionBlocker(
                 'User is not allowed to archive this node.',
@@ -87,14 +87,6 @@ final readonly class NodeStatusGuardListener implements EventSubscriberInterface
 
     public function guardDelete(GuardEvent $event): void
     {
-        /** @var Node $node */
-        $node = $event->getSubject();
-        if ($node->isLocked()) {
-            $event->addTransitionBlocker(new TransitionBlocker(
-                'A locked node cannot be deleted.',
-                '1'
-            ));
-        }
         if (!$this->security->isGranted(NodeVoter::DELETE, $event->getSubject())) {
             $event->addTransitionBlocker(new TransitionBlocker(
                 'User is not allowed to delete this node.',

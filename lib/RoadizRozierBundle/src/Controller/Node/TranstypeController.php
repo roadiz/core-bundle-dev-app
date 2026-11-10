@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeTranstyper;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Form\TranstypeType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +34,7 @@ final class TranstypeController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -116,7 +118,7 @@ final class TranstypeController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $this->translator->trans('transtype.a.node'),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'action_icon' => 'rz-icon-ri--command-line',
@@ -124,6 +126,7 @@ final class TranstypeController extends AbstractController
             'action_label' => 'transtype.node',
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $node->getId()]),
             'messageType' => 'warning',
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $node),
             'alertMessage' => 'transtype_will_copy_data_from_fields_existing_in_both_types_not_others',
             'form' => $form->createView(),
             'items' => [$node],

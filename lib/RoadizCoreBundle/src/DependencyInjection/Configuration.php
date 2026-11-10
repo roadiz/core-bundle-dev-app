@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
                 ->defaultValue('{"lat":45.766136, "lng":4.837326, "zoom":14}')
             ->end()
             ->scalarNode('previewRequiredRoleName')
-                ->info('Role name required to access preview mode.')
+                ->info('Role name required to access preview mode. Using ROLE_BACKEND_USER is deprecated, default value will change to ROLE_ACCESS_PREVIEW in Roadiz v2.8.')
                 ->defaultValue('ROLE_BACKEND_USER')
             ->end()
             ->scalarNode('defaultNodeSourceController')
@@ -205,6 +205,7 @@ EOD
         $node = $builder->getRootNode();
         $node->addDefaultsIfNotSet()
             ->children()
+            ->scalarNode('provider')->defaultNull()->info('Explicit provider selector, e.g. "cap" for self-hosted Cap. When null, the provider is inferred from verify_url.')->end()
             ->scalarNode('private_key')->defaultNull()->end()
             ->scalarNode('public_key')->defaultNull()->end()
             ->scalarNode('verify_url')->defaultValue('https://www.google.com/recaptcha/api/siteverify')->end()

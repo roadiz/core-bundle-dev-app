@@ -1,0 +1,37 @@
+{# rz-tablist: options = RzTablistOptions (storybook/renderer/rzTablist.ts), story Components/Navigation/Tablist/Root #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set attributes = options.attributes|default({}) %}
+
+    <rz-tablist
+        class="{{ html_classes('rz-tablist', attributes.class|default('')) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        {% for tab in options.tabs|default([]) %}
+            {{ _self.item(tab) }}
+        {% endfor %}
+    </rz-tablist>
+{% endmacro %}
+
+{# One tab: RzTablistItemOptions #}
+{% macro item(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set tag = options.tag|default('button') %}
+    {% set selected = options.selected|default(false) %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set tab_attributes = {
+        type: tag == 'button' ? 'button' : null,
+        role: 'tab',
+        'aria-controls': options.panel.id ?? null,
+        'aria-selected': selected ? 'true' : null,
+    }|filter(v => v is not null) %}
+
+    <{{ tag }}
+        class="{{ html_classes('rz-tablist__item', { 'rz-tablist__item--selected': selected }, attributes.class|default('')) }}"
+        {{ el_attrs.print(tab_attributes|merge(attributes|filter((v, k) => k != 'class'))) }}
+    >
+        {{- options.innerHTML|default('')|raw -}}
+    </{{ tag }}>
+{% endmacro %}

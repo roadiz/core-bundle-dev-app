@@ -1,0 +1,53 @@
+{# rz-card: options = RzCardOptions (component-renderer/rzCard.ts), story Components/Data display/Card #}
+{#
+    `image.innerHTML` takes an already rendered image (the `display` filter output) instead of `src`.
+    `buttonGroup` and `buttonGroupTop` are not rendered yet: no screen uses them.
+#}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+
+    {% set element_class = 'rz-card' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set tag = options.tag|default('div') %}
+    {% set image = options.image|default(null) %}
+    {% set badge = options.badge|default(null) %}
+
+    <{{ tag }}
+        class="{{ html_classes(element_class, attributes.class|default('')) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        {% if options.overtitle is defined and options.overtitle %}
+            <div class="{{ element_class }}__overtitle">{{ options.overtitle }}</div>
+        {% endif %}
+
+        {% if options.title is defined and options.title %}
+            <div class="{{ element_class }}__title">{{ options.title }}</div>
+        {% endif %}
+
+        {% if image or badge %}
+            <div class="{{ element_class }}__asset">
+                {% if image and image.innerHTML is defined and image.innerHTML %}
+                    {{ image.innerHTML|raw }}
+                {% elseif image and image.src is defined and image.src %}
+                    <img
+                        src="{{ image.src }}"
+                        alt="{{ image.alt|default('') }}"
+                        {% if image.width is defined %}width="{{ image.width }}"{% endif %}
+                        {% if image.height is defined %}height="{{ image.height }}"{% endif %}
+                        loading="{{ image.loading|default('lazy') }}"
+                        class="{{ html_classes('rz-image', element_class ~ '__img', image.attributes.class|default('')) }}"
+                    >
+                {% endif %}
+
+                {% if badge %}
+                    {{ rz_badge.root(badge|merge({
+                        attributes: badge.attributes|default({})|merge({
+                            class: html_classes(element_class ~ '__badge', badge.attributes.class|default('')),
+                        }),
+                    })) }}
+                {% endif %}
+            </div>
+        {% endif %}
+    </{{ tag }}>
+{% endmacro %}

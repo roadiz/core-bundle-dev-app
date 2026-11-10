@@ -1,4 +1,4 @@
-{% extends "@RoadizRozier/admin/base.html.twig" %}
+{% extends "@RoadizRozier/ui/layouts/admin.html.twig" %}
 
 {% if app.user %}
     {% set displayName = app.user.firstName|default(app.user.nickname|default(app.user.givenName|default(app.user.name|default(app.user.userIdentifier)))) %}
@@ -9,14 +9,13 @@
 {% block title %}{% trans %}dashboard{% endtrans %} | {{ parent() }}{% endblock %}
 
 {%- block header -%}
-    {% include '@RoadizRozier/admin/head.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
         title: "hello.%name%"|trans({'%name%': displayName}),
         breadcrumb: {
-            label: 'breadcrumb',
             current: 'dashboard'|trans,
         },
         with_nav_bar: true,
-        nav_bar_template: '@RoadizRozier/dashboard/navBar.html.twig',
+        nav_bar_template: '@RoadizRozier/ui/patterns/dashboard_nav.html.twig',
         nav_bar_context: {'current':'dashboard'}
     } only %}
 {%- endblock -%}
@@ -28,21 +27,21 @@
 
         {% if bags.settings.get('dashboard_iframe') %}
             <div class="rz-dashboard__row">
-                <div class="rz-dashboard__panel uk-panel uk-panel-box dashboard-iframe">
-                    {{- bags.settings.get('dashboard_iframe')|striptags(['iframe','script'])|raw -}}
+                <div class="rz-dashboard__panel dashboard-iframe">
+                    {{- bags.settings.get('dashboard_iframe')|striptags(['iframe'])|raw -}}
                 </div>
             </div>
         {% endif %}
 
         <div class="rz-dashboard__row">
             {% if latestLogs %}
-                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                {% embed '@RoadizRozier/ui/patterns/dashboard_panel.html.twig' with {
                     icon: 'rz-icon-ri--command-line',
                     title: 'latest.node-sources.updates'|trans,
                     latestLogs: latestLogs
                 } only %}
                     {% block content %}
-                        {% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+                        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' %}
                             {% block tbody_content %}
                                 {% for log in latestLogs %}
                                     {% set entityPath = log_entity_edit_path(log) %}
@@ -64,7 +63,7 @@
                                             </figure>
                                         </td>
                                         <td>
-                                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                            {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                                             {{ rz_link.root({
                                                 label: log.additionalData.entity_title,
                                                 attributes: { href: entityPath },
@@ -85,7 +84,7 @@
             {% endif %}
 
             {% if bookmarks|length %}
-                {% embed '@RoadizRozier/dashboard/panel.html.twig' with {
+                {% embed '@RoadizRozier/ui/patterns/dashboard_panel.html.twig' with {
                     id: 'dashboard-bookmarks',
                     icon: 'rz-icon-ri--computer-line',
                     title: 'bookmarks.links'|trans,
@@ -94,11 +93,11 @@
                         <ul class="rz-dashboard__body-bg">
                             {% for bookmark in bookmarks %}
                                 <li>
-                                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                                    {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                                     {{ rz_link.root({
                                         label: bookmark.label,
-                                        class: 'rz-dashboard__text',
                                         attributes: {
+                                            class: 'rz-dashboard__text',
                                             href: bookmark.url,
                                             target: '_blank',
                                         },
@@ -106,6 +105,17 @@
                                 </li>
                             {% endfor %}
                         </ul>
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+            {% if translateAssistantEnabled and translateAssistantUsage() %}
+                {% embed '@RoadizRozier/ui/patterns/dashboard_panel.html.twig' with {
+                    id: 'dashboard-translate-assistant-usage',
+                    icon: 'rz-icon-ri--translate',
+                    title: 'translate_assistant.usage'|trans,
+                } %}
+                    {% block content %}
+                        {% include '@RoadizRozier/ui/patterns/translate_assistant_usage.html.twig' %}
                     {% endblock %}
                 {% endembed %}
             {% endif %}

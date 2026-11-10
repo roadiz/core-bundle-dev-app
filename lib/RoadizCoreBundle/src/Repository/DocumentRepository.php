@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\Documents\Repository\DocumentRepositoryInterface;
@@ -30,8 +31,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @extends EntityRepository<Document>
  *
  * @implements DocumentRepositoryInterface<Document>
+ *
+ * @final not declared final so it can be mocked
  */
-final class DocumentRepository extends EntityRepository implements DocumentRepositoryInterface
+class DocumentRepository extends EntityRepository implements DocumentRepositoryInterface
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -192,20 +195,12 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         }
     }
 
-    /**
-     * Create a Criteria object from a search pattern and additional fields.
-     *
-     * @param string       $pattern  Search pattern
-     * @param QueryBuilder $qb       QueryBuilder to pass
-     * @param array        $criteria Additional criteria
-     * @param string       $alias    SQL query table alias
-     */
     #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = 'obj',
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->filterByFolder($criteria, $qb, $alias);
         $this->applyFilterByFolder($criteria, $qb);
@@ -267,7 +262,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     }
 
     /**
-     * Bind translation parameter to final query.
+     * @deprecated
      */
     protected function applyTranslationByFolder(
         QueryBuilder $qb,
@@ -624,7 +619,65 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         string $fieldName,
     ): array {
         $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+        $qb->select($this->getNodeSourceDocumentDtoSelect())
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('fieldName', $fieldName)
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('raw', false)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Batch version of findDocumentDtoByNodeSourceAndFieldName(), for several node-sources
+     * sharing the same translation.
+     *
+     * @param array<int|string> $nodeSourceIds
+     * @param array<string>     $fieldNames
+     *
+     * @return array<int|string, array<string, array<DocumentDto>>> DocumentDto lists indexed by node-source ID and field name, in position order
+     */
+    public function findDocumentDtoByNodeSourceIdsAndFieldNames(
+        array $nodeSourceIds,
+        array $fieldNames,
+        TranslationInterface $translation,
+    ): array {
+        if ([] === $nodeSourceIds || [] === $fieldNames) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getNodeSourceDocumentDtoSelect())
+            ->addSelect('IDENTITY(nsf.nodeSource) AS nodeSourceId', 'nsf.fieldName AS fieldName')
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf')
+            ->andWhere($qb->expr()->in('nsf.nodeSource', ':nodeSourceIds'))
+            ->andWhere($qb->expr()->in('nsf.fieldName', ':fieldNames'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('nodeSourceIds', array_values($nodeSourceIds))
+            ->setParameter('fieldNames', array_values($fieldNames))
+            ->setParameter('translation', $translation)
+            ->setParameter('raw', false);
+
+        $documents = [];
+        /** @var array{0: DocumentDto, nodeSourceId: int|string, fieldName: string} $row */
+        foreach ($qb->getQuery()->getResult() as $row) {
+            $documents[$row['nodeSourceId']][$row['fieldName']][] = $row[0];
+        }
+
+        return $documents;
+    }
+
+    private function getNodeSourceDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -651,29 +704,75 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
-            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
-            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
-            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+        );
+    }
+
+    /**
+     * DTO version of DocumentFinder::findAllByFilenames(), without hydrating entities.
+     *
+     * @param array<string> $filenames
+     *
+     * @return array<DocumentDto>
+     */
+    public function findDtoByFilenames(array $filenames): array
+    {
+        if ([] === $filenames) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getDocumentDtoSelect())
+            ->andWhere($qb->expr()->in('d.filename', ':filenames'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
-            ->addOrderBy('nsf.position', 'ASC')
-            ->setParameter('fieldName', $fieldName)
-            ->setParameter('nodeSource', $nodeSource)
-            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('filenames', array_values($filenames))
             ->setParameter('raw', false)
-            ->setCacheable(true);
+            ->setParameter('nullValue', null);
 
         return $qb->getQuery()->getResult();
     }
 
     /**
-     * @throws NonUniqueResultException
+     * DocumentDto select without node-source data, translated fields from the `dt` join
+     * with a whole-row fallback on the `dtd` (default translation) join, like DocumentEnricher.
      */
-    public function findFirstThumbnailDtoBy(
-        int|string $originalDocumentId,
-    ): ?DocumentDto {
-        $qb = $this->createQueryBuilder('d');
-        $qb->select(sprintf(
+    private function getTranslatedDocumentDtoSelect(): string
+    {
+        return sprintf(
+            'NEW %s(
+                    d.id,
+                    d.filename,
+                    d.mimeType,
+                    d.private,
+                    d.raw,
+                    d.imageWidth,
+                    d.imageHeight,
+                    d.mediaDuration,
+                    d.embedId,
+                    d.embedPlatform,
+                    d.imageAverageColor,
+                    d.folder,
+                    d.imageCropAlignment,
+                    d.hotspot,
+                    :nullValue,
+                    :nullValue,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.name ELSE dtd.name END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.description ELSE dtd.description END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.copyright ELSE dtd.copyright END,
+                    CASE WHEN dt.id IS NOT NULL THEN dt.externalUrl ELSE dtd.externalUrl END,
+                    d.filesize,
+                    d.copyrightValidSince,
+                    d.copyrightValidUntil
+                )',
+            DocumentDto::class
+        );
+    }
+
+    /**
+     * DocumentDto select without node-source and translation data.
+     */
+    private function getDocumentDtoSelect(): string
+    {
+        return sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -700,10 +799,27 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.copyrightValidUntil
                 )',
             DocumentDto::class
-        ))
+        );
+    }
+
+    /**
+     * Translated fields come from $translation, falling back to the default translation.
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findFirstThumbnailDtoBy(
+        int|string $originalDocumentId,
+        ?TranslationInterface $translation = null,
+    ): ?DocumentDto {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select($this->getTranslatedDocumentDtoSelect())
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->leftJoin(Translation::class, 'td', 'WITH', 'td.defaultTranslation = true')
+            ->leftJoin('d.documentTranslations', 'dtd', 'WITH', 'dtd.translation = td')
             ->andWhere($qb->expr()->eq('d.original', ':original'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->setParameter('original', $originalDocumentId)
+            ->setParameter('translation', $translation)
             ->setParameter('raw', false)
             ->setParameter('nullValue', null)
             ->setMaxResults(1)

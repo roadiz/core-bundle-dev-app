@@ -1,0 +1,50 @@
+/* Root of the ui/layouts/page_preview.html.twig layout (public-facing pages previewed with the backoffice styles), story Patterns/PagePreview */
+.rz-page-preview {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--spacing-xl) var(--spacing-sm);
+    background-color: var(--surface-light-secondary, #F7F7F7);
+    color: var(--content-on-light-primary, #18191B);
+}
+
+.rz-page-preview__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: min(720px, 100%);
+    height: fit-content;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-light-primary, #FFF);
+}
+
+.rz-page-preview__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+}
+
+.rz-page-preview__title {
+    margin: 0;
+}
+
+.rz-page-preview__description > :first-child {
+    margin-top: 0;
+}
+
+.rz-page-preview__description > :last-child {
+    margin-bottom: 0;
+}
+
+.rz-page-preview__note {
+    margin: 0;
+    color: var(--content-on-light-secondary, #636466);
+}
+
+.rz-page-preview__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--spacing-2xs);
+}

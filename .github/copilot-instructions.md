@@ -11,8 +11,8 @@ Project overview
   - `lib/`: Symfony bundles and shared libraries. Each bundle is split into its own repository during CI and published under the `roadiz/` namespace.
     - `lib/RoadizCoreBundle`, `lib/RoadizRozierBundle`, `lib/RoadizSolrBundle`, `lib/RoadizTwoFactorBundle`, `lib/RoadizUserBundle`, `lib/Documents`, `lib/DocGenerator`, `lib/DtsGenerator`, `lib/EntityGenerator`, `lib/Jwt`, `lib/Markdown`, `lib/Models`, `lib/OpenId`, `lib/Random`, `lib/Rozier`
 - Key technologies
-  - PHP 8.0+
-  - Symfony framework
+  - PHP 8.3+
+  - Symfony 7.4
   - API Platform
   - Doctrine ORM
   - PHPUnit (tests)
@@ -23,7 +23,7 @@ Project overview
 
 Coding and contribution rules (for Copilot)
 - Language & style
-  - Target PHP 8+ and follow Symfony best practices and PSR-12 coding style.
+  - Target PHP 8.3+ and follow Symfony best practices and PSR-12 coding style.
   - Keep code readable, well-documented (docblocks where appropriate), and minimal.
   - Prefer strict typing (declare types and return types).
 - Tests & quality

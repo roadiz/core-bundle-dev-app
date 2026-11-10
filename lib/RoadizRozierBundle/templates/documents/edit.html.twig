@@ -11,7 +11,6 @@
         title: document_title,
         current: 'edit',
         with_nav_bar: true,
-        with_breadcrumb: true,
     } only %}
 
     <article>
@@ -19,9 +18,11 @@
         {{ form_start(form, { attr: {id: "edit-document-form"}}) }}
             {% if document.isLocal %}
                 {% if not document|exists %}
-                    <p class="uk-alert uk-alert-danger"><i class="uk-icon-error"></i> {% trans %}current.document.file.does.not.exist{% endtrans %}</p>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({ color: 'error', text: 'current.document.file.does.not.exist'|trans }) }}
                 {% elseif not document.filename %}
-                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_only_external{% endtrans %}</p>
+                    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                    {{ rz_message.root({ color: 'warning', text: 'document.is_only_external'|trans }) }}
                 {% endif %}
 
                 <div class="rz-layout-column">
@@ -57,18 +58,19 @@
                                 </figure>
                             {% endif %}
                         {% else %}
-                            <div class="rz-message rz-message--error rz-message--filled">
-                                <p class="rz-message__text">
-                                    {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}
-                                </p>
-                            </div>
+                            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+                            {{ rz_message.root({
+                                color: 'error',
+                                variant: 'filled',
+                                text: 'current.document.is.private.you.cannot.preview.it'|trans,
+                            }) }}
                         {% endif %}
                     </div>
                     <div class="rz-layout-column__second-column rz-form__field-list">
                         {{ form_row(form.filename) }}
                         {{ form_row(form.mimeType) }}
                         {{ form_row(form.newDocument) }}
-                        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+                        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
                             bordered: true,
                             attributes: {
                                 class: 'rz-table--td-ellipsis',
@@ -76,7 +78,7 @@
                             }
                         } %}
                             {% block tbody_content %}
-                                {% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+                                {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
                                 {% if not document.private and document.filename %}
                                     <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url}}</td></tr>
                                     <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url({absolute:true}) }}</td></tr>
@@ -133,7 +135,7 @@
                                         <td>
                                             {{ rz_button.root({
                                                 label: 'download.raw.document'|trans,
-                                                icon: 'rz-icon-ri--download-line',
+                                                iconClass: 'rz-icon-ri--download-line',
                                                 emphasis: 'tertiary',
                                                 attributes: {
                                                     href: path('documentsDownloadPage', { documentId: rawDocument.id }),
@@ -147,13 +149,16 @@
                                         <th>{% trans %}original.document{% endtrans %}</th>
                                         <td>
                                             <p>{{ document.original.filename }}</p>
-                                            <p><a
-                                                    href="{{ path('documentsEditPage', { documentId: document.original.id}) }}"
-                                                    class="uk-button uk-button-small rz-no-ajax-link">
-                                                    <i class="uk-icon-rz-link"></i>
-                                                    {% trans %}see.original.document{%- endtrans -%}
-                                                </a>
-                                            </p>
+                                            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                                            {{ rz_button.root({
+                                                label: 'see.original.document',
+                                                iconClass: 'rz-icon-ri--link',
+                                                size: 'sm',
+                                                attributes: {
+                                                    href: path('documentsEditPage', { documentId: document.original.id }),
+                                                    class: 'rz-no-ajax-link',
+                                                },
+                                            }) }}
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -166,8 +171,8 @@
             <div class="rz-form__field-list">
                 {{ form_rest(form) }}
             </div>
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#edit-document-form') }}
+        {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem({ dataActionSave: '#edit-document-form' }) }}
         {{ form_end(form, { render_rest: false }) }}
     </article>
 

@@ -44,7 +44,9 @@ trait NodeSourceDefinitionTrait
             $alias
         );
         $repository->joinNodeOnce($qb, $alias);
-        $qb->select([$alias, EntityRepository::NODE_ALIAS])
+        $qb->select([$alias, EntityRepository::NODE_ALIAS, 'ua'])
+            // Fetch-join URL aliases: URL generation would load them once per walker item
+            ->leftJoin($alias.'.urlAliases', 'ua')
             ->andWhere(EntityRepository::NODE_ALIAS.'.parent = :parent')
             ->andWhere($alias.'.translation = :translation')
             ->addOrderBy(EntityRepository::NODE_ALIAS.'.position', 'ASC')

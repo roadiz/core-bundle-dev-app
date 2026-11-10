@@ -1,0 +1,64 @@
+
+{% set currentTitle = node.nodeSources.first.title|default(node.nodeName) %}
+
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{{ "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title }} | {{ parent() }}{% endblock %}
+
+{% block customStyles %}
+    {{ parent() }}
+    {% if try < 30 %}
+        <meta http-equiv="refresh" content="2;url={{ path('nodesTranslateWaitingPage', {nodeId: node.id, translationId: translation.id, try: try + 1}) }}">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% include '@RoadizRozier/nodes/head.html.twig' with {
+        node: node,
+        title: "edit.node.%name%"|trans({'%name%': currentTitle})|truncate_title,
+        current: null,
+        with_info_badge: true,
+        with_nav_bar: true,
+    } only %}
+
+    <section class="rz-page__body">
+        {% if try < 30 %}
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                variant: 'ghost',
+                iconClass: 'rz-spinner',
+                text: 'translation_in_progress'|trans,
+            }) }}
+        {% else %}
+            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+            {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+            {{ rz_message.root({
+                color: 'warning',
+                iconClass: 'rz-icon-ri--error-warning-line',
+                text: 'translation_in_progress.taking_longer'|trans,
+            }) }}
+            <div class="rz-button-group rz-button-group--gap-md">
+                {{
+                    rz_button.root({
+                        emphasis: 'primary',
+                        label: 'edit.node',
+                        iconClass: 'rz-icon-ri--edit-line',
+                        attributes: {
+                            href: path('nodesEditSourcePage', {nodeId: node.id, translationId: translation.id}),
+                        },
+                    })
+                }}
+                {{
+                    rz_button.root({
+                        emphasis: 'secondary',
+                        label: 'nodes',
+                        iconClass: 'rz-icon-ri--corner-down-left-line',
+                        attributes: {
+                            href: path('nodesTreePage'),
+                        },
+                    })
+                }}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

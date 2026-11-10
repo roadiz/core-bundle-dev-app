@@ -1,6 +1,15 @@
-import { type Args } from '../../../../stories/RzColorInput.stories'
+export type RzColorInputOptions = {
+    name: string
+    placeholder?: string
+    value?: string
+    required?: boolean
+    id?: string
+    textPattern?: string
+    textMaxLength?: number
+    attributes?: { [key: string]: string }
+}
 
-export function rzColorInputRenderer(args: Args) {
+export function rzColorInputRenderer(args: RzColorInputOptions) {
     const node = document.createElement('rz-color-input')
 
     const color = document.createElement('input')

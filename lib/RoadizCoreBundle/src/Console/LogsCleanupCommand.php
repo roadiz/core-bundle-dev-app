@@ -48,9 +48,10 @@ final class LogsCleanupCommand extends Command
         if (\is_string($input->getOption('since'))) {
             $since = '-'.$input->getOption('since');
         }
-        $interval = \DateInterval::createFromDateString($since);
-        if (false === $interval) {
-            throw new InvalidArgumentException('Invalid since option format.');
+        try {
+            $interval = \DateInterval::createFromDateString($since);
+        } catch (\DateMalformedIntervalStringException $e) {
+            throw new InvalidArgumentException('Invalid since option format.', previous: $e);
         }
         $now->add($interval);
         $io = new SymfonyStyle($input, $output);

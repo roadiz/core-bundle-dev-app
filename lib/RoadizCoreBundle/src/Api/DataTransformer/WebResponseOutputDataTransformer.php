@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\RealmsAwareWebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodesSourcesPrefetcher;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Realm\RealmResolverInterface;
@@ -38,7 +39,13 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
         protected readonly RealmResolverInterface $realmResolver,
         protected readonly TreeWalkerGenerator $treeWalkerGenerator,
         private readonly string $webResponseClass,
+        protected readonly ?NodesSourcesPrefetcher $nodesSourcesPrefetcher = null,
     ) {
+    }
+
+    protected function getNodesSourcesPrefetcher(): ?NodesSourcesPrefetcher
+    {
+        return $this->nodesSourcesPrefetcher;
     }
 
     #[\Override]

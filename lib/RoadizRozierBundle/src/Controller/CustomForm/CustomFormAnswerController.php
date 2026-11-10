@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
@@ -28,6 +29,7 @@ final class CustomFormAnswerController extends AbstractController
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -92,12 +94,21 @@ final class CustomFormAnswerController extends AbstractController
             ['%name%' => $customFormAnswer->getCustomForm()->getDisplayName()]
         );
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'headPath' => '@RoadizRozier/custom-forms/head.html.twig',
             'cancelPath' => $this->generateUrl('customFormAnswersHomePage', [
                 'customFormId' => $customFormAnswer->getCustomForm()->getId(),
             ]),
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('customForms'),
+                [
+                    'label' => $customFormAnswer->getCustomForm()->getDisplayName(),
+                    'url' => $this->generateUrl('customFormAnswersHomePage', [
+                        'customFormId' => $customFormAnswer->getCustomForm()->getId(),
+                    ]),
+                ],
+            ],
             'alertMessage' => 'are_you_sure.delete.customFormAnswer',
             'form' => $form->createView(),
         ]);

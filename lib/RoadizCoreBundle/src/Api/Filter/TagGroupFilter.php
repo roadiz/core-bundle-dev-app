@@ -13,7 +13,6 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class TagGroupFilter extends AbstractFilter
@@ -91,7 +90,7 @@ final class TagGroupFilter extends AbstractFilter
         $carry = [];
         $carry[self::PROPERTY.'[]'] = [
             'property' => self::PROPERTY.'[]',
-            'type' => Type::BUILTIN_TYPE_ARRAY,
+            'type' => 'array',
             'required' => false,
             'description' => 'Filter entities by tag name groups (comma separated). Inside groups filter use OR, between each groups filter use AND.',
             'openapi' => new Parameter(

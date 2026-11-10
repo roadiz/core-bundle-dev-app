@@ -1,0 +1,34 @@
+{% deprecated 'The "@RoadizRozier/widgets/filtersBar.html.twig" template is deprecated and will be removed in 2.9, embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" instead.' package='roadiz/rozier-bundle' version='2.8' %}
+{#
+    2.7 filters bar kept for templates that embed it (ADR 0002). Its filter_content, filter_search_form and
+    filter_pagination_form blocks keep their 2.7 place, the markup is the one of rz_filters_bar.
+#}
+{% import '@RoadizRozier/ui/components/rz_filters_bar.html.twig' as rz_filters_bar %}
+<rz-filters-bar>
+    {% block filter_content %}{% endblock %}
+    {% if filters.description %}
+        <p class="rz-filters-bar__description">{{ filters.description }}</p>
+    {% endif %}
+    {% if not filters.searchDisable %}
+        <form method="get" class="rz-filters-bar__group">
+            {% block filter_search_form %}
+                <input
+                    class="rz-input"
+                    id="rz-filters-bar-search"
+                    type="search"
+                    name="search"
+                    placeholder="{% trans %}search{% endtrans %}"
+                    value="{{ filters.search }}"
+                />
+            {% endblock %}
+        </form>
+    {% endif %}
+    {% if filters.itemCount and filters.itemPerPage and filters.itemCount > filters.itemPerPage %}
+        <div class="rz-filters-bar__group rz-filters-bar__group--right">
+            {% block filter_pagination_form %}
+                {{ rz_filters_bar.pagination(filters) }}
+            {% endblock %}
+            {{ rz_filters_bar.item_per_page(filters.itemPerPage) }}
+        </div>
+    {% endif %}
+</rz-filters-bar>

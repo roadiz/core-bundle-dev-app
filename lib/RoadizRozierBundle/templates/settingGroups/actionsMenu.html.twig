@@ -1,11 +1,11 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     item: item
 } only %}
     {% block items %}
         {% if item.getId %}
-            {{ _self.deleteItem(href: path('settingGroupsDeletePage', { id: item.getId})) }}
+            {{ _self.deleteItem({ attributes: { href: path('settingGroupsDeletePage', { id: item.getId}) } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

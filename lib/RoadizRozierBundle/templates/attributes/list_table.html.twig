@@ -1,13 +1,13 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/ui/components/rz_table.html.twig' %}
 	{% block thead_cells %}
+		{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
 		<th>
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'code',
-					'filters': filters,
-					'label': 'attributes.code'|trans,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'code',
+					filters: filters,
+					label: 'attributes.code'|trans,
+				}) }}
 			{% else %}
 				{% trans %}attributes.code{% endtrans %}
 			{% endif %}
@@ -18,12 +18,11 @@
 		<th>{% trans %}attributes.usage{% endtrans %}</th>
 		<th>
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'weight',
-					'filters': filters,
-					'label': 'attributes.weight'|trans,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'weight',
+					filters: filters,
+					label: 'attributes.weight'|trans,
+				}) }}
 			{% else %}
 				{% trans %}attributes.weight{% endtrans %}
 			{% endif %}
@@ -34,9 +33,9 @@
 			<tr
 				{{ _self.colored_row_attrs({'color': item.color }) }}
 			>
-				{{ _self.selection_input(selection_available, item.id) }}
+				{{ _self.selection_input({ selectionAvailable: selectionAvailable, value: item.id }) }}
 				<td>
-					{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+					{% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
 					{{ rz_link.root({
 						label: item.code,
 						attributes: { href: path('attributesEditPage', { id: item.id }) },
@@ -50,20 +49,20 @@
 				<td>{{- item.typeLabel|trans -}}</td>
 
 				<td>
-					{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
-					{{ rz_badge.item({
+					{% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+					{{ rz_badge.root({
 						label: ' ' ~ (item.attributeValues|length),
 					}) }}
 				</td>
 
 				<td>{{- item.weight -}}</td>
 
-				{% if actions_available %}
+				{% if actionsAvailable %}
 					<td>
 						{% set delete_href = is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') ? path('attributesDeletePage', { id: item.id }) : null %}
-						{% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-							'edit_href': path('attributesEditPage', { id: item.id }),
-							'delete_href': delete_href,
+						{% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+							'editHref': path('attributesEditPage', { id: item.id }),
+							'deleteHref': delete_href,
 						} %}
 					</td>
 				{% endif %}
@@ -71,8 +70,8 @@
 		{% else %}
 			{{ _self.fallback_row({
 				length: 6,
-				selection_available: selection_available,
-				actions_available: actions_available,
+				selectionAvailable: selectionAvailable,
+				actionsAvailable: actionsAvailable,
 				message: 'no_attributes',
 			}) }}
 		{% endfor %}

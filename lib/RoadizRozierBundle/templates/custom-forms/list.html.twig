@@ -12,24 +12,20 @@
             attributes: {
                 href: path('customFormsAddPage'),
             },
-            icon: 'rz-icon-ri--add-line',
+            iconClass: 'rz-icon-ri--add-line',
         }],
-        breadcrumb: {
-            label: 'users-breadcrumb',
-            current: 'customForms'|trans,
-        },
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: true,
-    }  only %}
-    {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+        displaySelectAllButton: true,
+    }  only %}{% endembed %}
+    {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 
     <article>
         {% include '@RoadizRozier/custom-forms/list_table.html.twig' with {
-            selection_available: hasBulkActions,
-            actions_available: true,
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
             items: items,
             filters: filters,
         } only %}

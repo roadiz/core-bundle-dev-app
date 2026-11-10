@@ -1,0 +1,169 @@
+{# rz-filters-bar: embed vars (no renderer yet) = filters, withFilterForm, displayLayoutFields, displaySelectAllButton; block before_submit; story Components/Data display/FiltersBar #}
+{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/ui/components/rz_input.html.twig" as rz_input %}
+
+<rz-filters-bar>
+    {% if filters.description %}
+        <p class="rz-filters-bar__description">{{ filters.description }}</p>
+    {% endif %}
+
+    {% if withFilterForm|default(true) is not same as(false) %}
+        <form method="get" class="rz-filters-bar__group">
+            {% if displayLayoutFields|default(false) %}
+                {% set value = filters.layout ?? app.request.query.get('layout') %}
+                {{ _self.layout_fields(value) }}
+            {% endif %}
+
+            {{ rz_input.root({
+                type: 'search',
+                name: 'search',
+                id: 'rz-filters-bar-search',
+                placeholder: 'search'|trans,
+                value: filters.search|default(app.request.get('search') ?? ''),
+            }) }}
+            {% block before_submit %}{% endblock %}
+            {{
+                rz_button.root({
+                    attributes: {
+                        type: 'submit',
+                    },
+                    emphasis: 'secondary',
+                    label: 'filter'|trans,
+                    iconClass: 'rz-icon-ri--search-line'
+                })
+            }}
+            {% if displaySelectAllButton|default(false) %}
+                {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                {{ rz_bulk_actions.select_all_button() }}
+            {% endif %}
+        </form>
+    {% endif %}
+
+
+    {% set hasItemPerPageParams = app.request.get('item_per_page') and (app.request.get('item_per_page') != 20) %}
+    {% set hasMorePage = filters.itemCount > filters.itemPerPage %}
+
+    {% if hasItemPerPageParams or hasMorePage %}
+        <div class="rz-filters-bar__group rz-filters-bar__group--right">
+            {% if hasMorePage %}
+                {{ _self.pagination(filters) }}
+            {% endif %}
+
+
+            {% if filters.pageCount > 1 or filters.itemCount > 10 %}
+                {# Keep select if there are multiple pages or enough items #}
+                {{ _self.item_per_page(filters.itemPerPage) }}
+            {% endif %}
+        </div>
+    {% endif %}
+</rz-filters-bar>
+
+{% macro layout_fields(value) %}
+	{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
+	<div class="rz-filters-bar__group rz-filters-bar__group--divider">
+		{% set selected_class = "rz-button--selected" %}
+		{% set isGrid = value == 'grid' or value is empty %}
+		{% set layouts = [
+			{ value: 'grid', label: 'Grid view', iconClass: 'rz-icon-ri--layout-grid-line', selected: isGrid },
+			{ value: 'list', label: 'List view', iconClass: 'rz-icon-ri--list-check', selected: not isGrid },
+		] %}
+		{% for layout in layouts %}
+			{% set radio %}
+				<input
+					id="listing-layout-{{ layout.value }}"
+					{% if layout.selected %}checked{% endif %}
+					type="radio"
+					name="layout"
+					value="{{ layout.value }}"
+				/>
+				<span aria-hidden="true" class="{{ layout.iconClass }}"></span>
+			{% endset %}
+			{{ rz_button.root({
+				tag: 'label',
+				is: false,
+				emphasis: 'secondary',
+				selected: layout.selected,
+				innerHTML: radio,
+				attributes: {
+					'data-layout-button': true,
+					'data-layout-button-selected-class': selected_class,
+					'aria-label': layout.label,
+				},
+			}) }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro pagination(filters = {}) %}
+    {% set pageCount = filters.pageCount == 0 ? 1 : filters.pageCount %}
+    {% set currentPage = filters.currentPage %}
+    {% set previousPageQuery = filters.previousPageQuery %}
+    {% set nextPageQuery = filters.nextPageQuery %}
+
+    <form method="get" class="rz-filters-bar__group">
+        <span class="text-form-label">
+            {% trans %}page{% endtrans %}
+        </span>
+        {% import "@RoadizRozier/ui/components/rz_input.html.twig" as rz_input %}
+        {{ rz_input.root({
+            type: 'number',
+            name: 'page',
+            value: currentPage,
+            attributes: {
+                min: 1,
+                max: pageCount,
+                'data-submit-on-change': true,
+            },
+        }) }}
+        <span class="text-form-label">/ {{ pageCount }}</span>
+        {{ _self.pagination_link("rz-icon-ri--arrow-left-s-line", previousPageQuery) }}
+        {{ _self.pagination_link("rz-icon-ri--arrow-right-s-line", nextPageQuery) }}
+    </form>
+{% endmacro %}
+
+{% macro pagination_link(icon, pageQuery) %}
+    {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
+    {% if pageQuery and pageQuery is not empty %}
+        {{ rz_button.root({
+            emphasis: 'secondary',
+            size: 'sm',
+            iconClass: icon,
+            attributes: { href: '?' ~ pageQuery },
+        }) }}
+    {% else %}
+        {{ rz_button.root({
+            tag: 'span',
+            is: false,
+            emphasis: 'secondary',
+            size: 'sm',
+            disabled: true,
+            iconClass: icon,
+        }) }}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro item_per_page(value) %}
+    {% set enabledCounts = [10,20,50,100,200] %}
+    <form method="get">
+        {# Current page should be reset to avoid displaying empty results pages because items per page is higher than items count #}
+        <input type="hidden" name="page" value="1" />
+
+        {% import "@RoadizRozier/ui/components/rz_select.html.twig" as rz_select %}
+        {% set select_options = [] %}
+        {% if value not in enabledCounts %}
+            {% set select_options = [{ value: value, label: '%count%.items'|trans({'%count%': value}), selected: true }] %}
+        {% endif %}
+        {% for index in enabledCounts %}
+            {% set select_options = select_options|merge([{ value: index, label: '%count%.items'|trans({'%count%': index}), selected: value == index }]) %}
+        {% endfor %}
+        {{ rz_select.root({
+            options: select_options,
+            attributes: {
+                class: 'item-per-page',
+                name: 'item_per_page',
+                'data-submit-on-change': true,
+            },
+        }) }}
+    </form>
+{%- endmacro %}

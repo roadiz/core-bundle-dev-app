@@ -32,15 +32,6 @@ importers:
       invokers-polyfill:
         specifier: ^0.5.7
         version: 0.5.7
-      jquery:
-        specifier: ^3.5.0
-        version: 3.7.1
-      jquery-ui:
-        specifier: ^1.12.1
-        version: 1.14.1
-      jquery.actual:
-        specifier: ^1.0.19
-        version: 1.0.19(jquery@3.7.1)
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -59,33 +50,6 @@ importers:
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.6
-      symfony-collection:
-        specifier: ^2.1.26
-        version: 2.1.30
-      uikit:
-        specifier: 2.27.4
-        version: 2.27.4
-      vue:
-        specifier: 2.7.16
-        version: 2.7.16
-      vue-cropperjs:
-        specifier: 2.1.0
-        version: 2.1.0(vue@2.7.16)
-      vue-js-modal:
-        specifier: ^1.2.3
-        version: 1.3.35(vue@2.7.16)
-      vue-multiselect:
-        specifier: 2.0.0-beta.15
-        version: 2.0.0-beta.15
-      vue2-dropzone:
-        specifier: ^2.2.4
-        version: 2.3.6
-      vuedraggable:
-        specifier: ^2.15.0
-        version: 2.24.3
-      vuex:
-        specifier: 3.0.1
-        version: 3.0.1
     devDependencies:
       '@eslint/js':
         specifier: ^9.36.0
@@ -126,9 +90,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.35.1
         version: 8.45.0(eslint@9.36.0(jiti@2.6.1))(typescript@5.9.3)
-      '@vitejs/plugin-vue2':
-        specifier: ^2.3.3
-        version: 2.3.3(vite@7.1.8(@types/node@24.6.2)(jiti@2.6.1)(less@2.7.3)(terser@5.44.0))(vue@2.7.16)
       autoprefixer:
         specifier: ^9.0.0
         version: 9.8.8
@@ -205,29 +166,12 @@ packages:
     resolution: {integrity: sha512-JYgintcMjRiCvS8mMECzaEn+m3PfoQiyqukOMCCVQtoJGYJw8j/8LBJEiqkHLkfwCcs74E3pbAUFNg7d9VNJ+Q==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/helper-string-parser@7.27.1':
-    resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helper-validator-identifier@7.27.1':
-    resolution: {integrity: sha512-D2hP9eA+Sqx1kBZgzxZh0y1trbuU+JoDkiEwqhQ36nodYqJwyEIhPSdMNd7lOm/4io72luTPWH20Yda0xOuUow==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/helper-validator-identifier@7.28.5':
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/parser@7.28.4':
-    resolution: {integrity: sha512-yZbBqeM6TkpP9du/I2pUZnJsRMGGvOuIrhjzC1AwHwW+6he4mni6Bp/m8ijn0iOuZuPI2BfkCoSRunpyjnrQKg==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-
   '@babel/runtime@7.28.6':
     resolution: {integrity: sha512-05WQkdpL9COIMz4LjTxGpPNCdlpyimKppYNoJ5Di5EUObifl8t4tuLuUBBZEpoLYOmfvIWrsp9fCl0HoPRVTdA==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/types@7.28.4':
-    resolution: {integrity: sha512-bkFqkLhh3pMBUQQkpVgWDWq/lqzc2678eUyDlTBhRqhCHFguYYGM0Efga7tYk4TogG/3x0EEl66/OQ+WGbWB/Q==}
     engines: {node: '>=6.9.0'}
 
   '@csstools/cascade-layer-name-parser@2.0.5':
@@ -890,13 +834,6 @@ packages:
   '@ungap/custom-elements@1.3.0':
     resolution: {integrity: sha512-f4q/s76+8nOy+fhrNHyetuoPDR01lmlZB5czfCG+OOnBw/Wf+x48DcCDPmMQY7oL8xYFL8qfenMoiS8DUkKBUw==}
 
-  '@vitejs/plugin-vue2@2.3.3':
-    resolution: {integrity: sha512-qexY6+bbwY8h0AZerzUuGywNTi0cLOkbiSbggr0R3WEW95iB2hblQFyv4MAkkc2vm4gZN1cO5kzT1Kp6xlVzZw==}
-    engines: {node: ^14.18.0 || >= 16.0.0}
-    peerDependencies:
-      vite: '>=6.3.6'
-      vue: ^2.7.0-0
-
   '@vitest/expect@3.2.4':
     resolution: {integrity: sha512-Io0yyORnB6sikFlt8QW5K7slY4OjqNX9jmJQ02QDda8lyM6B5oNgVWoSoKPac8/kgnCUzuHQKrSLtu/uOqqrig==}
 
@@ -919,9 +856,6 @@ packages:
 
   '@vitest/utils@3.2.4':
     resolution: {integrity: sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==}
-
-  '@vue/compiler-sfc@2.7.16':
-    resolution: {integrity: sha512-KWhJ9k5nXuNtygPU7+t1rX6baZeqOYLEforUPjgNDBnLicfHCoi48H87Q8XyLZOrNNsmhuwKqtpDQWjEFe6Ekg==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1115,9 +1049,6 @@ packages:
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
 
-  cropperjs@0.8.1:
-    resolution: {integrity: sha512-ClbOgGHiK0KQEdVboqbyDxKgMOtogBOhzBdqEMV3304IXZTo/ggAUUpfY0sfLs3ZuhMUpVUAhYZ3048uqigwag==}
-
   cropperjs@1.6.2:
     resolution: {integrity: sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==}
 
@@ -1146,9 +1077,6 @@ packages:
   csso@5.0.5:
     resolution: {integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
-
-  csstype@3.1.3:
-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
@@ -1541,6 +1469,7 @@ packages:
   image-size@0.5.5:
     resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please migrate to image-size@2.x
     hasBin: true
 
   import-fresh@3.3.1:
@@ -1593,17 +1522,6 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
-
-  jquery-ui@1.14.1:
-    resolution: {integrity: sha512-DhzsYH8VeIvOaxwi+B/2BCsFFT5EGjShdzOcm5DssWjtcpGWIMsn66rJciDA6jBruzNiLf1q0KvwMoX1uGNvnQ==}
-
-  jquery.actual@1.0.19:
-    resolution: {integrity: sha512-S1QFm4yKYpIDXClxsnAoMBdyPjBnixnaOOwcBto7IB9JVWDcxiH74zviQl5JSNgbM4zzNezPf1hq9JmVeeFHmA==}
-    peerDependencies:
-      jquery: '>=1.2.3'
-
-  jquery@3.7.1:
-    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -1672,10 +1590,6 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-
-  lodash.omit@4.5.0:
-    resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
-    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -1805,9 +1719,6 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
-
-  node-promise@0.5.14:
-    resolution: {integrity: sha512-kbd+ABY2XRdByRVHPcBDemymfNL8+msGyKNxG/ziZnh9RjneuuGQl3/CE5UkNWxCInkJS+ztc5B31/t2kIO4Yw==}
 
   node-releases@2.0.21:
     resolution: {integrity: sha512-5b0pgg78U3hwXkCM8Z9b2FJdPZlr9Psr9V2gQPESdGHqbntyFJKFW4r5TeWGFzafGY3hzs1JC62VEQMbl1JFkw==}
@@ -1945,11 +1856,6 @@ packages:
     resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==}
     engines: {node: '>=6.0.0'}
 
-  prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-
   prettier@3.6.2:
     resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
@@ -2075,9 +1981,6 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  sortablejs@1.10.2:
-    resolution: {integrity: sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A==}
-
   sortablejs@1.15.6:
     resolution: {integrity: sha512-aNfiuwMEpfBM/CN6LY0ibyhxPfPbyFeBTYJKCvzkJ2GkUpazIt3H+QIPAMHwqQ7tMKaHz1Qj+rJJCqljnf4p3A==}
 
@@ -2148,9 +2051,6 @@ packages:
     resolution: {integrity: sha512-OoohrmuUlBs8B8o6MB2Aevn+pRIH9zDALSR+6hhqVfa6fRwG/Qw9VUMSMW9VNg2CFc/MTIfabtdOVl9ODIJjpw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
-
-  symfony-collection@2.1.30:
-    resolution: {integrity: sha512-IkTiqKbfDkR6kZD1Fg6JkZFErMSx8wyu/PQt87UPGkcjeDrVxMmuGviLZys0FSdCReYc6oa94uuIOZS10OBzDw==}
 
   synckit@0.11.11:
     resolution: {integrity: sha512-MeQTA1r0litLUf0Rp/iisCaL8761lKAZHaimlbGK4j0HysC4PLfqygQj9srcs0m2RdtDYnF8UuYyKpbjHYp7Jw==}
@@ -2247,9 +2147,6 @@ packages:
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
-  uikit@2.27.4:
-    resolution: {integrity: sha512-dylNikIJ8sB6Sd1AP6YETb+R5bIkjTnGeuu/yLhO9elQ4oLu8CIA+u5zCC7a9m7axbDUALy12qr32nvgRyO5HA==}
-
   undici-types@7.13.0:
     resolution: {integrity: sha512-Ov2Rr9Sx+fRgagJ5AX0qvItZG/JKKoBRAVITs1zk7IqZGTJUwgUr7qoYBpWwakpWilTZFM98rG/AFRocu10iIQ==}
 
@@ -2321,33 +2218,6 @@ packages:
         optional: true
       yaml:
         optional: true
-
-  vue-cropperjs@2.1.0:
-    resolution: {integrity: sha512-UUjC3+Q3IoHGLx8CJT/xUaLfHkpLYM7JYFyz6yYLGx0NMR4SttUOYI1EMMITshoR7nb3rjituz7pDJCdEVyJOQ==}
-    peerDependencies:
-      vue: '>=2.0.0'
-
-  vue-js-modal@1.3.35:
-    resolution: {integrity: sha512-DKtxUCW/oprM/ndn9h/cnVgsmqjQ/ARy5rH4q/11Pas04og2td+sltl91H/rlwXTwJIqWyt+lJizK5o4ErjWIQ==}
-    peerDependencies:
-      vue: ^2.2.6
-
-  vue-multiselect@2.0.0-beta.15:
-    resolution: {integrity: sha512-aE7lcdKsnbL6DEtG+TFl96OwLAGq3E8yS6eukgvsKgY32q+0ausZMMQY7AUYUjX6ZIKyHqjkeYTZeXO7s9iI2g==}
-    engines: {node: '>= 4.0.0', npm: '>= 3.0.0'}
-
-  vue2-dropzone@2.3.6:
-    resolution: {integrity: sha512-2UJuz2UYlmFGg/9kLS7fLHqYN8OCHbjZVWWB+2XIzULJ2H3MM98305KrzAY0jT1AaBP6g4xLxVL8rEJ5DT0bKA==}
-
-  vue@2.7.16:
-    resolution: {integrity: sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw==}
-    deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
-
-  vuedraggable@2.24.3:
-    resolution: {integrity: sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g==}
-
-  vuex@3.0.1:
-    resolution: {integrity: sha512-wLoqz0B7DSZtgbWL1ShIBBCjv22GV5U+vcBFox658g6V0s4wZV9P4YjCNyoHSyIBpj1f29JBoNQIqD82cR4O3w==}
 
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
@@ -2437,22 +2307,9 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
-  '@babel/helper-string-parser@7.27.1': {}
-
-  '@babel/helper-validator-identifier@7.27.1': {}
-
   '@babel/helper-validator-identifier@7.28.5': {}
 
-  '@babel/parser@7.28.4':
-    dependencies:
-      '@babel/types': 7.28.4
-
   '@babel/runtime@7.28.6': {}
-
-  '@babel/types@7.28.4':
-    dependencies:
-      '@babel/helper-string-parser': 7.27.1
-      '@babel/helper-validator-identifier': 7.27.1
 
   '@csstools/cascade-layer-name-parser@2.0.5(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)':
     dependencies:
@@ -3090,11 +2947,6 @@ snapshots:
 
   '@ungap/custom-elements@1.3.0': {}
 
-  '@vitejs/plugin-vue2@2.3.3(vite@7.1.8(@types/node@24.6.2)(jiti@2.6.1)(less@2.7.3)(terser@5.44.0))(vue@2.7.16)':
-    dependencies:
-      vite: 7.1.8(@types/node@24.6.2)(jiti@2.6.1)(less@2.7.3)(terser@5.44.0)
-      vue: 2.7.16
-
   '@vitest/expect@3.2.4':
     dependencies:
       '@types/chai': 5.2.2
@@ -3125,14 +2977,6 @@ snapshots:
       '@vitest/pretty-format': 3.2.4
       loupe: 3.2.1
       tinyrainbow: 2.0.0
-
-  '@vue/compiler-sfc@2.7.16':
-    dependencies:
-      '@babel/parser': 7.28.4
-      postcss: 8.5.6
-      source-map: 0.6.1
-    optionalDependencies:
-      prettier: 2.8.8
 
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
@@ -3342,8 +3186,6 @@ snapshots:
   core-util-is@1.0.2:
     optional: true
 
-  cropperjs@0.8.1: {}
-
   cropperjs@1.6.2: {}
 
   cross-spawn@7.0.6:
@@ -3377,8 +3219,6 @@ snapshots:
   csso@5.0.5:
     dependencies:
       css-tree: 2.2.1
-
-  csstype@3.1.3: {}
 
   csstype@3.2.3: {}
 
@@ -3839,16 +3679,6 @@ snapshots:
 
   jiti@2.6.1: {}
 
-  jquery-ui@1.14.1:
-    dependencies:
-      jquery: 3.7.1
-
-  jquery.actual@1.0.19(jquery@3.7.1):
-    dependencies:
-      jquery: 3.7.1
-
-  jquery@3.7.1: {}
-
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -3925,8 +3755,6 @@ snapshots:
       p-locate: 5.0.0
 
   lodash.merge@4.6.2: {}
-
-  lodash.omit@4.5.0: {}
 
   lodash@4.17.21: {}
 
@@ -4052,8 +3880,6 @@ snapshots:
   nanoid@3.3.11: {}
 
   natural-compare@1.4.0: {}
-
-  node-promise@0.5.14: {}
 
   node-releases@2.0.21: {}
 
@@ -4183,9 +4009,6 @@ snapshots:
   prettier-linter-helpers@1.0.0:
     dependencies:
       fast-diff: 1.3.0
-
-  prettier@2.8.8:
-    optional: true
 
   prettier@3.6.2: {}
 
@@ -4339,8 +4162,6 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  sortablejs@1.10.2: {}
-
   sortablejs@1.15.6: {}
 
   source-map-js@1.2.1: {}
@@ -4431,11 +4252,6 @@ snapshots:
       css-what: 6.2.2
       csso: 5.0.5
       picocolors: 1.1.1
-
-  symfony-collection@2.1.30:
-    dependencies:
-      jquery: 3.7.1
-      jquery-ui: 1.14.1
 
   synckit@0.11.11:
     dependencies:
@@ -4528,10 +4344,6 @@ snapshots:
 
   ufo@1.6.1: {}
 
-  uikit@2.27.4:
-    dependencies:
-      node-promise: 0.5.14
-
   undici-types@7.13.0: {}
 
   undici@6.21.3: {}
@@ -4579,34 +4391,6 @@ snapshots:
       jiti: 2.6.1
       less: 2.7.3
       terser: 5.44.0
-
-  vue-cropperjs@2.1.0(vue@2.7.16):
-    dependencies:
-      cropperjs: 0.8.1
-      lodash.omit: 4.5.0
-      vue: 2.7.16
-
-  vue-js-modal@1.3.35(vue@2.7.16):
-    dependencies:
-      vue: 2.7.16
-
-  vue-multiselect@2.0.0-beta.15: {}
-
-  vue2-dropzone@2.3.6:
-    dependencies:
-      dropzone: 5.5.1
-      vue: 2.7.16
-
-  vue@2.7.16:
-    dependencies:
-      '@vue/compiler-sfc': 2.7.16
-      csstype: 3.1.3
-
-  vuedraggable@2.24.3:
-    dependencies:
-      sortablejs: 1.10.2
-
-  vuex@3.0.1: {}
 
   webpack-virtual-modules@0.6.2: {}
 

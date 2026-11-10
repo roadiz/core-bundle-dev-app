@@ -12,30 +12,26 @@
                 attributes: {
                     href: path('usersAddPage'),
                 },
-                icon: 'rz-icon-ri--add-line',
+                iconClass: 'rz-icon-ri--add-line',
             }],
-            breadcrumb: {
-                label: 'users-breadcrumb',
-                current: 'users'|trans,
-            },
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
-            display_select_all_button: false,
-        }  only %}
+            displaySelectAllButton: false,
+        }  only %}{% endembed %}
 
         {% include '@RoadizRozier/users/bulkActions.html.twig' with {
-            delete_form_data: bulkDeleteForm|default(null),
-            delete_form_action: path('usersBulkDeletePage'),
-            delete_form_method: 'GET',
+            deleteFormData: bulkDeleteForm|default(null),
+            deleteFormAction: path('usersBulkDeletePage'),
+            deleteFormMethod: 'GET',
             bulkEnableForm: bulkEnableForm,
             bulkDisableForm: bulkDisableForm,
         } only %}
         <article>
             {% include '@RoadizRozier/users/list_table.html.twig' with {
-                selection_available: hasBulkActions,
-                actions_available: true,
+                selectionAvailable: hasBulkActions,
+                actionsAvailable: true,
             } %}
         </article>
     </rz-bulk-section>

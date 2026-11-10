@@ -43,7 +43,6 @@ final readonly class NodeBreadcrumbsItemFactory implements BreadcrumbsItemFactor
                         'nodeId' => $item->getId(),
                     ]
                 ),
-            $item->isHome(),
         );
     }
 

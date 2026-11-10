@@ -8,5 +8,8 @@ use Lcobucci\JWT\Configuration;
 
 interface JwtConfigurationFactory
 {
-    public function create(): ?Configuration;
+    /**
+     * @param string|null $kid Key ID to select the matching verification key when several are available (e.g. JWKS rotation). Implementations may ignore it.
+     */
+    public function create(?string $kid = null): ?Configuration;
 }

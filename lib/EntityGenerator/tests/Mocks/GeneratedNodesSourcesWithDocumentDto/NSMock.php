@@ -85,6 +85,16 @@ class NSMock extends NodesSources
         return $this;
     }
 
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $bar
+     * @return $this
+     */
+    public function setBarDtos(?array $bar): static
+    {
+        $this->bar = $bar;
+        return $this;
+    }
+
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     #[\Override]
@@ -117,6 +127,16 @@ class NSMock extends NodesSources
      */
     #[\Override]
     public function isPublishable(): bool
+    {
+        return true;
+    }
+
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
     {
         return true;
     }

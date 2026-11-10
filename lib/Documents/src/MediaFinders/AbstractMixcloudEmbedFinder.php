@@ -131,6 +131,12 @@ abstract class AbstractMixcloudEmbedFinder extends AbstractEmbedFinder
     }
 
     #[\Override]
+    public function getPublicUri(): ?string
+    {
+        return $this->embedId;
+    }
+
+    #[\Override]
     protected function areDuplicatesAllowed(): bool
     {
         return true;

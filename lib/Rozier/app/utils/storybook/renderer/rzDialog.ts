@@ -2,10 +2,59 @@ import {
     RzButtonOptions,
     rzButtonRenderer,
 } from '~/utils/component-renderer/rzButton'
-import type { Args } from '../../../../stories/RzDialog.stories'
-import { rzElement } from '~/utils/component-renderer/rzElement'
+import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
 
-function rzDialogHeaderRenderer(args: Args['header']) {
+// 'none' = dialog cannot be closed by user interaction
+// 'closerequest' = dialog can be closed only by close button or calling close() method
+// 'any' = dialog can be closed by clicking outside, pressing ESC, close button or calling close() method
+export const CLOSED_BY_VALUES = ['none', 'closerequest', 'any'] as const
+export const VARIANTS = ['warning', 'danger'] as const
+
+export type RzDialogOptions = {
+    tag?: string
+    header?: {
+        title?: string
+        iconClass?: string
+        closeIconClass?: string
+    }
+    body?: RzElement
+    /** Centered alert layout: status medallion, title and text, no header bar. */
+    alert?: {
+        iconClass: string
+        title: string
+        text: string
+        closeIconClass?: string
+    }
+    variant?: (typeof VARIANTS)[number]
+    footer?: {
+        justifyEnd?: boolean
+        buttons?: RzButtonOptions[]
+    }
+    innerHTML?: string
+    closedby?: (typeof CLOSED_BY_VALUES)[number]
+    dialogId?: string
+    modal?: boolean
+    defaultOpen?: boolean
+    attributes?: Record<string, string>
+}
+
+function rzDialogCloseRenderer(closeIconClass: string) {
+    const button = rzButtonRenderer({
+        iconClass: closeIconClass,
+        size: 'sm',
+        emphasis: 'tertiary',
+        attributes: {
+            'aria-label': 'Close dialog',
+            autofocus: '',
+            closetarget: '',
+        },
+    })
+    button.classList.add('rz-dialog__close')
+
+    return button
+}
+
+function rzDialogHeaderRenderer(args: RzDialogOptions['header']) {
     const wrapper = document.createElement('header')
     wrapper.classList.add('rz-dialog__header')
 
@@ -23,24 +72,47 @@ function rzDialogHeaderRenderer(args: Args['header']) {
     }
 
     if (args.closeIconClass) {
-        const button = rzButtonRenderer({
-            iconClass: args.closeIconClass,
-            size: 'sm',
-            emphasis: 'tertiary',
-            attributes: {
-                'aria-label': 'Close dialog',
-                autofocus: '',
-                closetarget: '',
-            },
-        })
-        button.classList.add('rz-dialog__close')
-        wrapper.appendChild(button)
+        wrapper.appendChild(rzDialogCloseRenderer(args.closeIconClass))
     }
 
     return wrapper
 }
 
-function rzDialogFooterRenderer(args: Args['footer']) {
+function rzDialogAlertRenderer(
+    args: NonNullable<RzDialogOptions['alert']>,
+    idPrefix: string,
+) {
+    const medallion = rzElement({
+        tag: 'span',
+        attributes: { class: 'rz-dialog__medallion' },
+    })
+    medallion.appendChild(
+        rzElement({
+            tag: 'span',
+            attributes: { class: args.iconClass, 'aria-hidden': 'true' },
+        }),
+    )
+
+    const group = rzElement({ attributes: { class: 'rz-dialog__group' } })
+    group.appendChild(
+        rzElement({
+            tag: 'h1',
+            innerText: args.title,
+            attributes: { class: 'rz-dialog__title', id: `${idPrefix}-title` },
+        }),
+    )
+    group.appendChild(
+        rzElement({
+            tag: 'p',
+            innerText: args.text,
+            attributes: { class: 'rz-dialog__text', id: `${idPrefix}-text` },
+        }),
+    )
+
+    return [medallion, group]
+}
+
+function rzDialogFooterRenderer(args: RzDialogOptions['footer']) {
     if (!args?.buttons?.length) {
         return
     }
@@ -51,15 +123,19 @@ function rzDialogFooterRenderer(args: Args['footer']) {
         wrapper.classList.add('rz-dialog__footer--justify-end')
     }
 
+    // Footer actions close the dialog, unless a button opts out with closetarget: undefined
     args?.buttons?.forEach((buttonArgs) => {
-        const button = rzButtonRenderer(buttonArgs)
+        const button = rzButtonRenderer({
+            ...buttonArgs,
+            attributes: { closetarget: '', ...buttonArgs.attributes },
+        })
         wrapper.appendChild(button)
     })
 
     return wrapper
 }
 
-export function rzDialogRenderer(args: Args) {
+export function rzDialogRenderer(args: RzDialogOptions) {
     const dialog = document.createElement('dialog', { is: 'rz-dialog' })
     dialog.setAttribute('is', 'rz-dialog')
     dialog.classList.add('rz-dialog')
@@ -81,9 +157,18 @@ export function rzDialogRenderer(args: Args) {
         dialog.setAttribute('closedby', args.closedby || 'any')
     }
 
+    if (args.variant) {
+        dialog.classList.add('rz-dialog--warning')
+        if (args.variant === 'danger') dialog.classList.add('rz-dialog--danger')
+    }
+
     if (args?.header) {
         const header = rzDialogHeaderRenderer(args.header)
         dialog.appendChild(header)
+    }
+
+    if (args.alert?.closeIconClass) {
+        dialog.appendChild(rzDialogCloseRenderer(args.alert.closeIconClass))
     }
 
     const body = rzElement({
@@ -94,6 +179,12 @@ export function rzDialogRenderer(args: Args) {
             class: `rz-dialog__body ${args.body?.attributes?.class || ''}`,
         },
     })
+    if (args.alert) {
+        const idPrefix = args.dialogId || 'rz-dialog'
+        dialog.setAttribute('aria-labelledby', `${idPrefix}-title`)
+        dialog.setAttribute('aria-describedby', `${idPrefix}-text`)
+        body.append(...rzDialogAlertRenderer(args.alert, idPrefix))
+    }
     dialog.appendChild(body)
 
     const footer = rzDialogFooterRenderer(args.footer)
@@ -104,7 +195,7 @@ export function rzDialogRenderer(args: Args) {
 }
 
 export function rzDialogWrapperRenderer(
-    dialogArgs: Args,
+    dialogArgs: RzDialogOptions,
     target: Partial<RzButtonOptions> = {},
 ) {
     const wrapper = document.createElement('div')

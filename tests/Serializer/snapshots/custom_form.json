@@ -1,0 +1,25 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/CustomForm",
+        "@id": "/api/custom_forms/{id}/definition",
+        "@type": "CustomForm",
+        "color": "#ff0000",
+        "name": "Serialization form",
+        "displayName": "Serialization form",
+        "description": "Form description",
+        "open": true,
+        "slug": "serialization_form",
+        "definitionUrl": "/api/custom_forms/{id}/definition",
+        "postUrl": "/api/custom_forms/{id}/post"
+    },
+    "json": {
+        "color": "#ff0000",
+        "name": "Serialization form",
+        "displayName": "Serialization form",
+        "description": "Form description",
+        "open": true,
+        "slug": "serialization_form",
+        "definitionUrl": "/api/custom_forms/{id}/definition",
+        "postUrl": "/api/custom_forms/{id}/post"
+    }
+}

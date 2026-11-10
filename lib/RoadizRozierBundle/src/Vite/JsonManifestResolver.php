@@ -24,7 +24,9 @@ final readonly class JsonManifestResolver
     private function getManifest(): array
     {
         $cacheItem = $this->cache->getItem('roadiz_rozier.vite.manifest');
-        if ($cacheItem->isHit()) {
+        // Never use cache in debug mode: Vite dev server creates and removes
+        // manifest.dev.json on the fly, a stale cache would pin the wrong asset origin.
+        if (!$this->debug && $cacheItem->isHit()) {
             return $cacheItem->get();
         }
 
@@ -40,14 +42,17 @@ final readonly class JsonManifestResolver
         if (!file_exists($manifestPath)) {
             throw new \RuntimeException(sprintf('%s manifest not found', $manifestPath));
         }
-        $cacheItem->set(\json_decode(
+        $manifest = \json_decode(
             (new Filesystem())->readFile($manifestPath),
             true,
             flags: JSON_THROW_ON_ERROR
-        ));
-        $this->cache->save($cacheItem);
+        );
+        if (!$this->debug) {
+            $cacheItem->set($manifest);
+            $this->cache->save($cacheItem);
+        }
 
-        return $cacheItem->get();
+        return $manifest;
     }
 
     public function getEntrypoint(string $name = 'main'): ?array

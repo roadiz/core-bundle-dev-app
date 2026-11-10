@@ -1,8 +1,15 @@
-import type { Args } from '../../../../stories/RzHeaderNavItem.stories'
+export type RzHeaderNavItemOptions = {
+    label: string
+    iconClass?: string
+    active?: boolean
+    subItem?: boolean
+    tag?: string
+    attributes?: { [key: string]: string }
+}
 
 const COMPONENT_CLASS_NAME = 'rz-header-nav-item'
 
-export function rzHeaderNavItemRenderer(args: Args) {
+export function rzHeaderNavItemRenderer(args: RzHeaderNavItemOptions) {
     const customElement = args.attributes?.is
     const node = document.createElement(
         args.tag || 'div',

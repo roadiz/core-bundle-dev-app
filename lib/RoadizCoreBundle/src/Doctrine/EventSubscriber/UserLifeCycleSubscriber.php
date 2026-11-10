@@ -77,7 +77,8 @@ final readonly class UserLifeCycleSubscriber
             && null !== $user->getPlainPassword()
             && '' !== $user->getPlainPassword()
         ) {
-            if ($this->setPassword($user, $user->getPlainPassword())) {
+            // User::setPlainPassword() already replaced the hash: compare with the stored one
+            if ($this->setPassword($user, $user->getPlainPassword(), (string) $event->getOldValue('password'))) {
                 $userEvent = new UserPasswordChangedEvent($user);
                 $this->dispatcher->dispatch($userEvent);
             }
@@ -87,14 +88,16 @@ final readonly class UserLifeCycleSubscriber
     /**
      * @return bool returns true if password has been updated, false otherwise
      */
-    private function setPassword(User $user, ?string $plainPassword): bool
+    private function setPassword(User $user, ?string $plainPassword, ?string $currentHash = null): bool
     {
         if (null === $plainPassword) {
             return false;
         }
         $hasher = $this->passwordHasherFactory->getPasswordHasher($user);
-        if ($hasher->verify($user->getPassword(), $plainPassword)) {
-            // Password is the same, no need to update
+        if (null !== $currentHash && '' !== $currentHash && $hasher->verify($currentHash, $plainPassword)) {
+            // Password is the same, restore stored hash
+            $user->setPassword($currentHash);
+
             return false;
         }
 

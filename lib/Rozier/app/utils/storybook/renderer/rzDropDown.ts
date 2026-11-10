@@ -1,10 +1,34 @@
-import type { Args as ItemArgs } from '../../../../stories/RzDropdownItem.stories'
-import type { Args as DropdownArgs } from '../../../../stories/RzDropdown.stories'
-import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
+import {
+    rzBadgeRenderer,
+    type RzBadgeOptions,
+} from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-dropdown'
 
-export const DEFAULT_ITEM: ItemArgs = {
+export type RzDropdownItemOptions = {
+    iconClass?: string
+    label?: string
+    description?: string
+    badge?: RzBadgeOptions
+    rightIconClass?: string
+    tag?: string
+    attributes?: Record<string, string>
+    selected?: boolean
+}
+
+export type RzDropdownOptions = {
+    title?: string
+    reverse?: boolean
+    displayHeadElements?: boolean
+    headElements?: Record<string, string>[]
+    borderColor?: string
+    footerContent?: string
+    isOpen?: boolean
+    items: (RzDropdownItemOptions | RzDropdownItemOptions[])[]
+    listTag?: string
+}
+
+export const DEFAULT_ITEM: RzDropdownItemOptions = {
     tag: 'button',
     iconClass: 'rz-icon-ri--user-6-line',
     label: 'Profile X',
@@ -21,7 +45,7 @@ export const DEFAULT_ITEM: ItemArgs = {
 }
 
 export function rzDropdownItemRenderer(
-    args: ItemArgs,
+    args: RzDropdownItemOptions,
     itemClass: string = `${COMPONENT_CLASS_NAME}__item`,
 ) {
     const item = document.createElement(args.tag || 'div')
@@ -78,7 +102,7 @@ export function rzDropdownItemRenderer(
     return item
 }
 
-function rzDropdownMenuRenderer(items: ItemArgs[], tag?: string) {
+function rzDropdownMenuRenderer(items: RzDropdownItemOptions[], tag?: string) {
     const body = document.createElement(tag || 'menu')
     body.className = `${COMPONENT_CLASS_NAME}__list`
 
@@ -97,7 +121,7 @@ function rzDropdownMenuRenderer(items: ItemArgs[], tag?: string) {
     return body
 }
 
-export function rzDropdownRenderer(args: DropdownArgs, el?: HTMLElement) {
+export function rzDropdownRenderer(args: RzDropdownOptions, el?: HTMLElement) {
     const wrapper = el || document.createElement('div')
     wrapper.className = COMPONENT_CLASS_NAME
     if (args.isOpen) {

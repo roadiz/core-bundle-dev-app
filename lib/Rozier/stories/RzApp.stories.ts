@@ -4,14 +4,15 @@ import {
     rzHeaderRenderer,
 } from '~/utils/storybook/renderer/rzHeader'
 
-export type Args = {
+type Args = {
     hasTreesSection: boolean
 }
 
 const ELEMENT_CLASS_NAME = 'rz-app'
 const meta: Meta<Args> = {
-    title: 'Integration/Layout/App',
+    title: 'Patterns/App',
     tags: ['autodocs'],
+    render: (args) => appContainerRenderer(args).app,
     args: {
         hasTreesSection: true,
     },
@@ -48,8 +49,4 @@ function appContainerRenderer(args: Args) {
     return { app, header }
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return appContainerRenderer(args).app
-    },
-}
+export const Default: Story = {}

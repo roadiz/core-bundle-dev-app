@@ -1,0 +1,145 @@
+{# rz-dropdown: embed vars = RzDropdownOptions (storybook/renderer/rzDropDown.ts), item = RzDropdownItemOptions, story Components/Overlay/Dropdown/Root #}
+{#
+    Embedded: `title`, `headElements`, `reverse`, `borderColor`, `footerContent`, `listTag` and `attributes` follow
+    RzDropdownOptions; the `items` block holds the items. Twig-only vars: `targetId` (popover id), `wrapper_tag`, and
+    the trigger vars below.
+#}
+{% macro head(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    <div class="rz-dropdown__head">
+        {% if options.title is defined and options.title %}
+            <div class="rz-dropdown__title">{{- options.title|trans -}}</div>
+        {% endif %}
+        {% if options.headElements is defined and options.headElements|length > 0 %}
+            <ul class="rz-dropdown__info-list">
+                {% for element in options.headElements %}
+                    <li class="rz-dropdown__info-item">
+                        {% if element.innerHTML is defined %}
+                            {{ element.innerHTML|raw }}
+                        {% else %}
+                            {% set element_tag = element.tag|default('div') %}
+                            <{{ element_tag }} {{ el_attrs.print(element|filter((v, k) => k != 'tag')) }}></{{ element_tag }}>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{# Twig-only key: `input` {type, value, name, attr}, a hidden input rendered in the item. #}
+{% macro item(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+
+    {% set element_class = 'rz-dropdown__item' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set input = options.input|default(null) %}
+    {% set tag = attributes.href is defined and attributes.href ? 'a' : options.tag|default('button') %}
+
+    <li class="{{ input is not null ? 'node-statuses-item' : '' }}">
+        <{{ tag }}
+            class="{{ html_classes(element_class, attributes.class|default(''), {
+                (element_class ~ '--selected'): options.selected|default(false),
+            }) }}"
+            {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+        >
+            {% if options.iconClass is defined and options.iconClass %}
+                <span class="{{ element_class }}__icon {{ options.iconClass }}"></span>
+            {% endif %}
+            <div class="{{ element_class }}__text-wrapper">
+                {% if options.label is defined and options.label %}
+                    <span class="{{ element_class }}__label">{{- options.label|trans -}}</span>
+                {% endif %}
+                {% if options.description is defined and options.description %}
+                    <div class="{{ element_class }}__description">
+                        {{- options.description|trans -}}
+                    </div>
+                {% endif %}
+            </div>
+            {% if options.badge is defined and options.badge %}
+                {{ rz_badge.root(options.badge|merge({
+                    size: options.badge.size|default('xs'),
+                    attributes: options.badge.attributes|default({})|merge({
+                        class: html_classes(element_class ~ '__badge', options.badge.attributes.class|default('')),
+                    }),
+                })) }}
+            {% endif %}
+            {% if options.rightIconClass is defined and options.rightIconClass %}
+                <span class="{{ element_class }}__icon {{ options.rightIconClass }}"></span>
+            {% endif %}
+            {% if input %}
+                <input
+                    type="{{ input.type }}"
+                    value="{{ input.value|default('') }}"
+                    name="{{ input.name|default('') }}"
+                    hidden
+                    {{ el_attrs.print(input.attr|default({})) }}
+                >
+            {% endif %}
+        </{{ tag }}>
+    </li>
+{% endmacro %}
+
+{#
+    With `target_options` (RzButtonOptions), the menu comes with its own trigger: an <rz-popover> holding the
+    rz-button that opens it (`placement`, `offset`, `shift` and `popover_attributes` tune the
+    popover). Without it, the caller renders the trigger and points it at `targetId`.
+#}
+{% set has_trigger = target_options is defined %}
+{% if has_trigger %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+
+    {% set targetId = targetId|default('rz-dropdown-' ~ random()) %}
+    {% set shift = shift|default(null) %}
+    {% set target_options_attributes = target_options.attributes|default({})|merge({
+        popovertarget: targetId,
+        type: 'button',
+    }) %}
+
+    <rz-popover
+        {% if shift is not null %}popover-shift="{{ shift }}"{% endif %}
+        popover-placement="{{ placement|default('bottom-end') }}"
+        popover-offset="{{ offset|default('12') }}"
+        {{ el_attrs.print(popover_attributes|default({})) }}
+    >
+        {{ rz_button.root(target_options|merge({ attributes: target_options_attributes })) }}
+{% endif %}
+{% block wrapper %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% set wrapper_attributes = attributes|default({}) %}
+    {% set wrapper_tag = wrapper_tag|default('div') %}
+    {% set list_tag = listTag|default('menu') %}
+    <{{ wrapper_tag }}
+        class="{{ html_classes('rz-dropdown', wrapper_attributes.class|default(''), {
+            'rz-dropdown--reverse': reverse|default(false),
+            'rz-dropdown--open': isOpen|default(false),
+        }) }}"
+        id="{{ targetId }}"
+        popover
+        {% if borderColor is defined and borderColor %}style="--rz-dropdown-border-color: {{ borderColor }}"{% endif %}
+        {{ el_attrs.print(wrapper_attributes|filter((v, k) => k != 'class')) }}
+    >
+        {% block head %}
+            {% if (title is defined and title) or (headElements is defined and headElements|length) %}
+                {{ _self.head({ title: title|default(null), headElements: headElements|default([]) }) }}
+            {% endif %}
+        {% endblock %}
+        <{{ list_tag }} class="rz-dropdown__list">
+            {% block items %}
+            {% endblock %}
+        </{{ list_tag }}>
+
+        {% block additional_menu %}
+        {% endblock %}
+
+        {% if footerContent is defined and footerContent %}
+            <div class="rz-dropdown__footer">{{ footerContent|raw }}</div>
+        {% endif %}
+    </{{ wrapper_tag }}>
+{% endblock %}
+{% if has_trigger %}
+    </rz-popover>
+{% endif %}

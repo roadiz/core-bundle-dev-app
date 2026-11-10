@@ -1,0 +1,35 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Document",
+        "@id": "/api/documents/{id}",
+        "@type": "Document",
+        "hotspot": null,
+        "embedId": "dQw4w9WgXcQ",
+        "embedPlatform": "youtube",
+        "mimeType": "image/jpeg",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "image",
+        "relativePath": "fixtures/serialization_embed.jpg",
+        "processable": true,
+        "embedUrl": "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
+    },
+    "json": {
+        "hotspot": null,
+        "embedId": "dQw4w9WgXcQ",
+        "embedPlatform": "youtube",
+        "mimeType": "image/jpeg",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "image",
+        "relativePath": "fixtures/serialization_embed.jpg",
+        "processable": true,
+        "embedUrl": "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
+    }
+}

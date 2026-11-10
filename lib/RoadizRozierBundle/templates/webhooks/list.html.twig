@@ -1,0 +1,37 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{% trans %}webhooks{% endtrans %} | {{ parent() }}{% endblock %}
+
+{% block content %}
+<rz-bulk-section>
+    {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
+        title: 'webhooks'|trans,
+        filters: filters,
+        buttons: [{
+            label: 'add.a.webhook'|trans,
+            attributes: {
+                href: path('webhooksAddPage'),
+            },
+            iconClass: 'rz-icon-ri--add-line'
+        }],
+        breadcrumb: {
+            current: 'webhooks'|trans,
+        },
+    } only %}
+
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
+        filters: filters,
+        displaySelectAllButton: true,
+    }  only %}{% endembed %}
+    {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
+
+    <article>
+        {% include '@RoadizRozier/webhooks/list_table.html.twig' with {
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
+            filters: filters,
+            items: items,
+        } only %}
+    </article>
+</rz-bulk-section>
+{% endblock %}

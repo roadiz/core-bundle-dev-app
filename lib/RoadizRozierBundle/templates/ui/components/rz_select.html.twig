@@ -1,0 +1,35 @@
+{# rz-select: options = RzSelectOptions (storybook/renderer/rzSelect.ts), story Components/Form/Select #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set attributes = options.attributes|default({}) %}
+    {% if options.required|default(false) %}
+        {% set attributes = attributes|merge({ required: true }) %}
+    {% endif %}
+
+    <select is="rz-select" {{ el_attrs.print(attributes) }}>
+        {% for item in options.options|default([]) %}
+            {% if item.options is defined %}
+                <optgroup label="{{ item.label }}">
+                    {% for option in item.options %}
+                        {{ _self.option(option) }}
+                    {% endfor %}
+                </optgroup>
+            {% else %}
+                {{ _self.option(item) }}
+            {% endif %}
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{# One option: RzSelectOption #}
+{% macro option(option = {}) %}
+    <option
+        value="{{ option.value|default('') }}"
+        {%- if option.selected|default(false) %} selected{% endif %}
+        {%- if option.disabled|default(false) %} disabled{% endif %}
+        {%- if option.hidden|default(false) %} hidden{% endif %}
+    >
+        {{- option.label -}}
+    </option>
+{% endmacro %}

@@ -3,7 +3,7 @@ import type { Placement } from '@floating-ui/dom'
 import { POPOVER_PLACEMENTS, ATTRIBUTES_OPTIONS_MAP } from '~/utils/Popover'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
-export type Args = {
+type Args = {
     tooltipText?: string
     placement: Placement
     innerHtml: string
@@ -25,6 +25,7 @@ const COMPONENT_CLASS_NAME = 'rz-tooltip'
 const meta: Meta<Args> = {
     title: 'Components/Overlay/Tooltip',
     tags: ['autodocs'],
+    render: (args) => rzTooltipRenderer(args),
     args: {
         tooltipText:
             'Tooltip text auto injected with data-popover-text from rz-tooltip',
@@ -83,16 +84,9 @@ function rzTooltipRenderer(args: Args) {
     return tooltip
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzTooltipRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const WithIcon: Story = {
-    render: (args) => {
-        return rzTooltipRenderer(args)
-    },
     args: {
         innerHtml:
             '<span aria-label="Information" class="rz-icon-ri--information-line"></span>',
@@ -100,18 +94,12 @@ export const WithIcon: Story = {
 }
 
 export const Link: Story = {
-    render: (args) => {
-        return rzTooltipRenderer(args)
-    },
     args: {
         innerHtml: '<a href="#">Hover me</a>',
     },
 }
 
 export const WithCustomTooltip: Story = {
-    render: (args) => {
-        return rzTooltipRenderer(args)
-    },
     args: {
         offset: 20,
         tooltipText: undefined,

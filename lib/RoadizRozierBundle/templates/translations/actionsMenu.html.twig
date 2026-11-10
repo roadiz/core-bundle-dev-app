@@ -1,11 +1,11 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     translation: translation
 } only %}
     {% block items %}
         {% if is_granted('ROLE_ACCESS_TRANSLATIONS') and translation.id and not translation.isDefaultTranslation %}
-            {{ _self.deleteItem(href: path('translationsDeletePage', { translationId: translation.id})) }}
+            {{ _self.deleteItem({ attributes: { href: path('translationsDeletePage', { translationId: translation.id}) } }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

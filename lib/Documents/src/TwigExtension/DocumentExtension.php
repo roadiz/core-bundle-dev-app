@@ -106,9 +106,7 @@ final class DocumentExtension extends AbstractExtension
 
             return '';
         }
-        if (null === $options) {
-            $options = [];
-        }
+        $options ??= [];
         try {
             return $this->renderer->render($document, $options);
         } catch (InvalidEmbedId $embedException) {

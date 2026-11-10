@@ -43,7 +43,6 @@ final readonly class NodesSourcesBreadcrumbsItemFactory implements BreadcrumbsIt
                         'translationId' => $item->getTranslation()->getId(),
                     ]
                 ),
-            $item->getNode()->isHome(),
         );
     }
 

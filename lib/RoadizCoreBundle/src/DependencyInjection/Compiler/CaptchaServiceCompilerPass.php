@@ -20,6 +20,27 @@ class CaptchaServiceCompilerPass implements CompilerPassInterface
             $container->getParameter('roadiz_core.captcha.verify_url'),
             true
         );
+        // ponytail: explicit provider only handles self-hosted Cap (no fixed domain to match on).
+        // Could later supersede the URL-prefix matching below for every provider if it gets fiddly.
+        $provider = $container->resolveEnvPlaceholders(
+            $container->getParameter('roadiz_core.captcha.provider'),
+            true
+        );
+        if ('cap' === $provider) {
+            $container->setDefinition(
+                CaptchaServiceInterface::class,
+                (new Definition())
+                    ->setClass(\RZ\Roadiz\CoreBundle\Captcha\CapCaptchaService::class)
+                    ->setPublic(true)
+                    ->setArguments([
+                        new Reference(HttpClientInterface::class),
+                        '%roadiz_core.captcha.private_key%',
+                        '%roadiz_core.captcha.verify_url%',
+                    ])
+            );
+
+            return;
+        }
         if (str_starts_with((string) $verifyUrl, 'https://www.google.com')) {
             $container->setDefinition(
                 CaptchaServiceInterface::class,

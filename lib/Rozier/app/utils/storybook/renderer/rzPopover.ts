@@ -1,4 +1,4 @@
-export type Args = {
+export type RzPopoverOptions = {
     targetElement?: { tag?: string; element?: HTMLElement }
     popoverElement: { tag?: string; id: string; element?: HTMLElement }
     placement?: string
@@ -8,7 +8,7 @@ export type Args = {
 
 const COMPONENT_CLASS_NAME = 'rz-popover'
 
-export function rzPopoverRenderer(args: Args) {
+export function rzPopoverRenderer(args: RzPopoverOptions) {
     const popover = document.createElement(COMPONENT_CLASS_NAME)
     if (args.placement) {
         popover.setAttribute('popover-placement', args.placement)

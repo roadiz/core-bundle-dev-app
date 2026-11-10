@@ -1,32 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
+import {
+    type RzFormFieldOptions,
+    rzFormFieldRenderer,
+} from '~/utils/storybook/renderer/rzFormField'
 import { INPUT_TYPES } from '~/custom-elements/RzInput'
-import type { Args as InputArgs } from './RzInput.stories'
-import type { Args as ButtonGroupArg } from './RzButtonGroup.stories'
-import { type RzBadgeOptions } from '~/utils/component-renderer/rzBadge'
 
-export type Args = {
-    label: string
-    type?: (typeof INPUT_TYPES)[number]
-    required?: boolean
-    description?: string // under label
-    help?: string // under input
-    error?: string
-    horizontal?: boolean
-    alignStart?: boolean
-    headClass?: string
-    maxLength?: number
-    minLength?: number
-    // Elements
-    badge?: RzBadgeOptions
-    iconClass?: string
-    input?: InputArgs
-    buttonGroup?: ButtonGroupArg
-}
+type Args = RzFormFieldOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Field',
     tags: ['autodocs'],
+    render: (args) => rzFormFieldRenderer(args),
     args: {
         label: 'Input Field Label',
         required: false,
@@ -59,9 +43,6 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         badge: {
             iconClass: 'rz-icon-ri--earth-line',
@@ -76,9 +57,6 @@ export const Default: Story = {
 }
 
 export const WithoutBadge: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         badge: undefined,
         input: {
@@ -90,9 +68,6 @@ export const WithoutBadge: Story = {
 }
 
 export const WithIcon: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         iconClass: 'rz-icon-ri--markdown-line',
         badge: undefined,
@@ -105,9 +80,6 @@ export const WithIcon: Story = {
 }
 
 export const Checkbox: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         label: 'Simple checkbox',
         input: {
@@ -119,9 +91,6 @@ export const Checkbox: Story = {
 }
 
 export const SwitchCheckbox: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         iconClass: 'rz-icon-ri--image-line',
         description: undefined,
@@ -140,9 +109,6 @@ export const SwitchCheckbox: Story = {
 }
 
 export const CheckboxInline: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         label: 'Inline Checkbox',
         horizontal: true,
@@ -155,9 +121,6 @@ export const CheckboxInline: Story = {
 }
 
 export const WithSupportingText: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         help: 'This is a supporting text for the input field.',
         input: {
@@ -169,9 +132,6 @@ export const WithSupportingText: Story = {
 }
 
 export const WithError: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         error: 'This is an error message for the input field.',
         input: {
@@ -183,9 +143,6 @@ export const WithError: Story = {
 }
 
 export const WithButtons: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         iconClass: 'rz-icon-ri--image-line',
         input: undefined,
@@ -214,9 +171,6 @@ export const WithButtons: Story = {
 }
 
 export const MaxLength: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         maxLength: 20,
         input: {
@@ -228,9 +182,6 @@ export const MaxLength: Story = {
 }
 
 export const MinLength: Story = {
-    render: (args) => {
-        return rzFormFieldRenderer(args)
-    },
     args: {
         minLength: 5,
         input: {

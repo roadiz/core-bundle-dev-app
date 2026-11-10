@@ -1,34 +1,32 @@
-{% embed "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
     filters: filters,
-    display_select_all_button: true,
-    display_layout_fields: true,
+    displaySelectAllButton: true,
+    displayLayoutFields: true,
     availablePlatforms: availablePlatforms,
     embedPlatform: embedPlatform,
 } only %}
     {% block before_submit %}
         {% if availablePlatforms is defined and availablePlatforms|length > 0 %}
-            <select
-                class="rz-select"
-                onchange="this.form.submit()"
-                name="embedPlatform"
-                id="embedPlatform"
-            >
-                <option value="">{{ 'document.no_embed_platform'|trans }}</option>
-                <option
-                    {% if embedPlatform == 'unsplash' %} selected{% endif %}
-                    value="unsplash"
-                >
-                        {{ 'random.document'|trans }}
-                </option>
-                {% for availablePlatform, class in availablePlatforms %}
-                    <option
-                        {% if embedPlatform == availablePlatform %} selected{% endif %}
-                        value="{{ availablePlatform }}"
-                    >
-                        {{ availablePlatform|capitalize }}
-                    </option>
-                {% endfor %}
-            </select>
+            {% import '@RoadizRozier/ui/components/rz_select.html.twig' as rz_select %}
+            {% set platform_options = [
+                { value: '', label: 'document.no_embed_platform'|trans },
+                { value: 'unsplash', label: 'random.document'|trans, selected: embedPlatform == 'unsplash' },
+            ] %}
+            {% for availablePlatform, class in availablePlatforms %}
+                {% set platform_options = platform_options|merge([{
+                    value: availablePlatform,
+                    label: availablePlatform|capitalize,
+                    selected: embedPlatform == availablePlatform,
+                }]) %}
+            {% endfor %}
+            {{ rz_select.root({
+                options: platform_options,
+                attributes: {
+                    name: 'embedPlatform',
+                    id: 'embedPlatform',
+                    onchange: 'this.form.submit()',
+                },
+            }) }}
         {% endif %}
     {% endblock %}
 {% endembed %}

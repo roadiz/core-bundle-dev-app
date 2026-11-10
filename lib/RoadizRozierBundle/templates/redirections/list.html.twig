@@ -16,27 +16,23 @@
                 attributes: {
                     href: path('redirectionsAddPage'),
                 },
-                icon: 'rz-icon-ri--add-line'
+                iconClass: 'rz-icon-ri--add-line'
             }],
-            breadcrumb: {
-                label: 'redirection-breadcrumb',
-                current: 'manage.redirections'|trans,
-            },
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
-            display_select_all_button: true,
-        }  only %}
+            displaySelectAllButton: true,
+        }  only %}{% endembed %}
 
-        {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
+        {% include '@RoadizRozier/ui/patterns/bulk_actions.html.twig' %}
 
         <article>
             {% include '@RoadizRozier/redirections/list_table.html.twig' with {
                 items: items,
                 filters: filters,
-                actions_available: true,
-                selection_available: hasBulkActions,
+                actionsAvailable: true,
+                selectionAvailable: hasBulkActions,
             } only %}
         </article>
 

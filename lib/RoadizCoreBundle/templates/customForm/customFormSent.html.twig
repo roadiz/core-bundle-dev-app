@@ -3,14 +3,19 @@
 {% block title %}{{ customForm.displayName }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global">
-    <header class="content-header header-custom-form header-custom-form-add">
-        <h1 class="content-title">{{ customForm.displayName }}</h1>
-        <div class="content-desc">{{ customForm.description|markdown }}</div>
-    </header>
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+    {{ rz_message.root({ color: 'success', text: 'customForm.answer.sent'|trans, attributes: { role: 'status' } }) }}
 
-    <article class="content">
-        <p><strong>{% trans %}customForm.answer.sent{% endtrans %}</strong></p>
-    </article>
-</section>
+    {# Visitors only see the confirmation, backoffice users can go back to the answers #}
+    {% if is_granted('ROLE_ACCESS_CUSTOMFORMS') %}
+        {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+        <div class="rz-page-preview__actions">
+            {{ rz_button.root({
+                emphasis: 'primary',
+                label: 'back_to.customFormAnswers',
+                iconClass: 'rz-icon-ri--arrow-left-s-line',
+                attributes: { href: path('customFormAnswersHomePage', { customFormId: customForm.id }) },
+            }) }}
+        </div>
+    {% endif %}
 {% endblock %}

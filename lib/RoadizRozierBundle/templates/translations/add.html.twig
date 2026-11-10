@@ -11,15 +11,14 @@
 
     {% include '@RoadizRozier/translations/head.html.twig' with {
         title: 'add.a.translation'|trans,
-        with_breadcrumb: true,
     } only %}
 
     <article class="content content-add-translation">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: { id: 'add-translation-form'}}) }}
         {{ form_widget(form) }}
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#add-translation-form') }}
+        {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem({ dataActionSave: '#add-translation-form' }) }}
         {{ form_end(form) }}
     </article>
     {% include '@RoadizRozier/translations/actionsMenu.html.twig' %}

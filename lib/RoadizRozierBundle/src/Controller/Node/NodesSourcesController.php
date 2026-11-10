@@ -17,6 +17,7 @@ use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use RZ\Roadiz\RozierBundle\Controller\VersionedControllerTrait;
 use RZ\Roadiz\RozierBundle\Form\NodeSource\NodeSourceType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -54,6 +55,7 @@ final class NodesSourcesController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly TranslationRepository $translationRepository,
         private readonly NodeTypeClassLocatorInterface $nodeTypeClassLocator,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -263,11 +265,12 @@ final class NodesSourcesController extends AbstractController
 
         $title = $this->translator->trans('delete.translation');
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $title,
             'subtitle' => $ns->getTitle().' - '.$ns->getTranslation()->getName(),
             'headPath' => '@RoadizRozier/nodes/head.html.twig',
             'cancelPath' => $this->generateUrl('nodesEditPage', ['nodeId' => $ns->getNode()->getId()]),
+            'breadcrumb_parents' => $this->breadcrumbRoots->trailTo('nodes', $ns->getNode()),
             'alertMessage' => 'are_you_sure.delete.nodeSource',
             'form' => $form->createView(),
         ]);

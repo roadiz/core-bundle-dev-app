@@ -1,11 +1,23 @@
-import type { Args } from '../../../../stories/RzHeader.stories'
-import { rzHeaderNavItemRenderer } from '~/utils/storybook/renderer/rzHeaderNavItem'
+import {
+    rzHeaderNavItemRenderer,
+    type RzHeaderNavItemOptions,
+} from '~/utils/storybook/renderer/rzHeaderNavItem'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzDropdownRenderer } from '~/utils/storybook/renderer/rzDropDown'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
+import { rzColorSchemeSwitcherRenderer } from '~/utils/storybook/renderer/rzColorSchemeSwitcher'
 
 const COMPONENT_CLASS_NAME = 'rz-header'
+
+export type RzHeaderNavItem = RzHeaderNavItemOptions & {
+    children?: RzHeaderNavItemOptions[]
+    additionalClass?: string
+}
+
+export type RzHeaderOptions = {
+    navItems: RzHeaderNavItem[]
+}
 
 export const DEFAULT_NAV_ITEMS = [
     {
@@ -157,7 +169,7 @@ export const DEFAULT_NAV_ITEMS = [
     },
 ]
 
-function itemRenderer(itemArgs: Args['navItems'][number]) {
+function itemRenderer(itemArgs: RzHeaderNavItem) {
     const listItem = document.createElement('li')
     listItem.classList.add(`${COMPONENT_CLASS_NAME}__li`)
 
@@ -177,7 +189,7 @@ function itemRenderer(itemArgs: Args['navItems'][number]) {
     return listItem
 }
 
-function listRenderer(items: Args['navItems'], subList?: boolean) {
+function listRenderer(items: RzHeaderNavItem[], subList?: boolean) {
     const list = document.createElement('ul')
     list.classList.add(`${COMPONENT_CLASS_NAME}__list`)
 
@@ -278,14 +290,22 @@ function rzHeaderHeadRenderer() {
     const burger = burgerRenderer()
     head.appendChild(burger)
 
+    const colorSchemeSwitcher = rzColorSchemeSwitcherRenderer({
+        id: `color-theme-switcher-${Math.random().toString(36).slice(2, 8)}`,
+        attributes: {
+            class: `${COMPONENT_CLASS_NAME}__color-switcher ${COMPONENT_CLASS_NAME}__head__item--end`,
+        },
+    })
+    head.appendChild(colorSchemeSwitcher)
+
     const badge = rzBadgeRenderer({ label: 'Production', size: 'sm' })
-    badge.classList.add(`${COMPONENT_CLASS_NAME}__head__item--end`)
+    badge.classList.add(`${COMPONENT_CLASS_NAME}__head__item`)
     head.appendChild(badge)
 
     return head
 }
 
-export function rzHeaderRenderer(args: Args) {
+export function rzHeaderRenderer(args: RzHeaderOptions) {
     const wrapper = document.createElement('header')
     wrapper.classList.add(COMPONENT_CLASS_NAME)
 

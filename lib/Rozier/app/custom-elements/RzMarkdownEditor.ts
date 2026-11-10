@@ -81,7 +81,9 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.usePreview = false
 
         const editorConfig: ExtendedEditorConfiguration = {
-            mode: 'gfm',
+            // highlightFormatting emits `cm-formatting-*` classes on Markdown
+            // markers (`#`, `**`, `-`, `>`…) so they can be styled apart.
+            mode: { name: 'gfm', highlightFormatting: true },
             lineNumbers: false,
             tabSize: 4,
             styleActiveLine: true,
@@ -247,10 +249,19 @@ export default class RzMarkdownEditor extends HTMLElement {
         })
 
         window.requestAnimationFrame(() => {
-            document.querySelectorAll('[data-uk-switcher]').forEach((el) => {
-                el.addEventListener('show.uk.switcher', this.forceEditorUpdate)
-            })
             this.forceEditorUpdate()
+
+            // When the URL hash targets this textarea, focus the CodeMirror
+            // instance — the browser can't auto-focus it because CodeMirror
+            // replaces the textarea with its own DOM structure.
+            if (
+                window.location.hash &&
+                this.textarea.id &&
+                window.location.hash === `#${this.textarea.id}`
+            ) {
+                this.editor.focus()
+                this.$editor.scrollIntoView()
+            }
         })
 
         this.setAttribute('initialized', 'true')
@@ -580,9 +591,6 @@ export default class RzMarkdownEditor extends HTMLElement {
         })
 
         window.removeEventListener('keyup', this.closePreview)
-        document.querySelectorAll('[data-uk-switcher]').forEach((el) => {
-            el.removeEventListener('show.uk.switcher', this.forceEditorUpdate)
-        })
 
         this.preview?.remove()
         this.tabs?.remove()

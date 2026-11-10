@@ -99,6 +99,23 @@ There are two parameters that you must take care of in your themes and your cont
 
 For example, *publication date and time* won’t be necessary in plain text pages and non-timestampable contents. But we decided to add it directly to the `NodesSources` entity to be able to filter and order with this field in the Roadiz back office. This would not be possible if you manually created your own `publishedAt` as a node-type field.
 
+### Scheduled publication window (`publishedAt` / `unpublishedAt`)
+
+Node-sources expose two optional, symmetric date-time fields that define a **publication window**:
+
+- `publishedAt` — enabled when the node-type is `publishable`. Content becomes visible once `publishedAt <= now`.
+- `unpublishedAt` — enabled when the node-type is `unpublishable`. Content becomes hidden again once `unpublishedAt` is reached.
+
+A node-source is considered publicly visible (outside preview mode) when **all** of the following hold:
+
+```
+node.status = PUBLISHED
+AND publishedAt <= now
+AND (unpublishedAt IS NULL OR unpublishedAt > now)
+```
+
+`unpublishedAt` is nullable and defaults to `null`, meaning *never expires* — so enabling `unpublishable` is fully backward-compatible with existing content. Both fields are applied consistently by the node-source repository, the API Platform query extensions and `NodesSources::isPublished()`. As with `publishedAt`, preview mode bypasses the date-time gate so editors can review expired or not-yet-published content.
+
 ::: warning
 Pay attention that *publication date and time* (`publishedAt`) and visibility (`node.visible`) **do not prevent** your node-source from being viewed if you do not explicitly forbid access to its controller. This field is not deeply set into Roadiz security mechanics.
 

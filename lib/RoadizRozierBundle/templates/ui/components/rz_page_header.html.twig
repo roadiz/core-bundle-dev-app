@@ -1,0 +1,117 @@
+{# rz-page-header: embedded, blocks breadcrumb, buttons, badges, translation, title, subtitle, nav_bar, additional_row (no renderer yet), story Components/Navigation/PageHeader #}
+{% set breadcrumb_html %}
+    {% block breadcrumb %}
+        {% if breadcrumb is defined and breadcrumb %}
+            {% import '@RoadizRozier/ui/components/rz_breadcrumb.html.twig' as rz_breadcrumb %}
+            {{ rz_breadcrumb.root(breadcrumb) }}
+        {% endif %}
+    {% endblock %}
+{% endset %}
+{% set buttons_html %}{% block buttons %}{% endblock %}{% endset %}
+{% set badges_html %}{% block badges %}{% endblock %}{% endset %}
+{% set translation_html %}{% block translation %}{% endblock %}{% endset %}
+{% set title_html %}{% block title %}{% endblock %}{% endset %}
+{% set subtitle_html %}{% block subtitle %}{% endblock %}{% endset %}
+{% set nav_bar_html %}{% block nav_bar %}{% endblock %}{% endset %}
+
+<div class="rz-page-header">
+    {% if breadcrumb_html|trim is not empty or buttons_html|trim is not empty %}
+        <div class="rz-page-header__row rz-page-header__row--border">
+            {{- breadcrumb_html -}}
+            {{- buttons_html -}}
+        </div>
+    {% endif %}
+    {% if badges_html|trim is not empty or translation_html|trim is not empty %}
+        <div class="rz-page-header__row">
+            {{- badges_html -}}
+            {{- translation_html -}}
+        </div>
+    {% endif %}
+    {% if title_html|trim is not empty %}
+        <div class="rz-page-header__row">
+            {{- title_html -}}
+        </div>
+    {% endif %}
+    {% if subtitle_html|trim is not empty %}
+        <div class="rz-page-header__row">
+            {{- subtitle_html -}}
+        </div>
+    {% endif %}
+    {% if nav_bar_html|trim is not empty %}
+        <div class="rz-page-header__row">
+            {{- nav_bar_html -}}
+        </div>
+    {% endif %}
+    {% block additional_row %}
+    {% endblock %}
+</div>
+
+{#
+    Twig-only options: availableTranslations, path (route name), pathParams, current (translation id),
+    pathAddTranslations (URL), pathAddTranslationsTitle.
+#}
+{% macro translations_bar(options = {}) %}
+    {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
+    {% set available_translations = options.availableTranslations|default([]) %}
+    {% set path = options.path|default(null) %}
+    {% set pathParams = options.pathParams|default({}) %}
+    {% set current = options.current|default(null) %}
+    {% set pathAddTranslations = options.pathAddTranslations|default(null) %}
+    {% set pathAddTranslationsTitle = options.pathAddTranslationsTitle|default(null) %}
+    {% if available_translations %}
+        <div class="rz-page-header__translations rz-button-group rz-button-group--sm rz-button-group--collapsed">
+            {%- for translation in available_translations -%}
+                {% set class = 'rz-button rz-button-group__button' %}
+                {% if current == translation.getId %}
+                    {% set class = class ~ ' rz-button--primary' %}
+                {% else %}
+                    {% set class = class ~ ' rz-button--secondary' %}
+                {% endif %}
+                {% set href = path(path, pathParams|merge({
+                    'translationId': translation.id,
+                    'locale': translation.locale
+                })) %}
+
+                {% set attr = { href: href, 'data-translation-id': translation.id } %}
+                {% if current == translation.getId %}
+                    {% set attr = attr|merge({ 'aria-current': 'page' }) %}
+                {% endif %}
+
+                {{ rz_link.root({
+                    label: translation.preferredLocale,
+                    attributes: attr|merge({ class: class }),
+                }) }}
+
+            {%- endfor -%}
+            {% if pathAddTranslations is defined and pathAddTranslations %}
+                {% set class = 'rz-button rz-button-group__button' %}
+                {% if not current %}
+                    {% set class = class ~ ' rz-button--primary' %}
+                {% else %}
+                    {% set class = class ~ ' rz-button--secondary' %}
+                {% endif %}
+                {{ rz_link.root({
+                    iconClass: 'rz-icon-ri--add-line',
+                    attributes: {
+                        class: class,
+                        href: pathAddTranslations,
+                        title: pathAddTranslationsTitle,
+                    }
+                }) }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{# options = RzButtonGroupOptions (component-renderer/rzButtonGroup.ts): buttons are rendered with the primary emphasis #}
+{% macro button_group(options = {}) %}
+    {% set buttons = options.buttons|default([]) %}
+    {%- if buttons|length > 0 -%}
+        {% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
+        <div class="{{ html_classes('rz-page-header__item--right', buttons|length > 1 ? 'rz-button-group rz-button-group--gap-' ~ options.gap|default('md') : '') }}">
+            {%- for btn in buttons -%}
+                {{ rz_button.root(btn|merge({ emphasis: 'primary' })) }}
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{% endmacro %}

@@ -4,6 +4,7 @@ displayName: Article
 description: Article
 visible: true
 publishable: true
+unpublishable: true
 attributable: true
 sortingAttributesByWeight: false
 reachable: true
@@ -13,19 +14,23 @@ fields:
         description: 'Your content'
         label: 'Your content'
         type: markdown
+        metaDescriptionFallback: true
     -
         name: images
         universal: true
         label: Images
         type: documents
+        shareImage: true
     -
         name: realm_b_secret
+        excludeFromTranslation: true
         serializationGroups:
             - realm_b
         label: 'Secret realm_b'
         type: string
     -
         name: realm_a_secret
+        excludeFromTranslation: true
         serializationGroups:
             - realm_a
         label: 'Secret realm_a'
@@ -39,13 +44,8 @@ fields:
             - AliasBlock
         type: children-nodes
     -
-        name: unpublished_at
-        universal: true
-        indexed: true
-        label: 'Date de dépublication'
-        type: date-time
-    -
         name: only_on_webresponse
+        excludeFromTranslation: true
         serializationGroups:
             - article_get_by_path
         label: 'Only on web response'

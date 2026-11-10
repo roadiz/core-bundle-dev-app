@@ -1,18 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzDialogRenderer } from '~/utils/storybook/renderer/rzDialog'
+import {
+    type RzDialogOptions,
+    rzDialogRenderer,
+} from '~/utils/storybook/renderer/rzDialog'
 import { rzInputRenderer } from '~/utils/storybook/renderer/rzInput'
-import type { Args as DialogArgs } from './RzDialog.stories'
 import {
     rzButtonRenderer,
     type RzButtonOptions,
 } from '~/utils/component-renderer/rzButton'
 import { rzElement, type RzElement } from '~/utils/component-renderer/rzElement'
 
-export type Args = RzElement & {
+type Args = RzElement & {
     value?: string
     action?: string
     placeholder?: string
-    dialogData: DialogArgs & Required<Pick<DialogArgs, 'dialogId'>>
+    dialogData: RzDialogOptions & Required<Pick<RzDialogOptions, 'dialogId'>>
     buttonOptions?: RzButtonOptions
 }
 
@@ -30,8 +32,9 @@ const statusTexts = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Overlay/SearchDialog',
+    title: 'Components/Overlay/Search',
     tags: ['autodocs'],
+    render: (args) => rzSearchRenderer(args),
     args: {
         placeholder: 'Search...',
         action: '',
@@ -129,9 +132,6 @@ function rzSearchRenderer(args: Args) {
 }
 
 export const Default: Story = {
-    render: (args) => {
-        return rzSearchRenderer(args)
-    },
     args: {
         dialogData: {
             ...meta.args.dialogData,
@@ -141,9 +141,6 @@ export const Default: Story = {
 }
 
 export const WithOpenKeyBind: Story = {
-    render: (args) => {
-        return rzSearchRenderer(args)
-    },
     args: {
         ...meta.args,
         buttonOptions: {
@@ -160,9 +157,6 @@ export const WithOpenKeyBind: Story = {
 }
 
 export const DefaultOpen: Story = {
-    render: (args) => {
-        return rzSearchRenderer(args)
-    },
     args: {
         dialogData: {
             ...meta.args.dialogData,

@@ -1,0 +1,64 @@
+/*
+ * Rozier CodeMirror theme (`theme: 'rz'`) for the YAML, CSS and JSON code editors.
+ * The `--rz-code-syntax-*` palette is shared with the Markdown editor (rz-markdown-editor.css).
+ */
+:root {
+	--rz-code-syntax-key: light-dark(var(--color-brand-brand-blue), var(--color-basic-blue));
+	--rz-code-syntax-string: light-dark(var(--color-basic-dark-green), var(--color-basic-green));
+	--rz-code-syntax-number: light-dark(var(--color-basic-dark-orange), var(--color-basic-orange));
+	--rz-code-syntax-keyword: var(--content-on-light-primary);
+	--rz-code-syntax-comment: var(--content-on-light-secondary);
+	--rz-code-syntax-punctuation: var(--content-on-light-secondary);
+	--rz-code-syntax-code-bg: var(--surface-light-tertiary);
+}
+
+.cm-s-rz {
+	/* Values: strings first so JSON keys (`cm-string cm-property`) end up with the key colour */
+	.cm-string,
+	.cm-string-2 {
+		color: var(--rz-code-syntax-string);
+	}
+
+	.cm-number,
+	.cm-atom {
+		color: var(--rz-code-syntax-number);
+	}
+
+	/* Keys and selectors */
+	.cm-property,
+	.cm-tag,
+	.cm-qualifier,
+	.cm-builtin {
+		color: var(--rz-code-syntax-key);
+	}
+
+	.cm-keyword,
+	.cm-def,
+	.cm-variable-2 {
+		color: var(--rz-code-syntax-keyword);
+		font-weight: bold;
+	}
+
+	.cm-comment {
+		color: var(--rz-code-syntax-comment);
+		font-style: italic;
+	}
+
+	.cm-meta,
+	.cm-bracket,
+	.cm-hr {
+		color: var(--rz-code-syntax-punctuation);
+	}
+}
+
+/* YAML mode tokenizes keys as `atom` and booleans as `keyword`: align them with CSS/JSON */
+[data-rz-yamleditor] + .cm-s-rz {
+	.cm-atom {
+		color: var(--rz-code-syntax-key);
+	}
+
+	.cm-keyword {
+		color: var(--rz-code-syntax-number);
+		font-weight: normal;
+	}
+}

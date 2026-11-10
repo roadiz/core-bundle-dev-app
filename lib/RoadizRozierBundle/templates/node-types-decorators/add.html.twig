@@ -12,12 +12,10 @@
         {% include '@RoadizRozier/node-types/head.html.twig' with {
             title: headerTitle,
             subtitle: nodeType ? nodeType.displayName : null,
-            with_breadcrumb: true,
             item: {displayName: headerTitle},
             breadcrumb_parents: [
                 {
-                    displayName: 'nodeTypeDecorator'|trans,
-                    type: 'listing',
+                    label: 'nodeTypeDecorator'|trans,
                     url: path('nodeTypeDecoratorsListPage')
                 },
             ],
@@ -31,8 +29,8 @@
                 }})
             }}
                 {{ form_widget(form) }}
-                {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-                {{ actions_menu.saveItem('#edit-nodetypedecorator-form') }}
+                {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+                {{ actions_menu.saveItem({ dataActionSave: '#edit-nodetypedecorator-form' }) }}
             {{ form_end(form) }}
         </article>
         {% include '@RoadizRozier/node-types-decorators/actionsMenu.html.twig' %}

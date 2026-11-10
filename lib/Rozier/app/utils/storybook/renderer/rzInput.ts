@@ -1,8 +1,19 @@
-import type { Args } from '../../../../stories/RzInput.stories'
+import type { INPUT_TYPES } from '~/custom-elements/RzInput'
+
+export type RzInputOptions = {
+    type: (typeof INPUT_TYPES)[number]
+    name: string
+    id: string
+    placeholder?: string
+    value?: string
+    required?: boolean
+    className?: string
+    attributes?: { [key: string]: string }
+}
 
 export const COMPONENT_CLASS = 'rz-input'
 
-export function rzInputRenderer(args: Args) {
+export function rzInputRenderer(args: RzInputOptions) {
     const input = document.createElement('input', {
         is: args.attributes?.is || COMPONENT_CLASS || '',
     })

@@ -1,0 +1,43 @@
+{# rz-table actions cell: embed vars (no renderer yet) = saveHref, saveTitle, saveClass, editHref, editTitle, editIconClass, deleteHref, deleteTitle; block other_actions; `button` = RzButtonOptions #}
+<div class="rz-table__actions rz-button-group--sm">
+	{% if saveHref|default(null) %}
+		{{ _self.button({
+			iconClass: 'rz-icon-ri--save-line',
+			color: 'success',
+			attributes: {
+				class: saveClass|default(''),
+				href: saveHref,
+				title: saveTitle|default('save'|trans),
+			}
+		}) }}
+	{% endif %}
+	{% if editHref|default(null) %}
+		{{ _self.button({
+			iconClass: editIconClass|default('rz-icon-ri--edit-line'),
+			attributes: {
+				href: editHref,
+				title: editTitle|default('edit'|trans),
+			}
+		}) }}
+	{% endif %}
+	{% block other_actions %}{% endblock %}
+	{% if deleteHref|default(null) %}
+		{{ _self.button({
+			iconClass: 'rz-icon-ri--delete-bin-7-line',
+			color: 'danger',
+			attributes: {
+				href: deleteHref,
+				title: deleteTitle|default('delete'|trans),
+			}
+		}) }}
+	{% endif %}
+</div>
+
+{% macro button(options = {}) %}
+	{% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+
+	{{ rz_button.root(options|merge({
+		size: 'xs',
+		emphasis: 'tertiary',
+	})) }}
+{% endmacro %}

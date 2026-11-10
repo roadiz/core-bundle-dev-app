@@ -20,8 +20,9 @@ type Args = RzElement & {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Table',
+    title: 'Components/Data display/Table',
     tags: ['autodocs'],
+    render: (args) => rzTableRenderer(args),
     args: {
         caption: 'This is the table caption',
         header: true,
@@ -206,8 +207,4 @@ function rzTableRenderer(args: Args) {
     return table
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzTableRenderer(args)
-    },
-}
+export const Default: Story = {}

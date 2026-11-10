@@ -1,115 +1,127 @@
-{% if not source %}
-    {% set source = node.nodeSources.first %}
-{% endif %}
-{% if node.parent.shadow == true %}
-    {% set breadcrumbParent = [source|parent(null, true)] %}
-{% else %}
-    {% set breadcrumbParent = source|parents(null, true)|reverse %}
-    {% set homePage = [{
-        type: 'listing',
-        url: path('nodesHomePage'),
-        label: 'all.nodes'|trans,
-    }] %}
-    {% set breadcrumbParent = homePage|merge(breadcrumbParent) %}
+{# Used by the trail below, but also by the badges and buttons further down. #}
+{% set node = node is defined and node ? node : null %}
+{% set source = source is defined and source ? source : (node ? node.nodeSources.first : null) %}
+
+{# A caller that already composed its own trail (confirm_action) keeps it. #}
+{% if breadcrumb is not defined or not breadcrumb %}
+    {% set root = breadcrumb_root('nodes') %}
+
+    {% if source %}
+        {# A shadow parent hides its own ancestors: the trail stops at it. #}
+        {% set breadcrumb_parents = node.parent.shadow == true
+            ? [source|parent(null, true)]
+            : [root]|merge(source|parents(null, true)|reverse) %}
+        {% set breadcrumb = {
+            parents: breadcrumb_parents,
+            current: source.title|default(node.nodeName),
+        } %}
+    {% else %}
+        {% set breadcrumb = {
+            parents: app.request.attributes.get('_route') == root.route
+                ? []
+                : [root]|merge(breadcrumb_parents|default([])),
+            current: title,
+        } %}
+    {% endif %}
 {% endif %}
 
-{% if source is defined and source %}
-    {% set breadcrumb = {
-        'label': 'node-breadcrumb',
-        'parent': breadcrumbParent,
-        'current': source.title|default(node.nodeName),
-        'home': source.node.home,
-    } %}
-{% endif %}
-{% embed "@RoadizRozier/macros/rz_page_header.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_page_header.html.twig" with {
     breadcrumb: breadcrumb
 } %}
-    {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
+    {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
     {% block translation %}
         {% if available_translations is defined and available_translations and translation is defined and translation.id %}
             {% if not route %}
                 {% set route = 'nodesEditSourcePage' %}
             {% endif %}
             <div class="rz-page-header__item--right">
-                {{ _self.translations_bar(
-                    available_translations: available_translations,
+                {{ _self.translations_bar({
+                    availableTranslations: available_translations,
                     current: translation.id,
                     path: route,
                     pathParams: {nodeId: node.getId},
                     pathAddTranslations: path('nodesTranslatePage', { nodeId: node.getId }),
                     pathAddTranslationsTitle: 'translate.node'|trans,
-                ) }}
+                }) }}
             </div>
         {% endif %}
     {% endblock %}
 
-    {% block breadcrumb %}
-        {% if breadcrumb is defined and breadcrumb %}
-            {{ _self.breadcrumb(breadcrumb) }}
-        {% endif %}
-    {% endblock %}
 
     {% block buttons %}
+        {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
         {% if node.stackTypes|length and stackTypesButton %}
             <div class="stack-tree-quick-creation rz-button-group rz-button-group--gap-md rz-page-header__item--right">
                 {% for stackType in node.stackTypes %}
                     {% set nodeType = getNodeType(stackType) %}
-                    <button
-                        type="button"
-                        class="rz-button rz-button--primary rz-button-group__button"
-                        data-children-node-type="{{ nodeType.name }}"
-                        data-children-parent-node="{{ node.id }}"
-                        {% if specificNodeTree is defined and specificNodeTree.tag is defined %}data-filter-tag="{{ specificNodeTree.tag.id }}"{% endif %}
-                    >
-                        <span class="rz-button__label">{{ nodeType.displayName }}</span>
-                        <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                    </button>
+                    {{ rz_button.root({
+                        emphasis: 'primary',
+                        label: nodeType.displayName,
+                        iconClass: 'rz-icon-ri--add-line',
+                        attributes: {
+                            type: 'button',
+                            class: 'rz-button-group__button',
+                            'data-children-node-type': nodeType.name,
+                            'data-children-parent-node': node.id,
+                        }|merge(specificNodeTree.tag.id is defined ? { 'data-filter-tag': specificNodeTree.tag.id } : {}),
+                    }) }}
                 {% endfor %}
             </div>
         {% endif %}
         {% if nodeTypes is defined and nodeTypes and nodeTypes|length %}
             <div class="rz-button-group--gap-md rz-page-header__item--right">
                 {% if mainFilter == 'deleted' %}
-                    <a class="rz-button rz-button--primary rz-button-group__button"
-                       href="{{ path('nodesEmptyTrashPage') }}">
-                        <span class="rz-button__label">{{ 'empty.node.trash'|trans }}</span>
-                        <span class="rz-button__icon rz-icon-ri--delete-bin-7-line"></span>
-                    </a>
+                    {{ rz_button.root({
+                        emphasis: 'primary',
+                        label: 'empty.node.trash',
+                        iconClass: 'rz-icon-ri--delete-bin-7-line',
+                        attributes: {
+                            class: 'rz-button-group__button',
+                            href: path('nodesEmptyTrashPage'),
+                        },
+                    }) }}
                 {% else %}
                     <rz-popover popover-placement="bottom-end"
                                 popover-offset="10" popover-shift="10"
                                 class="rz-page-header__item--right"
                     >
-                        <button popovertarget="nodeExport-menu"
-                                class="rz-button rz-button--primary"
-                                aria-label="{{ 'export.all.nodes'|trans }}">
-                            <span class="rz-button__label">{{ 'export.all.nodes'|trans }}</span>
-                            <span class="rz-button__icon rz-icon-ri--download-cloud-2-line"></span>
-                        </button>
+                        {{ rz_button.root({
+                            emphasis: 'primary',
+                            label: 'export.all.nodes',
+                            iconClass: 'rz-icon-ri--download-cloud-2-line',
+                            attributes: {
+                                popovertarget: 'nodeExport-menu',
+                                'aria-label': 'export.all.nodes'|trans,
+                            },
+                        }) }}
 
-                        {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                        {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                             targetId: 'nodeExport-menu',
-                            tagList: 'ul',
+                            listTag: 'ul',
                             items: availableTranslations,
                         } only %}
                             {% block items %}
                                 {% for item in items %}
                                     {{ _self.item({
                                         label: 'export_format.csv.%language%'|trans({'%language%':item.name }),
-                                        href: path('nodesExportAllCsvPage', {
+                                        attributes: { href: path('nodesExportAllCsvPage', {
                                             translationId: item.id
-                                        }),
-                                        rightIcon: 'rz-icon-ri--file-download-line'
+                                        }) },
+                                        rightIconClass: 'rz-icon-ri--file-download-line'
                                     }) }}
                                 {% endfor %}
                             {% endblock %}
                         {% endembed %}
                     </rz-popover>
-                    <a class="rz-button rz-button--primary rz-button-group__button"
-                       href="{{ path('nodesAddPage', { translationId:translation.getId }) }}">
-                        <span class="rz-button__label">{{ 'create.a.node'|trans }}</span>
-                        <span class="rz-button__icon rz-icon-ri--add-line"></span>
-                    </a>
+                    {{ rz_button.root({
+                        emphasis: 'primary',
+                        label: 'create.a.node',
+                        iconClass: 'rz-icon-ri--add-line',
+                        attributes: {
+                            class: 'rz-button-group__button',
+                            href: path('nodesAddPage', { translationId: translation.getId }),
+                        },
+                    }) }}
                 {% endif %}
             </div>
         {% endif %}
@@ -118,7 +130,7 @@
     {% block badges %}
         {% if app.debug and with_debug_badge %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     label: 'NS #' ~ source.id,
                     size: 'sm',
                     color: 'information'
@@ -127,17 +139,17 @@
         {% endif %}
         {% if filters and filters.itemCount %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     label: '%count%.items'|transchoice(filters.itemCount)|raw,
                     size: 'sm',
                 }) }}
             </div>
         {% endif %}
         {% if with_status_badge is defined and with_status_badge %}
-            {% import "@RoadizRozier/macros/rz_node_badge.html.twig" as rz_node_badge %}
+            {% import "@RoadizRozier/ui/components/rz_node_badge.html.twig" as rz_node_badge %}
             <div class="rz-page-header__item">
-                {{ rz_node_badge.status(node) }}
-                {{ rz_node_badge.parameters(node, { display_label:  false }) }}
+                {{ rz_node_badge.status({ node: node }) }}
+                {{ rz_node_badge.parameters({ node: node, displayLabel: false }) }}
             </div>
         {% endif %}
     {% endblock %}
@@ -148,9 +160,9 @@
         </h1>
         {% if with_info_badge is defined and with_info_badge and node != null %}
             <div class="rz-page-header__item">
-                {{ rz_badge.item({
+                {{ rz_badge.root({
                     size: 'sm',
-                    icon: 'rz-icon-ri--information-line',
+                    iconClass: 'rz-icon-ri--information-line',
                     attributes: {
                         is: 'rz-link',
                         href: path('nodeTypeFieldsListPage', {'nodeTypeName': node.nodeTypeName}),

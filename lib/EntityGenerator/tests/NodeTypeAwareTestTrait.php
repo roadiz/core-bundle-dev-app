@@ -292,6 +292,9 @@ EOT)
         $mockNodeType
             ->method('isPublishable')
             ->willReturn(true);
+        $mockNodeType
+            ->method('isUnpublishable')
+            ->willReturn(true);
 
         return $mockNodeType;
     }
@@ -328,6 +331,9 @@ EOT)
             ->willReturn(true);
         $mockNodeType
             ->method('isPublishable')
+            ->willReturn(true);
+        $mockNodeType
+            ->method('isUnpublishable')
             ->willReturn(true);
 
         return $mockNodeType;

@@ -1,0 +1,45 @@
+{# rz-badge: options = RzBadgeOptions (component-renderer/rzBadge.ts), story Components/Data display/Badge #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set element_class = 'rz-badge' %}
+    {% set attributes = options.attributes|default({}) %}
+    {% set size = options.size|default('') %}
+    {% set color = options.color|default('') %}
+
+    {% if options.title is defined and options.title %}
+        {% set attributes = attributes|merge({ title: options.title }) %}
+    {% endif %}
+
+    {# A badge with a href renders a link #}
+    {% set tag = options.tag|default('rz-badge') %}
+    {% if attributes.href is defined and attributes.href %}
+        {% set tag = 'a' %}
+        {% set attributes = attributes|merge({ is: options.is|default('rz-link') }) %}
+    {% elseif options.is is defined and options.is %}
+        {% set attributes = attributes|merge({ is: options.is }) %}
+    {% endif %}
+
+    <{{ tag }}
+        class="{{ html_classes(element_class, attributes.class|default(''), {
+            (element_class ~ '--' ~ size): size,
+            (element_class ~ '--' ~ color): color,
+        }) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        {%- if options.innerHTML is defined and options.innerHTML -%}
+            {{- options.innerHTML|raw -}}
+        {%- endif -%}
+        {{ _self.inner(options) }}
+    </{{ tag }}>
+{% endmacro %}
+
+{# Icon and label of a badge, for markup that reuses the rz-badge inner parts #}
+{% macro inner(options = {}) %}
+    {% if options.iconClass is defined and options.iconClass %}
+        <span class="rz-badge__icon {{ options.iconClass }}"></span>
+    {% endif %}
+    {% if options.label is defined and options.label %}
+        <span class="rz-badge__label">{{- options.label|trans -}}</span>
+    {% endif %}
+{% endmacro %}

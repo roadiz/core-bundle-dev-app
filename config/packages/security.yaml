@@ -53,7 +53,7 @@ security:
                 check_post_only: true
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-                signature_properties: [ 'email' ]
+                signature_properties: [ 'email', 'password' ]
                 # lifetime in seconds
                 lifetime: 600
                 max_uses: 10
@@ -89,7 +89,8 @@ security:
                 path: /
             login_link:
                 check_route: login_link_check
-                signature_properties: [ 'id', 'email' ]
+                check_post_only: true
+                signature_properties: [ 'id', 'email', 'password' ]
                 # lifetime in seconds
                 lifetime: 300
                 # only allow the link to be used 3 times

@@ -1,0 +1,25 @@
+meta {
+  name: Preview search resources
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/search?search=test&_locale=en&node_type[]=Page&_preview=1
+  body: none
+  auth: bearer
+}
+
+params:query {
+  search: test
+  _locale: en
+  node_type[]: Page
+  _preview: 1
+  ~node_type[]: Offer
+  ~tag_name[]: Category 1 FR
+  ~tag_name[]: aasd-asd-s
+}
+
+auth:bearer {
+  token: {{token}}
+}

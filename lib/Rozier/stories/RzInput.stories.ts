@@ -1,21 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { INPUT_TYPES } from '../app/custom-elements/RzInput'
-import { rzInputRenderer } from '../app/utils/storybook/renderer/rzInput'
+import { INPUT_TYPES } from '~/custom-elements/RzInput'
+import {
+    type RzInputOptions,
+    rzInputRenderer,
+} from '~/utils/storybook/renderer/rzInput'
 
-export type Args = {
-    type: (typeof INPUT_TYPES)[number]
-    name: string
-    id: string
-    placeholder?: string
-    value?: string
-    required?: boolean
-    className?: string
-    attributes?: { [key: string]: string }
-}
+type Args = RzInputOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Input',
     tags: ['autodocs'],
+    render: (args) => rzInputRenderer(args),
     args: {
         name: 'input-name',
         placeholder: 'A default placeholder',
@@ -36,16 +31,9 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const Text: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'text',
         placeholder: 'placeholder text',
@@ -54,9 +42,6 @@ export const Text: Story = {
 }
 
 export const TextWithDefault: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'text',
         placeholder: 'placeholder text',
@@ -65,44 +50,34 @@ export const TextWithDefault: Story = {
 }
 
 export const Number: Story = {
-    render: (args) => {
-        return rzInputRenderer(args, {
-            min: '1',
-            max: '990000', // Initial input width depends on attribute character length
-        })
-    },
     args: {
         type: 'number',
         placeholder: '42',
+        attributes: {
+            min: '1',
+            max: '990000', // Initial input width depends on attribute character length
+        },
     },
 }
 
 export const Radio: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'radio',
     },
 }
 
 export const Checkbox: Story = {
-    render: (args) => {
-        return rzInputRenderer(args, { checked: args.value })
-    },
     args: {
         type: 'checkbox',
         value: 'true',
+        attributes: { checked: 'checked' },
     },
 }
 
 /**
- * Use [RzColorInput custom element](http://localhost:6006/?path=/docs/components-form-colorinput--docs) for better color input support.
+ * Use [RzColorInput custom element](?path=/docs/components-form-colorinput--docs) for better color input support.
  */
 export const Color: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     argTypes: {
         value: {
             control: { type: 'color' },
@@ -116,9 +91,6 @@ export const Color: Story = {
 }
 
 export const ColorWithDefault: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     argTypes: {
         value: {
             control: { type: 'color' },
@@ -132,9 +104,6 @@ export const ColorWithDefault: Story = {
 }
 
 export const Email: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'email',
         placeholder: 'john-doe@gmail.com',
@@ -142,63 +111,42 @@ export const Email: Story = {
 }
 
 export const Tel: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'tel',
     },
 }
 
 export const Range: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'range',
     },
 }
 
 export const File: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'file',
     },
 }
 
 export const Hidden: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'hidden',
     },
 }
 
 export const Image: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'image',
     },
 }
 
 export const Password: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'password',
     },
 }
 
 export const Search: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'search',
         placeholder: 'Search...',
@@ -206,72 +154,48 @@ export const Search: Story = {
 }
 
 export const Url: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'url',
     },
 }
 
 export const Reset: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'reset',
     },
 }
 
 export const Submit: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'submit',
     },
 }
 
 export const Time: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'time',
     },
 }
 
 export const Date: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'date',
     },
 }
 
 export const DatetimeLocal: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'datetime-local',
     },
 }
 
 export const Month: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'month',
     },
 }
 
 export const Week: Story = {
-    render: (args) => {
-        return rzInputRenderer(args)
-    },
     args: {
         type: 'week',
     },

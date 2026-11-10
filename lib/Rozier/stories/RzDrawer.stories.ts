@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzFormFieldRenderer } from '~/utils/storybook/renderer/rzFormField'
-import { type Args as FormFieldArgs } from './RzFormField.stories'
+import {
+    type RzFormFieldOptions,
+    rzFormFieldRenderer,
+} from '~/utils/storybook/renderer/rzFormField'
 import {
     type RzCardOptions,
     rzCardRenderer,
@@ -13,7 +15,7 @@ import imageVertical from './assets/images/02.jpg'
 const COMPONENT_CLASS_NAME = 'rz-drawer'
 const DRAWER_LAYOUTS = ['grid', 'grid-larger', 'full']
 
-export type Args = FormFieldArgs & {
+type Args = RzFormFieldOptions & {
     layout: (typeof DRAWER_LAYOUTS)[number]
     items: RzCardOptions[]
 }
@@ -97,8 +99,9 @@ const DOCUMENT_ITEM: RzCardOptions = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Form/Drawer/Root',
+    title: 'Components/Overlay/Drawer',
     tags: ['autodocs'],
+    render: (args) => rzDrawerRenderer(args),
     args: {
         label: 'Drawer label',
         iconClass: 'rz-icon-ri--image-line',
@@ -171,26 +174,16 @@ function rzDrawerRenderer(args: Args) {
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
-}
+export const Default: Story = {}
 
-export const NodeEntityDrawer: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
+export const NodeEntity: Story = {
     args: {
         items: [...Array(4).fill(null)].map(() => NODE_WITH_IMG_ITEM),
         layout: 'grid',
     },
 }
 
-export const NodeEntityWithoutImgDrawer: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
+export const NodeEntityWithoutImg: Story = {
     args: {
         items: [...Array(10).fill(null)].map(() => NODE_ITEM),
         layout: 'grid',
@@ -198,9 +191,6 @@ export const NodeEntityWithoutImgDrawer: Story = {
 }
 
 export const NodeEntityMixed: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
     args: {
         items: [
             NODE_ITEM,
@@ -217,20 +207,14 @@ export const NodeEntityMixed: Story = {
     },
 }
 
-export const DocumentDrawer: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
+export const Document: Story = {
     args: {
         items: [...Array(10).fill(null)].map(() => DOCUMENT_ITEM),
         layout: 'grid-larger',
     },
 }
 
-export const DocumentWithPictureTemplateDrawer: Story = {
-    render: (args) => {
-        return rzDrawerRenderer(args)
-    },
+export const DocumentWithPictureTemplate: Story = {
     args: {
         layout: 'grid-larger',
         items: [

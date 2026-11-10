@@ -1,5 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 
 {%- block title -%}
     {% trans %}add.multiple.tags{% endtrans %}
@@ -14,26 +14,28 @@
         with_nav_bar: true,
         tag: tag,
         current: 'add-multiple',
-        with_breadcrumb: true,
     } only %}
 
     <article class="content content-tags-add">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'add-tag-form'}}) }}
         {{ form_widget(form) }}
-        <div class="rz-form-field rz-form-field--align-start">
-            {{
-                rz_button.root({
-                    attributes: {
-                        type: 'submit',
-                        'data-action-save': '#add-tag-form',
-                    },
-                    emphasis: 'primary',
-                    label: 'add_all',
-                    icon: 'rz-icon-ri--add-line',
-                })
-            }}
-        </div>
+        {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+            {% block body %}
+                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                {{
+                    rz_button.root({
+                        attributes: {
+                            type: 'submit',
+                            'data-action-save': '#add-tag-form',
+                        },
+                        emphasis: 'primary',
+                        label: 'add_all',
+                        iconClass: 'rz-icon-ri--add-line',
+                    })
+                }}
+            {% endblock %}
+        {% endembed %}
         {{ form_end(form) }}
     </article>
 

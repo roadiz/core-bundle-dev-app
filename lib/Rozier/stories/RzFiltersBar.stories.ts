@@ -6,15 +6,16 @@ type PossibleElement =
     | (RzElement & { children?: PossibleElement[] })
     | HTMLElement
 
-export type Args = RzElement & {
+type Args = RzElement & {
     elements: PossibleElement[]
 }
 
 const COMPONENT_CLASS_NAME = 'rz-filters-bar'
 
 const meta: Meta<Args> = {
-    title: 'Components/FiltersBar',
+    title: 'Components/Data display/FiltersBar',
     tags: ['autodocs'],
+    render: (args) => rzFiltersBarRenderer(args),
     args: {
         tag: 'rz-filters-bar',
         elements: [
@@ -183,7 +184,7 @@ function appendElements(elements: Args['elements'], parent: HTMLElement) {
     })
 }
 
-function rzListingMenuRenderer(args: Args) {
+function rzFiltersBarRenderer(args: Args) {
     const root = rzElement(args)
     root.classList.add(COMPONENT_CLASS_NAME)
 
@@ -191,8 +192,4 @@ function rzListingMenuRenderer(args: Args) {
     return root
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzListingMenuRenderer(args)
-    },
-}
+export const Default: Story = {}

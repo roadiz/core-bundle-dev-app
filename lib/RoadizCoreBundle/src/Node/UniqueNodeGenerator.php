@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Node;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeClassLocatorInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -31,7 +31,7 @@ final readonly class UniqueNodeGenerator
         private TranslationRepository $translationRepository,
         private TagRepository $tagRepository,
         private Security $security,
-        private NodeTypes $nodeTypesBag,
+        private DecoratedNodeTypes $nodeTypesBag,
         private NodeTypeClassLocatorInterface $nodeTypeClassLocator,
     ) {
     }
@@ -49,7 +49,12 @@ final readonly class UniqueNodeGenerator
         bool $pushToTop = false,
         bool $flush = true,
     ): NodesSources {
-        $name = $nodeType->getDisplayName().' '.uniqid();
+        /*
+         * Resolve the decorated node-type so any display name override
+         * (NodeTypeDecorator) is honoured in the generated node title.
+         */
+        $displayName = $this->nodeTypesBag->get($nodeType->getName())?->getDisplayName() ?? $nodeType->getDisplayName();
+        $name = $displayName.' '.uniqid();
         $node = new Node();
         $node->setNodeTypeName($nodeType->getName());
         $node->setTtl($nodeType->getDefaultTtl());

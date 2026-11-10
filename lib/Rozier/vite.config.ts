@@ -1,4 +1,3 @@
-import vue from '@vitejs/plugin-vue2'
 import { resolve } from 'path'
 import { defineConfig, normalizePath } from 'vite'
 import devManifest from './vite-plugins/dev-manifest'
@@ -10,12 +9,16 @@ export default defineConfig(({ mode }) => {
         base: mode === 'production' ? '/bundles/roadizrozier/' : '/',
         server: {
             cors: true,
+            host: true, // listen on all interfaces, required inside Docker
             // Make sure this port is the same as in Dockerfile and compose.yml
             port: 5173,
             strictPort: true,
+            // URL the browser uses to reach this server (the app runs on another origin)
+            origin: process.env.VITE_DEV_ORIGIN ?? 'http://localhost:5173',
         },
         optimizeDeps: {
-            exclude: ['uikit'], // fix a bug on dev mode + CommonJS require() used in UIkit
+            // No index.html to crawl: scan every entry so the cold start pre-bundles all deps up front
+            entries: ['app/main.js', 'app/simple.js', 'app/shared.js'],
         },
         build: {
             outDir: normalizePath(
@@ -33,22 +36,16 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: `[name]-[hash].js`,
                     chunkFileNames: `[name]-[hash].js`,
                     assetFileNames: `[name]-[hash].[ext]`,
-                    manualChunks: {
-                        jquery: ['jquery'],
-                        vue: ['vue', 'vuex'],
-                    },
                 },
             },
         },
         resolve: {
             alias: {
-                vue: 'vue/dist/vue.esm.js',
                 '~': resolve(__dirname, './app'),
                 assets: resolve(__dirname, './app/assets'),
             },
         },
         plugins: [
-            vue(),
             devManifest(),
             initCollections([
                 {

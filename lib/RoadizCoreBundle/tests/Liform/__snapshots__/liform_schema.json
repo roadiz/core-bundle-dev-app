@@ -1,0 +1,142 @@
+{
+    "title": "form",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name",
+            "attr": {
+                "placeholder": "Your name please"
+            },
+            "propertyOrder": 1
+        },
+        "email": {
+            "type": "string",
+            "title": "Email",
+            "widget": "email",
+            "propertyOrder": 2
+        },
+        "message": {
+            "type": "string",
+            "title": "Message",
+            "widget": "textarea",
+            "propertyOrder": 3
+        },
+        "age": {
+            "type": "integer",
+            "title": "age",
+            "propertyOrder": 4
+        },
+        "rating": {
+            "type": "number",
+            "title": "rating",
+            "propertyOrder": 5
+        },
+        "newsletter": {
+            "type": "boolean",
+            "title": "Newsletter",
+            "widget": "checkbox",
+            "propertyOrder": 6
+        },
+        "subject": {
+            "enum": [
+                "support",
+                "sales"
+            ],
+            "enum_titles": [
+                "Support",
+                "Sales"
+            ],
+            "options": {
+                "enum_titles": [
+                    "Support",
+                    "Sales"
+                ]
+            },
+            "type": "string",
+            "title": "subject",
+            "propertyOrder": 7
+        },
+        "bornAt": {
+            "type": "string",
+            "title": "bornAt",
+            "widget": "date",
+            "propertyOrder": 8
+        },
+        "meetingAt": {
+            "type": "string",
+            "title": "meetingAt",
+            "widget": "datetime",
+            "propertyOrder": 9
+        },
+        "attachments": {
+            "type": "string",
+            "title": "attachments",
+            "widget": "file",
+            "attr": {
+                "multiple": true
+            },
+            "propertyOrder": 10
+        },
+        "photo": {
+            "type": "string",
+            "title": "photo",
+            "widget": "file",
+            "propertyOrder": 11
+        },
+        "tags": {
+            "type": "array",
+            "title": "Tags",
+            "items": {
+                "type": "string",
+                "title": "prototype"
+            },
+            "propertyOrder": 12
+        },
+        "address": {
+            "title": "address",
+            "type": "object",
+            "properties": {
+                "street": {
+                    "type": "string",
+                    "title": "street",
+                    "attr": {
+                        "placeholder": "Your name please"
+                    },
+                    "propertyOrder": 1
+                },
+                "zipCode": {
+                    "type": "string",
+                    "title": "zipCode",
+                    "propertyOrder": 2
+                },
+                "proof": {
+                    "type": "string",
+                    "title": "proof",
+                    "widget": "file",
+                    "propertyOrder": 3
+                }
+            },
+            "required": [
+                "street",
+                "zipCode",
+                "proof"
+            ],
+            "propertyOrder": 13
+        }
+    },
+    "required": [
+        "name",
+        "email",
+        "message",
+        "age",
+        "rating",
+        "subject",
+        "bornAt",
+        "meetingAt",
+        "attachments",
+        "photo",
+        "tags",
+        "address"
+    ]
+}

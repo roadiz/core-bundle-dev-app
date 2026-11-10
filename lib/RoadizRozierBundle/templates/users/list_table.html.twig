@@ -1,14 +1,14 @@
-{% embed '@RoadizRozier/includes/rz_table.html.twig' %}
+{% embed '@RoadizRozier/ui/components/rz_table.html.twig' %}
 	{% block thead_cells %}
-		<th class="mobile-hidden uk-visible-xlarge">
+		{% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
+		<th class="mobile-hidden rz-table__cell--from-lg">
 			{% set label = 'user.username'|trans %}
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'username',
-					'filters': filters,
-					'label': label,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'username',
+					filters: filters,
+					label: label,
+				}) }}
 			{% else %}
 				{{ label }}
 			{% endif %}
@@ -16,12 +16,11 @@
 		<th class="mobile-hidden">
 			{% set label = 'user.email'|trans %}
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'email',
-					'filters': filters,
-					'label': label,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'email',
+					filters: filters,
+					label: label,
+				}) }}
 			{% else %}
 				{{ label }}
 			{% endif %}
@@ -29,34 +28,33 @@
 		<th class="mobile-hidden">
 			{% set label = 'user.lastLogin'|trans %}
 			{% if not no_sort %}
-				{% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-					'field': 'lastLogin',
-					'filters': filters,
-					'label': label,
-					'column_ordering_class': column_ordering_class,
-				} only %}
+				{{ rz_table.column_ordering({
+					field: 'lastLogin',
+					filters: filters,
+					label: label,
+				}) }}
 			{% else %}
 				{{ label }}
 			{% endif %}
 		</th>
-		<th class="mobile-hidden uk-visible-xlarge">
+		<th class="mobile-hidden rz-table__cell--from-lg">
 			{% trans %}user.roles{% endtrans %}
 		</th>
-		<th class="mobile-hidden uk-visible-large">
+		<th class="mobile-hidden">
 			{% trans %}user.status{% endtrans %}
 		</th>
 	{% endblock %}
 
 	{% block tbody_content %}
-		{% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
-		{% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-		{% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+		{% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
+		{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+		{% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
 
 		{% for item in items %}
 			<tr>
-				{% if selection_available %}
+				{% if selectionAvailable %}
                     <td>
-                        {{ rz_bulk.select_input({ value: item.id }) }}
+                        {{ rz_bulk_actions.select_input({ value: item.id }) }}
                     </td>
                 {% endif %}
 				<td class="rz-table__cell--flex" >
@@ -83,18 +81,18 @@
 						{% trans %}user.neverLoggedIn{% endtrans %}
 					{% endif %}
 				</td>
-				<td class="mobile-hidden uk-visible-xlarge">
+				<td class="mobile-hidden rz-table__cell--from-lg">
 					{% transchoice item.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}
 				</td>
-				<td class="mobile-hidden uk-visible-large">
+				<td class="mobile-hidden">
 					{% set label_status = item.enabled ? 'user.enabled' : 'user.disabled' %}
 					{% set color_status = item.enabled ? 'success' : 'danger' %}
 					{% set icon_status = item.enabled ? 'rz-icon-ri--check-line' : 'rz-icon-ri--close-line' %}
 
 					{% if item.enabled is defined %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							color: color_status,
-							icon: icon_status,
+							iconClass: icon_status,
 							attributes: {
 								title: label_status|trans,
 							}
@@ -102,9 +100,9 @@
 					{% endif %}
 
 					{% if item.accountNonLocked is defined and not item.accountNonLocked %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							color: 'warning',
-							icon: 'rz-icon-ri--lock-2-line',
+							iconClass: 'rz-icon-ri--lock-2-line',
 							attributes: {
 								title: 'user.locked'|trans,
 							}
@@ -114,26 +112,26 @@
 					{% if
 						(item.credentialsNonExpired is defined and not item.credentialsNonExpired)
 					 or (item.accountNonExpired is defined and not item.accountNonExpired) %}
-						{{ rz_badge.item({
+						{{ rz_badge.root({
 							color: 'danger',
-							icon: 'rz-icon-rz--status-pending-line',
+							iconClass: 'rz-icon-rz--status-pending-line',
 							attributes: {
 								title: 'user.expired'|trans,
 							}
 						}) }}
 					{% endif %}
 				</td>
-				{% if actions_available %}
+				{% if actionsAvailable %}
                     <td>
 						{% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
-							{% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-								'edit_href': path('usersEditPage', { id: item.id }),
-								'delete_href': is_granted('ROLE_ACCESS_USERS_DELETE') ? path('usersDeletePage', { id: item.id }) : null,
+							{% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+								'editHref': path('usersEditPage', { id: item.id }),
+								'deleteHref': is_granted('ROLE_ACCESS_USERS_DELETE') ? path('usersDeletePage', { id: item.id }) : null,
 							} %}
 								{% block other_actions %}
 									{% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
 										{{ _self.button({
-											icon: 'uk-icon-rz-sudo',
+											iconClass: 'rz-icon-ri--spy-line',
 											attributes: {
 												href: path('adminHomePage') ~ '?_su=' ~ item.username|url_encode,
 												title: 'start.test.user.right'|trans,
@@ -149,8 +147,8 @@
 		{% else %}
 			{{ _self.fallback_row({
 				length: 5,
-				selection_available: selection_available,
-				actions_available: actions_available,
+				selectionAvailable: selectionAvailable,
+				actionsAvailable: actionsAvailable,
 				message: 'no_users',
 			}) }}
 		{% endfor %}

@@ -1,9 +1,20 @@
-{% extends '@RoadizRozier/login/base.html.twig' %}
+{% extends '@RoadizRozier/ui/layouts/login.html.twig' %}
 
 {% block title %}{% trans %}login_link_sent{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block login_content %}
-    <div data-uk-alert class="uk-alert uk-alert-success">
-        {% trans %}login_link_sent_if_email_exists.check_inbox{% endtrans %}
+    {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+    <div class="rz-login__group">
+        {{ rz_message.root({ color: 'success', text: 'login_link_sent_if_email_exists.check_inbox'|trans, attributes: { role: 'status' } }) }}
     </div>
+{% endblock %}
+
+{% block login_footer %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+    {{ rz_button.root({
+        emphasis: 'primary',
+        label: 'back_to.login',
+        iconClass: 'rz-icon-ri--arrow-left-s-line',
+        attributes: { href: path('loginPage') },
+    }) }}
 {% endblock %}

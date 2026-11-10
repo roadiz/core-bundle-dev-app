@@ -68,4 +68,18 @@ EOT,
             $renderer->render($mockDocument, ['inline' => true])
         );
     }
+
+    public function testRenderNeverOutputsUnsanitizedSvg(): void
+    {
+        $mockDocument = new SimpleDocument();
+
+        $mockDocument->setFilename('unsafe-entity.svg');
+        $mockDocument->setFolder('folder');
+        $mockDocument->setMimeType('image/svg');
+
+        $html = $this->getRenderer()->render($mockDocument, ['inline' => true]);
+
+        $this->assertStringNotContainsString('<script', $html);
+        $this->assertStringNotContainsString('ENTITY', $html);
+    }
 }

@@ -36,12 +36,12 @@
     {% set innerClasses = innerClasses|merge(['rz-tree__item__node--not-visible']) %}
 {% endif %}
 
-    <li
-        style="--rz-node-icon-background: {{ type.color }};"
-        data-entity-id="{{ node.id }}"
-        class="{{ classes|join(' ') }}"
-        {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
-        {% if not node.isVisible %}data-visible="false"{% endif %}
+<li
+    style="--rz-node-icon-background: {{ type.color }};"
+    data-entity-id="{{ node.id }}"
+    class="{{ classes|join(' ') }}"
+    {% if node.isHidingChildren %}data-hiding-children="true"{% endif %}
+    {% if not node.isVisible %}data-visible="false"{% endif %}
 >
     <div
         class="{{ innerClasses|join(' ') }}"
@@ -52,18 +52,20 @@
         {% if type.isPublishable and source.publishedAt and source.publishedAt > date() %}
                 {% set icon_class = 'rz-icon-ri--history-line' %}
         {% endif %}
+        {% set contextual_menu_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ node.id %}
 
-        {% embed '@RoadizRozier/widgets/rz_tree_item_inner.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_tree_item.html.twig' with {
             item: node,
-            has_children: children is defined and children|length > 0,
-            icon_class: icon_class,
-            can_reorder: canReorder and not node.isLocked,
-            has_selection: nodeTree.isStackTree,
+            hasChildren: children is defined and children|length > 0,
+            iconClass: icon_class,
+            canReorder: canReorder and not node.isLocked,
+            hasSelection: layout == 'condensed' and not isMainTree and nodeTree.isStackTree,
             nodeTree: nodeTree,
-            isMainTree: isMainTree
+            isMainTree: isMainTree,
+            contextual_menu_id: contextual_menu_id,
         } only %}
             {% block icon_content %}
-                {%- if not isMainTree and not nodeTree.isStackTree -%}
+                {%- if layout == 'condensed' -%}
                     <rz-entity-thumbnail
                         class="nodetree-element-img rz-node-icon__thumbnail"
                         entity-class="RZ\Roadiz\CoreBundle\Entity\Node"
@@ -76,14 +78,14 @@
                 {% set node_label = '' %}
                 {% set source = item.nodeSource|default(item.nodeSources.first) %}
                 {% if source.title %}
-                    {% set node_label = source.title|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
+                    {% set node_label = source.title %}
                 {% else %}
-                    {% set node_label = item.nodeName|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
+                    {% set node_label = item.nodeName %}
                 {% endif %}
 
                 {% set node_href = getNodeSourceHref(item, nodeTree.translation, parent) %}
                 {% if node_href is not null %}
-                    {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                    {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
 					{{ rz_link.root({
 						label: node_label,
 						attributes: {
@@ -99,9 +101,10 @@
             {% block before_actions %}
                 {% set tags = nodeTree.getTags(item) %}
                 {% if tags|length and nodeTree.isStackTree %}
-                    {% embed "@RoadizRozier/macros/rz_overflow_list.html.twig" with {
+                    {% embed "@RoadizRozier/ui/components/rz_overflow_list.html.twig" with {
                         items: tags,
-                        visibleCount: 2,
+                        visibleCount: 6,
+                        responsive: true,
                         wrapperTag: 'div',
                         wrapperClass: 'rz-tree__item__tags',
                         popover: {
@@ -109,7 +112,7 @@
                             class: 'rz-tree__item__tags__popover',
                         },
                         button: {
-                            icon: 'rz-icon-ri--price-tag-3-line',
+                            iconClass: 'rz-icon-ri--price-tag-3-line',
                             size: 'sm',
                             emphasis: 'secondary',
                             ariaLabel: 'more.tags'|trans,
@@ -118,8 +121,8 @@
                         {% block item %}
                             {% set label = item.name|default(item.tagName) %}
                             {% if item and label %}
-                                {% import "@RoadizRozier/macros/rz_badge.html.twig" as rz_badge %}
-                                {{ rz_badge.item({
+                                {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
+                                {{ rz_badge.root({
                                     label: label,
                                     size: 'sm',
                                     color: 'default',
@@ -132,7 +135,6 @@
 
 
             {% block contextual_menu %}
-                {% set contextual_id = 'node-contextual-menu-' ~ (isMainTree ? 'main-' : '') ~ item.id %}
                 <rz-node-tree-contextual-menu
                     class="rz-node-contextual-menu"
                     data-contextual-menu-path="{{ path('nodeContextualMenu', {
@@ -146,17 +148,17 @@
                     data-node-copied-trans="{{ 'node.copied_to_clipboard'|trans }}"
                     data-node-edit-position-path="{{ path('nodesPositionAjax') }}"
                     popover-placement="bottom-end"
-                    id="{{ contextual_id }}"
+                    id="{{ contextual_menu_id }}"
                 >
-                    {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+                    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--more-line',
+                        iconClass: 'rz-icon-ri--more-line',
                         size: 'sm',
                         emphasis: 'tertiary',
-                        class: 'tree-contextualmenu-button',
                         attributes: {
+                            class: 'tree-contextualmenu-button',
                             'aria-label': 'show.actions'|trans,
-                            popovertarget: contextual_id ~ '-popover',
+                            popovertarget: contextual_menu_id ~ '-popover',
                             type: 'button',
                         }
                     })}}
@@ -185,6 +187,7 @@
                     "level": level + 1,
                     'canReorder': (node.childrenOrder == 'position'),
                     'is_last': loop.last,
+                    "layout": layout,
                 } only %}
             {% endfor %}
         </ul>

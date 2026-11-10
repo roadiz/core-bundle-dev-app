@@ -1,0 +1,114 @@
+/*
+Global loader driven by RzRequestLoader, rendered as the first child of the page (rz-page):
+- a bar fixed on top of the viewport;
+- a pill centered on the page, kept in view while the document scrolls (sticky root of zero height).
+*/
+.rz-request-loader {
+	--rz-request-loader-color: var(--rz-accent-color, var(--brand-primary, #2050F5));
+	--rz-request-loader-bar-height: 4px;
+	--rz-request-loader-offset: var(--spacing-2xs, 12px);
+
+	position: sticky;
+	inset-block-start: 0;
+	z-index: 1002; /* Above toasts, tooltips and actions menus */
+	display: block;
+	height: 0;
+	pointer-events: none;
+}
+
+.rz-request-loader__bar {
+	position: fixed;
+	inset-block-start: 0;
+	inset-inline: 0;
+	height: var(--rz-request-loader-bar-height);
+	overflow: hidden;
+	background-color: color-mix(in srgb, var(--rz-request-loader-color) 20%, transparent);
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset-block: 0;
+		left: 0;
+		width: 40%;
+		background-color: var(--rz-request-loader-color);
+		animation: rz-request-loader-slide 1.2s ease-in-out infinite;
+		animation-play-state: paused;
+	}
+}
+
+.rz-request-loader__pill {
+	position: absolute;
+	inset-block-start: var(--rz-request-loader-offset);
+	left: 50%;
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-4xs, 8px);
+	padding: var(--spacing-4xs, 8px) var(--spacing-2xs, 12px);
+	border: 1px solid var(--line-on-light-primary, #EAEAEA);
+	border-radius: var(--radius-xl, 24px);
+	background-color: var(--surface-light-primary, #FFF);
+	box-shadow: 0 8px 20px light-dark(rgb(0 0 0 / 8%), rgb(0 0 0 / 40%)); /* Darker in dark mode, where the light shadow vanishes */
+	color: var(--content-on-light-primary, #18191B);
+	font-family: var(--font-family-os-label);
+	font-size: var(--text-label-sm-font-size, 13px);
+	line-height: var(--text-label-sm-line-height, 110%);
+	white-space: nowrap;
+	opacity: 0;
+	translate: -50% calc(-1 * var(--spacing-4xs, 8px));
+	transition: opacity 0.2s ease-out, translate 0.2s ease-out;
+
+	.rz-spinner {
+		flex-shrink: 0;
+		color: var(--rz-request-loader-color);
+	}
+}
+
+.rz-request-loader--active {
+	.rz-request-loader__bar {
+		opacity: 1;
+	}
+
+	.rz-request-loader__bar::before {
+		animation-play-state: running;
+	}
+}
+
+/* Added by RzRequestLoader once the request outlasts SLOW_DELAY_MS: quick loads show the bar only. */
+.rz-request-loader--slow .rz-request-loader__pill {
+	opacity: 1;
+	translate: -50% 0;
+}
+
+@keyframes rz-request-loader-slide {
+	from {
+		translate: -100% 0;
+	}
+
+	to {
+		translate: 250% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rz-request-loader__bar,
+	.rz-request-loader__pill {
+		transition: none;
+	}
+
+	.rz-request-loader__pill,
+	.rz-request-loader--slow .rz-request-loader__pill {
+		translate: -50% 0;
+	}
+
+	/* No movement: a full-width bar and a still spinner mark the loading state. */
+	.rz-request-loader__bar::before {
+		width: 100%;
+		animation: none;
+	}
+
+	.rz-request-loader__pill .rz-spinner {
+		animation: none;
+	}
+}

@@ -1,4 +1,7 @@
-import type { Args } from '../../../../stories/RzFormField.stories'
+import type { INPUT_TYPES } from '~/custom-elements/RzInput'
+import type { RzBadgeOptions } from '~/utils/component-renderer/rzBadge'
+import type { RzButtonGroupOptions } from '~/utils/component-renderer/rzButtonGroup'
+import type { RzInputOptions } from './rzInput'
 import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
 import { rzMessageRenderer } from './rzMessage'
@@ -8,14 +11,33 @@ import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 
 const COMPONENT_CLASS_NAME = 'rz-form-field'
 
+export type RzFormFieldOptions = {
+    label: string
+    type?: (typeof INPUT_TYPES)[number]
+    required?: boolean
+    description?: string // under label
+    help?: string // under input
+    error?: string
+    horizontal?: boolean
+    alignStart?: boolean
+    headClass?: string
+    maxLength?: number
+    minLength?: number
+    // Elements
+    badge?: RzBadgeOptions
+    iconClass?: string
+    input?: RzInputOptions
+    buttonGroup?: RzButtonGroupOptions
+}
+
 /**
  * Renders the head portion of a form field, including label, icon, badge, and button group.
  * Can be used independently to render just the head section of a form field.
  *
- * @param {Args} args - Arguments describing the form field head properties.
+ * @param {RzFormFieldOptions} args - Arguments describing the form field head properties.
  * @returns {HTMLDivElement} The head element for the form field.
  */
-export function rzFormFieldHeadRenderer(args: Args) {
+export function rzFormFieldHeadRenderer(args: RzFormFieldOptions) {
     const wrapperClass = `${COMPONENT_CLASS_NAME}__head`
     const head = document.createElement('div')
     head.classList.add(wrapperClass)
@@ -73,7 +95,7 @@ export function rzFormFieldHeadRenderer(args: Args) {
 }
 
 export function rzFormFieldRenderer(
-    args: Args,
+    args: RzFormFieldOptions,
     mainElement?: HTMLElement | null,
 ) {
     const wrapper = document.createElement('rz-form-field')

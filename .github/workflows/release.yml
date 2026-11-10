@@ -1,0 +1,30 @@
+name: Create GitHub release
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+permissions:
+    contents: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Extract changelog section
+              run: |
+                  awk -v h="## [${GITHUB_REF_NAME#v}]" '
+                      index($0, h) == 1 { found = 1; next }
+                      found && /^## / { exit }
+                      found { print }
+                  ' CHANGELOG.md > release-notes.md
+                  if [ ! -s release-notes.md ]; then
+                      echo "::error::No CHANGELOG.md section for ${GITHUB_REF_NAME}"
+                      exit 1
+                  fi
+            - name: Create release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md

@@ -32,7 +32,6 @@ final readonly class TranslationBreadcrumbsItemFactory implements BreadcrumbsIte
                 'translationsEditPage',
                 ['translationId' => $item->getId()]
             ),
-            false,
         );
     }
 

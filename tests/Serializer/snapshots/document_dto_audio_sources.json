@@ -1,0 +1,86 @@
+{
+    "jsonld": {
+        "@type": "Document",
+        "@id": "/api/documents/{id}",
+        "id": "{id}",
+        "filename": "serialization_sound.mp3",
+        "mimeType": "audio/mpeg",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "embedId": null,
+        "embedPlatform": null,
+        "imageAverageColor": "#ffffff",
+        "name": null,
+        "description": null,
+        "copyright": null,
+        "externalUrl": null,
+        "alt": null,
+        "imageCropAlignment": null,
+        "hotspot": null,
+        "type": "audio",
+        "relativePath": "fixtures/serialization_sound.mp3",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_sound.mp3",
+        "altSources": [
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "audio/ogg",
+                "type": "audio",
+                "relativePath": "fixtures/serialization_sound.ogg",
+                "publicUrl": "/files/fixtures/serialization_sound.ogg"
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "audio/x-flac",
+                "type": "audio",
+                "relativePath": "fixtures/serialization_sound.flac",
+                "publicUrl": "/files/fixtures/serialization_sound.flac"
+            }
+        ]
+    },
+    "json": {
+        "@type": "Document",
+        "@id": "/api/documents/{id}",
+        "id": "{id}",
+        "filename": "serialization_sound.mp3",
+        "mimeType": "audio/mpeg",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "embedId": null,
+        "embedPlatform": null,
+        "imageAverageColor": "#ffffff",
+        "name": null,
+        "description": null,
+        "copyright": null,
+        "externalUrl": null,
+        "alt": null,
+        "imageCropAlignment": null,
+        "hotspot": null,
+        "type": "audio",
+        "relativePath": "fixtures/serialization_sound.mp3",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_sound.mp3",
+        "altSources": [
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "audio/ogg",
+                "type": "audio",
+                "relativePath": "fixtures/serialization_sound.ogg",
+                "publicUrl": "/files/fixtures/serialization_sound.ogg"
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "audio/x-flac",
+                "type": "audio",
+                "relativePath": "fixtures/serialization_sound.flac",
+                "publicUrl": "/files/fixtures/serialization_sound.flac"
+            }
+        ]
+    }
+}

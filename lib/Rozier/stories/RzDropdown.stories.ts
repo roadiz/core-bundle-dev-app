@@ -1,30 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    rzDropdownRenderer,
     DEFAULT_ITEM,
+    type RzDropdownOptions,
+    rzDropdownRenderer,
 } from '~/utils/storybook/renderer/rzDropDown'
-import { type Args as PopoverItemArgs } from './RzDropdownItem.stories'
 import { rzPopoverRenderer } from '~/utils/storybook/renderer/rzPopover'
 import { rzBrandRenderer } from '~/utils/storybook/renderer/rzBrand'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
 import { rzIconRenderer } from '~/utils/component-renderer/rzIcon'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 
-export type Args = {
-    title?: string
-    reverse?: boolean
-    displayHeadElements?: boolean
-    headElements?: Record<string, string>[]
-    borderColor?: string
-    footerContent?: string
-    isOpen?: boolean
-    items: (PopoverItemArgs | PopoverItemArgs[])[]
-    listTag?: string
-}
+type Args = RzDropdownOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Overlay/Dropdown',
+    title: 'Components/Overlay/Dropdown/Root',
     tags: ['autodocs'],
+    render: (args) => rzDropdownRenderer(args),
     args: {
         title: 'Menu title',
         borderColor: '',
@@ -67,18 +58,12 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzDropdownRenderer(args)
-    },
     args: {
         footerContent: 'Last edited by John D. Sep 10, 2025, 4:08 PM',
     },
 }
 
 export const Simple: Story = {
-    render: (args) => {
-        return rzDropdownRenderer(args)
-    },
     args: {
         title: '',
         displayHeadElements: false,
@@ -95,9 +80,6 @@ export const Simple: Story = {
 }
 
 export const ReverseWithCollapsedHead: Story = {
-    render: (args) => {
-        return rzDropdownRenderer(args)
-    },
     args: {
         reverse: true,
         displayHeadElements: false,
@@ -105,9 +87,6 @@ export const ReverseWithCollapsedHead: Story = {
 }
 
 export const WithLinkItems: Story = {
-    render: (args) => {
-        return rzDropdownRenderer(args)
-    },
     args: {
         reverse: true,
         displayHeadElements: false,

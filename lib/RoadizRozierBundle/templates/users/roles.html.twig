@@ -12,11 +12,10 @@
         with_nav_bar: true,
         user: user,
         current: 'roles',
-        with_breadcrumb: true,
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             roles: user.roles,
             caption: 'inherited.roles.caption'|trans,
         } only %}
@@ -32,8 +31,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 1,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_roles',
                     }) }}
                 {% endfor %}
@@ -42,10 +41,10 @@
 
         <hr />
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             userRoles: user.userRoles,
-            selection_available: false,
-            actions_available: true,
+            selectionAvailable: false,
+            actionsAvailable: true,
             caption: 'specific.roles.caption'|trans,
             userId: user.id,
         } only %}
@@ -57,12 +56,12 @@
                 {% for role in userRoles %}
                     <tr>
                         <td>{{ role }}</td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
-                                {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': null,
-                                    'delete_href': is_granted(role) ? path('usersRemoveRolesPage', { userId: userId, role: role }) : null,
-                                    'delete_title': 'remove'|trans,
+                                {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                    'editHref': null,
+                                    'deleteHref': is_granted(role) ? path('usersRemoveRolesPage', { userId: userId, role: role }) : null,
+                                    'deleteTitle': 'remove'|trans,
                                 } only %}
                             </td>
                         {% endif %}
@@ -70,8 +69,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 1,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_specific_roles',
                     }) }}
                 {% endfor %}
@@ -84,17 +83,19 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <div class="rz-form-field rz-form-field--align-start">
-                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
-                {{ rz_button.root({
-                    size: 'md',
-                    label: 'add.role'|trans,
-                    icon: 'rz-icon-ri--add-line',
-                    attributes: {
-                        type: 'submit'
-                    }
-                }) }}
-            </div>
+            {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+                {% block body %}
+                    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                    {{ rz_button.root({
+                        size: 'md',
+                        label: 'add.role'|trans,
+                        iconClass: 'rz-icon-ri--add-line',
+                        attributes: {
+                            type: 'submit'
+                        }
+                    }) }}
+                {% endblock %}
+            {% endembed %}
         {{ form_end(form) }}
     </section>
 

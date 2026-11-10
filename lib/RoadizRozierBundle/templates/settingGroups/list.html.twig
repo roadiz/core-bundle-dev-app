@@ -16,30 +16,27 @@
                 attributes: {
                     href: path('settingGroupsAddPage'),
                 },
-                icon: 'rz-icon-ri--add-line'
+                iconClass: 'rz-icon-ri--add-line'
             }],
-            breadcrumb: {
-                label: 'settingGroups-breadcrumb',
-                current: 'settingGroups'|trans,
-            },
         } only %}
 
-        {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+        {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
             filters: filters,
-        }  only %}
+        }  only %}{% endembed %}
 
         <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            actions_available: true,
-            selection_available: false,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            actionsAvailable: true,
+            selectionAvailable: false,
         } %}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'name',
-                        'filters': filters,
-                        'label': 'name'|trans,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'name',
+                        filters: filters,
+                        label: 'name'|trans,
+                    }) }}
                 </th>
                 <th class="mobile-hidden">{% trans %}settingGroup.in.menu{% endtrans %}</th>
             {% endblock %}
@@ -51,24 +48,24 @@
                         <td><a href="{{ edit_href }}">{{ item.getName }}</a></td>
                         <td class="mobile-hidden">
                             {% if item.isInMenu %}
-                                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--check-line',
+                                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--check-line',
                                     attributes: {
                                         title: 'settingGroup.in.menu'|trans,
                                     }
                                 }) }}
                             {% endif %}
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': edit_href,
-                                    'delete_href': path('settingGroupsDeletePage', { id: item.id }),
+                                {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                    'editHref': edit_href,
+                                    'deleteHref': path('settingGroupsDeletePage', { id: item.id }),
                                 } %}
                                     {% block other_actions %}
                                         {{ _self.button({
-                                            icon: 'rz-icon-ri--settings-4-line',
+                                            iconClass: 'rz-icon-ri--settings-4-line',
                                             attributes: {
                                                 href: path('settingGroupsSettingsPage', { settingGroupId: item.id }),
                                                 title: 'see.settings'|trans,

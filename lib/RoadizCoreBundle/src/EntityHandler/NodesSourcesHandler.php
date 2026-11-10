@@ -170,9 +170,7 @@ final class NodesSourcesHandler extends AbstractHandler
         if (null === $this->parentsNodeSources) {
             $this->parentsNodeSources = [];
 
-            if (null === $criteria) {
-                $criteria = [];
-            }
+            $criteria ??= [];
 
             $parent = $this->getNodeSource();
 
@@ -372,9 +370,7 @@ final class NodesSourcesHandler extends AbstractHandler
             $defaultCriteria = array_merge($defaultCriteria, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'DESC';
 
@@ -411,9 +407,7 @@ final class NodesSourcesHandler extends AbstractHandler
             $defaultCrit = array_merge($defaultCrit, $criteria);
         }
 
-        if (null === $order) {
-            $order = [];
-        }
+        $order ??= [];
 
         $order['node.position'] = 'ASC';
 
@@ -444,15 +438,11 @@ final class NodesSourcesHandler extends AbstractHandler
     }
 
     /**
-     * Get current node-source SEO data.
+     * Get current node-source SEO data.
      *
-     * This method returns a 3-fields array with:
+     * @return array{'title': string, 'description': string|null}
      *
-     * * title
-     * * description
-     * * keywords
-     *
-     * @return array<string>
+     * @deprecated No replacement: SEO should be handled in NodesSourcesHead
      */
     public function getSEO(): array
     {

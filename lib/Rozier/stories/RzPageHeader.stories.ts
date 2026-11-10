@@ -16,14 +16,15 @@ const ITEM_CLASSES = [
 ]
 
 const COMPONENT_CLASS_NAME = 'rz-page-header'
-export type Args = {
+type Args = {
     rows: HeaderElement[][]
     itemClass?: string
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/Page/Header',
+    title: 'Components/Navigation/PageHeader',
     tags: ['autodocs'],
+    render: (args) => rzPageHeaderRenderer(args),
     args: {
         rows: [
             [
@@ -169,16 +170,12 @@ function rzPageHeaderRenderer(args: Args) {
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzPageHeaderRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 /**
  * Example of different item classes to adjust their behavior.
  */
-export const Item: Story = {
+export const ItemClasses: Story = {
     render: (args) => {
         args.rows.forEach((row) => {
             return row.forEach((el) => {

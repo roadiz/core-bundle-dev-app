@@ -8,7 +8,7 @@ type MenuItem = {
     attributes?: Record<string, string>
 }
 
-export type Args = {
+type Args = {
     label?: string
     menuItems: MenuItem[][]
 }
@@ -16,8 +16,9 @@ export type Args = {
 const COMPONENT_CLASS_NAME = 'rz-menu-bar'
 
 const meta: Meta<Args> = {
-    title: 'Components/MenuBar',
+    title: 'Patterns/MenuBar',
     tags: ['autodocs'],
+    render: (args) => rzMenuBarRenderer(args),
     args: {
         label: 'Menu Item',
         menuItems: [
@@ -160,16 +161,9 @@ function rzMenuBarRenderer(args: Args) {
     return wrapper
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzMenuBarRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const MultipleList: Story = {
-    render: (args) => {
-        return rzMenuBarRenderer(args)
-    },
     args: {
         menuItems: [
             [

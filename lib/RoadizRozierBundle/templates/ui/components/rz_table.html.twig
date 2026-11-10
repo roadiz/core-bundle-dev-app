@@ -1,0 +1,192 @@
+{# rz-table: embed vars (no renderer yet) = attributes, bordered, marginTop, tbodyAttributes, sortable {enabled, url, handleClass, dragCustomClass}, caption, selectionAvailable, actionsAvailable; blocks caption, thead, thead_cells, tbody_content, tfoot_content; story Components/Data display/Table #}
+{% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attr %}
+{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+
+{% set _table_attributes = attributes|default({}) %}
+{% set classes = ["rz-table"]|merge(_table_attributes.class is defined ? [_table_attributes.class] : []) %}
+{% set layout_class = bordered is defined and bordered ? 'rz-table--bordered' : 'rz-table--default' %}
+{% set classes = classes|merge([layout_class]) %}
+{% if marginTop is defined and marginTop %}
+	{% set classes = classes|merge(['rz-table--margin-top-' ~ marginTop]) %}
+{% endif %}
+
+{% set column_ordering_class = 'rz-table__ordering-link' %}
+{% set _tbody_attributes = tbodyAttributes|default({}) %}
+
+{% if sortable.enabled is defined and sortable.enabled is same as(true) %}
+	{% set _table_attributes = _table_attributes|merge({
+		'data-sortable': 'true',
+		'data-sortable-url': sortable.url,
+		'data-sortable-handle': sortable.handleClass,
+		'data-sortable-drag-class': sortable.dragCustomClass,
+	}) %}
+{% endif %}
+
+{% set _thead_cells %}{% block thead_cells %}{% endblock %}{% endset %}
+{% set _has_thead_cells = _thead_cells|trim is not empty %}
+{% set has_thead_content = _has_thead_cells or selectionAvailable|default(false) %}
+<div class="rz-table-container">
+	<table
+		is="rz-table"
+		{{ el_attr.print(_table_attributes|merge({ class: classes|join(' ') })) }}
+	>
+		{% block caption %}
+			{% if caption is defined %}
+				<caption class="rz-table__caption">{{ caption }}</caption>
+			{% endif %}
+		{% endblock %}
+		{% block thead %}
+			{% if has_thead_content %}
+				<thead>
+					<tr>
+						{% if selectionAvailable|default(false) %}
+							<th>
+							{{ rz_bulk_actions.select_all_input() }}
+							</th>
+						{% endif %}
+						{{ _thead_cells|raw }}
+						{% if actionsAvailable|default(false) %}
+							<th style="text-align: right;">{% trans %}actions{% endtrans %}</th>
+						{% endif %}
+					</tr>
+				</thead>
+			{% endif %}
+		{% endblock %}
+
+		<tbody {{ el_attr.print(_tbody_attributes) }}>
+			{% block tbody_content %}{% endblock %}
+		</tbody>
+		<tfoot>
+			{% block tfoot_content %}{% endblock %}
+		</tfoot>
+	</table>
+</div>
+
+{# Twig-only options: selectionAvailable, value, disabled #}
+{% macro selection_input(options = {}) %}
+	{% if options.selectionAvailable|default(false) %}
+		{% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+		<td>{{ rz_bulk_actions.select_input({
+			value: options.value,
+			attributes: options.disabled|default(false) is same as(true) ? { disabled: '' } : {},
+		}) }}</td>
+	{% endif %}
+
+{% endmacro %}
+
+{% macro fallback_row(options) %}
+	{% set colspan = options.length|default(1) %}
+	{% if options.selectionAvailable|default(false) %}
+		{% set colspan = colspan + 1 %}
+	{% endif %}
+	{% if options.actionsAvailable|default(false) %}
+		{% set colspan = colspan + 1 %}
+	{% endif %}
+	<tr>
+		<td colspan="{{ colspan }}">{{ options.message|default('no.result')|trans }}</td>
+	</tr>
+{% endmacro %}
+
+
+{# Twig-only options: color, entity (row aria-label), attributes #}
+{% macro colored_row_attrs(options = {}) %}
+	{% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+	{% set attrs = options.attributes|default({}) %}
+
+	{% if options.color is not defined or not options.color %}
+		{{ el_attrs.print(attrs) }}
+	{% else %}
+		{% set aria_label = options.entity is defined and options.entity ? { 'aria-label': options.entity } : {} %}
+		{% set color_style = options.color and options.color is not empty ? {'style': '--rz-table-row-color: ' ~ options.color ~ ';'} : {} %}
+		{% set classes = { class: attrs.class|default('') ~ ' rz-table__row--colored' } %}
+
+		{% set merged_attrs = attrs|merge(classes)|merge(aria_label)|merge(color_style) %}
+
+		{{ el_attrs.print(merged_attrs) }}
+	{% endif %}
+{% endmacro %}
+
+{#
+    Sort link of a column header. Toggles ASC/DESC on `field` and keeps the
+    current filters (page size, page, search) in the query string.
+
+    Options:
+    - field (required): the ordering field
+    - label (optional): the link label
+    - filters (optional): the list filters, to keep page size, page and search
+    - orderingParams (optional): query parameters to use instead of `filters`
+    - class (optional): link class, defaults to `rz-table__ordering-link`
+#}
+{% macro column_ordering(options = {}) %}
+    {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
+
+    {% set field = options.field %}
+    {% set filters = options.filters ?? null %}
+    {% set link_class = options.class ?? 'rz-table__ordering-link' %}
+    {% set orderingParams = options.orderingParams ?? null %}
+
+    {% if orderingParams is null %}
+        {% if filters is null %}
+            {% set orderingParams = {
+                'item_per_page': 15,
+                'page': 1,
+            } %}
+        {% else %}
+            {% set orderingParams = app.request.query.all|merge({
+                'item_per_page': filters.itemPerPage,
+                'page': filters.currentPage,
+            }) %}
+            {% if filters.search %}
+                {% set orderingParams = orderingParams|merge({
+                    'search': filters.search,
+                }) %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    {% set hasQuery = app.request.query.get("field") == field %}
+
+    {% if hasQuery and app.request.query.get("ordering") == "DESC" %}
+        {% set localOrderingParams = orderingParams|merge({
+            'field': field,
+            'ordering': 'ASC'
+        }) %}
+        {{ rz_link.root({
+            label: options.label ?? null,
+            iconClass: 'rz-icon-ri--arrow-down-s-fill',
+            attributes: {
+                class: 'active ' ~ link_class,
+                href: '?' ~ localOrderingParams|url_encode,
+                title: 'sort_asc'|trans,
+            }
+        }) }}
+    {% elseif hasQuery and app.request.query.get("ordering") == "ASC" %}
+        {% set localOrderingParams = orderingParams|merge({
+            'field': field,
+            'ordering': 'DESC'
+        }) %}
+        {{ rz_link.root({
+            label: options.label ?? null,
+            iconClass: 'rz-icon-ri--arrow-up-s-fill',
+            attributes: {
+                class: 'active ' ~ link_class,
+                href: '?' ~ localOrderingParams|url_encode,
+                title: 'sort_desc'|trans,
+            }
+        }) }}
+    {% else %}
+        {% set localOrderingParams = orderingParams|merge({
+            'field': field,
+            'ordering': 'ASC'
+        }) %}
+        {{ rz_link.root({
+            label: options.label ?? null,
+            innerHTML: '&bull;',
+            attributes: {
+                class: link_class,
+                href: '?' ~ localOrderingParams|url_encode,
+                title: 'sort_asc'|trans,
+            }
+        }) }}
+    {% endif %}
+{% endmacro %}

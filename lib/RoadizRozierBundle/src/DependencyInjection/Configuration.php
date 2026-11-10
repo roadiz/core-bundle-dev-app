@@ -7,11 +7,14 @@ namespace RZ\Roadiz\RozierBundle\DependencyInjection;
 use RZ\Roadiz\RozierBundle\Form\Node\AddNodeType;
 use RZ\Roadiz\RozierBundle\Form\NodeType;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+    private const string LEGACY_ICON_FALLBACK = 'rz-icon-ri--layout-grid-line';
+
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -39,7 +42,7 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('name')->isRequired()->end()
                         ->scalarNode('route')->defaultNull()->end()
                         ->scalarNode('path')->defaultNull()->end()
-                        ->scalarNode('icon')->isRequired()->end()
+                        ->append(self::addIconNode())
                         ->arrayNode('roles')
                             ->prototype('scalar')
                             ->defaultNull()
@@ -52,7 +55,7 @@ final class Configuration implements ConfigurationInterface
                                 ->scalarNode('name')->isRequired()->end()
                                 ->scalarNode('route')->defaultNull()->end()
                                 ->scalarNode('path')->defaultNull()->end()
-                                ->scalarNode('icon')->isRequired()->end()
+                                ->append(self::addIconNode())
                                 ->arrayNode('roles')
                                     ->prototype('scalar')
                                     ->defaultNull()
@@ -82,6 +85,7 @@ final class Configuration implements ConfigurationInterface
             ->append($this->addOpenIdNode())
             ->append($this->addCsvNode())
             ->append($this->addTranslateAssistantNode())
+            ->append($this->addLivePreviewNode())
         ;
 
         return $builder;
@@ -223,5 +227,58 @@ EOD
             ->end();
 
         return $node;
+    }
+
+    private function addLivePreviewNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('live_preview');
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet()
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultTrue()
+                    ->info(<<<EOD
+Show the public website next to the node-source edit form.
+Only ever rendered when roadiz_core.customPublicScheme (or customPreviewScheme) is set,
+i.e. on headless installations.
+EOD
+                    )
+                ->end()
+                ->arrayNode('viewport_widths')
+                    ->integerPrototype()->end()
+                    ->defaultValue([375, 768, 1440])
+                    ->info(<<<EOD
+Viewport widths, in pixels, offered in the preview panel. The iframe is laid out at the
+chosen width then scaled down to fit the panel, so the front renders its real breakpoint
+instead of always rendering mobile.
+EOD
+                    )
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    private static function addIconNode(): ScalarNodeDefinition
+    {
+        $node = new ScalarNodeDefinition('icon');
+        $node->isRequired()
+            ->beforeNormalization()
+                ->ifTrue(static fn (mixed $icon): bool => \is_string($icon) && str_starts_with($icon, 'uk-icon-'))
+                ->then(self::normalizeLegacyIcon(...))
+            ->end();
+
+        return $node;
+    }
+
+    /**
+     * UIkit icon classes (`uk-icon-*`) were the documented menu icons in 2.7;
+     * the 2.8 UI no longer ships them, so they fall back to a generic icon.
+     */
+    private static function normalizeLegacyIcon(string $icon): string
+    {
+        trigger_deprecation('roadiz/rozier-bundle', '2.8', 'The "%s" menu icon of "roadiz_rozier.entries" is deprecated and rendered as "%s"; use a "rz-icon-ri--*" or "rz-icon-rz--*" class. UIkit icon classes will be rejected in 2.9.', $icon, self::LEGACY_ICON_FALLBACK);
+
+        return self::LEGACY_ICON_FALLBACK;
     }
 }

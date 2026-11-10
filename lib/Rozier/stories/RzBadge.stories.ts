@@ -9,8 +9,9 @@ import {
 type Args = RzBadgeOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/Badge',
+    title: 'Components/Data display/Badge',
     tags: ['autodocs'],
+    render: (args) => rzBadgeRenderer(args),
     args: {
         label: 'My badge',
         iconClass: 'rz-icon-ri--add-line',
@@ -40,61 +41,42 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzBadgeRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const IconOnly: Story = {
-    render: (args) => {
-        return rzBadgeRenderer(args)
-    },
     args: {
         label: '',
     },
 }
 
 export const Information: Story = {
-    render: (args) => {
-        return rzBadgeRenderer({
-            ...args,
-            label: 'Information',
-            color: 'information',
-            iconClass: 'rz-icon-rz--status-published-fill',
-        })
+    args: {
+        label: 'Information',
+        color: 'information',
+        iconClass: 'rz-icon-rz--status-published-fill',
     },
 }
 
 export const Published: Story = {
-    render: (args) => {
-        return rzBadgeRenderer({
-            ...args,
-            label: 'Published',
-            color: 'success',
-            iconClass: 'rz-icon-rz--status-published-fill',
-        })
+    args: {
+        label: 'Published',
+        color: 'success',
+        iconClass: 'rz-icon-rz--status-published-fill',
     },
 }
 
 export const Draft: Story = {
-    render: (args) => {
-        return rzBadgeRenderer({
-            ...args,
-            label: 'Draft',
-            color: 'warning',
-            iconClass: 'rz-icon-rz--status-draft-fill',
-        })
+    args: {
+        label: 'Draft',
+        color: 'warning',
+        iconClass: 'rz-icon-rz--status-draft-fill',
     },
 }
 
 export const Unpublished: Story = {
-    render: (args) => {
-        return rzBadgeRenderer({
-            ...args,
-            label: 'Unpublished',
-            color: 'danger',
-            iconClass: 'rz-icon-rz--status-draft-fill',
-        })
+    args: {
+        label: 'Unpublished',
+        color: 'danger',
+        iconClass: 'rz-icon-rz--status-draft-fill',
     },
 }

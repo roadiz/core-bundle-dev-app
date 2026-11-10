@@ -12,13 +12,12 @@
         with_nav_bar: true,
         user: user,
         current: 'groups',
-        with_breadcrumb: true,
     } only %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            selectionAvailable: false,
+            actionsAvailable: true,
         }%}
             {% block thead_cells %}
                 <th>{% trans %}group{% endtrans %}</th>
@@ -27,27 +26,27 @@
             {% block tbody_content %}
                 {% for group in user.getGroups %}
                     <tr>
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: group.getId }) }}
+                                {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                                {{ rz_bulk_actions.select_input({ value: group.getId }) }}
                             </td>
                         {% endif %}
                         <td>
-                            {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
+                            {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
                             {{ rz_link.root({
                                 label: group.getName,
                                 attributes: { href: path('groupsEditPage', { id: group.getId })  },
                             }) }}
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
                                 {% if is_granted(group) %}
-                                    {% include '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                        'edit_href': path('groupsEditRolesPage', { id: group.getId }),
-                                        'edit_title': 'roles'|trans,
-                                        'delete_href': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
-                                        'delete_title': 'unlink'|trans,
+                                    {% include '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                        'editHref': path('groupsEditRolesPage', { id: group.getId }),
+                                        'editTitle': 'roles'|trans,
+                                        'deleteHref': path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }),
+                                        'deleteTitle': 'unlink'|trans,
                                     } only %}
                                 {% endif %}
                             </td>
@@ -56,8 +55,8 @@
                     {% else %}
                         {{ _self.fallback_row({
                             length: 1,
-                            selection_available: selection_available,
-                            actions_available: actions_available,
+                            selectionAvailable: selectionAvailable,
+                            actionsAvailable: actionsAvailable,
                             message: 'no_groups',
                         }) }}
                     {% endfor %}
@@ -70,17 +69,19 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <div class="rz-form-field rz-form-field--align-start">
-                {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
-                {{ rz_button.root({
-                    size: 'md',
-                    label: 'add.group'|trans,
-                    icon: 'rz-icon-ri--add-line',
-                    attributes: {
-                        type: 'submit'
-                    }
-                }) }}
-            </div>
+            {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+                {% block body %}
+                    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                    {{ rz_button.root({
+                        size: 'md',
+                        label: 'add.group'|trans,
+                        iconClass: 'rz-icon-ri--add-line',
+                        attributes: {
+                            type: 'submit'
+                        }
+                    }) }}
+                {% endblock %}
+            {% endembed %}
         {{ form_end(form) }}
     </section>
 

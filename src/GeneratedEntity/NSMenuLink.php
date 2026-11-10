@@ -166,6 +166,16 @@ class NSMenuLink extends NodesSources
         return $this;
     }
 
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $image
+     * @return $this
+     */
+    public function setImageDtos(?array $image): static
+    {
+        $this->image = $image;
+        return $this;
+    }
+
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     #[\Override]
@@ -198,6 +208,16 @@ class NSMenuLink extends NodesSources
      */
     #[\Override]
     public function isPublishable(): bool
+    {
+        return false;
+    }
+
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
     {
         return false;
     }

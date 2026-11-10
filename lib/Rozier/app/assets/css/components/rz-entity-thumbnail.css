@@ -4,7 +4,7 @@ rz-entity-thumbnail,
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-2xs);
-    background-color: var(--surface-light-tertiary);
+    background-color: var(--rz-node-icon-background, var(--surface-light-tertiary));
     overflow: hidden;
 }
 

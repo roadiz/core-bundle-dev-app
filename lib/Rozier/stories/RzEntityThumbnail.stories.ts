@@ -1,20 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { http, HttpResponse, delay } from 'msw'
-import { rzEntityThumbnailRenderer } from '../app/utils/storybook/renderer/rzEntityThumbnail'
-import '../app/custom-elements/RzEntityThumbnail'
+import {
+    type RzEntityThumbnailOptions,
+    rzEntityThumbnailRenderer,
+    SIZES,
+} from '~/utils/storybook/renderer/rzEntityThumbnail'
 
 const ENTITY_THUMBNAIL_ENDPOINT = '/rz-admin/ajax/entity-thumbnail'
-const SIZES = ['small', 'medium', 'large'] as const
 
-export type Args = {
-    entityClass: string
-    entityId: string
-    size?: (typeof SIZES)[number]
-}
+type Args = RzEntityThumbnailOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/EntityThumbnail',
+    title: 'Components/Data display/EntityThumbnail',
     tags: ['autodocs'],
+    render: (args) => rzEntityThumbnailRenderer(args),
     args: {
         entityClass: 'RZ\\Roadiz\\CoreBundle\\Entity\\Document',
         entityId: '42',
@@ -44,9 +43,7 @@ type Story = StoryObj<Args>
  * Default entity thumbnail component showing a medium-sized thumbnail.
  * Uses global MSW handler from preview.ts
  */
-export const Default: Story = {
-    render: rzEntityThumbnailRenderer,
-}
+export const Default: Story = {}
 
 /**
  * Small thumbnail size variant.
@@ -55,7 +52,6 @@ export const Small: Story = {
     args: {
         size: 'small',
     },
-    render: rzEntityThumbnailRenderer,
 }
 
 /**
@@ -65,7 +61,6 @@ export const Large: Story = {
     args: {
         size: 'large',
     },
-    render: rzEntityThumbnailRenderer,
 }
 
 /**
@@ -77,7 +72,6 @@ export const UserEntity: Story = {
         entityClass: 'RZ\\Roadiz\\CoreBundle\\Entity\\User',
         entityId: 'test@test.test',
     },
-    render: rzEntityThumbnailRenderer,
 }
 
 /**
@@ -90,13 +84,7 @@ export const MultipleSizes: Story = {
         container.style.gap = '1rem'
         container.style.alignItems = 'flex-start'
 
-        const sizes: Array<(typeof SIZES)[number]> = [
-            'small',
-            'medium',
-            'large',
-        ]
-
-        sizes.forEach((size) => {
+        SIZES.forEach((size) => {
             const thumbnail = document.createElement('rz-entity-thumbnail')
             thumbnail.setAttribute('entity-class', args.entityClass)
             thumbnail.setAttribute('entity-id', args.entityId)
@@ -106,18 +94,23 @@ export const MultipleSizes: Story = {
 
         return container
     },
+    parameters: {
+        controls: { exclude: ['size'] },
+    },
 }
 
 /**
  * Loading state (shown before IntersectionObserver triggers).
  */
 export const LoadingState: Story = {
-    render: () => {
+    render: (args) => {
         const container = document.createElement('div')
-        container.className =
-            'rz-entity-thumbnail rz-entity-thumbnail--medium rz-entity-thumbnail--loading'
+        container.className = `rz-entity-thumbnail rz-entity-thumbnail--${args.size} rz-entity-thumbnail--loading`
         container.innerHTML = '<div class="rz-entity-thumbnail__spinner"></div>'
         return container
+    },
+    parameters: {
+        controls: { include: ['size'] },
     },
 }
 
@@ -141,7 +134,6 @@ export const SlowLoading: Story = {
             ],
         },
     },
-    render: rzEntityThumbnailRenderer,
 }
 
 /**
@@ -161,7 +153,6 @@ export const MockedError: Story = {
             ],
         },
     },
-    render: rzEntityThumbnailRenderer,
 }
 
 /**
@@ -183,21 +174,22 @@ export const MockedEmpty: Story = {
             ],
         },
     },
-    render: rzEntityThumbnailRenderer,
 }
 
 /**
  * Error state when entity cannot be loaded.
  */
 export const ErrorState: Story = {
-    render: () => {
+    render: (args) => {
         const container = document.createElement('div')
-        container.className =
-            'rz-entity-thumbnail rz-entity-thumbnail--medium rz-entity-thumbnail--error'
+        container.className = `rz-entity-thumbnail rz-entity-thumbnail--${args.size} rz-entity-thumbnail--error`
         container.setAttribute('title', 'HTTP error! status: 404')
         container.innerHTML =
             '<div class="rz-entity-thumbnail__placeholder">!</div>'
         return container
+    },
+    parameters: {
+        controls: { include: ['size'] },
     },
 }
 
@@ -205,12 +197,14 @@ export const ErrorState: Story = {
  * Empty state when entity has no thumbnail.
  */
 export const EmptyState: Story = {
-    render: () => {
+    render: (args) => {
         const container = document.createElement('div')
-        container.className =
-            'rz-entity-thumbnail rz-entity-thumbnail--medium rz-entity-thumbnail--empty'
+        container.className = `rz-entity-thumbnail rz-entity-thumbnail--${args.size} rz-entity-thumbnail--empty`
         container.innerHTML =
             '<div class="rz-entity-thumbnail__placeholder"></div>'
         return container
+    },
+    parameters: {
+        controls: { include: ['size'] },
     },
 }

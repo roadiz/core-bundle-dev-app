@@ -1,0 +1,158 @@
+{# rz-badge for a node status or parameter: options (no renderer yet) = type, displayLabel, badge (RzBadgeOptions); status, parameters and all take node and displayLabel #}
+{% macro root(options = {}) %}
+    {% set type = options.type|default('unknown') %}
+    {% set default_options = { size: 'sm' }|merge(options.badge|default({})) %}
+
+    {% if type == 'home' %}
+        {% set type_options = {
+            label: 'node.home'|trans,
+            iconClass: 'rz-icon-ri--home-2-fill',
+        } %}
+    {% elseif type == 'not-published-yet' %}
+        {% set type_options = {
+            label: 'not_published_yet'|trans,
+            iconClass: 'rz-icon-ri--history-line',
+            color: 'warning',
+        } %}
+    {% elseif type == 'deleted' %}
+        {% set type_options = {
+            label: 'deleted'|trans,
+            iconClass: 'rz-icon-rz--status-deleted-fill',
+            color: 'danger',
+        } %}
+    {% elseif type == 'hidden' %}
+        {% set type_options = {
+            label: 'hidden'|trans,
+            iconClass: 'rz-icon-ri--eye-off-line',
+        } %}
+    {% elseif type == 'locked' %}
+        {% set type_options = {
+            label: 'locked'|trans,
+            iconClass: 'rz-icon-ri--lock-2-line',
+        } %}
+    {% elseif type == 'archived' %}
+        {% set type_options = {
+            label: 'archived'|trans,
+            iconClass: 'rz-icon-rz--status-archived-fill',
+        } %}
+    {% elseif type == 'hiding-children' %}
+        {% set type_options = {
+            label: 'hiding-children'|trans,
+            iconClass: 'rz-icon-rz--status-container-line',
+        } %}
+    {% elseif type == 'hiding-nodes' %}
+        {% set type_options = {
+            label: 'nodeType.hiding_nodes'|trans,
+            iconClass: 'rz-icon-rz--status-container-line',
+        } %}
+    {% elseif type == 'highlighted' %}
+        {% set type_options = {
+            label: 'nodeType.highlighted'|trans,
+            iconClass: 'rz-icon-ri--lightbulb-line',
+        } %}
+    {% elseif type == 'published' %}
+        {% set type_options = {
+            label: 'published'|trans,
+            iconClass: 'rz-icon-rz--status-published-fill',
+            color: 'success',
+        } %}
+    {% elseif type == 'pending' %}
+        {% set type_options = {
+            label: 'pending.validation'|trans,
+            iconClass: 'rz-icon-rz--status-pending-fill',
+            color: 'warning',
+        } %}
+    {% elseif type == 'draft' %}
+        {% set type_options = {
+            label: 'draft'|trans,
+            iconClass: 'rz-icon-rz--status-draft-fill',
+            color: 'warning',
+        } %}
+    {% elseif type == 'shadow' %}
+        {% set type_options = {
+            label: 'shadow'|trans,
+            iconClass: 'rz-icon-rz--status-shadow-container-line',
+            color: 'information',
+        } %}
+    {% elseif type == 'universal' %}
+        {% set type_options = {
+            label: 'universal'|trans,
+            iconClass: 'rz-icon-ri--earth-line',
+        } %}
+    {% elseif type == 'indexed' %}
+        {% set type_options = {
+            label: 'indexed'|trans,
+            iconClass: 'rz-icon-ri--search-line',
+        } %}
+    {% else %}
+        {% set type_options = {
+            label: type|trans,
+            iconClass: 'rz-icon-rz--status-unknown-fill',
+        } %}
+    {% endif %}
+
+    {% if options.displayLabel is defined and options.displayLabel is same as(false) %}
+        {% set type_options = type_options|merge(
+            {
+                attributes: { 'title': type_options.label }|merge(default_options.attributes|default({})),
+                label: ''
+            }) %}
+    {% endif %}
+
+    {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
+    {{ rz_badge.root(default_options|merge(type_options)) }}
+{% endmacro %}
+
+{% macro status(options = {}) %}
+    {% set node = options.node %}
+    {% set status = 'unknown' %}
+
+    {% set type = getNodeType(node) %}
+    {% set source = node.nodeSource|default(node.nodeSources.first) %}
+
+    {% if type is defined and type.isPublishable and source.publishedAt and source.publishedAt > date() %}
+        {% set status = 'not-published-yet' %}
+    {% elseif node.isPublished == true %}
+        {% set status = 'published' %}
+    {% elseif node.isDeleted %}
+        {% set status = 'deleted' %}
+    {% elseif node.isDraft == true %}
+        {% set status = 'draft' %}
+    {% elseif node.isArchived == true %}
+        {% set status = 'archived' %}
+    {% elseif node.isPending == true %}
+        {% set status = 'pending' %}
+    {% endif %}
+
+    {{ _self.root({ type: status, displayLabel: options.displayLabel ?? true }) }}
+{% endmacro %}
+
+{% macro parameters(options = {}) %}
+    {% set node = options.node %}
+    {% set badge_options = { displayLabel: options.displayLabel ?? true, badge: options.badge|default({}) } %}
+
+    {% if node.isHome == true %}
+        {{ _self.root(badge_options|merge({ type: 'home' })) }}
+    {% endif %}
+
+    {% if node.isVisible == false %}
+        {{ _self.root(badge_options|merge({ type: 'hidden' })) }}
+    {% endif %}
+
+    {% if node.isHidingChildren == true %}
+        {{ _self.root(badge_options|merge({ type: 'hiding-children' })) }}
+    {% endif %}
+
+    {% if node.isShadow == true %}
+        {{ _self.root(badge_options|merge({ type: 'shadow' })) }}
+    {% endif %}
+
+    {% if node.isLocked == true %}
+        {{ _self.root(badge_options|merge({ type: 'locked' })) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro all(options = {}) %}
+    {{ _self.status(options) }}
+    {{ _self.parameters(options) }}
+{% endmacro %}

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\NoPrivateNetworkHttpClient;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class DownloadedFile extends File
 {
@@ -66,24 +69,17 @@ class DownloadedFile extends File
     public static function fromUrl(string $url, ?string $originalName = null): ?DownloadedFile
     {
         try {
-            if (!self::isSafeRemoteUrl($url)) {
+            if (!self::isSafeRemoteScheme($url)) {
                 return null;
             }
 
             $baseName = static::sanitizeFilename(pathinfo($url, PATHINFO_BASENAME));
-            $streamContext = stream_context_create([
-                'http' => [
-                    'follow_location' => 0,
-                    'timeout' => 10,
-                ],
-                'https' => [
-                    'follow_location' => 0,
-                    'timeout' => 10,
-                ],
+            $client = static::createHttpClient();
+            $response = $client->request('GET', $url, [
+                'max_redirects' => 3,
+                'timeout' => 10,
             ]);
-
-            $distantResource = fopen($url, 'r', false, $streamContext);
-            if (false === $distantResource) {
+            if (200 !== $response->getStatusCode()) {
                 return null;
             }
 
@@ -95,11 +91,15 @@ class DownloadedFile extends File
             if (false === $localResource) {
                 throw new \RuntimeException('Unable to open local resource.');
             }
-            $result = \stream_copy_to_stream($distantResource, $localResource);
-            fclose($distantResource);
-            fclose($localResource);
-            if (false === $result) {
-                throw new \RuntimeException('Unable to copy distant stream to local resource.');
+            try {
+                foreach ($client->stream($response) as $chunk) {
+                    fwrite($localResource, $chunk->getContent());
+                }
+                fclose($localResource);
+            } catch (\Throwable $exception) {
+                fclose($localResource);
+                unlink($tmpFile);
+                throw $exception;
             }
 
             $file = new static($tmpFile);
@@ -125,59 +125,38 @@ class DownloadedFile extends File
         return null;
     }
 
-    private static function isSafeRemoteUrl(string $url): bool
+    /**
+     * Any override MUST keep blocking private networks: NoPrivateNetworkHttpClient pins the connection to the
+     * address it validated and re-checks every redirect hop, which is what stops a DNS rebind between the
+     * check and the fetch.
+     */
+    protected static function createHttpClient(): HttpClientInterface
+    {
+        return new NoPrivateNetworkHttpClient(HttpClient::create());
+    }
+
+    /**
+     * Cheap pre-flight, before any network call. Non-HTTP schemes must be rejected here because Symfony
+     * HttpClient throws an InvalidArgumentException — not a RuntimeException — on file:// and php:// URLs.
+     *
+     * Private-address filtering is deliberately NOT done here: resolving the host up front cannot bind the
+     * socket to what it validated (CVE-2026-33486 follow-up). NoPrivateNetworkHttpClient pins the connection
+     * to the address it checked and re-checks every redirect hop, so it owns that responsibility.
+     */
+    private static function isSafeRemoteScheme(string $url): bool
     {
         $parts = parse_url($url);
         if (false === $parts) {
             return false;
         }
 
-        $scheme = strtolower((string) ($parts['scheme'] ?? ''));
-        if (!\in_array($scheme, ['http', 'https'], true)) {
+        if (!\in_array(strtolower((string) ($parts['scheme'] ?? '')), ['http', 'https'], true)) {
             return false;
         }
 
         $host = strtolower((string) ($parts['host'] ?? ''));
-        if ('' === $host) {
-            return false;
-        }
-        if ('localhost' === $host || str_ends_with($host, '.localhost')) {
-            return false;
-        }
 
-        $asciiHost = $host;
-        if (function_exists('idn_to_ascii')) {
-            $idnHost = idn_to_ascii($host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
-            if (false !== $idnHost) {
-                $asciiHost = strtolower($idnHost);
-            }
-        }
-
-        if (false !== filter_var($asciiHost, FILTER_VALIDATE_IP)) {
-            return self::isGlobalIp($asciiHost);
-        }
-
-        $records = dns_get_record($asciiHost, DNS_A + DNS_AAAA);
-        if (false === $records || 0 === count($records)) {
-            return false;
-        }
-
-        foreach ($records as $record) {
-            $ip = $record['ip'] ?? $record['ipv6'] ?? null;
-            if (null === $ip || !self::isGlobalIp($ip)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static function isGlobalIp(string $ip): bool
-    {
-        return false !== filter_var(
-            $ip,
-            FILTER_VALIDATE_IP,
-            FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
-        );
+        // Short-circuit localhost so we never pay a pointless DNS lookup for a host that can only be blocked.
+        return '' !== $host && 'localhost' !== $host && !str_ends_with($host, '.localhost');
     }
 }

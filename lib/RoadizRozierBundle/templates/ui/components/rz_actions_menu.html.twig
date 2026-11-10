@@ -1,0 +1,66 @@
+{# rz-actions-menu: embed vars = RzActionsMenuOptions (storybook/renderer/rzActionsMenu.ts), item = RzActionsMenuItemOptions, story Components/Actions/ActionsMenu #}
+{#
+    Embedded: `vertical` and `class` follow RzActionsMenuOptions; the `items` block holds the items.
+    Items are icon-only buttons: `button.label` becomes their translated aria-label.
+#}
+{% macro item(options = {}) %}
+    {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+
+    {% set button = options.button|default({}) %}
+    {% set attributes = button.attributes|default({}) %}
+    {% set aria_label = attributes['aria-label']|default(button.label|default('')) %}
+    {% if aria_label %}
+        {% set attributes = attributes|merge({ 'aria-label': aria_label|trans }) %}
+    {% endif %}
+
+    {% set button_markup = rz_button.root({ size: 'md', onDark: true }|merge(button)|merge({
+        label: null,
+        attributes: attributes,
+    })) %}
+
+    {% if options.popoverContent is defined and options.popoverContent %}
+        <rz-popover data-popover-offset="24px" data-popover-placement="top-start">
+            {{ options.popoverContent|raw }}
+            {{ button_markup }}
+        </rz-popover>
+    {% else %}
+        {{ button_markup }}
+    {% endif %}
+{% endmacro %}
+
+{# options = RzSaveButtonOptions (storybook/renderer/rzSaveButton.ts) #}
+{% macro saveItem(options = {}) %}
+    {{ _self.item({ button: {
+        emphasis: 'primary',
+        color: 'success',
+        iconClass: 'rz-icon-ri--save-line',
+        is: 'rz-save-button',
+        attributes: {
+            'data-action-save': options.dataActionSave,
+            type: 'submit',
+            title: options.label|default('save')|trans,
+        },
+    } }) }}
+{% endmacro %}
+
+{# Twig-only helper: `label` (aria-label, default "delete") and `attributes` (with `href`) of the delete button #}
+{% macro deleteItem(options = {}) %}
+    {{ _self.item({ button: {
+        label: options.label|default('delete'),
+        emphasis: 'primary',
+        color: 'danger',
+        iconClass: 'rz-icon-ri--delete-bin-7-line',
+        attributes: options.attributes|default({}),
+    } }) }}
+{% endmacro %}
+
+<rz-actions-menu
+    class="{{ html_classes('rz-actions-menu', class|default(''), { 'rz-actions-menu--vertical': vertical|default(false) }) }}"
+    data-axis="y"
+>
+    {% block items %}
+    {% endblock %}
+    <button class="rz-actions-menu__handle" type="button" aria-label="{{ 'drag.actions.menu'|trans }}">
+        <span class="rz-icon-rz--draggable-2"></span>
+    </button>
+</rz-actions-menu>

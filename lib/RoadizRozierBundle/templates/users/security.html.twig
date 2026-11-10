@@ -13,31 +13,30 @@
         with_nav_bar: true,
         user: user,
         current: 'security',
-        with_breadcrumb: true,
     } only %}
 
     <article class="content content-edit">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-user-form'}}) }}
         {{ form_widget(form) }}
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#edit-user-form') }}
+        {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem({ dataActionSave: '#edit-user-form' }) }}
         {{ form_end(form) }}
 
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
             bordered: true,
-            margin_top: 'xs',
+            marginTop: 'xs',
             caption: 'user.security.meta_table.caption'|trans,
         } %}
             {% block tbody_content %}
                 {% if not user.isAccountNonExpired %}
                     <tr>
-                        <td colspan="2" class="uk-alert-danger">{% trans %}user.account.has-expired{% endtrans %}</td>
+                        <td colspan="2">{% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}{{ rz_message.root({ color: 'error', text: 'user.account.has-expired'|trans }) }}</td>
                     </tr>
                 {% endif %}
                 {% if not user.isCredentialsNonExpired %}
                     <tr>
-                        <td colspan="2" class="uk-alert-danger">{% trans %}user.crendentials.has-expired{% endtrans %}</td>
+                        <td colspan="2">{% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}{{ rz_message.root({ color: 'error', text: 'user.crendentials.has-expired'|trans }) }}</td>
                     </tr>
                 {% endif %}
                 <tr>

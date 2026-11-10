@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import {
-    type Args as RzNodeIconArgs,
+    type RzNodeIconOptions,
     rzNodeIconRenderer,
 } from '~/utils/storybook/renderer/rzNodeIcon'
 
-type Args = RzNodeIconArgs
+type Args = RzNodeIconOptions
 
 const meta: Meta<Args> = {
-    title: 'Components/NodeIcon',
+    title: 'Components/Data display/NodeIcon',
     tags: ['autodocs'],
+    render: (args) => rzNodeIconRenderer(args),
     args: {
         nodeId: '42',
         status: 'published',
@@ -60,34 +61,21 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-export const Default: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 export const Published: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
     args: {
         status: 'published',
     },
 }
 
 export const Draft: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
     args: {
         status: 'draft',
     },
 }
 
 export const MediumSize: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
     args: {
         size: 'medium',
         status: 'published',
@@ -95,9 +83,6 @@ export const MediumSize: Story = {
 }
 
 export const MediumDraft: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
     args: {
         size: 'medium',
         status: 'draft',
@@ -105,9 +90,6 @@ export const MediumDraft: Story = {
 }
 
 export const CustomColor: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
     args: {
         color: '#3498db',
         status: 'published',
@@ -115,9 +97,6 @@ export const CustomColor: Story = {
 }
 
 export const MediumCustomColor: Story = {
-    render: (args) => {
-        return rzNodeIconRenderer(args)
-    },
     args: {
         size: 'medium',
         color: 'salmon',

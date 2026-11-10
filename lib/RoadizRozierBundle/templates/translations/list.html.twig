@@ -15,56 +15,50 @@
             attributes: {
                 href: path('translationsAddPage'),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
-        breadcrumb: {
-            label: 'translation-breadcrumb',
-            current: 'translations'|trans,
-        },
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: false,
-    }  only %}
+        displaySelectAllButton: false,
+    }  only %}{% endembed %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            selection_available: hasBulkActions,
-            actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            selectionAvailable: hasBulkActions,
+            actionsAvailable: true,
         } %}
 
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'name',
-                        'filters': filters,
-                        'label': 'name'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'name',
+                        filters: filters,
+                        label: 'name'|trans,
+                    }) }}
                 </th>
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'locale',
-                        'filters': filters,
-                        'label': 'translation.locale'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'locale',
+                        filters: filters,
+                        label: 'translation.locale'|trans,
+                    }) }}
                 </th>
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'overrideLocale',
-                        'filters': filters,
-                        'label': 'overrideLocale'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'overrideLocale',
+                        filters: filters,
+                        label: 'overrideLocale'|trans,
+                    }) }}
                 </th>
                 <th>{% trans %}status{% endtrans %}</th>
             {% endblock %}
 
             {% block tbody_content %}
-                {% import '@RoadizRozier/macros/rz_link.html.twig' as rz_link %}
-                {% import '@RoadizRozier/macros/rz_badge.html.twig' as rz_badge %}
+                {% import '@RoadizRozier/ui/components/rz_link.html.twig' as rz_link %}
+                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
 
                 {% for t in translations %}
                     <tr>
@@ -78,23 +72,23 @@
                         <td>{{ t.translation.overrideLocale }}</td>
                         <td>
                             {% if t.translation.isAvailable == false %}
-                                {{ rz_badge.item({ label: 'not_available'|trans })}}
+                                {{ rz_badge.root({ label: 'not_available'|trans })}}
                             {% endif %}
                             {% if t.translation.isDefaultTranslation == true %}
-                                {{ rz_badge.item({
-                                    icon: 'rz-icon-ri--star-line',
+                                {{ rz_badge.root({
+                                    iconClass: 'rz-icon-ri--star-line',
                                     attributes: {
                                         'title': 'default.translation'|trans
                                     }
                                     }) }}
                             {% endif %}
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             {% set is_not_default = t.translation.isDefaultTranslation == false %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': path('translationsEditPage', { translationId: t.translation.getId }),
-                                    'delete_href': is_not_default ? path('translationsDeletePage', { translationId: t.translation.getId }) : null,
+                                {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                    'editHref': path('translationsEditPage', { translationId: t.translation.getId }),
+                                    'deleteHref': is_not_default ? path('translationsDeletePage', { translationId: t.translation.getId }) : null,
                                 } %}
                                     {% block other_actions %}
                                         {% if is_not_default is same as(true) %}
@@ -102,7 +96,7 @@
                                             <form class="rz-form" action="#" method="post">
                                                 {{ form_widget(t.defaultForm, { attr: { style: 'display: none;' }}) }}
                                                 {{ _self.button({
-                                                    icon: 'rz-icon-ri--star-line',
+                                                    iconClass: 'rz-icon-ri--star-line',
                                                     attributes: {
                                                         type: 'submit',
                                                         title: 'set.default'|trans,

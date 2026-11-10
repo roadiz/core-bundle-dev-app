@@ -1,0 +1,86 @@
+{
+    "jsonld": {
+        "@type": "Document",
+        "@id": "/api/documents/{id}",
+        "id": "{id}",
+        "filename": "serialization_video.mp4",
+        "mimeType": "video/mp4",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "embedId": null,
+        "embedPlatform": null,
+        "imageAverageColor": "#ffffff",
+        "name": null,
+        "description": null,
+        "copyright": null,
+        "externalUrl": null,
+        "alt": null,
+        "imageCropAlignment": null,
+        "hotspot": null,
+        "type": "video",
+        "relativePath": "fixtures/serialization_video.mp4",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_video.mp4",
+        "altSources": [
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "video/webm",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.webm",
+                "publicUrl": "/files/fixtures/serialization_video.webm"
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "video/x-m4v",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.m4v",
+                "publicUrl": "/files/fixtures/serialization_video.m4v"
+            }
+        ]
+    },
+    "json": {
+        "@type": "Document",
+        "@id": "/api/documents/{id}",
+        "id": "{id}",
+        "filename": "serialization_video.mp4",
+        "mimeType": "video/mp4",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "embedId": null,
+        "embedPlatform": null,
+        "imageAverageColor": "#ffffff",
+        "name": null,
+        "description": null,
+        "copyright": null,
+        "externalUrl": null,
+        "alt": null,
+        "imageCropAlignment": null,
+        "hotspot": null,
+        "type": "video",
+        "relativePath": "fixtures/serialization_video.mp4",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_video.mp4",
+        "altSources": [
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "video/webm",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.webm",
+                "publicUrl": "/files/fixtures/serialization_video.webm"
+            },
+            {
+                "@type": "Document",
+                "@id": "/api/documents/{id}",
+                "mimeType": "video/x-m4v",
+                "type": "video",
+                "relativePath": "fixtures/serialization_video.m4v",
+                "publicUrl": "/files/fixtures/serialization_video.m4v"
+            }
+        ]
+    }
+}

@@ -475,6 +475,16 @@ class NSFields extends NodesSources
     }
 
     /**
+     * @param \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null $images
+     * @return $this
+     */
+    public function setImagesDtos(?array $images): static
+    {
+        $this->images = $images;
+        return $this;
+    }
+
+    /**
      * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
     public function getNodeReferencesSources(): array
@@ -899,6 +909,16 @@ class NSFields extends NodesSources
      */
     #[\Override]
     public function isPublishable(): bool
+    {
+        return true;
+    }
+
+    /**
+     * $this->nodeType->isUnpublishable() proxy.
+     * @return bool Does this nodeSource is unpublishable with date and time?
+     */
+    #[\Override]
+    public function isUnpublishable(): bool
     {
         return false;
     }

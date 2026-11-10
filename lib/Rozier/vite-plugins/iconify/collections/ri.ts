@@ -102,6 +102,7 @@ export default [
     'list-unordered',
     'loader-line',
     'lock-2-line',
+    'lock-line',
     'lock-password-line',
     'logout-box-line',
     'loop-left-line',
@@ -159,4 +160,6 @@ export default [
     'youtube-fill',
     'zoom-in-line',
     'zoom-out-line',
+    'smartphone-line',
+    'tablet-line',
 ]

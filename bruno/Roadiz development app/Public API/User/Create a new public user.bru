@@ -1,0 +1,28 @@
+meta {
+  name: Create a new public user
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/users/signup
+  body: json
+  auth: none
+}
+
+headers {
+  x-g-recaptcha-response: 
+  x-cf-turnstile-response: 
+}
+
+body:json {
+  {
+    "email": "{{username}}",
+    "plainPassword": "{{password}}"
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+  }
+}

@@ -21,8 +21,18 @@ framework:
             limit: 20
             rate: { interval: '1 minutes', amount: 20 }
             cache_pool: 'cache.password_request_limiter'
+        # Looser than the bundle-provided defaults, for comfortable manual testing.
+        # No "cache_pool" here: inherits the dedicated pool RoadizUserExtension prepends.
+        password_request_email:
+            policy: 'fixed_window'
+            limit: 50
+            interval: '1 minute'
         password_reset:
             policy: 'token_bucket'
             limit: 20
             rate: { interval: '1 minutes', amount: 20 }
             cache_pool: 'cache.password_reset_limiter'
+        two_factor_login:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minutes', amount: 20 }

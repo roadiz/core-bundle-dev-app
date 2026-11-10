@@ -12,32 +12,28 @@
             attributes: {
                 href: path('foldersAddPage'),
             },
-            icon: 'rz-icon-ri--add-line'
+            iconClass: 'rz-icon-ri--add-line'
         }],
-        breadcrumb: {
-            label: 'folders-breadcrumb',
-            current: 'folders'|trans,
-        },
     } only %}
 
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-        display_select_all_button: false,
-    }  only %}
+        displaySelectAllButton: false,
+    }  only %}{% endembed %}
     <article>
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            selection_available: false,
-            actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            selectionAvailable: false,
+            actionsAvailable: true,
             folders: folders,
         } only %}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'name',
-                        'filters': filters,
-                        'label': 'name'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } %}
+                    {{ rz_table.column_ordering({
+                        field: 'name',
+                        filters: filters,
+                        label: 'name'|trans,
+                    }) }}
                 </th>
             {% endblock %}
 
@@ -46,24 +42,24 @@
                     <tr
                         {{ _self.colored_row_attrs({'color': folder.color }) }}
                     >
-                        {% if selection_available %}
+                        {% if selectionAvailable %}
                             <td>
-                                {% import '@RoadizRozier/macros/rz_bulk.html.twig' as rz_bulk %}
-                                {{ rz_bulk.select_input({ value: folder.id }) }}
+                                {% import '@RoadizRozier/ui/components/rz_bulk_actions.html.twig' as rz_bulk_actions %}
+                                {{ rz_bulk_actions.select_input({ value: folder.id }) }}
                             </td>
                         {% endif %}
                         <td>
                             <a href="{{ path('foldersEditPage', { folderId: folder.id }) }}">{{ folder.folderName }}</a>
                         </td>
-                        {% if actions_available %}
+                        {% if actionsAvailable %}
                             <td>
-                                {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                    'edit_href': path('foldersEditPage', { folderId: folder.id }),
-                                    'delete_href': path('foldersDeletePage', { folderId: folder.id }),
+                                {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                    'editHref': path('foldersEditPage', { folderId: folder.id }),
+                                    'deleteHref': path('foldersDeletePage', { folderId: folder.id }),
                                 } %}
                                     {% block other_actions %}
                                         {{ _self.button({
-                                            icon: 'uk-icon-rz-download',
+                                            iconClass: 'rz-icon-ri--download-line',
                                             attributes: {
                                                 href: path('foldersDownloadPage', { folderId: folder.id }),
                                                 title: 'download.folder.content'|trans,

@@ -1,10 +1,22 @@
-import type { Args as TabArgs } from '../../../../stories/RzTablistItem.stories'
-import type { Args as TablistArgs } from '../../../../stories/RzTablist.stories'
-
 export const TABLIST_CLASS_NAME = 'rz-tablist'
 export const TABLIST_ITEM_CLASS_NAME = 'rz-tablist__item'
 
-export function rzTablistItemRenderer(args: TabArgs) {
+export type RzTablistItemOptions = {
+    innerHTML: string
+    selected?: boolean
+    tag?: string
+    attributes?: Record<string, string>
+    panel?: {
+        id: string
+        hidden?: boolean
+    }
+}
+
+export type RzTablistOptions = {
+    tabs: RzTablistItemOptions[]
+}
+
+export function rzTablistItemRenderer(args: RzTablistItemOptions) {
     const tab = document.createElement(args.tag || 'button')
     const classNames = [
         TABLIST_ITEM_CLASS_NAME,
@@ -28,7 +40,7 @@ export function rzTablistItemRenderer(args: TabArgs) {
     return tab
 }
 
-export function rzTablistRenderer(args: TablistArgs) {
+export function rzTablistRenderer(args: RzTablistOptions) {
     const wrapper = document.createElement('rz-tablist')
     wrapper.classList.add(TABLIST_CLASS_NAME)
 

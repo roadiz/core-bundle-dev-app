@@ -42,6 +42,7 @@
         "roadiz/entity-generator": "2.8.x-dev",
         "roadiz/jwt": "2.8.x-dev",
         "roadiz/random": "2.8.x-dev",
+        "symfony/phpunit-bridge": "^7.0",
         "symfony/stopwatch": "7.4.*"
     },
     "config": {
@@ -59,6 +60,11 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\TwoFactorBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\TwoFactorBundle\\Tests\\": "tests/"
         }
     },
     "scripts": {

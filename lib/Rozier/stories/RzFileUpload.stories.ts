@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite'
 
 const COMPONENT_CLASS_NAME = 'rz-file-upload'
 
-export type Args = {
+type Args = {
     message: string
     url?: string
     iconClass: string
@@ -10,12 +10,14 @@ export type Args = {
 }
 
 const meta: Meta<Args> = {
-    title: 'Components/FileUpload',
+    title: 'Components/Form/FileUpload',
     tags: ['autodocs'],
+    render: (args) => rzUploadFileWithPreviewsRenderer(args),
     args: {
         message: 'Drop files here to upload or click to open your explorer',
         url: '/admin/documents/upload',
         iconClass: 'rz-icon-ri--upload-line',
+        previewLength: 0,
     },
 }
 
@@ -48,11 +50,7 @@ function rzUploadFileRenderer(args: Args) {
     return el
 }
 
-export const Default: Story = {
-    render: (args) => {
-        return rzUploadFileRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 const previewItemHtml = `
     <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
@@ -82,7 +80,7 @@ const previewItemHtml = `
     </div>
 `.trim()
 
-function rzUploadFileWithPreviewsRenderer(args) {
+function rzUploadFileWithPreviewsRenderer(args: Args) {
     const el = rzUploadFileRenderer(args)
 
     // Wait for the custom element to render its internal DOM before inserting previews
@@ -100,18 +98,12 @@ function rzUploadFileWithPreviewsRenderer(args) {
 }
 
 export const WithPreview: Story = {
-    render: (args) => {
-        return rzUploadFileWithPreviewsRenderer(args)
-    },
     args: {
         previewLength: 1,
     },
 }
 
 export const WithPreviews: Story = {
-    render: (args) => {
-        return rzUploadFileWithPreviewsRenderer(args)
-    },
     args: {
         previewLength: 10,
     },

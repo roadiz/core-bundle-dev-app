@@ -208,7 +208,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 
         $this->assignation[$bulkFormName] = $bulkForm->createView();
         $this->assignation['title'] = $templateOptions['title'] ?? $this->translator->trans('delete.bulk.'.$this->getNamespace());
-        $this->assignation['headPath'] = $templateOptions['headPath'] ?? '@RoadizRozier/admin/head.html.twig';
+        $this->assignation['headPath'] = $templateOptions['headPath'] ?? '@RoadizRozier/ui/patterns/page_header.html.twig';
         $this->assignation['cancelPath'] = $templateOptions['cancelPath'] ?? $this->generateUrl($this->getDefaultRouteName(), $this->getDefaultRouteParameters());
         $this->assignation['alertMessage'] = $templateOptions['alertMessage'] ?? $this->translator->trans(
             'are_you_sure.delete.these.%namespace%',
@@ -258,7 +258,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createDeleteBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/confirm_action.html.twig',
+            '@RoadizRozier/ui/patterns/confirm_action.html.twig',
             '%namespace%.%item%.was_deleted',
             /**
              * @param TEntity $item
@@ -286,7 +286,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createPublishBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/confirm_action.html.twig',
+            '@RoadizRozier/ui/patterns/confirm_action.html.twig',
             '%namespace%.%item%.was_published',
             /**
              * @param TEntity $item
@@ -318,7 +318,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             fn (string $ids) => $this->createUnpublishBulkForm(false, [
                 'id' => $ids,
             ]),
-            '@RoadizRozier/admin/confirm_action.html.twig',
+            '@RoadizRozier/ui/patterns/confirm_action.html.twig',
             '%namespace%.%item%.was_unpublished',
             /**
              * @param TEntity $item

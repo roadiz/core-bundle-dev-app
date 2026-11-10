@@ -205,11 +205,21 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         }
 
         /*
+         * If the IdP asserts email_verified=false, the email claim (used as username) is untrustworthy:
+         * refuse to link/create a local account on it. A missing claim is not rejected, since some IdPs
+         * never send it and this account-linking relies on the email being pre-verified out of band.
+         */
+        if (false === filter_var($jwt->claims()->get('email_verified', true), FILTER_VALIDATE_BOOLEAN)) {
+            throw new OpenIdAuthenticationException('JWT “email_verified” claim is false.');
+        }
+
+        /*
          * Validate JWT token in CustomCredentials
          */
         $customCredentials = new CustomCredentials(
             function (Plain $jwt) {
-                $configuration = $this->jwtConfigurationFactory->create();
+                $kid = $jwt->headers()->get('kid');
+                $configuration = $this->jwtConfigurationFactory->create(is_string($kid) ? $kid : null);
                 if (null === $configuration) {
                     throw new OpenIdAuthenticationException('No JWT configuration available.');
                 }

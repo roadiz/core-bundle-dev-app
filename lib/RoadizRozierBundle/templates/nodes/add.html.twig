@@ -10,22 +10,10 @@
     {% include '@RoadizRozier/nodes/head.html.twig' with {
         title: title,
         subtitle: subtitle,
-        breadcrumb: {
-            label: 'nodes-breadcrumb'|trans,
-            parent: [
-                {
-                    label: 'all.nodes'|trans,
-                    type: 'listing',
-                    url: path('nodesHomePage'),
-                },
-                (parentNode is defined and parentNode.nodeName) ? {
-                    label: parentNode.nodeName,
-                    type: 'node',
-                    url: path('nodesEditPage', {'nodeId': parentNode.id}),
-                } : null
-            ],
-            current: title,
-        },
+        breadcrumb_parents: (parentNode is defined and parentNode.nodeName) ? [{
+            label: parentNode.nodeName,
+            url: path('nodesEditPage', {'nodeId': parentNode.id}),
+        }] : [],
     } only %}
 
     <section class="rz-page__body">
@@ -33,12 +21,11 @@
         {{ form_start(form, {
             'attr': {
                 'id': 'add-node-form',
-                'class': 'uk-form uk-form-stacked'
             }
         }) }}
         {{ form_widget(form) }}
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#add-node-form') }}
+        {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem({ dataActionSave: '#add-node-form' }) }}
         {{ form_end(form) }}
     </section>
     {% include '@RoadizRozier/nodes/actionsMenu.html.twig' %}

@@ -23,6 +23,8 @@ final class MarkdownExtension extends AbstractExtension
             new TwigFilter('inline_markdown', $this->inlineMarkdown(...), ['is_safe' => ['html']]),
             new TwigFilter('markdownExtra', $this->markdownExtra(...), ['is_safe' => ['html']]),
             new TwigFilter('markdown_extra', $this->markdownExtra(...), ['is_safe' => ['html']]),
+            new TwigFilter('strip_markdown', $this->strip(...)),
+            new TwigFilter('stripMarkdown', $this->strip(...)),
         ];
     }
 
@@ -61,5 +63,14 @@ final class MarkdownExtension extends AbstractExtension
         }
 
         return $this->markdown->textExtra($input, $allowHtml);
+    }
+
+    public function strip(?string $input): string
+    {
+        if (null === $input) {
+            return '';
+        }
+
+        return $this->markdown->strip($input) ?? '';
     }
 }

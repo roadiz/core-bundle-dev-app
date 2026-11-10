@@ -51,6 +51,9 @@ framework:
             limit: 3
             rate: { interval: '1 minutes', amount: 3 }
             cache_pool: 'cache.password_reset_limiter'
+        # "password_request_email" and "two_factor_login" limiters are no longer declared here:
+        # RoadizUserBundle / RoadizTwoFactorBundle now provide sensible defaults via
+        # PrependExtensionInterface. Redeclare either here to override the bundle default.
 
     csrf_protection:
         enabled: true

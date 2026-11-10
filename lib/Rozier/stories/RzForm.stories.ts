@@ -1,17 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import type { Args as FormFieldArgs } from './RzFormField.stories'
-import type { Args as FieldsetArgs } from './RzFieldset.stories'
-import { rzFormFieldRenderer } from '../app/utils/storybook/renderer/rzFormField'
-import { rzFieldsetRenderer } from '../app/utils/storybook/renderer/rzFieldset'
+import {
+    type RzFormFieldOptions,
+    rzFormFieldRenderer,
+} from '~/utils/storybook/renderer/rzFormField'
+import {
+    type RzFieldsetOptions,
+    rzFieldsetRenderer,
+} from '~/utils/storybook/renderer/rzFieldset'
 
 const COMPONENT_CLASS_NAME = 'rz-form'
 
 type FieldList = {
     horizontal?: boolean
-    fields: (FormFieldArgs | FieldsetArgs)[]
+    fields: (RzFormFieldOptions | RzFieldsetOptions)[]
 }
 
-export type Args = {
+type Args = {
     fieldListGroup: FieldList[]
     horizontal?: boolean
     withFieldList?: boolean
@@ -20,6 +24,7 @@ export type Args = {
 const meta: Meta<Args> = {
     title: 'Components/Form/Form',
     tags: ['autodocs'],
+    render: (args) => rzFormRenderer(args),
     args: {
         horizontal: false,
         withFieldList: true,
@@ -77,7 +82,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 7) {
+function getCheckboxFieldList(args: Partial<RzFormFieldOptions>, length = 7) {
     return [...Array(length).keys()].map((i) => {
         const id = Math.random().toString(36).slice(2, 9)
         return {
@@ -90,7 +95,7 @@ function getCheckboxFieldList(args: Partial<FormFieldArgs>, length = 7) {
                 type: args.input?.type || 'checkbox',
                 id: id,
             },
-        } as FormFieldArgs
+        } as RzFormFieldOptions
     })
 }
 
@@ -100,7 +105,7 @@ function appendFieldList(fieldList: FieldList, parent: HTMLElement) {
             const node = rzFieldsetRenderer(fieldArgs)
             parent.appendChild(node)
         } else {
-            const node = rzFormFieldRenderer(fieldArgs as FormFieldArgs)
+            const node = rzFormFieldRenderer(fieldArgs as RzFormFieldOptions)
             parent.appendChild(node)
         }
     })
@@ -119,7 +124,7 @@ function fieldListRenderer(fieldList: FieldList) {
     return wrapper
 }
 
-function formRenderer(args: Args) {
+function rzFormRenderer(args: Args) {
     const form = document.createElement('form')
     form.classList.add(COMPONENT_CLASS_NAME)
     if (args.horizontal) {
@@ -148,14 +153,9 @@ function formRenderer(args: Args) {
     return form
 }
 
-export const Default: Story = {
-    render: (args) => formRenderer(args),
-}
+export const Default: Story = {}
 
 export const WithFieldListHeaderDual: Story = {
-    render: (args) => {
-        return formRenderer(args)
-    },
     args: {
         fieldListGroup: [
             {
@@ -202,9 +202,6 @@ export const WithFieldListHeaderDual: Story = {
 }
 
 export const HorizontalGroups: Story = {
-    render: (args) => {
-        return formRenderer(args)
-    },
     args: {
         fieldListGroup: [
             {
@@ -252,9 +249,6 @@ export const HorizontalGroups: Story = {
 }
 
 export const SwitchListWithFieldset: Story = {
-    render: (args) => {
-        return formRenderer(args)
-    },
     args: {
         fieldListGroup: [
             {

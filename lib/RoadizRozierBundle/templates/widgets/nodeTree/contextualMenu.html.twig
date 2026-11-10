@@ -1,44 +1,44 @@
- {% import "@RoadizRozier/macros/rz_dropdown_menu.html.twig" as rz_dropdown_menu %}
+ {% import "@RoadizRozier/ui/components/rz_dropdown.html.twig" as rz_dropdown %}
 <div class="rz-dropdown">
     <div class="rz-dropdown__head">
         <div class="rz-dropdown__title">{% trans %}actions{% endtrans %} | {{ node.nodeName|truncate_title(18) }}</div>
         <div class="rz-dropdown__info-list">
-            {% import '@RoadizRozier/macros/rz_node_badge.html.twig' as rz_node_badge %}
-            {{ rz_node_badge.parameters(node, { display_label: false }) }}
-            {{ rz_node_badge.status(node, { display_label: false }) }}
+            {% import '@RoadizRozier/ui/components/rz_node_badge.html.twig' as rz_node_badge %}
+            {{ rz_node_badge.parameters({ node: node, displayLabel: false }) }}
+            {{ rz_node_badge.status({ node: node, displayLabel: false }) }}
         </div>
     </div>
 
     {% if is_granted('CREATE', node) or is_granted('EDIT_SETTING', node) %}
         <menu class="rz-dropdown__list">
             {% if is_granted('CREATE', node) %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                     label: 'add.a.child.node'|trans,
-                    leftIcon: 'rz-icon-ri--add-line',
-                    href: path('nodesAddChildPage', { nodeId: node.id }),
+                    iconClass: 'rz-icon-ri--add-line',
+                    attributes: { href: path('nodesAddChildPage', { nodeId: node.id }) },
                 }) }}
             {%- endif -%}
             {% if is_granted('EDIT_SETTING', node) %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                         label: 'edit.node'|trans,
-                        leftIcon: 'rz-icon-ri--edit-line',
-                        href: path('nodesEditPage', { nodeId:node.id }),
+                        iconClass: 'rz-icon-ri--edit-line',
+                        attributes: { href: path('nodesEditPage', { nodeId:node.id }) },
                     }) }}
 
                 {%- if not node.Locked -%}
-                    {{ rz_dropdown_menu.item({
+                    {{ rz_dropdown.item({
                         label: 'move.node.to.first.position'|trans,
-                        class: 'move-node-first-position',
-                        leftIcon: 'rz-icon-ri--arrow-up-line',
+                        iconClass: 'rz-icon-ri--arrow-up-line',
                         attributes: {
+                            class: 'move-node-first-position',
                             'type': 'button',
                             'command': '--move-first',
                             'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         }
                     }) }}
-                    {{ rz_dropdown_menu.item({
+                    {{ rz_dropdown.item({
                         label: 'move.node.to.last.position'|trans,
-                        leftIcon: 'rz-icon-ri--arrow-down-line',
+                        iconClass: 'rz-icon-ri--arrow-down-line',
                         attributes: {
                             'type': 'button',
                             'command': '--move-last',
@@ -52,18 +52,18 @@
 
      {% if is_granted('DUPLICATE', node) %}
         <menu class="rz-dropdown__list">
-            {{ rz_dropdown_menu.item({
+            {{ rz_dropdown.item({
                 label: 'node.copy'|trans,
-                leftIcon: 'rz-icon-ri--file-copy-line',
+                iconClass: 'rz-icon-ri--file-copy-line',
                 attributes: {
                     'type': 'button',
                     'command': '--copy',
                     'commandfor': 'DYNAMICALLY_SET_BY_JS',
                 }
             }) }}
-            {{ rz_dropdown_menu.item({
+            {{ rz_dropdown.item({
                 label: 'node.paste_inside'|trans,
-                leftIcon: 'rz-icon-ri--file-copy-line',
+                iconClass: 'rz-icon-ri--file-copy-line',
                 attributes: {
                     'type': 'button',
                     'command': '--paste-inside',
@@ -71,9 +71,9 @@
                     disabled: 'true',
                 }
             }) }}
-            {{ rz_dropdown_menu.item({
+            {{ rz_dropdown.item({
                 label: 'node.paste_after'|trans,
-                leftIcon: 'rz-icon-ri--file-copy-line',
+                iconClass: 'rz-icon-ri--file-copy-line',
                 attributes: {
                     'type': 'button',
                     'command': '--paste-after',
@@ -81,9 +81,9 @@
                     disabled: 'true',
                 }
             }) }}
-            {{ rz_dropdown_menu.item({
+            {{ rz_dropdown.item({
                 label: 'node.duplicate'|trans,
-                leftIcon: 'rz-icon-ri--file-copy-line',
+                iconClass: 'rz-icon-ri--file-copy-line',
                 attributes: {
                     'type': 'button',
                     'command': '--duplicate',
@@ -96,11 +96,11 @@
      {% if not node.locked and is_granted('EDIT_STATUS', node)%}
         <menu class="rz-dropdown__list">
             {% if node.visible %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                     label: 'node.hide'|trans,
-                    leftIcon: 'rz-icon-ri--eye-off-line',
-                    class: "hide-node",
+                    iconClass: 'rz-icon-ri--eye-off-line',
                     attributes: {
+                        class: "hide-node",
                         'command': '--update-status',
                         'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         'data-status': "visible",
@@ -109,11 +109,11 @@
                     }
                 }) }}
             {% else %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                     label: 'node.show'|trans,
-                    leftIcon: 'rz-icon-ri--eye-line',
-                    class: "show-node",
+                    iconClass: 'rz-icon-ri--eye-line',
                     attributes: {
+                        class: "show-node",
                         'command': '--update-status',
                         'commandfor': 'DYNAMICALLY_SET_BY_JS',
                         'data-status': "visible",
@@ -123,9 +123,9 @@
                 }) }}
             {% endif %}
             {% if not node.published and workflow_can(node, 'publish') %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                     label: 'node.publish'|trans,
-                    leftIcon: 'rz-icon-rz--status-published-line',
+                    iconClass: 'rz-icon-rz--status-published-line',
                     attributes: {
                         'command': '--update-status',
                         'commandfor': 'DYNAMICALLY_SET_BY_JS',
@@ -135,9 +135,9 @@
                     }
                 }) }}
             {% elseif node.published and workflow_can(node, 'reject') %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                     label: 'node.unpublish'|trans,
-                    leftIcon: 'rz-icon-rz--status-draft-line',
+                    iconClass: 'rz-icon-rz--status-draft-line',
                     attributes: {
                         'command': '--update-status',
                         'commandfor': 'DYNAMICALLY_SET_BY_JS',
@@ -152,11 +152,11 @@
         {% if workflow_can(node, 'delete') %}
             <menu class="rz-dropdown__list">
                 {% set refererUrl = node.parent ? getBreadcrumbsItem(node.parent).url : null %}
-                {{ rz_dropdown_menu.item({
+                {{ rz_dropdown.item({
                     label: 'delete.node'|trans,
-                    leftIcon: 'rz-icon-ri--delete-bin-7-line',
-                    href: path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }),
+                    iconClass: 'rz-icon-ri--delete-bin-7-line',
                     attributes: {
+                        href: path('nodesDeletePage', { nodeId: node.id, referer: refererUrl }),
                         'aria-label': "delete.node.%name%"|trans({'%name%': node.nodeName}),
                     }
                 }) }}

@@ -34,7 +34,6 @@ final readonly class FolderBreadcrumbsItemFactory implements BreadcrumbsItemFact
                     'folderId' => $item->getId(),
                 ]
             ),
-            false,
         );
     }
 

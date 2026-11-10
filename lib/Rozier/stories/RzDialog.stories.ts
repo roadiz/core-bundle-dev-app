@@ -1,36 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzDialogWrapperRenderer } from '~/utils/storybook/renderer/rzDialog'
-import { type RzButtonOptions } from '~/utils/component-renderer/rzButton'
-import { RzElement } from '~/utils/component-renderer/rzElement'
+import {
+    CLOSED_BY_VALUES,
+    type RzDialogOptions,
+    rzDialogWrapperRenderer,
+    VARIANTS,
+} from '~/utils/storybook/renderer/rzDialog'
 
-// 'none' = dialog cannot be closed by user interaction
-// 'closerequest' = dialog can be closed only by close button or calling close() method
-// 'any' = dialog can be closed by clicking outside, pressing ESC, close button or calling close() method
-const CLOSED_BY_VALUES = ['none', 'closerequest', 'any'] as const
-
-export type Args = {
-    tag?: string
-    header?: {
-        title?: string
-        iconClass?: string
-        closeIconClass?: string
-    }
-    body?: RzElement
-    footer?: {
-        justifyEnd?: boolean
-        buttons?: RzButtonOptions[]
-    }
-    innerHTML?: string
-    closedby?: (typeof CLOSED_BY_VALUES)[number]
-    dialogId?: string
-    modal?: boolean
-    defaultOpen?: boolean
-    attributes?: Record<string, string>
-}
+type Args = RzDialogOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Overlay/Dialog',
     tags: ['autodocs'],
+    render: (args) => rzDialogWrapperRenderer(args),
     args: {
         tag: 'dialog',
         defaultOpen: false,
@@ -65,6 +46,10 @@ const meta: Meta<Args> = {
         dialogId: 'meta-default-dialog',
     },
     argTypes: {
+        variant: {
+            control: { type: 'radio' },
+            options: VARIANTS,
+        },
         closedby: {
             control: { type: 'select' },
             options: CLOSED_BY_VALUES,
@@ -78,18 +63,12 @@ export default meta
 type Story = StoryObj<Args>
 
 export const Default: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         dialogId: 'default-dialog',
     },
 }
 
 export const WithoutHead: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         header: undefined,
         dialogId: 'without-head-dialog',
@@ -97,9 +76,6 @@ export const WithoutHead: Story = {
 }
 
 export const WithoutFooter: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         footer: undefined,
         dialogId: 'without-footer-dialog',
@@ -107,9 +83,6 @@ export const WithoutFooter: Story = {
 }
 
 export const FooterJustifyEnd: Story = {
-    render: (args) => {
-        return rzDialogWrapperRenderer(args)
-    },
     args: {
         footer: {
             ...meta.args.footer,
@@ -158,5 +131,49 @@ export const NonModal: Story = {
         dialogId: 'non-modal-dialog',
         modal: false,
         closedby: 'none',
+    },
+}
+
+// Mirrors the session expired dialog of ui/layouts/base.html.twig, opened by LoginCheckService.
+export const SessionExpired: Story = {
+    args: {
+        dialogId: 'session-expired-dialog',
+        variant: 'warning',
+        closedby: 'none',
+        header: undefined,
+        alert: {
+            iconClass: 'rz-icon-ri--lock-line',
+            title: 'Your session has expired',
+            text: 'You have been logged out after a period of inactivity. Log in again to keep working, your unsaved changes will be lost.',
+            closeIconClass: 'rz-icon-ri--close-line',
+        },
+        footer: {
+            buttons: [
+                {
+                    label: 'Login',
+                    iconClass: 'rz-icon-ri--arrow-right-s-line',
+                    emphasis: 'primary',
+                    size: 'lg',
+                    tag: 'a',
+                    attributes: { href: '#', autofocus: '' },
+                },
+            ],
+        },
+    },
+}
+
+// Mirrors the health check dialog of ui/layouts/base.html.twig: no close button, no action.
+export const HealthCheckFailed: Story = {
+    args: {
+        dialogId: 'health-check-dialog',
+        variant: 'danger',
+        closedby: 'none',
+        header: undefined,
+        alert: {
+            iconClass: 'rz-icon-ri--information-line',
+            title: 'Back-office unreachable',
+            text: 'The administration back-end stopped answering. Wait for it to come back, this dialog will close on its own.',
+        },
+        footer: undefined,
     },
 }

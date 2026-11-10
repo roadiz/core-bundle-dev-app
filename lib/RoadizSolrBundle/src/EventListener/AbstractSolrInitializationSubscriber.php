@@ -28,7 +28,7 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
 
     protected function requestSchemaApi(SymfonyStyle $io, string $baseUrl, string $solrCollectionName, array $jsonArray): void
     {
-        $response = $this->client->request('POST', $baseUrl.'/api/collections/'.$solrCollectionName.'/schema', [
+        $response = $this->client->request('POST', $baseUrl.'/solr/'.$solrCollectionName.'/schema', [
             'json' => $jsonArray,
         ]);
         // trigger lazy request
@@ -53,8 +53,8 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
          */
         if (isset($newFieldType['analyzer'])) {
             foreach ($newFieldType['analyzer']['filters'] as $filter) {
-                if (\is_array($filter) && isset($filter['name']) && $filterName === $filter['name']) {
-                    $io->warning($filterName.' filter already exists in '.$fieldType.' field type, skipping');
+                if ($this->isFilter($filter, $filterName)) {
+                    $io->writeln('<info>'.$filterName.'</info> filter already exists in <info>'.$fieldType.'</info> field type, skipping');
 
                     return;
                 }
@@ -62,8 +62,8 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
             $newFieldType['analyzer']['filters'][] = $filterConfig;
         } elseif (isset($newFieldType['queryAnalyzer'])) {
             foreach ($newFieldType['queryAnalyzer']['filters'] as $filter) {
-                if (\is_array($filter) && isset($filter['name']) && $filterName === $filter['name']) {
-                    $io->warning($filterName.' filter already exists in '.$fieldType.' field type, skipping');
+                if ($this->isFilter($filter, $filterName)) {
+                    $io->writeln('<info>'.$filterName.'</info> filter already exists in <info>'.$fieldType.'</info> field type, skipping');
 
                     return;
                 }
@@ -83,25 +83,30 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
 
         $newFieldType = $this->getFieldType($io, $baseUrl, $solrCollectionName, $fieldType, $filterConfig);
         if (null === $newFieldType) {
-            $io->warning('Field type '.$fieldType.' not found, skipping filter removal');
+            // Nothing to remove: not a failure.
+            $io->writeln('Field type <info>'.$fieldType.'</info> not found, skipping filter removal');
 
             return;
         }
+        $originalFieldType = $newFieldType;
 
         if (isset($newFieldType['analyzer'])) {
             foreach ($newFieldType['analyzer']['filters'] as $index => $filter) {
-                if (\is_array($filter) && isset($filter['name']) && $filterName === $filter['name']) {
+                if ($this->isFilter($filter, $filterName)) {
                     unset($newFieldType['analyzer']['filters'][$index]);
                 }
             }
             $newFieldType['analyzer']['filters'] = \array_values($newFieldType['analyzer']['filters'] ?? []);
         } elseif (isset($newFieldType['queryAnalyzer'])) {
             foreach ($newFieldType['queryAnalyzer']['filters'] as $index => $filter) {
-                if (\is_array($filter) && isset($filter['name']) && $filterName === $filter['name']) {
+                if ($this->isFilter($filter, $filterName)) {
                     unset($newFieldType['queryAnalyzer']['filters'][$index]);
                 }
             }
             $newFieldType['queryAnalyzer']['filters'] = \array_values($newFieldType['queryAnalyzer']['filters'] ?? []);
+        }
+        if ($newFieldType === $originalFieldType) {
+            return;
         }
 
         $this->requestSchemaApi($io, $baseUrl, $solrCollectionName, [
@@ -115,15 +120,33 @@ abstract readonly class AbstractSolrInitializationSubscriber implements EventSub
             throw new \InvalidArgumentException('The filter configuration must have a "name" key');
         }
 
-        $response = $this->client->request('GET', $baseUrl.'/api/collections/'.$solrCollectionName.'/schema/fieldtypes/'.$fieldType);
+        $response = $this->client->request('GET', $baseUrl.'/solr/'.$solrCollectionName.'/schema/fieldtypes/'.$fieldType);
         if (200 !== $response->getStatusCode()) {
             return null;
         }
         $responseJson = \json_decode($response->getContent(), true);
-        if (!\is_array($responseJson) || !\is_array($responseJson['fieldType'])) {
+        if (!\is_array($responseJson) || !\is_array($responseJson['fieldType'] ?? null)) {
             return null;
         }
 
         return $responseJson['fieldType'];
+    }
+
+    /**
+     * Match a schema filter by its SPI name, whether the schema declares it as
+     * `"name": "frenchMinimalStem"` (Schema API) or `"class": "solr.FrenchMinimalStemFilterFactory"`
+     * (hand-written managed-schema.xml).
+     */
+    protected function isFilter(mixed $filter, string $filterName): bool
+    {
+        if (!\is_array($filter)) {
+            return false;
+        }
+        $name = $filter['name'] ?? null;
+        if (!\is_string($name) && \is_string($filter['class'] ?? null)) {
+            $name = \preg_replace('/^solr\\.|FilterFactory$/', '', $filter['class']);
+        }
+
+        return \is_string($name) && 0 === \strcasecmp($name, $filterName);
     }
 }

@@ -8,11 +8,10 @@
 
 {% block content %}
     <rz-bulk-section>
-        {% include '@RoadizRozier/admin/head.html.twig' with {
+        {% include '@RoadizRozier/ui/patterns/page_header.html.twig' with {
             title: title_label,
             filters: filters,
             breadcrumb: {
-                label: 'search-breadcrumb',
                 current: title_label,
             },
         } only %}
@@ -22,11 +21,18 @@
                 {% form_theme nodeTypeForm '@RoadizRozier/forms.html.twig' %}
                 <form class="rz-form" id="search-node-type-form" action="#" method="get">
                         {{ form_widget(nodeTypeForm, { 'attr': {'class': 'rz-form__field-list'} }) }}
-                    <div class="rz-form-field rz-form-field--align-start">
-                        <button class="rz-button rz-button--primary rz-button--success" type="submit">
-                            <span class="rz-button__label">{% trans %}select.nodetype{% endtrans %}</span><span class="rz-button__icon rz-icon-ri--filter-line"></span>
-                        </button>
-                    </div>
+                    {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+                        {% block body %}
+                            {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                            {{ rz_button.root({
+                                emphasis: 'primary',
+                                color: 'success',
+                                label: 'select.nodetype',
+                                iconClass: 'rz-icon-ri--filter-line',
+                                attributes: { type: 'submit' },
+                            }) }}
+                        {% endblock %}
+                    {% endembed %}
                 </form>
             {% endif %}
 
@@ -41,17 +47,17 @@
             {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
             {% if nodes is defined %}
                 {% include '@RoadizRozier/nodes/bulkActions.html.twig' with {
-                    delete_form_data: deleteNodesForm|default(null),
-                    delete_form_action: path('nodesBulkDeletePage'),
-                    delete_form_method: 'post',
+                    deleteFormData: deleteNodesForm|default(null),
+                    deleteFormAction: path('nodesBulkDeletePage'),
+                    deleteFormMethod: 'post',
                     tagNodesForm: tagNodesForm,
                     statusNodesForm: statusNodesForm,
                 } only %}
 
                 {% include '@RoadizRozier/nodes/list_table.html.twig' with {
                     sortable: false,
-                    selection_available: true,
-                    actions_available: true,
+                    selectionAvailable: true,
+                    actionsAvailable: true,
                 } %}
             {% endif %}
         </article>

@@ -1,4 +1,3 @@
-import CustomFormFieldsPosition from '~/components/custom-form-fields/CustomFormFieldsPosition'
 import StackNodeTree from '~/widgets/StackNodeTree'
 import SettingsSaveButtons from '~/widgets/SettingsSaveButtons'
 import NodeStatuses from '~/widgets/NodeStatuses'
@@ -8,26 +7,10 @@ import CssEditor from '~/widgets/CssEditor'
 
 type Unbindable = { unbind?: () => void } | null
 
-declare const $: {
-    (elements: NodeListOf<Element> | Element[]): {
-        collection(options: Record<string, unknown>): void
-    }
-}
-
-type JQuery = ArrayLike<HTMLElement> & {
-    0: HTMLElement
-}
-
 export default class Lazyload {
     linksSelector: HTMLAnchorElement[]
     currentRequest: AbortController | null
     currentTimeout: number | null
-    inputLengthWatcher: Unbindable
-    documentUploader: Unbindable
-    geotagField: Unbindable
-    multiGeotagField: Unbindable
-    tagAutocomplete: Unbindable
-    customFormFieldsPosition: Unbindable
     settingsSaveButtons: Unbindable
     jsonEditors: JsonEditor[]
     cssEditors: CssEditor[]
@@ -39,12 +22,6 @@ export default class Lazyload {
         this.linksSelector = []
         this.currentRequest = null
         this.currentTimeout = null
-        this.inputLengthWatcher = null
-        this.documentUploader = null
-        this.geotagField = null
-        this.multiGeotagField = null
-        this.tagAutocomplete = null
-        this.customFormFieldsPosition = null
         this.settingsSaveButtons = null
         this.jsonEditors = []
         this.cssEditors = []
@@ -285,15 +262,7 @@ export default class Lazyload {
      * General bind on page load
      */
     generalBind() {
-        this.generalUnbind([
-            this.inputLengthWatcher,
-            this.geotagField,
-            this.multiGeotagField,
-            this.stackNodeTrees,
-            this.tagAutocomplete,
-            this.customFormFieldsPosition,
-            this.settingsSaveButtons,
-        ])
+        this.generalUnbind([this.stackNodeTrees, this.settingsSaveButtons])
         this.bindAjaxLink()
         this.jsonEditors = []
         this.cssEditors = []
@@ -301,12 +270,9 @@ export default class Lazyload {
 
         this.stackNodeTrees = new StackNodeTree()
 
-        this.customFormFieldsPosition = new CustomFormFieldsPosition()
         this.settingsSaveButtons = new SettingsSaveButtons()
 
-        this.initJsonEditors()
-        this.initCssEditors()
-        this.initYamlEditors()
+        this.initCodeEditors()
 
         window.Rozier?.bindMainTrees()
         window.Rozier!.nodeStatuses = new NodeStatuses()
@@ -322,37 +288,14 @@ export default class Lazyload {
         }
     }
 
-    initCollectionsForms(scope?: HTMLElement | null) {
-        let types: NodeListOf<Element> | null = null
-        if (scope !== null && typeof scope !== 'undefined') {
-            types = scope.querySelectorAll('.rz-collection-form-type')
-        } else {
-            types = document.querySelectorAll('.rz-collection-form-type')
-        }
-        if (types.length) {
-            $(types).collection({
-                up: '<a tabindex="-1" class="uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-angle-up"></i></a>',
-                down: '<a tabindex="-1" class="uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-angle-down"></i></a>',
-                add: '<a tabindex="-1" class="uk-button-primary uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-plus"></i></a>',
-                remove: '<a tabindex="-1" class="uk-button-danger uk-button uk-button-small" href="#"><i tabindex="-1" class="uk-icon uk-icon-minus"></i></a>',
-                after_add: (_collection: unknown, element: JQuery) => {
-                    const el = element[0] as HTMLElement
-                    this.initJsonEditors(el)
-                    this.initCssEditors(el)
-                    this.initYamlEditors(el)
-                    this.initCollectionsForms(el)
-
-                    const vueComponents = el.querySelectorAll('[data-vuejs]')
-                    vueComponents.forEach((vueEl) => {
-                        if (!window.Rozier) return
-                        window.Rozier.vueApp.mainContentComponents.push(
-                            window.Rozier.vueApp.buildComponent(vueEl),
-                        )
-                    })
-                    return true
-                },
-            })
-        }
+    /**
+     * Turn the JSON, CSS and YAML textareas of a scope into CodeMirror editors.
+     * Called on page load and by rz-repeatable for each added item.
+     */
+    initCodeEditors(scope?: HTMLElement) {
+        this.initJsonEditors(scope)
+        this.initCssEditors(scope)
+        this.initYamlEditors(scope)
     }
 
     initJsonEditors(scope?: HTMLElement) {

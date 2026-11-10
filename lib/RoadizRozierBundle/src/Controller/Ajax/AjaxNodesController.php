@@ -225,6 +225,12 @@ final class AjaxNodesController extends AbstractAjaxController
          * First, we set the new parent
          */
         $parent = $this->parseParentNode($nodePositionDto);
+        // Destination must be authorized too, otherwise a chrooted user could move nodes out of their jail.
+        if (null === $parent) {
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE_AT_ROOT);
+        } else {
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE, $parent);
+        }
         /*
          * Then compute new position
          */
@@ -359,6 +365,16 @@ final class AjaxNodesController extends AbstractAjaxController
     private function changeNodeStatus(Request $request, Node $node, string $transition): JsonResponse
     {
         $workflow = $this->workflowRegistry->get($node);
+
+        if (!$workflow->can($node, $transition)) {
+            $blockers = $workflow->buildTransitionBlockerList($node, $transition);
+            $reasons = [];
+            foreach ($blockers as $blocker) {
+                $reasons[] = $blocker->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $reasons));
+        }
 
         $workflow->apply($node, $transition);
         $this->managerRegistry->getManager()->flush();

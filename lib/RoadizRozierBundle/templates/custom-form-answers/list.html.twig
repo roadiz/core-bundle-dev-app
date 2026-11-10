@@ -14,37 +14,35 @@
             attributes: {
                 href: path('customFormsExportPage', { id: customForm.id }),
             },
-            icon: 'rz-icon-ri--download-line'
+            iconClass: 'rz-icon-ri--download-line'
         }],
-        with_breadcrumb: true,
     } only %}
-    {% include "@RoadizRozier/widgets/rz_filters_bar.html.twig" with {
+    {% embed "@RoadizRozier/ui/components/rz_filters_bar.html.twig" with {
         filters: filters,
-    }  only %}
+    }  only %}{% endembed %}
 
     <section class="rz-page__body">
-        {% embed '@RoadizRozier/includes/rz_table.html.twig' with {
-            actions_available: true,
+        {% embed '@RoadizRozier/ui/components/rz_table.html.twig' with {
+            actionsAvailable: true,
         }%}
             {% block thead_cells %}
+                {% import '@RoadizRozier/ui/components/rz_table.html.twig' as rz_table %}
                 <th class="mobile-hidden">
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'ip',
-                        'filters': filters,
-                        'label': 'ip.address'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'ip',
+                        filters: filters,
+                        label: 'ip.address'|trans,
+                    }) }}
                 </th>
                 <th class="mobile-hidden">
                     {% trans %}email{% endtrans %}
                 </th>
                 <th>
-                    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                        'field': 'submittedAt',
-                        'filters': filters,
-                        'label': 'submitted.date'|trans,
-                        'column_ordering_class': column_ordering_class,
-                    } only %}
+                    {{ rz_table.column_ordering({
+                        field: 'submittedAt',
+                        filters: filters,
+                        label: 'submitted.date'|trans,
+                    }) }}
                 </th>
             {% endblock %}
 
@@ -55,12 +53,12 @@
                         <td class="mobile-hidden">{{ type.email }}</td>
                         <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
                         <td class="table-actions-row table-actions-row-2">
-                            {% embed '@RoadizRozier/includes/rz_table_actions.html.twig' with {
-                                'delete_href': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
+                            {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {
+                                'deleteHref': path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }),
                             } %}
                                 {% block other_actions %}
                                     {{ _self.button({
-                                        icon: 'uk-icon-rz-node-type-field',
+                                        iconClass: 'rz-icon-ri--input-field',
                                         attributes: {
                                             href: path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }),
                                             title: 'customFormAnswer.answers'|trans,
@@ -73,8 +71,8 @@
                 {% else %}
                     {{ _self.fallback_row({
                         length: 3,
-                        selection_available: selection_available,
-                        actions_available: actions_available,
+                        selectionAvailable: selectionAvailable,
+                        actionsAvailable: actionsAvailable,
                         message: 'no_answers',
                     }) }}
                 {% endfor %}

@@ -1,4 +1,4 @@
-export type Args = {
+export type RzNodeIconOptions = {
     displayThumbnail?: boolean
     nodeId?: string
     status?: 'published' | 'draft'
@@ -8,7 +8,7 @@ export type Args = {
 
 const CLASS_NAME = 'rz-node-icon'
 
-export function rzNodeIconRenderer(args: Args) {
+export function rzNodeIconRenderer(args: RzNodeIconOptions) {
     const element = document.createElement('div')
     element.classList.add(CLASS_NAME)
 

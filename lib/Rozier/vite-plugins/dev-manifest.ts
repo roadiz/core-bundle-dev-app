@@ -77,12 +77,19 @@ const plugin = ({
             const { root: _root, base } = config
             const root = normalizePath(_root)
             const protocol = config.server.https ? 'https' : 'http'
-            const host = server.config.server.host ?? 'localhost'
             const port = config.server.port
             const manifest: DevManifest = {}
             const inputOptions = config.build.rollupOptions?.input ?? {}
             const simplifyPath = createSimplifyPath(root, base)
-            const origin = `${protocol}://${host}:${port}`
+            // 0.0.0.0 / :: / true are bind addresses, not something a browser
+            // can fetch (Chrome blocks 0.0.0.0), fall back to localhost.
+            const host = config.server.host
+            const browserHost =
+                !host || host === true || host === '0.0.0.0' || host === '::'
+                    ? 'localhost'
+                    : host
+            const origin =
+                config.server.origin ?? `${protocol}://${browserHost}:${port}`
             const entryOptions = {
                 base: origin,
             }

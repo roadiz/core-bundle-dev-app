@@ -23,6 +23,9 @@ services:
             $solrSecure: '%env(bool:SOLR_SECURE)%'
             $fuzzyProximity: '%roadiz_solr.search.fuzzy_proximity%'
             $fuzzyMinTermLength: '%roadiz_solr.search.fuzzy_min_term_length%'
+            $frenchStemmer: '%roadiz_solr.schema.french_stemmer%'
+            $asciiFolding: '%roadiz_solr.schema.ascii_folding%'
+            $frenchStemmerOverrides: '%roadiz_solr.schema.french_stemmer_overrides%'
 
     RZ\Roadiz\SolrBundle\:
         resource: '../src/'

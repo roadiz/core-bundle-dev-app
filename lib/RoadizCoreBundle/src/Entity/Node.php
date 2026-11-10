@@ -11,6 +11,7 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
@@ -751,7 +752,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     {
         $criteria = Criteria::create();
         $criteria->andWhere(Criteria::expr()->eq('fieldName', $field->getName()));
-        $criteria->orderBy(['position' => 'ASC']);
+        $criteria->orderBy(['position' => Order::Ascending]);
 
         return $this->getBNodes()->matching($criteria);
     }

@@ -6,9 +6,8 @@
 <section class="content-global">
     {% include '@RoadizRozier/custom-forms/head.html.twig' with {
         title: 'add.a.customFormField'|trans,
-        with_breadcrumb: true,
         breadcrumb_parents: [{
-            displayName: customForm.displayName|truncate_title,
+            label: customForm.displayName|truncate_title,
             type: 'customFormFields',
             url: path('customFormFieldsListPage', {customFormId: customForm.id})
         }],
@@ -18,8 +17,8 @@
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{- form_start(form, { 'attr': { 'id': "add-custom-form-field-form" }}) -}}
         {{ form_widget(form) }}
-            {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-            {{ actions_menu.saveItem('#add-custom-form-field-form') }}
+            {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+            {{ actions_menu.saveItem({ dataActionSave: '#add-custom-form-field-form' }) }}
         {{- form_end(form) -}}
     </article>
 

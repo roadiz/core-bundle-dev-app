@@ -2,6 +2,9 @@
 
 [![Unit tests, static analysis and code style](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml) [![Packages Split](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml)
 
+> 📖 **Looking for how to *use* Roadiz?** The full product documentation lives at **[docs.roadiz.io](https://docs.roadiz.io)**.
+> This README only covers the **monorepo development environment** (building, testing and splitting the packages).
+
 This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and main repositories in one place:
 
 - DocGenerator
@@ -124,18 +127,35 @@ To launch the frontend development server or build the assets, use **docker comp
 
 ```shell
 docker compose up node
-
-# If you have issues with up command, try:
-docker compose run --no-deps --rm --service-ports node pnpm dev --host 0.0.0.0
 ```
 
-Default command will launch `pnpm dev --host 0.0.0.0` to start a development server on host port 5173 with hot reload.
+Default command starts the Vite development server on host port 5173 with hot reload.
+While it runs, the backoffice on `http://localhost:8681` loads its assets from `http://localhost:5173` and picks up CSS/JS changes live, no build nor cache clear needed. Stopping the server switches back to the built assets.
+
+If your backoffice is not reachable on `localhost`, set the URL the browser must use to reach Vite with `VITE_DEV_ORIGIN` on the `node` service (in `compose.override.yml`).
+
+Note: `./lib/Rozier` is mounted over the container's `/app`, so `lib/Rozier/node_modules` must exist on the host (`make build_assets` installs them).
+
+To check that the build passes without touching the committed assets in `lib/RoadizRozierBundle/public/`, build into `/tmp`:
+
+```shell
+docker compose run --rm node pnpm build:check
+```
 
 Do not forget to build final assets for production before shipping a new Roadiz version:
 
 ```shell
 docker compose run --rm node pnpm build
 ```
+
+After rebuilding assets, the compiled `manifest.json` (asset filename → content-hash mapping) is still served stale: `JsonManifestResolver` keeps it in the `cache.app` pool (Redis here) when `APP_DEBUG` is off, which neither `bin/console cache:clear` nor restarting `app` empties. Clear the pools, then restart `app`:
+
+```shell
+make cache
+docker compose restart app
+```
+
+If you restart `app`, restart `nginx` too — it caches the `app` container's resolved IP and won't reconnect to a restarted container on its own (`502 Bad Gateway` / "no route to host").
 
 ### Without Docker
 

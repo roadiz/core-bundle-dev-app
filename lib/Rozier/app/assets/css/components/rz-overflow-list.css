@@ -1,16 +1,11 @@
+/* The popover element is a .rz-dropdown and its list a .rz-dropdown__list: the surface
+   comes from there. Only the badge tweak is specific to overflowed content. */
 .rz-overflow-list__popover {
-	--rz-badge-label-white-space: nowrap;
+    --rz-badge-label-white-space: nowrap;
+}
 
-	box-sizing: border-box;
-	position: relative;
-	margin: initial;
-	border-width: 1PX;
-	border-style: solid;
-	border-color: var(--rz-overflow-list-popover-border-color, var(--surface-dark-primary, #18191B));
-	border-radius: var(--radius-sm);
-	background-color: var(--rz-overflow-list-popover-background-color, var(--surface-light-primary, #FFF));
-	padding: 0;
-	overflow: hidden;
-	isolation: isolate;
-	padding: var(--spacing-4xs);
+/* [hidden] is a UA rule, beaten by any author `display` the wrapper inherits from its context
+   (.rz-breadcrumb__list-item is display: flex). Set while nothing is folded. */
+.rz-overflow-list[hidden] {
+    display: none;
 }

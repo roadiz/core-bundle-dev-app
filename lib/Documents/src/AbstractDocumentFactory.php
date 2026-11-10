@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
+use enshrined\svgSanitize\Sanitizer;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\MountManager;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\Documents\Exceptions\DocumentTypeNotAllowedException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
 use RZ\Roadiz\Documents\Models\FolderInterface;
@@ -93,6 +95,102 @@ abstract class AbstractDocumentFactory
     }
 
     /**
+     * Web-executable file extensions that must never be stored, whatever their declared MIME type.
+     *
+     * SVG is intentionally excluded: it is a legitimate image type. Its content is
+     * sanitized synchronously by sanitizeSvgFileIfNeeded() before storage, and reprocessed
+     * asynchronously by DocumentSvgMessageHandler afterward.
+     *
+     * @return string[]
+     */
+    protected function getForbiddenFileExtensions(): array
+    {
+        return [
+            // Server-interpreted
+            'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phps', 'phtml', 'phtm', 'pht', 'phar', 'phpt',
+            'cgi', 'pl', 'py', 'rb', 'sh', 'bash',
+            'asp', 'aspx', 'asa', 'asax', 'ascx', 'ashx', 'asmx', 'cer',
+            'jsp', 'jspx', 'jsw', 'jsv', 'jspf',
+            'jhtml', 'shtml', 'shtm', 'stm',
+            'htaccess', 'htpasswd',
+            // Browser-executable
+            'html', 'htm', 'xhtml', 'xht', 'hta', 'mht', 'mhtml', 'js', 'mjs', 'swf',
+        ];
+    }
+
+    /**
+     * Checks every dot-separated segment of the filename against the forbidden extensions,
+     * so double extensions (e.g. "shell.php.jpg") and leading-dot files (e.g. ".htaccess") are caught.
+     */
+    public function isFilenameAllowed(string $filename): bool
+    {
+        return null === $this->findForbiddenExtension($filename);
+    }
+
+    /**
+     * @return string|null The forbidden segment that matched, or null if none did
+     */
+    private function findForbiddenExtension(string $filename): ?string
+    {
+        $forbidden = array_map(strtolower(...), $this->getForbiddenFileExtensions());
+        $segments = explode('.', strtolower($filename));
+
+        foreach ($segments as $segment) {
+            if ('' !== $segment && \in_array($segment, $forbidden, true)) {
+                return $segment;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws DocumentTypeNotAllowedException
+     */
+    private function assertFileTypeIsAllowed(string $filename): void
+    {
+        $forbiddenExtension = $this->findForbiddenExtension($filename);
+        if (null !== $forbiddenExtension) {
+            throw new DocumentTypeNotAllowedException($filename, $forbiddenExtension);
+        }
+    }
+
+    /**
+     * Sanitize SVG file content on disk before it is moved to its final storage location.
+     *
+     * SVG cannot be denylisted by extension (legitimate image type), but it can carry
+     * inline <script>/event-handler XSS. Declared MIME is attacker-controlled, so this
+     * also triggers on a ".svg" filename regardless of the declared MIME type. This runs
+     * synchronously (unlike the async DocumentSvgMessageHandler triggered after storage)
+     * so no unsanitized SVG is ever servable, even briefly.
+     */
+    private function sanitizeSvgFileIfNeeded(File $file, DocumentInterface $document): void
+    {
+        $isSvg = 'image/svg+xml' === $document->getMimeType()
+            || 'svg' === strtolower(pathinfo($this->getFileName(), PATHINFO_EXTENSION));
+
+        if (!$isSvg) {
+            return;
+        }
+
+        $dirtySvg = file_get_contents($file->getPathname());
+        if (false === $dirtySvg) {
+            return;
+        }
+
+        $sanitizer = new Sanitizer();
+        $sanitizer->minify(true);
+        $cleanSvg = $sanitizer->sanitize($dirtySvg);
+
+        if (false === $cleanSvg) {
+            throw new \RuntimeException(sprintf('SVG file "%s" could not be sanitized.', $this->getFileName()));
+        }
+
+        file_put_contents($file->getPathname(), $cleanSvg);
+        $document->setMimeType('image/svg+xml');
+    }
+
+    /**
      * Create a document from UploadedFile, Be careful, this method does not flush, only
      * persists current Document.
      *
@@ -100,6 +198,7 @@ abstract class AbstractDocumentFactory
      * @param bool $allowDuplicates Default false, always import new document even if file already exists
      *
      * @throws FilesystemException
+     * @throws DocumentTypeNotAllowedException
      */
     public function getDocument(bool $allowEmpty = false, bool $allowDuplicates = false): ?DocumentInterface
     {
@@ -120,6 +219,8 @@ abstract class AbstractDocumentFactory
         if ($file instanceof UploadedFile && !$file->isValid()) {
             return null;
         }
+
+        $this->assertFileTypeIsAllowed($this->getFileName());
 
         $fileHash = hash_file($this->getHashAlgorithm(), $file->getPathname());
 
@@ -169,6 +270,7 @@ abstract class AbstractDocumentFactory
             $document->setFileHashAlgorithm($this->getHashAlgorithm());
         }
 
+        $this->sanitizeSvgFileIfNeeded($file, $document);
         $this->moveFile($file, $document);
         $this->persistDocument($document);
 
@@ -184,6 +286,7 @@ abstract class AbstractDocumentFactory
      * Updates a document from UploadedFile, Be careful, this method does not flush.
      *
      * @throws FilesystemException
+     * @throws DocumentTypeNotAllowedException
      */
     public function updateDocument(DocumentInterface $document): DocumentInterface
     {
@@ -195,6 +298,8 @@ abstract class AbstractDocumentFactory
         ) {
             return $document;
         }
+
+        $this->assertFileTypeIsAllowed($this->getFileName());
 
         if ($document->isLocal() && null !== $mountPath = $document->getMountPath()) {
             /*
@@ -226,6 +331,7 @@ abstract class AbstractDocumentFactory
             $document->setMimeType($file->getMimeType() ?? '');
         }
         $this->parseSvgMimeType($document);
+        $this->sanitizeSvgFileIfNeeded($file, $document);
         $this->moveFile($file, $document);
 
         return $document;

@@ -1,0 +1,24 @@
+{# rz-link: options = RzElement keys + label, iconClass (no renderer yet), story Components/Navigation/Link #}
+{% macro root(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+
+    {% set attributes = options.attributes|default({}) %}
+
+    <a
+        is="rz-link"
+        class="{{ html_classes('rz-link', attributes.class|default('')) }}"
+        {{ el_attrs.print(attributes|filter((v, k) => k != 'class')) }}
+    >
+        {% if options.label is defined and options.label %}
+            <span class="rz-link__label">{{ options.label }}</span>
+        {% endif %}
+
+        {% if options.iconClass is defined and options.iconClass %}
+            <span class="rz-link__icon {{ options.iconClass }}"></span>
+        {% endif %}
+
+        {% if options.innerHTML is defined and options.innerHTML %}
+            {{- options.innerHTML|raw -}}
+        {% endif %}
+    </a>
+{% endmacro %}

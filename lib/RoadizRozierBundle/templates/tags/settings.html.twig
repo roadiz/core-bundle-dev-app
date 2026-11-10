@@ -13,19 +13,18 @@
         with_nav_bar: true,
         tag: tag,
         current: 'settings',
-        with_breadcrumb: true,
     } only %}
 
     <article class="content content-tags-settings">
         {% form_theme form '@RoadizRozier/forms.html.twig' %}
         {{ form_start(form, { attr: {id: 'edit-tag-form'}}) }}
         {{ form_widget(form) }}
-        {% import "@RoadizRozier/macros/rz_actions_menu.html.twig" as actions_menu %}
-        {{ actions_menu.saveItem('#edit-tag-form') }}
+        {% import "@RoadizRozier/ui/components/rz_actions_menu.html.twig" as actions_menu %}
+        {{ actions_menu.saveItem({ dataActionSave: '#edit-tag-form' }) }}
         {{ form_end(form) }}
     </article>
 
-    {% include '@RoadizRozier/includes/rz_meta_item_table.html.twig' with {
+    {% include '@RoadizRozier/ui/patterns/meta_item_table.html.twig' with {
         item: tag
     } only %}
 

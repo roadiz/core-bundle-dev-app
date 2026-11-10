@@ -1,0 +1,26 @@
+meta {
+  name: Node - Update position
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/rz-admin/ajax/nodes/position
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  csrfToken: {{ajaxToken}}
+  id: 1
+  ~newParentId: 2
+  ~prevId: 3
+  ~nextId: 4
+  ~firstPosition: true
+  ~lastPosition: true
+}
+
+docs {
+  Move node `id` under `newParentId` (omit / 0 to move to root) and place it either between
+  siblings (`prevId` / `nextId`), or `firstPosition` / `lastPosition`.
+}

@@ -150,9 +150,7 @@ final class ArchiveFilter extends AbstractFilter
         $description = [];
 
         $properties = $this->getProperties();
-        if (null === $properties) {
-            $properties = array_fill_keys($this->getClassMetadata($resourceClass)->getFieldNames(), null);
-        }
+        $properties ??= array_fill_keys($this->getClassMetadata($resourceClass)->getFieldNames(), null);
 
         foreach ($properties as $property => $nullManagement) {
             if (!$this->isPropertyMapped($property, $resourceClass) || !$this->isDateField($property, $resourceClass)) {

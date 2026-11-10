@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle;
 
 use RZ\Roadiz\CoreBundle\DependencyInjection\Compiler\CaptchaServiceCompilerPass;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Compiler\CommonMarkCompilerPass;
+use RZ\Roadiz\CoreBundle\DependencyInjection\Compiler\DeprecatedNormalizerDecorationCompilerPass;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Compiler\DoctrineMigrationCompilerPass;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Compiler\DocumentRendererCompilerPass;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Compiler\FlysystemStorageCompilerPass;
@@ -46,5 +47,6 @@ class RoadizCoreBundle extends Bundle
         $container->addCompilerPass(new FlysystemStorageCompilerPass());
         $container->addCompilerPass(new TwigLoaderCompilerPass());
         $container->addCompilerPass(new TreeWalkerDefinitionFactoryCompilerPass());
+        $container->addCompilerPass(new DeprecatedNormalizerDecorationCompilerPass());
     }
 }

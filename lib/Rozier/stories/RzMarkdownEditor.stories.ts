@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
-import type { Args as ButtonGroupArgs } from './RzButtonGroup.stories'
+import {
+    type RzButtonGroupOptions,
+    rzButtonGroupRenderer,
+} from '~/utils/component-renderer/rzButtonGroup'
+// Loaded globally by `main.js` in the backoffice, not by the Storybook preview
+import 'assets/css/vendor/codemirror.css'
 
 const COMPONENT_CLASS_NAME = 'rz-markdown-editor'
 
@@ -10,38 +14,48 @@ const headingGroup = {
     buttons: [
         {
             iconClass: 'rz-icon-ri--h-1',
-            additionalClasses: 'markdown-editor-button-h1',
             attributes: {
+                class: 'markdown-editor-button-h1',
                 'data-markdowneditor-button': 'h1',
             },
         },
         {
             iconClass: 'rz-icon-ri--h-2',
-            additionalClasses: 'markdown-editor-button-h2',
-            attributes: { 'data-markdowneditor-button': 'h2' },
+            attributes: {
+                class: 'markdown-editor-button-h2',
+                'data-markdowneditor-button': 'h2',
+            },
         },
         {
             iconClass: 'rz-icon-ri--h-3',
-            additionalClasses: 'markdown-editor-button-h3',
-            attributes: { 'data-markdowneditor-button': 'h3' },
+            attributes: {
+                class: 'markdown-editor-button-h3',
+                'data-markdowneditor-button': 'h3',
+            },
         },
         {
             iconClass: 'rz-icon-ri--h-4',
-            additionalClasses: 'markdown-editor-button-h4',
-            attributes: { 'data-markdowneditor-button': 'h4' },
+            attributes: {
+                class: 'markdown-editor-button-h4',
+                'data-markdowneditor-button': 'h4',
+            },
         },
         {
             iconClass: 'rz-icon-ri--h-5',
-            additionalClasses: 'markdown-editor-button-h5',
-            attributes: { 'data-markdowneditor-button': 'h5' },
+            attributes: {
+                class: 'markdown-editor-button-h5',
+                'data-markdowneditor-button': 'h5',
+            },
         },
         {
             iconClass: 'rz-icon-ri--h-6',
-            additionalClasses: 'markdown-editor-button-h6',
-            attributes: { 'data-markdowneditor-button': 'h6' },
+            attributes: {
+                class: 'markdown-editor-button-h6',
+                'data-markdowneditor-button': 'h6',
+            },
         },
     ],
-} as ButtonGroupArgs
+} as RzButtonGroupOptions
 
 const styleGroup = {
     size: 'sm',
@@ -56,7 +70,7 @@ const styleGroup = {
             attributes: { 'data-markdowneditor-button': 'italic' },
         },
     ],
-} as ButtonGroupArgs
+} as RzButtonGroupOptions
 
 const nodeGroup = {
     size: 'sm',
@@ -75,7 +89,7 @@ const nodeGroup = {
             attributes: { 'data-markdowneditor-button': 'listUl' },
         },
     ],
-} as ButtonGroupArgs
+} as RzButtonGroupOptions
 
 const spacingGroup = {
     size: 'sm',
@@ -94,7 +108,7 @@ const spacingGroup = {
             attributes: { 'data-markdowneditor-button': 'nb-hyphen' },
         },
     ],
-} as ButtonGroupArgs
+} as RzButtonGroupOptions
 
 const featureGroup = {
     size: 'sm',
@@ -107,7 +121,7 @@ const featureGroup = {
             iconClass: 'rz-icon-ri--translate-ai',
         },
     ],
-} as ButtonGroupArgs
+} as RzButtonGroupOptions
 
 const previewGroup = {
     size: 'sm',
@@ -117,7 +131,7 @@ const previewGroup = {
             iconClass: 'rz-icon-ri--eye-line',
         },
     ],
-} as ButtonGroupArgs
+} as RzButtonGroupOptions
 
 const BUTTON_GROUP_LIST = [
     headingGroup,
@@ -139,8 +153,8 @@ const TEXTAREA_ATTRIBUTES = [
     'placeholder',
 ]
 
-export type Args = {
-    controlsButtonGroups?: ButtonGroupArgs[]
+type Args = {
+    controlsButtonGroups?: RzButtonGroupOptions[]
     name: string
     value?: string
     cols?: number
@@ -156,6 +170,7 @@ const mirrorPreviewId = 'codemirror-preview-containers'
 const meta: Meta<Args> = {
     title: 'Components/Form/MarkdownEditor',
     tags: ['autodocs'],
+    render: (args) => rzMarkdownEditorRenderer(args),
     args: {
         placeholder: 'Enter your markdown here...',
         controlsButtonGroups: BUTTON_GROUP_LIST,
@@ -221,11 +236,41 @@ function rzMarkdownEditorRenderer(args: Args) {
 }
 
 export const Default: Story = {
-    render: (args) => {
-        return rzMarkdownEditorRenderer(args)
-    },
     args: {
         name: 'text-area-markdown-input',
+    },
+}
+
+const SYNTAX_SAMPLE = `# Heading 1
+## Heading 2
+
+Paragraph with **bold**, _italic_, ~~strikethrough~~ and \`inline code\`.
+A [link to Roadiz](https://www.roadiz.io) and an autolink <https://www.roadiz.io>.
+
+> A quote spanning
+> two lines.
+
+- First item
+- Second item
+    - Nested item
+
+1. Ordered item
+2. Another one
+
+\`\`\`
+Fenced code block
+\`\`\`
+
+---
+`
+
+/**
+ * Syntax colouring of every Markdown token handled by the editor.
+ */
+export const SyntaxHighlighting: Story = {
+    args: {
+        name: 'text-area-markdown-input',
+        value: SYNTAX_SAMPLE,
     },
 }
 
@@ -233,9 +278,6 @@ export const Default: Story = {
  * `:invalid` pseudo-class is only apply when user interact with the form control.
  */
 export const UserError: Story = {
-    render: (args) => {
-        return rzMarkdownEditorRenderer(args)
-    },
     args: {
         name: 'text-area-markdown-input',
         maxlength: 50,

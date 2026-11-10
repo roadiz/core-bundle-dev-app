@@ -17,6 +17,8 @@ interface WebhookInterface extends PersistableInterface, DateTimedInterface
 
     public function getPayload(): ?array;
 
+    public function getSecret(): ?string;
+
     public function getThrottleSeconds(): int;
 
     public function doNotTriggerBefore(): ?\DateTime;

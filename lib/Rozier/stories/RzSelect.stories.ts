@@ -1,24 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
+import {
+    type RzSelectOption,
+    type RzSelectOptions,
+    rzSelectRenderer,
+} from '~/utils/storybook/renderer/rzSelect'
 
-const COMPONENT_CLASS = 'rz-select'
-
-type Option = {
-    value: string
-    label: string
-    disabled?: boolean
-    selected?: boolean
-    hidden?: boolean
-}
-
-type Args = {
-    options: Option[]
-    datalist?: string
-    required?: boolean
-}
+type Option = RzSelectOption
+type Args = RzSelectOptions
 
 const meta: Meta<Args> = {
     title: 'Components/Form/Select',
     tags: ['autodocs'],
+    render: (args) => rzSelectRenderer(args),
     args: {
         required: false,
         options: [
@@ -43,31 +36,7 @@ const meta: Meta<Args> = {
 export default meta
 type Story = StoryObj<Args>
 
-function itemRenderer(args: Args) {
-    const select = document.createElement('select', { is: COMPONENT_CLASS })
-    select.setAttribute('is', COMPONENT_CLASS)
-    select.required = args.required ?? false
-
-    args.options.forEach((optionData) => {
-        const option = document.createElement('option')
-
-        const optionKeys = Object.keys(optionData) as (keyof Option)[]
-        optionKeys.forEach((key) => {
-            const value = optionData[key]
-            if (value) option.setAttribute(key, value.toString())
-        })
-
-        select.appendChild(option)
-    })
-
-    return select
-}
-
-export const Default: Story = {
-    render: (args) => {
-        return itemRenderer(args)
-    },
-}
+export const Default: Story = {}
 
 function getNumberedOptions(length: number): Option[] {
     return Array.from({ length }, (_, i) => {
@@ -77,7 +46,7 @@ function getNumberedOptions(length: number): Option[] {
 }
 
 export const Times: Story = {
-    render: () => {
+    render: (args) => {
         const wrapper = document.createElement('div')
         wrapper.style.display = 'flex'
         wrapper.style.gap = '8px'
@@ -86,16 +55,22 @@ export const Times: Story = {
             { value: '', label: 'Hour' },
             ...getNumberedOptions(24),
         ]
-        const hourSelect = itemRenderer({ options: hourOptions })
+        const hourSelect = rzSelectRenderer({ ...args, options: hourOptions })
         wrapper.appendChild(hourSelect)
 
         const minuteOptions = [
             { value: '', label: 'Minute' },
             ...getNumberedOptions(60),
         ]
-        const minuteSelect = itemRenderer({ options: minuteOptions })
+        const minuteSelect = rzSelectRenderer({
+            ...args,
+            options: minuteOptions,
+        })
         wrapper.appendChild(minuteSelect)
 
         return wrapper
+    },
+    parameters: {
+        controls: { exclude: ['options'] },
     },
 }

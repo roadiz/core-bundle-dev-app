@@ -9,10 +9,11 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
 use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
+use RZ\Roadiz\Markdown\MarkdownInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\String\UnicodeString;
 
 #[ApiResource(operations: [])]
 class NodesSourcesHead implements NodesSourcesHeadInterface
@@ -31,6 +32,8 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
         protected readonly HandlerFactoryInterface $handlerFactory,
         #[Serializer\Ignore]
         protected readonly TranslationInterface $defaultTranslation,
+        #[Serializer\Ignore]
+        protected readonly ?MarkdownInterface $markdown = null,
     ) {
     }
 
@@ -86,19 +89,53 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
         return $this->settingsBag->get('site_name', null) ?? null;
     }
 
+    protected function findDescriptionCandidate(): ?string
+    {
+        if (null === $this->nodesSource) {
+            return null;
+        }
+
+        /*
+         * getMetaDescriptionOrFallback() already falls back on a field flagged
+         * as "metaDescriptionFallback" in the generated node-source entity, so
+         * we only need to check the resulting candidate is relevant enough.
+         */
+        $description = $this->nodesSource->getMetaDescriptionOrFallback();
+
+        return $this->isStringDescriptionEligible($description) ? $description : null;
+    }
+
+    protected function isStringDescriptionEligible(mixed $description): bool
+    {
+        return is_string($description) && !empty($description) && mb_strlen($description) > 20;
+    }
+
+    /**
+     * @return array{'title': string, 'description': string|null}
+     */
     #[Serializer\Ignore]
     protected function getDefaultSeo(): array
     {
-        if (null !== $this->nodesSource) {
-            $nodesSourcesHandler = $this->handlerFactory->getHandler($this->nodesSource);
-            if ($nodesSourcesHandler instanceof NodesSourcesHandler) {
-                return $nodesSourcesHandler->getSEO();
-            }
+        if (null === $this->nodesSource) {
+            return [
+                'title' => $this->settingsBag->get('site_name', null),
+                'description' => $this->settingsBag->get('seo_description', null),
+            ];
+        }
+
+        $description = $this->findDescriptionCandidate();
+
+        if (null !== $description) {
+            $description = (new UnicodeString($this->markdown?->strip($description) ?? $description))
+                ->truncate(160, '…', false)
+                ->toString();
         }
 
         return [
-            'title' => $this->settingsBag->get('site_name'),
-            'description' => $this->settingsBag->get('seo_description'),
+            'title' => ('' != $this->nodesSource->getMetaTitle()) ?
+                $this->nodesSource->getMetaTitle() :
+                $this->nodesSource->getTitle().' – '.$this->settingsBag->get('site_name'),
+            'description' => $description,
         ];
     }
 
@@ -106,9 +143,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     #[\Override]
     public function getMetaTitle(): ?string
     {
-        if (null === $this->seo) {
-            $this->seo = $this->getDefaultSeo();
-        }
+        $this->seo ??= $this->getDefaultSeo();
 
         return $this->seo['title'];
     }
@@ -117,9 +152,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     #[\Override]
     public function getMetaDescription(): ?string
     {
-        if (null === $this->seo) {
-            $this->seo = $this->getDefaultSeo();
-        }
+        $this->seo ??= $this->getDefaultSeo();
 
         return $this->seo['description'];
     }
@@ -220,19 +253,14 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     #[\Override]
     public function getShareImage(): ?BaseDocumentInterface
     {
-        if (
-            null !== $this->nodesSource
-            && method_exists($this->nodesSource, 'getHeaderImage')
-            && isset($this->nodesSource->getHeaderImage()[0])
-        ) {
-            return $this->nodesSource->getHeaderImage()[0];
-        }
-        if (
-            null !== $this->nodesSource
-            && method_exists($this->nodesSource, 'getImage')
-            && isset($this->nodesSource->getImage()[0])
-        ) {
-            return $this->nodesSource->getImage()[0];
+        /*
+         * getShareImage() returns the first document of a field flagged as
+         * "shareImage" in the generated node-source entity, or null when no
+         * field is flagged (or the flagged field is empty).
+         */
+        $shareImage = $this->nodesSource?->getShareImage();
+        if (null !== $shareImage) {
+            return $shareImage;
         }
 
         return $this->settingsBag->getDocument('share_image') ?? null;

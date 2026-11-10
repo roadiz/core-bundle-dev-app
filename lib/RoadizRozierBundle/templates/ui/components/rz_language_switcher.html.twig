@@ -1,0 +1,54 @@
+{# rz-language-switcher: options (no renderer yet) = tree, treeType, buttonAttributes, attributes #}
+{# Lists the available translations as buttons that switch `tree` to another translation. #}
+{% macro root(options = {}) %}
+	{% set translations = getAvailableTranslations() %}
+	{% if translations and translations|length > 1 %}
+		{% set attributes = options.attributes|default({}) %}
+		<ul
+			class="{{ html_classes('rz-language-switcher', attributes.class|default('')) }}"
+			data-tree-type="{{ options.treeType|default('node') }}"
+		>
+			{%- for translation in translations -%}
+				{{ _self.item({
+					translation: translation,
+					tree: options.tree|default(null),
+					buttonAttributes: options.buttonAttributes|default({}),
+				}) }}
+			{%- endfor -%}
+		</ul>
+	{% endif %}
+{% endmacro %}
+
+{% macro item(options = {}) %}
+	{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
+
+	{% set translation = options.translation %}
+	{% set tree = options.tree|default(null) %}
+	{% set button = {
+		emphasis: 'tertiary',
+		size: 'xs',
+		label: translation.preferredLocale|capitalize,
+	} %}
+	{% set attributes = {} %}
+
+	{% if tree %}
+		{% set button = button|merge({ selected: translation.id == tree.translation.id }) %}
+		{% set attributes = {
+			'data-translation-id': translation.id,
+			command: '--update-translation',
+			type: 'button',
+		} %}
+		{% if tree.rootNode is defined %}
+			{% set attributes = attributes|merge({ 'data-children-parent-node': tree.rootNode.id }) %}
+		{% endif %}
+		{% if tree.tag.id is defined %}
+			{% set attributes = attributes|merge({ 'data-filter-tag': tree.tag.id }) %}
+		{% endif %}
+	{% endif %}
+
+	<li class="rz-language-switcher__item">
+		{{ rz_button.root(button|merge({
+			attributes: attributes|merge(options.buttonAttributes|default({})),
+		})) }}
+	</li>
+{% endmacro %}

@@ -1,0 +1,67 @@
+name: Rozier redesign
+description: Fix, improvement or new zone for the Rozier backoffice redesign.
+labels: ["frontend", "needs-triage"]
+projects: ["roadiz/1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One issue = one observable change in one zone. See the [definition of ready](https://github.com/roadiz/core-bundle-dev-app/blob/develop/docs/agents/triage-labels.md#definition-of-ready) and the zone vocabulary in [`lib/Rozier/GLOSSARY.md`](https://github.com/roadiz/core-bundle-dev-app/blob/develop/lib/Rozier/GLOSSARY.md).
+  - type: dropdown
+    id: zone
+    attributes:
+      label: Zone
+      options:
+        - Content editing (node-source)
+        - Navigation (tree, menu, header)
+        - Media library (documents)
+        - Tables (listings, bulk actions)
+        - Dialogs (dialogs, overlays)
+        - Explorer (drawer)
+        - Tags and Folders
+        - Custom forms
+        - User management
+        - Cross-cutting (themes, design tokens)
+        - Technical foundations
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: The need and who it serves. Screenshots of the current state are welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Each item observable, so done can be told from not-done.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: What this change leaves untouched.
+  - type: input
+    id: figma
+    attributes:
+      label: Figma
+      description: Link to the matching section of the `Roadiz - V3.0` file, if any. A missing mockup does not block the issue.
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Screens, components or files involved, when known.
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      value: |
+        - [ ] Checked live (`docker compose up node`) in light and dark themes
+        - [ ] Storybook story added or updated
+        - [ ] Compared with the Figma section (when one exists)
+        - [ ] `pnpm lint` and `pnpm build` pass

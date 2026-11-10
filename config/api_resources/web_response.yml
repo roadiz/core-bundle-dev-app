@@ -1,8 +1,6 @@
 resources:
     RZ\Roadiz\CoreBundle\Api\Model\WebResponse:
         shortName: WebResponse
-        types:
-            - WebResponse
         filters:
             - app.property_filter
         operations:

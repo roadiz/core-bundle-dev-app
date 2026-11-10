@@ -1,0 +1,35 @@
+{
+    "jsonld": {
+        "@context": "/api/contexts/Document",
+        "@id": "/api/documents/{id}",
+        "@type": "Document",
+        "hotspot": null,
+        "embedId": null,
+        "embedPlatform": null,
+        "mimeType": "application/pdf",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "pdf",
+        "relativePath": "fixtures/serialization_file.pdf",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_file.pdf"
+    },
+    "json": {
+        "hotspot": null,
+        "embedId": null,
+        "embedPlatform": null,
+        "mimeType": "application/pdf",
+        "imageWidth": 0,
+        "imageHeight": 0,
+        "mediaDuration": 0,
+        "imageAverageColor": null,
+        "alt": null,
+        "type": "pdf",
+        "relativePath": "fixtures/serialization_file.pdf",
+        "processable": false,
+        "publicUrl": "/files/fixtures/serialization_file.pdf"
+    }
+}

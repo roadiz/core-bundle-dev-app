@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -23,7 +23,7 @@ final class Version20201203004857 extends AbstractMigration
     {
         $this->skipIf($schema->hasTable('nodes'), 'Database has been initialized before Doctrine Migration tool.');
 
-        if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+        if ($this->connection->getDatabasePlatform() instanceof AbstractMySQLPlatform) {
             $this->mysqlUp();
         } elseif ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->postgresUp();

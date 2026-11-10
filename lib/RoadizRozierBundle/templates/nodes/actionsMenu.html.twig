@@ -1,4 +1,4 @@
-{% embed "@RoadizRozier/macros/rz_actions_menu.html.twig" with {
+{% embed "@RoadizRozier/ui/components/rz_actions_menu.html.twig" with {
     vertical: true,
     class: 'actions-menu',
     node: node,
@@ -9,51 +9,65 @@
     loop: loop,
     max_versions_showed: max_versions_showed,
     readOnly: readOnly,
+    live_preview_source: live_preview_source,
 } only %}
     {% block items %}
+    {# Only defined by nodes/editSource.html.twig, on headless installations. #}
+    {% if live_preview_source is defined and live_preview_source %}
+        {{ _self.item({ button: {
+            emphasis: 'primary',
+            iconClass: 'rz-icon-ri--eye-line',
+            attributes: {
+                class: 'rz-live-preview-toggle',
+                title: 'live_preview'|trans,
+                'popover-placement': 'left',
+                'aria-controls': "live-preview",
+                'aria-expanded': "false",
+            },
+        } }) }}
+    {% endif %}
     {% if node %}
         {% if not readOnly and is_granted('DELETE', node) %}
             {% set canDelete = workflow_can(node, 'delete') %}
 
             {% if workflow_can(node, 'undelete') %}
-                {{ _self.item(
-                    class: 'rz-button--primary rz-button--danger',
-                    href: path('nodesUndeletePage', { nodeId: node.getId}),
-                    icon: 'rz-icon-ri--device-recover-line',
-                    attr: {
+                {{ _self.item({ button: {
+                    emphasis: 'primary',
+                    color: 'danger',
+                    iconClass: 'rz-icon-ri--device-recover-line',
+                    attributes: {
+                        href: path('nodesUndeletePage', { nodeId: node.getId}),
                         title: 'undelete'|trans,
                         'popover-placement': 'left',
-                    }
-                ) }}
+                    },
+                } }) }}
             {% endif %}
 
             {% if canDelete and node.nodeSources|length > 1 and source %}
-                {{ _self.item(
-                    class: 'rz-button--primary rz-button--danger',
-                    href: path('nodesDeleteSourcePage', { nodeSourceId: source.id }),
-                    icon: 'rz-icon-ri--flag-off-line',
-                    attr: {
+                {{ _self.item({ button: {
+                    emphasis: 'primary',
+                    color: 'danger',
+                    iconClass: 'rz-icon-ri--flag-off-line',
+                    attributes: {
+                        href: path('nodesDeleteSourcePage', { nodeSourceId: source.id }),
                         title: 'delete.translation'|trans,
                         'popover-placement': 'left',
-                    }
-                ) }}
+                    },
+                } }) }}
             {% endif %}
 
             {% if canDelete and (node.nodeSources|length == 1 or source.translation.defaultTranslation)  %}
-                {{ _self.deleteItem(
-                    href: path('nodesDeletePage', {
-                        nodeId: node.getId,
-                        referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
-                    }),
-                    attr: {
+                {{ _self.deleteItem({ attributes: ({
                         title: 'delete.node'|trans,
                         'popover-placement': 'left',
-                    },
-                ) }}
+                    })|merge({ href: path('nodesDeletePage', {
+                        nodeId: node.getId,
+                        referer: node.parent ? getBreadcrumbsItem(node.parent).url : null
+                    }) }) }) }}
             {% endif %}
         {% endif %}
 
-        {% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+        {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
         {% set canPublish = workflow_can(node, 'publish') %}
         {% if not node.isDeleted %}
             <rz-popover
@@ -61,7 +75,7 @@
                 popover-offset="18px"
                 >
                     {{ rz_button.root({
-                        icon: 'rz-icon-ri--settings-4-line',
+                        iconClass: 'rz-icon-ri--settings-4-line',
                         emphasis: 'tertiary',
                         onDark: true,
                         attributes: {
@@ -70,7 +84,7 @@
                             'popover-placement': 'left',
                         }
                     }) }}
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                     title: 'actions',
                     reverse: true,
                     targetId: 'action-menu'
@@ -80,21 +94,21 @@
                             {% if node.published %}
                                 {{ _self.item({
                                     label: 'see.page',
-                                    href: path('nodesSourcesPublicRedirect', {
+                                    attributes: { href: path('nodesSourcesPublicRedirect', {
                                         'nodeSourceId': source.id,
-                                    }),
-                                    leftIcon: 'rz-icon-ri--eye-line',
-                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                    }) },
+                                    iconClass: 'rz-icon-ri--eye-line',
+                                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                                 }) }}
                             {% endif %}
-                            {% if node.published or node.draft or node.pending %}
+                            {% if (node.published or node.draft or node.pending) and is_granted(preview_required_role) %}
                                 {{ _self.item({
                                     label: 'preview.page',
-                                    href: path('nodesSourcesPreviewRedirect', {
+                                    attributes: { href: path('nodesSourcesPreviewRedirect', {
                                         'nodeSourceId': source.id,
-                                    }),
-                                    leftIcon: 'rz-icon-ri--eye-line',
-                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                    }) },
+                                    iconClass: 'rz-icon-ri--eye-line',
+                                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                                 }) }}
                             {% endif %}
                         {% endif %}
@@ -102,40 +116,40 @@
                             {% if is_granted('DUPLICATE', node) %}
                                 {{ _self.item({
                                     label: 'duplicate',
-                                    href: path('nodesDuplicatePage', { nodeId: node.getId }),
-                                    leftIcon: 'rz-icon-ri--file-copy-2-line',
-                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                    attributes: { href: path('nodesDuplicatePage', { nodeId: node.getId }) },
+                                    iconClass: 'rz-icon-ri--file-copy-2-line',
+                                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                                 }) }}
                             {% endif %}
                             {% if is_granted('EDIT_SETTING', node) %}
                                 {{ _self.item({
                                     label: 'transtype',
-                                    href: path('nodesTranstypePage', { nodeId: node.getId }),
-                                    leftIcon: 'rz-icon-ri--command-line',
-                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                    attributes: { href: path('nodesTranstypePage', { nodeId: node.getId }) },
+                                    iconClass: 'rz-icon-ri--command-line',
+                                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                                 }) }}
                             {% endif %}
                             {% if canPublish %}
                                 {{ _self.item({
                                     label: 'publish_node_offspring',
-                                    href: path('nodesPublishAllAction', { nodeId: node.getId }),
-                                    leftIcon: 'rz-icon-ri--checkbox-line',
-                                    rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                    attributes: { href: path('nodesPublishAllAction', { nodeId: node.getId }) },
+                                    iconClass: 'rz-icon-ri--checkbox-line',
+                                    rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                                 }) }}
                             {% endif %}
                         {% endif %}
                         {{ _self.item({
                             label: 'add.child',
-                            href: path('nodesAddChildPage', { nodeId: node.getId }),
-                            leftIcon: 'rz-icon-ri--add-line',
-                            rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                            attributes: { href: path('nodesAddChildPage', { nodeId: node.getId }) },
+                            iconClass: 'rz-icon-ri--add-line',
+                            rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                         }) }}
                         {% if node.hidingChildren and translation %}
                             {{ _self.item({
                                 label: 'export_format.csv.%language%'|trans({'%language%':translation.name }),
-                                href: path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}),
-                                leftIcon: 'rz-icon-ri--file-pdf-2-line',
-                                rightIcon: 'rz-icon-ri--arrow-right-s-line',
+                                attributes: { href: path('nodesExportNodeCsvPage', {parentNodeId: node.id, translationId:translation.id}) },
+                                iconClass: 'rz-icon-ri--file-pdf-2-line',
+                                rightIconClass: 'rz-icon-ri--arrow-right-s-line',
                             }) }}
                         {% endif %}
                     {% endblock %}
@@ -144,8 +158,8 @@
                             {% if workflow_can(node, 'reject') or node.isDraft %}
                                 {{ _self.item({
                                     label: 'draft',
-                                    leftIcon: 'rz-icon-rz--status-draft-fill',
-                                    rightIcon : (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                    iconClass: 'rz-icon-rz--status-draft-fill',
+                                    rightIconClass: (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
                                 input: {
                                     type: 'radio',
                                     name: 'status',
@@ -157,8 +171,8 @@
                             {% if workflow_can(node, 'unarchive') %}
                                 {{ _self.item({
                                     label: 'draft',
-                                    leftIcon: 'rz-icon-rz--status-draft-fill',
-                                    rightIcon : (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                    iconClass: 'rz-icon-rz--status-draft-fill',
+                                    rightIconClass: (node.isDraft) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
                                 input: {
                                     type: 'radio',
                                     name: 'status',
@@ -170,8 +184,8 @@
                             {% if workflow_can(node, 'review') or node.isPending %}
                                 {{ _self.item({
                                     label: 'pending',
-                                    leftIcon: 'rz-icon-rz--status-pending-fill',
-                                    rightIcon : (node.isPending) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                    iconClass: 'rz-icon-rz--status-pending-fill',
+                                    rightIconClass: (node.isPending) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
                                 input: {
                                     type: 'radio',
                                     name: 'status',
@@ -183,8 +197,8 @@
                             {% if canPublish or node.isPublished %}
                                 {{ _self.item({
                                     label: 'published',
-                                    leftIcon: 'rz-icon-rz--status-published-fill',
-                                    rightIcon : (node.isPublished) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                    iconClass: 'rz-icon-rz--status-published-fill',
+                                    rightIconClass: (node.isPublished) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
                                     input: {
                                         type: 'radio',
                                         name: 'status',
@@ -196,8 +210,8 @@
                             {% if workflow_can(node, 'archive') or node.isArchived %}
                                 {{ _self.item({
                                     label: 'archived',
-                                    leftIcon: 'rz-icon-rz--status-archived-fill',
-                                    rightIcon : (node.isArchived) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
+                                    iconClass: 'rz-icon-rz--status-archived-fill',
+                                    rightIconClass: (node.isArchived) ? 'rz-icon-ri--checkbox-circle-line' : 'rz-icon-ri--checkbox-blank-circle-line',
                                     input: {
                                         type: 'radio',
                                         name: 'status',
@@ -218,7 +232,7 @@
                 popover-offset="18px"
             >
                 {{ rz_button.root({
-                    icon: 'rz-icon-ri--git-fork-line',
+                    iconClass: 'rz-icon-ri--git-fork-line',
                     emphasis: 'tertiary',
                     onDark: true,
                     attributes: {
@@ -227,7 +241,7 @@
                         'popover-placement': 'left',
                     }
                 }) }}
-                {% embed "@RoadizRozier/macros/rz_dropdown_menu.html.twig" with {
+                {% embed "@RoadizRozier/ui/components/rz_dropdown.html.twig" with {
                     title: 'versions',
                     reverse: true,
                     targetId: 'version-menu'
@@ -235,10 +249,10 @@
                     {% block items %}
                         {{ _self.item({
                             label: 'versions.working_copy',
-                            href: path('nodesEditSourcePage', {
+                            attributes: { href: path('nodesEditSourcePage', {
                                 nodeId: node.id,
                                 translationId: translation.id
-                            }),
+                            }) },
                             selected: not currentVersion,
                         }) }}
                         {% for version in versions %}
@@ -246,11 +260,11 @@
                                 {{ _self.item({
                                     label: version.loggedAt|format_datetime('short', 'short', locale=app.request.locale),
                                     description: version.username,
-                                    href: path('nodesEditSourcePage', {
+                                    attributes: { href: path('nodesEditSourcePage', {
                                         nodeId: node.id,
                                         translationId: translation.id,
                                         version: version.version
-                                    }),
+                                    }) },
                                     selected: currentVersion and currentVersion.id == version.id,
                                 }) }}
                             {% endif %}

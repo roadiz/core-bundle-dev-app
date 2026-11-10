@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\RolesType;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use RZ\Roadiz\RozierBundle\Breadcrumbs\BreadcrumbRoots;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
@@ -25,6 +26,7 @@ final class UserRoleController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly BreadcrumbRoots $breadcrumbRoots,
     ) {
     }
 
@@ -109,18 +111,14 @@ final class UserRoleController extends AbstractController
             );
         }
 
-        return $this->render('@RoadizRozier/admin/confirm_action.html.twig', [
+        return $this->render('@RoadizRozier/ui/patterns/confirm_action.html.twig', [
             'title' => $this->translator->trans('remove.user.%name%.role.%role%', [
                 '%name%' => $user->getUserName(),
                 '%role%' => $role,
             ]),
-            'headPath' => '@RoadizRozier/admin/head.html.twig',
-            'parentBreadcrumb' => [
-                [
-                    'label' => $this->translator->trans('users'),
-                    'type' => 'listing',
-                    'url' => $this->generateUrl('usersHomePage'),
-                ],
+            'headPath' => '@RoadizRozier/ui/patterns/page_header.html.twig',
+            'breadcrumb_parents' => [
+                $this->breadcrumbRoots->get('users'),
                 [
                     'label' => $user->getUserName(),
                     'url' => $this->generateUrl('usersEditPage', ['id' => $user->getId()]),

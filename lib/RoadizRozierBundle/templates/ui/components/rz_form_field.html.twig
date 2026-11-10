@@ -1,0 +1,113 @@
+{# rz-form-field: embed vars = RzFormFieldOptions (storybook/renderer/rzFormField.ts): label, iconClass, required, horizontal, alignStart, error, description, help + Twig-only labelAttributes, attributes; block body; story Components/Form/Field #}
+{% import _self as rz_form_field %}
+{% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+{% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
+
+{% set _attributes = attributes|default({}) %}
+<rz-form-field
+    class="{{ html_classes('rz-form-field', {
+        'rz-form-field--required': required|default(false),
+        'rz-form-field--horizontal': horizontal|default(false),
+        'rz-form-field--align-start': alignStart|default(false),
+        'rz-form-field--error': error|default(false),
+    }, _attributes.class|default('')) }}"
+    {{ el_attrs.print(_attributes|filter((v, k) => k != 'class')) }}
+>
+    {% if label|default(false) %}
+        <div class="rz-form-field__head">
+            {{ rz_form_field.inner_head({
+                label: label,
+                iconClass: iconClass|default(null),
+                labelAttributes: labelAttributes|default({}),
+            }) }}
+        </div>
+    {% endif %}
+    {% if description|default(false) %}
+        <p class="rz-form-field__description">{{ description }}</p>
+    {% endif %}
+    {% block body %}{% endblock %}
+    {% if help|default(false) %}
+        {{ rz_message.root({ text: help, variant: 'ghost', attributes: { class: 'rz-form-field__message' } }) }}
+    {% endif %}
+    {% if error|default(false) %}
+        {{ rz_message.root({ text: error, color: 'error', attributes: { class: 'rz-form-field__message' } }) }}
+    {% endif %}
+</rz-form-field>
+
+{# rz-form-field head: options = label, iconClass (RzFormFieldOptions) + Twig-only labelAttributes, form, widgetAttributes (the form widget attr), itemsLength #}
+{% macro head(options = {}) %}
+    {% if options.label is not same as(false) -%}
+        <div class="rz-form-field__head">
+            {{ _self.inner_head(options) }}
+        </div>
+        {{ _self.help({ form: options.form }) }}
+    {%- endif %}
+{% endmacro %}
+
+{% macro inner_head(options = {}) %}
+    {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
+    {% set attr = options.widgetAttributes|default({}) %}
+    {% set items_length = options.itemsLength|default(0) %}
+
+    {% if options.iconClass is defined and options.iconClass %}
+        <span class="rz-form-field__head__icon {{ options.iconClass }}"></span>
+    {% endif %}
+    <label
+        class="rz-form-field__head__label"
+        {{ el_attrs.print(options.labelAttributes|default({})) }}>
+    {{- options.label|trans -}}
+    </label>
+    {% import "@RoadizRozier/ui/components/rz_badge.html.twig" as rz_badge %}
+    {% if attr['data-universal'] is defined and attr['data-universal'] %}
+        {{ rz_badge.root({
+            size: 'xs',
+            color: 'default',
+            iconClass: 'rz-icon-ri--earth-line',
+            attributes: {
+                class: 'rz-form-field__head__badge',
+                title: 'universal'|trans,
+            }
+        }) }}
+    {% endif %}
+    {% if attr['data-max-length'] is defined or attr['data-min-length'] is defined -%}
+        {% set has_error = false %}
+        {% if attr['data-max-length'] is defined and attr['data-max-length'] and items_length > attr['data-max-length'] %}
+            {% set has_error = true %}
+        {% elseif attr['data-min-length'] is defined and attr['data-min-length'] and items_length < attr['data-min-length'] %}
+            {% set has_error = true %}
+        {% endif %}
+        {% set error_class = 'rz-badge--danger' %}
+        {% set length_label %}
+            <span class="rz-badge__label">
+                <span data-length-indicator-current>{{ items_length ? items_length : 0 }}</span>
+                {%- if attr['data-max-length'] is defined and attr['data-max-length'] -%}/<span>{{ attr['data-max-length'] }}</span>
+                {%- endif -%}
+            </span>
+        {% endset %}
+        {{ rz_badge.root({
+            size: 'xs',
+            color: has_error ? 'danger' : null,
+            innerHTML: length_label,
+            attributes: {
+                class: 'rz-form-field__head__badge',
+                'data-length-indicator': error_class,
+            },
+        }) }}
+    {% endif %}
+    {% if attr['data-min-length'] is defined and attr['data-min-length'] %}
+        {{ rz_badge.root({
+            size: 'xs',
+            color: 'information',
+            label: '(' ~ 'min'|trans ~ ': ' ~ attr['data-min-length'] ~ ')',
+            attributes: { class: 'rz-form-field__head__badge' },
+        }) }}
+    {% endif %}
+{% endmacro %}
+
+{# Twig-only options: form, elementClass (BEM block of the description, default rz-form-field) #}
+{% macro help(options = {}) %}
+    {% set form = options.form %}
+    {%- if form.vars.help ?? false -%}
+        <p id="{{ form.vars.id }}_help" class="{{ options.elementClass|default('rz-form-field') }}__description">{{ form.vars.help|trans|inlineMarkdown }}</p>
+    {%- endif -%}
+{% endmacro %}

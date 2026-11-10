@@ -1,9 +1,49 @@
-{% extends "@RoadizRozier/layout.html.twig" %}
+{% deprecated 'The "@RoadizRozier/admin/base.html.twig" template is deprecated and will be removed in 2.9, extend "@RoadizRozier/ui/layouts/admin.html.twig" instead.' package='roadiz/rozier-bundle' version='2.8' %}
+{% extends '@RoadizRozier/ui/layouts/admin.html.twig' %}
 
-{% block content %}
-    <rz-bulk-section>
-        {% block header %}{% endblock %}
-        {%- block content_filters -%}{%- endblock -%}
-        {%- block content_body -%}{%- endblock -%}
-    </rz-bulk-section>
-{% endblock %}
+{#
+    2.7 header blocks kept for templates that extend this stub (ADR 0002), rendered in rz_page_header.
+    A template overriding the header block itself skips them.
+#}
+{%- block header -%}
+    {% set legacy_title %}{%- block content_title -%}{%- endblock -%}{% endset %}
+    {% set legacy_sub_title %}{%- block content_sub_title -%}{%- endblock -%}{% endset %}
+    {% set legacy_count_filters %}
+        {%- block content_count_filters -%}
+            {% if filters is defined and filters.itemCount %}
+                {% import '@RoadizRozier/ui/components/rz_badge.html.twig' as rz_badge %}
+                <div class="rz-page-header__item">
+                    {{ rz_badge.root({
+                        label: '%count%.items'|transchoice(filters.itemCount)|raw,
+                        size: 'sm',
+                        color: 'default'
+                    }) }}
+                </div>
+            {% endif %}
+        {%- endblock -%}
+    {% endset %}
+    {% set legacy_header_actions %}{%- block content_header_actions -%}{%- endblock -%}{% endset %}
+    {% set legacy_header_nav %}{%- block content_header_nav -%}{%- endblock -%}{% endset %}
+
+    {% if (legacy_title ~ legacy_sub_title ~ legacy_header_actions ~ legacy_header_nav)|trim is not empty %}
+        {% embed '@RoadizRozier/ui/components/rz_page_header.html.twig' %}
+            {% block buttons %}
+                {% if legacy_header_actions|trim is not empty %}
+                    <div class="rz-page-header__item--right">{{ legacy_header_actions }}</div>
+                {% endif %}
+            {% endblock %}
+            {% block badges %}{{ legacy_count_filters }}{% endblock %}
+            {% block title %}
+                {% if legacy_title|trim is not empty %}
+                    <h1 class="rz-page-header__title rz-page-header__item">{{ legacy_title }}</h1>
+                {% endif %}
+            {% endblock %}
+            {% block subtitle %}
+                {% if legacy_sub_title|trim is not empty %}
+                    <div class="rz-page-header__item">{{ legacy_sub_title }}</div>
+                {% endif %}
+            {% endblock %}
+            {% block nav_bar %}{{ legacy_header_nav }}{% endblock %}
+        {% endembed %}
+    {% endif %}
+{%- endblock -%}

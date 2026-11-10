@@ -1,5 +1,5 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
-{% import '@RoadizRozier/macros/rz_button.html.twig' as rz_button %}
+{% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
 
 {%- block title -%}
     {% trans %}import.setting{% endtrans %}
@@ -11,25 +11,27 @@
 <section class="content-global">
     {% include '@RoadizRozier/settings/head.html.twig' with {
         title: 'import.setting'|trans,
-        with_breadcrumb: true,
     } only %}
 
     <article class="content content-no-action-menu">
     {% form_theme form '@RoadizRozier/forms.html.twig' %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <div class="rz-form-field rz-form-field--align-start">
-            {{
-                rz_button.root({
-                    attributes: {
-                        type: 'submit',
-                    },
-                    emphasis: 'primary',
-                    label: 'import',
-                    icon: 'rz-icon-ri--upload-line',
-                })
-            }}
-        </div>
+        {% embed '@RoadizRozier/ui/components/rz_form_field.html.twig' with { alignStart: true } only %}
+            {% block body %}
+                {% import '@RoadizRozier/ui/components/rz_button.html.twig' as rz_button %}
+                {{
+                    rz_button.root({
+                        attributes: {
+                            type: 'submit',
+                        },
+                        emphasis: 'primary',
+                        label: 'import',
+                        iconClass: 'rz-icon-ri--upload-line',
+                    })
+                }}
+            {% endblock %}
+        {% endembed %}
     {{ form_end(form) }}
     </article>
 

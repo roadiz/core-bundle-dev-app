@@ -1,5 +1,5 @@
-{% embed "@RoadizRozier/widgets/rz_bulk_actions.html.twig" %}
-	{% import "@RoadizRozier/macros/rz_button.html.twig" as rz_button %}
+{% embed "@RoadizRozier/ui/components/rz_bulk_actions.html.twig" %}
+	{% import "@RoadizRozier/ui/components/rz_button.html.twig" as rz_button %}
 	{% set folder_id = "documents-bulk-folder-cont" %}
 
 	{% block other_actions %}
@@ -13,7 +13,7 @@
                         'data-tab-active-class': 'rz-button--selected',
                     },
                     emphasis: 'primary',
-                    icon: 'rz-icon-ri--folder-2-line',
+                    iconClass: 'rz-icon-ri--folder-2-line',
             }) }}
         {% endif %}
 		<form
@@ -29,7 +29,7 @@
 						title: "bulk.download.documents"|trans,
 					},
 					emphasis: 'primary',
-					icon: 'rz-icon-ri--download-cloud-2-line',
+					iconClass: 'rz-icon-ri--download-cloud-2-line',
 				})
 			}}
 		</form>
@@ -50,7 +50,7 @@
 					},
 					color: 'danger',
 					emphasis: 'primary',
-					icon: 'rz-icon-ri--delete-bin-7-line',
+					iconClass: 'rz-icon-ri--delete-bin-7-line',
 				})
 			}}
 		</form>
@@ -66,7 +66,7 @@
             >
                 {% form_theme joinFolderForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
-                {{ form_widget(joinFolderForm) }}
+                {{ form_widget(joinFolderForm, { attr: { class: 'rz-bulk-actions__form-inline' } }) }}
                 {{ form_end(joinFolderForm) }}
             </folder-autocomplete>
         {% endif %}

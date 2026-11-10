@@ -33,6 +33,7 @@ fields:
             allow_translate_assistant_translate: true
             allow_translate_assistant_rephrase: true
         type: markdown
+        metaDescriptionFallback: true
     -
         name: color
         universal: true
@@ -59,9 +60,11 @@ fields:
         type: documents
     -
         name: header_image
+        universal: true
         groupName: Images
         label: 'Header image'
         type: documents
+        shareImage: true
     -
         name: over_title
         label: Overtitle
