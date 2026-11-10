@@ -21,13 +21,13 @@ final class TranslationsStory extends Story
         $manager = $this->manager;
 
         $defaultTranslation = (new Translation())
-            ->setName('English')
+            ->setName('en')
             ->setLocale('en')
             ->setAvailable(true)
             ->setDefaultTranslation(true);
 
         $frenchTranslation = (new Translation())
-            ->setName('French')
+            ->setName('fr')
             ->setLocale('fr')
             ->setAvailable(true)
             ->setDefaultTranslation(false);
