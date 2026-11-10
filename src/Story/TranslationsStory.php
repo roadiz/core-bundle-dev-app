@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Story;
 
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Zenstruck\Foundry\Story;
 
 final class TranslationsStory extends Story
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
+        private readonly EntityManagerInterface $manager,
     ) {
     }
 
     #[\Override]
     public function build(): void
     {
-        $manager = $this->managerRegistry->getManagerForClass(Translation::class);
-        if (null === $manager) {
-            throw new \RuntimeException('No entity manager found for Translation class.');
-        }
+        $manager = $this->manager;
 
         $defaultTranslation = (new Translation())
             ->setName('English')
