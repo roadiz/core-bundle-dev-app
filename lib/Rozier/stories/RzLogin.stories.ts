@@ -29,7 +29,8 @@ function getFormElement(counter: number) {
         {
             label: 'Password',
             required: true,
-            help: '<a href="/rz-admin/login/request">Forgot password?</a>',
+            helpInnerHTML:
+                '<a href="/rz-admin/login/request">Forgot password?</a>',
             input: {
                 name: `password`,
                 type: 'password',

@@ -1,4 +1,4 @@
-{# rz-form-field: embed vars = RzFormFieldOptions (storybook/renderer/rzFormField.ts): label, iconClass, required, horizontal, alignStart, error, description, help + Twig-only labelAttributes, attributes; block body; story Components/Form/Field #}
+{# rz-form-field: embed vars = RzFormFieldOptions (storybook/renderer/rzFormField.ts): label, iconClass, required, horizontal, alignStart, error, description, help, helpInnerHTML + Twig-only labelAttributes, attributes; block body; story Components/Form/Field #}
 {% import _self as rz_form_field %}
 {% import '@RoadizRozier/ui/utils/element_attributes.html.twig' as el_attrs %}
 {% import '@RoadizRozier/ui/components/rz_message.html.twig' as rz_message %}
@@ -26,8 +26,8 @@
         <p class="rz-form-field__description">{{ description }}</p>
     {% endif %}
     {% block body %}{% endblock %}
-    {% if help|default(false) %}
-        {{ rz_message.root({ text: help, variant: 'ghost', attributes: { class: 'rz-form-field__message' } }) }}
+    {% if help|default(false) or helpInnerHTML|default(false) %}
+        {{ rz_message.root({ text: help|default(''), innerHTML: helpInnerHTML|default(null), variant: 'ghost', attributes: { class: 'rz-form-field__message' } }) }}
     {% endif %}
     {% if error|default(false) %}
         {{ rz_message.root({ text: error, color: 'error', attributes: { class: 'rz-form-field__message' } }) }}
