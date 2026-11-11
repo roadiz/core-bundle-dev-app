@@ -1,21 +1,17 @@
+import { rzMessageRenderer } from '~/utils/component-renderer/rzMessage'
+
 const ERROR_CLASS = 'rz-row-form-error'
 
 type FormErrors = {
     errors?: Record<string, unknown> & { value?: Record<string, string> }
 }
 
-/** Same markup as the rz-message Twig component, error color */
 function createError(message: string) {
-    const error = document.createElement('div')
-    error.className = `${ERROR_CLASS} rz-message rz-message--error`
-    error.setAttribute('role', 'alert')
-
-    const text = document.createElement('p')
-    text.className = 'rz-message__text'
-    text.textContent = message
-    error.appendChild(text)
-
-    return error
+    return rzMessageRenderer({
+        text: message,
+        color: 'error',
+        attributes: { class: ERROR_CLASS, role: 'alert' },
+    })
 }
 
 /** Error messages of the JSON answer: the `value` field errors, else the first form error */

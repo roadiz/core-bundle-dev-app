@@ -4,7 +4,7 @@ import type { RzButtonGroupOptions } from '~/utils/component-renderer/rzButtonGr
 import type { RzInputOptions } from './rzInput'
 import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
-import { rzMessageRenderer } from './rzMessage'
+import { rzMessageRenderer } from '~/utils/component-renderer/rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
 import { rzSwitchRenderer } from './rzSwitch'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
