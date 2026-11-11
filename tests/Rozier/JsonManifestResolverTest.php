@@ -66,7 +66,6 @@ final class JsonManifestResolverTest extends TestCase
 
     public function testDevServerCssEntryResolvesToAStylesheet(): void
     {
-        $this->writeManifest('manifest.json', []);
         $resolver = $this->createResolver([
             'app/assets/css/main.css' => [
                 'file' => 'http://localhost:5173/app/assets/css/main.css',

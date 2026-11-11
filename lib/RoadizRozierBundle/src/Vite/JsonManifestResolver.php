@@ -118,6 +118,16 @@ final readonly class JsonManifestResolver
         return $this->packages->getUrl('/bundles/roadizrozier/'.$path);
     }
 
+    /**
+     * @param string[] $files
+     *
+     * @return string[]
+     */
+    private function getBundlePrefixedPaths(array $files): array
+    {
+        return array_values(array_map($this->getBundlePrefixedPath(...), $files));
+    }
+
     public function getEntrypointCssFiles(string $name = 'main'): array
     {
         $entrypoint = $this->getEntrypoint($name);
@@ -126,7 +136,7 @@ final readonly class JsonManifestResolver
             $files = [...$files, ...$entrypoint['css']];
         }
 
-        return array_values(array_map($this->getBundlePrefixedPath(...), $files));
+        return $this->getBundlePrefixedPaths($files);
     }
 
     public function getEntrypointPreloadFiles(string $name = 'main'): array
@@ -156,6 +166,6 @@ final readonly class JsonManifestResolver
             fn (string $file) => !$this->isStylesheet($file),
         );
 
-        return array_values(array_map($this->getBundlePrefixedPath(...), $files));
+        return $this->getBundlePrefixedPaths($files);
     }
 }
