@@ -1,9 +1,10 @@
 import { rzMessageRenderer } from '~/utils/component-renderer/rzMessage'
+import { trans } from '~/utils/trans'
 
 const ERROR_CLASS = 'rz-row-form-error'
 
 type FormErrors = {
-    errors?: Record<string, unknown> & { value?: Record<string, string> }
+    errors?: unknown
 }
 
 function createError(message: string) {
@@ -14,20 +15,40 @@ function createError(message: string) {
     })
 }
 
-/** Error messages of the JSON answer: the `value` field errors, else the first form error */
+/** String leaves of a serialized form error tree, minus the `*_cause` exception class names */
+function flattenErrors(errors: unknown): string[] {
+    if (typeof errors === 'string') return [errors]
+    if (!errors || typeof errors !== 'object') return []
+
+    return Object.entries(errors).flatMap(([key, value]) =>
+        key.endsWith('_cause') ? [] : flattenErrors(value),
+    )
+}
+
+/** Error messages of the JSON answer: the `value` field errors, else every form error */
 function getErrorMessages(data: FormErrors): string[] {
-    if (!data.errors) return []
+    const { errors } = data
+    const valueErrors =
+        errors && typeof errors === 'object' && 'value' in errors
+            ? flattenErrors(errors.value)
+            : []
 
-    if (data.errors.value) return Object.values(data.errors.value).map(String)
+    return valueErrors.length ? valueErrors : flattenErrors(errors)
+}
 
-    const [first] = Object.values(data.errors)
-    return first === undefined ? [] : [String(first)]
+/** The validation errors of a failed answer, or a generic message when it carries none */
+async function getFailureMessages(response: Response): Promise<string[]> {
+    const data: FormErrors | null = await response.json().catch(() => null)
+    const messages = data ? getErrorMessages(data) : []
+
+    return messages.length ? messages : [trans('form.row.save_failed')]
 }
 
 /**
  * Saves the form of a single table row (a setting, an attribute value) without leaving the page:
- * posts it to the current URL as JSON, shows the validation errors under the form and refreshes
- * the session toasts. A form with a file input is submitted normally.
+ * posts it to the current URL as JSON, shows the validation errors (or a generic one when the
+ * request fails) under the form and refreshes the session toasts. A form with a file input is
+ * submitted normally.
  */
 export async function submitRowForm(form: HTMLFormElement) {
     if (form.querySelector('input[type=file]')) {
@@ -51,14 +72,16 @@ export async function submitRowForm(form: HTMLFormElement) {
         })
 
         if (!response.ok) {
-            const data: FormErrors = await response.json()
-            form.append(...getErrorMessages(data).map(createError))
+            const messages = await getFailureMessages(response)
+            form.append(...messages.map(createError))
         }
-
-        await window.Rozier?.getMessages()
     } catch (error) {
         console.error(error)
+        form.append(createError(trans('form.row.save_failed')))
     } finally {
         window.dispatchEvent(new CustomEvent('requestLoaderHide'))
     }
+
+    // Outside the try: a toast refresh failure must not report the row as unsaved
+    await window.Rozier?.getMessages().catch(console.error)
 }

@@ -4246,6 +4246,10 @@
         <source>form.field.invalid</source>
         <target state="final">Field "%label%" is invalid.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="form.row.save_failed" approved="yes">
+        <source>form.row.save_failed</source>
+        <target state="final">This row could not be saved, try again.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="no_more_translation_available" approved="yes">
         <source>no_more_translation_available</source>
         <target state="final">No more translation is available for current node.</target>

@@ -4246,6 +4246,10 @@
         <source>form.field.invalid</source>
         <target state="final">Champ « %label% » invalide.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="form.row.save_failed" approved="yes">
+        <source>form.row.save_failed</source>
+        <target state="final">Impossible d’enregistrer cette ligne, réessayez.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="no_more_translation_available" approved="yes">
         <source>no_more_translation_available</source>
         <target state="final">Aucune autre traduction n’est disponible.</target>
