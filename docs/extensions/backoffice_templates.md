@@ -482,7 +482,7 @@ Options: `label`, `iconClass`, `innerHTML` and `attributes` (with `class` and `h
 
 ### `ui/components/rz_message.html.twig`
 
-Renders an inline message. Options are the keys of `RzMessageOptions` (`lib/Rozier/app/utils/storybook/renderer/rzMessage.ts`).
+Renders an inline message. Options are the keys of `RzMessageOptions` (`lib/Rozier/app/utils/component-renderer/rzMessage.ts`).
 
 ```twig
 {% import "@RoadizRozier/ui/components/rz_message.html.twig" as rz_message %}

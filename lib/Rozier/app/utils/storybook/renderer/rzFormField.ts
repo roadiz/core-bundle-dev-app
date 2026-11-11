@@ -16,7 +16,7 @@ export type RzFormFieldOptions = {
     type?: (typeof INPUT_TYPES)[number]
     required?: boolean
     description?: string // under label
-    help?: string // under input
+    help?: string // under input, markup allowed (Twig passes a captured link on the login page)
     error?: string
     horizontal?: boolean
     alignStart?: boolean
@@ -156,7 +156,11 @@ export function rzFormFieldRenderer(
     }
 
     if (args.help) {
-        const node = rzMessageRenderer({ text: args.help, variant: 'ghost' })
+        const node = rzMessageRenderer({
+            text: args.help,
+            innerHTML: args.help,
+            variant: 'ghost',
+        })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         wrapper.appendChild(node)
     }

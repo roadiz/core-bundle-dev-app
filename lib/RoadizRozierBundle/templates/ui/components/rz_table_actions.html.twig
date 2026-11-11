@@ -1,7 +1,6 @@
-{# rz-table actions cell: embed vars (no renderer yet) = saveHref, saveTitle, saveClass, editHref, editTitle, editIconClass, deleteHref, deleteTitle; block other_actions; `button` = RzButtonOptions. The save button posts the form of its row, through RzTable #}
+{# rz-table actions cell: embed vars (no renderer yet) = saveHref, saveTitle, saveClass, editHref, editTitle, editIconClass, deleteHref, deleteTitle; block other_actions; `button` = RzButtonOptions. The save button posts the form of its row, through RzTable (utils/form/submitRowForm.ts) #}
 <div class="rz-table__actions rz-button-group--sm">
 	{% if saveHref|default(null) %}
-		{# RzTable posts the form of this row (utils/form/submitRowForm.ts) #}
 		{{ _self.button({
 			iconClass: 'rz-icon-ri--save-line',
 			color: 'success',
