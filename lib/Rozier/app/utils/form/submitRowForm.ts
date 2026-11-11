@@ -2,9 +2,16 @@ import { rzMessageRenderer } from '~/utils/component-renderer/rzMessage'
 import { trans } from '~/utils/trans'
 
 const ERROR_CLASS = 'rz-row-form-error'
+// Keys added by FormErrorSerializer next to a message: exception class and raw (untranslated) message
+const EXCEPTION_DETAIL_KEY = /_cause(_message)?$/
 
-type FormErrors = {
+type FormErrorResponse = {
     errors?: unknown
+}
+
+/** Shown when the request fails without a validation message */
+function saveFailedMessage() {
+    return trans('form.row.save_failed')
 }
 
 function createError(message: string) {
@@ -15,18 +22,18 @@ function createError(message: string) {
     })
 }
 
-/** String leaves of a serialized form error tree, minus the `*_cause` exception class names */
+/** Translated messages of a serialized form error tree, minus the `*_cause` and `*_cause_message` exception details */
 function flattenErrors(errors: unknown): string[] {
     if (typeof errors === 'string') return [errors]
     if (!errors || typeof errors !== 'object') return []
 
     return Object.entries(errors).flatMap(([key, value]) =>
-        key.endsWith('_cause') ? [] : flattenErrors(value),
+        EXCEPTION_DETAIL_KEY.test(key) ? [] : flattenErrors(value),
     )
 }
 
 /** Error messages of the JSON answer: the `value` field errors, else every form error */
-function getErrorMessages(data: FormErrors): string[] {
+function getErrorMessages(data: FormErrorResponse): string[] {
     const { errors } = data
     const valueErrors =
         errors && typeof errors === 'object' && 'value' in errors
@@ -38,10 +45,12 @@ function getErrorMessages(data: FormErrors): string[] {
 
 /** The validation errors of a failed answer, or a generic message when it carries none */
 async function getFailureMessages(response: Response): Promise<string[]> {
-    const data: FormErrors | null = await response.json().catch(() => null)
+    const data: FormErrorResponse | null = await response
+        .json()
+        .catch(() => null)
     const messages = data ? getErrorMessages(data) : []
 
-    return messages.length ? messages : [trans('form.row.save_failed')]
+    return messages.length ? messages : [saveFailedMessage()]
 }
 
 /**
@@ -77,7 +86,7 @@ export async function submitRowForm(form: HTMLFormElement) {
         }
     } catch (error) {
         console.error(error)
-        form.append(createError(trans('form.row.save_failed')))
+        form.append(createError(saveFailedMessage()))
     } finally {
         window.dispatchEvent(new CustomEvent('requestLoaderHide'))
     }
