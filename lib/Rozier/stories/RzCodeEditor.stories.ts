@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-// Loaded globally by `main.js` in the backoffice, not by the Storybook preview
-import 'assets/css/vendor/codemirror.css'
 import {
     RZ_CODE_EDITOR_MODES,
     type RzCodeEditorOptions,

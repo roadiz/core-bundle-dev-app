@@ -3,8 +3,6 @@ import {
     type RzButtonGroupOptions,
     rzButtonGroupRenderer,
 } from '~/utils/component-renderer/rzButtonGroup'
-// Loaded globally by `main.js` in the backoffice, not by the Storybook preview
-import 'assets/css/vendor/codemirror.css'
 
 const COMPONENT_CLASS_NAME = 'rz-markdown-editor'
 

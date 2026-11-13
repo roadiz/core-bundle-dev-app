@@ -90,6 +90,9 @@
 @import './components/rz-geotag.css';
 @import './components/rz-image-editor.css';
 
+/* Vendor: shared by the rz-code-editor and rz-markdown-editor CodeMirror instances */
+@import './vendor/codemirror.css';
+
 
 /* standalone element */
 .rz-back-to-top-button {

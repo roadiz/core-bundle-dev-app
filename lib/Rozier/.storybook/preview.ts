@@ -7,7 +7,7 @@ import prettierPluginHtml from 'prettier/plugins/html'
 import { initialize, mswLoader } from 'msw-storybook-addon'
 import { http, HttpResponse } from 'msw'
 import '@ungap/custom-elements' // Polyfill for Safari (not implementing the customized built-in elements)
-import 'assets/css/main.css'
+import 'assets/css/main.css' // The backoffice 'shared' stylesheet entry (vite.config.ts)
 
 // Entity thumbnail endpoint and mock data
 const ENTITY_THUMBNAIL_ENDPOINT = '/rz-admin/ajax/entity-thumbnail'
