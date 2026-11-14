@@ -482,7 +482,7 @@ Options: `label`, `iconClass`, `innerHTML` and `attributes` (with `class` and `h
 
 ### `ui/components/rz_message.html.twig`
 
-Renders an inline message. Options are the keys of `RzMessageOptions` (`lib/Rozier/app/utils/storybook/renderer/rzMessage.ts`).
+Renders an inline message. Options are the keys of `RzMessageOptions` (`lib/Rozier/app/utils/component-renderer/rzMessage.ts`).
 
 ```twig
 {% import "@RoadizRozier/ui/components/rz_message.html.twig" as rz_message %}
@@ -527,7 +527,8 @@ Wraps a form control that is not rendered by the form theme. Embed it and put th
 | `labelAttributes` | object | Label attributes (`for`, etc.) |
 | `iconClass` | string | Icon before the label |
 | `description` | string | Text under the label |
-| `help` | string | Ghost message under the control |
+| `help` | string | Ghost message under the control, escaped |
+| `helpInnerHTML` | string | Same message as markup (a link, for example), wins over `help` |
 | `error` | string | Error message under the control |
 | `required`, `horizontal`, `alignStart` | bool | Modifiers |
 | `attributes` | object | HTML attributes of the `rz-form-field` element |
@@ -732,6 +733,8 @@ Embeddable table component with sorting, selection, and action columns.
 ### `ui/components/rz_table_actions.html.twig`
 
 Row action buttons (edit, delete, custom). Variables: `editHref`, `editTitle`, `editIconClass`, `deleteHref`, `deleteTitle`, `saveHref`, `saveTitle`, `saveClass`; `_self.button()` takes `rz_button` options.
+
+The save button (`saveHref`) does not navigate: inside an `rz-table`, it posts the first form of its row to the current URL as JSON and shows the validation errors under that form. Pass `saveHref: '#'`.
 
 ```twig
 {% embed '@RoadizRozier/ui/components/rz_table_actions.html.twig' with {

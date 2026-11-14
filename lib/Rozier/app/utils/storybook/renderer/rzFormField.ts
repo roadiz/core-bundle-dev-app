@@ -4,7 +4,7 @@ import type { RzButtonGroupOptions } from '~/utils/component-renderer/rzButtonGr
 import type { RzInputOptions } from './rzInput'
 import { rzButtonGroupRenderer } from '~/utils/component-renderer/rzButtonGroup'
 import { rzInputRenderer } from './rzInput'
-import { rzMessageRenderer } from './rzMessage'
+import { rzMessageRenderer } from '~/utils/component-renderer/rzMessage'
 import { rzColorInputRenderer } from './rzColorInput'
 import { rzSwitchRenderer } from './rzSwitch'
 import { rzBadgeRenderer } from '~/utils/component-renderer/rzBadge'
@@ -16,7 +16,8 @@ export type RzFormFieldOptions = {
     type?: (typeof INPUT_TYPES)[number]
     required?: boolean
     description?: string // under label
-    help?: string // under input
+    help?: string // under input, as text
+    helpInnerHTML?: string // under input, as markup (wins over help)
     error?: string
     horizontal?: boolean
     alignStart?: boolean
@@ -155,8 +156,12 @@ export function rzFormFieldRenderer(
         wrapper.appendChild(input)
     }
 
-    if (args.help) {
-        const node = rzMessageRenderer({ text: args.help, variant: 'ghost' })
+    if (args.help || args.helpInnerHTML) {
+        const node = rzMessageRenderer({
+            text: args.help || '',
+            innerHTML: args.helpInnerHTML,
+            variant: 'ghost',
+        })
         node.classList.add(`${COMPONENT_CLASS_NAME}__message`)
         wrapper.appendChild(node)
     }

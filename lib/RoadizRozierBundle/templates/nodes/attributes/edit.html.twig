@@ -81,7 +81,6 @@
                                 deleteTitle: 'attributes.delete_value'|trans,
                                 deleteHref: display_delete_button ? path('nodesDeleteAttributesPage', { nodeId : node.id, translationId : translation.id, attributeValueId : attributeValue.id }) : null,
                                 saveHref: '#',
-                                saveClass: 'rz-button-settings-save no-ajax-link',
                             } %}
                                 {% block other_actions %}
                                     {% if translation and attributeValue.attributeValueTranslations.count > 1 %}

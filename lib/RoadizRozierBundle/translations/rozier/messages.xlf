@@ -1109,6 +1109,7 @@
 
             <trans-unit xml:space="preserve" id="form_has_errors.check_you_fields"><source>form_has_errors.check_you_fields</source></trans-unit>
             <trans-unit xml:space="preserve" id="form.field.invalid"><source>form.field.invalid</source><note>Form field invalid message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="form.row.save_failed"><source>form.row.save_failed</source><note>Inline error when a table row (setting, attribute value) cannot be saved.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="no_more_translation_available"><source>no_more_translation_available</source></trans-unit>
             <trans-unit xml:space="preserve" id="translate_offspring"><source>translate_offspring</source></trans-unit>

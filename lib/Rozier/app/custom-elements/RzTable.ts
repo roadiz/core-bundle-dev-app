@@ -1,5 +1,11 @@
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
+import { submitRowForm } from '~/utils/form/submitRowForm'
 
+/**
+ * Table behaviours, on `<table is="rz-table">` (ui/components/rz_table.html.twig):
+ * - rows reordering, when `data-sortable="true"` (`data-sortable-url`, `data-sortable-handle`)
+ * - row save: a `[data-action="save-row"]` button posts the form of its row (rz_table_actions `saveHref`)
+ */
 export default class RzTable extends HTMLTableElement {
     private sortable: Sortable | null
 
@@ -7,6 +13,7 @@ export default class RzTable extends HTMLTableElement {
         super()
         this.sortable = null
         this.onSortableUpdate = this.onSortableUpdate.bind(this)
+        this.onClick = this.onClick.bind(this)
     }
 
     private get tbody() {
@@ -30,6 +37,8 @@ export default class RzTable extends HTMLTableElement {
     }
 
     connectedCallback() {
+        this.addEventListener('click', this.onClick)
+
         if (!this.isSortableEnabled || !this.tbody) {
             return
         }
@@ -43,8 +52,26 @@ export default class RzTable extends HTMLTableElement {
     }
 
     disconnectedCallback() {
+        this.removeEventListener('click', this.onClick)
         this.sortable?.destroy()
         this.sortable = null
+    }
+
+    private onClick(event: MouseEvent) {
+        const button = (event.target as Element | null)?.closest(
+            '[data-action="save-row"]',
+        )
+        if (!button || !this.contains(button)) return
+
+        event.preventDefault()
+
+        const form = button.closest('tr')?.querySelector('form')
+        if (!form) {
+            console.error('No form found in the row of the save button')
+            return
+        }
+
+        submitRowForm(form)
     }
 
     private getSortableItemId(element: Element | null) {

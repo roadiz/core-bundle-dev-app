@@ -4,7 +4,7 @@ import {
     type RzMessageOptions,
     rzMessageRenderer,
     VARIANTS,
-} from '~/utils/storybook/renderer/rzMessage'
+} from '~/utils/component-renderer/rzMessage'
 
 type Args = RzMessageOptions
 
