@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.7.56](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.55...v2.7.56) - 2026-11-16
+
+### Bug Fixes
+
+- **(rozier)** add explorer_provider block for display explorer fields errors enxt to their field - ([7ebefc0](https://github.com/roadiz/core-bundle-dev-app/commit/7ebefc0fb6684ad217c7e14c91dc9b81346bfbf5))
+
 ## [2.7.55](https://github.com/roadiz/core-bundle-dev-app/compare/v2.7.54...v2.7.55) - 2026-11-09
 
 ### Bug Fixes

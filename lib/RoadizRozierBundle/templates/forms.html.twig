@@ -711,6 +711,11 @@
     {%- endif -%}
 {%- endblock form_row %}
 
+{%- block explorer_provider_row -%}
+    {{- form_widget(form) -}}
+    {{- form_errors(form) -}}
+{%- endblock explorer_provider_row -%}
+
 {%- block button_row -%}
     {% set rowClasses = [
     'form-col-' ~ form.vars.block_prefixes[1],
