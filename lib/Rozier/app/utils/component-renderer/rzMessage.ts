@@ -38,9 +38,14 @@ export function rzMessageRenderer(args: RzMessageOptions) {
         wrapper.appendChild(icon)
     }
 
+    // As in Twig: `text` is escaped, only `innerHTML` is inserted as markup
     const text = document.createElement(args.textTag || 'p')
     text.classList.add(`${className}__text`)
-    text.innerHTML = args.innerHTML || args.text
+    if (args.innerHTML) {
+        text.innerHTML = args.innerHTML
+    } else {
+        text.textContent = args.text
+    }
     wrapper.appendChild(text)
 
     return wrapper

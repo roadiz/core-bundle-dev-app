@@ -1,5 +1,4 @@
 import StackNodeTree from '~/widgets/StackNodeTree'
-import SettingsSaveButtons from '~/widgets/SettingsSaveButtons'
 import NodeStatuses from '~/widgets/NodeStatuses'
 
 type Unbindable = { unbind?: () => void } | null
@@ -8,7 +7,6 @@ export default class Lazyload {
     linksSelector: HTMLAnchorElement[]
     currentRequest: AbortController | null
     currentTimeout: number | null
-    settingsSaveButtons: Unbindable
     stackNodeTrees: StackNodeTree | null
     nodeStatuses: NodeStatuses | null
 
@@ -16,7 +14,6 @@ export default class Lazyload {
         this.linksSelector = []
         this.currentRequest = null
         this.currentTimeout = null
-        this.settingsSaveButtons = null
         this.stackNodeTrees = null
         this.nodeStatuses = null
 
@@ -229,12 +226,10 @@ export default class Lazyload {
      * General bind on page load
      */
     generalBind() {
-        this.generalUnbind([this.stackNodeTrees, this.settingsSaveButtons])
+        this.generalUnbind([this.stackNodeTrees])
         this.bindAjaxLink()
 
         this.stackNodeTrees = new StackNodeTree()
-
-        this.settingsSaveButtons = new SettingsSaveButtons()
 
         window.Rozier?.bindMainTrees()
         window.Rozier!.nodeStatuses = new NodeStatuses()
