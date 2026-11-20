@@ -3,19 +3,19 @@
     "file": "DocumentApi-6x0kiO5e.js",
     "name": "DocumentApi"
   },
-  "_DrawerApi-DSX4MZwJ.js": {
-    "file": "DrawerApi-DSX4MZwJ.js",
+  "_DrawerApi-BGYzhfBc.js": {
+    "file": "DrawerApi-BGYzhfBc.js",
     "name": "DrawerApi",
     "imports": [
-      "_rzCard-C-vU19jI.js",
+      "_rzCard-BuOtyrgb.js",
       "_DocumentApi-6x0kiO5e.js"
     ]
   },
-  "_FilterExplorerApi-COG7uukT.js": {
-    "file": "FilterExplorerApi-COG7uukT.js",
+  "_FilterExplorerApi-GZ0LklRC.js": {
+    "file": "FilterExplorerApi-GZ0LklRC.js",
     "name": "FilterExplorerApi",
     "imports": [
-      "_rzCard-C-vU19jI.js",
+      "_rzCard-BuOtyrgb.js",
       "_DocumentApi-6x0kiO5e.js"
     ]
   },
@@ -34,51 +34,78 @@
       "_Popover-BH-MR4c1.js"
     ]
   },
+  "__commonjsHelpers-Cpj98o6Y.js": {
+    "file": "_commonjsHelpers-Cpj98o6Y.js",
+    "name": "_commonjsHelpers"
+  },
   "_animation-DwVQ2eic.js": {
     "file": "animation-DwVQ2eic.js",
     "name": "animation"
   },
-  "_leaflet-src-D2U2JB1S.js": {
-    "file": "leaflet-src-D2U2JB1S.js",
+  "_codemirror-H1x6oMAU.js": {
+    "file": "codemirror-H1x6oMAU.js",
+    "name": "codemirror",
+    "imports": [
+      "__commonjsHelpers-Cpj98o6Y.js"
+    ]
+  },
+  "_leaflet-src-0bJau5_7.js": {
+    "file": "leaflet-src-0bJau5_7.js",
     "name": "leaflet-src",
     "isDynamicEntry": true,
     "imports": [
-      "app/main.js"
+      "__commonjsHelpers-Cpj98o6Y.js"
     ]
   },
-  "_lodash-Ba8LfRjV.js": {
-    "file": "lodash-Ba8LfRjV.js",
+  "_lodash-BeRlbo2W.js": {
+    "file": "lodash-BeRlbo2W.js",
     "name": "lodash",
     "imports": [
-      "app/main.js"
+      "__commonjsHelpers-Cpj98o6Y.js"
     ]
   },
   "_plugins-DaBpnC88.js": {
     "file": "plugins-DaBpnC88.js",
     "name": "plugins"
   },
-  "_rzBadge-BmGDcOV7.js": {
-    "file": "rzBadge-BmGDcOV7.js",
+  "_rzBadge-X0aOfW99.js": {
+    "file": "rzBadge-X0aOfW99.js",
     "name": "rzBadge",
     "imports": [
-      "_rzButton-J_yTZFMr.js"
+      "_rzIcon-gRZB5cPJ.js"
     ]
   },
-  "_rzButton-J_yTZFMr.js": {
-    "file": "rzButton-J_yTZFMr.js",
-    "name": "rzButton"
+  "_rzButton-DmcRrbjM.js": {
+    "file": "rzButton-DmcRrbjM.js",
+    "name": "rzButton",
+    "imports": [
+      "_rzIcon-gRZB5cPJ.js"
+    ]
   },
-  "_rzCard-C-vU19jI.js": {
-    "file": "rzCard-C-vU19jI.js",
+  "_rzCard-BuOtyrgb.js": {
+    "file": "rzCard-BuOtyrgb.js",
     "name": "rzCard",
     "imports": [
-      "_rzButton-J_yTZFMr.js",
-      "_rzBadge-BmGDcOV7.js"
+      "_rzIcon-gRZB5cPJ.js",
+      "_rzButton-DmcRrbjM.js",
+      "_rzBadge-X0aOfW99.js"
     ]
+  },
+  "_rzIcon-gRZB5cPJ.js": {
+    "file": "rzIcon-gRZB5cPJ.js",
+    "name": "rzIcon"
   },
   "_sortable.core.esm-Bjnw44Mn.js": {
     "file": "sortable.core.esm-Bjnw44Mn.js",
     "name": "sortable.core.esm"
+  },
+  "app/assets/css/main.css": {
+    "file": "shared-CL9wL9zU.css",
+    "src": "app/assets/css/main.css",
+    "isEntry": true,
+    "names": [
+      "shared.css"
+    ]
   },
   "app/assets/img/login-page-background.png": {
     "file": "login-page-background-DYwPeqRb.png",
@@ -98,20 +125,15 @@
     ]
   },
   "app/custom-elements/DocumentEditDialog.js": {
-    "file": "DocumentEditDialog-CB3Or3n5.js",
+    "file": "DocumentEditDialog-Drk9RVxh.js",
     "name": "DocumentEditDialog",
     "src": "app/custom-elements/DocumentEditDialog.js",
     "isDynamicEntry": true,
     "imports": [
       "_RoadizElement-XU473doh.js",
-      "_rzButton-J_yTZFMr.js"
+      "_rzButton-DmcRrbjM.js",
+      "_rzIcon-gRZB5cPJ.js"
     ]
-  },
-  "app/custom-elements/FolderAutocomplete.js": {
-    "file": "FolderAutocomplete-CMgHW6Ha.js",
-    "name": "FolderAutocomplete",
-    "src": "app/custom-elements/FolderAutocomplete.js",
-    "isDynamicEntry": true
   },
   "app/custom-elements/RzActionsMenu.ts": {
     "file": "RzActionsMenu-h5si-PHi.js",
@@ -126,6 +148,17 @@
     "isDynamicEntry": true,
     "imports": [
       "_animation-DwVQ2eic.js"
+    ]
+  },
+  "app/custom-elements/RzAutocomplete.ts": {
+    "file": "RzAutocomplete-CSD_gwTq.js",
+    "name": "RzAutocomplete",
+    "src": "app/custom-elements/RzAutocomplete.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Popover-BH-MR4c1.js",
+      "_rzBadge-X0aOfW99.js",
+      "_rzIcon-gRZB5cPJ.js"
     ]
   },
   "app/custom-elements/RzBadge.ts": {
@@ -160,6 +193,16 @@
       "_Popover-BH-MR4c1.js"
     ]
   },
+  "app/custom-elements/RzCodeEditor.ts": {
+    "file": "RzCodeEditor-Ba9SvmwN.js",
+    "name": "RzCodeEditor",
+    "src": "app/custom-elements/RzCodeEditor.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_codemirror-H1x6oMAU.js",
+      "__commonjsHelpers-Cpj98o6Y.js"
+    ]
+  },
   "app/custom-elements/RzColorInput.ts": {
     "file": "RzColorInput-BmNg4dyY.js",
     "name": "RzColorInput",
@@ -185,17 +228,18 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzDrawer.ts": {
-    "file": "RzDrawer-Zi_E4bF4.js",
+    "file": "RzDrawer-DRemXPB-.js",
     "name": "RzDrawer",
     "src": "app/custom-elements/RzDrawer.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_DrawerApi-DSX4MZwJ.js",
+      "_DrawerApi-BGYzhfBc.js",
       "_sortable.core.esm-Bjnw44Mn.js",
-      "_rzCard-C-vU19jI.js",
+      "_rzCard-BuOtyrgb.js",
       "_DocumentApi-6x0kiO5e.js",
-      "_rzButton-J_yTZFMr.js",
-      "_rzBadge-BmGDcOV7.js"
+      "_rzIcon-gRZB5cPJ.js",
+      "_rzButton-DmcRrbjM.js",
+      "_rzBadge-X0aOfW99.js"
     ]
   },
   "app/custom-elements/RzEntityThumbnail.ts": {
@@ -208,27 +252,28 @@
     ]
   },
   "app/custom-elements/RzExplorer.ts": {
-    "file": "RzExplorer-CNUnatuk.js",
+    "file": "RzExplorer-DmHU2yvk.js",
     "name": "RzExplorer",
     "src": "app/custom-elements/RzExplorer.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_lodash-Ba8LfRjV.js",
-      "_FilterExplorerApi-COG7uukT.js",
-      "_rzCard-C-vU19jI.js",
-      "app/main.js",
+      "_lodash-BeRlbo2W.js",
+      "_FilterExplorerApi-GZ0LklRC.js",
+      "_rzCard-BuOtyrgb.js",
+      "_rzButton-DmcRrbjM.js",
+      "__commonjsHelpers-Cpj98o6Y.js",
       "_DocumentApi-6x0kiO5e.js",
-      "_rzButton-J_yTZFMr.js",
-      "_rzBadge-BmGDcOV7.js"
+      "_rzIcon-gRZB5cPJ.js",
+      "_rzBadge-X0aOfW99.js"
     ]
   },
   "app/custom-elements/RzFileUpload.ts": {
-    "file": "RzFileUpload-CDCqOTFt.js",
+    "file": "RzFileUpload-CbPhmNAX.js",
     "name": "RzFileUpload",
     "src": "app/custom-elements/RzFileUpload.ts",
     "isDynamicEntry": true,
     "imports": [
-      "app/main.js",
+      "__commonjsHelpers-Cpj98o6Y.js",
       "_animation-DwVQ2eic.js"
     ]
   },
@@ -245,7 +290,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzGeotag.ts": {
-    "file": "RzGeotag-yp2jzNPs.js",
+    "file": "RzGeotag-BP0PHwza.js",
     "name": "RzGeotag",
     "src": "app/custom-elements/RzGeotag.ts",
     "isDynamicEntry": true,
@@ -253,7 +298,10 @@
       "app/main.js"
     ],
     "dynamicImports": [
-      "_leaflet-src-D2U2JB1S.js"
+      "_leaflet-src-0bJau5_7.js"
+    ],
+    "css": [
+      "RzGeotag-CIGW-MKW.css"
     ]
   },
   "app/custom-elements/RzHeader.ts": {
@@ -269,7 +317,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzImageEditor.ts": {
-    "file": "RzImageEditor-BI3PqV-_.js",
+    "file": "RzImageEditor-BpUWHye8.js",
     "name": "RzImageEditor",
     "src": "app/custom-elements/RzImageEditor.ts",
     "isDynamicEntry": true,
@@ -307,13 +355,14 @@
     ]
   },
   "app/custom-elements/RzMarkdownEditor.ts": {
-    "file": "RzMarkdownEditor-ZMSnjQSq.js",
+    "file": "RzMarkdownEditor-HbrerWlA.js",
     "name": "RzMarkdownEditor",
     "src": "app/custom-elements/RzMarkdownEditor.ts",
     "isDynamicEntry": true,
     "imports": [
       "_plugins-DaBpnC88.js",
-      "app/main.js"
+      "_codemirror-H1x6oMAU.js",
+      "__commonjsHelpers-Cpj98o6Y.js"
     ]
   },
   "app/custom-elements/RzNodeTreeContextualMenu.ts": {
@@ -332,7 +381,7 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzPopover.ts": {
-    "file": "RzPopover-BBknyz2_.js",
+    "file": "RzPopover-DWymtt9k.js",
     "name": "RzPopover",
     "src": "app/custom-elements/RzPopover.ts",
     "isDynamicEntry": true,
@@ -345,19 +394,19 @@
     ]
   },
   "app/custom-elements/RzRepeatable.ts": {
-    "file": "RzRepeatable-CLlfs9Fq.js",
+    "file": "RzRepeatable-3s1Yv9Ru.js",
     "name": "RzRepeatable",
     "src": "app/custom-elements/RzRepeatable.ts",
     "isDynamicEntry": true
   },
   "app/custom-elements/RzRequestLoader.ts": {
-    "file": "RzRequestLoader-B7NRbwer.js",
+    "file": "RzRequestLoader-BicClqI0.js",
     "name": "RzRequestLoader",
     "src": "app/custom-elements/RzRequestLoader.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_lodash-Ba8LfRjV.js",
-      "app/main.js"
+      "_lodash-BeRlbo2W.js",
+      "__commonjsHelpers-Cpj98o6Y.js"
     ]
   },
   "app/custom-elements/RzSaveButton.js": {
@@ -367,19 +416,20 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzSearch.ts": {
-    "file": "RzSearch-CvhaVA5z.js",
+    "file": "RzSearch-BTUB6YNA.js",
     "name": "RzSearch",
     "src": "app/custom-elements/RzSearch.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_FilterExplorerApi-COG7uukT.js",
-      "_DrawerApi-DSX4MZwJ.js",
-      "_rzCard-C-vU19jI.js",
-      "_lodash-Ba8LfRjV.js",
+      "_FilterExplorerApi-GZ0LklRC.js",
+      "_DrawerApi-BGYzhfBc.js",
+      "_rzCard-BuOtyrgb.js",
+      "_lodash-BeRlbo2W.js",
       "_DocumentApi-6x0kiO5e.js",
-      "_rzButton-J_yTZFMr.js",
-      "_rzBadge-BmGDcOV7.js",
-      "app/main.js"
+      "_rzIcon-gRZB5cPJ.js",
+      "_rzButton-DmcRrbjM.js",
+      "_rzBadge-X0aOfW99.js",
+      "__commonjsHelpers-Cpj98o6Y.js"
     ]
   },
   "app/custom-elements/RzSelect.ts": {
@@ -404,13 +454,14 @@
     "isDynamicEntry": true
   },
   "app/custom-elements/RzToastList.ts": {
-    "file": "RzToastList-BeV14E1u.js",
+    "file": "RzToastList-Cvr9_VQg.js",
     "name": "RzToastList",
     "src": "app/custom-elements/RzToastList.ts",
     "isDynamicEntry": true,
     "imports": [
-      "_rzBadge-BmGDcOV7.js",
-      "_rzButton-J_yTZFMr.js"
+      "_rzBadge-X0aOfW99.js",
+      "_rzButton-DmcRrbjM.js",
+      "_rzIcon-gRZB5cPJ.js"
     ]
   },
   "app/custom-elements/RzTooltip.ts": {
@@ -433,12 +484,6 @@
       "_animation-DwVQ2eic.js"
     ]
   },
-  "app/custom-elements/TagAutocomplete.js": {
-    "file": "TagAutocomplete-DDko2VyZ.js",
-    "name": "TagAutocomplete",
-    "src": "app/custom-elements/TagAutocomplete.js",
-    "isDynamicEntry": true
-  },
   "app/custom-elements/TagEditPage.js": {
     "file": "TagEditPage-Cl2WPRGg.js",
     "name": "TagEditPage",
@@ -449,20 +494,21 @@
     ]
   },
   "app/main.js": {
-    "file": "main-B81bplM3.js",
+    "file": "main-C3Khj9jw.js",
     "name": "main",
     "src": "app/main.js",
     "isEntry": true,
     "dynamicImports": [
       "app/custom-elements/DocumentAlignmentWidget.js",
       "app/custom-elements/DocumentEditDialog.js",
-      "app/custom-elements/FolderAutocomplete.js",
       "app/custom-elements/RzActionsMenu.ts",
       "app/custom-elements/RzAside.ts",
+      "app/custom-elements/RzAutocomplete.ts",
       "app/custom-elements/RzBadge.ts",
       "app/custom-elements/RzBulkActions.ts",
       "app/custom-elements/RzBulkSection.ts",
       "app/custom-elements/RzButton.ts",
+      "app/custom-elements/RzCodeEditor.ts",
       "app/custom-elements/RzColorInput.ts",
       "app/custom-elements/RzColorSchemeSwitcher.ts",
       "app/custom-elements/RzDialog.ts",
@@ -494,31 +540,8 @@
       "app/custom-elements/RzToastList.ts",
       "app/custom-elements/RzTooltip.ts",
       "app/custom-elements/RzTree.ts",
-      "app/custom-elements/TagAutocomplete.js",
       "app/custom-elements/TagEditPage.js"
-    ],
-    "css": [
-      "main-CBZgrhoj.css"
     ]
-  },
-  "app/shared.js": {
-    "file": "shared-CyMPBBdm.js",
-    "name": "shared",
-    "src": "app/shared.js",
-    "isEntry": true,
-    "css": [
-      "shared-9HV5xOVL.css"
-    ],
-    "assets": [
-      "spritemap@2x-Bd7qNsVN.png",
-      "login-page-background-DYwPeqRb.png"
-    ]
-  },
-  "app/simple.js": {
-    "file": "simple-Djkfth3S.js",
-    "name": "simple",
-    "src": "app/simple.js",
-    "isEntry": true
   },
   "app/utils/OverflowList.ts": {
     "file": "OverflowList-DzfS3i6m.js",
