@@ -1,7 +1,7 @@
 import {
     type RzMessageOptions,
     rzMessageRenderer,
-} from '~/utils/storybook/renderer/rzMessage'
+} from '~/utils/component-renderer/rzMessage'
 
 export type RzPagePreviewOptions = {
     title: string
