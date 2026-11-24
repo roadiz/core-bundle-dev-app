@@ -2,6 +2,7 @@ import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { dataURItoBlob } from '~/utils'
 import { setDocument } from '~/api/DocumentApi'
+import { HttpError } from '~/utils/http'
 
 type ImageEditorAction =
     | 'drag-move'
@@ -208,10 +209,13 @@ export default class RzImageEditor extends HTMLElement {
 
         let data: AdjustResponse = {}
         try {
-            const response = await setDocument(formData)
-            data = await response.json()
+            data = await setDocument(formData)
         } catch (error) {
             console.error('RzImageEditor: saving the image failed', error)
+            // A rejected form answers its errors in the body
+            if (error instanceof HttpError && typeof error.body === 'object') {
+                data = error.body as AdjustResponse
+            }
         } finally {
             this.setSaving(false)
         }

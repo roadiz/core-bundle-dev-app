@@ -1,3 +1,5 @@
+import { get, HttpError, isAbortError } from '~/utils/http'
+import { pushErrorToast } from '~/utils/toast'
 import { Popover } from '~/utils/Popover'
 import {
     rzDropdownItemRenderer,
@@ -34,12 +36,9 @@ export default class RzAutocomplete extends HTMLElement {
         return this.getAttribute('data-action') || ''
     }
 
-    get searchPath() {
-        return this.getAttribute('data-search-path') || ''
-    }
-
-    get csrfToken() {
-        return this.getAttribute('data-csrf-token') || ''
+    /** A RozierConfig.routes key */
+    get searchRoute() {
+        return this.getAttribute('data-search-route') || ''
     }
 
     connectedCallback() {
@@ -144,29 +143,19 @@ export default class RzAutocomplete extends HTMLElement {
 
     private async search(term: string) {
         this.abortController = new AbortController()
-        const params = new URLSearchParams({
-            _action: this.action,
-            _token: this.csrfToken,
-            search: term,
-        })
 
         try {
-            const response = await fetch(`${this.searchPath}?${params}`, {
-                headers: {
-                    // Required to prevent using this route as referer when login again
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
+            const suggestions = await get(this.searchRoute, {
+                query: { _action: this.action, search: term },
                 signal: this.abortController.signal,
             })
-            if (!response.ok) throw new Error(response.statusText)
-
-            const suggestions: unknown = await response.json()
             this.show(Array.isArray(suggestions) ? suggestions.map(String) : [])
         } catch (error) {
-            if (error instanceof DOMException && error.name === 'AbortError') {
-                return
-            }
+            if (isAbortError(error)) return
             this.close()
+            // A search without match answers 404: no results, nothing to report
+            if (error instanceof HttpError && error.status === 404) return
+            pushErrorToast(error)
         }
     }
 

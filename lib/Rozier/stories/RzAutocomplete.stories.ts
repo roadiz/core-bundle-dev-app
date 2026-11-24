@@ -28,11 +28,20 @@ const SUGGESTIONS: Record<RzAutocompleteAction, string[]> = {
 const meta: Meta<Args> = {
     title: 'Components/Form/Autocomplete',
     tags: ['autodocs'],
-    render: (args) => rzAutocompleteRenderer(args),
+    render: (args) => {
+        window.RozierConfig = {
+            ...(window.RozierConfig || {}),
+            routes: {
+                ...(window.RozierConfig?.routes || {}),
+                tagAjaxSearch: SEARCH_PATH,
+                foldersAjaxSearch: SEARCH_PATH,
+            },
+        }
+        return rzAutocompleteRenderer(args)
+    },
     args: {
         action: 'tagAutocomplete',
-        searchPath: SEARCH_PATH,
-        csrfToken: 'storybook',
+        searchRoute: 'tagAjaxSearch',
         placeholder: 'Tags to link or unlink',
     },
     argTypes: {
@@ -64,6 +73,7 @@ export const Default: Story = {}
 export const Folder: Story = {
     args: {
         action: 'folderAutocomplete',
+        searchRoute: 'foldersAjaxSearch',
         placeholder: 'Folders to link or unlink',
     },
 }

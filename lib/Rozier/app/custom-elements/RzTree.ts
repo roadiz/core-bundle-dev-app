@@ -1,6 +1,8 @@
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
 
 import { fadeIn, fadeOut } from '../utils/animation'
+import { get, post, type RouteName } from '~/utils/http'
+import { pushErrorToast, pushToast } from '~/utils/toast'
 
 export default class RzTree extends HTMLElement {
     sortables: Sortable[]
@@ -20,21 +22,10 @@ export default class RzTree extends HTMLElement {
         return this.getAttribute('group') || 'tree'
     }
 
-    get positionRoute() {
-        const attr = this.getAttribute('data-position-route')
-        if (attr) return attr
-
-        if (!window.RozierConfig || !window.RozierConfig.routes) {
-            return null
-        }
-
-        if (this.entityType === 'node') {
-            return window.RozierConfig.routes.nodesPositionAjax
-        } else if (this.entityType === 'tag') {
-            return window.RozierConfig.routes.tagPositionAjax
-        } else if (this.entityType === 'folder') {
-            return window.RozierConfig.routes.foldersPositionAjax
-        }
+    get positionRoute(): RouteName | null {
+        if (this.entityType === 'node') return 'nodesPositionAjax'
+        if (this.entityType === 'tag') return 'tagPositionAjax'
+        if (this.entityType === 'folder') return 'foldersPositionAjax'
 
         return null
     }
@@ -148,36 +139,14 @@ export default class RzTree extends HTMLElement {
         return Number.isNaN(parsedId) ? null : parsedId
     }
 
-    async quickAddNode(
+    quickAddNode(
         nodeTypeName: string,
         parentNodeId: number,
         translationId: number | null,
     ) {
-        const response = await fetch(
-            window.RozierConfig.routes.nodesGenerateAndAddNodeAction,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    // Required to prevent using this route as referer when login again
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: new URLSearchParams({
-                    csrfToken: window.RozierConfig.ajaxToken,
-                    nodeTypeName: nodeTypeName,
-                    parentNodeId: parentNodeId.toString(),
-                    translationId: translationId
-                        ? translationId.toString()
-                        : '',
-                }),
-            },
-        )
-
-        if (!response.ok) {
-            throw response
-        }
-
-        return await response.json()
+        return post('nodesGenerateAndAddNodeAction', {
+            body: { nodeTypeName, parentNodeId, translationId },
+        })
     }
 
     async onQuickAddNode(event: CommandEvent) {
@@ -205,50 +174,24 @@ export default class RzTree extends HTMLElement {
             window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
             await this.refreshNodeTree()
         } catch (error) {
-            await this.pushRequestError(error)
+            pushErrorToast(error)
         }
     }
 
-    async fetchNodeTree() {
-        const linkedTypes = this.getRootLinkedTypes()
-        const translationId = this.getRootTranslationId()
-
-        const options = {
-            _token: window.RozierConfig.ajaxToken,
-            _action: 'requestNodeTree',
-            translationId: translationId ? translationId.toString() : '',
-        }
-
-        if (this.hasAttribute('data-stack-tree')) {
-            Object.assign(options, { stackTree: true })
-        }
-
+    fetchNodeTree() {
         const rootNodeId = this.getRootNodeId()
-        if (!!rootNodeId || rootNodeId === 0) {
-            Object.assign(options, { parentNodeId: rootNodeId.toString() })
-        }
-        const params = new URLSearchParams(options)
 
-        linkedTypes.forEach((type, i) => {
-            params.append(`linkedTypes[${i}]`, type)
-        })
-
-        const url =
-            window.RozierConfig.routes.nodesTreeAjax + '?' + params.toString()
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                // Required to prevent using this route as referer when login again
-                'X-Requested-With': 'XMLHttpRequest',
+        return get<{ nodeTree?: string }>('nodesTreeAjax', {
+            query: {
+                _action: 'requestNodeTree',
+                translationId: this.getRootTranslationId() ?? '',
+                stackTree: this.hasAttribute('data-stack-tree')
+                    ? true
+                    : undefined,
+                parentNodeId: rootNodeId ?? undefined,
+                linkedTypes: this.getRootLinkedTypes(),
             },
         })
-
-        if (!response.ok) {
-            throw response
-        }
-
-        return await response.json()
     }
 
     async refreshOtherTrees() {
@@ -305,47 +248,10 @@ export default class RzTree extends HTMLElement {
                 window.Rozier?.lazyload?.bindAjaxLink?.()
             }
         } catch (error) {
-            await this.pushRequestError(error)
+            pushErrorToast(error)
         } finally {
             window.dispatchEvent(new CustomEvent('requestLoaderHide'))
         }
-    }
-
-    async pushRequestError(error: unknown) {
-        let message = 'An unexpected error occurred.'
-
-        try {
-            if (error && typeof (error as Response).json === 'function') {
-                const data = await (error as Response).json()
-                message = data?.error_message || data?.detail || message
-            } else if (
-                error &&
-                typeof (error as { responseText?: string }).responseText ===
-                    'string'
-            ) {
-                const data = JSON.parse(
-                    (error as { responseText: string }).responseText,
-                )
-                message = data?.error_message || message
-            } else if (error && typeof error === 'object') {
-                const errorData = error as {
-                    error_message?: string
-                    detail?: string
-                }
-                message = errorData.error_message || errorData.detail || message
-            }
-        } catch (error) {
-            console.error('Error parsing error response', error)
-        }
-
-        window.dispatchEvent(
-            new CustomEvent('pushToast', {
-                detail: {
-                    message,
-                    status: 'danger',
-                },
-            }),
-        )
     }
 
     // Children visibility
@@ -510,14 +416,7 @@ export default class RzTree extends HTMLElement {
             return false
         }
 
-        const token =
-            this.getAttribute('data-ajax-token') ||
-            window.RozierConfig.ajaxToken ||
-            ''
-        const postData: Record<string, string | number | null> = {
-            csrfToken: token,
-            id: parsedId,
-        }
+        const postData: Record<string, number> = { id: parsedId }
 
         if (this.entityType === 'node') {
             if (typeof parentId === 'number') {
@@ -542,44 +441,22 @@ export default class RzTree extends HTMLElement {
         }
 
         try {
-            const response = await fetch(this.positionRoute, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: new URLSearchParams(postData as Record<string, string>),
-            })
-            if (!response.ok) {
-                throw response
-            }
-            const data = await response.json()
+            const data = await post<{
+                responseText?: string
+                detail?: string
+                status?: 'success' | 'danger'
+            }>(this.positionRoute, { body: postData })
 
             const message =
                 this.entityType === 'node'
                     ? data.responseText || data.detail
                     : data.responseText
 
-            window.dispatchEvent(
-                new CustomEvent('pushToast', {
-                    detail: {
-                        message,
-                        status: data.status,
-                    },
-                }),
-            )
+            pushToast(message, data.status)
 
             await this.refreshOtherTrees()
-        } catch (response) {
-            const data = await response.json()
-            window.dispatchEvent(
-                new CustomEvent('pushToast', {
-                    detail: {
-                        message: data.error_message || data.detail,
-                        status: 'danger',
-                    },
-                }),
-            )
+        } catch (error) {
+            pushErrorToast(error)
         }
 
         return true

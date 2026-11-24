@@ -1,4 +1,6 @@
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
+import { post } from '~/utils/http'
+import { pushErrorToast, pushToast } from '~/utils/toast'
 
 export default class RzTable extends HTMLTableElement {
     private sortable: Sortable | null
@@ -67,56 +69,26 @@ export default class RzTable extends HTMLTableElement {
             return
         }
 
-        const payload: Record<string, string> = {
-            csrfToken: window.RozierConfig.ajaxToken,
-            id: currentId.toString(),
-        }
+        const payload: Record<string, number> = { id: currentId }
 
         const prevId = this.getSortableItemId(row.previousElementSibling)
         const nextId = this.getSortableItemId(row.nextElementSibling)
 
         if (prevId !== null) {
-            payload.prevId = prevId.toString()
+            payload.prevId = prevId
         } else if (nextId !== null) {
-            payload.nextId = nextId.toString()
+            payload.nextId = nextId
         }
 
         try {
-            const response = await fetch(sortableUrl, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: new URLSearchParams(payload),
-            })
-            if (!response.ok) {
-                throw response
-            }
-            const data = await response.json()
-            window.dispatchEvent(
-                new CustomEvent('pushToast', {
-                    detail: {
-                        message: data.responseText,
-                        status: data.status,
-                    },
-                }),
-            )
+            // sortable.url is a public rz_table option (docs/extensions/backoffice_templates.md)
+            const data = await post<{
+                responseText?: string
+                status?: 'success' | 'danger'
+            }>(sortableUrl, { body: payload })
+            pushToast(data.responseText, data.status)
         } catch (error) {
-            let message = 'An error occurred while updating positions.'
-            if (error instanceof Response) {
-                const data = await error.json()
-                message = data.title || ''
-            }
-
-            window.dispatchEvent(
-                new CustomEvent('pushToast', {
-                    detail: {
-                        message: message,
-                        status: 'danger',
-                    },
-                }),
-            )
+            pushErrorToast(error)
         }
     }
 }

@@ -21,7 +21,6 @@ const meta: Meta<Args> = {
         currentArgs = args
         window.RozierConfig = {
             ...(window.RozierConfig || {}),
-            ajaxToken: 'storybook-token',
             routes: {
                 ...(window.RozierConfig?.routes || {}),
                 treeAjaxGateway: TREE_AJAX_GATEWAY,
@@ -105,6 +104,46 @@ export const Loading: Story = {
                     await delay('infinite')
                     return HttpResponse.json({})
                 }),
+            ],
+        },
+    },
+}
+
+/** The user may not access this tree (gateway 403): the aside stays without a tree, with no toast and no retry. */
+export const Forbidden: Story = {
+    parameters: {
+        controls: { include: [] },
+        msw: {
+            handlers: [
+                http.get(TREE_AJAX_GATEWAY, () =>
+                    HttpResponse.json(
+                        {
+                            message:
+                                'You do not have the required permissions to access this tree.',
+                        },
+                        { status: 403 },
+                    ),
+                ),
+            ],
+        },
+    },
+}
+
+/** The gateway fails: the aside stays without a tree, the error goes to the backoffice toast list. */
+export const ServerError: Story = {
+    parameters: {
+        controls: { include: [] },
+        msw: {
+            handlers: [
+                http.get(TREE_AJAX_GATEWAY, () =>
+                    HttpResponse.json(
+                        {
+                            title: 'Internal Server Error',
+                            detail: 'Tree could not be built.',
+                        },
+                        { status: 500 },
+                    ),
+                ),
             ],
         },
     },

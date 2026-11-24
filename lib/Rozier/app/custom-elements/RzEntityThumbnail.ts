@@ -1,4 +1,13 @@
+import { get } from '~/utils/http'
 import RoadizElement from '~/utils/custom-element/RoadizElement'
+
+type ThumbnailData = {
+    url: string | null
+    alt: string | null
+    title: string | null
+    width: number | null
+    height: number | null
+}
 
 /**
  * Custom element that fetches and displays entity thumbnails.
@@ -12,13 +21,7 @@ export default class RzEntityThumbnail extends RoadizElement {
     private entityId: string | null = null
     private loading = true
     private error: string | null = null
-    private thumbnailData: {
-        url: string | null
-        alt: string | null
-        title: string | null
-        width: number | null
-        height: number | null
-    } | null = null
+    private thumbnailData: ThumbnailData | null = null
     // Added properties for lazy loading via IntersectionObserver
     private intersectionObserver: IntersectionObserver | null = null
     private hasRequested = false
@@ -84,27 +87,12 @@ export default class RzEntityThumbnail extends RoadizElement {
         }
 
         try {
-            const params = new URLSearchParams({
-                class: this.entityClass,
-                id: this.entityId,
-            })
-
-            const response = await fetch(
-                `/rz-admin/ajax/entity-thumbnail?${params.toString()}`,
+            this.thumbnailData = await get<ThumbnailData>(
+                'ajaxEntityThumbnail',
                 {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                    },
-                    credentials: 'same-origin',
+                    query: { class: this.entityClass, id: this.entityId },
                 },
             )
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
-
-            this.thumbnailData = await response.json()
             this.loading = false
             this.render()
         } catch (err) {
