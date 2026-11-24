@@ -268,7 +268,7 @@ export default class RzTree extends HTMLElement {
             if (typeof data.nodeTree !== 'undefined') {
                 const wrapper = document.createElement('div')
                 wrapper.innerHTML = data.nodeTree
-                const nextTree = wrapper.querySelector('rz-tree')
+                const nextTree = wrapper.querySelector<HTMLElement>('rz-tree')
 
                 await fadeOut(this)
 

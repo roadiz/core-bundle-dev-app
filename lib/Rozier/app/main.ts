@@ -10,13 +10,14 @@ import 'invokers-polyfill' // Polyfill for Invoker command API (fixing Safari su
  * Rozier entry point
  * ============================================================================
  */
-window.Rozier = new Rozier()
-const ready = (callback) => {
+const rozier = new Rozier()
+window.Rozier = rozier
+const ready = (callback: () => void) => {
     if (document.readyState !== 'loading') callback()
     else document.addEventListener('DOMContentLoaded', callback)
 }
 ready(() => {
-    window.Rozier.onDocumentReady()
+    rozier.onDocumentReady()
 })
 ;(function () {
     // Auto-register custom elements

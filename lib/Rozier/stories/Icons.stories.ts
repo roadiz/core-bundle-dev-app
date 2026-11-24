@@ -76,7 +76,7 @@ function iconItemRenderer(args: Args) {
 
 // Get all icon dynamically
 const allIconNames: string[] = []
-const svgModules = import.meta.glob('../app/assets/img/icons/*/*.svg')
+const svgModules = import.meta.glob<string>('../app/assets/img/icons/*/*.svg')
 
 const svgList = Object.keys(svgModules).reduce(
     (acc: Record<string, IconData[]>, path) => {

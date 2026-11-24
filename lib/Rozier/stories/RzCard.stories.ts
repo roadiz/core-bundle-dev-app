@@ -3,7 +3,6 @@ import {
     type RzCardOptions,
     rzCardRenderer,
 } from '~/utils/component-renderer/rzCard'
-// @ts-expect-error — image module declaration not recognized
 import image from './assets/images/01.jpg'
 
 type Args = RzCardOptions

@@ -9,19 +9,26 @@
  * A raw fetch/JS Error (network failure) is not a server body, so its technical
  * `.message` (e.g. "Failed to fetch") is ignored in favour of that fallback.
  *
- * @param {object|string|Error} data parsed JSON body, thrown payload, JSON string, or Error
- * @returns {string}
+ * @param data parsed JSON body, thrown payload, JSON string, or Error
  */
-export function getResponseErrorMessage(data) {
-    if (typeof data === 'string') {
+type ErrorPayload = {
+    error_message?: string
+    detail?: string
+    message?: string
+}
+
+export function getResponseErrorMessage(input: unknown): string | undefined {
+    let data: ErrorPayload | null = null
+    if (typeof input === 'string') {
         try {
-            data = JSON.parse(data)
+            data = JSON.parse(input)
         } catch {
             data = {}
         }
-    }
-    if (data instanceof Error) {
+    } else if (input instanceof Error) {
         data = {}
+    } else {
+        data = input as ErrorPayload | null
     }
     return (
         data?.error_message ||
@@ -31,9 +38,9 @@ export function getResponseErrorMessage(data) {
     )
 }
 
-export function dataURItoBlob(dataURI) {
-    let binary = atob(dataURI.split(',')[1])
-    let array = []
+export function dataURItoBlob(dataURI: string): Blob {
+    const binary = atob(dataURI.split(',')[1])
+    const array: number[] = []
 
     for (let i = 0; i < binary.length; i++) {
         array.push(binary.charCodeAt(i))
