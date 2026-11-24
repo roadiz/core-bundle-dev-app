@@ -220,6 +220,7 @@
                     }
                 },
                 'routes': {
+                    'ajaxEntityThumbnail':         '{{ path('ajaxEntityThumbnail') }}',
                     'ajaxSessionMessages':         '{{ path('ajaxSessionMessages') }}',
                     'attributeValuePositionAjax':  '{{ path('attributeValuePositionAjax') }}',
                     'customFormFieldPositionAjax': '{{ path('customFormFieldPositionAjax') }}',
@@ -227,6 +228,7 @@
                     'customFormsAjaxExplorer' :    '{{ path('customFormsAjaxExplorerPage') }}',
                     'documentsAjaxByArray' :       '{{ path('documentsAjaxByArray') }}',
                     'documentsAjaxExplorer' :      '{{ path('documentsAjaxExplorerPage') }}',
+                    'documentsAlignmentTemplate':  '{{ path('documentsAlignmentTemplate') }}',
                     'documentsBulkDeletePage' :    '{{ path('documentsBulkDeletePage') }}',
                     'documentsBulkDownloadPage' :  '{{ path('documentsBulkDownloadPage') }}',
                     'documentsUploadPage' :        '{{ path('documentsUploadPage', {_format: 'json'}) }}',
@@ -241,7 +243,9 @@
                     'nodeTypesAjaxExplorer' :      '{{ path('nodeTypesAjaxExplorer') }}',
                     'nodesAjaxByArray' :           '{{ path('nodesAjaxByArray') }}',
                     'nodesAjaxExplorer' :          '{{ path('nodesAjaxExplorerPage') }}',
+                    'nodesDuplicateAjax' :         '{{ path('nodesDuplicateAjax') }}',
                     'nodesGenerateAndAddNodeAction': '{{ path('nodesGenerateAndAddNodeAction')}}',
+                    'nodesPasteAjax' :             '{{ path('nodesPasteAjax') }}',
                     'nodesPositionAjax' :          '{{ path('nodesPositionAjax') }}',
                     'nodesStatusesAjax' :          '{{ path('nodesStatusesAjax') }}',
                     'nodesTreeAjax' :              '{{ path('treeAjaxGateway') }}',
@@ -256,7 +260,9 @@
                     'tagsAjaxExplorer' :           '{{ path('tagsAjaxExplorer') }}',
                     'tagsAjaxExplorerList' :       '{{ path('tagsAjaxExplorerList') }}',
                     'tagsTreeAjax' :               '{{ path('treeAjaxGateway') }}',
-                    'treeAjaxGateway' :               '{{ path('treeAjaxGateway') }}',
+                    'translateAssistantRephrase':  '{{ path('translateAssistantRephrase') }}',
+                    'translateAssistantTranslate': '{{ path('translateAssistantTranslate') }}',
+                    'treeAjaxGateway' :            '{{ path('treeAjaxGateway') }}',
                 }
             };
         </script>

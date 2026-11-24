@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\RozierBundle\Controller\Ajax\AbstractAjaxController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -56,11 +57,9 @@ final class AjaxTreeGatewayController extends AbstractAjaxController
             return $this->folderTreeController->getTreeAction($request);
         }
 
-        $data = [
-            'status' => 'error',
-            'message' => 'You do not have the required permissions to access this tree.',
-        ];
-
-        return $this->createSerializedResponse($data);
+        return new JsonResponse(
+            ['message' => 'You do not have the required permissions to access this tree.'],
+            Response::HTTP_FORBIDDEN
+        );
     }
 }
