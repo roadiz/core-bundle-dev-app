@@ -95,6 +95,7 @@ export interface RozierConfig {
         }
     }
     routes?: {
+        ajaxEntityThumbnail?: string
         ajaxSessionMessages?: string
         attributeValuePositionAjax?: string
         customFormFieldPositionAjax?: string
@@ -102,6 +103,7 @@ export interface RozierConfig {
         customFormsAjaxExplorer?: string
         documentsAjaxByArray?: string
         documentsAjaxExplorer?: string
+        documentsAlignmentTemplate?: string
         documentsBulkDeletePage?: string
         documentsBulkDownloadPage?: string
         documentsUploadPage?: string
@@ -116,7 +118,9 @@ export interface RozierConfig {
         nodeTypesAjaxExplorer?: string
         nodesAjaxByArray?: string
         nodesAjaxExplorer?: string
+        nodesDuplicateAjax?: string
         nodesGenerateAndAddNodeAction?: string
+        nodesPasteAjax?: string
         nodesPositionAjax?: string
         nodesStatusesAjax?: string
         nodesTreeAjax?: string
@@ -131,6 +135,9 @@ export interface RozierConfig {
         tagsAjaxExplorer?: string
         tagsAjaxExplorerList?: string
         tagsTreeAjax?: string
+        translateAssistantRephrase?: string
+        translateAssistantTranslate?: string
+        treeAjaxGateway?: string
     }
 }
 

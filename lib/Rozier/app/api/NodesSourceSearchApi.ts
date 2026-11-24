@@ -1,34 +1,10 @@
 import type { NodeSourceSearch } from '~/types/node-source-search'
+import { get } from '~/utils/http'
 
-export function getNodesSourceFromSearch(searchTerms: string) {
-    const postData = {
-        _token: window.RozierConfig.ajaxToken,
-        _action: 'searchNodesSources',
-        searchTerms: searchTerms,
-    }
+export async function getNodesSourceFromSearch(searchTerms: string) {
+    const data = await get<{ data?: NodeSourceSearch[] }>('searchAjax', {
+        query: { _action: 'searchNodesSources', searchTerms },
+    })
 
-    return fetch(
-        window.RozierConfig.routes.searchAjax +
-            '?' +
-            new URLSearchParams(postData),
-        {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                // Required to prevent using this route as referer when login again
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-        },
-    )
-        .then(async (response) => {
-            const data = await response.json()
-            if (typeof data.data !== 'undefined' && data.data.length > 0) {
-                return data.data as NodeSourceSearch[]
-            } else {
-                return []
-            }
-        })
-        .catch(async (error) => {
-            throw new Error((await error.response.json()).humanMessage)
-        })
+    return data?.data?.length ? data.data : []
 }
