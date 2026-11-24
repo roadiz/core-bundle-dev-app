@@ -1,4 +1,6 @@
 import { stripTags } from '~/utils/plugins'
+import { post, type RouteName } from '~/utils/http'
+import { pushErrorToast } from '~/utils/toast'
 import markdownit from 'markdown-it'
 import markdownItFootnote from 'markdown-it-footnote'
 import type {
@@ -298,45 +300,24 @@ export default class RzMarkdownEditor extends HTMLElement {
             window.dispatchEvent(new CustomEvent('requestLoaderShow'))
             const file = event.dataTransfer.files[i]
             const formData = new FormData()
-            formData.append('_token', window.RozierConfig.ajaxToken || '')
             formData.append('form[attachment]', file)
 
-            const response = await fetch(
-                window.RozierConfig.routes?.documentsUploadPage || '',
-                {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        // Required to prevent using this route as referer when login again
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    body: formData,
-                },
-            )
-
-            if (!response.ok) {
-                const data = await response.json()
-                if (data.errors) {
-                    window.dispatchEvent(
-                        new CustomEvent('pushToast', {
-                            detail: {
-                                message: data.message,
-                                status: 'danger',
-                            },
-                        }),
-                    )
-                }
-            } else {
-                const data = await response.json()
+            try {
+                const data = await post<DocumentUploadResponse>(
+                    'documentsUploadPage',
+                    { body: formData, csrfField: '_token' },
+                )
                 await window.Rozier.getMessages()
                 this.onDropFileUploaded(editor, data)
+            } catch (error) {
+                pushErrorToast(error)
+            } finally {
+                window.dispatchEvent(new CustomEvent('requestLoaderHide'))
             }
         }
     }
 
     onDropFileUploaded(editor: Editor, data: DocumentUploadResponse) {
-        window.dispatchEvent(new CustomEvent('requestLoaderHide'))
-
         if (data.success === true) {
             const mark =
                 '![' + data.document.name + '](' + data.document.url + ')'
@@ -601,65 +582,32 @@ export default class RzMarkdownEditor extends HTMLElement {
         this.removeAttribute('initialized')
     }
 
-    async buttonTranslateAssistantClick(e: Event): Promise<void> {
-        e.preventDefault()
-
-        const text = this.editor.getValue()
-        const button = e.currentTarget as HTMLElement
-        const targetLang = button.getAttribute('data-translate-locale')
-        const translatePath = button.getAttribute('data-translate-path')
-
-        if (!translatePath || !text || text.length === 0) {
-            return
-        }
-
-        const response = await fetch(translatePath, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-            },
-            body: new URLSearchParams({
-                text: text,
-                targetLang: targetLang || '',
-            }),
-        })
-
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`)
-        }
-
-        const result: TranslationResponse = await response.json()
-        this.editor.setValue(result.translatedText)
+    buttonTranslateAssistantClick(e: Event): Promise<void> {
+        return this.translateAssistant(e, 'translateAssistantTranslate')
     }
 
-    async buttonTranslateAssistantRephraseClick(e: Event): Promise<void> {
+    buttonTranslateAssistantRephraseClick(e: Event): Promise<void> {
+        return this.translateAssistant(e, 'translateAssistantRephrase')
+    }
+
+    async translateAssistant(e: Event, route: RouteName): Promise<void> {
         e.preventDefault()
 
         const text = this.editor.getValue()
         const button = e.currentTarget as HTMLElement
         const targetLang = button.getAttribute('data-translate-locale')
-        const rephrasePath = button.getAttribute('data-translate-path')
 
-        if (!rephrasePath || !text || text.length === 0) {
+        if (!text || text.length === 0) {
             return
         }
 
-        const response = await fetch(rephrasePath, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-            },
-            body: new URLSearchParams({
-                text: text,
-                targetLang: targetLang || '',
-            }),
-        })
-
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`)
+        try {
+            const result = await post<TranslationResponse>(route, {
+                body: { text, targetLang: targetLang || '' },
+            })
+            this.editor.setValue(result.translatedText)
+        } catch (error) {
+            pushErrorToast(error)
         }
-
-        const result: TranslationResponse = await response.json()
-        this.editor.setValue(result.translatedText)
     }
 }

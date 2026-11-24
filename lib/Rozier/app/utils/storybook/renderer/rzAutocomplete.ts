@@ -7,8 +7,8 @@ export type RzAutocompleteAction = (typeof RZ_AUTOCOMPLETE_ACTIONS)[number]
 
 export type RzAutocompleteOptions = {
     action: RzAutocompleteAction
-    searchPath: string
-    csrfToken?: string
+    /** A RozierConfig.routes key */
+    searchRoute: 'tagAjaxSearch' | 'foldersAjaxSearch'
     placeholder?: string
 }
 
@@ -20,8 +20,7 @@ export type RzAutocompleteOptions = {
 export function rzAutocompleteRenderer(args: RzAutocompleteOptions) {
     const host = document.createElement('rz-autocomplete')
     host.setAttribute('data-action', args.action)
-    host.setAttribute('data-search-path', args.searchPath)
-    host.setAttribute('data-csrf-token', args.csrfToken || '')
+    host.setAttribute('data-search-route', args.searchRoute)
 
     const form = document.createElement('form')
     form.className = 'rz-form'

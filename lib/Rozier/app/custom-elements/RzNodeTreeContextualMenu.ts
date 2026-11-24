@@ -1,4 +1,6 @@
 import { Popover, ATTRIBUTES_OPTIONS } from '~/utils/Popover'
+import { get, post, type RouteName } from '~/utils/http'
+import { pushErrorToast } from '~/utils/toast'
 
 type Position = 'first' | 'last'
 type UpdatePayloadDict = Record<string, string | number | boolean | null>
@@ -28,22 +30,6 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
 
     get nodePathFetch() {
         return this.getAttribute('data-contextual-menu-path')
-    }
-
-    get editPositionPath() {
-        return this.getAttribute('data-node-edit-position-path')
-    }
-
-    get duplicatePath() {
-        return this.getAttribute('data-node-duplicate-path')
-    }
-
-    get pastePath() {
-        return this.getAttribute('data-node-paste-path')
-    }
-
-    get statusPath() {
-        return this.getAttribute('data-node-status-path')
     }
 
     get copiedTrans() {
@@ -118,15 +104,17 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
     async replacePopoverContent() {
         window.dispatchEvent(new CustomEvent('requestLoaderShow'))
 
-        // TODO: add loading indicator
-        const response = await fetch(this.nodePathFetch, {
-            headers: {
-                // Required to prevent using this route as referer when login again
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-        })
+        let html: string
+        try {
+            // TODO: add loading indicator
+            html = await get<string>(this.nodePathFetch, { accept: 'html' })
+        } catch (error) {
+            pushErrorToast(error)
+            window.dispatchEvent(new CustomEvent('requestLoaderHide'))
+            return
+        }
 
-        this.popoverElement!.innerHTML = await response.text()
+        this.popoverElement!.innerHTML = html
         this.popoverElement!.setAttribute(
             'data-popover-content-state',
             'fetched',
@@ -202,8 +190,7 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
         if (!statusName || !statusValue) return
 
         try {
-            await this.postNodeUpdate(this.statusPath, {
-                csrfToken: window.RozierConfig.ajaxToken,
+            await this.postNodeUpdate('nodesStatusesAjax', {
                 nodeId: this.nodeId,
                 statusName: statusName,
                 statusValue: statusValue,
@@ -248,12 +235,11 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             return
         }
         const payload: UpdatePayloadDict = {
-            csrfToken: window.RozierConfig.ajaxToken,
             nodeId: this.copiedNodeId,
         }
         payload[propName] = this.nodeId
 
-        await this.postNodeUpdate(this.pastePath, payload)
+        if (!(await this.postNodeUpdate('nodesPasteAjax', payload))) return
         window.sessionStorage.removeItem('rozier_copied_node_id')
     }
 
@@ -261,8 +247,7 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
         if (!Number.isSafeInteger(this.nodeId)) {
             return
         }
-        await this.postNodeUpdate(this.duplicatePath, {
-            csrfToken: window.RozierConfig.ajaxToken,
+        await this.postNodeUpdate('nodesDuplicateAjax', {
             nodeId: this.nodeId,
         })
     }
@@ -289,7 +274,6 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             : parsedParentId
 
         const postData: UpdatePayloadDict = {
-            csrfToken: window.RozierConfig.ajaxToken,
             id: this.nodeId,
         }
 
@@ -304,7 +288,7 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
             Object.assign(postData, { newParentId: parentNodeId })
         }
 
-        const data = await this.postNodeUpdate(this.editPositionPath, postData)
+        const data = await this.postNodeUpdate('nodesPositionAjax', postData)
         // The position route stores no flash message, show its response instead
         if (data?.responseText) {
             window.dispatchEvent(
@@ -318,58 +302,22 @@ export default class RzNodeTreeContextualMenu extends HTMLElement {
         }
     }
 
-    async postNodeUpdate(url: string | null, postData: UpdatePayloadDict) {
-        if (!url) return
+    /**
+     * @returns the response data, or null once the failure is toasted
+     */
+    async postNodeUpdate(route: RouteName, postData: UpdatePayloadDict) {
         try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    // Required to prevent using this route as referer when login again
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: new URLSearchParams(
-                    Object.entries(postData).reduce(
-                        (acc, [key, value]) => {
-                            acc[key] = value === null ? '' : String(value)
-                            return acc
-                        },
-                        {} as Record<string, string>,
-                    ),
-                ),
-            })
-            if (!response.ok) {
-                const data = await response.json()
-                window.dispatchEvent(
-                    new CustomEvent('pushToast', {
-                        detail: {
-                            message: data.error_message,
-                            status: 'danger',
-                        },
-                    }),
-                )
-                throw data
-            } else {
-                const data = await response.json()
-                window.dispatchEvent(
-                    new CustomEvent('requestAllNodeTreeChange'),
-                )
-                // Show the flash messages the action stored in session
-                window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
-                return data
-            }
+            const data = await post<{
+                responseText?: string
+                status?: string
+            }>(route, { body: postData })
+            window.dispatchEvent(new CustomEvent('requestAllNodeTreeChange'))
+            // Show the flash messages the action stored in session
+            window.dispatchEvent(new CustomEvent('requestMessagesRefresh'))
+            return data
         } catch (error) {
-            window.dispatchEvent(
-                new CustomEvent('pushToast', {
-                    detail: {
-                        message:
-                            error.detail ||
-                            error.message ||
-                            'postNodeUpdate: Unknown error',
-                        status: 'danger',
-                    },
-                }),
-            )
+            pushErrorToast(error)
+            return null
         }
     }
 }

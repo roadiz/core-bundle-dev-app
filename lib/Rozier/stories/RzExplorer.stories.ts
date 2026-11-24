@@ -72,7 +72,6 @@ const meta: Meta<Args> = {
         (story) => {
             window.RozierConfig = {
                 ...(window.RozierConfig || {}),
-                ajaxToken: 'story-token',
                 routes: {
                     ...(window.RozierConfig?.routes || {}),
                     documentsAjaxExplorer: DOCUMENTS_ENDPOINT,
@@ -121,6 +120,47 @@ export const Loading: Story = {
                     await delay('infinite')
                     return HttpResponse.json({})
                 }),
+                http.get(FOLDERS_ENDPOINT, () =>
+                    HttpResponse.json({ folders }),
+                ),
+            ],
+        },
+    },
+}
+
+/** The documents endpoint answers 403: the list stays empty, the error goes to the backoffice toast list. */
+export const Forbidden: Story = {
+    parameters: {
+        msw: {
+            handlers: [
+                http.get(DOCUMENTS_ENDPOINT, () =>
+                    HttpResponse.json(
+                        { title: 'Forbidden', detail: 'Access Denied.' },
+                        { status: 403 },
+                    ),
+                ),
+                http.get(FOLDERS_ENDPOINT, () =>
+                    HttpResponse.json({ folders }),
+                ),
+            ],
+        },
+    },
+}
+
+/** The documents endpoint fails: the list stays empty, the error goes to the backoffice toast list. */
+export const ServerError: Story = {
+    parameters: {
+        msw: {
+            handlers: [
+                http.get(DOCUMENTS_ENDPOINT, () =>
+                    HttpResponse.json(
+                        {
+                            title: 'Internal Server Error',
+                            detail: 'Documents could not be listed.',
+                        },
+                        { status: 500 },
+                    ),
+                ),
                 http.get(FOLDERS_ENDPOINT, () =>
                     HttpResponse.json({ folders }),
                 ),

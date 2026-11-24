@@ -1,5 +1,6 @@
 import { fadeIn, fadeOut } from '~/utils/animation'
-import { sleep } from '~/utils/sleep'
+import { get, HttpError, type RouteName } from '~/utils/http'
+import { pushErrorToast } from '~/utils/toast'
 
 export default class RzAside extends HTMLElement {
     private currentTranslationId: string | null = null
@@ -54,7 +55,7 @@ export default class RzAside extends HTMLElement {
 
     private onMainTreeRefresh() {
         // The tree content changed: refresh even if type and translation did not
-        this.refreshAsideMainTree(null, {}, true)
+        this.refreshAsideMainTree(undefined, {}, true)
     }
 
     private onLangButtonClick(event: CommandEvent) {
@@ -77,41 +78,36 @@ export default class RzAside extends HTMLElement {
 
     async refreshMainNodeTree(translationId: string | undefined = undefined) {
         await this.refreshAsideMainTree(
-            window.RozierConfig.routes?.nodesTreeAjax || null,
+            'nodesTreeAjax',
             { translationId },
             true,
         )
     }
 
     async refreshMainTagTree(translationId: string | undefined = undefined) {
-        await this.refreshAsideMainTree(
-            window.RozierConfig.routes?.tagsTreeAjax || null,
-            { translationId },
-            true,
-        )
+        await this.refreshAsideMainTree('tagsTreeAjax', { translationId }, true)
     }
 
     async refreshMainFolderTree(translationId: string | undefined = undefined) {
         await this.refreshAsideMainTree(
-            window.RozierConfig.routes?.foldersTreeAjax || null,
+            'foldersTreeAjax',
             { translationId },
             true,
         )
     }
 
     async refreshAsideMainTree(
-        baseUrl: string | null = null,
+        route: RouteName = 'treeAjaxGateway',
         query: Record<string, string | undefined> = {},
         force = false,
     ) {
         try {
-            await this.refreshMainTree(baseUrl, query, force)
-        } catch {
-            console.debug(
-                '[RzAside.refreshAsideMainTree] Retrying in 3 seconds',
-            )
-            await sleep(3000)
-            await this.refreshMainTree(baseUrl, query, force)
+            await this.refreshMainTree(route, query, force)
+        } catch (error) {
+            // 403: the user may not access this tree, the aside stays without one
+            if (!(error instanceof HttpError && error.status === 403)) {
+                pushErrorToast(error)
+            }
         } finally {
             window.dispatchEvent(new CustomEvent('requestLoaderHide'))
         }
@@ -158,49 +154,23 @@ export default class RzAside extends HTMLElement {
     }
 
     async refreshMainTree(
-        baseUrl?: string | null,
+        route: RouteName,
         queryOptions: Record<string, string | undefined> = {},
         force = false,
     ) {
-        const options: Record<string, string> = {
-            _token: window.RozierConfig.ajaxToken,
-            _action: 'requestMainTree',
-            url: window.location.pathname,
-        }
-        // Skip undefined values, URLSearchParams would send them as "undefined"
-        Object.entries(queryOptions).forEach(([key, value]) => {
-            if (value !== undefined) options[key] = value
-        })
-
         const translationId =
             queryOptions?.translationId ||
             this.getDisplayedTreeTranslationId() ||
             this.currentTranslationId
 
-        if (translationId) {
-            Object.assign(options, { translationId })
-        }
-
-        const query = new URLSearchParams(options)
-        const fetchUrl =
-            baseUrl ||
-            (window.RozierConfig.routes as { treeAjaxGateway?: string })
-                ?.treeAjaxGateway
-
-        if (!fetchUrl) return
-        const treeResponse = await fetch(`${fetchUrl}?${query.toString()}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
+        const data = await get<Record<string, string>>(route, {
+            query: {
+                _action: 'requestMainTree',
+                url: window.location.pathname,
+                ...queryOptions,
+                translationId: translationId || undefined,
             },
         })
-
-        if (!treeResponse.ok) {
-            throw treeResponse
-        }
-
-        const data = await treeResponse.json()
 
         const treeHTML =
             data?.['nodeTree'] ||

@@ -49,6 +49,15 @@ const globalHandlers = [
 // Initialize MSW
 initialize()
 
+// Routes read by components every story may render
+window.RozierConfig = {
+    ...(window.RozierConfig || {}),
+    routes: {
+        ...(window.RozierConfig?.routes || {}),
+        ajaxEntityThumbnail: ENTITY_THUMBNAIL_ENDPOINT,
+    },
+}
+
 // Auto-register custom elements
 for (const name in customElementList) {
     defineLazyElement(name, customElementList[name])

@@ -1,4 +1,5 @@
 import { getItemsByIds } from '~/api/DrawerApi'
+import { pushErrorToast } from '~/utils/toast'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
 import { createDrawerItemElement } from '~/utils/drawer/create-drawer-item-element'
 import { Hotspot, ItemAttribute, RzDrawerItem } from '~/utils/drawer/types'
@@ -288,9 +289,7 @@ export class RzDrawer extends HTMLElement {
             entityType,
             filteredIds,
             filters,
-        ).catch((error) => {
-            console.error('Error fetching drawer items', error)
-        })
+        ).catch(pushErrorToast)
 
         if (response && response.items) {
             // Use DocumentFragment for batch rendering to minimize reflows
@@ -427,10 +426,6 @@ export class RzDrawer extends HTMLElement {
             }
         }
 
-        dialog.setAttribute(
-            'template-path',
-            this.getAttribute('document-alignment-template-path'),
-        )
         dialog.setAttribute('title', item.classname)
         dialog.setAttribute(
             'edit-url',

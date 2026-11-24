@@ -11,6 +11,10 @@ small, reviewable, and aligned with the monorepo standards.
 - Favor native `CustomElements` to attach UI behavior.
 - Keep UI logic close to the component that owns it.
 - No new dependency without an explicit request.
+- Backoffice HTTP calls go through `app/utils/http.ts` (route keys, CSRF
+  token, headers, typed `HttpError`); it never toasts, callers do
+  (`app/utils/toast.ts`). Only the Lazyload navigation, Nominatim and the
+  Dropzone upload call `fetch` directly.
 - Write styles in native CSS (`app/assets/css/`). No preprocessor: the legacy
   LESS was removed in 2.8 ([#603](https://github.com/roadiz/core-bundle-dev-app/issues/603)).
 

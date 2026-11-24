@@ -1,3 +1,5 @@
+import { get } from '~/utils/http'
+
 type SessionMessagesResponse = {
     messages?: {
         confirm?: string[]
@@ -6,27 +8,17 @@ type SessionMessagesResponse = {
 }
 
 export async function fetchSessionMessages() {
-    const query = new URLSearchParams({
-        _csrf_token: window.RozierConfig.ajaxToken,
-    })
-
-    const url =
-        window.RozierConfig.routes.ajaxSessionMessages + '?' + query.toString()
-
-    const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Accept: 'application/json',
-        },
-    })
-
-    if (!response.ok) {
+    try {
+        const data = await get<SessionMessagesResponse>('ajaxSessionMessages', {
+            // AjaxSessionMessages validates this token on GET
+            csrfField: '_csrf_token',
+        })
+        return data?.messages
+    } catch (error) {
+        // Session messages are best effort: an expired session is reported by LoginCheckService
+        console.warn('Session messages could not be fetched', error)
         return null
     }
-
-    const data = (await response.json()) as SessionMessagesResponse
-    return data?.messages
 }
 
 export async function dispatchSessionToast() {

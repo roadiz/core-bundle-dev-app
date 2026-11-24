@@ -2,6 +2,7 @@ import { debounce } from 'lodash'
 import { getExplorerItems } from '~/api/ExplorerApi'
 import { getFilters } from '~/api/FilterExplorerApi'
 import { createTag } from '~/api/TagApi'
+import { pushErrorToast } from '~/utils/toast'
 import { rzButtonRenderer } from '~/utils/component-renderer/rzButton'
 import {
     rzCardRenderer,
@@ -250,7 +251,7 @@ export default class RzExplorer extends HTMLElement {
 
             this.renderItems(more ? items : undefined)
         } catch (error) {
-            console.error(error)
+            if (requestId === this.requestId) pushErrorToast(error)
         } finally {
             if (requestId === this.requestId) {
                 if (loader) loader.hidden = true
@@ -426,18 +427,7 @@ export default class RzExplorer extends HTMLElement {
             this.addItem(tag)
             this.resetSearchTerms()
         } catch (error) {
-            console.error(error)
-            window.dispatchEvent(
-                new CustomEvent('pushToast', {
-                    detail: {
-                        message:
-                            error instanceof Error
-                                ? error.message
-                                : String(error),
-                        status: 'danger',
-                    },
-                }),
-            )
+            pushErrorToast(error)
         }
     }
 
@@ -458,7 +448,7 @@ export default class RzExplorer extends HTMLElement {
             const result = await getFilters({ entity: this.entity })
             this.filterItems = result?.items || []
         } catch (error) {
-            console.error(error)
+            pushErrorToast(error)
             this.filterItems = []
         }
 

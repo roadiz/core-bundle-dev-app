@@ -146,7 +146,6 @@
         items="{{ entity_ids|json_encode }}"
         entity-name="{{ entityName }}"
         locale="{{ form.vars._locale }}"
-        document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
         {% if entity %}accept-entity="{{ entity }}"{% endif %}
         {% if is_sortable %}sortable="" {% endif %}
         {% if provider_class %}provider-class="{{ provider_class }}" {% endif %}

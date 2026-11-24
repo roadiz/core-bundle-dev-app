@@ -65,8 +65,7 @@
                 data-action="tagAutocomplete"
                 id="{{ tags_panel_id }}"
                 class="rz-bulk-actions__group"
-                data-search-path="{{ path('tagAjaxSearch') }}"
-                data-csrf-token="{{ csrf_token(constant('RZ\\Roadiz\\RozierBundle\\Controller\\Ajax\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}"
+                data-search-route="tagAjaxSearch"
             >
                 {% form_theme tagNodesForm '@RoadizRozier/forms.html.twig' %}
                 {{ form_start(tagNodesForm) }}

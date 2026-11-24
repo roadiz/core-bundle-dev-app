@@ -191,7 +191,6 @@
                     data-markdowneditor-button="translate_assistant-translate"
                     class="rz-button rz-button-group__button markdown-editor-button-translate-assistant-translate"
                     data-translate-locale="{{ attr.locale }}"
-                    data-translate-path="{{ path('translateAssistantTranslate') }}"
                 >
                     <span class="rz-button__icon rz-icon-ri--translate"></span>
                 </button>
@@ -202,7 +201,6 @@
                     data-markdowneditor-button="translate_assistant-rephrase"
                     class="rz-button rz-button-group__button markdown-editor-button-translate-assistant-rephrase"
                     data-translate-locale="{{ attr.locale }}"
-                    data-translate-path="{{ path('translateAssistantRephrase') }}"
                     {{ (translateAssistantSupportRephrase) ? '' : 'disabled' }}
                 >
                     <span class="rz-button__icon rz-icon-ri--translate-ai"></span>
