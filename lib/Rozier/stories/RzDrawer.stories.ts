@@ -7,9 +7,7 @@ import {
     type RzCardOptions,
     rzCardRenderer,
 } from '~/utils/component-renderer/rzCard'
-// @ts-expect-error — image module declaration not recognized
 import imageHorizontal from './assets/images/01.jpg'
-// @ts-expect-error — image module declaration not recognized
 import imageVertical from './assets/images/02.jpg'
 
 const COMPONENT_CLASS_NAME = 'rz-drawer'

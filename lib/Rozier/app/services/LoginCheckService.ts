@@ -1,6 +1,8 @@
 const SESSION_EXPIRED_DIALOG_ID = 'rz-session-expired-dialog'
 const HEALTH_CHECK_DIALOG_ID = 'rz-health-check-dialog'
-const DIALOG_IDS = [SESSION_EXPIRED_DIALOG_ID, HEALTH_CHECK_DIALOG_ID]
+const DIALOG_IDS = [SESSION_EXPIRED_DIALOG_ID, HEALTH_CHECK_DIALOG_ID] as const
+
+type DialogId = (typeof DIALOG_IDS)[number]
 
 /**
  * Login Check Event Service.
@@ -10,6 +12,11 @@ const DIALOG_IDS = [SESSION_EXPIRED_DIALOG_ID, HEALTH_CHECK_DIALOG_ID]
  * or when the back-end stopped answering.
  */
 export default class LoginCheckService {
+    intervalDuration: number
+    interval: number | null = null
+    openDialogId: DialogId | null
+    dismissedDialogIds: Set<DialogId>
+
     constructor() {
         this.intervalDuration = 10000
         this.openDialogId = null
@@ -38,21 +45,15 @@ export default class LoginCheckService {
         this.check()
     }
 
-    /**
-     * @param {string} id
-     * @returns {HTMLDialogElement|null}
-     */
-    getDialog(id) {
-        return document.getElementById(id)
+    getDialog(id: DialogId): HTMLDialogElement | null {
+        return document.getElementById(id) as HTMLDialogElement | null
     }
 
     /**
      * Dialogs are mutually exclusive. An expired session outranks a health check
      * failure: its dialog stays until a ping succeeds, as the user must log in again.
-     *
-     * @param {string} id
      */
-    showDialog(id) {
+    showDialog(id: DialogId) {
         if (
             id === HEALTH_CHECK_DIALOG_ID &&
             this.openDialogId === SESSION_EXPIRED_DIALOG_ID

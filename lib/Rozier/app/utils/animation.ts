@@ -1,12 +1,11 @@
 import { sleep } from './sleep'
 
-/**
- * @param {HTMLElement} element
- * @return {Promise<void>}
- */
-export async function fadeIn(element, duration = 400) {
-    return new Promise((resolve) => {
-        element.style.opacity = 0
+export async function fadeIn(
+    element: HTMLElement,
+    duration = 400,
+): Promise<void> {
+    return new Promise<void>((resolve) => {
+        element.style.opacity = '0'
         element.style.display = 'block'
         element.style.transition = `opacity ${duration}ms ease-in`
 
@@ -14,26 +13,25 @@ export async function fadeIn(element, duration = 400) {
         void element.offsetWidth
 
         requestAnimationFrame(async () => {
-            element.style.opacity = 1
+            element.style.opacity = '1'
             await sleep(duration)
             resolve()
         })
     })
 }
 
-/**
- * @param {HTMLElement} element
- * @return {Promise<void>}
- */
-export async function fadeOut(element, duration = 600) {
-    return new Promise((resolve) => {
-        element.style.opacity = 1
+export async function fadeOut(
+    element: HTMLElement,
+    duration = 600,
+): Promise<void> {
+    return new Promise<void>((resolve) => {
+        element.style.opacity = '1'
         element.style.transition = `opacity ${duration}ms ease-out`
 
         void element.offsetWidth
 
         requestAnimationFrame(async () => {
-            element.style.opacity = 0
+            element.style.opacity = '0'
             await sleep(duration)
             element.style.display = 'none'
             resolve()
@@ -42,20 +40,19 @@ export async function fadeOut(element, duration = 600) {
 }
 
 // TODO: Refactor this function for do a beautiful slideUp
-/**
- * @param {HTMLElement} element
- * @return {Promise<void>}
- */
-export async function slideUp(element, duration = 300) {
+export async function slideUp(
+    element: HTMLElement,
+    duration = 300,
+): Promise<void> {
     // TODO: Add stop function in way to stop previous animation
-    return new Promise((resolve) => {
-        element.style.opacity = 1
+    return new Promise<void>((resolve) => {
+        element.style.opacity = '1'
         element.style.transition = `opacity ${duration}ms ease-out`
 
         void element.offsetWidth
 
         requestAnimationFrame(async () => {
-            element.style.opacity = 0
+            element.style.opacity = '0'
             await sleep(duration)
             element.style.display = 'none'
             resolve()
@@ -64,14 +61,13 @@ export async function slideUp(element, duration = 300) {
 }
 
 // TODO: Refactor this function for do a beautiful slideDown
-/**
- * @param {HTMLElement} element
- * @return {Promise<void>}
- */
-export async function slideDown(element, duration = 300) {
+export async function slideDown(
+    element: HTMLElement,
+    duration = 300,
+): Promise<void> {
     // TODO: Add stop function in way to stop previous animation
-    return new Promise((resolve) => {
-        element.style.opacity = 0
+    return new Promise<void>((resolve) => {
+        element.style.opacity = '0'
         element.style.display = 'block'
         element.style.transition = `opacity ${duration}ms ease-in`
 
@@ -79,7 +75,7 @@ export async function slideDown(element, duration = 300) {
         void element.offsetWidth
 
         requestAnimationFrame(async () => {
-            element.style.opacity = 1
+            element.style.opacity = '1'
             await sleep(duration)
             resolve()
         })

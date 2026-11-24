@@ -1,4 +1,4 @@
-export const toType = (obj) => {
+export const toType = (obj: unknown): string => {
     return {}.toString
         .call(obj)
         .match(/\s([a-zA-Z]+)/)[1]
@@ -7,9 +7,9 @@ export const toType = (obj) => {
 
 // Avoid `console` errors in browsers that lack a console.
 ;(function () {
-    let method
-    let noop = () => {}
-    let methods = [
+    let method: string
+    const noop = () => {}
+    const methods = [
         'assert',
         'clear',
         'count',
@@ -34,7 +34,9 @@ export const toType = (obj) => {
         'warn',
     ]
     let length = methods.length
-    let console = (window.console = window.console || {})
+    // Record view: the stubbed method names are not all on the Console type
+    const console = (window.console =
+        window.console || ({} as Console)) as unknown as Record<string, unknown>
 
     while (length--) {
         method = methods[length]
@@ -47,7 +49,7 @@ export const toType = (obj) => {
 })()
 
 // Strip tags
-export const stripTags = (input, allowed) => {
+export const stripTags = (input: string, allowed?: string): string => {
     //  discuss at: http://phpjs.org/functions/strip_tags/
     // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
     // improved by: Luke Godfrey
@@ -81,18 +83,18 @@ export const stripTags = (input, allowed) => {
     //   example 7: strip_tags('1 <br/> 1', '<br><br/>');
     //   returns 7: '1 <br/> 1'
 
-    allowed = (
+    const allowedTags = (
         ((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []
     ).join('') // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
-    let tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi
-    let commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi
+    const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi
+    const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi
     return input.replace(commentsAndPhpTags, '').replace(tags, ($0, $1) => {
-        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''
+        return allowedTags.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''
     })
 }
 
 // Add class
-export const addClass = (el, classToAdd) => {
+export const addClass = (el: Element | null, classToAdd: string): void => {
     if (el) {
         if (el.classList) {
             el.classList.add(classToAdd)
@@ -103,7 +105,10 @@ export const addClass = (el, classToAdd) => {
 }
 
 // Remove class
-export const removeClass = (el, classToRemove) => {
+export const removeClass = (
+    el: Element | null,
+    classToRemove: string,
+): void => {
     if (el) {
         if (el.classList) {
             el.classList.remove(classToRemove)
@@ -116,7 +121,7 @@ export const removeClass = (el, classToRemove) => {
                 '',
             )
 
-            let posLastCar = el.className.length - 1
+            const posLastCar = el.className.length - 1
 
             if (el.className[posLastCar] === ' ') {
                 el.className = el.className.substring(0, posLastCar)
