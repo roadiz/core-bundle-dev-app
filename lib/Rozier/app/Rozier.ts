@@ -1,6 +1,6 @@
-import Lazyload from '~/Lazyload'
+import Lazyload from '~/services/Lazyload'
 import LoginCheckService from '~/services/LoginCheckService'
-import { dispatchSessionToast } from '~/session-message'
+import { dispatchSessionToast } from '~/services/session-message'
 import type RzAside from './custom-elements/RzAside'
 
 /**
