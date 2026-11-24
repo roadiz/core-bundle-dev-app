@@ -1,4 +1,4 @@
-import { type RzDrawerItem } from '~/utils/drawer/types'
+import { type RzDrawerItem } from '~/types/drawer'
 import { RzButtonOptions } from '~/utils/component-renderer/rzButton'
 import {
     RzCardOptions,

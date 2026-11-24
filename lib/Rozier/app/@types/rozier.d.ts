@@ -1,4 +1,4 @@
-import type Lazyload from '~/Lazyload'
+import type Lazyload from '~/services/Lazyload'
 
 export default class Rozier {
     windowWidth: number | null

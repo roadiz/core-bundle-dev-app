@@ -1,4 +1,4 @@
-import type { RzDrawerItem } from '~/utils/drawer/types'
+import type { RzDrawerItem } from '~/types/drawer'
 
 export const SHOW_PREVIEW_EVENT = 'show-preview'
 

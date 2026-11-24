@@ -7,7 +7,7 @@ import {
     rzCardRenderer,
     type RzCardOptions,
 } from '~/utils/component-renderer/rzCard'
-import type { RzDrawerItem } from '~/utils/drawer/types'
+import type { RzDrawerItem } from '~/types/drawer'
 
 export const SHOW_EXPLORER_EVENT = 'show-explorer'
 export const ADD_DRAWER_ITEM_EVENT = 'add-drawer-item'

@@ -1,7 +1,7 @@
 import { getItemsByIds } from '~/api/DrawerApi'
 import Sortable from 'sortablejs/modular/sortable.core.esm.js'
-import { createDrawerItemElement } from '~/utils/drawer/create-drawer-item-element'
-import { Hotspot, ItemAttribute, RzDrawerItem } from '~/utils/drawer/types'
+import { createDrawerItemElement } from '~/utils/create-drawer-item-element'
+import { Hotspot, ItemAttribute, RzDrawerItem } from '~/types/drawer'
 
 const ITEM_CLASS_NAME = 'rz-drawer__item'
 

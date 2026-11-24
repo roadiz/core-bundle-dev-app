@@ -31,6 +31,26 @@ built into `lib/RoadizRozierBundle/public/` for Symfony to serve.
 - `lib/Rozier/stories/`: Storybook stories and UI experiments.
 - `lib/Rozier/vite-plugins/`: Vite plugins and build helpers.
 
+### `app/` layout
+
+Each folder has one role; put a new file where its role says.
+
+| Path | Role |
+| --- | --- |
+| `main.js` | Vite JS entry: creates `window.Rozier`, registers the custom elements |
+| `Rozier.ts` | The `window.Rozier` application root |
+| `custom-elements.js` | Tag name → lazy module registry for `custom-elements/`, shared by `main.js` and Storybook |
+| `custom-elements/` | One `rz-*` custom element (or legacy page element) per file, the file name gives the tag |
+| `widgets/` | Legacy page behaviours bound by `Lazyload` outside a custom element; no new file |
+| `services/` | App-level singletons with no DOM of their own (navigation, session ping, session messages) |
+| `api/` | Per-entity backend calls used by the explorer and drawers |
+| `utils/` | Stateless helpers; a sub-folder only for a family of several files (`component-renderer/`, `custom-element/`, `storybook/`) |
+| `types/` | Importable types and the entity type identifiers (`import type …`) |
+| `@types/` | Ambient declarations only (`*.d.ts`: globals, `window`, untyped modules) |
+| `assets/` | CSS (`assets/css/main.css` is the stylesheet entry), images and icons |
+
+The root holds only the files listed above.
+
 ## Build output
 
 - Local dev: `pnpm dev` in `lib/Rozier` (or `docker compose up node`).
